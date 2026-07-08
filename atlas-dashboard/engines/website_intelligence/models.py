@@ -36,6 +36,7 @@ else:
 
     class ImmutableModel(BaseModel):
         class Config:
+            frozen = True
             allow_mutation = False
             extra = "ignore"
             arbitrary_types_allowed = True
