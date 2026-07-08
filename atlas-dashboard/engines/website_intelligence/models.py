@@ -20,8 +20,6 @@ if PYDANTIC_V2:
     from pydantic import ConfigDict
 
     class ImmutableModel(BaseModel):
-        """Immutable base model for Pydantic v2."""
-
         model_config = ConfigDict(
             frozen=True,
             extra="ignore",
@@ -37,8 +35,6 @@ if PYDANTIC_V2:
 else:
 
     class ImmutableModel(BaseModel):
-        """Immutable base model for Pydantic v1."""
-
         class Config:
             allow_mutation = False
             extra = "ignore"
@@ -62,13 +58,6 @@ def _require_non_empty(value: str) -> str:
 
 
 class WebsiteAuditInput(ImmutableModel):
-    """Wrapper for the artifacts that future audit logic will inspect.
-
-    Part 1 intentionally treats these artifacts as opaque objects.
-    Later audit engines will interpret the real ProjectAssembly,
-    StaticSitePackage, and PreviewBuild schemas.
-    """
-
     project_assembly: Any = Field(...)
     static_site_package: Any = Field(...)
     preview_build: Any = Field(...)
@@ -84,7 +73,7 @@ class WebsiteAuditFinding(ImmutableModel):
     path: str = ""
     score_impact: float = 0.0
 
-    @validator("finding_id", "category", "severity", "title")
+    @validator("finding_id", "category", "severity", "title", allow_reuse=True)
     def _required_strings(cls, value: str) -> str:
         return _require_non_empty(value)
 
@@ -97,7 +86,7 @@ class WebsiteAuditRecommendation(ImmutableModel):
     description: str = ""
     finding_ids: tuple[str, ...] = ()
 
-    @validator("recommendation_id", "category", "priority", "title")
+    @validator("recommendation_id", "category", "priority", "title", allow_reuse=True)
     def _required_strings(cls, value: str) -> str:
         return _require_non_empty(value)
 
@@ -108,7 +97,7 @@ class WebsiteWorkOrder(ImmutableModel):
     category: str
     priority: str
     title: str
-    instructions: str
+    instructions: str = ""
     acceptance_criteria: tuple[str, ...] = ()
     status: str = "PENDING"
 
@@ -118,7 +107,7 @@ class WebsiteWorkOrder(ImmutableModel):
         "category",
         "priority",
         "title",
-        "instructions",
+        allow_reuse=True,
     )
     def _required_strings(cls, value: str) -> str:
         return _require_non_empty(value)
@@ -145,6 +134,13 @@ class WebsiteAuditReport(ImmutableModel):
     recommendations: tuple[WebsiteAuditRecommendation, ...] = ()
     work_orders: tuple[WebsiteWorkOrder, ...] = ()
 
-    @validator("report_id", "engine_name", "engine_version", "grade", "launch_readiness")
+    @validator(
+        "report_id",
+        "engine_name",
+        "engine_version",
+        "grade",
+        "launch_readiness",
+        allow_reuse=True,
+    )
     def _required_strings(cls, value: str) -> str:
         return _require_non_empty(value)
