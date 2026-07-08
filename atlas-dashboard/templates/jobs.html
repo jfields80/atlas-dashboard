@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Atlas Jobs</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>ATLAS</h2>
+
+    <a href="/">🏠 Dashboard</a>
+    <a href="/projects">📁 Projects</a>
+    <a href="/scout">🔎 Research Center</a>
+    <a href="/businesses">🏨 Businesses</a>
+    <a href="/jobs">📋 Jobs</a>
+    <a href="/employees">🤖 AI Employees</a>
+    <a href="/analytics">📊 Analytics</a>
+    <a href="/settings">⚙️ Settings</a>
+
+</div>
+
+<div class="main">
+
+    <h1>AI Job Queue</h1>
+
+    <div class="card">
+
+        <h2>Completed & Running Jobs</h2>
+
+        <table width="100%">
+
+            <tr>
+
+                <th>ID</th>
+                <th>Employee</th>
+                <th>Job</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Started</th>
+                <th>Finished</th>
+
+            </tr>
+
+            {% for job in jobs %}
+
+            <tr>
+
+                <td>{{ job[0] }}</td>
+                <td>{{ job[1] }}</td>
+                <td>{{ job[2] }}</td>
+                <td>{{ job[3] }}</td>
+                <td>{{ job[4] }}%</td>
+                <td>{{ job[5] }}</td>
+                <td>{{ job[6] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

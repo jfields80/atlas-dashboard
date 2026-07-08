@@ -1,0 +1,1049 @@
+{% extends "base.html" %}
+
+{% block title %}Add Category | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="category-form-page">
+
+    <section class="category-form-header">
+
+        <div>
+            <a href="/categories" class="category-back-link">
+                <span>←</span>
+                Back to Knowledge Engine
+            </a>
+
+            <p class="category-form-eyebrow">
+                KNOWLEDGE ENGINE
+            </p>
+
+            <h1 class="category-form-title">
+                Add Category
+            </h1>
+
+            <p class="category-form-subtitle">
+                Define a new business category so Atlas can organize research,
+                listings, content, and directory structure.
+            </p>
+        </div>
+
+        <div class="category-form-status">
+            <span class="category-form-status-dot"></span>
+
+            <div>
+                <span>Knowledge Engine</span>
+                <strong>Ready</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="category-form-layout">
+
+        <main class="category-form-panel">
+
+            <div class="category-form-panel-header">
+
+                <div>
+                    <p class="category-panel-eyebrow">
+                        CATEGORY DETAILS
+                    </p>
+
+                    <h2>
+                        Create a knowledge category
+                    </h2>
+
+                    <p>
+                        Add the core information Atlas should use when working
+                        with this business type.
+                    </p>
+                </div>
+
+                <div class="category-panel-icon">
+                    ◇
+                </div>
+
+            </div>
+
+
+            <form
+                action="/categories/create"
+                method="POST"
+                class="category-form"
+                id="categoryForm"
+            >
+
+                <div class="category-field-grid">
+
+                    <div class="category-field category-field-full">
+
+                        <label for="name">
+                            Category Name
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Example: Pet-Friendly Hotels"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <small>
+                            Use a clear name that describes the business type.
+                        </small>
+
+                    </div>
+
+
+                    <div class="category-field">
+
+                        <label for="slug">
+                            URL Slug
+                            <span>*</span>
+                        </label>
+
+                        <div class="category-input-prefix">
+                            <span>/</span>
+
+                            <input
+                                type="text"
+                                id="slug"
+                                name="slug"
+                                placeholder="pet-friendly-hotels"
+                                autocomplete="off"
+                                required
+                            >
+                        </div>
+
+                        <small>
+                            Used in directory URLs and internal organization.
+                        </small>
+
+                    </div>
+
+
+                    <div class="category-field">
+
+                        <label for="industry">
+                            Industry
+                        </label>
+
+                        <input
+                            type="text"
+                            id="industry"
+                            name="industry"
+                            placeholder="Example: Travel & Hospitality"
+                            autocomplete="off"
+                        >
+
+                        <small>
+                            The broader industry this category belongs to.
+                        </small>
+
+                    </div>
+
+
+                    <div class="category-field category-field-full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="Explain what businesses belong in this category and what Atlas should understand about them."
+                            maxlength="500"
+                        ></textarea>
+
+                        <div class="category-character-row">
+                            <small>
+                                Add enough detail to guide Scout and future AI agents.
+                            </small>
+
+                            <span id="descriptionCount">
+                                0 / 500
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="category-form-actions">
+
+                    <a
+                        href="/categories"
+                        class="category-cancel-button"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="category-save-button"
+                    >
+                        <span>＋</span>
+                        Save Category
+                    </button>
+
+                </div>
+
+            </form>
+
+        </main>
+
+
+        <aside class="category-form-sidebar">
+
+            <section class="category-preview-card">
+
+                <div class="category-preview-glow"></div>
+
+                <p class="category-preview-eyebrow">
+                    LIVE PREVIEW
+                </p>
+
+                <div class="category-preview-icon" id="previewIcon">
+                    C
+                </div>
+
+                <h2 id="previewName">
+                    New Category
+                </h2>
+
+                <span
+                    class="category-preview-industry"
+                    id="previewIndustry"
+                >
+                    General Industry
+                </span>
+
+                <p id="previewDescription">
+                    Your category description will appear here as you type.
+                </p>
+
+                <div class="category-preview-meta">
+
+                    <div>
+                        <span>Status</span>
+                        <strong>Active</strong>
+                    </div>
+
+                    <div>
+                        <span>Readiness</span>
+                        <strong>100%</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="category-guidance-card">
+
+                <div class="category-guidance-header">
+
+                    <div class="category-guidance-icon">
+                        💡
+                    </div>
+
+                    <div>
+                        <p>ATLAS GUIDANCE</p>
+                        <h2>Build useful categories</h2>
+                    </div>
+
+                </div>
+
+                <div class="category-guidance-list">
+
+                    <div class="category-guidance-item">
+                        <span>1</span>
+
+                        <p>
+                            Use a name customers would naturally search for.
+                        </p>
+                    </div>
+
+                    <div class="category-guidance-item">
+                        <span>2</span>
+
+                        <p>
+                            Keep the slug short, readable, and lowercase.
+                        </p>
+                    </div>
+
+                    <div class="category-guidance-item">
+                        <span>3</span>
+
+                        <p>
+                            Describe which businesses should be included.
+                        </p>
+                    </div>
+
+                    <div class="category-guidance-item">
+                        <span>4</span>
+
+                        <p>
+                            Choose an industry broad enough to group related categories.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="category-engine-card">
+
+                <div class="category-engine-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <strong>
+                        Connected to Atlas
+                    </strong>
+
+                    <p>
+                        New categories become available to Scout, AI employees,
+                        analytics, and directory-building tools.
+                    </p>
+                </div>
+
+            </section>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<style>
+    .category-form-page {
+        width: 100%;
+        max-width: 1450px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .category-form-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .category-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 20px;
+        color: #7b8496;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .category-back-link:hover {
+        color: #6753df;
+    }
+
+    .category-form-eyebrow,
+    .category-panel-eyebrow,
+    .category-preview-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .category-form-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .category-form-subtitle {
+        max-width: 720px;
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .category-form-status {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 175px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .category-form-status-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        background: #19b981;
+        border: 3px solid #d9f8ed;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .category-form-status span,
+    .category-form-status strong {
+        display: block;
+    }
+
+    .category-form-status span {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .category-form-status strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .category-form-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.65fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+    .category-form-panel {
+        padding: 24px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 17px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .category-form-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .category-form-panel-header h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .category-form-panel-header p:last-child {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .category-panel-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 12px;
+        color: #6653d9;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .category-field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 18px;
+    }
+
+    .category-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .category-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #444e63;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .category-field label span {
+        color: #7658e7;
+    }
+
+    .category-field input,
+    .category-field textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: #fafbfc;
+        border: 1px solid #e3e6ed;
+        border-radius: 10px;
+        outline: none;
+        color: #293349;
+        font-family: inherit;
+        font-size: 11px;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .category-field input {
+        height: 43px;
+        padding: 0 13px;
+    }
+
+    .category-field textarea {
+        min-height: 145px;
+        padding: 13px;
+        resize: vertical;
+        line-height: 1.55;
+    }
+
+    .category-field input:focus,
+    .category-field textarea:focus {
+        background: #ffffff;
+        border-color: #8875e8;
+        box-shadow: 0 0 0 3px rgba(117, 89, 230, 0.1);
+    }
+
+    .category-field input::placeholder,
+    .category-field textarea::placeholder {
+        color: #a9afbb;
+    }
+
+    .category-field small {
+        display: block;
+        margin-top: 7px;
+        color: #9ba2af;
+        font-size: 8px;
+        line-height: 1.45;
+    }
+
+    .category-input-prefix {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: #fafbfc;
+        border: 1px solid #e3e6ed;
+        border-radius: 10px;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .category-input-prefix:focus-within {
+        background: #ffffff;
+        border-color: #8875e8;
+        box-shadow: 0 0 0 3px rgba(117, 89, 230, 0.1);
+    }
+
+    .category-input-prefix > span {
+        display: grid;
+        width: 40px;
+        height: 41px;
+        flex: 0 0 40px;
+        place-items: center;
+        background: #f1effb;
+        border-right: 1px solid #e3e0f3;
+        color: #6b58db;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .category-input-prefix input {
+        border: 0;
+        border-radius: 0;
+        box-shadow: none !important;
+    }
+
+    .category-character-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .category-character-row span {
+        color: #9ba2af;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .category-form-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .category-cancel-button,
+    .category-save-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 16px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .category-cancel-button {
+        background: #f7f8fa;
+        border: 1px solid #e5e8ee;
+        color: #6e7789;
+    }
+
+    .category-save-button {
+        gap: 7px;
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: 0;
+        color: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .category-save-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(96, 75, 216, 0.28);
+    }
+
+    .category-form-sidebar {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .category-preview-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        background: linear-gradient(
+            145deg,
+            #5f4de2 0%,
+            #7354e4 52%,
+            #8d5bdd 100%
+        );
+        border-radius: 17px;
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(91, 73, 209, 0.2);
+    }
+
+    .category-preview-glow {
+        position: absolute;
+        top: -75px;
+        right: -65px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+    }
+
+    .category-preview-card > *:not(.category-preview-glow) {
+        position: relative;
+        z-index: 1;
+    }
+
+    .category-preview-eyebrow {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .category-preview-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        margin: 18px 0 16px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 13px;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .category-preview-card h2 {
+        margin: 0 0 9px;
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        overflow-wrap: anywhere;
+    }
+
+    .category-preview-industry {
+        display: inline-flex;
+        padding: 6px 9px;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 8px;
+        font-weight: 800;
+    }
+
+    .category-preview-card > p:not(.category-preview-eyebrow) {
+        margin: 15px 0 20px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 9px;
+        line-height: 1.65;
+    }
+
+    .category-preview-meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .category-preview-meta div {
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.09);
+        border-radius: 9px;
+    }
+
+    .category-preview-meta span,
+    .category-preview-meta strong {
+        display: block;
+    }
+
+    .category-preview-meta span {
+        margin-bottom: 4px;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 7px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .category-preview-meta strong {
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .category-guidance-card,
+    .category-engine-card {
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .category-guidance-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 16px;
+    }
+
+    .category-guidance-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #fff3df;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .category-guidance-header p {
+        margin: 0 0 4px;
+        color: #d18a36;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+    }
+
+    .category-guidance-header h2 {
+        margin: 0;
+        color: #364055;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .category-guidance-list {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    .category-guidance-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .category-guidance-item > span {
+        display: grid;
+        width: 23px;
+        height: 23px;
+        flex: 0 0 23px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 7px;
+        color: #6b58dc;
+        font-size: 8px;
+        font-weight: 900;
+    }
+
+    .category-guidance-item p {
+        margin: 3px 0 0;
+        color: #8e96a6;
+        font-size: 9px;
+        line-height: 1.5;
+    }
+
+    .category-engine-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .category-engine-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #e5f8ef;
+        border-radius: 10px;
+        color: #17a876;
+        font-size: 16px;
+    }
+
+    .category-engine-card strong {
+        display: block;
+        color: #364055;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .category-engine-card p {
+        margin: 5px 0 0;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+        .category-form-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .category-form-sidebar {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .category-preview-card {
+            grid-row: span 2;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .category-form-header {
+            flex-direction: column;
+        }
+
+        .category-form-status {
+            width: fit-content;
+        }
+
+        .category-field-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .category-field-full {
+            grid-column: auto;
+        }
+
+        .category-form-sidebar {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .category-form-title {
+            font-size: 31px;
+        }
+
+        .category-form-panel {
+            padding: 17px;
+        }
+
+        .category-form-actions {
+            align-items: stretch;
+            flex-direction: column-reverse;
+        }
+
+        .category-cancel-button,
+        .category-save-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput =
+            document.getElementById("name");
+
+        const slugInput =
+            document.getElementById("slug");
+
+        const industryInput =
+            document.getElementById("industry");
+
+        const descriptionInput =
+            document.getElementById("description");
+
+        const descriptionCount =
+            document.getElementById("descriptionCount");
+
+        const previewIcon =
+            document.getElementById("previewIcon");
+
+        const previewName =
+            document.getElementById("previewName");
+
+        const previewIndustry =
+            document.getElementById("previewIndustry");
+
+        const previewDescription =
+            document.getElementById("previewDescription");
+
+        let slugWasEdited = false;
+
+
+        function createSlug(value) {
+            return value
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-")
+                .replace(/^-|-$/g, "");
+        }
+
+
+        function updatePreview() {
+            const categoryName =
+                nameInput.value.trim();
+
+            const industry =
+                industryInput.value.trim();
+
+            const description =
+                descriptionInput.value.trim();
+
+            previewName.textContent =
+                categoryName || "New Category";
+
+            previewIndustry.textContent =
+                industry || "General Industry";
+
+            previewDescription.textContent =
+                description ||
+                "Your category description will appear here as you type.";
+
+            previewIcon.textContent =
+                categoryName
+                    ? categoryName.charAt(0).toUpperCase()
+                    : "C";
+
+            descriptionCount.textContent =
+                descriptionInput.value.length + " / 500";
+        }
+
+
+        nameInput.addEventListener("input", function () {
+            if (!slugWasEdited) {
+                slugInput.value =
+                    createSlug(nameInput.value);
+            }
+
+            updatePreview();
+        });
+
+
+        slugInput.addEventListener("input", function () {
+            slugWasEdited =
+                slugInput.value.length > 0;
+
+            const cursorPosition =
+                slugInput.selectionStart;
+
+            slugInput.value =
+                createSlug(slugInput.value);
+
+            try {
+                slugInput.setSelectionRange(
+                    cursorPosition,
+                    cursorPosition
+                );
+            } catch (error) {
+                // The browser may not support cursor restoration.
+            }
+        });
+
+
+        industryInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+        descriptionInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+        updatePreview();
+    });
+</script>
+
+{% endblock %}

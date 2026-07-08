@@ -1,0 +1,1236 @@
+{% extends "base.html" %}
+
+{% block title %}Research Sources | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="sources-page">
+
+    <section class="sources-header">
+
+        <div>
+            <p class="sources-eyebrow">RESEARCH INFRASTRUCTURE</p>
+
+            <h1 class="sources-title">
+                Research Sources
+            </h1>
+
+            <p class="sources-subtitle">
+                Control which data sources Scout can use during research jobs.
+            </p>
+        </div>
+
+        <a href="/scout" class="sources-scout-button">
+            <span>⌕</span>
+            Open Scout
+        </a>
+
+    </section>
+
+
+    <section class="sources-summary-grid">
+
+        <div class="sources-summary-card">
+
+            <div class="sources-summary-icon summary-icon-total">
+                ◎
+            </div>
+
+            <div>
+                <span class="sources-summary-label">
+                    Total Sources
+                </span>
+
+                <strong class="sources-summary-value">
+                    {{ sources|length }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="sources-summary-card">
+
+            <div class="sources-summary-icon summary-icon-enabled">
+                ✓
+            </div>
+
+            <div>
+                <span class="sources-summary-label">
+                    Enabled
+                </span>
+
+                <strong class="sources-summary-value">
+                    {% set enabled_count = namespace(value=0) %}
+
+                    {% for source in sources %}
+                        {% if source[4] == 1 %}
+                            {% set enabled_count.value = enabled_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ enabled_count.value }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="sources-summary-card">
+
+            <div class="sources-summary-icon summary-icon-disabled">
+                —
+            </div>
+
+            <div>
+                <span class="sources-summary-label">
+                    Disabled
+                </span>
+
+                <strong class="sources-summary-value">
+                    {% set disabled_count = namespace(value=0) %}
+
+                    {% for source in sources %}
+                        {% if source[4] != 1 %}
+                            {% set disabled_count.value = disabled_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ disabled_count.value }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="sources-summary-card">
+
+            <div class="sources-summary-icon summary-icon-connectors">
+                ✦
+            </div>
+
+            <div>
+                <span class="sources-summary-label">
+                    Active Connectors
+                </span>
+
+                <strong class="sources-summary-value">
+                    {% set connectors = [] %}
+
+                    {% for source in sources %}
+                        {% if source[3] and source[3] not in connectors %}
+                            {% set _ = connectors.append(source[3]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ connectors|length }}
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="sources-panel">
+
+        <div class="sources-panel-header">
+
+            <div>
+                <p class="sources-panel-eyebrow">
+                    SOURCE MANAGEMENT
+                </p>
+
+                <h2 class="sources-panel-title">
+                    Scout Connectors
+                </h2>
+
+                <p class="sources-panel-subtitle">
+                    Enabled sources automatically appear as options when creating a Scout research job.
+                </p>
+            </div>
+
+
+            <div class="sources-search-box">
+
+                <span class="sources-search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="sourceSearch"
+                    placeholder="Search sources..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </div>
+
+
+        {% if sources %}
+
+        <div class="sources-list" id="sourcesList">
+
+            {% for source in sources %}
+
+            <article
+                class="source-card"
+                data-source-name="{{ source[1]|lower }}"
+                data-source-website="{{ source[2]|lower if source[2] else '' }}"
+                data-source-connector="{{ source[3]|lower if source[3] else '' }}"
+                data-source-status="{% if source[4] == 1 %}enabled{% else %}disabled{% endif %}"
+            >
+
+                <div class="source-main">
+
+                    <div class="
+                        source-icon
+                        {% if "google" in source[1]|lower %}
+                            source-icon-google
+                        {% elif "bing" in source[1]|lower %}
+                            source-icon-bing
+                        {% elif "yelp" in source[1]|lower %}
+                            source-icon-yelp
+                        {% elif "facebook" in source[1]|lower %}
+                            source-icon-facebook
+                        {% elif "yellow" in source[1]|lower %}
+                            source-icon-yellow
+                        {% else %}
+                            source-icon-default
+                        {% endif %}
+                    ">
+
+                        {% if "google" in source[1]|lower %}
+                            G
+                        {% elif "bing" in source[1]|lower %}
+                            B
+                        {% elif "yelp" in source[1]|lower %}
+                            Y
+                        {% elif "facebook" in source[1]|lower %}
+                            F
+                        {% elif "yellow" in source[1]|lower %}
+                            YP
+                        {% else %}
+                            ◎
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="source-copy">
+
+                        <div class="source-title-row">
+
+                            <h3 class="source-name">
+                                {{ source[1] }}
+                            </h3>
+
+                            <span class="
+                                source-status-badge
+                                {% if source[4] == 1 %}
+                                    source-status-enabled
+                                {% else %}
+                                    source-status-disabled
+                                {% endif %}
+                            ">
+
+                                <span class="source-status-dot"></span>
+
+                                {% if source[4] == 1 %}
+                                    Enabled
+                                {% else %}
+                                    Disabled
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="source-meta">
+
+                            <div class="source-meta-item">
+                                <span class="source-meta-label">
+                                    Website
+                                </span>
+
+                                {% if source[2] %}
+
+                                <a
+                                    href="{{ source[2] }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="source-website-link"
+                                >
+                                    {{ source[2] }}
+                                    <span>↗</span>
+                                </a>
+
+                                {% else %}
+
+                                <span class="source-meta-value">
+                                    No website configured
+                                </span>
+
+                                {% endif %}
+                            </div>
+
+
+                            <div class="source-meta-item">
+                                <span class="source-meta-label">
+                                    Connector
+                                </span>
+
+                                <code class="source-connector">
+                                    {{ source[3] or "Not configured" }}
+                                </code>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="source-actions">
+
+                    <div class="source-availability">
+
+                        <span class="source-availability-label">
+                            Scout access
+                        </span>
+
+                        <strong>
+                            {% if source[4] == 1 %}
+                                Available
+                            {% else %}
+                                Unavailable
+                            {% endif %}
+                        </strong>
+
+                    </div>
+
+
+                    <form
+                        action="/sources/{{ source[0] }}/toggle"
+                        method="POST"
+                        class="source-toggle-form"
+                    >
+
+                        <button
+                            type="submit"
+                            class="
+                                source-toggle
+                                {% if source[4] == 1 %}
+                                    source-toggle-on
+                                {% else %}
+                                    source-toggle-off
+                                {% endif %}
+                            "
+                            aria-label="{% if source[4] == 1 %}Disable{% else %}Enable{% endif %} {{ source[1] }}"
+                            title="{% if source[4] == 1 %}Disable source{% else %}Enable source{% endif %}"
+                        >
+
+                            <span class="source-toggle-track">
+                                <span class="source-toggle-knob"></span>
+                            </span>
+
+                            <span class="source-toggle-text">
+                                {% if source[4] == 1 %}
+                                    Disable
+                                {% else %}
+                                    Enable
+                                {% endif %}
+                            </span>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div
+            id="sourcesNoResults"
+            class="sources-no-results"
+        >
+
+            <div class="sources-no-results-icon">
+                ⌕
+            </div>
+
+            <h3>No matching sources</h3>
+
+            <p>
+                Try a different source name, website, or connector.
+            </p>
+
+        </div>
+
+        {% else %}
+
+        <div class="sources-empty-state">
+
+            <div class="sources-empty-icon">
+                ◎
+            </div>
+
+            <h2>No research sources configured</h2>
+
+            <p>
+                Atlas needs at least one research source before Scout can collect business records.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <section class="sources-info-grid">
+
+        <div class="sources-info-card">
+
+            <div class="sources-info-icon">
+                ✦
+            </div>
+
+            <div>
+                <p class="sources-info-eyebrow">
+                    HOW IT WORKS
+                </p>
+
+                <h2>
+                    Enabled sources flow into Scout.
+                </h2>
+
+                <p>
+                    When a source is enabled here, Scout can include it in future research jobs.
+                    Disabled sources remain stored in Atlas but cannot be selected.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="sources-tip-card">
+
+            <div class="sources-tip-icon">
+                💡
+            </div>
+
+            <div>
+                <strong>
+                    Atlas Tip
+                </strong>
+
+                <p>
+                    Keep only reliable connectors enabled. This reduces duplicate records and improves research quality.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<style>
+    .sources-page {
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .sources-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .sources-eyebrow,
+    .sources-panel-eyebrow,
+    .sources-info-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .sources-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .sources-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .sources-scout-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 17px;
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border-radius: 11px;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .sources-scout-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(96, 75, 216, 0.28);
+    }
+
+    .sources-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 22px;
+    }
+
+    .sources-summary-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .sources-summary-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .summary-icon-total {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .summary-icon-enabled {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .summary-icon-disabled {
+        background: #f0f1f5;
+        color: #7d8595;
+    }
+
+    .summary-icon-connectors {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .sources-summary-label,
+    .sources-summary-value {
+        display: block;
+    }
+
+    .sources-summary-label {
+        margin-bottom: 4px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .sources-summary-value {
+        color: #202a40;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .sources-panel {
+        margin-bottom: 22px;
+        padding: 22px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .sources-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+    }
+
+    .sources-panel-title {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .sources-panel-subtitle {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .sources-search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 240px;
+        height: 38px;
+        padding: 0 12px;
+        background: #f9fafc;
+        border: 1px solid #e6e9f0;
+        border-radius: 10px;
+    }
+
+    .sources-search-icon {
+        color: #9ca3b1;
+        font-size: 15px;
+    }
+
+    .sources-search-box input {
+        width: 100%;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: #313b50;
+        font-family: inherit;
+        font-size: 11px;
+    }
+
+    .sources-search-box input::placeholder {
+        color: #a7adba;
+    }
+
+    .sources-list {
+        display: grid;
+        gap: 12px;
+    }
+
+    .source-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 17px;
+        background: #fbfbfd;
+        border: 1px solid #eceef4;
+        border-radius: 13px;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .source-card:hover {
+        transform: translateY(-1px);
+        border-color: #ded9f8;
+        box-shadow: 0 9px 24px rgba(64, 50, 145, 0.06);
+    }
+
+    .source-main {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .source-icon {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+        place-items: center;
+        border-radius: 13px;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 900;
+    }
+
+    .source-icon-google {
+        background: linear-gradient(135deg, #4285f4, #72a6fa);
+    }
+
+    .source-icon-bing {
+        background: linear-gradient(135deg, #098f83, #37b9a9);
+    }
+
+    .source-icon-yelp {
+        background: linear-gradient(135deg, #d64040, #ef7070);
+    }
+
+    .source-icon-facebook {
+        background: linear-gradient(135deg, #3868bc, #5a8ddd);
+    }
+
+    .source-icon-yellow {
+        background: linear-gradient(135deg, #d39a25, #efc153);
+    }
+
+    .source-icon-default {
+        background: linear-gradient(135deg, #6653dc, #8f72eb);
+    }
+
+    .source-copy {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .source-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .source-name {
+        margin: 0;
+        overflow: hidden;
+        color: #2b354a;
+        font-size: 13px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .source-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex: 0 0 auto;
+        padding: 5px 8px;
+        border-radius: 999px;
+        font-size: 8px;
+        font-weight: 800;
+    }
+
+    .source-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .source-status-enabled {
+        background: #eaf8f2;
+        color: #11976c;
+    }
+
+    .source-status-enabled .source-status-dot {
+        background: #19b77f;
+    }
+
+    .source-status-disabled {
+        background: #f0f1f5;
+        color: #747d8f;
+    }
+
+    .source-status-disabled .source-status-dot {
+        background: #939aa8;
+    }
+
+    .source-meta {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-top: 9px;
+    }
+
+    .source-meta-item {
+        min-width: 0;
+    }
+
+    .source-meta-label,
+    .source-meta-value {
+        display: block;
+    }
+
+    .source-meta-label {
+        margin-bottom: 3px;
+        color: #a0a7b4;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .source-meta-value,
+    .source-website-link {
+        color: #6c7588;
+        font-size: 9px;
+        text-decoration: none;
+    }
+
+    .source-website-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        max-width: 320px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .source-website-link:hover {
+        color: #6653da;
+    }
+
+    .source-connector {
+        display: inline-flex;
+        padding: 4px 7px;
+        background: #f1effd;
+        border-radius: 6px;
+        color: #6653d9;
+        font-family: inherit;
+        font-size: 8px;
+        font-weight: 800;
+    }
+
+    .source-actions {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex: 0 0 auto;
+    }
+
+    .source-availability {
+        min-width: 78px;
+        text-align: right;
+    }
+
+    .source-availability-label,
+    .source-availability strong {
+        display: block;
+    }
+
+    .source-availability-label {
+        margin-bottom: 3px;
+        color: #a0a7b4;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .source-availability strong {
+        color: #4e586c;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .source-toggle-form {
+        margin: 0;
+    }
+
+    .source-toggle {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        font-family: inherit;
+        cursor: pointer;
+    }
+
+    .source-toggle-track {
+        position: relative;
+        display: block;
+        width: 38px;
+        height: 22px;
+        border-radius: 999px;
+        transition: background 0.2s ease;
+    }
+
+    .source-toggle-on .source-toggle-track {
+        background: #6b57e2;
+    }
+
+    .source-toggle-off .source-toggle-track {
+        background: #d9dde5;
+    }
+
+    .source-toggle-knob {
+        position: absolute;
+        top: 3px;
+        width: 16px;
+        height: 16px;
+        background: #ffffff;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(35, 42, 57, 0.2);
+        transition: left 0.2s ease;
+    }
+
+    .source-toggle-on .source-toggle-knob {
+        left: 19px;
+    }
+
+    .source-toggle-off .source-toggle-knob {
+        left: 3px;
+    }
+
+    .source-toggle-text {
+        min-width: 40px;
+        color: #687184;
+        font-size: 9px;
+        font-weight: 800;
+        text-align: left;
+    }
+
+    .source-toggle:hover .source-toggle-text {
+        color: #6552d8;
+    }
+
+    .sources-no-results {
+        display: none;
+        padding: 54px 20px;
+        text-align: center;
+    }
+
+    .sources-no-results-icon,
+    .sources-empty-icon {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 16px;
+        color: #725ee5;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .sources-no-results h3,
+    .sources-empty-state h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .sources-no-results p,
+    .sources-empty-state p {
+        margin: 8px auto 0;
+        color: #9299a8;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .sources-empty-state {
+        padding: 70px 20px;
+        text-align: center;
+    }
+
+    .sources-empty-state p {
+        max-width: 450px;
+    }
+
+    .sources-info-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.7fr);
+        gap: 18px;
+    }
+
+    .sources-info-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        overflow: hidden;
+        padding: 22px;
+        background: linear-gradient(
+            135deg,
+            #5e4de2 0%,
+            #7255e6 52%,
+            #8b5add 100%
+        );
+        border-radius: 16px;
+        color: #ffffff;
+        box-shadow: 0 18px 40px rgba(91, 73, 209, 0.2);
+    }
+
+    .sources-info-card::after {
+        position: absolute;
+        top: -80px;
+        right: -40px;
+        width: 220px;
+        height: 220px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        content: "";
+    }
+
+    .sources-info-icon {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 13px;
+        font-size: 20px;
+    }
+
+    .sources-info-card > div:last-child {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sources-info-eyebrow {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .sources-info-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .sources-info-card p:last-child {
+        max-width: 760px;
+        margin: 7px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .sources-tip-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .sources-tip-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #fff3df;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .sources-tip-card strong {
+        display: block;
+        color: #364055;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .sources-tip-card p {
+        margin: 5px 0 0;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    @media (max-width: 1080px) {
+        .sources-summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .source-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+    }
+
+    @media (max-width: 820px) {
+        .sources-panel-header {
+            flex-direction: column;
+        }
+
+        .sources-search-box {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .source-card {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .source-actions {
+            width: 100%;
+            justify-content: space-between;
+            padding-top: 13px;
+            border-top: 1px solid #eceef4;
+        }
+
+        .source-availability {
+            text-align: left;
+        }
+
+        .sources-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .sources-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .sources-scout-button {
+            width: fit-content;
+        }
+
+        .sources-summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .source-title-row {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .sources-title {
+            font-size: 31px;
+        }
+
+        .sources-panel {
+            padding: 17px;
+        }
+
+        .source-main {
+            align-items: flex-start;
+        }
+
+        .source-actions {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .source-toggle {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .source-toggle-text {
+            text-align: right;
+        }
+
+        .sources-info-card {
+            align-items: flex-start;
+            padding: 19px;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput =
+            document.getElementById("sourceSearch");
+
+        const sourceCards = Array.from(
+            document.querySelectorAll(".source-card")
+        );
+
+        const noResults =
+            document.getElementById("sourcesNoResults");
+
+
+        function filterSources() {
+            const searchTerm = searchInput
+                ? searchInput.value.toLowerCase().trim()
+                : "";
+
+            let visibleCount = 0;
+
+            sourceCards.forEach(function (card) {
+                const searchableText = [
+                    card.dataset.sourceName || "",
+                    card.dataset.sourceWebsite || "",
+                    card.dataset.sourceConnector || "",
+                    card.dataset.sourceStatus || ""
+                ].join(" ");
+
+                const shouldShow =
+                    searchableText.includes(searchTerm);
+
+                card.style.display =
+                    shouldShow ? "" : "none";
+
+                if (shouldShow) {
+                    visibleCount += 1;
+                }
+            });
+
+            if (noResults) {
+                noResults.style.display =
+                    visibleCount === 0
+                        ? "block"
+                        : "none";
+            }
+        }
+
+
+        if (searchInput) {
+            searchInput.addEventListener(
+                "input",
+                filterSources
+            );
+        }
+    });
+</script>
+
+{% endblock %}

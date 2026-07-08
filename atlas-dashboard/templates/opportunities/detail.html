@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+{% block title %}{{ record.display_name }} — Atlas{% endblock %}
+
+{% block content %}
+{% set is_heuristic = record.latest_data_quality == 'heuristic' %}
+{% set is_ready = record.latest_recommendation == 'BUILD' and not is_heuristic %}
+{% set rec_lower = (record.latest_recommendation or 'test')|lower %}
+
+{# ── Breadcrumb + header ─────────────────────────────────────────────── #}
+<div class="d-flex align-items-start justify-content-between mb-3">
+  <div>
+    <nav class="oc-breadcrumb mb-1">
+      <a href="{{ url_for('opportunities.list_opportunities') }}">Opportunities</a>
+      <span class="oc-breadcrumb-sep">/</span>
+      <span>{{ record.display_name|truncate(55) }}</span>
+    </nav>
+    <div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+      <span class="badge oc-badge oc-badge--{{ rec_lower }}">{{ record.latest_recommendation or '—' }}</span>
+      {% if is_heuristic %}
+        <span class="badge oc-badge oc-badge--warn">⚠ Needs Scout Verification</span>
+      {% elif is_ready %}
+        <span class="badge oc-badge oc-badge--ready">✓ Ready to Build</span>
+      {% endif %}
+      <span class="badge oc-badge oc-badge--{{ record.latest_data_quality or 'heuristic' }}">{{ record.latest_data_quality or 'heuristic' }}</span>
+      <span class="text-muted small oc-mono ms-2">{{ record.dna_slug }} · {{ record.asset_type or '—' }}</span>
+    </div>
+  </div>
+  <div class="d-flex gap-2 align-items-start">
+    <a href="{{ url_for('opportunities.scout_evidence', opportunity_id=record.id) }}"
+       class="btn btn-outline-secondary btn-sm">Scout Evidence</a>
+    <a href="{{ url_for('opportunities.opportunity_history', opportunity_id=record.id) }}"
+       class="btn btn-outline-secondary btn-sm">History</a>
+  </div>
+</div>
+
+{# ── Heuristic / Ready banners ───────────────────────────────────────── #}
+{% if is_heuristic %}
+<div class="alert oc-alert oc-alert--warn mb-3">
+  <div class="oc-alert-icon">⚠</div>
+  <div class="flex-1">
+    <div class="fw-semibold">Needs Scout Verification</div>
+    <div class="small text-muted mt-1">
+      Revenue and confidence figures are heuristic estimates — no live market data verified yet.
+      Confidence is capped at 45% and BUILD is disabled until Scout confirms supply, competition, and directory quality.
+    </div>
+  </div>
+  <form method="POST" action="{{ url_for('opportunities.run_scout', opportunity_id=record.id) }}" class="ms-3 flex-shrink-0">
+    <button class="btn btn-warning btn-sm">Run Scout →</button>
+  </form>
+</div>
+{% elif is_ready %}
+<div class="alert oc-alert oc-alert--success mb-3">
+  <div class="oc-alert-icon">✓</div>
+  <div class="flex-1">
+    <div class="fw-semibold">Ready to Build</div>
+    <div class="small text-muted mt-1">Verified data supports a BUILD recommendation. Review the blueprint then launch a project.</div>
+  </div>
+  <form method="POST" action="{{ url_for('opportunities.build_project', opportunity_id=record.id) }}" class="ms-3 flex-shrink-0">
+    <button class="btn btn-success btn-sm">Build Project →</button>
+  </form>
+</div>
+{% endif %}
+
+{% if not decision %}
+<div class="card">
+  <div class="card-body text-center py-5 text-muted">
+    No decision recorded yet. <a href="{{ url_for('opportunities.run_opportunity') }}">Run an analysis</a> to generate one.
+  </div>
+</div>
+{% else %}
+
+{# ══════════════════════════════════════════════════════════════════════ #}
+{# KPI ROW — the primary executive view                                  #}
+{# ══════════════════════════════════════════════════════════════════════ #}
+<div class="oc-kpi-row mb-4">
+
+  <div class="oc-kpi-card oc-kpi-card--{{ rec_lower }}">
+    <div class="oc-kpi-label">Recommendation</div>
+    <div class="oc-kpi-value oc-kpi-rec oc-kpi-rec--{{ rec_lower }}">{{ decision.recommendation }}</div>
+    <div class="oc-kpi-sub">{{ decision.data_quality }}</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Revenue Est.</div>
+    <div class="oc-kpi-value">
+      ${{ decision.estimated_revenue_low|int }}<span class="oc-kpi-sep">–</span>${{ decision.estimated_revenue_high|int }}
+    </div>
+    <div class="oc-kpi-sub">per month at maturity</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Confidence</div>
+    <div class="oc-kpi-value {% if decision.confidence_score >= 65 %}oc-text-success{% elif decision.confidence_score >= 45 %}oc-text-accent{% else %}oc-text-warn{% endif %}">
+      {{ "%.0f"|format(decision.confidence_score) }}<span style="font-size:18px;font-weight:400">%</span>
+    </div>
+    <div class="oc-kpi-sub">
+      {% if is_heuristic %}heuristic cap{% else %}verified estimate{% endif %}
+    </div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Startup Cost</div>
+    <div class="oc-kpi-value">${{ decision.startup_cost|int }}</div>
+    <div class="oc-kpi-sub">one-time</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Maintenance</div>
+    <div class="oc-kpi-value">${{ decision.maintenance_cost|int }}</div>
+    <div class="oc-kpi-sub">per month</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">ROI</div>
+    <div class="oc-kpi-value {% if decision.roi_months and decision.roi_months < 12 %}oc-text-success{% endif %}">
+      {% if decision.roi_months and decision.roi_months < 999 %}
+        {{ "%.0f"|format(decision.roi_months) }}<span style="font-size:16px;font-weight:400">mo</span>
+      {% else %}—{% endif %}
+    </div>
+    <div class="oc-kpi-sub">to recoup startup</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Build Score</div>
+    <div class="oc-kpi-value {% if decision.build_score >= 70 %}oc-text-success{% elif decision.build_score >= 50 %}oc-text-accent{% else %}oc-text-warn{% endif %}">
+      {{ "%.0f"|format(decision.build_score) }}<span style="font-size:16px;font-weight:400">/100</span>
+    </div>
+    <div class="oc-kpi-sub">composite priority</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Days to Revenue</div>
+    <div class="oc-kpi-value">{{ decision.time_to_first_revenue_days }}</div>
+    <div class="oc-kpi-sub">estimated</div>
+  </div>
+
+  <div class="oc-kpi-card">
+    <div class="oc-kpi-label">Automation</div>
+    <div class="oc-kpi-value oc-text-accent">{{ "%.0f"|format(decision.automation_percentage) }}<span style="font-size:16px;font-weight:400">%</span></div>
+    <div class="oc-kpi-sub">of build automated</div>
+  </div>
+
+</div>
+
+{# ── Two-column body ─────────────────────────────────────────────────── #}
+<div class="row g-4">
+
+  {# ── Left: actions + identity ── #}
+  <div class="col-lg-3">
+
+    <div class="card mb-3">
+      <div class="card-header oc-card-header">Actions</div>
+      <div class="card-body d-flex flex-column gap-2 p-3">
+        <form method="POST" action="{{ url_for('opportunities.run_scout', opportunity_id=record.id) }}">
+          <button class="btn btn-outline-primary btn-sm w-100">◎ Run Scout</button>
+        </form>
+        {% if blueprint_detail %}
+        <a href="#oc-blueprint" class="btn btn-outline-secondary btn-sm w-100">◫ View Blueprint</a>
+        {% endif %}
+        <form method="POST" action="{{ url_for('opportunities.build_project', opportunity_id=record.id) }}">
+          <button class="btn btn-outline-success btn-sm w-100"
+            {% if is_heuristic %}disabled title="Verify with Scout before building"{% endif %}>
+            ⬡ Build Project
+          </button>
+        </form>
+        <hr class="my-1">
+        <form method="POST" action="{{ url_for('opportunities.update_status', opportunity_id=record.id) }}">
+          <input type="hidden" name="next" value="{{ request.url }}">
+          <div class="d-flex gap-2">
+            <select name="status" class="form-select form-select-sm">
+              {% for s in ["unreviewed","tracking","building","live","archived"] %}
+                <option value="{{ s }}" {% if record.current_status == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn btn-outline-secondary btn-sm flex-shrink-0">Set</button>
+          </div>
+        </form>
+        <form method="POST" action="{{ url_for('opportunities.archive_opportunity', opportunity_id=record.id) }}"
+              onsubmit="return confirm('Archive this opportunity?')">
+          <button class="btn btn-outline-danger btn-sm w-100">Archive</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header oc-card-header">Identity</div>
+      <div class="card-body p-3">
+        <dl class="oc-dl">
+          <dt>DNA</dt><dd class="oc-mono small">{{ record.dna_slug }}</dd>
+          <dt>Asset Type</dt><dd class="oc-mono small">{{ record.asset_type or '—' }}</dd>
+          <dt>Status</dt><dd class="small text-capitalize">{{ record.current_status }}</dd>
+          <dt>Gravity</dt><dd class="small">{{ decision.market_gravity_intensity }}</dd>
+          <dt>Intent Level</dt><dd class="small">{{ decision.commercial_intent_level }}</dd>
+          <dt>Core Pages</dt><dd class="oc-mono small">{{ decision.core_pages_to_launch_count }}</dd>
+          <dt>First Seen</dt><dd class="oc-mono small">{{ record.first_seen_at[:10] if record.first_seen_at else '—' }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    {% if all_decisions %}
+    <div class="card">
+      <div class="card-header oc-card-header">Decision Runs</div>
+      <div class="p-0">
+        {% for d in all_decisions %}
+        <div class="oc-run-row {% if loop.first %}oc-run-row--active{% endif %}">
+          <span class="oc-run-num">#{{ d.run_number }}</span>
+          <span class="badge oc-badge oc-badge--{{ (d.recommendation or 'test')|lower }} oc-badge-sm">{{ d.recommendation }}</span>
+          <span class="oc-run-quality">{{ d.data_quality }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  {# ── Right: decision detail ── #}
+  <div class="col-lg-9">
+
+    {# Conviction thesis #}
+    <div class="card mb-3">
+      <div class="card-header oc-card-header d-flex justify-content-between">
+        <span>Investment Thesis</span>
+        <span class="text-muted small oc-mono">{{ "%.1f"|format(decision.confidence_score) }}% confidence</span>
+      </div>
+      <div class="card-body">
+        <p class="oc-thesis mb-3">{{ decision.conviction_thesis }}</p>
+        {% if decision.reasoning %}
+        <ul class="oc-reasoning-list">
+          {% for r in decision.reasoning %}
+            <li>{{ r }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Revenue streams breakdown #}
+    {% if decision.revenue_streams %}
+    <div class="card mb-3">
+      <div class="card-header oc-card-header">Revenue Breakdown by Stream</div>
+      <div class="table-responsive">
+        <table class="table table-sm mb-0">
+          <thead>
+            <tr>
+              <th>Stream</th>
+              <th>Monthly Low</th>
+              <th>Monthly High</th>
+              <th>Strength</th>
+              <th>Basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in decision.revenue_streams %}
+            {% if s.active %}
+            <tr>
+              <td class="oc-mono small fw-semibold">{{ s.stream.replace('_',' ') }}</td>
+              <td class="oc-mono small text-success">${{ s.low }}</td>
+              <td class="oc-mono small text-success">${{ s.high }}</td>
+              <td>
+                <span class="badge oc-badge oc-badge--{{ 'build' if s.strength in ('high','very_high','extreme') else 'warn' if s.strength == 'medium' else 'defer' }}">
+                  {{ s.strength }}
+                </span>
+              </td>
+              <td class="small text-muted">{{ s.basis|truncate(60) }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr class="table-light fw-semibold">
+              <td class="oc-mono small">TOTAL</td>
+              <td class="oc-mono small text-success">${{ decision.estimated_revenue_low|int }}</td>
+              <td class="oc-mono small text-success">${{ decision.estimated_revenue_high|int }}</td>
+              <td colspan="2" class="small text-muted">
+                Midpoint: ${{ decision.revenue_midpoint|int }}/mo
+                {% if decision.confidence_score < 45.1 %} · heuristic cap applied{% endif %}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Strategic vectors #}
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Business Model</div>
+          <div class="card-body small text-muted">{{ decision.business_model }}</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Defensibility Moat</div>
+          <div class="card-body small text-muted">{{ decision.moat }}</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Why This Market</div>
+          <div class="card-body small text-muted">{{ decision.why_this_market }}</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Why Now</div>
+          <div class="card-body small text-muted">{{ decision.why_now }}</div>
+        </div>
+      </div>
+    </div>
+
+    {# Roadmap #}
+    <div class="card mb-3">
+      <div class="card-header oc-card-header">Execution Roadmap</div>
+      <div class="card-body">
+        <div class="row g-3">
+          {% for label, body in [("30 Days", decision.roadmap_30), ("90 Days", decision.roadmap_90), ("365 Days", decision.roadmap_365)] %}
+          <div class="col-md-4">
+            <div class="oc-roadmap-cell">
+              <div class="oc-roadmap-label">{{ label }}</div>
+              <div class="small text-muted">{{ body }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {# Build / Ignore / Next Steps #}
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Build First</div>
+          <div class="card-body">
+            <ul class="oc-action-list">
+              {% for item in (decision.what_to_build_first or [])[:5] %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">What to Ignore</div>
+          <div class="card-body">
+            <ul class="oc-action-list oc-action-list--muted">
+              {% for item in (decision.what_to_ignore or []) %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-header oc-card-header">Next Steps</div>
+          <div class="card-body">
+            <ol class="oc-steps">
+              {% for step in (decision.next_steps or []) %}
+                <li>{{ step }}</li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# Warnings #}
+    {% if decision.warnings %}
+    <div class="card mb-3 border-warning">
+      <div class="card-header oc-card-header oc-card-header--warn">⚠ Warnings</div>
+      <div class="card-body">
+        <ul class="oc-action-list oc-action-list--warn">
+          {% for w in decision.warnings %}
+            <li>{{ w }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── Blueprint ── #}
+    {% if blueprint_detail %}
+    <div class="card mb-3" id="oc-blueprint">
+      <div class="card-header oc-card-header d-flex justify-content-between">
+        <span>Site Blueprint</span>
+        {% if blueprint_meta %}
+          <span class="oc-mono small text-muted">v{{ blueprint_meta.version_number }} · {{ blueprint_meta.total_pages }} pages</span>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          {% for section_key, dot_cls, label in [
+              ("geo_categories","geo","Geographic Pages"),
+              ("categories","cat","Categories"),
+              ("filters","filter","Filters"),
+              ("seo_pages","seo","SEO Pages"),
+              ("articles","article","Articles / Guides")] %}
+            {% set items = blueprint_detail[section_key] if section_key in blueprint_detail else [] %}
+            {% if items %}
+            <div class="col-sm-6 col-lg-4">
+              <div class="oc-bp-section">
+                <div class="oc-bp-label">{{ label }} ({{ items|length }})</div>
+                {% for item in items[:7] %}
+                  <div class="oc-bp-item">
+                    <span class="oc-bp-dot oc-bp-dot--{{ dot_cls }}"></span>
+                    <span class="oc-bp-name">{{ item.name if item.name is defined else item }}</span>
+                  </div>
+                {% endfor %}
+                {% if items|length > 7 %}
+                  <div class="oc-bp-more">+ {{ items|length - 7 }} more</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Related opportunities #}
+    {% if decision.related_opportunities %}
+    <div class="card mb-3">
+      <div class="card-header oc-card-header">Related Opportunities</div>
+      <div class="table-responsive">
+        <table class="table table-sm mb-0">
+          <thead><tr><th>Ecosystem Node</th><th>Relationship</th></tr></thead>
+          <tbody>
+            {% for rel in decision.related_opportunities %}
+            <tr>
+              <td class="oc-mono small">{{ rel.node }}</td>
+              <td class="small text-muted">{{ rel.relationship }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Notes #}
+    <div class="card">
+      <div class="card-header oc-card-header d-flex justify-content-between">
+        <span>Notes</span>
+        <span class="small text-muted">{{ notes|length }}</span>
+      </div>
+      <div class="card-body">
+        {% for note in notes %}
+        <div class="oc-note">
+          <div class="small">{{ note.body }}</div>
+          <div class="oc-note-meta">{{ note.author }} · {{ note.created_at[:16] if note.created_at else '' }}</div>
+        </div>
+        {% else %}
+        <p class="small text-muted mb-3">No notes yet.</p>
+        {% endfor %}
+        <form method="POST" action="{{ url_for('opportunities.add_note', opportunity_id=record.id) }}" class="mt-3">
+          <div class="mb-2">
+            <textarea name="body" rows="2" class="form-control form-control-sm" placeholder="Add a note…"></textarea>
+          </div>
+          <button class="btn btn-outline-secondary btn-sm">Save Note</button>
+        </form>
+      </div>
+    </div>
+
+  </div>{# end right col #}
+</div>{# end row #}
+{% endif %}{# end if decision #}
+{% endblock %}

@@ -1,0 +1,704 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete {{ business.business_name }} | Atlas
+{% endblock %}
+
+{% block content %}
+
+<div class="business-delete-page">
+
+    <section class="business-delete-header">
+
+        <div>
+
+            <a
+                href="/businesses/{{ business.id }}"
+                class="business-delete-back"
+            >
+                ← Back to Business Record
+            </a>
+
+            <p class="business-delete-eyebrow">
+                DELETE BUSINESS
+            </p>
+
+            <h1>
+                Delete this business?
+            </h1>
+
+            <p class="business-delete-subtitle">
+                This action removes the record from Atlas. A database backup
+                will be created automatically before deletion.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="business-delete-layout">
+
+        <div class="business-delete-panel">
+
+            <div class="business-delete-warning">
+
+                <div class="business-delete-warning-icon">
+                    !
+                </div>
+
+                <div>
+
+                    <strong>
+                        Permanent database action
+                    </strong>
+
+                    <p>
+                        The business will disappear from the Businesses page
+                        after confirmation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="business-delete-record">
+
+                <div class="business-delete-avatar">
+                    {{ business.business_name[0]|upper }}
+                </div>
+
+                <div class="business-delete-record-copy">
+
+                    <span>
+                        BUSINESS TO DELETE
+                    </span>
+
+                    <h2>
+                        {{ business.business_name }}
+                    </h2>
+
+                    <p>
+                        {{ business.category or "Uncategorized business" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="business-delete-details">
+
+                <div>
+
+                    <span>
+                        Business ID
+                    </span>
+
+                    <strong>
+                        #{{ business.id }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Project
+                    </span>
+
+                    <strong>
+                        {{ project.name }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Location
+                    </span>
+
+                    <strong>
+                        {% if business.city or business.state %}
+                            {{ business.city or "Unknown city" }},
+                            {{ business.state or "Unknown state" }}
+                        {% else %}
+                            Unknown location
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        {{ business.status or "New" }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <form
+                action="/businesses/{{ business.id }}/delete"
+                method="POST"
+                class="business-delete-form"
+            >
+
+                <label for="confirmation">
+
+                    Type
+
+                    <strong>
+                        DELETE
+                    </strong>
+
+                    to confirm
+
+                </label>
+
+                <input
+                    type="text"
+                    id="confirmation"
+                    name="confirmation"
+                    placeholder="DELETE"
+                    autocomplete="off"
+                    required
+                >
+
+
+                {% if error == "confirmation" %}
+
+                <div class="business-delete-error">
+                    Confirmation did not match. Type DELETE exactly.
+                </div>
+
+                {% endif %}
+
+
+                <div class="business-delete-actions">
+
+                    <a
+                        href="/businesses/{{ business.id }}"
+                        class="business-delete-cancel"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="business-delete-button"
+                    >
+                        Delete Business
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <aside class="business-delete-sidebar">
+
+            <div class="business-delete-info-card">
+
+                <div class="business-delete-info-icon">
+                    ⛨
+                </div>
+
+                <div>
+
+                    <p>
+                        AUTOMATIC PROTECTION
+                    </p>
+
+                    <h2>
+                        Atlas creates a backup first
+                    </h2>
+
+                    <span>
+                        Before the record is removed, Atlas copies the current
+                        database into the backups folder.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="business-delete-path-card">
+
+                <span>
+                    Backup Location
+                </span>
+
+                <strong>
+                    C:\Atlas\backups
+                </strong>
+
+                <p>
+                    The backup filename includes the business ID and timestamp.
+                </p>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<style>
+    .business-delete-page {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .business-delete-header {
+        margin-bottom: 24px;
+    }
+
+    .business-delete-back {
+        display: inline-flex;
+        margin-bottom: 18px;
+        color: #6d58df;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .business-delete-back:hover {
+        text-decoration: underline;
+    }
+
+    .business-delete-eyebrow {
+        margin: 0 0 8px;
+        color: #d04b5d;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+    }
+
+    .business-delete-header h1 {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(31px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .business-delete-subtitle {
+        max-width: 690px;
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .business-delete-layout {
+        display: grid;
+        grid-template-columns:
+            minmax(0, 1.35fr)
+            minmax(290px, 0.65fr);
+        gap: 20px;
+        align-items: start;
+    }
+
+    .business-delete-panel,
+    .business-delete-info-card,
+    .business-delete-path-card {
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(
+            25,
+            33,
+            51,
+            0.045
+        );
+    }
+
+    .business-delete-panel {
+        padding: 22px;
+    }
+
+    .business-delete-warning {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 15px;
+        background: #fff3f4;
+        border: 1px solid #f3d4d9;
+        border-radius: 12px;
+    }
+
+    .business-delete-warning-icon {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        place-items: center;
+        background: #f8dce0;
+        border-radius: 10px;
+        color: #c63e52;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .business-delete-warning strong {
+        display: block;
+        color: #7e2f3b;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .business-delete-warning p {
+        margin: 5px 0 0;
+        color: #a3646d;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .business-delete-record {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 18px;
+        padding: 18px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 12px;
+    }
+
+    .business-delete-avatar {
+        display: grid;
+        width: 54px;
+        height: 54px;
+        flex: 0 0 54px;
+        place-items: center;
+        background: linear-gradient(
+            135deg,
+            #5f4ee3,
+            #8b6bef
+        );
+        border-radius: 14px;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 900;
+    }
+
+    .business-delete-record-copy {
+        min-width: 0;
+    }
+
+    .business-delete-record-copy span {
+        display: block;
+        margin-bottom: 5px;
+        color: #a0a7b4;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+    }
+
+    .business-delete-record-copy h2 {
+        margin: 0;
+        color: #303a50;
+        font-size: 18px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .business-delete-record-copy p {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 10px;
+    }
+
+    .business-delete-details {
+        display: grid;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    .business-delete-details div {
+        padding: 14px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 10px;
+    }
+
+    .business-delete-details span,
+    .business-delete-details strong {
+        display: block;
+    }
+
+    .business-delete-details span {
+        margin-bottom: 6px;
+        color: #969dab;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .business-delete-details strong {
+        color: #3f495e;
+        font-size: 11px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .business-delete-form {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .business-delete-form label {
+        display: block;
+        margin-bottom: 9px;
+        color: #4a5569;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .business-delete-form label strong {
+        color: #c63e52;
+        font-weight: 900;
+    }
+
+    .business-delete-form input {
+        width: 100%;
+        height: 46px;
+        padding: 0 13px;
+        background: #fbfbfd;
+        border: 1px solid #e3e6ee;
+        border-radius: 10px;
+        outline: none;
+        color: #313b50;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .business-delete-form input:focus {
+        background: #ffffff;
+        border-color: #d55b6c;
+        box-shadow: 0 0 0 4px rgba(
+            202,
+            65,
+            84,
+            0.1
+        );
+    }
+
+    .business-delete-error {
+        margin-top: 10px;
+        padding: 10px 12px;
+        background: #fff0f2;
+        border: 1px solid #f1cbd1;
+        border-radius: 9px;
+        color: #ad3547;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .business-delete-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .business-delete-cancel,
+    .business-delete-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 17px;
+        border-radius: 11px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .business-delete-cancel {
+        background: #ffffff;
+        border: 1px solid #dddfe8;
+        color: #626c7f;
+    }
+
+    .business-delete-button {
+        background: linear-gradient(
+            135deg,
+            #c93f53,
+            #e05d6f
+        );
+        border: 0;
+        color: #ffffff;
+        box-shadow: 0 10px 22px rgba(
+            193,
+            51,
+            73,
+            0.2
+        );
+    }
+
+    .business-delete-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .business-delete-info-card {
+        padding: 20px;
+        background: linear-gradient(
+            145deg,
+            #5f4de2 0%,
+            #7354e4 52%,
+            #8d5bdd 100%
+        );
+        color: #ffffff;
+        border: 0;
+        box-shadow: 0 16px 34px rgba(
+            91,
+            73,
+            209,
+            0.2
+        );
+    }
+
+    .business-delete-info-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 15px;
+        place-items: center;
+        background: rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .business-delete-info-card p {
+        margin: 0 0 6px;
+        color: rgba(
+            255,
+            255,
+            255,
+            0.68
+        );
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .business-delete-info-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .business-delete-info-card span {
+        display: block;
+        margin-top: 8px;
+        color: rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .business-delete-path-card {
+        padding: 18px;
+    }
+
+    .business-delete-path-card span,
+    .business-delete-path-card strong {
+        display: block;
+    }
+
+    .business-delete-path-card span {
+        color: #969dab;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .business-delete-path-card strong {
+        margin-top: 7px;
+        color: #3f495e;
+        font-size: 11px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .business-delete-path-card p {
+        margin: 8px 0 0;
+        color: #8c94a4;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+        .business-delete-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .business-delete-sidebar {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 640px) {
+        .business-delete-details {
+            grid-template-columns: 1fr;
+        }
+
+        .business-delete-sidebar {
+            display: flex;
+        }
+
+        .business-delete-actions {
+            flex-direction: column-reverse;
+        }
+
+        .business-delete-cancel,
+        .business-delete-button {
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

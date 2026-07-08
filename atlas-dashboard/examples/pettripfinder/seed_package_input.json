@@ -1,0 +1,77 @@
+{
+  "source_planning": {
+    "sources": [
+      "manual_research",
+      "public_park_directories",
+      "hotel_chain_pet_policies"
+    ]
+  },
+  "listings": [
+    {
+      "name": "Sunset Bay Pet-Friendly Inn",
+      "category": "pet-friendly-hotels",
+      "city": "Columbus",
+      "state": "OH",
+      "address": "123 Sunset Bay Rd, Columbus, OH",
+      "pet_policy": "Dogs and cats under 50 lbs, $25/night fee",
+      "amenities": ["dog_park_nearby", "pet_beds_provided"],
+      "rating": 4.5,
+      "source_url": "https://example.com/sunset-bay-inn"
+    },
+    {
+      "name": "Barkside Cafe",
+      "category": "pet-friendly-restaurants",
+      "city": "Dublin",
+      "state": "OH",
+      "address": "456 Barkside Ave, Dublin, OH",
+      "pet_policy": "Dogs welcome on patio",
+      "amenities": ["water_bowls", "outdoor_seating"],
+      "rating": 4.7,
+      "source_url": "https://example.com/barkside-cafe"
+    },
+    {
+      "name": "Riverbend Off-Leash Dog Park",
+      "category": "pet-friendly-parks",
+      "city": "Columbus",
+      "state": "OH",
+      "address": "789 Riverbend Dr, Columbus, OH",
+      "pet_policy": "Off-leash area, vaccination required",
+      "amenities": ["fenced_area", "water_station", "waste_bags"],
+      "rating": 4.8,
+      "source_url": "https://example.com/riverbend-dog-park"
+    },
+    {
+      "name": "Duplicate Sunset Bay Inn",
+      "category": "pet-friendly-hotels",
+      "city": "Columbus",
+      "state": "OH",
+      "address": "123 Sunset Bay Road, Columbus, OH",
+      "pet_policy": "Dogs and cats under 50 lbs, $25/night fee",
+      "amenities": ["dog_park_nearby"],
+      "rating": 4.5,
+      "source_url": "https://example.com/sunset-bay-inn-alt"
+    }
+  ],
+  "duplicate_detection": {
+    "duplicate_pairs": [
+      ["Sunset Bay Pet-Friendly Inn", "Duplicate Sunset Bay Inn"]
+    ],
+    "resolution": "keep_first_drop_second"
+  },
+  "data_quality": {
+    "total_records": 4,
+    "unique_records": 3,
+    "missing_fields_detected": 0,
+    "tagged_confidence": "ESTIMATED"
+  },
+  "enrichment_tasks": [
+    {
+      "task": "geocode_addresses",
+      "status": "pending"
+    },
+    {
+      "task": "verify_pet_policies",
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Opportunities — Atlas{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h1 class="page-title">Opportunity Center</h1>
+    <p class="page-subtitle text-muted">{{ records|length }} recorded opportunities</p>
+  </div>
+  <a href="{{ url_for('opportunities.run_scout') }}" class="btn btn-primary">
+    + New Analysis
+  </a>
+</div>
+
+{# ── Filters ── #}
+<form method="GET" class="oc-filter-bar mb-4">
+  <select name="dna_slug" class="form-select oc-select">
+    <option value="">All DNA profiles</option>
+    {% for slug in dna_options %}
+      <option value="{{ slug }}" {% if filters.dna_slug == slug %}selected{% endif %}>{{ slug }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="recommendation" class="form-select oc-select">
+    <option value="">All recommendations</option>
+    {% for r in ["BUILD","TEST","DEFER","REJECT"] %}
+      <option value="{{ r }}" {% if filters.recommendation == r %}selected{% endif %}>{{ r }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="status" class="form-select oc-select">
+    <option value="">All statuses</option>
+    {% for s in ["unreviewed","tracking","building","live","archived"] %}
+      <option value="{{ s }}" {% if filters.status == s %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+
+  <input type="number" name="min_confidence" placeholder="Min confidence %"
+         value="{{ filters.min_confidence or '' }}"
+         class="form-control oc-select" min="0" max="100">
+
+  <button type="submit" class="btn btn-secondary">Filter</button>
+  <a href="{{ url_for('opportunities.list_opportunities') }}" class="btn btn-outline-secondary">Clear</a>
+</form>
+
+{# ── Empty state ── #}
+{% if not records %}
+<div class="card oc-empty">
+  <div class="card-body text-center py-5">
+    <div class="oc-empty-icon mb-3">⬡</div>
+    <h5 class="mb-2">No opportunities yet</h5>
+    <p class="text-muted mb-4">Run an analysis to discover and score market opportunities.</p>
+    <a href="{{ url_for('opportunities.run_scout') }}" class="btn btn-primary">Run Analysis</a>
+  </div>
+</div>
+{% else %}
+
+{# ── Opportunity grid ── #}
+<div class="oc-grid">
+  {% for rec in records %}
+    {% set rec_lower = (rec.latest_recommendation or 'test')|lower %}
+    {% set conf = rec.latest_confidence or 0 %}
+    {% set is_heuristic = rec.latest_data_quality == 'heuristic' %}
+    {% set is_ready = rec.latest_recommendation == 'BUILD' and not is_heuristic %}
+
+    <a href="{{ url_for('opportunities.opportunity_detail', opportunity_id=rec.id) }}"
+       class="oc-card-link">
+      <div class="card oc-card oc-card--{{ rec_lower }}">
+
+        {# Confidence bar #}
+        <div class="oc-conf-track">
+          <div class="oc-conf-bar oc-conf-bar--{{ rec_lower }}"
+               style="height: {{ [conf|int, 6]|max }}%;"></div>
+        </div>
+
+        <div class="card-body oc-card-body">
+
+          {# Badges #}
+          <div class="oc-badge-row mb-2">
+            <span class="badge oc-badge oc-badge--{{ rec_lower }}">{{ rec.latest_recommendation or '—' }}</span>
+            {% if is_heuristic %}
+              <span class="badge oc-badge oc-badge--warn">⚠ Needs Scout</span>
+            {% elif is_ready %}
+              <span class="badge oc-badge oc-badge--ready">✓ Ready to Build</span>
+            {% endif %}
+            <span class="badge oc-badge oc-badge--quality oc-badge--{{ rec.latest_data_quality or 'heuristic' }} ms-auto">
+              {{ rec.latest_data_quality or 'heuristic' }}
+            </span>
+          </div>
+
+          {# Name + DNA #}
+          <div class="oc-card-name mb-1">{{ rec.display_name }}</div>
+          <div class="oc-card-meta mb-3">{{ rec.dna_slug }} · {{ rec.asset_type or '—' }}</div>
+
+          {# Metrics #}
+          <div class="oc-metrics">
+            <div class="oc-metric">
+              <span class="oc-metric-label">Confidence</span>
+              <span class="oc-metric-value oc-metric-value--{{ rec_lower }}">{{ conf|int }}%</span>
+            </div>
+            <div class="oc-metric">
+              <span class="oc-metric-label">Revenue Est.</span>
+              <span class="oc-metric-value">
+                {% if rec.revenue_low %}
+                  ${{ rec.revenue_low|int }}–${{ rec.revenue_high|int }}/mo
+                {% else %}—{% endif %}
+              </span>
+            </div>
+            <div class="oc-metric">
+              <span class="oc-metric-label">Startup Cost</span>
+              <span class="oc-metric-value">
+                {% if rec.startup_cost %}${{ rec.startup_cost|int }}{% else %}—{% endif %}
+              </span>
+            </div>
+            <div class="oc-metric">
+              <span class="oc-metric-label">Maintenance</span>
+              <span class="oc-metric-value">
+                {% if rec.maintenance_cost %}${{ rec.maintenance_cost|int }}/mo{% else %}—{% endif %}
+              </span>
+            </div>
+            <div class="oc-metric">
+              <span class="oc-metric-label">Status</span>
+              <span class="oc-metric-value oc-status">{{ rec.current_status }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

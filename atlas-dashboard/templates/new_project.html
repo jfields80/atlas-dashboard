@@ -1,0 +1,886 @@
+{% extends "base.html" %}
+
+{% block title %}Create Project | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="new-project-page">
+
+    <section class="new-project-header">
+
+        <div>
+            <a href="/projects" class="new-project-back-link">
+                <span>←</span>
+                Back to Projects
+            </a>
+
+            <p class="new-project-eyebrow">NEW DIRECTORY</p>
+
+            <h1 class="new-project-title">
+                Create New Project
+            </h1>
+
+            <p class="new-project-subtitle">
+                Start a new directory project inside the Atlas operating system.
+            </p>
+        </div>
+
+        <div class="new-project-header-badge">
+            <span class="new-project-header-badge-icon">✦</span>
+
+            <div>
+                <span class="new-project-header-badge-label">
+                    Atlas Workspace
+                </span>
+
+                <strong>Project Builder</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="new-project-layout">
+
+        <div class="new-project-form-panel">
+
+            <div class="new-project-panel-header">
+
+                <div class="new-project-panel-icon">
+                    ▣
+                </div>
+
+                <div>
+                    <p class="new-project-panel-eyebrow">
+                        PROJECT DETAILS
+                    </p>
+
+                    <h2>
+                        Configure your project
+                    </h2>
+
+                    <p>
+                        Choose a project name and starting status.
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="new-project-error">
+                <span class="new-project-error-icon">!</span>
+
+                <span>{{ error }}</span>
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST" class="new-project-form">
+
+                <div class="new-project-field">
+
+                    <label for="name">
+                        Project Name
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <div class="new-project-input-wrap">
+
+                        <span class="new-project-input-icon">
+                            ▣
+                        </span>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ name }}"
+                            placeholder="Example: Ohio Pet Resorts"
+                            maxlength="100"
+                            required
+                            autofocus
+                        >
+
+                    </div>
+
+                    <p class="new-project-field-help">
+                        Use a clear name that identifies the directory or market.
+                    </p>
+
+                </div>
+
+
+                <div class="new-project-field">
+
+                    <label for="status">
+                        Starting Status
+                    </label>
+
+                    <div class="new-project-select-wrap">
+
+                        <span class="new-project-input-icon">
+                            ◇
+                        </span>
+
+                        <select id="status" name="status">
+
+                            <option
+                                value="Planning"
+                                {% if status == "Planning" %}selected{% endif %}
+                            >
+                                Planning
+                            </option>
+
+                            <option
+                                value="Active"
+                                {% if status == "Active" %}selected{% endif %}
+                            >
+                                Active
+                            </option>
+
+                            <option
+                                value="Paused"
+                                {% if status == "Paused" %}selected{% endif %}
+                            >
+                                Paused
+                            </option>
+
+                            <option
+                                value="Complete"
+                                {% if status == "Complete" %}selected{% endif %}
+                            >
+                                Complete
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="new-project-status-guide">
+
+                        <div class="status-guide-item">
+                            <span class="status-guide-dot status-guide-planning"></span>
+
+                            <div>
+                                <strong>Planning</strong>
+                                <span>Research and setup stage</span>
+                            </div>
+                        </div>
+
+                        <div class="status-guide-item">
+                            <span class="status-guide-dot status-guide-active"></span>
+
+                            <div>
+                                <strong>Active</strong>
+                                <span>Currently being built</span>
+                            </div>
+                        </div>
+
+                        <div class="status-guide-item">
+                            <span class="status-guide-dot status-guide-paused"></span>
+
+                            <div>
+                                <strong>Paused</strong>
+                                <span>Temporarily on hold</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="new-project-form-actions">
+
+                    <a href="/projects" class="new-project-cancel-button">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="new-project-submit-button">
+                        <span>＋</span>
+                        Create Project
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <aside class="new-project-side-column">
+
+            <div class="new-project-guide-card">
+
+                <div class="new-project-guide-icon">
+                    ✦
+                </div>
+
+                <p class="new-project-guide-eyebrow">
+                    ATLAS PROJECT FLOW
+                </p>
+
+                <h2>
+                    What happens next?
+                </h2>
+
+                <div class="new-project-step-list">
+
+                    <div class="new-project-step">
+
+                        <span class="new-project-step-number">
+                            1
+                        </span>
+
+                        <div>
+                            <strong>Create the project</strong>
+
+                            <p>
+                                Atlas adds the project to your directory portfolio.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="new-project-step">
+
+                        <span class="new-project-step-number">
+                            2
+                        </span>
+
+                        <div>
+                            <strong>Build the knowledge base</strong>
+
+                            <p>
+                                Add categories that define the directory structure.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="new-project-step">
+
+                        <span class="new-project-step-number">
+                            3
+                        </span>
+
+                        <div>
+                            <strong>Launch Scout</strong>
+
+                            <p>
+                                Research the market and begin collecting businesses.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="new-project-step">
+
+                        <span class="new-project-step-number">
+                            4
+                        </span>
+
+                        <div>
+                            <strong>Publish and monetize</strong>
+
+                            <p>
+                                Turn the completed data into a live directory.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="new-project-tip-card">
+
+                <div class="new-project-tip-icon">
+                    💡
+                </div>
+
+                <div>
+                    <strong>Atlas Tip</strong>
+
+                    <p>
+                        Start new ideas in Planning status until the niche has been
+                        researched and scored.
+                    </p>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<style>
+    .new-project-page {
+        width: 100%;
+        max-width: 1380px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .new-project-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 28px;
+    }
+
+    .new-project-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 20px;
+        color: #7f8798;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .new-project-back-link:hover {
+        color: #6653dc;
+    }
+
+    .new-project-eyebrow,
+    .new-project-panel-eyebrow,
+    .new-project-guide-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .new-project-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .new-project-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .new-project-header-badge {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 180px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .new-project-header-badge-icon {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        place-items: center;
+        background: #eeeafd;
+        border-radius: 10px;
+        color: #6b57e1;
+        font-size: 16px;
+    }
+
+    .new-project-header-badge-label,
+    .new-project-header-badge strong {
+        display: block;
+    }
+
+    .new-project-header-badge-label {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .new-project-header-badge strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .new-project-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.65fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+    .new-project-form-panel {
+        padding: 26px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 17px;
+        box-shadow: 0 10px 30px rgba(25, 33, 51, 0.05);
+    }
+
+    .new-project-panel-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .new-project-panel-icon {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        place-items: center;
+        background: #eeeafd;
+        border-radius: 12px;
+        color: #6b57e1;
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+    .new-project-panel-header h2 {
+        margin: 0;
+        color: #202a40;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .new-project-panel-header p:last-child {
+        margin: 6px 0 0;
+        color: #9299a8;
+        font-size: 11px;
+        line-height: 1.55;
+    }
+
+    .new-project-error {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        padding: 12px 14px;
+        background: #fff3f5;
+        border: 1px solid #f4d8de;
+        border-radius: 10px;
+        color: #b84d61;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .new-project-error-icon {
+        display: grid;
+        width: 22px;
+        height: 22px;
+        flex: 0 0 22px;
+        place-items: center;
+        background: #e9677e;
+        border-radius: 50%;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 900;
+    }
+
+    .new-project-form {
+        padding-top: 24px;
+    }
+
+    .new-project-field {
+        margin-bottom: 24px;
+    }
+
+    .new-project-field label {
+        display: block;
+        margin-bottom: 9px;
+        color: #313b50;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .required-mark {
+        color: #755af0;
+    }
+
+    .new-project-input-wrap,
+    .new-project-select-wrap {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 46px;
+        padding: 0 14px;
+        background: #fbfbfd;
+        border: 1px solid #e4e7ee;
+        border-radius: 11px;
+        box-sizing: border-box;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .new-project-input-wrap:focus-within,
+    .new-project-select-wrap:focus-within {
+        background: #ffffff;
+        border-color: #8b74ec;
+        box-shadow: 0 0 0 4px rgba(112, 88, 226, 0.1);
+    }
+
+    .new-project-input-icon {
+        display: inline-flex;
+        width: 22px;
+        flex: 0 0 22px;
+        color: #9ba2af;
+        font-size: 15px;
+    }
+
+    .new-project-input-wrap input,
+    .new-project-select-wrap select {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: #2e384e;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .new-project-input-wrap input::placeholder {
+        color: #acb2bd;
+        font-weight: 500;
+    }
+
+    .new-project-select-wrap select {
+        cursor: pointer;
+    }
+
+    .new-project-field-help {
+        margin: 7px 0 0;
+        color: #9ba2af;
+        font-size: 9px;
+        line-height: 1.5;
+    }
+
+    .new-project-status-guide {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 9px;
+        margin-top: 12px;
+    }
+
+    .status-guide-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+        background: #fafafd;
+        border: 1px solid #eff0f5;
+        border-radius: 9px;
+    }
+
+    .status-guide-dot {
+        width: 7px;
+        height: 7px;
+        flex: 0 0 7px;
+        margin-top: 3px;
+        border-radius: 50%;
+    }
+
+    .status-guide-planning {
+        background: #e2a14e;
+    }
+
+    .status-guide-active {
+        background: #18b57d;
+    }
+
+    .status-guide-paused {
+        background: #939aa8;
+    }
+
+    .status-guide-item strong,
+    .status-guide-item span:last-child {
+        display: block;
+    }
+
+    .status-guide-item strong {
+        color: #4b5568;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .status-guide-item span:last-child {
+        margin-top: 3px;
+        color: #a0a7b4;
+        font-size: 8px;
+        line-height: 1.4;
+    }
+
+    .new-project-form-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 22px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .new-project-cancel-button,
+    .new-project-submit-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 0 16px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .new-project-cancel-button {
+        background: #ffffff;
+        border: 1px solid #e2e5ec;
+        color: #747d8f;
+    }
+
+    .new-project-cancel-button:hover {
+        background: #f8f9fb;
+    }
+
+    .new-project-submit-button {
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: 0;
+        color: #ffffff;
+        box-shadow: 0 9px 20px rgba(96, 75, 216, 0.2);
+    }
+
+    .new-project-submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 13px 26px rgba(96, 75, 216, 0.28);
+    }
+
+    .new-project-side-column {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .new-project-guide-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        background:
+            linear-gradient(
+                145deg,
+                #5f4de2 0%,
+                #7354e4 52%,
+                #8d5bdd 100%
+            );
+        border-radius: 17px;
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(91, 73, 209, 0.2);
+    }
+
+    .new-project-guide-card::after {
+        position: absolute;
+        top: -70px;
+        right: -60px;
+        width: 190px;
+        height: 190px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        content: "";
+    }
+
+    .new-project-guide-icon {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 17px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+    .new-project-guide-eyebrow {
+        position: relative;
+        z-index: 1;
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .new-project-guide-card h2 {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    .new-project-step-list {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 21px;
+    }
+
+    .new-project-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+    }
+
+    .new-project-step-number {
+        display: grid;
+        width: 25px;
+        height: 25px;
+        flex: 0 0 25px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 900;
+    }
+
+    .new-project-step strong {
+        display: block;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .new-project-step p {
+        margin: 4px 0 0;
+        color: rgba(255, 255, 255, 0.67);
+        font-size: 9px;
+        line-height: 1.5;
+    }
+
+    .new-project-tip-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 17px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 14px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .new-project-tip-icon {
+        display: grid;
+        width: 35px;
+        height: 35px;
+        flex: 0 0 35px;
+        place-items: center;
+        background: #fff3df;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .new-project-tip-card strong {
+        display: block;
+        color: #364055;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .new-project-tip-card p {
+        margin: 5px 0 0;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    @media (max-width: 920px) {
+        .new-project-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .new-project-side-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .new-project-header {
+            flex-direction: column;
+        }
+
+        .new-project-header-badge {
+            width: fit-content;
+        }
+
+        .new-project-status-guide {
+            grid-template-columns: 1fr;
+        }
+
+        .new-project-side-column {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .new-project-form-panel {
+            padding: 19px;
+        }
+
+        .new-project-title {
+            font-size: 31px;
+        }
+
+        .new-project-form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .new-project-cancel-button,
+        .new-project-submit-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+{% endblock %}

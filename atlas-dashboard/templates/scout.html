@@ -1,0 +1,1743 @@
+{% extends "base.html" %}
+
+{% block title %}Scout AI | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="scout-page">
+
+    <section class="scout-header">
+
+        <div>
+            <p class="scout-eyebrow">AI RESEARCH ENGINE</p>
+
+            <h1 class="scout-title">
+                Scout AI
+            </h1>
+
+            <p class="scout-subtitle">
+                Launch targeted research jobs and grow any Atlas directory automatically.
+            </p>
+        </div>
+
+        <div class="scout-status-card">
+            <span class="scout-status-dot"></span>
+
+            <div>
+                <span class="scout-status-label">Scout Status</span>
+                <strong>Ready for research</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    {% if error_message %}
+
+    <section class="scout-error-banner">
+
+        <div class="scout-error-icon">
+            !
+        </div>
+
+        <div>
+            <strong>
+                Scout needs a quick correction
+            </strong>
+
+            <p>
+                {{ error_message }}
+            </p>
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <section class="scout-summary-grid">
+
+        <div class="scout-summary-card">
+
+            <div class="scout-summary-icon scout-summary-projects">
+                ▣
+            </div>
+
+            <div>
+                <span class="scout-summary-label">
+                    Available Projects
+                </span>
+
+                <strong class="scout-summary-value">
+                    {{ projects|length }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="scout-summary-card">
+
+            <div class="scout-summary-icon scout-summary-sources">
+                ◎
+            </div>
+
+            <div>
+                <span class="scout-summary-label">
+                    Research Sources
+                </span>
+
+                <strong class="scout-summary-value">
+                    {{ sources|length }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="scout-summary-card">
+
+            <div class="scout-summary-icon scout-summary-agent">
+                ✦
+            </div>
+
+            <div>
+                <span class="scout-summary-label">
+                    Active Agent
+                </span>
+
+                <strong class="scout-summary-value">
+                    Scout
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="scout-summary-card">
+
+            <div class="scout-summary-icon scout-summary-capacity">
+                ↑
+            </div>
+
+            <div>
+                <span class="scout-summary-label">
+                    Maximum Batch
+                </span>
+
+                <strong class="scout-summary-value">
+                    100
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="scout-layout">
+
+        <div class="scout-form-panel">
+
+            <div class="scout-panel-header">
+
+                <div class="scout-panel-header-icon">
+                    ⌕
+                </div>
+
+                <div>
+                    <p class="scout-panel-eyebrow">
+                        NEW RESEARCH JOB
+                    </p>
+
+                    <h2>
+                        Configure Scout
+                    </h2>
+
+                    <p>
+                        Select a project, define the market, and choose where Scout should search.
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% if projects %}
+
+            <form
+                action="/start-research"
+                method="POST"
+                class="scout-form"
+            >
+
+                <div class="scout-field">
+
+                    <label for="project_id">
+                        Atlas Project
+                        <span class="scout-required">*</span>
+                    </label>
+
+                    <div class="scout-select-wrap">
+
+                        <span class="scout-field-icon">
+                            ▣
+                        </span>
+
+                        <select
+                            id="project_id"
+                            name="project_id"
+                            required
+                        >
+
+                            {% for project in projects %}
+
+                            <option
+                                value="{{ project[0] }}"
+                                {% if selected_project_id|string == project[0]|string %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ project[1] }} · {{ project[2] }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <p class="scout-field-help">
+                        Research results will be connected to this project.
+                    </p>
+
+                </div>
+
+
+                <div class="scout-form-row">
+
+                    <div class="scout-field">
+
+                        <label for="search_term">
+                            Search Term
+                            <span class="scout-required">*</span>
+                        </label>
+
+                        <div class="scout-input-wrap">
+
+                            <span class="scout-field-icon">
+                                ⌕
+                            </span>
+
+                            <input
+                                type="text"
+                                id="search_term"
+                                name="search_term"
+                                placeholder="Pet-friendly hotels"
+                                value="{{ previous_search_term }}"
+                                required
+                            >
+
+                        </div>
+
+                        <p class="scout-field-help">
+                            Enter a business type, niche, or directory category.
+                        </p>
+
+                    </div>
+
+
+                    <div class="scout-field">
+
+                        <label for="location">
+                            Location
+                            <span class="scout-required">*</span>
+                        </label>
+
+                        <div class="scout-input-wrap">
+
+                            <span class="scout-field-icon">
+                                ⌖
+                            </span>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                placeholder="Columbus, Ohio"
+                                value="{{ previous_location }}"
+                                required
+                            >
+
+                        </div>
+
+                        <p class="scout-field-help">
+                            Use a city, county, state, or regional market.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="scout-field">
+
+                    <div class="scout-field-heading">
+
+                        <label for="max_results">
+                            Maximum Results
+                        </label>
+
+                        <span class="scout-result-value" id="resultValue">
+                            {{ previous_max_results }} results
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="max_results"
+                        name="max_results"
+                        value="{{ previous_max_results }}"
+                        min="1"
+                        max="100"
+                        step="1"
+                        class="scout-range"
+                    >
+
+                    <div class="scout-range-labels">
+                        <span>1</span>
+                        <span>50</span>
+                        <span>100</span>
+                    </div>
+
+                    <div class="scout-batch-guide">
+
+                        <button
+                            type="button"
+                            class="scout-batch-button"
+                            data-results="25"
+                        >
+                            Quick Scan
+                            <span>25 records</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="scout-batch-button"
+                            data-results="100"
+                        >
+                            Standard
+                            <span>100 records</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="scout-batch-button"
+                            data-results="75"
+                        >
+                            Deep Search
+                            <span>75 records</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="scout-batch-button"
+                            data-results="100"
+                        >
+                            Maximum
+                            <span>100 records</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="scout-field">
+
+                    <div class="scout-field-heading">
+
+                        <div>
+                            <label>
+                                Research Sources
+                            </label>
+
+                            <p class="scout-source-description">
+                                Choose which enabled data sources Scout should use.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="toggleSources"
+                            class="scout-toggle-button"
+                        >
+                            Uncheck all
+                        </button>
+
+                    </div>
+
+
+                    {% if sources %}
+
+                    <div class="scout-source-grid">
+
+                        {% for source in sources %}
+
+                        <label class="scout-source-card">
+
+                            <input
+                                type="checkbox"
+                                name="sources"
+                                value="{{ source[2] }}"
+                                {% if source[3] %}checked{% endif %}
+                            >
+
+                            <span class="scout-source-check">
+                                ✓
+                            </span>
+
+                            <span class="scout-source-icon">
+                                {% if "google" in source[1]|lower %}
+                                    G
+                                {% elif "bing" in source[1]|lower %}
+                                    B
+                                {% elif "yelp" in source[1]|lower %}
+                                    Y
+                                {% elif "facebook" in source[1]|lower %}
+                                    F
+                                {% else %}
+                                    ◎
+                                {% endif %}
+                            </span>
+
+                            <span class="scout-source-copy">
+
+                                <strong>
+                                    {{ source[1] }}
+                                </strong>
+
+                                <span>
+                                    {{ source[2] }}
+                                    {% if source[3] %}
+                                        · Enabled by default
+                                    {% else %}
+                                        · Available
+                                    {% endif %}
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="scout-no-sources">
+
+                        <div class="scout-no-sources-icon">
+                            ◎
+                        </div>
+
+                        <div>
+                            <strong>No research sources enabled</strong>
+
+                            <p>
+                                Enable a source before starting a Scout job.
+                            </p>
+                        </div>
+
+                        <a href="/sources">
+                            Manage Sources
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="scout-form-actions">
+
+                    <a
+                        href="/businesses"
+                        class="scout-secondary-button"
+                    >
+                        View Businesses
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="scout-submit-button"
+                        id="startResearchButton"
+                        {% if not sources %}disabled{% endif %}
+                    >
+                        <span>✦</span>
+                        Start Research
+                    </button>
+
+                </div>
+
+            </form>
+
+            {% else %}
+
+            <div class="scout-empty-projects">
+
+                <div class="scout-empty-projects-icon">
+                    ▣
+                </div>
+
+                <h2>
+                    Create a project first
+                </h2>
+
+                <p>
+                    Scout needs an Atlas project before a research job can begin.
+                </p>
+
+                <a
+                    href="/new-project"
+                    class="scout-submit-button"
+                >
+                    <span>＋</span>
+                    Create Project
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <aside class="scout-side-column">
+
+            <div class="scout-agent-card">
+
+                <div class="scout-agent-glow scout-agent-glow-one"></div>
+                <div class="scout-agent-glow scout-agent-glow-two"></div>
+
+                <div class="scout-agent-content">
+
+                    <div class="scout-agent-avatar">
+                        ✦
+                    </div>
+
+                    <p class="scout-agent-eyebrow">
+                        ATLAS AI WORKFORCE
+                    </p>
+
+                    <h2>
+                        Meet Scout
+                    </h2>
+
+                    <p class="scout-agent-description">
+                        Scout discovers businesses, searches enabled sources,
+                        and stores structured records inside Atlas.
+                    </p>
+
+
+                    <div class="scout-capability-list">
+
+                        <div class="scout-capability-item">
+                            <span>✓</span>
+                            Market and niche research
+                        </div>
+
+                        <div class="scout-capability-item">
+                            <span>✓</span>
+                            Business discovery
+                        </div>
+
+                        <div class="scout-capability-item">
+                            <span>✓</span>
+                            Location-based searching
+                        </div>
+
+                        <div class="scout-capability-item">
+                            <span>✓</span>
+                            Duplicate-aware record storage
+                        </div>
+
+                    </div>
+
+
+                    <div class="scout-agent-footer">
+
+                        <span class="scout-agent-online-dot"></span>
+
+                        <div>
+                            <span>Agent Status</span>
+                            <strong>Online and available</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="scout-workflow-card">
+
+                <div class="scout-workflow-header">
+
+                    <div class="scout-workflow-icon">
+                        ↗
+                    </div>
+
+                    <div>
+                        <p>RESEARCH WORKFLOW</p>
+                        <h2>What happens next?</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="scout-workflow-list">
+
+                    <div class="scout-workflow-step">
+
+                        <span>1</span>
+
+                        <div>
+                            <strong>Job created</strong>
+                            <p>Atlas queues the research request.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="scout-workflow-step">
+
+                        <span>2</span>
+
+                        <div>
+                            <strong>Sources searched</strong>
+                            <p>Scout checks every selected connector.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="scout-workflow-step">
+
+                        <span>3</span>
+
+                        <div>
+                            <strong>Records stored</strong>
+                            <p>New records are stored and existing matches are updated.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="scout-workflow-step">
+
+                        <span>4</span>
+
+                        <div>
+                            <strong>Results reviewed</strong>
+                            <p>Saved records are ready for review and verification.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<style>
+    .scout-page {
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+
+    .scout-error-banner {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 22px;
+        padding: 15px 18px;
+        background: #f0edff;
+        border: 1px solid #dcd5fb;
+        border-radius: 13px;
+        box-shadow: 0 8px 22px rgba(91, 73, 209, 0.06);
+    }
+
+    .scout-error-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #e4defe;
+        border-radius: 10px;
+        color: #6753e7;
+        font-size: 16px;
+        font-weight: 900;
+    }
+
+    .scout-error-banner strong {
+        display: block;
+        color: #4f43a9;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .scout-error-banner p {
+        margin: 4px 0 0;
+        color: #8077b3;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .scout-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 28px;
+    }
+
+    .scout-eyebrow,
+    .scout-panel-eyebrow,
+    .scout-agent-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .scout-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .scout-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .scout-status-card {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 180px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .scout-status-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        background: #19b981;
+        border: 3px solid #d9f8ed;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .scout-status-label,
+    .scout-status-card strong {
+        display: block;
+    }
+
+    .scout-status-label {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .scout-status-card strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .scout-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 22px;
+    }
+
+    .scout-summary-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .scout-summary-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .scout-summary-projects {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .scout-summary-sources {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .scout-summary-agent {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .scout-summary-capacity {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .scout-summary-label,
+    .scout-summary-value {
+        display: block;
+    }
+
+    .scout-summary-label {
+        margin-bottom: 4px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .scout-summary-value {
+        color: #202a40;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .scout-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.6fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+    .scout-form-panel {
+        padding: 26px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 17px;
+        box-shadow: 0 10px 30px rgba(25, 33, 51, 0.05);
+    }
+
+    .scout-panel-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .scout-panel-header-icon {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        place-items: center;
+        background: #eeeafd;
+        border-radius: 12px;
+        color: #6b57e1;
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+    .scout-panel-header h2 {
+        margin: 0;
+        color: #202a40;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .scout-panel-header p:last-child {
+        margin: 6px 0 0;
+        color: #9299a8;
+        font-size: 11px;
+        line-height: 1.55;
+    }
+
+    .scout-form {
+        padding-top: 24px;
+    }
+
+    .scout-form-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .scout-field {
+        margin-bottom: 24px;
+    }
+
+    .scout-field label {
+        display: block;
+        margin-bottom: 9px;
+        color: #313b50;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .scout-required {
+        color: #755af0;
+    }
+
+    .scout-input-wrap,
+    .scout-select-wrap {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 46px;
+        padding: 0 14px;
+        background: #fbfbfd;
+        border: 1px solid #e4e7ee;
+        border-radius: 11px;
+        box-sizing: border-box;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .scout-input-wrap:focus-within,
+    .scout-select-wrap:focus-within {
+        background: #ffffff;
+        border-color: #8b74ec;
+        box-shadow: 0 0 0 4px rgba(112, 88, 226, 0.1);
+    }
+
+    .scout-field-icon {
+        display: inline-flex;
+        width: 22px;
+        flex: 0 0 22px;
+        color: #9ba2af;
+        font-size: 15px;
+    }
+
+    .scout-input-wrap input,
+    .scout-select-wrap select {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: #2e384e;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .scout-input-wrap input::placeholder {
+        color: #acb2bd;
+        font-weight: 500;
+    }
+
+    .scout-select-wrap select {
+        cursor: pointer;
+    }
+
+    .scout-field-help,
+    .scout-source-description {
+        margin: 7px 0 0;
+        color: #9ba2af;
+        font-size: 9px;
+        line-height: 1.5;
+    }
+
+    .scout-field-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 11px;
+    }
+
+    .scout-field-heading label {
+        margin-bottom: 0;
+    }
+
+    .scout-result-value {
+        color: #6754de;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .scout-range {
+        width: 100%;
+        accent-color: #715ae6;
+        cursor: pointer;
+    }
+
+    .scout-range-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 4px;
+        color: #a0a7b4;
+        font-size: 8px;
+    }
+
+    .scout-batch-guide {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .scout-batch-button {
+        padding: 10px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 9px;
+        color: #556074;
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .scout-batch-button span {
+        display: block;
+        margin-top: 3px;
+        color: #9ca3b1;
+        font-size: 8px;
+        font-weight: 600;
+    }
+
+    .scout-batch-button:hover,
+    .scout-batch-button.is-active {
+        background: #f0edff;
+        border-color: #dcd6fb;
+        color: #6753da;
+    }
+
+    .scout-toggle-button {
+        padding: 0;
+        background: transparent;
+        border: 0;
+        color: #6c58dc;
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .scout-source-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .scout-source-card {
+        position: relative;
+        display: flex !important;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
+        margin: 0 !important;
+        padding: 12px;
+        background: #fbfbfd;
+        border: 1px solid #eceef4;
+        border-radius: 11px;
+        cursor: pointer;
+    }
+
+    .scout-source-card:hover {
+        background: #f8f6ff;
+        border-color: #dfdaf8;
+    }
+
+    .scout-source-card input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .scout-source-check {
+        display: grid;
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
+        place-items: center;
+        background: #ffffff;
+        border: 1px solid #dfe3eb;
+        border-radius: 6px;
+        color: transparent;
+        font-size: 10px;
+        font-weight: 900;
+    }
+
+    .scout-source-card input:checked + .scout-source-check {
+        background: #6b57e2;
+        border-color: #6b57e2;
+        color: #ffffff;
+    }
+
+    .scout-source-icon {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        place-items: center;
+        background: #eeeafd;
+        border-radius: 9px;
+        color: #6653d9;
+        font-size: 11px;
+        font-weight: 900;
+    }
+
+    .scout-source-copy {
+        min-width: 0;
+    }
+
+    .scout-source-copy strong,
+    .scout-source-copy span {
+        display: block;
+    }
+
+    .scout-source-copy strong {
+        overflow: hidden;
+        color: #394359;
+        font-size: 10px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .scout-source-copy span {
+        margin-top: 3px;
+        overflow: hidden;
+        color: #9aa1af;
+        font-size: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .scout-no-sources {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background: #fff9ef;
+        border: 1px solid #f2e2c2;
+        border-radius: 11px;
+    }
+
+    .scout-no-sources-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        place-items: center;
+        background: #fff0cf;
+        border-radius: 10px;
+        color: #d48c2d;
+    }
+
+    .scout-no-sources strong {
+        display: block;
+        color: #5b5142;
+        font-size: 10px;
+    }
+
+    .scout-no-sources p {
+        margin: 4px 0 0;
+        color: #9a8b72;
+        font-size: 9px;
+    }
+
+    .scout-no-sources a {
+        margin-left: auto;
+        color: #775fe0;
+        font-size: 9px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .scout-form-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 22px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .scout-secondary-button,
+    .scout-submit-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 0 16px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .scout-secondary-button {
+        background: #ffffff;
+        border: 1px solid #e2e5ec;
+        color: #747d8f;
+    }
+
+    .scout-submit-button {
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: 0;
+        color: #ffffff;
+        box-shadow: 0 9px 20px rgba(96, 75, 216, 0.2);
+    }
+
+    .scout-submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 13px 26px rgba(96, 75, 216, 0.28);
+    }
+
+    .scout-submit-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .scout-empty-projects {
+        padding: 60px 20px 36px;
+        text-align: center;
+    }
+
+    .scout-empty-projects-icon {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 16px;
+        color: #725ee5;
+        font-size: 24px;
+    }
+
+    .scout-empty-projects h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 18px;
+    }
+
+    .scout-empty-projects p {
+        margin: 8px auto 18px;
+        color: #9299a8;
+        font-size: 11px;
+    }
+
+    .scout-side-column {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .scout-agent-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        background: linear-gradient(
+            145deg,
+            #5f4de2 0%,
+            #7354e4 52%,
+            #8d5bdd 100%
+        );
+        border-radius: 17px;
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(91, 73, 209, 0.2);
+    }
+
+    .scout-agent-glow {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .scout-agent-glow-one {
+        top: -70px;
+        right: -60px;
+        width: 190px;
+        height: 190px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .scout-agent-glow-two {
+        right: 20px;
+        bottom: -100px;
+        width: 210px;
+        height: 210px;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .scout-agent-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .scout-agent-avatar {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 17px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 13px;
+        font-size: 20px;
+    }
+
+    .scout-agent-eyebrow {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .scout-agent-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    .scout-agent-description {
+        margin: 10px 0 18px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+        line-height: 1.65;
+    }
+
+    .scout-capability-list {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .scout-capability-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.84);
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .scout-capability-item span {
+        display: grid;
+        width: 17px;
+        height: 17px;
+        flex: 0 0 17px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 50%;
+        font-size: 8px;
+    }
+
+    .scout-agent-footer {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .scout-agent-online-dot {
+        width: 8px;
+        height: 8px;
+        background: #59e8af;
+        border: 3px solid rgba(89, 232, 175, 0.18);
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .scout-agent-footer span,
+    .scout-agent-footer strong {
+        display: block;
+    }
+
+    .scout-agent-footer span {
+        color: rgba(255, 255, 255, 0.57);
+        font-size: 8px;
+    }
+
+    .scout-agent-footer strong {
+        margin-top: 2px;
+        color: #ffffff;
+        font-size: 9px;
+    }
+
+    .scout-workflow-card {
+        padding: 19px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .scout-workflow-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .scout-workflow-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        place-items: center;
+        background: #e8f3ff;
+        border-radius: 10px;
+        color: #3989d4;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .scout-workflow-header p {
+        margin: 0 0 4px;
+        color: #7658f6;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .scout-workflow-header h2 {
+        margin: 0;
+        color: #313b50;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .scout-workflow-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 16px;
+    }
+
+    .scout-workflow-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .scout-workflow-step > span {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 8px;
+        color: #6c58da;
+        font-size: 8px;
+        font-weight: 900;
+    }
+
+    .scout-workflow-step strong {
+        display: block;
+        color: #4b5568;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .scout-workflow-step p {
+        margin: 3px 0 0;
+        color: #9ca3b1;
+        font-size: 8px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 1100px) {
+        .scout-summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .scout-layout {
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+        }
+
+        .scout-batch-guide {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 850px) {
+        .scout-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .scout-side-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 700px) {
+        .scout-header {
+            flex-direction: column;
+        }
+
+        .scout-status-card {
+            width: fit-content;
+        }
+
+        .scout-summary-grid,
+        .scout-form-row,
+        .scout-source-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .scout-side-column {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .scout-title {
+            font-size: 31px;
+        }
+
+        .scout-form-panel {
+            padding: 19px;
+        }
+
+        .scout-batch-guide {
+            grid-template-columns: 1fr;
+        }
+
+        .scout-field-heading,
+        .scout-form-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .scout-secondary-button,
+        .scout-submit-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const resultsRange =
+            document.getElementById("max_results");
+
+        const resultValue =
+            document.getElementById("resultValue");
+
+        const batchButtons = Array.from(
+            document.querySelectorAll(".scout-batch-button")
+        );
+
+        const sourceCheckboxes = Array.from(
+            document.querySelectorAll(
+                'input[name="sources"]'
+            )
+        );
+
+        const toggleSources =
+            document.getElementById("toggleSources");
+
+        const startResearchButton =
+            document.getElementById("startResearchButton");
+
+        const scoutForm =
+            document.querySelector(".scout-form");
+
+
+        function updateResultValue() {
+            if (!resultsRange || !resultValue) {
+                return;
+            }
+
+            resultValue.textContent =
+                resultsRange.value + " results";
+
+            batchButtons.forEach(function (button) {
+                button.classList.toggle(
+                    "is-active",
+                    button.dataset.results === resultsRange.value
+                );
+            });
+        }
+
+
+        if (resultsRange) {
+            resultsRange.addEventListener(
+                "input",
+                updateResultValue
+            );
+        }
+
+
+        batchButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                if (!resultsRange) {
+                    return;
+                }
+
+                resultsRange.value =
+                    button.dataset.results;
+
+                updateResultValue();
+            });
+        });
+
+
+        function updateToggleText() {
+            if (!toggleSources) {
+                return;
+            }
+
+            const allChecked =
+                sourceCheckboxes.length > 0 &&
+                sourceCheckboxes.every(function (checkbox) {
+                    return checkbox.checked;
+                });
+
+            toggleSources.textContent =
+                allChecked
+                    ? "Uncheck all"
+                    : "Check all";
+        }
+
+
+        function updateStartButton() {
+            if (!startResearchButton) {
+                return;
+            }
+
+            const anyChecked =
+                sourceCheckboxes.some(function (checkbox) {
+                    return checkbox.checked;
+                });
+
+            startResearchButton.disabled =
+                !anyChecked;
+        }
+
+
+        if (toggleSources) {
+            toggleSources.addEventListener(
+                "click",
+                function () {
+                    const allChecked =
+                        sourceCheckboxes.length > 0 &&
+                        sourceCheckboxes.every(
+                            function (checkbox) {
+                                return checkbox.checked;
+                            }
+                        );
+
+                    sourceCheckboxes.forEach(
+                        function (checkbox) {
+                            checkbox.checked = !allChecked;
+                        }
+                    );
+
+                    updateToggleText();
+                    updateStartButton();
+                }
+            );
+        }
+
+
+        sourceCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener(
+                "change",
+                function () {
+                    updateToggleText();
+                    updateStartButton();
+                }
+            );
+        });
+
+
+        if (scoutForm) {
+            scoutForm.addEventListener(
+                "submit",
+                function (event) {
+                    const anyChecked =
+                        sourceCheckboxes.some(
+                            function (checkbox) {
+                                return checkbox.checked;
+                            }
+                        );
+
+                    if (!anyChecked) {
+                        event.preventDefault();
+
+                        alert(
+                            "Select at least one research source."
+                        );
+                    }
+                }
+            );
+        }
+
+
+        updateResultValue();
+        updateToggleText();
+        updateStartButton();
+    });
+</script>
+
+{% endblock %}

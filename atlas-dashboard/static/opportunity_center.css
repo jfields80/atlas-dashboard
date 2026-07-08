@@ -1,0 +1,362 @@
+/* ============================================================
+   Atlas Opportunity Center — scoped CSS patch
+   All classes are prefixed oc- to avoid conflicting with your
+   existing Atlas stylesheet. Add this file to your base
+   template AFTER your main style.css:
+       <link rel="stylesheet" href="/static/css/opportunity_center.css">
+   ============================================================ */
+
+/* ── Filter bar ─────────────────────────────────────────────── */
+.oc-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.oc-select {
+  width: auto;
+  min-width: 150px;
+  max-width: 220px;
+}
+
+/* ── Opportunity grid ────────────────────────────────────────── */
+.oc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+.oc-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.oc-card-link:hover {
+  text-decoration: none;
+}
+
+/* ── Opportunity card ────────────────────────────────────────── */
+.oc-card {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+  overflow: hidden;
+}
+.oc-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+.oc-card-body {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+.oc-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.oc-card-meta {
+  font-size: 11px;
+  font-family: monospace;
+  opacity: 0.55;
+}
+
+/* Confidence bar — the signature element */
+.oc-conf-track {
+  width: 5px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 2px 0 0 2px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.oc-conf-bar {
+  width: 100%;
+  border-radius: 2px;
+  transition: height 0.4s ease;
+  min-height: 6px;
+}
+.oc-conf-bar--build  { background: #198754; }
+.oc-conf-bar--test   { background: #0d6efd; }
+.oc-conf-bar--defer  { background: #fd7e14; }
+.oc-conf-bar--reject { background: #dc3545; }
+
+/* ── Metric rows inside cards ────────────────────────────────── */
+.oc-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 4px;
+}
+.oc-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.oc-metric-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+}
+.oc-metric-value {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+.oc-metric-value--build  { color: #198754; }
+.oc-metric-value--test   { color: #0d6efd; }
+.oc-metric-value--defer  { color: #fd7e14; }
+.oc-metric-value--reject { color: #dc3545; }
+.oc-status {
+  font-size: 11px;
+  text-transform: capitalize;
+  opacity: 0.65;
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+.oc-badge {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+.oc-badge-sm { font-size: 10px; padding: 2px 6px; }
+.oc-badge--build   { background: rgba(25,135,84,0.12);  color: #198754; border-color: rgba(25,135,84,0.35); }
+.oc-badge--test    { background: rgba(13,110,253,0.10); color: #0d6efd; border-color: rgba(13,110,253,0.3); }
+.oc-badge--defer   { background: rgba(253,126,20,0.12); color: #c96a00; border-color: rgba(253,126,20,0.35); }
+.oc-badge--reject  { background: rgba(220,53,69,0.10);  color: #dc3545; border-color: rgba(220,53,69,0.3); }
+.oc-badge--warn    { background: rgba(253,193,7,0.12);  color: #856404; border-color: rgba(253,193,7,0.4); }
+.oc-badge--ready   { background: rgba(25,135,84,0.15);  color: #198754; border-color: rgba(25,135,84,0.5); font-weight: 700; }
+.oc-badge--heuristic { background: rgba(253,193,7,0.10); color: #856404; border-color: rgba(253,193,7,0.3); }
+.oc-badge--verified  { background: rgba(25,135,84,0.10); color: #198754; border-color: rgba(25,135,84,0.3); }
+.oc-badge--mixed     { background: rgba(13,110,253,0.08); color: #0d6efd; border-color: rgba(13,110,253,0.25); }
+.oc-badge-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* ── Badge-quality variant (used alongside data_quality flag) ── */
+.oc-badge--quality { font-size: 10px; }
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.oc-empty-icon { font-size: 36px; opacity: 0.25; }
+
+/* ── Alert banners ───────────────────────────────────────────── */
+.oc-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+.oc-alert--warn    { background: rgba(255, 193, 7, 0.1); border-color: rgba(255,193,7,0.45); }
+.oc-alert--success { background: rgba(25,135,84,0.08);   border-color: rgba(25,135,84,0.4); }
+.oc-alert-icon { font-size: 22px; flex-shrink: 0; line-height: 1.3; }
+
+/* ── Breadcrumb ──────────────────────────────────────────────── */
+.oc-breadcrumb { font-size: 13px; }
+.oc-breadcrumb a { text-decoration: none; opacity: 0.65; }
+.oc-breadcrumb a:hover { opacity: 1; }
+.oc-breadcrumb-sep { margin: 0 6px; opacity: 0.35; }
+
+/* ── Card header ─────────────────────────────────────────────── */
+.oc-card-header {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.oc-card-header--warn { color: #856404; }
+
+/* ── Definition list ─────────────────────────────────────────── */
+.oc-dl { margin: 0; }
+.oc-dl dt {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+  margin-top: 12px;
+}
+.oc-dl dt:first-child { margin-top: 0; }
+.oc-dl dd { margin: 2px 0 0; }
+
+/* ── Decision run list (sidebar) ─────────────────────────────── */
+.oc-run-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-size: 12px;
+}
+.oc-run-row--active { background: rgba(13,110,253,0.04); }
+.oc-run-row:last-child { border-bottom: none; }
+.oc-run-num { font-family: monospace; opacity: 0.5; min-width: 24px; }
+.oc-run-quality { font-size: 10px; opacity: 0.45; margin-left: auto; }
+
+/* ── Key metrics grid (detail page) ─────────────────────────── */
+.oc-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.06);
+}
+.oc-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  background: var(--bs-body-bg, #fff);
+}
+.oc-kv-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.4;
+}
+.oc-kv-value { font-family: monospace; font-size: 15px; font-weight: 600; }
+.oc-kv--success { color: #198754; }
+.oc-kv--info    { color: #0d6efd; }
+.oc-kv--warn    { color: #856404; }
+
+/* ── Thesis + reasoning ──────────────────────────────────────── */
+.oc-thesis { font-size: 15px; line-height: 1.6; }
+.oc-reasoning-list { list-style: none; padding: 0; margin: 0; }
+.oc-reasoning-list li {
+  padding: 5px 0;
+  font-size: 13px;
+  opacity: 0.7;
+  display: flex;
+  gap: 8px;
+}
+.oc-reasoning-list li::before { content: "↳"; opacity: 0.5; flex-shrink: 0; }
+
+/* ── Roadmap cells ───────────────────────────────────────────── */
+.oc-roadmap-cell {
+  padding: 14px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.025);
+  height: 100%;
+}
+.oc-roadmap-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  margin-bottom: 8px;
+}
+
+/* ── Action lists ────────────────────────────────────────────── */
+.oc-action-list { list-style: none; padding: 0; margin: 0; }
+.oc-action-list li {
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  gap: 8px;
+}
+.oc-action-list li:last-child { border-bottom: none; }
+.oc-action-list li::before { content: "→"; opacity: 0.3; flex-shrink: 0; }
+.oc-action-list--muted li { opacity: 0.6; }
+.oc-action-list--muted li::before { content: "×"; }
+.oc-action-list--warn li { color: #856404; }
+.oc-action-list--warn li::before { content: "⚠"; }
+
+/* ── Numbered steps ──────────────────────────────────────────── */
+.oc-steps { list-style: none; padding: 0; margin: 0; counter-reset: steps; }
+.oc-steps li {
+  counter-increment: steps;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  gap: 12px;
+  opacity: 0.75;
+}
+.oc-steps li:last-child { border-bottom: none; }
+.oc-steps li::before {
+  content: counter(steps);
+  font-family: monospace;
+  font-size: 11px;
+  min-width: 18px;
+  opacity: 0.4;
+  padding-top: 1px;
+}
+
+/* ── Blueprint tree ──────────────────────────────────────────── */
+.oc-bp-section { margin-bottom: 8px; }
+.oc-bp-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  margin-bottom: 6px;
+}
+.oc-bp-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  margin-bottom: 1px;
+}
+.oc-bp-item:hover { background: rgba(0,0,0,0.04); }
+.oc-bp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0.75; }
+.oc-bp-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.oc-bp-dot--geo    { background: #0d6efd; }
+.oc-bp-dot--cat    { background: #198754; }
+.oc-bp-dot--filter { background: #fd7e14; }
+.oc-bp-dot--seo    { background: #6f42c1; }
+.oc-bp-dot--article{ background: #adb5bd; }
+.oc-bp-more { font-size: 11px; opacity: 0.35; padding: 3px 8px; }
+
+/* ── Comparison diff ─────────────────────────────────────────── */
+.oc-diff-a { background: rgba(253,193,7,0.04); }
+.oc-diff-b { background: rgba(25,135,84,0.04); }
+.oc-diff-header { padding: 12px 16px; }
+.oc-diff-cell { padding: 12px 16px; }
+.oc-diff-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.4;
+  margin-bottom: 4px;
+}
+.oc-diff-improved { color: #198754; font-weight: 600; }
+
+/* ── Notes ───────────────────────────────────────────────────── */
+.oc-note {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.oc-note:last-of-type { border-bottom: none; }
+.oc-note-meta { font-size: 11px; opacity: 0.45; margin-top: 4px; }
+
+/* ── Utilities ───────────────────────────────────────────────── */
+.oc-mono { font-family: monospace; }

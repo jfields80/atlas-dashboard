@@ -1,0 +1,1767 @@
+{% extends "base.html" %}
+
+{% block title %}Businesses | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="businesses-page">
+
+    <!-- PAGE HEADER -->
+    <section class="businesses-header">
+
+        <div>
+            <p class="businesses-eyebrow">DIRECTORY DATA</p>
+
+            <h1 class="businesses-title">
+                Businesses
+            </h1>
+
+            <p class="businesses-subtitle">
+                Review, search, and organize the business records collected by Atlas.
+            </p>
+        </div>
+
+        <div class="businesses-header-actions">
+
+            <a
+                href="/businesses/duplicates"
+                class="businesses-maintenance-button"
+            >
+                <span>◇</span>
+                Duplicate Review
+            </a>
+
+            <a href="/scout" class="businesses-scout-button">
+                <span>⌕</span>
+                Start Scout
+            </a>
+
+        </div>
+
+    </section>
+
+
+    {% if deleted %}
+
+    <section class="businesses-success-banner">
+
+        <div class="businesses-success-icon">
+            ✓
+        </div>
+
+        <div>
+            <strong>
+                Business deleted successfully
+            </strong>
+
+            <p>
+                Atlas removed the business record and created a database backup first.
+            </p>
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- SUMMARY CARDS -->
+    <section class="businesses-summary-grid">
+
+        <div class="businesses-summary-card">
+
+            <div class="businesses-summary-icon summary-icon-total">
+                ▤
+            </div>
+
+            <div>
+                <span class="businesses-summary-label">
+                    Total Businesses
+                </span>
+
+                <strong class="businesses-summary-value">
+                    {{ businesses|length }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="businesses-summary-card">
+
+            <div class="businesses-summary-icon summary-icon-verified">
+                ✓
+            </div>
+
+            <div>
+                <span class="businesses-summary-label">
+                    Verified
+                </span>
+
+                <strong class="businesses-summary-value">
+                    {% set verified_count = namespace(value=0) %}
+
+                    {% for business in businesses %}
+                        {% if business[4]|lower == "verified" %}
+                            {% set verified_count.value = verified_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ verified_count.value }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="businesses-summary-card">
+
+            <div class="businesses-summary-icon summary-icon-review">
+                ◇
+            </div>
+
+            <div>
+                <span class="businesses-summary-label">
+                    Needs Review
+                </span>
+
+                <strong class="businesses-summary-value">
+                    {% set review_count = namespace(value=0) %}
+
+                    {% for business in businesses %}
+                        {% if business[4]|lower in ["pending", "review", "needs review"] %}
+                            {% set review_count.value = review_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ review_count.value }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="businesses-summary-card">
+
+            <div class="businesses-summary-icon summary-icon-categories">
+                ✦
+            </div>
+
+            <div>
+                <span class="businesses-summary-label">
+                    Categories
+                </span>
+
+                <strong class="businesses-summary-value">
+                    {% set category_names = [] %}
+
+                    {% for business in businesses %}
+                        {% if business[1] and business[1] not in category_names %}
+                            {% set _ = category_names.append(business[1]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{ category_names|length }}
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="
+        businesses-health-panel
+        {% if duplicate_summary.duplicate_record_count > 0 %}
+            businesses-health-warning
+        {% else %}
+            businesses-health-clean
+        {% endif %}
+    ">
+
+        <div class="businesses-health-main">
+
+            <div class="businesses-health-icon">
+                {% if duplicate_summary.duplicate_record_count > 0 %}
+                    !
+                {% else %}
+                    ✓
+                {% endif %}
+            </div>
+
+            <div>
+
+                <p class="businesses-health-eyebrow">
+                    DATABASE HEALTH
+                </p>
+
+                <h2>
+                    {% if duplicate_summary.duplicate_record_count > 0 %}
+                        Duplicate records need review
+                    {% else %}
+                        Business database is clean
+                    {% endif %}
+                </h2>
+
+                <p>
+                    {% if duplicate_summary.duplicate_record_count > 0 %}
+                        Atlas detected
+                        {{ duplicate_summary.duplicate_record_count }}
+                        duplicate record{% if duplicate_summary.duplicate_record_count != 1 %}s{% endif %}
+                        across
+                        {{ duplicate_summary.group_count }}
+                        group{% if duplicate_summary.group_count != 1 %}s{% endif %}.
+                    {% else %}
+                        Atlas found no duplicate groups among the current
+                        {{ duplicate_summary.business_count }}
+                        business records.
+                    {% endif %}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="businesses-health-actions">
+
+            <div class="businesses-health-stat">
+
+                <span>Duplicate Groups</span>
+
+                <strong>
+                    {{ duplicate_summary.group_count }}
+                </strong>
+
+            </div>
+
+            <div class="businesses-health-stat">
+
+                <span>Duplicate Records</span>
+
+                <strong>
+                    {{ duplicate_summary.duplicate_record_count }}
+                </strong>
+
+            </div>
+
+            <a
+                href="/businesses/duplicates"
+                class="businesses-health-button"
+            >
+                Review Database
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- DATABASE PANEL -->
+    <section class="businesses-panel">
+
+        <div class="businesses-panel-header">
+
+            <div>
+                <p class="businesses-panel-eyebrow">
+                    BUSINESS DATABASE
+                </p>
+
+                <h2 class="businesses-panel-title">
+                    Collected Records
+                </h2>
+
+                <p class="businesses-panel-subtitle">
+                    Businesses discovered by Scout and stored in the Atlas database.
+                </p>
+            </div>
+
+
+            <div class="businesses-controls">
+
+                <div class="businesses-search-box">
+
+                    <span class="businesses-search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        id="businessSearch"
+                        placeholder="Search businesses..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <select
+                    id="businessStatusFilter"
+                    class="businesses-filter"
+                >
+                    <option value="all">All statuses</option>
+                    <option value="verified">Verified</option>
+                    <option value="pending">Pending</option>
+                    <option value="review">Needs Review</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        {% if businesses %}
+
+        <div class="businesses-table-wrapper">
+
+            <table class="businesses-table">
+
+                <thead>
+                    <tr>
+                        <th>Business</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th class="businesses-actions-heading">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% for business in businesses %}
+
+                    <tr
+                        class="business-row"
+                        data-business-name="{{ business[0]|lower }}"
+                        data-business-category="{{ business[1]|lower }}"
+                        data-business-city="{{ business[2]|lower }}"
+                        data-business-state="{{ business[3]|lower }}"
+                        data-business-status="{{ business[4]|lower }}"
+                    >
+
+                        <td>
+
+                            <div class="business-identity">
+
+                                <div class="
+                                    business-avatar
+                                    {% if loop.index % 4 == 1 %}
+                                        business-avatar-purple
+                                    {% elif loop.index % 4 == 2 %}
+                                        business-avatar-blue
+                                    {% elif loop.index % 4 == 3 %}
+                                        business-avatar-orange
+                                    {% else %}
+                                        business-avatar-green
+                                    {% endif %}
+                                ">
+                                    {{ business[0][0]|upper }}
+                                </div>
+
+
+                                <div class="business-name-group">
+
+                                    <strong class="business-name">
+                                        {{ business[0] }}
+                                    </strong>
+
+                                    <span class="business-record-type">
+                                        Atlas business record
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="business-category-badge">
+                                {{ business[1] or "Uncategorized" }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="business-location">
+
+                                <span class="business-location-icon">
+                                    ⌖
+                                </span>
+
+                                <div>
+                                    <strong>
+                                        {{ business[2] or "Unknown city" }}
+                                    </strong>
+
+                                    <span>
+                                        {{ business[3] or "—" }}
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="
+                                business-status
+                                {% if business[4]|lower == 'verified' %}
+                                    business-status-verified
+                                {% elif business[4]|lower in ['pending', 'review', 'needs review'] %}
+                                    business-status-pending
+                                {% elif business[4]|lower == 'inactive' %}
+                                    business-status-inactive
+                                {% else %}
+                                    business-status-new
+                                {% endif %}
+                            ">
+
+                                <span class="business-status-dot"></span>
+
+                                {{ business[4] or "New" }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="business-actions">
+
+                                <a
+                                    href="/businesses/{{ business[5] }}"
+                                    class="business-action-button business-view-button"
+                                >
+                                    View
+                                    <span>→</span>
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="businesses-mobile-list">
+
+            {% for business in businesses %}
+
+            <article
+                class="business-mobile-card"
+                data-business-name="{{ business[0]|lower }}"
+                data-business-category="{{ business[1]|lower }}"
+                data-business-city="{{ business[2]|lower }}"
+                data-business-state="{{ business[3]|lower }}"
+                data-business-status="{{ business[4]|lower }}"
+            >
+
+                <div class="business-mobile-top">
+
+                    <div class="business-identity">
+
+                        <div class="
+                            business-avatar
+                            {% if loop.index % 4 == 1 %}
+                                business-avatar-purple
+                            {% elif loop.index % 4 == 2 %}
+                                business-avatar-blue
+                            {% elif loop.index % 4 == 3 %}
+                                business-avatar-orange
+                            {% else %}
+                                business-avatar-green
+                            {% endif %}
+                        ">
+                            {{ business[0][0]|upper }}
+                        </div>
+
+
+                        <div class="business-name-group">
+
+                            <strong class="business-name">
+                                {{ business[0] }}
+                            </strong>
+
+                            <span class="business-record-type">
+                                {{ business[1] or "Uncategorized" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="
+                        business-status
+                        {% if business[4]|lower == 'verified' %}
+                            business-status-verified
+                        {% elif business[4]|lower in ['pending', 'review', 'needs review'] %}
+                            business-status-pending
+                        {% elif business[4]|lower == 'inactive' %}
+                            business-status-inactive
+                        {% else %}
+                            business-status-new
+                        {% endif %}
+                    ">
+
+                        <span class="business-status-dot"></span>
+
+                        {{ business[4] or "New" }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="business-mobile-details">
+
+                    <div>
+                        <span>Category</span>
+                        <strong>
+                            {{ business[1] or "Uncategorized" }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Location</span>
+                        <strong>
+                            {{ business[2] or "Unknown" }},
+                            {{ business[3] or "—" }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="/businesses/{{ business[5] }}"
+                    class="business-action-button business-view-button"
+                >
+                    View Business
+                    <span>→</span>
+                </a>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div
+            id="businessesNoResults"
+            class="businesses-no-results"
+        >
+
+            <div class="businesses-no-results-icon">
+                ⌕
+            </div>
+
+            <h3>No matching businesses</h3>
+
+            <p>
+                Try changing your search or status filter.
+            </p>
+
+        </div>
+
+        {% else %}
+
+        <div class="businesses-empty-state">
+
+            <div class="businesses-empty-icon">
+                ▤
+            </div>
+
+            <h2>No businesses collected yet</h2>
+
+            <p>
+                Launch Scout to research a market and begin building your
+                business database.
+            </p>
+
+            <a href="/scout" class="businesses-scout-button">
+                <span>⌕</span>
+                Start Scout Research
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- SCOUT PROMOTION -->
+    <section class="businesses-scout-panel">
+
+        <div class="businesses-scout-panel-icon">
+            ✦
+        </div>
+
+
+        <div class="businesses-scout-panel-copy">
+
+            <p class="businesses-scout-panel-label">
+                SCOUT RESEARCH ENGINE
+            </p>
+
+            <h2>
+                Grow your directory database.
+            </h2>
+
+            <p>
+                Send Scout into a niche or location to discover new businesses,
+                collect details, and prepare records for review.
+            </p>
+
+        </div>
+
+
+        <a href="/scout" class="businesses-scout-panel-button">
+            Launch Scout
+            <span>→</span>
+        </a>
+
+    </section>
+
+</div>
+
+
+<style>
+    .businesses-page {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+
+    .businesses-success-banner {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 22px;
+        padding: 15px 18px;
+        background: #f0edff;
+        border: 1px solid #dcd5fb;
+        border-radius: 13px;
+        box-shadow: 0 8px 22px rgba(91, 73, 209, 0.06);
+    }
+
+    .businesses-success-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #e4defe;
+        border-radius: 10px;
+        color: #6753e7;
+        font-size: 16px;
+        font-weight: 900;
+    }
+
+    .businesses-success-banner strong {
+        display: block;
+        color: #4f43a9;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .businesses-success-banner p {
+        margin: 4px 0 0;
+        color: #8077b3;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .businesses-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .businesses-eyebrow,
+    .businesses-panel-eyebrow,
+    .businesses-scout-panel-label {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .businesses-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .businesses-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .businesses-scout-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 17px;
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border-radius: 11px;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .businesses-scout-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(96, 75, 216, 0.28);
+    }
+
+    .businesses-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 0 0 auto;
+    }
+
+    .businesses-maintenance-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 16px;
+        background: #ffffff;
+        border: 1px solid #ddd9f6;
+        border-radius: 11px;
+        color: #6653d9;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(42, 48, 67, 0.05);
+        transition:
+            transform 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .businesses-maintenance-button:hover {
+        transform: translateY(-2px);
+        border-color: #bfb5f0;
+        box-shadow: 0 12px 24px rgba(87, 68, 184, 0.1);
+    }
+
+    .businesses-health-panel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 22px;
+        padding: 18px 20px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .businesses-health-clean {
+        border-color: #d8eee4;
+    }
+
+    .businesses-health-warning {
+        border-color: #f0dfbd;
+    }
+
+    .businesses-health-main {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+    }
+
+    .businesses-health-icon {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .businesses-health-clean .businesses-health-icon {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .businesses-health-warning .businesses-health-icon {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .businesses-health-eyebrow {
+        margin: 0 0 5px;
+        color: #7658f6;
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+    }
+
+    .businesses-health-main h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .businesses-health-main p:last-child {
+        margin: 5px 0 0;
+        color: #8c94a4;
+        font-size: 10px;
+        line-height: 1.55;
+    }
+
+    .businesses-health-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 0 0 auto;
+    }
+
+    .businesses-health-stat {
+        min-width: 92px;
+        padding: 10px 12px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 10px;
+    }
+
+    .businesses-health-stat span,
+    .businesses-health-stat strong {
+        display: block;
+    }
+
+    .businesses-health-stat span {
+        margin-bottom: 4px;
+        color: #969dab;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .businesses-health-stat strong {
+        color: #313b50;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .businesses-health-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 38px;
+        padding: 0 13px;
+        background: #f0edff;
+        border-radius: 9px;
+        color: #6653d9;
+        font-size: 9px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .businesses-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 22px;
+    }
+
+    .businesses-summary-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .businesses-summary-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .summary-icon-total {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .summary-icon-verified {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .summary-icon-review {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .summary-icon-categories {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .businesses-summary-label,
+    .businesses-summary-value {
+        display: block;
+    }
+
+    .businesses-summary-label {
+        margin-bottom: 4px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .businesses-summary-value {
+        color: #202a40;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .businesses-panel {
+        margin-bottom: 22px;
+        padding: 22px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .businesses-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+    }
+
+    .businesses-panel-title {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .businesses-panel-subtitle {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .businesses-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 0 0 auto;
+    }
+
+    .businesses-search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 220px;
+        height: 38px;
+        padding: 0 12px;
+        background: #f9fafc;
+        border: 1px solid #e6e9f0;
+        border-radius: 10px;
+    }
+
+    .businesses-search-icon {
+        color: #9ca3b1;
+        font-size: 15px;
+    }
+
+    .businesses-search-box input {
+        width: 100%;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: #313b50;
+        font-family: inherit;
+        font-size: 11px;
+    }
+
+    .businesses-search-box input::placeholder {
+        color: #a7adba;
+    }
+
+    .businesses-filter {
+        height: 38px;
+        padding: 0 31px 0 12px;
+        background: #f9fafc;
+        border: 1px solid #e6e9f0;
+        border-radius: 10px;
+        outline: none;
+        color: #697286;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .businesses-table-wrapper {
+        overflow-x: auto;
+        border: 1px solid #eceef4;
+        border-radius: 12px;
+    }
+
+    .businesses-table {
+        width: 100%;
+        min-width: 850px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .businesses-table th {
+        padding: 13px 16px;
+        background: #fafafd;
+        border-bottom: 1px solid #eceef4;
+        color: #939aa8;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .businesses-table th:nth-child(1) {
+        width: 29%;
+    }
+
+    .businesses-table th:nth-child(2) {
+        width: 20%;
+    }
+
+    .businesses-table th:nth-child(3) {
+        width: 20%;
+    }
+
+    .businesses-table th:nth-child(4) {
+        width: 15%;
+    }
+
+    .businesses-table th:nth-child(5) {
+        width: 16%;
+    }
+
+    .businesses-table td {
+        padding: 16px;
+        border-bottom: 1px solid #eff0f5;
+        vertical-align: middle;
+    }
+
+    .businesses-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .business-row {
+        transition: background 0.2s ease;
+    }
+
+    .business-row:hover {
+        background: #fcfbff;
+    }
+
+    .business-identity {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .business-avatar {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        place-items: center;
+        border-radius: 11px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    .business-avatar-purple {
+        background: linear-gradient(135deg, #5f4ee3, #8b6bef);
+    }
+
+    .business-avatar-blue {
+        background: linear-gradient(135deg, #3f83c9, #68ade8);
+    }
+
+    .business-avatar-orange {
+        background: linear-gradient(135deg, #d98a3d, #efb66c);
+    }
+
+    .business-avatar-green {
+        background: linear-gradient(135deg, #23a978, #55c99a);
+    }
+
+    .business-name-group {
+        min-width: 0;
+    }
+
+    .business-name,
+    .business-record-type {
+        display: block;
+    }
+
+    .business-name {
+        overflow: hidden;
+        color: #273147;
+        font-size: 12px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .business-record-type {
+        margin-top: 4px;
+        overflow: hidden;
+        color: #9aa1af;
+        font-size: 9px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .business-category-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 9px;
+        background: #f2efff;
+        border-radius: 8px;
+        color: #6c58d8;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .business-location {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .business-location-icon {
+        color: #8d95a5;
+        font-size: 14px;
+    }
+
+    .business-location strong,
+    .business-location span:last-child {
+        display: block;
+    }
+
+    .business-location strong {
+        color: #525c70;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .business-location span:last-child {
+        margin-top: 3px;
+        color: #9aa1af;
+        font-size: 9px;
+    }
+
+    .business-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: 9px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .business-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .business-status-verified {
+        background: #eaf8f2;
+        color: #11976c;
+    }
+
+    .business-status-verified .business-status-dot {
+        background: #19b77f;
+    }
+
+    .business-status-pending {
+        background: #fff4e5;
+        color: #cf8122;
+    }
+
+    .business-status-pending .business-status-dot {
+        background: #e4a04c;
+    }
+
+    .business-status-inactive {
+        background: #f0f1f5;
+        color: #757e90;
+    }
+
+    .business-status-inactive .business-status-dot {
+        background: #9299a8;
+    }
+
+    .business-status-new {
+        background: #e9f3ff;
+        color: #3c7fc2;
+    }
+
+    .business-status-new .business-status-dot {
+        background: #4a91d9;
+    }
+
+    .businesses-actions-heading {
+        text-align: right !important;
+    }
+
+    .business-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .business-action-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 31px;
+        padding: 0 11px;
+        border-radius: 8px;
+        font-size: 9px;
+        font-weight: 800;
+        text-decoration: none;
+        transition:
+            transform 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .business-action-button:hover {
+        transform: translateY(-1px);
+    }
+
+    .business-view-button {
+        background: #f1effd;
+        border: 1px solid #e3dffc;
+        color: #6653d9;
+    }
+
+    .business-view-button:hover {
+        background: #e8e4fb;
+    }
+
+    .businesses-mobile-list {
+        display: none;
+    }
+
+    .businesses-no-results {
+        display: none;
+        padding: 54px 20px;
+        text-align: center;
+    }
+
+    .businesses-no-results-icon,
+    .businesses-empty-icon {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 16px;
+        color: #725ee5;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .businesses-no-results h3,
+    .businesses-empty-state h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .businesses-no-results p,
+    .businesses-empty-state p {
+        margin: 8px auto 0;
+        color: #9299a8;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .businesses-empty-state {
+        padding: 70px 20px;
+        text-align: center;
+    }
+
+    .businesses-empty-state p {
+        max-width: 440px;
+        margin-bottom: 20px;
+    }
+
+    .businesses-scout-panel {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        overflow: hidden;
+        padding: 22px;
+        background:
+            linear-gradient(
+                135deg,
+                #5e4de2 0%,
+                #7255e6 52%,
+                #8b5add 100%
+            );
+        border-radius: 16px;
+        color: #ffffff;
+        box-shadow: 0 18px 40px rgba(91, 73, 209, 0.2);
+    }
+
+    .businesses-scout-panel::after {
+        position: absolute;
+        top: -80px;
+        right: -40px;
+        width: 220px;
+        height: 220px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        content: "";
+    }
+
+    .businesses-scout-panel-icon {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 13px;
+        font-size: 20px;
+    }
+
+    .businesses-scout-panel-copy {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .businesses-scout-panel-label {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .businesses-scout-panel-copy h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .businesses-scout-panel-copy p:last-child {
+        max-width: 690px;
+        margin: 7px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .businesses-scout-panel-button {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 39px;
+        padding: 0 14px;
+        background: #ffffff;
+        border-radius: 9px;
+        color: #6652d9;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(51, 34, 132, 0.18);
+    }
+
+    @media (max-width: 1120px) {
+        .businesses-summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .businesses-health-panel {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .businesses-health-actions {
+            width: 100%;
+        }
+
+        .businesses-health-stat {
+            flex: 1;
+        }
+
+        .businesses-panel-header {
+            flex-direction: column;
+        }
+
+        .businesses-controls {
+            width: 100%;
+        }
+
+        .businesses-search-box {
+            flex: 1;
+            width: auto;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .businesses-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .businesses-header-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .businesses-maintenance-button,
+        .businesses-scout-button {
+            width: 100%;
+        }
+
+        .businesses-health-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .businesses-health-stat,
+        .businesses-health-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .businesses-summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .businesses-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .businesses-search-box,
+        .businesses-filter {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .businesses-table-wrapper {
+            display: none;
+        }
+
+        .businesses-mobile-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .business-mobile-card {
+            padding: 16px;
+            background: #fbfbfe;
+            border: 1px solid #eceef4;
+            border-radius: 12px;
+        }
+
+        .business-mobile-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .business-mobile-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin: 17px 0;
+        }
+
+        .business-mobile-details div {
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #eceef4;
+            border-radius: 9px;
+        }
+
+        .business-mobile-details span,
+        .business-mobile-details strong {
+            display: block;
+        }
+
+        .business-mobile-details span {
+            margin-bottom: 4px;
+            color: #9aa1af;
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .business-mobile-details strong {
+            color: #515b6f;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .business-mobile-card .business-action-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .businesses-scout-panel {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .businesses-scout-panel-copy {
+            flex-basis: calc(100% - 70px);
+        }
+
+        .businesses-scout-panel-button {
+            margin-left: 66px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .businesses-title {
+            font-size: 31px;
+        }
+
+        .businesses-panel {
+            padding: 17px;
+        }
+
+        .business-mobile-top {
+            flex-direction: column;
+        }
+
+        .business-mobile-details {
+            grid-template-columns: 1fr;
+        }
+
+        .businesses-scout-panel {
+            padding: 19px;
+        }
+
+        .businesses-scout-panel-copy {
+            flex-basis: 100%;
+        }
+
+        .businesses-scout-panel-button {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput =
+            document.getElementById("businessSearch");
+
+        const statusFilter =
+            document.getElementById("businessStatusFilter");
+
+        const desktopRows = Array.from(
+            document.querySelectorAll(".business-row")
+        );
+
+        const mobileCards = Array.from(
+            document.querySelectorAll(".business-mobile-card")
+        );
+
+        const noResults =
+            document.getElementById("businessesNoResults");
+
+
+        function matchesFilter(item, searchTerm, selectedStatus) {
+            const searchableText = [
+                item.dataset.businessName || "",
+                item.dataset.businessCategory || "",
+                item.dataset.businessCity || "",
+                item.dataset.businessState || ""
+            ].join(" ");
+
+            const businessStatus =
+                item.dataset.businessStatus || "";
+
+            const matchesSearch =
+                searchableText.includes(searchTerm);
+
+            let matchesStatus =
+                selectedStatus === "all";
+
+            if (selectedStatus === "review") {
+                matchesStatus = [
+                    "review",
+                    "needs review"
+                ].includes(businessStatus);
+            } else if (selectedStatus !== "all") {
+                matchesStatus =
+                    businessStatus === selectedStatus;
+            }
+
+            return matchesSearch && matchesStatus;
+        }
+
+
+        function filterBusinesses() {
+            const searchTerm = searchInput
+                ? searchInput.value.toLowerCase().trim()
+                : "";
+
+            const selectedStatus = statusFilter
+                ? statusFilter.value.toLowerCase()
+                : "all";
+
+
+            desktopRows.forEach(function (row) {
+                row.style.display = matchesFilter(
+                    row,
+                    searchTerm,
+                    selectedStatus
+                )
+                    ? ""
+                    : "none";
+            });
+
+
+            mobileCards.forEach(function (card) {
+                card.style.display = matchesFilter(
+                    card,
+                    searchTerm,
+                    selectedStatus
+                )
+                    ? ""
+                    : "none";
+            });
+
+
+            const visibleDesktopRows = desktopRows.filter(
+                function (row) {
+                    return row.style.display !== "none";
+                }
+            ).length;
+
+            const visibleMobileCards = mobileCards.filter(
+                function (card) {
+                    return card.style.display !== "none";
+                }
+            ).length;
+
+            const totalVisible = Math.max(
+                visibleDesktopRows,
+                visibleMobileCards
+            );
+
+            if (noResults) {
+                noResults.style.display =
+                    totalVisible === 0
+                        ? "block"
+                        : "none";
+            }
+        }
+
+
+        if (searchInput) {
+            searchInput.addEventListener(
+                "input",
+                filterBusinesses
+            );
+        }
+
+        if (statusFilter) {
+            statusFilter.addEventListener(
+                "change",
+                filterBusinesses
+            );
+        }
+    });
+</script>
+
+{% endblock %}

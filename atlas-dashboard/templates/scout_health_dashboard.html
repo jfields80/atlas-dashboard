@@ -1,0 +1,112 @@
+={% extends "base.html" %}
+
+{% block content %}
+
+<div class="atlas-hero">
+  <div>
+    <div class="op-eyebrow">Scout Intelligence</div>
+    <h1>System Overview</h1>
+    <p>Global intelligence view across all opportunities</p>
+  </div>
+</div>
+
+<!-- SYSTEM HEALTH METRICS (FIXED) -->
+<div class="atlas-metrics">
+
+  <div class="atlas-metric">
+    <span>Total Opportunities</span>
+    <strong>{{ opportunities|length }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Scouted</span>
+    <strong>{{ opportunities|selectattr("run_count")|list|length }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Avg Stability</span>
+    <strong>
+      {{
+        (opportunities
+        |selectattr("stability")
+        |map(attribute="stability")
+        |sum / (opportunities|length or 1)
+        )|round(2)
+      }}
+    </strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>High Risk</span>
+    <strong>
+      {{ opportunities|selectattr("trend", "equalto", "degrading")|list|length }}
+    </strong>
+  </div>
+
+</div>
+
+<!-- INTELLIGENCE RISK & HEALTH -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">Intelligence Risk & Health</div>
+  
+  {% for o in opportunities %}
+  <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #eee;">
+    
+    <div>
+      <strong>{{ o.name }}</strong><br>
+      <small class="text-muted">DNA: {{ o.dna }}</small>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+
+      {% if o.trend == "degrading" %}
+        <span class="atlas-badge atlas-badge--yellow">DEGRADING</span>
+      {% else %}
+        <span class="atlas-badge atlas-badge--green">STABLE</span>
+      {% endif %}
+
+      <span class="atlas-badge atlas-badge--blue">
+        Drift {{ o.drift|default(0)|round(2) }}
+      </span>
+
+      <span class="atlas-badge atlas-badge--blue">
+        Stability {{ o.stability|default(0) }}
+      </span>
+
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+<!-- HIGH CONFIDENCE OPPORTUNITIES -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">High Confidence Opportunities</div>
+
+  {% for o in opportunities if o.status == "BUILD" %}
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+    <div>
+      <strong>{{ o.name }}</strong><br>
+      <small class="text-muted">{{ o.dna }}</small>
+    </div>
+    <div><span class="atlas-badge atlas-badge--green">BUILD</span></div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- NEEDS VERIFICATION -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">Needs Scout Verification</div>
+
+  {% for o in opportunities if not o.run_count %}
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+    <div>
+      <strong>{{ o.name }}</strong><br>
+      <small class="text-muted">{{ o.dna }}</small>
+    </div>
+    <div><span class="atlas-badge atlas-badge--yellow">UNSCANNED</span></div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

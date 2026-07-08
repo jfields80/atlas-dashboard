@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="atlas-hero">
+  <div>
+    <div class="op-eyebrow">Scout Intelligence</div>
+    <h1>System Overview</h1>
+    <p>Global intelligence view across all opportunities</p>
+  </div>
+</div>
+
+<!-- SYSTEM HEALTH -->
+<div class="atlas-metrics">
+
+  <div class="atlas-metric">
+    <span>Total Opportunities</span>
+    <strong>{{ opportunities|length }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Active Scout Coverage</span>
+    <strong>
+      {{ opportunities|selectattr("latest_data_quality")|list|length }}
+    </strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Verified Markets</span>
+    <strong>
+      {{ opportunities|selectattr("latest_data_quality", "equalto", "verified")|list|length }}
+    </strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Build Candidates</span>
+    <strong>
+      {{ opportunities|selectattr("latest_recommendation", "equalto", "BUILD")|list|length }}
+    </strong>
+  </div>
+
+</div>
+
+<!-- VERIFIED OPPORTUNITIES -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">High Confidence Opportunities</div>
+
+  {% for o in opportunities if o.latest_recommendation == "BUILD" %}
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+    <div>
+      <strong>{{ o.display_name }}</strong><br>
+      <small class="text-muted">{{ o.asset_type }}</small>
+    </div>
+
+    <div>
+      <span class="atlas-badge atlas-badge--green">BUILD</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ESTIMATED / WEAK -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">Needs Scout Verification</div>
+
+  {% for o in opportunities if o.latest_data_quality == "heuristic" %}
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+    <div>
+      <strong>{{ o.display_name }}</strong><br>
+      <small class="text-muted">{{ o.dna_slug }}</small>
+    </div>
+
+    <div>
+      <span class="atlas-badge atlas-badge--yellow">HEURISTIC</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- SCOUT GAPS -->
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">No Scout Data</div>
+
+  {% for o in opportunities if not o.latest_data_quality %}
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+    <div>
+      <strong>{{ o.display_name }}</strong>
+    </div>
+
+    <div>
+      <span class="atlas-badge atlas-badge--blue">UNSCANNED</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

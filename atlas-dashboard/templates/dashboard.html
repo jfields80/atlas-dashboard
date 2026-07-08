@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="atlas-page">
+
+    <!-- PAGE HEADER -->
+    <section class="atlas-page-header">
+        <div>
+            <p class="atlas-eyebrow">OVERVIEW</p>
+
+            <h1 class="atlas-page-title">Atlas Command Center</h1>
+
+            <p class="atlas-page-subtitle">
+                AI operating system for discovering, scoring, and building
+                profitable directory businesses.
+            </p>
+        </div>
+
+        <div class="atlas-page-actions">
+            <a href="/scout" class="atlas-btn atlas-btn-primary">
+                ⌕ Run Opportunity Scan
+            </a>
+            <a href="/opportunities/" class="atlas-btn atlas-btn-secondary">
+                View Opportunities
+            </a>
+        </div>
+    </section>
+
+
+    <!-- KPI ROW -->
+    <section class="atlas-kpi-grid" style="margin-bottom:22px;">
+
+        <a href="/projects" class="atlas-kpi-card" style="text-decoration:none;">
+            <div class="atlas-kpi-label">Active Projects</div>
+            <div class="atlas-kpi-value">
+                {{ active_project_count if active_project_count is defined else 2 }}
+            </div>
+            <div class="atlas-kpi-sub atlas-kpi-positive">1 in progress</div>
+        </a>
+
+        <a href="/opportunities/" class="atlas-kpi-card" style="text-decoration:none;">
+            <div class="atlas-kpi-label">Opportunities Tracked</div>
+            <div class="atlas-kpi-value">
+                {{ opportunity_count if opportunity_count is defined else "—" }}
+            </div>
+            <div class="atlas-kpi-sub">Across all DNA streams</div>
+        </a>
+
+        <a href="/businesses" class="atlas-kpi-card" style="text-decoration:none;">
+            <div class="atlas-kpi-label">Businesses Collected</div>
+            <div class="atlas-kpi-value">
+                {{ business_count if business_count is defined else 0 }}
+            </div>
+            <div class="atlas-kpi-sub">Waiting for Scout</div>
+        </a>
+
+        <a href="/scout" class="atlas-kpi-card" style="text-decoration:none;">
+            <div class="atlas-kpi-label">Scout Runs</div>
+            <div class="atlas-kpi-value">
+                {{ scout_run_count if scout_run_count is defined else 0 }}
+            </div>
+            <div class="atlas-kpi-sub">Total research runs</div>
+        </a>
+
+        <a href="/employees" class="atlas-kpi-card" style="text-decoration:none;">
+            <div class="atlas-kpi-label">AI Employees</div>
+            <div class="atlas-kpi-value">
+                {{ ai_employee_count if ai_employee_count is defined else 1 }}
+            </div>
+            <div class="atlas-kpi-sub atlas-kpi-positive">Scout available</div>
+        </a>
+
+    </section>
+
+
+    <!-- MAIN GRID: Opportunity Pipeline + System Status -->
+    <section class="atlas-two-column" style="grid-template-columns: minmax(0,1.6fr) minmax(280px,1fr); margin-bottom:22px;">
+
+        <!-- OPPORTUNITY PIPELINE -->
+        <div class="atlas-card">
+            <div class="atlas-card-header">
+                <div>
+                    <h2 class="atlas-card-title">Opportunity Pipeline</h2>
+                    <p class="atlas-card-subtitle">
+                        Newest opportunities discovered and scored by Atlas.
+                    </p>
+                </div>
+                <a href="/opportunities/" class="atlas-btn atlas-btn-ghost atlas-btn-sm">View all →</a>
+            </div>
+
+            <div class="atlas-card-body">
+                {% if top_opportunities %}
+                    <div class="atlas-table-wrap">
+                        <table class="atlas-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Recommendation</th>
+                                    <th>Confidence</th>
+                                    <th>Revenue Est.</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for opp in top_opportunities %}
+                                <tr>
+                                    <td>
+                                        <a href="/opportunities/{{ opp.id }}">{{ opp.name }}</a>
+                                    </td>
+                                    <td>
+                                        <span class="atlas-badge atlas-badge-{{ opp.recommendation|lower if opp.recommendation else 'defer' }}">
+                                            {{ opp.recommendation or "—" }}
+                                        </span>
+                                    </td>
+                                    <td>{{ opp.confidence if opp.confidence is defined else "—" }}</td>
+                                    <td>{{ opp.revenue_estimate if opp.revenue_estimate is defined else "—" }}</td>
+                                    <td class="atlas-muted">{{ opp.status or "—" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="atlas-empty-card">
+                        <div class="atlas-empty-card-icon">✧</div>
+                        <div class="atlas-empty-card-title">No opportunities yet</div>
+                        <div class="atlas-empty-card-text">
+                            Run a Scout scan to discover and score your first opportunities.
+                        </div>
+                        <a href="/scout" class="atlas-btn atlas-btn-primary atlas-btn-sm" style="margin-top:14px;">
+                            Run Opportunity Scan
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- SYSTEM STATUS -->
+        <div class="atlas-card">
+            <div class="atlas-card-header">
+                <div>
+                    <h2 class="atlas-card-title">Atlas System Status</h2>
+                    <p class="atlas-card-subtitle">Core services and job health.</p>
+                </div>
+            </div>
+
+            <div class="atlas-card-body atlas-stack">
+                <div class="atlas-cluster" style="justify-content:space-between;">
+                    <span>Scout AI</span>
+                    <span class="atlas-badge atlas-badge-success">● Online</span>
+                </div>
+                <div class="atlas-cluster" style="justify-content:space-between;">
+                    <span>Sources</span>
+                    <span class="atlas-badge atlas-badge-success">● Connected</span>
+                </div>
+                <div class="atlas-cluster" style="justify-content:space-between;">
+                    <span>Database</span>
+                    <span class="atlas-badge atlas-badge-success">● Online</span>
+                </div>
+                <div class="atlas-cluster" style="justify-content:space-between;">
+                    <span>Job Queue</span>
+                    <span class="atlas-badge atlas-badge-muted">○ Idle</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- AI WORKFORCE -->
+    <section class="atlas-card" style="margin-bottom:22px;">
+        <div class="atlas-card-header">
+            <div>
+                <h2 class="atlas-card-title">AI Workforce</h2>
+                <p class="atlas-card-subtitle">Agents working across your Atlas portfolio.</p>
+            </div>
+            <a href="/employees" class="atlas-btn atlas-btn-ghost atlas-btn-sm">Manage →</a>
+        </div>
+
+        <div class="atlas-card-body atlas-card-grid">
+
+            <div class="atlas-card" style="box-shadow:none;">
+                <div class="atlas-card-body">
+                    <div class="atlas-cluster" style="justify-content:space-between; margin-bottom:10px;">
+                        <strong>Scout</strong>
+                        <span class="atlas-badge atlas-badge-success">Available</span>
+                    </div>
+                    <p class="atlas-muted" style="font-size:12px;">Researches niches and discovers businesses.</p>
+                </div>
+            </div>
+
+            <div class="atlas-card" style="box-shadow:none;">
+                <div class="atlas-card-body">
+                    <div class="atlas-cluster" style="justify-content:space-between; margin-bottom:10px;">
+                        <strong>Builder</strong>
+                        <span class="atlas-badge atlas-badge-muted">Idle</span>
+                    </div>
+                    <p class="atlas-muted" style="font-size:12px;">Builds selected directory projects.</p>
+                </div>
+            </div>
+
+            <div class="atlas-card" style="box-shadow:none;">
+                <div class="atlas-card-body">
+                    <div class="atlas-cluster" style="justify-content:space-between; margin-bottom:10px;">
+                        <strong>Analyst</strong>
+                        <span class="atlas-badge atlas-badge-muted">Idle</span>
+                    </div>
+                    <p class="atlas-muted" style="font-size:12px;">Scores and ranks opportunities.</p>
+                </div>
+            </div>
+
+            <div class="atlas-card" style="box-shadow:none;">
+                <div class="atlas-card-body">
+                    <div class="atlas-cluster" style="justify-content:space-between; margin-bottom:10px;">
+                        <strong>Verifier</strong>
+                        <span class="atlas-badge atlas-badge-muted">Idle</span>
+                    </div>
+                    <p class="atlas-muted" style="font-size:12px;">Confirms data quality on evidence.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- RECENT ACTIVITY + NEXT BEST ACTIONS -->
+    <section class="atlas-two-column" style="margin-bottom:22px;">
+
+        <div class="atlas-card">
+            <div class="atlas-card-header">
+                <div>
+                    <h2 class="atlas-card-title">Recent Activity</h2>
+                    <p class="atlas-card-subtitle">Latest activity across your Atlas workspace.</p>
+                </div>
+                <a href="/analytics" class="atlas-btn atlas-btn-ghost atlas-btn-sm">View all →</a>
+            </div>
+
+            <div class="atlas-card-body">
+                {% if recent_activity %}
+                    <div class="atlas-timeline">
+                        {% for item in recent_activity %}
+                        <div class="atlas-timeline-item">
+                            <div class="atlas-badge atlas-badge-muted">{{ item.type or "—" }}</div>
+                            <div>
+                                <strong>{{ item.title }}</strong>
+                                <p class="atlas-muted" style="font-size:12px; margin-top:4px;">{{ item.description }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="atlas-timeline">
+                        <div class="atlas-timeline-item">
+                            <div class="atlas-badge atlas-badge-muted">◇</div>
+                            <div>
+                                <strong>Pet Stores category created</strong>
+                                <p class="atlas-muted" style="font-size:12px; margin-top:4px;">A new directory category was added to the Atlas knowledge engine.</p>
+                            </div>
+                        </div>
+                        <div class="atlas-timeline-item">
+                            <div class="atlas-badge atlas-badge-muted">⌕</div>
+                            <div>
+                                <strong>Scout AI is ready</strong>
+                                <p class="atlas-muted" style="font-size:12px; margin-top:4px;">Scout is available to research niches and discover businesses.</p>
+                            </div>
+                        </div>
+                        <div class="atlas-timeline-item">
+                            <div class="atlas-badge atlas-badge-muted">▣</div>
+                            <div>
+                                <strong>PetTripFinder project active</strong>
+                                <p class="atlas-muted" style="font-size:12px; margin-top:4px;">Your pet-friendly travel directory remains active and ready to build.</p>
+                            </div>
+                        </div>
+                        <div class="atlas-timeline-item">
+                            <div class="atlas-badge atlas-badge-muted">✓</div>
+                            <div>
+                                <strong>Atlas database initialized</strong>
+                                <p class="atlas-muted" style="font-size:12px; margin-top:4px;">The Atlas database and core operating system are connected.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="atlas-card">
+            <div class="atlas-card-header">
+                <div>
+                    <h2 class="atlas-card-title">Next Best Actions</h2>
+                    <p class="atlas-card-subtitle">What Atlas recommends right now.</p>
+                </div>
+            </div>
+
+            <div class="atlas-card-body atlas-stack">
+                <a href="/scout" class="atlas-btn atlas-btn-secondary atlas-btn-block" style="justify-content:space-between;">
+                    Run Scout on unverified opportunities <span>→</span>
+                </a>
+                <a href="/opportunities/" class="atlas-btn atlas-btn-secondary atlas-btn-block" style="justify-content:space-between;">
+                    Review BUILD candidates <span>→</span>
+                </a>
+                <a href="/sources" class="atlas-btn atlas-btn-secondary atlas-btn-block" style="justify-content:space-between;">
+                    Add sources <span>→</span>
+                </a>
+                <a href="/projects" class="atlas-btn atlas-btn-secondary atlas-btn-block" style="justify-content:space-between;">
+                    Build selected project <span>→</span>
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ACTIVE PROJECTS -->
+    <section class="atlas-card">
+        <div class="atlas-card-header">
+            <div>
+                <h2 class="atlas-card-title">Active Projects</h2>
+                <p class="atlas-card-subtitle">Monitor the progress of your Atlas directory portfolio.</p>
+            </div>
+            <a href="/projects" class="atlas-btn atlas-btn-ghost atlas-btn-sm">Manage projects →</a>
+        </div>
+
+        <div class="atlas-card-body">
+            <div class="atlas-table-wrap">
+                <table class="atlas-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Build Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="/projects"><strong>PetTripFinder</strong></a>
+                                <div class="atlas-muted" style="font-size:11px; margin-top:3px;">
+                                    Pet-friendly travel and destination directory
+                                </div>
+                            </td>
+                            <td class="atlas-muted">Travel Directory</td>
+                            <td><span class="atlas-badge atlas-badge-success">Active</span></td>
+                            <td style="min-width:160px;">
+                                <div class="atlas-mono" style="font-size:11px; margin-bottom:6px;">35%</div>
+                                <div style="height:5px; background:var(--atlas-border); border-radius:999px; overflow:hidden;">
+                                    <div style="height:100%; width:35%; background:linear-gradient(90deg,var(--atlas-purple),#8f75ef);"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="/projects"><strong>Dog Bakery</strong></a>
+                                <div class="atlas-muted" style="font-size:11px; margin-top:3px;">
+                                    Specialty dog bakery and treat marketplace
+                                </div>
+                            </td>
+                            <td class="atlas-muted">Food Marketplace</td>
+                            <td><span class="atlas-badge atlas-badge-warning">Planning</span></td>
+                            <td style="min-width:160px;">
+                                <div class="atlas-mono" style="font-size:11px; margin-bottom:6px;">10%</div>
+                                <div style="height:5px; background:var(--atlas-border); border-radius:999px; overflow:hidden;">
+                                    <div style="height:100%; width:10%; background:linear-gradient(90deg,#dda04e,#efbe74);"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

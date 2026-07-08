@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Run Analysis — Atlas{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+  <div class="oc-breadcrumb mb-1">
+    <a href="{{ url_for('opportunities.list_opportunities') }}">Opportunities</a>
+    <span class="oc-breadcrumb-sep">/</span>
+    <span>New Analysis</span>
+  </div>
+  <h1 class="page-title mt-1">Run Opportunity Analysis</h1>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header oc-card-header">Analysis Parameters</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('opportunities.run_scout') }}">
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Seed Niche <span class="text-danger">*</span></label>
+            <input type="text" name="seed_niche" class="form-control"
+                   placeholder="e.g. pet-friendly travel, dog bakeries, therapists"
+                   required autofocus>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">DNA Profile <span class="text-danger">*</span></label>
+            <select name="dna_slug" class="form-select" required>
+              <option value="">— Select a DNA profile —</option>
+              {% for dna in dna_options %}
+                <option value="{{ dna.slug }}">{{ dna.display_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Data Quality</label>
+            <select name="data_quality" class="form-select">
+              <option value="heuristic">Heuristic — instant, no API calls, confidence capped at 45%</option>
+              <option value="verified">Verified — uses Scout data (requires Scout configuration)</option>
+            </select>
+            <div class="form-text">
+              Heuristic mode cannot recommend BUILD. Run Scout after to unlock verified scoring.
+            </div>
+          </div>
+
+          <details class="mb-4">
+            <summary class="text-muted small fw-semibold" style="cursor:pointer; list-style:none; user-select:none;">
+              ▸ Advanced Parameters
+            </summary>
+            <div class="row g-3 mt-1">
+              <div class="col-6">
+                <label class="form-label small">Max Nodes</label>
+                <input type="number" name="max_nodes" value="200" min="50" max="500" class="form-control form-control-sm">
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Beam Width</label>
+                <input type="number" name="beam_width" value="5" min="2" max="10" class="form-control form-control-sm">
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Max Depth</label>
+                <input type="number" name="max_depth" value="4" min="1" max="6" class="form-control form-control-sm">
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Max Competition (0–100)</label>
+                <input type="number" name="max_competition" value="60" min="10" max="95" class="form-control form-control-sm">
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Min Business Count</label>
+                <input type="number" name="min_business_count" value="15" min="5" max="200" class="form-control form-control-sm">
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Min Directory Weakness</label>
+                <input type="number" name="min_directory_weakness" value="45" min="10" max="95" class="form-control form-control-sm">
+              </div>
+            </div>
+          </details>
+
+          <div class="d-flex gap-2 justify-content-end">
+            <a href="{{ url_for('opportunities.list_opportunities') }}" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Run Analysis →</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card border-warning">
+      <div class="card-header oc-card-header oc-card-header--warn">Heuristic Mode Note</div>
+      <div class="card-body small text-muted">
+        <p>Heuristic mode runs instantly with no external API calls. Scores are structural
+        estimates based on niche specificity and the loaded DNA profile — not verified
+        market data.</p>
+        <ul class="mb-2">
+          <li>Confidence is capped at 45%</li>
+          <li>BUILD recommendations are disabled</li>
+          <li>Revenue estimates are conservative defaults</li>
+        </ul>
+        <p class="mb-0">Run Scout after analysis to lift the cap with real business
+        counts, SERP data, and competitor audits.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Opportunity Center{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Opportunity Center</h1>
+        <p class="page-subtitle">
+            Saved business opportunities Atlas has discovered.
+        </p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Opportunities</h2>
+
+    {% if opportunities %}
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Market</th>
+                <th>Status</th>
+                <th>Source</th>
+                <th>Action</th>
+            </tr>
+
+            {% for opportunity in opportunities %}
+            <tr>
+                <td>{{ opportunity.name }}</td>
+                <td>{{ opportunity.market }}</td>
+                <td>{{ opportunity.status }}</td>
+                <td>{{ opportunity.source }}</td>
+                <td>
+                    <a href="/opportunities/{{ opportunity.id }}">
+                        View
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+
+        <p>No opportunities saved yet.</p>
+
+    {% endif %}
+</div>
+
+{% endblock %}

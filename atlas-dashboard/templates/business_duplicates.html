@@ -1,0 +1,1196 @@
+{% extends "base.html" %}
+
+{% block title %}Duplicate Businesses | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="duplicate-page">
+
+    <section class="duplicate-header">
+
+        <div>
+            <a href="/businesses" class="duplicate-back-link">
+                <span>←</span>
+                Back to Businesses
+            </a>
+
+            <p class="duplicate-eyebrow">
+                DATABASE MAINTENANCE
+            </p>
+
+            <h1 class="duplicate-title">
+                Duplicate Review
+            </h1>
+
+            <p class="duplicate-subtitle">
+                Review business records Atlas believes are duplicates before
+                any data is merged or removed.
+            </p>
+        </div>
+
+        <div class="duplicate-status-card">
+
+            <span class="duplicate-status-dot"></span>
+
+            <div>
+                <span>Review Mode</span>
+                <strong>Safe Preview</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="duplicate-summary-grid">
+
+        <div class="duplicate-summary-card">
+
+            <div class="duplicate-summary-icon summary-icon-records">
+                ▤
+            </div>
+
+            <div>
+                <span class="duplicate-summary-label">
+                    Total Records
+                </span>
+
+                <strong class="duplicate-summary-value">
+                    {{ duplicate_summary.business_count }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="duplicate-summary-card">
+
+            <div class="duplicate-summary-icon summary-icon-groups">
+                ◇
+            </div>
+
+            <div>
+                <span class="duplicate-summary-label">
+                    Duplicate Groups
+                </span>
+
+                <strong class="duplicate-summary-value">
+                    {{ duplicate_summary.group_count }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="duplicate-summary-card">
+
+            <div class="duplicate-summary-icon summary-icon-duplicates">
+                !
+            </div>
+
+            <div>
+                <span class="duplicate-summary-label">
+                    Duplicate Records
+                </span>
+
+                <strong class="duplicate-summary-value">
+                    {{ duplicate_summary.duplicate_record_count }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="duplicate-summary-card">
+
+            <div class="duplicate-summary-icon summary-icon-after">
+                ✓
+            </div>
+
+            <div>
+                <span class="duplicate-summary-label">
+                    Records After Cleanup
+                </span>
+
+                <strong class="duplicate-summary-value">
+                    {{
+                        duplicate_summary.business_count
+                        - duplicate_summary.duplicate_record_count
+                    }}
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="duplicate-warning-card">
+
+        <div class="duplicate-warning-icon">
+            !
+        </div>
+
+        <div>
+            <strong>
+                Nothing has been deleted.
+            </strong>
+
+            <p>
+                This page is a review-only preview. Atlas groups records when
+                the project, normalized business name, city, and state match.
+            </p>
+        </div>
+
+    </section>
+
+
+    {% if duplicate_groups %}
+
+    <section class="duplicate-toolbar">
+
+        <div>
+
+            <p class="duplicate-panel-eyebrow">
+                MATCHED RECORDS
+            </p>
+
+            <h2>
+                Review Detected Duplicate Groups
+            </h2>
+
+            <p>
+                The green record is the version Atlas currently recommends
+                keeping.
+            </p>
+
+        </div>
+
+
+        <div class="duplicate-search-box">
+
+            <span>⌕</span>
+
+            <input
+                type="text"
+                id="duplicateSearch"
+                placeholder="Search duplicate groups..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </section>
+
+
+    <div class="duplicate-group-list" id="duplicateGroupList">
+
+        {% for group in duplicate_groups %}
+
+        <article
+            class="duplicate-group-card"
+            data-business-name="{{ group.business_name|lower }}"
+            data-business-city="{{ group.city|lower }}"
+            data-business-state="{{ group.state|lower }}"
+        >
+
+            <div class="duplicate-group-header">
+
+                <div class="duplicate-group-identity">
+
+                    <div class="duplicate-group-avatar">
+                        {{ group.business_name[0]|upper }}
+                    </div>
+
+                    <div>
+                        <h2>
+                            {{ group.business_name }}
+                        </h2>
+
+                        <p>
+                            {{ group.city or "Unknown city" }},
+                            {{ group.state or "Unknown state" }}
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="duplicate-group-count">
+
+                    <span>
+                        {{ group.record_count }} records
+                    </span>
+
+                    <strong>
+                        {{ group.duplicate_count }} duplicate{% if group.duplicate_count != 1 %}s{% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="duplicate-record-grid">
+
+                <section class="duplicate-record duplicate-record-keep">
+
+                    <div class="duplicate-record-heading">
+
+                        <span class="duplicate-record-badge keep-badge">
+                            Recommended Keep
+                        </span>
+
+                        <span class="duplicate-record-id">
+                            Record #{{ group.keep_record.id }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="duplicate-record-fields">
+
+                        <div>
+                            <span>Business Name</span>
+                            <strong>
+                                {{ group.keep_record.business_name or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Category</span>
+                            <strong>
+                                {{ group.keep_record.category or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>City</span>
+                            <strong>
+                                {{ group.keep_record.city or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>State</span>
+                            <strong>
+                                {{ group.keep_record.state or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Phone</span>
+                            <strong>
+                                {{ group.keep_record.phone or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Website</span>
+                            <strong class="duplicate-field-wrap">
+                                {{ group.keep_record.website or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Status</span>
+                            <strong>
+                                {{ group.keep_record.status or "—" }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Project ID</span>
+                            <strong>
+                                {{ group.keep_record.project_id or "—" }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="duplicate-remove-column">
+
+                    {% for record in group.remove_records %}
+
+                    <div class="duplicate-record duplicate-record-remove">
+
+                        <div class="duplicate-record-heading">
+
+                            <span class="duplicate-record-badge remove-badge">
+                                Duplicate
+                            </span>
+
+                            <span class="duplicate-record-id">
+                                Record #{{ record.id }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="duplicate-record-fields">
+
+                            <div>
+                                <span>Business Name</span>
+                                <strong>
+                                    {{ record.business_name or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Category</span>
+                                <strong>
+                                    {{ record.category or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>City</span>
+                                <strong>
+                                    {{ record.city or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>State</span>
+                                <strong>
+                                    {{ record.state or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Phone</span>
+                                <strong>
+                                    {{ record.phone or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Website</span>
+                                <strong class="duplicate-field-wrap">
+                                    {{ record.website or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Status</span>
+                                <strong>
+                                    {{ record.status or "—" }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Project ID</span>
+                                <strong>
+                                    {{ record.project_id or "—" }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </section>
+
+            </div>
+
+
+            <div class="duplicate-merge-note">
+
+                <span class="duplicate-merge-note-icon">
+                    ✦
+                </span>
+
+                <p>
+                    During cleanup, Atlas will preserve the strongest available
+                    category, phone, website, status, city, and state values in
+                    the recommended record.
+                </p>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div
+        class="duplicate-no-results"
+        id="duplicateNoResults"
+    >
+
+        <div class="duplicate-no-results-icon">
+            ⌕
+        </div>
+
+        <h2>
+            No matching duplicate groups
+        </h2>
+
+        <p>
+            Try searching for another business name or location.
+        </p>
+
+    </div>
+
+
+    <section class="duplicate-action-card">
+
+        <div>
+
+            <p class="duplicate-action-eyebrow">
+                NEXT STEP
+            </p>
+
+            <h2>
+                Review complete?
+            </h2>
+
+            <p>
+                Cleanup execution is still locked. The next step will add a
+                confirmation screen and automatic database backup before any
+                records are merged.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="duplicate-locked-button"
+            disabled
+        >
+            Cleanup Locked
+        </button>
+
+    </section>
+
+    {% else %}
+
+    <section class="duplicate-empty-state">
+
+        <div class="duplicate-empty-icon">
+            ✓
+        </div>
+
+        <h2>
+            No duplicate businesses detected
+        </h2>
+
+        <p>
+            Atlas found no records sharing the same project, business name,
+            city, and state.
+        </p>
+
+        <a href="/businesses" class="duplicate-return-button">
+            Return to Businesses
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+    .duplicate-page {
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .duplicate-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .duplicate-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 20px;
+        color: #7b8496;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .duplicate-back-link:hover {
+        color: #6753df;
+    }
+
+    .duplicate-eyebrow,
+    .duplicate-panel-eyebrow,
+    .duplicate-action-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .duplicate-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .duplicate-subtitle {
+        max-width: 760px;
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .duplicate-status-card {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 170px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .duplicate-status-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        background: #e3a342;
+        border: 3px solid #fff1d9;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .duplicate-status-card span,
+    .duplicate-status-card strong {
+        display: block;
+    }
+
+    .duplicate-status-card div > span {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .duplicate-status-card strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .duplicate-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 20px;
+    }
+
+    .duplicate-summary-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .duplicate-summary-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .summary-icon-records {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .summary-icon-groups {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .summary-icon-duplicates {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .summary-icon-after {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .duplicate-summary-label,
+    .duplicate-summary-value {
+        display: block;
+    }
+
+    .duplicate-summary-label {
+        margin-bottom: 4px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .duplicate-summary-value {
+        color: #202a40;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .duplicate-warning-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 22px;
+        padding: 16px 18px;
+        background: #fffaf0;
+        border: 1px solid #f1dfbc;
+        border-radius: 13px;
+    }
+
+    .duplicate-warning-icon {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        place-items: center;
+        background: #fff0cf;
+        border-radius: 9px;
+        color: #bf7c1e;
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    .duplicate-warning-card strong {
+        display: block;
+        color: #71511f;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .duplicate-warning-card p {
+        margin: 5px 0 0;
+        color: #9b7a47;
+        font-size: 10px;
+        line-height: 1.55;
+    }
+
+    .duplicate-toolbar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 16px;
+        padding: 20px 22px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.04);
+    }
+
+    .duplicate-toolbar h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .duplicate-toolbar p:last-child {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 11px;
+        line-height: 1.55;
+    }
+
+    .duplicate-search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 250px;
+        height: 40px;
+        padding: 0 12px;
+        background: #f9fafc;
+        border: 1px solid #e6e9f0;
+        border-radius: 10px;
+    }
+
+    .duplicate-search-box > span {
+        color: #9ca3b1;
+        font-size: 15px;
+    }
+
+    .duplicate-search-box input {
+        width: 100%;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: #313b50;
+        font-size: 11px;
+    }
+
+    .duplicate-group-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .duplicate-group-card {
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .duplicate-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 18px 20px;
+        background: #fafafd;
+        border-bottom: 1px solid #eceef4;
+    }
+
+    .duplicate-group-identity {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .duplicate-group-avatar {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        background: linear-gradient(135deg, #5f4ee3, #8b6bef);
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    .duplicate-group-identity h2 {
+        margin: 0;
+        color: #283247;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .duplicate-group-identity p {
+        margin: 4px 0 0;
+        color: #949ba9;
+        font-size: 9px;
+    }
+
+    .duplicate-group-count {
+        text-align: right;
+    }
+
+    .duplicate-group-count span,
+    .duplicate-group-count strong {
+        display: block;
+    }
+
+    .duplicate-group-count span {
+        color: #9299a8;
+        font-size: 9px;
+    }
+
+    .duplicate-group-count strong {
+        margin-top: 4px;
+        color: #c8782c;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .duplicate-record-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .duplicate-remove-column {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-width: 0;
+    }
+
+    .duplicate-record {
+        min-width: 0;
+        padding: 16px;
+        border-radius: 13px;
+    }
+
+    .duplicate-record-keep {
+        background: #f4fcf8;
+        border: 1px solid #cfeede;
+    }
+
+    .duplicate-record-remove {
+        background: #fff8f8;
+        border: 1px solid #f1dcdc;
+    }
+
+    .duplicate-record-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .duplicate-record-badge {
+        display: inline-flex;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .keep-badge {
+        background: #dff5e9;
+        color: #11845f;
+    }
+
+    .remove-badge {
+        background: #fde7e9;
+        color: #bd5263;
+    }
+
+    .duplicate-record-id {
+        color: #9aa1af;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .duplicate-record-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .duplicate-record-fields div {
+        min-width: 0;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(224, 228, 236, 0.8);
+        border-radius: 9px;
+    }
+
+    .duplicate-record-fields span,
+    .duplicate-record-fields strong {
+        display: block;
+    }
+
+    .duplicate-record-fields span {
+        margin-bottom: 5px;
+        color: #9aa1af;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .duplicate-record-fields strong {
+        overflow: hidden;
+        color: #4a5468;
+        font-size: 9px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .duplicate-field-wrap {
+        overflow-wrap: anywhere;
+        white-space: normal !important;
+    }
+
+    .duplicate-merge-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 0 18px 18px;
+        padding: 12px 14px;
+        background: #f5f3ff;
+        border: 1px solid #e6e1fb;
+        border-radius: 10px;
+    }
+
+    .duplicate-merge-note-icon {
+        color: #6b56df;
+        font-size: 14px;
+    }
+
+    .duplicate-merge-note p {
+        margin: 0;
+        color: #766da0;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .duplicate-no-results {
+        display: none;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .duplicate-no-results-icon,
+    .duplicate-empty-icon {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 16px;
+        color: #725ee5;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .duplicate-no-results h2,
+    .duplicate-empty-state h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .duplicate-no-results p,
+    .duplicate-empty-state p {
+        max-width: 540px;
+        margin: 8px auto 0;
+        color: #9299a8;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .duplicate-action-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-top: 20px;
+        padding: 22px;
+        background: linear-gradient(
+            135deg,
+            #5e4de2 0%,
+            #7255e6 52%,
+            #8b5add 100%
+        );
+        border-radius: 16px;
+        color: #ffffff;
+        box-shadow: 0 18px 40px rgba(91, 73, 209, 0.2);
+    }
+
+    .duplicate-action-eyebrow {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .duplicate-action-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+    .duplicate-action-card p:last-child {
+        max-width: 760px;
+        margin: 7px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .duplicate-locked-button {
+        flex: 0 0 auto;
+        min-height: 40px;
+        padding: 0 15px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 9px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 9px;
+        font-weight: 800;
+        cursor: not-allowed;
+    }
+
+    .duplicate-empty-state {
+        padding: 75px 20px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .duplicate-empty-icon {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .duplicate-return-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 39px;
+        margin-top: 20px;
+        padding: 0 15px;
+        background: #f0edff;
+        border-radius: 9px;
+        color: #6653d9;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    @media (max-width: 1050px) {
+        .duplicate-summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .duplicate-record-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .duplicate-header,
+        .duplicate-toolbar,
+        .duplicate-action-card {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .duplicate-status-card {
+            width: fit-content;
+        }
+
+        .duplicate-search-box {
+            width: 100%;
+        }
+
+        .duplicate-group-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .duplicate-group-count {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .duplicate-summary-grid,
+        .duplicate-record-fields {
+            grid-template-columns: 1fr;
+        }
+
+        .duplicate-title {
+            font-size: 31px;
+        }
+
+        .duplicate-record-grid {
+            padding: 12px;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput =
+            document.getElementById("duplicateSearch");
+
+        const duplicateGroups = Array.from(
+            document.querySelectorAll(
+                ".duplicate-group-card"
+            )
+        );
+
+        const noResults =
+            document.getElementById("duplicateNoResults");
+
+
+        function filterDuplicateGroups() {
+            const searchTerm = searchInput
+                ? searchInput.value.toLowerCase().trim()
+                : "";
+
+            let visibleCount = 0;
+
+            duplicateGroups.forEach(function (group) {
+                const searchableText = [
+                    group.dataset.businessName || "",
+                    group.dataset.businessCity || "",
+                    group.dataset.businessState || ""
+                ].join(" ");
+
+                const isVisible =
+                    searchableText.includes(searchTerm);
+
+                group.style.display =
+                    isVisible ? "" : "none";
+
+                if (isVisible) {
+                    visibleCount += 1;
+                }
+            });
+
+            if (noResults) {
+                noResults.style.display =
+                    visibleCount === 0
+                        ? "block"
+                        : "none";
+            }
+        }
+
+
+        if (searchInput) {
+            searchInput.addEventListener(
+                "input",
+                filterDuplicateGroups
+            );
+        }
+    });
+</script>
+
+{% endblock %}

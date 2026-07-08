@@ -1,0 +1,520 @@
+<!-- templates/scout_evidence.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scout Evidence | Atlas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>ATLAS</h2>
+    <a href="/">🏠 Dashboard</a>
+    <a href="/projects">📁 Projects</a>
+    <a href="/businesses">🏢 Businesses</a>
+    <a href="/scout">🧠 Scout</a>
+    <a href="/analytics">📊 Analytics</a>
+    <a href="/settings">⚙️ Settings</a>
+    <div class="sidebar-footer">AI Operating System</div>
+</div>
+
+<div class="main">
+
+    <div class="atlas-hero">
+        <div>
+            <div class="eyebrow">Scout Intelligence Report</div>
+            <h1>{{ record.name if record and record.name else "Opportunity Evidence" }}</h1>
+            <p>
+                Evidence collected by Atlas Scout. Verified data wins. Estimated data is labeled.
+                Unknown data stays unknown.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <div class="run-pill">
+                {{ run_count }} Scout Run{% if run_count != 1 %}s{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="metric-grid">
+
+        <div class="metric-card">
+            <span>Opportunity ID</span>
+            <strong>{{ record.id if record and record.id else "Unknown" }}</strong>
+            <small>Current opportunity record</small>
+        </div>
+
+        <div class="metric-card">
+            <span>Scout Status</span>
+            {% if latest_run %}
+                <strong class="green">Active</strong>
+                <small>Latest run found</small>
+            {% else %}
+                <strong class="gray">No Run Yet</strong>
+                <small>Scout has not produced evidence yet</small>
+            {% endif %}
+        </div>
+
+        <div class="metric-card">
+            <span>Evidence Count</span>
+            <strong>{{ findings|length if findings else 0 }}</strong>
+            <small>Total tagged values found</small>
+        </div>
+
+        <div class="metric-card">
+            <span>Evidence Quality</span>
+            {% if findings and findings|length > 0 %}
+                <strong class="green">Available</strong>
+                <small>Ready for review</small>
+            {% else %}
+                <strong class="gold">Pending</strong>
+                <small>No evidence displayed yet</small>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% if not latest_run %}
+    <div class="notice-card">
+        <div class="notice-icon">🧠</div>
+        <div>
+            <h2>No Scout Run Found</h2>
+            <p>
+                This opportunity exists, but Atlas has not loaded a Scout run for it on this page.
+                Once Scout runs, this screen will show business, competition, monetization,
+                and demand evidence.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if latest_run %}
+    <div class="section-card">
+        <div class="section-header">
+            <div>
+                <div class="eyebrow">Latest Scan</div>
+                <h2>Scout Run Details</h2>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            {% for key, value in latest_run.items() %}
+            <div class="detail-item">
+                <span>{{ key.replace("_", " ").title() }}</span>
+                <strong>{{ value }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="section-card">
+        <div class="section-header">
+            <div>
+                <div class="eyebrow">Evidence</div>
+                <h2>Business Intelligence</h2>
+            </div>
+            <span class="engine-pill">Independent Engine</span>
+        </div>
+
+        {% if findings and findings|length > 0 %}
+
+        <div class="evidence-list">
+            {% for finding in findings %}
+            <div class="evidence-row">
+
+                <div class="evidence-main">
+                    <h3>
+                        {{ finding.label if finding.label else finding.name if finding.name else finding.key if finding.key else "Scout Evidence" }}
+                    </h3>
+                    <p>
+                        Source:
+                        {{ finding.source if finding.source else finding.provider if finding.provider else "Atlas Scout" }}
+                    </p>
+                </div>
+
+                <div class="evidence-value">
+                    {{ finding.value if finding.value is not none else finding.result if finding.result is not none else "Unknown" }}
+                </div>
+
+                <div>
+                    {% set status = finding.status if finding.status else finding.confidence if finding.confidence else "UNKNOWN" %}
+
+                    {% if status|string|upper == "VERIFIED" %}
+                        <span class="badge verified">VERIFIED</span>
+                    {% elif status|string|upper == "ESTIMATED" %}
+                        <span class="badge estimated">ESTIMATED</span>
+                    {% else %}
+                        <span class="badge unknown">{{ status }}</span>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+
+        <div class="empty-intel">
+            <div class="empty-icon">📡</div>
+            <h3>No Evidence Displayed Yet</h3>
+            <p>
+                This is not a failure. It means this opportunity does not currently have tagged
+                Scout evidence available to display here.
+            </p>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <div class="engine-grid">
+
+        <div class="engine-card">
+            <div class="engine-top">
+                <h3>Business Intelligence</h3>
+                <span class="badge estimated">READY</span>
+            </div>
+            <p>Business count, ratings, reviews, coverage, and directory presence.</p>
+        </div>
+
+        <div class="engine-card">
+            <div class="engine-top">
+                <h3>Competition Intelligence</h3>
+                <span class="badge estimated">READY</span>
+            </div>
+            <p>Competition strength, saturation, and market positioning.</p>
+        </div>
+
+        <div class="engine-card">
+            <div class="engine-top">
+                <h3>Monetization Intelligence</h3>
+                <span class="badge estimated">READY</span>
+            </div>
+            <p>Affiliate, lead generation, subscription, and advertising potential.</p>
+        </div>
+
+        <div class="engine-card muted-card">
+            <div class="engine-top">
+                <h3>Demand Intelligence</h3>
+                <span class="badge unknown">COMING SOON</span>
+            </div>
+            <p>Search demand, trend strength, audience pull, and validation signals.</p>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .atlas-hero {
+        background: linear-gradient(135deg, #061225 0%, #0f2747 100%);
+        color: white;
+        border-radius: 22px;
+        padding: 32px;
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    }
+
+    .atlas-hero h1 {
+        margin: 8px 0;
+        font-size: 36px;
+        letter-spacing: -0.04em;
+    }
+
+    .atlas-hero p {
+        margin: 0;
+        color: #cbd5e1;
+        max-width: 780px;
+        line-height: 1.6;
+    }
+
+    .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 12px;
+        font-weight: 800;
+        color: #38bdf8;
+    }
+
+    .run-pill {
+        background: white;
+        color: #061225;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .metric-card,
+    .section-card,
+    .notice-card,
+    .engine-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .metric-card {
+        padding: 22px;
+    }
+
+    .metric-card span,
+    .detail-item span {
+        display: block;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .metric-card strong {
+        display: block;
+        font-size: 28px;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+
+    .metric-card small {
+        color: #64748b;
+    }
+
+    .green {
+        color: #047857 !important;
+    }
+
+    .gray {
+        color: #64748b !important;
+    }
+
+    .gold {
+        color: #b45309 !important;
+    }
+
+    .notice-card {
+        display: flex;
+        gap: 18px;
+        padding: 24px;
+        margin-bottom: 24px;
+        border-left: 6px solid #38bdf8;
+    }
+
+    .notice-icon,
+    .empty-icon {
+        font-size: 34px;
+    }
+
+    .notice-card h2 {
+        margin: 0 0 8px 0;
+    }
+
+    .notice-card p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.6;
+    }
+
+    .section-card {
+        padding: 26px;
+        margin-bottom: 24px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+        margin: 4px 0 0 0;
+        font-size: 24px;
+    }
+
+    .engine-pill {
+        background: #e0f2fe;
+        color: #075985;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .detail-item {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 16px;
+    }
+
+    .detail-item strong {
+        color: #0f172a;
+    }
+
+    .evidence-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .evidence-row {
+        display: grid;
+        grid-template-columns: 1fr 180px 140px;
+        gap: 16px;
+        align-items: center;
+        padding: 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        background: #f8fafc;
+    }
+
+    .evidence-main h3 {
+        margin: 0 0 6px 0;
+        font-size: 17px;
+    }
+
+    .evidence-main p {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .evidence-value {
+        font-size: 22px;
+        font-weight: 900;
+        color: #0f172a;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 7px 11px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+    }
+
+    .badge.verified {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge.estimated {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge.unknown {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
+    .empty-intel {
+        border: 1px dashed #cbd5e1;
+        background: #f8fafc;
+        border-radius: 18px;
+        padding: 34px;
+        text-align: center;
+    }
+
+    .empty-intel h3 {
+        margin: 8px 0;
+    }
+
+    .empty-intel p {
+        color: #64748b;
+        margin: 0 auto;
+        max-width: 620px;
+        line-height: 1.6;
+    }
+
+    .engine-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 40px;
+    }
+
+    .engine-card {
+        padding: 20px;
+    }
+
+    .engine-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .engine-card h3 {
+        margin: 0;
+        font-size: 17px;
+    }
+
+    .engine-card p {
+        margin: 0;
+        color: #64748b;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    .muted-card {
+        opacity: 0.72;
+    }
+
+    .sidebar-footer {
+        position: absolute;
+        bottom: 24px;
+        left: 24px;
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    @media (max-width: 1100px) {
+        .metric-grid,
+        .engine-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .atlas-hero {
+            flex-direction: column;
+        }
+
+        .metric-grid,
+        .engine-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .evidence-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+</body>
+</html>

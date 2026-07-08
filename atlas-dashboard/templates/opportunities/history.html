@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block title %}History — {{ record.display_name }} — Atlas{% endblock %}
+{% block page_title %}
+  <span style="color:var(--text-muted); font-weight:400;">History /</span>
+  {{ record.display_name|truncate(40) }}
+{% endblock %}
+
+{% block topbar_actions %}
+  <a href="{{ url_for('opportunities.opportunity_detail', opportunity_id=record.id) }}"
+     class="btn btn-ghost btn-sm">← Detail</a>
+{% endblock %}
+
+{% block content %}
+
+{# ── Comparison panel (heuristic vs verified) ─────────────────────────── #}
+{% if comparison %}
+<div class="panel mb-24">
+  <div class="panel-header">
+    <span class="panel-title">Heuristic vs Verified — Decision Diff</span>
+    <span class="text-xs muted">Run #{{ comparison.a.run_number }} → Run #{{ comparison.b.run_number }}</span>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr;">
+    {# Header row #}
+    <div class="diff-cell diff-a" style="background:rgba(245,166,35,0.08);">
+      <div class="dim text-xs mb-4">Heuristic (Run #{{ comparison.a.run_number }})</div>
+      <div class="mono" style="font-size:11px; color:var(--text-dim);">{{ comparison.a.created_at[:16] if comparison.a.created_at else '' }}</div>
+    </div>
+    <div class="diff-cell diff-b" style="background:rgba(45,212,184,0.08);">
+      <div class="dim text-xs mb-4">Verified (Run #{{ comparison.b.run_number }})</div>
+      <div class="mono" style="font-size:11px; color:var(--text-dim);">{{ comparison.b.created_at[:16] if comparison.b.created_at else '' }}</div>
+    </div>
+  </div>
+
+  {% set deltas = comparison.deltas %}
+
+  {# Recommendation row #}
+  <div class="diff-row">
+    <div class="diff-cell diff-a">
+      <div class="diff-label">Recommendation</div>
+      <div class="diff-val">
+        <span class="badge badge-{{ deltas.recommendation[0]|lower }}">{{ deltas.recommendation[0] }}</span>
+      </div>
+    </div>
+    <div class="diff-cell diff-b">
+      <div class="diff-label">Recommendation</div>
+      <div class="diff-val">
+        <span class="badge badge-{{ deltas.recommendation[1]|lower }}">{{ deltas.recommendation[1] }}</span>
+        {% if deltas.recommendation[0] != deltas.recommendation[1] %}
+          <span class="text-xs mono diff-improved" style="margin-left:8px;">changed</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# Confidence row #}
+  <div class="diff-row">
+    <div class="diff-cell diff-a">
+      <div class="diff-label">Confidence</div>
+      <div class="diff-val mono">{{ "%.1f"|format(deltas.confidence_score[0]) }}%</div>
+    </div>
+    <div class="diff-cell diff-b">
+      <div class="diff-label">Confidence</div>
+      <div class="diff-val mono {% if deltas.confidence_score[1] > deltas.confidence_score[0] %}diff-improved{% endif %}">
+        {{ "%.1f"|format(deltas.confidence_score[1]) }}%
+        {% if deltas.confidence_score[1] > deltas.confidence_score[0] %}
+          <span class="text-xs">↑ {{ "%.1f"|format(deltas.confidence_score[1] - deltas.confidence_score[0]) }}pp</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# Revenue row #}
+  <div class="diff-row">
+    <div class="diff-cell diff-a">
+      <div class="diff-label">Revenue Estimate</div>
+      <div class="diff-val mono muted">${{ deltas.estimated_revenue_low[0]|int }}–${{ deltas.estimated_revenue_high[0]|int }}/mo</div>
+    </div>
+    <div class="diff-cell diff-b">
+      <div class="diff-label">Revenue Estimate</div>
+      <div class="diff-val mono {% if deltas.estimated_revenue_high[1] > deltas.estimated_revenue_high[0] %}diff-improved{% else %}muted{% endif %}">
+        ${{ deltas.estimated_revenue_low[1]|int }}–${{ deltas.estimated_revenue_high[1]|int }}/mo
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endif %}
+
+{# ── Decision timeline ────────────────────────────────────────────────── #}
+<div class="panel mb-24">
+  <div class="panel-header">
+    <span class="panel-title">Decision History</span>
+    <span class="text-xs mono muted">{{ decisions|length }} run{% if decisions|length != 1 %}s{% endif %}</span>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Run</th>
+        <th>Recommendation</th>
+        <th>Confidence</th>
+        <th>Data Quality</th>
+        <th>Revenue Est.</th>
+        <th>Trigger</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in decisions %}
+      <tr>
+        <td class="mono text-sm muted">#{{ d.run_number }}</td>
+        <td>
+          <span class="badge badge-{{ (d.recommendation or 'test')|lower }}">{{ d.recommendation }}</span>
+          {% if d.data_quality == 'heuristic' %}
+            <span class="badge badge-needs-scout" style="margin-left:4px; font-size:10px;">⚠ Heuristic</span>
+          {% endif %}
+        </td>
+        <td class="mono">{{ "%.1f"|format(d.confidence_score) }}%</td>
+        <td>
+          <span class="badge badge-{{ d.data_quality }}">{{ d.data_quality }}</span>
+        </td>
+        <td class="mono text-sm">
+          ${{ d.estimated_revenue_low|int if d.estimated_revenue_low else '—' }}–${{ d.estimated_revenue_high|int if d.estimated_revenue_high else '—' }}/mo
+        </td>
+        <td class="muted text-sm">{{ d.triggered_by or 'manual' }}</td>
+        <td class="mono text-xs muted">{{ d.created_at[:16] if d.created_at else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{# ── Revenue trend ────────────────────────────────────────────────────── #}
+{% if revenue_history %}
+<div class="panel mb-24">
+  <div class="panel-header">
+    <span class="panel-title">Revenue Estimate History</span>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr><th>#</th><th>Low</th><th>High</th><th>Confidence</th><th>Quality</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+      {% for r in revenue_history %}
+      <tr>
+        <td class="mono text-xs muted">{{ loop.index }}</td>
+        <td class="mono text-sm">${{ r.revenue_low|int }}</td>
+        <td class="mono text-sm">${{ r.revenue_high|int }}</td>
+        <td class="mono text-sm">{{ "%.1f"|format(r.confidence) }}%</td>
+        <td><span class="badge badge-{{ r.data_quality }}">{{ r.data_quality }}</span></td>
+        <td class="mono text-xs muted">{{ r.estimated_at[:16] if r.estimated_at else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{# ── Scout history ────────────────────────────────────────────────────── #}
+{% if scout_runs %}
+<div class="panel mb-24">
+  <div class="panel-header"><span class="panel-title">Scout Runs</span></div>
+  <table class="data-table">
+    <thead>
+      <tr><th>Run ID</th><th>Status</th><th>Businesses</th><th>Competitors</th><th>Started</th><th>Finished</th></tr>
+    </thead>
+    <tbody>
+      {% for s in scout_runs %}
+      <tr>
+        <td class="mono text-xs muted">#{{ s.id }}</td>
+        <td>
+          <span class="badge {% if s.status == 'complete' %}badge-verified{% elif s.status == 'failed' %}badge-reject{% else %}badge-heuristic{% endif %}">
+            {{ s.status }}
+          </span>
+        </td>
+        <td class="mono text-sm">{{ s.verified_business_count or '—' }}</td>
+        <td class="mono text-sm">{{ s.verified_competitor_count or '—' }}</td>
+        <td class="mono text-xs muted">{{ s.started_at[:16] if s.started_at else '—' }}</td>
+        <td class="mono text-xs muted">{{ s.finished_at[:16] if s.finished_at else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{# ── Blueprint versions ───────────────────────────────────────────────── #}
+{% if blueprint_versions %}
+<div class="panel mb-24">
+  <div class="panel-header"><span class="panel-title">Blueprint Versions</span></div>
+  <table class="data-table">
+    <thead>
+      <tr><th>Version</th><th>Directory</th><th>Pages</th><th>Created</th></tr>
+    </thead>
+    <tbody>
+      {% for bv in blueprint_versions %}
+      <tr>
+        <td class="mono text-sm muted">v{{ bv.version_number }}</td>
+        <td class="text-sm">{{ bv.directory_name or '—' }}</td>
+        <td class="mono text-sm">{{ bv.total_pages or '—' }}</td>
+        <td class="mono text-xs muted">{{ bv.created_at[:16] if bv.created_at else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{# ── Notes history ────────────────────────────────────────────────────── #}
+{% if notes %}
+<div class="panel">
+  <div class="panel-header"><span class="panel-title">Notes</span></div>
+  <div class="panel-body stack" style="gap:12px;">
+    {% for note in notes %}
+    <div style="padding-bottom:12px; border-bottom:1px solid var(--border);">
+      <div class="text-sm">{{ note.body }}</div>
+      <div class="dim text-xs mt-4">{{ note.author }} · {{ note.created_at[:16] if note.created_at else '' }}
+        {% if note.decision_id %} · on decision #{{ note.decision_id }}{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

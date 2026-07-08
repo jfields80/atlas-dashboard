@@ -1,0 +1,1345 @@
+{% extends "base.html" %}
+
+{% block title %}Settings | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <section class="settings-header">
+
+        <div>
+            <p class="settings-eyebrow">SYSTEM ADMINISTRATION</p>
+
+            <h1 class="settings-title">
+                Settings
+            </h1>
+
+            <p class="settings-subtitle">
+                Configure Atlas services, research tools, integrations, and system preferences.
+            </p>
+        </div>
+
+        <div class="settings-system-card">
+            <span class="settings-system-dot"></span>
+
+            <div>
+                <span class="settings-system-label">
+                    Atlas System
+                </span>
+
+                <strong>
+                    Operational
+                </strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="settings-summary-grid">
+
+        <div class="settings-summary-card">
+
+            <div class="settings-summary-icon settings-summary-active">
+                ✓
+            </div>
+
+            <div>
+                <span class="settings-summary-label">
+                    Active Services
+                </span>
+
+                <strong class="settings-summary-value">
+                    4
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="settings-summary-card">
+
+            <div class="settings-summary-icon settings-summary-sources">
+                ◎
+            </div>
+
+            <div>
+                <span class="settings-summary-label">
+                    Research Sources
+                </span>
+
+                <strong class="settings-summary-value">
+                    Managed
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="settings-summary-card">
+
+            <div class="settings-summary-icon settings-summary-database">
+                ▤
+            </div>
+
+            <div>
+                <span class="settings-summary-label">
+                    Database
+                </span>
+
+                <strong class="settings-summary-value">
+                    Connected
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="settings-summary-card">
+
+            <div class="settings-summary-icon settings-summary-version">
+                ✦
+            </div>
+
+            <div>
+                <span class="settings-summary-label">
+                    Atlas Version
+                </span>
+
+                <strong class="settings-summary-value">
+                    Alpha
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="settings-layout">
+
+        <div class="settings-main-column">
+
+            <section class="settings-panel">
+
+                <div class="settings-panel-header">
+
+                    <div>
+                        <p class="settings-panel-eyebrow">
+                            ADMINISTRATION
+                        </p>
+
+                        <h2 class="settings-panel-title">
+                            System Areas
+                        </h2>
+
+                        <p class="settings-panel-subtitle">
+                            Manage the core services that power Atlas.
+                        </p>
+                    </div>
+
+                    <div class="settings-panel-icon">
+                        ⚙
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card-grid">
+
+                    <a href="/sources" class="settings-option-card">
+
+                        <div class="settings-option-icon option-icon-sources">
+                            ◎
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    Research Sources
+                                </h3>
+
+                                <span class="settings-option-status settings-status-active">
+                                    Active
+                                </span>
+                            </div>
+
+                            <p>
+                                Enable or disable the data sources Scout can use during research jobs.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Manage Sources
+                                <span>→</span>
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                    <div class="settings-option-card settings-option-disabled">
+
+                        <div class="settings-option-icon option-icon-api">
+                            ⌁
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    API Keys
+                                </h3>
+
+                                <span class="settings-option-status settings-status-planned">
+                                    Planned
+                                </span>
+                            </div>
+
+                            <p>
+                                Securely store credentials for search engines, AI services, and external APIs.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Coming Soon
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-option-card settings-option-disabled">
+
+                        <div class="settings-option-icon option-icon-models">
+                            ✦
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    AI Models
+                                </h3>
+
+                                <span class="settings-option-status settings-status-planned">
+                                    Planned
+                                </span>
+                            </div>
+
+                            <p>
+                                Select which AI models power Scout, Writer, Discovery, and other agents.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Coming Soon
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-option-card settings-option-disabled">
+
+                        <div class="settings-option-icon option-icon-email">
+                            ✉
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    Email Settings
+                                </h3>
+
+                                <span class="settings-option-status settings-status-planned">
+                                    Planned
+                                </span>
+                            </div>
+
+                            <p>
+                                Configure notifications, reports, alerts, and outbound messages.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Coming Soon
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-option-card settings-option-disabled">
+
+                        <div class="settings-option-icon option-icon-database">
+                            ▤
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    Database Maintenance
+                                </h3>
+
+                                <span class="settings-option-status settings-status-planned">
+                                    Planned
+                                </span>
+                            </div>
+
+                            <p>
+                                Run backups, remove duplicates, inspect tables, and maintain database health.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Coming Soon
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-option-card settings-option-disabled">
+
+                        <div class="settings-option-icon option-icon-users">
+                            ◉
+                        </div>
+
+                        <div class="settings-option-copy">
+
+                            <div class="settings-option-title-row">
+                                <h3>
+                                    User Accounts
+                                </h3>
+
+                                <span class="settings-option-status settings-status-planned">
+                                    Planned
+                                </span>
+                            </div>
+
+                            <p>
+                                Add users, assign permissions, and control access to Atlas workspaces.
+                            </p>
+
+                            <span class="settings-option-link">
+                                Coming Soon
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-panel">
+
+                <div class="settings-panel-header">
+
+                    <div>
+                        <p class="settings-panel-eyebrow">
+                            APPLICATION STATUS
+                        </p>
+
+                        <h2 class="settings-panel-title">
+                            Core Services
+                        </h2>
+
+                        <p class="settings-panel-subtitle">
+                            Current availability of Atlas application components.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-service-list">
+
+                    <div class="settings-service-row">
+
+                        <div class="settings-service-main">
+
+                            <div class="settings-service-icon service-icon-app">
+                                A
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Atlas Dashboard
+                                </strong>
+
+                                <span>
+                                    Flask application and user interface
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <span class="settings-service-status">
+                            <span></span>
+                            Online
+                        </span>
+
+                    </div>
+
+
+                    <div class="settings-service-row">
+
+                        <div class="settings-service-main">
+
+                            <div class="settings-service-icon service-icon-database">
+                                DB
+                            </div>
+
+                            <div>
+                                <strong>
+                                    SQLite Database
+                                </strong>
+
+                                <span>
+                                    Projects, businesses, sources, categories, and jobs
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <span class="settings-service-status">
+                            <span></span>
+                            Connected
+                        </span>
+
+                    </div>
+
+
+                    <div class="settings-service-row">
+
+                        <div class="settings-service-main">
+
+                            <div class="settings-service-icon service-icon-scout">
+                                S
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Scout AI
+                                </strong>
+
+                                <span>
+                                    Research job creation and business discovery
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <span class="settings-service-status">
+                            <span></span>
+                            Ready
+                        </span>
+
+                    </div>
+
+
+                    <div class="settings-service-row">
+
+                        <div class="settings-service-main">
+
+                            <div class="settings-service-icon service-icon-sources">
+                                ◎
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Research Sources
+                                </strong>
+
+                                <span>
+                                    Source availability and connector controls
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <span class="settings-service-status">
+                            <span></span>
+                            Managed
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <aside class="settings-side-column">
+
+            <section class="settings-roadmap-card">
+
+                <div class="settings-roadmap-glow"></div>
+
+                <div class="settings-roadmap-content">
+
+                    <div class="settings-roadmap-icon">
+                        ✦
+                    </div>
+
+                    <p class="settings-roadmap-eyebrow">
+                        ATLAS ROADMAP
+                    </p>
+
+                    <h2>
+                        System controls will grow with Atlas.
+                    </h2>
+
+                    <p class="settings-roadmap-description">
+                        As new agents, integrations, and publishing tools are connected,
+                        their controls will appear here.
+                    </p>
+
+
+                    <div class="settings-roadmap-list">
+
+                        <div class="settings-roadmap-item">
+                            <span>1</span>
+
+                            <div>
+                                <strong>
+                                    Source Management
+                                </strong>
+
+                                <p>
+                                    Available now
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="settings-roadmap-item">
+                            <span>2</span>
+
+                            <div>
+                                <strong>
+                                    API and Model Controls
+                                </strong>
+
+                                <p>
+                                    Next system phase
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="settings-roadmap-item">
+                            <span>3</span>
+
+                            <div>
+                                <strong>
+                                    Database Tools
+                                </strong>
+
+                                <p>
+                                    Deduplication and backups
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="settings-roadmap-item">
+                            <span>4</span>
+
+                            <div>
+                                <strong>
+                                    User Management
+                                </strong>
+
+                                <p>
+                                    Multi-user workspaces
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-tip-card">
+
+                <div class="settings-tip-icon">
+                    💡
+                </div>
+
+                <div>
+                    <strong>
+                        Recommended Next Step
+                    </strong>
+
+                    <p>
+                        Add database maintenance tools so Atlas can detect and remove duplicate business records.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-danger-card">
+
+                <div class="settings-danger-header">
+
+                    <div class="settings-danger-icon">
+                        !
+                    </div>
+
+                    <div>
+                        <p>
+                            ADVANCED
+                        </p>
+
+                        <h2>
+                            System Maintenance
+                        </h2>
+                    </div>
+
+                </div>
+
+                <p class="settings-danger-description">
+                    Destructive database and reset tools will appear here later with confirmation safeguards.
+                </p>
+
+                <button
+                    type="button"
+                    class="settings-danger-button"
+                    disabled
+                >
+                    Maintenance Locked
+                </button>
+
+            </section>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<style>
+    .settings-page {
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .settings-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .settings-eyebrow,
+    .settings-panel-eyebrow,
+    .settings-roadmap-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .settings-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .settings-subtitle {
+        max-width: 720px;
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .settings-system-card {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 170px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .settings-system-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        background: #19b981;
+        border: 3px solid #d9f8ed;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .settings-system-label,
+    .settings-system-card strong {
+        display: block;
+    }
+
+    .settings-system-label {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .settings-system-card strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .settings-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 22px;
+    }
+
+    .settings-summary-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .settings-summary-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .settings-summary-active {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .settings-summary-sources {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .settings-summary-database {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .settings-summary-version {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .settings-summary-label,
+    .settings-summary-value {
+        display: block;
+    }
+
+    .settings-summary-label {
+        margin-bottom: 4px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .settings-summary-value {
+        color: #202a40;
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .settings-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(310px, 0.65fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+    .settings-main-column,
+    .settings-side-column {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .settings-panel {
+        min-width: 0;
+        padding: 22px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .settings-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .settings-panel-title {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .settings-panel-subtitle {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .settings-panel-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 10px;
+        color: #6653d9;
+        font-size: 16px;
+    }
+
+    .settings-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .settings-option-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        min-width: 0;
+        padding: 16px;
+        background: #fbfbfd;
+        border: 1px solid #eceef4;
+        border-radius: 13px;
+        color: inherit;
+        text-decoration: none;
+        transition:
+            transform 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    a.settings-option-card:hover {
+        transform: translateY(-2px);
+        border-color: #dcd6fb;
+        box-shadow: 0 11px 24px rgba(66, 52, 148, 0.07);
+    }
+
+    .settings-option-disabled {
+        opacity: 0.78;
+    }
+
+    .settings-option-icon {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        place-items: center;
+        border-radius: 11px;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .option-icon-sources {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .option-icon-api {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .option-icon-models {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .option-icon-email {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .option-icon-database {
+        background: #f0edff;
+        color: #7658e7;
+    }
+
+    .option-icon-users {
+        background: #f1f2f6;
+        color: #7b8496;
+    }
+
+    .settings-option-copy {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .settings-option-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .settings-option-title-row h3 {
+        margin: 0;
+        color: #303a50;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .settings-option-status {
+        display: inline-flex;
+        flex: 0 0 auto;
+        padding: 5px 7px;
+        border-radius: 999px;
+        font-size: 7px;
+        font-weight: 900;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .settings-status-active {
+        background: #eaf8f2;
+        color: #11976c;
+    }
+
+    .settings-status-planned {
+        background: #f0f1f5;
+        color: #7d8596;
+    }
+
+    .settings-option-copy p {
+        min-height: 43px;
+        margin: 8px 0 12px;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .settings-option-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #6653d9;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .settings-option-disabled .settings-option-link {
+        color: #9ca3b1;
+    }
+
+    .settings-service-list {
+        overflow: hidden;
+        border: 1px solid #eceef4;
+        border-radius: 12px;
+    }
+
+    .settings-service-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 15px 16px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .settings-service-row:first-child {
+        border-top: 0;
+    }
+
+    .settings-service-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .settings-service-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: 900;
+    }
+
+    .service-icon-app {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .service-icon-database {
+        background: #e8f3ff;
+        color: #3989d4;
+    }
+
+    .service-icon-scout {
+        background: #e5f8ef;
+        color: #17a876;
+    }
+
+    .service-icon-sources {
+        background: #fff1dd;
+        color: #d58a2f;
+    }
+
+    .settings-service-main strong,
+    .settings-service-main span {
+        display: block;
+    }
+
+    .settings-service-main strong {
+        color: #424c61;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .settings-service-main span {
+        margin-top: 4px;
+        color: #9aa1af;
+        font-size: 8px;
+    }
+
+    .settings-service-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex: 0 0 auto;
+        padding: 6px 9px;
+        background: #eaf8f2;
+        border-radius: 999px;
+        color: #11976c;
+        font-size: 8px;
+        font-weight: 800;
+    }
+
+    .settings-service-status > span {
+        width: 6px;
+        height: 6px;
+        background: #19b77f;
+        border-radius: 50%;
+    }
+
+    .settings-roadmap-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        background: linear-gradient(
+            145deg,
+            #5f4de2 0%,
+            #7354e4 52%,
+            #8d5bdd 100%
+        );
+        border-radius: 17px;
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(91, 73, 209, 0.2);
+    }
+
+    .settings-roadmap-glow {
+        position: absolute;
+        top: -75px;
+        right: -65px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+    }
+
+    .settings-roadmap-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .settings-roadmap-icon {
+        display: grid;
+        width: 45px;
+        height: 45px;
+        margin-bottom: 17px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 12px;
+        font-size: 19px;
+    }
+
+    .settings-roadmap-eyebrow {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .settings-roadmap-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.3;
+    }
+
+    .settings-roadmap-description {
+        margin: 10px 0 18px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 9px;
+        line-height: 1.65;
+    }
+
+    .settings-roadmap-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .settings-roadmap-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .settings-roadmap-item > span {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        font-size: 8px;
+        font-weight: 900;
+    }
+
+    .settings-roadmap-item strong,
+    .settings-roadmap-item p {
+        display: block;
+    }
+
+    .settings-roadmap-item strong {
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .settings-roadmap-item p {
+        margin: 3px 0 0;
+        color: rgba(255, 255, 255, 0.58);
+        font-size: 8px;
+    }
+
+    .settings-tip-card,
+    .settings-danger-card {
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .settings-tip-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .settings-tip-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #fff3df;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .settings-tip-card strong {
+        display: block;
+        color: #364055;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .settings-tip-card p {
+        margin: 5px 0 0;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .settings-danger-card {
+        border-color: #f0e0e4;
+    }
+
+    .settings-danger-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .settings-danger-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        place-items: center;
+        background: #fff0f3;
+        border-radius: 10px;
+        color: #c2576c;
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    .settings-danger-header p {
+        margin: 0 0 4px;
+        color: #c2576c;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+    }
+
+    .settings-danger-header h2 {
+        margin: 0;
+        color: #4c4050;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .settings-danger-description {
+        margin: 14px 0;
+        color: #9a8d93;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .settings-danger-button {
+        width: 100%;
+        min-height: 36px;
+        background: #f5f1f2;
+        border: 1px solid #ece2e5;
+        border-radius: 9px;
+        color: #a89097;
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 1100px) {
+        .settings-summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .settings-layout {
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+        }
+    }
+
+    @media (max-width: 860px) {
+        .settings-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .settings-side-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .settings-roadmap-card {
+            grid-row: span 2;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .settings-header {
+            flex-direction: column;
+        }
+
+        .settings-system-card {
+            width: fit-content;
+        }
+
+        .settings-card-grid,
+        .settings-summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .settings-side-column {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .settings-title {
+            font-size: 31px;
+        }
+
+        .settings-panel {
+            padding: 17px;
+        }
+
+        .settings-option-title-row,
+        .settings-service-row {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .settings-service-status {
+            margin-left: 50px;
+        }
+    }
+</style>
+
+{% endblock %}

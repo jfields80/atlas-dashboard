@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atlas Opportunity Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f1115;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            padding: 20px;
+            background: #151925;
+            border-bottom: 1px solid #2a2f3a;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .card {
+            background: #1a1f2e;
+            border: 1px solid #2a2f3a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .score {
+            font-size: 14px;
+            color: #9aa4b2;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .build { background: #1f7a3f; color: white; }
+        .test { background: #b98b1d; color: white; }
+        .pass { background: #7a1f1f; color: white; }
+
+        .section {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #b5bccc;
+        }
+
+        .metric {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #9aa4b2;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🚀 Atlas Opportunity Intelligence Dashboard</h1>
+</div>
+
+<div class="container">
+
+    {% for opp in opportunities %}
+
+    <div class="card">
+
+        <div class="title">{{ opp.niche_name }}</div>
+
+        <div class="score">
+            Score: {{ opp.score }} | Confidence: {{ opp.confidence }}
+        </div>
+
+        {% if opp.recommendation == "BUILD" %}
+            <div class="badge build">BUILD</div>
+        {% elif opp.recommendation == "TEST" %}
+            <div class="badge test">TEST</div>
+        {% else %}
+            <div class="badge pass">PASS</div>
+        {% endif %}
+
+        <div class="metric">
+            <div>Demand: {{ opp.demand }}</div>
+            <div>Supply: {{ opp.supply }}</div>
+            <div>Competition: {{ opp.competition }}</div>
+        </div>
+
+        <div class="section">
+            💡 {{ opp.summary }}
+        </div>
+
+        <div class="section">
+            ⚠️ Risks:
+            <ul>
+                {% for r in opp.risks %}
+                    <li>{{ r }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            🚀 Drivers:
+            <ul>
+                {% for d in opp.drivers %}
+                    <li>{{ d }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

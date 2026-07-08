@@ -1,0 +1,1564 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ business.business_name }} | Atlas
+{% endblock %}
+
+{% block content %}
+
+<div class="business-detail-page">
+
+    <section class="business-detail-header">
+
+        <div>
+            <a href="/businesses" class="business-detail-back">
+                ← Back to Businesses
+            </a>
+
+            <p class="business-detail-eyebrow">
+                BUSINESS RECORD
+            </p>
+
+            <h1>
+                {{ business.business_name }}
+            </h1>
+
+            <p class="business-detail-subtitle">
+                {% if edit_mode %}
+                    Update this Atlas business record.
+                {% else %}
+                    Review the complete Atlas record for this business.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="business-detail-header-actions">
+
+            {% if edit_mode %}
+
+            <a
+                href="/businesses/{{ business.id }}"
+                class="business-detail-secondary-button"
+            >
+                Cancel Editing
+            </a>
+
+            {% else %}
+
+            <a
+                href="/businesses/{{ business.id }}/delete"
+                class="business-detail-primary-button"
+            >
+                Delete Business
+            </a>
+
+            <a
+                href="/businesses/{{ business.id }}/edit"
+                class="business-detail-primary-button"
+            >
+                Edit Business
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    {% if saved %}
+
+    <section class="business-detail-alert">
+
+        <div class="business-detail-alert-icon">
+            ✓
+        </div>
+
+        <div>
+            <strong>
+                Business updated successfully
+            </strong>
+
+            <p>
+                The latest changes were saved to the Atlas database.
+            </p>
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <section class="business-detail-overview">
+
+        <div class="business-detail-identity-card">
+
+            <div class="business-detail-avatar">
+                {{ business.business_name[0]|upper }}
+            </div>
+
+            <div class="business-detail-identity-copy">
+
+                <span class="business-detail-record-label">
+                    Atlas Business
+                </span>
+
+                <h2>
+                    {{ business.business_name }}
+                </h2>
+
+                <p>
+                    {{ business.category or "Uncategorized business" }}
+                </p>
+
+            </div>
+
+            <span class="
+                business-detail-status
+                {% if business.status|lower == 'verified' %}
+                    business-detail-status-verified
+                {% elif business.status|lower in ['pending', 'review', 'needs review'] %}
+                    business-detail-status-pending
+                {% elif business.status|lower == 'inactive' %}
+                    business-detail-status-inactive
+                {% else %}
+                    business-detail-status-new
+                {% endif %}
+            ">
+
+                <span class="business-detail-status-dot"></span>
+
+                {{ business.status or "New" }}
+
+            </span>
+
+        </div>
+
+        <div class="business-detail-project-card">
+
+            <span class="business-detail-card-label">
+                Atlas Project
+            </span>
+
+            <strong>
+                {{ project.name }}
+            </strong>
+
+            <span class="business-detail-project-status">
+                {{ project.status or "No project status" }}
+            </span>
+
+        </div>
+
+    </section>
+
+
+    {% if edit_mode %}
+
+    <form
+        action="/businesses/{{ business.id }}/update"
+        method="POST"
+        class="business-edit-form"
+    >
+
+        <section class="business-detail-grid">
+
+            <div class="business-detail-main-column">
+
+                <div class="business-detail-panel">
+
+                    <div class="business-detail-panel-header">
+
+                        <div class="business-detail-panel-icon">
+                            ✎
+                        </div>
+
+                        <div>
+                            <p>EDIT BUSINESS</p>
+
+                            <h2>
+                                Update Record Details
+                            </h2>
+                        </div>
+
+                    </div>
+
+                    <div class="business-edit-fields">
+
+                        <div class="business-edit-field business-edit-field-full">
+
+                            <label for="business_name">
+                                Business Name
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="business_name"
+                                name="business_name"
+                                value="{{ business.business_name }}"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="category">
+                                Category
+                            </label>
+
+                            <input
+                                type="text"
+                                id="category"
+                                name="category"
+                                value="{{ business.category or '' }}"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="status">
+                                Status
+                            </label>
+
+                            <select id="status" name="status">
+
+                                <option
+                                    value="Found via Google"
+                                    {% if business.status and "found via google" in business.status|lower %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Found via Google
+                                </option>
+
+                                <option
+                                    value="Verified"
+                                    {% if business.status|lower == "verified" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Verified
+                                </option>
+
+                                <option
+                                    value="Needs Review"
+                                    {% if business.status|lower in ["review", "needs review"] %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Needs Review
+                                </option>
+
+                                <option
+                                    value="Pending"
+                                    {% if business.status|lower == "pending" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Pending
+                                </option>
+
+                                <option
+                                    value="Inactive"
+                                    {% if business.status|lower == "inactive" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Inactive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="city">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                value="{{ business.city or '' }}"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="state">
+                                State
+                            </label>
+
+                            <input
+                                type="text"
+                                id="state"
+                                name="state"
+                                value="{{ business.state or '' }}"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="phone">
+                                Phone
+                            </label>
+
+                            <input
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                value="{{ business.phone or '' }}"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="website">
+                                Website
+                            </label>
+
+                            <input
+                                type="url"
+                                id="website"
+                                name="website"
+                                value="{{ business.website or '' }}"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="business-detail-panel">
+
+                    <div class="business-detail-panel-header">
+
+                        <div class="business-detail-panel-icon business-detail-panel-icon-purple">
+                            @
+                        </div>
+
+                        <div>
+                            <p>CONTACT & SOCIAL</p>
+
+                            <h2>
+                                Outreach Information
+                            </h2>
+                        </div>
+
+                    </div>
+
+                    <div class="business-edit-fields">
+
+                        <div class="business-edit-field business-edit-field-full">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ business.email or '' }}"
+                                placeholder="hello@example.com"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="facebook_url">
+                                Facebook URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="facebook_url"
+                                name="facebook_url"
+                                value="{{ business.facebook_url or '' }}"
+                                placeholder="https://facebook.com/..."
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="instagram_url">
+                                Instagram URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="instagram_url"
+                                name="instagram_url"
+                                value="{{ business.instagram_url or '' }}"
+                                placeholder="https://instagram.com/..."
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="tiktok_url">
+                                TikTok URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="tiktok_url"
+                                name="tiktok_url"
+                                value="{{ business.tiktok_url or '' }}"
+                                placeholder="https://tiktok.com/@..."
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="linkedin_url">
+                                LinkedIn URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="linkedin_url"
+                                name="linkedin_url"
+                                value="{{ business.linkedin_url or '' }}"
+                                placeholder="https://linkedin.com/..."
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="youtube_url">
+                                YouTube URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="youtube_url"
+                                name="youtube_url"
+                                value="{{ business.youtube_url or '' }}"
+                                placeholder="https://youtube.com/..."
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field">
+
+                            <label for="contact_page_url">
+                                Contact Page URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="contact_page_url"
+                                name="contact_page_url"
+                                value="{{ business.contact_page_url or '' }}"
+                                placeholder="https://example.com/contact"
+                            >
+
+                        </div>
+
+                        <div class="business-edit-field business-edit-field-full">
+
+                            <label class="business-contact-checkbox">
+
+                                <input
+                                    type="checkbox"
+                                    name="contact_form_detected"
+                                    value="1"
+                                    {% if business.contact_form_detected %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span>
+                                    Contact form detected on business website
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <input
+                            type="hidden"
+                            name="last_enriched_at"
+                            value="{{ business.last_enriched_at or '' }}"
+                        >
+
+                    </div>
+
+                    <div class="business-edit-actions">
+
+                        <a
+                            href="/businesses/{{ business.id }}"
+                            class="business-detail-secondary-button"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="business-detail-primary-button"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <aside class="business-detail-side-column">
+
+                <div class="business-detail-panel">
+
+                    <div class="business-detail-panel-header">
+
+                        <div class="business-detail-panel-icon business-detail-panel-icon-purple">
+                            ✦
+                        </div>
+
+                        <div>
+                            <p>EDITING GUIDANCE</p>
+
+                            <h2>
+                                Record Quality
+                            </h2>
+                        </div>
+
+                    </div>
+
+                    <div class="business-detail-guidance">
+
+                        <div>
+                            <span>1</span>
+                            <p>Confirm the official business name.</p>
+                        </div>
+
+                        <div>
+                            <span>2</span>
+                            <p>Use the direct business website when available.</p>
+                        </div>
+
+                        <div>
+                            <span>3</span>
+                            <p>Add the official email and social profile links.</p>
+                        </div>
+
+                        <div>
+                            <span>4</span>
+                            <p>Mark the record Verified after checking its details.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </form>
+
+    {% else %}
+
+    <section class="business-detail-grid">
+
+        <div class="business-detail-main-column">
+
+            <div class="business-detail-panel">
+
+                <div class="business-detail-panel-header">
+
+                    <div class="business-detail-panel-icon">
+                        ▤
+                    </div>
+
+                    <div>
+                        <p>BUSINESS INFORMATION</p>
+
+                        <h2>
+                            Record Details
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="business-detail-fields">
+
+                    <div class="business-detail-field">
+                        <span>Business Name</span>
+                        <strong>{{ business.business_name }}</strong>
+                    </div>
+
+                    <div class="business-detail-field">
+                        <span>Category</span>
+                        <strong>{{ business.category or "Uncategorized" }}</strong>
+                    </div>
+
+                    <div class="business-detail-field">
+                        <span>City</span>
+                        <strong>{{ business.city or "Unknown" }}</strong>
+                    </div>
+
+                    <div class="business-detail-field">
+                        <span>State</span>
+                        <strong>{{ business.state or "Unknown" }}</strong>
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Phone</span>
+
+                        {% if business.phone %}
+
+                        <a href="tel:{{ business.phone }}">
+                            {{ business.phone }}
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            No phone collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Website</span>
+
+                        {% if business.website %}
+
+                        <a
+                            href="{{ business.website }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {{ business.website }}
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            No website collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="business-detail-panel">
+
+                <div class="business-detail-panel-header">
+
+                    <div class="business-detail-panel-icon business-detail-panel-icon-purple">
+                        @
+                    </div>
+
+                    <div>
+                        <p>CONTACT & SOCIAL</p>
+
+                        <h2>
+                            Outreach Information
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="business-detail-fields">
+
+                    <div class="business-detail-field">
+
+                        <span>Email</span>
+
+                        {% if business.email %}
+
+                        <a href="mailto:{{ business.email }}">
+                            {{ business.email }}
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            No email collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Contact Page</span>
+
+                        {% if business.contact_page_url %}
+
+                        <a
+                            href="{{ business.contact_page_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open Contact Page
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            No contact page collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Facebook</span>
+
+                        {% if business.facebook_url %}
+
+                        <a
+                            href="{{ business.facebook_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open Facebook
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Instagram</span>
+
+                        {% if business.instagram_url %}
+
+                        <a
+                            href="{{ business.instagram_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open Instagram
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>TikTok</span>
+
+                        {% if business.tiktok_url %}
+
+                        <a
+                            href="{{ business.tiktok_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open TikTok
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>LinkedIn</span>
+
+                        {% if business.linkedin_url %}
+
+                        <a
+                            href="{{ business.linkedin_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open LinkedIn
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>YouTube</span>
+
+                        {% if business.youtube_url %}
+
+                        <a
+                            href="{{ business.youtube_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open YouTube
+                        </a>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not collected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="business-detail-field">
+
+                        <span>Contact Form</span>
+
+                        {% if business.contact_form_detected %}
+
+                        <strong>
+                            Detected
+                        </strong>
+
+                        {% else %}
+
+                        <strong class="business-detail-muted">
+                            Not detected
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <aside class="business-detail-side-column">
+
+            <div class="business-detail-panel">
+
+                <div class="business-detail-panel-header">
+
+                    <div class="business-detail-panel-icon business-detail-panel-icon-purple">
+                        ✦
+                    </div>
+
+                    <div>
+                        <p>ATLAS METADATA</p>
+
+                        <h2>
+                            Record Information
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="business-detail-metadata">
+
+                    <div>
+                        <span>Business ID</span>
+                        <strong>#{{ business.id }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Project ID</span>
+                        <strong>#{{ business.project_id }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Source Status</span>
+                        <strong>{{ business.status or "New" }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Contact Form</span>
+                        <strong>
+                            {% if business.contact_form_detected %}
+                                Detected
+                            {% else %}
+                                Not detected
+                            {% endif %}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Last Enriched</span>
+                        <strong>
+                            {{ business.last_enriched_at or "Never" }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Database Record</span>
+                        <strong>Active</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="business-detail-action-card">
+
+                <div class="business-detail-action-icon">
+                    ⌕
+                </div>
+
+                <div>
+                    <p>SCOUT RESEARCH</p>
+                    <h2>Find more businesses</h2>
+                    <span>
+                        Run another targeted search for this category or location.
+                    </span>
+                </div>
+
+                <a href="/scout">
+                    Launch Scout
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+    .business-detail-page {
+        width: 100%;
+        max-width: 1450px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .business-detail-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .business-detail-back {
+        display: inline-flex;
+        margin-bottom: 18px;
+        color: #6d58df;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .business-detail-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+    }
+
+    .business-detail-header h1 {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(31px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+    }
+
+    .business-detail-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 14px;
+    }
+
+    .business-detail-header-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .business-detail-primary-button,
+    .business-detail-secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 17px;
+        border-radius: 11px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .business-detail-primary-button {
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: 0;
+        color: #ffffff;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+    }
+
+    .business-detail-secondary-button {
+        background: #ffffff;
+        border: 1px solid #ddd9f6;
+        color: #6653d9;
+    }
+
+    .business-detail-alert {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 20px;
+        padding: 15px 18px;
+        background: #ecfaf4;
+        border: 1px solid #ccefe0;
+        border-radius: 13px;
+    }
+
+    .business-detail-alert-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        background: #d4f4e6;
+        border-radius: 10px;
+        color: #149467;
+        font-weight: 900;
+    }
+
+    .business-detail-alert strong {
+        color: #27624d;
+        font-size: 12px;
+    }
+
+    .business-detail-alert p {
+        margin: 4px 0 0;
+        color: #6c8f80;
+        font-size: 10px;
+    }
+
+    .business-detail-overview {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(250px, 0.34fr);
+        gap: 18px;
+        margin-bottom: 20px;
+    }
+
+    .business-detail-identity-card,
+    .business-detail-project-card,
+    .business-detail-panel {
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .business-detail-identity-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 22px;
+    }
+
+    .business-detail-avatar {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
+        place-items: center;
+        background: linear-gradient(135deg, #5f4ee3, #8b6bef);
+        border-radius: 16px;
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 900;
+    }
+
+    .business-detail-identity-copy {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .business-detail-record-label,
+    .business-detail-card-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #9aa1af;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .business-detail-identity-copy h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .business-detail-identity-copy p {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 11px;
+    }
+
+    .business-detail-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 9px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .business-detail-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .business-detail-status-verified {
+        background: #eaf8f2;
+        color: #11976c;
+    }
+
+    .business-detail-status-verified .business-detail-status-dot {
+        background: #19b77f;
+    }
+
+    .business-detail-status-pending {
+        background: #fff4e5;
+        color: #cf8122;
+    }
+
+    .business-detail-status-pending .business-detail-status-dot {
+        background: #e4a04c;
+    }
+
+    .business-detail-status-inactive {
+        background: #f0f1f5;
+        color: #757e90;
+    }
+
+    .business-detail-status-inactive .business-detail-status-dot {
+        background: #9299a8;
+    }
+
+    .business-detail-status-new {
+        background: #e9f3ff;
+        color: #3c7fc2;
+    }
+
+    .business-detail-status-new .business-detail-status-dot {
+        background: #4a91d9;
+    }
+
+    .business-detail-project-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 22px;
+    }
+
+    .business-detail-project-card strong {
+        color: #273147;
+        font-size: 16px;
+    }
+
+    .business-detail-project-status {
+        margin-top: 6px;
+        color: #7f889a;
+        font-size: 10px;
+    }
+
+    .business-detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+        gap: 20px;
+        align-items: start;
+    }
+
+    .business-detail-main-column,
+    .business-detail-side-column {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .business-detail-panel {
+        padding: 22px;
+    }
+
+    .business-detail-panel-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .business-detail-panel-icon {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        place-items: center;
+        background: #e8f3ff;
+        border-radius: 11px;
+        color: #3989d4;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .business-detail-panel-icon-purple {
+        background: #eeeafd;
+        color: #6c5ce7;
+    }
+
+    .business-detail-panel-header p {
+        margin: 0 0 4px;
+        color: #7658f6;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .business-detail-panel-header h2 {
+        margin: 0;
+        color: #313b50;
+        font-size: 15px;
+    }
+
+    .business-detail-fields,
+    .business-edit-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+    }
+
+    .business-detail-field {
+        min-width: 0;
+        padding: 15px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 11px;
+    }
+
+    .business-detail-field span,
+    .business-detail-field strong,
+    .business-detail-field a {
+        display: block;
+    }
+
+    .business-detail-field span {
+        margin-bottom: 6px;
+        color: #969dab;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .business-detail-field strong,
+    .business-detail-field a {
+        overflow-wrap: anywhere;
+        color: #3f495e;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .business-detail-field a {
+        color: #6653d9;
+        text-decoration: none;
+    }
+
+    .business-detail-muted {
+        color: #a0a7b4 !important;
+        font-weight: 600 !important;
+    }
+
+    .business-detail-metadata,
+    .business-detail-guidance {
+        display: grid;
+        gap: 10px;
+        margin-top: 17px;
+    }
+
+    .business-detail-metadata div {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 11px 12px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 9px;
+    }
+
+    .business-detail-metadata span {
+        color: #969dab;
+        font-size: 9px;
+    }
+
+    .business-detail-metadata strong {
+        color: #3f495e;
+        font-size: 10px;
+        text-align: right;
+    }
+
+    .business-edit-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .business-edit-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #4a5569;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .business-edit-field label span {
+        color: #755af0;
+    }
+
+    .business-edit-field input,
+    .business-edit-field select {
+        width: 100%;
+        height: 44px;
+        padding: 0 13px;
+        background: #fbfbfd;
+        border: 1px solid #e3e6ee;
+        border-radius: 10px;
+        outline: none;
+        color: #313b50;
+        font-family: inherit;
+        font-size: 11px;
+        box-sizing: border-box;
+    }
+
+    .business-edit-field input:focus,
+    .business-edit-field select:focus {
+        background: #ffffff;
+        border-color: #8b74ec;
+        box-shadow: 0 0 0 4px rgba(112, 88, 226, 0.1);
+    }
+
+    .business-contact-checkbox {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 0 13px;
+        background: #fbfbfd;
+        border: 1px solid #e3e6ee;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .business-contact-checkbox input {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+    }
+
+    .business-contact-checkbox span {
+        color: #4a5569 !important;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .business-edit-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .business-detail-guidance div {
+        display: flex;
+        gap: 10px;
+        padding: 11px;
+        background: #fafafd;
+        border: 1px solid #eceef4;
+        border-radius: 9px;
+    }
+
+    .business-detail-guidance span {
+        display: grid;
+        width: 23px;
+        height: 23px;
+        flex: 0 0 23px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 7px;
+        color: #6c58da;
+        font-size: 8px;
+        font-weight: 900;
+    }
+
+    .business-detail-guidance p {
+        margin: 1px 0 0;
+        color: #7f889a;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .business-detail-action-card {
+        position: relative;
+        overflow: hidden;
+        padding: 20px;
+        background: linear-gradient(145deg, #5f4de2, #8d5bdd);
+        border-radius: 15px;
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(91, 73, 209, 0.2);
+    }
+
+    .business-detail-action-card p {
+        margin: 0 0 6px;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .business-detail-action-card h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 17px;
+    }
+
+    .business-detail-action-card span {
+        display: block;
+        margin-top: 7px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+        line-height: 1.55;
+    }
+
+    .business-detail-action-card > a {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 38px;
+        margin-top: 17px;
+        padding: 0 13px;
+        background: #ffffff;
+        border-radius: 9px;
+        color: #6652d9;
+        font-size: 9px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .business-detail-action-card > a span {
+        display: inline;
+        margin: 0;
+        color: inherit;
+    }
+
+    @media (max-width: 980px) {
+        .business-detail-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .business-detail-side-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 760px) {
+        .business-detail-header,
+        .business-detail-overview {
+            grid-template-columns: 1fr;
+        }
+
+        .business-detail-header {
+            flex-direction: column;
+        }
+
+        .business-detail-fields,
+        .business-edit-fields {
+            grid-template-columns: 1fr;
+        }
+
+        .business-edit-field-full {
+            grid-column: auto;
+        }
+
+        .business-detail-side-column {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .business-detail-header-actions,
+        .business-detail-primary-button,
+        .business-detail-secondary-button {
+            width: 100%;
+        }
+
+        .business-detail-header-actions,
+        .business-edit-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+
+{% endblock %}

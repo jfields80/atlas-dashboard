@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Opportunity Center{% endblock %}
+
+{% block content %}
+
+<div class="page">
+
+    <div class="top-actions">
+        <div>
+            <h1>Opportunity Center</h1>
+            <p class="subtitle">
+                {{ records|length }} saved opportunities
+            </p>
+        </div>
+
+        <a href="{{ url_for('opportunities.run_scout') }}" class="btn">
+            + Run Analysis
+        </a>
+    </div>
+
+    <form method="GET" class="top-actions">
+
+        <div>
+            <select name="dna_slug" class="searchbox">
+                <option value="">All DNA profiles</option>
+                {% for slug in dna_options %}
+                    <option value="{{ slug }}"
+                        {% if filters.dna_slug == slug %}selected{% endif %}>
+                        {{ slug }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <select name="recommendation" class="searchbox">
+                <option value="">All recommendations</option>
+                {% for r in ["BUILD", "TEST", "DEFER", "REJECT"] %}
+                    <option value="{{ r }}"
+                        {% if filters.recommendation == r %}selected{% endif %}>
+                        {{ r }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <select name="status" class="searchbox">
+                <option value="">All statuses</option>
+                {% for s in ["unreviewed", "tracking", "building", "live", "archived"] %}
+                    <option value="{{ s }}"
+                        {% if filters.status == s %}selected{% endif %}>
+                        {{ s }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="btn">
+                Filter
+            </button>
+        </div>
+
+    </form>
+
+    {% if records %}
+
+        <table>
+            <tr>
+                <th>Opportunity</th>
+                <th>DNA</th>
+                <th>Recommendation</th>
+                <th>Confidence</th>
+                <th>Data Quality</th>
+                <th>Revenue</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for rec in records %}
+            <tr>
+                <td>
+                    <strong>{{ rec.display_name }}</strong>
+                    <br>
+                    <span style="color:#64748b;">
+                        {{ rec.asset_type or "opportunity" }}
+                    </span>
+                </td>
+
+                <td>{{ rec.dna_slug }}</td>
+
+                <td>
+                    <span class="badge">
+                        {{ rec.latest_recommendation or "—" }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ (rec.latest_confidence or 0)|int }}%
+                </td>
+
+                <td>
+                    {% if rec.latest_data_quality == "heuristic" %}
+                        <span class="badge">Needs Scout</span>
+                    {% else %}
+                        <span class="badge">Verified</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if rec.revenue_low %}
+                        ${{ rec.revenue_low|int }} - ${{ rec.revenue_high|int }}/mo
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <td>{{ rec.current_status }}</td>
+
+                <td>
+                    <a href="{{ url_for('opportunities.opportunity_detail', opportunity_id=rec.id) }}">
+                        View
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+
+        <p>No opportunities yet.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

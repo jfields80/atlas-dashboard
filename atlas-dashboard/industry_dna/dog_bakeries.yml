@@ -1,0 +1,195 @@
+slug: dog_bakeries
+display_name: Dog Bakeries
+version: "1.0"
+author: jon
+summary: >
+  Small artisan pet-treat producers, often local/regional. Simple retail
+  market, thin online commerce presence, high sentimental purchase
+  intensity (owners buying for pets they love). Tests the framework's
+  ability to describe a NARROW retail category without inventing
+  ecosystem complexity that doesn't exist.
+
+seed_geography_hint: US
+
+customer:
+  buyer_description: >
+    Pet owner buying treats/cakes for their dog. Purchase is often
+    occasion-driven (birthday, adoption anniversary, holiday) but a
+    minority buys weekly.
+  influencers: [children, other family members]
+  decision_maker_is_buyer: true
+  b2b: false
+  typical_lifecycle_stage: pet owner
+
+behavior:
+  primary_intent: buying
+  buying_cycle: short
+  purchase_cadence: occasional
+  decision_complexity: low
+  customer_emotion: high
+  trust_importance: medium
+  price_sensitivity: medium
+  urgency_when_buying: medium
+
+intent:
+  dominant_intents:
+    - find_local_bakery
+    - order_custom_cake
+    - discover_gourmet_treat_brands
+  local_intent: very_high
+  commercial_intent: high
+  review_importance: high
+  visual_importance: very_high
+  content_appetite: medium
+
+ecosystem_nodes:
+  - name: local dog bakeries
+    role: primary supply
+    supply_intensity: low
+    directory_potential: high
+    notes: The category itself. Small operators, thin coverage online.
+  - name: online dog treat brands
+    role: primary supply
+    supply_intensity: medium
+    directory_potential: medium
+    notes: DTC brands shipping nationally; affiliate-friendly.
+  - name: pet stores
+    role: substitute supply
+    supply_intensity: very_high
+    directory_potential: low
+    notes: Where most treat purchases actually happen; hard to displace.
+  - name: dog trainers
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+    notes: Trainers use treats — content overlap.
+  - name: veterinarians
+    role: adjacent authority
+    supply_intensity: very_high
+    directory_potential: low
+    notes: Content authority for 'is X safe for dogs' angles.
+  - name: dog groomers
+    role: adjacent retail
+    supply_intensity: high
+    directory_potential: low
+
+ecosystem_edges:
+  - from_node: local dog bakeries
+    to_node: online dog treat brands
+    edge_type: substitute
+    strength: high
+  - from_node: local dog bakeries
+    to_node: pet stores
+    edge_type: substitute
+    strength: very_high
+  - from_node: local dog bakeries
+    to_node: dog trainers
+    edge_type: serves_same_customer
+    strength: medium
+  - from_node: local dog bakeries
+    to_node: dog groomers
+    edge_type: serves_same_customer
+    strength: medium
+
+search_dimensions:
+  - name: location
+    description: Where the bakery is or ships to.
+    examples: [Columbus, Cleveland, Cincinnati, Ohio, Michigan, Indiana]
+    intent_type: structural
+    typically_produces_asset: geo_category
+  - name: product
+    description: Specific product type — cake, cookies, cupcakes, birthday.
+    examples: [custom cake, cupcakes, birthday cake, pupcakes]
+    intent_type: structural
+    typically_produces_asset: category
+  - name: dietary requirement
+    description: Diet constraints — grain-free, organic, allergen-free.
+    examples: [grain-free, organic, gluten-free, hypoallergenic]
+    intent_type: attribute
+    typically_produces_asset: filter
+  - name: occasion
+    description: Event driving the purchase.
+    examples: [birthday, adoption day, holiday, gotcha day]
+    intent_type: occasion
+    typically_produces_asset: article
+  - name: buying intent
+    description: Best/top/cheap shopping mode.
+    examples: [best, top-rated, order online]
+    intent_type: intent
+    typically_produces_asset: seo_page
+
+commercial:
+  lead_value: low
+  lead_value_estimate_usd: 8
+  recurring_revenue_potential: low
+  regulated: true
+  regulatory_notes: State pet food/treat licensing varies (Ohio Dept of Ag applies).
+  streams:
+    - stream: premium_listings
+      strength: medium
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 600
+      notes: Local bakeries pay for featured slots, but supply is small.
+    - stream: affiliate_products
+      strength: high
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 1000
+      notes: DTC treat brands + Amazon; strong sentimental-purchase conversion.
+    - stream: ads
+      strength: medium
+      typical_monthly_range_low: 50
+      typical_monthly_range_high: 500
+    - stream: sponsorships
+      strength: low
+      typical_monthly_range_low: 50
+      typical_monthly_range_high: 300
+    - stream: lead_gen
+      strength: low
+      typical_monthly_range_low: 25
+      typical_monthly_range_high: 200
+      notes: Custom cake inquiries can be routed to bakeries for a fee.
+
+asset_preferences:
+  - asset_type: directory
+    fit_weight: 75
+    rationale: Regional directories work; national is a stretch given small supply.
+  - asset_type: geo_category
+    fit_weight: 80
+    rationale: State/metro pages are the natural browse structure.
+  - asset_type: category
+    fit_weight: 70
+    rationale: Product types (cakes, cupcakes, custom) segment cleanly.
+  - asset_type: filter
+    fit_weight: 85
+    rationale: Diet requirements are exactly what shoppers filter by.
+  - asset_type: seo_page
+    fit_weight: 70
+  - asset_type: article
+    fit_weight: 80
+    rationale: Birthday party guides, safe-ingredient content, gift guides.
+  - asset_type: buying_guide
+    fit_weight: 85
+    rationale: Gift guides and treat brand roundups monetize very well.
+  - asset_type: affiliate_hub
+    fit_weight: 85
+    rationale: DTC treat brand affiliate stack.
+  - asset_type: comparison
+    fit_weight: 65
+  - asset_type: marketplace
+    fit_weight: 25
+    rationale: Not enough supply density.
+  - asset_type: lead_gen
+    fit_weight: 40
+  - asset_type: tool
+    fit_weight: 55
+
+scoring_weights:
+  search_demand: 0.15
+  competition: 0.20
+  directory_weakness: 0.25
+  business_count: 0.15
+  monetization: 0.20
+  automation_fit: 0.05
+
+learning:
+  frozen: true

@@ -1,0 +1,123 @@
+"""Website Intelligence & Work Planning Engine (AES-005A Part 1).
+
+Deterministic audit scoring layer. No AI. No I/O. No side effects.
+
+Public API:
+
+- constants: ENGINE_NAME, ENGINE_VERSION, categories, weights, bands
+- models: immutable audit contracts
+- scoring_engine: pure deterministic scoring functions and facade
+"""
+
+from engines.website_intelligence.constants import (
+    CATEGORY_COMMERCIAL,
+    CATEGORY_CONTENT,
+    CATEGORY_DIRECTORY,
+    CATEGORY_MONETIZATION,
+    CATEGORY_NAVIGATION,
+    CATEGORY_SEO,
+    CATEGORY_UX,
+    CATEGORY_WEIGHTS,
+    ENGINE_NAME,
+    ENGINE_VERSION,
+    GRADE_A,
+    GRADE_B,
+    GRADE_C,
+    GRADE_D,
+    GRADE_F,
+    PRIORITIES,
+    PRIORITY_HIGH,
+    PRIORITY_LOW,
+    PRIORITY_MEDIUM,
+    READINESS_NEEDS_WORK,
+    READINESS_NOT_READY,
+    READINESS_READY,
+    READINESS_REVIEW,
+    SCORE_CATEGORIES,
+    SCORE_MAX,
+    SCORE_MIN,
+    SEVERITIES,
+    SEVERITY_CRITICAL,
+    SEVERITY_INFO,
+    SEVERITY_WARNING,
+    WORK_ORDER_STATUS_APPROVED,
+    WORK_ORDER_STATUS_PENDING,
+    WORK_ORDER_STATUS_REJECTED,
+    WORK_ORDER_STATUSES,
+)
+from engines.website_intelligence.models import (
+    PYDANTIC_V2,
+    ImmutableModel,
+    WebsiteAuditFinding,
+    WebsiteAuditInput,
+    WebsiteAuditRecommendation,
+    WebsiteAuditReport,
+    WebsiteWorkOrder,
+)
+from engines.website_intelligence.scoring_engine import (
+    ScoringEngine,
+    ScoringResult,
+    compute_overall_score,
+    grade_for_score,
+    launch_readiness_for_score,
+    round_score,
+    stable_id,
+    validate_category_scores,
+    validate_weights,
+)
+
+__all__ = [
+    # constants
+    "CATEGORY_COMMERCIAL",
+    "CATEGORY_CONTENT",
+    "CATEGORY_DIRECTORY",
+    "CATEGORY_MONETIZATION",
+    "CATEGORY_NAVIGATION",
+    "CATEGORY_SEO",
+    "CATEGORY_UX",
+    "CATEGORY_WEIGHTS",
+    "ENGINE_NAME",
+    "ENGINE_VERSION",
+    "GRADE_A",
+    "GRADE_B",
+    "GRADE_C",
+    "GRADE_D",
+    "GRADE_F",
+    "PRIORITIES",
+    "PRIORITY_HIGH",
+    "PRIORITY_LOW",
+    "PRIORITY_MEDIUM",
+    "READINESS_NEEDS_WORK",
+    "READINESS_NOT_READY",
+    "READINESS_READY",
+    "READINESS_REVIEW",
+    "SCORE_CATEGORIES",
+    "SCORE_MAX",
+    "SCORE_MIN",
+    "SEVERITIES",
+    "SEVERITY_CRITICAL",
+    "SEVERITY_INFO",
+    "SEVERITY_WARNING",
+    "WORK_ORDER_STATUS_APPROVED",
+    "WORK_ORDER_STATUS_PENDING",
+    "WORK_ORDER_STATUS_REJECTED",
+    "WORK_ORDER_STATUSES",
+    # models
+    "PYDANTIC_V2",
+    "ImmutableModel",
+    "WebsiteAuditFinding",
+    "WebsiteAuditInput",
+    "WebsiteAuditRecommendation",
+    "WebsiteAuditReport",
+    "WebsiteWorkOrder",
+    # scoring engine
+    "ScoringEngine",
+    "ScoringResult",
+    "compute_overall_score",
+    "grade_for_score",
+    "launch_readiness_for_score",
+    "round_score",
+    "stable_id",
+    "validate_category_scores",
+    "validate_weights",
+]

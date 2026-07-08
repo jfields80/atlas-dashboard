@@ -1,0 +1,113 @@
+/* =========================
+   ATLAS UI SYSTEM
+   ========================= */
+
+:root {
+  --atlas-bg: #061225;
+  --atlas-card: #ffffff;
+  --atlas-border: #e5e7eb;
+  --atlas-text: #0f172a;
+  --atlas-muted: #64748b;
+
+  --atlas-blue: #38bdf8;
+  --atlas-green: #16a34a;
+  --atlas-yellow: #f59e0b;
+  --atlas-red: #ef4444;
+}
+
+/* HERO SYSTEM */
+.atlas-hero {
+  background: linear-gradient(135deg, #061225 0%, #0f2747 100%);
+  color: white;
+  border-radius: 22px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+}
+
+/* BADGES */
+.atlas-badge {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.atlas-badge--green { background:#dcfce7; color:#166534; }
+.atlas-badge--yellow { background:#fef3c7; color:#92400e; }
+.atlas-badge--blue { background:#e0f2fe; color:#075985; }
+.atlas-badge--red { background:#fee2e2; color:#991b1b; }
+
+/* CARDS */
+.atlas-card {
+  background: var(--atlas-card);
+  border: 1px solid var(--atlas-border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* METRICS */
+.atlas-metrics {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:14px;
+}
+
+.atlas-metric {
+  background:#f8fafc;
+  border:1px solid var(--atlas-border);
+  border-radius:14px;
+  padding:16px;
+}
+
+.atlas-metric span {
+  font-size:12px;
+  color:var(--atlas-muted);
+  font-weight:700;
+}
+
+.atlas-metric strong {
+  font-size:22px;
+  display:block;
+  margin-top:6px;
+  color:var(--atlas-text);
+}
+
+/* GRID HELPERS */
+.atlas-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.atlas-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+
+/* BUTTONS */
+.atlas-btn {
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:800;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  justify-content:center;
+}
+
+.atlas-btn--primary { background:#38bdf8; color:#061225; }
+.atlas-btn--success { background:#16a34a; color:white; }
+.atlas-btn--ghost { background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; }
+
+/* SECTIONS */
+.atlas-section-title {
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+  color:#0f172a;
+}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .atlas-metrics { grid-template-columns:repeat(2,1fr); }
+  .atlas-grid-3 { grid-template-columns:1fr; }
+  .atlas-grid-2 { grid-template-columns:1fr; }
+}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="atlas-hero">
+
+  <div>
+    <div class="op-eyebrow">Scout Intelligence</div>
+    <h1>{{ record.name if record else "Opportunity" }}</h1>
+
+    <div style="margin-top:10px;">
+      <span class="atlas-badge atlas-badge--blue">
+        {{ run_count }} Runs
+      </span>
+    </div>
+  </div>
+
+</div>
+
+<div class="atlas-metrics">
+
+  <div class="atlas-metric">
+    <span>Opportunity ID</span>
+    <strong>{{ record.id if record else "—" }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Status</span>
+    <strong>
+      {% if latest_run %}
+        Active
+      {% else %}
+        No Run
+      {% endif %}
+    </strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Evidence Items</span>
+    <strong>{{ findings|length if findings else 0 }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Engine Status</span>
+    <strong>Scout</strong>
+  </div>
+
+</div>
+
+{% if findings and findings|length > 0 %}
+
+<div class="atlas-card" style="margin-top:16px;">
+
+  <div class="atlas-section-title">Evidence</div>
+
+  {% for f in findings %}
+
+  <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;">
+
+    <div>
+      <strong>{{ f.label or f.name or f.key }}</strong><br>
+      <small class="text-muted">{{ f.source or "Atlas Scout" }}</small>
+    </div>
+
+    <div>
+      <strong>{{ f.value or f.result or "Unknown" }}</strong>
+    </div>
+
+    <div>
+      {% if (f.status or '')|upper == "VERIFIED" %}
+        <span class="atlas-badge atlas-badge--green">Verified</span>
+      {% elif (f.status or '')|upper == "ESTIMATED" %}
+        <span class="atlas-badge atlas-badge--yellow">Estimated</span>
+      {% else %}
+        <span class="atlas-badge atlas-badge--blue">Unknown</span>
+      {% endif %}
+    </div>
+
+  </div>
+
+  {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="atlas-card" style="margin-top:16px; text-align:center;">
+  <h3>No Evidence Yet</h3>
+  <p class="text-muted">Scout has not produced structured evidence for this opportunity.</p>
+</div>
+
+{% endif %}
+
+{% endblock %}

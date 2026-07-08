@@ -1,0 +1,1 @@
+DATABASE = r"C:\Atlas\atlas.db"

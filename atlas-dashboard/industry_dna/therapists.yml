@@ -1,0 +1,250 @@
+slug: therapists
+display_name: Therapists & Mental Health Providers
+version: "1.0"
+author: jon
+summary: >
+  Regulated professional-services market. High lead value, insurance-driven,
+  high trust barrier, long buying cycle. Tests the framework's ability to
+  describe a market where directory economics are secondary to lead-gen and
+  the ecosystem is defined by problems/insurance/credentials rather than
+  geography or products.
+
+seed_geography_hint: US
+
+customer:
+  buyer_description: >
+    Person seeking mental health treatment for themselves or a family
+    member. Often in emotional distress, insurance-constrained, and
+    hesitant to trust a random directory listing.
+  influencers: [primary care physician, spouse, family, insurance company, employer EAP]
+  decision_maker_is_buyer: true
+  b2b: false
+  typical_lifecycle_stage: help-seeking
+
+behavior:
+  primary_intent: problem_solving
+  buying_cycle: long
+  purchase_cadence: ongoing
+  decision_complexity: high
+  customer_emotion: extreme
+  trust_importance: extreme
+  price_sensitivity: high
+  urgency_when_buying: high
+
+intent:
+  dominant_intents:
+    - find_provider_who_takes_my_insurance
+    - find_specialist_for_my_problem
+    - find_provider_near_me
+    - verify_credentials_and_reviews
+  local_intent: very_high
+  commercial_intent: high
+  review_importance: high
+  visual_importance: low
+  content_appetite: very_high
+  # Note: visual_importance LOW is real — this market is words, not photos.
+
+ecosystem_nodes:
+  - name: therapists
+    role: primary supply
+    supply_intensity: very_high
+    directory_potential: high
+    notes: Psychology Today owns the head; long-tail directories still viable.
+  - name: therapy group practices
+    role: primary supply
+    supply_intensity: high
+    directory_potential: medium
+  - name: psychiatrists
+    role: adjacent authority
+    supply_intensity: high
+    directory_potential: high
+    notes: Distinct market — meds vs talk therapy. Referral partner.
+  - name: ABA centers
+    role: adjacent specialty
+    supply_intensity: medium
+    directory_potential: high
+    notes: Autism-focused. Own portfolio candidate.
+  - name: speech therapy
+    role: adjacent specialty
+    supply_intensity: high
+    directory_potential: high
+  - name: occupational therapy
+    role: adjacent specialty
+    supply_intensity: high
+    directory_potential: medium
+  - name: online therapy platforms
+    role: substitute supply
+    supply_intensity: medium
+    directory_potential: low
+    notes: BetterHelp/Talkspace/etc. — comparison/affiliate territory.
+  - name: crisis lines and support hotlines
+    role: adjacent service
+    supply_intensity: low
+    directory_potential: high
+    notes: Public service; not monetized directly but drives trust/traffic.
+  - name: support groups
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+  - name: parent coaching
+    role: adjacent service
+    supply_intensity: medium
+    directory_potential: medium
+  - name: insurance companies
+    role: gatekeeper
+    supply_intensity: medium
+    directory_potential: low
+    notes: Not directory material but drives the primary filter axis.
+
+ecosystem_edges:
+  - from_node: therapists
+    to_node: psychiatrists
+    edge_type: complementary
+    strength: high
+  - from_node: therapists
+    to_node: online therapy platforms
+    edge_type: substitute
+    strength: high
+  - from_node: therapists
+    to_node: support groups
+    edge_type: complementary
+    strength: medium
+  - from_node: ABA centers
+    to_node: speech therapy
+    edge_type: complementary
+    strength: very_high
+  - from_node: ABA centers
+    to_node: occupational therapy
+    edge_type: complementary
+    strength: very_high
+  - from_node: ABA centers
+    to_node: parent coaching
+    edge_type: complementary
+    strength: high
+  - from_node: therapists
+    to_node: crisis lines and support hotlines
+    edge_type: complementary
+    strength: medium
+
+search_dimensions:
+  - name: problem
+    description: The presenting issue the person is seeking help for.
+    examples: [anxiety, depression, trauma, adhd, couples, addiction]
+    intent_type: structural
+    typically_produces_asset: category
+  - name: patient population
+    description: Age/relationship group the therapist serves.
+    examples: [child, teen, adult, couples, family, elderly]
+    intent_type: structural
+    typically_produces_asset: category
+  - name: insurance
+    description: Which insurance is accepted — the make-or-break filter.
+    examples: [Aetna, BCBS, Medicaid, Medicare, sliding scale, cash pay]
+    intent_type: attribute
+    typically_produces_asset: filter
+  - name: treatment method
+    description: Modality — CBT, DBT, EMDR, psychodynamic.
+    examples: [CBT, DBT, EMDR, IFS, psychodynamic]
+    intent_type: attribute
+    typically_produces_asset: filter
+  - name: provider credential
+    description: LPC, LCSW, PhD, PsyD, MD.
+    examples: [LCSW, LPC, psychologist, psychiatrist]
+    intent_type: attribute
+    typically_produces_asset: filter
+  - name: session type
+    description: In-person, telehealth, hybrid.
+    examples: [in-person, telehealth, hybrid, home visit]
+    intent_type: attribute
+    typically_produces_asset: filter
+  - name: location
+    description: Geographic where.
+    examples: [Columbus, Franklin County, Ohio]
+    intent_type: structural
+    typically_produces_asset: geo_category
+  - name: life event
+    description: The precipitating life change driving the search.
+    examples: [postpartum, divorce, grief, deployment return, college transition]
+    intent_type: occasion
+    typically_produces_asset: article
+
+commercial:
+  lead_value: very_high
+  lead_value_estimate_usd: 120
+  recurring_revenue_potential: high
+  regulated: true
+  regulatory_notes: >
+    HIPAA / state licensing / clinical claims subject to FTC & state boards.
+    Content and lead-gen must avoid diagnostic claims and outcomes promises.
+  streams:
+    - stream: lead_gen
+      strength: very_high
+      typical_monthly_range_low: 400
+      typical_monthly_range_high: 5000
+      notes: Highest-value stream. Verified referral to accepting practice.
+    - stream: premium_listings
+      strength: very_high
+      typical_monthly_range_low: 300
+      typical_monthly_range_high: 4000
+      notes: Practices pay meaningfully for featured slots ($50-150/mo).
+    - stream: ads
+      strength: medium
+      typical_monthly_range_low: 50
+      typical_monthly_range_high: 600
+    - stream: sponsorships
+      strength: medium
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 1500
+      notes: EHR / practice-management SaaS sponsorships.
+    - stream: affiliate_platforms
+      strength: medium
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 1200
+      notes: BetterHelp/Talkspace affiliate — ethical caveats apply.
+
+asset_preferences:
+  - asset_type: directory
+    fit_weight: 85
+  - asset_type: geo_category
+    fit_weight: 90
+  - asset_type: category
+    fit_weight: 90
+    rationale: Problem-specific and population-specific pages dominate SEO.
+  - asset_type: filter
+    fit_weight: 95
+    rationale: Insurance filter is the #1 user need — do this well and win.
+  - asset_type: seo_page
+    fit_weight: 75
+  - asset_type: article
+    fit_weight: 90
+    rationale: Long-form problem/life-event content drives massive traffic.
+  - asset_type: comparison
+    fit_weight: 60
+  - asset_type: buying_guide
+    fit_weight: 65
+    rationale: "'How to choose a therapist' style content."
+  - asset_type: lead_gen
+    fit_weight: 95
+    rationale: Primary revenue path in this vertical.
+  - asset_type: affiliate_hub
+    fit_weight: 55
+    rationale: Online-platform affiliates only; ethical constraints.
+  - asset_type: marketplace
+    fit_weight: 40
+  - asset_type: tool
+    fit_weight: 75
+    rationale: "Insurance-check / provider-match tool would perform strongly."
+
+# Regulated + lead-value-driven market: monetization and lead-value carry
+# more weight; automation is lower priority because trust content needs
+# human review before publication.
+scoring_weights:
+  search_demand: 0.15
+  competition: 0.20
+  directory_weakness: 0.15
+  business_count: 0.10
+  monetization: 0.35
+  automation_fit: 0.05
+
+learning:
+  frozen: true

@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+
+{% block title %}Scout Results | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="scout-results-page">
+
+    <section class="scout-results-header">
+
+        <div>
+            <p class="scout-results-eyebrow">
+                SCOUT AI RESULTS
+            </p>
+
+            <h1>
+                {% if success %}
+                    Research Complete
+                {% else %}
+                    Research Interrupted
+                {% endif %}
+            </h1>
+
+            <p>
+                {% if success %}
+                    Review what Scout found, saved, updated, and filtered.
+                {% else %}
+                    Review the error and return to Scout to try again.
+                {% endif %}
+            </p>
+        </div>
+
+        <a
+            href="/scout"
+            class="scout-results-back-button"
+        >
+            Run Another Search
+        </a>
+
+    </section>
+
+
+    <section class="scout-results-summary">
+
+        <div class="scout-results-summary-card">
+
+            <span class="scout-results-label">
+                Project
+            </span>
+
+            <strong>
+                {{ project_name }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-summary-card">
+
+            <span class="scout-results-label">
+                Search Term
+            </span>
+
+            <strong>
+                {{ search_term }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-summary-card">
+
+            <span class="scout-results-label">
+                Location
+            </span>
+
+            <strong>
+                {{ location }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-summary-card">
+
+            <span class="scout-results-label">
+                Sources
+            </span>
+
+            <strong>
+                {{ sources|join(", ") }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    {% if success %}
+
+    <section class="scout-results-status success">
+
+        <div class="scout-results-status-icon">
+            ✓
+        </div>
+
+        <div>
+            <h2>
+                Scout completed successfully
+            </h2>
+
+            <p>
+                Atlas finished the research job and protected the database from repeat records.
+            </p>
+        </div>
+
+    </section>
+
+
+    <section class="scout-results-grid">
+
+        <div class="scout-results-metric">
+
+            <span>
+                Businesses Found
+            </span>
+
+            <strong>
+                {{ results.found|default(0) }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-metric">
+
+            <span>
+                New Records Added
+            </span>
+
+            <strong>
+                {{ results.inserted|default(0) }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-metric">
+
+            <span>
+                Existing Records Updated
+            </span>
+
+            <strong>
+                {{ results.updated|default(0) }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-metric">
+
+            <span>
+                Records Skipped
+            </span>
+
+            <strong>
+                {{ results.skipped|default(0) }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-metric scout-results-metric-protected">
+
+            <span>
+                Run Duplicates Blocked
+            </span>
+
+            <strong>
+                {{ results.run_duplicates|default(0) }}
+            </strong>
+
+        </div>
+
+
+        <div class="scout-results-metric scout-results-metric-invalid">
+
+            <span>
+                Invalid Records Rejected
+            </span>
+
+            <strong>
+                {{ results.invalid|default(0) }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="scout-results-insight">
+
+        <div class="scout-results-insight-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <p>
+                ATLAS DATA PROTECTION
+            </p>
+
+            <h2>
+                Scout filtered the results before saving
+            </h2>
+
+            <span>
+                Matching records were updated instead of duplicated, repeated results from the same run were blocked, and incomplete records were rejected.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <section class="scout-results-actions">
+
+        <a
+            href="/businesses"
+            class="scout-results-primary-button"
+        >
+            View Businesses
+        </a>
+
+        <a
+            href="/scout"
+            class="scout-results-secondary-button"
+        >
+            Run Another Search
+        </a>
+
+    </section>
+
+    {% else %}
+
+    <section class="scout-results-status error">
+
+        <div class="scout-results-status-icon">
+            !
+        </div>
+
+        <div>
+            <h2>
+                Scout could not complete the search
+            </h2>
+
+            <p>
+                {{ error_message or "Atlas encountered an unexpected research error." }}
+            </p>
+        </div>
+
+    </section>
+
+
+    <section class="scout-results-actions">
+
+        <a
+            href="/scout"
+            class="scout-results-primary-button"
+        >
+            Return to Scout
+        </a>
+
+        <a
+            href="/businesses"
+            class="scout-results-secondary-button"
+        >
+            View Businesses
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+    .scout-results-page {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .scout-results-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .scout-results-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+    }
+
+    .scout-results-header h1 {
+        margin: 0;
+        color: #172033;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+    }
+
+    .scout-results-header p {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 14px;
+    }
+
+    .scout-results-back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 16px;
+        background: #ffffff;
+        border: 1px solid #ddd9f6;
+        border-radius: 10px;
+        color: #6653d9;
+        font-size: 11px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .scout-results-summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .scout-results-summary-card {
+        min-width: 0;
+        padding: 16px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.04);
+    }
+
+    .scout-results-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .scout-results-summary-card strong {
+        display: block;
+        overflow: hidden;
+        color: #273147;
+        font-size: 12px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .scout-results-status {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .scout-results-status.success,
+    .scout-results-status.error {
+        background: #f0edff;
+        border: 1px solid #dcd5fb;
+    }
+
+    .scout-results-status-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        background: #e4defe;
+        border-radius: 12px;
+        color: #6753e7;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .scout-results-status h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .scout-results-status p {
+        margin: 5px 0 0;
+        color: #7b719f;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .scout-results-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 22px;
+    }
+
+    .scout-results-metric {
+        padding: 22px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.04);
+    }
+
+    .scout-results-metric-protected,
+    .scout-results-metric-invalid {
+        background: #fbfaff;
+        border-color: #e4defd;
+    }
+
+    .scout-results-metric span {
+        display: block;
+        margin-bottom: 8px;
+        color: #9299a8;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .scout-results-metric strong {
+        color: #202a40;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .scout-results-metric-protected strong,
+    .scout-results-metric-invalid strong {
+        color: #6753e7;
+    }
+
+    .scout-results-insight {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.04);
+    }
+
+    .scout-results-insight-icon {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        place-items: center;
+        background: #eeeafd;
+        border-radius: 12px;
+        color: #6b57e1;
+        font-size: 18px;
+    }
+
+    .scout-results-insight p {
+        margin: 0 0 4px;
+        color: #7658f6;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .scout-results-insight h2 {
+        margin: 0;
+        color: #313b50;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .scout-results-insight span {
+        display: block;
+        margin-top: 5px;
+        color: #8c94a4;
+        font-size: 10px;
+        line-height: 1.55;
+    }
+
+    .scout-results-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .scout-results-primary-button,
+    .scout-results-secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 17px;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .scout-results-primary-button {
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        color: #ffffff;
+        box-shadow: 0 9px 20px rgba(96, 75, 216, 0.2);
+    }
+
+    .scout-results-secondary-button {
+        background: #ffffff;
+        border: 1px solid #ddd9f6;
+        color: #6653d9;
+    }
+
+    @media (max-width: 900px) {
+        .scout-results-summary,
+        .scout-results-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 600px) {
+        .scout-results-header {
+            flex-direction: column;
+        }
+
+        .scout-results-summary,
+        .scout-results-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .scout-results-actions {
+            flex-direction: column;
+        }
+
+        .scout-results-primary-button,
+        .scout-results-secondary-button,
+        .scout-results-back-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+{% endblock %}

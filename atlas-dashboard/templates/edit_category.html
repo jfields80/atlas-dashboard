@@ -1,0 +1,1301 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Category | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="edit-category-page">
+
+    <section class="edit-category-header">
+
+        <div>
+            <a href="/categories" class="edit-category-back">
+                <span>←</span>
+                Back to Knowledge Engine
+            </a>
+
+            <p class="edit-category-eyebrow">
+                KNOWLEDGE ENGINE
+            </p>
+
+            <h1 class="edit-category-title">
+                Edit Category
+            </h1>
+
+            <p class="edit-category-subtitle">
+                Update how Atlas identifies, organizes, and uses this category.
+            </p>
+        </div>
+
+        <div class="edit-category-status">
+            <span class="edit-category-status-dot"></span>
+
+            <div>
+                <span>Category Record</span>
+
+                <strong>
+                    {% if category[7] == 1 %}
+                        Active
+                    {% else %}
+                        Inactive
+                    {% endif %}
+                </strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="edit-category-layout">
+
+        <main class="edit-category-panel">
+
+            <div class="edit-category-panel-header">
+
+                <div>
+                    <p class="edit-category-panel-eyebrow">
+                        CATEGORY DETAILS
+                    </p>
+
+                    <h2>
+                        {{ category[1] }}
+                    </h2>
+
+                    <p>
+                        Changes are applied across the Atlas knowledge system.
+                    </p>
+                </div>
+
+                <div class="edit-category-panel-icon">
+                    {{ category[1][0]|upper }}
+                </div>
+
+            </div>
+
+
+            <form
+                action="/categories/update/{{ category[0] }}"
+                method="POST"
+                id="editCategoryForm"
+            >
+
+                <div class="edit-category-fields">
+
+                    <div class="edit-category-field edit-category-field-full">
+
+                        <label for="name">
+                            Category Name
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ category[1] }}"
+                            required
+                        >
+
+                        <small>
+                            Use the business category name customers would recognize.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edit-category-field">
+
+                        <label for="slug">
+                            URL Slug
+                            <span>*</span>
+                        </label>
+
+                        <div class="edit-category-prefix">
+                            <span>/</span>
+
+                            <input
+                                type="text"
+                                id="slug"
+                                name="slug"
+                                value="{{ category[2] }}"
+                                required
+                            >
+                        </div>
+
+                        <small>
+                            Used for URLs and internal organization.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edit-category-field">
+
+                        <label for="industry">
+                            Industry
+                        </label>
+
+                        <input
+                            type="text"
+                            id="industry"
+                            name="industry"
+                            value="{{ category[5] or '' }}"
+                            placeholder="Example: Travel & Hospitality"
+                        >
+
+                        <small>
+                            The broader industry containing this category.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edit-category-field edit-category-field-full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            maxlength="500"
+                            placeholder="Describe which businesses belong in this category."
+                        >{{ category[3] or '' }}</textarea>
+
+                        <div class="edit-category-character-row">
+
+                            <small>
+                                This description helps guide Scout and Atlas AI employees.
+                            </small>
+
+                            <span id="descriptionCount">
+                                0 / 500
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-category-field edit-category-field-full">
+
+                        <label>
+                            Category Status
+                        </label>
+
+                        <div class="edit-category-status-options">
+
+                            <label class="edit-category-radio">
+
+                                <input
+                                    type="radio"
+                                    name="active"
+                                    value="1"
+                                    {% if category[7] == 1 %}checked{% endif %}
+                                >
+
+                                <span class="edit-category-radio-card">
+
+                                    <span class="edit-category-radio-dot active-dot"></span>
+
+                                    <span>
+                                        <strong>Active</strong>
+                                        <small>
+                                            Available to Atlas agents and directories
+                                        </small>
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+
+                            <label class="edit-category-radio">
+
+                                <input
+                                    type="radio"
+                                    name="active"
+                                    value="0"
+                                    {% if category[7] == 0 %}checked{% endif %}
+                                >
+
+                                <span class="edit-category-radio-card">
+
+                                    <span class="edit-category-radio-dot inactive-dot"></span>
+
+                                    <span>
+                                        <strong>Inactive</strong>
+                                        <small>
+                                            Retain the record without using it
+                                        </small>
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="edit-category-actions">
+
+                    <a
+                        href="/categories"
+                        class="edit-category-cancel"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="edit-category-save"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </main>
+
+
+        <aside class="edit-category-sidebar">
+
+            <section class="edit-category-preview">
+
+                <div class="edit-category-preview-glow"></div>
+
+                <p class="edit-category-preview-eyebrow">
+                    LIVE PREVIEW
+                </p>
+
+                <div
+                    class="edit-category-preview-icon"
+                    id="previewIcon"
+                >
+                    {{ category[1][0]|upper }}
+                </div>
+
+                <h2 id="previewName">
+                    {{ category[1] }}
+                </h2>
+
+                <span
+                    class="edit-category-preview-industry"
+                    id="previewIndustry"
+                >
+                    {{ category[5] or "General Industry" }}
+                </span>
+
+                <p id="previewDescription">
+                    {{ category[3] or "No category description has been added." }}
+                </p>
+
+                <div class="edit-category-preview-details">
+
+                    <div>
+                        <span>Category ID</span>
+                        <strong>#{{ category[0] }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Readiness</span>
+                        <strong>100%</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="edit-category-info-card">
+
+                <div class="edit-category-info-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <strong>
+                        Atlas Knowledge Record
+                    </strong>
+
+                    <p>
+                        Updating this record changes the category information
+                        available to Scout, analytics, AI employees, and future
+                        directory tools.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <section class="edit-category-danger">
+
+                <div class="edit-category-danger-header">
+
+                    <div class="edit-category-danger-icon">
+                        !
+                    </div>
+
+                    <div>
+                        <p>DESTRUCTIVE ACTION</p>
+                        <h2>Delete Category</h2>
+                    </div>
+
+                </div>
+
+                <p class="edit-category-danger-copy">
+                    Permanently remove this category from the Atlas database.
+                    This action cannot be undone.
+                </p>
+
+                <button
+                    type="button"
+                    class="edit-category-delete-button"
+                    id="openDeleteModal"
+                >
+                    Delete Category
+                </button>
+
+            </section>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+<div
+    class="edit-category-modal"
+    id="deleteModal"
+    aria-hidden="true"
+>
+
+    <div class="edit-category-modal-backdrop"></div>
+
+    <div class="edit-category-modal-card">
+
+        <div class="edit-category-modal-icon">
+            !
+        </div>
+
+        <h2>
+            Delete {{ category[1] }}?
+        </h2>
+
+        <p>
+            This category will be permanently removed from Atlas.
+            This action cannot be undone.
+        </p>
+
+        <div class="edit-category-modal-actions">
+
+            <button
+                type="button"
+                class="edit-category-modal-cancel"
+                id="closeDeleteModal"
+            >
+                Keep Category
+            </button>
+
+            <form
+                action="/categories/delete/{{ category[0] }}"
+                method="POST"
+            >
+                <button
+                    type="submit"
+                    class="edit-category-modal-delete"
+                >
+                    Delete Permanently
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    .edit-category-page {
+        width: 100%;
+        max-width: 1450px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .edit-category-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .edit-category-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 20px;
+        color: #7b8496;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .edit-category-back:hover {
+        color: #6753df;
+    }
+
+    .edit-category-eyebrow,
+    .edit-category-panel-eyebrow,
+    .edit-category-preview-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .edit-category-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .edit-category-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .edit-category-status {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 165px;
+        padding: 13px 16px;
+        background: #ffffff;
+        border: 1px solid #e8eaf1;
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(25, 33, 51, 0.05);
+    }
+
+    .edit-category-status-dot {
+        width: 10px;
+        height: 10px;
+        background: #19b981;
+        border: 3px solid #d9f8ed;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .edit-category-status span,
+    .edit-category-status strong {
+        display: block;
+    }
+
+    .edit-category-status span {
+        margin-bottom: 3px;
+        color: #9299a8;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+    .edit-category-status strong {
+        color: #273147;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .edit-category-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.65fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+    .edit-category-panel {
+        padding: 24px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 17px;
+        box-shadow: 0 8px 28px rgba(25, 33, 51, 0.045);
+    }
+
+    .edit-category-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eff0f5;
+    }
+
+    .edit-category-panel-header h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+
+    .edit-category-panel-header p:last-child {
+        margin: 6px 0 0;
+        color: #8c94a4;
+        font-size: 12px;
+    }
+
+    .edit-category-panel-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        background: linear-gradient(135deg, #5f4ee3, #8b6bef);
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    .edit-category-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 18px;
+    }
+
+    .edit-category-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .edit-category-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #444e63;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .edit-category-field label > span {
+        color: #7658e7;
+    }
+
+    .edit-category-field input,
+    .edit-category-field textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: #fafbfc;
+        border: 1px solid #e3e6ed;
+        border-radius: 10px;
+        outline: none;
+        color: #293349;
+        font-family: inherit;
+        font-size: 11px;
+    }
+
+    .edit-category-field input {
+        height: 43px;
+        padding: 0 13px;
+    }
+
+    .edit-category-field textarea {
+        min-height: 145px;
+        padding: 13px;
+        resize: vertical;
+        line-height: 1.55;
+    }
+
+    .edit-category-field input:focus,
+    .edit-category-field textarea:focus {
+        background: #ffffff;
+        border-color: #8875e8;
+        box-shadow: 0 0 0 3px rgba(117, 89, 230, 0.1);
+    }
+
+    .edit-category-field small {
+        display: block;
+        margin-top: 7px;
+        color: #9ba2af;
+        font-size: 8px;
+        line-height: 1.45;
+    }
+
+    .edit-category-prefix {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: #fafbfc;
+        border: 1px solid #e3e6ed;
+        border-radius: 10px;
+    }
+
+    .edit-category-prefix:focus-within {
+        background: #ffffff;
+        border-color: #8875e8;
+        box-shadow: 0 0 0 3px rgba(117, 89, 230, 0.1);
+    }
+
+    .edit-category-prefix > span {
+        display: grid;
+        width: 40px;
+        height: 41px;
+        flex: 0 0 40px;
+        place-items: center;
+        background: #f1effb;
+        border-right: 1px solid #e3e0f3;
+        color: #6b58db;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .edit-category-prefix input {
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .edit-category-character-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .edit-category-character-row span {
+        color: #9ba2af;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .edit-category-status-options {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .edit-category-radio {
+        margin: 0 !important;
+        cursor: pointer;
+    }
+
+    .edit-category-radio input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
+    .edit-category-radio-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px;
+        background: #fafbfc;
+        border: 1px solid #e5e8ee;
+        border-radius: 11px;
+    }
+
+    .edit-category-radio input:checked + .edit-category-radio-card {
+        background: #f7f5ff;
+        border-color: #8a75e9;
+        box-shadow: 0 0 0 3px rgba(117, 89, 230, 0.08);
+    }
+
+    .edit-category-radio-dot {
+        width: 9px;
+        height: 9px;
+        flex: 0 0 9px;
+        margin-top: 3px;
+        border-radius: 50%;
+    }
+
+    .active-dot {
+        background: #19b77f;
+    }
+
+    .inactive-dot {
+        background: #9aa1af;
+    }
+
+    .edit-category-radio-card strong {
+        display: block;
+        color: #424c61;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .edit-category-radio-card small {
+        margin-top: 4px;
+    }
+
+    .edit-category-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid #eff0f5;
+    }
+
+    .edit-category-cancel,
+    .edit-category-save {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 16px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .edit-category-cancel {
+        background: #f7f8fa;
+        border: 1px solid #e5e8ee;
+        color: #6e7789;
+    }
+
+    .edit-category-save {
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: 0;
+        color: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+    }
+
+    .edit-category-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .edit-category-preview {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        background: linear-gradient(
+            145deg,
+            #5f4de2 0%,
+            #7354e4 52%,
+            #8d5bdd 100%
+        );
+        border-radius: 17px;
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(91, 73, 209, 0.2);
+    }
+
+    .edit-category-preview-glow {
+        position: absolute;
+        top: -75px;
+        right: -65px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+    }
+
+    .edit-category-preview > *:not(.edit-category-preview-glow) {
+        position: relative;
+        z-index: 1;
+    }
+
+    .edit-category-preview-eyebrow {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .edit-category-preview-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        margin: 18px 0 16px;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 13px;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .edit-category-preview h2 {
+        margin: 0 0 9px;
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        overflow-wrap: anywhere;
+    }
+
+    .edit-category-preview-industry {
+        display: inline-flex;
+        padding: 6px 9px;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 8px;
+        font-weight: 800;
+    }
+
+    .edit-category-preview > p:not(.edit-category-preview-eyebrow) {
+        margin: 15px 0 20px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 9px;
+        line-height: 1.65;
+    }
+
+    .edit-category-preview-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .edit-category-preview-details div {
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.09);
+        border-radius: 9px;
+    }
+
+    .edit-category-preview-details span,
+    .edit-category-preview-details strong {
+        display: block;
+    }
+
+    .edit-category-preview-details span {
+        margin-bottom: 4px;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 7px;
+        text-transform: uppercase;
+    }
+
+    .edit-category-preview-details strong {
+        color: #ffffff;
+        font-size: 9px;
+    }
+
+    .edit-category-info-card,
+    .edit-category-danger {
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e9ebf3;
+        border-radius: 15px;
+        box-shadow: 0 8px 26px rgba(25, 33, 51, 0.04);
+    }
+
+    .edit-category-info-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .edit-category-info-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        place-items: center;
+        background: #e5f8ef;
+        border-radius: 10px;
+        color: #17a876;
+        font-size: 16px;
+    }
+
+    .edit-category-info-card strong {
+        display: block;
+        color: #364055;
+        font-size: 10px;
+    }
+
+    .edit-category-info-card p {
+        margin: 5px 0 0;
+        color: #9299a8;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .edit-category-danger {
+        border-color: #f0e0e4;
+    }
+
+    .edit-category-danger-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .edit-category-danger-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        place-items: center;
+        background: #fff0f3;
+        border-radius: 10px;
+        color: #c2576c;
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    .edit-category-danger-header p {
+        margin: 0 0 4px;
+        color: #c2576c;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+    }
+
+    .edit-category-danger-header h2 {
+        margin: 0;
+        color: #4c4050;
+        font-size: 13px;
+    }
+
+    .edit-category-danger-copy {
+        margin: 14px 0;
+        color: #9a8d93;
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .edit-category-delete-button {
+        width: 100%;
+        min-height: 36px;
+        background: #fff3f5;
+        border: 1px solid #f0d8de;
+        border-radius: 9px;
+        color: #bd5268;
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .edit-category-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .edit-category-modal.is-open {
+        display: flex;
+    }
+
+    .edit-category-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(25, 27, 42, 0.56);
+        backdrop-filter: blur(4px);
+    }
+
+    .edit-category-modal-card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 420px;
+        padding: 26px;
+        background: #ffffff;
+        border-radius: 17px;
+        text-align: center;
+        box-shadow: 0 25px 70px rgba(20, 24, 40, 0.22);
+    }
+
+    .edit-category-modal-icon {
+        display: grid;
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 16px;
+        place-items: center;
+        background: #fff0f3;
+        border-radius: 15px;
+        color: #c2576c;
+        font-size: 20px;
+        font-weight: 900;
+    }
+
+    .edit-category-modal-card h2 {
+        margin: 0;
+        color: #273147;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .edit-category-modal-card p {
+        margin: 10px 0 22px;
+        color: #8d95a5;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .edit-category-modal-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .edit-category-modal-actions form {
+        margin: 0;
+    }
+
+    .edit-category-modal-cancel,
+    .edit-category-modal-delete {
+        min-height: 39px;
+        padding: 0 14px;
+        border-radius: 9px;
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .edit-category-modal-cancel {
+        background: #f6f7f9;
+        border: 1px solid #e4e7ed;
+        color: #687185;
+    }
+
+    .edit-category-modal-delete {
+        background: #c9566c;
+        border: 1px solid #c9566c;
+        color: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+        .edit-category-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .edit-category-sidebar {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .edit-category-preview {
+            grid-row: span 2;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .edit-category-header {
+            flex-direction: column;
+        }
+
+        .edit-category-fields,
+        .edit-category-status-options {
+            grid-template-columns: 1fr;
+        }
+
+        .edit-category-field-full {
+            grid-column: auto;
+        }
+
+        .edit-category-sidebar {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .edit-category-title {
+            font-size: 31px;
+        }
+
+        .edit-category-panel {
+            padding: 17px;
+        }
+
+        .edit-category-actions,
+        .edit-category-modal-actions {
+            flex-direction: column;
+        }
+
+        .edit-category-cancel,
+        .edit-category-save,
+        .edit-category-modal-cancel,
+        .edit-category-modal-delete,
+        .edit-category-modal-actions form {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput =
+            document.getElementById("name");
+
+        const slugInput =
+            document.getElementById("slug");
+
+        const industryInput =
+            document.getElementById("industry");
+
+        const descriptionInput =
+            document.getElementById("description");
+
+        const descriptionCount =
+            document.getElementById("descriptionCount");
+
+        const previewIcon =
+            document.getElementById("previewIcon");
+
+        const previewName =
+            document.getElementById("previewName");
+
+        const previewIndustry =
+            document.getElementById("previewIndustry");
+
+        const previewDescription =
+            document.getElementById("previewDescription");
+
+        const deleteModal =
+            document.getElementById("deleteModal");
+
+        const openDeleteModal =
+            document.getElementById("openDeleteModal");
+
+        const closeDeleteModal =
+            document.getElementById("closeDeleteModal");
+
+        const deleteBackdrop =
+            deleteModal.querySelector(
+                ".edit-category-modal-backdrop"
+            );
+
+
+        function createSlug(value) {
+            return value
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-")
+                .replace(/^-|-$/g, "");
+        }
+
+
+        function updatePreview() {
+            const categoryName =
+                nameInput.value.trim();
+
+            const industry =
+                industryInput.value.trim();
+
+            const description =
+                descriptionInput.value.trim();
+
+            previewName.textContent =
+                categoryName || "Category";
+
+            previewIndustry.textContent =
+                industry || "General Industry";
+
+            previewDescription.textContent =
+                description ||
+                "No category description has been added.";
+
+            previewIcon.textContent =
+                categoryName
+                    ? categoryName.charAt(0).toUpperCase()
+                    : "C";
+
+            descriptionCount.textContent =
+                descriptionInput.value.length + " / 500";
+        }
+
+
+        nameInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+
+        slugInput.addEventListener("input", function () {
+            slugInput.value =
+                createSlug(slugInput.value);
+        });
+
+
+        industryInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+
+        descriptionInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+
+        function showDeleteModal() {
+            deleteModal.classList.add("is-open");
+            deleteModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            document.body.style.overflow = "hidden";
+        }
+
+
+        function hideDeleteModal() {
+            deleteModal.classList.remove("is-open");
+            deleteModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            document.body.style.overflow = "";
+        }
+
+
+        openDeleteModal.addEventListener(
+            "click",
+            showDeleteModal
+        );
+
+        closeDeleteModal.addEventListener(
+            "click",
+            hideDeleteModal
+        );
+
+        deleteBackdrop.addEventListener(
+            "click",
+            hideDeleteModal
+        );
+
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                hideDeleteModal();
+            }
+        });
+
+
+        updatePreview();
+    });
+</script>
+
+{% endblock %}

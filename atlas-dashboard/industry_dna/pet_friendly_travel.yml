@@ -1,0 +1,390 @@
+slug: pet_friendly_travel
+display_name: Pet-Friendly Travel
+version: "1.0"
+author: jon
+summary: >
+  Travel planning by pet owners (primarily dogs) who need lodging, activities,
+  and services that welcome their animals. Rich ecosystem spanning lodging,
+  dining, attractions, services, retail, and products; multiple monetization
+  paths from booking affiliate to premium listings to lead-gen for local pros.
+
+seed_geography_hint: US
+
+# -----------------------------------------------------------------------------
+# WHO buys / WHY they search / HOW they mentally organize
+# -----------------------------------------------------------------------------
+
+customer:
+  buyer_description: >
+    Pet owner (usually dog owner) planning a trip. Often a household with
+    strong emotional attachment to the pet; frequently the pet's needs
+    veto otherwise-preferred options.
+  influencers: [spouse, children, veterinarian, other pet-owning friends]
+  decision_maker_is_buyer: true
+  b2b: false
+  typical_lifecycle_stage: pet owner during trip planning window
+
+behavior:
+  primary_intent: planning
+  buying_cycle: medium
+  purchase_cadence: seasonal
+  decision_complexity: high
+  customer_emotion: very_high
+  trust_importance: high
+  price_sensitivity: medium
+  urgency_when_buying: medium
+
+intent:
+  dominant_intents:
+    - find_pet_friendly_options
+    - verify_pet_policy_details
+    - plan_multi_stop_trip
+    - discover_activities_that_welcome_pets
+  local_intent: very_high
+  commercial_intent: very_high
+  review_importance: very_high
+  visual_importance: very_high
+  content_appetite: high
+
+# -----------------------------------------------------------------------------
+# BUSINESS ECOSYSTEM — nodes + typed graph edges
+# -----------------------------------------------------------------------------
+
+ecosystem_nodes:
+  - name: pet-friendly hotels
+    role: primary supply
+    supply_intensity: very_high
+    directory_potential: very_high
+    notes: The default 'first search'. Every trip needs lodging.
+
+  - name: pet-friendly vacation rentals
+    role: primary supply
+    supply_intensity: high
+    directory_potential: high
+
+  - name: pet-friendly campgrounds
+    role: primary supply
+    supply_intensity: high
+    directory_potential: high
+
+  - name: pet-friendly RV parks
+    role: primary supply
+    supply_intensity: medium
+    directory_potential: medium
+    notes: Overlaps with campgrounds; may consolidate.
+
+  - name: dog beaches
+    role: primary supply
+    supply_intensity: medium
+    directory_potential: high
+    notes: Beach-adjacent metros make excellent standalone regional guides.
+
+  - name: dog parks
+    role: primary supply
+    supply_intensity: very_high
+    directory_potential: medium
+    notes: Everywhere, but low commercial intent per user.
+
+  - name: pet-friendly restaurants
+    role: primary supply
+    supply_intensity: high
+    directory_potential: high
+
+  - name: pet-friendly attractions
+    role: primary supply
+    supply_intensity: medium
+    directory_potential: high
+
+  - name: pet-friendly wineries
+    role: primary supply
+    supply_intensity: medium
+    directory_potential: high
+
+  - name: pet-friendly hiking trails
+    role: primary supply
+    supply_intensity: very_high
+    directory_potential: medium
+
+  - name: veterinarians
+    role: adjacent service
+    supply_intensity: very_high
+    directory_potential: high
+    notes: Travel veterinary directory (walk-in / travel-friendly clinics) is thin.
+
+  - name: emergency vets
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: high
+
+  - name: dog groomers
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+
+  - name: dog daycare
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+
+  - name: pet sitters
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+
+  - name: dog trainers
+    role: adjacent service
+    supply_intensity: high
+    directory_potential: medium
+
+  - name: pet stores
+    role: adjacent retail
+    supply_intensity: very_high
+    directory_potential: low
+
+  - name: dog bakeries
+    role: adjacent retail
+    supply_intensity: low
+    directory_potential: high
+    notes: Own portfolio candidate — already in Atlas.
+
+  - name: pet travel gear
+    role: adjacent product
+    supply_intensity: high
+    directory_potential: medium
+    notes: Affiliate hub territory (carriers, harnesses, cooling gear, GPS).
+
+  - name: pet insurance
+    role: adjacent product
+    supply_intensity: medium
+    directory_potential: medium
+    notes: Comparison/affiliate content, not a directory.
+
+  - name: pet transportation services
+    role: adjacent service
+    supply_intensity: low
+    directory_potential: medium
+
+ecosystem_edges:
+  # Trips always start from lodging
+  - from_node: pet-friendly hotels
+    to_node: pet-friendly restaurants
+    edge_type: complementary
+    strength: very_high
+  - from_node: pet-friendly hotels
+    to_node: pet-friendly attractions
+    edge_type: complementary
+    strength: high
+  - from_node: pet-friendly hotels
+    to_node: emergency vets
+    edge_type: complementary
+    strength: medium
+    notes: Travelers proactively look up nearby emergency vets on arrival.
+  - from_node: pet-friendly hotels
+    to_node: pet-friendly vacation rentals
+    edge_type: substitute
+    strength: high
+  - from_node: pet-friendly hotels
+    to_node: pet-friendly campgrounds
+    edge_type: substitute
+    strength: medium
+
+  # Camping ecosystem
+  - from_node: pet-friendly campgrounds
+    to_node: pet-friendly RV parks
+    edge_type: complementary
+    strength: high
+  - from_node: pet-friendly campgrounds
+    to_node: pet-friendly hiking trails
+    edge_type: complementary
+    strength: very_high
+
+  # Adjacent services triggered BY travel
+  - from_node: pet-friendly hotels
+    to_node: dog daycare
+    edge_type: complementary
+    strength: medium
+    notes: Owners at conferences/weddings need day care during trip.
+  - from_node: pet-friendly hotels
+    to_node: dog groomers
+    edge_type: complementary
+    strength: low
+
+  # Shared customer, different problem
+  - from_node: pet-friendly hotels
+    to_node: pet insurance
+    edge_type: serves_same_customer
+    strength: medium
+  - from_node: pet-friendly hotels
+    to_node: pet travel gear
+    edge_type: serves_same_customer
+    strength: high
+  - from_node: pet-friendly hotels
+    to_node: dog bakeries
+    edge_type: serves_same_customer
+    strength: low
+
+  # Beaches complement lodging + trails
+  - from_node: dog beaches
+    to_node: pet-friendly hotels
+    edge_type: complementary
+    strength: high
+  - from_node: dog beaches
+    to_node: pet-friendly hiking trails
+    edge_type: complementary
+    strength: medium
+
+# -----------------------------------------------------------------------------
+# SEARCH DNA — the dimensions people mentally organize this market by
+# -----------------------------------------------------------------------------
+
+search_dimensions:
+  - name: destination
+    description: Geographic where — city, region, national park, coast.
+    examples: [Asheville, Outer Banks, Colorado, Smoky Mountains]
+    intent_type: structural
+    typically_produces_asset: geo_category
+
+  - name: business type
+    description: What kind of pet-friendly place — hotel, campground, restaurant.
+    examples: [hotels, cabins, wineries, breweries, coffee shops]
+    intent_type: structural
+    typically_produces_asset: directory
+
+  - name: pet requirement
+    description: Weight limits, breed restrictions, fee, unattended-pet policy.
+    examples: [no weight limit, no breed restriction, no pet fee, allows unattended pets]
+    intent_type: attribute
+    typically_produces_asset: filter
+
+  - name: trip context
+    description: What kind of trip — road trip, weekend, multi-week, family.
+    examples: [road trip, weekend getaway, family vacation, digital nomad]
+    intent_type: occasion
+    typically_produces_asset: article
+
+  - name: pet type/size
+    description: Dogs vs cats; small vs large; specific breeds.
+    examples: [large dogs, small dogs, cats, senior dogs]
+    intent_type: attribute
+    typically_produces_asset: filter
+
+  - name: activity
+    description: What the pet gets to do — hiking, beach, brewery patio.
+    examples: [hiking, beach, patio dining, off-leash, swimming]
+    intent_type: structural
+    typically_produces_asset: category
+
+  - name: buying intent
+    description: Best/top/cheap/near-me shopping mode.
+    examples: [best, top-rated, affordable, near me]
+    intent_type: intent
+    typically_produces_asset: seo_page
+
+# -----------------------------------------------------------------------------
+# COMMERCIAL DNA — how money flows in this market
+# -----------------------------------------------------------------------------
+
+commercial:
+  lead_value: medium
+  lead_value_estimate_usd: 30
+  recurring_revenue_potential: medium
+  regulated: false
+  streams:
+    - stream: affiliate_booking
+      strength: very_high
+      typical_monthly_range_low: 300
+      typical_monthly_range_high: 4000
+      notes: Booking.com / Expedia / Hotels.com affiliate. Strong intent, decent commissions.
+    - stream: premium_listings
+      strength: high
+      typical_monthly_range_low: 200
+      typical_monthly_range_high: 2000
+      notes: B&Bs, boutique hotels, and campgrounds pay for featured slots.
+    - stream: ads
+      strength: high
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 1500
+      notes: Travel content has strong RPMs on Mediavine/Raptive tier.
+    - stream: affiliate_products
+      strength: high
+      typical_monthly_range_low: 150
+      typical_monthly_range_high: 1200
+      notes: Pet travel gear via Amazon and Chewy affiliate programs.
+    - stream: lead_gen
+      strength: medium
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 800
+      notes: For adjacent services (daycare, sitters, trainers).
+    - stream: sponsorships
+      strength: medium
+      typical_monthly_range_low: 100
+      typical_monthly_range_high: 1000
+      notes: Pet brands sponsoring travel content.
+
+# -----------------------------------------------------------------------------
+# ASSET PREFERENCES — which digital assets this market SUPPORTS well
+# -----------------------------------------------------------------------------
+
+asset_preferences:
+  - asset_type: directory
+    fit_weight: 90
+    rationale: Core supply (hotels, campgrounds) benefits from directory format.
+  - asset_type: geo_category
+    fit_weight: 95
+    rationale: Every destination is a real page — pet travel is geo-first.
+  - asset_type: category
+    fit_weight: 85
+    rationale: Business types and activities are natural sub-directories.
+  - asset_type: filter
+    fit_weight: 90
+    rationale: Pet policies (weight/fee/breed) are the killer filter axis.
+  - asset_type: seo_page
+    fit_weight: 80
+    rationale: "'Best pet-friendly hotels in X' has real search volume."
+  - asset_type: article
+    fit_weight: 85
+    rationale: Trip planning content (road trip, weekend, cross-country) is heavily read.
+  - asset_type: comparison
+    fit_weight: 70
+    rationale: Hotel-chain pet policy comparisons are underserved.
+  - asset_type: buying_guide
+    fit_weight: 75
+    rationale: Pet travel gear buying guides monetize well via affiliate.
+  - asset_type: affiliate_hub
+    fit_weight: 85
+    rationale: Booking + gear affiliate stack.
+  - asset_type: marketplace
+    fit_weight: 30
+    rationale: Two-sided marketplace not needed — booking affiliates suffice.
+  - asset_type: lead_gen
+    fit_weight: 55
+    rationale: Adjacent services (daycare, sitters) support lead-gen but aren't primary.
+  - asset_type: tool
+    fit_weight: 65
+    rationale: "'Which hotel chain accepts my dog's breed/weight?' lookup tool would perform."
+
+# -----------------------------------------------------------------------------
+# SCORING WEIGHTS — override defaults for THIS market
+# Travel: search demand is huge, competition is fierce, directory weakness
+# still real (most incumbents are OLD), business supply is plentiful, ads +
+# affiliate booking do the heavy revenue lifting. Weights shaded accordingly.
+# -----------------------------------------------------------------------------
+
+scoring_weights:
+  search_demand: 0.22
+  competition: 0.22
+  directory_weakness: 0.20
+  business_count: 0.10
+  monetization: 0.20
+  automation_fit: 0.06
+
+# -----------------------------------------------------------------------------
+# LEARNING — schema populated on day one; frozen=true means no auto-adjust
+# until real published-asset outcomes exist to learn from.
+# -----------------------------------------------------------------------------
+
+learning:
+  frozen: true
+  published_assets: []
+  observed_outcomes: []
+  adjustment_history: []

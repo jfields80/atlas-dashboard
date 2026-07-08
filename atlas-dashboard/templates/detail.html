@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{{ record.display_name }} — Atlas{% endblock %}
+
+{% block content %}
+
+{% set is_heuristic = record.latest_data_quality == 'heuristic' %}
+{% set is_ready = record.latest_recommendation == 'BUILD' and not is_heuristic %}
+{% set rec_lower = (record.latest_recommendation or 'test')|lower %}
+
+<div class="atlas-hero">
+  <div>
+    <div class="op-eyebrow">Atlas Opportunity</div>
+    <h1>{{ record.display_name }}</h1>
+
+    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+      <span class="atlas-badge atlas-badge--blue">{{ record.latest_recommendation or 'TEST' }}</span>
+      <span class="atlas-badge atlas-badge--yellow">{{ record.latest_data_quality or 'heuristic' }}</span>
+
+      {% if is_heuristic %}
+        <span class="atlas-badge atlas-badge--yellow">Needs Scout</span>
+      {% elif is_ready %}
+        <span class="atlas-badge atlas-badge--green">Ready to Build</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div style="display:flex; gap:10px;">
+    <form method="POST" action="{{ url_for('opportunities.run_scout', opportunity_id=record.id) }}">
+      <button class="atlas-btn atlas-btn--primary">Run Scout</button>
+    </form>
+
+    <a href="{{ url_for('opportunities.scout_evidence', opportunity_id=record.id) }}"
+       class="atlas-btn atlas-btn--ghost">
+      Evidence
+    </a>
+  </div>
+</div>
+
+{% if decision %}
+
+<div class="atlas-metrics">
+
+  <div class="atlas-metric">
+    <span>Confidence</span>
+    <strong>{{ "%.1f"|format(decision.confidence_score) }}%</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Revenue</span>
+    <strong>${{ decision.estimated_revenue_low|int }}–{{ decision.estimated_revenue_high|int }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Startup Cost</span>
+    <strong>${{ decision.startup_cost|int }}</strong>
+  </div>
+
+  <div class="atlas-metric">
+    <span>Maintenance</span>
+    <strong>${{ decision.maintenance_cost|int }}</strong>
+  </div>
+
+</div>
+
+{% endif %}
+
+<div class="atlas-grid-2" style="margin-top:16px;">
+
+  <div class="atlas-card">
+    <div class="atlas-section-title">Business Model</div>
+    <div class="text-muted">{{ decision.business_model }}</div>
+  </div>
+
+  <div class="atlas-card">
+    <div class="atlas-section-title">Moat</div>
+    <div class="text-muted">{{ decision.moat }}</div>
+  </div>
+
+</div>
+
+<div class="atlas-card" style="margin-top:16px;">
+  <div class="atlas-section-title">Conviction Thesis</div>
+  <p>{{ decision.conviction_thesis }}</p>
+</div>
+
+{% endblock %}
