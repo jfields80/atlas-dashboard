@@ -24,6 +24,36 @@ class LearningMemory:
     def record_outcome(self, outcome: OpportunityOutcome):
         self.outcomes.append(outcome)
 
+    def success_rate(self) -> float:
+        """
+        Fraction of recorded outcomes marked successful, in [0.0, 1.0].
+        Returns 0.0 when no outcomes are recorded.
+
+        Mirrors the success_rate calculation already used inline in
+        LearningEngine.adjust_weights below.
+        """
+        if not self.outcomes:
+            return 0.0
+
+        return sum(o.success for o in self.outcomes) / len(self.outcomes)
+
+    def average_error(self) -> float:
+        """
+        Mean absolute difference between predicted_score and
+        actual_outcome_score across recorded outcomes.
+        Returns 0.0 when no outcomes are recorded.
+
+        Mirrors the avg_error calculation already used inline in
+        LearningEngine.adjust_weights below.
+        """
+        if not self.outcomes:
+            return 0.0
+
+        return sum(
+            abs(o.predicted_score - o.actual_outcome_score)
+            for o in self.outcomes
+        ) / len(self.outcomes)
+
 
 # global memory
 _global_memory = LearningMemory()
