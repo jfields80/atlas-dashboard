@@ -1,10 +1,13 @@
-from flask import render_template
+from flask import Blueprint, render_template
 
 from services.opportunity_v2.niche_generator import NicheGenerator
 from services.opportunity_v2.batch_opportunity_generator import BatchOpportunityGenerator
 from services.opportunity_v2.market_capacity import evaluate_market_capacity
 from services.opportunity_v2.market_grounding import MarketGroundingEngine
 from services.opportunity_v2.decision_engine import DecisionEngine
+
+
+opportunities_bp = Blueprint("opportunities", __name__)
 
 
 @opportunities_bp.route("/opportunities/auto", methods=["GET"])
