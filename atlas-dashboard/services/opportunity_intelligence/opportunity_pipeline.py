@@ -41,6 +41,7 @@ from services.opportunity_intelligence.models import (
     Recommendation,
     RevenueProfile,
 )
+from services.opportunity_intelligence.market_research_analyst import MarketResearchAnalyst
 from services.opportunity_intelligence.stages import (
     CommitteeRecommendationStageProtocol,
     CompetitionAnalysisStageProtocol,
@@ -51,7 +52,6 @@ from services.opportunity_intelligence.stages import (
     PlaceholderCompetitionAnalysisStage,
     PlaceholderInvestmentAnalysisStage,
     PlaceholderInvestmentMemoStage,
-    PlaceholderMarketResearchStage,
     PlaceholderRevenueAnalysisStage,
     PlaceholderSourceCollectionStage,
     RevenueAnalysisStageProtocol,
@@ -76,10 +76,13 @@ class OpportunityPipeline:
     pipeline. Composes 7 independently swappable stages; owns no
     market/competition/revenue/investment/committee logic of its own.
 
-    All stage arguments default to their placeholder implementation —
-    the standard AES-012A foundation usage. Pass real implementations
-    (matching the Protocols in stages.py) to progressively replace
-    placeholders as future AES tickets implement them.
+    Market Research defaults to the real, deterministic
+    MarketResearchAnalyst (AES-012B); every other stage still defaults
+    to its AES-012A placeholder implementation. Pass real
+    implementations (matching the Protocols in stages.py) to
+    progressively replace the remaining placeholders as future AES
+    tickets implement them — the pipeline's contract/orchestration
+    never changes when a stage is swapped.
     """
 
     def __init__(
@@ -93,7 +96,7 @@ class OpportunityPipeline:
         investment_memo_stage: InvestmentMemoStageProtocol | None = None,
     ) -> None:
         self._source_collection_stage = source_collection_stage or PlaceholderSourceCollectionStage()
-        self._market_research_stage = market_research_stage or PlaceholderMarketResearchStage()
+        self._market_research_stage = market_research_stage or MarketResearchAnalyst()
         self._competition_analysis_stage = competition_analysis_stage or PlaceholderCompetitionAnalysisStage()
         self._revenue_analysis_stage = revenue_analysis_stage or PlaceholderRevenueAnalysisStage()
         self._investment_analysis_stage = investment_analysis_stage or PlaceholderInvestmentAnalysisStage()

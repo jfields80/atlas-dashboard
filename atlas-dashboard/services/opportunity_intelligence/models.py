@@ -48,12 +48,26 @@ class Opportunity(BaseModel):
 
 
 class MarketProfile(BaseModel):
-    """Output contract for the Market Research stage."""
+    """
+    Output contract for the Market Research stage.
+
+    market_name/primary_category/primary_geography/market_scope
+    (AES-012B): deterministic facts the Market Research Analyst infers
+    directly from the Opportunity's own name/niche text — never from
+    external data. All four default to "UNKNOWN", matching every other
+    field on this model, so the placeholder stage (AES-012A) and any
+    future stage that genuinely cannot infer them are indistinguishable
+    from "not yet analyzed."
+    """
 
     total_addressable_market_usd: Optional[float] = None
     market_size_notes: str = ""
     demand_signals: List[str] = Field(default_factory=list)
     data_confidence: str = UNKNOWN
+    market_name: str = UNKNOWN
+    primary_category: str = UNKNOWN
+    primary_geography: str = UNKNOWN
+    market_scope: str = UNKNOWN
 
 
 class CompetitionProfile(BaseModel):

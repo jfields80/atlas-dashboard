@@ -60,6 +60,23 @@ def test_pipeline_run_produces_fully_populated_assessment():
     assert memo.recommendation.decision == "UNASSESSED"
 
 
+def test_pipeline_default_market_research_stage_is_the_real_analyst():
+    """
+    AES-012B: OpportunityPipeline() with no overrides must use the real
+    MarketResearchAnalyst, not the AES-012A placeholder — proven by a
+    geography-bearing opportunity name resolving to real (non-UNKNOWN)
+    facts, matching the ticket's own worked examples.
+    """
+    pipeline = OpportunityPipeline()
+    opportunity = Opportunity(opportunity_id="opp-2", name="Ohio Martial Arts for Kids", niche="martial arts")
+
+    memo = pipeline.run(opportunity)
+
+    assert memo.assessment.market_profile.market_name == "Martial Arts"
+    assert memo.assessment.market_profile.primary_geography == "Ohio"
+    assert memo.assessment.market_profile.market_scope == "STATE"
+
+
 def test_pipeline_calls_stages_in_correct_order():
     """
     A stage-ordering regression guard: instrumented fake stages record
