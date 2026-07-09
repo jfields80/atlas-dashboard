@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Job {{ job.job_id[:8] }} | Atlas{% endblock %}
+
+{% block content %}
+
+{% if job.state.value in ("QUEUED", "RUNNING") %}
+<meta http-equiv="refresh" content="3">
+{% endif %}
+
+<div class="job-status-page">
+
+    <a href="/operations" class="job-status-back-link">← Back to Operations Center</a>
+
+    <section class="job-status-header">
+        <p class="job-status-eyebrow">BACKGROUND JOB</p>
+
+        <h1 class="job-status-title">
+            Job {{ job.job_id[:8] }}…
+        </h1>
+
+        <span class="job-status-badge job-status-{{ job.state.value|lower }}">
+            {{ job.state.value }}
+        </span>
+
+        {% if job.state.value in ("QUEUED", "RUNNING") %}
+        <p class="job-status-refresh-hint">This page refreshes automatically every few seconds.</p>
+        {% endif %}
+    </section>
+
+
+    <section class="job-status-meta-card">
+
+        <div class="job-status-meta-row">
+            <span class="job-status-meta-label">Job ID</span>
+            <span class="job-status-meta-value">{{ job.job_id }}</span>
+        </div>
+
+        <div class="job-status-meta-row">
+            <span class="job-status-meta-label">Started</span>
+            <span class="job-status-meta-value">{{ job.started_at or "—" }}</span>
+        </div>
+
+        <div class="job-status-meta-row">
+            <span class="job-status-meta-label">Completed</span>
+            <span class="job-status-meta-value">{{ job.completed_at or "—" }}</span>
+        </div>
+
+    </section>
+
+
+    {% if job.state.value == "FAILED" %}
+
+    <section class="job-status-error-panel">
+        <p class="job-status-error-label">Error</p>
+        <pre class="job-status-error-message">{{ job.error }}</pre>
+    </section>
+
+    {% endif %}
+
+
+    {% if job.result and job.result.run_id %}
+
+    <section class="job-status-result-panel">
+        <p class="job-status-result-message">{{ job.result.message }}</p>
+        <p class="job-status-run-id">
+            <span class="job-status-run-id-value">Run ID: {{ job.result.run_id }}</span>
+            <a href="/orchestrator/runs/{{ job.result.run_id }}" class="job-status-run-link">View Run Details →</a>
+        </p>
+    </section>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+    .job-status-page {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .job-status-back-link {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: #6753e7;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .job-status-header {
+        margin-bottom: 20px;
+    }
+
+    .job-status-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .job-status-title {
+        margin: 0 0 12px;
+        color: #172033;
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        font-family: monospace;
+    }
+
+    .job-status-refresh-hint {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 13px;
+    }
+
+    .job-status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .job-status-queued {
+        background: #fdf3d9;
+        color: #92700f;
+    }
+
+    .job-status-running {
+        background: #e0e7ff;
+        color: #3949ab;
+    }
+
+    .job-status-succeeded {
+        background: #e3f5ea;
+        color: #1f7a3f;
+    }
+
+    .job-status-failed {
+        background: #fbe6e6;
+        color: #a12626;
+    }
+
+    .job-status-meta-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin: 20px 0;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .job-status-meta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .job-status-meta-label {
+        color: #7f889a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .job-status-meta-value {
+        color: #172033;
+        font-size: 14px;
+        font-family: monospace;
+        word-break: break-all;
+    }
+
+    .job-status-error-panel {
+        margin-bottom: 20px;
+        padding: 16px 18px;
+        background: #fbe6e6;
+        border: 1px solid #f3c9c9;
+        border-radius: 12px;
+    }
+
+    .job-status-error-label {
+        margin: 0 0 8px;
+        color: #a12626;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .job-status-error-message {
+        margin: 0;
+        color: #7a1f1f;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .job-status-result-panel {
+        padding: 16px 18px;
+        background: #e3f5ea;
+        border: 1px solid #bfe6cf;
+        border-radius: 12px;
+    }
+
+    .job-status-result-message {
+        margin: 0 0 10px;
+        color: #1f7a3f;
+        font-size: 13px;
+    }
+
+    .job-status-run-id {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+    }
+
+    .job-status-run-id-value {
+        color: #4a5568;
+        font-family: monospace;
+        font-size: 12px;
+    }
+
+    .job-status-run-link {
+        color: #6753e7;
+        font-weight: 700;
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}

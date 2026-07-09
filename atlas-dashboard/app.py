@@ -15,6 +15,7 @@ from routes.sources import sources_bp
 from routes.opportunities import opportunities_bp
 from routes.orchestrator_runs import orchestrator_runs_bp
 from routes.operations import operations_bp
+from routes.jobs import jobs_bp
 
 
 app = Flask(__name__)
@@ -45,6 +46,7 @@ app.register_blueprint(sources_bp)
 app.register_blueprint(opportunities_bp)
 app.register_blueprint(orchestrator_runs_bp)
 app.register_blueprint(operations_bp)
+app.register_blueprint(jobs_bp)
 
 
 print("\n===================")

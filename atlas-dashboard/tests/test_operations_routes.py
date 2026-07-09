@@ -4,10 +4,14 @@ atlas/tests/test_operations_routes.py
 Flask route tests for routes/operations.py (AES-009A).
 
 Uses the isolated test-Flask-app pattern established in AES-007's
-tests/test_orchestrator_runs_routes.py: registers only operations_bp
-against a Flask app pointed at the real templates/ directory, rather
-than importing the real app.py (avoiding coupling to the full startup
-sequence for what is otherwise a self-contained route test).
+tests/test_orchestrator_runs_routes.py: registers operations_bp and
+jobs_bp (AES-010) against a Flask app pointed at the real templates/
+directory, rather than importing the real app.py.
+
+AES-010 note: POST /operations/directory-launch/run now submits a
+background job and redirects to its Job Status page instead of
+rendering the result inline — tests follow the redirect and use
+wait_for_job for deterministic assertions instead of sleep-polling.
 """
 
 from __future__ import annotations
@@ -21,7 +25,9 @@ from flask import Flask
 import repositories.run_repository as run_repo
 import services.database as database_module
 import services.pipeline_execution_service as pipeline_execution_service
+from routes.jobs import jobs_bp
 from routes.operations import operations_bp
+from services.background_job_service import wait_for_job
 from services.orchestrator import pipeline_registry
 from services.investment_committee import (
     ExpansionClassModel,
@@ -166,9 +172,28 @@ def client(tmp_path, monkeypatch):
     test_app = Flask(__name__, template_folder=TEMPLATES_DIR)
     test_app.config["TESTING"] = True
     test_app.register_blueprint(operations_bp)
+    test_app.register_blueprint(jobs_bp)
 
     with test_app.test_client() as test_client:
         yield test_client
+
+
+def _submit_and_await_job(client, form_data: dict[str, str]):
+    """
+    Posts to the Directory Launch operation, follows the AES-010
+    redirect to extract the job_id, waits for the background job to
+    reach a terminal state, then fetches the rendered Job Status page.
+    Returns (redirect_response, job_status_response).
+    """
+    redirect_response = client.post("/operations/directory-launch/run", data=form_data)
+    assert redirect_response.status_code == 302
+    assert redirect_response.location.startswith("/jobs/")
+
+    job_id = redirect_response.location.removeprefix("/jobs/")
+    wait_for_job(job_id, timeout=10)
+
+    job_status_response = client.get(redirect_response.location)
+    return redirect_response, job_status_response
 
 
 def test_operations_center_returns_200_and_shows_directory_launch(client):
@@ -194,10 +219,16 @@ def test_operations_center_renders_card_from_descriptor_icon_and_route(client):
     assert f'href="{operation.route}"' in html
 
 
-def test_post_with_valid_data_returns_200_and_success_message(client):
-    response = client.post(
-        "/operations/directory-launch/run",
-        data={
+def test_post_with_valid_data_redirects_to_job_status_showing_success(client):
+    """
+    AES-010: POST no longer renders the result inline — it submits a
+    background job and redirects (302) to /jobs/<job_id>. The Job
+    Status page shows the same success message + run_id link AES-009C
+    established, sourced from job.result.
+    """
+    redirect_response, job_status_response = _submit_and_await_job(
+        client,
+        {
             "committee_run_id": "run-route-1",
             "project_slug": "pet-friendly-travel",
             "description": "A pet-friendly travel directory.",
@@ -206,23 +237,26 @@ def test_post_with_valid_data_returns_200_and_success_message(client):
             "monetization_signals": "affiliate_booking, featured_listings",
         },
     )
+    html = job_status_response.data.decode("utf-8")
 
-    assert response.status_code == 200
-    assert b"Directory Launch pipeline completed successfully" in response.data
-    assert b"View Run Details" in response.data
-    assert b"/orchestrator/runs/" in response.data
+    assert redirect_response.status_code == 302
+    assert job_status_response.status_code == 200
+    assert "SUCCEEDED" in html
+    assert "Directory Launch pipeline completed successfully" in html
+    assert "View Run Details" in html
+    assert "/orchestrator/runs/" in html
 
 
-def test_post_with_stage_failure_shows_failure_message_and_run_details_link(client):
+def test_post_with_stage_failure_redirects_to_job_status_showing_failure_and_run_link(client):
     """
-    AES-009C: a DEFER committee decision fails inside the pipeline's
-    blueprint stage, so a real orchestrator run exists. The failure
-    banner must surface a "View Run Details" link to it (same as
-    success does) and must never render a raw traceback.
+    AES-009C+010: a DEFER committee decision fails inside the
+    pipeline's blueprint stage, so a real orchestrator run exists. The
+    Job Status page must be FAILED, surface a "View Run Details" link
+    to that run (same as success does), and never render a traceback.
     """
-    response = client.post(
-        "/operations/directory-launch/run",
-        data={
+    redirect_response, job_status_response = _submit_and_await_job(
+        client,
+        {
             "committee_run_id": "run-route-defer",
             "project_slug": "pet-friendly-travel",
             "description": "A pet-friendly travel directory.",
@@ -231,19 +265,25 @@ def test_post_with_stage_failure_shows_failure_message_and_run_details_link(clie
             "monetization_signals": "affiliate_booking, featured_listings",
         },
     )
-    html = response.data.decode("utf-8")
+    html = job_status_response.data.decode("utf-8")
 
-    assert response.status_code == 200
+    assert redirect_response.status_code == 302
+    assert job_status_response.status_code == 200
+    assert "FAILED" in html
     assert "Directory Launch pipeline failed:" in html
     assert "View Run Details" in html
     assert "/orchestrator/runs/" in html
     assert "Traceback" not in html
 
 
-def test_post_with_missing_fields_returns_200_and_failure_message(client):
-    response = client.post(
-        "/operations/directory-launch/run",
-        data={
+def test_post_with_missing_fields_redirects_to_job_status_showing_failure(client):
+    """
+    AES-010: even an instant validation failure becomes a (very fast)
+    background job — no inline pre-validation in the route.
+    """
+    redirect_response, job_status_response = _submit_and_await_job(
+        client,
+        {
             "committee_run_id": "",
             "project_slug": "",
             "description": "",
@@ -252,6 +292,9 @@ def test_post_with_missing_fields_returns_200_and_failure_message(client):
             "monetization_signals": "",
         },
     )
+    html = job_status_response.data.decode("utf-8")
 
-    assert response.status_code == 200
-    assert b"Missing required field" in response.data
+    assert redirect_response.status_code == 302
+    assert job_status_response.status_code == 200
+    assert "FAILED" in html
+    assert "Missing required field" in html

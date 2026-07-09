@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 
+from services.background_job_service import submit_job
 from services.operations_registry import list_operations
 from services.pipeline_execution_service import start_directory_launch_run
 
@@ -12,8 +13,6 @@ def operations_center():
     return render_template(
         "operations_center.html",
         operations=list_operations(),
-        result=None,
-        form_values={},
     )
 
 
@@ -28,11 +27,6 @@ def run_directory_launch():
         "monetization_signals": request.form.get("monetization_signals", ""),
     }
 
-    result = start_directory_launch_run(**form_values)
+    job_id = submit_job(lambda: start_directory_launch_run(**form_values))
 
-    return render_template(
-        "operations_center.html",
-        operations=list_operations(),
-        result=result,
-        form_values=form_values,
-    )
+    return redirect(url_for("jobs.job_status", job_id=job_id))
