@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+{% block title %}Operations Center | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="operations-page">
+
+    <section class="operations-header">
+
+        <div>
+            <p class="operations-eyebrow">OPERATIONS CENTER</p>
+
+            <h1 class="operations-title">
+                Run Atlas Operations
+            </h1>
+
+            <p class="operations-subtitle">
+                Trigger operations backed by the AES-006 orchestrator. Each card below is one
+                available operation — more will appear here as they're added, with no change
+                to this page's layout.
+            </p>
+        </div>
+
+    </section>
+
+
+    {% if result %}
+
+    <section class="operations-result-banner operations-result-{{ 'success' if result.success else 'failure' }}">
+        <div class="operations-result-icon">{{ '✓' if result.success else '✕' }}</div>
+
+        <div>
+            <strong>{{ 'Success' if result.success else 'Failed' }}</strong>
+            <p>{{ result.message }}</p>
+            {% if result.run_id %}
+            <p class="operations-result-run-id">
+                Run ID: <a href="/orchestrator/runs/{{ result.run_id }}">{{ result.run_id }}</a>
+            </p>
+            {% endif %}
+        </div>
+    </section>
+
+    {% endif %}
+
+
+    <section class="operations-cards-grid">
+
+        {% for operation in operations %}
+
+        <div class="operations-card">
+            <div class="operations-card-icon">▶</div>
+            <h2 class="operations-card-name">{{ operation.name }}</h2>
+            <p class="operations-card-description">{{ operation.description }}</p>
+            <a href="#run-{{ operation.key }}" class="operations-card-action">Configure &amp; Run →</a>
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+
+    <section id="run-directory_launch_v1" class="operations-run-panel">
+
+        <h2 class="operations-run-panel-title">Configure &amp; Run: Directory Launch</h2>
+
+        <p class="operations-run-panel-hint">
+            Requires the run_id of an already-completed Investment Committee decision
+            (BUILD or TEST recommendation). Business listings are pulled automatically
+            from all Atlas business records.
+        </p>
+
+        <form method="POST" action="/operations/directory-launch/run" class="operations-form">
+
+            <label class="operations-form-field">
+                <span>Committee Run ID</span>
+                <input type="text" name="committee_run_id" value="{{ form_values.committee_run_id or '' }}" required>
+            </label>
+
+            <label class="operations-form-field">
+                <span>Project Slug</span>
+                <input type="text" name="project_slug" value="{{ form_values.project_slug or '' }}" required>
+            </label>
+
+            <label class="operations-form-field">
+                <span>Description</span>
+                <input type="text" name="description" value="{{ form_values.description or '' }}" required>
+            </label>
+
+            <label class="operations-form-field">
+                <span>Target Customer</span>
+                <input type="text" name="target_customer" value="{{ form_values.target_customer or '' }}" required>
+            </label>
+
+            <label class="operations-form-field">
+                <span>Competition Level</span>
+                <select name="competition_level" required>
+                    {% set current_level = form_values.competition_level or 'medium' %}
+                    <option value="low" {% if current_level == 'low' %}selected{% endif %}>Low</option>
+                    <option value="medium" {% if current_level == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="high" {% if current_level == 'high' %}selected{% endif %}>High</option>
+                </select>
+            </label>
+
+            <label class="operations-form-field operations-form-field-wide">
+                <span>Monetization Signals (comma-separated)</span>
+                <input type="text" name="monetization_signals" value="{{ form_values.monetization_signals or '' }}" required>
+            </label>
+
+            <button type="submit" class="operations-run-button">Run Directory Launch Pipeline</button>
+
+        </form>
+
+    </section>
+
+</div>
+
+
+<style>
+    .operations-page {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .operations-header {
+        margin-bottom: 24px;
+    }
+
+    .operations-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .operations-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .operations-subtitle {
+        margin: 10px 0 0;
+        max-width: 720px;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .operations-result-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        margin-bottom: 24px;
+        padding: 15px 18px;
+        border-radius: 13px;
+    }
+
+    .operations-result-success {
+        background: #e3f5ea;
+        border: 1px solid #bfe6cf;
+    }
+
+    .operations-result-failure {
+        background: #fbe6e6;
+        border: 1px solid #f3c9c9;
+    }
+
+    .operations-result-icon {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    .operations-result-success .operations-result-icon {
+        background: #bfe6cf;
+        color: #1f7a3f;
+    }
+
+    .operations-result-failure .operations-result-icon {
+        background: #f3c9c9;
+        color: #a12626;
+    }
+
+    .operations-result-banner strong {
+        display: block;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .operations-result-success strong {
+        color: #1f7a3f;
+    }
+
+    .operations-result-failure strong {
+        color: #a12626;
+    }
+
+    .operations-result-banner p {
+        margin: 4px 0 0;
+        color: #4a5568;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .operations-result-run-id a {
+        color: #6753e7;
+        font-weight: 700;
+        text-decoration: none;
+        font-family: monospace;
+    }
+
+    .operations-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .operations-card {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .operations-card-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 12px;
+        place-items: center;
+        background: #f0edff;
+        border-radius: 10px;
+        color: #6753e7;
+        font-size: 14px;
+    }
+
+    .operations-card-name {
+        margin: 0 0 6px;
+        color: #172033;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .operations-card-description {
+        margin: 0 0 14px;
+        color: #7f889a;
+        font-size: 13px;
+        line-height: 1.5;
+        flex-grow: 1;
+    }
+
+    .operations-card-action {
+        color: #6753e7;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .operations-run-panel {
+        padding: 24px;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .operations-run-panel-title {
+        margin: 0 0 8px;
+        color: #172033;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .operations-run-panel-hint {
+        margin: 0 0 20px;
+        color: #7f889a;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .operations-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+
+    .operations-form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .operations-form-field-wide {
+        grid-column: 1 / -1;
+    }
+
+    .operations-form-field span {
+        color: #172033;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .operations-form-field input,
+    .operations-form-field select {
+        padding: 10px 12px;
+        border: 1px solid #e7e9ef;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #172033;
+    }
+
+    .operations-run-button {
+        grid-column: 1 / -1;
+        justify-self: start;
+        padding: 12px 22px;
+        background: linear-gradient(135deg, #6753e7, #805de8);
+        border: none;
+        border-radius: 11px;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(96, 75, 216, 0.2);
+    }
+</style>
+
+{% endblock %}
