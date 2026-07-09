@@ -238,6 +238,38 @@ def test_successful_run_creates_orchestrator_run(db_path):
     assert orch_run["pipeline_name"] == "directory_launch_v1"
 
 
+def test_on_input_hash_known_callback_fires_before_pipeline_completes_and_resolves_to_run(db_path):
+    """
+    AES-011: on_input_hash_known must be called with a hash that, once
+    the pipeline has started, resolves (via the existing
+    orchestrator_run_repository.get_run_by_input_hash) to the same
+    run_id the call ultimately returns — this is the correlation a
+    live monitor depends on to find a job's run before it finishes.
+    """
+    _seed_committee_run(db_path, "run-hash-callback")
+    _seed_business(db_path)
+
+    captured_hashes = []
+
+    result = pipeline_execution_service.start_directory_launch_run(
+        committee_run_id="run-hash-callback",
+        db_path=db_path,
+        on_input_hash_known=captured_hashes.append,
+        **VALID_FORM,
+    )
+
+    assert len(captured_hashes) == 1
+    assert result["success"] is True
+
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    resolved_run = orch_run_repo.get_run_by_input_hash(conn, captured_hashes[0])
+    conn.close()
+
+    assert resolved_run is not None
+    assert resolved_run["run_id"] == result["run_id"]
+
+
 def test_ineligible_committee_decision_returns_failure(db_path):
     """
     A DEFER/REJECT committee decision fails inside the pipeline's

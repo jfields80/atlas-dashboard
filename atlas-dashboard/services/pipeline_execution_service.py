@@ -26,7 +26,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
-from typing import Any
+from typing import Any, Callable
 
 from config import DATABASE
 from core.engine_versions import CURRENT_VERSION_SET
@@ -79,25 +79,32 @@ def _ensure_pipeline_registered() -> None:
         pass
 
 
-def _lookup_failed_run_id(conn: sqlite3.Connection, seed_payload: dict[str, Any]) -> str | None:
+def _compute_input_hash(seed_payload: dict[str, Any]) -> str:
     """
-    Recovers the orchestrator run_id for a stage failure, so the
-    Operations Center failure banner can link to its full stage-by-
-    stage detail (repositories/orchestrator_run_repository.py already
-    persists it — the run is created before the failing stage runs).
-
-    Recomputes the same input_hash orchestrator_runner.run_pipeline
-    used internally, from the identical pipeline_name/pipeline_version/
-    seed_payload/version_set — no orchestrator/pipeline code changes,
-    just reuse of already-public functions.
+    Computes the same input_hash orchestrator_runner.run_pipeline uses
+    internally for this pipeline_name/pipeline_version/seed_payload/
+    version_set combination. Pure function — safe to call before the
+    pipeline has actually run (e.g. to report a correlation id for a
+    live monitor) as well as after a failure (to look the run back up).
     """
     spec = pipeline_registry.get_pipeline(PIPELINE_NAME)
-    input_hash = compute_pipeline_input_hash(
+    return compute_pipeline_input_hash(
         pipeline_name=PIPELINE_NAME,
         pipeline_version=spec.pipeline_version,
         seed_payload=seed_payload,
         version_set=CURRENT_VERSION_SET,
     )
+
+
+def _lookup_run_id_by_hash(conn: sqlite3.Connection, input_hash: str) -> str | None:
+    """
+    Recovers the orchestrator run_id for a given input_hash, so the
+    Operations Center failure banner can link to its full stage-by-
+    stage detail (repositories/orchestrator_run_repository.py already
+    persists it — the run is created before the failing stage runs).
+    No orchestrator/pipeline code changes, just reuse of already-public
+    functions.
+    """
     run = orchestrator_run_repository.get_run_by_input_hash(conn, input_hash)
     return run["run_id"] if run else None
 
@@ -135,6 +142,7 @@ def start_directory_launch_run(
     competition_level: str,
     monetization_signals: str,
     db_path: str | None = None,
+    on_input_hash_known: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """
     Triggers one Directory Launch pipeline run from Operations Center
@@ -142,6 +150,14 @@ def start_directory_launch_run(
     unknown/incomplete committee run, pipeline stage failure) is
     converted into a {"success": False, "message": ...} result so the
     route can render it directly.
+
+    AES-011: if `on_input_hash_known` is given, it's called once with
+    the pipeline's deterministic input_hash right after the seed
+    payload is built — before the (potentially long-running) pipeline
+    call — so a live monitor can correlate a background job to its
+    orchestrator run while it's still executing, not just after it
+    finishes. Purely additive; callers that don't pass it see no
+    change in behavior.
     """
     form = {
         "committee_run_id": committee_run_id,
@@ -214,12 +230,16 @@ def start_directory_launch_run(
             **_derive_output_roots(db_path),
         }
 
+        input_hash = _compute_input_hash(seed_payload)
+        if on_input_hash_known is not None:
+            on_input_hash_known(input_hash)
+
         try:
             result = orchestrator_runner.run_pipeline(PIPELINE_NAME, seed_payload, conn)
         except RuntimeError as exc:
             return {
                 "success": False,
-                "run_id": _lookup_failed_run_id(conn, seed_payload),
+                "run_id": _lookup_run_id_by_hash(conn, input_hash),
                 "message": _clean_failure_message(exc),
             }
 

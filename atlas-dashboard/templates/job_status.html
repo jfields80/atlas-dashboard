@@ -4,28 +4,24 @@
 
 {% block content %}
 
-{% if job.state.value in ("QUEUED", "RUNNING") %}
-<meta http-equiv="refresh" content="3">
-{% endif %}
-
 <div class="job-status-page">
 
     <a href="/operations" class="job-status-back-link">← Back to Operations Center</a>
 
     <section class="job-status-header">
-        <p class="job-status-eyebrow">BACKGROUND JOB</p>
+        <p class="job-status-eyebrow">ATLAS MISSION CONTROL</p>
 
         <h1 class="job-status-title">
             Job {{ job.job_id[:8] }}…
         </h1>
 
-        <span class="job-status-badge job-status-{{ job.state.value|lower }}">
+        <span id="job-state-badge" class="job-status-badge job-status-{{ job.state.value|lower }}">
             {{ job.state.value }}
         </span>
 
-        {% if job.state.value in ("QUEUED", "RUNNING") %}
-        <p class="job-status-refresh-hint">This page refreshes automatically every few seconds.</p>
-        {% endif %}
+        <p id="job-refresh-hint" class="job-status-refresh-hint" {% if job.state.value not in ("QUEUED", "RUNNING") %}style="display:none;"{% endif %}>
+            Live — updating automatically.
+        </p>
     </section>
 
 
@@ -38,40 +34,159 @@
 
         <div class="job-status-meta-row">
             <span class="job-status-meta-label">Started</span>
-            <span class="job-status-meta-value">{{ job.started_at or "—" }}</span>
+            <span id="job-started-at" class="job-status-meta-value">{{ job.started_at or "—" }}</span>
+        </div>
+
+        <div class="job-status-meta-row">
+            <span class="job-status-meta-label">Last Updated</span>
+            <span id="job-updated-at" class="job-status-meta-value">—</span>
         </div>
 
         <div class="job-status-meta-row">
             <span class="job-status-meta-label">Completed</span>
-            <span class="job-status-meta-value">{{ job.completed_at or "—" }}</span>
+            <span id="job-completed-at" class="job-status-meta-value">{{ job.completed_at or "—" }}</span>
         </div>
 
     </section>
 
 
-    {% if job.state.value == "FAILED" %}
+    <section
+        id="job-stages-section"
+        class="job-status-stages-section"
+        {% if not stages %}style="display:none;"{% endif %}
+    >
+        <h2 class="job-status-stages-title">Pipeline Stages</h2>
 
-    <section class="job-status-error-panel">
-        <p class="job-status-error-label">Error</p>
-        <pre class="job-status-error-message">{{ job.error }}</pre>
+        {% if run %}
+        <p class="job-status-run-summary">
+            Orchestrator run: <span class="job-status-run-summary-id">{{ run.run_id }}</span>
+            (<a href="/orchestrator/runs/{{ run.run_id }}">View Run Details →</a>)
+        </p>
+        {% endif %}
+
+        <ul id="job-stages-list" class="job-status-stages-list">
+            {% for stage in stages %}
+            <li class="job-status-stage job-status-stage-{{ stage.status }}" data-stage-name="{{ stage.name }}">
+                <span class="job-status-stage-icon">
+                    {% if stage.status == "complete" %}✓
+                    {% elif stage.status == "active" %}▶
+                    {% elif stage.status == "failed" %}✕
+                    {% else %}□
+                    {% endif %}
+                </span>
+                <span class="job-status-stage-label">{{ stage.label }}</span>
+            </li>
+            {% endfor %}
+        </ul>
     </section>
 
-    {% endif %}
+
+    <section id="job-error-panel" class="job-status-error-panel" {% if job.state.value != "FAILED" %}style="display:none;"{% endif %}>
+        <p class="job-status-error-label">Error</p>
+        <pre id="job-error-message" class="job-status-error-message">{{ job.error or "" }}</pre>
+    </section>
 
 
-    {% if job.result and job.result.run_id %}
-
-    <section class="job-status-result-panel">
-        <p class="job-status-result-message">{{ job.result.message }}</p>
+    <section id="job-result-panel" class="job-status-result-panel" {% if not (job.result and job.result.run_id) %}style="display:none;"{% endif %}>
+        <p id="job-result-message" class="job-status-result-message">{{ job.result.message if job.result else "" }}</p>
         <p class="job-status-run-id">
-            <span class="job-status-run-id-value">Run ID: {{ job.result.run_id }}</span>
-            <a href="/orchestrator/runs/{{ job.result.run_id }}" class="job-status-run-link">View Run Details →</a>
+            <span id="job-result-run-id-value" class="job-status-run-id-value">
+                {% if job.result and job.result.run_id %}Run ID: {{ job.result.run_id }}{% endif %}
+            </span>
+            <a
+                id="job-result-run-link"
+                href="{{ '/orchestrator/runs/' + job.result.run_id if job.result and job.result.run_id else '#' }}"
+                class="job-status-run-link"
+                {% if not (job.result and job.result.run_id) %}style="display:none;"{% endif %}
+            >View Run Details →</a>
         </p>
     </section>
 
-    {% endif %}
-
 </div>
+
+
+<script>
+(function () {
+    var jobId = {{ job.job_id|tojson }};
+    var terminalStates = ["SUCCEEDED", "FAILED"];
+    var stageIcons = {complete: "✓", active: "▶", failed: "✕", pending: "□"};
+    var initialState = {{ job.state.value|tojson }};
+
+    if (terminalStates.indexOf(initialState) !== -1) {
+        return;
+    }
+
+    function setText(id, text) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = text; }
+    }
+
+    function updateStages(stages) {
+        var list = document.getElementById("job-stages-list");
+        var section = document.getElementById("job-stages-section");
+        if (!stages || stages.length === 0) { return; }
+        section.style.display = "";
+
+        if (!list) { return; }
+        stages.forEach(function (stage) {
+            var li = list.querySelector('[data-stage-name="' + stage.name + '"]');
+            if (!li) { return; }
+            li.className = "job-status-stage job-status-stage-" + stage.status;
+            var icon = li.querySelector(".job-status-stage-icon");
+            if (icon) { icon.textContent = stageIcons[stage.status] || "□"; }
+        });
+    }
+
+    function updateResult(result) {
+        var panel = document.getElementById("job-result-panel");
+        if (!result || !result.run_id) { return; }
+        panel.style.display = "";
+        setText("job-result-message", result.message || "");
+        setText("job-result-run-id-value", "Run ID: " + result.run_id);
+        var link = document.getElementById("job-result-run-link");
+        if (link) {
+            link.href = "/orchestrator/runs/" + result.run_id;
+            link.style.display = "";
+        }
+    }
+
+    function poll() {
+        fetch("/jobs/" + jobId + "/status.json")
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+                var badge = document.getElementById("job-state-badge");
+                if (badge) {
+                    badge.textContent = data.state;
+                    badge.className = "job-status-badge job-status-" + data.state.toLowerCase();
+                }
+
+                setText("job-started-at", data.started_at || "—");
+                setText("job-completed-at", data.completed_at || "—");
+                setText("job-updated-at", new Date().toLocaleTimeString());
+
+                updateStages(data.stages);
+
+                var errorPanel = document.getElementById("job-error-panel");
+                if (data.error) {
+                    errorPanel.style.display = "";
+                    setText("job-error-message", data.error);
+                }
+
+                updateResult(data.result);
+
+                if (terminalStates.indexOf(data.state) !== -1) {
+                    var hint = document.getElementById("job-refresh-hint");
+                    if (hint) { hint.style.display = "none"; }
+                    clearInterval(pollTimer);
+                }
+            })
+            .catch(function () { /* transient fetch error - try again next tick */ });
+    }
+
+    var pollTimer = setInterval(poll, 2500);
+    poll();
+})();
+</script>
 
 
 <style>
@@ -151,7 +266,7 @@
 
     .job-status-meta-card {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 16px;
         margin: 20px 0;
         padding: 20px;
@@ -179,6 +294,87 @@
         font-size: 14px;
         font-family: monospace;
         word-break: break-all;
+    }
+
+    .job-status-stages-section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .job-status-stages-title {
+        margin: 0 0 10px;
+        color: #172033;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .job-status-run-summary {
+        margin: 0 0 16px;
+        color: #7f889a;
+        font-size: 12px;
+    }
+
+    .job-status-run-summary-id {
+        font-family: monospace;
+    }
+
+    .job-status-run-summary a {
+        color: #6753e7;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .job-status-stages-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .job-status-stage {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #f8f8fb;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .job-status-stage-icon {
+        display: inline-flex;
+        width: 20px;
+        justify-content: center;
+        font-weight: 800;
+    }
+
+    .job-status-stage-label {
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .job-status-stage-pending {
+        color: #a3aab8;
+    }
+
+    .job-status-stage-active {
+        background: #e0e7ff;
+        color: #3949ab;
+    }
+
+    .job-status-stage-complete {
+        background: #e3f5ea;
+        color: #1f7a3f;
+    }
+
+    .job-status-stage-failed {
+        background: #fbe6e6;
+        color: #a12626;
     }
 
     .job-status-error-panel {

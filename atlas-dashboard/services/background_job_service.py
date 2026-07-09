@@ -10,10 +10,18 @@ A later AES ticket will replace the in-memory registry with durable
 persistence.
 
 This module knows nothing about Directory Launch, pipelines, or the
-orchestrator — it accepts any zero-argument callable returning a dict
-and tracks its execution. Callers (routes) compose the deferred call
-(e.g. `lambda: start_directory_launch_run(**form_values)`) so pipeline
-logic is never duplicated here.
+orchestrator — it accepts any callable (given its own job_id) returning
+a dict and tracks its execution. Callers (routes) compose the deferred
+call (e.g. `lambda job_id: start_directory_launch_run(**form_values)`)
+so pipeline logic is never duplicated here.
+
+AES-011 note: `pipeline_input_hash` is an optional, generic
+correlation field a wrapped callable may report back (via
+`set_pipeline_input_hash`) as soon as it's known — before the job
+finishes — so a live monitor can resolve "what orchestrator run does
+this job correspond to" without this module knowing anything about
+orchestrator runs itself. A future non-pipeline job simply never sets
+it.
 
 Atlas contract: business logic and orchestration only — no SQL, no
 Flask, no HTML.
@@ -44,6 +52,7 @@ class Job:
     completed_at: str | None = None
     error: str | None = None
     result: dict[str, Any] | None = None
+    pipeline_input_hash: str | None = None
 
 
 _jobs: dict[str, Job] = {}
@@ -55,14 +64,14 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _run_job(job_id: str, fn: Callable[[], dict[str, Any]]) -> None:
+def _run_job(job_id: str, fn: Callable[[str], dict[str, Any]]) -> None:
     with _lock:
         job = _jobs[job_id]
         job.state = JobState.RUNNING
         job.started_at = _now()
 
     try:
-        result = fn()
+        result = fn(job_id)
     except Exception as exc:
         with _lock:
             job.error = str(exc)
@@ -80,15 +89,16 @@ def _run_job(job_id: str, fn: Callable[[], dict[str, Any]]) -> None:
             job.state = JobState.SUCCEEDED
 
 
-def submit_job(fn: Callable[[], dict[str, Any]]) -> str:
+def submit_job(fn: Callable[[str], dict[str, Any]]) -> str:
     """
     Starts `fn` on a background thread and returns immediately with a
-    new job_id. `fn` takes no arguments and returns a dict; if that
-    dict contains `"success": False`, the job is recorded as FAILED
-    with `error` set from its `"message"`. An uncaught exception from
-    `fn` is also recorded as FAILED, with `error` set from the
-    exception's string form. Any other return value marks the job
-    SUCCEEDED.
+    new job_id. `fn` is called with that same job_id (so it can report
+    correlation data back via `set_pipeline_input_hash` while it's
+    still running) and must return a dict; if that dict contains
+    `"success": False`, the job is recorded as FAILED with `error` set
+    from its `"message"`. An uncaught exception from `fn` is also
+    recorded as FAILED, with `error` set from the exception's string
+    form. Any other return value marks the job SUCCEEDED.
     """
     job_id = str(uuid.uuid4())
     job = Job(job_id=job_id, state=JobState.QUEUED)
@@ -108,6 +118,21 @@ def submit_job(fn: Callable[[], dict[str, Any]]) -> str:
 def get_job(job_id: str) -> Job | None:
     with _lock:
         return _jobs.get(job_id)
+
+
+def set_pipeline_input_hash(job_id: str, input_hash: str) -> None:
+    """
+    Records a correlation hash on a running job so a live monitor can
+    resolve which orchestrator run it corresponds to before the job
+    finishes. Tolerant no-op for an unknown job_id (the job may have
+    already been evicted by a future persistence layer, or the caller
+    made a mistake — either way this must never raise from a worker
+    thread).
+    """
+    with _lock:
+        job = _jobs.get(job_id)
+        if job is not None:
+            job.pipeline_input_hash = input_hash
 
 
 def wait_for_job(job_id: str, timeout: float | None = None) -> Job | None:
