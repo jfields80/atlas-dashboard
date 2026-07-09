@@ -35,7 +35,8 @@
             <p>{{ result.message }}</p>
             {% if result.run_id %}
             <p class="operations-result-run-id">
-                Run ID: <a href="/orchestrator/runs/{{ result.run_id }}">{{ result.run_id }}</a>
+                <span class="operations-result-run-id-value">Run ID: {{ result.run_id }}</span>
+                <a href="/orchestrator/runs/{{ result.run_id }}" class="operations-result-run-link">View Run Details →</a>
             </p>
             {% endif %}
         </div>
@@ -220,11 +221,23 @@
         line-height: 1.5;
     }
 
-    .operations-result-run-id a {
+    .operations-result-run-id {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .operations-result-run-id-value {
+        color: #4a5568;
+        font-family: monospace;
+        font-size: 12px;
+    }
+
+    .operations-result-run-link {
         color: #6753e7;
         font-weight: 700;
         text-decoration: none;
-        font-family: monospace;
     }
 
     .operations-cards-grid {

@@ -29,7 +29,9 @@ import sqlite3
 from typing import Any
 
 from config import DATABASE
-from repositories import run_repository
+from core.engine_versions import CURRENT_VERSION_SET
+from core.input_hash import compute_pipeline_input_hash
+from repositories import orchestrator_run_repository, run_repository
 from services.database import Database
 from services.investment_committee import PortfolioDecisionResult
 from services.orchestrator import orchestrator_runner, pipeline_registry
@@ -75,6 +77,45 @@ def _ensure_pipeline_registered() -> None:
         register_directory_launch_pipeline()
     except pipeline_registry.PipelineAlreadyRegisteredError:
         pass
+
+
+def _lookup_failed_run_id(conn: sqlite3.Connection, seed_payload: dict[str, Any]) -> str | None:
+    """
+    Recovers the orchestrator run_id for a stage failure, so the
+    Operations Center failure banner can link to its full stage-by-
+    stage detail (repositories/orchestrator_run_repository.py already
+    persists it — the run is created before the failing stage runs).
+
+    Recomputes the same input_hash orchestrator_runner.run_pipeline
+    used internally, from the identical pipeline_name/pipeline_version/
+    seed_payload/version_set — no orchestrator/pipeline code changes,
+    just reuse of already-public functions.
+    """
+    spec = pipeline_registry.get_pipeline(PIPELINE_NAME)
+    input_hash = compute_pipeline_input_hash(
+        pipeline_name=PIPELINE_NAME,
+        pipeline_version=spec.pipeline_version,
+        seed_payload=seed_payload,
+        version_set=CURRENT_VERSION_SET,
+    )
+    run = orchestrator_run_repository.get_run_by_input_hash(conn, input_hash)
+    return run["run_id"] if run else None
+
+
+def _clean_failure_message(exc: Exception) -> str:
+    """
+    orchestrator_runner wraps stage failures as:
+        "Pipeline failed for pipeline_name='...' (run_id=...): <cause>"
+    Strips the technical pipeline_name/run_id prefix for the UI (the
+    run_id is surfaced separately as a clickable link instead) while
+    never showing a raw traceback. Falls back to the full text if the
+    expected shape isn't found.
+    """
+    text = str(exc)
+    marker = "): "
+    idx = text.rfind(marker)
+    cause = text[idx + len(marker):] if idx != -1 else text
+    return f"Directory Launch pipeline failed: {cause}"
 
 
 def _missing_fields(form: dict[str, Any]) -> list[str]:
@@ -176,7 +217,11 @@ def start_directory_launch_run(
         try:
             result = orchestrator_runner.run_pipeline(PIPELINE_NAME, seed_payload, conn)
         except RuntimeError as exc:
-            return {"success": False, "run_id": None, "message": str(exc)}
+            return {
+                "success": False,
+                "run_id": _lookup_failed_run_id(conn, seed_payload),
+                "message": _clean_failure_message(exc),
+            }
 
         return {
             "success": True,

@@ -185,6 +185,7 @@ def test_missing_fields_returns_failure_without_touching_pipeline(db_path):
     )
 
     assert result["success"] is False
+    assert result["run_id"] is None
     assert "Missing required field" in result["message"]
 
 
@@ -196,6 +197,7 @@ def test_unknown_committee_run_id_returns_failure(db_path):
     )
 
     assert result["success"] is False
+    assert result["run_id"] is None
     assert "No investment committee run found" in result["message"]
 
 
@@ -237,6 +239,13 @@ def test_successful_run_creates_orchestrator_run(db_path):
 
 
 def test_ineligible_committee_decision_returns_failure(db_path):
+    """
+    A DEFER/REJECT committee decision fails inside the pipeline's
+    blueprint stage (not before it starts), so a real orchestrator run
+    row exists with the failure recorded — AES-009C: the service must
+    recover that run_id and expose it for a "View Run Details" link,
+    and the message must not contain a raw traceback.
+    """
     _seed_committee_run(db_path, "run-defer", recommendation="DEFER")
     _seed_business(db_path)
 
@@ -247,7 +256,17 @@ def test_ineligible_committee_decision_returns_failure(db_path):
     )
 
     assert result["success"] is False
-    assert result["run_id"] is None
+    assert result["run_id"]
+    assert "Directory Launch pipeline failed:" in result["message"]
+    assert "Traceback" not in result["message"]
+
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    orch_run = orch_run_repo.get_run_by_id(conn, result["run_id"])
+    conn.close()
+
+    assert orch_run is not None
+    assert orch_run["status"] == "failed"
 
 
 def test_second_call_with_identical_inputs_is_cached(db_path):

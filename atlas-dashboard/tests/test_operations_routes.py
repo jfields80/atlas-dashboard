@@ -41,11 +41,15 @@ def _clean_registry():
     pipeline_registry.clear_registry()
 
 
-def _portfolio_decision_result() -> PortfolioDecisionResult:
+def _portfolio_decision_result(
+    run_id: str = "run-route-1",
+    portfolio_snapshot_id: str = "snap-route-1",
+    recommendation: str = "BUILD",
+) -> PortfolioDecisionResult:
     core = DecisionResult(
         opportunity_id="opp-route-1",
         niche_slug="pet-friendly-travel",
-        decision="BUILD",
+        decision=recommendation,
         confidence=0.7,
         honest_wall_applied=False,
         rationale="test decision",
@@ -53,12 +57,12 @@ def _portfolio_decision_result() -> PortfolioDecisionResult:
         geographic_scope="national",
     )
     return PortfolioDecisionResult(
-        run_id="run-route-1",
-        portfolio_snapshot_id="snap-route-1",
+        run_id=run_id,
+        portfolio_snapshot_id=portfolio_snapshot_id,
         engine_versions={},
         core_decision=core,
         synergy=SynergyReportModel(
-            total_score=0.1, portfolio_snapshot_id="snap-route-1", category="pet", geographic_scope="national"
+            total_score=0.1, portfolio_snapshot_id=portfolio_snapshot_id, category="pet", geographic_scope="national"
         ),
         expansion=ExpansionClassModel(
             label="Portfolio", confidence=0.6, plain_english="Adds diversification.", synergy_driven=False
@@ -78,7 +82,7 @@ def _portfolio_decision_result() -> PortfolioDecisionResult:
             buyer_depth_estimate=5,
             compression_risks=[],
         ),
-        portfolio_recommendation="BUILD",
+        portfolio_recommendation=recommendation,
         portfolio_confidence=0.7,
         honest_wall_binding=False,
         committee_rationale="Test rationale for route test.",
@@ -136,6 +140,26 @@ def client(tmp_path, monkeypatch):
             "result_json": _portfolio_decision_result().json(),
         },
     )
+    run_repo.insert_run(
+        conn,
+        {
+            "run_id": "run-route-defer",
+            "input_hash": "hash-run-route-defer",
+            "opportunity_id": "opp-route-1",
+            "portfolio_snapshot_id": "snap-route-defer",
+            "engine_version_set": "{}",
+            "status": "complete",
+            "started_at": "2026-01-01T00:00:00+00:00",
+            "completed_at": "2026-01-01T00:00:10+00:00",
+            "failed_at": None,
+            "failure_reason": None,
+            "result_json": _portfolio_decision_result(
+                run_id="run-route-defer",
+                portfolio_snapshot_id="snap-route-defer",
+                recommendation="DEFER",
+            ).json(),
+        },
+    )
     conn.commit()
     conn.close()
 
@@ -185,6 +209,35 @@ def test_post_with_valid_data_returns_200_and_success_message(client):
 
     assert response.status_code == 200
     assert b"Directory Launch pipeline completed successfully" in response.data
+    assert b"View Run Details" in response.data
+    assert b"/orchestrator/runs/" in response.data
+
+
+def test_post_with_stage_failure_shows_failure_message_and_run_details_link(client):
+    """
+    AES-009C: a DEFER committee decision fails inside the pipeline's
+    blueprint stage, so a real orchestrator run exists. The failure
+    banner must surface a "View Run Details" link to it (same as
+    success does) and must never render a raw traceback.
+    """
+    response = client.post(
+        "/operations/directory-launch/run",
+        data={
+            "committee_run_id": "run-route-defer",
+            "project_slug": "pet-friendly-travel",
+            "description": "A pet-friendly travel directory.",
+            "target_customer": "Pet owners planning trips",
+            "competition_level": "medium",
+            "monetization_signals": "affiliate_booking, featured_listings",
+        },
+    )
+    html = response.data.decode("utf-8")
+
+    assert response.status_code == 200
+    assert "Directory Launch pipeline failed:" in html
+    assert "View Run Details" in html
+    assert "/orchestrator/runs/" in html
+    assert "Traceback" not in html
 
 
 def test_post_with_missing_fields_returns_200_and_failure_message(client):
