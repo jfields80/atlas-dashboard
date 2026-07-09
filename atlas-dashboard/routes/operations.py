@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, request
 
-from services.pipeline_execution_service import (
-    describe_available_pipelines,
-    start_directory_launch_run,
-)
+from services.operations_registry import list_operations
+from services.pipeline_execution_service import start_directory_launch_run
 
 
 operations_bp = Blueprint("operations", __name__)
@@ -13,7 +11,7 @@ operations_bp = Blueprint("operations", __name__)
 def operations_center():
     return render_template(
         "operations_center.html",
-        operations=describe_available_pipelines(),
+        operations=list_operations(),
         result=None,
         form_values={},
     )
@@ -34,7 +32,7 @@ def run_directory_launch():
 
     return render_template(
         "operations_center.html",
-        operations=describe_available_pipelines(),
+        operations=list_operations(),
         result=result,
         form_values=form_values,
     )

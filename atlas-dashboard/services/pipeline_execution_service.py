@@ -13,6 +13,12 @@ Atlas contract: business logic and orchestration only — zero SQL (all
 persistence access goes through repositories/run_repository.py and
 repositories/orchestrator_run_repository.py, both untouched by this
 module), no Flask, no HTML.
+
+AES-009B note: this module owns only "how Directory Launch executes."
+"What operations exist" (the descriptor list previously exposed here
+as describe_available_pipelines()) moved to
+services/operations_registry.py, so future non-pipeline operations
+don't have to be described from inside a pipeline-specific module.
 """
 
 from __future__ import annotations
@@ -40,26 +46,6 @@ _REQUIRED_FORM_FIELDS = (
     "competition_level",
     "monetization_signals",
 )
-
-
-def describe_available_pipelines() -> list[dict[str, str]]:
-    """
-    Static description of pipeline-backed operations available on the
-    Operations Center page. AES-009A exposes exactly one; future
-    operations (Opportunity Scan, Website Audit, Marketing, etc.) are
-    expected to extend this list, not restructure the page.
-    """
-    return [
-        {
-            "key": PIPELINE_NAME,
-            "name": "Directory Launch",
-            "description": (
-                "Runs the Directory Launch pipeline: Blueprint -> Ingestion -> "
-                "Launch Kit -> Directory Builder -> Preview, using an existing "
-                "completed Investment Committee decision."
-            ),
-        }
-    ]
 
 
 def _connect(db_path: str | None = None) -> sqlite3.Connection:

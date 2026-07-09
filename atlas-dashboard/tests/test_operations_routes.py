@@ -153,6 +153,23 @@ def test_operations_center_returns_200_and_shows_directory_launch(client):
     assert b"Directory Launch" in response.data
 
 
+def test_operations_center_renders_card_from_descriptor_icon_and_route(client):
+    """
+    AES-009B regression guard: the card's icon and "Configure & Run"
+    link come from OperationDescriptor.icon/.route, not template-
+    hardcoded values.
+    """
+    from services.operations_registry import list_operations
+
+    [operation] = list_operations()
+
+    response = client.get("/operations")
+    html = response.data.decode("utf-8")
+
+    assert operation.icon in html
+    assert f'href="{operation.route}"' in html
+
+
 def test_post_with_valid_data_returns_200_and_success_message(client):
     response = client.post(
         "/operations/directory-launch/run",
