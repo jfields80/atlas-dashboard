@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}Run {{ run.run_id[:8] }} | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="orchestrator-run-detail-page">
+
+    <a href="/orchestrator/runs" class="orchestrator-run-back-link">← Back to Run History</a>
+
+    <section class="orchestrator-run-header">
+
+        <div>
+            <p class="orchestrator-run-eyebrow">{{ run.pipeline_name }} · v{{ run.pipeline_version }}</p>
+
+            <h1 class="orchestrator-run-title">
+                Run {{ run.run_id[:8] }}…
+            </h1>
+
+            <span class="orchestrator-status-badge orchestrator-status-{{ run.status }}">
+                {{ run.status }}
+            </span>
+        </div>
+
+    </section>
+
+
+    <section class="orchestrator-run-meta-card">
+
+        <div class="orchestrator-run-meta-row">
+            <span class="orchestrator-run-meta-label">Run ID</span>
+            <span class="orchestrator-run-meta-value">{{ run.run_id }}</span>
+        </div>
+
+        <div class="orchestrator-run-meta-row">
+            <span class="orchestrator-run-meta-label">Input Hash</span>
+            <span class="orchestrator-run-meta-value">{{ run.input_hash }}</span>
+        </div>
+
+        <div class="orchestrator-run-meta-row">
+            <span class="orchestrator-run-meta-label">Started At</span>
+            <span class="orchestrator-run-meta-value">{{ run.started_at }}</span>
+        </div>
+
+        <div class="orchestrator-run-meta-row">
+            <span class="orchestrator-run-meta-label">Completed At</span>
+            <span class="orchestrator-run-meta-value">{{ run.completed_at or "—" }}</span>
+        </div>
+
+        <div class="orchestrator-run-meta-row">
+            <span class="orchestrator-run-meta-label">Duration</span>
+            <span class="orchestrator-run-meta-value">{{ run.duration_display or "—" }}</span>
+        </div>
+
+    </section>
+
+
+    {% if run.status == "failed" %}
+
+    <section class="orchestrator-run-failure-panel">
+        <p class="orchestrator-run-failure-label">Failure Reason</p>
+        <pre class="orchestrator-run-failure-message">{{ run.failure_reason }}</pre>
+    </section>
+
+    {% endif %}
+
+
+    <section class="orchestrator-run-stages-section">
+
+        <h2 class="orchestrator-run-stages-title">Stages</h2>
+
+        {% if stages %}
+
+        <div class="orchestrator-runs-table-wrapper">
+
+            <table class="orchestrator-runs-table">
+
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Status</th>
+                        <th>Started At</th>
+                        <th>Duration</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for stage in stages %}
+
+                    <tr>
+                        <td>{{ stage.stage_name }}</td>
+
+                        <td>
+                            <span class="orchestrator-status-badge orchestrator-status-{{ stage.status }}">
+                                {{ stage.status }}
+                            </span>
+                        </td>
+
+                        <td>{{ stage.started_at }}</td>
+
+                        <td>{{ stage.duration_display or "—" }}</td>
+
+                        <td class="orchestrator-run-stage-notes">
+                            {{ stage.notes or "—" }}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="orchestrator-run-no-stages">No stages recorded for this run.</p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+
+<style>
+    .orchestrator-run-detail-page {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .orchestrator-run-back-link {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: #6753e7;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .orchestrator-run-header {
+        margin-bottom: 20px;
+    }
+
+    .orchestrator-run-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .orchestrator-run-title {
+        margin: 0 0 12px;
+        color: #172033;
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        font-family: monospace;
+    }
+
+    .orchestrator-run-meta-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .orchestrator-run-meta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .orchestrator-run-meta-label {
+        color: #7f889a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .orchestrator-run-meta-value {
+        color: #172033;
+        font-size: 14px;
+        font-family: monospace;
+        word-break: break-all;
+    }
+
+    .orchestrator-run-failure-panel {
+        margin-bottom: 20px;
+        padding: 16px 18px;
+        background: #fbe6e6;
+        border: 1px solid #f3c9c9;
+        border-radius: 12px;
+    }
+
+    .orchestrator-run-failure-label {
+        margin: 0 0 8px;
+        color: #a12626;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .orchestrator-run-failure-message {
+        margin: 0;
+        color: #7a1f1f;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .orchestrator-run-stages-title {
+        margin: 0 0 14px;
+        color: #172033;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .orchestrator-runs-table-wrapper {
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .orchestrator-runs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .orchestrator-runs-table th {
+        padding: 14px 18px;
+        background: #f8f8fb;
+        color: #7f889a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-align: left;
+        text-transform: uppercase;
+        border-bottom: 1px solid #e7e9ef;
+    }
+
+    .orchestrator-runs-table td {
+        padding: 14px 18px;
+        border-bottom: 1px solid #f0f1f5;
+        color: #172033;
+        font-size: 14px;
+    }
+
+    .orchestrator-runs-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .orchestrator-run-stage-notes {
+        max-width: 360px;
+        color: #7f889a;
+        font-size: 13px;
+        word-break: break-word;
+    }
+
+    .orchestrator-status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .orchestrator-status-complete {
+        background: #e3f5ea;
+        color: #1f7a3f;
+    }
+
+    .orchestrator-status-failed {
+        background: #fbe6e6;
+        color: #a12626;
+    }
+
+    .orchestrator-status-started {
+        background: #fdf3d9;
+        color: #92700f;
+    }
+
+    .orchestrator-run-no-stages {
+        color: #7f889a;
+        font-size: 14px;
+    }
+</style>
+
+{% endblock %}

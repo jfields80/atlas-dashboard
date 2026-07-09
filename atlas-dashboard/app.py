@@ -13,6 +13,8 @@ from routes.analytics import analytics_bp
 from routes.settings import settings_bp
 from routes.sources import sources_bp
 from routes.opportunities import opportunities_bp
+from routes.orchestrator_runs import orchestrator_runs_bp
+from routes.operations import operations_bp
 
 
 app = Flask(__name__)
@@ -41,6 +43,8 @@ app.register_blueprint(analytics_bp)
 app.register_blueprint(settings_bp)
 app.register_blueprint(sources_bp)
 app.register_blueprint(opportunities_bp)
+app.register_blueprint(orchestrator_runs_bp)
+app.register_blueprint(operations_bp)
 
 
 print("\n===================")

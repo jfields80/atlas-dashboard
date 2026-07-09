@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Orchestrator Runs | Atlas{% endblock %}
+
+{% block content %}
+
+<div class="orchestrator-runs-page">
+
+    <section class="orchestrator-runs-header">
+
+        <div>
+            <p class="orchestrator-runs-eyebrow">ORCHESTRATOR</p>
+
+            <h1 class="orchestrator-runs-title">
+                Run History
+            </h1>
+
+            <p class="orchestrator-runs-subtitle">
+                Read-only history of AES-006 orchestrator pipeline runs, their stages, and outcomes.
+            </p>
+        </div>
+
+    </section>
+
+
+    {% if pipeline_filter %}
+
+    <div class="orchestrator-runs-filter-chip">
+        Filtered by pipeline: <strong>{{ pipeline_filter }}</strong>
+        <a href="/orchestrator/runs">Clear</a>
+    </div>
+
+    {% endif %}
+
+
+    {% if runs %}
+
+    <div class="orchestrator-runs-table-wrapper">
+
+        <table class="orchestrator-runs-table">
+
+            <thead>
+                <tr>
+                    <th>Pipeline</th>
+                    <th>Status</th>
+                    <th>Started At</th>
+                    <th>Duration</th>
+                    <th>Run ID</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for run in runs %}
+
+                <tr>
+                    <td>
+                        <a href="/orchestrator/runs?pipeline={{ run.pipeline_name }}">
+                            {{ run.pipeline_name }}
+                        </a>
+                    </td>
+
+                    <td>
+                        <span class="orchestrator-status-badge orchestrator-status-{{ run.status }}">
+                            {{ run.status }}
+                        </span>
+                    </td>
+
+                    <td>{{ run.started_at }}</td>
+
+                    <td>{{ run.duration_display or "—" }}</td>
+
+                    <td>
+                        <a href="/orchestrator/runs/{{ run.run_id }}" class="orchestrator-runs-run-link">
+                            {{ run.run_id[:8] }}…
+                        </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="orchestrator-runs-empty-state">
+        <div class="orchestrator-runs-empty-icon">⟳</div>
+        <h2>No orchestrator runs yet</h2>
+        <p>
+            {% if pipeline_filter %}
+                No runs found for pipeline "{{ pipeline_filter }}".
+            {% else %}
+                Runs will appear here once a pipeline is executed through the AES-006 orchestrator.
+            {% endif %}
+        </p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+    .orchestrator-runs-page {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-bottom: 48px;
+    }
+
+    .orchestrator-runs-header {
+        margin-bottom: 24px;
+    }
+
+    .orchestrator-runs-eyebrow {
+        margin: 0 0 8px;
+        color: #7658f6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1;
+    }
+
+    .orchestrator-runs-title {
+        margin: 0;
+        color: #172033;
+        font-size: clamp(32px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .orchestrator-runs-subtitle {
+        margin: 10px 0 0;
+        color: #7f889a;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .orchestrator-runs-filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        padding: 8px 14px;
+        background: #f0edff;
+        border: 1px solid #dcd5fb;
+        border-radius: 10px;
+        color: #4f43a9;
+        font-size: 13px;
+    }
+
+    .orchestrator-runs-filter-chip a {
+        color: #6753e7;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .orchestrator-runs-table-wrapper {
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .orchestrator-runs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .orchestrator-runs-table th {
+        padding: 14px 18px;
+        background: #f8f8fb;
+        color: #7f889a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-align: left;
+        text-transform: uppercase;
+        border-bottom: 1px solid #e7e9ef;
+    }
+
+    .orchestrator-runs-table td {
+        padding: 14px 18px;
+        border-bottom: 1px solid #f0f1f5;
+        color: #172033;
+        font-size: 14px;
+    }
+
+    .orchestrator-runs-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .orchestrator-runs-run-link {
+        color: #6753e7;
+        font-weight: 700;
+        text-decoration: none;
+        font-family: monospace;
+    }
+
+    .orchestrator-status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .orchestrator-status-complete {
+        background: #e3f5ea;
+        color: #1f7a3f;
+    }
+
+    .orchestrator-status-failed {
+        background: #fbe6e6;
+        color: #a12626;
+    }
+
+    .orchestrator-status-started {
+        background: #fdf3d9;
+        color: #92700f;
+    }
+
+    .orchestrator-runs-empty-state {
+        padding: 60px 20px;
+        text-align: center;
+        color: #7f889a;
+        background: #ffffff;
+        border: 1px solid #e7e9ef;
+        border-radius: 14px;
+    }
+
+    .orchestrator-runs-empty-icon {
+        font-size: 32px;
+        color: #7658f6;
+        margin-bottom: 12px;
+    }
+
+    .orchestrator-runs-empty-state h2 {
+        margin: 0 0 8px;
+        color: #172033;
+        font-size: 18px;
+    }
+
+    .orchestrator-runs-empty-state p {
+        margin: 0;
+        font-size: 14px;
+    }
+</style>
+
+{% endblock %}

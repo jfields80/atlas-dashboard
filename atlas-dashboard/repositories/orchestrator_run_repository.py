@@ -185,6 +185,19 @@ def list_incomplete_runs(conn: sqlite3.Connection) -> list[dict[str, Any]]:
     return [dict(r) for r in rows]
 
 
+def list_all_runs(conn: sqlite3.Connection, limit: int = 200) -> list[dict[str, Any]]:
+    """Returns the most recent runs across every pipeline, newest first."""
+    rows = conn.execute(
+        """
+        SELECT * FROM orchestrator_runs
+         ORDER BY started_at DESC
+         LIMIT ?
+        """,
+        (limit,),
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
 # ---------------------------------------------------------------------------
 # Stage CRUD
 # ---------------------------------------------------------------------------
@@ -327,6 +340,9 @@ class OrchestratorRunRepository:
 
     def list_incomplete_runs(self, conn: sqlite3.Connection) -> list[dict[str, Any]]:
         return list_incomplete_runs(conn)
+
+    def list_all_runs(self, conn: sqlite3.Connection, limit: int = 200) -> list[dict[str, Any]]:
+        return list_all_runs(conn, limit)
 
     def insert_stage(self, conn: sqlite3.Connection, stage: dict[str, Any]) -> None:
         return insert_stage(conn, stage)

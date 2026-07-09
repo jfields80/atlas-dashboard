@@ -120,6 +120,46 @@ def test_list_runs_for_pipeline_orders_most_recent_first():
     assert [r["run_id"] for r in runs] == ["run-b", "run-a"]
 
 
+def test_list_all_runs_returns_all_pipelines_ordered():
+    conn = _make_conn()
+    orch_run_repo.init_orchestrator_schema(conn)
+
+    row_a = _run_row("run-a", pipeline_name="pipeline_one", input_hash="hash-a")
+    row_a["started_at"] = "2026-01-01T00:00:00+00:00"
+    row_b = _run_row("run-b", pipeline_name="pipeline_two", input_hash="hash-b")
+    row_b["started_at"] = "2026-01-03T00:00:00+00:00"
+    row_c = _run_row("run-c", pipeline_name="pipeline_one", input_hash="hash-c")
+    row_c["started_at"] = "2026-01-02T00:00:00+00:00"
+
+    orch_run_repo.insert_run(conn, row_a)
+    orch_run_repo.insert_run(conn, row_b)
+    orch_run_repo.insert_run(conn, row_c)
+    conn.commit()
+
+    runs = orch_run_repo.list_all_runs(conn)
+    assert [r["run_id"] for r in runs] == ["run-b", "run-c", "run-a"]
+
+
+def test_list_all_runs_respects_limit():
+    conn = _make_conn()
+    orch_run_repo.init_orchestrator_schema(conn)
+
+    row_a = _run_row("run-a", input_hash="hash-a")
+    row_a["started_at"] = "2026-01-01T00:00:00+00:00"
+    row_b = _run_row("run-b", input_hash="hash-b")
+    row_b["started_at"] = "2026-01-02T00:00:00+00:00"
+    row_c = _run_row("run-c", input_hash="hash-c")
+    row_c["started_at"] = "2026-01-03T00:00:00+00:00"
+
+    orch_run_repo.insert_run(conn, row_a)
+    orch_run_repo.insert_run(conn, row_b)
+    orch_run_repo.insert_run(conn, row_c)
+    conn.commit()
+
+    runs = orch_run_repo.list_all_runs(conn, limit=2)
+    assert [r["run_id"] for r in runs] == ["run-c", "run-b"]
+
+
 def test_list_incomplete_runs_only_returns_started():
     conn = _make_conn()
     orch_run_repo.init_orchestrator_schema(conn)
