@@ -91,13 +91,28 @@ class OpportunityClassification(BaseModel):
 
 
 class CompetitionProfile(BaseModel):
-    """Output contract for the Competition Analysis stage."""
+    """
+    Output contract for the Competition Analysis stage.
+
+    competitor_archetype/market_fragmentation/likely_competitor_type/
+    competitive_risk/competition_scope (AES-012D): deterministic facts
+    the Competition Analyst infers from the already-derived
+    MarketProfile/OpportunityClassification structured outputs — never
+    from external data. All default to "UNKNOWN". The ticket's
+    suggested "confidence" field reuses the existing data_confidence
+    field below rather than duplicating it.
+    """
 
     competitor_count: Optional[int] = None
     competitor_names: List[str] = Field(default_factory=list)
     competitive_intensity: str = UNKNOWN
     barriers_to_entry: List[str] = Field(default_factory=list)
     data_confidence: str = UNKNOWN
+    competitor_archetype: str = UNKNOWN
+    market_fragmentation: str = UNKNOWN
+    likely_competitor_type: str = UNKNOWN
+    competitive_risk: str = UNKNOWN
+    competition_scope: str = UNKNOWN
 
 
 class RevenueProfile(BaseModel):

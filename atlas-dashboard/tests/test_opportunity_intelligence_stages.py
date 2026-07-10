@@ -86,7 +86,7 @@ def test_opportunity_classification_stage_returns_unknown_classification():
 def test_competition_analysis_stage_returns_unknown_competition_profile():
     stage = PlaceholderCompetitionAnalysisStage()
 
-    result = stage.run(_opportunity(), MarketProfile())
+    result = stage.run(_opportunity(), MarketProfile(), OpportunityClassification())
 
     assert isinstance(result, CompetitionProfile)
     assert result.data_confidence == "UNKNOWN"

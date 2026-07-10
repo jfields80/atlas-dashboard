@@ -75,7 +75,12 @@ class OpportunityClassificationStageProtocol(Protocol):
 
 
 class CompetitionAnalysisStageProtocol(Protocol):
-    def run(self, opportunity: Opportunity, market_profile: MarketProfile) -> CompetitionProfile: ...
+    def run(
+        self,
+        opportunity: Opportunity,
+        market_profile: MarketProfile,
+        classification: OpportunityClassification,
+    ) -> CompetitionProfile: ...
 
 
 class RevenueAnalysisStageProtocol(Protocol):
@@ -148,7 +153,12 @@ class PlaceholderCompetitionAnalysisStage:
 
     name = StageName.COMPETITION_ANALYSIS
 
-    def run(self, opportunity: Opportunity, market_profile: MarketProfile) -> CompetitionProfile:
+    def run(
+        self,
+        opportunity: Opportunity,
+        market_profile: MarketProfile,
+        classification: OpportunityClassification,
+    ) -> CompetitionProfile:
         return CompetitionProfile()
 
 

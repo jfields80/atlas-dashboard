@@ -124,7 +124,7 @@ def test_pipeline_calls_stages_in_correct_order():
             return OpportunityClassification()
 
     class _RecordingCompetitionAnalysisStage:
-        def run(self, opportunity, market_profile):
+        def run(self, opportunity, market_profile, classification):
             call_order.append("competition_analysis")
             return CompetitionProfile()
 
