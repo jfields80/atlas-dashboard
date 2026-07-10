@@ -17,6 +17,7 @@ from services.opportunity_intelligence.models import (
     MarketProfile,
     Opportunity,
     OpportunityAssessment,
+    OpportunityClassification,
     Recommendation,
     RevenueProfile,
 )
@@ -26,6 +27,7 @@ from services.opportunity_intelligence.stages import (
     PlaceholderInvestmentAnalysisStage,
     PlaceholderInvestmentMemoStage,
     PlaceholderMarketResearchStage,
+    PlaceholderOpportunityClassificationStage,
     PlaceholderRevenueAnalysisStage,
     PlaceholderSourceCollectionStage,
     StageName,
@@ -37,10 +39,11 @@ def _opportunity() -> Opportunity:
     return Opportunity(opportunity_id="opp-1", name="Pet Trip Finder", niche="pet-friendly-travel")
 
 
-def test_ordered_stage_names_returns_all_seven_in_pipeline_order():
+def test_ordered_stage_names_returns_all_eight_in_pipeline_order():
     assert ordered_stage_names() == [
         StageName.SOURCE_COLLECTION,
         StageName.MARKET_RESEARCH,
+        StageName.OPPORTUNITY_CLASSIFICATION,
         StageName.COMPETITION_ANALYSIS,
         StageName.REVENUE_ANALYSIS,
         StageName.INVESTMENT_ANALYSIS,
@@ -67,6 +70,17 @@ def test_market_research_stage_returns_unknown_market_profile():
     assert isinstance(result, MarketProfile)
     assert result.data_confidence == "UNKNOWN"
     assert result.total_addressable_market_usd is None
+
+
+def test_opportunity_classification_stage_returns_unknown_classification():
+    stage = PlaceholderOpportunityClassificationStage()
+
+    result = stage.run(_opportunity(), MarketProfile())
+
+    assert isinstance(result, OpportunityClassification)
+    assert result.industry == "UNKNOWN"
+    assert result.confidence == "UNKNOWN"
+    assert stage.name == StageName.OPPORTUNITY_CLASSIFICATION
 
 
 def test_competition_analysis_stage_returns_unknown_competition_profile():

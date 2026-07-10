@@ -21,6 +21,7 @@ from services.opportunity_intelligence.models import (
     MarketProfile,
     Opportunity,
     OpportunityAssessment,
+    OpportunityClassification,
     Recommendation,
     RevenueProfile,
 )
@@ -54,10 +55,29 @@ def test_pipeline_run_produces_fully_populated_assessment():
     memo = pipeline.run(_opportunity())
 
     assert memo.assessment.market_profile is not None
+    assert memo.assessment.classification is not None
     assert memo.assessment.competition_profile is not None
     assert memo.assessment.revenue_profile is not None
     assert memo.assessment.investment_profile is not None
     assert memo.recommendation.decision == "UNASSESSED"
+
+
+def test_pipeline_default_classification_stage_is_the_real_classifier():
+    """
+    AES-012C: OpportunityPipeline() with no overrides must use the real
+    OpportunityClassifier, not the AES-012A-style placeholder — proven
+    by a fully recognizable opportunity resolving to real (non-UNKNOWN)
+    classification facts.
+    """
+    pipeline = OpportunityPipeline()
+    opportunity = Opportunity(opportunity_id="opp-3", name="Ohio Martial Arts for Kids", niche="martial arts")
+
+    memo = pipeline.run(opportunity)
+
+    assert memo.assessment.classification.industry == "Sports & Recreation"
+    assert memo.assessment.classification.audience == "Children"
+    assert memo.assessment.classification.business_type == "Directory"
+    assert memo.assessment.classification.commercial_intent == "HIGH"
 
 
 def test_pipeline_default_market_research_stage_is_the_real_analyst():
@@ -81,9 +101,10 @@ def test_pipeline_calls_stages_in_correct_order():
     """
     A stage-ordering regression guard: instrumented fake stages record
     the order they were invoked in, proving the pipeline calls
-    Source Collection -> Market Research -> Competition Analysis ->
-    Revenue Analysis -> Investment Analysis -> Committee Recommendation
-    -> Investment Memo, in that fixed sequence.
+    Source Collection -> Market Research -> Opportunity Classification
+    -> Competition Analysis -> Revenue Analysis -> Investment Analysis
+    -> Committee Recommendation -> Investment Memo, in that fixed
+    sequence.
     """
     call_order: list[str] = []
 
@@ -96,6 +117,11 @@ def test_pipeline_calls_stages_in_correct_order():
         def run(self, opportunity):
             call_order.append("market_research")
             return MarketProfile()
+
+    class _RecordingOpportunityClassificationStage:
+        def run(self, opportunity, market_profile):
+            call_order.append("opportunity_classification")
+            return OpportunityClassification()
 
     class _RecordingCompetitionAnalysisStage:
         def run(self, opportunity, market_profile):
@@ -125,6 +151,7 @@ def test_pipeline_calls_stages_in_correct_order():
     pipeline = OpportunityPipeline(
         source_collection_stage=_RecordingSourceCollectionStage(),
         market_research_stage=_RecordingMarketResearchStage(),
+        classification_stage=_RecordingOpportunityClassificationStage(),
         competition_analysis_stage=_RecordingCompetitionAnalysisStage(),
         revenue_analysis_stage=_RecordingRevenueAnalysisStage(),
         investment_analysis_stage=_RecordingInvestmentAnalysisStage(),
@@ -137,6 +164,7 @@ def test_pipeline_calls_stages_in_correct_order():
     assert call_order == [
         "source_collection",
         "market_research",
+        "opportunity_classification",
         "competition_analysis",
         "revenue_analysis",
         "investment_analysis",

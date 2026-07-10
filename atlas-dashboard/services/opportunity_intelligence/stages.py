@@ -36,6 +36,7 @@ from services.opportunity_intelligence.models import (
     MarketProfile,
     Opportunity,
     OpportunityAssessment,
+    OpportunityClassification,
     Recommendation,
     RevenueProfile,
 )
@@ -44,6 +45,7 @@ from services.opportunity_intelligence.models import (
 class StageName(str, Enum):
     SOURCE_COLLECTION = "source_collection"
     MARKET_RESEARCH = "market_research"
+    OPPORTUNITY_CLASSIFICATION = "opportunity_classification"
     COMPETITION_ANALYSIS = "competition_analysis"
     REVENUE_ANALYSIS = "revenue_analysis"
     INVESTMENT_ANALYSIS = "investment_analysis"
@@ -66,6 +68,10 @@ class SourceCollectionStageProtocol(Protocol):
 
 class MarketResearchStageProtocol(Protocol):
     def run(self, opportunity: Opportunity) -> MarketProfile: ...
+
+
+class OpportunityClassificationStageProtocol(Protocol):
+    def run(self, opportunity: Opportunity, market_profile: MarketProfile) -> OpportunityClassification: ...
 
 
 class CompetitionAnalysisStageProtocol(Protocol):
@@ -126,6 +132,15 @@ class PlaceholderMarketResearchStage:
 
     def run(self, opportunity: Opportunity) -> MarketProfile:
         return MarketProfile()
+
+
+class PlaceholderOpportunityClassificationStage:
+    """No classification implemented yet — future Opportunity Classification Engine."""
+
+    name = StageName.OPPORTUNITY_CLASSIFICATION
+
+    def run(self, opportunity: Opportunity, market_profile: MarketProfile) -> OpportunityClassification:
+        return OpportunityClassification()
 
 
 class PlaceholderCompetitionAnalysisStage:
@@ -204,6 +219,7 @@ def ordered_stage_names() -> List[StageName]:
     return [
         StageName.SOURCE_COLLECTION,
         StageName.MARKET_RESEARCH,
+        StageName.OPPORTUNITY_CLASSIFICATION,
         StageName.COMPETITION_ANALYSIS,
         StageName.REVENUE_ANALYSIS,
         StageName.INVESTMENT_ANALYSIS,

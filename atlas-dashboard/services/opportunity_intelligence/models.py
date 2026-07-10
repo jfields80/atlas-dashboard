@@ -70,6 +70,26 @@ class MarketProfile(BaseModel):
     market_scope: str = UNKNOWN
 
 
+class OpportunityClassification(BaseModel):
+    """
+    Output contract for the Opportunity Classification stage
+    (AES-012C). Enriches an Opportunity + MarketProfile into a
+    structured business profile — industry, audience, business type,
+    commercial intent, market vertical, and business model — for
+    downstream analysts to consume. Every field defaults to "UNKNOWN";
+    nothing here is fabricated when the classifier has no real signal
+    to work from.
+    """
+
+    industry: str = UNKNOWN
+    audience: str = UNKNOWN
+    business_type: str = UNKNOWN
+    commercial_intent: str = UNKNOWN
+    market_vertical: str = UNKNOWN
+    business_model: str = UNKNOWN
+    confidence: str = UNKNOWN
+
+
 class CompetitionProfile(BaseModel):
     """Output contract for the Competition Analysis stage."""
 
@@ -99,10 +119,11 @@ class InvestmentProfile(BaseModel):
 
 
 class OpportunityAssessment(BaseModel):
-    """Aggregated output of the Market/Competition/Revenue/Investment stages."""
+    """Aggregated output of the Market/Classification/Competition/Revenue/Investment stages."""
 
     opportunity: Opportunity
     market_profile: Optional[MarketProfile] = None
+    classification: Optional[OpportunityClassification] = None
     competition_profile: Optional[CompetitionProfile] = None
     revenue_profile: Optional[RevenueProfile] = None
     investment_profile: Optional[InvestmentProfile] = None
