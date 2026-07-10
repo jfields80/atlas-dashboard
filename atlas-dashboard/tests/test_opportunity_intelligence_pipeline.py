@@ -59,7 +59,7 @@ def test_pipeline_run_produces_fully_populated_assessment():
     assert memo.assessment.competition_profile is not None
     assert memo.assessment.revenue_profile is not None
     assert memo.assessment.investment_profile is not None
-    assert memo.recommendation.decision == "UNASSESSED"
+    assert memo.recommendation.decision in ("INVEST", "INVEST_WITH_CAUTION", "HOLD", "REJECT", "UNKNOWN")
 
 
 def test_pipeline_default_classification_stage_is_the_real_classifier():
@@ -127,6 +127,22 @@ def test_pipeline_default_investment_stage_is_the_real_analyst():
 
     assert memo.assessment.investment_profile.market_attractiveness != "UNKNOWN"
     assert memo.assessment.investment_profile.data_confidence != "UNKNOWN"
+
+
+def test_pipeline_default_committee_stage_is_the_real_committee():
+    """
+    AES-012G: OpportunityPipeline() with no overrides must use the real
+    InvestmentCommittee, not the AES-012A placeholder — proven by a
+    fully recognizable opportunity resolving to a real (non-
+    "UNASSESSED") committee decision.
+    """
+    pipeline = OpportunityPipeline()
+    opportunity = Opportunity(opportunity_id="opp-7", name="Ohio Martial Arts for Kids", niche="martial arts")
+
+    memo = pipeline.run(opportunity)
+
+    assert memo.recommendation.decision != "UNASSESSED"
+    assert memo.recommendation.decision in ("INVEST", "INVEST_WITH_CAUTION", "HOLD", "REJECT", "UNKNOWN")
 
 
 def test_pipeline_calls_stages_in_correct_order():
@@ -251,6 +267,19 @@ def test_pipeline_accepts_custom_investment_stage_implementation():
 
     assert memo.assessment.investment_profile.investment_score == 42
     assert memo.assessment.investment_profile.data_confidence == "HIGH"
+
+
+def test_pipeline_accepts_custom_committee_stage_implementation():
+    class _FixedCommitteeRecommendationStage:
+        def run(self, assessment):
+            return Recommendation(decision="INVEST", confidence=0.9, recommendation_strength="STRONG")
+
+    pipeline = OpportunityPipeline(committee_recommendation_stage=_FixedCommitteeRecommendationStage())
+
+    memo = pipeline.run(_opportunity())
+
+    assert memo.recommendation.decision == "INVEST"
+    assert memo.recommendation.recommendation_strength == "STRONG"
 
 
 def test_pipeline_raises_when_a_stage_returns_wrong_type():

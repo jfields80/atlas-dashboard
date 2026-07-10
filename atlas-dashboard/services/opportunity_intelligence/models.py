@@ -187,11 +187,29 @@ class OpportunityAssessment(BaseModel):
 
 
 class Recommendation(BaseModel):
-    """Output contract for the Committee Recommendation stage."""
+    """
+    Output contract for the Committee Recommendation stage.
+
+    decision (AES-012G): "UNASSESSED" is a placeholder-only sentinel
+    (services.opportunity_intelligence.stages.PlaceholderCommitteeRecommendationStage).
+    A real committee stage (InvestmentCommittee) only ever emits one of
+    "INVEST"/"INVEST_WITH_CAUTION"/"HOLD"/"REJECT"/"UNKNOWN".
+    recommendation_strength/rationale_codes (AES-012G): deterministic
+    facts the Investment Committee infers from the already-derived
+    MarketProfile/OpportunityClassification/CompetitionProfile/
+    RevenueProfile/InvestmentProfile structured outputs — controlled,
+    stable rationale codes rather than prose. The free-text `rationale`
+    field stays empty here; narrative generation belongs to a later
+    memo-generation stage. Reuses the existing confidence field
+    (bounded [0.0, 1.0], reflecting evidence quality) rather than
+    duplicating it.
+    """
 
     decision: str = "UNASSESSED"
     confidence: float = Field(0.0, ge=0.0, le=1.0)
     rationale: str = ""
+    recommendation_strength: str = UNKNOWN
+    rationale_codes: List[str] = Field(default_factory=list)
 
 
 class InvestmentMemo(BaseModel):
