@@ -116,12 +116,32 @@ class CompetitionProfile(BaseModel):
 
 
 class RevenueProfile(BaseModel):
-    """Output contract for the Revenue Analysis stage."""
+    """
+    Output contract for the Revenue Analysis stage.
+
+    primary_revenue_model/secondary_revenue_models/
+    recurring_revenue_potential/transaction_revenue_potential/
+    monetization_strength/revenue_scalability (AES-012E): deterministic
+    facts the Revenue Analyst infers from the already-derived
+    MarketProfile/OpportunityClassification/CompetitionProfile
+    structured outputs. These characterize HOW an opportunity could
+    monetize (mechanism), never HOW MUCH it could earn — no dollar
+    figures, projections, or estimates live on these fields. All
+    default to "UNKNOWN" (secondary_revenue_models defaults to an
+    empty list). Reuses the existing data_confidence field for
+    signal-quality confidence rather than duplicating it.
+    """
 
     estimated_monthly_revenue_usd: Optional[float] = None
     revenue_model_notes: str = ""
     monetization_signals: List[str] = Field(default_factory=list)
     data_confidence: str = UNKNOWN
+    primary_revenue_model: str = UNKNOWN
+    secondary_revenue_models: List[str] = Field(default_factory=list)
+    recurring_revenue_potential: str = UNKNOWN
+    transaction_revenue_potential: str = UNKNOWN
+    monetization_strength: str = UNKNOWN
+    revenue_scalability: str = UNKNOWN
 
 
 class InvestmentProfile(BaseModel):

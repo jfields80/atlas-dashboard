@@ -95,7 +95,7 @@ def test_competition_analysis_stage_returns_unknown_competition_profile():
 def test_revenue_analysis_stage_returns_unknown_revenue_profile():
     stage = PlaceholderRevenueAnalysisStage()
 
-    result = stage.run(_opportunity(), MarketProfile(), CompetitionProfile())
+    result = stage.run(_opportunity(), MarketProfile(), OpportunityClassification(), CompetitionProfile())
 
     assert isinstance(result, RevenueProfile)
     assert result.data_confidence == "UNKNOWN"

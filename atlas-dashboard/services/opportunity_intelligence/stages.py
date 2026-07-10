@@ -88,6 +88,7 @@ class RevenueAnalysisStageProtocol(Protocol):
         self,
         opportunity: Opportunity,
         market_profile: MarketProfile,
+        classification: OpportunityClassification,
         competition_profile: CompetitionProfile,
     ) -> RevenueProfile: ...
 
@@ -171,6 +172,7 @@ class PlaceholderRevenueAnalysisStage:
         self,
         opportunity: Opportunity,
         market_profile: MarketProfile,
+        classification: OpportunityClassification,
         competition_profile: CompetitionProfile,
     ) -> RevenueProfile:
         return RevenueProfile()

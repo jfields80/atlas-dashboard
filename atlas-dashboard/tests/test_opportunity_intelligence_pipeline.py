@@ -97,6 +97,22 @@ def test_pipeline_default_market_research_stage_is_the_real_analyst():
     assert memo.assessment.market_profile.market_scope == "STATE"
 
 
+def test_pipeline_default_revenue_stage_is_the_real_analyst():
+    """
+    AES-012E: OpportunityPipeline() with no overrides must use the real
+    RevenueAnalyst, not the AES-012A placeholder — proven by a fully
+    recognizable opportunity resolving to a real (non-UNKNOWN) revenue
+    characterization.
+    """
+    pipeline = OpportunityPipeline()
+    opportunity = Opportunity(opportunity_id="opp-5", name="Ohio Martial Arts for Kids", niche="martial arts")
+
+    memo = pipeline.run(opportunity)
+
+    assert memo.assessment.revenue_profile.primary_revenue_model == "FEATURED_LISTINGS"
+    assert memo.assessment.revenue_profile.data_confidence != "UNKNOWN"
+
+
 def test_pipeline_calls_stages_in_correct_order():
     """
     A stage-ordering regression guard: instrumented fake stages record
@@ -129,7 +145,7 @@ def test_pipeline_calls_stages_in_correct_order():
             return CompetitionProfile()
 
     class _RecordingRevenueAnalysisStage:
-        def run(self, opportunity, market_profile, competition_profile):
+        def run(self, opportunity, market_profile, classification, competition_profile):
             call_order.append("revenue_analysis")
             return RevenueProfile()
 
@@ -193,6 +209,19 @@ def test_pipeline_accepts_custom_stage_implementations():
 
     assert memo.assessment.market_profile.total_addressable_market_usd == 1_000_000.0
     assert memo.assessment.market_profile.data_confidence == "ESTIMATED"
+
+
+def test_pipeline_accepts_custom_revenue_stage_implementation():
+    class _FixedRevenueAnalysisStage:
+        def run(self, opportunity, market_profile, classification, competition_profile):
+            return RevenueProfile(primary_revenue_model="SUBSCRIPTIONS", data_confidence="HIGH")
+
+    pipeline = OpportunityPipeline(revenue_analysis_stage=_FixedRevenueAnalysisStage())
+
+    memo = pipeline.run(_opportunity())
+
+    assert memo.assessment.revenue_profile.primary_revenue_model == "SUBSCRIPTIONS"
+    assert memo.assessment.revenue_profile.data_confidence == "HIGH"
 
 
 def test_pipeline_raises_when_a_stage_returns_wrong_type():
