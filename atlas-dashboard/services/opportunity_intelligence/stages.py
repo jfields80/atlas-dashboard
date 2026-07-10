@@ -98,6 +98,7 @@ class InvestmentAnalysisStageProtocol(Protocol):
         self,
         opportunity: Opportunity,
         market_profile: MarketProfile,
+        classification: OpportunityClassification,
         competition_profile: CompetitionProfile,
         revenue_profile: RevenueProfile,
     ) -> InvestmentProfile: ...
@@ -187,6 +188,7 @@ class PlaceholderInvestmentAnalysisStage:
         self,
         opportunity: Opportunity,
         market_profile: MarketProfile,
+        classification: OpportunityClassification,
         competition_profile: CompetitionProfile,
         revenue_profile: RevenueProfile,
     ) -> InvestmentProfile:

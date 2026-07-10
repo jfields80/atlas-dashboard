@@ -145,12 +145,34 @@ class RevenueProfile(BaseModel):
 
 
 class InvestmentProfile(BaseModel):
-    """Output contract for the Investment Analysis stage."""
+    """
+    Output contract for the Investment Analysis stage.
+
+    market_attractiveness/revenue_attractiveness/competitive_position/
+    execution_complexity/investment_risk/investment_score (AES-012F):
+    deterministic facts the Investment Analyst infers from the
+    already-derived MarketProfile/OpportunityClassification/
+    CompetitionProfile/RevenueProfile structured outputs. These
+    characterize investment ATTRACTIVENESS AND RISK STRUCTURE, never a
+    final INVEST/REJECT recommendation and never a financial
+    projection — no dollar figures live on these fields beyond the
+    pre-existing, still-unpopulated estimated_* fields below. All
+    string fields default to "UNKNOWN"; investment_score defaults to
+    None (unscored) rather than 0 (a real, if minimal, score). Reuses
+    the existing data_confidence field for signal-quality confidence
+    rather than duplicating it.
+    """
 
     estimated_build_cost_usd: Optional[float] = None
     estimated_payback_months: Optional[float] = None
     risk_notes: List[str] = Field(default_factory=list)
     data_confidence: str = UNKNOWN
+    market_attractiveness: str = UNKNOWN
+    revenue_attractiveness: str = UNKNOWN
+    competitive_position: str = UNKNOWN
+    execution_complexity: str = UNKNOWN
+    investment_risk: str = UNKNOWN
+    investment_score: Optional[int] = None
 
 
 class OpportunityAssessment(BaseModel):

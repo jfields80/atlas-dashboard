@@ -104,7 +104,7 @@ def test_revenue_analysis_stage_returns_unknown_revenue_profile():
 def test_investment_analysis_stage_returns_unknown_investment_profile():
     stage = PlaceholderInvestmentAnalysisStage()
 
-    result = stage.run(_opportunity(), MarketProfile(), CompetitionProfile(), RevenueProfile())
+    result = stage.run(_opportunity(), MarketProfile(), OpportunityClassification(), CompetitionProfile(), RevenueProfile())
 
     assert isinstance(result, InvestmentProfile)
     assert result.data_confidence == "UNKNOWN"

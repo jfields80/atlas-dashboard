@@ -43,6 +43,7 @@ from services.opportunity_intelligence.models import (
     RevenueProfile,
 )
 from services.opportunity_intelligence.competition_analyst import CompetitionAnalyst
+from services.opportunity_intelligence.investment_analyst import InvestmentAnalyst
 from services.opportunity_intelligence.market_research_analyst import MarketResearchAnalyst
 from services.opportunity_intelligence.opportunity_classifier import OpportunityClassifier
 from services.opportunity_intelligence.revenue_analyst import RevenueAnalyst
@@ -54,7 +55,6 @@ from services.opportunity_intelligence.stages import (
     MarketResearchStageProtocol,
     OpportunityClassificationStageProtocol,
     PlaceholderCommitteeRecommendationStage,
-    PlaceholderInvestmentAnalysisStage,
     PlaceholderInvestmentMemoStage,
     PlaceholderSourceCollectionStage,
     RevenueAnalysisStageProtocol,
@@ -81,10 +81,11 @@ class OpportunityPipeline:
     logic of its own.
 
     Market Research (AES-012B), Opportunity Classification (AES-012C),
-    Competition Analysis (AES-012D), and Revenue Analysis (AES-012E)
-    default to their real, deterministic implementations; every other
-    stage still defaults to its AES-012A placeholder implementation.
-    Pass real implementations (matching the Protocols
+    Competition Analysis (AES-012D), Revenue Analysis (AES-012E), and
+    Investment Analysis (AES-012F) default to their real, deterministic
+    implementations; every other stage still defaults to its AES-012A
+    placeholder implementation. Pass real implementations (matching
+    the Protocols
     in stages.py) to progressively replace the remaining placeholders
     as future AES tickets implement them — the pipeline's contract/
     orchestration never changes when a stage is swapped.
@@ -106,7 +107,7 @@ class OpportunityPipeline:
         self._classification_stage = classification_stage or OpportunityClassifier()
         self._competition_analysis_stage = competition_analysis_stage or CompetitionAnalyst()
         self._revenue_analysis_stage = revenue_analysis_stage or RevenueAnalyst()
-        self._investment_analysis_stage = investment_analysis_stage or PlaceholderInvestmentAnalysisStage()
+        self._investment_analysis_stage = investment_analysis_stage or InvestmentAnalyst()
         self._committee_recommendation_stage = committee_recommendation_stage or PlaceholderCommitteeRecommendationStage()
         self._investment_memo_stage = investment_memo_stage or PlaceholderInvestmentMemoStage()
 
@@ -137,7 +138,7 @@ class OpportunityPipeline:
         _require_type(revenue_profile, RevenueProfile, "RevenueAnalysisStage")
 
         investment_profile = self._investment_analysis_stage.run(
-            opportunity, market_profile, competition_profile, revenue_profile
+            opportunity, market_profile, classification, competition_profile, revenue_profile
         )
         _require_type(investment_profile, InvestmentProfile, "InvestmentAnalysisStage")
 
