@@ -213,10 +213,34 @@ class Recommendation(BaseModel):
 
 
 class InvestmentMemo(BaseModel):
-    """Final pipeline output."""
+    """
+    Final pipeline output.
+
+    title/market_summary/competition_summary/revenue_summary/
+    investment_summary/key_strengths/key_risks (AES-012H): a concise,
+    deterministic, template-driven memo assembled only from the
+    already-derived MarketProfile/OpportunityClassification/
+    CompetitionProfile/RevenueProfile/InvestmentProfile/Recommendation
+    structured outputs on `assessment`/`recommendation` — no new
+    analysis, no financial projections, no named competitors. The
+    pre-existing `summary` field is reused as the executive summary
+    (no duplicate `executive_summary` field); the committee's decision
+    and confidence already live on `recommendation.decision`/
+    `recommendation.confidence` (no duplicate `committee_decision`/
+    `confidence` fields on the memo itself). `generated_at` is left
+    "" by a real writer (never a real timestamp), so identical input
+    always produces byte-identical output.
+    """
 
     opportunity: Opportunity
     assessment: OpportunityAssessment
     recommendation: Recommendation
     summary: str = ""
     generated_at: str = ""
+    title: str = ""
+    market_summary: str = ""
+    competition_summary: str = ""
+    revenue_summary: str = ""
+    investment_summary: str = ""
+    key_strengths: List[str] = Field(default_factory=list)
+    key_risks: List[str] = Field(default_factory=list)

@@ -145,6 +145,23 @@ def test_pipeline_default_committee_stage_is_the_real_committee():
     assert memo.recommendation.decision in ("INVEST", "INVEST_WITH_CAUTION", "HOLD", "REJECT", "UNKNOWN")
 
 
+def test_pipeline_default_memo_stage_is_the_real_writer():
+    """
+    AES-012H: OpportunityPipeline() with no overrides must use the real
+    InvestmentMemoWriter, not the AES-012A placeholder — proven by a
+    real, non-placeholder title/summary and an empty (not "Placeholder
+    memo...") summary text, plus a deterministic empty generated_at.
+    """
+    pipeline = OpportunityPipeline()
+    opportunity = Opportunity(opportunity_id="opp-8", name="Ohio Martial Arts for Kids", niche="martial arts")
+
+    memo = pipeline.run(opportunity)
+
+    assert memo.title == "Investment Memo: Ohio Martial Arts for Kids"
+    assert "Placeholder" not in memo.summary
+    assert memo.generated_at == ""
+
+
 def test_pipeline_calls_stages_in_correct_order():
     """
     A stage-ordering regression guard: instrumented fake stages record
@@ -280,6 +297,23 @@ def test_pipeline_accepts_custom_committee_stage_implementation():
 
     assert memo.recommendation.decision == "INVEST"
     assert memo.recommendation.recommendation_strength == "STRONG"
+
+
+def test_pipeline_accepts_custom_memo_stage_implementation():
+    class _FixedInvestmentMemoStage:
+        def run(self, opportunity, assessment, recommendation):
+            return InvestmentMemo(
+                opportunity=opportunity,
+                assessment=assessment,
+                recommendation=recommendation,
+                title="Custom Title",
+            )
+
+    pipeline = OpportunityPipeline(investment_memo_stage=_FixedInvestmentMemoStage())
+
+    memo = pipeline.run(_opportunity())
+
+    assert memo.title == "Custom Title"
 
 
 def test_pipeline_raises_when_a_stage_returns_wrong_type():
