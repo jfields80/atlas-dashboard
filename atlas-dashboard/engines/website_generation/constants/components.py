@@ -56,6 +56,15 @@ MAX_COMPOSITION_DEPTH = 6
 MAX_SECTIONS_PER_BODY_DEFAULT = 12
 
 # ---------------------------------------------------------------------------
+# Footer link ceiling (AES-WEB-002 §5.15; Wave 2, AES-WEB-002C)
+# ---------------------------------------------------------------------------
+
+# §5.15: footer link farms are forbidden — "footer SEO links capped at
+# constants ceiling, default 40". Declared here (name + default only);
+# enforcement is gate work (CG-CMP-006 family, AES-WEB-002I).
+FOOTER_SEO_LINK_CEILING = 40
+
+# ---------------------------------------------------------------------------
 # Semantic version rule (semver, AES-WEB-002 §22)
 # ---------------------------------------------------------------------------
 

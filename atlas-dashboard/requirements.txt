@@ -1,0 +1,20 @@
+# Atlas Investment OS — runtime dependencies (AES-DEP-001).
+#
+# Direct runtime imports only. Transitive packages (Werkzeug, Jinja2,
+# soupsieve, urllib3, …) are resolved by pip and intentionally not listed.
+# See docs/development/environment.md for the rationale and setup steps.
+
+# Immutable model contracts across every engine. Atlas is on Pydantic v1:
+# the legacy compatibility base models declare `model_config` (via the v1.10
+# ConfigDict shim) AND a nested `class Config`, which Pydantic 2.x rejects
+# with a hard `config-both` error. The <2 ceiling is deliberate and MUST NOT
+# be lifted until an explicit Pydantic-2 migration sprint.
+pydantic>=1.10.13,<2.0
+
+# Web application: app.py + routes/*.
+Flask>=2.2,<4.0
+
+# Opportunity Intelligence v2 services.
+requests>=2.28,<3.0        # services/opportunity_v2/{search_provider,quality_audit}
+beautifulsoup4>=4.11,<5.0  # services/opportunity_v2/quality_audit (HTML parsing)
+PyYAML>=6.0,<7.0           # services/opportunity_v2/dna/loader

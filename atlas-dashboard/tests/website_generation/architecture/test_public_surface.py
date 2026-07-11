@@ -243,6 +243,20 @@ class TestAuthorizedPackageTree:
             assert (base / relative).is_file(), relative
         assert not (base / "gates").exists(), "gates/ is a later wave (002I)"
 
+    def test_catalog_wave_modules_exist(self):
+        # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B) and
+        # navigation.py (Wave 2, 002C). Later waves (discovery,
+        # listings_profiles, trust_conversion, seo_editorial,
+        # monetization_status) remain unauthorized until their own wave.
+        base = REPO_ROOT / "engines" / "website_generation" / "components" / "catalog"
+        for relative in ("layout_atoms.py", "navigation.py"):
+            assert (base / relative).is_file(), relative
+        for later_wave in (
+            "discovery.py", "listings_profiles.py", "trust_conversion.py",
+            "seo_editorial.py", "monetization_status.py",
+        ):
+            assert not (base / later_wave).exists(), later_wave
+
 
 class TestLegacyPackageProtection:
     def test_legacy_packages_remain_present(self):

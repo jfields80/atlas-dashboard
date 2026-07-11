@@ -17,6 +17,7 @@ from engines.website_generation.contracts.components import (
     DirectoryContract,
     MonetizationContract,
     PropSpec,
+    RenderingContract,
     ResponsiveContract,
     SEOContract,
     SlotSpec,
@@ -82,6 +83,12 @@ class TestPageArchetypeMetadata:
             component_family=ComponentFamily.LISTING,
             commercial_purpose=CommercialPurpose.EXPOSE_INVENTORY,
             supported_page_roles=(PageRole.CATEGORY,),
+            rendering_contract=RenderingContract(
+                emitter_key="listing.card.standard@1", class_prefix="ac-listing"
+            ),
+            analytics_contract=AnalyticsContract(
+                impression_id="listing-card-standard"
+            ),
         )
         r = ComponentRegistry([home, category])
         home_ids = [d.component_id for d in r.candidates_for(PageRole.HOME)]

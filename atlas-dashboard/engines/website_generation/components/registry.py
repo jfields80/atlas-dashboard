@@ -306,6 +306,16 @@ class ComponentRegistry(ComponentRegistryView):
     ) -> None:
         by_id: Dict[str, Dict[str, ComponentDefinition]] = {}
         families: Dict[str, ComponentFamily] = {}
+        # Cross-definition uniqueness (AES-REVIEW-001A finding #2): distinct
+        # component_ids must never share a rendering emitter_key or an
+        # analytics impression_id. §20.1 keys the renderer's emitter table by
+        # (component_id, major_version), so different *versions* of the SAME
+        # id are expected to reuse the same emitter_key/impression_id; only a
+        # collision across DIFFERENT ids is a conflict (e.g. a copy-pasted
+        # definition whose component_id was updated but whose emitter_key /
+        # impression_id literals were not).
+        emitter_key_owners: Dict[str, str] = {}
+        impression_id_owners: Dict[str, str] = {}
         for definition in definitions:
             validate_definition(definition)
             cid = definition.component_id
@@ -330,6 +340,34 @@ class ComponentRegistry(ComponentRegistryView):
                 )
             versions[version] = definition
 
+            emitter_key = definition.rendering_contract.emitter_key
+            owner = emitter_key_owners.setdefault(emitter_key, cid)
+            if owner != cid:
+                raise ConflictingComponentError(
+                    "emitter_key %r is shared by component_ids %s and %s"
+                    % (emitter_key, owner, cid),
+                    stage="component_registry",
+                    diagnostics={
+                        "emitter_key": emitter_key,
+                        "component_id": cid,
+                        "conflicts_with": owner,
+                    },
+                )
+
+            impression_id = definition.analytics_contract.impression_id
+            owner = impression_id_owners.setdefault(impression_id, cid)
+            if owner != cid:
+                raise ConflictingComponentError(
+                    "impression_id %r is shared by component_ids %s and %s"
+                    % (impression_id, owner, cid),
+                    stage="component_registry",
+                    diagnostics={
+                        "impression_id": impression_id,
+                        "component_id": cid,
+                        "conflicts_with": owner,
+                    },
+                )
+
         # Freeze the ordered inventory (lexicographic by id, then semver).
         ordered: List[ComponentDefinition] = []
         for cid in sorted(by_id):
@@ -338,6 +376,24 @@ class ComponentRegistry(ComponentRegistryView):
         self._by_id: Dict[str, Dict[str, ComponentDefinition]] = by_id
         self._ordered: Tuple[ComponentDefinition, ...] = tuple(ordered)
         self._hash: str = self._compute_hash(self._ordered)
+
+        # Deterministic secondary indexes (AES-REVIEW-001A finding #3),
+        # precomputed once from the frozen, sorted inventory — never
+        # recomputed per lookup. Building from self._ordered (already
+        # lexicographically sorted) means insertion order of `definitions`
+        # cannot affect index contents, matching the registry_hash guarantee.
+        page_role_index: Dict[PageRole, List[ComponentDefinition]] = {}
+        family_index: Dict[ComponentFamily, List[ComponentDefinition]] = {}
+        for d in self._ordered:
+            for role in d.supported_page_roles:
+                page_role_index.setdefault(role, []).append(d)
+            family_index.setdefault(d.component_family, []).append(d)
+        self._page_role_index: Dict[PageRole, Tuple[ComponentDefinition, ...]] = {
+            role: tuple(defs) for role, defs in page_role_index.items()
+        }
+        self._family_index: Dict[ComponentFamily, Tuple[ComponentDefinition, ...]] = {
+            family: tuple(defs) for family, defs in family_index.items()
+        }
 
     # -- fingerprint --------------------------------------------------------
 
@@ -394,16 +450,12 @@ class ComponentRegistry(ComponentRegistryView):
     def candidates_for(
         self, page_role: PageRole, slot_need: Optional[str] = None
     ) -> Tuple[ComponentDefinition, ...]:
-        result: List[ComponentDefinition] = []
-        for definition in self._ordered:
-            if page_role not in definition.supported_page_roles:
-                continue
-            if slot_need is not None and not self._declares_slot(
-                definition, slot_need
-            ):
-                continue
-            result.append(definition)
-        return tuple(result)
+        candidates = self._page_role_index.get(page_role, ())
+        if slot_need is None:
+            return candidates
+        return tuple(
+            d for d in candidates if self._declares_slot(d, slot_need)
+        )
 
     @staticmethod
     def _declares_slot(
@@ -421,9 +473,7 @@ class ComponentRegistry(ComponentRegistryView):
     def by_family(
         self, family: ComponentFamily
     ) -> Tuple[ComponentDefinition, ...]:
-        return tuple(
-            d for d in self._ordered if d.component_family is family
-        )
+        return self._family_index.get(family, ())
 
     def lifecycle(self, component_id: str) -> LifecycleStatus:
         return self.get(component_id).lifecycle_status
@@ -463,11 +513,24 @@ class ComponentRegistry(ComponentRegistryView):
         return component_id in self._by_id
 
 
-# The shared Atlas library's registered components are an explicit, ordered
-# tuple sourced from the catalog (§15.2). AES-WEB-002A ships the empty-but-
-# governed registry: no catalog entries exist until AES-WEB-002B populates
-# ``catalog/``.
-REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = ()
+# The shared Atlas library's registered components: an explicit, ordered
+# tuple sourced from the catalog family modules (§15.2). Order is
+# lexicographic by component_id — enforced by test — so merge conflicts are
+# visible and ordering is deterministic. No dynamic scanning.
+#
+# AES-WEB-002B populated Wave 1 (§27.2: the fifteen layout/atom foundation
+# primitives). AES-WEB-002C appends Wave 2 (§27.3: the eight navigation/
+# legal/status components). Later waves append their family modules here.
+from engines.website_generation.components.catalog.layout_atoms import (
+    WAVE1_COMPONENTS,
+)
+from engines.website_generation.components.catalog.navigation import (
+    WAVE2_COMPONENTS,
+)
+
+REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = (
+    WAVE1_COMPONENTS + WAVE2_COMPONENTS
+)
 
 
 def build_default_registry() -> ComponentRegistry:

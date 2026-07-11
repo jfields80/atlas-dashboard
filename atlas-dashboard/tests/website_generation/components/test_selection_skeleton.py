@@ -17,6 +17,10 @@ from engines.website_generation.contracts.artifacts import (
     canonical_json,
     model_to_dict,
 )
+from engines.website_generation.contracts.components import (
+    AnalyticsContract,
+    RenderingContract,
+)
 from engines.website_generation.contracts.enums import (
     CommercialPurpose,
     ComponentFamily,
@@ -40,6 +44,12 @@ def _synthetic_registry() -> ComponentRegistry:
         component_family=ComponentFamily.LISTING,
         commercial_purpose=CommercialPurpose.EXPOSE_INVENTORY,
         supported_page_roles=(PageRole.HOME,),
+        rendering_contract=RenderingContract(
+            emitter_key="listing.card.standard@1", class_prefix="ac-listing"
+        ),
+        analytics_contract=AnalyticsContract(
+            impression_id="listing-card-standard"
+        ),
     )
     return ComponentRegistry([hero, listing])
 

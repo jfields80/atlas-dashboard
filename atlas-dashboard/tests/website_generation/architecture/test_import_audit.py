@@ -260,6 +260,7 @@ class TestComponentSystemMatrix:
         return list(_iter_modules(_COMPONENTS_ROOT))
 
     def test_component_packages_respect_inward_dependency(self):
+        catalog_prefix = "engines.website_generation.components.catalog"
         for path in self._component_modules():
             relative = path.relative_to(_COMPONENTS_ROOT)
             group = relative.parts[0] if len(relative.parts) > 1 else ""
@@ -273,6 +274,10 @@ class TestComponentSystemMatrix:
                 if sub == "":
                     # Non-WGE imports are governed by the generic
                     # forbidden-module / legacy audits above.
+                    continue
+                if group == "catalog" and name.startswith(catalog_prefix):
+                    # Intra-catalog re-exports (family modules) are legal;
+                    # catalog still may not import registry/selection/etc.
                     continue
                 assert sub in allowed, (
                     "%s imports out-of-matrix WGE subpackage %r (§29.2)"

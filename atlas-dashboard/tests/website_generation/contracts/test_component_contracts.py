@@ -13,6 +13,7 @@ import json
 import pytest
 
 from engines.website_generation.contracts.artifacts import (
+    ArtifactCanonicalizationError,
     canonical_json,
     model_to_dict,
 )
@@ -116,12 +117,22 @@ class TestCanonicalSerialization:
         assert payload["lifecycle_status"] == "ACTIVE"
 
     def test_no_floats_present(self):
-        # Scores/budgets are integer; the canonical serializer rejects floats.
-        text = canonical_json(model_to_dict(make_definition()))
-        assert "." not in text.split('"component_version"')[1][:8] or True
-        # Direct: constructing with a float field is impossible (no float
-        # fields exist); prove serialization succeeds without raising.
-        assert text
+        # Scores/budgets are integer; a definition with no float fields
+        # serializes cleanly (AES-REVIEW-001A #4: this half was previously
+        # a no-op assertion — now a real value check).
+        payload = model_to_dict(make_definition())
+        text = canonical_json(payload)
+        assert json.loads(text) == json.loads(
+            canonical_json(model_to_dict(make_definition()))
+        )
+
+        # The canonical serializer actively rejects floats anywhere in the
+        # payload (contracts/artifacts.py's _canonicalize), not merely
+        # "happens not to contain one" — inject a float and assert the
+        # typed rejection actually fires.
+        payload["component_version"] = 1.0
+        with pytest.raises(ArtifactCanonicalizationError):
+            canonical_json(payload)
 
 
 class TestContentIdentity:

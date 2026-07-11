@@ -6,9 +6,26 @@ from config import DATABASE
 
 analytics_bp = Blueprint("analytics", __name__)
 
+# Fixed allowlist of table names this module is authorized to query.
+# get_table_count/get_status_count interpolate table_name into SQL text
+# because SQLite does not support parameter binding for identifiers
+# (table/column names) — only for values. Every call site in this module
+# passes a literal from this set; validating against it here closes the
+# SQL-identifier-injection shape without changing query semantics for any
+# currently authorized table (AES-REVIEW-001A #5).
+_ALLOWED_TABLE_NAMES = frozenset(
+    {"projects", "businesses", "categories", "jobs"}
+)
+
+
+def _validate_table_name(table_name):
+    if table_name not in _ALLOWED_TABLE_NAMES:
+        raise ValueError("unauthorized table name: %r" % (table_name,))
+
 
 def get_table_count(cursor, table_name):
     try:
+        _validate_table_name(table_name)
         cursor.execute(
             f"SELECT COUNT(*) FROM {table_name}"
         )
@@ -20,12 +37,13 @@ def get_table_count(cursor, table_name):
 
         return 0
 
-    except sqlite3.Error:
+    except (sqlite3.Error, ValueError):
         return 0
 
 
 def get_status_count(cursor, table_name, status):
     try:
+        _validate_table_name(table_name)
         cursor.execute(
             f"""
             SELECT COUNT(*)
@@ -42,7 +60,7 @@ def get_status_count(cursor, table_name, status):
 
         return 0
 
-    except sqlite3.Error:
+    except (sqlite3.Error, ValueError):
         return 0
 
 

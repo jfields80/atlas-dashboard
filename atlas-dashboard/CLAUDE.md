@@ -18,16 +18,30 @@ https://github.com/jfields80/atlas-dashboard
 
 Current completed milestone:
 
-**AES-005A Website Intelligence Subsystem**
+**AES-WEB-002B — Website Generation Engine, Wave 1 component catalog**
 
-Regression Status:
+Progress to date (Website Generation Engine): AES-WEB-001 Phase 1 → amendments
+A1–A4 (v1.1.0) → AES-WEB-002A (contracts + registry foundation) →
+AES-WEB-002B (Wave 1: 15 layout/atom component definitions registered).
+AES-DEP-001 (dependency baseline) and AES-REPO-001 (docs/patches
+reorganization) are also complete. See `docs/architecture/authorities/` for
+the governing architecture and `patches/` for the integration patches
+covering this work (not yet merged to `main` — see Integration Patches
+below).
 
-- 715 tests passing
-- Full regression green
+Regression Status (verified baseline, pydantic 1.10.x + Flask):
 
-Latest milestone commit:
+- `python -m pytest tests/website_generation/ -q` → 254 passed
+- `python -m pytest tests/ -q` → 1290 passed, exit 0
+- `python -m compileall engines/website_generation` → clean
 
-2744cfa — Complete AES-005A Website Intelligence Pipeline
+Latest milestone commit (on `main`):
+
+fafde52 — AES-WEB-001 Phase 1: contracts, spine, and golden skeleton
+
+Work since that commit (A1–A4 through AES-REPO-001) lives as uncommitted
+work / integration patches in `patches/` pending operator integration — see
+Integration Patches below for the exact apply order.
 
 ---
 
@@ -108,6 +122,59 @@ Never commit code unless regression is passing.
 
 ---
 
+# Environment Setup
+
+Dependencies are declared in `requirements.txt` (runtime) and
+`requirements-dev.txt` (adds pytest). Atlas runs on **Pydantic v1** — do not
+install Pydantic 2.x (it breaks the legacy models). Set up a clean env with
+`python -m pip install -r requirements-dev.txt`. Full details, version
+constraints, and the Pydantic-v1 rationale are in
+`docs/development/environment.md`.
+
+---
+
+# Architecture Documentation
+
+**`docs/architecture/authorities/` is the canonical source** for the
+Website Generation Engine architecture documents:
+
+- `AES-WEB-001_Implementation_Architecture.md` — pipeline implementation authority
+- `AES-WEB-002_Commercial_Component_System_Architecture.md` — component-system authority
+- `website_generation_engine_architecture.md` — Master Blueprint (intent authority)
+- `Atlas_Website_Generation_Architecture_Index.md` — navigation aid ONLY (zero normative force)
+
+Authority precedence (conflict rule): **Blueprint intent > AES-WEB-001 >
+AES-WEB-002 > implementation tasks.** The Index never overrides an
+authority. Amendments happen by version bump only, never silently.
+
+Architecture Decision Records live in `docs/architecture/decisions/`
+(e.g. `ADR-WEB-COMPONENT-FAMILY-TAXONOMY.md` — the normative 17-member
+ComponentFamily set). Cite the source authority section (not the Index)
+when making architecture-sensitive changes.
+
+Repository layout reference: `docs/development/repository_layout.md`.
+
+---
+
+# Integration Patches
+
+Sprint deliverables awaiting integration are stored in `patches/` as
+sequentially numbered git patches (`0001-…` through `0005-…`). New patches
+continue the numbering (next: `0006`). Apply order on a fresh clone of
+`main` (Phase 1, commit `fafde52`):
+
+1. `0003-AES-DEP-001-dependency-baseline.patch` (`git apply`)
+2. `0001-AES-WEB-001-v1.1.0-apply-amendments-A1-A4.patch` (`git am`)
+3. `0002-AES-WEB-002A-contracts-registry-selection-skeleton.patch` (`git apply`)
+4. `0004-AES-WEB-002B-component-catalog-foundation.patch` (`git apply`)
+5. `0005-AES-REVIEW-001A-pre-002C-repairs.patch` (`git apply`)
+
+After the stack: `python -m pytest tests/ -q` must exit 0 (verified: 1290+
+passed on the pre-0005 stack; see the report for each patch under
+`docs/architecture/` history for exact counts).
+
+---
+
 # Regression Rules
 
 Before every commit, run:
@@ -154,15 +221,19 @@ Do not redesign or rewrite AES-005A unless explicitly instructed.
 
 # Current Development Phase
 
-Next planned subsystem:
-
-**AES-006 — Atlas Orchestrator**
+Next planned work: **AES-WEB-002C** (the next AES-WEB-002 catalog wave),
+per the wave plan in `docs/architecture/authorities/
+AES-WEB-002_Commercial_Component_System_Architecture.md` §31 and the
+roadmap map in `Atlas_Website_Generation_Architecture_Index.md`. Do not
+begin AES-WEB-002C or any later wave without explicit operator instruction.
 
 Before writing any code:
 
-1. Inspect the repository.
-2. Understand the existing architecture.
-3. Review current interfaces.
+1. Inspect the repository (including `patches/` for unintegrated prior work).
+2. Read the exact authority section(s) governing the requested scope from
+   `docs/architecture/authorities/` — never rely on a summary.
+3. Review current interfaces (`engines/website_generation/contracts/`,
+   `engines/website_generation/components/registry.py`).
 4. Propose the implementation plan.
 5. Wait for approval before modifying files.
 
