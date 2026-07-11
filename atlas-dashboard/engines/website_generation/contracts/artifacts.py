@@ -24,8 +24,22 @@ across an engine boundary:
 Phase 1 payload depth
 ---------------------
 Later-phase payload depth is intentionally deferred and represented with
-typed minimal structures — never untyped dict dumping. ComponentManifest
-remains schema 1.0.0 with no ``selection_trace`` (AES-WEB-002A deferred).
+typed minimal structures — never untyped dict dumping.
+
+ComponentManifest selection trace (AES-WEB-001 v1.1.0 amendment A1)
+------------------------------------------------------------------
+Per AES-WEB-002 §14.3 and ADR-14, ``ComponentManifest`` optionally carries
+a schema-versioned ``selection_trace`` block recording, per slot, the
+deterministic candidate filtering, scoring, and tie-breaking of the future
+Component Engine (§14.2). The block is additive and optional, so the schema
+moves from 1.0.0 to 1.1.0 as a minor bump with no migration (old readers
+still parse). The 1.0.0 shape is retained byte-for-byte as
+:class:`ComponentManifestV1` — because the canonical serializer emits
+``None`` as JSON ``null`` rather than dropping it, a 1.0.0 manifest MUST NOT
+declare the field at all, so its serialization and hash are unchanged. The
+Layout Engine ignores the trace. No thirteenth artifact and no independent
+``SelectionTrace`` artifact are created (both alternatives are rejected in
+§14.3); the trace is an embedded, typed sub-structure only.
 """
 
 from __future__ import annotations
@@ -265,8 +279,8 @@ class ContentPackage(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 6. ComponentManifest — schema 1.0.0, no selection_trace (AES-WEB-002A
-# deferred; do not amend in Phase 1)
+# 6. ComponentManifest — schema 1.1.0 with optional selection_trace
+# (AES-WEB-001 v1.1.0 amendment A1; AES-WEB-002 §14.3, ADR-14)
 # ---------------------------------------------------------------------------
 
 class ComponentInstance(FrozenModel):
@@ -285,11 +299,102 @@ class PageComponents(FrozenModel):
     components: Tuple[ComponentInstance, ...] = ()
 
 
-class ComponentManifest(ArtifactHeader):
-    """Per-page component instances (§4.1 artifact #6). Schema 1.0.0."""
+# --- Selection trace (embedded, typed; AES-WEB-002 §14.2/§14.3, ADR-14) ----
+
+# The selection_trace block is itself schema-versioned (§14.3). This is the
+# version of the trace sub-structure, independent of the ComponentManifest
+# artifact schema version.
+SELECTION_TRACE_SCHEMA_VERSION: str = "1.0.0"
+
+
+class SelectionScoreComponent(FrozenModel):
+    """One additive integer scoring factor for a candidate (§14.2 step 6).
+
+    Scores are additive integers from static tables (PREFERRED +100, exact
+    intent match +50, monetization-config alignment +30, brand-profile
+    affinity +20, optional-asset availability +10). Integer arithmetic only
+    — no floats, per the canonical-serialization rules.
+    """
+
+    factor: str
+    points: int
+
+
+class SelectionCandidate(FrozenModel):
+    """One candidate considered for a slot (top-5 named candidates; §14.3).
+
+    ``eliminated_by`` records the filter ID that removed the candidate
+    (§14.2 steps 1–5: candidate-role, compatibility, lifecycle,
+    required-capability, commercial-purpose); an empty value means the
+    candidate survived filtering into scoring. ``score`` is the integer
+    total when scored, or ``None`` when eliminated before scoring.
+    """
+
+    component_id: str
+    component_version: str = ""
+    eliminated_by: str = ""
+    score: Optional[int] = None
+    score_components: Tuple[SelectionScoreComponent, ...] = ()
+
+
+class SlotSelectionTrace(FrozenModel):
+    """Per-slot record of the deterministic selection decision (§14.3).
+
+    Records candidates considered (top-5 named), eliminations, scores,
+    tie-break application, and the chosen ``(component_id, version,
+    variant)``. Beyond the top-5 named candidates, eliminations compress to
+    per-filter counts in ``elimination_counts`` (filter ID → count).
+    """
+
+    slot_id: str
+    candidates: Tuple[SelectionCandidate, ...] = ()
+    elimination_counts: Dict[str, int] = {}
+    tie_break_basis: str = ""
+    chosen_component_id: str = ""
+    chosen_component_version: str = ""
+    chosen_variant: str = ""
+
+
+class SelectionTrace(FrozenModel):
+    """Schema-versioned selection-trace block embedded in ComponentManifest.
+
+    Produced deterministically by the (future) Component Engine as a pure
+    function of a deterministic selection; ignored by the Layout Engine
+    (§14.3, ADR-14). Hashes with the manifest and travels with provenance.
+    """
+
+    schema_version: str = SELECTION_TRACE_SCHEMA_VERSION
+    slots: Tuple[SlotSelectionTrace, ...] = ()
+
+
+class ComponentManifestV1(ArtifactHeader):
+    """ComponentManifest schema 1.0.0 (pre-amendment shape).
+
+    Retained for replay and validation of manifests produced before
+    amendment A1. It carries no ``selection_trace`` field, so its canonical
+    serialization and content hash are byte-identical to the original 1.0.0
+    contract. The current schema is 1.1.0 (:class:`ComponentManifest`).
+    Internal compatibility model — not part of the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.COMPONENT_MANIFEST
     pages: Tuple[PageComponents, ...] = ()
+
+
+class ComponentManifest(ArtifactHeader):
+    """Per-page component instances (§4.1 artifact #6). Schema 1.1.0.
+
+    Amendment A1 (AES-WEB-002 §14.3, ADR-14): optionally carries a
+    schema-versioned ``selection_trace`` block recording per-slot candidate
+    filtering, scoring, and tie-breaking, produced deterministically by the
+    Component Engine and ignored by the Layout Engine. The field is additive
+    and optional (absent by default), so 1.0.0 payloads still parse and the
+    schema bump from 1.0.0 to 1.1.0 requires no migration.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.COMPONENT_MANIFEST
+    pages: Tuple[PageComponents, ...] = ()
+    selection_trace: Optional[SelectionTrace] = None
 
 
 # ---------------------------------------------------------------------------

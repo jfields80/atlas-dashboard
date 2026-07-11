@@ -26,14 +26,21 @@ from engines.website_generation import (
     RenderedPageSet,
     SEOPackage,
     SchemaRegistrationError,
+    SelectionCandidate,
+    SelectionScoreComponent,
+    SelectionTrace,
     SiteArchitecture,
     SiteBundle,
+    SlotSelectionTrace,
     UnsupportedSchemaVersionError,
     artifact_sha256,
     canonical_artifact_json,
     canonical_json,
     registered_artifact_model,
     registered_schema_versions,
+)
+from engines.website_generation.contracts.artifacts import (
+    ComponentManifestV1,
 )
 from engines.website_generation.contracts.versions import (
     register_artifact_model,
@@ -66,15 +73,25 @@ class TestCatalogRegistration:
             model_cls = registered_artifact_model(kind, "1.0.0")
             assert model_cls is not None
 
-    def test_schema_versions_map_covers_every_kind_at_v1(self):
+    def test_schema_versions_map_covers_every_kind(self):
+        # Amendment A1: ComponentManifest current schema is 1.1.0; every
+        # other kind remains 1.0.0.
         assert set(SCHEMA_VERSIONS) == set(ALL_KINDS)
-        assert all(v == "1.0.0" for v in SCHEMA_VERSIONS.values())
+        assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
+        for kind in ALL_KINDS:
+            if kind is ArtifactKind.COMPONENT_MANIFEST:
+                continue
+            assert SCHEMA_VERSIONS[kind] == "1.0.0"
 
     def test_registered_schema_versions_projection(self):
         versions = registered_schema_versions()
         assert set(versions) == set(ALL_KINDS)
         for kind in ALL_KINDS:
-            assert versions[kind] == ("1.0.0",)
+            if kind is ArtifactKind.COMPONENT_MANIFEST:
+                # A1: both 1.0.0 (field-less) and 1.1.0 stay registered.
+                assert versions[kind] == ("1.0.0", "1.1.0")
+            else:
+                assert versions[kind] == ("1.0.0",)
 
     def test_unsupported_schema_version_rejected(self):
         with pytest.raises(UnsupportedSchemaVersionError):
@@ -86,22 +103,147 @@ class TestCatalogRegistration:
                 ArtifactKind.BUSINESS_SPEC, "1.0.0", SiteBundle
             )
 
-    def test_component_manifest_remains_v1_with_no_selection_trace(self):
-        # AES-WEB-002A is explicitly deferred: schema 1.0.0, no trace field.
-        assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.0.0"
-        manifest = ComponentManifest(
+    def test_no_thirteenth_artifact_kind(self):
+        # A1 embeds the trace in ComponentManifest — no new artifact kind and
+        # no independent SelectionTrace artifact (AES-WEB-002 §14.3).
+        assert len(ALL_KINDS) == 12
+        assert not any(
+            "SELECTION" in kind.name or "TRACE" in kind.name
+            for kind in ALL_KINDS
+        )
+
+
+def _make_selection_trace(**overrides) -> SelectionTrace:
+    slot = SlotSelectionTrace(
+        slot_id=overrides.get("slot_id", "hero"),
+        candidates=(
+            SelectionCandidate(
+                component_id="hero.split.value-proposition",
+                component_version="1.0.0",
+                score=overrides.get("score", 150),
+                score_components=(
+                    SelectionScoreComponent(factor="preferred", points=100),
+                    SelectionScoreComponent(factor="exact_intent", points=50),
+                ),
+            ),
+            SelectionCandidate(
+                component_id="hero.centered.standard",
+                eliminated_by=overrides.get("eliminated_by", "commercial_purpose"),
+            ),
+        ),
+        elimination_counts=overrides.get("elimination_counts", {"lifecycle": 3}),
+        tie_break_basis=overrides.get("tie_break_basis", "score"),
+        chosen_component_id="hero.split.value-proposition",
+        chosen_component_version="1.0.0",
+        chosen_variant=overrides.get("chosen_variant", "image-right"),
+    )
+    return SelectionTrace(slots=(slot,))
+
+
+def _make_manifest(schema_version="1.1.0", selection_trace=None) -> ComponentManifest:
+    return ComponentManifest(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.COMPONENT_MANIFEST,
+        source_hashes={},
+        selection_trace=selection_trace,
+    )
+
+
+class TestComponentManifestSelectionTrace:
+    """Amendment A1 — schema-versioned selection_trace (AES-WEB-002 §14.3)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(
+            ArtifactKind.COMPONENT_MANIFEST, "1.0.0"
+        )
+        assert model_cls is ComponentManifestV1
+        legacy = ComponentManifestV1(
             schema_version="1.0.0",
             artifact_kind=ArtifactKind.COMPONENT_MANIFEST,
             source_hashes={},
         )
-        assert "selection_trace" not in canonical_artifact_json(manifest)
-        with pytest.raises(Exception):
-            ComponentManifest(
-                schema_version="1.0.0",
-                artifact_kind=ArtifactKind.COMPONENT_MANIFEST,
-                source_hashes={},
-                selection_trace={},
+        # 1.0.0 serialization is byte-identical to the pre-amendment shape:
+        # no selection_trace key at all (the canonical serializer emits None
+        # as null, so a field-less 1.0.0 model is required for replay).
+        assert "selection_trace" not in canonical_artifact_json(legacy)
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(
+            ArtifactKind.COMPONENT_MANIFEST, "1.1.0"
+        )
+        assert model_cls is ComponentManifest
+
+    def test_selection_trace_is_optional(self):
+        manifest = _make_manifest(selection_trace=None)
+        assert manifest.selection_trace is None
+        # Optional but explicit: absence serializes as null, never dropped.
+        assert '"selection_trace":null' in canonical_artifact_json(manifest)
+
+    def test_valid_typed_trace_serializes_deterministically(self):
+        a = _make_manifest(selection_trace=_make_selection_trace())
+        b = _make_manifest(selection_trace=_make_selection_trace())
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert '"selection_trace"' in canonical_artifact_json(a)
+
+    def test_same_trace_same_hash(self):
+        a = _make_manifest(selection_trace=_make_selection_trace())
+        b = _make_manifest(selection_trace=_make_selection_trace())
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_filtering_changes_hash(self):
+        base = artifact_sha256(_make_manifest(selection_trace=_make_selection_trace()))
+        changed = artifact_sha256(
+            _make_manifest(
+                selection_trace=_make_selection_trace(
+                    elimination_counts={"lifecycle": 4}
+                )
             )
+        )
+        assert base != changed
+
+    def test_changed_scoring_changes_hash(self):
+        base = artifact_sha256(_make_manifest(selection_trace=_make_selection_trace()))
+        changed = artifact_sha256(
+            _make_manifest(selection_trace=_make_selection_trace(score=140))
+        )
+        assert base != changed
+
+    def test_changed_tiebreak_changes_hash(self):
+        base = artifact_sha256(_make_manifest(selection_trace=_make_selection_trace()))
+        changed = artifact_sha256(
+            _make_manifest(
+                selection_trace=_make_selection_trace(tie_break_basis="component_id")
+            )
+        )
+        assert base != changed
+
+    def test_unsupported_manifest_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(
+                ArtifactKind.COMPONENT_MANIFEST, "2.0.0"
+            )
+
+    def test_trace_rejects_arbitrary_fields(self):
+        # extra="forbid" on every frozen model — no untyped fields (A1 #12).
+        with pytest.raises(Exception):
+            SelectionTrace(slots=(), bogus=1)
+        with pytest.raises(Exception):
+            SlotSelectionTrace(slot_id="x", bogus="nope")
+        with pytest.raises(Exception):
+            _make_manifest(selection_trace={"bogus": 1})
+
+    def test_trace_models_are_frozen(self):
+        trace = _make_selection_trace()
+        with pytest.raises(Exception):
+            trace.schema_version = "9.9.9"
+        with pytest.raises(Exception):
+            trace.slots[0].slot_id = "changed"
+
+    def test_no_floats_in_scores(self):
+        # Integer scoring only (§14.2 step 6); floats are rejected by the
+        # canonical serializer.
+        component = SelectionScoreComponent(factor="preferred", points=100)
+        assert isinstance(component.points, int)
 
 
 class TestFrozenBehavior:

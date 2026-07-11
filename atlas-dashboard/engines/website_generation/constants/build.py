@@ -48,3 +48,20 @@ PHASE1_EXECUTED_STAGES = (STAGE_SPEC_COMPILATION,)
 MAX_COGNITION_ATTEMPTS_PER_CELL = 3
 MAX_GATE_REWORK_CYCLES = 2
 MAX_DEPLOY_VERIFY_ATTEMPTS = 3
+
+# ---------------------------------------------------------------------------
+# Part 13 Phase 2 scope clarification (AES-WEB-001 v1.1.0 amendment A4)
+# ---------------------------------------------------------------------------
+#
+# AES-WEB-002 §34.3-A4 clarifies AES-WEB-001 Part 13 Phase 2: the Phase 2
+# "minimal component registry (header, hero, listing grid, detail block,
+# text section, footer)" scope is superseded by the AES-WEB-002 A–K wave
+# structure. Phase 2's deliverable proof (fixture spec -> byte-stable static
+# site) is achieved at AES-WEB-002D exit (Waves 1–3 plus a provisional
+# listing card) and completed through AES-WEB-002J; AES-WEB-002K remains the
+# certification / golden-fixture boundary. This is a roadmap clarification
+# only — no contract change, and no permission to implement those phases now.
+PHASE2_SCOPE_SUPERSEDED_BY = "AES-WEB-002 A-K wave structure"
+PHASE2_INITIAL_PROOF_MILESTONE = "AES-WEB-002D"
+MVP_INTEGRATION_PROOF_MILESTONE = "AES-WEB-002J"
+CERTIFICATION_GOLDEN_FIXTURE_BOUNDARY = "AES-WEB-002K"

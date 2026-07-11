@@ -14,6 +14,15 @@ the two new repositories, asserting the dependency matrix:
 * flat imports only, per Atlas doctrine;
 * the new package never imports the legacy engines/website_generator or
   engines/website_intelligence packages.
+
+Amendment A3 (AES-WEB-002 §29.1/§29.2, §34.3-A3) additionally authorizes the
+future component-system tree (``components/{catalog,selection,validation,
+compatibility}``, ``gates/checks/`` with its five modules, and
+``constants/{components,analytics}.py``) and extends the import whitelist to
+those paths. Those files are physically created by AES-WEB-002A, so the
+component-matrix checks below are vacuous until then and active thereafter;
+the generic forbidden-import / no-legacy / flat-import audits above already
+apply to them because they walk the whole package root.
 """
 
 from __future__ import annotations
@@ -201,3 +210,91 @@ class TestRepositoryMatrix:
                 assert sub in ("", "contracts"), (
                     "%s imports engine implementation %r" % (path, name)
                 )
+
+
+# ---------------------------------------------------------------------------
+# Amendment A3 — component-system tree import matrix (AES-WEB-002 §29.2)
+# ---------------------------------------------------------------------------
+
+_COMPONENTS_ROOT = PACKAGE_ROOT / "components"
+_GATES_CHECKS_ROOT = PACKAGE_ROOT / "gates" / "checks"
+
+# AES-WEB-002 §29.2 (extends the AES-WEB-001 §3.2 matrix): allowed WGE
+# subpackage imports per component-system group. Dependency direction is
+# inward toward contracts; components/ never import rendering/gates/pipeline.
+_COMPONENT_ALLOWED_WGE_SUBPACKAGES: Dict[str, Set[str]] = {
+    "catalog": {"contracts", "constants"},
+    "selection": {"contracts", "constants", "components"},
+    "validation": {"contracts", "constants", "components"},
+    "compatibility": {"contracts", "constants", "components"},
+    # registry.py / component_engine.py live directly under components/.
+    "": {"contracts", "constants", "components"},
+}
+
+_COMPONENT_FORBIDDEN_WGE_SUBPACKAGES: Set[str] = {
+    "rendering", "gates", "pipeline",
+}
+
+# The five authorized gate-check modules (AES-WEB-002 §29.1/§34.3-A3),
+# implemented in AES-WEB-002I.
+_AUTHORIZED_GATE_CHECK_MODULES: Set[str] = {
+    "component_checks.py",
+    "composition_checks.py",
+    "rendering_checks.py",
+    "commercial_checks.py",
+    "responsive_checks.py",
+}
+
+
+class TestComponentSystemMatrix:
+    """AES-WEB-002 §29.2 import rules for the A3-authorized component tree.
+
+    Vacuous until AES-WEB-002A creates the files; active thereafter. This
+    registers the extended whitelist so no forbidden dependency ever becomes
+    legal and the inward-toward-contracts direction is preserved.
+    """
+
+    def _component_modules(self) -> List[Path]:
+        if not _COMPONENTS_ROOT.exists():
+            return []
+        return list(_iter_modules(_COMPONENTS_ROOT))
+
+    def test_component_packages_respect_inward_dependency(self):
+        for path in self._component_modules():
+            relative = path.relative_to(_COMPONENTS_ROOT)
+            group = relative.parts[0] if len(relative.parts) > 1 else ""
+            allowed = _COMPONENT_ALLOWED_WGE_SUBPACKAGES.get(
+                group, {"contracts", "constants", "components"}
+            )
+            for name in _imports_of(path):
+                if _top(name) in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                if sub == "":
+                    # Non-WGE imports are governed by the generic
+                    # forbidden-module / legacy audits above.
+                    continue
+                assert sub in allowed, (
+                    "%s imports out-of-matrix WGE subpackage %r (§29.2)"
+                    % (path, name)
+                )
+
+    def test_components_never_import_rendering_gates_or_pipeline(self):
+        for path in self._component_modules():
+            for name in _imports_of(path):
+                sub = _wge_subpackage(name)
+                assert sub not in _COMPONENT_FORBIDDEN_WGE_SUBPACKAGES, (
+                    "%s imports forbidden WGE subpackage %r (§29.2)"
+                    % (path, name)
+                )
+
+    def test_only_authorized_gate_check_modules_present(self):
+        if not _GATES_CHECKS_ROOT.exists():
+            return  # created by AES-WEB-002I; nothing to check yet
+        present = {
+            p.name for p in _GATES_CHECKS_ROOT.glob("*.py")
+        } - {"__init__.py"}
+        unauthorized = present - _AUTHORIZED_GATE_CHECK_MODULES
+        assert not unauthorized, (
+            "unauthorized gate-check modules present: %s" % sorted(unauthorized)
+        )

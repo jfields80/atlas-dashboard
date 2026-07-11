@@ -93,3 +93,40 @@ class IllegalTransitionError(WebsiteGenerationError):
 
 class RepositoryCorruptionError(WebsiteGenerationError):
     """Stored repository data failed an integrity or parse check."""
+
+
+# ---------------------------------------------------------------------------
+# Component-system errors (AES-WEB-002A; AES-WEB-002 §15)
+# ---------------------------------------------------------------------------
+
+class ComponentSystemError(WebsiteGenerationError):
+    """Base class for every component-registry / component-contract error."""
+
+
+class InvalidComponentDefinitionError(ComponentSystemError):
+    """A component definition is malformed (naming grammar, complexity
+    budget, semver, lifecycle rules, or missing required contracts) —
+    AES-WEB-002 §15.2."""
+
+
+class DuplicateComponentError(ComponentSystemError):
+    """A ``(component_id, component_version)`` was registered more than once
+    (§4.2 registry-integrity: duplicate registration fails at import time)."""
+
+
+class ConflictingComponentError(ComponentSystemError):
+    """Two definitions share a key but differ, or otherwise conflict."""
+
+
+class UnsupportedComponentVersionError(ComponentSystemError):
+    """A requested component version is not registered (§15)."""
+
+
+class ComponentNotFoundError(ComponentSystemError):
+    """No component is registered under the requested ``component_id`` (§15.3
+    ``UnknownComponentError``)."""
+
+
+class InvalidCompatibilityDeclarationError(ComponentSystemError):
+    """A ``compatibility_range`` declares an unknown axis or malformed range
+    (AES-WEB-002 §22.1)."""

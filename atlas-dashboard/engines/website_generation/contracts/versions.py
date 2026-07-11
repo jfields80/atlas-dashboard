@@ -7,8 +7,13 @@ Two independent version axes, both recorded in every ``BuildManifest``:
 * **Engine versions** — semver per engine class, bumped whenever output
   could differ for identical input (the replayability contract).
 
-Phase 1 registers all twelve artifact kinds at v1.0.0. ComponentManifest
-remains 1.0.0 (no AES-WEB-002 ``selection_trace`` amendment).
+Phase 1 registered all twelve artifact kinds at v1.0.0. Amendment A1
+(AES-WEB-001 v1.1.0; AES-WEB-002 §14.3, ADR-14) adds the additive-minor
+``ComponentManifest`` schema 1.1.0 (optional ``selection_trace``): the
+current version is 1.1.0, and both 1.0.0 (the field-less
+:class:`ComponentManifestV1`) and 1.1.0 stay registered so pre-amendment
+manifests remain replayable. No migration is required (additive optional
+field — old readers still parse).
 """
 
 from __future__ import annotations
@@ -21,6 +26,7 @@ from engines.website_generation.contracts.artifacts import (
     BuildManifest,
     BusinessSpec,
     ComponentManifest,
+    ComponentManifestV1,
     ContentCandidate,
     ContentPackage,
     LayoutPlan,
@@ -43,7 +49,8 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     ArtifactKind.SITE_ARCHITECTURE: "1.0.0",
     ArtifactKind.CONTENT_CANDIDATE: "1.0.0",
     ArtifactKind.CONTENT_PACKAGE: "1.0.0",
-    ArtifactKind.COMPONENT_MANIFEST: "1.0.0",
+    # Amendment A1: additive-minor bump to 1.1.0 (optional selection_trace).
+    ArtifactKind.COMPONENT_MANIFEST: "1.1.0",
     ArtifactKind.LAYOUT_PLAN: "1.0.0",
     ArtifactKind.RENDERED_PAGE_SET: "1.0.0",
     ArtifactKind.SEO_PACKAGE: "1.0.0",
@@ -58,6 +65,23 @@ ENGINE_VERSIONS: Dict[str, str] = {
     "business_spec_compiler": "1.0.0",
     "state_machine": "1.0.0",
     "website_generation_pipeline": "1.0.0",
+}
+
+# Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
+# to the two AES-WEB-001 axes above; recorded in the BuildManifest when the
+# component system is in play. The ``contracts/`` layer owns versions and
+# may not import ``constants/``, so the literals live here.
+COMPONENT_CONTRACT_SCHEMA_VERSION: str = "1.0.0"
+REGISTRY_VERSION: str = "1.0.0"
+# Version of the registry-fingerprint algorithm (SHA-256 over the canonical
+# serialization of registered definitions in lexicographic component_id
+# order).
+REGISTRY_FINGERPRINT_VERSION: str = "1.0.0"
+
+COMPONENT_SYSTEM_VERSIONS: Dict[str, str] = {
+    "component_contract_schema": COMPONENT_CONTRACT_SCHEMA_VERSION,
+    "registry": REGISTRY_VERSION,
+    "registry_fingerprint": REGISTRY_FINGERPRINT_VERSION,
 }
 
 
@@ -117,16 +141,19 @@ def registered_schema_versions() -> Dict[ArtifactKind, Tuple[str, ...]]:
 
 
 # ---------------------------------------------------------------------------
-# v1.0.0 catalog registration (executed once at import)
+# Catalog registration (executed once at import)
 # ---------------------------------------------------------------------------
 
-_V1_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
+# The v1.0.0 baseline: every artifact kind at schema 1.0.0. For
+# ComponentManifest the 1.0.0 shape is the field-less ComponentManifestV1,
+# so pre-amendment manifests remain byte-identical and replayable.
+_V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.BUSINESS_SPEC: BusinessSpec,
     ArtifactKind.BRAND_PACKAGE: BrandPackage,
     ArtifactKind.SITE_ARCHITECTURE: SiteArchitecture,
     ArtifactKind.CONTENT_CANDIDATE: ContentCandidate,
     ArtifactKind.CONTENT_PACKAGE: ContentPackage,
-    ArtifactKind.COMPONENT_MANIFEST: ComponentManifest,
+    ArtifactKind.COMPONENT_MANIFEST: ComponentManifestV1,
     ArtifactKind.LAYOUT_PLAN: LayoutPlan,
     ArtifactKind.RENDERED_PAGE_SET: RenderedPageSet,
     ArtifactKind.SEO_PACKAGE: SEOPackage,
@@ -135,5 +162,12 @@ _V1_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.BUILD_MANIFEST: BuildManifest,
 }
 
-for _kind, _cls in _V1_CATALOG.items():
-    register_artifact_model(_kind, SCHEMA_VERSIONS[_kind], _cls)
+for _kind, _cls in _V1_0_0_CATALOG.items():
+    register_artifact_model(_kind, "1.0.0", _cls)
+
+# Amendment A1 (AES-WEB-002 §14.3, ADR-14): ComponentManifest additive-minor
+# schema 1.1.0 carrying the optional selection_trace block. Registered
+# alongside 1.0.0 with no migration required (additive optional field).
+register_artifact_model(
+    ArtifactKind.COMPONENT_MANIFEST, "1.1.0", ComponentManifest
+)

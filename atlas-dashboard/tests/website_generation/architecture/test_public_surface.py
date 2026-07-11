@@ -41,11 +41,38 @@ EXPECTED_PUBLIC_SURFACE = {
     "RenderedPageSet",
     "SEOEntry",
     "SEOPackage",
+    # selection-trace models (amendment A1; AES-WEB-002 §14.3)
+    "SelectionCandidate",
+    "SelectionScoreComponent",
+    "SelectionTrace",
     "SiteArchitecture",
     "SiteBundle",
+    "SlotSelectionTrace",
     "SpecCompilerInput",
     "StageRecord",
     "TransitionRecord",
+    # component contracts (AES-WEB-002A)
+    "AccessibilityContract",
+    "AnalyticsContract",
+    "ComponentDefinition",
+    "ConversionContract",
+    "DeprecationInfo",
+    "DirectoryContract",
+    "MonetizationContract",
+    "PropSpec",
+    "RenderingContract",
+    "ResponsiveContract",
+    "SEOContract",
+    "SlotSpec",
+    "VariantSpec",
+    # component registry (AES-WEB-002A)
+    "ComponentRegistry",
+    "ComponentRegistryView",
+    "RegistryInventoryEntry",
+    "REGISTERED_COMPONENTS",
+    "build_default_registry",
+    "definition_fingerprint",
+    "validate_definition",
     # serialization / identity helpers
     "artifact_sha256",
     "canonical_artifact_json",
@@ -58,6 +85,18 @@ EXPECTED_PUBLIC_SURFACE = {
     "GateSeverity",
     "StageExecutionStatus",
     "StageOutcome",
+    # component enums (AES-WEB-002A)
+    "AssetRole",
+    "CommercialPurpose",
+    "ComponentFamily",
+    "ConversionGoal",
+    "LifecycleStatus",
+    "ListingKind",
+    "PageRole",
+    "PropType",
+    "RegionKind",
+    "SemanticElement",
+    "SlotCardinality",
     # errors
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
@@ -68,11 +107,24 @@ EXPECTED_PUBLIC_SURFACE = {
     "SpecCompilationError",
     "UnsupportedSchemaVersionError",
     "WebsiteGenerationError",
+    # component errors (AES-WEB-002A)
+    "ComponentNotFoundError",
+    "ComponentSystemError",
+    "ConflictingComponentError",
+    "DuplicateComponentError",
+    "InvalidCompatibilityDeclarationError",
+    "InvalidComponentDefinitionError",
+    "UnsupportedComponentVersionError",
     # registries
     "ENGINE_VERSIONS",
     "SCHEMA_VERSIONS",
     "registered_artifact_model",
     "registered_schema_versions",
+    # component-system versions (AES-WEB-002A)
+    "COMPONENT_CONTRACT_SCHEMA_VERSION",
+    "COMPONENT_SYSTEM_VERSIONS",
+    "REGISTRY_FINGERPRINT_VERSION",
+    "REGISTRY_VERSION",
 }
 
 
@@ -92,6 +144,10 @@ class TestPublicSurface:
             "transition",
             "ALLOWED_TRANSITIONS",
             "register_artifact_model",
+            # A1 legacy compatibility model: registered at schema 1.0.0 for
+            # replay, but deliberately internal — the public ComponentManifest
+            # is the current (1.1.0) shape.
+            "ComponentManifestV1",
         ):
             assert internal not in wge.__all__
 
@@ -120,16 +176,72 @@ class TestAuthorizedPackageTree:
         ):
             assert (base / relative).is_file(), relative
 
-    def test_no_unauthorized_later_phase_packages(self):
+    # Phase 1 packages physically present after Phase 1 delivery.
+    PHASE1_PACKAGES = {
+        "contracts",
+        "constants",
+        "speccompiler",
+        "pipeline",
+    }
+
+    # Component-system packages authorized by amendment A3 (AES-WEB-002 §29.1,
+    # §34.3-A3). Authorization only: these directories are physically created
+    # by AES-WEB-002A, not by this amendment delivery, so they may be present
+    # once 002A lands without violating the Phase 1 lock.
+    A3_AUTHORIZED_PACKAGES = {
+        "components",  # + catalog/ selection/ validation/ compatibility/
+        "gates",       # + checks/ (component/composition/rendering/commercial/responsive)
+    }
+
+    AUTHORIZED_PACKAGES = PHASE1_PACKAGES | A3_AUTHORIZED_PACKAGES
+
+    def test_phase1_packages_present(self):
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         present.discard("__pycache__")
-        assert present == {
-            "contracts",
-            "constants",
-            "speccompiler",
-            "pipeline",
-        }
+        assert self.PHASE1_PACKAGES <= present
+
+    def test_no_unauthorized_later_phase_packages(self):
+        # Every top-level package present must be authorized. The A3 future
+        # tree is permitted; every other later-phase engine package (brand,
+        # ia, content, layouts, rendering, seo, assembly) remains rejected
+        # until its own phase authorizes it.
+        base = REPO_ROOT / "engines" / "website_generation"
+        present = {p.name for p in base.iterdir() if p.is_dir()}
+        present.discard("__pycache__")
+        unauthorized = present - self.AUTHORIZED_PACKAGES
+        assert not unauthorized, (
+            "unauthorized later-phase packages present: %s" % sorted(unauthorized)
+        )
+
+    def test_unauthorized_engine_packages_still_rejected(self):
+        # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
+        # and are NOT authorized by this amendment; they must not exist yet.
+        base = REPO_ROOT / "engines" / "website_generation"
+        present = {p.name for p in base.iterdir() if p.is_dir()}
+        for later_phase in (
+            "brand", "ia", "content", "layouts", "rendering", "seo", "assembly",
+        ):
+            assert later_phase not in present, later_phase
+
+    def test_aes_web_002a_component_tree_exists(self):
+        # AES-WEB-002A creates the §31 "New files" package areas: the
+        # registry foundation plus the selection/validation/compatibility
+        # skeleton packages. Gate-check modules remain a later wave (002I).
+        base = REPO_ROOT / "engines" / "website_generation"
+        for relative in (
+            "components/__init__.py",
+            "components/registry.py",
+            "components/catalog/__init__.py",
+            "components/selection/__init__.py",
+            "components/selection/selector.py",
+            "components/validation/__init__.py",
+            "components/compatibility/__init__.py",
+            "constants/components.py",
+            "constants/analytics.py",
+        ):
+            assert (base / relative).is_file(), relative
+        assert not (base / "gates").exists(), "gates/ is a later wave (002I)"
 
 
 class TestLegacyPackageProtection:
