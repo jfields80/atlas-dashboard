@@ -114,6 +114,31 @@ class ArchitecturePlanningError(WebsiteGenerationError):
         )
 
 
+class ContentValidationError(WebsiteGenerationError):
+    """ContentEngine validation failed (AES-WEB-001 §5.4).
+
+    Batch-reports every route/slot/policy violation at once via
+    ``diagnostics`` -- never first-failure-only (mirrors
+    BrandResolutionError/ArchitecturePlanningError's batch-reporting
+    discipline). Deterministic: retryable only if the input SiteArchitecture,
+    candidates, or BusinessSpec themselves change, so this is never
+    retryable on its own (§5.4: "carrying per-slot diagnostics -> routed to
+    cognition retry or human escalation" is a service-layer routing decision
+    made from this flag and ``diagnostics``, not something this class does
+    itself).
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "content_validation",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )
+
+
 class IllegalTransitionError(WebsiteGenerationError):
     """A state transition not present in the static transition table (§6.2)."""
 

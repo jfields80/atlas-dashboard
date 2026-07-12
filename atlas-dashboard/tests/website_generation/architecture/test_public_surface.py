@@ -25,6 +25,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Information Architecture Engine (AES-WEB-001 §5.3 / Part 2 / Part 13
     # Phase 2; AES-WEB-002J.3). Not wired into pipeline execution.
     "InformationArchitectureEngine",
+    # Content Engine (AES-WEB-001 §5.4 / Part 2; AES-WEB-002J.4). Not wired
+    # into pipeline execution.
+    "ContentEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -111,6 +114,7 @@ EXPECTED_PUBLIC_SURFACE = {
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
     "ArtifactValidationError",
+    "ContentValidationError",
     "IllegalTransitionError",
     "RepositoryCorruptionError",
     "SchemaRegistrationError",
@@ -227,11 +231,19 @@ class TestAuthorizedPackageTree:
         "ia",
     }
 
+    # AES-WEB-002J.4 (AES-WEB-001 §5.4/Part 2): the Content Engine package,
+    # authorized by this delivery only — an operator decision, not a
+    # mechanical consequence of an earlier amendment.
+    J4_AUTHORIZED_PACKAGES = {
+        "content",
+    }
+
     AUTHORIZED_PACKAGES = (
         PHASE1_PACKAGES
         | A3_AUTHORIZED_PACKAGES
         | J2_AUTHORIZED_PACKAGES
         | J3_AUTHORIZED_PACKAGES
+        | J4_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -256,13 +268,14 @@ class TestAuthorizedPackageTree:
     def test_unauthorized_engine_packages_still_rejected(self):
         # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
         # and are NOT authorized by this amendment; they must not exist yet.
-        # "brand" is authorized as of AES-WEB-002J.2 and "ia" as of
-        # AES-WEB-002J.3 (see J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES
+        # "brand" is authorized as of AES-WEB-002J.2, "ia" as of
+        # AES-WEB-002J.3, and "content" as of AES-WEB-002J.4 (see
+        # J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES
         # above) and are intentionally no longer in this list.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "content", "layouts", "rendering", "seo", "assembly",
+            "layouts", "rendering", "seo", "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -336,6 +349,22 @@ class TestAuthorizedPackageTree:
             "ia/information_architecture_engine.py",
         ):
             assert (base / relative).is_file(), relative
+
+    def test_aes_web_002j4_content_tree_exists(self):
+        # AES-WEB-002J.4 (AES-WEB-001 §5.4/Part 2) creates exactly the three
+        # authorized content-package files -- no content_resolver.py, no
+        # phrase-library or template module, and no layouts/, rendering/,
+        # assembly/, seo/, or gates/ additions (see test_import_audit.py's
+        # content-only import matrix and this module's
+        # J4_AUTHORIZED_PACKAGES comment above).
+        base = REPO_ROOT / "engines" / "website_generation"
+        for relative in (
+            "content/__init__.py",
+            "content/content_engine.py",
+            "content/content_validators.py",
+        ):
+            assert (base / relative).is_file(), relative
+        assert not (base / "content" / "content_resolver.py").exists()
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),

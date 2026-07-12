@@ -10,11 +10,13 @@ before — no interface is declared here until a phase consumes it).
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Optional, Tuple
+from typing import Optional, Sequence, Tuple
 
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     BusinessSpec,
+    ContentCandidate,
+    ContentPackage,
     SiteArchitecture,
     SpecCompilerInput,
 )
@@ -55,6 +57,27 @@ class InformationArchitectureEngineInterface(ABC):
     def plan(self, spec: BusinessSpec, brand: BrandPackage) -> SiteArchitecture:
         """Plan a deterministic SiteArchitecture from a BusinessSpec and a
         BrandPackage."""
+        raise NotImplementedError
+
+
+class ContentEngineInterface(ABC):
+    """The Content Engine's sole entry point (AES-WEB-001 §5.4).
+
+    The determinism airlock: validates candidates against slot schemas and
+    policy constraints into a deterministic ``ContentPackage``. Not a
+    generation interface -- there is no ``generate``/``resolve``/``draft``/
+    ``author`` method, by design (Decision A1/A2).
+    """
+
+    @abstractmethod
+    def validate(
+        self,
+        site_architecture: SiteArchitecture,
+        candidates: Sequence[ContentCandidate],
+        business_spec: BusinessSpec,
+    ) -> ContentPackage:
+        """Validate ContentCandidates against a SiteArchitecture and
+        BusinessSpec into a deterministic ContentPackage."""
         raise NotImplementedError
 
 

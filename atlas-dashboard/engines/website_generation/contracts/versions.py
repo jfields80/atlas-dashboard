@@ -26,6 +26,13 @@ analogous additive-minor ``SiteArchitecture`` schema 1.1.0 (``page_ids``,
 field-less :class:`SiteArchitectureV1`) and 1.1.0 stay registered, again
 with no migration. The Information Architecture Engine is not wired into
 pipeline execution.
+
+AES-WEB-002J.4 (AES-WEB-001 §5.4 / Part 2) adds the ``content_engine``
+entry to ``ENGINE_VERSIONS`` at 1.0.0. ``ContentCandidate`` and
+``ContentPackage`` are unchanged -- both stay at schema 1.0.0, the shape
+registered since Phase 1 -- so no new schema registration is added here.
+The Content Engine is not wired into pipeline execution; ``content_drafting``
+and ``content_validation`` both remain ``NOT_EXECUTED``.
 """
 
 from __future__ import annotations
@@ -91,6 +98,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # Information Architecture Engine version. Not wired into pipeline
     # execution (§6: ia_planning remains NOT_EXECUTED in the BuildManifest).
     "information_architecture_engine": "1.0.0",
+    # AES-WEB-002J.4 (AES-WEB-001 §5.4/Part 2): initial Content Engine
+    # version. Not wired into pipeline execution (§6: content_drafting and
+    # content_validation both remain NOT_EXECUTED in the BuildManifest).
+    "content_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive

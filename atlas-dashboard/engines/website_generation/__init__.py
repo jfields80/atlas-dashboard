@@ -91,6 +91,7 @@ from engines.website_generation.contracts.errors import (
     ComponentNotFoundError,
     ComponentSystemError,
     ConflictingComponentError,
+    ContentValidationError,
     DuplicateComponentError,
     IllegalTransitionError,
     InvalidCompatibilityDeclarationError,
@@ -125,6 +126,7 @@ from engines.website_generation.components import (
 )
 from engines.website_generation.brand import BrandEngine
 from engines.website_generation.ia import InformationArchitectureEngine
+from engines.website_generation.content import ContentEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -144,6 +146,9 @@ __all__ = [
     # Information Architecture Engine (AES-WEB-001 §5.3 / Part 2 / Part 13
     # Phase 2; AES-WEB-002J.3). Not wired into pipeline execution.
     "InformationArchitectureEngine",
+    # Content Engine (AES-WEB-001 §5.4 / Part 2; AES-WEB-002J.4). Not wired
+    # into pipeline execution.
+    "ContentEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -229,6 +234,7 @@ __all__ = [
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
     "ArtifactValidationError",
+    "ContentValidationError",
     "IllegalTransitionError",
     "RepositoryCorruptionError",
     "SchemaRegistrationError",
