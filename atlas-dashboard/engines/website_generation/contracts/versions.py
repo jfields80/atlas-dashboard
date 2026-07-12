@@ -79,8 +79,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
 # (§27.6) added to REGISTERED_COMPONENTS.
 # AES-WEB-002G: registry-minor bump for the seven Wave 6 components (§27.7)
 # added to REGISTERED_COMPONENTS.
+# AES-WEB-002H: registry-minor bump for the eight Wave 7 components (§27.8)
+# added to REGISTERED_COMPONENTS, closing the 72-component MVP catalog.
 COMPONENT_CONTRACT_SCHEMA_VERSION: str = "1.0.0"
-REGISTRY_VERSION: str = "1.3.0"
+REGISTRY_VERSION: str = "1.4.0"
 # Version of the registry-fingerprint algorithm (SHA-256 over the canonical
 # serialization of registered definitions in lexicographic component_id
 # order).

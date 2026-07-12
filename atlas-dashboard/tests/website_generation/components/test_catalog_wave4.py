@@ -151,8 +151,8 @@ class TestCatalogCompleteness:
     def test_exact_catalog_count(self):
         assert len(WAVE4_COMPONENTS) == 12  # §27.5 "Listings and profiles (12)"
         # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13)
-        # + Wave 6 (7) = 64.
-        assert len(REGISTERED_COMPONENTS) == 64
+        # + Wave 6 (7) + Wave 7 (8) = 72.
+        assert len(REGISTERED_COMPONENTS) == 72
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE4_COMPONENTS)

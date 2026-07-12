@@ -80,10 +80,12 @@ class TestCatalogCompleteness:
     def test_exact_catalog_count(self):
         assert len(WAVE2_COMPONENTS) == 8  # §27.3 "Navigation and shell (8)"
         # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13)
-        # + Wave 6 (7) = 64; the exact Wave 3 / Wave 4 / Wave 5 / Wave 6
-        # inventory is asserted in their own test_catalog_wave3.py /
-        # test_catalog_wave4.py / test_catalog_wave5.py / test_catalog_wave6.py.
-        assert len(REGISTERED_COMPONENTS) == 64
+        # + Wave 6 (7) + Wave 7 (8) = 72; the exact Wave 3 / Wave 4 / Wave 5 /
+        # Wave 6 / Wave 7 inventory is asserted in their own
+        # test_catalog_wave3.py / test_catalog_wave4.py /
+        # test_catalog_wave5.py / test_catalog_wave6.py /
+        # test_catalog_wave7.py.
+        assert len(REGISTERED_COMPONENTS) == 72
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE2_COMPONENTS)
@@ -391,10 +393,13 @@ class TestRegistryLookups:
     def test_by_family_returns_wave2_sets(self):
         r = build_default_registry()
         assert len(r.by_family(ComponentFamily.NAV)) == 6
-        assert len(r.by_family(ComponentFamily.LEGAL)) == 1
-        # STATUS now holds Wave 2's status.banner.notification plus Wave 3's
-        # status.results.zero (§27.4) = 2.
-        assert len(r.by_family(ComponentFamily.STATUS)) == 2
+        # LEGAL now holds Wave 2's legal.footer.directory plus Wave 7's
+        # legal.statement.standard (§27.8) = 2.
+        assert len(r.by_family(ComponentFamily.LEGAL)) == 2
+        # STATUS now holds Wave 2's status.banner.notification, Wave 3's
+        # status.results.zero (§27.4), and Wave 7's status.listing.pending /
+        # status.listing.unavailable (§27.8) = 4.
+        assert len(r.by_family(ComponentFamily.STATUS)) == 4
 
     def test_candidates_for_home_includes_wave2_universal_components(self):
         r = build_default_registry()
@@ -425,9 +430,11 @@ class TestRegistryLookups:
         # (cta.claim.listing, cta.submit.listing, form.capture.newsletter,
         # trust.reviews.summary, trust.statistics.strip — §27.6) + 2 Wave-6
         # HOME candidates (content.resources.grid, seo.local-links.cities —
-        # §27.7) = 31.
+        # §27.7) + 3 Wave-7 HOME candidates (monetization.ribbon.sponsor,
+        # monetization.disclosure.advertising, legal.statement.standard —
+        # §27.8) = 34.
         r = build_default_registry()
-        assert len(r.candidates_for(PageRole.HOME)) == 31
+        assert len(r.candidates_for(PageRole.HOME)) == 34
 
     def test_variant_resolution(self):
         r = build_default_registry()

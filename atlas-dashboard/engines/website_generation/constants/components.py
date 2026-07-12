@@ -1025,3 +1025,38 @@ REGIONAL_HUB_RECIPE_SLOTS = (
         "required": False,  # §6.1 "R sparse-region state" -- status.results.zero (Wave 3) does not cover regional-hub; modeled required=False pending recipe-integration
     },
 )
+
+
+# ---------------------------------------------------------------------------
+# Monetization disclosure kinds (AES-WEB-002H; AES-WEB-002 §17.1, §8.4)
+# ---------------------------------------------------------------------------
+#
+# §17.1: "visible (human-readable label from the constants-registered
+# disclosure text set)". §8.4's DisclosureBlock content model: "disclosure
+# kind enum + RichText body from constants-registered templates." No member
+# of contracts/enums.py names this set -- MonetizationContract.disclosure_kind
+# (contracts/components.py) is a plain ``str`` field, not an enum reference,
+# per the frozen §3 ComponentDefinition schema -- so a new, additive,
+# controlled-vocabulary constants table is the correct home for it, mirroring
+# the CTA_GOAL_LABEL_CLASSES precedent (AES-WEB-002F; §16.2) rather than
+# inventing a new contracts/enums.py member (out of scope: enum changes are
+# a frozen-contract concern, §3 Frozen-Contract Register item 7).
+#
+# Scoped to the four kinds AES-WEB-002H's own MonetizationContract-bearing
+# components (the MONETIZATION-family four; §5.10, §27.8) actually need.
+# commerce.pricing.sponsorship's own E4 disclaimer is a plain RichTextBlock
+# content slot, not a MonetizationContract (COMMERCE is not a
+# monetization_contract-required family, §15.2), so it draws no kind from
+# this table. Extending this set is additive, registry-minor work for
+# whichever later wave needs more kinds (§22.2).
+MONETIZATION_DISCLOSURE_KIND_ADVERTISING = "advertising"
+MONETIZATION_DISCLOSURE_KIND_PREMIUM = "premium"
+MONETIZATION_DISCLOSURE_KIND_SPONSORED = "sponsored"
+MONETIZATION_DISCLOSURE_KIND_UPGRADE = "upgrade"
+
+MONETIZATION_DISCLOSURE_KINDS = (
+    MONETIZATION_DISCLOSURE_KIND_ADVERTISING,
+    MONETIZATION_DISCLOSURE_KIND_PREMIUM,
+    MONETIZATION_DISCLOSURE_KIND_SPONSORED,
+    MONETIZATION_DISCLOSURE_KIND_UPGRADE,
+)
