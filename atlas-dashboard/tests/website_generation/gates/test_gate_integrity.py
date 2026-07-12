@@ -45,7 +45,7 @@ from engines.website_generation.gates.checks import (
     SyntheticRenderedPage,
 )
 
-from tests.website_generation.components import make_definition
+from ..components import make_definition
 
 
 def instance(**overrides) -> SyntheticInstance:
@@ -98,19 +98,15 @@ class TestGateIntegrityCompleteness:
     family module's own ``TESTED_GATE_IDS`` self-declaration."""
 
     def test_every_executable_gate_is_tested(self):
-        from tests.website_generation.gates.test_gate_integrity_contract import (
-            TESTED_GATE_IDS as contract_ids,
-        )
-        from tests.website_generation.gates.test_gate_integrity_composition import (
+        from .test_gate_integrity_contract import TESTED_GATE_IDS as contract_ids
+        from .test_gate_integrity_composition import (
             TESTED_GATE_IDS as composition_ids,
         )
-        from tests.website_generation.gates.test_gate_integrity_rendering import (
-            TESTED_GATE_IDS as rendering_ids,
-        )
-        from tests.website_generation.gates.test_gate_integrity_commercial import (
+        from .test_gate_integrity_rendering import TESTED_GATE_IDS as rendering_ids
+        from .test_gate_integrity_commercial import (
             TESTED_GATE_IDS as commercial_ids,
         )
-        from tests.website_generation.gates.test_gate_integrity_responsive import (
+        from .test_gate_integrity_responsive import (
             TESTED_GATE_IDS as responsive_ids,
         )
 

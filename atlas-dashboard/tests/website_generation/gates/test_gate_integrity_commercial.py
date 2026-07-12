@@ -11,11 +11,8 @@ from engines.website_generation.contracts.components import ConversionContract
 from engines.website_generation.contracts.enums import CommercialPurpose, ConversionGoal
 from engines.website_generation.gates.checks import commercial_checks
 
-from tests.website_generation.components import make_definition
-from tests.website_generation.gates.test_gate_integrity import (
-    assert_two_fixture_law,
-    instance,
-)
+from ..components import make_definition
+from .test_gate_integrity import assert_two_fixture_law, instance
 
 TESTED_GATE_IDS = frozenset(commercial_checks.CHECKS)
 

@@ -12,12 +12,8 @@ from __future__ import annotations
 from engines.website_generation.contracts.components import ResponsiveContract
 from engines.website_generation.gates.checks import responsive_checks
 
-from tests.website_generation.components import make_definition
-from tests.website_generation.gates.test_gate_integrity import (
-    assert_two_fixture_law,
-    instance,
-    rendered_page,
-)
+from ..components import make_definition
+from .test_gate_integrity import assert_two_fixture_law, instance, rendered_page
 
 TESTED_GATE_IDS = frozenset(responsive_checks.CHECKS)
 

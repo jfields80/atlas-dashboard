@@ -22,11 +22,8 @@ from engines.website_generation.contracts.enums import (
 )
 from engines.website_generation.gates.checks import component_checks
 
-from tests.website_generation.components import make_definition
-from tests.website_generation.gates.test_gate_integrity import (
-    assert_two_fixture_law,
-    instance,
-)
+from ..components import make_definition
+from .test_gate_integrity import assert_two_fixture_law, instance
 
 TESTED_GATE_IDS = frozenset(component_checks.CHECKS)
 
