@@ -71,8 +71,12 @@ ENGINE_VERSIONS: Dict[str, str] = {
 # to the two AES-WEB-001 axes above; recorded in the BuildManifest when the
 # component system is in play. The ``contracts/`` layer owns versions and
 # may not import ``constants/``, so the literals live here.
+# AES-WEB-002E: registry-minor bump (§22.2; Index CL-1 "registry additions
+# are registry-minor") for the eleven Wave-4 components added to
+# REGISTERED_COMPONENTS alongside the amendment-A4 provisional
+# listing.card.standard.
 COMPONENT_CONTRACT_SCHEMA_VERSION: str = "1.0.0"
-REGISTRY_VERSION: str = "1.0.0"
+REGISTRY_VERSION: str = "1.1.0"
 # Version of the registry-fingerprint algorithm (SHA-256 over the canonical
 # serialization of registered definitions in lexicographic component_id
 # order).

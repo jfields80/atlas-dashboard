@@ -18,8 +18,7 @@ https://github.com/jfields80/atlas-dashboard
 
 Current completed milestone:
 
-**AES-WEB-002D — Website Generation Engine, Wave 3 directory-discovery
-catalog + the production §14.2 selection pipeline**
+**AES-WEB-002E — Website Generation Engine, Wave 4 listing/profile catalog**
 
 Progress to date (Website Generation Engine): AES-WEB-001 Phase 1 →
 amendments A1–A4 (v1.1.0) → AES-WEB-002A (contracts + registry foundation)
@@ -27,24 +26,34 @@ amendments A1–A4 (v1.1.0) → AES-WEB-002A (contracts + registry foundation)
 8 navigation/legal/status components) → AES-WEB-002D (Wave 3: 9
 hero/directory/status.results.zero components, plus the amendment-A4
 provisional `listing.card.standard`, plus the production component-
-selection pipeline resolving the home/category recipes for real). AES-DEP-001
-(dependency baseline) is also complete and merged. See `docs/` for the
-governing architecture documents (`AES-WEB-001_Implementation_Architecture.md`,
+selection pipeline resolving the home/category recipes for real) →
+AES-WEB-002E (Wave 4: the full 12-component §27.5 listing/profile inventory
+— `listing.card.featured`, `listing.card.sponsored`, `listing.row.compact`,
+the seven-component `profile.*` family, and `content.description.business`
+— plus the business-profile recipe table, §26.6). AES-DEP-001 (dependency
+baseline) is also complete and merged. See `docs/` for the governing
+architecture documents (`AES-WEB-001_Implementation_Architecture.md`,
 `AES-WEB-002 — Commercial Component System Architecture (1).md`,
 `website_generation_engine_architecture (2).md`, and the navigation-only
 `Atlas Website Generation Architecture Index.md`) — all prior sprints'
 patches have already been integrated into `main`; there is no pending
 `patches/` directory.
 
+Operator decision carried into and through AES-WEB-002E: no `rendering/` or
+`gates/` package exists yet; emitters remain declared metadata only
+(`RenderingContract.emitter_key`, unvalidated), consistent with the
+AES-WEB-002B/C/D precedent. Every registered component, across all four
+waves, stays at `PROPOSED` lifecycle — none is promoted to `ACTIVE`.
+
 Regression Status (verified baseline, pydantic 1.10.x + Flask):
 
-- `python -m pytest tests/website_generation/ -q` → 469 passed
-- `python -m pytest tests/ -q` → 1514 passed, exit 0
+- `python -m pytest tests/website_generation/ -q` → 533 passed
+- `python -m pytest tests/ -q` → 1578 passed, exit 0
 - `python -m compileall engines/website_generation` → clean
 
-Latest milestone commit (on `main` at the start of the AES-WEB-002D session):
+Latest milestone commit (on `main` at the start of the AES-WEB-002E session):
 
-7038ee7 — Integrate dependency baseline and WGE catalog waves 002B-002C
+a182020 — AES-WEB-002D: implement directory discovery wave
 
 ---
 
@@ -221,17 +230,21 @@ Do not redesign or rewrite AES-005A unless explicitly instructed.
 
 # Current Development Phase
 
-Next planned work: **AES-WEB-002E** (Wave 4 — Listing and Profile, §27.5),
-per the wave plan in `docs/AES-WEB-002 — Commercial Component System
-Architecture (1).md` §31 and the roadmap map in `docs/Atlas Website
-Generation Architecture Index.md`. AES-WEB-002D registered exactly one
-provisional Wave 4 component ahead of schedule (`listing.card.standard`,
-per amendment A4 — see `catalog/listings_profiles.py`'s module docstring);
-002E is responsible for the rest of the 12-component Wave 4 inventory
-(`listing.card.featured`, `listing.card.sponsored`, `listing.row.compact`,
-the `profile.*` family, `content.description.business`) plus their
-emitters and fixtures. Do not begin AES-WEB-002E or any later wave without
-explicit operator instruction.
+Next planned work: **AES-WEB-002F** (Wave 5 — Trust, Conversion, and Forms,
+§27.6), per the wave plan in `docs/AES-WEB-002 — Commercial Component
+System Architecture (1).md` §31 and the roadmap map in `docs/Atlas Website
+Generation Architecture Index.md`. AES-WEB-002E completed Wave 4 (§27.5):
+`catalog/listings_profiles.py`'s `WAVE4_COMPONENTS` now carries all twelve
+listing/profile components (`listing.card.standard` — provisional since
+002D under amendment A4 — plus the eleven components 002E delivered), and
+the business-profile recipe (§26.6) is authored as
+`BUSINESS_PROFILE_RECIPE_SLOTS` in `constants/components.py`. 002F is
+responsible for the thirteen-component Wave 5 inventory (`trust.*`,
+`cta.*`, `form.*`) plus their fixtures. Per the standing operator decision
+carried through 002D and 002E, no `rendering/` package, real emitters, or
+`ACTIVE` lifecycle promotion are in scope unless an operator explicitly
+authorizes that expansion. Do not begin AES-WEB-002F or any later wave
+without explicit operator instruction.
 
 Before writing any code:
 

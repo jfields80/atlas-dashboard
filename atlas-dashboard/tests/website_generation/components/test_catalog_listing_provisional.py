@@ -1,9 +1,16 @@
-"""Provisional listing.card.standard tests (amendment A4; AES-WEB-002 §27.5,
-§34.3-A4).
+"""Amendment-A4 provenance tests for listing.card.standard (AES-WEB-002
+§27.5, §34.3-A4) plus its enduring definition-validity/determinism coverage.
 
-Asserts the A4 exception stays exactly what it is authorized to be: exactly
-one ``listing.*`` component, registry-backed, deterministic, ORGANIC-only,
-carrying no monetization contract and no Wave 4 functionality beyond itself.
+listing.card.standard was registered early, in AES-WEB-002D, as the sole
+provisional component authorized ahead of schedule by amendment A4.
+AES-WEB-002E has since completed Wave 4 around it (see
+catalog/listings_profiles.py's module docstring): the "exactly one
+listing.* component" / "no profile family yet" scope-discipline this file
+used to enforce was the *pre*-002E precondition, superseded by design once
+002E landed — it is not a regression. What this file protects now is
+narrower and permanent: that A4's authorized contract shape survived 002E
+unaltered (§22.2 — completing lifecycle artifacts is not a semantic
+change).
 """
 
 from __future__ import annotations
@@ -24,7 +31,7 @@ from engines.website_generation.contracts.enums import (
 )
 from engines.website_generation.components.catalog.listings_profiles import (
     LISTING_CARD_STANDARD,
-    PROVISIONAL_WAVE4_COMPONENTS,
+    WAVE4_COMPONENTS,
 )
 from engines.website_generation.components.registry import (
     REGISTERED_COMPONENTS,
@@ -35,27 +42,26 @@ from engines.website_generation.components.registry import (
 )
 
 
-class TestProvisionalScopeDiscipline:
-    def test_exactly_one_provisional_component(self):
-        assert len(PROVISIONAL_WAVE4_COMPONENTS) == 1
-        assert PROVISIONAL_WAVE4_COMPONENTS == (LISTING_CARD_STANDARD,)
+class TestAmendmentA4Provenance:
+    def test_listing_card_standard_is_part_of_wave4(self):
+        assert LISTING_CARD_STANDARD in WAVE4_COMPONENTS
 
-    def test_no_other_listing_star_components_registered(self):
-        listing_ids = [
-            d.component_id
-            for d in REGISTERED_COMPONENTS
-            if d.component_family is ComponentFamily.LISTING
-        ]
-        assert listing_ids == ["listing.card.standard"]
-
-    def test_no_profile_family_registered_yet(self):
-        assert not any(
-            d.component_family is ComponentFamily.PROFILE
-            for d in REGISTERED_COMPONENTS
-        )
+    def test_wave4_carries_the_full_twelve_component_inventory(self):
+        assert len(WAVE4_COMPONENTS) == 12  # §27.5 "Listings and profiles (12)"
 
     def test_component_id_is_exactly_the_authorized_one(self):
         assert LISTING_CARD_STANDARD.component_id == "listing.card.standard"
+
+    def test_a4_contract_shape_unchanged_by_002e(self):
+        # §34.3-A4 authorized this exact contract ahead of schedule; 002E
+        # completes its lifecycle artifacts without altering the contract.
+        assert LISTING_CARD_STANDARD.component_version == "1.0.0"
+        assert LISTING_CARD_STANDARD.directory_contract.supported_listing_kinds == (
+            ListingKind.ORGANIC,
+        )
+        assert LISTING_CARD_STANDARD.monetization_contract is None
+        assert LISTING_CARD_STANDARD.required_content_slots == {}
+        assert LISTING_CARD_STANDARD.optional_content_slots == {}
 
 
 class TestDefinitionValidity:

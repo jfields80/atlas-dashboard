@@ -523,7 +523,10 @@ class ComponentRegistry(ComponentRegistryView):
 # legal/status components). AES-WEB-002D appends Wave 3 (§27.4: the nine
 # hero/directory/status.results.zero discovery components) plus, per
 # amendment A4, exactly one provisional Wave 4 component
-# (listing.card.standard — see catalog/listings_profiles.py). Later waves
+# (listing.card.standard). AES-WEB-002E completes Wave 4 (§27.5: the full
+# twelve-component listing/profile inventory — see
+# catalog/listings_profiles.py, whose WAVE4_COMPONENTS tuple now carries
+# listing.card.standard alongside its eleven Wave-4 siblings). Later waves
 # append their family modules here.
 #
 # Each wave module's own WAVE*_COMPONENTS tuple is internally lexicographic
@@ -544,7 +547,7 @@ from engines.website_generation.components.catalog.discovery import (
     WAVE3_COMPONENTS,
 )
 from engines.website_generation.components.catalog.listings_profiles import (
-    PROVISIONAL_WAVE4_COMPONENTS,
+    WAVE4_COMPONENTS,
 )
 
 REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = tuple(
@@ -552,7 +555,7 @@ REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = tuple(
         WAVE1_COMPONENTS
         + WAVE2_COMPONENTS
         + WAVE3_COMPONENTS
-        + PROVISIONAL_WAVE4_COMPONENTS,
+        + WAVE4_COMPONENTS,
         key=lambda d: d.component_id,
     )
 )

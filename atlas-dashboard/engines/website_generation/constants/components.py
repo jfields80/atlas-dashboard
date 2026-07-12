@@ -186,7 +186,10 @@ DEFAULT_LIFECYCLE_ALLOW_DEPRECATED = False
 # sentinel required_slot_names value that no real definition will ever
 # declare, so they deterministically resolve to nothing (correctly dropped
 # as optional) rather than risking an accidental purpose/role match against
-# an unrelated Wave 1-3 component.
+# an unrelated Wave 1-3 component. AES-WEB-002E's business-profile recipe
+# (below) reuses the same sentinel for its own not-yet-built dependencies
+# (trust.*, cta.*, form.*, status.* are still Wave 5-7; "services offered"
+# has no dedicated §27.5 component in Wave 4 either).
 _UNBUILT_FAMILY_SENTINEL = ("__unbuilt_family_slot__",)
 
 HOME_RECIPE_SLOTS = (
@@ -341,7 +344,13 @@ CATEGORY_RECIPE_SLOTS = (
         "page_role": "category",
         "purpose": "EXPOSE_INVENTORY",
         "required_region": "",
-        "required_prop_names": ("listing_ref",),
+        # "density" (§7.1's shared density axis) is declared only by
+        # listing.card.standard among the AES-WEB-002E listing.* siblings
+        # (§27.5's RP column lists it only for that row) — required here so
+        # this organic-default slot resolves to the ORGANIC card, never to
+        # listing.card.featured/sponsored (which also satisfy "cat" +
+        # EXPOSE_INVENTORY + listing_ref once Wave 4 registers them).
+        "required_prop_names": ("listing_ref", "density"),
         "required_slot_names": (),
         "monetization_eligible": False,
         "fallback_component_id": "layout.card.shell",
@@ -390,5 +399,195 @@ CATEGORY_RECIPE_SLOTS = (
         "monetization_eligible": False,
         "fallback_component_id": "",
         "required": True,  # §26.2 "zero-results state mandatory"
+    },
+)
+
+# ---------------------------------------------------------------------------
+# Recipe slot table (AES-WEB-002E; AES-WEB-002 §26.6)
+# ---------------------------------------------------------------------------
+#
+# The business-profile recipe (§26.6's sequence: profile header -> contact
+# panel -> description -> services -> hours -> service areas -> gallery (O)
+# -> credentials (O) -> reviews (O) -> FAQs (O) -> map + directions ->
+# related listings (REC) -> claim CTA (O) -> correction link (O)), encoded
+# in the same slot-dict shape as HOME_RECIPE_SLOTS/CATEGORY_RECIPE_SLOTS.
+# §26.6 was already fully specified in prose by AES-WEB-002; only this
+# data-table encoding was outstanding (AES-WEB-002D authored only the home
+# and category tables, matching its own acceptance criterion). Slots needing
+# trust.*/cta.*/form.*/status.* components (reviews, FAQs, claim CTA,
+# correction link, unavailable/closed/pending states) stay
+# _UNBUILT_FAMILY_SENTINEL-gated exactly as HOME_RECIPE_SLOTS already does
+# for its own Wave 5-7 dependencies — those families are not authorized
+# before their own waves. "Services offered" has no dedicated component in
+# the §27.5 Wave 4 inventory at all (it is not one of the twelve listing/
+# profile IDs), so it is sentinel-gated for the same reason, not because it
+# belongs to a later wave specifically.
+BUSINESS_PROFILE_RECIPE_SLOTS = (
+    {
+        "slot_id": "profile_header",
+        "page_role": "business-profile",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "HERO",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": ("name",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.6 "Profile header" — replaces hero (§6.1)
+    },
+    {
+        "slot_id": "contact_panel",
+        "page_role": "business-profile",
+        "purpose": "DRIVE_CALL",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("contact_info",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §26.6 "contact panel"
+    },
+    {
+        "slot_id": "description",
+        "page_role": "business-profile",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("description",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.6 "description"
+    },
+    {
+        "slot_id": "services",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "services" — no dedicated §27.5 component
+    },
+    {
+        "slot_id": "hours",
+        "page_role": "business-profile",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("hours",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.6 "hours"
+    },
+    {
+        "slot_id": "service_areas",
+        "page_role": "business-profile",
+        "purpose": "SUPPORT_LOCAL_SEO",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("area_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "service areas" (not marked "(O)" but not
+                             # every business has a distinct service area)
+    },
+    {
+        "slot_id": "gallery",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("images",),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "gallery (O)"
+    },
+    {
+        "slot_id": "credentials",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("credentials",),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "credentials (O)"
+    },
+    {
+        "slot_id": "reviews",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "reviews (summary + list)" — trust.* is Wave 5
+    },
+    {
+        "slot_id": "faqs",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "FAQs (O)" — content.faq.standard is Wave 5
+    },
+    {
+        "slot_id": "map_directions",
+        "page_role": "business-profile",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": ("location", "directions_text"),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.6 "map + directions"
+    },
+    {
+        "slot_id": "related_listings",
+        "page_role": "business-profile",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": False,  # §6.1 "REC related listings"
+    },
+    {
+        "slot_id": "claim_cta_band",
+        "page_role": "business-profile",
+        "purpose": "ENCOURAGE_CLAIM",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "claim CTA (if unclaimed)" — cta.* is Wave 5
+    },
+    {
+        "slot_id": "correction_link",
+        "page_role": "business-profile",
+        "purpose": "CORRECTION_REQUEST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "correction link" — form.* is Wave 5
+    },
+    {
+        "slot_id": "unavailable_state",
+        "page_role": "business-profile",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "unavailable/closed/pending variants" —
+                             # status.listing.* is Wave 7
     },
 )

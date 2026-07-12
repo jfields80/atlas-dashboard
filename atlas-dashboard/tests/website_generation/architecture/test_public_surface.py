@@ -245,13 +245,15 @@ class TestAuthorizedPackageTree:
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),
-        # navigation.py (Wave 2, 002C), discovery.py (Wave 3, 002D).
-        # listings_profiles.py exists early per amendment A4 (§34.3-A4) as a
-        # PROVISIONAL exception carrying exactly one component
-        # (listing.card.standard) — it is not the AES-WEB-002E Wave 4
-        # delivery; test_catalog_listing_provisional.py asserts that scope
-        # discipline. trust_conversion.py, seo_editorial.py, and
-        # monetization_status.py remain unauthorized until their own wave.
+        # navigation.py (Wave 2, 002C), discovery.py (Wave 3, 002D),
+        # listings_profiles.py (Wave 4, 002E). listings_profiles.py first
+        # existed early, per amendment A4 (§34.3-A4), carrying only the
+        # provisional listing.card.standard; AES-WEB-002E completed it into
+        # the full §27.5 twelve-component Wave 4 inventory — see its module
+        # docstring and test_catalog_listing_provisional.py's (renamed)
+        # TestAmendmentA4Provenance class. trust_conversion.py,
+        # seo_editorial.py, and monetization_status.py remain unauthorized
+        # until their own wave.
         base = REPO_ROOT / "engines" / "website_generation" / "components" / "catalog"
         for relative in (
             "layout_atoms.py", "navigation.py", "discovery.py",
