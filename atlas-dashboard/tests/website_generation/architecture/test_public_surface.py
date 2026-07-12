@@ -227,7 +227,7 @@ class TestAuthorizedPackageTree:
     def test_aes_web_002a_component_tree_exists(self):
         # AES-WEB-002A creates the §31 "New files" package areas: the
         # registry foundation plus the selection/validation/compatibility
-        # skeleton packages. Gate-check modules remain a later wave (002I).
+        # skeleton packages.
         base = REPO_ROOT / "engines" / "website_generation"
         for relative in (
             "components/__init__.py",
@@ -241,7 +241,30 @@ class TestAuthorizedPackageTree:
             "constants/analytics.py",
         ):
             assert (base / relative).is_file(), relative
-        assert not (base / "gates").exists(), "gates/ is a later wave (002I)"
+
+    def test_aes_web_002i_gates_tree_exists(self):
+        # AES-WEB-002I creates the §31/§29.1 "New files" gate-check package
+        # area: exactly the five authorized check modules (component,
+        # composition, rendering, commercial, responsive — see
+        # test_import_audit.py's _AUTHORIZED_GATE_CHECK_MODULES and this
+        # module's own A3_AUTHORIZED_PACKAGES["gates"] comment above). No
+        # quality_gate_engine.py and no accessibility_checks.py/seo_checks.py
+        # — see engines/website_generation/gates/__init__.py and
+        # constants/gates.py's module docstrings for why.
+        base = REPO_ROOT / "engines" / "website_generation"
+        for relative in (
+            "gates/__init__.py",
+            "gates/checks/__init__.py",
+            "gates/checks/component_checks.py",
+            "gates/checks/composition_checks.py",
+            "gates/checks/rendering_checks.py",
+            "gates/checks/commercial_checks.py",
+            "gates/checks/responsive_checks.py",
+        ):
+            assert (base / relative).is_file(), relative
+        assert not (base / "gates" / "quality_gate_engine.py").exists()
+        assert not (base / "gates" / "checks" / "accessibility_checks.py").exists()
+        assert not (base / "gates" / "checks" / "seo_checks.py").exists()
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),
