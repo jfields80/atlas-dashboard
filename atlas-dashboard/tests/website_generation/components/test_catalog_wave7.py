@@ -579,17 +579,23 @@ class TestRecipeTablesUnchanged:
         assert len(constants_components.REGIONAL_HUB_RECIPE_SLOTS) == 6
 
     def test_no_new_recipe_table_created_by_wave7(self):
-        # §31's 002H acceptance text is silent on recipes; no city,
-        # city-category, comparison, best-of, sponsor-page, claim-listing,
-        # lead-gen-landing, submission, or correction recipe table exists.
+        # §31's 002H acceptance text was silent on recipes; as of AES-WEB-
+        # 002H, no city, city-category, search-results, comparison, best-of,
+        # sponsor-page, claim-listing, lead-gen-landing, submission, or
+        # correction recipe table existed yet. AES-WEB-002J.1 "Recipe
+        # Completion" is the later recipe-integration phase this module's
+        # own docstring and §26's closing note anticipated, and authors all
+        # ten tables -- confirmed present here rather than re-asserting the
+        # now-superseded absence.
         for later_table in (
             "CITY_RECIPE_SLOTS", "CITY_CATEGORY_RECIPE_SLOTS",
+            "SEARCH_RESULTS_RECIPE_SLOTS",
             "COMPARISON_RECIPE_SLOTS", "BEST_OF_RECIPE_SLOTS",
             "SPONSOR_PAGE_RECIPE_SLOTS", "CLAIM_LISTING_RECIPE_SLOTS",
             "LEAD_GEN_LANDING_RECIPE_SLOTS", "SUBMISSION_RECIPE_SLOTS",
             "CORRECTION_RECIPE_SLOTS",
         ):
-            assert not hasattr(constants_components, later_table), later_table
+            assert hasattr(constants_components, later_table), later_table
 
 
 class TestMonetizationLegalStatusDoctrineEnforcement:

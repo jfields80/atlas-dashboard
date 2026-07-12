@@ -1060,3 +1060,894 @@ MONETIZATION_DISCLOSURE_KINDS = (
     MONETIZATION_DISCLOSURE_KIND_SPONSORED,
     MONETIZATION_DISCLOSURE_KIND_UPGRADE,
 )
+
+
+# ---------------------------------------------------------------------------
+# Remaining recipe slot tables (AES-WEB-002J.1 "Recipe Completion"; AES-WEB-002
+# §26.3-26.5, §26.7-26.13, §6.1)
+# ---------------------------------------------------------------------------
+#
+# Closes the recipe-table gap tracked since 002A (this module's opening
+# docstring), the §26 closing note, and the Implementation Roadmap ("002J MVP
+# integration: All recipes end-to-end"): after HOME/CATEGORY (002D, §26.1-
+# 26.2), BUSINESS_PROFILE (002E, §26.6), and the five secondary roles closing
+# the §34.2 bounded deferral (002G, above), ten PageRoles still had no recipe
+# table -- city, city-category, search-results, comparison, best-of,
+# lead-gen-landing, claim-listing, sponsor-page, submission, correction (the
+# order below matches their row order in the §6.1 matrix, the same
+# convention the five secondary tables above already use). Confirmed absent
+# by direct inspection of this module and by the explicit forward-looking
+# regression guards in tests/website_generation/components/test_catalog_wave6.py
+# (``test_no_city_category_recipe_table_created``) and
+# test_catalog_wave7.py (``test_no_new_recipe_table_created_by_wave7``),
+# both updated alongside this delivery since their premise ("this table does
+# not exist yet") is exactly what this delivery changes -- no other
+# assertion in either file is touched.
+#
+# Unlike 002D/002G, every catalog wave (1-7) and the component gate families
+# (002I) are registered by this point, so most slots below bind to a real,
+# already-registered candidate rather than falling straight to sentinel-
+# gating. The modeling discipline is unchanged from the block comment above
+# EDITORIAL_GUIDE_RECIPE_SLOTS, applied uniformly:
+#   - A §6.1 cell with no descriptive text ("O"/"F" alone) is not modeled as
+#     a slot. Nor is a cell whose concept is actually an internal detail of
+#     another slot's real candidate (sponsored cards interleaved into an
+#     existing listing_cards-shaped slot, exactly as CATEGORY_RECIPE_SLOTS
+#     already declines to give "O sponsored cards inline" its own slot; a
+#     form's own success/error states, e.g. form.lead.quote's
+#     ConversionContract.success_state/failure_state, rather than a separate
+#     recipe slot for lead-gen-landing's "R form success/error"; or a link
+#     already folded into a real candidate's own required_content_slots,
+#     e.g. form.submission.listing's own "standards_link").
+#   - A descriptive cell (or, where §26.x's prose is more granular than the
+#     §6.1 matrix cell it summarizes, a prose sequence step -- the same
+#     latitude CATEGORY_RECIPE_SLOTS already used to expand "R filters/sort
+#     links, R results summary" into three slots) with a genuinely real,
+#     role-matching candidate (checked against that candidate's actual
+#     declared supported_page_roles and required_props/required_content_slots
+#     via components.registry.build_default_registry(), not assumed) binds
+#     to that candidate's real prop/slot names, noted with a "Real candidate"
+#     comment, and receives a guaranteed-satisfiable Wave 1/2
+#     fallback_component_id (every required slot below carries one,
+#     regardless of whether a real candidate was also found -- the
+#     belt-and-suspenders posture SERVICE_AREA_RECIPE_SLOTS/
+#     REGIONAL_HUB_RECIPE_SLOTS already use, superseding CATEGORY_RECIPE_
+#     SLOTS's older practice of sometimes omitting it).
+#   - A required ("R") cell with no real candidate still gets a
+#     guaranteed-satisfiable Wave 1/2 fallback: required=True,
+#     fallback_component_id set, honest required_prop_names/
+#     required_slot_names describing the eventually-intended shape (the
+#     same treatment HOME_RECIPE_SLOTS's own "hero" slot already uses). Two
+#     §6.1 cells name a specific component id that was never registered in
+#     any of the seven catalog waves (§27) -- "hero.city.standard" (city)
+#     and "hero.leadgen.offer" (lead-gen-landing); both resolve to
+#     hero.local.standard where its own supported_page_roles actually cover
+#     the role, or to the same honest-fallback treatment otherwise. Recorded
+#     here rather than silently invented or silently renamed, matching the
+#     Index's own D1-D4 discrepancy-recording precedent.
+#   - A required ("R") *status* cell (empty/zero/pending/sparse-state) whose
+#     only real candidate is status.results.zero/status.listing.* and that
+#     candidate does not declare this specific role is modeled required=False
+#     with the sentinel, exactly mirroring COLLECTION_RECIPE_SLOTS's
+#     "empty_state" / SERVICE_AREA_RECIPE_SLOTS's "zero_results" /
+#     VERIFICATION_RECIPE_SLOTS's "pending_state" / REGIONAL_HUB_RECIPE_
+#     SLOTS's "sparse_region_state" precedent -- a status cell is the one
+#     case this module already treats as "no invented fallback", since a
+#     generic Wave 1/2 primitive cannot honestly stand in for a recovery-
+#     action state component. Where a real status.* candidate *does* declare
+#     the role (status.listing.pending for claim-listing, per
+#     STATUS_CELL_COVERAGE in test_catalog_wave7.py), the cell binds to it
+#     directly instead.
+#   - An optional/recommended cell with no real candidate is sentinel-gated
+#     (content-slot-filtered slots) or left with plain honest
+#     required_prop_names and no sentinel (prop-filtered slots, where
+#     §14.2 step 1's role filter alone -- confirmed empty of candidates for
+#     that role via the same registry check -- already excludes every
+#     non-role-matching candidate before slot-signature checking runs).
+#   - best-of's "O clearly-separated featured block" and comparison's
+#     "O affiliate (P3, disclosed)" cells are two special cases already
+#     characterized by name in test_catalog_wave7.py: the former is recorded
+#     there as a known, carried gap (neither listing.card.featured nor
+#     monetization.ribbon.sponsor declares best-of), modeled here
+#     required=False and sentinel-gated rather than silently dropped; the
+#     latter is P3 scope per §34.2 and correctly absent from the 72-component
+#     MVP inventory, so no comparison affiliate slot is modeled at all.
+#
+# Per the AMB-002G-02/AMB-002F-02/AMB-002H-02 precedent this delivery
+# continues a final time: strictly additive. It does not touch
+# HOME_RECIPE_SLOTS, CATEGORY_RECIPE_SLOTS, BUSINESS_PROFILE_RECIPE_SLOTS,
+# EDITORIAL_GUIDE_RECIPE_SLOTS, COLLECTION_RECIPE_SLOTS,
+# SERVICE_AREA_RECIPE_SLOTS, VERIFICATION_RECIPE_SLOTS, or
+# REGIONAL_HUB_RECIPE_SLOTS above.
+
+CITY_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "city",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        # §6.1 names "hero.city.standard", never registered in any catalog
+        # wave (§27.4 lists only hero.search.directory/hero.local.standard)
+        # -- recorded as a discrepancy, not invented. Real candidate:
+        # hero.local.standard (§27.4) -- its own roles explicitly include
+        # "city".
+        "required_prop_names": ("context_role",),
+        "required_slot_names": ("h1", "intro"),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R hero.city.standard"
+    },
+    {
+        "slot_id": "categories_in_city_navigator",
+        "page_role": "city",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.categories.grid (§27.4) -- its own roles
+        # explicitly include "city".
+        "required_prop_names": ("category_source_ref", "columns"),
+        "required_slot_names": ("category_tiles",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.grid.standard",
+        "required": True,  # §26.3 "categories-in-city navigator"
+    },
+    {
+        "slot_id": "listing_cards",
+        "page_role": "city",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        # "density" required so this organic-default slot resolves to
+        # listing.card.standard, never listing.card.featured/sponsored --
+        # the same discipline CATEGORY_RECIPE_SLOTS's own "listing_cards"
+        # slot already documents.
+        "required_prop_names": ("listing_ref", "density"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §26.3 "listing cards"
+    },
+    {
+        "slot_id": "local_facts",
+        "page_role": "city",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O local facts" -- no trust.* covers city
+    },
+    {
+        "slot_id": "nearby_cities_parent_region",
+        "page_role": "city",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        # Real candidate: seo.local-links.cities (§27.7) -- its own roles
+        # explicitly include "city".
+        "required_prop_names": ("city_source_ref",),
+        "required_slot_names": ("city_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §6.1 "R nearby cities + parent region"
+    },
+    {
+        "slot_id": "zero_results",
+        "page_role": "city",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        # Real candidate: status.results.zero (§27.4) -- its own roles
+        # explicitly include "city"; no fallback needed, mirroring
+        # CATEGORY_RECIPE_SLOTS's own "zero_results" slot exactly.
+        "required_prop_names": (),
+        "required_slot_names": ("message", "recovery_links"),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": True,  # §26.3 / §6.1 "R zero-results"
+    },
+)
+
+CITY_CATEGORY_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "city-category",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        # Real candidate: hero.local.standard (§27.4) -- its own roles
+        # explicitly include "city-category".
+        "required_prop_names": ("context_role",),
+        "required_slot_names": ("h1", "intro"),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.4 "Compact local hero"
+    },
+    {
+        "slot_id": "filters",
+        "page_role": "city-category",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.filters.panel (§27.4) -- its own roles
+        # explicitly include "city-category".
+        "required_prop_names": ("facet_set_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.4 "filter links"
+    },
+    {
+        "slot_id": "results_summary",
+        "page_role": "city-category",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.results.summary (§27.4) -- its own roles
+        # explicitly include "city-category". No "sort" step appears in
+        # §26.4's own prose or in §6.1's Discovery cell for this role
+        # (unlike category's), so no sort slot is modeled here.
+        "required_prop_names": (),
+        "required_slot_names": ("summary_text",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.4 "results summary"
+    },
+    {
+        "slot_id": "listing_cards",
+        "page_role": "city-category",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref", "density"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §26.4 "listing cards"
+    },
+    {
+        "slot_id": "quote_cta_band",
+        "page_role": "city-category",
+        "purpose": "COLLECT_LEAD",
+        "required_region": "",
+        # No cta.quote.* component exists; form.lead.quote (§27.6) is the
+        # real QUOTE_REQUEST-goal candidate and its own roles explicitly
+        # include "city-category".
+        "required_prop_names": ("action_route",),
+        "required_slot_names": ("disclosure",),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "REC quote CTA"
+    },
+    {
+        "slot_id": "nearby_city_links",
+        "page_role": "city-category",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        # §26.4 "nearby city-category links -> parent city + parent category
+        # links" is two prose steps; §6.1's single "R nearby city-category
+        # links" cell compresses both, the same compression CATEGORY_RECIPE_
+        # SLOTS's own "R filters/sort links, R results summary" cell used
+        # before being expanded into granular slots. Real candidate:
+        # seo.local-links.cities (§27.7) -- its own roles explicitly include
+        # "city-category"; covers the city-axis half.
+        "required_prop_names": ("city_source_ref",),
+        "required_slot_names": ("city_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.4 / §6.1 "R nearby city-category links"
+    },
+    {
+        "slot_id": "parent_category_links",
+        "page_role": "city-category",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        # Real candidate: seo.local-links.categories (§27.7) -- its own
+        # roles explicitly include "city-category"; covers the
+        # category-axis half of the same compressed §6.1 cell.
+        "required_prop_names": ("category_source_ref",),
+        "required_slot_names": ("category_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.4 "parent city + parent category links"
+    },
+    {
+        "slot_id": "zero_results",
+        "page_role": "city-category",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("message", "recovery_links"),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": True,  # §6.1 "R zero-results"
+    },
+)
+
+SEARCH_RESULTS_RECIPE_SLOTS = (
+    # §6.1 Hero column: "F (results header instead)"; §26.5: "No hero, no
+    # trust, minimal chrome." No hero slot is modeled for this role.
+    {
+        "slot_id": "results_header",
+        "page_role": "search-results",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.results.summary (§27.4) -- its own
+        # roles explicitly include "search-results".
+        "required_prop_names": (),
+        "required_slot_names": ("summary_text",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.5 "Results header (query echo + count)"
+    },
+    {
+        "slot_id": "filters",
+        "page_role": "search-results",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.filters.panel (§27.4) -- its own roles
+        # explicitly include "search-results".
+        "required_prop_names": ("facet_set_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.5 "filters/sort"
+    },
+    {
+        "slot_id": "sort",
+        "page_role": "search-results",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.sort.control (§27.4) -- its own roles
+        # explicitly include "search-results".
+        "required_prop_names": ("sort_options_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §26.5 "filters/sort"
+    },
+    {
+        "slot_id": "listing_rows_or_cards",
+        "page_role": "search-results",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        # "density" required so this organic-default slot resolves to
+        # listing.card.standard rather than listing.card.sponsored or
+        # listing.row.compact (neither of which declares "density"),
+        # mirroring CATEGORY_RECIPE_SLOTS's own "listing_cards" discipline.
+        "required_prop_names": ("listing_ref", "density"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §26.5 "compact rows or cards"
+    },
+    {
+        "slot_id": "pagination",
+        "page_role": "search-results",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        # Real candidate: nav.pagination.standard (§27.3) -- its own roles
+        # explicitly include "search-results"; no fallback needed, mirroring
+        # CATEGORY_RECIPE_SLOTS's own "pagination" slot exactly.
+        "required_prop_names": ("page_context",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": True,  # §26.5 "pagination"
+    },
+    {
+        "slot_id": "related_searches",
+        "page_role": "search-results",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.5 "related searches (O)" -- no seo.* covers this
+    },
+    {
+        "slot_id": "zero_results",
+        "page_role": "search-results",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        # Real candidate: status.results.zero (§27.4) -- its own roles
+        # explicitly include "search-results"; no fallback needed, mirroring
+        # CATEGORY_RECIPE_SLOTS's own "zero_results" slot exactly.
+        "required_prop_names": (),
+        "required_slot_names": ("message", "recovery_links"),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": True,  # §26.5 / §6.1 "R zero-results"
+    },
+)
+
+COMPARISON_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "comparison",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.7 "Comparison hero" -- no hero.* covers comparison
+    },
+    {
+        "slot_id": "methodology",
+        "page_role": "comparison",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("methodology",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.7 "methodology block (E6)" -- no dedicated methodology component exists in any wave
+    },
+    {
+        "slot_id": "comparison_table",
+        "page_role": "comparison",
+        "purpose": "SUPPORT_COMPARISON",
+        "required_region": "",
+        # Real candidate: content.table.comparison (§27.7) -- its own roles
+        # explicitly include "comparison".
+        "required_prop_names": (),
+        "required_slot_names": ("table",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.7 "comparison table"
+    },
+    {
+        "slot_id": "page_cta_band",
+        "page_role": "comparison",
+        "purpose": "IMPROVE_CONVERSION",
+        "required_region": "",
+        # §26.7's "per-row CTA" is modeled as part of comparison_table's own
+        # content (a per-row action belongs to the table's ComparisonTableBlock,
+        # not a separate top-level recipe slot -- the same non-duplication
+        # rule CATEGORY_RECIPE_SLOTS applies to "sponsored cards inline").
+        # No cta.* component covers comparison.
+        "required_prop_names": (),
+        "required_slot_names": ("label",),
+        "monetization_eligible": False,
+        "fallback_component_id": "atom.button.action",
+        "required": True,  # §26.7 "page CTA band"
+    },
+    {
+        "slot_id": "empty_comparison",
+        "page_role": "comparison",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R empty-comparison" -- status.results.zero does not cover comparison; modeled required=False pending recipe-integration, mirroring COLLECTION_RECIPE_SLOTS's "empty_state" precedent
+    },
+    {
+        "slot_id": "related_links",
+        "page_role": "comparison",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.7 "related links" (§6.1 SEO-links cell: bare "REC") -- no seo.* covers comparison
+    },
+    # §6.1 Monetization cell "O affiliate (P3, disclosed)" is P3 scope,
+    # correctly absent from the 72-component MVP inventory (§27.1 closing;
+    # confirmed exercisability-absent by
+    # test_comparison_affiliate_monetization_correctly_unexercisable in
+    # test_catalog_wave7.py) -- no affiliate slot is modeled.
+)
+
+BEST_OF_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "best-of",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.8 "Editorial hero" -- no hero.* covers best-of
+    },
+    {
+        "slot_id": "ranking_methodology",
+        "page_role": "best-of",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("methodology",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.8 "ranking methodology" -- no dedicated methodology component exists in any wave
+    },
+    {
+        "slot_id": "ranked_listing_cards",
+        "page_role": "best-of",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        # Pre-existing Wave-4 gap (recorded in test_catalog_wave7.py's
+        # TestMonetizationCellAndStatusExercisability docstring): no
+        # listing.* component declares "best-of" among its
+        # supported_page_roles, and no ranking_rationale content slot exists
+        # anywhere in the registry.
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §26.8 "ranked listing cards with per-rank rationale slots"
+    },
+    {
+        "slot_id": "related_best_of_links",
+        "page_role": "best-of",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("related_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §6.1 "R related best-of links" -- neither seo.local-links.cities nor seo.local-links.categories covers best-of
+    },
+    {
+        "slot_id": "featured_block",
+        "page_role": "best-of",
+        "purpose": "PREPARE_MONETIZATION",
+        "required_region": "",
+        # Confirmed known gap: neither listing.card.featured nor
+        # monetization.ribbon.sponsor declares "best-of"
+        # (test_best_of_featured_block_is_a_known_uncovered_gap,
+        # test_catalog_wave7.py).
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": True,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O clearly-separated featured block"
+    },
+)
+
+LEAD_GEN_LANDING_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "lead-gen-landing",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        # §6.1 names "hero.leadgen.offer", never registered in any catalog
+        # wave (§27.4 lists only hero.search.directory/hero.local.standard,
+        # neither of which declares "lead-gen-landing") -- recorded as a
+        # discrepancy, not invented.
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R hero.leadgen.offer"
+    },
+    {
+        "slot_id": "social_proof_listings",
+        "page_role": "lead-gen-landing",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §26.11 "social-proof listings (O)" -- no listing.* covers lead-gen-landing
+    },
+    {
+        "slot_id": "trust_adjacent_to_form",
+        "page_role": "lead-gen-landing",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        # Real candidate: trust.statistics.strip (§27.6) -- its own roles
+        # explicitly include "lead-gen-landing".
+        "required_prop_names": (),
+        "required_slot_names": ("statistics",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.11 / §6.1 "R trust adjacent to form"
+    },
+    {
+        "slot_id": "lead_quote_form",
+        "page_role": "lead-gen-landing",
+        "purpose": "COLLECT_LEAD",
+        "required_region": "",
+        # Real candidate: form.lead.quote (§27.6) -- its own roles
+        # explicitly include "lead-gen-landing"; literally named in §6.1.
+        # Its own ConversionContract.success_state/failure_state satisfies
+        # §6.1's "R form success/error" Status cell -- not a separate slot,
+        # mirroring CATEGORY_RECIPE_SLOTS's "sponsored cards inline"
+        # non-duplication rule.
+        "required_prop_names": ("action_route",),
+        "required_slot_names": ("disclosure",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.11 "lead/quote form (<= 6 fields)"; §6.1 "R form.lead.quote (single goal)"
+    },
+)
+
+CLAIM_LISTING_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "claim-listing",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.10 "Compact explainer hero" -- no hero.* covers claim-listing
+    },
+    {
+        "slot_id": "listing_preview",
+        "page_role": "claim-listing",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O preview of listing" -- no listing.* covers claim-listing
+    },
+    {
+        "slot_id": "verification_explanation",
+        "page_role": "claim-listing",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("explanation",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.10 "verification explanation" -- no trust.* covers claim-listing
+    },
+    {
+        "slot_id": "claim_form",
+        "page_role": "claim-listing",
+        "purpose": "ENCOURAGE_CLAIM",
+        "required_region": "",
+        # Real candidate: form.claim.standard (§27.6) -- its own roles are
+        # exactly ("claim-listing",); literally named in §6.1.
+        "required_prop_names": ("action_route", "listing_ref"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.10 "claim form (<= 5 fields step one)"; §6.1 "R form.claim.standard"
+    },
+    {
+        "slot_id": "upgrade_preview",
+        "page_role": "claim-listing",
+        "purpose": "PREPARE_MONETIZATION",
+        "required_region": "",
+        # Real candidate: monetization.prompt.upgrade (§27.8) -- its own
+        # roles are exactly ("claim-listing",); confirmed via
+        # MONETIZATION_CELL_COVERAGE in test_catalog_wave7.py.
+        "required_prop_names": (),
+        "required_slot_names": ("disclosure", "offer"),
+        "monetization_eligible": True,
+        "fallback_component_id": "",
+        "required": False,  # §26.10 "upgrade preview (O, disclosed, after form)"
+    },
+    {
+        "slot_id": "claim_state",
+        "page_role": "claim-listing",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        # Real candidate: status.listing.pending (§27.8) -- its own roles
+        # explicitly include "claim-listing"; confirmed via
+        # STATUS_CELL_COVERAGE in test_catalog_wave7.py, unlike the other
+        # required-status cells in this delivery.
+        "required_prop_names": (),
+        "required_slot_names": ("expectation_text", "message"),
+        "monetization_eligible": False,
+        "fallback_component_id": "atom.alert.notice",
+        "required": True,  # §6.1 "R states"
+    },
+)
+
+SPONSOR_PAGE_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "sponsor-page",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.9 "Offer hero" -- no hero.* covers sponsor-page
+    },
+    {
+        "slot_id": "audience_statistics",
+        "page_role": "sponsor-page",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        # Real candidate: trust.statistics.strip (§27.6) -- its own roles
+        # explicitly include "sponsor-page".
+        "required_prop_names": (),
+        "required_slot_names": ("statistics",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.9 "audience statistics (evidenced)"
+    },
+    {
+        "slot_id": "example_placements",
+        "page_role": "sponsor-page",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O example placements" -- no component covers this
+    },
+    {
+        "slot_id": "sponsor_inquiry_cta",
+        "page_role": "sponsor-page",
+        "purpose": "ENCOURAGE_SPONSORSHIP",
+        "required_region": "",
+        # Real candidate: cta.sponsor.inquiry (§27.6) -- its own roles are
+        # exactly ("sponsor-page",).
+        "required_prop_names": ("target_route",),
+        "required_slot_names": ("label",),
+        "monetization_eligible": False,
+        "fallback_component_id": "atom.button.action",
+        "required": True,  # §26.9 "sponsor inquiry form"; §6.1 "R sponsor inquiry form"
+    },
+    {
+        "slot_id": "sponsorship_pricing",
+        "page_role": "sponsor-page",
+        "purpose": "PREPARE_MONETIZATION",
+        "required_region": "",
+        # Real candidate: commerce.pricing.sponsorship (§27.8) -- its own
+        # roles are exactly ("sponsor-page",).
+        "required_prop_names": (),
+        "required_slot_names": ("disclaimer", "pricing"),
+        "monetization_eligible": True,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.9 "sponsorship pricing"; §6.1 "R sponsorship pricing"
+    },
+    {
+        "slot_id": "paid_placement_disclosure",
+        "page_role": "sponsor-page",
+        "purpose": "PREPARE_MONETIZATION",
+        "required_region": "",
+        # Real candidate: monetization.disclosure.advertising (§27.8) --
+        # confirmed via MONETIZATION_CELL_COVERAGE in test_catalog_wave7.py.
+        "required_prop_names": ("disclosure_kind",),
+        "required_slot_names": ("disclosure",),
+        "monetization_eligible": True,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.9 "paid-placement disclosure"; §6.1 "R paid-placement disclosure"
+    },
+    {
+        "slot_id": "states",
+        "page_role": "sponsor-page",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R states" -- no status.* covers sponsor-page; modeled required=False pending recipe-integration
+    },
+)
+
+SUBMISSION_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "submission",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.12 "Compact hero" -- no hero.* covers submission
+    },
+    {
+        "slot_id": "submission_form",
+        "page_role": "submission",
+        "purpose": "ENCOURAGE_SUBMISSION",
+        "required_region": "",
+        # Real candidate: form.submission.listing (§27.6) -- its own roles
+        # are exactly ("submission",); literally named in §6.1. Its own
+        # required "standards_link" content slot satisfies §26.12's
+        # "editorial standards link" step -- not a separate slot, mirroring
+        # CATEGORY_RECIPE_SLOTS's "sponsored cards inline" non-duplication
+        # rule.
+        "required_prop_names": ("action_route",),
+        "required_slot_names": ("standards_link",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.12 "submission form"; §6.1 "R form.submission.listing"
+    },
+    {
+        "slot_id": "paid_fast_track",
+        "page_role": "submission",
+        "purpose": "PREPARE_MONETIZATION",
+        "required_region": "",
+        # Real candidate: monetization.disclosure.advertising (§27.8) --
+        # confirmed via MONETIZATION_CELL_COVERAGE in test_catalog_wave7.py.
+        "required_prop_names": ("disclosure_kind",),
+        "required_slot_names": ("disclosure",),
+        "monetization_eligible": True,
+        "fallback_component_id": "",
+        "required": False,  # §26.12 "paid fast-track option (O, disclosed, equal-weight free path)"
+    },
+    {
+        "slot_id": "states",
+        "page_role": "submission",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R states" -- no status.* covers submission; modeled required=False pending recipe-integration
+    },
+)
+
+CORRECTION_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "correction",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.13 "Minimal hero" -- no hero.* covers correction
+    },
+    {
+        "slot_id": "listing_being_corrected",
+        "page_role": "correction",
+        "purpose": "ORIENT",
+        "required_region": "",
+        # No listing.* component covers correction. purpose=ORIENT (rather
+        # than REDUCE_UNCERTAINTY) deliberately: form.correction.standard
+        # also declares "listing_ref" among its own required props, and
+        # binding this slot's purpose to REDUCE_UNCERTAINTY would let step 5
+        # commercial-purpose matching resolve it to the form component
+        # instead of the intended fallback -- verified against the real
+        # ComponentSelector, not assumed.
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §6.1 "R listing being corrected (summary)"
+    },
+    {
+        "slot_id": "data_source_disclosure",
+        "page_role": "correction",
+        "purpose": "SATISFY_LEGAL",
+        "required_region": "",
+        # Real candidate: legal.statement.standard (§27.8, universal) with
+        # kind="data-source" (one of its registered kind enum values).
+        "required_prop_names": ("kind",),
+        "required_slot_names": ("body",),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "REC data-source disclosure"
+    },
+    {
+        "slot_id": "correction_form",
+        "page_role": "correction",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        # Real candidate: form.correction.standard (§27.6) -- its own roles
+        # are exactly ("correction",); literally named in §6.1.
+        "required_prop_names": ("action_route", "listing_ref"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §26.13 "correction form"; §6.1 "R form.correction.standard"
+    },
+    {
+        "slot_id": "states",
+        "page_role": "correction",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R states" -- no status.* covers correction; modeled required=False pending recipe-integration
+    },
+)

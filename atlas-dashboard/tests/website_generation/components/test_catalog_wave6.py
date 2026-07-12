@@ -763,7 +763,11 @@ class TestCityCategoryFixtureSet:
         assert "CG-SEO-004" in categories_gates
 
     def test_no_city_category_recipe_table_created(self):
-        # AMB-002G-01 guard: the fixture-only approach means no
-        # CITY_RECIPE_SLOTS / CITY_CATEGORY_RECIPE_SLOTS table exists.
-        assert not hasattr(constants_components, "CITY_RECIPE_SLOTS")
-        assert not hasattr(constants_components, "CITY_CATEGORY_RECIPE_SLOTS")
+        # AMB-002G-01 guard: this wave took the fixture-only approach, so
+        # CITY_RECIPE_SLOTS / CITY_CATEGORY_RECIPE_SLOTS did not exist as of
+        # AES-WEB-002G. AES-WEB-002J.1 "Recipe Completion" is the later
+        # recipe-integration phase §26's closing note anticipated, and
+        # authors both tables -- confirmed present here rather than
+        # re-asserting the now-superseded absence.
+        assert hasattr(constants_components, "CITY_RECIPE_SLOTS")
+        assert hasattr(constants_components, "CITY_CATEGORY_RECIPE_SLOTS")
