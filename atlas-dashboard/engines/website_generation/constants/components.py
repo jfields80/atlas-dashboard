@@ -8,7 +8,9 @@ Scope note: 002A owns the naming grammar, complexity budgets, composition
 limits, and version constants that the registry needs to validate
 definitions. The §3.2 selection scoring tables and CTA label/action table
 support the selection and conversion waves (002D/002F) and are deferred
-there, not authored in 002A.
+there, not authored in 002A. The selection scoring tables landed in 002D;
+the CTA label/action-class table and the §16.5 friction-budget constants
+land in 002F, at the end of this module.
 """
 
 # ---------------------------------------------------------------------------
@@ -591,3 +593,70 @@ BUSINESS_PROFILE_RECIPE_SLOTS = (
                              # status.listing.* is Wave 7
     },
 )
+
+# ---------------------------------------------------------------------------
+# CTA label/action-class table (AES-WEB-002F; AES-WEB-002 §16.2, E9)
+# ---------------------------------------------------------------------------
+#
+# §16.2: "Each goal maps in constants/components.py to: permitted CTA label
+# classes (E9 enforcement table), permitted action target types (tel:,
+# mailto:, route, external URL + rel policy), and its analytics event name."
+#
+# Scoped to the six ConversionGoal values Wave 5's cta.*/form.* components
+# actually declare (constants hold data only; extending to further goals is
+# additive, registry-minor work for whichever later wave needs them, per
+# §22.2). Keyed by ConversionGoal.value (plain str, since constants/ may not
+# import contracts/ — AES-WEB-001 §3.2).
+#
+# Label classes are controlled-vocabulary tags, not literal marketing copy —
+# copy itself is a Content Engine / ContentPackage concern (§8.4
+# RichTextBlock), never registry or constants data (§3.1 ownership map:
+# "Text/media content" belongs to ContentPackage, never registry/constants).
+CTA_GOAL_LABEL_CLASSES = {
+    "LISTING_CLAIM": ("claim",),
+    "QUOTE_REQUEST": ("quote", "request"),
+    "LISTING_SUBMISSION": ("submit", "add-listing"),
+    "CORRECTION_REQUEST": ("correct", "suggest-edit"),
+    "NEWSLETTER_SIGNUP": ("subscribe", "signup"),
+    "SPONSORSHIP_INQUIRY": ("inquire", "sponsor"),
+}
+
+# Every Wave 5 conversion-bearing component targets an internal route; none
+# is tel:/mailto: (that is profile.contact.panel's domain, Wave 4, §27.5).
+CTA_GOAL_ACTION_TARGET_TYPES = {
+    "LISTING_CLAIM": ("route",),
+    "QUOTE_REQUEST": ("route",),
+    "LISTING_SUBMISSION": ("route",),
+    "CORRECTION_REQUEST": ("route",),
+    "NEWSLETTER_SIGNUP": ("route",),
+    "SPONSORSHIP_INQUIRY": ("route",),
+}
+
+# §18.2's registered event names (constants/analytics.py), bound per goal.
+CTA_GOAL_ANALYTICS_EVENT = {
+    "LISTING_CLAIM": "claim_start",
+    "QUOTE_REQUEST": "form_start",
+    "LISTING_SUBMISSION": "submission_start",
+    "CORRECTION_REQUEST": "correction_start",
+    "NEWSLETTER_SIGNUP": "form_start",
+    "SPONSORSHIP_INQUIRY": "sponsor_inquiry_start",
+}
+
+# §16.3: "the page's primary conversion_goal ... may repeat at most 3 times
+# per page (hero/inline/sticky-or-footer)."
+CTA_PRIMARY_GOAL_MAX_REPETITIONS_PER_PAGE = 3
+
+# ---------------------------------------------------------------------------
+# Form friction budgets (AES-WEB-002F; AES-WEB-002 §16.5, gate CG-COM-010 W)
+# ---------------------------------------------------------------------------
+#
+# "Quote/lead <= 6 fields; newsletter <= 2; claim step one <= 5;
+# correction <= 5; sponsor inquiry <= 6. Required-field count <= 4 on any
+# MVP form." Declared here as data (name + default only, per §25's closing
+# rule); enforcement is gate work (CG-COM-010, WARNING severity, AES-WEB-002I).
+FORM_FRICTION_BUDGET_QUOTE_LEAD_MAX_FIELDS = 6
+FORM_FRICTION_BUDGET_NEWSLETTER_MAX_FIELDS = 2
+FORM_FRICTION_BUDGET_CLAIM_STEP_ONE_MAX_FIELDS = 5
+FORM_FRICTION_BUDGET_CORRECTION_MAX_FIELDS = 5
+FORM_FRICTION_BUDGET_SPONSOR_INQUIRY_MAX_FIELDS = 6
+FORM_FRICTION_BUDGET_MAX_REQUIRED_FIELDS = 4
