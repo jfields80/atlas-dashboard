@@ -77,8 +77,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
 # listing.card.standard.
 # AES-WEB-002F: registry-minor bump for the thirteen Wave 5 components
 # (§27.6) added to REGISTERED_COMPONENTS.
+# AES-WEB-002G: registry-minor bump for the seven Wave 6 components (§27.7)
+# added to REGISTERED_COMPONENTS.
 COMPONENT_CONTRACT_SCHEMA_VERSION: str = "1.0.0"
-REGISTRY_VERSION: str = "1.2.0"
+REGISTRY_VERSION: str = "1.3.0"
 # Version of the registry-fingerprint algorithm (SHA-256 over the canonical
 # serialization of registered definitions in lexicographic component_id
 # order).

@@ -247,21 +247,22 @@ class TestAuthorizedPackageTree:
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),
         # navigation.py (Wave 2, 002C), discovery.py (Wave 3, 002D),
         # listings_profiles.py (Wave 4, 002E), trust_conversion.py
-        # (Wave 5, 002F). listings_profiles.py first existed early, per
-        # amendment A4 (§34.3-A4), carrying only the provisional
-        # listing.card.standard; AES-WEB-002E completed it into the full
-        # §27.5 twelve-component Wave 4 inventory — see its module
-        # docstring and test_catalog_listing_provisional.py's (renamed)
-        # TestAmendmentA4Provenance class. seo_editorial.py and
-        # monetization_status.py remain unauthorized until their own wave.
+        # (Wave 5, 002F), seo_editorial.py (Wave 6, 002G).
+        # listings_profiles.py first existed early, per amendment A4
+        # (§34.3-A4), carrying only the provisional listing.card.standard;
+        # AES-WEB-002E completed it into the full §27.5 twelve-component
+        # Wave 4 inventory — see its module docstring and
+        # test_catalog_listing_provisional.py's (renamed)
+        # TestAmendmentA4Provenance class. monetization_status.py remains
+        # unauthorized until its own wave (002H).
         base = REPO_ROOT / "engines" / "website_generation" / "components" / "catalog"
         for relative in (
             "layout_atoms.py", "navigation.py", "discovery.py",
-            "listings_profiles.py", "trust_conversion.py",
+            "listings_profiles.py", "trust_conversion.py", "seo_editorial.py",
         ):
             assert (base / relative).is_file(), relative
         for later_wave in (
-            "seo_editorial.py", "monetization_status.py",
+            "monetization_status.py",
         ):
             assert not (base / later_wave).exists(), later_wave
 

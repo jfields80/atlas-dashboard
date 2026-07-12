@@ -150,8 +150,9 @@ class TestCatalogCompleteness:
 
     def test_exact_catalog_count(self):
         assert len(WAVE4_COMPONENTS) == 12  # §27.5 "Listings and profiles (12)"
-        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13) = 57.
-        assert len(REGISTERED_COMPONENTS) == 57
+        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13)
+        # + Wave 6 (7) = 64.
+        assert len(REGISTERED_COMPONENTS) == 64
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE4_COMPONENTS)
@@ -455,8 +456,8 @@ class TestRegistryLookups:
         assert len(r.by_family(ComponentFamily.LISTING)) == 4
         assert len(r.by_family(ComponentFamily.PROFILE)) == 7
         # content family = 1 Wave 4 (content.description.business) + 1
-        # Wave 5 (content.faq.standard, §27.6) = 2.
-        assert len(r.by_family(ComponentFamily.CONTENT)) == 2
+        # Wave 5 (content.faq.standard, §27.6) + 5 Wave 6 (§27.7) = 7.
+        assert len(r.by_family(ComponentFamily.CONTENT)) == 7
 
     def test_candidates_for_business_profile_includes_wave4_components(self):
         r = build_default_registry()

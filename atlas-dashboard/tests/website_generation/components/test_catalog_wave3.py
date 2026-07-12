@@ -84,8 +84,9 @@ class TestCatalogCompleteness:
 
     def test_exact_catalog_count(self):
         assert len(WAVE3_COMPONENTS) == 9  # §27.4 "Directory discovery (9)"
-        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13) = 57.
-        assert len(REGISTERED_COMPONENTS) == 57
+        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13)
+        # + Wave 6 (7) = 64.
+        assert len(REGISTERED_COMPONENTS) == 64
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE3_COMPONENTS)

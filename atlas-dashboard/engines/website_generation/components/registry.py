@@ -528,8 +528,9 @@ class ComponentRegistry(ComponentRegistryView):
 # catalog/listings_profiles.py, whose WAVE4_COMPONENTS tuple now carries
 # listing.card.standard alongside its eleven Wave-4 siblings). AES-WEB-002F
 # appends Wave 5 (§27.6: the thirteen-component trust/content/form/cta
-# inventory -- see catalog/trust_conversion.py). Later waves append their
-# family modules here.
+# inventory -- see catalog/trust_conversion.py). AES-WEB-002G appends
+# Wave 6 (§27.7: the seven-component seo/content inventory -- see
+# catalog/seo_editorial.py). Later waves append their family modules here.
 #
 # Each wave module's own WAVE*_COMPONENTS tuple is internally lexicographic
 # (§15.2, asserted per-wave by each test_catalog_waveN.py), but simple
@@ -554,6 +555,9 @@ from engines.website_generation.components.catalog.listings_profiles import (
 from engines.website_generation.components.catalog.trust_conversion import (
     WAVE5_COMPONENTS,
 )
+from engines.website_generation.components.catalog.seo_editorial import (
+    WAVE6_COMPONENTS,
+)
 
 REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = tuple(
     sorted(
@@ -561,7 +565,8 @@ REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = tuple(
         + WAVE2_COMPONENTS
         + WAVE3_COMPONENTS
         + WAVE4_COMPONENTS
-        + WAVE5_COMPONENTS,
+        + WAVE5_COMPONENTS
+        + WAVE6_COMPONENTS,
         key=lambda d: d.component_id,
     )
 )

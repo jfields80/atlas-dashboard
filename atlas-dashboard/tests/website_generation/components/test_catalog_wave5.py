@@ -171,8 +171,9 @@ class TestCatalogCompleteness:
 
     def test_exact_catalog_count(self):
         assert len(WAVE5_COMPONENTS) == 13  # §27.6 "Trust, conversion, and forms (13)"
-        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13) = 57.
-        assert len(REGISTERED_COMPONENTS) == 57
+        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + Wave 4 (12) + Wave 5 (13)
+        # + Wave 6 (7) = 64.
+        assert len(REGISTERED_COMPONENTS) == 64
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE5_COMPONENTS)
@@ -491,8 +492,8 @@ class TestRegistryLookups:
         assert len(r.by_family(ComponentFamily.CTA)) == 4
         assert len(r.by_family(ComponentFamily.FORM)) == 5
         # content family = 1 Wave 4 (content.description.business) + 1
-        # Wave 5 (content.faq.standard) = 2.
-        assert len(r.by_family(ComponentFamily.CONTENT)) == 2
+        # Wave 5 (content.faq.standard) + 5 Wave 6 (§27.7) = 7.
+        assert len(r.by_family(ComponentFamily.CONTENT)) == 7
 
     def test_candidates_for_business_profile_includes_wave5_components(self):
         r = build_default_registry()

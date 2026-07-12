@@ -10,7 +10,14 @@ definitions. The §3.2 selection scoring tables and CTA label/action table
 support the selection and conversion waves (002D/002F) and are deferred
 there, not authored in 002A. The selection scoring tables landed in 002D;
 the CTA label/action-class table and the §16.5 friction-budget constants
-land in 002F, at the end of this module.
+land in 002F; the §5.9 SEO local-links block ceilings and the five
+secondary-role recipe tables (editorial-guide, collection, service-area,
+verification, regional-hub — closing §26's bounded deferral, §34.2) land in
+002G, at the end of this module. Per the AES-WEB-002G preflight's
+Ambiguity Register (AMB-002G-02, operator-approved): 002G does not modify
+HOME_RECIPE_SLOTS, CATEGORY_RECIPE_SLOTS, or BUSINESS_PROFILE_RECIPE_SLOTS
+above, and does not remove any _UNBUILT_FAMILY_SENTINEL entry from them —
+that integration remains deferred to the later recipe-integration phase.
 """
 
 # ---------------------------------------------------------------------------
@@ -660,3 +667,361 @@ FORM_FRICTION_BUDGET_CLAIM_STEP_ONE_MAX_FIELDS = 5
 FORM_FRICTION_BUDGET_CORRECTION_MAX_FIELDS = 5
 FORM_FRICTION_BUDGET_SPONSOR_INQUIRY_MAX_FIELDS = 6
 FORM_FRICTION_BUDGET_MAX_REQUIRED_FIELDS = 4
+
+# ---------------------------------------------------------------------------
+# SEO local-links block ceilings (AES-WEB-002G; AES-WEB-002 §5.9, §9.2)
+# ---------------------------------------------------------------------------
+#
+# §5.9: "link stuffing beyond constants-declared per-block ceilings
+# (default: 24 links per block, <=2 blocks per page)." Declared here as
+# data (name + default only, per §25's closing rule); enforcement is gate
+# work (CG-SEO-004, AES-WEB-002I). SEO_LOCAL_LINKS_MAX_PER_BLOCK is consumed
+# directly by both seo.local-links.* components' slot ``max_count``
+# (catalog/seo_editorial.py); SEO_LOCAL_LINKS_MAX_BLOCKS_PER_PAGE is a
+# page-level/recipe-level ceiling with no single-component home (mirrors
+# CTA_PRIMARY_GOAL_MAX_REPETITIONS_PER_PAGE's page-level-constant pattern
+# above), declared here for the eventual gate/recipe consumer.
+SEO_LOCAL_LINKS_MAX_PER_BLOCK = 24
+SEO_LOCAL_LINKS_MAX_BLOCKS_PER_PAGE = 2
+
+# ---------------------------------------------------------------------------
+# Secondary recipe slot tables (AES-WEB-002G; AES-WEB-002 §6.1, §26 closing
+# note, §34.2 bounded deferral)
+# ---------------------------------------------------------------------------
+#
+# §26's closing note: "(editorial-guide, collection, service-area,
+# verification, regional-hub recipes derive from §6.1 rows using the same
+# frame; their full recipe tables are authored in AES-WEB-002G/H phase
+# deliveries under this section's rules — recorded as a bounded deferral in
+# §34.2.)" §31's AES-WEB-002G entry places authorship of all five tables in
+# this wave, "closing §26's bounded deferral." No §26 prose subsection
+# exists for these five roles (unlike home/category/business-profile before
+# them) — each table below is derived directly from its own §6.1 matrix row
+# plus the implicit common frame (§26 preamble: skip link -> header ->
+# breadcrumb -> [recipe body] -> footer, not repeated as slots here).
+#
+# Modeling rule applied uniformly below (documented, not guessed, exactly
+# the discipline the catalog modules use for under-determined table cells):
+#   - A §6.1 cell with no descriptive text ("O"/"F" alone) is not modeled
+#     as a slot at all -- inventing a specific purpose for an undescribed
+#     cell would fabricate scope the authority does not state.
+#   - A descriptive cell with a genuinely real, role-matching Wave 1-6
+#     candidate (checked against that candidate's actual declared
+#     supported_page_roles and required_props/required_content_slots, not
+#     assumed) binds to that candidate's real prop/slot names.
+#   - A required ("R") cell with no real candidate gets a guaranteed-
+#     satisfiable Wave 1/2 fallback (required=True, fallback_component_id
+#     set, honest required_slot_names/required_prop_names describing the
+#     eventually-intended shape) -- the same treatment HOME_RECIPE_SLOTS's
+#     own "hero" slot already uses.
+#   - A required ("R") cell whose only plausible candidate is a Wave 7
+#     family (monetization.*/status.*/legal.statement.*) does NOT get a
+#     generic Wave 1/2 fallback forced into a status/legal-shaped slot;
+#     it is modeled required=False with the _UNBUILT_FAMILY_SENTINEL,
+#     exactly mirroring BUSINESS_PROFILE_RECIPE_SLOTS's own
+#     "unavailable_state" slot precedent (also a §6.1 "R" cell, also
+#     modeled required=False pending its dependency wave).
+#   - An optional/recommended cell with no real candidate is sentinel-gated
+#     (content-slot-filtered slots) or left with plain honest
+#     required_prop_names and no sentinel (prop-filtered slots, where
+#     §14.2 step 1's role filter alone already excludes every
+#     non-role-matching candidate before slot-signature checking runs).
+#
+# Per the AES-WEB-002G preflight's Ambiguity Register (AMB-002G-02,
+# operator-approved): this section is strictly additive. It does not touch
+# HOME_RECIPE_SLOTS, CATEGORY_RECIPE_SLOTS, or BUSINESS_PROFILE_RECIPE_SLOTS
+# above, including the _UNBUILT_FAMILY_SENTINEL slots those tables already
+# carry for content.*/seo.* dependencies this wave happens to ship
+# (HOME_RECIPE_SLOTS's "editorial_resources", CATEGORY_RECIPE_SLOTS's
+# "related_categories_cities") -- that integration remains deferred to the
+# later recipe-integration phase.
+
+EDITORIAL_GUIDE_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "editorial-guide",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R editorial hero" -- no hero.* covers editorial-guide
+    },
+    {
+        "slot_id": "embedded_listings",
+        "page_role": "editorial-guide",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O embedded listings" -- no listing.* covers editorial-guide (role filter drops it)
+    },
+    {
+        "slot_id": "author_source_disclosure",
+        "page_role": "editorial-guide",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("disclosure",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R author/source disclosure" -- legal.statement.standard is Wave 7; no trust.* covers editorial-guide
+    },
+    {
+        "slot_id": "contextual_cta",
+        "page_role": "editorial-guide",
+        "purpose": "",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O contextual" -- no cta.* covers editorial-guide
+    },
+    {
+        "slot_id": "related_guides_categories",
+        "page_role": "editorial-guide",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        # Real candidate: content.resources.grid (this wave) -- its own
+        # §27.7 roles include editorial-guide and its "Internal-link
+        # support" note fits "related guides + categories" directly.
+        "required_slot_names": ("resources",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §6.1 "R related guides + categories"
+    },
+)
+
+COLLECTION_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "collection",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R collection hero" -- no hero.* covers collection
+    },
+    {
+        "slot_id": "collection_cards",
+        "page_role": "collection",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        # Real candidate: listing.card.standard (§27.5) -- its own roles
+        # explicitly include "collection".
+        "required_prop_names": ("listing_ref", "density"),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §6.1 "R collection cards"
+    },
+    {
+        "slot_id": "empty_state",
+        "page_role": "collection",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R empty state" -- status.results.zero (Wave 3) does not cover collection; modeled required=False pending recipe-integration, mirroring BUSINESS_PROFILE_RECIPE_SLOTS's unavailable_state
+    },
+)
+
+SERVICE_AREA_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "service-area",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        # Real candidate: hero.local.standard (§27.4) -- its own roles
+        # explicitly include "service-area".
+        "required_prop_names": ("context_role",),
+        "required_slot_names": ("h1", "intro"),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R local hero"
+    },
+    {
+        "slot_id": "providers_serving_area",
+        "page_role": "service-area",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §6.1 "R providers serving area" -- no listing.* covers service-area
+    },
+    {
+        "slot_id": "quote_cta",
+        "page_role": "service-area",
+        "purpose": "COLLECT_LEAD",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "REC quote" -- no form.*/cta.* covers service-area
+    },
+    {
+        "slot_id": "area_parent_links",
+        "page_role": "service-area",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("area_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §6.1 "R area + parent links" -- seo.local-links.* (this wave) does not declare service-area in its §27.7-authorized role list
+    },
+    {
+        "slot_id": "zero_results",
+        "page_role": "service-area",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R zero-results" -- status.results.zero (Wave 3) does not cover service-area; modeled required=False pending recipe-integration
+    },
+)
+
+VERIFICATION_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "verification",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R minimal hero" -- no hero.* covers verification
+    },
+    {
+        "slot_id": "listing_summary",
+        "page_role": "verification",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.card.shell",
+        "required": True,  # §6.1 "R listing summary" -- no listing.* covers verification
+    },
+    {
+        "slot_id": "verification_methodology",
+        "page_role": "verification",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("methodology",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R verification methodology" -- no trust.* covers verification
+    },
+    {
+        "slot_id": "verify_cta",
+        "page_role": "verification",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("label",),
+        "monetization_eligible": False,
+        "fallback_component_id": "atom.button.action",
+        "required": True,  # §6.1 "R verify CTA" -- no cta.* covers verification; ConversionGoal has no VERIFY member (§16.2), so no conversion_contract goal is asserted here
+    },
+    {
+        "slot_id": "pending_state",
+        "page_role": "verification",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R pending state" -- status.listing.pending is Wave 7 (§27.8); modeled required=False pending recipe-integration
+    },
+)
+
+REGIONAL_HUB_RECIPE_SLOTS = (
+    {
+        "slot_id": "hero",
+        "page_role": "regional-hub",
+        "purpose": "COMMUNICATE_VALUE",
+        "required_region": "HERO",
+        "required_prop_names": (),
+        "required_slot_names": ("h1",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,  # §6.1 "R regional hero" -- no hero.* covers regional-hub
+    },
+    {
+        "slot_id": "region_navigator",
+        "page_role": "regional-hub",
+        "purpose": "SUPPORT_DISCOVERY",
+        "required_region": "",
+        # Real candidate: directory.locations.grid (§27.4) -- its own
+        # roles explicitly include "regional-hub".
+        "required_prop_names": ("location_source_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.grid.standard",
+        "required": True,  # §6.1 "R region navigator"
+    },
+    {
+        "slot_id": "top_listings_per_region",
+        "page_role": "regional-hub",
+        "purpose": "EXPOSE_INVENTORY",
+        "required_region": "",
+        "required_prop_names": ("listing_ref",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "REC top listings per child region" -- no listing.* covers regional-hub (role filter drops it)
+    },
+    {
+        "slot_id": "regional_statistics",
+        "page_role": "regional-hub",
+        "purpose": "ESTABLISH_TRUST",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "O regional statistics" -- no trust.* covers regional-hub
+    },
+    {
+        "slot_id": "child_region_links",
+        "page_role": "regional-hub",
+        "purpose": "STRENGTHEN_INTERNAL_LINKING",
+        "required_region": "",
+        "required_prop_names": (),
+        # Real candidate: seo.local-links.cities (this wave) -- its own
+        # §27.7 roles explicitly include "regional-hub".
+        "required_slot_names": ("city_links",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.stack.standard",
+        "required": True,  # §6.1 "R child-region link grids"
+    },
+    {
+        "slot_id": "sparse_region_state",
+        "page_role": "regional-hub",
+        "purpose": "SYSTEM_STATUS",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,  # §6.1 "R sparse-region state" -- status.results.zero (Wave 3) does not cover regional-hub; modeled required=False pending recipe-integration
+    },
+)
