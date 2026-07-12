@@ -18,30 +18,33 @@ https://github.com/jfields80/atlas-dashboard
 
 Current completed milestone:
 
-**AES-WEB-002B — Website Generation Engine, Wave 1 component catalog**
+**AES-WEB-002D — Website Generation Engine, Wave 3 directory-discovery
+catalog + the production §14.2 selection pipeline**
 
-Progress to date (Website Generation Engine): AES-WEB-001 Phase 1 → amendments
-A1–A4 (v1.1.0) → AES-WEB-002A (contracts + registry foundation) →
-AES-WEB-002B (Wave 1: 15 layout/atom component definitions registered).
-AES-DEP-001 (dependency baseline) and AES-REPO-001 (docs/patches
-reorganization) are also complete. See `docs/architecture/authorities/` for
-the governing architecture and `patches/` for the integration patches
-covering this work (not yet merged to `main` — see Integration Patches
-below).
+Progress to date (Website Generation Engine): AES-WEB-001 Phase 1 →
+amendments A1–A4 (v1.1.0) → AES-WEB-002A (contracts + registry foundation)
+→ AES-WEB-002B (Wave 1: 15 layout/atom primitives) → AES-WEB-002C (Wave 2:
+8 navigation/legal/status components) → AES-WEB-002D (Wave 3: 9
+hero/directory/status.results.zero components, plus the amendment-A4
+provisional `listing.card.standard`, plus the production component-
+selection pipeline resolving the home/category recipes for real). AES-DEP-001
+(dependency baseline) is also complete and merged. See `docs/` for the
+governing architecture documents (`AES-WEB-001_Implementation_Architecture.md`,
+`AES-WEB-002 — Commercial Component System Architecture (1).md`,
+`website_generation_engine_architecture (2).md`, and the navigation-only
+`Atlas Website Generation Architecture Index.md`) — all prior sprints'
+patches have already been integrated into `main`; there is no pending
+`patches/` directory.
 
 Regression Status (verified baseline, pydantic 1.10.x + Flask):
 
-- `python -m pytest tests/website_generation/ -q` → 254 passed
-- `python -m pytest tests/ -q` → 1290 passed, exit 0
+- `python -m pytest tests/website_generation/ -q` → 469 passed
+- `python -m pytest tests/ -q` → 1514 passed, exit 0
 - `python -m compileall engines/website_generation` → clean
 
-Latest milestone commit (on `main`):
+Latest milestone commit (on `main` at the start of the AES-WEB-002D session):
 
-fafde52 — AES-WEB-001 Phase 1: contracts, spine, and golden skeleton
-
-Work since that commit (A1–A4 through AES-REPO-001) lives as uncommitted
-work / integration patches in `patches/` pending operator integration — see
-Integration Patches below for the exact apply order.
+7038ee7 — Integrate dependency baseline and WGE catalog waves 002B-002C
 
 ---
 
@@ -135,13 +138,15 @@ constraints, and the Pydantic-v1 rationale are in
 
 # Architecture Documentation
 
-**`docs/architecture/authorities/` is the canonical source** for the
-Website Generation Engine architecture documents:
+**`docs/` is the canonical source** for the Website Generation Engine
+architecture documents (there is no `docs/architecture/authorities/`
+subdirectory in this repository — the authority documents live directly
+under `docs/`):
 
 - `AES-WEB-001_Implementation_Architecture.md` — pipeline implementation authority
-- `AES-WEB-002_Commercial_Component_System_Architecture.md` — component-system authority
-- `website_generation_engine_architecture.md` — Master Blueprint (intent authority)
-- `Atlas_Website_Generation_Architecture_Index.md` — navigation aid ONLY (zero normative force)
+- `AES-WEB-002 — Commercial Component System Architecture (1).md` — component-system authority
+- `website_generation_engine_architecture (2).md` — Master Blueprint (intent authority)
+- `Atlas Website Generation Architecture Index.md` — navigation aid ONLY (zero normative force)
 
 Authority precedence (conflict rule): **Blueprint intent > AES-WEB-001 >
 AES-WEB-002 > implementation tasks.** The Index never overrides an
@@ -152,26 +157,21 @@ Architecture Decision Records live in `docs/architecture/decisions/`
 ComponentFamily set). Cite the source authority section (not the Index)
 when making architecture-sensitive changes.
 
-Repository layout reference: `docs/development/repository_layout.md`.
+Do not move, rename, reorganize, or rewrite these authority documents;
+correct only clearly stale paths/status prose elsewhere (e.g. in this file)
+when they conflict with the actual repository layout.
 
 ---
 
-# Integration Patches
+# Integration History
 
-Sprint deliverables awaiting integration are stored in `patches/` as
-sequentially numbered git patches (`0001-…` through `0005-…`). New patches
-continue the numbering (next: `0006`). Apply order on a fresh clone of
-`main` (Phase 1, commit `fafde52`):
-
-1. `0003-AES-DEP-001-dependency-baseline.patch` (`git apply`)
-2. `0001-AES-WEB-001-v1.1.0-apply-amendments-A1-A4.patch` (`git am`)
-3. `0002-AES-WEB-002A-contracts-registry-selection-skeleton.patch` (`git apply`)
-4. `0004-AES-WEB-002B-component-catalog-foundation.patch` (`git apply`)
-5. `0005-AES-REVIEW-001A-pre-002C-repairs.patch` (`git apply`)
-
-After the stack: `python -m pytest tests/ -q` must exit 0 (verified: 1290+
-passed on the pre-0005 stack; see the report for each patch under
-`docs/architecture/` history for exact counts).
+Earlier sprints (A1–A4 amendments, AES-DEP-001 dependency baseline,
+AES-WEB-002A/B/C) were staged as sequentially numbered git patches under a
+`patches/` directory; all of that work has since been integrated into
+`main` (see the "Current Status" commit above), and `patches/` no longer
+exists in the repository. New sprint work is developed directly against
+`main` per the branch/workflow instructions given for that session — there
+is no standing patch-staging step to repeat.
 
 ---
 
@@ -221,17 +221,25 @@ Do not redesign or rewrite AES-005A unless explicitly instructed.
 
 # Current Development Phase
 
-Next planned work: **AES-WEB-002C** (the next AES-WEB-002 catalog wave),
-per the wave plan in `docs/architecture/authorities/
-AES-WEB-002_Commercial_Component_System_Architecture.md` §31 and the
-roadmap map in `Atlas_Website_Generation_Architecture_Index.md`. Do not
-begin AES-WEB-002C or any later wave without explicit operator instruction.
+Next planned work: **AES-WEB-002E** (Wave 4 — Listing and Profile, §27.5),
+per the wave plan in `docs/AES-WEB-002 — Commercial Component System
+Architecture (1).md` §31 and the roadmap map in `docs/Atlas Website
+Generation Architecture Index.md`. AES-WEB-002D registered exactly one
+provisional Wave 4 component ahead of schedule (`listing.card.standard`,
+per amendment A4 — see `catalog/listings_profiles.py`'s module docstring);
+002E is responsible for the rest of the 12-component Wave 4 inventory
+(`listing.card.featured`, `listing.card.sponsored`, `listing.row.compact`,
+the `profile.*` family, `content.description.business`) plus their
+emitters and fixtures. Do not begin AES-WEB-002E or any later wave without
+explicit operator instruction.
 
 Before writing any code:
 
-1. Inspect the repository (including `patches/` for unintegrated prior work).
+1. Inspect the repository for prior work (`git log`, existing
+   `engines/website_generation/` packages — there is no `patches/`
+   directory to check; all prior sprints are already merged to `main`).
 2. Read the exact authority section(s) governing the requested scope from
-   `docs/architecture/authorities/` — never rely on a summary.
+   `docs/` — never rely on a summary.
 3. Review current interfaces (`engines/website_generation/contracts/`,
    `engines/website_generation/components/registry.py`).
 4. Propose the implementation plan.

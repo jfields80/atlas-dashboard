@@ -130,3 +130,10 @@ class ComponentNotFoundError(ComponentSystemError):
 class InvalidCompatibilityDeclarationError(ComponentSystemError):
     """A ``compatibility_range`` declares an unknown axis or malformed range
     (AES-WEB-002 §22.1)."""
+
+
+class ComponentResolutionError(ComponentSystemError):
+    """A required recipe slot could not be filled, even by its declared
+    fallback (AES-WEB-002 §14.2 step 9). Diagnostics name the slot, every
+    candidate considered, and the filter that eliminated each one —
+    selection never silently drops a required slot."""

@@ -120,10 +120,17 @@ class TestNoProductionSelection:
             assert candidate.score_components == ()
             assert candidate.eliminated_by == ""
 
-    def test_selection_module_imports_contracts_only(self):
-        # Import-matrix compliance (§29.2): the selection skeleton depends
-        # only on contracts/ (plus stdlib) — no rendering/gates/registry/
-        # scoring-table imports.
+    def test_selection_module_respects_authorized_import_matrix(self):
+        # Import-matrix compliance (§29.2). AES-WEB-002A's skeleton alone
+        # depended only on contracts/; AES-WEB-002D added the production
+        # §14.2 pipeline (ComponentSelector) to the same file (selector.py
+        # is the file §29.1 assigns to "the §14 pipeline"), which legitimately
+        # needs constants/ (scoring tables, filter IDs) and components/
+        # (the compatibility range evaluator, read-only per §29.2's
+        # authorized "selection: {contracts, constants, components}" matrix
+        # — the same matrix test_import_audit.py enforces repo-wide). This
+        # test now asserts selector.py stays inside that matrix, not the
+        # narrower 002A-only contracts-only constraint.
         path = (
             Path(__file__).resolve().parents[3]
             / "engines"
@@ -139,7 +146,12 @@ class TestNoProductionSelection:
                 if node.module.startswith("engines.website_generation"):
                     wge_imports.append(node.module)
         assert wge_imports, "expected some intra-package imports"
+        allowed_prefixes = (
+            "engines.website_generation.contracts",
+            "engines.website_generation.constants",
+            "engines.website_generation.components",
+        )
         for module in wge_imports:
-            assert module.startswith("engines.website_generation.contracts"), (
-                "selection skeleton imports non-contracts module %r" % module
+            assert module.startswith(allowed_prefixes), (
+                "selector.py imports out-of-matrix module %r" % module
             )

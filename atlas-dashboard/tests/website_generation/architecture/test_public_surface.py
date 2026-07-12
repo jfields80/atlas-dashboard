@@ -244,16 +244,22 @@ class TestAuthorizedPackageTree:
         assert not (base / "gates").exists(), "gates/ is a later wave (002I)"
 
     def test_catalog_wave_modules_exist(self):
-        # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B) and
-        # navigation.py (Wave 2, 002C). Later waves (discovery,
-        # listings_profiles, trust_conversion, seo_editorial,
-        # monetization_status) remain unauthorized until their own wave.
+        # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),
+        # navigation.py (Wave 2, 002C), discovery.py (Wave 3, 002D).
+        # listings_profiles.py exists early per amendment A4 (§34.3-A4) as a
+        # PROVISIONAL exception carrying exactly one component
+        # (listing.card.standard) — it is not the AES-WEB-002E Wave 4
+        # delivery; test_catalog_listing_provisional.py asserts that scope
+        # discipline. trust_conversion.py, seo_editorial.py, and
+        # monetization_status.py remain unauthorized until their own wave.
         base = REPO_ROOT / "engines" / "website_generation" / "components" / "catalog"
-        for relative in ("layout_atoms.py", "navigation.py"):
+        for relative in (
+            "layout_atoms.py", "navigation.py", "discovery.py",
+            "listings_profiles.py",
+        ):
             assert (base / relative).is_file(), relative
         for later_wave in (
-            "discovery.py", "listings_profiles.py", "trust_conversion.py",
-            "seo_editorial.py", "monetization_status.py",
+            "trust_conversion.py", "seo_editorial.py", "monetization_status.py",
         ):
             assert not (base / later_wave).exists(), later_wave
 

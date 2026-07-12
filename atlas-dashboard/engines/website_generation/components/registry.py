@@ -520,16 +520,41 @@ class ComponentRegistry(ComponentRegistryView):
 #
 # AES-WEB-002B populated Wave 1 (§27.2: the fifteen layout/atom foundation
 # primitives). AES-WEB-002C appends Wave 2 (§27.3: the eight navigation/
-# legal/status components). Later waves append their family modules here.
+# legal/status components). AES-WEB-002D appends Wave 3 (§27.4: the nine
+# hero/directory/status.results.zero discovery components) plus, per
+# amendment A4, exactly one provisional Wave 4 component
+# (listing.card.standard — see catalog/listings_profiles.py). Later waves
+# append their family modules here.
+#
+# Each wave module's own WAVE*_COMPONENTS tuple is internally lexicographic
+# (§15.2, asserted per-wave by each test_catalog_waveN.py), but simple
+# concatenation across waves is NOT globally lexicographic in general — Wave
+# 1 (atom.*/layout.*) and Wave 2 (legal.*/nav.*/status.*) happened to
+# concatenate correctly only because every Wave-1 family segment sorts
+# before every Wave-2 one; Wave 3's directory.*/hero.* segments sort between
+# them. The final tuple is therefore explicitly re-sorted here so the §15.2
+# ordering law holds regardless of which family segments future waves add.
 from engines.website_generation.components.catalog.layout_atoms import (
     WAVE1_COMPONENTS,
 )
 from engines.website_generation.components.catalog.navigation import (
     WAVE2_COMPONENTS,
 )
+from engines.website_generation.components.catalog.discovery import (
+    WAVE3_COMPONENTS,
+)
+from engines.website_generation.components.catalog.listings_profiles import (
+    PROVISIONAL_WAVE4_COMPONENTS,
+)
 
-REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = (
-    WAVE1_COMPONENTS + WAVE2_COMPONENTS
+REGISTERED_COMPONENTS: Tuple[ComponentDefinition, ...] = tuple(
+    sorted(
+        WAVE1_COMPONENTS
+        + WAVE2_COMPONENTS
+        + WAVE3_COMPONENTS
+        + PROVISIONAL_WAVE4_COMPONENTS,
+        key=lambda d: d.component_id,
+    )
 )
 
 

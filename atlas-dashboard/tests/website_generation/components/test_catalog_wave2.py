@@ -79,7 +79,10 @@ class TestCatalogCompleteness:
 
     def test_exact_catalog_count(self):
         assert len(WAVE2_COMPONENTS) == 8  # §27.3 "Navigation and shell (8)"
-        assert len(REGISTERED_COMPONENTS) == 23  # Wave 1 (15) + Wave 2 (8)
+        # Wave 1 (15) + Wave 2 (8) + Wave 3 (9) + provisional (1) = 33; the
+        # exact Wave 3 / provisional inventory is asserted in their own
+        # test_catalog_wave3.py / test_catalog_listing_provisional.py.
+        assert len(REGISTERED_COMPONENTS) == 33
 
     def test_exact_versions(self):
         assert all(d.component_version == "1.0.0" for d in WAVE2_COMPONENTS)
@@ -388,7 +391,9 @@ class TestRegistryLookups:
         r = build_default_registry()
         assert len(r.by_family(ComponentFamily.NAV)) == 6
         assert len(r.by_family(ComponentFamily.LEGAL)) == 1
-        assert len(r.by_family(ComponentFamily.STATUS)) == 1
+        # STATUS now holds Wave 2's status.banner.notification plus Wave 3's
+        # status.results.zero (§27.4) = 2.
+        assert len(r.by_family(ComponentFamily.STATUS)) == 2
 
     def test_candidates_for_home_includes_wave2_universal_components(self):
         r = build_default_registry()
@@ -411,9 +416,12 @@ class TestRegistryLookups:
 
     def test_full_catalog_candidates_for_home_count(self):
         # 12 Wave-1 HOME candidates + 6 Wave-2 HOME candidates (all but
-        # breadcrumbs and pagination) = 18.
+        # breadcrumbs and pagination) + 4 Wave-3 HOME candidates
+        # (hero.search.directory, directory.search.primary,
+        # directory.categories.grid, directory.locations.grid) + 1
+        # provisional (listing.card.standard) = 23.
         r = build_default_registry()
-        assert len(r.candidates_for(PageRole.HOME)) == 18
+        assert len(r.candidates_for(PageRole.HOME)) == 23
 
     def test_variant_resolution(self):
         r = build_default_registry()
