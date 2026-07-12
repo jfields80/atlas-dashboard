@@ -14,6 +14,11 @@ current version is 1.1.0, and both 1.0.0 (the field-less
 :class:`ComponentManifestV1`) and 1.1.0 stay registered so pre-amendment
 manifests remain replayable. No migration is required (additive optional
 field — old readers still parse).
+
+AES-WEB-002J.2 (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2) adds the
+analogous additive-minor ``BrandPackage`` schema 1.1.0 (``radius_scale``,
+``extended_tokens``, ``contrast_evidence``): both 1.0.0 (the field-less
+:class:`BrandPackageV1`) and 1.1.0 stay registered, again with no migration.
 """
 
 from __future__ import annotations
@@ -23,6 +28,7 @@ from typing import Dict, Tuple, Type
 from engines.website_generation.contracts.artifacts import (
     ArtifactHeader,
     BrandPackage,
+    BrandPackageV1,
     BuildManifest,
     BusinessSpec,
     ComponentManifest,
@@ -45,7 +51,9 @@ from engines.website_generation.contracts.errors import (
 # Current schema version per artifact kind (AES-WEB-001 v1.0.0 catalog).
 SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     ArtifactKind.BUSINESS_SPEC: "1.0.0",
-    ArtifactKind.BRAND_PACKAGE: "1.0.0",
+    # AES-WEB-002J.2: additive-minor bump to 1.1.0 (radius_scale,
+    # extended_tokens, contrast_evidence).
+    ArtifactKind.BRAND_PACKAGE: "1.1.0",
     ArtifactKind.SITE_ARCHITECTURE: "1.0.0",
     ArtifactKind.CONTENT_CANDIDATE: "1.0.0",
     ArtifactKind.CONTENT_PACKAGE: "1.0.0",
@@ -65,6 +73,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     "business_spec_compiler": "1.0.0",
     "state_machine": "1.0.0",
     "website_generation_pipeline": "1.0.0",
+    # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2): initial
+    # Brand Engine version. Not wired into pipeline execution (§6:
+    # brand_resolution remains NOT_EXECUTED in the BuildManifest).
+    "brand_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
@@ -156,10 +168,12 @@ def registered_schema_versions() -> Dict[ArtifactKind, Tuple[str, ...]]:
 
 # The v1.0.0 baseline: every artifact kind at schema 1.0.0. For
 # ComponentManifest the 1.0.0 shape is the field-less ComponentManifestV1,
-# so pre-amendment manifests remain byte-identical and replayable.
+# so pre-amendment manifests remain byte-identical and replayable. Likewise
+# for BrandPackage: the 1.0.0 shape is the field-less BrandPackageV1
+# (AES-WEB-002J.2).
 _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.BUSINESS_SPEC: BusinessSpec,
-    ArtifactKind.BRAND_PACKAGE: BrandPackage,
+    ArtifactKind.BRAND_PACKAGE: BrandPackageV1,
     ArtifactKind.SITE_ARCHITECTURE: SiteArchitecture,
     ArtifactKind.CONTENT_CANDIDATE: ContentCandidate,
     ArtifactKind.CONTENT_PACKAGE: ContentPackage,
@@ -180,4 +194,11 @@ for _kind, _cls in _V1_0_0_CATALOG.items():
 # alongside 1.0.0 with no migration required (additive optional field).
 register_artifact_model(
     ArtifactKind.COMPONENT_MANIFEST, "1.1.0", ComponentManifest
+)
+
+# AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2): BrandPackage
+# additive-minor schema 1.1.0 carrying radius_scale, extended_tokens, and
+# contrast_evidence. Registered alongside 1.0.0 with no migration required.
+register_artifact_model(
+    ArtifactKind.BRAND_PACKAGE, "1.1.0", BrandPackage
 )

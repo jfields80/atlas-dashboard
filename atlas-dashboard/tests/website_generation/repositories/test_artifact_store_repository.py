@@ -12,6 +12,7 @@ import json
 import pytest
 
 from engines.website_generation import (
+    SCHEMA_VERSIONS,
     ArtifactKind,
     ArtifactIntegrityError,
     ArtifactNotFoundError,
@@ -118,7 +119,7 @@ class TestIntegrity:
 class TestSourceHashVerification:
     def test_missing_source_hash_rejected(self, store):
         orphan = BrandPackage(
-            schema_version="1.0.0",
+            schema_version=SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE],
             artifact_kind=ArtifactKind.BRAND_PACKAGE,
             source_hashes={"business_spec": "c" * 64},  # not in store
         )
@@ -131,7 +132,7 @@ class TestSourceHashVerification:
     def test_resolvable_source_hash_accepted(self, store):
         spec_hash = store.put(_spec())
         brand = BrandPackage(
-            schema_version="1.0.0",
+            schema_version=SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE],
             artifact_kind=ArtifactKind.BRAND_PACKAGE,
             source_hashes={"business_spec": spec_hash},
         )

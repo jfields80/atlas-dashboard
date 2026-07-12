@@ -72,6 +72,27 @@ class SpecCompilationError(WebsiteGenerationError):
         self.missing_fields: Tuple[str, ...] = tuple(missing_fields)
 
 
+class BrandResolutionError(WebsiteGenerationError):
+    """BrandEngine resolution failed (AES-WEB-001 §5.2 / Part 2 / Phase 2).
+
+    Batch-reports every validation or contrast failure at once via
+    ``diagnostics`` — never first-failure-only (mirrors
+    SpecCompilationError's batch-reporting discipline, §5.1). Deterministic:
+    retryable only if the input BusinessSpec itself changes, so this is
+    never retryable on its own (§5.2 "retryable only if inputs change").
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "brand_resolution",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )
+
+
 class IllegalTransitionError(WebsiteGenerationError):
     """A state transition not present in the static transition table (§6.2)."""
 

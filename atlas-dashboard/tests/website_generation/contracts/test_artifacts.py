@@ -21,6 +21,7 @@ from engines.website_generation import (
     ComponentManifest,
     ContentCandidate,
     ContentPackage,
+    ContrastEvidence,
     LayoutPlan,
     QualityReport,
     RenderedPageSet,
@@ -40,7 +41,10 @@ from engines.website_generation import (
     registered_schema_versions,
 )
 from engines.website_generation.contracts.artifacts import (
+    ArtifactCanonicalizationError,
+    BrandPackageV1,
     ComponentManifestV1,
+    model_to_dict,
 )
 from engines.website_generation.contracts.versions import (
     register_artifact_model,
@@ -74,21 +78,27 @@ class TestCatalogRegistration:
             assert model_cls is not None
 
     def test_schema_versions_map_covers_every_kind(self):
-        # Amendment A1: ComponentManifest current schema is 1.1.0; every
-        # other kind remains 1.0.0.
+        # Amendment A1: ComponentManifest current schema is 1.1.0.
+        # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2): BrandPackage current
+        # schema is likewise 1.1.0 (additive radius_scale/extended_tokens/
+        # contrast_evidence). Every other kind remains 1.0.0.
         assert set(SCHEMA_VERSIONS) == set(ALL_KINDS)
         assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE] == "1.1.0"
+        _minor_bumped = (ArtifactKind.COMPONENT_MANIFEST, ArtifactKind.BRAND_PACKAGE)
         for kind in ALL_KINDS:
-            if kind is ArtifactKind.COMPONENT_MANIFEST:
+            if kind in _minor_bumped:
                 continue
             assert SCHEMA_VERSIONS[kind] == "1.0.0"
 
     def test_registered_schema_versions_projection(self):
         versions = registered_schema_versions()
         assert set(versions) == set(ALL_KINDS)
+        _minor_bumped = (ArtifactKind.COMPONENT_MANIFEST, ArtifactKind.BRAND_PACKAGE)
         for kind in ALL_KINDS:
-            if kind is ArtifactKind.COMPONENT_MANIFEST:
-                # A1: both 1.0.0 (field-less) and 1.1.0 stay registered.
+            if kind in _minor_bumped:
+                # A1 / AES-WEB-002J.2: both 1.0.0 (field-less) and 1.1.0
+                # stay registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -244,6 +254,123 @@ class TestComponentManifestSelectionTrace:
         # canonical serializer.
         component = SelectionScoreComponent(factor="preferred", points=100)
         assert isinstance(component.points, int)
+
+
+def _make_brand_package(schema_version="1.1.0", **overrides) -> BrandPackage:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.BRAND_PACKAGE,
+        source_hashes={},
+        palette={"color.text.default": "#23312a"},
+        type_scale={"typography.body.default": "400 16px/1.5 sans-serif"},
+        spacing_scale={"spacing.stack.default": "16px"},
+        voice_profile="deterministic voice",
+        asset_hashes={},
+        radius_scale={"radius.card": "10px"},
+        extended_tokens={"breakpoint.sm": "640px"},
+        contrast_evidence=(
+            ContrastEvidence(
+                foreground_token="color.text.default",
+                background_token="color.surface.page",
+                contrast_ratio_hundredths=1271,
+                required_hundredths=450,
+                passed=True,
+            ),
+        ),
+    )
+    fields.update(overrides)
+    return BrandPackage(**fields)
+
+
+class TestBrandPackageSchema:
+    """AES-WEB-002J.2 — additive-minor BrandPackage schema (AES-WEB-001 §5.2)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.BRAND_PACKAGE, "1.0.0")
+        assert model_cls is BrandPackageV1
+        legacy = BrandPackageV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.BRAND_PACKAGE,
+            source_hashes={},
+        )
+        # 1.0.0 serialization is byte-identical to the pre-Phase-2 shape:
+        # none of the Phase 2 keys exist at all (the canonical serializer
+        # emits None as null, so a field-less 1.0.0 model is required for
+        # replay — same reasoning as ComponentManifestV1).
+        text = canonical_artifact_json(legacy)
+        assert "radius_scale" not in text
+        assert "extended_tokens" not in text
+        assert "contrast_evidence" not in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.BRAND_PACKAGE, "1.1.0")
+        assert model_cls is BrandPackage
+
+    def test_new_fields_default_empty(self):
+        package = BrandPackage(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.BRAND_PACKAGE,
+            source_hashes={},
+        )
+        assert package.radius_scale == {}
+        assert package.extended_tokens == {}
+        assert package.contrast_evidence == ()
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_brand_package()
+        b = _make_brand_package()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_contrast_evidence_changes_hash(self):
+        base = artifact_sha256(_make_brand_package())
+        changed = artifact_sha256(
+            _make_brand_package(
+                contrast_evidence=(
+                    ContrastEvidence(
+                        foreground_token="color.text.default",
+                        background_token="color.surface.page",
+                        contrast_ratio_hundredths=999,
+                        required_hundredths=450,
+                        passed=True,
+                    ),
+                )
+            )
+        )
+        assert base != changed
+
+    def test_unsupported_brand_package_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.BRAND_PACKAGE, "2.0.0")
+
+    def test_brand_package_is_frozen(self):
+        package = _make_brand_package()
+        with pytest.raises(Exception):
+            package.voice_profile = "changed"
+        with pytest.raises(Exception):
+            package.contrast_evidence[0].passed = False
+
+    def test_contrast_evidence_rejects_arbitrary_fields(self):
+        # extra="forbid" on every frozen model (§4.4).
+        with pytest.raises(Exception):
+            ContrastEvidence(
+                foreground_token="color.text.default",
+                background_token="color.surface.page",
+                contrast_ratio_hundredths=1271,
+                required_hundredths=450,
+                passed=True,
+                bogus=1,
+            )
+
+    def test_no_floats_reach_canonical_brand_artifact(self):
+        # The shared canonicalizer (contracts/artifacts.py) actively rejects
+        # floats anywhere in the payload, including the new Phase 2 fields —
+        # not merely "happens not to contain one" (mirrors
+        # TestComponentContracts.test_no_floats_present's injection style).
+        payload = model_to_dict(_make_brand_package())
+        payload["extended_tokens"]["breakpoint.sm"] = 640.0
+        with pytest.raises(ArtifactCanonicalizationError):
+            canonical_json(payload)
 
 
 class TestFrozenBehavior:

@@ -20,6 +20,7 @@ from engines.website_generation.contracts.artifacts import (
     ContentBlock,
     ContentCandidate,
     ContentPackage,
+    ContrastEvidence,
     GateResult,
     LaunchCertificateBody,
     LayoutPlan,
@@ -119,6 +120,7 @@ from engines.website_generation.components import (
     definition_fingerprint,
     validate_definition,
 )
+from engines.website_generation.brand import BrandEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -132,6 +134,9 @@ __all__ = [
     "WebsiteGenerationPipeline",
     "WebsiteGenerationBuildResult",
     "BusinessSpecCompiler",
+    # Brand Engine (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2;
+    # AES-WEB-002J.2). Not wired into pipeline execution.
+    "BrandEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -142,6 +147,7 @@ __all__ = [
     "ContentBlock",
     "ContentCandidate",
     "ContentPackage",
+    "ContrastEvidence",
     "GateResult",
     "LaunchCertificateBody",
     "LayoutPlan",

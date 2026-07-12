@@ -13,6 +13,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, Tuple
 
 from engines.website_generation.contracts.artifacts import (
+    BrandPackage,
     BusinessSpec,
     SpecCompilerInput,
 )
@@ -33,6 +34,15 @@ class SpecCompilerInterface(ABC):
     @abstractmethod
     def compile(self, compiler_input: SpecCompilerInput) -> BusinessSpec:
         """Compile upstream values into a canonical BusinessSpec."""
+        raise NotImplementedError
+
+
+class BrandEngineInterface(ABC):
+    """The Brand Engine's sole entry point (AES-WEB-001 §5.2 / Part 2)."""
+
+    @abstractmethod
+    def resolve(self, spec: BusinessSpec) -> BrandPackage:
+        """Resolve a BusinessSpec into a deterministic BrandPackage."""
         raise NotImplementedError
 
 

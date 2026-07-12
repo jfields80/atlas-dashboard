@@ -40,6 +40,18 @@ declare the field at all, so its serialization and hash are unchanged. The
 Layout Engine ignores the trace. No thirteenth artifact and no independent
 ``SelectionTrace`` artifact are created (both alternatives are rejected in
 §14.3); the trace is an embedded, typed sub-structure only.
+
+BrandPackage token/contrast expansion (AES-WEB-001 §5.2 / Part 2 / Part 13
+Phase 2; internal sequencing label AES-WEB-002J.2)
+--------------------------------------------------------------------------
+``BrandPackage`` gains ``radius_scale``, ``extended_tokens`` (the non-color/
+type/spacing/radius token domains), and ``contrast_evidence`` (pre-computed,
+integer-only WCAG 2.x contrast records). The additive fields move the
+schema from 1.0.0 to 1.1.0 with no migration (old readers still parse). The
+1.0.0 shape is retained byte-for-byte as :class:`BrandPackageV1` for the
+same reason documented above for ``ComponentManifestV1``: the canonical
+serializer never drops a declared field, so a 1.0.0 payload must not
+declare the Phase 2 fields at all.
 """
 
 from __future__ import annotations
@@ -202,13 +214,37 @@ class BusinessSpec(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 2. BrandPackage
+# 2. BrandPackage — schema 1.1.0 with radius/extended tokens and contrast
+# evidence (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2 amendment; internal
+# sequencing label AES-WEB-002J.2)
 # ---------------------------------------------------------------------------
 
-class BrandPackage(ArtifactHeader):
-    """Design tokens and voice profile (§4.1 artifact #2).
+class ContrastEvidence(FrozenModel):
+    """One WCAG 2.x contrast-ratio record embedded in a BrandPackage (§5.2).
 
-    Phase 1 minimal typed payload; full token taxonomy arrives in Phase 2.
+    Stores only pre-computed integer evidence — never a float — so the
+    (future) accessibility gate can verify without recomputing (§5.2, §10.3).
+    ``contrast_ratio_hundredths`` is ``floor(ratio * 100)`` (e.g. ``450``
+    means 4.50:1); ``required_hundredths`` is the sanctioned threshold for
+    this pair (450 for text pairs, 300 for focus/border/UI pairs).
+    """
+
+    foreground_token: str
+    background_token: str
+    contrast_ratio_hundredths: int
+    required_hundredths: int
+    passed: bool
+
+
+class BrandPackageV1(ArtifactHeader):
+    """BrandPackage schema 1.0.0 (pre-Phase-2 shape).
+
+    Retained for replay of packages produced before AES-WEB-002J.2. Carries
+    none of the Phase 2 fields (``radius_scale``, ``extended_tokens``,
+    ``contrast_evidence``), so its canonical serialization and content hash
+    are byte-identical to the original 1.0.0 contract. The current schema is
+    1.1.0 (:class:`BrandPackage`). Internal compatibility model — not part
+    of the public surface.
     """
 
     artifact_kind: ArtifactKind = ArtifactKind.BRAND_PACKAGE
@@ -217,6 +253,27 @@ class BrandPackage(ArtifactHeader):
     spacing_scale: Dict[str, str] = {}
     voice_profile: str = ""
     asset_hashes: Dict[str, str] = {}
+
+
+class BrandPackage(ArtifactHeader):
+    """Design tokens, voice profile, and contrast evidence (§4.1 artifact #2).
+
+    Schema 1.1.0 (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2): additive over
+    the 1.0.0 shape (:class:`BrandPackageV1`) with ``radius_scale``,
+    ``extended_tokens``, and ``contrast_evidence``. No migration required —
+    the fields are additive and old 1.0.0 payloads still load via
+    BrandPackageV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.BRAND_PACKAGE
+    palette: Dict[str, str] = {}
+    type_scale: Dict[str, str] = {}
+    spacing_scale: Dict[str, str] = {}
+    voice_profile: str = ""
+    asset_hashes: Dict[str, str] = {}
+    radius_scale: Dict[str, str] = {}
+    extended_tokens: Dict[str, str] = {}
+    contrast_evidence: Tuple[ContrastEvidence, ...] = ()
 
 
 # ---------------------------------------------------------------------------

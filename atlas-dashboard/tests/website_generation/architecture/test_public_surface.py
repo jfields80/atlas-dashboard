@@ -19,6 +19,9 @@ EXPECTED_PUBLIC_SURFACE = {
     "WebsiteGenerationPipeline",
     "WebsiteGenerationBuildResult",
     "BusinessSpecCompiler",
+    # Brand Engine (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2;
+    # AES-WEB-002J.2). Not wired into pipeline execution.
+    "BrandEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -29,6 +32,7 @@ EXPECTED_PUBLIC_SURFACE = {
     "ContentBlock",
     "ContentCandidate",
     "ContentPackage",
+    "ContrastEvidence",
     "GateResult",
     "LaunchCertificateBody",
     "LayoutPlan",
@@ -148,6 +152,10 @@ class TestPublicSurface:
             # replay, but deliberately internal — the public ComponentManifest
             # is the current (1.1.0) shape.
             "ComponentManifestV1",
+            # AES-WEB-002J.2: same pattern — registered at schema 1.0.0 for
+            # replay, but deliberately internal — the public BrandPackage is
+            # the current (1.1.0) shape.
+            "BrandPackageV1",
         ):
             assert internal not in wge.__all__
 
@@ -193,7 +201,16 @@ class TestAuthorizedPackageTree:
         "gates",       # + checks/ (component/composition/rendering/commercial/responsive)
     }
 
-    AUTHORIZED_PACKAGES = PHASE1_PACKAGES | A3_AUTHORIZED_PACKAGES
+    # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2): the Brand
+    # Engine package, authorized by this delivery only — an operator
+    # decision, not a mechanical consequence of an earlier amendment.
+    J2_AUTHORIZED_PACKAGES = {
+        "brand",
+    }
+
+    AUTHORIZED_PACKAGES = (
+        PHASE1_PACKAGES | A3_AUTHORIZED_PACKAGES | J2_AUTHORIZED_PACKAGES
+    )
 
     def test_phase1_packages_present(self):
         base = REPO_ROOT / "engines" / "website_generation"
@@ -217,10 +234,13 @@ class TestAuthorizedPackageTree:
     def test_unauthorized_engine_packages_still_rejected(self):
         # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
         # and are NOT authorized by this amendment; they must not exist yet.
+        # "brand" is authorized as of AES-WEB-002J.2 (see
+        # J2_AUTHORIZED_PACKAGES above) and is intentionally no longer in
+        # this list.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "brand", "ia", "content", "layouts", "rendering", "seo", "assembly",
+            "ia", "content", "layouts", "rendering", "seo", "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -265,6 +285,20 @@ class TestAuthorizedPackageTree:
         assert not (base / "gates" / "quality_gate_engine.py").exists()
         assert not (base / "gates" / "checks" / "accessibility_checks.py").exists()
         assert not (base / "gates" / "checks" / "seo_checks.py").exists()
+
+    def test_aes_web_002j2_brand_tree_exists(self):
+        # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2) creates
+        # exactly the three authorized brand-package files — no layouts/,
+        # rendering/, assembly/, ia/, content/, seo/, or gates/ additions
+        # (see test_import_audit.py's brand-only import matrix and this
+        # module's J2_AUTHORIZED_PACKAGES comment above).
+        base = REPO_ROOT / "engines" / "website_generation"
+        for relative in (
+            "brand/__init__.py",
+            "brand/brand_engine.py",
+            "brand/token_resolver.py",
+        ):
+            assert (base / relative).is_file(), relative
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),

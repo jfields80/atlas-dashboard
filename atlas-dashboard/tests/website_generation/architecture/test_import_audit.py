@@ -166,10 +166,26 @@ class TestPackageMatrix:
                     "%s has out-of-matrix import %r" % (path, name)
                 )
 
+    def test_brand_imports_contracts_and_constants_only(self):
+        # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2): brand/ may import only
+        # stdlib, contracts/, constants/, and itself (intra-package).
+        brand_dir = PACKAGE_ROOT / "brand"
+        for path in _iter_modules(brand_dir):
+            for name in _imports_of(path):
+                top = _top(name)
+                if top in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                assert sub in {"contracts", "constants", "brand"}, (
+                    "%s has out-of-matrix import %r" % (path, name)
+                )
+
     def test_pipeline_is_the_only_engine_composition_point(self):
         # Only pipeline modules (and the package __init__, which exports
-        # the public surface) may import sibling engine packages.
-        engine_subpackages = {"speccompiler", "pipeline"}
+        # the public surface) may import sibling engine packages. "brand"
+        # is included (AES-WEB-002J.2) so nothing but pipeline/__init__ may
+        # import it and it may not import siblings either.
+        engine_subpackages = {"speccompiler", "pipeline", "brand"}
         for path, imports in _all_engine_imports().items():
             relative = path.relative_to(PACKAGE_ROOT)
             in_pipeline = relative.parts[0] == "pipeline"
