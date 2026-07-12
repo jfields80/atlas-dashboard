@@ -15,6 +15,7 @@ from typing import Optional, Tuple
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     BusinessSpec,
+    SiteArchitecture,
     SpecCompilerInput,
 )
 from engines.website_generation.contracts.components import (
@@ -43,6 +44,17 @@ class BrandEngineInterface(ABC):
     @abstractmethod
     def resolve(self, spec: BusinessSpec) -> BrandPackage:
         """Resolve a BusinessSpec into a deterministic BrandPackage."""
+        raise NotImplementedError
+
+
+class InformationArchitectureEngineInterface(ABC):
+    """The Information Architecture Engine's sole entry point (AES-WEB-001
+    §5.3)."""
+
+    @abstractmethod
+    def plan(self, spec: BusinessSpec, brand: BrandPackage) -> SiteArchitecture:
+        """Plan a deterministic SiteArchitecture from a BusinessSpec and a
+        BrandPackage."""
         raise NotImplementedError
 
 

@@ -52,6 +52,24 @@ schema from 1.0.0 to 1.1.0 with no migration (old readers still parse). The
 same reason documented above for ``ComponentManifestV1``: the canonical
 serializer never drops a declared field, so a 1.0.0 payload must not
 declare the Phase 2 fields at all.
+
+SiteArchitecture hierarchy/topology expansion (AES-WEB-001 §5.3 / Part 2 /
+Part 13 Phase 2; internal sequencing label AES-WEB-002J.3)
+--------------------------------------------------------------------------
+``SiteArchitecture`` gains ``page_ids`` (stable, content-derived page
+identifiers keyed by route), ``page_hierarchy`` (parent/child relationships
+declaring the exactly-one-root page tree), and ``internal_link_topology``
+(deterministic internal-link intent between pages) -- the nav-tree/
+hierarchy/link-topology depth §4.1 artifact #3 and AES-WEB-002 §6.2/§26
+describe as consumed from "SiteArchitecture topology". The additive fields
+move the schema from 1.0.0 to 1.1.0 with no migration (old readers still
+parse); ``PagePlan`` is unchanged and shared byte-for-byte by both schema
+versions. The 1.0.0 shape is retained byte-for-byte as
+:class:`SiteArchitectureV1` for the same reason documented above for
+``ComponentManifestV1``/``BrandPackageV1``: the canonical serializer never
+drops a declared field, so a 1.0.0 payload must not declare the new fields
+at all. The Information Architecture Engine (``engines/website_generation/
+ia/``) is not wired into pipeline execution by this delivery.
 """
 
 from __future__ import annotations
@@ -277,7 +295,9 @@ class BrandPackage(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 3. SiteArchitecture
+# 3. SiteArchitecture — schema 1.1.0 with page ids, hierarchy, and internal-
+# link topology (AES-WEB-001 §5.3 / Part 2 / Part 13 Phase 2 amendment;
+# internal sequencing label AES-WEB-002J.3)
 # ---------------------------------------------------------------------------
 
 class PagePlan(FrozenModel):
@@ -289,13 +309,65 @@ class PagePlan(FrozenModel):
     content_slots: Tuple[str, ...] = ()
 
 
-class SiteArchitecture(ArtifactHeader):
-    """Page inventory, routes, and nav topology (§4.1 artifact #3)."""
+class SiteArchitectureV1(ArtifactHeader):
+    """SiteArchitecture schema 1.0.0 (pre-J.3 shape).
+
+    Retained for replay of packages produced before AES-WEB-002J.3. Carries
+    none of the Phase 2 fields (``page_ids``, ``page_hierarchy``,
+    ``internal_link_topology``), so its canonical serialization and content
+    hash are byte-identical to the original 1.0.0 contract. The current
+    schema is 1.1.0 (:class:`SiteArchitecture`). Internal compatibility
+    model -- not part of the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.SITE_ARCHITECTURE
     pages: Tuple[PagePlan, ...] = ()
     nav_routes: Tuple[str, ...] = ()
     sitemap_routes: Tuple[str, ...] = ()
+
+
+class PageHierarchyEntry(FrozenModel):
+    """One page's position in the site tree (AES-WEB-001 §5.3).
+
+    ``parent_route`` is ``""`` for exactly one page: the root (home) page.
+    Every other page's ``parent_route`` must name another page's ``route``.
+    """
+
+    route: str
+    parent_route: str = ""
+
+
+class InternalLinkIntent(FrozenModel):
+    """Deterministic internal-link intent from one page to others (§4.1
+    artifact #3; AES-WEB-002 §6.2/§26 "from SiteArchitecture topology").
+
+    Structural intent only -- no anchor text, no rendering, no component
+    selection. Every route named here (``from_route`` and every entry of
+    ``to_routes``) must exist among the artifact's ``pages``.
+    """
+
+    from_route: str
+    to_routes: Tuple[str, ...] = ()
+
+
+class SiteArchitecture(ArtifactHeader):
+    """Page inventory, routes, hierarchy, and internal-link topology (§4.1
+    artifact #3). Schema 1.1.0.
+
+    AES-WEB-002J.3 (AES-WEB-001 §5.3 / Part 2 / Part 13 Phase 2): additive
+    over the 1.0.0 shape (:class:`SiteArchitectureV1`) with ``page_ids``,
+    ``page_hierarchy``, and ``internal_link_topology``. No migration
+    required -- the fields are additive and old 1.0.0 payloads still load
+    via SiteArchitectureV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.SITE_ARCHITECTURE
+    pages: Tuple[PagePlan, ...] = ()
+    nav_routes: Tuple[str, ...] = ()
+    sitemap_routes: Tuple[str, ...] = ()
+    page_ids: Dict[str, str] = {}
+    page_hierarchy: Tuple[PageHierarchyEntry, ...] = ()
+    internal_link_topology: Tuple[InternalLinkIntent, ...] = ()
 
 
 # ---------------------------------------------------------------------------

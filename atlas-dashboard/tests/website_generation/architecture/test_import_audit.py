@@ -15,6 +15,10 @@ the two new repositories, asserting the dependency matrix:
 * the new package never imports the legacy engines/website_generator or
   engines/website_intelligence packages.
 
+AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2) adds the analogous ``ia/`` matrix:
+stdlib, ``contracts/``, ``constants/``, and itself only -- no component
+registry, no sibling engine package.
+
 Amendment A3 (AES-WEB-002 §29.1/§29.2, §34.3-A3) additionally authorizes the
 future component-system tree (``components/{catalog,selection,validation,
 compatibility}``, ``gates/checks/`` with its five modules, and
@@ -180,12 +184,28 @@ class TestPackageMatrix:
                     "%s has out-of-matrix import %r" % (path, name)
                 )
 
+    def test_ia_imports_contracts_and_constants_only(self):
+        # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2): ia/ may import only
+        # stdlib, contracts/, constants/, and itself (intra-package) --
+        # never the component registry, never a sibling engine package.
+        ia_dir = PACKAGE_ROOT / "ia"
+        for path in _iter_modules(ia_dir):
+            for name in _imports_of(path):
+                top = _top(name)
+                if top in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                assert sub in {"contracts", "constants", "ia"}, (
+                    "%s has out-of-matrix import %r" % (path, name)
+                )
+
     def test_pipeline_is_the_only_engine_composition_point(self):
         # Only pipeline modules (and the package __init__, which exports
         # the public surface) may import sibling engine packages. "brand"
-        # is included (AES-WEB-002J.2) so nothing but pipeline/__init__ may
-        # import it and it may not import siblings either.
-        engine_subpackages = {"speccompiler", "pipeline", "brand"}
+        # (AES-WEB-002J.2) and "ia" (AES-WEB-002J.3) are included so nothing
+        # but pipeline/__init__ may import them and they may not import
+        # siblings either.
+        engine_subpackages = {"speccompiler", "pipeline", "brand", "ia"}
         for path, imports in _all_engine_imports().items():
             relative = path.relative_to(PACKAGE_ROOT)
             in_pipeline = relative.parts[0] == "pipeline"

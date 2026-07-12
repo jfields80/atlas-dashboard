@@ -19,6 +19,13 @@ AES-WEB-002J.2 (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2) adds the
 analogous additive-minor ``BrandPackage`` schema 1.1.0 (``radius_scale``,
 ``extended_tokens``, ``contrast_evidence``): both 1.0.0 (the field-less
 :class:`BrandPackageV1`) and 1.1.0 stay registered, again with no migration.
+
+AES-WEB-002J.3 (AES-WEB-001 §5.3 / Part 2 / Part 13 Phase 2) adds the
+analogous additive-minor ``SiteArchitecture`` schema 1.1.0 (``page_ids``,
+``page_hierarchy``, ``internal_link_topology``): both 1.0.0 (the
+field-less :class:`SiteArchitectureV1`) and 1.1.0 stay registered, again
+with no migration. The Information Architecture Engine is not wired into
+pipeline execution.
 """
 
 from __future__ import annotations
@@ -40,6 +47,7 @@ from engines.website_generation.contracts.artifacts import (
     RenderedPageSet,
     SEOPackage,
     SiteArchitecture,
+    SiteArchitectureV1,
     SiteBundle,
 )
 from engines.website_generation.contracts.enums import ArtifactKind
@@ -54,7 +62,9 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     # AES-WEB-002J.2: additive-minor bump to 1.1.0 (radius_scale,
     # extended_tokens, contrast_evidence).
     ArtifactKind.BRAND_PACKAGE: "1.1.0",
-    ArtifactKind.SITE_ARCHITECTURE: "1.0.0",
+    # AES-WEB-002J.3: additive-minor bump to 1.1.0 (page_ids,
+    # page_hierarchy, internal_link_topology).
+    ArtifactKind.SITE_ARCHITECTURE: "1.1.0",
     ArtifactKind.CONTENT_CANDIDATE: "1.0.0",
     ArtifactKind.CONTENT_PACKAGE: "1.0.0",
     # Amendment A1: additive-minor bump to 1.1.0 (optional selection_trace).
@@ -77,6 +87,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # Brand Engine version. Not wired into pipeline execution (§6:
     # brand_resolution remains NOT_EXECUTED in the BuildManifest).
     "brand_engine": "1.0.0",
+    # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2): initial
+    # Information Architecture Engine version. Not wired into pipeline
+    # execution (§6: ia_planning remains NOT_EXECUTED in the BuildManifest).
+    "information_architecture_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
@@ -174,7 +188,7 @@ def registered_schema_versions() -> Dict[ArtifactKind, Tuple[str, ...]]:
 _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.BUSINESS_SPEC: BusinessSpec,
     ArtifactKind.BRAND_PACKAGE: BrandPackageV1,
-    ArtifactKind.SITE_ARCHITECTURE: SiteArchitecture,
+    ArtifactKind.SITE_ARCHITECTURE: SiteArchitectureV1,
     ArtifactKind.CONTENT_CANDIDATE: ContentCandidate,
     ArtifactKind.CONTENT_PACKAGE: ContentPackage,
     ArtifactKind.COMPONENT_MANIFEST: ComponentManifestV1,
@@ -201,4 +215,12 @@ register_artifact_model(
 # contrast_evidence. Registered alongside 1.0.0 with no migration required.
 register_artifact_model(
     ArtifactKind.BRAND_PACKAGE, "1.1.0", BrandPackage
+)
+
+# AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2): SiteArchitecture
+# additive-minor schema 1.1.0 carrying page_ids, page_hierarchy, and
+# internal_link_topology. Registered alongside 1.0.0 with no migration
+# required.
+register_artifact_model(
+    ArtifactKind.SITE_ARCHITECTURE, "1.1.0", SiteArchitecture
 )

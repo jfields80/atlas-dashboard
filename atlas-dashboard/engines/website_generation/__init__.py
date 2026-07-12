@@ -22,10 +22,12 @@ from engines.website_generation.contracts.artifacts import (
     ContentPackage,
     ContrastEvidence,
     GateResult,
+    InternalLinkIntent,
     LaunchCertificateBody,
     LayoutPlan,
     LayoutRegion,
     PageComponents,
+    PageHierarchyEntry,
     PageLayout,
     PagePlan,
     QualityReport,
@@ -82,6 +84,7 @@ from engines.website_generation.contracts.enums import (
     StageOutcome,
 )
 from engines.website_generation.contracts.errors import (
+    ArchitecturePlanningError,
     ArtifactIntegrityError,
     ArtifactNotFoundError,
     ArtifactValidationError,
@@ -121,6 +124,7 @@ from engines.website_generation.components import (
     validate_definition,
 )
 from engines.website_generation.brand import BrandEngine
+from engines.website_generation.ia import InformationArchitectureEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -137,6 +141,9 @@ __all__ = [
     # Brand Engine (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2;
     # AES-WEB-002J.2). Not wired into pipeline execution.
     "BrandEngine",
+    # Information Architecture Engine (AES-WEB-001 §5.3 / Part 2 / Part 13
+    # Phase 2; AES-WEB-002J.3). Not wired into pipeline execution.
+    "InformationArchitectureEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -149,10 +156,12 @@ __all__ = [
     "ContentPackage",
     "ContrastEvidence",
     "GateResult",
+    "InternalLinkIntent",
     "LaunchCertificateBody",
     "LayoutPlan",
     "LayoutRegion",
     "PageComponents",
+    "PageHierarchyEntry",
     "PageLayout",
     "PagePlan",
     "QualityReport",
@@ -216,6 +225,7 @@ __all__ = [
     "SemanticElement",
     "SlotCardinality",
     # errors
+    "ArchitecturePlanningError",
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
     "ArtifactValidationError",

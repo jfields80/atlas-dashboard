@@ -22,7 +22,9 @@ from engines.website_generation import (
     ContentCandidate,
     ContentPackage,
     ContrastEvidence,
+    InternalLinkIntent,
     LayoutPlan,
+    PageHierarchyEntry,
     QualityReport,
     RenderedPageSet,
     SEOPackage,
@@ -44,6 +46,7 @@ from engines.website_generation.contracts.artifacts import (
     ArtifactCanonicalizationError,
     BrandPackageV1,
     ComponentManifestV1,
+    SiteArchitectureV1,
     model_to_dict,
 )
 from engines.website_generation.contracts.versions import (
@@ -81,11 +84,19 @@ class TestCatalogRegistration:
         # Amendment A1: ComponentManifest current schema is 1.1.0.
         # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2): BrandPackage current
         # schema is likewise 1.1.0 (additive radius_scale/extended_tokens/
-        # contrast_evidence). Every other kind remains 1.0.0.
+        # contrast_evidence). AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2):
+        # SiteArchitecture current schema is likewise 1.1.0 (additive
+        # page_ids/page_hierarchy/internal_link_topology). Every other kind
+        # remains 1.0.0.
         assert set(SCHEMA_VERSIONS) == set(ALL_KINDS)
         assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE] == "1.1.0"
-        _minor_bumped = (ArtifactKind.COMPONENT_MANIFEST, ArtifactKind.BRAND_PACKAGE)
+        assert SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE] == "1.1.0"
+        _minor_bumped = (
+            ArtifactKind.COMPONENT_MANIFEST,
+            ArtifactKind.BRAND_PACKAGE,
+            ArtifactKind.SITE_ARCHITECTURE,
+        )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
                 continue
@@ -94,11 +105,15 @@ class TestCatalogRegistration:
     def test_registered_schema_versions_projection(self):
         versions = registered_schema_versions()
         assert set(versions) == set(ALL_KINDS)
-        _minor_bumped = (ArtifactKind.COMPONENT_MANIFEST, ArtifactKind.BRAND_PACKAGE)
+        _minor_bumped = (
+            ArtifactKind.COMPONENT_MANIFEST,
+            ArtifactKind.BRAND_PACKAGE,
+            ArtifactKind.SITE_ARCHITECTURE,
+        )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
-                # A1 / AES-WEB-002J.2: both 1.0.0 (field-less) and 1.1.0
-                # stay registered.
+                # A1 / AES-WEB-002J.2 / AES-WEB-002J.3: both 1.0.0
+                # (field-less) and 1.1.0 stay registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -371,6 +386,113 @@ class TestBrandPackageSchema:
         payload["extended_tokens"]["breakpoint.sm"] = 640.0
         with pytest.raises(ArtifactCanonicalizationError):
             canonical_json(payload)
+
+
+def _make_site_architecture(schema_version="1.1.0", **overrides) -> SiteArchitecture:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.SITE_ARCHITECTURE,
+        source_hashes={},
+        pages=(),
+        nav_routes=(),
+        sitemap_routes=(),
+        page_ids={"/": "pg_0000000000000000"},
+        page_hierarchy=(PageHierarchyEntry(route="/", parent_route=""),),
+        internal_link_topology=(
+            InternalLinkIntent(from_route="/", to_routes=("/parks/",)),
+        ),
+    )
+    fields.update(overrides)
+    return SiteArchitecture(**fields)
+
+
+class TestSiteArchitectureSchema:
+    """AES-WEB-002J.3 — additive-minor SiteArchitecture schema (AES-WEB-001 §5.3)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.SITE_ARCHITECTURE, "1.0.0")
+        assert model_cls is SiteArchitectureV1
+        legacy = SiteArchitectureV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.SITE_ARCHITECTURE,
+            source_hashes={},
+        )
+        # 1.0.0 serialization is byte-identical to the pre-J.3 shape: none
+        # of the new keys exist at all (the canonical serializer emits None
+        # as null, so a field-less 1.0.0 model is required for replay --
+        # same reasoning as ComponentManifestV1/BrandPackageV1).
+        text = canonical_artifact_json(legacy)
+        assert "page_ids" not in text
+        assert "page_hierarchy" not in text
+        assert "internal_link_topology" not in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.SITE_ARCHITECTURE, "1.1.0")
+        assert model_cls is SiteArchitecture
+
+    def test_new_fields_default_empty(self):
+        site = SiteArchitecture(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.SITE_ARCHITECTURE,
+            source_hashes={},
+        )
+        assert site.page_ids == {}
+        assert site.page_hierarchy == ()
+        assert site.internal_link_topology == ()
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_site_architecture()
+        b = _make_site_architecture()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_hierarchy_changes_hash(self):
+        base = artifact_sha256(_make_site_architecture())
+        changed = artifact_sha256(
+            _make_site_architecture(
+                page_hierarchy=(
+                    PageHierarchyEntry(route="/", parent_route=""),
+                    PageHierarchyEntry(route="/parks/", parent_route="/"),
+                )
+            )
+        )
+        assert base != changed
+
+    def test_changed_link_topology_changes_hash(self):
+        base = artifact_sha256(_make_site_architecture())
+        changed = artifact_sha256(
+            _make_site_architecture(
+                internal_link_topology=(
+                    InternalLinkIntent(from_route="/", to_routes=("/hotels/",)),
+                )
+            )
+        )
+        assert base != changed
+
+    def test_changed_page_ids_changes_hash(self):
+        base = artifact_sha256(_make_site_architecture())
+        changed = artifact_sha256(
+            _make_site_architecture(page_ids={"/": "pg_ffffffffffffffff"})
+        )
+        assert base != changed
+
+    def test_unsupported_site_architecture_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.SITE_ARCHITECTURE, "2.0.0")
+
+    def test_site_architecture_is_frozen(self):
+        site = _make_site_architecture()
+        with pytest.raises(Exception):
+            site.pages = ()
+        with pytest.raises(Exception):
+            site.page_hierarchy[0].parent_route = "/changed/"
+
+    def test_page_hierarchy_entry_rejects_arbitrary_fields(self):
+        # extra="forbid" on every frozen model (§4.4).
+        with pytest.raises(Exception):
+            PageHierarchyEntry(route="/", parent_route="", bogus=1)
+        with pytest.raises(Exception):
+            InternalLinkIntent(from_route="/", to_routes=(), bogus=1)
 
 
 class TestFrozenBehavior:

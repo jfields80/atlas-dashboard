@@ -22,6 +22,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Brand Engine (AES-WEB-001 §5.2 / Part 2 / Part 13 Phase 2;
     # AES-WEB-002J.2). Not wired into pipeline execution.
     "BrandEngine",
+    # Information Architecture Engine (AES-WEB-001 §5.3 / Part 2 / Part 13
+    # Phase 2; AES-WEB-002J.3). Not wired into pipeline execution.
+    "InformationArchitectureEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -34,10 +37,12 @@ EXPECTED_PUBLIC_SURFACE = {
     "ContentPackage",
     "ContrastEvidence",
     "GateResult",
+    "InternalLinkIntent",
     "LaunchCertificateBody",
     "LayoutPlan",
     "LayoutRegion",
     "PageComponents",
+    "PageHierarchyEntry",
     "PageLayout",
     "PagePlan",
     "QualityReport",
@@ -102,6 +107,7 @@ EXPECTED_PUBLIC_SURFACE = {
     "SemanticElement",
     "SlotCardinality",
     # errors
+    "ArchitecturePlanningError",
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
     "ArtifactValidationError",
@@ -156,6 +162,10 @@ class TestPublicSurface:
             # replay, but deliberately internal — the public BrandPackage is
             # the current (1.1.0) shape.
             "BrandPackageV1",
+            # AES-WEB-002J.3: same pattern — registered at schema 1.0.0 for
+            # replay, but deliberately internal — the public SiteArchitecture
+            # is the current (1.1.0) shape.
+            "SiteArchitectureV1",
         ):
             assert internal not in wge.__all__
 
@@ -176,6 +186,7 @@ class TestAuthorizedPackageTree:
             "constants/brand.py",
             "constants/seo.py",
             "constants/gates.py",
+            "constants/ia.py",
             "speccompiler/__init__.py",
             "speccompiler/business_spec_compiler.py",
             "pipeline/__init__.py",
@@ -208,8 +219,19 @@ class TestAuthorizedPackageTree:
         "brand",
     }
 
+    # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2): the
+    # Information Architecture Engine package, authorized by this delivery
+    # only — an operator decision, not a mechanical consequence of an
+    # earlier amendment.
+    J3_AUTHORIZED_PACKAGES = {
+        "ia",
+    }
+
     AUTHORIZED_PACKAGES = (
-        PHASE1_PACKAGES | A3_AUTHORIZED_PACKAGES | J2_AUTHORIZED_PACKAGES
+        PHASE1_PACKAGES
+        | A3_AUTHORIZED_PACKAGES
+        | J2_AUTHORIZED_PACKAGES
+        | J3_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -234,13 +256,13 @@ class TestAuthorizedPackageTree:
     def test_unauthorized_engine_packages_still_rejected(self):
         # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
         # and are NOT authorized by this amendment; they must not exist yet.
-        # "brand" is authorized as of AES-WEB-002J.2 (see
-        # J2_AUTHORIZED_PACKAGES above) and is intentionally no longer in
-        # this list.
+        # "brand" is authorized as of AES-WEB-002J.2 and "ia" as of
+        # AES-WEB-002J.3 (see J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES
+        # above) and are intentionally no longer in this list.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "ia", "content", "layouts", "rendering", "seo", "assembly",
+            "content", "layouts", "rendering", "seo", "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -297,6 +319,21 @@ class TestAuthorizedPackageTree:
             "brand/__init__.py",
             "brand/brand_engine.py",
             "brand/token_resolver.py",
+        ):
+            assert (base / relative).is_file(), relative
+
+    def test_aes_web_002j3_ia_tree_exists(self):
+        # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2) creates
+        # exactly the two authorized ia-package files -- no helper module
+        # (unlike brand/'s token_resolver.py; AES-WEB-001 Part 2 authorizes
+        # only one implementation file for ia/) and no layouts/, rendering/,
+        # assembly/, content/, seo/, or gates/ additions (see
+        # test_import_audit.py's ia-only import matrix and this module's
+        # J3_AUTHORIZED_PACKAGES comment above).
+        base = REPO_ROOT / "engines" / "website_generation"
+        for relative in (
+            "ia/__init__.py",
+            "ia/information_architecture_engine.py",
         ):
             assert (base / relative).is_file(), relative
 

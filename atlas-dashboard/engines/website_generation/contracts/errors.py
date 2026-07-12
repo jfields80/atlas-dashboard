@@ -93,6 +93,27 @@ class BrandResolutionError(WebsiteGenerationError):
         )
 
 
+class ArchitecturePlanningError(WebsiteGenerationError):
+    """InformationArchitectureEngine planning failed (AES-WEB-001 §5.3).
+
+    Batch-reports every taxonomy/structural violation at once via
+    ``diagnostics`` -- never first-failure-only (mirrors
+    SpecCompilationError/BrandResolutionError's batch-reporting discipline).
+    Deterministic: retryable only if the input BusinessSpec or BrandPackage
+    itself changes, so this is never retryable on its own.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "ia_planning",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )
+
+
 class IllegalTransitionError(WebsiteGenerationError):
     """A state transition not present in the static transition table (§6.2)."""
 
