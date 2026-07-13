@@ -60,6 +60,13 @@ hash-only :class:`SiteBundleV1`) and 1.1.0 stay registered, again with no
 migration. Adds the ``assembly`` entry to ``ENGINE_VERSIONS`` at 1.0.0. The
 Assembly Engine is not wired into pipeline execution; ``assembly`` remains
 ``NOT_EXECUTED``.
+
+AES-WEB-002J.11 (AES-WEB-001 §5.10 / Part 2) adds the analogous
+additive-minor ``QualityReport`` schema 1.1.0 (``deferred_gate_ids``): both
+1.0.0 (the field-less :class:`QualityReportV1`) and 1.1.0 stay registered,
+again with no migration. Adds the ``quality_gate_engine`` entry to
+``ENGINE_VERSIONS`` at 1.0.0. The Quality Gate Engine is not wired into
+pipeline execution; ``gating`` remains ``NOT_EXECUTED``.
 """
 
 from __future__ import annotations
@@ -79,6 +86,7 @@ from engines.website_generation.contracts.artifacts import (
     LayoutPlan,
     LayoutPlanV1,
     QualityReport,
+    QualityReportV1,
     RenderedPageSet,
     RenderedPageSetV1,
     SEOPackage,
@@ -113,7 +121,8 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     ArtifactKind.SEO_PACKAGE: "1.0.0",
     # AES-WEB-002J.10: additive-minor bump to 1.1.0 (files).
     ArtifactKind.SITE_BUNDLE: "1.1.0",
-    ArtifactKind.QUALITY_REPORT: "1.0.0",
+    # AES-WEB-002J.11: additive-minor bump to 1.1.0 (deferred_gate_ids).
+    ArtifactKind.QUALITY_REPORT: "1.1.0",
     ArtifactKind.BUILD_MANIFEST: "1.0.0",
 }
 
@@ -155,6 +164,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).
     "assembly": "1.0.0",
+    # AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2): initial Quality Gate Engine
+    # version. Not wired into pipeline execution (§6: gating remains
+    # NOT_EXECUTED in the BuildManifest).
+    "quality_gate_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
@@ -260,7 +273,7 @@ _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.RENDERED_PAGE_SET: RenderedPageSetV1,
     ArtifactKind.SEO_PACKAGE: SEOPackage,
     ArtifactKind.SITE_BUNDLE: SiteBundleV1,
-    ArtifactKind.QUALITY_REPORT: QualityReport,
+    ArtifactKind.QUALITY_REPORT: QualityReportV1,
     ArtifactKind.BUILD_MANIFEST: BuildManifest,
 }
 
@@ -310,4 +323,12 @@ register_artifact_model(
 # Registered alongside 1.0.0 with no migration required.
 register_artifact_model(
     ArtifactKind.SITE_BUNDLE, "1.1.0", SiteBundle
+)
+
+# AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2/Part 13 Phase 3): QualityReport
+# additive-minor schema 1.1.0 carrying deferred_gate_ids (the gates the
+# Quality Gate Engine did not evaluate this run). Registered alongside 1.0.0
+# with no migration required.
+register_artifact_model(
+    ArtifactKind.QUALITY_REPORT, "1.1.0", QualityReport
 )

@@ -55,12 +55,15 @@ from engines.website_generation.contracts.artifacts import (
     BrandPackageV1,
     BundleFile,
     ComponentManifestV1,
+    GateResult,
     LayoutPlanV1,
+    QualityReportV1,
     RenderedPageSetV1,
     SiteArchitectureV1,
     SiteBundleV1,
     model_to_dict,
 )
+from engines.website_generation.contracts.enums import GateSeverity
 from engines.website_generation.contracts.enums import RegionKind
 from engines.website_generation.contracts.versions import (
     register_artifact_model,
@@ -111,6 +114,7 @@ class TestCatalogRegistration:
         assert SCHEMA_VERSIONS[ArtifactKind.LAYOUT_PLAN] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.RENDERED_PAGE_SET] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.QUALITY_REPORT] == "1.1.0"
         _minor_bumped = (
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
@@ -118,6 +122,7 @@ class TestCatalogRegistration:
             ArtifactKind.LAYOUT_PLAN,
             ArtifactKind.RENDERED_PAGE_SET,
             ArtifactKind.SITE_BUNDLE,
+            ArtifactKind.QUALITY_REPORT,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -134,12 +139,13 @@ class TestCatalogRegistration:
             ArtifactKind.LAYOUT_PLAN,
             ArtifactKind.RENDERED_PAGE_SET,
             ArtifactKind.SITE_BUNDLE,
+            ArtifactKind.QUALITY_REPORT,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
                 # A1 / AES-WEB-002J.2 / AES-WEB-002J.3 / AES-WEB-002J.7 /
-                # AES-WEB-002J.8 / AES-WEB-002J.10: both 1.0.0 (field-less)
-                # and 1.1.0 stay registered.
+                # AES-WEB-002J.8 / AES-WEB-002J.10 / AES-WEB-002J.11: both
+                # 1.0.0 (field-less) and 1.1.0 stay registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -858,6 +864,106 @@ class TestSiteBundleSchema:
     def test_no_binary_embedding_text_only(self):
         bundle = _make_site_bundle()
         assert isinstance(bundle.files[0].content, str)
+
+
+def _make_quality_report(schema_version="1.1.0", **overrides) -> QualityReport:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.QUALITY_REPORT,
+        source_hashes={},
+        gate_results=(
+            GateResult(
+                gate_id="CG-RND-009",
+                severity=GateSeverity.BLOCKING,
+                passed=True,
+                details="route='/index.html': no unsafe URLs",
+            ),
+        ),
+        certified=False,
+        deferred_gate_ids=("CG-A11Y-001", "CG-SEO-001"),
+    )
+    fields.update(overrides)
+    return QualityReport(**fields)
+
+
+class TestQualityReportSchema:
+    """AES-WEB-002J.11 — additive-minor QualityReport schema (AES-WEB-001
+    §5.10)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.QUALITY_REPORT, "1.0.0")
+        assert model_cls is QualityReportV1
+        legacy = QualityReportV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.QUALITY_REPORT,
+            source_hashes={},
+        )
+        text = canonical_artifact_json(legacy)
+        assert '"deferred_gate_ids"' not in text
+        assert '"gate_results"' in text
+        assert '"certified"' in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.QUALITY_REPORT, "1.1.0")
+        assert model_cls is QualityReport
+
+    def test_new_field_defaults_empty(self):
+        report = QualityReport(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.QUALITY_REPORT,
+            source_hashes={},
+        )
+        assert report.deferred_gate_ids == ()
+
+    def test_v1_payload_still_parses_via_v1_model(self):
+        legacy_json = canonical_artifact_json(
+            QualityReportV1(
+                schema_version="1.0.0",
+                artifact_kind=ArtifactKind.QUALITY_REPORT,
+                source_hashes={},
+                certified=True,
+            )
+        )
+        replayed = QualityReportV1(**json.loads(legacy_json))
+        assert replayed.certified is True
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_quality_report()
+        b = _make_quality_report()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_deferred_gate_ids_changes_hash(self):
+        base = artifact_sha256(_make_quality_report())
+        changed = artifact_sha256(_make_quality_report(deferred_gate_ids=("CG-A11Y-001",)))
+        assert base != changed
+
+    def test_gate_results_unchanged_shape(self):
+        # GateResult is shared byte-for-byte by QualityReportV1 and
+        # QualityReport -- new capability lives only in deferred_gate_ids.
+        report = _make_quality_report()
+        assert report.gate_results[0].gate_id == "CG-RND-009"
+        assert report.gate_results[0].passed is True
+
+    def test_unsupported_quality_report_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.QUALITY_REPORT, "2.0.0")
+
+    def test_quality_report_is_frozen(self):
+        report = _make_quality_report()
+        with pytest.raises(Exception):
+            report.certified = True
+        with pytest.raises(Exception):
+            report.gate_results[0].passed = False
+
+    def test_rejects_arbitrary_fields(self):
+        with pytest.raises(Exception):
+            QualityReport(
+                schema_version="1.1.0",
+                artifact_kind=ArtifactKind.QUALITY_REPORT,
+                source_hashes={},
+                bogus=1,
+            )
 
 
 class TestFrozenBehavior:

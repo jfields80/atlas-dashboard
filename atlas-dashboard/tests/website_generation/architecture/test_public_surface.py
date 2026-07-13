@@ -43,6 +43,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Assembly Engine (AES-WEB-001 §5.9 / Part 2; AES-WEB-002J.10). Not wired
     # into pipeline execution.
     "AssemblyEngine",
+    # Quality Gate Engine (AES-WEB-001 §5.10 / Part 2; AES-WEB-002J.11). Not
+    # wired into pipeline execution.
+    "QualityGateEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -229,6 +232,16 @@ class TestPublicSurface:
             # AssemblyEngine class is public.
             "AssemblyEngineInterface",
             "AssemblyError",
+            # AES-WEB-002J.11: same pattern as the V1 compat models above --
+            # the 1.0.0 field-less QualityReport shape, registered for replay
+            # but deliberately internal; the public QualityReport is 1.1.0.
+            "QualityReportV1",
+            # QualityGateEngineInterface / GateExecutionError follow the
+            # RendererInterface / RenderError precedent: declared in
+            # contracts/, never exported at the top level. Only the concrete
+            # QualityGateEngine class is public.
+            "QualityGateEngineInterface",
+            "GateExecutionError",
         ):
             assert internal not in wge.__all__
 
@@ -391,17 +404,21 @@ class TestAuthorizedPackageTree:
             assert (base / relative).is_file(), relative
 
     def test_aes_web_002i_gates_tree_exists(self):
-        # AES-WEB-002I creates the §31/§29.1 "New files" gate-check package
+        # AES-WEB-002I created the §31/§29.1 "New files" gate-check package
         # area: exactly the five authorized check modules (component,
         # composition, rendering, commercial, responsive — see
         # test_import_audit.py's _AUTHORIZED_GATE_CHECK_MODULES and this
-        # module's own A3_AUTHORIZED_PACKAGES["gates"] comment above). No
-        # quality_gate_engine.py and no accessibility_checks.py/seo_checks.py
-        # — see engines/website_generation/gates/__init__.py and
-        # constants/gates.py's module docstrings for why.
+        # module's own A3_AUTHORIZED_PACKAGES["gates"] comment above).
+        # AES-WEB-002J.11 adds the Quality Gate Engine (quality_gate_engine.py)
+        # and its deterministic fact extractor (fact_extractor.py) directly
+        # under gates/, now that the Renderer/Assembly exist (§5.10). Still no
+        # accessibility_checks.py/seo_checks.py — those gate families remain
+        # deferred (no check functions; the engine reports them as deferred).
         base = REPO_ROOT / "engines" / "website_generation"
         for relative in (
             "gates/__init__.py",
+            "gates/quality_gate_engine.py",
+            "gates/fact_extractor.py",
             "gates/checks/__init__.py",
             "gates/checks/component_checks.py",
             "gates/checks/composition_checks.py",
@@ -410,9 +427,18 @@ class TestAuthorizedPackageTree:
             "gates/checks/responsive_checks.py",
         ):
             assert (base / relative).is_file(), relative
-        assert not (base / "gates" / "quality_gate_engine.py").exists()
         assert not (base / "gates" / "checks" / "accessibility_checks.py").exists()
         assert not (base / "gates" / "checks" / "seo_checks.py").exists()
+        # The gates/ package top level holds exactly the engine, the fact
+        # extractor, and the package init — nothing more.
+        gates_top = {
+            p.name for p in (base / "gates").iterdir() if p.is_file()
+        }
+        assert gates_top == {
+            "__init__.py",
+            "quality_gate_engine.py",
+            "fact_extractor.py",
+        }
 
     def test_aes_web_002j2_brand_tree_exists(self):
         # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2) creates

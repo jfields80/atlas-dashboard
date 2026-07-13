@@ -311,17 +311,55 @@ class TestPackageMatrix:
                 sorted(offenders),
             )
 
+    def test_gates_imports_contracts_constants_and_gates_only(self):
+        # AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2): gates/ (the Quality
+        # Gate Engine + fact extractor + synthetic check families) may import
+        # only stdlib, contracts/, constants/, and itself (intra-package) --
+        # never brand/ia/content/seo/layouts/rendering/assembly (it consumes
+        # their artifacts, not their implementations), never the component
+        # registry, repositories, services, or pipeline. It reads no engine
+        # implementation; it evaluates artifacts.
+        gates_dir = PACKAGE_ROOT / "gates"
+        for path in _iter_modules(gates_dir):
+            for name in _imports_of(path):
+                top = _top(name)
+                if top in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                assert sub in {"contracts", "constants", "gates"}, (
+                    "%s has out-of-matrix import %r" % (path, name)
+                )
+
+    def test_gates_engine_has_no_filesystem_imports(self):
+        # AES-WEB-001 §5.10 / §5 doctrine: the Quality Gate Engine consumes
+        # artifacts and writes nothing (report persistence is a repository
+        # concern). These filesystem modules are stdlib (so the generic
+        # matrix would let them pass), but their presence in gates/ would
+        # violate the pure-engine contract, so they are forbidden explicitly.
+        forbidden_fs = {
+            "os", "pathlib", "shutil", "tempfile", "zipfile", "glob", "fileinput",
+        }
+        gates_dir = PACKAGE_ROOT / "gates"
+        for path in _iter_modules(gates_dir):
+            tops = {_top(name) for name in _imports_of(path)}
+            offenders = tops & forbidden_fs
+            assert not offenders, "%s imports filesystem module(s) %s" % (
+                path,
+                sorted(offenders),
+            )
+
     def test_pipeline_is_the_only_engine_composition_point(self):
         # Only pipeline modules (and the package __init__, which exports
         # the public surface) may import sibling engine packages. "brand"
         # (AES-WEB-002J.2), "ia" (AES-WEB-002J.3), "content"
         # (AES-WEB-002J.4), "seo" (AES-WEB-002J.5), "layouts"
-        # (AES-WEB-002J.7), "rendering" (AES-WEB-002J.8), and "assembly"
-        # (AES-WEB-002J.10) are included so nothing but pipeline/__init__ may
-        # import them and they may not import siblings either.
+        # (AES-WEB-002J.7), "rendering" (AES-WEB-002J.8), "assembly"
+        # (AES-WEB-002J.10), and "gates" (AES-WEB-002J.11) are included so
+        # nothing but pipeline/__init__ may import them and they may not
+        # import siblings either.
         engine_subpackages = {
             "speccompiler", "pipeline", "brand", "ia", "content", "seo", "layouts",
-            "rendering", "assembly",
+            "rendering", "assembly", "gates",
         }
         for path, imports in _all_engine_imports().items():
             relative = path.relative_to(PACKAGE_ROOT)

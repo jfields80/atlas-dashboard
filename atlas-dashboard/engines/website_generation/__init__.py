@@ -138,6 +138,7 @@ from engines.website_generation.seo import SEOEngine
 from engines.website_generation.layouts import LayoutEngine
 from engines.website_generation.rendering import Renderer
 from engines.website_generation.assembly import AssemblyEngine
+from engines.website_generation.gates import QualityGateEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -175,6 +176,9 @@ __all__ = [
     # Assembly Engine (AES-WEB-001 §5.9 / Part 2; AES-WEB-002J.10). Not wired
     # into pipeline execution.
     "AssemblyEngine",
+    # Quality Gate Engine (AES-WEB-001 §5.10 / Part 2; AES-WEB-002J.11). Not
+    # wired into pipeline execution.
+    "QualityGateEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",

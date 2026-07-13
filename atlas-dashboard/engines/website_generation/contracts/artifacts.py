@@ -124,6 +124,23 @@ new sibling nested model (:class:`BundleFile`), never a restructuring of
 ``file_map``/``bundle_hash``. The Assembly Engine
 (``engines/website_generation/assembly/``) is not wired into pipeline
 execution by this delivery.
+
+QualityReport deferred-gate coverage (AES-WEB-001 §5.10 / Part 2 / Part 13
+Phase 3; internal sequencing label AES-WEB-002J.11)
+--------------------------------------------------------------------------
+``QualityReport`` gains ``deferred_gate_ids`` (the registered gates the
+Quality Gate Engine did not evaluate this run, because the deterministic
+static facts they require are not derivable from the current artifacts).
+The additive field moves the schema from 1.0.0 to 1.1.0 with no migration
+(old readers still parse). The 1.0.0 shape is retained byte-for-byte as
+:class:`QualityReportV1` for the same reason documented above -- the
+canonical serializer never drops a declared field, so a 1.0.0 payload must
+not declare the new field at all. ``GateResult``/``LaunchCertificateBody``
+are unchanged and shared byte-for-byte by both schema versions; the report
+is thereby self-describing about its own gate coverage (the AES-005A
+quality-gate honesty lesson, §5.10). The Quality Gate Engine
+(``engines/website_generation/gates/quality_gate_engine.py``) is not wired
+into pipeline execution by this delivery.
 """
 
 from __future__ import annotations
@@ -880,13 +897,44 @@ class LaunchCertificateBody(FrozenModel):
     overrides: Tuple[str, ...] = ()
 
 
-class QualityReport(ArtifactHeader):
-    """Gate results and optional certificate (§4.1 artifact #11)."""
+class QualityReportV1(ArtifactHeader):
+    """QualityReport schema 1.0.0 (pre-J.11 shape).
+
+    Retained for replay of reports produced before AES-WEB-002J.11. Carries
+    no ``deferred_gate_ids`` field, so its canonical serialization and
+    content hash are byte-identical to the original 1.0.0 contract. The
+    current schema is 1.1.0 (:class:`QualityReport`). Internal compatibility
+    model -- not part of the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.QUALITY_REPORT
     gate_results: Tuple[GateResult, ...] = ()
     certified: bool = False
     certificate: Optional[LaunchCertificateBody] = None
+
+
+class QualityReport(ArtifactHeader):
+    """Gate results and optional certificate (§4.1 artifact #11).
+    Schema 1.1.0.
+
+    AES-WEB-002J.11 (AES-WEB-001 §5.10 / Part 2): additive over the 1.0.0
+    shape (:class:`QualityReportV1`) with ``deferred_gate_ids`` -- the
+    registered gates the Quality Gate Engine did not evaluate this run
+    (because the deterministic static facts they require are not derivable
+    from the current artifacts), so the report is self-describing about its
+    own coverage rather than silently omitting them (the AES-005A
+    quality-gate honesty lesson, §5.10). ``gate_results`` carries the
+    evaluated gates' verdicts; a gate id appears in exactly one of
+    ``gate_results`` or ``deferred_gate_ids``, never both. No migration
+    required -- the field is additive and old 1.0.0 payloads still load via
+    QualityReportV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.QUALITY_REPORT
+    gate_results: Tuple[GateResult, ...] = ()
+    certified: bool = False
+    certificate: Optional[LaunchCertificateBody] = None
+    deferred_gate_ids: Tuple[str, ...] = ()
 
 
 # ---------------------------------------------------------------------------

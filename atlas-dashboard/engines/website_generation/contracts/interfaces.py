@@ -19,6 +19,7 @@ from engines.website_generation.contracts.artifacts import (
     ContentCandidate,
     ContentPackage,
     LayoutPlan,
+    QualityReport,
     RenderedPageSet,
     SEOPackage,
     SiteArchitecture,
@@ -223,6 +224,36 @@ class AssemblyEngineInterface(ABC):
     ) -> SiteBundle:
         """Assemble a deterministic ``SiteBundle`` from a ``RenderedPageSet``,
         ``SEOPackage``, and ``BrandPackage``."""
+        raise NotImplementedError
+
+
+class QualityGateEngineInterface(ABC):
+    """The Quality Gate Engine's sole entry point (AES-WEB-001 §5.10).
+
+    Evaluates the registered gate list (``constants/gates.py``) in declared
+    order against the assembled artifacts and returns a deterministic
+    ``QualityReport``. Every gate content failure is a typed ``GateResult``
+    (``passed=False``), never an exception (§5.10); only gate *malfunction*
+    raises ``GateExecutionError``. Gates whose required deterministic static
+    facts are not derivable from the current artifacts are reported in the
+    report's ``deferred_gate_ids`` rather than silently omitted or falsely
+    passed (the AES-005A honesty lesson). Inputs are the four §5.10 declared
+    artifacts; the engine reads no engine implementation, no filesystem, and
+    no network -- it consumes artifacts only, and writes nothing (report
+    persistence is a repository concern). There is no
+    ``render``/``assemble``/``compile`` method, by design.
+    """
+
+    @abstractmethod
+    def evaluate(
+        self,
+        site_bundle: SiteBundle,
+        seo_package: SEOPackage,
+        content_package: ContentPackage,
+        site_architecture: SiteArchitecture,
+    ) -> QualityReport:
+        """Evaluate a deterministic ``QualityReport`` from a ``SiteBundle``,
+        ``SEOPackage``, ``ContentPackage``, and ``SiteArchitecture``."""
         raise NotImplementedError
 
 
