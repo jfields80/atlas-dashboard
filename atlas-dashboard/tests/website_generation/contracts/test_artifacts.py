@@ -19,14 +19,20 @@ from engines.website_generation import (
     BuildState,
     BusinessSpec,
     ComponentManifest,
+    ComponentPlacement,
     ContentCandidate,
     ContentPackage,
     ContrastEvidence,
+    GridPlacement,
     InternalLinkIntent,
     LayoutPlan,
+    LayoutRegion,
     PageHierarchyEntry,
+    PageLayout,
     QualityReport,
+    RegionLayoutDetail,
     RenderedPageSet,
+    ResponsiveSelection,
     SEOPackage,
     SchemaRegistrationError,
     SelectionCandidate,
@@ -46,9 +52,11 @@ from engines.website_generation.contracts.artifacts import (
     ArtifactCanonicalizationError,
     BrandPackageV1,
     ComponentManifestV1,
+    LayoutPlanV1,
     SiteArchitectureV1,
     model_to_dict,
 )
+from engines.website_generation.contracts.enums import RegionKind
 from engines.website_generation.contracts.versions import (
     register_artifact_model,
 )
@@ -86,16 +94,19 @@ class TestCatalogRegistration:
         # schema is likewise 1.1.0 (additive radius_scale/extended_tokens/
         # contrast_evidence). AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2):
         # SiteArchitecture current schema is likewise 1.1.0 (additive
-        # page_ids/page_hierarchy/internal_link_topology). Every other kind
-        # remains 1.0.0.
+        # page_ids/page_hierarchy/internal_link_topology). AES-WEB-002J.7
+        # (AES-WEB-001 §5.6/Part 2): LayoutPlan current schema is likewise
+        # 1.1.0 (additive region_details). Every other kind remains 1.0.0.
         assert set(SCHEMA_VERSIONS) == set(ALL_KINDS)
         assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.LAYOUT_PLAN] == "1.1.0"
         _minor_bumped = (
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
             ArtifactKind.SITE_ARCHITECTURE,
+            ArtifactKind.LAYOUT_PLAN,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -109,6 +120,7 @@ class TestCatalogRegistration:
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
             ArtifactKind.SITE_ARCHITECTURE,
+            ArtifactKind.LAYOUT_PLAN,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -493,6 +505,133 @@ class TestSiteArchitectureSchema:
             PageHierarchyEntry(route="/", parent_route="", bogus=1)
         with pytest.raises(Exception):
             InternalLinkIntent(from_route="/", to_routes=(), bogus=1)
+
+
+def _make_layout_plan(schema_version="1.1.0", **overrides) -> LayoutPlan:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.LAYOUT_PLAN,
+        source_hashes={},
+        pages=(
+            PageLayout(
+                route="/",
+                regions=(LayoutRegion(region_id="HERO", component_indexes=(0,)),),
+            ),
+        ),
+        region_details=(
+            RegionLayoutDetail(
+                route="/",
+                region_id="HERO",
+                region_kind=RegionKind.HERO,
+                placements=(
+                    ComponentPlacement(
+                        component_index=0,
+                        grid=GridPlacement(
+                            columns_token="grid.columns.3", column_span=1
+                        ),
+                        responsive=ResponsiveSelection(
+                            collapse_behavior="grid-to-stack"
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    )
+    fields.update(overrides)
+    return LayoutPlan(**fields)
+
+
+class TestLayoutPlanSchema:
+    """AES-WEB-002J.7 — additive-minor LayoutPlan schema (AES-WEB-001 §5.6)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.LAYOUT_PLAN, "1.0.0")
+        assert model_cls is LayoutPlanV1
+        legacy = LayoutPlanV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.LAYOUT_PLAN,
+            source_hashes={},
+        )
+        # 1.0.0 serialization is byte-identical to the pre-J.7 shape: the
+        # new key does not exist at all (the canonical serializer emits None
+        # as null, so a field-less 1.0.0 model is required for replay --
+        # same reasoning as ComponentManifestV1/BrandPackageV1/
+        # SiteArchitectureV1).
+        text = canonical_artifact_json(legacy)
+        assert "region_details" not in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.LAYOUT_PLAN, "1.1.0")
+        assert model_cls is LayoutPlan
+
+    def test_new_field_defaults_empty(self):
+        plan = LayoutPlan(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.LAYOUT_PLAN,
+            source_hashes={},
+        )
+        assert plan.region_details == ()
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_layout_plan()
+        b = _make_layout_plan()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_region_details_changes_hash(self):
+        base = artifact_sha256(_make_layout_plan())
+        changed = artifact_sha256(
+            _make_layout_plan(
+                region_details=(
+                    RegionLayoutDetail(
+                        route="/",
+                        region_id="HERO",
+                        region_kind=RegionKind.HERO,
+                        placements=(
+                            ComponentPlacement(
+                                component_index=0,
+                                grid=GridPlacement(
+                                    columns_token="grid.columns.4", column_span=1
+                                ),
+                            ),
+                        ),
+                    ),
+                )
+            )
+        )
+        assert base != changed
+
+    def test_pages_and_regions_unchanged_shape(self):
+        # LayoutRegion/PageLayout are shared byte-for-byte by LayoutPlanV1
+        # and LayoutPlan -- new capability lives only in region_details
+        # (the established J.2/J.3 idiom: never restructure an existing
+        # field's type).
+        plan = _make_layout_plan()
+        assert plan.pages[0].regions[0].component_indexes == (0,)
+
+    def test_unsupported_layout_plan_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.LAYOUT_PLAN, "2.0.0")
+
+    def test_layout_plan_is_frozen(self):
+        plan = _make_layout_plan()
+        with pytest.raises(Exception):
+            plan.pages = ()
+        with pytest.raises(Exception):
+            plan.region_details[0].region_id = "changed"
+
+    def test_region_layout_detail_rejects_arbitrary_fields(self):
+        # extra="forbid" on every frozen model (§4.4).
+        with pytest.raises(Exception):
+            RegionLayoutDetail(
+                route="/", region_id="HERO", region_kind=RegionKind.HERO, bogus=1
+            )
+        with pytest.raises(Exception):
+            ComponentPlacement(component_index=0, bogus=1)
+        with pytest.raises(Exception):
+            GridPlacement(columns_token="grid.columns.3", bogus=1)
+        with pytest.raises(Exception):
+            ResponsiveSelection(collapse_behavior="grid-to-stack", bogus=1)
 
 
 class TestFrozenBehavior:

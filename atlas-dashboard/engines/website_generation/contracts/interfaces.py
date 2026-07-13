@@ -18,6 +18,7 @@ from engines.website_generation.contracts.artifacts import (
     ComponentManifest,
     ContentCandidate,
     ContentPackage,
+    LayoutPlan,
     SEOPackage,
     SiteArchitecture,
     SpecCompilerInput,
@@ -125,6 +126,37 @@ class ComponentEngineInterface(ABC):
     ) -> ComponentManifest:
         """Compile a deterministic ``ComponentManifest`` from a
         ``SiteArchitecture`` and ``ContentPackage``."""
+        raise NotImplementedError
+
+
+class LayoutEngineInterface(ABC):
+    """The Layout Engine's sole entry point (AES-WEB-001 §5.6).
+
+    Composes ordered page regions and responsive/grid placement, expressed
+    purely in design tokens and component-contract data, from a
+    ``ComponentManifest`` and a ``BrandPackage`` (AES-WEB-002J.7 decision
+    D-3: public artifact inputs only -- no ``SiteArchitecture``). Produces
+    no markup -- only a composition tree the (future) Renderer walks. There
+    is no ``select``/``draft``/``author`` method, by design: the Layout
+    Engine never selects components or variants, only places what the
+    ComponentManifest already chose. The registry is an injected read-only
+    :class:`ComponentRegistryView` dependency (AES-WEB-002J.7 decision D-3),
+    not an artifact input and not a method parameter -- ``layouts/`` may not
+    import the sibling ``components/`` package that builds the default
+    registry, so the concrete engine receives it through constructor
+    injection instead of a default-factory keyword (contrast
+    ``ComponentEngineInterface``, whose concrete class lives inside
+    ``components/`` and therefore can default it).
+    """
+
+    @abstractmethod
+    def compose(
+        self,
+        component_manifest: ComponentManifest,
+        brand_package: BrandPackage,
+    ) -> LayoutPlan:
+        """Compose a deterministic ``LayoutPlan`` from a ``ComponentManifest``
+        and a ``BrandPackage``."""
         raise NotImplementedError
 
 

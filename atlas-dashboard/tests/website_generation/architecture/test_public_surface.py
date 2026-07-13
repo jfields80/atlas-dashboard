@@ -34,6 +34,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Component Engine (AES-WEB-001 §5.5 / Part 2; AES-WEB-002J.6). Not wired
     # into pipeline execution.
     "ComponentEngine",
+    # Layout Engine (AES-WEB-001 §5.6 / Part 2; AES-WEB-002J.7). Not wired
+    # into pipeline execution.
+    "LayoutEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -41,11 +44,13 @@ EXPECTED_PUBLIC_SURFACE = {
     "BusinessSpec",
     "ComponentInstance",
     "ComponentManifest",
+    "ComponentPlacement",
     "ContentBlock",
     "ContentCandidate",
     "ContentPackage",
     "ContrastEvidence",
     "GateResult",
+    "GridPlacement",
     "InternalLinkIntent",
     "LaunchCertificateBody",
     "LayoutPlan",
@@ -55,8 +60,10 @@ EXPECTED_PUBLIC_SURFACE = {
     "PageLayout",
     "PagePlan",
     "QualityReport",
+    "RegionLayoutDetail",
     "RenderedPage",
     "RenderedPageSet",
+    "ResponsiveSelection",
     "SEOEntry",
     "SEOPackage",
     # selection-trace models (amendment A1; AES-WEB-002 §14.3)
@@ -176,6 +183,21 @@ class TestPublicSurface:
             # replay, but deliberately internal — the public SiteArchitecture
             # is the current (1.1.0) shape.
             "SiteArchitectureV1",
+            # AES-WEB-002J.7: same pattern — registered at schema 1.0.0 for
+            # replay, but deliberately internal — the public LayoutPlan is
+            # the current (1.1.0) shape.
+            "LayoutPlanV1",
+            # LayoutEngineInterface follows the established pattern of every
+            # other engine interface (BrandEngineInterface,
+            # ComponentEngineInterface, ...): declared in contracts/
+            # interfaces.py, never exported at the top level. Only the
+            # concrete engine class is public.
+            "LayoutEngineInterface",
+            # LayoutCompositionError follows the AES-WEB-002J.5/J.6 precedent
+            # (SEOCompilationError, ComponentResolutionError): declared in
+            # contracts/errors.py, imported directly from there by tests,
+            # never exported at the top level.
+            "LayoutCompositionError",
         ):
             assert internal not in wge.__all__
 
@@ -251,6 +273,13 @@ class TestAuthorizedPackageTree:
         "seo",
     }
 
+    # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2/Part 13 Phase 2): the Layout
+    # Engine package, authorized by this delivery only — an operator
+    # decision, not a mechanical consequence of an earlier amendment.
+    J7_AUTHORIZED_PACKAGES = {
+        "layouts",
+    }
+
     AUTHORIZED_PACKAGES = (
         PHASE1_PACKAGES
         | A3_AUTHORIZED_PACKAGES
@@ -258,6 +287,7 @@ class TestAuthorizedPackageTree:
         | J3_AUTHORIZED_PACKAGES
         | J4_AUTHORIZED_PACKAGES
         | J5_AUTHORIZED_PACKAGES
+        | J7_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -283,13 +313,15 @@ class TestAuthorizedPackageTree:
         # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
         # and are NOT authorized by this amendment; they must not exist yet.
         # "brand" is authorized as of AES-WEB-002J.2, "ia" as of
-        # AES-WEB-002J.3, and "content" as of AES-WEB-002J.4 (see
-        # J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES
-        # above) and are intentionally no longer in this list.
+        # AES-WEB-002J.3, "content" as of AES-WEB-002J.4, "seo" as of
+        # AES-WEB-002J.5, and "layouts" as of AES-WEB-002J.7 (see
+        # J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES/
+        # J7_AUTHORIZED_PACKAGES above) and are intentionally no longer in
+        # this list.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "layouts", "rendering", "assembly",
+            "rendering", "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -397,6 +429,25 @@ class TestAuthorizedPackageTree:
             assert (base / relative).is_file(), relative
         seo_dir = base / "seo"
         present = {"seo/" + p.name for p in seo_dir.iterdir() if p.is_file()}
+        assert present == expected
+
+    def test_aes_web_002j7_layouts_tree_exists(self):
+        # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2) creates exactly the two
+        # authorized layouts-package files -- no separate composition.py
+        # helper (this delivery's algorithm fits in layout_engine.py), and
+        # no rendering/ or assembly/ additions (see test_import_audit.py's
+        # layouts-only import matrix and this module's
+        # J7_AUTHORIZED_PACKAGES comment above). Pins the exact layouts/
+        # file list: nothing more, nothing less.
+        base = REPO_ROOT / "engines" / "website_generation"
+        expected = {
+            "layouts/__init__.py",
+            "layouts/layout_engine.py",
+        }
+        for relative in expected:
+            assert (base / relative).is_file(), relative
+        layouts_dir = base / "layouts"
+        present = {"layouts/" + p.name for p in layouts_dir.iterdir() if p.is_file()}
         assert present == expected
 
     def test_aes_web_002j6_component_engine_present(self):

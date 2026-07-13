@@ -17,11 +17,13 @@ from engines.website_generation.contracts.artifacts import (
     BusinessSpec,
     ComponentInstance,
     ComponentManifest,
+    ComponentPlacement,
     ContentBlock,
     ContentCandidate,
     ContentPackage,
     ContrastEvidence,
     GateResult,
+    GridPlacement,
     InternalLinkIntent,
     LaunchCertificateBody,
     LayoutPlan,
@@ -31,8 +33,10 @@ from engines.website_generation.contracts.artifacts import (
     PageLayout,
     PagePlan,
     QualityReport,
+    RegionLayoutDetail,
     RenderedPage,
     RenderedPageSet,
+    ResponsiveSelection,
     SEOEntry,
     SEOPackage,
     SelectionCandidate,
@@ -129,6 +133,7 @@ from engines.website_generation.brand import BrandEngine
 from engines.website_generation.ia import InformationArchitectureEngine
 from engines.website_generation.content import ContentEngine
 from engines.website_generation.seo import SEOEngine
+from engines.website_generation.layouts import LayoutEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -157,6 +162,9 @@ __all__ = [
     # Component Engine (AES-WEB-001 §5.5 / Part 2; AES-WEB-002J.6). Not wired
     # into pipeline execution.
     "ComponentEngine",
+    # Layout Engine (AES-WEB-001 §5.6 / Part 2; AES-WEB-002J.7). Not wired
+    # into pipeline execution.
+    "LayoutEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -164,11 +172,13 @@ __all__ = [
     "BusinessSpec",
     "ComponentInstance",
     "ComponentManifest",
+    "ComponentPlacement",
     "ContentBlock",
     "ContentCandidate",
     "ContentPackage",
     "ContrastEvidence",
     "GateResult",
+    "GridPlacement",
     "InternalLinkIntent",
     "LaunchCertificateBody",
     "LayoutPlan",
@@ -178,8 +188,10 @@ __all__ = [
     "PageLayout",
     "PagePlan",
     "QualityReport",
+    "RegionLayoutDetail",
     "RenderedPage",
     "RenderedPageSet",
+    "ResponsiveSelection",
     "SEOEntry",
     "SEOPackage",
     "SelectionCandidate",

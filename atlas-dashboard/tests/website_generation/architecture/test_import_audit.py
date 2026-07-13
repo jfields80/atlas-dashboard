@@ -235,14 +235,35 @@ class TestPackageMatrix:
                     "%s has out-of-matrix import %r" % (path, name)
                 )
 
+    def test_layouts_imports_contracts_and_constants_only(self):
+        # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): layouts/ may import only
+        # stdlib, contracts/, constants/, and itself (intra-package) --
+        # never brand/ia/content/seo, and critically never the component
+        # registry or any other sibling engine package: the registry is a
+        # required constructor-injected ComponentRegistryView (contracts/
+        # interfaces.py), never the concrete components/ implementation
+        # (AES-WEB-002J.7 decision D-3).
+        layouts_dir = PACKAGE_ROOT / "layouts"
+        for path in _iter_modules(layouts_dir):
+            for name in _imports_of(path):
+                top = _top(name)
+                if top in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                assert sub in {"contracts", "constants", "layouts"}, (
+                    "%s has out-of-matrix import %r" % (path, name)
+                )
+
     def test_pipeline_is_the_only_engine_composition_point(self):
         # Only pipeline modules (and the package __init__, which exports
         # the public surface) may import sibling engine packages. "brand"
         # (AES-WEB-002J.2), "ia" (AES-WEB-002J.3), "content"
-        # (AES-WEB-002J.4), and "seo" (AES-WEB-002J.5) are included so
-        # nothing but pipeline/__init__ may import them and they may not
-        # import siblings either.
-        engine_subpackages = {"speccompiler", "pipeline", "brand", "ia", "content", "seo"}
+        # (AES-WEB-002J.4), "seo" (AES-WEB-002J.5), and "layouts"
+        # (AES-WEB-002J.7) are included so nothing but pipeline/__init__ may
+        # import them and they may not import siblings either.
+        engine_subpackages = {
+            "speccompiler", "pipeline", "brand", "ia", "content", "seo", "layouts",
+        }
         for path, imports in _all_engine_imports().items():
             relative = path.relative_to(PACKAGE_ROOT)
             in_pipeline = relative.parts[0] == "pipeline"

@@ -70,6 +70,26 @@ versions. The 1.0.0 shape is retained byte-for-byte as
 drops a declared field, so a 1.0.0 payload must not declare the new fields
 at all. The Information Architecture Engine (``engines/website_generation/
 ia/``) is not wired into pipeline execution by this delivery.
+
+LayoutPlan region/placement expansion (AES-WEB-001 §5.6 / Part 2 / Part 13
+Phase 2; internal sequencing label AES-WEB-002J.7)
+--------------------------------------------------------------------------
+``LayoutPlan`` gains ``region_details`` (typed region identity per
+``RegionKind`` plus deterministic per-component grid and responsive
+placement, keyed back to the unchanged ``pages``/``regions`` structure by
+``(route, region_id)``). The additive field moves the schema from 1.0.0 to
+1.1.0 with no migration (old readers still parse). The 1.0.0 shape is
+retained byte-for-byte as :class:`LayoutPlanV1` for the same reason
+documented above for ``ComponentManifestV1``/``BrandPackageV1``/
+``SiteArchitectureV1``: the canonical serializer never drops a declared
+field, so a 1.0.0 payload must not declare the new field at all.
+``LayoutRegion`` and ``PageLayout`` are unchanged and shared byte-for-byte
+by both schema versions -- new capability is expressed only as new sibling
+nested models (:class:`GridPlacement`, :class:`ResponsiveSelection`,
+:class:`ComponentPlacement`, :class:`RegionLayoutDetail`), never by
+restructuring an existing field's type (the established J.2/J.3 idiom). The
+Layout Engine (``engines/website_generation/layouts/``) is not wired into
+pipeline execution by this delivery.
 """
 
 from __future__ import annotations
@@ -86,6 +106,7 @@ from engines.website_generation.contracts.enums import (
     ArtifactKind,
     BuildState,
     GateSeverity,
+    RegionKind,
     StageExecutionStatus,
 )
 
@@ -527,28 +548,123 @@ class ComponentManifest(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 7. LayoutPlan
+# 7. LayoutPlan — schema 1.1.0 with typed region identity and deterministic
+# grid/responsive placement (AES-WEB-001 §5.6 / Part 2 / Part 13 Phase 2
+# amendment; internal sequencing label AES-WEB-002J.7)
 # ---------------------------------------------------------------------------
 
 class LayoutRegion(FrozenModel):
-    """An ordered region holding component indexes from the manifest."""
+    """An ordered region holding component indexes from the manifest.
+
+    Unchanged since schema 1.0.0 and shared byte-for-byte by
+    :class:`LayoutPlanV1` and :class:`LayoutPlan`. ``region_id`` is a plain
+    string for 1.0.0 compatibility; engine-produced plans set it to the
+    producing :class:`~engines.website_generation.contracts.enums.RegionKind`
+    value, and schema 1.1.0's :class:`RegionLayoutDetail` carries the same
+    identity typed as the enum for downstream (Renderer) consumption.
+    ``component_indexes`` are the original ``ComponentManifest`` page
+    indexes, in manifest order -- never renumbered.
+    """
 
     region_id: str
     component_indexes: Tuple[int, ...] = ()
 
 
 class PageLayout(FrozenModel):
-    """Deterministic composition tree for one page."""
+    """Deterministic composition tree for one page.
+
+    Unchanged since schema 1.0.0 and shared byte-for-byte by
+    :class:`LayoutPlanV1` and :class:`LayoutPlan`.
+    """
 
     route: str
     regions: Tuple[LayoutRegion, ...] = ()
 
 
-class LayoutPlan(ArtifactHeader):
-    """Deterministic page composition (§4.1 artifact #7)."""
+class LayoutPlanV1(ArtifactHeader):
+    """LayoutPlan schema 1.0.0 (pre-J.7 shape).
+
+    Retained for replay of plans produced before AES-WEB-002J.7. Carries
+    none of the J.7 fields (``region_details``), so its canonical
+    serialization and content hash are byte-identical to the original 1.0.0
+    contract. The current schema is 1.1.0 (:class:`LayoutPlan`). Internal
+    compatibility model — not part of the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.LAYOUT_PLAN
     pages: Tuple[PageLayout, ...] = ()
+
+
+class GridPlacement(FrozenModel):
+    """Deterministic abstract grid placement referencing BrandPackage tokens
+    (AES-WEB-002 §8.3, §10 -- semantic tokens only, never pixels or CSS).
+
+    ``columns_token`` is the first ``grid.columns.*`` token the component's
+    ``design_token_dependencies`` declares (declared-order tie-break, §10.3),
+    or ``""`` when the component declares no grid-columns dependency
+    (single-column/flow placement -- the deterministic default, never
+    invented). ``column_span`` is always 1: the Layout Engine performs no
+    grid-solving (AES-WEB-001 §5.6 "no complex grid-solving algorithm").
+    """
+
+    columns_token: str = ""
+    column_span: int = 1
+
+
+class ResponsiveSelection(FrozenModel):
+    """Responsive adaptation mirrored verbatim from the component's
+    ``ResponsiveContract`` (AES-WEB-002 §11.2: LayoutPlan chooses only among
+    adaptations the registry already authorizes; every MVP component
+    declares exactly one authorized adaptation, so the Layout Engine's
+    "choice" is a deterministic copy, never an invention of new behavior).
+    """
+
+    collapse_behavior: str = ""
+    mobile_order: str = "dom-order"
+    content_priority: Tuple[str, ...] = ()
+    truncation: str = "none"
+    sticky: str = "none"
+    table_adaptation: str = ""
+    image_behavior: str = ""
+
+
+class ComponentPlacement(FrozenModel):
+    """Deterministic grid and responsive placement for one component
+    instance, keyed back to its original ``ComponentManifest`` page index
+    (AES-WEB-002 §8.2/§11 -- never a renumbered or region-local index)."""
+
+    component_index: int
+    grid: GridPlacement = Field(default_factory=GridPlacement)
+    responsive: ResponsiveSelection = Field(default_factory=ResponsiveSelection)
+
+
+class RegionLayoutDetail(FrozenModel):
+    """Typed region identity and per-component placement detail for one
+    region already present in ``pages`` (AES-WEB-002 §9.1). Schema 1.1.0
+    only -- keyed back to its ``LayoutRegion`` by ``(route, region_id)``.
+    ``placements`` preserves the same order as the matching
+    ``LayoutRegion.component_indexes``.
+    """
+
+    route: str
+    region_id: str
+    region_kind: RegionKind
+    placements: Tuple[ComponentPlacement, ...] = ()
+
+
+class LayoutPlan(ArtifactHeader):
+    """Deterministic page composition (§4.1 artifact #7). Schema 1.1.0.
+
+    AES-WEB-002J.7 (AES-WEB-001 §5.6 / Part 2 / Part 13 Phase 2): additive
+    over the 1.0.0 shape (:class:`LayoutPlanV1`) with ``region_details``
+    carrying typed region identity plus deterministic grid and responsive
+    placement. No migration required -- the field is additive and old 1.0.0
+    payloads still load via LayoutPlanV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.LAYOUT_PLAN
+    pages: Tuple[PageLayout, ...] = ()
+    region_details: Tuple[RegionLayoutDetail, ...] = ()
 
 
 # ---------------------------------------------------------------------------

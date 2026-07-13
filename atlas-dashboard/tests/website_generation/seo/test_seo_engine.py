@@ -601,7 +601,7 @@ class TestContractsAndArchitecture:
             ArtifactKind.CONTENT_CANDIDATE: "1.0.0",
             ArtifactKind.CONTENT_PACKAGE: "1.0.0",
             ArtifactKind.COMPONENT_MANIFEST: "1.1.0",
-            ArtifactKind.LAYOUT_PLAN: "1.0.0",
+            ArtifactKind.LAYOUT_PLAN: "1.1.0",
             ArtifactKind.RENDERED_PAGE_SET: "1.0.0",
             ArtifactKind.SEO_PACKAGE: "1.0.0",
             ArtifactKind.SITE_BUNDLE: "1.0.0",

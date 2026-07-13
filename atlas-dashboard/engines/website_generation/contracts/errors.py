@@ -225,3 +225,26 @@ class ComponentResolutionError(ComponentSystemError):
     fallback (AES-WEB-002 §14.2 step 9). Diagnostics name the slot, every
     candidate considered, and the filter that eliminated each one —
     selection never silently drops a required slot."""
+
+
+class LayoutCompositionError(WebsiteGenerationError):
+    """LayoutEngine composition failed (AES-WEB-001 §5.6).
+
+    Batch-reports every unresolved-component, illegal-placement,
+    repetition-limit, and invalid-grid-reference violation at once via
+    ``diagnostics`` -- never first-failure-only (mirrors
+    ComponentResolutionError/SEOCompilationError's batch-reporting
+    discipline). Deterministic: retryable only if the input
+    ComponentManifest, BrandPackage, or injected registry contents
+    themselves change, so this is never retryable on its own.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "layout_composition",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )

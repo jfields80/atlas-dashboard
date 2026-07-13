@@ -39,6 +39,13 @@ AES-WEB-002J.5 (AES-WEB-001 §5.8 / Part 2) adds the ``seo_engine`` entry to
 schema 1.0.0, the shape registered since Phase 1 -- so no new schema
 registration is added here. The SEO Engine is not wired into pipeline
 execution; ``seo_compilation`` remains ``NOT_EXECUTED``.
+
+AES-WEB-002J.7 (AES-WEB-001 §5.6 / Part 2) adds the analogous
+additive-minor ``LayoutPlan`` schema 1.1.0 (``region_details``): both 1.0.0
+(the field-less :class:`LayoutPlanV1`) and 1.1.0 stay registered, again
+with no migration. Adds the ``layout_engine`` entry to ``ENGINE_VERSIONS``
+at 1.0.0. The Layout Engine is not wired into pipeline execution;
+``layout_composition`` remains ``NOT_EXECUTED``.
 """
 
 from __future__ import annotations
@@ -56,6 +63,7 @@ from engines.website_generation.contracts.artifacts import (
     ContentCandidate,
     ContentPackage,
     LayoutPlan,
+    LayoutPlanV1,
     QualityReport,
     RenderedPageSet,
     SEOPackage,
@@ -82,7 +90,8 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     ArtifactKind.CONTENT_PACKAGE: "1.0.0",
     # Amendment A1: additive-minor bump to 1.1.0 (optional selection_trace).
     ArtifactKind.COMPONENT_MANIFEST: "1.1.0",
-    ArtifactKind.LAYOUT_PLAN: "1.0.0",
+    # AES-WEB-002J.7: additive-minor bump to 1.1.0 (region_details).
+    ArtifactKind.LAYOUT_PLAN: "1.1.0",
     ArtifactKind.RENDERED_PAGE_SET: "1.0.0",
     ArtifactKind.SEO_PACKAGE: "1.0.0",
     ArtifactKind.SITE_BUNDLE: "1.0.0",
@@ -116,6 +125,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # Component Engine version. Not wired into pipeline execution (§6:
     # component_resolution remains NOT_EXECUTED in the BuildManifest).
     "component_engine": "1.0.0",
+    # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
+    # version. Not wired into pipeline execution (§6: layout_composition
+    # remains NOT_EXECUTED in the BuildManifest).
+    "layout_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
@@ -217,7 +230,7 @@ _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.CONTENT_CANDIDATE: ContentCandidate,
     ArtifactKind.CONTENT_PACKAGE: ContentPackage,
     ArtifactKind.COMPONENT_MANIFEST: ComponentManifestV1,
-    ArtifactKind.LAYOUT_PLAN: LayoutPlan,
+    ArtifactKind.LAYOUT_PLAN: LayoutPlanV1,
     ArtifactKind.RENDERED_PAGE_SET: RenderedPageSet,
     ArtifactKind.SEO_PACKAGE: SEOPackage,
     ArtifactKind.SITE_BUNDLE: SiteBundle,
@@ -248,4 +261,12 @@ register_artifact_model(
 # required.
 register_artifact_model(
     ArtifactKind.SITE_ARCHITECTURE, "1.1.0", SiteArchitecture
+)
+
+# AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2/Part 13 Phase 2): LayoutPlan
+# additive-minor schema 1.1.0 carrying region_details (typed region identity
+# plus deterministic grid/responsive placement). Registered alongside 1.0.0
+# with no migration required.
+register_artifact_model(
+    ArtifactKind.LAYOUT_PLAN, "1.1.0", LayoutPlan
 )
