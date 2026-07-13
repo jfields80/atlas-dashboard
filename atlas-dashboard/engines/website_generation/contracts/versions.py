@@ -112,6 +112,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # Not wired into pipeline execution (§6: seo_compilation remains
     # NOT_EXECUTED in the BuildManifest).
     "seo_engine": "1.0.0",
+    # AES-WEB-002J.6 (AES-WEB-001 §5.5/Part 2; AES-WEB-002 §14/§26): initial
+    # Component Engine version. Not wired into pipeline execution (§6:
+    # component_resolution remains NOT_EXECUTED in the BuildManifest).
+    "component_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive

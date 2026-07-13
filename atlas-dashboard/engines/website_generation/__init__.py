@@ -118,6 +118,7 @@ from engines.website_generation.contracts.versions import (
 )
 from engines.website_generation.components import (
     REGISTERED_COMPONENTS,
+    ComponentEngine,
     ComponentRegistry,
     RegistryInventoryEntry,
     build_default_registry,
@@ -153,6 +154,9 @@ __all__ = [
     # SEO Engine (AES-WEB-001 §5.8 / Part 2; AES-WEB-002J.5). Not wired into
     # pipeline execution.
     "SEOEngine",
+    # Component Engine (AES-WEB-001 §5.5 / Part 2; AES-WEB-002J.6). Not wired
+    # into pipeline execution.
+    "ComponentEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",

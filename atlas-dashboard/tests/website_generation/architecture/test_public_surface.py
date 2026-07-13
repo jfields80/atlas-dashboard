@@ -31,6 +31,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # SEO Engine (AES-WEB-001 §5.8 / Part 2; AES-WEB-002J.5). Not wired into
     # pipeline execution.
     "SEOEngine",
+    # Component Engine (AES-WEB-001 §5.5 / Part 2; AES-WEB-002J.6). Not wired
+    # into pipeline execution.
+    "ComponentEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -395,6 +398,18 @@ class TestAuthorizedPackageTree:
         seo_dir = base / "seo"
         present = {"seo/" + p.name for p in seo_dir.iterdir() if p.is_file()}
         assert present == expected
+
+    def test_aes_web_002j6_component_engine_present(self):
+        # AES-WEB-002J.6 (AES-WEB-001 §5.5/Part 2; AES-WEB-002 §14/§26/§29)
+        # adds exactly one file to the already-authorized components/ tree:
+        # component_engine.py, directly under components/ (the §29 file layout
+        # and test_import_audit.py's group-"" whitelist both place it there).
+        # No new top-level package, no flat catalog/filters/scoring/selector
+        # modules -- selection stays in components/selection/, definitions in
+        # components/catalog/ (authority > the implementation prompt's package
+        # sketch, per the CLAUDE.md precedence rule).
+        base = REPO_ROOT / "engines" / "website_generation"
+        assert (base / "components" / "component_engine.py").is_file()
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),

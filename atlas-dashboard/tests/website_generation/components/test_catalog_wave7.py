@@ -801,12 +801,18 @@ class TestMonetizationCellAndStatusExercisability:
         assert "monetization.ribbon.sponsor" not in candidates
         assert "commerce.pricing.sponsorship" not in candidates
 
-    def test_no_live_recipe_pipeline_or_component_engine_required(self):
-        # component_engine.py does not exist for any wave yet; this proof
-        # is registry-candidacy only, matching the AMB-002G-01 precedent.
+    def test_wave7_exercisability_is_registry_candidacy_only(self):
+        # Wave-7 (AES-WEB-002H) catalog exercisability is proven purely from
+        # registry candidacy (candidates_for), never from a live selection
+        # run -- the AMB-002G-01 precedent. The Component Engine arrived later
+        # (AES-WEB-002J.6); its existence does not change these proofs, which
+        # deliberately depend only on the registry index. (Historically this
+        # guard asserted component_engine.py was absent; J.6 built it, so the
+        # invariant is restated as "wave-7 proofs need no engine", which
+        # remains true.)
         import importlib.util
 
         spec = importlib.util.find_spec(
             "engines.website_generation.components.component_engine"
         )
-        assert spec is None
+        assert spec is not None  # present as of AES-WEB-002J.6

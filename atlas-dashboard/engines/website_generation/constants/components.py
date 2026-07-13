@@ -153,6 +153,22 @@ DEFAULT_LIFECYCLE_ALLOW_PROPOSED = True
 DEFAULT_LIFECYCLE_ALLOW_EXPERIMENTAL = False
 DEFAULT_LIFECYCLE_ALLOW_DEPRECATED = False
 
+# Default concrete versions the Component Engine (AES-WEB-002J.6) evaluates
+# each definition's compatibility_range against (§14.2 step 2 -- "against
+# renderer / token-schema / registry versions"). Every catalog definition
+# pins these three axes at ">=1.0.0,<2.0.0"; the Phase-1 baseline is 1.0.0
+# on all three. registry_schema tracks the component-contract schema version
+# (COMPONENT_CONTRACT_SCHEMA_VERSION in contracts/versions.py, currently
+# "1.0.0"); it is duplicated here as a literal because constants/ may not
+# import contracts/ (the import-audit matrix, §3.2). The renderer and
+# token-schema axes are not versioned anywhere concrete yet (rendering/ is a
+# later phase, AES-WEB-001 §5.7), so they carry the 1.0.0 baseline.
+DEFAULT_COMPATIBILITY_VERSIONS = {
+    "renderer": "1.0.0",
+    "token_schema": "1.0.0",
+    "registry_schema": "1.0.0",
+}
+
 # ---------------------------------------------------------------------------
 # Recipe slot tables (AES-WEB-002D; AES-WEB-002 §26.1, §26.2)
 # ---------------------------------------------------------------------------
@@ -579,7 +595,18 @@ BUSINESS_PROFILE_RECIPE_SLOTS = (
     {
         "slot_id": "correction_link",
         "page_role": "business-profile",
-        "purpose": "CORRECTION_REQUEST",
+        # AES-WEB-002J.6 data-defect fix: this field was "CORRECTION_REQUEST",
+        # which is a ConversionGoal (§16.2), not a CommercialPurpose -- the
+        # only such mismatch across all eighteen recipe tables. The recipe
+        # "purpose" field is a CommercialPurpose (§14.2 step 5), so the value
+        # was invalid and raised on enum coercion the moment a real consumer
+        # (the Component Engine) resolved the business-profile recipe. Set to
+        # REDUCE_UNCERTAINTY, matching the profile family's declared purpose
+        # (§5.5) and the correction recipe's own correction_form slot. The
+        # slot is optional and carries the unbuilt-family sentinel (form.* is
+        # Wave 5+), so it drops regardless of purpose -- this correction is
+        # behavior-preserving for selection.
+        "purpose": "REDUCE_UNCERTAINTY",
         "required_region": "",
         "required_prop_names": (),
         "required_slot_names": _UNBUILT_FAMILY_SENTINEL,
@@ -1951,3 +1978,40 @@ CORRECTION_RECIPE_SLOTS = (
         "required": False,  # §6.1 "R states" -- no status.* covers correction; modeled required=False pending recipe-integration
     },
 )
+
+
+# ---------------------------------------------------------------------------
+# Page-role -> recipe slot table map (AES-WEB-002J.6; AES-WEB-002 §26)
+#
+# §26: recipes are "declarative default sequences per PageRole ... consumed
+# by the Component Engine (slot needs)". This map is the single lookup the
+# Component Engine (components/component_engine.py) uses to resolve a page's
+# PageRole to its recipe slot table. Keyed by the PageRole *value* string
+# (constants/ may not import contracts/, §3.2), which is exactly the string
+# every recipe slot dict already carries in its "page_role" field and the
+# string SiteArchitecture stores in PagePlan.page_type. All eighteen §6.1
+# roles are covered -- one recipe table each, authored across AES-WEB-002D
+# (home/category), AES-WEB-002E (business-profile), and AES-WEB-002J.1
+# (the remaining fifteen). Insertion order follows the PageRole enum
+# declaration order (contracts/enums.py) for readability; lookups are by key
+# and never depend on this order.
+RECIPE_SLOTS_BY_PAGE_ROLE = {
+    "home": HOME_RECIPE_SLOTS,
+    "category": CATEGORY_RECIPE_SLOTS,
+    "city": CITY_RECIPE_SLOTS,
+    "city-category": CITY_CATEGORY_RECIPE_SLOTS,
+    "search-results": SEARCH_RESULTS_RECIPE_SLOTS,
+    "business-profile": BUSINESS_PROFILE_RECIPE_SLOTS,
+    "comparison": COMPARISON_RECIPE_SLOTS,
+    "best-of": BEST_OF_RECIPE_SLOTS,
+    "editorial-guide": EDITORIAL_GUIDE_RECIPE_SLOTS,
+    "collection": COLLECTION_RECIPE_SLOTS,
+    "service-area": SERVICE_AREA_RECIPE_SLOTS,
+    "lead-gen-landing": LEAD_GEN_LANDING_RECIPE_SLOTS,
+    "claim-listing": CLAIM_LISTING_RECIPE_SLOTS,
+    "sponsor-page": SPONSOR_PAGE_RECIPE_SLOTS,
+    "submission": SUBMISSION_RECIPE_SLOTS,
+    "correction": CORRECTION_RECIPE_SLOTS,
+    "verification": VERIFICATION_RECIPE_SLOTS,
+    "regional-hub": REGIONAL_HUB_RECIPE_SLOTS,
+}

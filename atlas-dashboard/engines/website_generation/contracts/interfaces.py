@@ -15,6 +15,7 @@ from typing import Optional, Sequence, Tuple
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     BusinessSpec,
+    ComponentManifest,
     ContentCandidate,
     ContentPackage,
     SEOPackage,
@@ -100,6 +101,30 @@ class SEOEngineInterface(ABC):
     ) -> SEOPackage:
         """Compile a deterministic SEOPackage from a SiteArchitecture,
         ContentPackage, and BusinessSpec."""
+        raise NotImplementedError
+
+
+class ComponentEngineInterface(ABC):
+    """The Component Engine's sole entry point (AES-WEB-001 §5.5).
+
+    Maps each ``SiteArchitecture`` page's recipe slots to component
+    instances from the registry (AES-WEB-002 §14, §26), emitting a
+    deterministic ``ComponentManifest`` with an embedded ``selection_trace``
+    (§14.3, ADR-14). Selection is the pure §14.2 pipeline; there is no
+    ``generate``/``draft``/``author`` method, by design. The registry is an
+    injected read-only :class:`ComponentRegistryView` dependency (§15.3), not
+    an artifact input, so tests may drive the engine with reduced fixture
+    registries.
+    """
+
+    @abstractmethod
+    def compile(
+        self,
+        site_architecture: SiteArchitecture,
+        content_package: ContentPackage,
+    ) -> ComponentManifest:
+        """Compile a deterministic ``ComponentManifest`` from a
+        ``SiteArchitecture`` and ``ContentPackage``."""
         raise NotImplementedError
 
 
