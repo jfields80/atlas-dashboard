@@ -273,3 +273,27 @@ class RenderError(WebsiteGenerationError):
         super().__init__(
             message, stage=stage, retryable=False, diagnostics=diagnostics
         )
+
+
+class AssemblyError(WebsiteGenerationError):
+    """Assembly Engine failed (AES-WEB-001 §5.9; AES-WEB-002J.10).
+
+    Batch-reports every missing-SEO-route, unknown-SEO-route, payload/hash
+    mismatch, missing/duplicate head-insertion-point, unsafe/duplicate
+    output-path, and invalid-canonical-URL violation at once via
+    ``diagnostics`` -- never first-failure-only (mirrors
+    RenderError/LayoutCompositionError's batch-reporting discipline).
+    Deterministic: retryable only if the input RenderedPageSet, SEOPackage,
+    or BrandPackage themselves change, so this is never retryable on its own.
+    No partial ``SiteBundle`` is ever returned when diagnostics exist.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "assembly",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )

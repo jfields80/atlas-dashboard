@@ -22,6 +22,7 @@ from engines.website_generation.contracts.artifacts import (
     RenderedPageSet,
     SEOPackage,
     SiteArchitecture,
+    SiteBundle,
     SpecCompilerInput,
 )
 from engines.website_generation.contracts.components import (
@@ -192,6 +193,36 @@ class RendererInterface(ABC):
     ) -> RenderedPageSet:
         """Render a deterministic ``RenderedPageSet`` from a ``LayoutPlan``,
         ``ComponentManifest``, ``ContentPackage``, and ``BrandPackage``."""
+        raise NotImplementedError
+
+
+class AssemblyEngineInterface(ABC):
+    """The Assembly Engine's sole entry point (AES-WEB-001 §5.9).
+
+    Produces the complete static site as a deterministic ``SiteBundle``:
+    injects the ``SEOPackage``'s per-route metadata (title, meta description,
+    self-canonical URL) plus the shared-stylesheet link into each
+    ``RenderedPageSet`` page's ``<head>`` (preserving the Renderer's body
+    byte-for-byte), maps every route to a bundle-root-relative output file,
+    emits ``sitemap.xml``/``robots.txt`` from the SEO artifact, and computes
+    the bundle-level hash. Pure engine: **No file I/O** -- the (future)
+    site_bundle_repository materializes the bundle to disk (§5.9, §9.3);
+    ``BrandPackage`` is accepted for asset provenance (§5.9 "BrandPackage
+    (assets)") and source-hash completeness. There is no
+    ``render``/``compile``/``select`` method, by design: Assembly never
+    re-renders body markup, recomputes SEO decisions, executes gates, or
+    writes files.
+    """
+
+    @abstractmethod
+    def assemble(
+        self,
+        rendered_page_set: RenderedPageSet,
+        seo_package: SEOPackage,
+        brand_package: BrandPackage,
+    ) -> SiteBundle:
+        """Assemble a deterministic ``SiteBundle`` from a ``RenderedPageSet``,
+        ``SEOPackage``, and ``BrandPackage``."""
         raise NotImplementedError
 
 

@@ -604,7 +604,7 @@ class TestContractsAndArchitecture:
             ArtifactKind.LAYOUT_PLAN: "1.1.0",
             ArtifactKind.RENDERED_PAGE_SET: "1.1.0",
             ArtifactKind.SEO_PACKAGE: "1.0.0",
-            ArtifactKind.SITE_BUNDLE: "1.0.0",
+            ArtifactKind.SITE_BUNDLE: "1.1.0",
             ArtifactKind.QUALITY_REPORT: "1.0.0",
             ArtifactKind.BUILD_MANIFEST: "1.0.0",
         }

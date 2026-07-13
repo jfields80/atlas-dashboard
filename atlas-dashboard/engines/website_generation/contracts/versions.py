@@ -53,6 +53,13 @@ additive-minor ``RenderedPageSet`` schema 1.1.0 (``page_details``,
 1.1.0 stay registered, again with no migration. Adds the ``renderer`` entry
 to ``ENGINE_VERSIONS`` at 1.0.0. The Renderer is not wired into pipeline
 execution; ``rendering`` remains ``NOT_EXECUTED``.
+
+AES-WEB-002J.10 (AES-WEB-001 §5.9 / Part 2) adds the analogous
+additive-minor ``SiteBundle`` schema 1.1.0 (``files``): both 1.0.0 (the
+hash-only :class:`SiteBundleV1`) and 1.1.0 stay registered, again with no
+migration. Adds the ``assembly`` entry to ``ENGINE_VERSIONS`` at 1.0.0. The
+Assembly Engine is not wired into pipeline execution; ``assembly`` remains
+``NOT_EXECUTED``.
 """
 
 from __future__ import annotations
@@ -78,6 +85,7 @@ from engines.website_generation.contracts.artifacts import (
     SiteArchitecture,
     SiteArchitectureV1,
     SiteBundle,
+    SiteBundleV1,
 )
 from engines.website_generation.contracts.enums import ArtifactKind
 from engines.website_generation.contracts.errors import (
@@ -103,7 +111,8 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     # AES-WEB-002J.8: additive-minor bump to 1.1.0 (page_details, shared_css).
     ArtifactKind.RENDERED_PAGE_SET: "1.1.0",
     ArtifactKind.SEO_PACKAGE: "1.0.0",
-    ArtifactKind.SITE_BUNDLE: "1.0.0",
+    # AES-WEB-002J.10: additive-minor bump to 1.1.0 (files).
+    ArtifactKind.SITE_BUNDLE: "1.1.0",
     ArtifactKind.QUALITY_REPORT: "1.0.0",
     ArtifactKind.BUILD_MANIFEST: "1.0.0",
 }
@@ -142,6 +151,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # Not wired into pipeline execution (§6: rendering remains NOT_EXECUTED
     # in the BuildManifest).
     "renderer": "1.0.0",
+    # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
+    # version. Not wired into pipeline execution (§6: assembly remains
+    # NOT_EXECUTED in the BuildManifest).
+    "assembly": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
@@ -246,7 +259,7 @@ _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.LAYOUT_PLAN: LayoutPlanV1,
     ArtifactKind.RENDERED_PAGE_SET: RenderedPageSetV1,
     ArtifactKind.SEO_PACKAGE: SEOPackage,
-    ArtifactKind.SITE_BUNDLE: SiteBundle,
+    ArtifactKind.SITE_BUNDLE: SiteBundleV1,
     ArtifactKind.QUALITY_REPORT: QualityReport,
     ArtifactKind.BUILD_MANIFEST: BuildManifest,
 }
@@ -290,4 +303,11 @@ register_artifact_model(
 # migration required.
 register_artifact_model(
     ArtifactKind.RENDERED_PAGE_SET, "1.1.0", RenderedPageSet
+)
+
+# AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2/Part 13 Phase 2): SiteBundle
+# additive-minor schema 1.1.0 carrying files (per-file UTF-8 text content).
+# Registered alongside 1.0.0 with no migration required.
+register_artifact_model(
+    ArtifactKind.SITE_BUNDLE, "1.1.0", SiteBundle
 )

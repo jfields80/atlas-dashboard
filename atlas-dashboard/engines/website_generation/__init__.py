@@ -14,6 +14,7 @@ from engines.website_generation.contracts.artifacts import (
     ArtifactHeader,
     BrandPackage,
     BuildManifest,
+    BundleFile,
     BusinessSpec,
     ComponentInstance,
     ComponentManifest,
@@ -136,6 +137,7 @@ from engines.website_generation.content import ContentEngine
 from engines.website_generation.seo import SEOEngine
 from engines.website_generation.layouts import LayoutEngine
 from engines.website_generation.rendering import Renderer
+from engines.website_generation.assembly import AssemblyEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -170,10 +172,14 @@ __all__ = [
     # Renderer (AES-WEB-001 §5.7 / Part 2; AES-WEB-002J.8). Not wired into
     # pipeline execution.
     "Renderer",
+    # Assembly Engine (AES-WEB-001 §5.9 / Part 2; AES-WEB-002J.10). Not wired
+    # into pipeline execution.
+    "AssemblyEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
     "BuildManifest",
+    "BundleFile",
     "BusinessSpec",
     "ComponentInstance",
     "ComponentManifest",

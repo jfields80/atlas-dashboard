@@ -53,10 +53,12 @@ from engines.website_generation import (
 from engines.website_generation.contracts.artifacts import (
     ArtifactCanonicalizationError,
     BrandPackageV1,
+    BundleFile,
     ComponentManifestV1,
     LayoutPlanV1,
     RenderedPageSetV1,
     SiteArchitectureV1,
+    SiteBundleV1,
     model_to_dict,
 )
 from engines.website_generation.contracts.enums import RegionKind
@@ -108,12 +110,14 @@ class TestCatalogRegistration:
         assert SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.LAYOUT_PLAN] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.RENDERED_PAGE_SET] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.1.0"
         _minor_bumped = (
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
             ArtifactKind.SITE_ARCHITECTURE,
             ArtifactKind.LAYOUT_PLAN,
             ArtifactKind.RENDERED_PAGE_SET,
+            ArtifactKind.SITE_BUNDLE,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -129,12 +133,13 @@ class TestCatalogRegistration:
             ArtifactKind.SITE_ARCHITECTURE,
             ArtifactKind.LAYOUT_PLAN,
             ArtifactKind.RENDERED_PAGE_SET,
+            ArtifactKind.SITE_BUNDLE,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
                 # A1 / AES-WEB-002J.2 / AES-WEB-002J.3 / AES-WEB-002J.7 /
-                # AES-WEB-002J.8: both 1.0.0 (field-less) and 1.1.0 stay
-                # registered.
+                # AES-WEB-002J.8 / AES-WEB-002J.10: both 1.0.0 (field-less)
+                # and 1.1.0 stay registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -750,6 +755,109 @@ class TestRenderedPageSetSchema:
         page_set = _make_rendered_page_set()
         assert isinstance(page_set.page_details[0].html, str)
         assert isinstance(page_set.shared_css, str)
+
+
+def _make_site_bundle(schema_version="1.1.0", **overrides) -> SiteBundle:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.SITE_BUNDLE,
+        source_hashes={},
+        file_map={"index.html": "a" * 64, "styles.css": "b" * 64},
+        bundle_hash="c" * 64,
+        files=(
+            BundleFile(path="index.html", content="<!doctype html><html></html>"),
+            BundleFile(path="styles.css", content=":root{}"),
+        ),
+    )
+    fields.update(overrides)
+    return SiteBundle(**fields)
+
+
+class TestSiteBundleSchema:
+    """AES-WEB-002J.10 — additive-minor SiteBundle schema (AES-WEB-001 §5.9)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.SITE_BUNDLE, "1.0.0")
+        assert model_cls is SiteBundleV1
+        legacy = SiteBundleV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.SITE_BUNDLE,
+            source_hashes={},
+        )
+        # 1.0.0 serialization is byte-identical to the pre-J.10 hash-only
+        # shape: the new key does not exist at all (same reasoning as
+        # RenderedPageSetV1 et al.).
+        text = canonical_artifact_json(legacy)
+        assert '"files"' not in text
+        assert '"file_map"' in text
+        assert '"bundle_hash"' in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.SITE_BUNDLE, "1.1.0")
+        assert model_cls is SiteBundle
+
+    def test_new_field_defaults_empty(self):
+        bundle = SiteBundle(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.SITE_BUNDLE,
+            source_hashes={},
+        )
+        assert bundle.files == ()
+
+    def test_v1_payload_still_parses_via_v1_model(self):
+        legacy_json = canonical_artifact_json(
+            SiteBundleV1(
+                schema_version="1.0.0",
+                artifact_kind=ArtifactKind.SITE_BUNDLE,
+                source_hashes={},
+                file_map={"index.html": "deadbeef"},
+                bundle_hash="feedface",
+            )
+        )
+        replayed = SiteBundleV1(**json.loads(legacy_json))
+        assert replayed.bundle_hash == "feedface"
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_site_bundle()
+        b = _make_site_bundle()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_files_changes_hash(self):
+        base = artifact_sha256(_make_site_bundle())
+        changed = artifact_sha256(
+            _make_site_bundle(
+                files=(BundleFile(path="index.html", content="<p>changed</p>"),)
+            )
+        )
+        assert base != changed
+
+    def test_file_map_unchanged_shape(self):
+        # file_map/bundle_hash are shared byte-for-byte by SiteBundleV1 and
+        # SiteBundle -- new capability lives only in files (the established
+        # additive idiom).
+        bundle = _make_site_bundle()
+        assert bundle.file_map["index.html"] == "a" * 64
+        assert bundle.bundle_hash == "c" * 64
+
+    def test_unsupported_site_bundle_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.SITE_BUNDLE, "2.0.0")
+
+    def test_site_bundle_is_frozen(self):
+        bundle = _make_site_bundle()
+        with pytest.raises(Exception):
+            bundle.file_map = {}
+        with pytest.raises(Exception):
+            bundle.files[0].content = "changed"
+
+    def test_bundle_file_rejects_arbitrary_fields(self):
+        with pytest.raises(Exception):
+            BundleFile(path="x", content="y", bogus=1)
+
+    def test_no_binary_embedding_text_only(self):
+        bundle = _make_site_bundle()
+        assert isinstance(bundle.files[0].content, str)
 
 
 class TestFrozenBehavior:

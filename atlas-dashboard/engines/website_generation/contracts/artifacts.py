@@ -108,6 +108,22 @@ is expressed only as a new sibling nested model (:class:`RenderedPageDetail`),
 never by restructuring ``RenderedPage`` itself. The Renderer
 (``engines/website_generation/rendering/``) is not wired into pipeline
 execution by this delivery.
+
+SiteBundle per-file text payload (AES-WEB-001 §5.9 / Part 2 / Part 13
+Phase 2; internal sequencing label AES-WEB-002J.10)
+--------------------------------------------------------------------------
+``SiteBundle`` gains ``files`` (per-file UTF-8 text content, keyed back to
+the unchanged ``file_map`` path → content-hash map by path). The additive
+field moves the schema from 1.0.0 to 1.1.0 with no migration (old readers
+still parse). The 1.0.0 shape is retained byte-for-byte as
+:class:`SiteBundleV1` for the same reason documented above -- the Assembly
+Engine is a pure "No file I/O" engine (§5.9), so the assembled static-site
+text must travel inside the returned artifact for the (future)
+site_bundle_repository (§9.3) to materialize to disk; new capability is a
+new sibling nested model (:class:`BundleFile`), never a restructuring of
+``file_map``/``bundle_hash``. The Assembly Engine
+(``engines/website_generation/assembly/``) is not wired into pipeline
+execution by this delivery.
 """
 
 from __future__ import annotations
@@ -781,15 +797,64 @@ class SEOPackage(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 10. SiteBundle
+# 10. SiteBundle — schema 1.1.0 with per-file text payloads (AES-WEB-001
+# §5.9 / Part 2; internal sequencing label AES-WEB-002J.10)
 # ---------------------------------------------------------------------------
 
-class SiteBundle(ArtifactHeader):
-    """Complete static site file map: path → content hash (#10)."""
+class SiteBundleV1(ArtifactHeader):
+    """SiteBundle schema 1.0.0 (pre-J.10 hash-only shape).
+
+    Retained for replay of bundles produced before AES-WEB-002J.10. Carries
+    no per-file text payload -- only the ``file_map`` (path → content hash)
+    and ``bundle_hash`` -- so its canonical serialization and content hash
+    are byte-identical to the original 1.0.0 contract. The current schema is
+    1.1.0 (:class:`SiteBundle`). Internal compatibility model -- not part of
+    the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.SITE_BUNDLE
     file_map: Dict[str, str] = {}
     bundle_hash: str = ""
+
+
+class BundleFile(FrozenModel):
+    """One emitted static-site file: its bundle-root-relative path and its
+    UTF-8 text content (AES-WEB-001 §5.9; schema 1.1.0 addition).
+
+    Text only, per §4.3 ("artifacts themselves never embed binary data") --
+    HTML/CSS/XML/robots are UTF-8 text, not images/fonts, so this is not a
+    CAS-binary exception (the same reasoning :class:`RenderedPageDetail`
+    documents). ``path`` is always a forward-slash, bundle-root-relative
+    path (never absolute, never containing ``..``); its content hash is the
+    matching :attr:`SiteBundle.file_map` entry (``file_map[path]``), so the
+    hash is not duplicated onto this model.
+    """
+
+    path: str
+    content: str
+
+
+class SiteBundle(ArtifactHeader):
+    """Complete static site file map: path → content hash (§4.1 artifact
+    #10). Schema 1.1.0.
+
+    AES-WEB-002J.10 (AES-WEB-001 §5.9 / Part 2): additive over the 1.0.0
+    shape (:class:`SiteBundleV1`) with ``files`` (the per-file UTF-8 text
+    payloads whose content hashes are ``file_map``). The Assembly Engine is a
+    pure engine with no CAS/filesystem access of its own (§5.9 "No file I/O
+    -- the repository materializes the bundle to disk"), so the assembled
+    text must travel inside the returned artifact for the (future)
+    site_bundle_repository (§9.3) to persist it. ``file_map`` stays the
+    §5.9-mandated path → content-hash map and ``bundle_hash`` the hash of the
+    sorted file map; ``files`` carries the same paths' content, keyed back to
+    ``file_map`` by path. No migration required -- the field is additive and
+    old 1.0.0 payloads still load via SiteBundleV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.SITE_BUNDLE
+    file_map: Dict[str, str] = {}
+    bundle_hash: str = ""
+    files: Tuple[BundleFile, ...] = ()
 
 
 # ---------------------------------------------------------------------------

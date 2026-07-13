@@ -40,6 +40,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Renderer (AES-WEB-001 §5.7 / Part 2; AES-WEB-002J.8). Not wired into
     # pipeline execution.
     "Renderer",
+    # Assembly Engine (AES-WEB-001 §5.9 / Part 2; AES-WEB-002J.10). Not wired
+    # into pipeline execution.
+    "AssemblyEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -63,6 +66,7 @@ EXPECTED_PUBLIC_SURFACE = {
     "PageLayout",
     "PagePlan",
     "QualityReport",
+    "BundleFile",
     "RegionLayoutDetail",
     "RenderedPage",
     "RenderedPageDetail",
@@ -215,6 +219,16 @@ class TestPublicSurface:
             # declared in contracts/errors.py, imported directly from there
             # by tests, never exported at the top level.
             "RenderError",
+            # AES-WEB-002J.10: same pattern as RenderedPageSetV1 -- the 1.0.0
+            # hash-only SiteBundle shape, registered for replay but
+            # deliberately internal; the public SiteBundle is the 1.1.0 shape.
+            "SiteBundleV1",
+            # AssemblyEngineInterface / AssemblyError follow the
+            # RendererInterface / RenderError precedent: declared in
+            # contracts/, never exported at the top level. Only the concrete
+            # AssemblyEngine class is public.
+            "AssemblyEngineInterface",
+            "AssemblyError",
         ):
             assert internal not in wge.__all__
 
@@ -304,6 +318,13 @@ class TestAuthorizedPackageTree:
         "rendering",
     }
 
+    # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2/Part 13 Phase 2): the Assembly
+    # Engine package, authorized by this delivery only — an operator
+    # decision, not a mechanical consequence of an earlier amendment.
+    J10_AUTHORIZED_PACKAGES = {
+        "assembly",
+    }
+
     AUTHORIZED_PACKAGES = (
         PHASE1_PACKAGES
         | A3_AUTHORIZED_PACKAGES
@@ -313,6 +334,7 @@ class TestAuthorizedPackageTree:
         | J5_AUTHORIZED_PACKAGES
         | J7_AUTHORIZED_PACKAGES
         | J8_AUTHORIZED_PACKAGES
+        | J10_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -324,9 +346,9 @@ class TestAuthorizedPackageTree:
     def test_no_unauthorized_later_phase_packages(self):
         # Every top-level package present must be authorized. The A3 future
         # tree is permitted; every other later-phase engine package (brand,
-        # ia, content, layouts, seo, assembly) remains rejected until its own
-        # phase authorizes it. "rendering" is authorized as of
-        # AES-WEB-002J.8 (J8_AUTHORIZED_PACKAGES above).
+        # ia, content, layouts, seo) remains rejected until its own phase
+        # authorizes it. "rendering" is authorized as of AES-WEB-002J.8 and
+        # "assembly" as of AES-WEB-002J.10 (J8/J10_AUTHORIZED_PACKAGES above).
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         present.discard("__pycache__")
@@ -336,22 +358,19 @@ class TestAuthorizedPackageTree:
         )
 
     def test_unauthorized_engine_packages_still_rejected(self):
-        # These AES-WEB-001 Part 2 engine packages belong to later WGE phases
-        # and are NOT authorized by this amendment; they must not exist yet.
-        # "brand" is authorized as of AES-WEB-002J.2, "ia" as of
-        # AES-WEB-002J.3, "content" as of AES-WEB-002J.4, "seo" as of
-        # AES-WEB-002J.5, "layouts" as of AES-WEB-002J.7, and "rendering" as
-        # of AES-WEB-002J.8 (see J2_AUTHORIZED_PACKAGES/
-        # J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES/J7_AUTHORIZED_PACKAGES/
-        # J8_AUTHORIZED_PACKAGES above) and are intentionally no longer in
-        # this list. "assembly" remains unauthorized -- no later phase has
-        # authorized it yet.
+        # Every AES-WEB-001 Part 2 engine package now exists and is authorized
+        # (brand J.2, ia J.3, content J.4, seo J.5, layouts J.7, rendering
+        # J.8, assembly J.10; components/gates via A3). What remains rejected
+        # is anything that is NOT a WGE engine and must never appear under
+        # engines/website_generation/: "deployment" is a service/adapter and
+        # repository concern (AES-WEB-001 §5, §12, §3.5 DeploymentAdapter),
+        # never a deterministic engine package here.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
-        for later_phase in (
-            "assembly",
+        for forbidden in (
+            "deployment",
         ):
-            assert later_phase not in present, later_phase
+            assert forbidden not in present, forbidden
 
     def test_aes_web_002a_component_tree_exists(self):
         # AES-WEB-002A creates the §31 "New files" package areas: the
@@ -514,6 +533,30 @@ class TestAuthorizedPackageTree:
         rendering_dir = base / "rendering"
         present = {
             "rendering/" + p.name for p in rendering_dir.iterdir() if p.is_file()
+        }
+        assert present == expected
+
+    def test_aes_web_002j10_assembly_tree_exists(self):
+        # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2) creates exactly the three
+        # authorized assembly-package files -- one engine class
+        # (assembly_engine.py) and one pure-builders module
+        # (assembly_builders.py: route mapping, head injection, sitemap/
+        # robots serialization) plus __init__.py -- and no deployment/ or
+        # filesystem writer (see test_import_audit.py's assembly-only import
+        # matrix + no-filesystem guard and this module's
+        # J10_AUTHORIZED_PACKAGES comment above). Pins the exact assembly/
+        # file list: nothing more, nothing less.
+        base = REPO_ROOT / "engines" / "website_generation"
+        expected = {
+            "assembly/__init__.py",
+            "assembly/assembly_engine.py",
+            "assembly/assembly_builders.py",
+        }
+        for relative in expected:
+            assert (base / relative).is_file(), relative
+        assembly_dir = base / "assembly"
+        present = {
+            "assembly/" + p.name for p in assembly_dir.iterdir() if p.is_file()
         }
         assert present == expected
 
