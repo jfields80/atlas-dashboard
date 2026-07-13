@@ -380,6 +380,8 @@ class TestRepositoryMatrix:
     REPOSITORY_FILES = (
         REPO_ROOT / "repositories" / "artifact_store_repository.py",
         REPO_ROOT / "repositories" / "build_state_repository.py",
+        # AES-WEB-002J.12 (AES-WEB-001 §9.3).
+        REPO_ROOT / "repositories" / "site_bundle_repository.py",
     )
 
     def test_repositories_import_contracts_and_storage_only(self):

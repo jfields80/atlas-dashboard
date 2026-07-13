@@ -324,3 +324,35 @@ class GateExecutionError(WebsiteGenerationError):
         super().__init__(
             message, stage=stage, retryable=False, diagnostics=diagnostics
         )
+
+
+class SiteBundleRepositoryError(WebsiteGenerationError):
+    """The Site Bundle Repository refused or failed a materialization
+    (AES-WEB-001 §9.3; AES-WEB-002J.12).
+
+    Every failure -- a pre-write validation refusal (unsafe path, hash
+    mismatch, non-empty destination, ...) or a filesystem/post-write
+    verification failure -- raises this one error type with a deterministic
+    ``category`` (also mirrored into ``diagnostics["category"]``) rather than
+    a family of subclasses, so callers branch on the category string, not on
+    exception identity. Never repairs a mismatch it detects. Filesystem
+    errors are never retryable on their own (retrying with the same
+    ``SiteBundle`` and destination reproduces the same fault). No partial
+    ``SiteBundleMaterialization`` is ever returned, and the destination root
+    is left exactly as it was found (or with the staging directory removed)
+    on any failure.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        category: str,
+        stage: str = "site_bundle_repository",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        merged = dict(diagnostics or {})
+        merged["category"] = category
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=merged
+        )
+        self.category = category
