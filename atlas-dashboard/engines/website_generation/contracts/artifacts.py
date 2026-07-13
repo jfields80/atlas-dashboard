@@ -90,6 +90,24 @@ nested models (:class:`GridPlacement`, :class:`ResponsiveSelection`,
 restructuring an existing field's type (the established J.2/J.3 idiom). The
 Layout Engine (``engines/website_generation/layouts/``) is not wired into
 pipeline execution by this delivery.
+
+RenderedPageSet HTML/shared-CSS text payload (AES-WEB-001 §5.7 / Part 2 /
+Part 13 Phase 2; internal sequencing label AES-WEB-002J.8)
+--------------------------------------------------------------------------
+``RenderedPageSet`` gains ``page_details`` (per-page emitted HTML text,
+keyed back to the unchanged ``pages`` by route) and ``shared_css`` (the
+shared CSS text payload backing ``shared_css_hash``). The additive fields
+move the schema from 1.0.0 to 1.1.0 with no migration (old readers still
+parse). The 1.0.0 shape is retained byte-for-byte as
+:class:`RenderedPageSetV1` for the same reason documented above for
+``ComponentManifestV1``/``BrandPackageV1``/``SiteArchitectureV1``/
+``LayoutPlanV1``: the canonical serializer never drops a declared field, so
+a 1.0.0 payload must not declare the new fields at all. ``RenderedPage`` is
+unchanged and shared byte-for-byte by both schema versions; new capability
+is expressed only as a new sibling nested model (:class:`RenderedPageDetail`),
+never by restructuring ``RenderedPage`` itself. The Renderer
+(``engines/website_generation/rendering/``) is not wired into pipeline
+execution by this delivery.
 """
 
 from __future__ import annotations
@@ -668,23 +686,76 @@ class LayoutPlan(ArtifactHeader):
 
 
 # ---------------------------------------------------------------------------
-# 8. RenderedPageSet
+# 8. RenderedPageSet — schema 1.1.0 with HTML/shared-CSS text payloads
+# (AES-WEB-001 §5.7 / Part 2; internal sequencing label AES-WEB-002J.8)
 # ---------------------------------------------------------------------------
 
 class RenderedPage(FrozenModel):
-    """One emitted page referenced by content hash (no embedded binary)."""
+    """One emitted page referenced by content hash (no embedded binary).
+
+    Unchanged since schema 1.0.0 and shared byte-for-byte by
+    :class:`RenderedPageSetV1` and :class:`RenderedPageSet`. ``css_hash``
+    stays ``""`` for every page: CSS is emitted once per build and shared
+    across pages (AES-WEB-001 §5.7/§8.4; AES-WEB-002 §20.2), never
+    per-page -- the field is retained only for 1.0.0 replay compatibility.
+    """
 
     route: str
     html_hash: str
     css_hash: str = ""
 
 
-class RenderedPageSet(ArtifactHeader):
-    """Emitted HTML/CSS per page, content-hashed (§4.1 artifact #8)."""
+class RenderedPageSetV1(ArtifactHeader):
+    """RenderedPageSet schema 1.0.0 (pre-J.8 hash-only shape).
+
+    Retained for replay of page sets produced before AES-WEB-002J.8. Carries
+    no HTML/CSS text payload -- only content hashes -- so its canonical
+    serialization and content hash are byte-identical to the original 1.0.0
+    contract. The current schema is 1.1.0 (:class:`RenderedPageSet`).
+    Internal compatibility model -- not part of the public surface.
+    """
 
     artifact_kind: ArtifactKind = ArtifactKind.RENDERED_PAGE_SET
     pages: Tuple[RenderedPage, ...] = ()
     shared_css_hash: str = ""
+
+
+class RenderedPageDetail(FrozenModel):
+    """Emitted HTML text payload for one page (AES-WEB-001 §5.7; schema
+    1.1.0 addition). Schema 1.1.0 only -- keyed back to its ``RenderedPage``
+    by ``route`` (mirroring the ``RegionLayoutDetail``/``LayoutPlan`` J.7
+    idiom: new capability is a new sibling nested model, never a
+    restructured existing field).
+
+    Text only, per §4.3 ("artifacts themselves never embed binary data") --
+    HTML/CSS are UTF-8 text, not images/fonts, so this is not a CAS-binary
+    exception.
+    """
+
+    route: str
+    html: str
+
+
+class RenderedPageSet(ArtifactHeader):
+    """Emitted HTML/CSS per page, content-hashed (§4.1 artifact #8).
+    Schema 1.1.0.
+
+    AES-WEB-002J.8 (AES-WEB-001 §5.7 / Part 2): additive over the 1.0.0
+    shape (:class:`RenderedPageSetV1`) with ``page_details`` (per-page HTML
+    text, keyed back to ``pages`` by route) and ``shared_css`` (the shared
+    CSS text payload backing ``shared_css_hash``). The Renderer is a pure
+    engine with no CAS/filesystem access of its own (AES-WEB-001 §5's
+    "no side effects" engine contract), so the emitted text must travel
+    inside the returned artifact for a future service layer to persist it.
+    No migration required -- the fields are additive and old 1.0.0 payloads
+    still load via RenderedPageSetV1.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.RENDERED_PAGE_SET
+    pages: Tuple[RenderedPage, ...] = ()
+    shared_css_hash: str = ""
+    page_details: Tuple[RenderedPageDetail, ...] = ()
+    shared_css: str = ""
 
 
 # ---------------------------------------------------------------------------

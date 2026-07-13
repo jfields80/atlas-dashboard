@@ -19,6 +19,7 @@ from engines.website_generation.contracts.artifacts import (
     ContentCandidate,
     ContentPackage,
     LayoutPlan,
+    RenderedPageSet,
     SEOPackage,
     SiteArchitecture,
     SpecCompilerInput,
@@ -157,6 +158,40 @@ class LayoutEngineInterface(ABC):
     ) -> LayoutPlan:
         """Compose a deterministic ``LayoutPlan`` from a ``ComponentManifest``
         and a ``BrandPackage``."""
+        raise NotImplementedError
+
+
+class RendererInterface(ABC):
+    """The Renderer's sole entry point (AES-WEB-001 §5.7).
+
+    Emits deterministic HTML/CSS from a ``LayoutPlan``, resolving component
+    instances from the ``ComponentManifest`` (AES-WEB-002J.8 decision D-1:
+    ``LayoutPlan.ComponentPlacement.component_index`` names an index into
+    ``ComponentManifest`` page components, so the Renderer needs the
+    manifest as a fourth input beyond the three §5.7 summarizes -- the
+    manifest is not itself walked or reordered, only indexed). Binds content
+    from ``ContentPackage`` and design tokens from ``BrandPackage``. Produces
+    no selection, no layout decisions, no SEO metadata, and no file output --
+    only a ``RenderedPageSet``. There is no ``select``/``compose``/``plan``
+    method, by design: the Renderer never selects components, reorders
+    layout, or invents content. The registry is an injected read-only
+    :class:`ComponentRegistryView` dependency (mirroring
+    ``LayoutEngineInterface``'s constructor-injection precedent), not an
+    artifact input and not a method parameter -- ``rendering/`` may not
+    import the sibling ``components/`` package that builds the default
+    registry.
+    """
+
+    @abstractmethod
+    def render(
+        self,
+        layout_plan: LayoutPlan,
+        component_manifest: ComponentManifest,
+        content_package: ContentPackage,
+        brand_package: BrandPackage,
+    ) -> RenderedPageSet:
+        """Render a deterministic ``RenderedPageSet`` from a ``LayoutPlan``,
+        ``ComponentManifest``, ``ContentPackage``, and ``BrandPackage``."""
         raise NotImplementedError
 
 

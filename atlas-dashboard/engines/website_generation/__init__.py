@@ -35,6 +35,7 @@ from engines.website_generation.contracts.artifacts import (
     QualityReport,
     RegionLayoutDetail,
     RenderedPage,
+    RenderedPageDetail,
     RenderedPageSet,
     ResponsiveSelection,
     SEOEntry,
@@ -134,6 +135,7 @@ from engines.website_generation.ia import InformationArchitectureEngine
 from engines.website_generation.content import ContentEngine
 from engines.website_generation.seo import SEOEngine
 from engines.website_generation.layouts import LayoutEngine
+from engines.website_generation.rendering import Renderer
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -165,6 +167,9 @@ __all__ = [
     # Layout Engine (AES-WEB-001 §5.6 / Part 2; AES-WEB-002J.7). Not wired
     # into pipeline execution.
     "LayoutEngine",
+    # Renderer (AES-WEB-001 §5.7 / Part 2; AES-WEB-002J.8). Not wired into
+    # pipeline execution.
+    "Renderer",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -190,6 +195,7 @@ __all__ = [
     "QualityReport",
     "RegionLayoutDetail",
     "RenderedPage",
+    "RenderedPageDetail",
     "RenderedPageSet",
     "ResponsiveSelection",
     "SEOEntry",

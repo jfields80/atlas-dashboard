@@ -37,6 +37,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Layout Engine (AES-WEB-001 §5.6 / Part 2; AES-WEB-002J.7). Not wired
     # into pipeline execution.
     "LayoutEngine",
+    # Renderer (AES-WEB-001 §5.7 / Part 2; AES-WEB-002J.8). Not wired into
+    # pipeline execution.
+    "Renderer",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -62,6 +65,7 @@ EXPECTED_PUBLIC_SURFACE = {
     "QualityReport",
     "RegionLayoutDetail",
     "RenderedPage",
+    "RenderedPageDetail",
     "RenderedPageSet",
     "ResponsiveSelection",
     "SEOEntry",
@@ -198,6 +202,19 @@ class TestPublicSurface:
             # contracts/errors.py, imported directly from there by tests,
             # never exported at the top level.
             "LayoutCompositionError",
+            # AES-WEB-002J.8: same pattern as LayoutPlanV1 above -- registered
+            # at schema 1.0.0 for replay, but deliberately internal -- the
+            # public RenderedPageSet is the current (1.1.0) shape.
+            "RenderedPageSetV1",
+            # RendererInterface follows the established engine-interface
+            # pattern (LayoutEngineInterface, ...): declared in contracts/
+            # interfaces.py, never exported at the top level. Only the
+            # concrete Renderer class is public.
+            "RendererInterface",
+            # RenderError follows the LayoutCompositionError precedent:
+            # declared in contracts/errors.py, imported directly from there
+            # by tests, never exported at the top level.
+            "RenderError",
         ):
             assert internal not in wge.__all__
 
@@ -280,6 +297,13 @@ class TestAuthorizedPackageTree:
         "layouts",
     }
 
+    # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2/Part 13 Phase 2): the Renderer
+    # package, authorized by this delivery only — an operator decision, not
+    # a mechanical consequence of an earlier amendment.
+    J8_AUTHORIZED_PACKAGES = {
+        "rendering",
+    }
+
     AUTHORIZED_PACKAGES = (
         PHASE1_PACKAGES
         | A3_AUTHORIZED_PACKAGES
@@ -288,6 +312,7 @@ class TestAuthorizedPackageTree:
         | J4_AUTHORIZED_PACKAGES
         | J5_AUTHORIZED_PACKAGES
         | J7_AUTHORIZED_PACKAGES
+        | J8_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -299,8 +324,9 @@ class TestAuthorizedPackageTree:
     def test_no_unauthorized_later_phase_packages(self):
         # Every top-level package present must be authorized. The A3 future
         # tree is permitted; every other later-phase engine package (brand,
-        # ia, content, layouts, rendering, seo, assembly) remains rejected
-        # until its own phase authorizes it.
+        # ia, content, layouts, seo, assembly) remains rejected until its own
+        # phase authorizes it. "rendering" is authorized as of
+        # AES-WEB-002J.8 (J8_AUTHORIZED_PACKAGES above).
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         present.discard("__pycache__")
@@ -314,14 +340,16 @@ class TestAuthorizedPackageTree:
         # and are NOT authorized by this amendment; they must not exist yet.
         # "brand" is authorized as of AES-WEB-002J.2, "ia" as of
         # AES-WEB-002J.3, "content" as of AES-WEB-002J.4, "seo" as of
-        # AES-WEB-002J.5, and "layouts" as of AES-WEB-002J.7 (see
-        # J2_AUTHORIZED_PACKAGES/J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES/
-        # J7_AUTHORIZED_PACKAGES above) and are intentionally no longer in
-        # this list.
+        # AES-WEB-002J.5, "layouts" as of AES-WEB-002J.7, and "rendering" as
+        # of AES-WEB-002J.8 (see J2_AUTHORIZED_PACKAGES/
+        # J3_AUTHORIZED_PACKAGES/J4_AUTHORIZED_PACKAGES/J7_AUTHORIZED_PACKAGES/
+        # J8_AUTHORIZED_PACKAGES above) and are intentionally no longer in
+        # this list. "assembly" remains unauthorized -- no later phase has
+        # authorized it yet.
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "rendering", "assembly",
+            "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -448,6 +476,35 @@ class TestAuthorizedPackageTree:
             assert (base / relative).is_file(), relative
         layouts_dir = base / "layouts"
         present = {"layouts/" + p.name for p in layouts_dir.iterdir() if p.is_file()}
+        assert present == expected
+
+    def test_aes_web_002j8_rendering_tree_exists(self):
+        # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2) creates exactly the seven
+        # authorized rendering-package files -- one orchestrator
+        # (renderer.py), one HTML-primitives/emitter-table module
+        # (html_emitter.py), one CSS-primitives module (css_emitter.py), and
+        # three per-family emitter modules matching the three J.8-authorized
+        # catalog waves (layout_atoms, navigation, discovery) -- and no
+        # assembly/ addition (see test_import_audit.py's rendering-only
+        # import matrix and this module's J8_AUTHORIZED_PACKAGES comment
+        # above). Pins the exact rendering/ file list: nothing more,
+        # nothing less.
+        base = REPO_ROOT / "engines" / "website_generation"
+        expected = {
+            "rendering/__init__.py",
+            "rendering/renderer.py",
+            "rendering/html_emitter.py",
+            "rendering/css_emitter.py",
+            "rendering/emitters_layout_atoms.py",
+            "rendering/emitters_navigation.py",
+            "rendering/emitters_discovery.py",
+        }
+        for relative in expected:
+            assert (base / relative).is_file(), relative
+        rendering_dir = base / "rendering"
+        present = {
+            "rendering/" + p.name for p in rendering_dir.iterdir() if p.is_file()
+        }
         assert present == expected
 
     def test_aes_web_002j6_component_engine_present(self):

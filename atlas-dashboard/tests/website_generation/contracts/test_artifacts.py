@@ -31,6 +31,8 @@ from engines.website_generation import (
     PageLayout,
     QualityReport,
     RegionLayoutDetail,
+    RenderedPage,
+    RenderedPageDetail,
     RenderedPageSet,
     ResponsiveSelection,
     SEOPackage,
@@ -53,6 +55,7 @@ from engines.website_generation.contracts.artifacts import (
     BrandPackageV1,
     ComponentManifestV1,
     LayoutPlanV1,
+    RenderedPageSetV1,
     SiteArchitectureV1,
     model_to_dict,
 )
@@ -96,17 +99,21 @@ class TestCatalogRegistration:
         # SiteArchitecture current schema is likewise 1.1.0 (additive
         # page_ids/page_hierarchy/internal_link_topology). AES-WEB-002J.7
         # (AES-WEB-001 §5.6/Part 2): LayoutPlan current schema is likewise
-        # 1.1.0 (additive region_details). Every other kind remains 1.0.0.
+        # 1.1.0 (additive region_details). AES-WEB-002J.8 (AES-WEB-001
+        # §5.7/Part 2): RenderedPageSet current schema is likewise 1.1.0
+        # (additive page_details/shared_css). Every other kind remains 1.0.0.
         assert set(SCHEMA_VERSIONS) == set(ALL_KINDS)
         assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.BRAND_PACKAGE] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.LAYOUT_PLAN] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.RENDERED_PAGE_SET] == "1.1.0"
         _minor_bumped = (
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
             ArtifactKind.SITE_ARCHITECTURE,
             ArtifactKind.LAYOUT_PLAN,
+            ArtifactKind.RENDERED_PAGE_SET,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -121,11 +128,13 @@ class TestCatalogRegistration:
             ArtifactKind.BRAND_PACKAGE,
             ArtifactKind.SITE_ARCHITECTURE,
             ArtifactKind.LAYOUT_PLAN,
+            ArtifactKind.RENDERED_PAGE_SET,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
-                # A1 / AES-WEB-002J.2 / AES-WEB-002J.3: both 1.0.0
-                # (field-less) and 1.1.0 stay registered.
+                # A1 / AES-WEB-002J.2 / AES-WEB-002J.3 / AES-WEB-002J.7 /
+                # AES-WEB-002J.8: both 1.0.0 (field-less) and 1.1.0 stay
+                # registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -541,6 +550,20 @@ def _make_layout_plan(schema_version="1.1.0", **overrides) -> LayoutPlan:
     return LayoutPlan(**fields)
 
 
+def _make_rendered_page_set(schema_version="1.1.0", **overrides) -> RenderedPageSet:
+    fields = dict(
+        schema_version=schema_version,
+        artifact_kind=ArtifactKind.RENDERED_PAGE_SET,
+        source_hashes={},
+        pages=(RenderedPage(route="/", html_hash="a" * 64, css_hash=""),),
+        shared_css_hash="b" * 64,
+        page_details=(RenderedPageDetail(route="/", html="<p>hi</p>"),),
+        shared_css=":root{}",
+    )
+    fields.update(overrides)
+    return RenderedPageSet(**fields)
+
+
 class TestLayoutPlanSchema:
     """AES-WEB-002J.7 — additive-minor LayoutPlan schema (AES-WEB-001 §5.6)."""
 
@@ -632,6 +655,101 @@ class TestLayoutPlanSchema:
             GridPlacement(columns_token="grid.columns.3", bogus=1)
         with pytest.raises(Exception):
             ResponsiveSelection(collapse_behavior="grid-to-stack", bogus=1)
+
+
+class TestRenderedPageSetSchema:
+    """AES-WEB-002J.8 — additive-minor RenderedPageSet schema (AES-WEB-001
+    §5.7)."""
+
+    def test_schema_1_0_0_still_supported_and_field_less(self):
+        model_cls = registered_artifact_model(ArtifactKind.RENDERED_PAGE_SET, "1.0.0")
+        assert model_cls is RenderedPageSetV1
+        legacy = RenderedPageSetV1(
+            schema_version="1.0.0",
+            artifact_kind=ArtifactKind.RENDERED_PAGE_SET,
+            source_hashes={},
+        )
+        # 1.0.0 serialization is byte-identical to the pre-J.8 hash-only
+        # shape: the new keys do not exist at all (same reasoning as
+        # ComponentManifestV1/BrandPackageV1/SiteArchitectureV1/LayoutPlanV1).
+        text = canonical_artifact_json(legacy)
+        assert '"page_details"' not in text
+        assert '"shared_css"' not in text
+        assert '"shared_css_hash"' in text
+
+    def test_schema_1_1_0_is_registered(self):
+        model_cls = registered_artifact_model(ArtifactKind.RENDERED_PAGE_SET, "1.1.0")
+        assert model_cls is RenderedPageSet
+
+    def test_new_fields_default_empty(self):
+        page_set = RenderedPageSet(
+            schema_version="1.1.0",
+            artifact_kind=ArtifactKind.RENDERED_PAGE_SET,
+            source_hashes={},
+        )
+        assert page_set.page_details == ()
+        assert page_set.shared_css == ""
+
+    def test_v1_payload_still_parses_via_v1_model(self):
+        # A 1.0.0 payload produced before J.8 (hash-only, no page_details/
+        # shared_css keys) still parses through the registered 1.0.0 model.
+        legacy_json = canonical_artifact_json(
+            RenderedPageSetV1(
+                schema_version="1.0.0",
+                artifact_kind=ArtifactKind.RENDERED_PAGE_SET,
+                source_hashes={},
+                pages=(),
+                shared_css_hash="deadbeef",
+            )
+        )
+        replayed = RenderedPageSetV1(**json.loads(legacy_json))
+        assert replayed.shared_css_hash == "deadbeef"
+
+    def test_canonical_round_trip_is_stable(self):
+        a = _make_rendered_page_set()
+        b = _make_rendered_page_set()
+        assert canonical_artifact_json(a) == canonical_artifact_json(b)
+        assert artifact_sha256(a) == artifact_sha256(b)
+
+    def test_changed_page_details_changes_hash(self):
+        base = artifact_sha256(_make_rendered_page_set())
+        changed = artifact_sha256(
+            _make_rendered_page_set(
+                page_details=(RenderedPageDetail(route="/", html="<p>changed</p>"),)
+            )
+        )
+        assert base != changed
+
+    def test_rendered_page_unchanged_shape(self):
+        # RenderedPage is shared byte-for-byte by RenderedPageSetV1 and
+        # RenderedPageSet -- new capability lives only in page_details/
+        # shared_css (the established J.2/J.3/J.7 idiom: never restructure
+        # an existing field's type).
+        page_set = _make_rendered_page_set()
+        assert page_set.pages[0].route == "/"
+        assert page_set.pages[0].css_hash == ""
+
+    def test_unsupported_rendered_page_set_version_fails(self):
+        with pytest.raises(UnsupportedSchemaVersionError):
+            registered_artifact_model(ArtifactKind.RENDERED_PAGE_SET, "2.0.0")
+
+    def test_rendered_page_set_is_frozen(self):
+        page_set = _make_rendered_page_set()
+        with pytest.raises(Exception):
+            page_set.pages = ()
+        with pytest.raises(Exception):
+            page_set.page_details[0].html = "changed"
+
+    def test_rendered_page_detail_rejects_arbitrary_fields(self):
+        with pytest.raises(Exception):
+            RenderedPageDetail(route="/", html="<p></p>", bogus=1)
+
+    def test_no_binary_embedding_text_only(self):
+        # §4.3: artifacts never embed binary data -- html/shared_css are
+        # plain str fields (UTF-8 text), never bytes.
+        page_set = _make_rendered_page_set()
+        assert isinstance(page_set.page_details[0].html, str)
+        assert isinstance(page_set.shared_css, str)
 
 
 class TestFrozenBehavior:

@@ -254,15 +254,36 @@ class TestPackageMatrix:
                     "%s has out-of-matrix import %r" % (path, name)
                 )
 
+    def test_rendering_imports_contracts_and_constants_only(self):
+        # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2): rendering/ may import
+        # only stdlib, contracts/, constants/, and itself (intra-package) --
+        # never brand/ia/content/seo/layouts, and critically never the
+        # component registry or any other sibling engine package: the
+        # registry is a required constructor-injected ComponentRegistryView
+        # (contracts/interfaces.py), never the concrete components/
+        # implementation (mirroring AES-WEB-002J.7's layouts/ decision D-3).
+        rendering_dir = PACKAGE_ROOT / "rendering"
+        for path in _iter_modules(rendering_dir):
+            for name in _imports_of(path):
+                top = _top(name)
+                if top in _STDLIB:
+                    continue
+                sub = _wge_subpackage(name)
+                assert sub in {"contracts", "constants", "rendering"}, (
+                    "%s has out-of-matrix import %r" % (path, name)
+                )
+
     def test_pipeline_is_the_only_engine_composition_point(self):
         # Only pipeline modules (and the package __init__, which exports
         # the public surface) may import sibling engine packages. "brand"
         # (AES-WEB-002J.2), "ia" (AES-WEB-002J.3), "content"
-        # (AES-WEB-002J.4), "seo" (AES-WEB-002J.5), and "layouts"
-        # (AES-WEB-002J.7) are included so nothing but pipeline/__init__ may
-        # import them and they may not import siblings either.
+        # (AES-WEB-002J.4), "seo" (AES-WEB-002J.5), "layouts"
+        # (AES-WEB-002J.7), and "rendering" (AES-WEB-002J.8) are included so
+        # nothing but pipeline/__init__ may import them and they may not
+        # import siblings either.
         engine_subpackages = {
             "speccompiler", "pipeline", "brand", "ia", "content", "seo", "layouts",
+            "rendering",
         }
         for path, imports in _all_engine_imports().items():
             relative = path.relative_to(PACKAGE_ROOT)

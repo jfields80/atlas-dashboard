@@ -248,3 +248,28 @@ class LayoutCompositionError(WebsiteGenerationError):
         super().__init__(
             message, stage=stage, retryable=False, diagnostics=diagnostics
         )
+
+
+class RenderError(WebsiteGenerationError):
+    """Renderer emission failed (AES-WEB-001 §5.7; AES-WEB-002J.8).
+
+    Batch-reports every unresolved-component, missing-emitter,
+    duplicate-emitter, missing-content, missing-token, and unsafe-URL
+    violation at once via ``diagnostics`` -- never first-failure-only
+    (mirrors LayoutCompositionError/ComponentResolutionError's
+    batch-reporting discipline). Deterministic: retryable only if the input
+    LayoutPlan, ComponentManifest, ContentPackage, BrandPackage, or injected
+    registry/emitter-table contents themselves change, so this is never
+    retryable on its own. No partial ``RenderedPageSet`` is ever returned
+    when diagnostics exist.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "rendering",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )
