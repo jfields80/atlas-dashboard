@@ -479,18 +479,23 @@ class TestAuthorizedPackageTree:
         assert present == expected
 
     def test_aes_web_002j8_rendering_tree_exists(self):
-        # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2) creates exactly the seven
-        # authorized rendering-package files -- one orchestrator
-        # (renderer.py), one HTML-primitives/emitter-table module
-        # (html_emitter.py), one CSS-primitives module (css_emitter.py), and
-        # three per-family emitter modules matching the three J.8-authorized
-        # catalog waves (layout_atoms, navigation, discovery) -- and no
+        # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2) created the rendering
+        # package foundation -- one orchestrator (renderer.py), one
+        # HTML-primitives/emitter-table module (html_emitter.py), one
+        # CSS-primitives module (css_emitter.py), and three per-family
+        # emitter modules for the three J.8-authorized catalog waves
+        # (layout_atoms, navigation, discovery). AES-WEB-002J.9 (AES-WEB-001
+        # §5.7/Part 2) adds exactly four more per-family emitter modules for
+        # the four remaining catalog waves (listings_profiles,
+        # trust_conversion, seo_editorial, monetization_status), closing the
+        # 72-component emitter table -- and no other rendering/ file, and no
         # assembly/ addition (see test_import_audit.py's rendering-only
         # import matrix and this module's J8_AUTHORIZED_PACKAGES comment
         # above). Pins the exact rendering/ file list: nothing more,
         # nothing less.
         base = REPO_ROOT / "engines" / "website_generation"
         expected = {
+            # J.8 foundation
             "rendering/__init__.py",
             "rendering/renderer.py",
             "rendering/html_emitter.py",
@@ -498,6 +503,11 @@ class TestAuthorizedPackageTree:
             "rendering/emitters_layout_atoms.py",
             "rendering/emitters_navigation.py",
             "rendering/emitters_discovery.py",
+            # AES-WEB-002J.9 remaining family emitters
+            "rendering/emitters_listings_profiles.py",
+            "rendering/emitters_trust_conversion.py",
+            "rendering/emitters_seo_editorial.py",
+            "rendering/emitters_monetization_status.py",
         }
         for relative in expected:
             assert (base / relative).is_file(), relative

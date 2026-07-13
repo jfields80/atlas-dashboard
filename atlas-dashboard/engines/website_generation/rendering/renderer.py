@@ -107,7 +107,19 @@ from engines.website_generation.contracts.versions import ENGINE_VERSIONS, SCHEM
 from engines.website_generation.rendering.css_emitter import compile_shared_css
 from engines.website_generation.rendering.emitters_discovery import DISCOVERY_EMITTERS
 from engines.website_generation.rendering.emitters_layout_atoms import LAYOUT_ATOMS_EMITTERS
+from engines.website_generation.rendering.emitters_listings_profiles import (
+    LISTINGS_PROFILES_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_monetization_status import (
+    MONETIZATION_STATUS_EMITTERS,
+)
 from engines.website_generation.rendering.emitters_navigation import NAVIGATION_EMITTERS
+from engines.website_generation.rendering.emitters_seo_editorial import (
+    SEO_EDITORIAL_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_trust_conversion import (
+    TRUST_CONVERSION_EMITTERS,
+)
 from engines.website_generation.rendering.html_emitter import (
     EmitterFn,
     LayoutContext,
@@ -126,9 +138,16 @@ from engines.website_generation.rendering.html_emitter import (
 def _build_emitter_table() -> Dict[str, EmitterFn]:
     table: Dict[str, EmitterFn] = {}
     for family_table in (
+        # J.8 Renderer Foundation families (32).
         LAYOUT_ATOMS_EMITTERS,
         NAVIGATION_EMITTERS,
         DISCOVERY_EMITTERS,
+        # AES-WEB-002J.9 remaining families (40), closing the 72-component
+        # emitter table.
+        LISTINGS_PROFILES_EMITTERS,
+        TRUST_CONVERSION_EMITTERS,
+        SEO_EDITORIAL_EMITTERS,
+        MONETIZATION_STATUS_EMITTERS,
     ):
         for key, fn in family_table.items():
             if key in table:
@@ -143,35 +162,13 @@ def _build_emitter_table() -> Dict[str, EmitterFn]:
 
 EMITTER_TABLE: Dict[str, EmitterFn] = _build_emitter_table()
 
-# The 40 AES-WEB-002J.9 emitter keys this delivery deliberately leaves
-# unregistered (listings_profiles/trust_conversion/seo_editorial/
-# monetization_status) -- an explicit, testable "expected absent" set so a
-# missing key is provably intentional, never an oversight (AES-WEB-002J.8
-# preflight §17/§32 D-3).
-J9_EXPECTED_ABSENT_EMITTER_KEYS: frozenset = frozenset(
-    {
-        "listing.card.standard@1", "listing.card.featured@1",
-        "listing.card.sponsored@1", "listing.row.compact@1",
-        "profile.header.business@1", "profile.contact.panel@1",
-        "profile.hours.table@1", "profile.areas.served@1",
-        "profile.map.directions@1", "profile.credentials.list@1",
-        "profile.gallery.standard@1", "content.description.business@1",
-        "trust.reviews.summary@1", "trust.reviews.list@1",
-        "trust.statistics.strip@1", "content.faq.standard@1",
-        "form.lead.quote@1", "form.claim.standard@1",
-        "form.submission.listing@1", "form.correction.standard@1",
-        "form.capture.newsletter@1", "cta.claim.listing@1",
-        "cta.sticky.mobile@1", "cta.sponsor.inquiry@1",
-        "cta.submit.listing@1", "seo.local-links.cities@1",
-        "seo.local-links.categories@1", "content.intro.contextual@1",
-        "content.section.editorial@1", "content.toc.standard@1",
-        "content.table.comparison@1", "content.resources.grid@1",
-        "monetization.disclosure.advertising@1", "monetization.ribbon.sponsor@1",
-        "monetization.section.premium-profile@1", "monetization.prompt.upgrade@1",
-        "commerce.pricing.sponsorship@1", "status.listing.pending@1",
-        "status.listing.unavailable@1", "legal.statement.standard@1",
-    }
-)
+# AES-WEB-002J.9 implements every remaining family emitter, so the emitter
+# table is now complete at 72 keys and no emitter key is expected-absent.
+# The set is retained (empty) so the J.8 integrity tests that consumed it as
+# the "provably intentional absence" invariant continue to import it and now
+# assert emptiness -- the invariant they enforce is preserved, its value has
+# simply gone to zero as the catalog's emitter coverage reached 100%.
+J9_EXPECTED_ABSENT_EMITTER_KEYS: frozenset = frozenset()
 
 _SHELL_EMITTER_KEY = "layout.shell.page@1"
 _SHELL_COMPONENT_ID = "layout.shell.page"
@@ -202,13 +199,27 @@ def _flatten_tokens(brand_package: BrandPackage) -> TokenMap:
     return tokens
 
 
+# Prop types whose string value names a ContentPackage block to resolve
+# (via ``(route, value)``), exactly like a declared content slot -- as
+# opposed to ROUTE_REF/ASSET_REF/A11Y_LABEL/STR_ENUM props, whose value is
+# already the literal to use. CONTENT_BLOCK_REF is the J.8 case;
+# AES-WEB-002J.9 adds LISTING_REF, the mechanism every listing.*/profile.*/
+# claim-form component uses to reach its bound listing's ContentPackage data
+# ("resolves the ... 'via listing block' content -- no separate content
+# slot is declared", listings_profiles.py). No J.8 component declares a
+# LISTING_REF prop, so extending the set here changes no J.8 output.
+_CONTENT_REF_PROP_TYPES = frozenset(
+    {PropType.CONTENT_BLOCK_REF, PropType.LISTING_REF}
+)
+
+
 def _content_block_ref_prop_names(definition: ComponentDefinition) -> Tuple[str, ...]:
     names = []
     for name, spec in sorted(definition.required_props.items()):
-        if spec.prop_type is PropType.CONTENT_BLOCK_REF:
+        if spec.prop_type in _CONTENT_REF_PROP_TYPES:
             names.append(name)
     for name, spec in sorted(definition.optional_props.items()):
-        if spec.prop_type is PropType.CONTENT_BLOCK_REF:
+        if spec.prop_type in _CONTENT_REF_PROP_TYPES:
             names.append(name)
     return tuple(names)
 

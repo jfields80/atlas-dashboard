@@ -44,10 +44,29 @@ from engines.website_generation.contracts.artifacts import (
 from engines.website_generation.contracts.components import ComponentDefinition
 from engines.website_generation.contracts.enums import ArtifactKind, PropType, RegionKind
 from engines.website_generation.contracts.versions import SCHEMA_VERSIONS
+from engines.website_generation.rendering.emitters_discovery import DISCOVERY_EMITTERS
+from engines.website_generation.rendering.emitters_layout_atoms import (
+    LAYOUT_ATOMS_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_listings_profiles import (
+    LISTINGS_PROFILES_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_monetization_status import (
+    MONETIZATION_STATUS_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_navigation import NAVIGATION_EMITTERS
+from engines.website_generation.rendering.emitters_seo_editorial import (
+    SEO_EDITORIAL_EMITTERS,
+)
+from engines.website_generation.rendering.emitters_trust_conversion import (
+    TRUST_CONVERSION_EMITTERS,
+)
 from engines.website_generation.rendering.renderer import EMITTER_TABLE, Renderer
 
 __all__ = [
     "J8_COMPONENT_IDS",
+    "J9_COMPONENT_IDS",
+    "ALL_COMPONENT_IDS",
     "real_registry",
     "real_brand_package",
     "make_layout_plan",
@@ -59,10 +78,29 @@ __all__ = [
     "render_page",
 ]
 
-# The 32 J.8-authorized component ids, derived from the emitter table
-# itself (never hand-copied) so this list can never silently drift from
-# what the Renderer actually registers.
-J8_COMPONENT_IDS: Tuple[str, ...] = tuple(
+
+def _ids(*tables) -> Tuple[str, ...]:
+    """Sorted component ids derived from the given emitter tables directly --
+    never hand-copied, so a list can never silently drift from what the
+    Renderer actually registers."""
+    keys = set()
+    for table in tables:
+        keys.update(table)
+    return tuple(sorted(key.rsplit("@", 1)[0] for key in keys))
+
+
+# The 32 J.8 (Renderer Foundation) component ids and the 40 AES-WEB-002J.9
+# component ids, each derived from that phase's own family emitter tables.
+J8_COMPONENT_IDS: Tuple[str, ...] = _ids(
+    LAYOUT_ATOMS_EMITTERS, NAVIGATION_EMITTERS, DISCOVERY_EMITTERS
+)
+J9_COMPONENT_IDS: Tuple[str, ...] = _ids(
+    LISTINGS_PROFILES_EMITTERS,
+    TRUST_CONVERSION_EMITTERS,
+    SEO_EDITORIAL_EMITTERS,
+    MONETIZATION_STATUS_EMITTERS,
+)
+ALL_COMPONENT_IDS: Tuple[str, ...] = tuple(
     sorted(key.rsplit("@", 1)[0] for key in EMITTER_TABLE)
 )
 
@@ -166,7 +204,10 @@ def minimal_fixture_for(
     for name, spec in definition.required_props.items():
         value = prop_overrides.get(name, sample_prop_value(spec, text=name))
         props[name] = value
-        if spec.prop_type is PropType.CONTENT_BLOCK_REF:
+        # Both CONTENT_BLOCK_REF and LISTING_REF props resolve against
+        # ContentPackage via (route, value) in the Renderer (AES-WEB-002J.9),
+        # so a bound block must exist for each -- mirror that here.
+        if spec.prop_type in (PropType.CONTENT_BLOCK_REF, PropType.LISTING_REF):
             blocks.append(
                 ContentBlock(
                     page_route=route,
