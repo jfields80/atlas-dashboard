@@ -127,6 +127,7 @@ from engines.website_generation.components import (
 from engines.website_generation.brand import BrandEngine
 from engines.website_generation.ia import InformationArchitectureEngine
 from engines.website_generation.content import ContentEngine
+from engines.website_generation.seo import SEOEngine
 from engines.website_generation.pipeline.website_generation_pipeline import (
     WebsiteGenerationBuildResult,
     WebsiteGenerationPipeline,
@@ -149,6 +150,9 @@ __all__ = [
     # Content Engine (AES-WEB-001 §5.4 / Part 2; AES-WEB-002J.4). Not wired
     # into pipeline execution.
     "ContentEngine",
+    # SEO Engine (AES-WEB-001 §5.8 / Part 2; AES-WEB-002J.5). Not wired into
+    # pipeline execution.
+    "SEOEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",

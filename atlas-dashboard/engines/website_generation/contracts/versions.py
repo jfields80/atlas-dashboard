@@ -33,6 +33,12 @@ entry to ``ENGINE_VERSIONS`` at 1.0.0. ``ContentCandidate`` and
 registered since Phase 1 -- so no new schema registration is added here.
 The Content Engine is not wired into pipeline execution; ``content_drafting``
 and ``content_validation`` both remain ``NOT_EXECUTED``.
+
+AES-WEB-002J.5 (AES-WEB-001 §5.8 / Part 2) adds the ``seo_engine`` entry to
+``ENGINE_VERSIONS`` at 1.0.0. ``SEOPackage`` is unchanged -- it stays at
+schema 1.0.0, the shape registered since Phase 1 -- so no new schema
+registration is added here. The SEO Engine is not wired into pipeline
+execution; ``seo_compilation`` remains ``NOT_EXECUTED``.
 """
 
 from __future__ import annotations
@@ -102,6 +108,10 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # version. Not wired into pipeline execution (§6: content_drafting and
     # content_validation both remain NOT_EXECUTED in the BuildManifest).
     "content_engine": "1.0.0",
+    # AES-WEB-002J.5 (AES-WEB-001 §5.8/Part 2): initial SEO Engine version.
+    # Not wired into pipeline execution (§6: seo_compilation remains
+    # NOT_EXECUTED in the BuildManifest).
+    "seo_engine": "1.0.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive

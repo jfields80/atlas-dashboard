@@ -139,6 +139,27 @@ class ContentValidationError(WebsiteGenerationError):
         )
 
 
+class SEOCompilationError(WebsiteGenerationError):
+    """SEOEngine compilation failed (AES-WEB-001 §5.8).
+
+    Batch-reports every route/content/length/uniqueness violation at once
+    via ``diagnostics`` -- never first-failure-only (mirrors
+    ContentValidationError's batch-reporting discipline, §5.4). Deterministic:
+    retryable only if the input SiteArchitecture, ContentPackage, or
+    BusinessSpec themselves change, so this is never retryable on its own.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        stage: str = "seo_compilation",
+        diagnostics: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        super().__init__(
+            message, stage=stage, retryable=False, diagnostics=diagnostics
+        )
+
+
 class IllegalTransitionError(WebsiteGenerationError):
     """A state transition not present in the static transition table (§6.2)."""
 

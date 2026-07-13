@@ -17,6 +17,7 @@ from engines.website_generation.contracts.artifacts import (
     BusinessSpec,
     ContentCandidate,
     ContentPackage,
+    SEOPackage,
     SiteArchitecture,
     SpecCompilerInput,
 )
@@ -78,6 +79,27 @@ class ContentEngineInterface(ABC):
     ) -> ContentPackage:
         """Validate ContentCandidates against a SiteArchitecture and
         BusinessSpec into a deterministic ContentPackage."""
+        raise NotImplementedError
+
+
+class SEOEngineInterface(ABC):
+    """The SEO Engine's sole entry point (AES-WEB-001 §5.8).
+
+    Compiles titles, meta descriptions, canonical URLs, the sitemap plan,
+    and robots directives from already-validated artifacts. Structured data
+    is out of scope for this delivery (AES-WEB-002J.5 Decision D4) -- there
+    is no ``generate``/``draft``/``author`` method, by design.
+    """
+
+    @abstractmethod
+    def compile(
+        self,
+        site_architecture: SiteArchitecture,
+        content_package: ContentPackage,
+        business_spec: BusinessSpec,
+    ) -> SEOPackage:
+        """Compile a deterministic SEOPackage from a SiteArchitecture,
+        ContentPackage, and BusinessSpec."""
         raise NotImplementedError
 
 

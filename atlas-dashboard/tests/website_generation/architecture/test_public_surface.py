@@ -28,6 +28,9 @@ EXPECTED_PUBLIC_SURFACE = {
     # Content Engine (AES-WEB-001 §5.4 / Part 2; AES-WEB-002J.4). Not wired
     # into pipeline execution.
     "ContentEngine",
+    # SEO Engine (AES-WEB-001 §5.8 / Part 2; AES-WEB-002J.5). Not wired into
+    # pipeline execution.
+    "SEOEngine",
     # artifact models
     "ArtifactHeader",
     "BrandPackage",
@@ -238,12 +241,20 @@ class TestAuthorizedPackageTree:
         "content",
     }
 
+    # AES-WEB-002J.5 (AES-WEB-001 §5.8/Part 2): the SEO Engine package,
+    # authorized by this delivery only — an operator decision, not a
+    # mechanical consequence of an earlier amendment.
+    J5_AUTHORIZED_PACKAGES = {
+        "seo",
+    }
+
     AUTHORIZED_PACKAGES = (
         PHASE1_PACKAGES
         | A3_AUTHORIZED_PACKAGES
         | J2_AUTHORIZED_PACKAGES
         | J3_AUTHORIZED_PACKAGES
         | J4_AUTHORIZED_PACKAGES
+        | J5_AUTHORIZED_PACKAGES
     )
 
     def test_phase1_packages_present(self):
@@ -275,7 +286,7 @@ class TestAuthorizedPackageTree:
         base = REPO_ROOT / "engines" / "website_generation"
         present = {p.name for p in base.iterdir() if p.is_dir()}
         for later_phase in (
-            "layouts", "rendering", "seo", "assembly",
+            "layouts", "rendering", "assembly",
         ):
             assert later_phase not in present, later_phase
 
@@ -365,6 +376,25 @@ class TestAuthorizedPackageTree:
         ):
             assert (base / relative).is_file(), relative
         assert not (base / "content" / "content_resolver.py").exists()
+
+    def test_aes_web_002j5_seo_tree_exists(self):
+        # AES-WEB-002J.5 (AES-WEB-001 §5.8/Part 2) creates exactly the three
+        # authorized SEO Engine files -- no seo_checks.py, no
+        # structured-data module, and no layouts/, rendering/, or assembly/
+        # additions (see test_import_audit.py's seo-only import matrix and
+        # this module's J5_AUTHORIZED_PACKAGES comment above). Pins the
+        # exact seo/ file list: nothing more, nothing less.
+        base = REPO_ROOT / "engines" / "website_generation"
+        expected = {
+            "seo/__init__.py",
+            "seo/seo_engine.py",
+            "seo/seo_validators.py",
+        }
+        for relative in expected:
+            assert (base / relative).is_file(), relative
+        seo_dir = base / "seo"
+        present = {"seo/" + p.name for p in seo_dir.iterdir() if p.is_file()}
+        assert present == expected
 
     def test_catalog_wave_modules_exist(self):
         # §29.1 catalog module map: layout_atoms.py (Wave 1, 002B),
