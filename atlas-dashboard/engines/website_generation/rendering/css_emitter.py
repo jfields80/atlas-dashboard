@@ -141,14 +141,25 @@ def compile_shared_css(
     definitions: Iterable[ComponentDefinition], tokens: TokenMap
 ) -> str:
     """The complete deterministic shared CSS payload for one build: custom
-    properties, then tree-shaken component rules, then tree-shaken
-    responsive rules -- always in this fixed order so output is stable
-    regardless of any input collection's iteration order."""
+    properties, the per-component token-scoping rules, the applied
+    commercial visual layer (ADR-WEB-VISUAL-TOKEN-APPLICATION,
+    AES-WEB-002J.15), then the tree-shaken responsive rules -- always in this
+    fixed order so output is stable regardless of any input collection's
+    iteration order.
+
+    The visual layer is imported lazily to keep this module's import graph a
+    leaf under ``rendering/`` (``visual_styles`` imports ``css_emitter``'s
+    ``token_var``); the call itself is pure and deterministic."""
+    from engines.website_generation.rendering.visual_styles import (
+        compile_visual_styles,
+    )
+
     ordered_definitions: Tuple[ComponentDefinition, ...] = tuple(definitions)
     return "".join(
         (
             compile_custom_properties(tokens),
             compile_component_rules(ordered_definitions, tokens),
+            compile_visual_styles(ordered_definitions, tokens),
             compile_responsive_rules(ordered_definitions, tokens),
         )
     )

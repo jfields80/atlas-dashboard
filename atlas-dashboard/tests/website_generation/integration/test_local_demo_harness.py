@@ -188,6 +188,29 @@ class TestOutput:
         for rel in HTML_ROUTES + SYSTEM_FILES:
             assert needle not in (dest / rel).read_text(encoding="utf-8")
 
+    def test_css_carries_applied_visual_rules(self, tmp_path):
+        # AES-WEB-002J.15: the stylesheet is no longer an inert token dump --
+        # it now applies token-driven visual rules (grid, surfaces, buttons).
+        dest = tmp_path / "site"
+        harness.run(str(dest), stream=io.StringIO())
+        css = (dest / "styles.css").read_text(encoding="utf-8")
+        assert "display:grid" in css
+        assert "grid-template-columns:var(--grid-columns-3)" in css
+        assert "background:var(--color-surface-page)" in css
+        assert "@media (max-width: 1024px){" in css
+        # a real commercial stylesheet, materially larger than the old dump
+        assert len(css.encode("utf-8")) > 10000
+
+    def test_placeholders_not_hidden_or_replaced(self, tmp_path):
+        # The visual sprint must not paper over the value-binding gap: the
+        # honest 'Resolved ...' placeholders remain visible in the markup.
+        dest = tmp_path / "site"
+        harness.run(str(dest), stream=io.StringIO())
+        home = (dest / "index.html").read_text(encoding="utf-8")
+        assert "Resolved nav_tree" in home
+        css = (dest / "styles.css").read_text(encoding="utf-8")
+        assert "display:none" not in css  # nothing hidden to fake completeness
+
 
 # --------------------------------------------------------------------------- #
 # D. Quality reporting

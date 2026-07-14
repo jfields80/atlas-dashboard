@@ -158,8 +158,13 @@ ENGINE_VERSIONS: Dict[str, str] = {
     "layout_engine": "1.0.0",
     # AES-WEB-002J.8 (AES-WEB-001 §5.7/Part 2): initial Renderer version.
     # Not wired into pipeline execution (§6: rendering remains NOT_EXECUTED
-    # in the BuildManifest).
-    "renderer": "1.0.0",
+    # in the BuildManifest). AES-WEB-002J.15 (AES-WEB-001 §8.3;
+    # ADR-WEB-VISUAL-TOKEN-APPLICATION) bumps 1.0.0 -> 1.1.0: the Renderer now
+    # emits an applied token-driven visual CSS layer (new shared_css output),
+    # a §11.4 snapshot-level change requiring an explicit engine-version bump.
+    # Additive and backward-compatible -- every component's compatibility
+    # range is renderer >=1.0.0,<2.0.0.
+    "renderer": "1.1.0",
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).

@@ -553,6 +553,9 @@ class TestAuthorizedPackageTree:
             "rendering/emitters_trust_conversion.py",
             "rendering/emitters_seo_editorial.py",
             "rendering/emitters_monetization_status.py",
+            # AES-WEB-002J.15 applied token-driven visual layer
+            # (ADR-WEB-VISUAL-TOKEN-APPLICATION)
+            "rendering/visual_styles.py",
         }
         for relative in expected:
             assert (base / relative).is_file(), relative
