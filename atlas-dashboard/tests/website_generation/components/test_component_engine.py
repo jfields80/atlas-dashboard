@@ -98,20 +98,36 @@ def _sa(pages, **overrides) -> SiteArchitecture:
     return SiteArchitecture(**fields)
 
 
-def _cp(blocks=()) -> ContentPackage:
-    return ContentPackage(
-        schema_version=SCHEMA_VERSIONS[ArtifactKind.CONTENT_PACKAGE],
-        artifact_kind=ArtifactKind.CONTENT_PACKAGE,
-        source_hashes={},
-        blocks=tuple(blocks),
-    )
-
-
 _HOME_PAGE = PagePlan(route="/", page_type="home", title="Home")
 _CATEGORY_PAGE = PagePlan(route="/c/vets", page_type="category", title="Vets")
 _BUSINESS_PROFILE_PAGE = PagePlan(
     route="/hotels/lakeview-lodge/", page_type="business-profile", title=""
 )
+
+# AES-WEB-002K.1: nav.header.standard/legal.footer.directory are now
+# categorically bindable (RENDER_DATA), so Phase A always selects them once
+# eligible (region + nav_tree signature) regardless of the site_header/
+# site_footer recipe slot's own optional status -- Phase B then requires
+# real footer_legal/disclosures content for legal.footer.directory's two
+# required content slots. _cp() below unconditionally supplies both for
+# every one of this file's three fixed page-constant routes -- harmless,
+# unused extra blocks for whichever route a given test doesn't compile.
+_FOOTER_LEGAL_TEXT = "(c) 2026 Test Directory. All rights reserved."
+_FOOTER_DISCLOSURES_TEXT = "Some listings may be sponsored placements, clearly labeled."
+_STANDARD_FOOTER_ROUTES = (_HOME_PAGE.route, _CATEGORY_PAGE.route, _BUSINESS_PROFILE_PAGE.route)
+
+
+def _cp(blocks=()) -> ContentPackage:
+    footer_blocks = []
+    for route in _STANDARD_FOOTER_ROUTES:
+        footer_blocks.append(ContentBlock(page_route=route, slot_id="footer_legal", text=_FOOTER_LEGAL_TEXT))
+        footer_blocks.append(ContentBlock(page_route=route, slot_id="disclosures", text=_FOOTER_DISCLOSURES_TEXT))
+    return ContentPackage(
+        schema_version=SCHEMA_VERSIONS[ArtifactKind.CONTENT_PACKAGE],
+        artifact_kind=ArtifactKind.CONTENT_PACKAGE,
+        source_hashes={},
+        blocks=tuple(blocks) + tuple(footer_blocks),
+    )
 
 
 def _ids(page_components):
@@ -212,9 +228,10 @@ class TestPublicSurfaceAndVersion:
 
     def test_version_pinned(self):
         # AES-WEB-002J.19: 1.0.0 -> 1.1.0 (Phase-B binding). AES-WEB-002J.20:
-        # 1.1.0 -> 1.2.0 (listing repetition; see contracts/versions.py).
+        # 1.1.0 -> 1.2.0 (listing repetition). AES-WEB-002K.1: 1.2.0 -> 1.3.0
+        # (render-data production; see contracts/versions.py).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.2.0"
+        assert ComponentEngine.version == "1.3.0"
 
     def test_compile_returns_component_compilation_result(self):
         result = ComponentEngine().compile(
@@ -239,13 +256,20 @@ class TestGoldenRealCatalog:
         # directory.locations.grid is likewise excluded, and -- because its
         # recipe slot is optional with no fallback -- silently dropped
         # (unchanged §26 doctrine for a slot with no bindable winner).
+        # AES-WEB-002K.1: site_header/site_footer (nav.header.standard/
+        # legal.footer.directory) are now categorically bindable
+        # (RENDER_DATA) and _cp() supplies real footer_legal/disclosures
+        # content, so both shell slots resolve too -- first and last, per
+        # HOME_RECIPE_SLOTS' declared order.
         result = ComponentEngine().compile(
             _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
         )
         assert _ids(_page(result.component_manifest, "/")) == [
+            "nav.header.standard",
             "nav.utility.bar",
             "hero.search.directory",
             "layout.grid.standard",
+            "legal.footer.directory",
         ]
 
     def test_category_recipe_succeeds_via_honest_pagination_fallback(self):
@@ -258,17 +282,18 @@ class TestGoldenRealCatalog:
         # gap, that made every category-page compile fail before Phase B
         # ever ran.
         #
-        # AES-WEB-002J.20 operator decision authorizes a structural fallback
+        # AES-WEB-002J.20 authorized a structural fallback
         # (fallback_component_id="layout.stack.standard") on exactly those
-        # two slots -- NOT a fabricated pagination or zero-state component,
-        # just a guaranteed-satisfiable placeholder, identical in kind to
-        # the pre-existing filters/sort/results_summary fallbacks. This test
-        # proves that fallback is honest (the chosen component really is
-        # the generic stack primitive, not something pretending to be real
-        # pagination/zero-state UI) and that a category page with real
-        # listing data now compiles end-to-end, with listing_cards expanded
-        # into one listing.card.standard instance per matching listing
-        # (the P2 repetition proof, at the unit level).
+        # two slots. AES-WEB-002K.1 (§26 category-control cleanup)
+        # supersedes that fallback in turn: both slots are now optional
+        # with no fallback at all -- an empty structural <div> was worse
+        # for a publishable page than honestly omitting a control that
+        # doesn't exist yet. This test now proves the omission is honest
+        # (no component chosen at all, never a fabricated "fake
+        # pagination"/"fake zero-state" component) and that a category page
+        # with real listing data compiles end-to-end regardless, with
+        # listing_cards expanded into one listing.card.standard instance
+        # per matching listing (the P2 repetition proof, at the unit level).
         category = ListingCategory(category_id="cat-vets", label="Vets", slug="vets")
         listings = tuple(
             ListingRecord(
@@ -293,15 +318,16 @@ class TestGoldenRealCatalog:
             _cp([
                 ContentBlock(page_route="/vets/", slot_id="hero_h1", text="Pet-friendly vets"),
                 ContentBlock(page_route="/vets/", slot_id="intro", text="Vets that welcome your pets warmly."),
+                ContentBlock(page_route="/vets/", slot_id="footer_legal", text=_FOOTER_LEGAL_TEXT),
+                ContentBlock(page_route="/vets/", slot_id="disclosures", text=_FOOTER_DISCLOSURES_TEXT),
             ]),
             listing_dataset=dataset,
             brand_package=_brand(),
         )
         page = _page(result.component_manifest, "/vets/")
 
-        # The fallback candidate really is the generic stack primitive, at
-        # both the instance level and the recorded selection-trace level --
-        # never a fabricated "fake pagination"/"fake zero-state" component.
+        # No fabricated "fake pagination"/"fake zero-state" component --
+        # both slots are honestly omitted (AES-WEB-002K.1).
         pagination_trace = next(
             t for t in result.component_manifest.selection_trace.slots
             if t.slot_id == "/vets/#pagination"
@@ -310,8 +336,8 @@ class TestGoldenRealCatalog:
             t for t in result.component_manifest.selection_trace.slots
             if t.slot_id == "/vets/#zero_results"
         )
-        assert pagination_trace.chosen_component_id == "layout.stack.standard"
-        assert zero_results_trace.chosen_component_id == "layout.stack.standard"
+        assert pagination_trace.chosen_component_id == ""
+        assert zero_results_trace.chosen_component_id == ""
 
         # listing_cards repeats: one listing.card.standard instance per
         # matching listing, in ListingDataset tuple order (§14, no sorting).
@@ -331,8 +357,9 @@ class TestGoldenRealCatalog:
             "site_architecture": artifact_sha256(sa),
             "content_package": artifact_sha256(cp),
             "brand_package": artifact_sha256(brand),
-            "binding_map_version": "1.0.0",
+            "binding_map_version": "1.1.0",
             "composition_rules_version": "1.0.0",
+            "render_data_version": "1.0.0",
         }
 
     def test_content_refs_populated_when_bindable(self):
@@ -353,6 +380,7 @@ class TestGoldenRealCatalog:
         assert with_slots == {
             "nav.utility.bar": ("message",),
             "hero.search.directory": ("h1", "subhead"),
+            "legal.footer.directory": ("disclosures", "legal_facts"),
         }
 
     def test_all_eighteen_roles_with_no_binding_inputs_honestly_fails(self):
@@ -704,5 +732,5 @@ class TestEdgeCases:
         result = ComponentEngine().compile(_sa([]), _cp())
         assert set(result.component_manifest.source_hashes) == {
             "site_architecture", "content_package", "binding_map_version",
-            "composition_rules_version",
+            "composition_rules_version", "render_data_version",
         }

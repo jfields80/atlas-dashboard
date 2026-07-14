@@ -45,6 +45,7 @@ from engines.website_generation.contracts.artifacts import (
     ResponsiveSelection,
 )
 from engines.website_generation.contracts.enums import RegionKind
+from engines.website_generation.contracts.render_data import ComponentRenderData, LinkSpec
 
 # A rendered HTML fragment: plain, already-serialized markup text. Not a
 # frozen Pydantic contract model -- this is Renderer-internal plumbing
@@ -82,12 +83,18 @@ class LayoutContext(NamedTuple):
     ``ComponentManifest`` page index ``ComponentPlacement.component_index``
     names (never renumbered) -- carried here so emitters needing a
     page-unique DOM id (form fields, aria-controls targets) never invent
-    one (:func:`dom_id`, CG-RND-008)."""
+    one (:func:`dom_id`, CG-RND-008). ``render_data`` (AES-WEB-002K.1) is
+    this instance's own ``ComponentRenderData`` slice (``None`` when the
+    build supplied no ``RenderDataBundle``, or this instance has none) --
+    the handful of render-data-aware emitters (nav/footer/listing-card/
+    contact/hours) read it for real hyperlinks and enrichment; every other
+    emitter ignores it, unaffected."""
 
     region_kind: RegionKind
     component_index: int
     grid: GridPlacement
     responsive: ResponsiveSelection
+    render_data: Optional[ComponentRenderData] = None
 
 
 # The uniform pure-emission-function signature (§20.1): ``(instance,
@@ -233,6 +240,26 @@ def all_values(resolved_content: ResolvedContent, slot_id: str) -> Tuple[str, ..
     """Every resolved value for ``slot_id`` in bound order -- the
     ``ONE_TO_N`` case (e.g. a tile grid, a breadcrumb trail)."""
     return resolved_content.get(slot_id, ())
+
+
+def link_html(link: LinkSpec) -> str:
+    """One real ``<a>`` from a :class:`LinkSpec` (AES-WEB-002K.1) -- the
+    honest successor to the pre-K.1 pattern of using an href string as its
+    own visible label. Shared here (not duplicated per emitter family)
+    because it carries no component-specific knowledge, exactly like
+    :func:`element`/:func:`escape`."""
+    attrs: Dict[str, AttrValue] = {"href": link.href}
+    if link.rel:
+        attrs["rel"] = link.rel
+    if link.aria_label:
+        attrs["aria-label"] = link.aria_label
+    return element("a", attrs, escape(link.label))
+
+
+def link_list_html(links: Tuple[LinkSpec, ...]) -> str:
+    """One ``<li><a>...</a></li>`` per link, in order -- the common
+    ``<ul>``-body shape every nav/footer/tile-grid emitter needs."""
+    return "".join(element("li", {}, link_html(link)) for link in links)
 
 
 def dom_id(impression_id: str, component_index: int) -> str:

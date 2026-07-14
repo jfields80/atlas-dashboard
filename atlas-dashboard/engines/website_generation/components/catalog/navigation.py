@@ -138,9 +138,11 @@ NAV_HEADER_STANDARD = ComponentDefinition(
     display_name="Standard Header",
     description=(
         "Main site header: nav tree from SiteArchitecture (never hand-"
-        "authored per page) plus a required logo asset; no more than one "
-        "nav.header.* per page (§5.1). Renders a <nav> landmark nested "
-        "within the shell's single <header> landmark region."
+        "authored per page); no more than one nav.header.* per page (§5.1). "
+        "Renders a <nav> landmark nested within the shell's single <header> "
+        "landmark region. Logo is optional (AES-WEB-002K.1, D4): no asset "
+        "store exists yet, so the emitter degrades to a text wordmark/site "
+        "label rather than fabricating an image URL."
     ),
     commercial_purpose=CommercialPurpose.ORIENT,
     secondary_purposes=(CommercialPurpose.STRENGTHEN_INTERNAL_LINKING,),
@@ -150,9 +152,12 @@ NAV_HEADER_STANDARD = ComponentDefinition(
             prop_type=PropType.CONTENT_BLOCK_REF,
             description="SiteArchitecture nav topology reference.",
         ),
+    },
+    optional_props={
         "logo": PropSpec(
             prop_type=PropType.ASSET_REF,
-            description="Logo asset (AssetRole.LOGO).",
+            description="Logo asset (AssetRole.LOGO); absent renders a text wordmark instead.",
+            default="",
         ),
     },
     supported_variants={

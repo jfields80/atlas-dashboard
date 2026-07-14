@@ -569,9 +569,9 @@ class TestRecipeTablesUnchanged:
         assert slot["required"] is False
 
     def test_recipe_table_slot_counts_unchanged_from_002g(self):
-        assert len(constants_components.HOME_RECIPE_SLOTS) == 9
-        assert len(constants_components.CATEGORY_RECIPE_SLOTS) == 9
-        assert len(constants_components.BUSINESS_PROFILE_RECIPE_SLOTS) == 15
+        assert len(constants_components.HOME_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(constants_components.CATEGORY_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(constants_components.BUSINESS_PROFILE_RECIPE_SLOTS) == 17  # AES-WEB-002K.1: +site_header/+site_footer
         assert len(constants_components.EDITORIAL_GUIDE_RECIPE_SLOTS) == 5
         assert len(constants_components.COLLECTION_RECIPE_SLOTS) == 3
         assert len(constants_components.SERVICE_AREA_RECIPE_SLOTS) == 5

@@ -319,12 +319,16 @@ class TestCompatibilityMetadata:
             assert all(isinstance(a, AssetRole) for a in d.supported_asset_roles)
 
     def test_header_declares_logo_asset_role(self):
-        # §27.3 header row requires a logo asset; the definition must
-        # declare the LOGO asset role it consumes (Wave 1 precedent:
-        # every ASSET_REF-consuming component declares its roles).
+        # §27.3 header row's logo asset; the definition must declare the
+        # LOGO asset role it consumes (Wave 1 precedent: every
+        # ASSET_REF-consuming component declares its roles). AES-WEB-002K.1
+        # (D4) moves logo from required to optional -- no asset store
+        # exists yet, so the header emitter degrades to no <img> rather
+        # than fabricate one; the asset role declaration itself is
+        # unchanged.
         d = next(x for x in WAVE2_COMPONENTS if x.component_id == "nav.header.standard")
         assert d.supported_asset_roles == (AssetRole.LOGO,)
-        assert d.required_props["logo"].prop_type is PropType.ASSET_REF
+        assert d.optional_props["logo"].prop_type is PropType.ASSET_REF
 
     def test_footer_link_ceiling_constant_declared(self):
         # §5.15: "footer SEO links capped at constants ceiling, default 40"

@@ -76,11 +76,16 @@ class TestMappingModel:
             if slot.availability is Availability.UNAVAILABLE:
                 assert r.binding_state is BindingState.SOURCE_UNAVAILABLE, r
 
-    def test_four_states_all_present(self):
+    def test_five_states_all_present(self):
+        # AES-WEB-002K.1 adds RENDER_DATA as a fifth binding state (ADR
+        # "four binding states" extended) -- distinct from FULLY_BINDABLE
+        # (never a flat-text projection) and from STRUCTURED_DEFERRED
+        # (a real render-data producer now exists for these fields).
         seen = {r.binding_state for r in BINDING_RULES}
         assert seen == {
             BindingState.FULLY_BINDABLE,
             BindingState.FLAT_PROJECTION_ONLY,
+            BindingState.RENDER_DATA,
             BindingState.STRUCTURED_DEFERRED,
             BindingState.SOURCE_UNAVAILABLE,
         }
@@ -142,21 +147,39 @@ class TestListingProjection:
 # --------------------------------------------------------------------------- #
 
 class TestNavigation:
-    def test_header_nav_maps_to_primary_navigation_deferred(self):
-        for cid in ("nav.header.standard", "nav.mobile.drawer"):
-            r = _rule(cid, FieldKind.PROP_REF, "nav_tree")
-            assert r.semantic_slot == "primary_navigation"
-            assert r.binding_state is BindingState.STRUCTURED_DEFERRED
+    def test_header_nav_maps_to_primary_navigation_render_data(self):
+        # AES-WEB-002K.1: nav.header.standard's nav_tree moves from
+        # STRUCTURED_DEFERRED to RENDER_DATA -- a real render-data producer
+        # (component_engine.py Phase B) now exists. nav.mobile.drawer is
+        # untouched, out of Wave 1 scope, and stays STRUCTURED_DEFERRED.
+        r = _rule("nav.header.standard", FieldKind.PROP_REF, "nav_tree")
+        assert r.semantic_slot == "primary_navigation"
+        assert r.binding_state is BindingState.RENDER_DATA
 
-    def test_footer_nav_maps_to_footer_navigation_deferred(self):
+        drawer = _rule("nav.mobile.drawer", FieldKind.PROP_REF, "nav_tree")
+        assert drawer.semantic_slot == "primary_navigation"
+        assert drawer.binding_state is BindingState.STRUCTURED_DEFERRED
+
+    def test_footer_nav_maps_to_footer_navigation_render_data(self):
+        # AES-WEB-002K.1: legal.footer.directory's nav_tree moves from
+        # STRUCTURED_DEFERRED to RENDER_DATA -- see above.
         r = _rule("legal.footer.directory", FieldKind.PROP_REF, "nav_tree")
         assert r.semantic_slot == "footer_navigation"
-        assert r.binding_state is BindingState.STRUCTURED_DEFERRED
+        assert r.binding_state is BindingState.RENDER_DATA
 
-    def test_no_navigation_rule_claims_full_binding(self):
+    def test_no_navigation_rule_claims_full_or_flat_binding(self):
+        # No navigation rule was ever honestly FULLY_BINDABLE/
+        # FLAT_PROJECTION_ONLY (a real link needs label+href, never a flat
+        # string) -- AES-WEB-002K.1 moves the two now-real-render-data-
+        # backed rules (nav.header.standard, legal.footer.directory) from
+        # STRUCTURED_DEFERRED to RENDER_DATA rather than to either of
+        # those flat states, preserving the honesty invariant this test
+        # protects.
         for r in BINDING_RULES:
             if r.semantic_slot in ("primary_navigation", "footer_navigation"):
-                assert r.binding_state is BindingState.STRUCTURED_DEFERRED
+                assert r.binding_state in (
+                    BindingState.STRUCTURED_DEFERRED, BindingState.RENDER_DATA,
+                )
 
     def test_breadcrumb_deferred(self):
         r = _rule("nav.breadcrumbs.standard", FieldKind.PROP_REF, "trail")

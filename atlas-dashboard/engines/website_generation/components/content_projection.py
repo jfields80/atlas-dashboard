@@ -91,11 +91,19 @@ class RouteScope(NamedTuple):
     listing: Optional[ListingRecord]
 
 
-def _category_route(category: ListingCategory) -> str:
+def category_route(category: ListingCategory) -> str:
+    """The ADR-WEB-LISTING-DATASET §6 category route: ``/<category-slug>/``.
+    Public (AES-WEB-002K.1): reused by the IA engine's profile-route
+    emission and the Component Engine's card-enrichment render-data
+    producer, so a listing's profile href is always derived by this exact
+    same function, never a second, possibly-drifting copy."""
     return "/%s/" % category.slug
 
 
-def _listing_route(category: ListingCategory, listing: ListingRecord) -> str:
+def listing_route(category: ListingCategory, listing: ListingRecord) -> str:
+    """The ADR-WEB-LISTING-DATASET §6 listing route:
+    ``/<category-slug>/<listing-slug>/``. Public (AES-WEB-002K.1) -- see
+    :func:`category_route`."""
     return "/%s/%s/" % (category.slug, listing.slug)
 
 
@@ -116,12 +124,12 @@ def resolve_route_scope(
         category = categories_by_id.get(listing.category_id)
         if category is None:
             continue
-        if route == _listing_route(category, listing):
+        if route == listing_route(category, listing):
             location = locations_by_id.get(listing.location_id) if listing.location_id else None
             return RouteScope(category, location, listing)
 
     for category in listing_dataset.categories:
-        if route == _category_route(category):
+        if route == category_route(category):
             return RouteScope(category, None, None)
 
     return RouteScope(None, None, None)

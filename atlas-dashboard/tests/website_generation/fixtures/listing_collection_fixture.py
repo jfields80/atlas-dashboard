@@ -129,9 +129,16 @@ def _site_architecture() -> SiteArchitecture:
 
 def _content_package() -> ContentPackage:
     # Home and category routes need editorial hero content (no ListingDataset
-    # source exists for either slot); business-profile needs none -- every
-    # bindable field there comes from ListingDataset via Phase B projection.
-    blocks = (
+    # source exists for either slot); business-profile needs none for its
+    # own listing fields -- every bindable field there comes from
+    # ListingDataset via Phase B projection. footer_legal/disclosures
+    # (AES-WEB-002K.1, D5) are needed on every route: with
+    # nav.header.standard/legal.footer.directory now categorically bindable
+    # (RENDER_DATA), the site shell recipe slots select them whenever the
+    # pilot registry offers them, and Phase B then requires real content for
+    # legal.footer.directory's required content slots regardless of the
+    # shell slot's own optional/required status.
+    blocks = [
         ContentBlock(
             page_route=HOME_ROUTE, slot_id="hero_h1",
             text="Find pet-friendly places to stay",
@@ -156,12 +163,21 @@ def _content_package() -> ContentPackage:
             page_route=CATEGORY_ROUTE, slot_id="intro",
             text="Hotels that welcome your pets, verified by our team.",
         ),
-    )
+    ]
+    for route in ROUTES:
+        blocks.append(ContentBlock(
+            page_route=route, slot_id="footer_legal",
+            text="(c) 2026 Atlas Listing Collection Fixture. All rights reserved.",
+        ))
+        blocks.append(ContentBlock(
+            page_route=route, slot_id="disclosures",
+            text="Some listings may be sponsored placements, clearly labeled.",
+        ))
     return ContentPackage(
         schema_version=SCHEMA_VERSIONS[ArtifactKind.CONTENT_PACKAGE],
         artifact_kind=ArtifactKind.CONTENT_PACKAGE,
         source_hashes={},
-        blocks=blocks,
+        blocks=tuple(blocks),
     )
 
 

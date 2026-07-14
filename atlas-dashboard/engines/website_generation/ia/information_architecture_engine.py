@@ -8,24 +8,42 @@ calls, no randomness, no clock-dependent behavior (§5.3). Not wired into
 pipeline execution -- ``ia_planning`` remains ``NOT_EXECUTED`` in the
 ``BuildManifest`` (``PHASE1_EXECUTED_STAGES`` is unchanged by this module).
 
-Approved page universe (operator decision): exactly one home page plus one
-category page per ``BusinessSpec.directory_taxonomy`` entry. Every other
-page role, city/geography structure, and inventory-backed page is out of
-scope for this delivery -- the current inputs do not support deriving them
-(``BusinessSpec.geography`` is a single free-form string; there is no
-listing-inventory input), and BusinessSpec/BrandPackage are not modified to
-invent one. ``brand`` is carried solely as declared provenance
+Approved page universe (operator decision, extended by AES-WEB-002K.1):
+exactly one home page plus one category page per
+``BusinessSpec.directory_taxonomy`` entry, plus (K.1, additive) one
+``business-profile`` page per ``ListingRecord`` when an optional
+``listing_dataset`` is supplied. City/geography structure and every other
+page role remain out of scope for this delivery (``BusinessSpec.geography``
+is a single free-form string), and BusinessSpec/BrandPackage are not
+modified to invent one. ``brand`` is carried solely as declared provenance
 (``source_hashes``); §5.3 derives structure "from spec taxonomy rules".
+Profile routes follow the ADR-WEB-LISTING-DATASET §6 convention exactly
+(``/<category-slug>/<listing-slug>/``) and are excluded from ``nav_routes``
+(site-wide navigation names category routes only, never every business) but
+included in ``sitemap_routes`` and the page graph (hierarchy/link topology)
+like any other page.
+
+Home and category page titles are now always real (AES-WEB-002K.1) --
+``spec.business_name`` for home, the taxonomy entry's own text for each
+category -- never ``""``. This is an intentional, always-on behavior change
+(regardless of whether ``listing_dataset`` is supplied): real navigation
+labels require real page titles, and IA is the only stage that has both
+the taxonomy entry text and the business name in hand.
 
 This module never selects components, imports the component registry,
 chooses recipes, generates content, generates SEO, creates layouts, or
-renders anything (§5.3 boundary; AES-WEB-002 §26).
+renders anything (§5.3 boundary; AES-WEB-002 §26). It also never imports
+``components/`` (the K.1 render-data/route-derivation helpers there are
+off limits) -- ``_listing_route``/``_category_route`` below are a small,
+documented duplication of ``components.content_projection``'s identical
+route grammar, the same "contracts/rendering has no legal cross-import"
+precedent this repository already applies to ``is_safe_url``.
 """
 
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from engines.website_generation.constants.ia import (
     CATEGORY_ROUTE_TEMPLATE,
@@ -38,6 +56,7 @@ from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     BusinessSpec,
     InternalLinkIntent,
+    ListingDataset,
     PageHierarchyEntry,
     PagePlan,
     SiteArchitecture,
@@ -53,6 +72,13 @@ from engines.website_generation.contracts.versions import (
     ENGINE_VERSIONS,
     SCHEMA_VERSIONS,
 )
+
+# AES-WEB-002K.1: local, not imported from constants/ia.py (that table
+# governs only the home/category recipe families this module already knew
+# about) -- profile pages carry no content_slots (matching every existing
+# business-profile PagePlan fixture precedent; the Component Engine's
+# recipe resolution keys purely off page_type, never PagePlan.content_slots).
+PAGE_ROLE_BUSINESS_PROFILE = "business-profile"
 
 _REQUIRED_SPEC_FIELDS: Tuple[str, ...] = (
     "business_name",
@@ -85,6 +111,13 @@ def _category_route(slug: str) -> str:
     return CATEGORY_ROUTE_TEMPLATE % slug
 
 
+def _listing_route(category_slug: str, listing_slug: str) -> str:
+    """Same grammar as ``components.content_projection.listing_route``
+    (documented duplication -- see module docstring): ``ia/`` has no legal
+    import path to ``components/``."""
+    return "%s%s/" % (_category_route(category_slug), listing_slug)
+
+
 def _stable_page_id(route: str) -> str:
     """Short, deterministic, content-derived page identifier.
 
@@ -101,35 +134,56 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
 
     version = ENGINE_VERSIONS["information_architecture_engine"]
 
-    def plan(self, spec: BusinessSpec, brand: BrandPackage) -> SiteArchitecture:
+    def plan(
+        self,
+        spec: BusinessSpec,
+        brand: BrandPackage,
+        listing_dataset: Optional[ListingDataset] = None,
+    ) -> SiteArchitecture:
         """Total function over valid inputs; batch-fails otherwise.
 
-        Deterministic guarantees: neither input is mutated (both are
+        Deterministic guarantees: neither input is mutated (all three are
         frozen); the page inventory, routes, hierarchy, and link topology
-        are pure functions of ``spec.directory_taxonomy`` only.
+        are pure functions of ``spec.directory_taxonomy`` and the optional
+        ``listing_dataset``'s categories/listings only.
         """
         self._validate_spec(spec)
-        category_routes = self._resolve_category_routes(spec.directory_taxonomy)
+        category_pairs = self._resolve_category_routes(spec.directory_taxonomy)
+        category_routes = tuple(route for route, _title in category_pairs)
+        profile_triples = self._resolve_profile_routes(listing_dataset)
 
-        pages = self._build_pages(category_routes)
-        hierarchy = self._build_hierarchy(category_routes)
-        links = self._build_link_topology(category_routes)
+        home_title = _normalized(spec.business_name)
+        pages = self._build_pages(category_pairs, home_title, profile_triples)
+        hierarchy = self._build_hierarchy(category_routes, profile_triples)
+        links = self._build_link_topology(category_routes, profile_triples)
         page_ids = {page.route: _stable_page_id(page.route) for page in pages}
 
         _validate_site_graph(pages, hierarchy, links, page_ids)
 
-        routes_sorted = tuple(sorted(page.route for page in pages))
+        # AES-WEB-002K.1: profile routes are real pages (sitemap-crawlable,
+        # part of the page graph) but never site-wide navigation entries --
+        # a directory with hundreds of listings must not explode its header
+        # nav to one link per business.
+        sitemap_routes_sorted = tuple(sorted(page.route for page in pages))
+        nav_routes_sorted = tuple(sorted(
+            page.route for page in pages
+            if page.page_type != PAGE_ROLE_BUSINESS_PROFILE
+        ))
+
+        source_hashes = {
+            "business_spec": artifact_sha256(spec),
+            "brand_package": artifact_sha256(brand),
+        }
+        if listing_dataset is not None:
+            source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
 
         return SiteArchitecture(
             schema_version=SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE],
             artifact_kind=ArtifactKind.SITE_ARCHITECTURE,
-            source_hashes={
-                "business_spec": artifact_sha256(spec),
-                "brand_package": artifact_sha256(brand),
-            },
+            source_hashes=source_hashes,
             pages=pages,
-            nav_routes=routes_sorted,
-            sitemap_routes=routes_sorted,
+            nav_routes=nav_routes_sorted,
+            sitemap_routes=sitemap_routes_sorted,
             page_ids=page_ids,
             page_hierarchy=hierarchy,
             internal_link_topology=links,
@@ -150,8 +204,11 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
             )
 
     @staticmethod
-    def _resolve_category_routes(taxonomy: Tuple[str, ...]) -> Tuple[str, ...]:
-        """One deterministic category route per taxonomy entry.
+    def _resolve_category_routes(taxonomy: Tuple[str, ...]) -> Tuple[Tuple[str, str], ...]:
+        """One deterministic ``(route, title)`` pair per taxonomy entry --
+        ``title`` is the entry's own (whitespace-normalized) text, never a
+        route-derived guess (AES-WEB-002K.1: real navigation labels need
+        real titles).
 
         Batch-reports (never first-failure-only) every taxonomy entry with
         no derivable slug and every collision where two distinct entries
@@ -190,58 +247,113 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
                 diagnostics=diagnostics,
             )
 
-        return tuple(sorted(route_to_entries))
+        return tuple(sorted(
+            (route, _normalized(entries[0])) for route, entries in route_to_entries.items()
+        ))
 
     @staticmethod
-    def _build_pages(category_routes: Tuple[str, ...]) -> Tuple[PagePlan, ...]:
+    def _resolve_profile_routes(
+        listing_dataset: Optional[ListingDataset],
+    ) -> Tuple[Tuple[str, str, str], ...]:
+        """One ``(route, title, parent_category_route)`` triple per
+        ``ListingRecord`` (ADR-WEB-LISTING-DATASET §6 route convention;
+        AES-WEB-002K.1) -- empty when no dataset is supplied, byte-identical
+        to pre-K.1 behavior in that case. ``title`` is the listing's own
+        ``business_name``, never a route-derived guess. Batch-reports every
+        listing whose ``category_id`` does not resolve to a real
+        ``ListingCategory``; duplicate-route collisions across listings
+        surface via the existing ``_validate_site_graph`` page-level check
+        below (no need to re-derive that logic here)."""
+        if listing_dataset is None:
+            return ()
+        categories_by_id = {c.category_id: c for c in listing_dataset.categories}
+        unresolved: List[str] = []
+        triples: List[Tuple[str, str, str]] = []
+        for listing in listing_dataset.listings:
+            category = categories_by_id.get(listing.category_id)
+            if category is None:
+                unresolved.append(listing.listing_id)
+                continue
+            parent_route = _category_route(category.slug)
+            route = _listing_route(category.slug, listing.slug)
+            triples.append((route, _normalized(listing.business_name), parent_route))
+
+        if unresolved:
+            raise ArchitecturePlanningError(
+                "SiteArchitecture planning failed; listing_dataset has "
+                "unresolvable category references",
+                diagnostics={"unresolved_listing_category_refs": sorted(unresolved)},
+            )
+
+        return tuple(sorted(triples))
+
+    @staticmethod
+    def _build_pages(
+        category_pairs: Tuple[Tuple[str, str], ...],
+        home_title: str,
+        profile_triples: Tuple[Tuple[str, str, str], ...],
+    ) -> Tuple[PagePlan, ...]:
         pages = [
             PagePlan(
                 route=HOME_ROUTE,
                 page_type=PAGE_ROLE_HOME,
-                title="",
+                title=home_title,
                 content_slots=CONTENT_SLOTS_BY_ROLE[PAGE_ROLE_HOME],
             )
         ]
-        for route in category_routes:
+        for route, title in category_pairs:
             pages.append(
                 PagePlan(
                     route=route,
                     page_type=PAGE_ROLE_CATEGORY,
-                    title="",
+                    title=title,
                     content_slots=CONTENT_SLOTS_BY_ROLE[PAGE_ROLE_CATEGORY],
                 )
+            )
+        for route, title, _parent_route in profile_triples:
+            pages.append(
+                PagePlan(route=route, page_type=PAGE_ROLE_BUSINESS_PROFILE, title=title)
             )
         return tuple(sorted(pages, key=lambda page: page.route))
 
     @staticmethod
     def _build_hierarchy(
-        category_routes: Tuple[str, ...]
+        category_routes: Tuple[str, ...],
+        profile_triples: Tuple[Tuple[str, str, str], ...],
     ) -> Tuple[PageHierarchyEntry, ...]:
         hierarchy = [PageHierarchyEntry(route=HOME_ROUTE, parent_route="")]
         for route in category_routes:
             hierarchy.append(
                 PageHierarchyEntry(route=route, parent_route=HOME_ROUTE)
             )
+        for route, _title, parent_route in profile_triples:
+            hierarchy.append(PageHierarchyEntry(route=route, parent_route=parent_route))
         return tuple(sorted(hierarchy, key=lambda entry: entry.route))
 
     @staticmethod
     def _build_link_topology(
-        category_routes: Tuple[str, ...]
+        category_routes: Tuple[str, ...],
+        profile_triples: Tuple[Tuple[str, str, str], ...],
     ) -> Tuple[InternalLinkIntent, ...]:
         # Conservative, hierarchy-derived intent only: home links to every
         # category (discovery), each category links back to home (its
-        # parent). No sibling cross-links or numeric floors/ceilings are
-        # invented -- that policy belongs to a later phase (AES-WEB-002
-        # §6.2), not this delivery.
+        # parent) plus (AES-WEB-002K.1, additive) every one of its own
+        # profile pages when a listing_dataset was supplied. No sibling
+        # cross-links or numeric floors/ceilings are invented -- that
+        # policy belongs to a later phase (AES-WEB-002 §6.2), not this
+        # delivery.
+        profiles_by_parent: Dict[str, List[str]] = {}
+        for route, _title, parent_route in profile_triples:
+            profiles_by_parent.setdefault(parent_route, []).append(route)
+
         links = []
         if category_routes:
             links.append(
                 InternalLinkIntent(from_route=HOME_ROUTE, to_routes=category_routes)
             )
         for route in category_routes:
-            links.append(
-                InternalLinkIntent(from_route=route, to_routes=(HOME_ROUTE,))
-            )
+            to_routes = (HOME_ROUTE,) + tuple(sorted(profiles_by_parent.get(route, ())))
+            links.append(InternalLinkIntent(from_route=route, to_routes=to_routes))
         return tuple(sorted(links, key=lambda link: link.from_route))
 
 

@@ -321,9 +321,9 @@ class TestDoesNotModifyEarlierRecipeTables:
     AMB-002G-02/AMB-002H-02 precedent one final time."""
 
     def test_all_eight_earlier_tables_unchanged_by_slot_count(self):
-        assert len(HOME_RECIPE_SLOTS) == 9
-        assert len(CATEGORY_RECIPE_SLOTS) == 9
-        assert len(BUSINESS_PROFILE_RECIPE_SLOTS) == 15
+        assert len(HOME_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(CATEGORY_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(BUSINESS_PROFILE_RECIPE_SLOTS) == 17  # AES-WEB-002K.1: +site_header/+site_footer
         assert len(EDITORIAL_GUIDE_RECIPE_SLOTS) == 5
         assert len(COLLECTION_RECIPE_SLOTS) == 3
         assert len(SERVICE_AREA_RECIPE_SLOTS) == 5

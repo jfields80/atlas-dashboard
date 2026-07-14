@@ -145,6 +145,15 @@ _ALL: Tuple[SemanticSlot, ...] = (
           "LinkSpec", _S.SITE, CARD_ONE_TO_N, False, True, _A.DEFERRED),
     _slot("legal_text", _O.BUSINESS_SPEC, "BusinessSpec.legal_footer_facts",
           "RichTextBlock", _S.SITE, CARD_ONE_TO_N, True, False, _A.AVAILABLE),
+    # AES-WEB-002K.1: legal.footer.directory's legal_facts field is
+    # repointed here (D5) rather than to "legal_text" above -- compile()
+    # takes no BusinessSpec input this delivery (unchanged J.19 operator
+    # decision), so "legal_text" stays permanently unreachable in practice;
+    # this slot is the same shape (flat, always-available site copy) but
+    # sourced from an explicit ContentPackage block instead, mirroring
+    # footer_disclosures' identical CONTENT_PACKAGE/SITE-scope pattern below.
+    _slot("footer_legal_text", _O.CONTENT_PACKAGE, "ContentPackage:footer_legal",
+          "RichTextBlock", _S.SITE, CARD_EXACTLY_ONE, True, False, _A.AVAILABLE),
     # -- Page -----------------------------------------------------------
     _slot("page_h1", _O.CONTENT_PACKAGE, "ContentPackage:hero_h1",
           "RichTextBlock", _S.ROUTE, CARD_EXACTLY_ONE, True, False, _A.AVAILABLE),

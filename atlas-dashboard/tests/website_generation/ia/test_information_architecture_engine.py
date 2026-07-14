@@ -191,14 +191,24 @@ class TestPetTripFinderGolden:
         for page in site.pages:
             assert page.content_slots == ("hero_h1", "intro")
 
-    def test_title_left_empty_for_a_later_phase(self, golden_compiler_input):
-        # Populating title text would cross into content/SEO generation,
-        # which §5.3 reserves for later phases.
+    def test_titles_are_real_not_empty(self, golden_compiler_input):
+        # AES-WEB-002K.1 supersedes this test's original premise: real
+        # navigation labels need real page titles, so IA now always
+        # populates them -- spec.business_name for home, the taxonomy
+        # entry's own text for each category. This does not cross into
+        # content/SEO generation (§5.3's boundary is unchanged) -- IA
+        # already has both values in hand from its own inputs, nothing is
+        # drafted or authored.
         spec = BusinessSpecCompiler().compile(golden_compiler_input)
         brand = _brand_for(spec)
         site = InformationArchitectureEngine().plan(spec, brand)
+        by_route = {page.route: page.title for page in site.pages}
+        assert by_route["/"] == spec.business_name
+        assert by_route["/hotels/"] == "hotels"
+        assert by_route["/parks/"] == "parks"
+        assert by_route["/restaurants/"] == "restaurants"
         for page in site.pages:
-            assert page.title == ""
+            assert page.title != ""
 
 
 class TestEmptyTaxonomy:

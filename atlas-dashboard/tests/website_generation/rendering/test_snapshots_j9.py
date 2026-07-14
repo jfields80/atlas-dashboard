@@ -126,10 +126,11 @@ class TestRepresentativeExactSnapshots:
             prop_overrides={"density": "compact"},
             content_overrides={"listing_ref": "Acme Pet Hotel"},
         )
+        # AES-WEB-002K.1: card heading moved from h3 to h2 (CG-CMP-005).
         assert (
             '<article class="ac-listing ac-listing--card-standard ac-listing--standard ac-listing--compact" '
             'data-atlas-c="listing-card-standard" data-atlas-e="listing_click" '
-            'data-atlas-v="1.0.0"><h3>Acme Pet Hotel</h3></article>'
+            'data-atlas-v="1.0.0"><h2>Acme Pet Hotel</h2></article>'
         ) in html
 
     def test_listing_card_sponsored_has_visible_disclosure(self):
@@ -141,11 +142,15 @@ class TestRepresentativeExactSnapshots:
         assert 'data-atlas-e="sponsored_listing_click"' in html
 
     def test_profile_header_business_is_h1_owner(self):
+        # AES-WEB-002K.1: root element moved from <header> to <section> --
+        # the site shell's HEADER-region nav.header.standard now owns the
+        # page's single <header> landmark (CG-CMP-006). This component
+        # still owns the <h1>.
         html = self._html(
             "profile.header.business",
             content_overrides={"name": "Happy Paws"},
         )
-        assert "<header " in html
+        assert "<section " in html
         assert "<h1>Happy Paws</h1>" in html
 
     def test_profile_hours_table_is_accessible_table(self):

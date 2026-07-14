@@ -164,6 +164,7 @@ from engines.website_generation.contracts.enums import (
     VerificationStatus,
     Weekday,
 )
+from engines.website_generation.contracts.render_data import RenderDataBundle
 
 PYDANTIC_V2: bool = str(getattr(pydantic, "VERSION", "1.0")).startswith("2")
 
@@ -604,21 +605,26 @@ class ComponentManifest(ArtifactHeader):
 
 class ComponentCompilationResult(FrozenModel):
     """Non-artifact result of :meth:`ComponentEngineInterface.compile`
-    (AES-WEB-002J.19; ADR-WEB-CONTENT-BINDING-MAP).
+    (AES-WEB-002J.19; ADR-WEB-CONTENT-BINDING-MAP; AES-WEB-002K.1).
 
     Bundles the bound ``ComponentManifest`` with its companion
     ``ContentPackage`` -- the original input blocks plus every block Phase B
-    projected from ``ListingDataset``/derived values. Deliberately **not**
-    an :class:`ArtifactHeader` subclass: it carries no ``schema_version``/
+    projected from ``ListingDataset``/derived values -- plus (AES-WEB-002K.1)
+    ``render_data``: the typed, non-artifact link/card/contact/hours data
+    the Renderer needs to emit real hyperlinks and enriched listing cards,
+    which flat ``ContentBlock.text`` cannot represent
+    (``contracts/render_data.py``). Deliberately **not** an
+    :class:`ArtifactHeader` subclass: it carries no ``schema_version``/
     ``artifact_kind``/``source_hashes`` of its own and is never registered
     in the schema catalog (``contracts/versions.py``) -- it is an internal
     engine-call return value, not one of the AES-WEB-001 §4.1 (+ J.17)
-    artifact kinds. Both of its fields are themselves real, independently
-    valid artifacts.
+    artifact kinds. ``render_data`` defaults to an empty bundle, so every
+    pre-K.1 caller/test remains source-compatible.
     """
 
     component_manifest: ComponentManifest
     content_package: ContentPackage
+    render_data: RenderDataBundle = RenderDataBundle(entries=())
 
 
 # ---------------------------------------------------------------------------

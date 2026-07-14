@@ -687,9 +687,9 @@ class TestSecondaryRecipeTables:
         assert category["related_categories_cities"]["required"] is False
         assert profile["faqs"]["required_slot_names"] == _UNBUILT_FAMILY_SENTINEL
         assert profile["faqs"]["required"] is False
-        assert len(constants_components.HOME_RECIPE_SLOTS) == 9
-        assert len(constants_components.CATEGORY_RECIPE_SLOTS) == 9
-        assert len(constants_components.BUSINESS_PROFILE_RECIPE_SLOTS) == 15
+        assert len(constants_components.HOME_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(constants_components.CATEGORY_RECIPE_SLOTS) == 11  # AES-WEB-002K.1: +site_header/+site_footer
+        assert len(constants_components.BUSINESS_PROFILE_RECIPE_SLOTS) == 17  # AES-WEB-002K.1: +site_header/+site_footer
 
 
 class TestCityCategoryFixtureSet:

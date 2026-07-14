@@ -228,10 +228,23 @@ class TestArchitecture:
         assert {str(registry.lifecycle(c)) for c in ids} == {"LifecycleStatus.PROPOSED"}
 
     def test_no_engine_version_added(self):
+        # AES-WEB-002K.1 supersedes this test's original per-value check
+        # (every engine == "1.0.0" or renderer == "1.1.0") -- every
+        # subsequent sprint through J.19/J.20/K.1 has legitimately bumped
+        # multiple real engine versions (see contracts/versions.py's own
+        # inline history), so a hardcoded version-string assertion is no
+        # longer a meaningful proxy for "no engine version added". The
+        # real, still-true invariant this test protects -- no *new engine
+        # key* was ever added for the J.18 binding map (it is data, not an
+        # engine) -- is checked directly instead.
         from engines.website_generation.contracts.versions import ENGINE_VERSIONS
 
-        for key in ENGINE_VERSIONS.values():
-            assert key == "1.0.0" or ENGINE_VERSIONS.get("renderer") == "1.1.0"
+        assert set(ENGINE_VERSIONS) == {
+            "business_spec_compiler", "state_machine", "website_generation_pipeline",
+            "brand_engine", "information_architecture_engine", "content_engine",
+            "seo_engine", "component_engine", "layout_engine", "renderer",
+            "assembly", "quality_gate_engine",
+        }
         # No binding-map engine exists.
         assert "binding_map" not in ENGINE_VERSIONS
         assert "content_binding" not in ENGINE_VERSIONS

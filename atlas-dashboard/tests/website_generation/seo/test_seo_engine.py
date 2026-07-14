@@ -516,12 +516,15 @@ class TestScopeProtection:
         assert public_methods == {"compile"}
 
     def test_compile_signature_has_no_brand_package_parameter(self):
+        # AES-WEB-002K.1 adds base_url (additive, defaults to "" ==
+        # pre-K.1 relative-canonical behavior) -- still no BrandPackage.
         signature = inspect.signature(SEOEngine.compile)
         assert list(signature.parameters) == [
             "self",
             "site_architecture",
             "content_package",
             "business_spec",
+            "base_url",
         ]
         for parameter in signature.parameters.values():
             assert parameter.annotation is not BrandPackage
@@ -635,8 +638,9 @@ class TestContractsAndArchitecture:
             "LISTING_DATASET",
         }
 
-    def test_engine_versions_contains_seo_engine_1_0_0(self):
-        assert ENGINE_VERSIONS["seo_engine"] == "1.0.0"
+    def test_engine_versions_contains_seo_engine_1_1_0(self):
+        # AES-WEB-002K.1: 1.0.0 -> 1.1.0 (base_url support).
+        assert ENGINE_VERSIONS["seo_engine"] == "1.1.0"
 
     def test_seo_engine_version_equals_engine_versions_entry(self):
         assert SEOEngine.version == ENGINE_VERSIONS["seo_engine"]

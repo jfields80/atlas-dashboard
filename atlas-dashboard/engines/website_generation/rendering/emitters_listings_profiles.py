@@ -23,23 +23,26 @@ supply, that is recorded as a carried gap in the AES-WEB-002J.9
 implementation report, never invented here.
 
 Documented per-component gaps (carried, not silently resolved):
-* ``listing.*`` cards declare only a ``LISTING_REF`` content prop and (for
-  featured/sponsored) a disclosure slot -- no ``ROUTE_REF``/``LinkSpec``
-  reaches the emitter, so a card renders its listing text as a heading with
-  no outbound profile link. The ``listing_click`` analytics id and the
-  ``link_kinds`` SEO capability are declared but not realizable until the
-  catalog grows a listing-route binding.
+* ``listing.*`` cards/rows, ``profile.contact.panel``, and
+  ``profile.hours.table`` now render real hyperlinks and structured
+  enrichment via ``layout_ctx.render_data`` (AES-WEB-002K.1;
+  ``contracts/render_data.py``) when the Component Engine's render-data
+  producer ran (a ``ListingDataset`` was supplied) -- the pre-K.1 opaque
+  single-string rendering is retained as the honest degrade path when it
+  did not.
 * ``profile.gallery.standard`` binds ``AssetRef`` images as opaque reference
   strings with no companion alt text, so each ``<img>`` carries ``alt=""``
   (the spec-legal decorative marker, WCAG H67) -- the same documented
-  limitation ``atom.image.responsive`` carries in J.8.
+  limitation ``atom.image.responsive`` carries in J.8. Out of Wave 1 scope
+  (no asset store; K.1 explicitly ships no images).
 """
 
 from __future__ import annotations
 
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 from engines.website_generation.contracts.artifacts import ComponentInstance
+from engines.website_generation.contracts.render_data import ContactData, HoursData, ListingCardData
 from engines.website_generation.rendering.html_emitter import (
     EmitterFn,
     HtmlFragment,
@@ -52,6 +55,7 @@ from engines.website_generation.rendering.html_emitter import (
     element,
     escape,
     first_value,
+    link_html,
 )
 
 _LISTING_PREFIX = "ac-listing"
@@ -86,6 +90,39 @@ def _disclosure_block(prefix: str, text: str) -> str:
     )
 
 
+def _card_body(card: Optional[ListingCardData], fallback_text: str) -> str:
+    """A real, linked, enriched card body (AES-WEB-002K.1) when render data
+    is present; degrades to the pre-K.1 unlinked ``<h2>`` heading when it is
+    absent (no ListingDataset supplied -- the render-data producer never
+    ran). ``<h2>`` (not the pre-K.1 ``<h3>``) either way: the card is the
+    first heading level under the page's own ``<h1>``, never a level skip
+    (CG-CMP-005)."""
+    if card is None:
+        return element("h2", {}, escape(fallback_text))
+    name_html = element("a", {"href": card.profile_href}, escape(card.name))
+    parts = [element("h2", {}, name_html)]
+    if card.area_label:
+        parts.append(
+            element("p", {"class": class_names(_LISTING_PREFIX, "area")}, escape(card.area_label))
+        )
+    if card.rating_text:
+        rating_text = card.rating_text
+        if card.review_count is not None:
+            rating_text = "%s (%d review%s)" % (
+                card.rating_text, card.review_count, "" if card.review_count == 1 else "s",
+            )
+        parts.append(
+            element("p", {"class": class_names(_LISTING_PREFIX, "rating")}, escape(rating_text))
+        )
+    if card.badge_label:
+        parts.append(
+            element("span", {"class": class_names(_LISTING_PREFIX, "badge")}, escape(card.badge_label))
+        )
+    if card.cta is not None:
+        parts.append(link_html(card.cta))
+    return "".join(parts)
+
+
 # ---------------------------------------------------------------------------
 # listing.* (§27.5)
 # ---------------------------------------------------------------------------
@@ -97,15 +134,16 @@ def _emit_listing_card_standard(
     tokens: TokenMap,
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
-    """Organic listing card (§6.3 ORGANIC). Renders the bound listing text as
-    the card heading; no outbound link (see module docstring gap)."""
+    """Organic listing card (§6.3 ORGANIC). Real, linked, enriched card body
+    (AES-WEB-002K.1; ``layout_ctx.render_data.card``)."""
     density = instance.props.get("density", "comfortable")
     listing_text = first_value(resolved_content, "listing_ref")
+    card = layout_ctx.render_data.card if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_LISTING_PREFIX, "card-standard", "standard", density),
         **analytics_attrs("listing-card-standard", _VERSION, event="listing_click"),
     }
-    return element("article", attrs, element("h3", {}, escape(listing_text)))
+    return element("article", attrs, _card_body(card, listing_text))
 
 
 def _emit_listing_card_featured(
@@ -115,9 +153,11 @@ def _emit_listing_card_featured(
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
     """Featured (paid) listing card: mandatory visible disclosure (§17.1, E5)
-    on a distinct surface (§6.3 non-confusion)."""
+    on a distinct surface (§6.3 non-confusion). Real, linked, enriched card
+    body (AES-WEB-002K.1)."""
     listing_text = first_value(resolved_content, "listing_ref")
     disclosure = first_value(resolved_content, "disclosure")
+    card = layout_ctx.render_data.card if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_LISTING_PREFIX, "card-featured", "featured"),
         **analytics_attrs("listing-card-featured", _VERSION, event="listing_click"),
@@ -125,8 +165,7 @@ def _emit_listing_card_featured(
     return element(
         "article",
         attrs,
-        _disclosure_block(_LISTING_PREFIX, disclosure)
-        + element("h3", {}, escape(listing_text)),
+        _disclosure_block(_LISTING_PREFIX, disclosure) + _card_body(card, listing_text),
     )
 
 
@@ -137,9 +176,11 @@ def _emit_listing_card_sponsored(
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
     """Sponsored (paid, interleaved) listing card: mandatory visible
-    disclosure (§17.1, E5), distinct sponsored surface (§6.3)."""
+    disclosure (§17.1, E5), distinct sponsored surface (§6.3). Real, linked,
+    enriched card body (AES-WEB-002K.1)."""
     listing_text = first_value(resolved_content, "listing_ref")
     disclosure = first_value(resolved_content, "disclosure")
+    card = layout_ctx.render_data.card if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_LISTING_PREFIX, "card-sponsored", "sponsored"),
         **analytics_attrs(
@@ -149,8 +190,7 @@ def _emit_listing_card_sponsored(
     return element(
         "article",
         attrs,
-        _disclosure_block(_LISTING_PREFIX, disclosure)
-        + element("h3", {}, escape(listing_text)),
+        _disclosure_block(_LISTING_PREFIX, disclosure) + _card_body(card, listing_text),
     )
 
 
@@ -160,13 +200,18 @@ def _emit_listing_row_compact(
     tokens: TokenMap,
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
-    """Compact organic listing row for search-results/comparison (§27.5)."""
+    """Compact organic listing row for search-results/comparison (§27.5).
+    Real, linked, enriched card body (AES-WEB-002K.1) when render data is
+    present; degrades to the pre-K.1 unlinked ``<span>`` when absent."""
     listing_text = first_value(resolved_content, "listing_ref")
+    card = layout_ctx.render_data.card if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_LISTING_PREFIX, "row-compact", "result"),
         **analytics_attrs("listing-row-compact", _VERSION, event="listing_click"),
     }
-    return element("div", attrs, element("span", {}, escape(listing_text)))
+    if card is None:
+        return element("div", attrs, element("span", {}, escape(listing_text)))
+    return element("div", attrs, _card_body(card, listing_text))
 
 
 # ---------------------------------------------------------------------------
@@ -182,7 +227,12 @@ def _emit_profile_header_business(
 ) -> HtmlFragment:
     """Business-profile H1 owner (§9.3), replacing the hero on this role.
     Optional rating summary renders as a text equivalent (stars would be
-    decorative, §12.4) -- never fabricated when absent."""
+    decorative, §12.4) -- never fabricated when absent.
+
+    AES-WEB-002K.1: root element is ``<section>``, not ``<header>`` -- the
+    site shell's HEADER-region ``nav.header.standard`` now owns the page's
+    single ``<header>`` landmark (CG-CMP-006); this component still owns
+    the ``<h1>``, just inside a non-landmark container."""
     name = first_value(resolved_content, "name")
     rating = first_value(resolved_content, "rating_summary")
     attrs = {
@@ -194,7 +244,7 @@ def _emit_profile_header_business(
         children += element(
             "p", {"class": class_names(_PROFILE_PREFIX, "rating")}, escape(rating)
         )
-    return element("header", attrs, children)
+    return element("section", attrs, children)
 
 
 def _emit_profile_contact_panel(
@@ -203,16 +253,28 @@ def _emit_profile_contact_panel(
     tokens: TokenMap,
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
-    """Contact panel: the single ContactSpec NAP source rendered in an
-    ``<address>`` (§13.3). Structured tel:/mailto: links require field-level
-    ContactSpec data the opaque block does not carry (documented gap); the
-    NAP text renders faithfully."""
-    contact = first_value(resolved_content, "contact_info")
+    """Contact panel: real, clickable tel:/mailto:/website links
+    (AES-WEB-002K.1; ``layout_ctx.render_data.contact``) inside an
+    ``<address>`` (§13.3). Degrades to the pre-K.1 opaque NAP text when
+    render data is absent."""
+    contact_info = first_value(resolved_content, "contact_info")
+    contact: Optional[ContactData] = layout_ctx.render_data.contact if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_PROFILE_PREFIX, "contact-panel", "sidebar"),
         **analytics_attrs("profile-contact-panel", _VERSION, event="phone_click"),
     }
-    return element("aside", attrs, element("address", {}, escape(contact)))
+    if contact is None:
+        return element("aside", attrs, element("address", {}, escape(contact_info)))
+    parts = []
+    if contact.address_text:
+        parts.append(element("p", {}, escape(contact.address_text)))
+    if contact.phone is not None:
+        parts.append(element("p", {}, link_html(contact.phone)))
+    if contact.email is not None:
+        parts.append(element("p", {}, link_html(contact.email)))
+    if contact.website is not None:
+        parts.append(element("p", {}, link_html(contact.website)))
+    return element("aside", attrs, element("address", {}, "".join(parts)))
 
 
 def _emit_profile_hours_table(
@@ -222,16 +284,43 @@ def _emit_profile_hours_table(
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
     """Business hours as a real accessible table with a caption and a scoped
-    header (§12.4, CG-A11Y-007). The opaque HoursSpec text renders as the
-    schedule cell -- per-day rows require structured hours data the opaque
-    block does not carry. "Business hours"/"Schedule" are fixed structural
-    table chrome (the J.8 precedent for fixed non-commercial chrome text),
-    never invented business copy."""
-    hours = first_value(resolved_content, "hours")
+    header (§12.4, CG-A11Y-007). Real per-day rows (AES-WEB-002K.1;
+    ``layout_ctx.render_data.hours``) when render data is present; degrades
+    to the pre-K.1 single opaque schedule cell when absent. "Business
+    hours"/"Schedule"/"Day"/"Hours" are fixed structural table chrome (the
+    J.8 precedent for fixed non-commercial chrome text), never invented
+    business copy."""
+    hours_text = first_value(resolved_content, "hours")
+    hours: Optional[HoursData] = layout_ctx.render_data.hours if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_PROFILE_PREFIX, "hours-table"),
         **analytics_attrs("profile-hours-table", _VERSION),
     }
+    if hours is None or not hours.rows:
+        table = element(
+            "table",
+            {},
+            element("caption", {}, "Business hours")
+            + element(
+                "thead",
+                {},
+                element("tr", {}, element("th", {"scope": "col"}, "Schedule")),
+            )
+            + element(
+                "tbody",
+                {},
+                element("tr", {}, element("td", {}, escape(hours_text))),
+            ),
+        )
+        return element("div", attrs, table)
+    body_rows = "".join(
+        element(
+            "tr", {},
+            element("th", {"scope": "row"}, escape(row.day))
+            + element("td", {}, "Closed" if row.closed else escape("%s-%s" % (row.opens, row.closes))),
+        )
+        for row in hours.rows
+    )
     table = element(
         "table",
         {},
@@ -239,13 +328,12 @@ def _emit_profile_hours_table(
         + element(
             "thead",
             {},
-            element("tr", {}, element("th", {"scope": "col"}, "Schedule")),
+            element(
+                "tr", {},
+                element("th", {"scope": "col"}, "Day") + element("th", {"scope": "col"}, "Hours"),
+            ),
         )
-        + element(
-            "tbody",
-            {},
-            element("tr", {}, element("td", {}, escape(hours))),
-        ),
+        + element("tbody", {}, body_rows),
     )
     return element("div", attrs, table)
 

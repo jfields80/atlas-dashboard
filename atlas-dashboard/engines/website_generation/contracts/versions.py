@@ -151,7 +151,13 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2): initial
     # Information Architecture Engine version. Not wired into pipeline
     # execution (§6: ia_planning remains NOT_EXECUTED in the BuildManifest).
-    "information_architecture_engine": "1.0.0",
+    # AES-WEB-002K.1 bumps 1.0.0 -> 1.1.0: plan() now accepts an optional
+    # listing_dataset input, emitting one business-profile PagePlan per
+    # ListingRecord plus real page titles (previously always "") -- a §5.3
+    # behavior change requiring an explicit bump. Omitting listing_dataset
+    # is not byte-identical to pre-K.1 output either, since titles are now
+    # always populated -- see the K.1 implementation report §15.
+    "information_architecture_engine": "1.1.0",
     # AES-WEB-002J.4 (AES-WEB-001 §5.4/Part 2): initial Content Engine
     # version. Not wired into pipeline execution (§6: content_drafting and
     # content_validation both remain NOT_EXECUTED in the BuildManifest).
@@ -159,7 +165,12 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.5 (AES-WEB-001 §5.8/Part 2): initial SEO Engine version.
     # Not wired into pipeline execution (§6: seo_compilation remains
     # NOT_EXECUTED in the BuildManifest).
-    "seo_engine": "1.0.0",
+    # AES-WEB-002K.1 bumps 1.0.0 -> 1.1.0: compile() now accepts an optional
+    # base_url input; empty (default) preserves the exact pre-K.1
+    # self-canonical (route-relative) output byte-for-byte, but the method
+    # signature itself changed and a supplied base_url is a real §5.8
+    # behavior change, so the bump is explicit rather than silent.
+    "seo_engine": "1.1.0",
     # AES-WEB-002J.6 (AES-WEB-001 §5.5/Part 2; AES-WEB-002 §14/§26): initial
     # Component Engine version. Not wired into pipeline execution (§6:
     # component_resolution remains NOT_EXECUTED in the BuildManifest).
@@ -176,7 +187,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # sourced ref-prop projections use listing-aware generated slot ids
     # (bind.<semantic_slot>.<listing_id>) instead of the J.19 positional
     # form -- both are §5.5 behavior changes requiring an explicit bump.
-    "component_engine": "1.2.0",
+    # AES-WEB-002K.1 (ADR-WEB-CONTENT-BINDING-MAP) bumps 1.2.0 -> 1.3.0: the
+    # Component Engine now additionally produces a RenderDataBundle
+    # (contracts/render_data.py) in Phase B -- real nav/footer links,
+    # enriched listing-card/contact/hours data -- and two required fields
+    # (nav.header.standard/legal.footer.directory's nav_tree) move from
+    # categorically-unbindable STRUCTURED_DEFERRED to the new RENDER_DATA
+    # binding state, changing which components Phase A can select.
+    "component_engine": "1.3.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).
@@ -189,7 +207,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # a §11.4 snapshot-level change requiring an explicit engine-version bump.
     # Additive and backward-compatible -- every component's compatibility
     # range is renderer >=1.0.0,<2.0.0.
-    "renderer": "1.1.0",
+    # AES-WEB-002K.1 bumps 1.1.0 -> 1.2.0: render() now accepts an optional
+    # RenderDataBundle, threaded per-instance into LayoutContext so
+    # render-data-aware emitters (nav/footer/cards/contact/hours) can emit
+    # real hyperlinks; a required render-data-backed prop's generated key
+    # is now recognized and excluded from the ContentPackage-lookup
+    # missing-content check -- a §5.7 behavior change requiring an explicit
+    # bump. Omitting render_data (None) is byte-identical to pre-K.1 output.
+    "renderer": "1.2.0",
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).

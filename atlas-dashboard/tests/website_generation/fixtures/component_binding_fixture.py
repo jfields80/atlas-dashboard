@@ -107,9 +107,15 @@ def _site_architecture() -> SiteArchitecture:
 
 
 def _content_package() -> ContentPackage:
-    # Only the home route's editorial content -- everything the
+    # Only the home route's editorial hero content -- everything the
     # business-profile route's bindable components need comes from
-    # ListingDataset via Phase B projection, per design.
+    # ListingDataset via Phase B projection, per design. footer_legal/
+    # disclosures (AES-WEB-002K.1, D5) are needed on both routes: with
+    # nav.header.standard/legal.footer.directory now categorically
+    # bindable (RENDER_DATA), the site shell recipe slots select them
+    # whenever the pilot registry offers them, and Phase B then requires
+    # real content for legal.footer.directory's required content slots
+    # regardless of the shell slot's own optional/required status.
     blocks = (
         ContentBlock(
             page_route=HOME_ROUTE, slot_id="hero_h1",
@@ -126,6 +132,22 @@ def _content_package() -> ContentPackage:
         ContentBlock(
             page_route=HOME_ROUTE, slot_id="message",
             text="Some listings are sponsored placements, clearly labeled.",
+        ),
+        ContentBlock(
+            page_route=HOME_ROUTE, slot_id="footer_legal",
+            text="(c) 2026 Atlas Binding Fixture. All rights reserved.",
+        ),
+        ContentBlock(
+            page_route=HOME_ROUTE, slot_id="disclosures",
+            text="Some listings may be sponsored placements, clearly labeled.",
+        ),
+        ContentBlock(
+            page_route=PROFILE_ROUTE, slot_id="footer_legal",
+            text="(c) 2026 Atlas Binding Fixture. All rights reserved.",
+        ),
+        ContentBlock(
+            page_route=PROFILE_ROUTE, slot_id="disclosures",
+            text="Some listings may be sponsored placements, clearly labeled.",
         ),
     )
     return ContentPackage(

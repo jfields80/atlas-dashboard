@@ -202,12 +202,21 @@ class TestOutput:
         assert len(css.encode("utf-8")) > 10000
 
     def test_placeholders_not_hidden_or_replaced(self, tmp_path):
-        # The visual sprint must not paper over the value-binding gap: the
-        # honest 'Resolved ...' placeholders remain visible in the markup.
+        # The visual sprint must not paper over the value-binding gap.
+        # AES-WEB-002K.1 supersedes the pre-K.1 "Resolved nav_tree" prop
+        # placeholder specifically: nav.header.standard/legal.footer
+        # .directory now read real render data
+        # (layout_ctx.render_data.nav), never resolved_content/props, for
+        # their nav links -- and this J.13 hand-bound harness (unchanged,
+        # out of K.1 scope) never calls the real Component Engine, so it
+        # never produces a RenderDataBundle. The honest result is an empty
+        # <ul></ul> (no real nav links exist to show), never a fabricated
+        # link standing in for one -- still nothing hidden or faked to
+        # look complete.
         dest = tmp_path / "site"
         harness.run(str(dest), stream=io.StringIO())
         home = (dest / "index.html").read_text(encoding="utf-8")
-        assert "Resolved nav_tree" in home
+        assert "<ul></ul>" in home
         css = (dest / "styles.css").read_text(encoding="utf-8")
         assert "display:none" not in css  # nothing hidden to fake completeness
 

@@ -40,10 +40,19 @@ class FieldKind(str, Enum):
 
 
 class BindingState(str, Enum):
-    """How completely a field can be bound today (ADR "four binding states")."""
+    """How completely a field can be bound today (ADR "four binding states",
+    extended to five by AES-WEB-002K.1)."""
 
     FULLY_BINDABLE = "FULLY_BINDABLE"
     FLAT_PROJECTION_ONLY = "FLAT_PROJECTION_ONLY"
+    # AES-WEB-002K.1: a field whose real, honest representation requires a
+    # link (label + href) or other structure flat ContentBlock.text cannot
+    # carry, but which the render-data producer (component_engine.py's
+    # Phase B, via contracts/render_data.py) now genuinely supplies --
+    # distinct from FULLY_BINDABLE (never a flat-text projection) and from
+    # STRUCTURED_DEFERRED (never a fabricated string; a real structured
+    # producer exists).
+    RENDER_DATA = "RENDER_DATA"
     STRUCTURED_DEFERRED = "STRUCTURED_DEFERRED"
     SOURCE_UNAVAILABLE = "SOURCE_UNAVAILABLE"
 
@@ -94,6 +103,7 @@ def _lit(cid, field, prop_type, source_rule, state=BindingState.FULLY_BINDABLE, 
 
 _FULL = BindingState.FULLY_BINDABLE
 _FLAT = BindingState.FLAT_PROJECTION_ONLY
+_RENDER = BindingState.RENDER_DATA
 _DEFER = BindingState.STRUCTURED_DEFERRED
 _UNAVAIL = BindingState.SOURCE_UNAVAILABLE
 
@@ -217,12 +227,15 @@ _RULES: Tuple[BindingRule, ...] = (
     _lit("layout.split.standard", "mobile_order", "STR_ENUM", _R_ENUM),
     _lit("layout.stack.standard", "gap", "TOKEN_REF", _R_TOKEN),
     # ===================== legal =====================
-    _cs("legal.footer.directory", "legal_facts", "legal_text", "RichTextBlock", _FULL,
-        "BusinessSpec.legal_footer_facts"),
+    _cs("legal.footer.directory", "legal_facts", "footer_legal_text", "RichTextBlock", _FULL,
+        "ContentPackage:footer_legal", "AES-WEB-002K.1: repointed from the BUSINESS_SPEC-sourced "
+        "legal_text slot (unreachable -- compile() takes no BusinessSpec input, D5) to an "
+        "explicit ContentPackage block"),
     _cs("legal.footer.directory", "disclosures", "footer_disclosures", "DisclosureBlock", _FULL,
         "ContentPackage:disclosures"),
-    _ref("legal.footer.directory", "nav_tree", "footer_navigation", "CONTENT_BLOCK_REF", _DEFER,
-         "SiteArchitecture:nav_routes+titles", "footer nav label+href not representable by flat ContentBlock"),
+    _ref("legal.footer.directory", "nav_tree", "footer_navigation", "CONTENT_BLOCK_REF", _RENDER,
+         "RenderData:footer_navigation", "AES-WEB-002K.1: footer nav label+href now produced by "
+         "the render-data producer (component_engine.py Phase B)"),
     _cs("legal.statement.standard", "body", "inline_body", "RichTextBlock", _FULL, "ContentPackage:body"),
     _lit("legal.statement.standard", "kind", "STR_ENUM", _R_ENUM),
     # ===================== listing =====================
@@ -252,9 +265,9 @@ _RULES: Tuple[BindingRule, ...] = (
     # ===================== nav =====================
     _ref("nav.breadcrumbs.standard", "trail", "breadcrumb_trail", "CONTENT_BLOCK_REF", _DEFER,
          "SiteArchitecture:breadcrumb_routes+titles", "breadcrumb label+href not representable by flat ContentBlock"),
-    _ref("nav.header.standard", "nav_tree", "primary_navigation", "CONTENT_BLOCK_REF", _DEFER,
-         "SiteArchitecture:nav_routes+titles", "header nav label+href not representable by flat ContentBlock"),
-    _lit("nav.header.standard", "logo", "ASSET_REF", _R_ASSET_UNAVAIL, _UNAVAIL),
+    _ref("nav.header.standard", "nav_tree", "primary_navigation", "CONTENT_BLOCK_REF", _RENDER,
+         "RenderData:primary_navigation", "AES-WEB-002K.1: header nav label+href now produced by "
+         "the render-data producer (component_engine.py Phase B)"),
     _ref("nav.mobile.drawer", "nav_tree", "primary_navigation", "CONTENT_BLOCK_REF", _DEFER,
          "SiteArchitecture:nav_routes+titles", "drawer nav label+href not representable by flat ContentBlock"),
     _ref("nav.pagination.standard", "page_context", "pagination_context", "CONTENT_BLOCK_REF", _UNAVAIL,
@@ -319,7 +332,16 @@ _RULES: Tuple[BindingRule, ...] = (
 # against the exact map revision that produced it. Bumped whenever
 # BINDING_RULES/SEMANTIC_SLOTS change in a way that could change binding
 # output for identical artifact inputs -- never a timestamp.
-BINDING_MAP_VERSION: str = "1.0.0"
+#
+# AES-WEB-002K.1 bumps 1.0.0 -> 1.1.0: nav.header.standard/legal.footer
+# .directory's nav_tree fields move from STRUCTURED_DEFERRED to the new
+# RENDER_DATA state (a real render-data producer now exists), and
+# legal.footer.directory's legal_facts field is repointed from the
+# unreachable BUSINESS_SPEC-sourced "legal_text" semantic slot to the new
+# CONTENT_PACKAGE-sourced "footer_legal_text" slot (compile() takes no
+# BusinessSpec input this delivery, per the J.19 operator decision,
+# unchanged by K.1 -- see D5).
+BINDING_MAP_VERSION: str = "1.1.0"
 
 BINDING_RULES: Tuple[BindingRule, ...] = _RULES
 

@@ -378,7 +378,11 @@ PROFILE_HEADER_BUSINESS = ComponentDefinition(
         "'F (profile header instead)'). 'badges' (§27.5 RS) are not a "
         "separate slot: verification/claim state renders from the bound "
         "listing_ref per E10 (§6.3), the same 'resolve via the existing "
-        "reference' choice listing.card.standard already made."
+        "reference' choice listing.card.standard already made. Root "
+        "element is <section>, not <header> (AES-WEB-002K.1): the site "
+        "shell's HEADER-region nav.header.standard now owns the page's "
+        "single <header> landmark (CG-CMP-006); this component still owns "
+        "the <h1>, just inside a non-landmark container."
     ),
     commercial_purpose=CommercialPurpose.ESTABLISH_TRUST,
     secondary_purposes=(CommercialPurpose.ORIENT,),
@@ -411,7 +415,7 @@ PROFILE_HEADER_BUSINESS = ComponentDefinition(
         "unclaimed": VariantSpec(display_name="Unclaimed"),
     },
     default_variant="claimed",
-    semantic_element=SemanticElement.HEADER,
+    semantic_element=SemanticElement.SECTION,
     allowed_parent_regions=(RegionKind.HERO,),
     design_token_dependencies=(
         "typography.heading.display",

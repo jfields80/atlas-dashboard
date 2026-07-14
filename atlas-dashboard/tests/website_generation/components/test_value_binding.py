@@ -178,8 +178,14 @@ class TestLiteralPropBinding:
         assert "missing_source_artifact" in exc.value.reason
 
     def test_asset_ref_is_honestly_unavailable(self):
-        rule = _rule("nav.header.standard", "PROP_LITERAL", "logo")
-        spec = _spec("nav.header.standard", "logo")
+        # AES-WEB-002K.1 (D4): nav.header.standard.logo moved from required
+        # to optional and its binding rule was removed entirely (no asset
+        # store exists, so the header emitter degrades to no <img> instead
+        # of ever attempting a bind) -- atom.icon.standard.asset is the
+        # still-current example of an honestly-SOURCE_UNAVAILABLE ASSET_REF
+        # literal prop.
+        rule = _rule("atom.icon.standard", "PROP_LITERAL", "asset")
+        spec = _spec("atom.icon.standard", "asset")
         with pytest.raises(vb.UnboundLiteralProp) as exc:
             vb.bind_literal_prop(
                 rule, spec, role=PageRole.HOME, route="/", site_architecture=_sa(), brand_package=_brand(),

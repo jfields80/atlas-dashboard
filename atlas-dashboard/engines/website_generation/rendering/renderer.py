@@ -103,6 +103,11 @@ from engines.website_generation.contracts.interfaces import (
     ComponentRegistryView,
     RendererInterface,
 )
+from engines.website_generation.contracts.render_data import (
+    ComponentRenderData,
+    RenderDataBundle,
+    is_render_data_prop_value,
+)
 from engines.website_generation.contracts.versions import ENGINE_VERSIONS, SCHEMA_VERSIONS
 from engines.website_generation.rendering.css_emitter import compile_shared_css
 from engines.website_generation.rendering.emitters_discovery import DISCOVERY_EMITTERS
@@ -240,6 +245,7 @@ class Renderer(RendererInterface):
         component_manifest: ComponentManifest,
         content_package: ContentPackage,
         brand_package: BrandPackage,
+        render_data: Optional[RenderDataBundle] = None,
     ) -> RenderedPageSet:
         """Total function over structurally valid inputs; batch-fails
         otherwise (mirrors ``LayoutEngine.compose``'s batch-reporting
@@ -248,6 +254,15 @@ class Renderer(RendererInterface):
         ``layout_plan``'s declared order -- never of dict/set iteration
         order (AES-WEB-001 §1.1 replayability contract). No partial
         ``RenderedPageSet`` is ever returned when diagnostics exist.
+
+        ``render_data`` (AES-WEB-002K.1) is an additive, optionally-``None``
+        input: the Renderer only *indexes* it by ``(route, component_index)``
+        -- the same way it indexes ``component_manifest`` -- and threads the
+        per-instance slice into ``LayoutContext``; it never derives, binds,
+        or mutates render data itself (that stays the Component Engine's
+        job, §5.5). ``None`` (or an empty bundle) is byte-identical to
+        pre-K.1 output -- no render-data-aware emitter sees any data,
+        so every emitter falls back to its pre-K.1 markup.
         """
         tokens = _flatten_tokens(brand_package)
         manifest_by_route: Dict[str, PageComponents] = {
@@ -257,6 +272,10 @@ class Renderer(RendererInterface):
         for block in content_package.blocks:
             key = (block.page_route, block.slot_id)
             content_index[key] = content_index.get(key, ()) + (block.text,)
+        render_data_index: Dict[Tuple[str, int], ComponentRenderData] = {}
+        if render_data is not None:
+            for entry in render_data.entries:
+                render_data_index[(entry.route, entry.component_index)] = entry.data
 
         diagnostics: Dict[str, List[Dict[str, object]]] = {}
         rendered_pages: List[RenderedPage] = []
@@ -300,6 +319,7 @@ class Renderer(RendererInterface):
                     tokens=tokens,
                     present_definitions=present_definitions,
                     diagnostics=page_diagnostics,
+                    render_data_index=render_data_index,
                 )
                 joined = "".join(fragments)
                 landmark = _LANDMARK_TAGS.get(region_kind)
@@ -378,6 +398,7 @@ class Renderer(RendererInterface):
         tokens: TokenMap,
         present_definitions: Dict[Tuple[str, str], ComponentDefinition],
         diagnostics: Dict[str, List[Dict[str, object]]],
+        render_data_index: Dict[Tuple[str, int], ComponentRenderData],
     ) -> List[str]:
         fragments: List[str] = []
         placement_by_index = {p.component_index: p for p in placements}
@@ -488,6 +509,7 @@ class Renderer(RendererInterface):
                 component_index=component_index,
                 grid=grid,
                 responsive=responsive,
+                render_data=render_data_index.get((route, component_index)),
             )
 
             present_definitions.setdefault(
@@ -526,6 +548,14 @@ class Renderer(RendererInterface):
         for prop_name in _content_block_ref_prop_names(definition):
             raw_value = instance.props.get(prop_name)
             if not raw_value:
+                continue
+            if is_render_data_prop_value(raw_value):
+                # AES-WEB-002K.1: a RENDER_DATA-backed field's real value
+                # lives in layout_ctx.render_data (threaded separately,
+                # keyed by (route, component_index)), never in
+                # ContentPackage -- this prop's generated key is a stable
+                # identifier only, never a ContentPackage-resolvable slot
+                # id, so it is deliberately never looked up here.
                 continue
             values = content_index.get((route, raw_value), ())
             if not values and prop_name in definition.required_props:

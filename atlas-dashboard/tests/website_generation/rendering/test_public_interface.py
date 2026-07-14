@@ -38,7 +38,9 @@ class TestEngineVersion:
     def test_renderer_version_registered(self):
         # AES-WEB-002J.15 bumped 1.0.0 -> 1.1.0 for the applied visual CSS
         # layer (ADR-WEB-VISUAL-TOKEN-APPLICATION; §11.4 snapshot-level change).
-        assert wge.ENGINE_VERSIONS["renderer"] == "1.1.0"
+        # AES-WEB-002K.1 bumps 1.1.0 -> 1.2.0 for optional render_data
+        # threading (real hyperlinks/enrichment; contracts/versions.py).
+        assert wge.ENGINE_VERSIONS["renderer"] == "1.2.0"
 
     def test_renderer_class_version_matches_registry(self):
         assert Renderer.version == wge.ENGINE_VERSIONS["renderer"]

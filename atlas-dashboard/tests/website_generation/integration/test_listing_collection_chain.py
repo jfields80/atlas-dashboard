@@ -151,7 +151,13 @@ class TestP2CategoryListingCardsRepetition:
             "northstar-guest-house", "willow-creek-suites",
         ]
 
-    def test_pagination_and_zero_results_use_the_honest_structural_fallback(self):
+    def test_pagination_and_zero_results_are_honestly_omitted(self):
+        # AES-WEB-002K.1 (§26 category-control cleanup) supersedes the
+        # AES-WEB-002J.20 structural fallback proved here previously:
+        # pagination/zero_results are now optional with no fallback (no
+        # pagination/zero-state source artifact exists yet, unchanged) --
+        # an empty meaningless <div> is worse for a publishable page than
+        # honestly omitting the slot. No control UI is invented either way.
         fixture, compilation, *_ = _run_real_chain()
         pagination_trace = next(
             s for s in compilation.component_manifest.selection_trace.slots
@@ -161,8 +167,8 @@ class TestP2CategoryListingCardsRepetition:
             s for s in compilation.component_manifest.selection_trace.slots
             if s.slot_id == "%s#zero_results" % fixture.category_route
         )
-        assert pagination_trace.chosen_component_id == "layout.stack.standard"
-        assert zero_results_trace.chosen_component_id == "layout.stack.standard"
+        assert pagination_trace.chosen_component_id == ""
+        assert zero_results_trace.chosen_component_id == ""
 
     def test_all_five_listing_names_appear_in_rendered_html(self):
         fixture, compilation, layout, rendered, bundle, report = _run_real_chain()
@@ -214,13 +220,19 @@ class TestKnownGateFindingsHandledHonestly:
         _, _, _, _, _, report = _run_real_chain()
         assert report.certified is False
 
-    def test_only_the_two_known_blocking_findings_are_present(self):
+    def test_no_blocking_findings_remain(self):
+        # AES-WEB-002K.1 retires both of the two findings that were
+        # "known" here (CG-CMP-005 heading hierarchy, CG-CMP-006 landmark
+        # hierarchy) -- this fixture now has a real site header/footer
+        # landmark and h2-level listing cards, so neither fires anymore.
+        # certified still isn't True (66 gates remain deferred, unrelated),
+        # but zero *blocking* findings remain for this fixture.
         _, _, _, _, _, report = _run_real_chain()
         blocking_failures = {
             g.gate_id for g in report.gate_results
             if not g.passed and g.severity == GateSeverity.BLOCKING
         }
-        assert blocking_failures == _KNOWN_BLOCKING_GATE_IDS
+        assert blocking_failures == set()
 
     def test_repetition_introduces_no_new_gate_failures(self):
         # Every gate that isn't one of the two known findings must pass --

@@ -232,6 +232,24 @@ _UNBUILT_FAMILY_SENTINEL = ("__unbuilt_family_slot__",)
 
 HOME_RECIPE_SLOTS = (
     {
+        # AES-WEB-002K.1: the site header landmark (§9.1/CG-CMP-006). Real
+        # navigation is now produced by the render-data layer
+        # (RENDER_DATA binding state), so this slot is finally fillable --
+        # required_prop_names=("nav_tree",) + HEADER region narrows the
+        # candidate pool to nav.header.standard alone (nav.mobile.drawer
+        # shares the signature but remains categorically unbindable,
+        # unchanged, and is eliminated before scoring).
+        "slot_id": "site_header",
+        "page_role": "home",
+        "purpose": "",
+        "required_region": "HEADER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
+    },
+    {
         "slot_id": "utility_bar",
         "page_role": "home",
         "purpose": "ORIENT",
@@ -330,9 +348,37 @@ HOME_RECIPE_SLOTS = (
         "fallback_component_id": "",
         "required": False,  # §26.1 "(O)" — form.capture.newsletter is Wave 5
     },
+    {
+        # AES-WEB-002K.1: the site footer landmark (§9.1/CG-CMP-006). See
+        # site_header above for the narrowing rationale (legal.footer
+        # .directory is the sole FOOTER-region "nav_tree"-declaring,
+        # bindable candidate).
+        "slot_id": "site_footer",
+        "page_role": "home",
+        "purpose": "",
+        "required_region": "FOOTER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
+    },
 )
 
 CATEGORY_RECIPE_SLOTS = (
+    {
+        # AES-WEB-002K.1: see HOME_RECIPE_SLOTS' site_header for the
+        # narrowing rationale.
+        "slot_id": "site_header",
+        "page_role": "category",
+        "purpose": "",
+        "required_region": "HEADER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
+    },
     {
         "slot_id": "hero",
         "page_role": "category",
@@ -352,8 +398,16 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": ("facet_set_ref",),
         "required_slot_names": (),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.stack.standard",
-        "required": True,  # §26.2 "filter links"
+        "fallback_component_id": "",
+        # AES-WEB-002K.1 (§26 category-control cleanup): filters/sort/
+        # pagination/zero_results become optional -- no filter/sort/
+        # pagination source artifact exists yet (unchanged), and an empty
+        # structural layout.stack.standard fallback div is worse for a
+        # publishable pilot page than honestly omitting the slot. No control
+        # UI is invented; this only stops rendering a meaningless empty
+        # <div> where one previously stood in for a capability that does
+        # not exist.
+        "required": False,
     },
     {
         "slot_id": "sort",
@@ -363,8 +417,8 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": ("sort_options_ref",),
         "required_slot_names": (),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.stack.standard",
-        "required": True,  # §26.2 "+ sort"
+        "fallback_component_id": "",
+        "required": False,  # AES-WEB-002K.1 -- see "filters" above
     },
     {
         "slot_id": "results_summary",
@@ -402,16 +456,14 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": ("page_context",),
         "required_slot_names": (),
         "monetization_eligible": False,
-        # AES-WEB-002J.20: a structural fallback only (mirrors filters/sort/
-        # results_summary above) -- nav.pagination.standard's page_context is
-        # categorically SOURCE_UNAVAILABLE (no pagination source exists yet,
-        # J.16-J.19), so without a fallback this required slot was
-        # unconditionally unresolvable and the category recipe could never
-        # compile. layout.stack.standard renders an empty structural
-        # container; it does not fabricate pagination controls or claim
-        # pagination behavior exists.
-        "fallback_component_id": "layout.stack.standard",
-        "required": True,  # §26.2 "(paginated)"; nav.pagination.standard is Wave 2
+        # AES-WEB-002K.1 (§26 category-control cleanup) supersedes the
+        # AES-WEB-002J.20 structural fallback: nav.pagination.standard's
+        # page_context remains categorically SOURCE_UNAVAILABLE (no
+        # pagination source exists yet), but the slot is now optional
+        # rather than required-with-an-empty-fallback-div -- see "filters"
+        # above for the rationale.
+        "fallback_component_id": "",
+        "required": False,
     },
     {
         "slot_id": "related_categories_cities",
@@ -443,14 +495,23 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": (),
         "required_slot_names": ("message", "recovery_links"),
         "monetization_eligible": False,
-        # AES-WEB-002J.20: a structural fallback only (mirrors pagination
-        # above) -- status.results.zero's recovery_links is categorically
-        # STRUCTURED_DEFERRED (LinkSpec label+href, J.16-J.19), so without a
-        # fallback this required slot was unconditionally unresolvable.
-        # layout.stack.standard renders an empty structural container; it
-        # does not fabricate zero-state messaging or recovery links.
-        "fallback_component_id": "layout.stack.standard",
-        "required": True,  # §26.2 "zero-results state mandatory"
+        # AES-WEB-002K.1 (§26 category-control cleanup) supersedes the
+        # AES-WEB-002J.20 structural fallback -- see "filters" above.
+        "fallback_component_id": "",
+        "required": False,
+    },
+    {
+        # AES-WEB-002K.1: see HOME_RECIPE_SLOTS' site_footer for the
+        # narrowing rationale.
+        "slot_id": "site_footer",
+        "page_role": "category",
+        "purpose": "",
+        "required_region": "FOOTER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
     },
 )
 
@@ -475,6 +536,22 @@ CATEGORY_RECIPE_SLOTS = (
 # profile IDs), so it is sentinel-gated for the same reason, not because it
 # belongs to a later wave specifically.
 BUSINESS_PROFILE_RECIPE_SLOTS = (
+    {
+        # AES-WEB-002K.1: see HOME_RECIPE_SLOTS' site_header for the
+        # narrowing rationale. profile_header (below) still owns the
+        # page's <h1> and now renders as a non-landmark <section> (not
+        # <header>), so the site HEADER region's <header> stays the page's
+        # only one (CG-CMP-006).
+        "slot_id": "site_header",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "HEADER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
+    },
     {
         "slot_id": "profile_header",
         "page_role": "business-profile",
@@ -652,6 +729,19 @@ BUSINESS_PROFILE_RECIPE_SLOTS = (
         "fallback_component_id": "",
         "required": False,  # §26.6 "unavailable/closed/pending variants" —
                              # status.listing.* is Wave 7
+    },
+    {
+        # AES-WEB-002K.1: see HOME_RECIPE_SLOTS' site_footer for the
+        # narrowing rationale.
+        "slot_id": "site_footer",
+        "page_role": "business-profile",
+        "purpose": "",
+        "required_region": "FOOTER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
     },
 )
 

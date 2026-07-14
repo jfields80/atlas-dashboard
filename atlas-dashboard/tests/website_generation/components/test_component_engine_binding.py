@@ -49,10 +49,28 @@ def _sa(pages):
     )
 
 
+# AES-WEB-002K.1: nav.header.standard/legal.footer.directory are now
+# categorically bindable (RENDER_DATA), so Phase A always selects them once
+# eligible (region + nav_tree signature) regardless of the site_header/
+# site_footer recipe slot's own optional status -- Phase B then requires
+# real footer_legal/disclosures content for legal.footer.directory's two
+# required content slots. _cp() below unconditionally supplies both for
+# every route this file's tests ever compile -- harmless, unused extra
+# blocks for whichever route a given test doesn't actually reference.
+_FOOTER_LEGAL_TEXT = "(c) 2026 Test Directory. All rights reserved."
+_FOOTER_DISCLOSURES_TEXT = "Some listings may be sponsored placements, clearly labeled."
+_ALL_TEST_ROUTES = ("/", "/hotels/does-not-exist/", "/hotels/lakeview-lodge/", "/search")
+
+
 def _cp(blocks=()):
+    footer_blocks = []
+    for route in _ALL_TEST_ROUTES:
+        footer_blocks.append(ContentBlock(page_route=route, slot_id="footer_legal", text=_FOOTER_LEGAL_TEXT))
+        footer_blocks.append(ContentBlock(page_route=route, slot_id="disclosures", text=_FOOTER_DISCLOSURES_TEXT))
     return ContentPackage(
         schema_version=SCHEMA_VERSIONS[ArtifactKind.CONTENT_PACKAGE],
-        artifact_kind=ArtifactKind.CONTENT_PACKAGE, source_hashes={}, blocks=tuple(blocks),
+        artifact_kind=ArtifactKind.CONTENT_PACKAGE, source_hashes={},
+        blocks=tuple(blocks) + tuple(footer_blocks),
     )
 
 
@@ -335,7 +353,8 @@ class TestHonestFailureAndNoPlaceholders:
 
 class TestContentPackageImmutability:
     def test_original_content_package_object_unmodified(self):
-        original = _cp([ContentBlock(page_route="/", slot_id="hero_h1", text="Original headline")])
+        own_block = ContentBlock(page_route="/", slot_id="hero_h1", text="Original headline")
+        original = _cp([own_block])
         original_hash = artifact_sha256(original)
         try:
             ComponentEngine().compile(
@@ -346,7 +365,12 @@ class TestContentPackageImmutability:
         except ComponentResolutionError:
             pass  # incomplete content (no subhead/message) -- irrelevant to this check
         assert artifact_sha256(original) == original_hash
-        assert original.blocks == (ContentBlock(page_route="/", slot_id="hero_h1", text="Original headline"),)
+        # _cp()'s own footer_legal/disclosures additions (AES-WEB-002K.1)
+        # are part of "original" from construction, not evidence of
+        # ComponentEngine mutating anything -- compare against an
+        # identically-built ContentPackage instead of a hardcoded
+        # single-block tuple.
+        assert original.blocks == _cp([own_block]).blocks
 
     def test_augmented_package_is_a_new_object(self):
         original = _cp([

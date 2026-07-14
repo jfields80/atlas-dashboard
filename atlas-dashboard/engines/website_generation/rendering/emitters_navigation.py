@@ -40,6 +40,7 @@ from engines.website_generation.rendering.html_emitter import (
     element,
     escape,
     first_value,
+    link_list_html,
 )
 
 _NAV_PREFIX = "ac-nav"
@@ -84,13 +85,14 @@ def _emit_nav_header_standard(
     tokens: TokenMap,
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
-    """Main site header: nav tree from SiteArchitecture (never hand-authored
-    per page, §5.1); required logo asset. No CAS access, so the logo's
-    opaque asset reference is emitted as-is as ``src`` (same documented
-    limitation as ``atom.image.responsive``)."""
-    logo = instance.props.get("logo", "")
-    links = all_values(resolved_content, "nav_tree")
-    logo_html = element("img", {"alt": "", "src": logo}) if logo else ""
+    """Main site header: real nav links from render data (AES-WEB-002K.1;
+    layout_ctx.render_data.nav -- SiteArchitecture-derived, never
+    hand-authored per page). No separate logo/wordmark markup: logo is
+    optional (D4) and, with no asset store to source a real image from,
+    the header's first (Home) nav link already carries the site identity --
+    fabricating a text duplicate of it would add noise, not information."""
+    nav_data = layout_ctx.render_data.nav if layout_ctx.render_data else None
+    links = nav_data.links if nav_data is not None else ()
     nav_attrs = {
         "aria-label": "Main",
         "class": class_names(_NAV_PREFIX, "header-standard", "standard"),
@@ -98,9 +100,7 @@ def _emit_nav_header_standard(
             "nav-header-standard", _VERSION, event="component_interaction"
         ),
     }
-    return element(
-        "nav", nav_attrs, logo_html + element("ul", {}, _link_items(links))
-    )
+    return element("nav", nav_attrs, element("ul", {}, link_list_html(links)))
 
 
 def _emit_nav_mobile_drawer(
@@ -154,12 +154,12 @@ def _emit_nav_utility_bar(
     capability, not implemented here."""
     message = first_value(resolved_content, "message")
     link = first_value(resolved_content, "link")
-    link_html = element("a", {"href": link}, escape(link)) if link else ""
+    link_anchor_html = element("a", {"href": link}, escape(link)) if link else ""
     attrs = {
         "class": class_names(_NAV_PREFIX, "utility-bar", "announce"),
         **analytics_attrs("nav-utility-bar", _VERSION),
     }
-    return element("div", attrs, escape(message) + link_html)
+    return element("div", attrs, escape(message) + link_anchor_html)
 
 
 def _emit_nav_pagination_standard(
@@ -191,10 +191,14 @@ def _emit_legal_footer_directory(
     """Footer content, mandatory on every page (§5.15). Renders as content
     inside the shell's single ``<footer>`` landmark, not a second one -- this
     component's own semantic element is ``div``, matching the catalog
-    contract."""
+    contract. Nav links come from render data (AES-WEB-002K.1;
+    ``layout_ctx.render_data.nav`` -- Wave 1 shares the exact same link set
+    as the site header, no trust/editorial routes exist yet to
+    differentiate them)."""
     legal_facts = first_value(resolved_content, "legal_facts")
     disclosures = all_values(resolved_content, "disclosures")
-    links = all_values(resolved_content, "nav_tree")
+    nav_data = layout_ctx.render_data.nav if layout_ctx.render_data else None
+    links = nav_data.links if nav_data is not None else ()
     disclosures_html = "".join(
         element("p", {}, escape(text)) for text in disclosures
     )
@@ -207,7 +211,7 @@ def _emit_legal_footer_directory(
         attrs,
         element("p", {}, escape(legal_facts))
         + disclosures_html
-        + element("ul", {}, _link_items(links)),
+        + element("ul", {}, link_list_html(links)),
     )
 
 

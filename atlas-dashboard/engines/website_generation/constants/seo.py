@@ -62,12 +62,19 @@ META_SOURCE_SLOT = "intro"
 
 # ---------------------------------------------------------------------------
 # Page roles (independently declared; must stay byte-identical to
-# constants/ia.py's PAGE_ROLE_HOME/PAGE_ROLE_CATEGORY -- see module
+# constants/ia.py's PAGE_ROLE_HOME/PAGE_ROLE_CATEGORY, and (AES-WEB-002K.1)
+# information_architecture_engine.PAGE_ROLE_BUSINESS_PROFILE -- see module
 # docstring).
 # ---------------------------------------------------------------------------
 
 PAGE_ROLE_HOME = "home"
 PAGE_ROLE_CATEGORY = "category"
+# AES-WEB-002K.1: IA now emits business-profile pages (an optional
+# listing_dataset input), and those pages need a real <title>/meta
+# description too -- same D1/D2 hero_h1/intro source slots, no new rule
+# needed. Not a schema change: this table is declarative Python data, never
+# a registered artifact.
+PAGE_ROLE_BUSINESS_PROFILE = "business-profile"
 
 # Per-role source-slot rule tables (D1/D2). Keys are the complete set of
 # ``PagePlan.page_type`` values the SEO Engine supports; a page_type absent
@@ -75,11 +82,13 @@ PAGE_ROLE_CATEGORY = "category"
 TITLE_SOURCE_SLOT_BY_ROLE: Dict[str, str] = {
     PAGE_ROLE_HOME: TITLE_SOURCE_SLOT,
     PAGE_ROLE_CATEGORY: TITLE_SOURCE_SLOT,
+    PAGE_ROLE_BUSINESS_PROFILE: TITLE_SOURCE_SLOT,
 }
 
 META_SOURCE_SLOT_BY_ROLE: Dict[str, str] = {
     PAGE_ROLE_HOME: META_SOURCE_SLOT,
     PAGE_ROLE_CATEGORY: META_SOURCE_SLOT,
+    PAGE_ROLE_BUSINESS_PROFILE: META_SOURCE_SLOT,
 }
 
 # The complete set of page roles the SEO Engine supports -- the two tables

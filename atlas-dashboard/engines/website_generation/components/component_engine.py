@@ -107,6 +107,7 @@ from engines.website_generation.contracts.components import ComponentDefinition
 from engines.website_generation.contracts.enums import (
     ArtifactKind,
     CommercialPurpose,
+    ListingKind,
     PageRole,
     PropType,
     RegionKind,
@@ -115,6 +116,20 @@ from engines.website_generation.contracts.errors import ComponentResolutionError
 from engines.website_generation.contracts.interfaces import (
     ComponentEngineInterface,
     ComponentRegistryView,
+)
+from engines.website_generation.contracts.render_data import (
+    RENDER_DATA_VERSION,
+    ComponentRenderData,
+    ContactData,
+    HoursData,
+    HoursRow,
+    LinkSpec,
+    ListingCardData,
+    NavigationData,
+    RenderDataBundle,
+    RenderDataEntry,
+    generated_render_data_key,
+    is_safe_url,
 )
 from engines.website_generation.contracts.versions import (
     ENGINE_VERSIONS,
@@ -129,6 +144,7 @@ from engines.website_generation.components.selection import (
 from engines.website_generation.components.binding_rules import (
     BINDING_MAP_VERSION,
     BINDING_RULES_BY_KEY,
+    BindingState,
     FieldKind,
     is_categorically_bindable,
 )
@@ -144,9 +160,12 @@ from engines.website_generation.components.value_binding import (
 from engines.website_generation.components.content_projection import (
     ProjectedSlotCollision,
     ProjectionAccumulator,
+    RouteScope,
     UnboundContentField,
+    assign_listing,
     bind_content_slot,
     bind_ref_prop,
+    listing_route,
     resolve_route_scope,
 )
 
@@ -173,7 +192,39 @@ _DIAGNOSTIC_BUCKET_ORDER = (
     "unbindable_required_content",
     "projected_slot_collisions",
     "repetition_failures",
+    "render_data_failures",
 )
+
+# AES-WEB-002K.1: the component ids the render-data producer knows how to
+# enrich. A plain, explicit dispatch (no "listing.*"/"nav.*" prefix
+# inference, per the composition_rules.py "no invented metadata" precedent)
+# -- Wave 1's exact, narrow scope, nothing more.
+_NAV_RENDER_DATA_COMPONENT_IDS = frozenset({"nav.header.standard", "legal.footer.directory"})
+_CARD_RENDER_DATA_COMPONENT_IDS = frozenset({"listing.card.standard", "listing.row.compact"})
+_CONTACT_RENDER_DATA_COMPONENT_ID = "profile.contact.panel"
+_HOURS_RENDER_DATA_COMPONENT_ID = "profile.hours.table"
+
+_WEEKDAY_ORDER: Tuple[str, ...] = (
+    "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY",
+)
+_WEEKDAY_LABEL: Dict[str, str] = {
+    "MONDAY": "Monday", "TUESDAY": "Tuesday", "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday", "FRIDAY": "Friday", "SATURDAY": "Saturday", "SUNDAY": "Sunday",
+}
+
+# ListingKind -> human badge label (AES-WEB-002K.1 D6 "badge" allowlist
+# entry). ORGANIC carries no badge at all (the default, unmarked case) --
+# never invented for a kind this table doesn't name.
+_BADGE_LABELS: Dict[str, str] = {
+    ListingKind.FEATURED.value: "Featured",
+    ListingKind.SPONSORED.value: "Sponsored",
+    ListingKind.VERIFIED.value: "Verified",
+    ListingKind.EDITORIAL_PICK.value: "Editorial Pick",
+    ListingKind.RANKED.value: "Ranked",
+    ListingKind.CURATED.value: "Curated",
+    ListingKind.RECENTLY_ADDED.value: "Recently Added",
+    ListingKind.INCOMPLETE.value: "Incomplete",
+}
 
 
 class ComponentEngine(ComponentEngineInterface):
@@ -241,6 +292,8 @@ class ComponentEngine(ComponentEngineInterface):
         unbindable_content: List[Dict[str, str]] = []
         collisions: List[Dict[str, str]] = []
         repetition_failures: List[Dict[str, str]] = []
+        render_data_failures: List[Dict[str, str]] = []
+        render_data_entries: List[RenderDataEntry] = []
 
         for page in site_architecture.pages:
             recipe = RECIPE_SLOTS_BY_PAGE_ROLE.get(page.page_type)
@@ -357,13 +410,34 @@ class ComponentEngine(ComponentEngineInterface):
                             content_refs=tuple(content_refs),
                         )
                     )
+                    render_data, render_data_failure = self._produce_render_data(
+                        definition,
+                        route=page.route,
+                        site_architecture=site_architecture,
+                        listing_dataset=listing_dataset,
+                        route_scope=route_scope,
+                        assigned_listing=assigned_listing,
+                    )
+                    if render_data_failure is not None:
+                        entry = dict(render_data_failure)
+                        entry["route"] = page.route
+                        entry["component_id"] = definition.component_id
+                        render_data_failures.append(entry)
+                    elif render_data is not None:
+                        render_data_entries.append(
+                            RenderDataEntry(
+                                route=page.route,
+                                component_index=component_index,
+                                data=render_data,
+                            )
+                        )
             page_components.append(
                 PageComponents(route=page.route, components=tuple(instances))
             )
 
         diagnostics = self._collect_diagnostics(
             unsupported, unresolved, unbindable_props, unbindable_content,
-            collisions, repetition_failures,
+            collisions, repetition_failures, render_data_failures,
         )
         if diagnostics:
             raise ComponentResolutionError(
@@ -377,6 +451,7 @@ class ComponentEngine(ComponentEngineInterface):
             "content_package": artifact_sha256(content_package),
             "binding_map_version": BINDING_MAP_VERSION,
             "composition_rules_version": COMPOSITION_RULES_VERSION,
+            "render_data_version": RENDER_DATA_VERSION,
         }
         if listing_dataset is not None:
             source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
@@ -397,7 +472,9 @@ class ComponentEngine(ComponentEngineInterface):
             blocks=content_package.blocks + projection.blocks(),
         )
         return ComponentCompilationResult(
-            component_manifest=manifest, content_package=augmented_content
+            component_manifest=manifest,
+            content_package=augmented_content,
+            render_data=RenderDataBundle(entries=tuple(render_data_entries)),
         )
 
     # -- Phase B: one instance's full binding attempt -----------------------
@@ -448,6 +525,19 @@ class ComponentEngine(ComponentEngineInterface):
                         "reason": "unmapped_binding_rule: no J.18 rule for this field",
                     },
                 ))
+                continue
+            if rule.binding_state is BindingState.RENDER_DATA:
+                # AES-WEB-002K.1: the real value lives in the RenderDataBundle
+                # this instance's (route, component_index) key produces
+                # (this compile() call's own render-data producer, invoked
+                # by the caller right after this instance is appended) --
+                # never a ContentPackage-resolvable slot id. The prop is
+                # bound to a stable, deterministic, positional key purely so
+                # every required prop has *some* value (never a JSON string,
+                # never structured data inside props); the Renderer
+                # recognizes the "render:" prefix and skips the
+                # ContentPackage-lookup/missing-content check for it.
+                props[name] = generated_render_data_key(rule.semantic_slot, component_index)
                 continue
             try:
                 if is_ref:
@@ -521,6 +611,202 @@ class ComponentEngine(ComponentEngineInterface):
                 ))
 
         return props, content_refs, failures
+
+    # -- Render-data production (AES-WEB-002K.1) -----------------------------
+    #
+    # Pure projections of the same inputs Phase B already has in hand
+    # (SiteArchitecture, ListingDataset, route_scope, assigned_listing) into
+    # the typed contracts/render_data.py shapes the Renderer/emitters need
+    # for real hyperlinks and enriched listing cards. Dispatched by
+    # component_id, not by prefix/family inference (the composition_rules.py
+    # "no invented metadata" precedent) -- exactly the narrow Wave 1 set:
+    # nav.header.standard/legal.footer.directory (navigation),
+    # listing.card.standard/listing.row.compact (card enrichment),
+    # profile.contact.panel (contact), profile.hours.table (hours). Every
+    # other component_id produces no render data at all (``(None, None)``).
+    #
+    # Returns ``(ComponentRenderData_or_None, failure_or_None)`` -- a
+    # failure (unsafe URL, unresolvable category) batch-fails the whole
+    # compile via the ``render_data_failures`` diagnostics bucket, exactly
+    # like every other Phase-B failure mode; a missing *optional* value
+    # (no rating, no CTA, no hours) is never a failure, only an omission
+    # (D6 allowlist).
+
+    @classmethod
+    def _produce_render_data(
+        cls,
+        definition: ComponentDefinition,
+        *,
+        route: str,
+        site_architecture: SiteArchitecture,
+        listing_dataset: Optional[ListingDataset],
+        route_scope: RouteScope,
+        assigned_listing: Optional[ListingRecord],
+    ) -> Tuple[Optional[ComponentRenderData], Optional[Dict[str, str]]]:
+        cid = definition.component_id
+        if cid in _NAV_RENDER_DATA_COMPONENT_IDS:
+            return ComponentRenderData(nav=cls._build_navigation_data(site_architecture)), None
+        if cid in _CARD_RENDER_DATA_COMPONENT_IDS:
+            return cls._build_card_data(assigned_listing, listing_dataset)
+        if cid in (_CONTACT_RENDER_DATA_COMPONENT_ID, _HOURS_RENDER_DATA_COMPONENT_ID):
+            listing = (
+                assigned_listing
+                if assigned_listing is not None
+                else assign_listing(route_scope, listing_dataset)
+            )
+            if cid == _CONTACT_RENDER_DATA_COMPONENT_ID:
+                return cls._build_contact_data(listing)
+            return cls._build_hours_data(listing), None
+        return None, None
+
+    @staticmethod
+    def _build_navigation_data(site_architecture: SiteArchitecture) -> NavigationData:
+        """One ``LinkSpec`` per ``nav_routes`` entry with a real, non-empty
+        page title -- routes with no title (``PagePlan.title == ""``, the
+        pre-K.1 default many hand-built fixtures still use) are silently
+        omitted, never rendered with a raw route string as the label. Never
+        fails: an empty or partially-titled ``nav_routes`` yields a
+        shorter-than-expected but honest ``NavigationData``, not a compile
+        error -- this is what keeps every pre-K.1 SiteArchitecture fixture
+        still compiling. Header and footer navigation share this exact same
+        link set in Wave 1 (no trust/editorial routes exist yet to
+        differentiate them, per the K.1 preflight)."""
+        title_by_route = {page.route: page.title for page in site_architecture.pages}
+        links = tuple(
+            LinkSpec(label=title_by_route[route], href=route, external=False)
+            for route in site_architecture.nav_routes
+            if title_by_route.get(route, "").strip()
+        )
+        return NavigationData(links=links)
+
+    @staticmethod
+    def _build_card_data(
+        assigned_listing: Optional[ListingRecord],
+        listing_dataset: Optional[ListingDataset],
+    ) -> Tuple[Optional[ComponentRenderData], Optional[Dict[str, str]]]:
+        if assigned_listing is None or listing_dataset is None:
+            # Unreachable in Wave 1's real recipes (listing.card.standard/
+            # listing.row.compact are only ever instantiated through a J.20
+            # repetition rule, which always supplies assigned_listing) --
+            # graceful no-op rather than a crash if that ever changes.
+            return None, None
+        categories_by_id = {c.category_id: c for c in listing_dataset.categories}
+        category = categories_by_id.get(assigned_listing.category_id)
+        if category is None:
+            return None, {
+                "reason": (
+                    "missing_category: listing %r names category_id %r, "
+                    "not present in ListingDataset.categories"
+                    % (assigned_listing.listing_id, assigned_listing.category_id)
+                ),
+            }
+        profile_href = listing_route(category, assigned_listing)
+
+        area_label = ""
+        if assigned_listing.address is not None and assigned_listing.address.city:
+            area_label = assigned_listing.address.city
+            if assigned_listing.address.state:
+                area_label = "%s, %s" % (area_label, assigned_listing.address.state)
+
+        rating_text = ""
+        review_count: Optional[int] = None
+        if assigned_listing.rating is not None:
+            whole, remainder = divmod(assigned_listing.rating.rating_hundredths, 100)
+            rating_text = "%d.%d" % (whole, remainder // 10)
+            review_count = assigned_listing.rating.review_count
+
+        badge_label = _BADGE_LABELS.get(assigned_listing.listing_kind.value, "")
+        badge_kind = assigned_listing.listing_kind.value.lower() if badge_label else ""
+
+        cta: Optional[LinkSpec] = None
+        if assigned_listing.cta is not None and assigned_listing.cta.label and assigned_listing.cta.target_route:
+            target = assigned_listing.cta.target_route
+            if not is_safe_url(target):
+                return None, {
+                    "reason": "unsafe_url: listing %r cta.target_route %r is unsafe"
+                    % (assigned_listing.listing_id, target),
+                }
+            external = target.startswith("http://") or target.startswith("https://")
+            cta = LinkSpec(
+                label=assigned_listing.cta.label, href=target, external=external,
+                rel="noopener" if external else "",
+            )
+
+        card = ListingCardData(
+            listing_id=assigned_listing.listing_id,
+            name=assigned_listing.business_name,
+            profile_href=profile_href,
+            area_label=area_label,
+            rating_text=rating_text,
+            review_count=review_count,
+            badge_kind=badge_kind,
+            badge_label=badge_label,
+            cta=cta,
+        )
+        return ComponentRenderData(card=card), None
+
+    @staticmethod
+    def _build_contact_data(
+        listing: Optional[ListingRecord],
+    ) -> Tuple[Optional[ComponentRenderData], Optional[Dict[str, str]]]:
+        if listing is None:
+            return None, None
+
+        address_text = ""
+        if listing.address is not None:
+            parts = [
+                p for p in (
+                    listing.address.street, listing.address.city,
+                    listing.address.state, listing.address.postal_code,
+                )
+                if p
+            ]
+            address_text = ", ".join(parts)
+
+        phone: Optional[LinkSpec] = None
+        email: Optional[LinkSpec] = None
+        website: Optional[LinkSpec] = None
+        if listing.contact is not None:
+            c = listing.contact
+            if c.phone:
+                digits = "".join(ch for ch in c.phone if ch.isdigit() or ch == "+")
+                phone = LinkSpec(label=c.phone, href="tel:%s" % digits)
+            if c.email:
+                email = LinkSpec(label=c.email, href="mailto:%s" % c.email)
+            if c.website_url:
+                if not is_safe_url(c.website_url):
+                    return None, {
+                        "reason": "unsafe_url: listing %r contact.website_url %r is unsafe"
+                        % (listing.listing_id, c.website_url),
+                    }
+                website = LinkSpec(
+                    label="Visit website", href=c.website_url, external=True, rel="noopener",
+                )
+
+        if not address_text and phone is None and email is None and website is None:
+            return None, None
+        return ComponentRenderData(
+            contact=ContactData(
+                address_text=address_text, phone=phone, email=email, website=website,
+            ),
+        ), None
+
+    @staticmethod
+    def _build_hours_data(listing: Optional[ListingRecord]) -> Optional[ComponentRenderData]:
+        if listing is None or not listing.hours:
+            return None
+        by_day = {entry.day.value: entry for entry in listing.hours}
+        rows = tuple(
+            HoursRow(
+                day=_WEEKDAY_LABEL[day], opens=by_day[day].opens, closes=by_day[day].closes,
+                closed=by_day[day].closed,
+            )
+            for day in _WEEKDAY_ORDER
+            if day in by_day
+        )
+        if not rows:
+            return None
+        return ComponentRenderData(hours=HoursData(rows=rows))
 
     # -- Repetition: resolve one rule's matching ListingRecords -------------
 
@@ -608,6 +894,7 @@ class ComponentEngine(ComponentEngineInterface):
         unbindable_content: List[Dict[str, str]],
         collisions: List[Dict[str, str]],
         repetition_failures: List[Dict[str, str]],
+        render_data_failures: List[Dict[str, str]],
     ) -> Dict[str, Any]:
         """Assemble the deterministically ordered, deterministically sorted
         batch-failure diagnostics (empty dict => success)."""
@@ -639,6 +926,11 @@ class ComponentEngine(ComponentEngineInterface):
             diagnostics["repetition_failures"] = sorted(
                 repetition_failures,
                 key=lambda item: (item["route"], item["component_id"], item["recipe_slot_id"]),
+            )
+        if render_data_failures:
+            diagnostics["render_data_failures"] = sorted(
+                render_data_failures,
+                key=lambda item: (item["route"], item["component_id"], item["reason"]),
             )
         return {
             key: diagnostics[key]

@@ -84,21 +84,33 @@ class SEOEngine(SEOEngineInterface):
         site_architecture: SiteArchitecture,
         content_package: ContentPackage,
         business_spec: BusinessSpec,
+        base_url: str = "",
     ) -> SEOPackage:
         """Total function over structurally valid inputs; batch-fails
         otherwise.
 
-        Deterministic guarantees: none of the three inputs are mutated (all
-        are frozen); entry order, title/meta composition, and diagnostics
-        are pure functions of ``site_architecture``'s declared page order
-        and each page's looked-up content blocks -- never of
+        Deterministic guarantees: none of the three artifact inputs are
+        mutated (all are frozen); entry order, title/meta composition, and
+        diagnostics are pure functions of ``site_architecture``'s declared
+        page order and each page's looked-up content blocks -- never of
         ``content_package.blocks``' input order (AES-WEB-001 §1.1
         replayability contract). Content blocks are looked up by
         ``(page_route, slot_id)``, never by positional order.
+
+        ``base_url`` (AES-WEB-002K.1) is additive: empty (default)
+        preserves the exact pre-K.1 self-canonical behavior (Decision D3 --
+        ``canonical_url`` equals the route byte-verbatim, route-relative);
+        supplied, every ``canonical_url``/``sitemap_routes`` entry becomes
+        ``base_url.rstrip("/") + route`` instead. The length check
+        (``canonical_length_violations``) still validates the route alone,
+        unchanged -- ``base_url`` is caller-supplied deployment
+        configuration, not user/editorial content subject to the same
+        length discipline.
         """
         pages = tuple(site_architecture.pages)
         routes = [page.route for page in pages]
         block_index = index_content_blocks(content_package.blocks)
+        origin = base_url.rstrip("/")
 
         diagnostics: Dict[str, Any] = {}
 
@@ -111,7 +123,7 @@ class SEOEngine(SEOEngineInterface):
             diagnostics["unknown_routes"] = list(unknown_routes)
 
         entries, titles_by_route, page_diagnostics = self._resolve_and_compose(
-            pages, block_index, business_spec.business_name
+            pages, block_index, business_spec.business_name, origin
         )
         diagnostics.update(page_diagnostics)
 
@@ -132,7 +144,9 @@ class SEOEngine(SEOEngineInterface):
                 site_architecture, content_package, business_spec
             ),
             entries=tuple(sorted(entries, key=lambda entry: entry.route)),
-            sitemap_routes=tuple(sorted(site_architecture.sitemap_routes)),
+            sitemap_routes=tuple(
+                sorted(origin + route for route in site_architecture.sitemap_routes)
+            ),
             robots_directives=ROBOTS_DIRECTIVES,
         )
 
@@ -141,6 +155,7 @@ class SEOEngine(SEOEngineInterface):
         pages: Tuple[PagePlan, ...],
         block_index: Dict[Tuple[str, str], Any],
         business_name: str,
+        origin: str,
     ) -> Tuple[List[SEOEntry], Dict[str, str], Dict[str, Any]]:
         """Per-page resolution and composition (D1/D2): role lookup ->
         content-presence check -> title/meta composition -> length checks.
@@ -194,7 +209,7 @@ class SEOEngine(SEOEngineInterface):
                     route=page.route,
                     title=title,
                     meta_description=truncate_meta_description(intro_text),
-                    canonical_url=page.route,
+                    canonical_url=origin + page.route,
                 )
             )
 

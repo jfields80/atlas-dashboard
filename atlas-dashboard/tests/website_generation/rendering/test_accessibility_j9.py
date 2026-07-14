@@ -52,9 +52,13 @@ class TestHeadingOwnership:
         html = _html("profile.header.business", content_overrides={"name": "Biz"})
         assert "<h1>Biz</h1>" in html
 
-    def test_listing_card_uses_h3_not_h1(self):
+    def test_listing_card_uses_h2_not_h1(self):
+        # AES-WEB-002K.1: card heading moved from h3 to h2 (the card is the
+        # first heading level under the page's own h1, never a level skip
+        # -- CG-CMP-005). The "never claims h1" invariant this test
+        # protects is unchanged.
         html = _html("listing.card.standard", content_overrides={"listing_ref": "Biz"})
-        assert "<h3>Biz</h3>" in html
+        assert "<h2>Biz</h2>" in html
         assert "<h1>" not in html.split("<body", 1)[-1]
 
 

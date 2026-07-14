@@ -37,6 +37,7 @@ from engines.website_generation.contracts.enums import (
     LifecycleStatus,
     PageRole,
 )
+from engines.website_generation.contracts.render_data import RenderDataBundle
 
 
 class SpecCompilerInterface(ABC):
@@ -59,12 +60,26 @@ class BrandEngineInterface(ABC):
 
 class InformationArchitectureEngineInterface(ABC):
     """The Information Architecture Engine's sole entry point (AES-WEB-001
-    §5.3)."""
+    §5.3).
+
+    ``listing_dataset`` is an additive, optionally-``None`` input
+    (AES-WEB-002K.1): omitted, ``plan`` is byte-identical to its pre-K.1
+    behavior (home + category routes only); supplied, one additional
+    ``business-profile`` ``PagePlan`` is emitted per ``ListingRecord``
+    (ADR-WEB-LISTING-DATASET §6 route convention), excluded from
+    ``nav_routes`` (site-wide navigation names category routes only, never
+    every business)."""
 
     @abstractmethod
-    def plan(self, spec: BusinessSpec, brand: BrandPackage) -> SiteArchitecture:
+    def plan(
+        self,
+        spec: BusinessSpec,
+        brand: BrandPackage,
+        listing_dataset: Optional[ListingDataset] = None,
+    ) -> SiteArchitecture:
         """Plan a deterministic SiteArchitecture from a BusinessSpec and a
-        BrandPackage."""
+        BrandPackage, plus (AES-WEB-002K.1) the optional profile-route
+        expansion a ListingDataset enables."""
         raise NotImplementedError
 
 
@@ -104,9 +119,13 @@ class SEOEngineInterface(ABC):
         site_architecture: SiteArchitecture,
         content_package: ContentPackage,
         business_spec: BusinessSpec,
+        base_url: str = "",
     ) -> SEOPackage:
         """Compile a deterministic SEOPackage from a SiteArchitecture,
-        ContentPackage, and BusinessSpec."""
+        ContentPackage, and BusinessSpec. ``base_url`` (AES-WEB-002K.1) is
+        additive: empty (default) preserves the pre-K.1 self-canonical
+        (route-relative) behavior; supplied, canonical/sitemap URLs become
+        absolute (``base_url.rstrip("/") + route``)."""
         raise NotImplementedError
 
 
@@ -199,6 +218,13 @@ class RendererInterface(ABC):
     artifact input and not a method parameter -- ``rendering/`` may not
     import the sibling ``components/`` package that builds the default
     registry.
+
+    ``render_data`` is an additive, optionally-``None`` input
+    (AES-WEB-002K.1): the typed link/card/contact/hours data
+    (``contracts/render_data.py``) the Component Engine's Phase B already
+    produced, keyed by ``(route, component_index)`` -- the Renderer only
+    *indexes* it (the same way it indexes the manifest), never derives it.
+    Omitted, rendering is byte-identical to pre-K.1 behavior.
     """
 
     @abstractmethod
@@ -208,9 +234,11 @@ class RendererInterface(ABC):
         component_manifest: ComponentManifest,
         content_package: ContentPackage,
         brand_package: BrandPackage,
+        render_data: Optional[RenderDataBundle] = None,
     ) -> RenderedPageSet:
         """Render a deterministic ``RenderedPageSet`` from a ``LayoutPlan``,
-        ``ComponentManifest``, ``ContentPackage``, and ``BrandPackage``."""
+        ``ComponentManifest``, ``ContentPackage``, ``BrandPackage``, and
+        (AES-WEB-002K.1) the optional ``RenderDataBundle``."""
         raise NotImplementedError
 
 

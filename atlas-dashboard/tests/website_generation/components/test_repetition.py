@@ -61,10 +61,29 @@ def _sa(pages):
     )
 
 
+# AES-WEB-002K.1: nav.header.standard/legal.footer.directory are now
+# categorically bindable (RENDER_DATA), so Phase A always selects them once
+# eligible (region + nav_tree signature) regardless of the site_header/
+# site_footer recipe slot's own optional status -- Phase B then requires
+# real footer_legal/disclosures content for legal.footer.directory's two
+# required content slots. _cp() below unconditionally supplies both for
+# _PROFILE_PAGE's route (the only route this file's bare _cp() calls ever
+# compile without _category_page_blocks) -- harmless, unused extra blocks
+# for any test not compiling that route.
+_FOOTER_LEGAL_TEXT = "(c) 2026 Test Directory. All rights reserved."
+_FOOTER_DISCLOSURES_TEXT = "Some listings may be sponsored placements, clearly labeled."
+_PROFILE_ROUTE_FOR_FOOTER = "/vets/first-clinic/"
+
+
 def _cp(blocks=()):
+    footer_blocks = [
+        ContentBlock(page_route=_PROFILE_ROUTE_FOR_FOOTER, slot_id="footer_legal", text=_FOOTER_LEGAL_TEXT),
+        ContentBlock(page_route=_PROFILE_ROUTE_FOR_FOOTER, slot_id="disclosures", text=_FOOTER_DISCLOSURES_TEXT),
+    ]
     return ContentPackage(
         schema_version=SCHEMA_VERSIONS[ArtifactKind.CONTENT_PACKAGE],
-        artifact_kind=ArtifactKind.CONTENT_PACKAGE, source_hashes={}, blocks=tuple(blocks),
+        artifact_kind=ArtifactKind.CONTENT_PACKAGE, source_hashes={},
+        blocks=tuple(blocks) + tuple(footer_blocks),
     )
 
 
@@ -100,6 +119,8 @@ def _category_page_blocks(route):
     return [
         ContentBlock(page_route=route, slot_id="hero_h1", text="Pet-friendly vets"),
         ContentBlock(page_route=route, slot_id="intro", text="Vets that welcome your pets warmly."),
+        ContentBlock(page_route=route, slot_id="footer_legal", text=_FOOTER_LEGAL_TEXT),
+        ContentBlock(page_route=route, slot_id="disclosures", text=_FOOTER_DISCLOSURES_TEXT),
     ]
 
 
@@ -488,9 +509,10 @@ class TestDeterminism:
 # --------------------------------------------------------------------------- #
 
 class TestComponentEngineVersion:
-    def test_version_bumped_to_1_2_0(self):
-        assert ENGINE_VERSIONS["component_engine"] == "1.2.0"
-        assert ComponentEngine().version == "1.2.0"
+    def test_version_bumped_to_1_3_0(self):
+        # AES-WEB-002K.1: 1.2.0 -> 1.3.0 (render-data production).
+        assert ENGINE_VERSIONS["component_engine"] == "1.3.0"
+        assert ComponentEngine().version == "1.3.0"
 
 
 # --------------------------------------------------------------------------- #

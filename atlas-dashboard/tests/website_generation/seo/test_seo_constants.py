@@ -61,11 +61,14 @@ class TestRoleRuleTables:
     emits -- "add-an-entry-not-a-branch", mirroring constants/content.py's
     slot-length tables and constants/brand.py's per-family dict tables."""
 
-    def test_title_source_slot_by_role_covers_exactly_home_and_category(self):
-        assert set(TITLE_SOURCE_SLOT_BY_ROLE) == {"home", "category"}
+    def test_title_source_slot_by_role_covers_exactly_home_category_and_profile(self):
+        # AES-WEB-002K.1: business-profile pages need a real <title>/meta
+        # description too (IA now emits them), same D1/D2 hero_h1/intro
+        # source slots -- no new rule needed.
+        assert set(TITLE_SOURCE_SLOT_BY_ROLE) == {"home", "category", "business-profile"}
 
-    def test_meta_source_slot_by_role_covers_exactly_home_and_category(self):
-        assert set(META_SOURCE_SLOT_BY_ROLE) == {"home", "category"}
+    def test_meta_source_slot_by_role_covers_exactly_home_category_and_profile(self):
+        assert set(META_SOURCE_SLOT_BY_ROLE) == {"home", "category", "business-profile"}
 
     def test_both_tables_share_the_same_role_key_set(self):
         assert set(TITLE_SOURCE_SLOT_BY_ROLE) == set(META_SOURCE_SLOT_BY_ROLE)
@@ -82,7 +85,15 @@ class TestRoleRuleTables:
         # Independently declared (constants may not import constants); must
         # stay byte-identical to constants/ia.py's role ids, mirroring
         # test_content_constants.py's slot-id cross-module check.
-        assert set(SUPPORTED_PAGE_ROLES) == {PAGE_ROLE_HOME, PAGE_ROLE_CATEGORY}
+        # "business-profile" (AES-WEB-002K.1) is independently declared as
+        # a literal string here too -- it lives in
+        # information_architecture_engine.py
+        # (PAGE_ROLE_BUSINESS_PROFILE), not constants/ia.py, by the same
+        # "profile pages carry no content_slots" design choice that keeps
+        # it out of that module's role-keyed tables.
+        assert set(SUPPORTED_PAGE_ROLES) == {
+            PAGE_ROLE_HOME, PAGE_ROLE_CATEGORY, "business-profile",
+        }
 
 
 class TestSourceSlotConstants:
