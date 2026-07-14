@@ -1,11 +1,28 @@
-"""Component Engine tests (AES-WEB-002J.6; AES-WEB-001 §5.5, AES-WEB-002 §14/§26).
+"""Component Engine tests (AES-WEB-002J.6/J.19; AES-WEB-001 §5.5,
+AES-WEB-002 §14/§26; ADR-WEB-CONTENT-BINDING-MAP).
 
-Deterministic throughout: no clock/UUID/randomness. Covers the public surface
-and version, golden recipe resolution against the real registered catalog,
-the embedded §14.3 SelectionTrace (ADR-14), role-derivable prop binding and
-the §5.5 unbound-required-prop compile error, selection-pipeline integration
+Deterministic throughout: no clock/UUID/randomness. Covers the public
+surface and version, golden recipe resolution against the real registered
+catalog (now bindability-aware, AES-WEB-002J.19), the embedded §14.3
+SelectionTrace (ADR-14), full Phase-B value/content binding and the §5.5
+unbound-required-field compile error, selection-pipeline integration
 through the engine (lifecycle/compatibility/injected-registry), the
 role->recipe map, batch error reporting, and edge cases.
+
+AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "Option A deferred" binding
+scope: ``compile()`` now returns a ``ComponentCompilationResult`` (bound
+``ComponentManifest`` + companion ``ContentPackage``), and the previously
+golden ``home``/``category`` recipe outputs change because bindability-aware
+selection now excludes architecturally-unbindable candidates
+(``directory.categories.grid``, ``directory.filters.panel``, ...) in favor
+of their declared fallbacks -- or, where a required recipe slot has *no*
+fallback and its only real candidate is architecturally unbindable
+(``category``'s ``pagination``/``zero_results``), the whole compile now
+honestly fails rather than silently leaving props/content unbound. Tests
+that previously exercised ``category`` are updated to either supply the
+bindable ``business-profile`` role instead, or to assert the new honest
+failure directly (see ``TestGoldenRealCatalog.
+test_category_recipe_honestly_fails_pagination_and_zero_results_unbindable``).
 
 Tests exercise only the public surface (``engines.website_generation`` /
 ``components``) plus the shared ``make_definition`` fixture, per AES-WEB-001
@@ -16,6 +33,7 @@ from __future__ import annotations
 
 import pytest
 
+from engines.website_generation.brand.brand_engine import BrandEngine
 from engines.website_generation.components import (
     ComponentEngine,
     ComponentRegistry,
@@ -27,9 +45,14 @@ from engines.website_generation.constants.components import (
     RECIPE_SLOTS_BY_PAGE_ROLE,
 )
 from engines.website_generation.contracts.artifacts import (
+    BusinessSpec,
+    ComponentCompilationResult,
     ComponentManifest,
     ContentBlock,
     ContentPackage,
+    ListingCategory,
+    ListingDataset,
+    ListingRecord,
     PagePlan,
     SiteArchitecture,
     artifact_sha256,
@@ -86,6 +109,9 @@ def _cp(blocks=()) -> ContentPackage:
 
 _HOME_PAGE = PagePlan(route="/", page_type="home", title="Home")
 _CATEGORY_PAGE = PagePlan(route="/c/vets", page_type="category", title="Vets")
+_BUSINESS_PROFILE_PAGE = PagePlan(
+    route="/hotels/lakeview-lodge/", page_type="business-profile", title=""
+)
 
 
 def _ids(page_components):
@@ -94,6 +120,70 @@ def _ids(page_components):
 
 def _page(manifest, route):
     return next(p for p in manifest.pages if p.route == route)
+
+
+def _brand():
+    """A real, deterministic BrandPackage (AES-WEB-002J.19 Phase-B input) --
+    the pure Brand Engine over a fixed inline spec, mirroring the
+    established local-demo-fixture precedent."""
+    spec = BusinessSpec(
+        schema_version=SCHEMA_VERSIONS[ArtifactKind.BUSINESS_SPEC],
+        artifact_kind=ArtifactKind.BUSINESS_SPEC,
+        source_hashes={},
+        business_name="Test Directory",
+        niche="test niche",
+        audience="test audience",
+        value_proposition="test value proposition",
+    )
+    return BrandEngine().resolve(spec)
+
+
+def _home_blocks():
+    """Every editorial block a bindability-aware home-recipe compile needs
+    (hero.search.directory's h1/subhead, nav.utility.bar's message; "intro"
+    is unused by the components home currently selects but included for
+    parity with the IA vocabulary)."""
+    return [
+        ContentBlock(page_route="/", slot_id="hero_h1", text="Find pet-friendly places to stay"),
+        ContentBlock(page_route="/", slot_id="intro", text="Browse trusted, pet-welcoming businesses."),
+        ContentBlock(page_route="/", slot_id="subhead", text="Verified hotels, parks, and restaurants."),
+        ContentBlock(page_route="/", slot_id="message", text="Some listings are sponsored and labeled."),
+    ]
+
+
+def _listing_dataset():
+    """One real, fully-populated listing (AES-WEB-002J.19 Phase-B input) --
+    enough to satisfy every currently-bindable business-profile field
+    (name, description, contact, hours, rating, credentials)."""
+    from engines.website_generation.contracts.artifacts import (
+        ListingAddress,
+        ListingContact,
+        ListingHoursEntry,
+        ListingRating,
+    )
+    from engines.website_generation.contracts.enums import Weekday
+
+    category = ListingCategory(category_id="cat-hotels", label="Hotels", slug="hotels")
+    listing = ListingRecord(
+        listing_id="lakeview-lodge",
+        business_name="Lakeview Lodge",
+        slug="lakeview-lodge",
+        category_id="cat-hotels",
+        description="A lakeside lodge that welcomes pets.",
+        contact=ListingContact(phone="555-0100", email="stay@lakeview.example"),
+        address=ListingAddress(city="Austin", state="TX"),
+        hours=(ListingHoursEntry(day=Weekday.MONDAY, opens="08:00", closes="20:00"),),
+        rating=ListingRating(rating_hundredths=450, review_count=27),
+        credentials=("Licensed pet boarding operator",),
+    )
+    return ListingDataset(
+        schema_version=SCHEMA_VERSIONS[ArtifactKind.LISTING_DATASET],
+        artifact_kind=ArtifactKind.LISTING_DATASET,
+        source_hashes={},
+        listings=(listing,),
+        categories=(category,),
+        locations=(),
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -105,12 +195,18 @@ class TestPublicSurfaceAndVersion:
         assert issubclass(ComponentEngine, ComponentEngineInterface)
 
     def test_version_pinned(self):
+        # AES-WEB-002J.19: 1.0.0 -> 1.1.0 (Phase-B binding is a §5.5
+        # behavior change; see contracts/versions.py).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.0.0"
+        assert ComponentEngine.version == "1.1.0"
 
-    def test_compile_returns_component_manifest(self):
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
-        assert isinstance(manifest, ComponentManifest)
+    def test_compile_returns_component_compilation_result(self):
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        assert isinstance(result, ComponentCompilationResult)
+        assert isinstance(result.component_manifest, ComponentManifest)
+        assert isinstance(result.content_package, ContentPackage)
 
 
 # --------------------------------------------------------------------------- #
@@ -119,60 +215,125 @@ class TestPublicSurfaceAndVersion:
 
 class TestGoldenRealCatalog:
     def test_home_recipe_resolves_expected_components(self):
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
-        assert _ids(_page(manifest, "/")) == [
+        # AES-WEB-002J.19: directory.categories.grid declares a required
+        # STRUCTURED_DEFERRED field (category_source_ref/category_tiles --
+        # tile label+href is not representable by flat ContentBlock text,
+        # ADR-WEB-CONTENT-BINDING-MAP) so bindability-aware selection now
+        # excludes it in favor of its declared fallback, layout.grid.standard.
+        # directory.locations.grid is likewise excluded, and -- because its
+        # recipe slot is optional with no fallback -- silently dropped
+        # (unchanged §26 doctrine for a slot with no bindable winner).
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        assert _ids(_page(result.component_manifest, "/")) == [
             "nav.utility.bar",
             "hero.search.directory",
-            "directory.categories.grid",
-            "directory.locations.grid",
+            "layout.grid.standard",
         ]
 
-    def test_category_recipe_resolves_expected_components(self):
-        manifest = ComponentEngine().compile(_sa([_CATEGORY_PAGE]), _cp())
-        assert _ids(_page(manifest, "/c/vets")) == [
-            "hero.local.standard",
-            "directory.filters.panel",
-            "directory.sort.control",
-            "directory.results.summary",
-            "listing.card.standard",
-            "nav.pagination.standard",
-            "status.results.zero",
-        ]
+    def test_category_recipe_honestly_fails_pagination_unbindable(self):
+        # AES-WEB-002J.19 finding (J.19 architectural preflight §17/§28): the
+        # category recipe's "pagination" and "zero_results" slots are both
+        # required with NO declared fallback, and their only real candidates
+        # (nav.pagination.standard: page_context is SOURCE_UNAVAILABLE;
+        # status.results.zero: recovery_links is STRUCTURED_DEFERRED) are
+        # both categorically unbindable. No amount of supplied content,
+        # listing data, or brand data changes this -- it is an architectural
+        # gap, not a data gap -- so the category recipe cannot fully bind
+        # until a future sprint adds a source for one of those two fields.
+        #
+        # The selector's pre-J.19 fail-fast-per-page behavior (unchanged by
+        # J.19: a required slot with no survivor raises immediately, See
+        # ComponentSelector._select_slot's step 9) means only the *first*
+        # unfillable required slot in the recipe's declared order actually
+        # surfaces per attempt -- "pagination" precedes "zero_results" in
+        # CATEGORY_RECIPE_SLOTS, so it is the one observed here. Because the
+        # whole page's selection fails before Phase B ever runs, none of the
+        # page's other components (including hero.local.standard) are
+        # attempted -- this is a selection-level failure, reported under
+        # "unresolved_required_slots", not a Phase-B binding failure.
+        with pytest.raises(ComponentResolutionError) as exc:
+            ComponentEngine().compile(
+                _sa([_CATEGORY_PAGE]),
+                _cp([
+                    ContentBlock(page_route="/c/vets", slot_id="hero_h1", text="Pet-friendly vets"),
+                    ContentBlock(page_route="/c/vets", slot_id="intro", text="Vets that welcome your pets warmly."),
+                ]),
+                listing_dataset=_listing_dataset(),
+                brand_package=_brand(),
+            )
+        diagnostics = exc.value.diagnostics
+        assert "unresolved_required_slots" in diagnostics
+        entry = diagnostics["unresolved_required_slots"][0]
+        assert entry["route"] == "/c/vets"
+        assert entry["diagnostics"]["slot_id"] == "/c/vets#pagination"
+        # Every candidate that reached the pool was eliminated -- naming
+        # nav.pagination.standard (the real, categorically-unbindable
+        # candidate) among them proves this is the expected architectural
+        # gap, not an unrelated selection bug.
+        eliminated_ids = {c["component_id"] for c in entry["diagnostics"]["candidates"]}
+        assert "nav.pagination.standard" in eliminated_ids
 
     def test_manifest_header_and_provenance(self):
-        sa, cp = _sa([_HOME_PAGE]), _cp()
-        manifest = ComponentEngine().compile(sa, cp)
+        sa, cp, brand = _sa([_HOME_PAGE]), _cp(_home_blocks()), _brand()
+        result = ComponentEngine().compile(sa, cp, brand_package=brand)
+        manifest = result.component_manifest
         assert manifest.artifact_kind is ArtifactKind.COMPONENT_MANIFEST
         assert manifest.schema_version == SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST]
         assert manifest.schema_version == "1.1.0"
         assert manifest.source_hashes == {
             "site_architecture": artifact_sha256(sa),
             "content_package": artifact_sha256(cp),
+            "brand_package": artifact_sha256(brand),
+            "binding_map_version": "1.0.0",
         }
 
-    def test_content_refs_deferred_empty(self):
-        # Option A: content-value binding is deferred; content_refs stays ().
-        manifest = ComponentEngine().compile(
-            _sa([_HOME_PAGE, _CATEGORY_PAGE]), _cp()
+    def test_content_refs_populated_when_bindable(self):
+        # AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "Option A deferred"
+        # scope this test used to pin (content_refs always empty). Every
+        # selected instance's required content slots are now bound to real
+        # ContentBlocks -- content_refs is non-empty exactly where a
+        # component declares required content slots.
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
         )
-        for page in manifest.pages:
-            for inst in page.components:
-                assert inst.content_refs == ()
+        page = _page(result.component_manifest, "/")
+        with_slots = {
+            inst.component_id: inst.content_refs
+            for inst in page.components
+            if inst.content_refs
+        }
+        assert with_slots == {
+            "nav.utility.bar": ("message",),
+            "hero.search.directory": ("h1", "subhead"),
+        }
 
-    def test_all_eighteen_roles_compile(self):
+    def test_all_eighteen_roles_with_no_binding_inputs_honestly_fails(self):
+        # AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "every role at least
+        # partially resolves" premise: Phase B now requires real data for
+        # every selected required field. With no ContentPackage blocks, no
+        # ListingDataset, and no BrandPackage, essentially every role's
+        # selected components have some required field with no source --
+        # proving Phase B is honestly enforced (no placeholder fallback),
+        # never a silent partial success.
         pages = tuple(
             PagePlan(route="/r/%d" % i, page_type=role.value, title=role.value)
             for i, role in enumerate(PageRole)
         )
-        manifest = ComponentEngine().compile(_sa(pages), _cp())
-        assert len(manifest.pages) == len(PageRole) == 18
-        # Every page resolves at least its required slots into instances.
-        assert all(page.components for page in manifest.pages)
+        with pytest.raises(ComponentResolutionError) as exc:
+            ComponentEngine().compile(_sa(pages), _cp())
+        assert exc.value.diagnostics  # at least one failure bucket populated
 
     def test_page_order_preserved(self):
-        pages = [_CATEGORY_PAGE, _HOME_PAGE]  # deliberately not sorted
-        manifest = ComponentEngine().compile(_sa(pages), _cp())
-        assert [p.route for p in manifest.pages] == ["/c/vets", "/"]
+        pages = [_BUSINESS_PROFILE_PAGE, _HOME_PAGE]  # deliberately not sorted
+        result = ComponentEngine().compile(
+            _sa(pages), _cp(_home_blocks()),
+            listing_dataset=_listing_dataset(), brand_package=_brand(),
+        )
+        assert [p.route for p in result.component_manifest.pages] == [
+            "/hotels/lakeview-lodge/", "/",
+        ]
 
 
 # --------------------------------------------------------------------------- #
@@ -181,49 +342,62 @@ class TestGoldenRealCatalog:
 
 class TestSelectionTrace:
     def test_trace_embedded(self):
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        manifest = result.component_manifest
         assert manifest.selection_trace is not None
         assert manifest.selection_trace.slots  # non-empty
 
     def test_trace_slot_ids_route_qualified(self):
-        manifest = ComponentEngine().compile(
-            _sa([_HOME_PAGE, _CATEGORY_PAGE]), _cp()
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE, _BUSINESS_PROFILE_PAGE]), _cp(_home_blocks()),
+            listing_dataset=_listing_dataset(), brand_package=_brand(),
         )
-        slot_ids = [s.slot_id for s in manifest.selection_trace.slots]
+        slot_ids = [s.slot_id for s in result.component_manifest.selection_trace.slots]
         # Every slot id carries its page route, so same-named slots across
         # pages ("hero") are disambiguated -- "why this component on this page".
         assert "/#hero" in slot_ids
-        assert "/c/vets#hero" in slot_ids
+        assert "/hotels/lakeview-lodge/#profile_header" in slot_ids
         assert all("#" in sid for sid in slot_ids)
 
     def test_trace_chosen_matches_instances(self):
-        manifest = ComponentEngine().compile(_sa([_CATEGORY_PAGE]), _cp())
-        page = _page(manifest, "/c/vets")
+        result = ComponentEngine().compile(
+            _sa([_BUSINESS_PROFILE_PAGE]), _cp(),
+            listing_dataset=_listing_dataset(), brand_package=_brand(),
+        )
+        manifest = result.component_manifest
+        page = _page(manifest, "/hotels/lakeview-lodge/")
         chosen = [
             s.chosen_component_id
             for s in manifest.selection_trace.slots
-            if s.slot_id.startswith("/c/vets#") and s.chosen_component_id
+            if s.slot_id.startswith("/hotels/lakeview-lodge/#") and s.chosen_component_id
         ]
         assert chosen == _ids(page)
 
     def test_trace_records_score_and_tiebreak(self):
-        manifest = ComponentEngine().compile(_sa([_CATEGORY_PAGE]), _cp())
-        hero = next(
-            s for s in manifest.selection_trace.slots
-            if s.slot_id == "/c/vets#hero"
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
         )
-        assert hero.chosen_component_id == "hero.local.standard"
+        hero = next(
+            s for s in result.component_manifest.selection_trace.slots
+            if s.slot_id == "/#hero"
+        )
+        assert hero.chosen_component_id == "hero.search.directory"
         assert hero.tie_break_basis  # a survivor ranked => basis recorded
         winner = next(
             c for c in hero.candidates
-            if c.component_id == "hero.local.standard"
+            if c.component_id == "hero.search.directory"
         )
         assert winner.score is not None
 
     def test_trace_hashes_with_manifest(self):
         # §14.3: the embedded trace "hashes with the manifest". Dropping it
         # must change the artifact hash.
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        manifest = result.component_manifest
         without_trace = ComponentManifest(
             schema_version=manifest.schema_version,
             artifact_kind=manifest.artifact_kind,
@@ -242,47 +416,62 @@ class TestSelectionTrace:
 
 class TestDeterminism:
     def test_identical_inputs_identical_output(self):
-        sa, cp = _sa([_HOME_PAGE, _CATEGORY_PAGE]), _cp()
-        a = ComponentEngine().compile(sa, cp)
-        b = ComponentEngine().compile(sa, cp)  # fresh engine instance
-        assert artifact_sha256(a) == artifact_sha256(b)
+        sa = _sa([_HOME_PAGE, _BUSINESS_PROFILE_PAGE])
+        cp = _cp(_home_blocks())
+        ld, brand = _listing_dataset(), _brand()
+        a = ComponentEngine().compile(sa, cp, listing_dataset=ld, brand_package=brand)
+        b = ComponentEngine().compile(sa, cp, listing_dataset=ld, brand_package=brand)  # fresh engine instance
+        assert artifact_sha256(a.component_manifest) == artifact_sha256(b.component_manifest)
+        assert artifact_sha256(a.content_package) == artifact_sha256(b.content_package)
 
     def test_content_block_order_independence(self):
         sa = _sa([_HOME_PAGE])
-        blocks = [
+        reorderable = [
             ContentBlock(page_route="/", slot_id="hero_h1", text="A"),
             ContentBlock(page_route="/", slot_id="intro", text="B"),
         ]
-        forward = ComponentEngine().compile(sa, _cp(blocks))
-        reverse = ComponentEngine().compile(sa, _cp(list(reversed(blocks))))
+        fixed = [
+            ContentBlock(page_route="/", slot_id="subhead", text="C"),
+            ContentBlock(page_route="/", slot_id="message", text="D"),
+        ]
+        brand = _brand()
+        forward = ComponentEngine().compile(
+            sa, _cp(reorderable + fixed), brand_package=brand
+        )
+        reverse = ComponentEngine().compile(
+            sa, _cp(list(reversed(reorderable)) + fixed), brand_package=brand
+        )
         # ContentPackage input order must not affect the manifest (it is only
         # hashed for provenance) — but the two ContentPackages differ, so the
         # content_package source hash differs; compare the pages + trace only.
-        assert forward.pages == reverse.pages
-        assert forward.selection_trace == reverse.selection_trace
+        assert forward.component_manifest.pages == reverse.component_manifest.pages
+        assert forward.component_manifest.selection_trace == reverse.component_manifest.selection_trace
 
 
 # --------------------------------------------------------------------------- #
-# Role-derivable prop binding (§5.5)
+# Prop binding (§5.5) -- literal, reference, and the compile-time
+# role-typed-enum contradiction
 # --------------------------------------------------------------------------- #
 
-class TestRolePropBinding:
-    def test_context_role_bound_to_page_role(self):
-        manifest = ComponentEngine().compile(_sa([_CATEGORY_PAGE]), _cp())
-        hero = _page(manifest, "/c/vets").components[0]
-        assert hero.component_id == "hero.local.standard"
-        assert hero.props == {"context_role": "category"}
-
-    def test_value_layer_props_left_unbound(self):
-        # directory.categories.grid declares category_source_ref
-        # (CONTENT_BLOCK_REF) and columns (INT_BOUNDED) -- both value-layer,
-        # not role-derivable, so they are deferred (props stays empty).
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
-        grid = next(
-            inst for inst in _page(manifest, "/").components
-            if inst.component_id == "directory.categories.grid"
+class TestPropBinding:
+    def test_value_layer_props_bound_when_data_supplied(self):
+        # AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "left unbound" scope
+        # this test used to pin. listing.card.standard's listing_ref
+        # (LISTING_REF) and density (STR_ENUM) are now both bound.
+        result = ComponentEngine().compile(
+            _sa([_BUSINESS_PROFILE_PAGE]), _cp(),
+            listing_dataset=_listing_dataset(), brand_package=_brand(),
         )
-        assert grid.props == {}
+        card = next(
+            inst for inst in _page(result.component_manifest, "/hotels/lakeview-lodge/").components
+            if inst.component_id == "listing.card.standard"
+        )
+        assert card.props["density"] in ("comfortable", "compact")
+        assert card.props["listing_ref"].startswith("bind.listing_name.")
+        block = next(
+            b for b in result.content_package.blocks if b.slot_id == card.props["listing_ref"]
+        )
+        assert block.text == "Lakeview Lodge"
 
     def test_unbindable_required_role_prop_is_compile_error(self):
         # §5.5: an unbound required prop is a compile error *here*. Craft a
@@ -355,9 +544,14 @@ class TestSelectionIntegration:
 
     def test_default_flags_allow_proposed(self):
         # The default lifecycle flags allow PROPOSED, so the all-PROPOSED
-        # catalog resolves without explicit flags.
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
-        assert _page(manifest, "/").components
+        # catalog resolves (selection succeeds) without explicit flags --
+        # Phase B then honestly fails for lack of content/brand data, which
+        # is a distinct, expected concern from lifecycle filtering.
+        with pytest.raises(ComponentResolutionError) as exc:
+            ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
+        # Proves selection (not lifecycle filtering) reached Phase B:
+        # the failure is a binding gap, not "unresolved_required_slots".
+        assert "unresolved_required_slots" not in exc.value.diagnostics
 
 
 # --------------------------------------------------------------------------- #
@@ -407,7 +601,8 @@ class TestBatchErrorReporting:
 
 class TestEdgeCases:
     def test_empty_site_architecture(self):
-        manifest = ComponentEngine().compile(_sa([]), _cp())
+        result = ComponentEngine().compile(_sa([]), _cp())
+        manifest = result.component_manifest
         assert manifest.pages == ()
         assert manifest.selection_trace is not None
         assert manifest.selection_trace.slots == ()
@@ -416,7 +611,10 @@ class TestEdgeCases:
         # home's featured_zone is optional and points at an unbuilt family;
         # it must not become an instance, but it is still traced (with no
         # chosen component) per §26 / §14.2 step 9.
-        manifest = ComponentEngine().compile(_sa([_HOME_PAGE]), _cp())
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        manifest = result.component_manifest
         assert "monetization.sponsor.featured" not in _ids(_page(manifest, "/"))
         featured = next(
             s for s in manifest.selection_trace.slots
@@ -424,6 +622,25 @@ class TestEdgeCases:
         )
         assert featured.chosen_component_id == ""
 
+    def test_optional_architecturally_unbindable_slot_dropped_but_traced(self):
+        # AES-WEB-002J.19: home's locations_grid slot is optional with no
+        # fallback; directory.locations.grid is categorically unbindable
+        # (location_source_ref/location_tiles are STRUCTURED_DEFERRED), so
+        # bindability-aware selection drops it exactly like an unbuilt-family
+        # slot -- no instance, but still traced with no chosen component.
+        result = ComponentEngine().compile(
+            _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
+        )
+        manifest = result.component_manifest
+        assert "directory.locations.grid" not in _ids(_page(manifest, "/"))
+        locations = next(
+            s for s in manifest.selection_trace.slots
+            if s.slot_id == "/#locations_grid"
+        )
+        assert locations.chosen_component_id == ""
+
     def test_empty_page_source_hashes_still_present(self):
-        manifest = ComponentEngine().compile(_sa([]), _cp())
-        assert set(manifest.source_hashes) == {"site_architecture", "content_package"}
+        result = ComponentEngine().compile(_sa([]), _cp())
+        assert set(result.component_manifest.source_hashes) == {
+            "site_architecture", "content_package", "binding_map_version",
+        }

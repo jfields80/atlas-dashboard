@@ -163,7 +163,13 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.6 (AES-WEB-001 §5.5/Part 2; AES-WEB-002 §14/§26): initial
     # Component Engine version. Not wired into pipeline execution (§6:
     # component_resolution remains NOT_EXECUTED in the BuildManifest).
-    "component_engine": "1.0.0",
+    # AES-WEB-002J.19 (ADR-WEB-CONTENT-BINDING-MAP) bumps 1.0.0 -> 1.1.0: the
+    # Component Engine now performs Phase-B value binding (bindability-aware
+    # selection plus real prop/content binding via the J.18 map), a §5.5
+    # behavior change requiring an explicit engine-version bump -- output can
+    # now differ for an identical (SiteArchitecture, ContentPackage) pair
+    # depending on the additive listing_dataset/brand_package inputs.
+    "component_engine": "1.1.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).

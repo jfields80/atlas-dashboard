@@ -1,25 +1,31 @@
-"""ComponentEngine -- (SiteArchitecture, ContentPackage) -> ComponentManifest
-(AES-WEB-001 §5.5 / Part 2).
+"""ComponentEngine -- (SiteArchitecture, ContentPackage, ListingDataset?,
+BrandPackage?) -> ComponentCompilationResult (AES-WEB-001 §5.5 / Part 2;
+AES-WEB-002J.19 Phase B; ADR-WEB-CONTENT-BINDING-MAP).
 
-Internal sequencing label: AES-WEB-002J.6. This is the §5.5 pipeline-stage
+Internal sequencing label: AES-WEB-002J.6 (Phase A: selection) +
+AES-WEB-002J.19 (Phase B: value binding). This is the §5.5 pipeline-stage
 facade over the machinery earlier waves already built: it maps each
 ``SiteArchitecture`` page to its PageRole recipe (AES-WEB-002 §26,
 ``constants.components.RECIPE_SLOTS_BY_PAGE_ROLE``), runs the deterministic
-§14.2 selection pipeline (``components.selection.ComponentSelector``) per
-page, binds the props it can source deterministically, and assembles a
-``ComponentManifest`` (artifact #6) carrying an embedded, size-bounded
-``selection_trace`` (§14.3, ADR-14). "It selects commercial components. It
-does not render HTML, build layouts, generate CSS, or perform AI inference."
+§14.2 selection pipeline (``components.selection.ComponentSelector``) --
+extended by J.19 with an additive bindability-filtering step -- per page,
+then binds every honestly-bindable required prop and content slot (J.19
+Phase B, via the J.18 declarative map: ``components.binding_rules``,
+``components.value_binding``, ``components.content_projection``), and
+assembles a ``ComponentCompilationResult`` bundling the bound
+``ComponentManifest`` (artifact #6, carrying an embedded, size-bounded
+``selection_trace``, §14.3/ADR-14) with its companion ``ContentPackage``
+(original blocks plus every Phase-B-projected block). "It selects and binds
+commercial components. It does not render HTML, build layouts, generate
+CSS, or perform AI inference."
 
 Deterministic, pure, serializable, byte-stable: the same
-``(SiteArchitecture, ContentPackage)`` pair always produces the same
-``ComponentManifest`` (or the same batch of diagnostics), regardless of
-``ContentPackage.blocks`` input order -- content is consumed only for
-provenance (``source_hashes``) this wave; see "Binding scope" below. No
-network access, no filesystem access, no model calls, no randomness, no
-clock/UUID reads. Not wired into pipeline execution -- ``component_resolution``
-remains ``NOT_EXECUTED`` in the ``BuildManifest`` (``PHASE1_EXECUTED_STAGES``
-is unchanged by this module).
+``(SiteArchitecture, ContentPackage, ListingDataset, BrandPackage)`` tuple
+always produces the same ``ComponentCompilationResult`` (or the same batch
+of diagnostics). No network access, no filesystem access, no model calls,
+no randomness, no clock/UUID reads. Not wired into pipeline execution --
+``component_resolution`` remains ``NOT_EXECUTED`` in the ``BuildManifest``
+(``PHASE1_EXECUTED_STAGES`` is unchanged by this module).
 
 Registry as an injected dependency (§15.3). The registry is a read-only
 ``ComponentRegistryView``, not an artifact input; ``compile`` takes it as an
@@ -31,33 +37,37 @@ component is ACTIVE/PREFERRED yet, so the default flags allow PROPOSED
 participation (``DEFAULT_LIFECYCLE_ALLOW_PROPOSED``) without touching any
 component's registered ``lifecycle_status`` or §23 certification semantics.
 
-Binding scope (AES-WEB-002J.6, operator-confirmed). §5.5 makes prop binding
-the Component Engine's job ("an unbound required prop is a compile error
-here"). The catalog's required props fall into two classes:
+Binding scope (AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "Option A
+deferred" scope). §5.5 makes prop *and content* binding the Component
+Engine's job ("an unbound required prop is a compile error here"). Every
+required field's binding is now resolved from the J.18 declarative map:
 
-* Role-derivable ``STR_ENUM`` props whose enum values are exactly PageRole
-  values (e.g. ``hero.local.standard.context_role``,
-  ``content.intro.contextual.context_role``, ``layout.shell.page.page_role``):
-  bound deterministically to the hosting page's role. If a chosen component
-  declares such a prop but its enum omits the hosting role, that is a genuine
-  compile-time contradiction and raises ``ComponentResolutionError`` -- the
-  §5.5 "compile error here, not a render error later" guarantee, realized.
-* Value-layer props (``CONTENT_BLOCK_REF``, ``LISTING_REF``, ``ROUTE_REF``,
-  ``ASSET_REF``, ``TOKEN_REF``, ``INT_BOUNDED``, ...): their values come from
-  a content-slot/block, listing, route-topology, asset, or brand-token
-  binding contract that is *not yet authorized* (no mapping between a
-  component's declared content-slot names and ``ContentPackage`` block ids
-  exists). Per the "no invented metadata / do not guess" doctrine, these are
-  left unbound this wave and ``content_refs`` stays empty -- the documented
-  deferred surface, mirroring how the SEO Engine (AES-WEB-002J.5) deferred
-  structured data. A ``ComponentInstance`` therefore pins the selected
-  ``(component_id, component_version)`` plus any role-derived props; the
-  chosen variant is recorded in the ``selection_trace`` (§14.3).
+* **Bindability-aware selection (Phase A extension)**: a candidate whose
+  required fields include one categorically ``STRUCTURED_DEFERRED`` or
+  ``SOURCE_UNAVAILABLE`` binding state (``binding_rules.
+  is_categorically_bindable``) is eliminated before scoring -- never
+  silently bound with a fabricated value, and never a component the
+  Renderer would later reject. A required recipe slot with no bindable
+  candidate *and* no bindable fallback still raises ``ComponentResolutionError``
+  honestly (§26 doctrine, unchanged).
+* **Phase B**: for every finally-selected instance, every required prop
+  (literal, via ``value_binding``; or a content reference, via
+  ``content_projection``) and every required content slot is bound to a
+  real value or the whole compile batch-fails -- Phase B never changes
+  *which* components were selected, never picks its own fallback, never
+  reorders, and never synthesizes extra instances (that remains Phase A's
+  exclusive concern).
+
+Batch-fail-only (§5.10 "no partial output" doctrine, extended to this
+engine): if any page fails to resolve its recipe, or any selected instance
+fails to bind any required field, **no** ``ComponentCompilationResult`` is
+ever returned -- one ``ComponentResolutionError`` names every failure across
+every page in one deterministic, sorted diagnostics dict.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from engines.website_generation.constants.components import (
     DEFAULT_COMPATIBILITY_VERSIONS,
@@ -67,15 +77,18 @@ from engines.website_generation.constants.components import (
     RECIPE_SLOTS_BY_PAGE_ROLE,
 )
 from engines.website_generation.contracts.artifacts import (
+    BrandPackage,
+    ComponentCompilationResult,
     ComponentInstance,
     ComponentManifest,
     ContentPackage,
+    ListingDataset,
     PageComponents,
     SelectionTrace,
     SiteArchitecture,
     artifact_sha256,
 )
-from engines.website_generation.contracts.components import PropSpec
+from engines.website_generation.contracts.components import ComponentDefinition
 from engines.website_generation.contracts.enums import (
     ArtifactKind,
     CommercialPurpose,
@@ -98,11 +111,24 @@ from engines.website_generation.components.selection import (
     LifecycleBuildFlags,
     SlotSelectionRequest,
 )
-
-# Every PageRole value, precomputed once. A required STR_ENUM prop whose enum
-# is a subset of these is "role-typed" and deterministically bindable to the
-# hosting page's role (see the module docstring's "Binding scope").
-_PAGE_ROLE_VALUES = frozenset(role.value for role in PageRole)
+from engines.website_generation.components.binding_rules import (
+    BINDING_MAP_VERSION,
+    BINDING_RULES_BY_KEY,
+    FieldKind,
+    is_categorically_bindable,
+)
+from engines.website_generation.components.value_binding import (
+    UnboundLiteralProp,
+    bind_literal_prop,
+)
+from engines.website_generation.components.content_projection import (
+    ProjectedSlotCollision,
+    ProjectionAccumulator,
+    UnboundContentField,
+    bind_content_slot,
+    bind_ref_prop,
+    resolve_route_scope,
+)
 
 # The route/slot delimiter used to qualify a recipe slot id with its page
 # route inside the aggregated ``selection_trace`` (§14.3). ``ComponentManifest``
@@ -113,39 +139,27 @@ _PAGE_ROLE_VALUES = frozenset(role.value for role in PageRole)
 # recipe slot id, so the qualification is unambiguous and reversible.
 _TRACE_SLOT_DELIMITER = "#"
 
+# Prop types whose bound value is a content-reference slot id rather than a
+# literal string (§8.1) -- resolved via content_projection, never
+# value_binding.
+_REF_PROP_TYPES = frozenset({PropType.CONTENT_BLOCK_REF, PropType.LISTING_REF})
+
 # Fixed diagnostics key order (readability/debugging only -- dict equality
 # does not depend on key order), mirroring seo_engine._DIAGNOSTIC_BUCKET_ORDER.
 _DIAGNOSTIC_BUCKET_ORDER = (
     "unsupported_page_roles",
     "unresolved_required_slots",
     "unbindable_required_props",
+    "unbindable_required_content",
+    "projected_slot_collisions",
 )
 
 
-class _UnbindableRoleProp(Exception):
-    """Internal: a chosen component declares a role-typed required prop whose
-    enum omits the hosting page role (§5.5 compile error). Never escapes the
-    module -- converted into a batched ``ComponentResolutionError`` diagnostic."""
-
-    def __init__(self, prop_name: str) -> None:
-        super().__init__(prop_name)
-        self.prop_name = prop_name
-
-
-def _is_role_typed(spec: PropSpec) -> bool:
-    """True when ``spec`` is a ``STR_ENUM`` whose values are all PageRole
-    values -- the only class of required prop this wave binds (deterministic,
-    derived from the hosting page role; see the module docstring)."""
-    return (
-        spec.prop_type is PropType.STR_ENUM
-        and bool(spec.enum_values)
-        and set(spec.enum_values) <= _PAGE_ROLE_VALUES
-    )
-
-
 class ComponentEngine(ComponentEngineInterface):
-    """Compile a deterministic ``ComponentManifest`` from a ``SiteArchitecture``
-    and ``ContentPackage`` (AES-WEB-001 §5.5; AES-WEB-002 §14, §26)."""
+    """Compile a deterministic ``ComponentCompilationResult`` from a
+    ``SiteArchitecture``, ``ContentPackage``, and the optional
+    ``ListingDataset``/``BrandPackage`` Phase-B binding inputs
+    (AES-WEB-001 §5.5; AES-WEB-002 §14, §26; AES-WEB-002J.19)."""
 
     version = ENGINE_VERSIONS["component_engine"]
 
@@ -153,28 +167,31 @@ class ComponentEngine(ComponentEngineInterface):
         self,
         site_architecture: SiteArchitecture,
         content_package: ContentPackage,
+        listing_dataset: Optional[ListingDataset] = None,
+        brand_package: Optional[BrandPackage] = None,
         *,
         registry: Optional[ComponentRegistryView] = None,
         compatibility_versions: Optional[Dict[str, str]] = None,
         lifecycle_flags: Optional[LifecycleBuildFlags] = None,
-    ) -> ComponentManifest:
+    ) -> ComponentCompilationResult:
         """Total function over structurally valid inputs; batch-fails otherwise.
 
         For every page in ``site_architecture`` (in declared order), resolves
-        the page's PageRole recipe (§26), runs the §14.2 selection pipeline,
-        binds role-derivable props, and emits its ``PageComponents``. All
-        per-page selection traces aggregate into the manifest's single
+        the page's PageRole recipe (§26), runs the bindability-aware §14.2
+        selection pipeline, binds every required prop and content slot for
+        each selected instance (Phase B), and emits its ``PageComponents``.
+        All per-page selection traces aggregate into the manifest's single
         ``selection_trace`` (§14.3), with each slot id qualified by its page
-        route. Failures across all pages are collected and reported together
-        (batch reporting, not first-failure) as one ``ComponentResolutionError``
-        whose diagnostics name every unsupported role, unresolved required
-        slot, and unbindable required prop.
+        route. Failures across all pages and all instances are collected and
+        reported together (batch reporting, not first-failure) as one
+        ``ComponentResolutionError``.
 
-        Determinism: neither input is mutated (both are frozen); page order,
-        slot order, selection, and binding are pure functions of
-        ``site_architecture``'s declared page order and each page's recipe --
-        never of ``content_package.blocks`` order (AES-WEB-001 §1.1
-        replayability contract).
+        Determinism: no input is mutated (all are frozen); page order, slot
+        order, selection, and binding are pure functions of
+        ``site_architecture``'s declared page order, each page's recipe, and
+        the supplied ``content_package``/``listing_dataset``/``brand_package``
+        contents -- never of ``content_package.blocks`` input order
+        (AES-WEB-001 §1.1 replayability contract).
         """
         registry = registry if registry is not None else build_default_registry()
         compatibility = (
@@ -192,12 +209,16 @@ class ComponentEngine(ComponentEngineInterface):
             )
         )
         selector = ComponentSelector()
+        content_index = self._build_content_index(content_package)
+        projection = ProjectionAccumulator()
 
         page_components: List[PageComponents] = []
         trace_slots: List[Any] = []
         unsupported: List[Dict[str, str]] = []
         unresolved: List[Dict[str, Any]] = []
-        unbindable: List[Dict[str, str]] = []
+        unbindable_props: List[Dict[str, str]] = []
+        unbindable_content: List[Dict[str, str]] = []
+        collisions: List[Dict[str, str]] = []
 
         for page in site_architecture.pages:
             recipe = RECIPE_SLOTS_BY_PAGE_ROLE.get(page.page_type)
@@ -216,43 +237,61 @@ class ComponentEngine(ComponentEngineInterface):
                     compatibility_versions=compatibility,
                     lifecycle_flags=flags,
                     available_asset_roles=(),
+                    bindability_check=is_categorically_bindable,
                 )
             except ComponentResolutionError as exc:
                 unresolved.append({"route": page.route, "diagnostics": exc.diagnostics})
                 continue
 
             trace_slots.extend(trace.slots)
+            route_scope = resolve_route_scope(page.route, listing_dataset)
             instances: List[ComponentInstance] = []
             for slot_trace in trace.slots:
                 if not slot_trace.chosen_component_id:
                     continue  # optional slot dropped, silently but traced (§26)
-                try:
-                    props = self._bind_role_props(
-                        registry, slot_trace.chosen_component_id, role
-                    )
-                except _UnbindableRoleProp as ub:
-                    unbindable.append(
-                        {
-                            "route": page.route,
-                            "slot_id": slot_trace.slot_id,
-                            "component_id": slot_trace.chosen_component_id,
-                            "prop": ub.prop_name,
-                        }
-                    )
+                definition = registry.get(
+                    slot_trace.chosen_component_id, slot_trace.chosen_component_version
+                )
+                component_index = len(instances)
+                props, content_refs, failures = self._bind_instance(
+                    definition,
+                    role=role,
+                    route=page.route,
+                    component_index=component_index,
+                    site_architecture=site_architecture,
+                    content_index=content_index,
+                    listing_dataset=listing_dataset,
+                    brand_package=brand_package,
+                    route_scope=route_scope,
+                    projection=projection,
+                )
+                for failure in failures:
+                    bucket, entry = failure
+                    entry = dict(entry)
+                    entry["route"] = page.route
+                    if bucket == "prop":
+                        unbindable_props.append(entry)
+                    elif bucket == "content":
+                        unbindable_content.append(entry)
+                    else:
+                        collisions.append(entry)
+                if failures:
                     continue
                 instances.append(
                     ComponentInstance(
                         component_id=slot_trace.chosen_component_id,
                         component_version=slot_trace.chosen_component_version,
                         props=props,
-                        content_refs=(),  # value-layer binding deferred (docstring)
+                        content_refs=tuple(content_refs),
                     )
                 )
             page_components.append(
                 PageComponents(route=page.route, components=tuple(instances))
             )
 
-        diagnostics = self._collect_diagnostics(unsupported, unresolved, unbindable)
+        diagnostics = self._collect_diagnostics(
+            unsupported, unresolved, unbindable_props, unbindable_content, collisions
+        )
         if diagnostics:
             raise ComponentResolutionError(
                 "ComponentManifest compilation failed; see diagnostics",
@@ -260,16 +299,160 @@ class ComponentEngine(ComponentEngineInterface):
                 diagnostics=diagnostics,
             )
 
-        return ComponentManifest(
+        source_hashes = {
+            "site_architecture": artifact_sha256(site_architecture),
+            "content_package": artifact_sha256(content_package),
+            "binding_map_version": BINDING_MAP_VERSION,
+        }
+        if listing_dataset is not None:
+            source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
+        if brand_package is not None:
+            source_hashes["brand_package"] = artifact_sha256(brand_package)
+
+        manifest = ComponentManifest(
             schema_version=SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST],
             artifact_kind=ArtifactKind.COMPONENT_MANIFEST,
-            source_hashes={
-                "site_architecture": artifact_sha256(site_architecture),
-                "content_package": artifact_sha256(content_package),
-            },
+            source_hashes=source_hashes,
             pages=tuple(page_components),
             selection_trace=SelectionTrace(slots=tuple(trace_slots)),
         )
+        augmented_content = ContentPackage(
+            schema_version=content_package.schema_version,
+            artifact_kind=content_package.artifact_kind,
+            source_hashes=content_package.source_hashes,
+            blocks=content_package.blocks + projection.blocks(),
+        )
+        return ComponentCompilationResult(
+            component_manifest=manifest, content_package=augmented_content
+        )
+
+    # -- Phase B: one instance's full binding attempt -----------------------
+
+    @staticmethod
+    def _bind_instance(
+        definition: ComponentDefinition,
+        *,
+        role: PageRole,
+        route: str,
+        component_index: int,
+        site_architecture: SiteArchitecture,
+        content_index: Dict[Tuple[str, str], Tuple[str, ...]],
+        listing_dataset: Optional[ListingDataset],
+        brand_package: Optional[BrandPackage],
+        route_scope,
+        projection: ProjectionAccumulator,
+    ) -> Tuple[Dict[str, str], List[str], List[Tuple[str, Dict[str, str]]]]:
+        """Bind every required prop and content slot of one selected
+        instance. Returns ``(props, content_refs, failures)`` --
+        ``failures`` is empty on success; the caller discards ``props``/
+        ``content_refs`` and records each failure when non-empty (batch
+        discipline: a partially-bound instance never becomes a
+        ``ComponentInstance``)."""
+        props: Dict[str, str] = {}
+        content_refs: List[str] = []
+        failures: List[Tuple[str, Dict[str, str]]] = []
+
+        for name, spec in sorted(definition.required_props.items()):
+            is_ref = spec.prop_type in _REF_PROP_TYPES
+            field_kind = FieldKind.PROP_REF if is_ref else FieldKind.PROP_LITERAL
+            rule = BINDING_RULES_BY_KEY.get(
+                (definition.component_id, field_kind.value, name)
+            )
+            if rule is None:
+                failures.append((
+                    "prop",
+                    {
+                        "component_id": definition.component_id,
+                        "prop": name,
+                        "reason": "unmapped_binding_rule: no J.18 rule for this field",
+                    },
+                ))
+                continue
+            try:
+                if is_ref:
+                    value = bind_ref_prop(
+                        rule, name, route, component_index,
+                        content_index=content_index,
+                        listing_dataset=listing_dataset,
+                        route_scope=route_scope,
+                        projection=projection,
+                    )
+                else:
+                    value = bind_literal_prop(
+                        rule, spec,
+                        role=role, route=route,
+                        site_architecture=site_architecture,
+                        brand_package=brand_package,
+                    )
+                props[name] = value
+            except (UnboundLiteralProp, UnboundContentField) as exc:
+                failures.append((
+                    "prop",
+                    {
+                        "component_id": definition.component_id,
+                        "prop": name,
+                        "reason": exc.reason,
+                    },
+                ))
+            except ProjectedSlotCollision as exc:
+                failures.append((
+                    "collision",
+                    {"component_id": definition.component_id, "slot_id": exc.slot_id},
+                ))
+
+        for slot_name, slot_spec in sorted(definition.required_content_slots.items()):
+            rule = BINDING_RULES_BY_KEY.get(
+                (definition.component_id, FieldKind.CONTENT_SLOT.value, slot_name)
+            )
+            if rule is None:
+                failures.append((
+                    "content",
+                    {
+                        "component_id": definition.component_id,
+                        "slot": slot_name,
+                        "reason": "unmapped_binding_rule: no J.18 rule for this field",
+                    },
+                ))
+                continue
+            try:
+                token = bind_content_slot(
+                    rule, slot_name, route,
+                    content_index=content_index,
+                    listing_dataset=listing_dataset,
+                    route_scope=route_scope,
+                    projection=projection,
+                )
+                content_refs.append(token)
+            except UnboundContentField as exc:
+                failures.append((
+                    "content",
+                    {
+                        "component_id": definition.component_id,
+                        "slot": slot_name,
+                        "reason": exc.reason,
+                    },
+                ))
+            except ProjectedSlotCollision as exc:
+                failures.append((
+                    "collision",
+                    {"component_id": definition.component_id, "slot_id": exc.slot_id},
+                ))
+
+        return props, content_refs, failures
+
+    @staticmethod
+    def _build_content_index(
+        content_package: ContentPackage,
+    ) -> Dict[Tuple[str, str], Tuple[str, ...]]:
+        """The same ``(route, slot_id) -> texts`` index the Renderer builds
+        (``rendering.renderer.Renderer.render``), reproduced here so Phase B
+        resolves existing editorial content by the identical exact-match
+        contract the Renderer will later consume it with."""
+        index: Dict[Tuple[str, str], Tuple[str, ...]] = {}
+        for block in content_package.blocks:
+            key = (block.page_route, block.slot_id)
+            index[key] = index.get(key, ()) + (block.text,)
+        return index
 
     @staticmethod
     def _slot_request(route: str, slot: Dict[str, Any]) -> SlotSelectionRequest:
@@ -301,33 +484,12 @@ class ComponentEngine(ComponentEngineInterface):
         )
 
     @staticmethod
-    def _bind_role_props(
-        registry: ComponentRegistryView, component_id: str, role: PageRole
-    ) -> Dict[str, str]:
-        """Bind the chosen component's role-derivable required props to the
-        hosting page role (§5.5). Value-layer required props are left unbound
-        this wave (deferred; see the module docstring). Raises
-        :class:`_UnbindableRoleProp` when a role-typed required prop's enum
-        omits ``role`` -- the §5.5 compile-time contradiction.
-
-        Iterates ``required_props`` in declared order; the returned dict's key
-        order does not affect the manifest hash (canonical serialization sorts
-        keys), so binding is order-independent and deterministic."""
-        definition = registry.get(component_id)
-        props: Dict[str, str] = {}
-        for name, spec in definition.required_props.items():
-            if not _is_role_typed(spec):
-                continue
-            if role.value not in spec.enum_values:
-                raise _UnbindableRoleProp(name)
-            props[name] = role.value
-        return props
-
-    @staticmethod
     def _collect_diagnostics(
         unsupported: List[Dict[str, str]],
         unresolved: List[Dict[str, Any]],
-        unbindable: List[Dict[str, str]],
+        unbindable_props: List[Dict[str, str]],
+        unbindable_content: List[Dict[str, str]],
+        collisions: List[Dict[str, str]],
     ) -> Dict[str, Any]:
         """Assemble the deterministically ordered, deterministically sorted
         batch-failure diagnostics (empty dict => success)."""
@@ -340,10 +502,20 @@ class ComponentEngine(ComponentEngineInterface):
             diagnostics["unresolved_required_slots"] = sorted(
                 unresolved, key=lambda item: item["route"]
             )
-        if unbindable:
+        if unbindable_props:
             diagnostics["unbindable_required_props"] = sorted(
-                unbindable,
-                key=lambda item: (item["route"], item["slot_id"], item["prop"]),
+                unbindable_props,
+                key=lambda item: (item["route"], item["component_id"], item["prop"]),
+            )
+        if unbindable_content:
+            diagnostics["unbindable_required_content"] = sorted(
+                unbindable_content,
+                key=lambda item: (item["route"], item["component_id"], item["slot"]),
+            )
+        if collisions:
+            diagnostics["projected_slot_collisions"] = sorted(
+                collisions,
+                key=lambda item: (item["route"], item["component_id"], item["slot_id"]),
             )
         return {
             key: diagnostics[key]

@@ -313,6 +313,14 @@ _RULES: Tuple[BindingRule, ...] = (
         "unavailable:statistics", "StatBlock evidence has no source artifact yet"),
 )
 
+# AES-WEB-002J.19: the binding map's own version, independent of
+# component_engine's ENGINE_VERSIONS entry. Recorded in Phase-B provenance
+# (ComponentManifest.source_hashes) so a manifest is replay-verifiable
+# against the exact map revision that produced it. Bumped whenever
+# BINDING_RULES/SEMANTIC_SLOTS change in a way that could change binding
+# output for identical artifact inputs -- never a timestamp.
+BINDING_MAP_VERSION: str = "1.0.0"
+
 BINDING_RULES: Tuple[BindingRule, ...] = _RULES
 
 # Index by (component_id, field_kind, field_name) -- the natural key. Built at
@@ -346,3 +354,45 @@ def unknown_semantic_slots() -> Tuple[str, ...]:
     return tuple(
         sorted(n for n in referenced_semantic_slots() if n not in SEMANTIC_SLOTS)
     )
+
+
+# ---------------------------------------------------------------------------
+# Categorical bindability (AES-WEB-002J.19; ADR-WEB-CONTENT-BINDING-MAP)
+# ---------------------------------------------------------------------------
+#
+# A component is "categorically bindable" when none of its REQUIRED fields
+# carries a rule whose ``binding_state`` is STRUCTURED_DEFERRED or
+# SOURCE_UNAVAILABLE -- i.e. when nothing about it is *architecturally*
+# unbindable, regardless of which concrete inputs a given ``compile()`` call
+# supplies. This is a static, pure classification over ``BINDING_RULES``
+# alone (no artifact/runtime data needed), computed once and cached.
+#
+# A component with no declared rules at all (never registered in
+# BINDING_RULES -- true of every synthetic/test-only definition outside the
+# 72-component catalog) is treated as categorically bindable: the map has no
+# basis to disqualify what it has never classified, so selection-only tests
+# built on synthetic fixtures are unaffected by this filter (per ADR rule 7,
+# "no placeholder source values" cuts the other way too -- silence is not
+# evidence of unbindability).
+
+_CATEGORICALLY_UNBINDABLE_STATES = frozenset(
+    {BindingState.STRUCTURED_DEFERRED, BindingState.SOURCE_UNAVAILABLE}
+)
+
+
+def unbindable_required_fields(component_id: str) -> Tuple[BindingRule, ...]:
+    """Every required rule for ``component_id`` whose ``binding_state`` is
+    categorically unbindable (structured-deferred or source-unavailable),
+    in declared order. Empty when the component is categorically bindable."""
+    return tuple(
+        r
+        for r in rules_for_component(component_id)
+        if r.required and r.binding_state in _CATEGORICALLY_UNBINDABLE_STATES
+    )
+
+
+def is_categorically_bindable(component_id: str) -> bool:
+    """True unless ``component_id`` has at least one required field that can
+    never be honestly bound under the current architecture (§14 doctrine:
+    never fake structured support, never bind an unavailable source)."""
+    return not unbindable_required_fields(component_id)

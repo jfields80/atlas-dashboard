@@ -24,7 +24,7 @@ This module carries two selectors, kept side by side deliberately:
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Tuple
 
 from engines.website_generation.contracts.artifacts import (
     FrozenModel,
@@ -52,6 +52,7 @@ from engines.website_generation.constants.components import (
     SELECTION_FACTOR_MONETIZATION_ALIGNMENT,
     SELECTION_FACTOR_OPTIONAL_ASSET_AVAILABILITY,
     SELECTION_FACTOR_PREFERRED_LIFECYCLE,
+    SELECTION_FILTER_BINDABILITY,
     SELECTION_FILTER_CANDIDATE_ROLE,
     SELECTION_FILTER_COMMERCIAL_PURPOSE,
     SELECTION_FILTER_COMPATIBILITY,
@@ -274,7 +275,14 @@ class ComponentSelector:
         compatibility_versions: Dict[str, str],
         lifecycle_flags: LifecycleBuildFlags,
         available_asset_roles: Tuple[AssetRole, ...] = (),
+        bindability_check: Optional[Callable[[str], bool]] = None,
     ) -> SelectionTrace:
+        """``bindability_check`` (AES-WEB-002J.19, additive and optional):
+        a predicate over ``component_id`` deciding whether a candidate is
+        categorically bindable under the current architecture
+        (``components.binding_rules.is_categorically_bindable``, typically).
+        ``None`` (every pre-J.19 caller) disables the check entirely --
+        selection behavior is then byte-identical to before J.19."""
         slots: List[SlotSelectionTrace] = []
         for request in slot_requests:
             slots.append(
@@ -284,6 +292,7 @@ class ComponentSelector:
                     compatibility_versions,
                     lifecycle_flags,
                     available_asset_roles,
+                    bindability_check,
                 )
             )
         return SelectionTrace(slots=tuple(slots))
@@ -295,6 +304,7 @@ class ComponentSelector:
         compatibility_versions: Dict[str, str],
         lifecycle_flags: LifecycleBuildFlags,
         available_asset_roles: Tuple[AssetRole, ...],
+        bindability_check: Optional[Callable[[str], bool]] = None,
     ) -> SlotSelectionTrace:
         # -- assemble the initial pool: role-eligible candidates plus the
         # declared fallback, injected unconditionally so "guaranteed
@@ -360,6 +370,22 @@ class ComponentSelector:
             ):
                 continue
             state.eliminate(SELECTION_FILTER_LIFECYCLE)
+
+        # AES-WEB-002J.19 additive step: bindability filtering. Not one of
+        # the original §14.2 nine steps (see SELECTION_FILTER_BINDABILITY's
+        # constants-module docstring) -- runs only when the caller opts in
+        # via ``bindability_check``, so pre-J.19 selection behavior is
+        # unchanged unless a caller supplies one. The declared fallback
+        # bypasses this step for the same reason it bypasses steps 1 and 5:
+        # a generic Wave 1/2 structural primitive is the guaranteed-
+        # satisfiable last resort, never subject to a specific slot's
+        # binding requirements.
+        if bindability_check is not None:
+            for state in pool:
+                if not state.alive or state.is_fallback:
+                    continue
+                if not bindability_check(state.definition.component_id):
+                    state.eliminate(SELECTION_FILTER_BINDABILITY)
 
         # Step 4: required-capability matching — explicit no-op/pass-through
         # (see module docstring: no capability metadata exists to filter on).

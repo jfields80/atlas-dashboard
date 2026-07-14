@@ -15,10 +15,12 @@ from typing import Optional, Sequence, Tuple
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     BusinessSpec,
+    ComponentCompilationResult,
     ComponentManifest,
     ContentCandidate,
     ContentPackage,
     LayoutPlan,
+    ListingDataset,
     QualityReport,
     RenderedPageSet,
     SEOPackage,
@@ -112,13 +114,25 @@ class ComponentEngineInterface(ABC):
     """The Component Engine's sole entry point (AES-WEB-001 §5.5).
 
     Maps each ``SiteArchitecture`` page's recipe slots to component
-    instances from the registry (AES-WEB-002 §14, §26), emitting a
-    deterministic ``ComponentManifest`` with an embedded ``selection_trace``
-    (§14.3, ADR-14). Selection is the pure §14.2 pipeline; there is no
-    ``generate``/``draft``/``author`` method, by design. The registry is an
-    injected read-only :class:`ComponentRegistryView` dependency (§15.3), not
-    an artifact input, so tests may drive the engine with reduced fixture
-    registries.
+    instances from the registry (AES-WEB-002 §14, §26), then binds every
+    honestly-bindable required field (AES-WEB-002J.19 Phase B;
+    ADR-WEB-CONTENT-BINDING-MAP), emitting a deterministic
+    ``ComponentCompilationResult`` — a bound ``ComponentManifest`` with an
+    embedded ``selection_trace`` (§14.3, ADR-14), plus the companion
+    ``ContentPackage`` (the original input blocks plus every block Phase B
+    projected). Selection is the pure §14.2 pipeline, now bindability-aware
+    (§14.2 extended by J.19: a candidate whose required fields are
+    categorically unbindable under the current architecture is eliminated
+    before scoring, never silently bound with fabricated values). There is
+    no ``generate``/``draft``/``author`` method, by design.
+
+    ``listing_dataset``/``brand_package`` are additive, optionally-``None``
+    inputs (J.19): omitting one is honest only when no *selected* required
+    binding rule needs it -- Phase B fails the whole compile, never a
+    partial result, when a selected required field's source is missing.
+    The registry is an injected read-only :class:`ComponentRegistryView`
+    dependency (§15.3), not an artifact input, so tests may drive the engine
+    with reduced fixture registries.
     """
 
     @abstractmethod
@@ -126,9 +140,12 @@ class ComponentEngineInterface(ABC):
         self,
         site_architecture: SiteArchitecture,
         content_package: ContentPackage,
-    ) -> ComponentManifest:
-        """Compile a deterministic ``ComponentManifest`` from a
-        ``SiteArchitecture`` and ``ContentPackage``."""
+        listing_dataset: Optional[ListingDataset] = None,
+        brand_package: Optional[BrandPackage] = None,
+    ) -> ComponentCompilationResult:
+        """Compile a deterministic ``ComponentCompilationResult`` from a
+        ``SiteArchitecture``, ``ContentPackage``, and the optional
+        ``ListingDataset``/``BrandPackage`` Phase-B binding inputs."""
         raise NotImplementedError
 
 

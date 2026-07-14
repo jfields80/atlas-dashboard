@@ -109,6 +109,19 @@ SELECTION_FILTER_LIFECYCLE = "lifecycle"
 SELECTION_FILTER_REQUIRED_CAPABILITY = "required_capability"
 SELECTION_FILTER_COMMERCIAL_PURPOSE = "commercial_purpose"
 
+# AES-WEB-002J.19 (ADR-WEB-CONTENT-BINDING-MAP; Component Engine Phase B):
+# an additive filter stage, not one of the original §14.2 nine steps. A
+# candidate whose required content-slot/prop rules include one categorically
+# STRUCTURED_DEFERRED or SOURCE_UNAVAILABLE binding state (per the J.18 map,
+# ``components.binding_rules.is_categorically_bindable``) can never be
+# Phase-B-bound regardless of which inputs a given ``compile()`` call
+# supplies, so it is eliminated before scoring -- never a silent drop, always
+# a named elimination like every other filter here. Applied only when the
+# caller supplies a bindability predicate (``ComponentSelector.select``'s
+# optional ``bindability_check`` -- absent for every pre-J.19 caller, so
+# selection-only behavior is unchanged unless a caller opts in).
+SELECTION_FILTER_BINDABILITY = "bindability"
+
 # Additive integer scoring factors (§14.2 step 6 — "stable scoring... static
 # tables... integer arithmetic only"). SELECTION_SCORE_BRAND_PROFILE_AFFINITY
 # is reserved but never awarded in AES-WEB-002D: the registry declares no

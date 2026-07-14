@@ -602,6 +602,25 @@ class ComponentManifest(ArtifactHeader):
     selection_trace: Optional[SelectionTrace] = None
 
 
+class ComponentCompilationResult(FrozenModel):
+    """Non-artifact result of :meth:`ComponentEngineInterface.compile`
+    (AES-WEB-002J.19; ADR-WEB-CONTENT-BINDING-MAP).
+
+    Bundles the bound ``ComponentManifest`` with its companion
+    ``ContentPackage`` -- the original input blocks plus every block Phase B
+    projected from ``ListingDataset``/derived values. Deliberately **not**
+    an :class:`ArtifactHeader` subclass: it carries no ``schema_version``/
+    ``artifact_kind``/``source_hashes`` of its own and is never registered
+    in the schema catalog (``contracts/versions.py``) -- it is an internal
+    engine-call return value, not one of the AES-WEB-001 §4.1 (+ J.17)
+    artifact kinds. Both of its fields are themselves real, independently
+    valid artifacts.
+    """
+
+    component_manifest: ComponentManifest
+    content_package: ContentPackage
+
+
 # ---------------------------------------------------------------------------
 # 7. LayoutPlan — schema 1.1.0 with typed region identity and deterministic
 # grid/responsive placement (AES-WEB-001 §5.6 / Part 2 / Part 13 Phase 2
