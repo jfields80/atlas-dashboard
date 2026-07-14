@@ -129,3 +129,61 @@ PLACEHOLDER_WORD_MARKERS: Tuple[str, ...] = (
     "TODO",
     "lorem",
 )
+
+
+# ---------------------------------------------------------------------------
+# Additive editorial semantic-slot vocabulary (AES-WEB-002J.18;
+# ADR-WEB-CONTENT-BINDING-MAP).
+#
+# The expanded set of *editorial* semantic slots (constants/content_slots.py)
+# whose values are plain human-readable copy the Content Engine could honestly
+# validate as text -- declared here with deterministic length policy so a
+# future delivery (J.19+) that expands the Content Engine's accepted
+# vocabulary has the policy ready.
+#
+# IMPORTANT (behavior preservation): this block is purely additive
+# groundwork. It does NOT modify SUPPORTED_SLOT_IDS / SLOT_MIN_LENGTHS /
+# SLOT_MAX_LENGTHS / SLOTS_REQUIRING_VISIBLE_CONTENT above, so the Content
+# Engine's *current* accepted vocabulary (hero_h1, intro) and all existing
+# validation behavior are unchanged. Only slots whose semantic-vocabulary
+# entry is flat-representable editorial text appear here; structured or
+# unavailable slots (navigation, hours, ratings, tiles, ...) are deliberately
+# excluded -- they are never treated as plain RichText.
+#
+# The alias from the current physical hero_h1/intro ids to their semantic
+# names lives in constants/ia.py (IA_SLOT_TO_SEMANTIC); reproduced here as the
+# content-side view so the length policy for page_h1/page_intro reuses the
+# existing hero_h1/intro bounds exactly (no new numeric policy for aliases).
+# ---------------------------------------------------------------------------
+
+EDITORIAL_SEMANTIC_SLOTS: Tuple[str, ...] = (
+    "page_h1",
+    "page_subhead",
+    "page_intro",
+    "page_body",
+    "page_summary",
+    "page_message",
+    "listing_description",
+    "legal_text",
+    "form_disclosure",
+    "sponsorship_disclosure",
+    "footer_disclosures",
+)
+
+# Deterministic (min, max) character bounds for the additive editorial slots,
+# consistent with the Decision A10 policy shape (len(str) code points). page_h1
+# reuses the hero_h1 heading bounds; page_intro/page_body reuse the intro body
+# bounds; the remaining editorial slots get conservative, honest text bounds.
+EDITORIAL_SEMANTIC_SLOT_LENGTHS: Dict[str, Tuple[int, int]] = {
+    "page_h1": (HERO_H1_MIN_NON_WHITESPACE_CHARS, HERO_H1_MAX_CHARS),
+    "page_subhead": (1, 160),
+    "page_intro": (INTRO_MIN_CHARS, INTRO_MAX_CHARS),
+    "page_body": (INTRO_MIN_CHARS, INTRO_MAX_CHARS),
+    "page_summary": (1, 240),
+    "page_message": (1, 240),
+    "listing_description": (1, INTRO_MAX_CHARS),
+    "legal_text": (1, 240),
+    "form_disclosure": (1, 240),
+    "sponsorship_disclosure": (1, 240),
+    "footer_disclosures": (1, 240),
+}
