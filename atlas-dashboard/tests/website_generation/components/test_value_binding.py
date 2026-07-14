@@ -459,7 +459,12 @@ class TestOrchestration:
         assert token == "h1"
         assert acc.blocks() == (ContentBlock(page_route="/", slot_id="h1", text="Real headline."),)
 
-    def test_bind_ref_prop_generates_deterministic_slot_id(self):
+    def test_bind_ref_prop_generates_listing_aware_slot_id(self):
+        # AES-WEB-002J.20 supersedes the AES-WEB-002J.19 positional
+        # bind.<semantic>.<component_index> form for LISTING_DATASET-sourced
+        # refs: once a listing is actually resolved, the generated id is
+        # listing-aware (stable under reordering, safely shareable across
+        # components referencing the same listing) rather than index-based.
         rule = _rule("listing.card.standard", "PROP_REF", "listing_ref")
         ds = _dataset(listings=(_listing(),))
         scope = cproj.resolve_route_scope("/hotels/", ds)
@@ -468,8 +473,59 @@ class TestOrchestration:
             rule, "listing_ref", "/hotels/", 3,
             content_index={}, listing_dataset=ds, route_scope=scope, projection=acc,
         )
-        assert value == "bind.listing_name.3"
+        assert value == "bind.listing_name.lakeview-lodge"
         assert acc.blocks()[0].text == "Lakeview Lodge"
+
+    def test_bind_ref_prop_explicit_assigned_listing_overrides_route_scope(self):
+        # AES-WEB-002J.20: an explicit assigned_listing (repetition) wins
+        # over the J.19 route-scope fallback -- proving each repeated
+        # instance can bind its own record independent of the route's
+        # implicit single-listing assignment.
+        rule = _rule("listing.card.standard", "PROP_REF", "listing_ref")
+        route_listing = _listing(listing_id="route-listing", slug="route-listing")
+        other_listing = _listing(
+            listing_id="other-listing", slug="other-listing", business_name="Other Business",
+        )
+        ds = _dataset(listings=(route_listing, other_listing))
+        scope = cproj.resolve_route_scope("/hotels/", ds)  # resolves route_listing (first match)
+        acc = cproj.ProjectionAccumulator()
+        value = cproj.bind_ref_prop(
+            rule, "listing_ref", "/hotels/", 0,
+            content_index={}, listing_dataset=ds, route_scope=scope, projection=acc,
+            assigned_listing=other_listing,
+        )
+        assert value == "bind.listing_name.other-listing"
+        assert acc.blocks()[0].text == "Other Business"
+
+    def test_bind_ref_prop_retains_index_based_id_for_non_listing_source(self):
+        # AES-WEB-002J.20 operator decision: the listing-aware
+        # bind.<semantic>.<listing_id> id form applies only to
+        # LISTING_DATASET-sourced ref projections. A CONTENT_PACKAGE-sourced
+        # ref prop (no registered catalog component currently has one that
+        # is FULLY_BINDABLE, so a synthetic rule exercises the branch
+        # directly) must still generate the J.19 positional
+        # bind.<semantic>.<component_index> form -- unchanged.
+        from engines.website_generation.components.binding_rules import (
+            BindingRule,
+            BindingState,
+            FieldKind,
+        )
+
+        rule = BindingRule(
+            component_id="synthetic.component", field_kind=FieldKind.PROP_REF,
+            field_name="heading_ref", semantic_slot="page_h1", expected_type="CONTENT_BLOCK_REF",
+            required=True, binding_state=BindingState.FULLY_BINDABLE,
+            source_rule="ContentPackage:hero_h1",
+        )
+        index = {("/", "hero_h1"): ("Real headline.",)}
+        acc = cproj.ProjectionAccumulator()
+        value = cproj.bind_ref_prop(
+            rule, "heading_ref", "/", 2,
+            content_index=index, listing_dataset=None,
+            route_scope=cproj.RouteScope(None, None, None), projection=acc,
+        )
+        assert value == "bind.page_h1.2"
+        assert acc.blocks()[0].text == "Real headline."
 
     def test_bind_content_slot_missing_listing_fails_honestly(self):
         rule = _rule("profile.header.business", "CONTENT_SLOT", "name")

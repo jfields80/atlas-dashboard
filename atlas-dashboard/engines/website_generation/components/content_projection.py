@@ -15,8 +15,16 @@ module produces exactly what that convention already expects, nothing new:
   block directly when the names already match (e.g. ``intro`` -> ``intro``).
 * **``CONTENT_BLOCK_REF``/``LISTING_REF`` props**: the Renderer looks up
   ``content_index[(route, instance.props[prop_name])]`` -- the prop's own
-  *value* is the lookup key, so Phase B is free to choose it. It uses the
-  deterministic generated id ``bind.<semantic_slot>.<component_index>``.
+  *value* is the lookup key, so Phase B is free to choose it. For a
+  ``LISTING_DATASET``-sourced semantic slot whose listing is actually known
+  (an explicit AES-WEB-002J.20 repetition assignment, or the J.19
+  route-scope fallback), the generated id is the listing-aware
+  ``bind.<semantic_slot>.<listing_id>`` -- stable under listing reordering
+  and safely idempotent when the same listing is referenced by more than one
+  component on a route (identical text at an identical key, never a
+  collision). Every other projection (no listing resolved, or a
+  non-``LISTING_DATASET`` source) keeps the J.19 positional
+  ``bind.<semantic_slot>.<component_index>`` form.
 
 Route scope (category/listing identity) is resolved by an **exact,
 deterministic route-string convention** documented in
@@ -147,6 +155,19 @@ def generated_slot_id(semantic_slot: str, component_index: int) -> str:
     scoped-by-construction since ``component_index`` is unique per page;
     no UUID/clock/random/address)."""
     return "bind.%s.%d" % (semantic_slot, component_index)
+
+
+def generated_listing_slot_id(semantic_slot: str, listing_id: str) -> str:
+    """``bind.<semantic_slot>.<listing_id>`` (AES-WEB-002J.20). Deterministic
+    and stable under listing reordering -- ``listing_id``'s grammar
+    (``^[a-z0-9]+(-[a-z0-9]+)*$``, ADR-WEB-LISTING-DATASET) contains no dots,
+    so the three-segment id remains unambiguous to parse. The same
+    ``(semantic_slot, listing_id)`` pair always yields the same id
+    regardless of which component instance or page position references it,
+    which is what makes cross-component reuse of one listing's projected
+    block an idempotent no-op (:class:`ProjectionAccumulator`) rather than a
+    collision."""
+    return "bind.%s.%s" % (semantic_slot, listing_id)
 
 
 # --------------------------------------------------------------------------- #
@@ -318,11 +339,22 @@ def _resolve_semantic_text(
     content_index: Dict[Tuple[str, str], Tuple[str, ...]],
     listing_dataset: Optional[ListingDataset],
     route_scope: RouteScope,
-) -> str:
+    assigned_listing: Optional[ListingRecord] = None,
+) -> Tuple[str, Optional[str]]:
     """Resolve the text a rule's semantic slot projects to, dispatching on
     the slot's declared ``source_owner`` -- the one place binding failures
     for content/ref fields converge, per §14.2's centralized-failure
-    discipline."""
+    discipline.
+
+    Returns ``(text, listing_id)`` -- ``listing_id`` is the resolved
+    listing's id when ``source_owner`` is ``LISTING_DATASET`` (AES-WEB-002J.20:
+    the caller uses it for a listing-aware generated slot id), or ``None``
+    for every other source. ``assigned_listing`` (J.20 repetition) takes
+    precedence over the J.19 single-listing route-scope fallback
+    (:func:`assign_listing`) when supplied -- this is what lets each
+    repeated instance bind to its own record rather than all sharing the
+    route's one implicit listing.
+    """
     semantic = SEMANTIC_SLOTS.get(rule.semantic_slot)
     if semantic is None:
         raise UnboundContentField(
@@ -330,10 +362,12 @@ def _resolve_semantic_text(
         )
 
     if semantic.source_owner is SourceOwner.CONTENT_PACKAGE:
-        return resolve_existing_content(rule, route, content_index)
+        return resolve_existing_content(rule, route, content_index), None
 
     if semantic.source_owner is SourceOwner.LISTING_DATASET:
-        listing = assign_listing(route_scope, listing_dataset)
+        listing = assigned_listing if assigned_listing is not None else assign_listing(
+            route_scope, listing_dataset
+        )
         if listing is None:
             raise UnboundContentField(
                 field_name, "missing_listing: no listing resolved for route %r" % route
@@ -344,7 +378,7 @@ def _resolve_semantic_text(
                 field_name,
                 "missing_source_artifact: listing has no value for %r" % rule.semantic_slot,
             )
-        return text
+        return text, listing.listing_id
 
     if semantic.source_owner is SourceOwner.DERIVED:
         text = project_derived_value(rule.semantic_slot, route_scope, listing_dataset)
@@ -352,7 +386,7 @@ def _resolve_semantic_text(
             raise UnboundContentField(
                 field_name, "missing_source_artifact: cannot derive %r" % rule.semantic_slot
             )
-        return text
+        return text, None
 
     if semantic.source_owner is SourceOwner.BUSINESS_SPEC:
         # compile() takes no BusinessSpec input in J.19 (operator decision) --
@@ -387,7 +421,7 @@ def bind_content_slot(
     an identical pre-existing block verbatim, projecting a new one when
     none exists, or raising :class:`ProjectedSlotCollision` when a
     pre-existing block at that exact key carries different text."""
-    text = _resolve_semantic_text(
+    text, _listing_id = _resolve_semantic_text(
         rule, field_name, route,
         content_index=content_index, listing_dataset=listing_dataset, route_scope=route_scope,
     )
@@ -412,14 +446,28 @@ def bind_ref_prop(
     listing_dataset: Optional[ListingDataset],
     route_scope: RouteScope,
     projection: ProjectionAccumulator,
+    assigned_listing: Optional[ListingRecord] = None,
 ) -> str:
     """Resolve and project one ``CONTENT_BLOCK_REF``/``LISTING_REF`` prop.
     Returns the generated slot id -- the prop's own bound *value* -- after
-    ensuring a ``ContentBlock`` exists at ``(route, generated_slot_id)``."""
-    text = _resolve_semantic_text(
+    ensuring a ``ContentBlock`` exists at that id.
+
+    ``assigned_listing`` (AES-WEB-002J.20 repetition) takes precedence over
+    the J.19 route-scope fallback; when a listing is actually resolved for a
+    ``LISTING_DATASET``-sourced slot, the generated id is the listing-aware
+    ``bind.<semantic_slot>.<listing_id>`` rather than the positional
+    ``bind.<semantic_slot>.<component_index>`` -- stable under reordering
+    and safely shareable across components referencing the same listing.
+    """
+    text, listing_id = _resolve_semantic_text(
         rule, field_name, route,
         content_index=content_index, listing_dataset=listing_dataset, route_scope=route_scope,
+        assigned_listing=assigned_listing,
     )
-    slot_id = generated_slot_id(rule.semantic_slot, component_index)
+    slot_id = (
+        generated_listing_slot_id(rule.semantic_slot, listing_id)
+        if listing_id is not None
+        else generated_slot_id(rule.semantic_slot, component_index)
+    )
     projection.add(route, slot_id, text)
     return slot_id

@@ -186,6 +186,22 @@ def _listing_dataset():
     )
 
 
+def _listing_dataset_with_related():
+    """AES-WEB-002J.20: :func:`_listing_dataset` plus one companion listing
+    in the same category, so business-profile's ``related_listings`` slot
+    (``exclude_self=True``) has a real non-self match to expand into a
+    ``listing.card.standard`` instance -- a single-listing dataset legally
+    yields zero related instances (§14 min_items=0), which is exactly what
+    :func:`_listing_dataset` alone now proves elsewhere in this file."""
+    base = _listing_dataset()
+    companion = base.listings[0].copy(update={
+        "listing_id": "riverside-inn",
+        "slug": "riverside-inn",
+        "business_name": "Riverside Inn",
+    })
+    return base.copy(update={"listings": base.listings + (companion,)})
+
+
 # --------------------------------------------------------------------------- #
 # Public surface + version
 # --------------------------------------------------------------------------- #
@@ -195,10 +211,10 @@ class TestPublicSurfaceAndVersion:
         assert issubclass(ComponentEngine, ComponentEngineInterface)
 
     def test_version_pinned(self):
-        # AES-WEB-002J.19: 1.0.0 -> 1.1.0 (Phase-B binding is a §5.5
-        # behavior change; see contracts/versions.py).
+        # AES-WEB-002J.19: 1.0.0 -> 1.1.0 (Phase-B binding). AES-WEB-002J.20:
+        # 1.1.0 -> 1.2.0 (listing repetition; see contracts/versions.py).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.1.0"
+        assert ComponentEngine.version == "1.2.0"
 
     def test_compile_returns_component_compilation_result(self):
         result = ComponentEngine().compile(
@@ -232,48 +248,77 @@ class TestGoldenRealCatalog:
             "layout.grid.standard",
         ]
 
-    def test_category_recipe_honestly_fails_pagination_unbindable(self):
-        # AES-WEB-002J.19 finding (J.19 architectural preflight §17/§28): the
-        # category recipe's "pagination" and "zero_results" slots are both
-        # required with NO declared fallback, and their only real candidates
+    def test_category_recipe_succeeds_via_honest_pagination_fallback(self):
+        # AES-WEB-002J.19 found (preflight §17/§28) that the category
+        # recipe's "pagination" and "zero_results" slots were both required
+        # with NO declared fallback, and their only real candidates
         # (nav.pagination.standard: page_context is SOURCE_UNAVAILABLE;
-        # status.results.zero: recovery_links is STRUCTURED_DEFERRED) are
-        # both categorically unbindable. No amount of supplied content,
-        # listing data, or brand data changes this -- it is an architectural
-        # gap, not a data gap -- so the category recipe cannot fully bind
-        # until a future sprint adds a source for one of those two fields.
+        # status.results.zero: recovery_links is STRUCTURED_DEFERRED) were
+        # both categorically unbindable -- an architectural gap, not a data
+        # gap, that made every category-page compile fail before Phase B
+        # ever ran.
         #
-        # The selector's pre-J.19 fail-fast-per-page behavior (unchanged by
-        # J.19: a required slot with no survivor raises immediately, See
-        # ComponentSelector._select_slot's step 9) means only the *first*
-        # unfillable required slot in the recipe's declared order actually
-        # surfaces per attempt -- "pagination" precedes "zero_results" in
-        # CATEGORY_RECIPE_SLOTS, so it is the one observed here. Because the
-        # whole page's selection fails before Phase B ever runs, none of the
-        # page's other components (including hero.local.standard) are
-        # attempted -- this is a selection-level failure, reported under
-        # "unresolved_required_slots", not a Phase-B binding failure.
-        with pytest.raises(ComponentResolutionError) as exc:
-            ComponentEngine().compile(
-                _sa([_CATEGORY_PAGE]),
-                _cp([
-                    ContentBlock(page_route="/c/vets", slot_id="hero_h1", text="Pet-friendly vets"),
-                    ContentBlock(page_route="/c/vets", slot_id="intro", text="Vets that welcome your pets warmly."),
-                ]),
-                listing_dataset=_listing_dataset(),
-                brand_package=_brand(),
+        # AES-WEB-002J.20 operator decision authorizes a structural fallback
+        # (fallback_component_id="layout.stack.standard") on exactly those
+        # two slots -- NOT a fabricated pagination or zero-state component,
+        # just a guaranteed-satisfiable placeholder, identical in kind to
+        # the pre-existing filters/sort/results_summary fallbacks. This test
+        # proves that fallback is honest (the chosen component really is
+        # the generic stack primitive, not something pretending to be real
+        # pagination/zero-state UI) and that a category page with real
+        # listing data now compiles end-to-end, with listing_cards expanded
+        # into one listing.card.standard instance per matching listing
+        # (the P2 repetition proof, at the unit level).
+        category = ListingCategory(category_id="cat-vets", label="Vets", slug="vets")
+        listings = tuple(
+            ListingRecord(
+                listing_id="vet-clinic-%d" % i,
+                business_name="Vet Clinic %d" % i,
+                slug="vet-clinic-%d" % i,
+                category_id="cat-vets",
             )
-        diagnostics = exc.value.diagnostics
-        assert "unresolved_required_slots" in diagnostics
-        entry = diagnostics["unresolved_required_slots"][0]
-        assert entry["route"] == "/c/vets"
-        assert entry["diagnostics"]["slot_id"] == "/c/vets#pagination"
-        # Every candidate that reached the pool was eliminated -- naming
-        # nav.pagination.standard (the real, categorically-unbindable
-        # candidate) among them proves this is the expected architectural
-        # gap, not an unrelated selection bug.
-        eliminated_ids = {c["component_id"] for c in entry["diagnostics"]["candidates"]}
-        assert "nav.pagination.standard" in eliminated_ids
+            for i in range(1, 4)
+        )
+        dataset = ListingDataset(
+            schema_version=SCHEMA_VERSIONS[ArtifactKind.LISTING_DATASET],
+            artifact_kind=ArtifactKind.LISTING_DATASET,
+            source_hashes={},
+            listings=listings,
+            categories=(category,),
+            locations=(),
+        )
+        category_page = PagePlan(route="/vets/", page_type="category", title="Vets")
+        result = ComponentEngine().compile(
+            _sa([category_page]),
+            _cp([
+                ContentBlock(page_route="/vets/", slot_id="hero_h1", text="Pet-friendly vets"),
+                ContentBlock(page_route="/vets/", slot_id="intro", text="Vets that welcome your pets warmly."),
+            ]),
+            listing_dataset=dataset,
+            brand_package=_brand(),
+        )
+        page = _page(result.component_manifest, "/vets/")
+
+        # The fallback candidate really is the generic stack primitive, at
+        # both the instance level and the recorded selection-trace level --
+        # never a fabricated "fake pagination"/"fake zero-state" component.
+        pagination_trace = next(
+            t for t in result.component_manifest.selection_trace.slots
+            if t.slot_id == "/vets/#pagination"
+        )
+        zero_results_trace = next(
+            t for t in result.component_manifest.selection_trace.slots
+            if t.slot_id == "/vets/#zero_results"
+        )
+        assert pagination_trace.chosen_component_id == "layout.stack.standard"
+        assert zero_results_trace.chosen_component_id == "layout.stack.standard"
+
+        # listing_cards repeats: one listing.card.standard instance per
+        # matching listing, in ListingDataset tuple order (§14, no sorting).
+        cards = [i for i in page.components if i.component_id == "listing.card.standard"]
+        assert len(cards) == 3
+        bound_listing_ids = [c.props["listing_ref"].split(".")[-1] for c in cards]
+        assert bound_listing_ids == ["vet-clinic-1", "vet-clinic-2", "vet-clinic-3"]
 
     def test_manifest_header_and_provenance(self):
         sa, cp, brand = _sa([_HOME_PAGE]), _cp(_home_blocks()), _brand()
@@ -287,6 +332,7 @@ class TestGoldenRealCatalog:
             "content_package": artifact_sha256(cp),
             "brand_package": artifact_sha256(brand),
             "binding_map_version": "1.0.0",
+            "composition_rules_version": "1.0.0",
         }
 
     def test_content_refs_populated_when_bindable(self):
@@ -362,18 +408,30 @@ class TestSelectionTrace:
         assert all("#" in sid for sid in slot_ids)
 
     def test_trace_chosen_matches_instances(self):
+        # AES-WEB-002J.20: one selection decision may now expand into N
+        # concrete instances (repetition), so the trace's per-slot chosen
+        # ids no longer map 1:1 onto manifest instances by position -- the
+        # truthful invariant is set equality (every chosen id is realized by
+        # at least one instance; no instance names a component the trace
+        # never chose), never a fake duplicated selection decision.
         result = ComponentEngine().compile(
             _sa([_BUSINESS_PROFILE_PAGE]), _cp(),
-            listing_dataset=_listing_dataset(), brand_package=_brand(),
+            listing_dataset=_listing_dataset_with_related(), brand_package=_brand(),
         )
         manifest = result.component_manifest
         page = _page(manifest, "/hotels/lakeview-lodge/")
-        chosen = [
+        chosen_ids = {
             s.chosen_component_id
             for s in manifest.selection_trace.slots
             if s.slot_id.startswith("/hotels/lakeview-lodge/#") and s.chosen_component_id
-        ]
-        assert chosen == _ids(page)
+        }
+        instance_ids = {inst.component_id for inst in page.components}
+        assert chosen_ids == instance_ids
+        # related_listings (repeatable) expanded to exactly one instance here
+        # (2 listings, 1 excluded as self -- see _listing_dataset_with_related).
+        assert sum(
+            1 for i in page.components if i.component_id == "listing.card.standard"
+        ) == 1
 
     def test_trace_records_score_and_tiebreak(self):
         result = ComponentEngine().compile(
@@ -458,20 +516,23 @@ class TestPropBinding:
         # AES-WEB-002J.19 supersedes the AES-WEB-002J.6 "left unbound" scope
         # this test used to pin. listing.card.standard's listing_ref
         # (LISTING_REF) and density (STR_ENUM) are now both bound.
+        # AES-WEB-002J.20: related_listings excludes the page's own listing
+        # (Lakeview Lodge), so the one expanded card binds to the companion
+        # listing (Riverside Inn) via a listing-aware generated slot id.
         result = ComponentEngine().compile(
             _sa([_BUSINESS_PROFILE_PAGE]), _cp(),
-            listing_dataset=_listing_dataset(), brand_package=_brand(),
+            listing_dataset=_listing_dataset_with_related(), brand_package=_brand(),
         )
         card = next(
             inst for inst in _page(result.component_manifest, "/hotels/lakeview-lodge/").components
             if inst.component_id == "listing.card.standard"
         )
         assert card.props["density"] in ("comfortable", "compact")
-        assert card.props["listing_ref"].startswith("bind.listing_name.")
+        assert card.props["listing_ref"] == "bind.listing_name.riverside-inn"
         block = next(
             b for b in result.content_package.blocks if b.slot_id == card.props["listing_ref"]
         )
-        assert block.text == "Lakeview Lodge"
+        assert block.text == "Riverside Inn"
 
     def test_unbindable_required_role_prop_is_compile_error(self):
         # §5.5: an unbound required prop is a compile error *here*. Craft a
@@ -643,4 +704,5 @@ class TestEdgeCases:
         result = ComponentEngine().compile(_sa([]), _cp())
         assert set(result.component_manifest.source_hashes) == {
             "site_architecture", "content_package", "binding_map_version",
+            "composition_rules_version",
         }

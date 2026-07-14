@@ -402,7 +402,15 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": ("page_context",),
         "required_slot_names": (),
         "monetization_eligible": False,
-        "fallback_component_id": "",
+        # AES-WEB-002J.20: a structural fallback only (mirrors filters/sort/
+        # results_summary above) -- nav.pagination.standard's page_context is
+        # categorically SOURCE_UNAVAILABLE (no pagination source exists yet,
+        # J.16-J.19), so without a fallback this required slot was
+        # unconditionally unresolvable and the category recipe could never
+        # compile. layout.stack.standard renders an empty structural
+        # container; it does not fabricate pagination controls or claim
+        # pagination behavior exists.
+        "fallback_component_id": "layout.stack.standard",
         "required": True,  # §26.2 "(paginated)"; nav.pagination.standard is Wave 2
     },
     {
@@ -435,7 +443,13 @@ CATEGORY_RECIPE_SLOTS = (
         "required_prop_names": (),
         "required_slot_names": ("message", "recovery_links"),
         "monetization_eligible": False,
-        "fallback_component_id": "",
+        # AES-WEB-002J.20: a structural fallback only (mirrors pagination
+        # above) -- status.results.zero's recovery_links is categorically
+        # STRUCTURED_DEFERRED (LinkSpec label+href, J.16-J.19), so without a
+        # fallback this required slot was unconditionally unresolvable.
+        # layout.stack.standard renders an empty structural container; it
+        # does not fabricate zero-state messaging or recovery links.
+        "fallback_component_id": "layout.stack.standard",
         "required": True,  # §26.2 "zero-results state mandatory"
     },
 )

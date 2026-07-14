@@ -194,14 +194,26 @@ class TestForbiddenScope:
         assert not any("local_demo_site" in m for m in imported_modules)
         assert not any("generate_local_demo_site" in m for m in imported_modules)
 
-    def test_category_role_still_honestly_unbindable(self):
-        # Explicit negative proof, so this delivery never silently claims
-        # more than it proves: the category recipe (unlike home/
-        # business-profile) still cannot fully bind -- see
-        # test_component_engine.py::TestGoldenRealCatalog::
-        # test_category_recipe_honestly_fails_pagination_unbindable for the
-        # detailed assertion; this is a lightweight cross-check only.
-        from engines.website_generation.contracts.artifacts import PagePlan, SiteArchitecture
+    def test_category_role_still_honestly_fails_for_an_unmatched_category(self):
+        # AES-WEB-002J.19 found the category recipe unconditionally
+        # unbindable (pagination/zero_results required, no fallback, both
+        # categorically unbindable). AES-WEB-002J.20's operator-authorized
+        # recipe amendment (a structural fallback on exactly those two
+        # slots) changed that -- see test_component_engine.py::
+        # TestGoldenRealCatalog::
+        # test_category_recipe_succeeds_via_honest_pagination_fallback for
+        # the now-succeeding proof with a real, matching category.
+        #
+        # This fixture's ListingDataset only has a "hotels" category, so a
+        # route naming an unrelated category slug still fails honestly --
+        # now for the true reason (listing_cards' repetition rule cannot
+        # resolve any matching category for the route), not the old
+        # pagination architectural gap.
+        from engines.website_generation.contracts.artifacts import (
+            ContentBlock,
+            PagePlan,
+            SiteArchitecture,
+        )
         from engines.website_generation.contracts.artifacts import ContentPackage as CP
         from engines.website_generation.contracts.enums import ArtifactKind as AK
         from engines.website_generation.contracts.errors import ComponentResolutionError
@@ -210,11 +222,20 @@ class TestForbiddenScope:
         fixture = build_binding_fixture_inputs()
         sa = SiteArchitecture(
             schema_version=SV[AK.SITE_ARCHITECTURE], artifact_kind=AK.SITE_ARCHITECTURE,
-            source_hashes={}, pages=(PagePlan(route="/c/vets", page_type="category", title=""),),
-            nav_routes=(), sitemap_routes=("/c/vets",),
+            source_hashes={}, pages=(PagePlan(route="/vets/", page_type="category", title=""),),
+            nav_routes=(), sitemap_routes=("/vets/",),
         )
-        cp = CP(schema_version=SV[AK.CONTENT_PACKAGE], artifact_kind=AK.CONTENT_PACKAGE, source_hashes={}, blocks=())
-        with pytest.raises(ComponentResolutionError):
+        cp = CP(
+            schema_version=SV[AK.CONTENT_PACKAGE], artifact_kind=AK.CONTENT_PACKAGE, source_hashes={},
+            blocks=(
+                ContentBlock(page_route="/vets/", slot_id="hero_h1", text="Pet-friendly vets"),
+                ContentBlock(page_route="/vets/", slot_id="intro", text="Vets that welcome pets."),
+            ),
+        )
+        with pytest.raises(ComponentResolutionError) as exc:
             ComponentEngine().compile(
                 sa, cp, listing_dataset=fixture.listing_dataset, brand_package=fixture.brand_package,
             )
+        failures = exc.value.diagnostics["repetition_failures"]
+        entry = next(f for f in failures if f["recipe_slot_id"] == "listing_cards")
+        assert "repeat_scope_unresolved" in entry["reason"]

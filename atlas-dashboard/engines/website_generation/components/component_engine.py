@@ -63,6 +63,20 @@ engine): if any page fails to resolve its recipe, or any selected instance
 fails to bind any required field, **no** ``ComponentCompilationResult`` is
 ever returned -- one ``ComponentResolutionError`` names every failure across
 every page in one deterministic, sorted diagnostics dict.
+
+Repetition (AES-WEB-002J.20; ADR-WEB-CONTENT-BINDING-MAP). A third step sits
+between Phase A and Phase B: once a recipe slot's component definition is
+selected, ``components.composition_rules.repetition_rule_for(page_role,
+recipe_slot_id)`` decides whether it is emitted once (no rule -- the J.19
+default, unchanged byte-for-byte) or expanded into one concrete instance per
+matching ``ListingRecord`` (a rule present). Expansion never changes *which*
+definition Phase A chose, never invents a fallback, and never touches
+Layout/Renderer, which remain unaware repetition exists -- they see only the
+resulting flat, ordered list of ``ComponentInstance``s, exactly as they
+already handle any other multi-instance page. Each expanded instance is
+bound independently in Phase B against its own assigned listing (never a
+shared, route-wide assignment); one repeated item's binding failure
+batch-fails the whole compile, same as any other instance.
 """
 
 from __future__ import annotations
@@ -83,6 +97,7 @@ from engines.website_generation.contracts.artifacts import (
     ComponentManifest,
     ContentPackage,
     ListingDataset,
+    ListingRecord,
     PageComponents,
     SelectionTrace,
     SiteArchitecture,
@@ -116,6 +131,11 @@ from engines.website_generation.components.binding_rules import (
     BINDING_RULES_BY_KEY,
     FieldKind,
     is_categorically_bindable,
+)
+from engines.website_generation.components.composition_rules import (
+    COMPOSITION_RULES_VERSION,
+    RepetitionRule,
+    repetition_rule_for,
 )
 from engines.website_generation.components.value_binding import (
     UnboundLiteralProp,
@@ -152,6 +172,7 @@ _DIAGNOSTIC_BUCKET_ORDER = (
     "unbindable_required_props",
     "unbindable_required_content",
     "projected_slot_collisions",
+    "repetition_failures",
 )
 
 
@@ -219,6 +240,7 @@ class ComponentEngine(ComponentEngineInterface):
         unbindable_props: List[Dict[str, str]] = []
         unbindable_content: List[Dict[str, str]] = []
         collisions: List[Dict[str, str]] = []
+        repetition_failures: List[Dict[str, str]] = []
 
         for page in site_architecture.pages:
             recipe = RECIPE_SLOTS_BY_PAGE_ROLE.get(page.page_type)
@@ -246,51 +268,102 @@ class ComponentEngine(ComponentEngineInterface):
             trace_slots.extend(trace.slots)
             route_scope = resolve_route_scope(page.route, listing_dataset)
             instances: List[ComponentInstance] = []
-            for slot_trace in trace.slots:
+            for slot, slot_trace in zip(recipe, trace.slots):
                 if not slot_trace.chosen_component_id:
                     continue  # optional slot dropped, silently but traced (§26)
                 definition = registry.get(
                     slot_trace.chosen_component_id, slot_trace.chosen_component_version
                 )
-                component_index = len(instances)
-                props, content_refs, failures = self._bind_instance(
-                    definition,
-                    role=role,
-                    route=page.route,
-                    component_index=component_index,
-                    site_architecture=site_architecture,
-                    content_index=content_index,
-                    listing_dataset=listing_dataset,
-                    brand_package=brand_package,
-                    route_scope=route_scope,
-                    projection=projection,
-                )
-                for failure in failures:
-                    bucket, entry = failure
-                    entry = dict(entry)
-                    entry["route"] = page.route
-                    if bucket == "prop":
-                        unbindable_props.append(entry)
-                    elif bucket == "content":
-                        unbindable_content.append(entry)
-                    else:
-                        collisions.append(entry)
-                if failures:
-                    continue
-                instances.append(
-                    ComponentInstance(
-                        component_id=slot_trace.chosen_component_id,
-                        component_version=slot_trace.chosen_component_version,
-                        props=props,
-                        content_refs=tuple(content_refs),
+
+                rule = repetition_rule_for(role.value, slot["slot_id"])
+                if rule is None:
+                    # No repetition rule for this recipe slot: exactly the
+                    # J.19 single-instance path, unchanged byte-for-byte.
+                    assignments: List[Optional[ListingRecord]] = [None]
+                else:
+                    matches = self._resolve_repetition_matches(
+                        rule, route_scope, listing_dataset
                     )
-                )
+                    if matches is None:
+                        repetition_failures.append({
+                            "route": page.route,
+                            "component_id": slot_trace.chosen_component_id,
+                            "recipe_slot_id": slot["slot_id"],
+                            "reason": (
+                                "repeat_scope_unresolved: no category resolved "
+                                "for route %r" % page.route
+                            ),
+                        })
+                        continue
+                    if len(matches) < rule.min_items:
+                        repetition_failures.append({
+                            "route": page.route,
+                            "component_id": slot_trace.chosen_component_id,
+                            "recipe_slot_id": slot["slot_id"],
+                            "reason": (
+                                "no_matching_items: %d matched, minimum %d required"
+                                % (len(matches), rule.min_items)
+                            ),
+                        })
+                        continue
+                    if rule.max_items is not None and len(matches) > rule.max_items:
+                        repetition_failures.append({
+                            "route": page.route,
+                            "component_id": slot_trace.chosen_component_id,
+                            "recipe_slot_id": slot["slot_id"],
+                            "reason": (
+                                "repeat_limit_exceeded: %d matched, maximum %d allowed"
+                                % (len(matches), rule.max_items)
+                            ),
+                        })
+                        continue
+                    # RepetitionOrdering.DATASET_ORDER: ListingDataset tuple
+                    # order preserved verbatim -- never re-sorted (§7/ADR-
+                    # WEB-LISTING-DATASET "producers sort, artifacts preserve").
+                    assignments = list(matches)
+
+                for assigned_listing in assignments:
+                    component_index = len(instances)
+                    props, content_refs, failures = self._bind_instance(
+                        definition,
+                        role=role,
+                        route=page.route,
+                        component_index=component_index,
+                        site_architecture=site_architecture,
+                        content_index=content_index,
+                        listing_dataset=listing_dataset,
+                        brand_package=brand_package,
+                        route_scope=route_scope,
+                        projection=projection,
+                        assigned_listing=assigned_listing,
+                    )
+                    for failure in failures:
+                        bucket, entry = failure
+                        entry = dict(entry)
+                        entry["route"] = page.route
+                        if bucket == "prop":
+                            unbindable_props.append(entry)
+                        elif bucket == "content":
+                            unbindable_content.append(entry)
+                        else:
+                            collisions.append(entry)
+                    if failures:
+                        continue
+                    instances.append(
+                        ComponentInstance(
+                            component_id=slot_trace.chosen_component_id,
+                            component_version=slot_trace.chosen_component_version,
+                            props=props,
+                            content_refs=tuple(content_refs),
+                        )
+                    )
             page_components.append(
                 PageComponents(route=page.route, components=tuple(instances))
             )
 
         diagnostics = self._collect_diagnostics(
-            unsupported, unresolved, unbindable_props, unbindable_content, collisions
+            unsupported, unresolved, unbindable_props, unbindable_content,
+            collisions, repetition_failures,
         )
         if diagnostics:
             raise ComponentResolutionError(
@@ -303,6 +376,7 @@ class ComponentEngine(ComponentEngineInterface):
             "site_architecture": artifact_sha256(site_architecture),
             "content_package": artifact_sha256(content_package),
             "binding_map_version": BINDING_MAP_VERSION,
+            "composition_rules_version": COMPOSITION_RULES_VERSION,
         }
         if listing_dataset is not None:
             source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
@@ -341,13 +415,20 @@ class ComponentEngine(ComponentEngineInterface):
         brand_package: Optional[BrandPackage],
         route_scope,
         projection: ProjectionAccumulator,
+        assigned_listing: Optional[ListingRecord] = None,
     ) -> Tuple[Dict[str, str], List[str], List[Tuple[str, Dict[str, str]]]]:
         """Bind every required prop and content slot of one selected
         instance. Returns ``(props, content_refs, failures)`` --
         ``failures`` is empty on success; the caller discards ``props``/
         ``content_refs`` and records each failure when non-empty (batch
         discipline: a partially-bound instance never becomes a
-        ``ComponentInstance``)."""
+        ``ComponentInstance``).
+
+        ``assigned_listing`` (AES-WEB-002J.20 repetition) is threaded to
+        every ``LISTING_REF``/``CONTENT_BLOCK_REF`` prop binding, taking
+        precedence there over the J.19 route-scope fallback -- this is what
+        lets each expanded instance bind to its own record. ``None`` (every
+        non-repeated call site) reproduces J.19 behavior exactly."""
         props: Dict[str, str] = {}
         content_refs: List[str] = []
         failures: List[Tuple[str, Dict[str, str]]] = []
@@ -376,6 +457,7 @@ class ComponentEngine(ComponentEngineInterface):
                         listing_dataset=listing_dataset,
                         route_scope=route_scope,
                         projection=projection,
+                        assigned_listing=assigned_listing,
                     )
                 else:
                     value = bind_literal_prop(
@@ -440,6 +522,41 @@ class ComponentEngine(ComponentEngineInterface):
 
         return props, content_refs, failures
 
+    # -- Repetition: resolve one rule's matching ListingRecords -------------
+
+    @staticmethod
+    def _resolve_repetition_matches(
+        rule: RepetitionRule,
+        route_scope,
+        listing_dataset: Optional[ListingDataset],
+    ) -> Optional[List[ListingRecord]]:
+        """The ordered, filtered list of listings a repetition rule matches
+        on this page, or ``None`` when the route's scope cannot be resolved
+        at all (no dataset supplied, or the route names no category --
+        ``repeat_scope_unresolved``, distinct from a real, resolvable
+        category that simply has zero/too-few/too-many matching listings).
+
+        Exact, deterministic matching only (§7 ADR-WEB-LISTING-DATASET
+        route convention, already applied by ``resolve_route_scope``): a
+        listing matches when its ``category_id`` equals the resolved
+        category's, minus the hosting page's own listing when
+        ``rule.exclude_self`` and the route resolves one (a no-op on
+        category routes, which resolve no ``route_scope.listing``).
+        Dataset tuple order is preserved verbatim -- never re-sorted.
+        """
+        if listing_dataset is None or route_scope.category is None:
+            return None
+        return [
+            listing
+            for listing in listing_dataset.listings
+            if listing.category_id == route_scope.category.category_id
+            and not (
+                rule.exclude_self
+                and route_scope.listing is not None
+                and listing.listing_id == route_scope.listing.listing_id
+            )
+        ]
+
     @staticmethod
     def _build_content_index(
         content_package: ContentPackage,
@@ -490,6 +607,7 @@ class ComponentEngine(ComponentEngineInterface):
         unbindable_props: List[Dict[str, str]],
         unbindable_content: List[Dict[str, str]],
         collisions: List[Dict[str, str]],
+        repetition_failures: List[Dict[str, str]],
     ) -> Dict[str, Any]:
         """Assemble the deterministically ordered, deterministically sorted
         batch-failure diagnostics (empty dict => success)."""
@@ -516,6 +634,11 @@ class ComponentEngine(ComponentEngineInterface):
             diagnostics["projected_slot_collisions"] = sorted(
                 collisions,
                 key=lambda item: (item["route"], item["component_id"], item["slot_id"]),
+            )
+        if repetition_failures:
+            diagnostics["repetition_failures"] = sorted(
+                repetition_failures,
+                key=lambda item: (item["route"], item["component_id"], item["recipe_slot_id"]),
             )
         return {
             key: diagnostics[key]

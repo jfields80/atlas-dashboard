@@ -149,11 +149,17 @@ class TestBindabilityAwareSelection:
         assert "directory.locations.grid" not in ids
 
     def test_required_slot_with_no_bindable_fallback_raises(self):
-        # category's "pagination" slot has no fallback, and its only real
-        # candidate is categorically SOURCE_UNAVAILABLE.
+        # AES-WEB-002J.20: the category recipe's "pagination"/"zero_results"
+        # slots gained a structural fallback (layout.stack.standard) by
+        # operator-authorized amendment, so category no longer demonstrates
+        # this claim. search-results' "pagination" slot is untouched by
+        # that amendment (§13 operator decision: category recipe only) and
+        # still has no fallback, with its only real candidate
+        # (nav.pagination.standard: page_context is SOURCE_UNAVAILABLE)
+        # still categorically unbindable.
         with pytest.raises(ComponentResolutionError) as exc:
             ComponentEngine().compile(
-                _sa([PagePlan(route="/c/vets", page_type="category", title="")]),
+                _sa([PagePlan(route="/search", page_type="search-results", title="")]),
                 _cp(), listing_dataset=_dataset([_full_listing()]), brand_package=_brand(),
             )
         assert "unresolved_required_slots" in exc.value.diagnostics
@@ -237,10 +243,14 @@ class TestListingAssignmentAndProjection:
             listing_kind=ListingKind.SPONSORED,
             sponsorship=ListingSponsorship(kind=ListingKind.SPONSORED, disclosure_text="Sponsored listing"),
         )
-        # listing.card.sponsored requires a disclosure content slot.
+        # AES-WEB-002J.20: related_listings excludes the page's own listing
+        # (exclude_self=True), so a companion listing in the same category
+        # is required for a real (non-self) related_listings instance to
+        # exist. listing.card.sponsored requires a disclosure content slot.
+        companion = _full_listing(listing_id="other-lodge", slug="other-lodge")
         result = ComponentEngine().compile(
             _sa([_PROFILE_PAGE]), _cp(),
-            listing_dataset=_dataset([listing]), brand_package=_brand(),
+            listing_dataset=_dataset([listing, companion]), brand_package=_brand(),
         )
         page = result.component_manifest.pages[0]
         assert any(i.component_id == "listing.card.standard" for i in page.components)
@@ -257,22 +267,33 @@ class TestListingAssignmentAndProjection:
             exc.value.diagnostics.get("unbindable_required_props", [])
         assert any("missing_listing" in f["reason"] for f in content_failures)
 
-    def test_no_repeated_instances_synthesized(self):
-        # Two listings in the same category as the profile page's own
-        # listing; Phase A still selects exactly one listing.card.standard
-        # instance for the (optional) related_listings slot -- no repetition
-        # in J.19 (architectural preflight §10/§13: Phase A emits one
-        # generic listing component, never N instances for N listings).
+    def test_related_listings_expands_one_instance_per_non_self_match(self):
+        # AES-WEB-002J.19 (superseded): Phase A selected exactly one
+        # listing.card.standard instance for related_listings regardless of
+        # how many listings matched -- no repetition.
+        #
+        # AES-WEB-002J.20: repetition now sits between Phase A selection and
+        # Phase B binding, so related_listings expands to one instance per
+        # matching listing (exclude_self=True: the page's own listing,
+        # lakeview-lodge, never counts as its own "related" listing). Three
+        # companions in the same category prove real N-way expansion, not
+        # just the N=1 case that was indistinguishable from the old
+        # single-instance behavior.
         multi = _dataset([
-            _full_listing(),  # lakeview-lodge -- matches _PROFILE_PAGE's route
-            _full_listing(listing_id="other-lodge", slug="other-lodge"),
+            _full_listing(),  # lakeview-lodge -- matches _PROFILE_PAGE's route; excluded as self
+            _full_listing(listing_id="other-lodge-1", slug="other-lodge-1"),
+            _full_listing(listing_id="other-lodge-2", slug="other-lodge-2"),
+            _full_listing(listing_id="other-lodge-3", slug="other-lodge-3"),
         ])
         result = ComponentEngine().compile(
             _sa([_PROFILE_PAGE]), _cp(), listing_dataset=multi, brand_package=_brand(),
         )
         page = result.component_manifest.pages[0]
         cards = [i for i in page.components if i.component_id == "listing.card.standard"]
-        assert len(cards) <= 1
+        assert len(cards) == 3
+        bound_ids = [c.props["listing_ref"].split(".")[-1] for c in cards]
+        assert "lakeview-lodge" not in bound_ids
+        assert bound_ids == ["other-lodge-1", "other-lodge-2", "other-lodge-3"]
 
 
 # --------------------------------------------------------------------------- #

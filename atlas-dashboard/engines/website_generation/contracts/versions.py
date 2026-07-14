@@ -169,7 +169,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # behavior change requiring an explicit engine-version bump -- output can
     # now differ for an identical (SiteArchitecture, ContentPackage) pair
     # depending on the additive listing_dataset/brand_package inputs.
-    "component_engine": "1.1.0",
+    # AES-WEB-002J.20 (ADR-WEB-CONTENT-BINDING-MAP) bumps 1.1.0 -> 1.2.0: the
+    # Component Engine now expands a recipe slot into N concrete instances
+    # (one per matching ListingRecord, per components/composition_rules.py)
+    # between Phase A selection and Phase B binding, and LISTING_DATASET-
+    # sourced ref-prop projections use listing-aware generated slot ids
+    # (bind.<semantic_slot>.<listing_id>) instead of the J.19 positional
+    # form -- both are §5.5 behavior changes requiring an explicit bump.
+    "component_engine": "1.2.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).
