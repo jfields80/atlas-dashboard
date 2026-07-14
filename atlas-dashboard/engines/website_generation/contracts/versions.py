@@ -67,6 +67,13 @@ additive-minor ``QualityReport`` schema 1.1.0 (``deferred_gate_ids``): both
 again with no migration. Adds the ``quality_gate_engine`` entry to
 ``ENGINE_VERSIONS`` at 1.0.0. The Quality Gate Engine is not wired into
 pipeline execution; ``gating`` remains ``NOT_EXECUTED``.
+
+AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET) adds ``ArtifactKind.LISTING_DATASET``
+as the additive thirteenth artifact kind, registered directly at schema
+1.0.0 (there is no prior shape to be additive over -- unlike every other
+entry above, this is a brand-new artifact, not a schema bump of an existing
+one). Contract-only: no engine consumes ``ListingDataset`` yet, so no
+``ENGINE_VERSIONS`` entry is added or changed by this delivery.
 """
 
 from __future__ import annotations
@@ -85,6 +92,7 @@ from engines.website_generation.contracts.artifacts import (
     ContentPackage,
     LayoutPlan,
     LayoutPlanV1,
+    ListingDataset,
     QualityReport,
     QualityReportV1,
     RenderedPageSet,
@@ -124,6 +132,10 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     # AES-WEB-002J.11: additive-minor bump to 1.1.0 (deferred_gate_ids).
     ArtifactKind.QUALITY_REPORT: "1.1.0",
     ArtifactKind.BUILD_MANIFEST: "1.0.0",
+    # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET): the additive thirteenth
+    # artifact kind, introduced directly at schema 1.0.0 (no prior shape to
+    # be additive over).
+    ArtifactKind.LISTING_DATASET: "1.0.0",
 }
 
 # Engine versions — Phase 1 engines only. Later phases append; they never
@@ -280,6 +292,9 @@ _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.SITE_BUNDLE: SiteBundleV1,
     ArtifactKind.QUALITY_REPORT: QualityReportV1,
     ArtifactKind.BUILD_MANIFEST: BuildManifest,
+    # AES-WEB-002J.17: ListingDataset has no pre-1.0.0 shape to be additive
+    # over -- it registers its current (and only) shape directly.
+    ArtifactKind.LISTING_DATASET: ListingDataset,
 }
 
 for _kind, _cls in _V1_0_0_CATALOG.items():

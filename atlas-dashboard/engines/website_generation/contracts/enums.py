@@ -13,7 +13,10 @@ from enum import Enum
 
 
 class ArtifactKind(str, Enum):
-    """The twelve artifact kinds of the AES-WEB-001 catalog (§4.1)."""
+    """The AES-WEB-001 §4.1 catalog's twelve artifact kinds, plus the
+    AES-WEB-002J.17 additive thirteenth (``LISTING_DATASET`` --
+    ADR-WEB-LISTING-DATASET). Existing members' serialized values are
+    unchanged; the new member is appended, never inserted."""
 
     BUSINESS_SPEC = "BUSINESS_SPEC"
     BRAND_PACKAGE = "BRAND_PACKAGE"
@@ -27,6 +30,10 @@ class ArtifactKind(str, Enum):
     SITE_BUNDLE = "SITE_BUNDLE"
     QUALITY_REPORT = "QUALITY_REPORT"
     BUILD_MANIFEST = "BUILD_MANIFEST"
+    # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET): the additive thirteenth
+    # artifact kind -- a deterministic WGE input corpus of listing data,
+    # not part of the original §4.1 twelve-artifact catalog.
+    LISTING_DATASET = "LISTING_DATASET"
 
 
 class BuildState(str, Enum):
@@ -310,3 +317,30 @@ class SemanticElement(str, Enum):
     ARTICLE = "article"
     FORM = "form"
     DIV = "div"
+
+
+# ===========================================================================
+# ListingDataset enumerations (AES-WEB-002J.17 -- ADR-WEB-LISTING-DATASET)
+# ===========================================================================
+
+
+class VerificationStatus(str, Enum):
+    """A listing's verification *state* only -- never the methodology that
+    produced it (that is AES-WEB-005's future operational authority, per
+    ADR-WEB-LISTING-DATASET)."""
+
+    UNVERIFIED = "UNVERIFIED"
+    PENDING = "PENDING"
+    VERIFIED = "VERIFIED"
+
+
+class Weekday(str, Enum):
+    """The seven calendar weekdays, for ``ListingHoursEntry.day``."""
+
+    MONDAY = "MONDAY"
+    TUESDAY = "TUESDAY"
+    WEDNESDAY = "WEDNESDAY"
+    THURSDAY = "THURSDAY"
+    FRIDAY = "FRIDAY"
+    SATURDAY = "SATURDAY"
+    SUNDAY = "SUNDAY"

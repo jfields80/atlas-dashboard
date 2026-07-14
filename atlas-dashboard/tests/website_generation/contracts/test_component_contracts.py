@@ -155,8 +155,12 @@ class TestContentIdentity:
 
 
 class TestNoArtifactKindAdded:
-    def test_still_twelve_artifact_kinds(self):
-        assert len(list(ArtifactKind)) == 12
+    def test_still_thirteen_artifact_kinds(self):
+        # AES-WEB-002A's component-system contracts (§3) still add no new
+        # ArtifactKind of their own -- the count moved from 12 to 13 only
+        # because of the unrelated AES-WEB-002J.17 LISTING_DATASET addition
+        # (ADR-WEB-LISTING-DATASET), not because of anything in this module.
+        assert len(list(ArtifactKind)) == 13
 
     def test_component_manifest_1_0_0_and_1_1_0_supported(self):
         assert registered_artifact_model(

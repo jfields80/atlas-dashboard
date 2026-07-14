@@ -155,10 +155,14 @@ from pydantic import BaseModel, Field
 
 from engines.website_generation.contracts.enums import (
     ArtifactKind,
+    AssetRole,
     BuildState,
     GateSeverity,
+    ListingKind,
     RegionKind,
     StageExecutionStatus,
+    VerificationStatus,
+    Weekday,
 )
 
 PYDANTIC_V2: bool = str(getattr(pydantic, "VERSION", "1.0")).startswith("2")
@@ -1004,3 +1008,160 @@ class SpecCompilerInput(FrozenModel):
     geography: str = ""
     legal_footer_facts: Tuple[str, ...] = ()
     upstream_hashes: Dict[str, str] = {}
+
+
+# ---------------------------------------------------------------------------
+# 13. ListingDataset (AES-WEB-002J.17 -- ADR-WEB-LISTING-DATASET; additive
+# to the AES-WEB-001 §4.1 twelve-artifact catalog)
+# ---------------------------------------------------------------------------
+
+class ListingContact(FrozenModel):
+    """Phone/email/website contact fields (shape-validated only; ADR §9)."""
+
+    phone: str = ""
+    email: str = ""
+    website_url: str = ""
+
+
+class ListingAddress(FrozenModel):
+    """A postal address. No geocoding or normalization is performed here."""
+
+    street: str = ""
+    city: str = ""
+    state: str = ""
+    postal_code: str = ""
+    country: str = ""
+
+
+class ListingGeo(FrozenModel):
+    """Integer micro-degree coordinates (§4.3 float prohibition; ADR §5).
+    ``lat_micro``/``long_micro`` are ``degrees * 1_000_000``."""
+
+    lat_micro: int
+    long_micro: int
+
+
+class ListingRating(FrozenModel):
+    """Aggregate rating only -- no raw review corpus in v1 (ADR scope).
+    ``rating_hundredths`` mirrors :class:`ContrastEvidence`'s integer-ratio
+    convention (``450`` means 4.50)."""
+
+    rating_hundredths: int
+    review_count: int
+
+
+class ListingHoursEntry(FrozenModel):
+    """One weekday's operating hours. ``opens``/``closes`` use ``HH:MM``
+    (24-hour) and are both required unless ``closed`` is true."""
+
+    day: Weekday
+    opens: str = ""
+    closes: str = ""
+    closed: bool = False
+
+
+class ListingSponsorship(FrozenModel):
+    """Sponsorship *state* -- monetization policy/tier rules live in
+    ``constants/``, never here (ADR §12)."""
+
+    kind: ListingKind
+    disclosure_text: str = ""
+
+
+class ListingVerification(FrozenModel):
+    """Verification *state* only -- methodology is AES-WEB-005's future
+    authority (ADR §13). ``verified_at`` is a preserved external input,
+    never generated at compile time."""
+
+    status: VerificationStatus
+    verified_at: str = ""
+    source: str = ""
+
+
+class ListingAssetRef(FrozenModel):
+    """A CAS hash reference into an asset store (§10.2's ``AssetRole`` id
+    space) -- never a filesystem path or URL."""
+
+    role: AssetRole
+    asset_hash: str
+
+
+class ListingCTA(FrozenModel):
+    """A single call-to-action target for a listing."""
+
+    label: str
+    target_route: str
+
+
+class ListingProvenance(FrozenModel):
+    """Minimal upstream-sourcing provenance (ADR §11). ``observed_at`` is a
+    preserved external input, never generated at compile time."""
+
+    source_id: str
+    source_type: str = ""
+    source_record_id: str = ""
+    source_url: str = ""
+    observed_at: str = ""
+    source_hash: str = ""
+
+
+class ListingCategory(FrozenModel):
+    """A category a listing may belong to (§27.5 directory taxonomy)."""
+
+    category_id: str
+    label: str
+    slug: str
+
+
+class ListingLocation(FrozenModel):
+    """A location a listing may belong to."""
+
+    location_id: str
+    city: str
+    state: str
+    slug: str
+
+
+class ListingRecord(FrozenModel):
+    """One listing's deterministic input facts (ADR §7-§9). Exactly one
+    ``category_id`` (required); ``location_id`` is zero-or-one (empty
+    string means none). No ``canonical_route`` field -- route derivation is
+    IA/Component-binding policy (ADR §6), never stored here."""
+
+    listing_id: str
+    business_name: str
+    slug: str
+    category_id: str
+    location_id: str = ""
+    description: str = ""
+    listing_kind: ListingKind = ListingKind.ORGANIC
+    contact: Optional[ListingContact] = None
+    address: Optional[ListingAddress] = None
+    geo: Optional[ListingGeo] = None
+    rating: Optional[ListingRating] = None
+    hours: Tuple[ListingHoursEntry, ...] = ()
+    sponsorship: Optional[ListingSponsorship] = None
+    verification: Optional[ListingVerification] = None
+    credentials: Tuple[str, ...] = ()
+    assets: Tuple[ListingAssetRef, ...] = ()
+    cta: Optional[ListingCTA] = None
+    provenance: Optional[ListingProvenance] = None
+
+
+class ListingDataset(ArtifactHeader):
+    """A deterministic, normalized corpus of listings plus their categories
+    and locations (AES-WEB-002J.17 additive artifact #13;
+    ADR-WEB-LISTING-DATASET). Schema 1.0.0.
+
+    Input state for the Website Generation Engine -- not the operational
+    data authority (AES-WEB-005, when written, owns sourcing/freshness/
+    verification methodology/correction). An empty dataset
+    (``listings=(), categories=(), locations=()``) is valid. The Component
+    Engine's (future) binding phase is the sole intended consumer; the
+    Renderer never consumes this artifact directly.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.LISTING_DATASET
+    listings: Tuple[ListingRecord, ...] = ()
+    categories: Tuple[ListingCategory, ...] = ()
+    locations: Tuple[ListingLocation, ...] = ()

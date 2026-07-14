@@ -1,8 +1,10 @@
 """Artifact contract tests (AES-WEB-001 Phase 1).
 
-Covers: all 12 kinds registered at v1.0.0, frozen behavior, canonical
-serialization stability, hash identity/change, unsupported schema
-rejection, and mandatory header enforcement.
+Covers: all thirteen kinds registered at v1.0.0 (the original twelve, §4.1,
+plus the AES-WEB-002J.17 additive ``LISTING_DATASET`` --
+ADR-WEB-LISTING-DATASET), frozen behavior, canonical serialization
+stability, hash identity/change, unsupported schema rejection, and
+mandatory header enforcement.
 """
 
 from __future__ import annotations
@@ -27,6 +29,7 @@ from engines.website_generation import (
     InternalLinkIntent,
     LayoutPlan,
     LayoutRegion,
+    ListingDataset,
     PageHierarchyEntry,
     PageLayout,
     QualityReport,
@@ -88,10 +91,13 @@ def _make_spec(**overrides) -> BusinessSpec:
 
 
 class TestCatalogRegistration:
-    def test_exactly_twelve_artifact_kinds(self):
-        assert len(ALL_KINDS) == 12
+    def test_exactly_thirteen_artifact_kinds(self):
+        # Twelve from AES-WEB-001 §4.1, plus the AES-WEB-002J.17 additive
+        # LISTING_DATASET (ADR-WEB-LISTING-DATASET) -- the first artifact
+        # kind added to the catalog since Phase 1.
+        assert len(ALL_KINDS) == 13
 
-    def test_all_twelve_kinds_registered_at_v1(self):
+    def test_all_thirteen_kinds_registered_at_v1(self):
         for kind in ALL_KINDS:
             model_cls = registered_artifact_model(kind, "1.0.0")
             assert model_cls is not None
@@ -160,10 +166,12 @@ class TestCatalogRegistration:
                 ArtifactKind.BUSINESS_SPEC, "1.0.0", SiteBundle
             )
 
-    def test_no_thirteenth_artifact_kind(self):
-        # A1 embeds the trace in ComponentManifest — no new artifact kind and
-        # no independent SelectionTrace artifact (AES-WEB-002 §14.3).
-        assert len(ALL_KINDS) == 12
+    def test_no_selection_trace_artifact_kind(self):
+        # A1 embeds the trace in ComponentManifest — no independent
+        # SelectionTrace artifact was ever created (AES-WEB-002 §14.3). This
+        # invariant is independent of the AES-WEB-002J.17 LISTING_DATASET
+        # addition (a real thirteenth kind now exists, for an unrelated
+        # reason -- see test_exactly_thirteen_artifact_kinds).
         assert not any(
             "SELECTION" in kind.name or "TRACE" in kind.name
             for kind in ALL_KINDS
@@ -1006,6 +1014,7 @@ class TestFrozenBehavior:
                 final_state=BuildState.SPEC_COMPILED,
                 **h,
             ),
+            ArtifactKind.LISTING_DATASET: lambda h: ListingDataset(**h),
         }
         for kind in ALL_KINDS:
             header = dict(

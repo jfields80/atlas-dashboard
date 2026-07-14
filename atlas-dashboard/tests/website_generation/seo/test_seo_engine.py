@@ -594,6 +594,10 @@ class TestArtifactStoreIntegration:
 
 class TestContractsAndArchitecture:
     def test_schema_versions_unchanged(self):
+        # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET) added the additive
+        # thirteenth kind, LISTING_DATASET, at schema 1.0.0 -- unrelated to
+        # the SEO Engine, but this guard enumerates every kind so it must
+        # include it. Every SEO-relevant kind's version is unchanged.
         assert SCHEMA_VERSIONS == {
             ArtifactKind.BUSINESS_SPEC: "1.0.0",
             ArtifactKind.BRAND_PACKAGE: "1.1.0",
@@ -607,12 +611,14 @@ class TestContractsAndArchitecture:
             ArtifactKind.SITE_BUNDLE: "1.1.0",
             ArtifactKind.QUALITY_REPORT: "1.1.0",
             ArtifactKind.BUILD_MANIFEST: "1.0.0",
+            ArtifactKind.LISTING_DATASET: "1.0.0",
         }
 
     def test_seo_package_schema_remains_1_0_0(self):
         assert SCHEMA_VERSIONS[ArtifactKind.SEO_PACKAGE] == "1.0.0"
 
     def test_no_new_artifact_kind_was_added(self):
+        # See test_schema_versions_unchanged above re: LISTING_DATASET.
         assert {kind.value for kind in ArtifactKind} == {
             "BUSINESS_SPEC",
             "BRAND_PACKAGE",
@@ -626,6 +632,7 @@ class TestContractsAndArchitecture:
             "SITE_BUNDLE",
             "QUALITY_REPORT",
             "BUILD_MANIFEST",
+            "LISTING_DATASET",
         }
 
     def test_engine_versions_contains_seo_engine_1_0_0(self):

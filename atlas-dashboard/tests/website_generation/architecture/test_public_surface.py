@@ -87,6 +87,23 @@ EXPECTED_PUBLIC_SURFACE = {
     "SpecCompilerInput",
     "StageRecord",
     "TransitionRecord",
+    # ListingDataset artifact #13 (AES-WEB-002J.17; ADR-WEB-LISTING-DATASET).
+    # Contract-only: no engine consumes this artifact yet.
+    "ListingAddress",
+    "ListingAssetRef",
+    "ListingCTA",
+    "ListingCategory",
+    "ListingContact",
+    "ListingDataset",
+    "ListingGeo",
+    "ListingHoursEntry",
+    "ListingLocation",
+    "ListingProvenance",
+    "ListingRating",
+    "ListingRecord",
+    "ListingSponsorship",
+    "ListingVerification",
+    "validate_listing_dataset",
     # component contracts (AES-WEB-002A)
     "AccessibilityContract",
     "AnalyticsContract",
@@ -133,6 +150,9 @@ EXPECTED_PUBLIC_SURFACE = {
     "RegionKind",
     "SemanticElement",
     "SlotCardinality",
+    # ListingDataset enums (AES-WEB-002J.17; ADR-WEB-LISTING-DATASET)
+    "VerificationStatus",
+    "Weekday",
     # errors
     "ArchitecturePlanningError",
     "ArtifactIntegrityError",

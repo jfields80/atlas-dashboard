@@ -842,6 +842,9 @@ class TestContractsAndArchitecture:
         assert SCHEMA_VERSIONS[ArtifactKind.CONTENT_CANDIDATE] == "1.0.0"
 
     def test_no_new_artifact_kind_was_added(self):
+        # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET) added the additive
+        # thirteenth kind, LISTING_DATASET -- unrelated to the Content
+        # Engine, but this guard enumerates every kind so it must include it.
         assert {kind.value for kind in ArtifactKind} == {
             "BUSINESS_SPEC",
             "BRAND_PACKAGE",
@@ -855,6 +858,7 @@ class TestContractsAndArchitecture:
             "SITE_BUNDLE",
             "QUALITY_REPORT",
             "BUILD_MANIFEST",
+            "LISTING_DATASET",
         }
 
     def test_engine_versions_contains_content_engine_1_0_0(self):
