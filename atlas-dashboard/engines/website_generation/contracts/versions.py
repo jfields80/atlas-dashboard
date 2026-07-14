@@ -157,7 +157,12 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # behavior change requiring an explicit bump. Omitting listing_dataset
     # is not byte-identical to pre-K.1 output either, since titles are now
     # always populated -- see the K.1 implementation report §15.
-    "information_architecture_engine": "1.1.0",
+    # PILOT-PTF-1 bumps 1.1.0 -> 1.2.0: plan() now accepts an optional
+    # editorial_pages input, emitting one real PageRole.EDITORIAL_GUIDE page
+    # per (route, title) pair -- a §5.3 behavior change requiring an
+    # explicit bump. Omitting editorial_pages (the default, ()) is
+    # byte-identical to pre-PTF-1 output.
+    "information_architecture_engine": "1.2.0",
     # AES-WEB-002J.4 (AES-WEB-001 §5.4/Part 2): initial Content Engine
     # version. Not wired into pipeline execution (§6: content_drafting and
     # content_validation both remain NOT_EXECUTED in the BuildManifest).
@@ -194,7 +199,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # (nav.header.standard/legal.footer.directory's nav_tree) move from
     # categorically-unbindable STRUCTURED_DEFERRED to the new RENDER_DATA
     # binding state, changing which components Phase A can select.
-    "component_engine": "1.3.0",
+    # PILOT-PTF-1 bumps 1.3.0 -> 1.4.0: directory.categories.grid's
+    # category_tiles/category_source_ref fields move from
+    # STRUCTURED_DEFERRED to RENDER_DATA (a real tile-link producer now
+    # exists), the CONTENT_SLOT binding loop gained a RENDER_DATA branch
+    # (previously PROP-only), and an optional recipe slot whose selected
+    # instance cannot bind its data is now honestly omitted instead of
+    # batch-failing the whole compile -- three §5.5 behavior changes.
+    "component_engine": "1.4.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).

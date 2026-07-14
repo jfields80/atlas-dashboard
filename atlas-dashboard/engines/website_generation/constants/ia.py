@@ -42,6 +42,14 @@ CATEGORY_ROUTE_TEMPLATE = "/%s/"
 
 PAGE_ROLE_HOME = "home"
 PAGE_ROLE_CATEGORY = "category"
+# PILOT-PTF-1: PetTripFinder's About/Methodology/Contact trust pages reuse
+# the pre-existing, authority-registered PageRole.EDITORIAL_GUIDE
+# (AES-WEB-002 §6.1's eighteen-role taxonomy) -- never an invented page-role
+# string. constants/ may not import contracts/enums (§3.2), so this is an
+# independently declared literal, matching this module's own
+# PAGE_ROLE_HOME/PAGE_ROLE_CATEGORY precedent; a cross-module consistency
+# test enforces the equality.
+PAGE_ROLE_EDITORIAL_GUIDE = "editorial-guide"
 
 CONTENT_SLOT_HERO_H1 = "hero_h1"
 CONTENT_SLOT_INTRO = "intro"
@@ -49,6 +57,10 @@ CONTENT_SLOT_INTRO = "intro"
 CONTENT_SLOTS_BY_ROLE: Dict[str, Tuple[str, ...]] = {
     PAGE_ROLE_HOME: (CONTENT_SLOT_HERO_H1, CONTENT_SLOT_INTRO),
     PAGE_ROLE_CATEGORY: (CONTENT_SLOT_HERO_H1, CONTENT_SLOT_INTRO),
+    # Same two-slot vocabulary as home/category -- editorial-guide pages
+    # need only a real h1 + intro (hero.local.standard's required content
+    # slots), no new slot vocabulary.
+    PAGE_ROLE_EDITORIAL_GUIDE: (CONTENT_SLOT_HERO_H1, CONTENT_SLOT_INTRO),
 }
 
 # ---------------------------------------------------------------------------

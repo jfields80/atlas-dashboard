@@ -580,7 +580,11 @@ class TestSecondaryRecipeTables:
 
     def test_all_five_tables_exist_with_expected_slot_counts(self):
         expected_counts = {
-            "EDITORIAL_GUIDE_RECIPE_SLOTS": 5,
+            # PILOT-PTF-1: +site_header/+site_footer (the K.1 site-shell
+            # slots, extended to editorial-guide -- PetTripFinder's
+            # About/Methodology/Contact trust pages need the real nav shell
+            # too).
+            "EDITORIAL_GUIDE_RECIPE_SLOTS": 8,
             "COLLECTION_RECIPE_SLOTS": 3,
             "SERVICE_AREA_RECIPE_SLOTS": 5,
             "VERIFICATION_RECIPE_SLOTS": 5,
@@ -616,10 +620,23 @@ class TestSecondaryRecipeTables:
                 )
 
     def test_optional_slots_use_sentinel_or_role_filtering_only(self):
-        # Every required=False slot either uses the shared unbuilt-family
-        # sentinel (content-slot-filtered) or an honest, non-sentinel
-        # required_prop_names with no required_slot_names (role-filtered,
-        # role-mismatch alone excludes every non-matching candidate).
+        # Every required=False slot uses one of three honest patterns: the
+        # shared unbuilt-family sentinel (content-slot-filtered), an honest,
+        # non-sentinel required_prop_names with no required_slot_names
+        # (role-filtered, role-mismatch alone excludes every non-matching
+        # candidate), or (PILOT-PTF-1, K.1's category-control-cleanup
+        # precedent, extended here to editorial-guide's site_header/
+        # site_footer/author_source_disclosure/related_guides_categories
+        # slots) a real required_slot_names with no fallback -- a real
+        # candidate exists but is honestly unbindable/absent for this
+        # pilot, so the slot is omitted rather than rendering an empty
+        # structural placeholder.
+        _K1_HONEST_OMISSION_SLOTS = {
+            ("EDITORIAL_GUIDE_RECIPE_SLOTS", "site_header"),
+            ("EDITORIAL_GUIDE_RECIPE_SLOTS", "site_footer"),
+            ("EDITORIAL_GUIDE_RECIPE_SLOTS", "author_source_disclosure"),
+            ("EDITORIAL_GUIDE_RECIPE_SLOTS", "related_guides_categories"),
+        }
         for table_name in SECONDARY_RECIPE_TABLES:
             table = getattr(constants_components, table_name)
             for slot in table:
@@ -633,7 +650,8 @@ class TestSecondaryRecipeTables:
                     slot["required_slot_names"] == ()
                     and bool(slot["required_prop_names"])
                 )
-                assert is_sentinel or is_role_filtered_only, (
+                is_k1_honest_omission = (table_name, slot["slot_id"]) in _K1_HONEST_OMISSION_SLOTS
+                assert is_sentinel or is_role_filtered_only or is_k1_honest_omission, (
                     table_name, slot["slot_id"],
                 )
 

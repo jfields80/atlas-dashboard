@@ -176,10 +176,15 @@ _RULES: Tuple[BindingRule, ...] = (
     _cs("cta.submit.listing", "label", "inline_label", "RichTextBlock", _FULL, "ContentPackage:label"),
     _lit("cta.submit.listing", "target_route", "ROUTE_REF", _R_ROUTE),
     # ===================== directory =====================
-    _cs("directory.categories.grid", "category_tiles", "category_tiles", "LinkSpec", _DEFER,
-        "ListingDataset.categories+routes", "tile label+href not representable by flat ContentBlock"),
-    _ref("directory.categories.grid", "category_source_ref", "category_tiles", "CONTENT_BLOCK_REF", _DEFER,
-         "ListingDataset.categories+routes", "resolves the category tile source (structured)"),
+    # AES-WEB-002K.1/PILOT-PTF-1: real tile links (label+href per launched
+    # category) now flow through the render-data producer
+    # (component_engine._build_category_tiles), the same TileLinks contract
+    # K.1 declared but left unwired -- the home page's category-discovery
+    # grid was the only remaining always-empty required slot.
+    _cs("directory.categories.grid", "category_tiles", "category_tiles", "LinkSpec", _RENDER,
+        "SiteArchitecture.pages (category routes+titles)", "real tile label+href via render-data"),
+    _ref("directory.categories.grid", "category_source_ref", "category_tiles", "CONTENT_BLOCK_REF", _RENDER,
+         "SiteArchitecture.pages (category routes+titles)", "resolves the category tile source (render-data)"),
     _lit("directory.categories.grid", "columns", "INT_BOUNDED", _R_INT),
     _ref("directory.filters.panel", "facet_set_ref", "facet_options", "CONTENT_BLOCK_REF", _UNAVAIL,
          "unavailable:facets", "no facet source artifact exists yet"),
@@ -341,7 +346,7 @@ _RULES: Tuple[BindingRule, ...] = (
 # CONTENT_PACKAGE-sourced "footer_legal_text" slot (compile() takes no
 # BusinessSpec input this delivery, per the J.19 operator decision,
 # unchanged by K.1 -- see D5).
-BINDING_MAP_VERSION: str = "1.1.0"
+BINDING_MAP_VERSION: str = "1.2.0"
 
 BINDING_RULES: Tuple[BindingRule, ...] = _RULES
 

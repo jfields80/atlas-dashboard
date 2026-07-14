@@ -128,6 +128,7 @@ from engines.website_generation.contracts.render_data import (
     NavigationData,
     RenderDataBundle,
     RenderDataEntry,
+    TileLinks,
     generated_render_data_key,
     is_safe_url,
 )
@@ -199,10 +200,24 @@ _DIAGNOSTIC_BUCKET_ORDER = (
 # enrich. A plain, explicit dispatch (no "listing.*"/"nav.*" prefix
 # inference, per the composition_rules.py "no invented metadata" precedent)
 # -- Wave 1's exact, narrow scope, nothing more.
-_NAV_RENDER_DATA_COMPONENT_IDS = frozenset({"nav.header.standard", "legal.footer.directory"})
+_HEADER_NAV_COMPONENT_ID = "nav.header.standard"
+_FOOTER_NAV_COMPONENT_ID = "legal.footer.directory"
+_NAV_RENDER_DATA_COMPONENT_IDS = frozenset({_HEADER_NAV_COMPONENT_ID, _FOOTER_NAV_COMPONENT_ID})
 _CARD_RENDER_DATA_COMPONENT_IDS = frozenset({"listing.card.standard", "listing.row.compact"})
 _CONTACT_RENDER_DATA_COMPONENT_ID = "profile.contact.panel"
 _HOURS_RENDER_DATA_COMPONENT_ID = "profile.hours.table"
+# PILOT-PTF-1: the home page's category-discovery grid -- the TileLinks
+# contract K.1 declared but left unwired (contracts/render_data.py's
+# TileLinks docstring). One tile per launched category, deterministic order.
+_TILES_RENDER_DATA_COMPONENT_ID = "directory.categories.grid"
+
+# PILOT-PTF-1 §13: outbound commercial links carry a sponsorship-aware rel
+# policy -- "sponsored noopener" for a listing whose own ListingKind marks it
+# as paid/commercial (SPONSORED or FEATURED), plain "noopener" for every
+# other external link (ordinary organic/verified/editorial business
+# websites). Never inferred from the CTA text itself, only from the
+# listing's own declared ListingKind (§6.3 semantics) -- no guessing.
+_SPONSORED_CTA_KINDS = frozenset({ListingKind.SPONSORED.value, ListingKind.FEATURED.value})
 
 _WEEKDAY_ORDER: Tuple[str, ...] = (
     "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY",
@@ -394,12 +409,28 @@ class ComponentEngine(ComponentEngineInterface):
                         bucket, entry = failure
                         entry = dict(entry)
                         entry["route"] = page.route
-                        if bucket == "prop":
-                            unbindable_props.append(entry)
-                        elif bucket == "content":
-                            unbindable_content.append(entry)
-                        else:
+                        if bucket == "collision":
+                            # A projected-slot collision is a real content-
+                            # modeling bug (two components disagree on one
+                            # route+slot_id's source), never a data-
+                            # availability gap -- always fatal, regardless
+                            # of the hosting recipe slot's required flag.
                             collisions.append(entry)
+                        elif not slot["required"]:
+                            # PILOT-PTF-1 §8: an *optional* recipe slot
+                            # (K.1's category-control-cleanup precedent,
+                            # extended) whose already-selected instance
+                            # cannot bind its required data is honestly
+                            # omitted -- the whole component is dropped
+                            # (below), never a fatal batch failure. No
+                            # fallback is fabricated in its place. A
+                            # *required* slot's binding failure is still
+                            # fatal, unchanged.
+                            pass
+                        elif bucket == "prop":
+                            unbindable_props.append(entry)
+                        else:
+                            unbindable_content.append(entry)
                     if failures:
                         continue
                     instances.append(
@@ -586,6 +617,15 @@ class ComponentEngine(ComponentEngineInterface):
                     },
                 ))
                 continue
+            if rule.binding_state is BindingState.RENDER_DATA:
+                # PILOT-PTF-1: the content-slot twin of the RENDER_DATA
+                # branch already handled above for props -- a required
+                # CONTENT_SLOT field (not just a PROP_REF/PROP_LITERAL one)
+                # can also be render-data-backed (directory.categories.grid's
+                # "category_tiles"). Same generated key, same "render:"
+                # prefix the Renderer already recognizes.
+                content_refs.append(generated_render_data_key(rule.semantic_slot, component_index))
+                continue
             try:
                 token = bind_content_slot(
                     rule, slot_name, route,
@@ -645,7 +685,12 @@ class ComponentEngine(ComponentEngineInterface):
     ) -> Tuple[Optional[ComponentRenderData], Optional[Dict[str, str]]]:
         cid = definition.component_id
         if cid in _NAV_RENDER_DATA_COMPONENT_IDS:
-            return ComponentRenderData(nav=cls._build_navigation_data(site_architecture)), None
+            nav = cls._build_navigation_data(
+                site_architecture, include_editorial=(cid == _FOOTER_NAV_COMPONENT_ID),
+            )
+            return ComponentRenderData(nav=nav), None
+        if cid == _TILES_RENDER_DATA_COMPONENT_ID:
+            return ComponentRenderData(tiles=cls._build_category_tiles(site_architecture)), None
         if cid in _CARD_RENDER_DATA_COMPONENT_IDS:
             return cls._build_card_data(assigned_listing, listing_dataset)
         if cid in (_CONTACT_RENDER_DATA_COMPONENT_ID, _HOURS_RENDER_DATA_COMPONENT_ID):
@@ -660,7 +705,9 @@ class ComponentEngine(ComponentEngineInterface):
         return None, None
 
     @staticmethod
-    def _build_navigation_data(site_architecture: SiteArchitecture) -> NavigationData:
+    def _build_navigation_data(
+        site_architecture: SiteArchitecture, *, include_editorial: bool = True,
+    ) -> NavigationData:
         """One ``LinkSpec`` per ``nav_routes`` entry with a real, non-empty
         page title -- routes with no title (``PagePlan.title == ""``, the
         pre-K.1 default many hand-built fixtures still use) are silently
@@ -668,16 +715,42 @@ class ComponentEngine(ComponentEngineInterface):
         fails: an empty or partially-titled ``nav_routes`` yields a
         shorter-than-expected but honest ``NavigationData``, not a compile
         error -- this is what keeps every pre-K.1 SiteArchitecture fixture
-        still compiling. Header and footer navigation share this exact same
-        link set in Wave 1 (no trust/editorial routes exist yet to
-        differentiate them, per the K.1 preflight)."""
+        still compiling.
+
+        PILOT-PTF-1: header and footer navigation now diverge --
+        ``include_editorial=False`` (header) keeps global navigation
+        category-discovery-focused; ``include_editorial=True`` (footer)
+        also names editorial/trust pages (about/methodology/contact), so a
+        directory with many trust pages does not explode its header nav.
+        Business-profile routes stay excluded from both (unchanged, K.1)."""
         title_by_route = {page.route: page.title for page in site_architecture.pages}
+        page_type_by_route = {page.route: page.page_type for page in site_architecture.pages}
         links = tuple(
             LinkSpec(label=title_by_route[route], href=route, external=False)
             for route in site_architecture.nav_routes
             if title_by_route.get(route, "").strip()
+            and (
+                include_editorial
+                or page_type_by_route.get(route) != PageRole.EDITORIAL_GUIDE.value
+            )
         )
         return NavigationData(links=links)
+
+    @staticmethod
+    def _build_category_tiles(site_architecture: SiteArchitecture) -> TileLinks:
+        """One real tile link per launched category (PILOT-PTF-1) -- the
+        ``TileLinks`` contract K.1 declared but left unwired (the home
+        page's category-discovery grid was the only remaining always-empty
+        required slot). Human-readable labels from the category
+        ``PagePlan``'s own title, never a raw route string; deterministic
+        route order. Never fails: zero category pages yields an honest
+        empty ``TileLinks``, not a compile error."""
+        tiles = tuple(
+            LinkSpec(label=page.title, href=page.route, external=False)
+            for page in sorted(site_architecture.pages, key=lambda p: p.route)
+            if page.page_type == PageRole.CATEGORY.value and page.title.strip()
+        )
+        return TileLinks(tiles=tiles)
 
     @staticmethod
     def _build_card_data(
@@ -713,7 +786,14 @@ class ComponentEngine(ComponentEngineInterface):
         if assigned_listing.rating is not None:
             whole, remainder = divmod(assigned_listing.rating.rating_hundredths, 100)
             rating_text = "%d.%d" % (whole, remainder // 10)
-            review_count = assigned_listing.rating.review_count
+            # PILOT-PTF-1 review-count honesty fix: ListingRating.review_count
+            # is a required int (no schema change permitted), so "unknown" is
+            # carried by convention -- a negative value -- rather than by
+            # Optionality. A real, non-negative count (including a real,
+            # source-confirmed zero) renders; a negative sentinel omits the
+            # count entirely rather than rendering a fabricated "(0 reviews)".
+            raw_count = assigned_listing.rating.review_count
+            review_count = raw_count if raw_count >= 0 else None
 
         badge_label = _BADGE_LABELS.get(assigned_listing.listing_kind.value, "")
         badge_kind = assigned_listing.listing_kind.value.lower() if badge_label else ""
@@ -727,9 +807,20 @@ class ComponentEngine(ComponentEngineInterface):
                     % (assigned_listing.listing_id, target),
                 }
             external = target.startswith("http://") or target.startswith("https://")
+            # PILOT-PTF-1 §14 sponsored rel policy: a listing whose own
+            # ListingKind marks it paid/commercial (SPONSORED/FEATURED) gets
+            # "sponsored noopener" on its outbound CTA; every other external
+            # link (ORGANIC/VERIFIED/EDITORIAL_PICK/...) gets plain
+            # "noopener" -- never inferred from the link text, only from the
+            # listing's own declared kind.
+            if not external:
+                rel = ""
+            elif assigned_listing.listing_kind.value in _SPONSORED_CTA_KINDS:
+                rel = "sponsored noopener"
+            else:
+                rel = "noopener"
             cta = LinkSpec(
-                label=assigned_listing.cta.label, href=target, external=external,
-                rel="noopener" if external else "",
+                label=assigned_listing.cta.label, href=target, external=external, rel=rel,
             )
 
         card = ListingCardData(
@@ -783,11 +874,22 @@ class ComponentEngine(ComponentEngineInterface):
                     label="Visit website", href=c.website_url, external=True, rel="noopener",
                 )
 
-        if not address_text and phone is None and email is None and website is None:
+        # PILOT-PTF-1 §15: the listing's own sponsorship disclosure, visible
+        # on its profile page -- absent (never a fabricated default) unless
+        # the listing actually carries one (§6.3 ORGANIC listings never do).
+        disclosure_text = ""
+        if listing.sponsorship is not None and listing.sponsorship.disclosure_text:
+            disclosure_text = listing.sponsorship.disclosure_text
+
+        if (
+            not address_text and phone is None and email is None and website is None
+            and not disclosure_text
+        ):
             return None, None
         return ComponentRenderData(
             contact=ContactData(
                 address_text=address_text, phone=phone, email=email, website=website,
+                disclosure_text=disclosure_text,
             ),
         ), None
 

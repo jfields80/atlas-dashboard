@@ -67,7 +67,9 @@ EXPECTED_VARIANTS = {
 # §27.4 "Roles" column, mapped to PageRole membership counts.
 EXPECTED_ROLE_COUNTS = {
     "hero.search.directory": 1,  # home
-    "hero.local.standard": 4,  # cat, city, cc, service-area
+    # PILOT-PTF-1: amended §27.4 "cat, city, cc, service-area" + editorial-guide
+    # (documented, non-silent -- see catalog/discovery.py's _HERO_LOCAL_ROLES).
+    "hero.local.standard": 5,
     "directory.search.primary": 4,  # home, cat, city, sr
     "directory.categories.grid": 2,  # home, city
     "directory.locations.grid": 3,  # home, cat, regional-hub
@@ -89,7 +91,11 @@ class TestCatalogCompleteness:
         assert len(REGISTERED_COMPONENTS) == 72
 
     def test_exact_versions(self):
-        assert all(d.component_version == "1.0.0" for d in WAVE3_COMPONENTS)
+        # PILOT-PTF-1 bumps hero.local.standard 1.0.0 -> 1.1.0 (added
+        # PageRole.EDITORIAL_GUIDE support).
+        for d in WAVE3_COMPONENTS:
+            expected = "1.1.0" if d.component_id == "hero.local.standard" else "1.0.0"
+            assert d.component_version == expected, d.component_id
 
     def test_exact_family_assignments(self):
         expected_family = {
@@ -136,6 +142,7 @@ class TestCatalogCompleteness:
         assert set(d.supported_page_roles) == {
             PageRole.CATEGORY, PageRole.CITY,
             PageRole.CITY_CATEGORY, PageRole.SERVICE_AREA,
+            PageRole.EDITORIAL_GUIDE,  # PILOT-PTF-1 amendment
         }
 
     def test_filters_sort_summary_exclude_city(self):
@@ -236,6 +243,7 @@ class TestDefinitionValidity:
         assert d.required_props["context_role"].prop_type is PropType.STR_ENUM
         assert set(d.required_props["context_role"].enum_values) == {
             "category", "city", "city-category", "service-area",
+            "editorial-guide",  # PILOT-PTF-1 amendment
         }
 
     def test_search_primary_is_a_real_form(self):
@@ -384,7 +392,7 @@ class TestRegistryLookups:
     def test_every_wave3_component_resolvable(self):
         r = build_default_registry()
         for d in WAVE3_COMPONENTS:
-            got = r.get(d.component_id, "1.0.0")
+            got = r.get(d.component_id, d.component_version)
             assert got.component_id == d.component_id
 
     def test_by_family_returns_wave3_sets(self):

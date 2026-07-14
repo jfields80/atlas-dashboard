@@ -185,7 +185,15 @@ def generated_listing_slot_id(semantic_slot: str, listing_id: str) -> str:
 
 def _format_rating(rating_hundredths: int, review_count: int) -> str:
     # Integer-only formatting -- no float arithmetic (ADR/mission directive).
+    # PILOT-PTF-1 review-count honesty fix: ListingRating.review_count is a
+    # required int (no schema change permitted), so "unknown" is carried by
+    # convention -- a negative value -- rather than by Optionality (the same
+    # convention component_engine._build_card_data uses). A negative
+    # sentinel omits the review-count suffix entirely instead of rendering a
+    # fabricated "(0 reviews)".
     whole, frac = divmod(rating_hundredths, 100)
+    if review_count < 0:
+        return "%d.%02d" % (whole, frac)
     return "%d.%02d (%d review%s)" % (
         whole, frac, review_count, "" if review_count == 1 else "s"
     )

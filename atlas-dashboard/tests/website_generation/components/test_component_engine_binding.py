@@ -115,40 +115,34 @@ _PROFILE_PAGE = PagePlan(route="/hotels/lakeview-lodge/", page_type="business-pr
 
 class TestBindabilityAwareSelection:
     def test_architecturally_unbindable_required_slot_falls_back(self):
-        # directory.categories.grid (STRUCTURED_DEFERRED required field) is
-        # excluded; its declared fallback layout.grid.standard wins instead.
+        # PILOT-PTF-1: directory.categories.grid's category_tiles moved to
+        # RENDER_DATA (a real tile-link producer now exists), so it no
+        # longer demonstrates this claim. profile.map.directions's
+        # "location" field (GeoSpec) remains STRUCTURED_DEFERRED (no
+        # coordinate producer exists) -- excluded; its declared fallback
+        # layout.section.container wins instead.
         result = ComponentEngine().compile(
-            _sa([PagePlan(route="/", page_type="home", title="")]),
-            _cp([
-                ContentBlock(page_route="/", slot_id="hero_h1", text="Find pet-friendly places to stay"),
-                ContentBlock(page_route="/", slot_id="subhead", text="Verified hotels, parks, restaurants."),
-                ContentBlock(page_route="/", slot_id="message", text="Some listings are sponsored."),
-            ]),
-            brand_package=_brand(),
+            _sa([_PROFILE_PAGE]), _cp(),
+            listing_dataset=_dataset([_full_listing()]), brand_package=_brand(),
         )
         ids = [i.component_id for i in result.component_manifest.pages[0].components]
-        assert "directory.categories.grid" not in ids
-        assert "layout.grid.standard" in ids
+        assert "profile.map.directions" not in ids
+        assert "layout.section.container" in ids
 
     def test_selection_trace_names_bindability_as_the_elimination_reason(self):
-        # directory.categories.grid isn't ranked highly enough to land in the
+        # profile.map.directions isn't ranked highly enough to land in the
         # trace's named top-5 candidates (§14.3 size bound -- the same
         # compression every other elimination filter is subject to); its
         # elimination is still provable via the per-filter count.
         result = ComponentEngine().compile(
-            _sa([PagePlan(route="/", page_type="home", title="")]),
-            _cp([
-                ContentBlock(page_route="/", slot_id="hero_h1", text="Find pet-friendly places to stay"),
-                ContentBlock(page_route="/", slot_id="subhead", text="Verified hotels, parks, restaurants."),
-                ContentBlock(page_route="/", slot_id="message", text="Some listings are sponsored."),
-            ]),
-            brand_package=_brand(),
+            _sa([_PROFILE_PAGE]), _cp(),
+            listing_dataset=_dataset([_full_listing()]), brand_package=_brand(),
         )
-        grid_slot = next(
+        map_slot = next(
             s for s in result.component_manifest.selection_trace.slots
-            if s.slot_id == "/#categories_grid"
+            if s.slot_id == "/hotels/lakeview-lodge/#map_directions"
         )
-        assert grid_slot.elimination_counts.get("bindability", 0) >= 1
+        assert map_slot.elimination_counts.get("bindability", 0) >= 1
 
     def test_optional_unbindable_slot_dropped_not_failed(self):
         # locations_grid is optional with no fallback -- an unbindable real
@@ -185,18 +179,16 @@ class TestBindabilityAwareSelection:
     def test_bindability_check_is_purely_static_independent_of_supplied_data(self):
         # Even WITH full data supplied, the categorically-unbindable
         # candidate is still excluded -- proving the filter is architectural,
-        # not data-availability-based.
+        # not data-availability-based. (A ListingDataset is already
+        # supplied by every profile-page compile in this class; a listing
+        # with a real address still carries no GeoSpec-producing coordinate
+        # source.)
         with_data = ComponentEngine().compile(
-            _sa([PagePlan(route="/", page_type="home", title="")]),
-            _cp([
-                ContentBlock(page_route="/", slot_id="hero_h1", text="Find pet-friendly places to stay"),
-                ContentBlock(page_route="/", slot_id="subhead", text="Verified hotels, parks, restaurants."),
-                ContentBlock(page_route="/", slot_id="message", text="Some listings are sponsored."),
-            ]),
+            _sa([_PROFILE_PAGE]), _cp(),
             listing_dataset=_dataset([_full_listing()]), brand_package=_brand(),
         )
         ids = [i.component_id for i in with_data.component_manifest.pages[0].components]
-        assert "directory.categories.grid" not in ids  # still excluded
+        assert "profile.map.directions" not in ids  # still excluded
 
 
 # --------------------------------------------------------------------------- #
@@ -438,5 +430,9 @@ class TestArchitecture:
         assert {str(_REGISTRY.lifecycle(c)) for c in ids} == {"LifecycleStatus.PROPOSED"}
 
     def test_is_categorically_bindable_matches_engine_behavior(self):
-        assert is_categorically_bindable("directory.categories.grid") is False
+        # PILOT-PTF-1: directory.categories.grid's fields move to
+        # RENDER_DATA (categorically bindable); profile.map.directions'
+        # "location" (GeoSpec) remains STRUCTURED_DEFERRED, unchanged.
+        assert is_categorically_bindable("directory.categories.grid") is True
+        assert is_categorically_bindable("profile.map.directions") is False
         assert is_categorically_bindable("hero.local.standard") is True

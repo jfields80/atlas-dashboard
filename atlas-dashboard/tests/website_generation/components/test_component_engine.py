@@ -229,9 +229,11 @@ class TestPublicSurfaceAndVersion:
     def test_version_pinned(self):
         # AES-WEB-002J.19: 1.0.0 -> 1.1.0 (Phase-B binding). AES-WEB-002J.20:
         # 1.1.0 -> 1.2.0 (listing repetition). AES-WEB-002K.1: 1.2.0 -> 1.3.0
-        # (render-data production; see contracts/versions.py).
+        # (render-data production; see contracts/versions.py). PILOT-PTF-1:
+        # 1.3.0 -> 1.4.0 (category-tile render-data, honest optional-slot
+        # omission).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.3.0"
+        assert ComponentEngine.version == "1.4.0"
 
     def test_compile_returns_component_compilation_result(self):
         result = ComponentEngine().compile(
@@ -248,12 +250,17 @@ class TestPublicSurfaceAndVersion:
 
 class TestGoldenRealCatalog:
     def test_home_recipe_resolves_expected_components(self):
-        # AES-WEB-002J.19: directory.categories.grid declares a required
-        # STRUCTURED_DEFERRED field (category_source_ref/category_tiles --
-        # tile label+href is not representable by flat ContentBlock text,
-        # ADR-WEB-CONTENT-BINDING-MAP) so bindability-aware selection now
-        # excludes it in favor of its declared fallback, layout.grid.standard.
-        # directory.locations.grid is likewise excluded, and -- because its
+        # AES-WEB-002J.19: directory.categories.grid originally declared a
+        # required STRUCTURED_DEFERRED field (category_source_ref/
+        # category_tiles), so bindability-aware selection excluded it in
+        # favor of its declared fallback, layout.grid.standard.
+        # PILOT-PTF-1: category_tiles/category_source_ref move to
+        # RENDER_DATA (a real tile-link producer now exists -- the
+        # TileLinks contract K.1 declared but left unwired), so
+        # directory.categories.grid is now categorically bindable and wins
+        # its slot for real, never the empty fallback.
+        # directory.locations.grid is still excluded (location_tiles
+        # remains STRUCTURED_DEFERRED, unchanged), and -- because its
         # recipe slot is optional with no fallback -- silently dropped
         # (unchanged §26 doctrine for a slot with no bindable winner).
         # AES-WEB-002K.1: site_header/site_footer (nav.header.standard/
@@ -268,7 +275,7 @@ class TestGoldenRealCatalog:
             "nav.header.standard",
             "nav.utility.bar",
             "hero.search.directory",
-            "layout.grid.standard",
+            "directory.categories.grid",
             "legal.footer.directory",
         ]
 
@@ -357,7 +364,7 @@ class TestGoldenRealCatalog:
             "site_architecture": artifact_sha256(sa),
             "content_package": artifact_sha256(cp),
             "brand_package": artifact_sha256(brand),
-            "binding_map_version": "1.1.0",
+            "binding_map_version": "1.2.0",
             "composition_rules_version": "1.0.0",
             "render_data_version": "1.0.0",
         }
@@ -367,7 +374,13 @@ class TestGoldenRealCatalog:
         # scope this test used to pin (content_refs always empty). Every
         # selected instance's required content slots are now bound to real
         # ContentBlocks -- content_refs is non-empty exactly where a
-        # component declares required content slots.
+        # component declares required content slots. PILOT-PTF-1:
+        # directory.categories.grid's "category_tiles" content slot is now
+        # RENDER_DATA-backed too, so its content_refs marker is the
+        # generated "render:category_tiles.<component_index>" key, not a
+        # plain ContentPackage slot id (component_index 3: nav.header.
+        # standard, nav.utility.bar, hero.search.directory, directory.
+        # categories.grid, legal.footer.directory).
         result = ComponentEngine().compile(
             _sa([_HOME_PAGE]), _cp(_home_blocks()), brand_package=_brand()
         )
@@ -380,6 +393,7 @@ class TestGoldenRealCatalog:
         assert with_slots == {
             "nav.utility.bar": ("message",),
             "hero.search.directory": ("h1", "subhead"),
+            "directory.categories.grid": ("render:category_tiles.3",),
             "legal.footer.directory": ("disclosures", "legal_facts"),
         }
 

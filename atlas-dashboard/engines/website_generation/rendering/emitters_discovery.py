@@ -29,9 +29,10 @@ and responsive collapse are independent axes, §7.1) -- so, mirroring
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, Optional
 
 from engines.website_generation.contracts.artifacts import ComponentInstance
+from engines.website_generation.contracts.render_data import TileLinks
 from engines.website_generation.rendering.html_emitter import (
     EmitterFn,
     HtmlFragment,
@@ -44,6 +45,7 @@ from engines.website_generation.rendering.html_emitter import (
     element,
     escape,
     first_value,
+    link_list_html,
 )
 
 _HERO_PREFIX = "ac-hero"
@@ -138,12 +140,19 @@ def _emit_directory_categories_grid(
     layout_ctx: LayoutContext,
 ) -> HtmlFragment:
     """Category discovery grid: the internal-link backbone from home/city
-    pages into the category taxonomy (§27.4)."""
-    tiles = all_values(resolved_content, "category_tiles")
+    pages into the category taxonomy (§27.4). Real, linked tiles
+    (PILOT-PTF-1; ``layout_ctx.render_data.tiles``) -- one real ``<a>`` per
+    launched category with its own human-readable label, never a raw route
+    string. Degrades to the pre-K.1 unlinked href-as-label rendering when no
+    render data is present (no ``ListingDataset`` supplied)."""
+    tile_links: Optional[TileLinks] = layout_ctx.render_data.tiles if layout_ctx.render_data else None
     attrs = {
         "class": class_names(_DIRECTORY_PREFIX, "categories-grid", "tiles"),
         **analytics_attrs("directory-categories-grid", _VERSION),
     }
+    if tile_links is not None:
+        return element("section", attrs, element("ul", {}, link_list_html(tile_links.tiles)))
+    tiles = all_values(resolved_content, "category_tiles")
     return element("section", attrs, element("ul", {}, _link_items(tiles)))
 
 

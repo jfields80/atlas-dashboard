@@ -535,6 +535,16 @@ class Renderer(RendererInterface):
         all_slots = dict(definition.required_content_slots)
         all_slots.update(definition.optional_content_slots)
         for slot_id in sorted(all_slots):
+            # PILOT-PTF-1: a CONTENT_SLOT field can also be RENDER_DATA-
+            # backed (component_engine._bind_instance's content-slot twin of
+            # the pre-existing PROP_REF/PROP_LITERAL RENDER_DATA branch) --
+            # its content_refs marker is the generated "render:<slot_id>.
+            # <component_index>" key, not the plain slot_id the pre-K.1 FLAT
+            # convention uses, so it is never looked up in content_index
+            # (the real value lives in layout_ctx.render_data instead,
+            # mirroring the CONTENT_BLOCK_REF prop skip below).
+            if any(ref.startswith("render:%s." % slot_id) for ref in instance.content_refs):
+                continue
             if slot_id not in instance.content_refs:
                 if slot_id in definition.required_content_slots:
                     missing_required.append(slot_id)

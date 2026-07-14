@@ -101,9 +101,12 @@ class TestVocabulary:
 
 class TestIaConstants:
     def test_existing_content_slots_by_role_unchanged(self):
+        # PILOT-PTF-1: adds "editorial-guide" -> same (hero_h1, intro)
+        # vocabulary, for PetTripFinder's About/Methodology/Contact pages.
         assert ia_constants.CONTENT_SLOTS_BY_ROLE == {
             "home": ("hero_h1", "intro"),
             "category": ("hero_h1", "intro"),
+            "editorial-guide": ("hero_h1", "intro"),
         }
 
     def test_semantic_requirements_only_for_current_roles(self):

@@ -232,11 +232,19 @@ def _emit_profile_header_business(
     AES-WEB-002K.1: root element is ``<section>``, not ``<header>`` -- the
     site shell's HEADER-region ``nav.header.standard`` now owns the page's
     single ``<header>`` landmark (CG-CMP-006); this component still owns
-    the ``<h1>``, just inside a non-landmark container."""
+    the ``<h1>``, just inside a non-landmark container.
+
+    PILOT-PTF-1 claimed-variant honesty fix: the modifier class used to be a
+    hardcoded ``"claimed"`` regardless of any real claim-status data --
+    ``ListingRecord`` carries no claim-status field at all (that is a future
+    AES-WEB-005 concern), so no listing could honestly be marked claimed.
+    Renders the neutral ``"standard"`` modifier (matching every other
+    single-variant component's third class segment) until a real
+    claim-status producer exists; never asserts "claimed" without evidence."""
     name = first_value(resolved_content, "name")
     rating = first_value(resolved_content, "rating_summary")
     attrs = {
-        "class": class_names(_PROFILE_PREFIX, "header-business", "claimed"),
+        "class": class_names(_PROFILE_PREFIX, "header-business", "standard"),
         **analytics_attrs("profile-header-business", _VERSION),
     }
     children = element("h1", {}, escape(name))
@@ -256,7 +264,12 @@ def _emit_profile_contact_panel(
     """Contact panel: real, clickable tel:/mailto:/website links
     (AES-WEB-002K.1; ``layout_ctx.render_data.contact``) inside an
     ``<address>`` (§13.3). Degrades to the pre-K.1 opaque NAP text when
-    render data is absent."""
+    render data is absent.
+
+    PILOT-PTF-1 §15: a sponsored listing's own ``disclosure_text`` (when
+    present) renders as a visible paragraph outside the ``<address>`` block
+    (a disclosure is not itself a NAP fact) -- absent for every ORGANIC/
+    non-sponsored listing, never a fabricated default."""
     contact_info = first_value(resolved_content, "contact_info")
     contact: Optional[ContactData] = layout_ctx.render_data.contact if layout_ctx.render_data else None
     attrs = {
@@ -274,7 +287,10 @@ def _emit_profile_contact_panel(
         parts.append(element("p", {}, link_html(contact.email)))
     if contact.website is not None:
         parts.append(element("p", {}, link_html(contact.website)))
-    return element("aside", attrs, element("address", {}, "".join(parts)))
+    address = element("address", {}, "".join(parts))
+    if contact.disclosure_text:
+        address += _disclosure_block(_PROFILE_PREFIX, contact.disclosure_text)
+    return element("aside", attrs, address)
 
 
 def _emit_profile_hours_table(

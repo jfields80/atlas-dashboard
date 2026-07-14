@@ -66,12 +66,19 @@ from engines.website_generation.components.catalog.layout_atoms import (
     _fixtures,
 )
 
-# hero.local.standard: "cat, city, cc, service-area" (§27.4).
+# hero.local.standard: "cat, city, cc, service-area" (§27.4), amended
+# (PILOT-PTF-1, documented, non-silent per CLAUDE.md's authority-precedence
+# rule) to add PageRole.EDITORIAL_GUIDE -- the new PetTripFinder trust-page
+# role needs the identical "compact titled hero" shape §27.4 already
+# specified for these four roles, and no dedicated hero.* component exists
+# for editorial-guide. component_version bumped 1.0.0 -> 1.1.0 below for
+# this additive role-support change.
 _HERO_LOCAL_ROLES: Tuple[PageRole, ...] = (
     PageRole.CATEGORY,
     PageRole.CITY,
     PageRole.CITY_CATEGORY,
     PageRole.SERVICE_AREA,
+    PageRole.EDITORIAL_GUIDE,
 )
 
 # directory.search.primary: "home, cat, city, sr" (§27.4).
@@ -179,7 +186,7 @@ HERO_SEARCH_DIRECTORY = ComponentDefinition(
 HERO_LOCAL_STANDARD = ComponentDefinition(
     component_id="hero.local.standard",
     component_family=ComponentFamily.HERO,
-    component_version="1.0.0",
+    component_version="1.1.0",  # PILOT-PTF-1: added PageRole.EDITORIAL_GUIDE support
     lifecycle_status=LifecycleStatus.PROPOSED,
     display_name="Local Hero",
     description=(

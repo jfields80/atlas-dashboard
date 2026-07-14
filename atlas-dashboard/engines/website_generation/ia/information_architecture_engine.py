@@ -50,6 +50,7 @@ from engines.website_generation.constants.ia import (
     CONTENT_SLOTS_BY_ROLE,
     HOME_ROUTE,
     PAGE_ROLE_CATEGORY,
+    PAGE_ROLE_EDITORIAL_GUIDE,
     PAGE_ROLE_HOME,
 )
 from engines.website_generation.contracts.artifacts import (
@@ -139,22 +140,38 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
         spec: BusinessSpec,
         brand: BrandPackage,
         listing_dataset: Optional[ListingDataset] = None,
+        editorial_pages: Tuple[Tuple[str, str], ...] = (),
     ) -> SiteArchitecture:
         """Total function over valid inputs; batch-fails otherwise.
 
         Deterministic guarantees: neither input is mutated (all three are
         frozen); the page inventory, routes, hierarchy, and link topology
-        are pure functions of ``spec.directory_taxonomy`` and the optional
-        ``listing_dataset``'s categories/listings only.
+        are pure functions of ``spec.directory_taxonomy``, the optional
+        ``listing_dataset``'s categories/listings, and the optional
+        ``editorial_pages`` only.
+
+        ``editorial_pages`` (PILOT-PTF-1, additive, empty-by-default):
+        explicit ``(route, title)`` pairs for static/trust pages (about,
+        methodology, contact) -- these carry no taxonomy or listing source,
+        so, unlike category/profile routes, IA does not derive them; the
+        caller supplies the exact route and a real, non-empty title. Each
+        becomes a real ``PageRole.EDITORIAL_GUIDE`` page: in the page graph,
+        in ``sitemap_routes``, and in ``nav_routes`` (footer-eligible, per
+        the Component Engine's render-data navigation split) -- never a
+        second, bespoke page-role string (AES-WEB-002 §6.1's eighteen-role
+        taxonomy already names this role; see constants/ia.py's
+        ``PAGE_ROLE_EDITORIAL_GUIDE`` docstring).
         """
         self._validate_spec(spec)
         category_pairs = self._resolve_category_routes(spec.directory_taxonomy)
         category_routes = tuple(route for route, _title in category_pairs)
         profile_triples = self._resolve_profile_routes(listing_dataset)
+        editorial_pairs = self._resolve_editorial_pages(editorial_pages)
+        editorial_routes = tuple(route for route, _title in editorial_pairs)
 
         home_title = _normalized(spec.business_name)
-        pages = self._build_pages(category_pairs, home_title, profile_triples)
-        hierarchy = self._build_hierarchy(category_routes, profile_triples)
+        pages = self._build_pages(category_pairs, home_title, profile_triples, editorial_pairs)
+        hierarchy = self._build_hierarchy(category_routes, profile_triples, editorial_routes)
         links = self._build_link_topology(category_routes, profile_triples)
         page_ids = {page.route: _stable_page_id(page.route) for page in pages}
 
@@ -288,10 +305,55 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
         return tuple(sorted(triples))
 
     @staticmethod
+    def _resolve_editorial_pages(
+        editorial_pages: Tuple[Tuple[str, str], ...],
+    ) -> Tuple[Tuple[str, str], ...]:
+        """Validate and normalize the caller-supplied ``(route, title)``
+        pairs for static/trust pages. Batch-reports every malformed route
+        (must be ``"/segment/"`` shaped -- leading and trailing slash, one
+        or more non-slash characters) and every blank title; duplicate
+        routes among ``editorial_pages`` are caught here (a clearer,
+        editorial-specific message) rather than deferred to the generic
+        cross-role ``_validate_site_graph`` duplicate check."""
+        malformed: List[str] = []
+        blank_titles: List[str] = []
+        seen_routes: Set[str] = set()
+        duplicates: Set[str] = set()
+        resolved: List[Tuple[str, str]] = []
+        for route, title in editorial_pages:
+            if not re.match(r"^/[a-z0-9-]+/$", route):
+                malformed.append(route)
+                continue
+            normalized_title = _normalized(title)
+            if not normalized_title:
+                blank_titles.append(route)
+                continue
+            if route in seen_routes:
+                duplicates.add(route)
+                continue
+            seen_routes.add(route)
+            resolved.append((route, normalized_title))
+
+        if malformed or blank_titles or duplicates:
+            diagnostics: Dict[str, Any] = {}
+            if malformed:
+                diagnostics["malformed_editorial_routes"] = sorted(malformed)
+            if blank_titles:
+                diagnostics["blank_editorial_titles"] = sorted(blank_titles)
+            if duplicates:
+                diagnostics["duplicate_editorial_routes"] = sorted(duplicates)
+            raise ArchitecturePlanningError(
+                "SiteArchitecture planning failed; editorial_pages is invalid",
+                diagnostics=diagnostics,
+            )
+        return tuple(sorted(resolved))
+
+    @staticmethod
     def _build_pages(
         category_pairs: Tuple[Tuple[str, str], ...],
         home_title: str,
         profile_triples: Tuple[Tuple[str, str, str], ...],
+        editorial_pairs: Tuple[Tuple[str, str], ...] = (),
     ) -> Tuple[PagePlan, ...]:
         pages = [
             PagePlan(
@@ -314,12 +376,22 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
             pages.append(
                 PagePlan(route=route, page_type=PAGE_ROLE_BUSINESS_PROFILE, title=title)
             )
+        for route, title in editorial_pairs:
+            pages.append(
+                PagePlan(
+                    route=route,
+                    page_type=PAGE_ROLE_EDITORIAL_GUIDE,
+                    title=title,
+                    content_slots=CONTENT_SLOTS_BY_ROLE[PAGE_ROLE_EDITORIAL_GUIDE],
+                )
+            )
         return tuple(sorted(pages, key=lambda page: page.route))
 
     @staticmethod
     def _build_hierarchy(
         category_routes: Tuple[str, ...],
         profile_triples: Tuple[Tuple[str, str, str], ...],
+        editorial_routes: Tuple[str, ...] = (),
     ) -> Tuple[PageHierarchyEntry, ...]:
         hierarchy = [PageHierarchyEntry(route=HOME_ROUTE, parent_route="")]
         for route in category_routes:
@@ -328,6 +400,10 @@ class InformationArchitectureEngine(InformationArchitectureEngineInterface):
             )
         for route, _title, parent_route in profile_triples:
             hierarchy.append(PageHierarchyEntry(route=route, parent_route=parent_route))
+        for route in editorial_routes:
+            # Editorial/trust pages hang directly off home, like categories
+            # -- there is no taxonomy parent for "about"/"methodology".
+            hierarchy.append(PageHierarchyEntry(route=route, parent_route=HOME_ROUTE))
         return tuple(sorted(hierarchy, key=lambda entry: entry.route))
 
     @staticmethod

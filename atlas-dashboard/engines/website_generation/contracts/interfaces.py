@@ -76,10 +76,12 @@ class InformationArchitectureEngineInterface(ABC):
         spec: BusinessSpec,
         brand: BrandPackage,
         listing_dataset: Optional[ListingDataset] = None,
+        editorial_pages: Tuple[Tuple[str, str], ...] = (),
     ) -> SiteArchitecture:
         """Plan a deterministic SiteArchitecture from a BusinessSpec and a
         BrandPackage, plus (AES-WEB-002K.1) the optional profile-route
-        expansion a ListingDataset enables."""
+        expansion a ListingDataset enables and (PILOT-PTF-1) the optional
+        static/trust ``(route, title)`` pages ``editorial_pages`` enables."""
         raise NotImplementedError
 
 

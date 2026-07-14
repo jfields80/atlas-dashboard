@@ -64,11 +64,16 @@ class TestRoleRuleTables:
     def test_title_source_slot_by_role_covers_exactly_home_category_and_profile(self):
         # AES-WEB-002K.1: business-profile pages need a real <title>/meta
         # description too (IA now emits them), same D1/D2 hero_h1/intro
-        # source slots -- no new rule needed.
-        assert set(TITLE_SOURCE_SLOT_BY_ROLE) == {"home", "category", "business-profile"}
+        # source slots -- no new rule needed. PILOT-PTF-1: editorial-guide
+        # (About/Methodology/Contact) needs the same treatment.
+        assert set(TITLE_SOURCE_SLOT_BY_ROLE) == {
+            "home", "category", "business-profile", "editorial-guide",
+        }
 
     def test_meta_source_slot_by_role_covers_exactly_home_category_and_profile(self):
-        assert set(META_SOURCE_SLOT_BY_ROLE) == {"home", "category", "business-profile"}
+        assert set(META_SOURCE_SLOT_BY_ROLE) == {
+            "home", "category", "business-profile", "editorial-guide",
+        }
 
     def test_both_tables_share_the_same_role_key_set(self):
         assert set(TITLE_SOURCE_SLOT_BY_ROLE) == set(META_SOURCE_SLOT_BY_ROLE)
@@ -92,7 +97,7 @@ class TestRoleRuleTables:
         # "profile pages carry no content_slots" design choice that keeps
         # it out of that module's role-keyed tables.
         assert set(SUPPORTED_PAGE_ROLES) == {
-            PAGE_ROLE_HOME, PAGE_ROLE_CATEGORY, "business-profile",
+            PAGE_ROLE_HOME, PAGE_ROLE_CATEGORY, "business-profile", "editorial-guide",
         }
 
 

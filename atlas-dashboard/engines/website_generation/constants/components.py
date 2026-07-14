@@ -604,8 +604,19 @@ BUSINESS_PROFILE_RECIPE_SLOTS = (
         "required_prop_names": (),
         "required_slot_names": ("hours",),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.section.container",
-        "required": True,  # §26.6 "hours"
+        # PILOT-PTF-1 §8: real listings without operating-hours data must
+        # still compile -- required=True + a structural fallback previously
+        # made a missing-hours listing a fatal batch failure (the K.1
+        # "site_header lesson": Phase A selects profile.hours.table
+        # regardless of this flag once it is categorically bindable; Phase
+        # B's binding failure was fatal regardless of "required" too, until
+        # the new optional-slot honesty guard in component_engine.compile()
+        # made "required": False actually mean "omit the component when its
+        # data is absent" here, matching the category-control-cleanup
+        # precedent). No fallback: an empty hours table is worse than
+        # honestly omitting the component.
+        "fallback_component_id": "",
+        "required": False,  # §26.6 "hours" -- was required=True pre-PTF-1
     },
     {
         "slot_id": "service_areas",
@@ -882,6 +893,21 @@ SEO_LOCAL_LINKS_MAX_BLOCKS_PER_PAGE = 2
 
 EDITORIAL_GUIDE_RECIPE_SLOTS = (
     {
+        # PILOT-PTF-1: the site-shell header landmark (same shape as every
+        # other K.1 recipe's site_header slot) -- editorial-guide now hosts
+        # PetTripFinder's About/Methodology/Contact trust pages, which need
+        # the real site nav shell exactly like home/category/business-profile.
+        "slot_id": "site_header",
+        "page_role": "editorial-guide",
+        "purpose": "",
+        "required_region": "HEADER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
+    },
+    {
         "slot_id": "hero",
         "page_role": "editorial-guide",
         "purpose": "COMMUNICATE_VALUE",
@@ -890,7 +916,34 @@ EDITORIAL_GUIDE_RECIPE_SLOTS = (
         "required_slot_names": ("h1",),
         "monetization_eligible": False,
         "fallback_component_id": "layout.section.container",
-        "required": True,  # §6.1 "R editorial hero" -- no hero.* covers editorial-guide
+        # PILOT-PTF-1: hero.local.standard's supported-role tuple
+        # (_HERO_LOCAL_ROLES, components/catalog/discovery.py) now includes
+        # PageRole.EDITORIAL_GUIDE (component_version 1.0.0 -> 1.1.0, an
+        # additive role-support amendment, never silent -- see that
+        # catalog's own changelog note), so this slot resolves to a real,
+        # titled hero exactly like category's, not the empty fallback.
+        "required": True,  # §6.1 "R editorial hero"
+    },
+    {
+        # PILOT-PTF-1: a real BODY-region section is required for the page
+        # to carry a <main> landmark at all (CG-CMP-006) -- every other
+        # editorial-guide slot is either HEADER/HERO/FOOTER-scoped or
+        # currently unbindable (embedded_listings/author_source_disclosure/
+        # related_guides_categories), so without this slot BODY stays
+        # permanently empty. content.section.editorial already declares
+        # PageRole.EDITORIAL_GUIDE in its supported_page_roles (§27.7,
+        # unchanged by this delivery) and its one required "body" content
+        # slot is already FULLY_BINDABLE (ContentPackage:body) -- no new
+        # component, no catalog/binding-rules change needed here.
+        "slot_id": "body_section",
+        "page_role": "editorial-guide",
+        "purpose": "REDUCE_UNCERTAINTY",
+        "required_region": "",
+        "required_prop_names": (),
+        "required_slot_names": ("body",),
+        "monetization_eligible": False,
+        "fallback_component_id": "layout.section.container",
+        "required": True,
     },
     {
         "slot_id": "embedded_listings",
@@ -911,8 +964,12 @@ EDITORIAL_GUIDE_RECIPE_SLOTS = (
         "required_prop_names": (),
         "required_slot_names": ("disclosure",),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.section.container",
-        "required": True,  # §6.1 "R author/source disclosure" -- legal.statement.standard is Wave 7; no trust.* covers editorial-guide
+        # PILOT-PTF-1 (§26 category-control-cleanup precedent, extended):
+        # no trust.*/legal.* component targets editorial-guide yet, so this
+        # slot always resolved to an empty layout.section.container
+        # fallback -- optional + no fallback is an honest omission instead.
+        "fallback_component_id": "",
+        "required": False,  # was required=True pre-PTF-1
     },
     {
         "slot_id": "contextual_cta",
@@ -936,8 +993,24 @@ EDITORIAL_GUIDE_RECIPE_SLOTS = (
         # support" note fits "related guides + categories" directly.
         "required_slot_names": ("resources",),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.stack.standard",
-        "required": True,  # §6.1 "R related guides + categories"
+        # PILOT-PTF-1: PetTripFinder's three trust pages have no real
+        # "related guides" inventory in v1 -- optional + no fallback is an
+        # honest omission instead of a populated-looking but fake stack.
+        "fallback_component_id": "",
+        "required": False,  # was required=True pre-PTF-1
+    },
+    {
+        # PILOT-PTF-1: the site-shell footer landmark, matching site_header
+        # above.
+        "slot_id": "site_footer",
+        "page_role": "editorial-guide",
+        "purpose": "",
+        "required_region": "FOOTER",
+        "required_prop_names": ("nav_tree",),
+        "required_slot_names": (),
+        "monetization_eligible": False,
+        "fallback_component_id": "",
+        "required": False,
     },
 )
 

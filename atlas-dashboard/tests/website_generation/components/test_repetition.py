@@ -509,10 +509,12 @@ class TestDeterminism:
 # --------------------------------------------------------------------------- #
 
 class TestComponentEngineVersion:
-    def test_version_bumped_to_1_3_0(self):
+    def test_version_bumped_to_1_4_0(self):
         # AES-WEB-002K.1: 1.2.0 -> 1.3.0 (render-data production).
-        assert ENGINE_VERSIONS["component_engine"] == "1.3.0"
-        assert ComponentEngine().version == "1.3.0"
+        # PILOT-PTF-1: 1.3.0 -> 1.4.0 (category-tile render-data, honest
+        # optional-slot omission).
+        assert ENGINE_VERSIONS["component_engine"] == "1.4.0"
+        assert ComponentEngine().version == "1.4.0"
 
 
 # --------------------------------------------------------------------------- #

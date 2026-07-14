@@ -131,11 +131,16 @@ class TestListingProjection:
         assert r.semantic_slot == "result_summary"
         assert "result_count" in r.source_rule
 
-    def test_category_and_location_tiles_deferred(self):
-        assert _rule("directory.categories.grid", FieldKind.CONTENT_SLOT, "category_tiles").binding_state \
-            is BindingState.STRUCTURED_DEFERRED
+    def test_location_tiles_deferred(self):
         assert _rule("directory.locations.grid", FieldKind.CONTENT_SLOT, "location_tiles").binding_state \
             is BindingState.STRUCTURED_DEFERRED
+
+    def test_category_tiles_is_render_data(self):
+        # PILOT-PTF-1: real tile links (label+href per launched category)
+        # now flow through the render-data producer -- the TileLinks
+        # contract K.1 declared but left unwired.
+        assert _rule("directory.categories.grid", FieldKind.CONTENT_SLOT, "category_tiles").binding_state \
+            is BindingState.RENDER_DATA
 
     def test_gallery_is_structured_deferred_not_unavailable(self):
         r = _rule("profile.gallery.standard", FieldKind.CONTENT_SLOT, "images")

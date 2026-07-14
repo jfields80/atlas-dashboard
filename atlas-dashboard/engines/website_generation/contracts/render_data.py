@@ -128,12 +128,18 @@ class ListingCardData(FrozenModel):
 
 
 class ContactData(FrozenModel):
-    """A profile's structured, clickable contact block."""
+    """A profile's structured, clickable contact block. ``disclosure_text``
+    (PILOT-PTF-1) is the listing's own ``ListingSponsorship.disclosure_text``
+    when present -- rendered visibly alongside contact information so a
+    sponsored listing's profile page carries the same honesty a sponsored
+    card already does, never a fabricated default when the listing carries
+    no sponsorship disclosure."""
 
     address_text: str = ""
     phone: Optional[LinkSpec] = None
     email: Optional[LinkSpec] = None
     website: Optional[LinkSpec] = None
+    disclosure_text: str = ""
 
 
 class HoursRow(FrozenModel):

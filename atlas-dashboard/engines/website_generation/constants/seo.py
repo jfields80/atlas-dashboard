@@ -75,6 +75,12 @@ PAGE_ROLE_CATEGORY = "category"
 # needed. Not a schema change: this table is declarative Python data, never
 # a registered artifact.
 PAGE_ROLE_BUSINESS_PROFILE = "business-profile"
+# PILOT-PTF-1: PetTripFinder's About/Methodology/Contact trust pages (the
+# pre-existing, authority-registered PageRole.EDITORIAL_GUIDE, AES-WEB-002
+# §6.1) also need a real <title>/meta description -- same D1/D2 hero_h1/
+# intro source slots, no new rule needed. Not a schema change: this table is
+# declarative Python data, never a registered artifact.
+PAGE_ROLE_EDITORIAL_GUIDE = "editorial-guide"
 
 # Per-role source-slot rule tables (D1/D2). Keys are the complete set of
 # ``PagePlan.page_type`` values the SEO Engine supports; a page_type absent
@@ -83,12 +89,14 @@ TITLE_SOURCE_SLOT_BY_ROLE: Dict[str, str] = {
     PAGE_ROLE_HOME: TITLE_SOURCE_SLOT,
     PAGE_ROLE_CATEGORY: TITLE_SOURCE_SLOT,
     PAGE_ROLE_BUSINESS_PROFILE: TITLE_SOURCE_SLOT,
+    PAGE_ROLE_EDITORIAL_GUIDE: TITLE_SOURCE_SLOT,
 }
 
 META_SOURCE_SLOT_BY_ROLE: Dict[str, str] = {
     PAGE_ROLE_HOME: META_SOURCE_SLOT,
     PAGE_ROLE_CATEGORY: META_SOURCE_SLOT,
     PAGE_ROLE_BUSINESS_PROFILE: META_SOURCE_SLOT,
+    PAGE_ROLE_EDITORIAL_GUIDE: META_SOURCE_SLOT,
 }
 
 # The complete set of page roles the SEO Engine supports -- the two tables
