@@ -147,7 +147,17 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.2 (AES-WEB-001 §5.2/Part 2/Part 13 Phase 2): initial
     # Brand Engine version. Not wired into pipeline execution (§6:
     # brand_resolution remains NOT_EXECUTED in the BuildManifest).
-    "brand_engine": "1.0.0",
+    # AES-WEB-002K.2 bumps 1.0.0 -> 1.1.0: three additive type-scale roles
+    # (heading.hero, body.large, wordmark) and one additive spacing role
+    # (section.xsmall) per family/shared scale -- resolve() now returns a
+    # BrandPackage with more populated type_scale/spacing_scale entries for
+    # the identical BusinessSpec input, a real §5.2 output change. (A fourth
+    # candidate role, "eyebrow", was authored then removed before this
+    # merge -- no visual_styles.py rule or catalog dependency ended up
+    # consuming it, since no page-role/emitter has a real, non-fabricated
+    # eyebrow-copy source; adding an unused token would fail the brand
+    # token-coverage suite's "no accidental drift" invariant honestly.)
+    "brand_engine": "1.1.0",
     # AES-WEB-002J.3 (AES-WEB-001 §5.3/Part 2/Part 13 Phase 2): initial
     # Information Architecture Engine version. Not wired into pipeline
     # execution (§6: ia_planning remains NOT_EXECUTED in the BuildManifest).
@@ -226,7 +236,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # is now recognized and excluded from the ContentPackage-lookup
     # missing-content check -- a §5.7 behavior change requiring an explicit
     # bump. Omitting render_data (None) is byte-identical to pre-K.1 output.
-    "renderer": "1.2.0",
+    # AES-WEB-002K.2 bumps 1.2.0 -> 1.3.0: link_html() now accepts an
+    # optional css_class, applied at the listing-card CTA and profile
+    # website-link call sites (a real markup change -- those anchors now
+    # carry a class attribute they did not before), and
+    # hero.search.directory's emitter gained a real, static, in-page CTA
+    # anchor to #main -- both §5.7 markup-level behavior changes requiring
+    # an explicit bump, mirroring the J.15 "snapshot-level change" precedent.
+    "renderer": "1.3.0",
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).

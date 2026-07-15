@@ -336,3 +336,81 @@ class TestDeterminism:
             content_a = (tmp_path / "a" / rel).read_bytes()
             content_b = (tmp_path / "b" / rel).read_bytes()
             assert content_a == content_b, rel
+
+
+class TestVisualSystemV2:
+    """AES-WEB-002K.2 visual acceptance assertions -- the real generated
+    CSS/HTML surfaces the masterplan identified as unstyled/underdesigned,
+    proven against the real chain output rather than a synthetic fixture."""
+
+    def test_listing_card_has_real_applied_styling(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        css = rendered.shared_css
+        assert ".ac-listing--card-standard" in css
+        rule = re.search(
+            r"\.ac-listing--card-standard[^{]*\{([^}]*)\}", css
+        )
+        assert rule is not None
+        body = rule.group(1)
+        assert "border:" in body
+        assert "border-radius:" in body
+        assert "box-shadow:" in body
+
+    def test_utility_bar_has_real_applied_styling(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        assert ".ac-nav--utility-bar{" in rendered.shared_css
+
+    def test_meaningful_hover_rules_exist(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        hover_count = rendered.shared_css.count(":hover")
+        assert hover_count >= 5, hover_count
+
+    def test_hero_no_longer_uses_section_large_padding(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        rule = re.search(r"\.ac-hero\{([^}]*)\}", rendered.shared_css)
+        assert rule is not None
+        assert "--spacing-section-large" not in rule.group(1)
+
+    def test_editorial_content_has_readable_max_width(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        assert "max-width:70ch" in rendered.shared_css
+
+    def test_two_responsive_breakpoint_tiers_exist(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        css = rendered.shared_css
+        assert "@media (max-width: 1024px){" in css
+        assert "@media (max-width: 640px){" in css
+
+    def test_cta_action_rules_exist(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        css = rendered.shared_css
+        assert ".ac-cta--action{" in css
+        assert ".ac-cta--action:hover{" in css
+        assert ".ac-cta--action:focus-visible{" in css
+
+    def test_sponsored_badge_rules_exist(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        assert ".ac-listing--badge{" in rendered.shared_css
+
+    def test_hero_cta_exists_and_points_to_main(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        html = _page_html(rendered, "/")
+        assert 'href="#main"' in html
+        assert 'class="ac-cta ac-cta--action" href="#main"' in html
+
+    def test_cta_anchors_carry_shared_action_class(self):
+        fixture, _, _, rendered, *_ = _run_real_chain()
+        html = _page_html(rendered, fixture.sponsored_listing_route)
+        assert 'class="ac-cta ac-cta--action"' in html
+
+    def test_no_empty_map_directions_section(self):
+        fixture, _, _, rendered, *_ = _run_real_chain()
+        for route in fixture.profile_routes:
+            html = _page_html(rendered, route)
+            assert "<section></section>" not in html
+            assert "profile-map-directions" not in html
+
+    def test_no_broken_class_hooks(self):
+        _, _, _, rendered, *_ = _run_real_chain()
+        for page in rendered.page_details:
+            assert 'class=""' not in page.html

@@ -32,6 +32,24 @@ def _required_token_ids():
     return required
 
 
+# AES-WEB-002K.2: these type-scale/spacing roles are consumed only by the
+# applied visual layer (rendering/visual_styles.py's family/global rules,
+# gated on token *presence* in the resolved BrandPackage -- never on any
+# component's own design_token_dependencies). No catalog component declares
+# them as a required render asset (visual_styles.py rules are a distinct,
+# pre-existing consumer of resolved tokens -- e.g. the global body/h1/h2/h3
+# rules already referenced tokens with no single "owning" component before
+# this wave), so the registry-derived required set never includes them. A
+# real, deliberate, documented exception to the "resolved == required"
+# invariant, not accidental drift or under-coverage.
+_VISUAL_LAYER_ONLY_TOKENS = frozenset({
+    TOKEN_PREFIX_TYPOGRAPHY + "heading.hero",
+    TOKEN_PREFIX_TYPOGRAPHY + "body.large",
+    TOKEN_PREFIX_TYPOGRAPHY + "wordmark",
+    TOKEN_PREFIX_SPACING + "section.xsmall",
+})
+
+
 def _resolved_fields(family: str):
     return {
         "palette": build_palette_tokens(family),
@@ -68,14 +86,16 @@ class TestCoveragePerFamily:
             assert not missing, "%s missing tokens: %s" % (family, sorted(missing))
 
     def test_every_family_resolves_to_exactly_the_required_set(self):
-        # No under-coverage AND no accidental drift into unrequired ids.
+        # No under-coverage AND no accidental drift into unrequired ids,
+        # modulo the documented AES-WEB-002K.2 visual-layer-only exception.
         required = _required_token_ids()
         for family in FAMILY_ORDER:
             fields = _resolved_fields(family)
             resolved = set()
             for group in fields.values():
                 resolved.update(group.keys())
-            assert resolved == required, family
+            assert resolved - _VISUAL_LAYER_ONLY_TOKENS == required, family
+            assert _VISUAL_LAYER_ONLY_TOKENS <= resolved, family
 
     def test_no_token_id_resolves_in_more_than_one_field(self):
         for family in FAMILY_ORDER:

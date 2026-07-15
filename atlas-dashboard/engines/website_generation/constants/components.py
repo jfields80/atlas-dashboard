@@ -682,8 +682,19 @@ BUSINESS_PROFILE_RECIPE_SLOTS = (
         "required_prop_names": ("listing_ref",),
         "required_slot_names": ("location", "directions_text"),
         "monetization_eligible": False,
-        "fallback_component_id": "layout.section.container",
-        "required": True,  # §26.6 "map + directions"
+        # AES-WEB-002K.2: profile.map.directions's "location" field (GeoSpec)
+        # remains STRUCTURED_DEFERRED -- no coordinate producer exists, so
+        # this slot's real candidate has always been categorically
+        # unbindable and every profile page rendered the empty
+        # layout.section.container fallback in its place (a visually and
+        # semantically empty trailing <section> on every profile). Optional
+        # + no fallback is the same K.1 category-control-cleanup /
+        # PILOT-PTF-1 hours-slot honesty pattern: omit the slot entirely
+        # rather than render a placeholder for a capability that does not
+        # exist. Reintroduce only when a real coordinates/maps-URL source
+        # exists (deferred to a future wave, not this one).
+        "fallback_component_id": "",
+        "required": False,  # was required=True pre-K.2
     },
     {
         "slot_id": "related_listings",

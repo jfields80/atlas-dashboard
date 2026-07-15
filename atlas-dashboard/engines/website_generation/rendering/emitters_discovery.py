@@ -53,6 +53,19 @@ _DIRECTORY_PREFIX = "ac-directory"
 _STATUS_PREFIX = "ac-status"
 _VERSION = "1.0.0"
 
+# AES-WEB-002K.2: the home-page hero's real CTA -- a static, structural
+# in-page link (``#main`` is a real, universal id every generated page's
+# shell carries) styled through the shared CTA/button system
+# (``emitters_listings_profiles._CTA_CLASS`` uses the identical class
+# string; duplicated here rather than cross-imported per the "no
+# sibling-family imports" convention this module's own docstring names).
+# Generic, directory-neutral wording -- never PetTripFinder-specific copy
+# baked into a shared engine component (operator decision: "PetTripFinder-
+# specific visual hardcoding forbidden except the converter address fix").
+_HERO_CTA_CLASS = "ac-cta ac-cta--action"
+_HERO_CTA_LABEL = "Browse the directory"
+_HERO_CTA_HREF = "#main"
+
 
 def _link_items(hrefs: "tuple[str, ...]") -> str:
     """One ``<li><a>`` per resolved href -- mirrors
@@ -77,15 +90,22 @@ def _emit_hero_search_directory(
     the catalog's own documented resolution -- not representable without a
     nesting-capable artifact (see module docstring's "no nesting" note in
     ``emitters_layout_atoms``), so it renders as its own sibling instance in
-    the same region, not nested inside this hero."""
+    the same region, not nested inside this hero.
+
+    AES-WEB-002K.2: gains a real, static, in-page CTA to ``#main`` (a
+    universal id every page shell carries) styled through the shared CTA
+    system -- a real button, never a bare text link, and never fake search
+    or fabricated imagery."""
     h1 = first_value(resolved_content, "h1")
     subhead = first_value(resolved_content, "subhead")
     attrs = {
         "class": class_names(_HERO_PREFIX, "search-directory", "centered"),
         **analytics_attrs("hero-search-directory", _VERSION),
     }
+    cta = element("a", {"class": _HERO_CTA_CLASS, "href": _HERO_CTA_HREF}, escape(_HERO_CTA_LABEL))
     return element(
-        "section", attrs, element("h1", {}, escape(h1)) + element("p", {}, escape(subhead))
+        "section", attrs,
+        element("h1", {}, escape(h1)) + element("p", {}, escape(subhead)) + cta,
     )
 
 

@@ -242,13 +242,19 @@ def all_values(resolved_content: ResolvedContent, slot_id: str) -> Tuple[str, ..
     return resolved_content.get(slot_id, ())
 
 
-def link_html(link: LinkSpec) -> str:
+def link_html(link: LinkSpec, css_class: str = "") -> str:
     """One real ``<a>`` from a :class:`LinkSpec` (AES-WEB-002K.1) -- the
     honest successor to the pre-K.1 pattern of using an href string as its
     own visible label. Shared here (not duplicated per emitter family)
     because it carries no component-specific knowledge, exactly like
-    :func:`element`/:func:`escape`."""
+    :func:`element`/:func:`escape`. ``css_class`` (AES-WEB-002K.2, optional,
+    empty by default) lets a caller opt a specific link into the shared
+    visual system (e.g. the CTA button treatment) without teaching this
+    shared primitive any component-specific styling knowledge itself --
+    every existing call site that omits it renders byte-identical output."""
     attrs: Dict[str, AttrValue] = {"href": link.href}
+    if css_class:
+        attrs["class"] = css_class
     if link.rel:
         attrs["rel"] = link.rel
     if link.aria_label:

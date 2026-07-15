@@ -114,20 +114,25 @@ _PROFILE_PAGE = PagePlan(route="/hotels/lakeview-lodge/", page_type="business-pr
 # --------------------------------------------------------------------------- #
 
 class TestBindabilityAwareSelection:
-    def test_architecturally_unbindable_required_slot_falls_back(self):
+    def test_architecturally_unbindable_required_slot_is_honestly_omitted(self):
         # PILOT-PTF-1: directory.categories.grid's category_tiles moved to
         # RENDER_DATA (a real tile-link producer now exists), so it no
         # longer demonstrates this claim. profile.map.directions's
         # "location" field (GeoSpec) remains STRUCTURED_DEFERRED (no
-        # coordinate producer exists) -- excluded; its declared fallback
-        # layout.section.container wins instead.
+        # coordinate producer exists) -- excluded.
+        # AES-WEB-002K.2: the slot's declared fallback (layout.section.
+        # container) is removed -- an empty trailing <section> on every
+        # profile page was worse than honestly omitting a capability that
+        # does not exist (the same K.1 category-control-cleanup precedent).
+        # map_directions is now optional with no fallback: the slot is
+        # dropped entirely, not backfilled with an empty structural div.
         result = ComponentEngine().compile(
             _sa([_PROFILE_PAGE]), _cp(),
             listing_dataset=_dataset([_full_listing()]), brand_package=_brand(),
         )
         ids = [i.component_id for i in result.component_manifest.pages[0].components]
         assert "profile.map.directions" not in ids
-        assert "layout.section.container" in ids
+        assert "layout.section.container" not in ids
 
     def test_selection_trace_names_bindability_as_the_elimination_reason(self):
         # profile.map.directions isn't ranked highly enough to land in the

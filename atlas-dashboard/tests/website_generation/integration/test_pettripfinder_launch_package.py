@@ -74,6 +74,18 @@ class TestRealPackageConversion:
         assert result.ok
         assert len(result.dataset.listings) == 3
 
+    def test_no_duplicated_locality_in_street_address(self):
+        # AES-WEB-002K.2 address-duplication fix: the real seed package's
+        # "123 Sunset Bay Road, Columbus, OH" address field must not carry
+        # its own city/state as a trailing, redundant locality.
+        result = self._build()
+        assert result.ok
+        for listing in result.dataset.listings:
+            if listing.address is None or not listing.address.city:
+                continue
+            suffix = ", %s, %s" % (listing.address.city, listing.address.state)
+            assert not listing.address.street.endswith(suffix), listing.listing_id
+
     def test_source_urls_never_become_ctas(self):
         result = self._build()
         assert result.ok

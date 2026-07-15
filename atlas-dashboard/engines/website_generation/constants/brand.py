@@ -321,11 +321,20 @@ SANCTIONED_CONTRAST_PAIRS: Tuple[Tuple[str, str, int], ...] = (
 # ---------------------------------------------------------------------------
 
 TYPE_SCALE_FIELD_GUIDE: Dict[str, str] = {
+    # AES-WEB-002K.2 (Commercial Visual System V2): four additive roles --
+    # a real hero display size (distinct from the shared page-h1 display
+    # scale), a body-large intro/lede size, an uppercase eyebrow label, and
+    # a wordmark size distinct from ordinary nav-link label type. Additive
+    # dict entries only -- BrandPackage.type_scale is already an open
+    # Dict[str, str]; no schema change.
+    "heading.hero": "700 46px/1.1 Rockwell, 'Roboto Slab', Georgia, serif",
     "heading.display": "700 34px/1.15 Rockwell, 'Roboto Slab', Georgia, serif",
     "heading.2": "700 26px/1.2 Rockwell, 'Roboto Slab', Georgia, serif",
     "heading.3": "600 20px/1.3 Rockwell, 'Roboto Slab', Georgia, serif",
+    "body.large": "400 18px/1.55 'Seravek', 'Noto Sans', 'Segoe UI', sans-serif",
     "body.default": "400 16px/1.5 'Seravek', 'Noto Sans', 'Segoe UI', sans-serif",
     "label.default": "600 13px/1.4 'Seravek', 'Noto Sans', 'Segoe UI', sans-serif",
+    "wordmark": "700 20px/1 Rockwell, 'Roboto Slab', Georgia, serif",
     "price.default": (
         "700 20px/1.2 'Seravek', 'Noto Sans', 'Segoe UI', sans-serif; "
         "font-variant-numeric: tabular-nums"
@@ -333,11 +342,14 @@ TYPE_SCALE_FIELD_GUIDE: Dict[str, str] = {
 }
 
 TYPE_SCALE_CIVIC_SLATE: Dict[str, str] = {
+    "heading.hero": "700 46px/1.1 'Source Serif Pro', Georgia, 'Times New Roman', serif",
     "heading.display": "700 34px/1.15 'Source Serif Pro', Georgia, 'Times New Roman', serif",
     "heading.2": "700 26px/1.2 'Source Serif Pro', Georgia, 'Times New Roman', serif",
     "heading.3": "600 20px/1.3 'Source Serif Pro', Georgia, 'Times New Roman', serif",
+    "body.large": "400 18px/1.55 'Segoe UI', Arial, 'Helvetica Neue', sans-serif",
     "body.default": "400 16px/1.5 'Segoe UI', Arial, 'Helvetica Neue', sans-serif",
     "label.default": "600 13px/1.4 'Segoe UI', Arial, 'Helvetica Neue', sans-serif",
+    "wordmark": "700 20px/1 'Source Serif Pro', Georgia, 'Times New Roman', serif",
     "price.default": (
         "700 20px/1.2 'Segoe UI', Arial, 'Helvetica Neue', sans-serif; "
         "font-variant-numeric: tabular-nums"
@@ -345,11 +357,14 @@ TYPE_SCALE_CIVIC_SLATE: Dict[str, str] = {
 }
 
 TYPE_SCALE_MARKET_CLAY: Dict[str, str] = {
+    "heading.hero": "700 46px/1.1 'Century Gothic', 'Poppins', 'Segoe UI', sans-serif",
     "heading.display": "700 34px/1.15 'Century Gothic', 'Poppins', 'Segoe UI', sans-serif",
     "heading.2": "700 26px/1.2 'Century Gothic', 'Poppins', 'Segoe UI', sans-serif",
     "heading.3": "600 20px/1.3 'Century Gothic', 'Poppins', 'Segoe UI', sans-serif",
+    "body.large": "400 18px/1.55 'Segoe UI', 'Noto Sans', sans-serif",
     "body.default": "400 16px/1.5 'Segoe UI', 'Noto Sans', sans-serif",
     "label.default": "600 13px/1.4 'Segoe UI', 'Noto Sans', sans-serif",
+    "wordmark": "700 20px/1 'Century Gothic', 'Poppins', 'Segoe UI', sans-serif",
     "price.default": (
         "700 20px/1.2 'Segoe UI', 'Noto Sans', sans-serif; "
         "font-variant-numeric: tabular-nums"
@@ -357,11 +372,14 @@ TYPE_SCALE_MARKET_CLAY: Dict[str, str] = {
 }
 
 TYPE_SCALE_HARBOR_INK: Dict[str, str] = {
+    "heading.hero": "700 46px/1.1 'Inter', 'Helvetica Neue', Arial, sans-serif",
     "heading.display": "700 34px/1.15 'Inter', 'Helvetica Neue', Arial, sans-serif",
     "heading.2": "700 26px/1.2 'Inter', 'Helvetica Neue', Arial, sans-serif",
     "heading.3": "600 20px/1.3 'Inter', 'Helvetica Neue', Arial, sans-serif",
+    "body.large": "400 18px/1.55 'Inter', Arial, sans-serif",
     "body.default": "400 16px/1.5 'Inter', Arial, sans-serif",
     "label.default": "600 13px/1.4 'Inter', Arial, sans-serif",
+    "wordmark": "700 20px/1 'Inter', 'Helvetica Neue', Arial, sans-serif",
     "price.default": (
         "700 20px/1.2 'IBM Plex Mono', 'Roboto Mono', monospace; "
         "font-variant-numeric: tabular-nums"
@@ -380,6 +398,10 @@ TYPE_SCALES: Dict[str, Dict[str, str]] = {
 # ---------------------------------------------------------------------------
 
 SPACING_SCALE: Dict[str, str] = {
+    # AES-WEB-002K.2: one additive step below "small" for tight content-block
+    # rhythm (§4 page-rhythm re-mapping) -- the existing three section steps
+    # alone left no way to express "less than 48px but still a real step".
+    "section.xsmall": "32px",
     "section.small": "48px",
     "section.medium": "72px",
     "section.large": "104px",

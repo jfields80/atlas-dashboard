@@ -63,6 +63,13 @@ _PROFILE_PREFIX = "ac-profile"
 _CONTENT_PREFIX = "ac-content"
 _VERSION = "1.0.0"
 
+# AES-WEB-002K.2: the one shared CTA/button class hook, applied at every
+# real commercial-action anchor (listing-card CTA, profile website link) so
+# they render through the single visual_styles.py ``.ac-cta--action``
+# button recipe instead of as bare text links -- never a second,
+# per-component button style.
+_CTA_CLASS = "ac-cta ac-cta--action"
+
 
 def _text_items(tag: str, values: Tuple[str, ...]) -> str:
     """One ``<tag>`` per resolved value, escaped -- for opaque multi-value
@@ -119,7 +126,7 @@ def _card_body(card: Optional[ListingCardData], fallback_text: str) -> str:
             element("span", {"class": class_names(_LISTING_PREFIX, "badge")}, escape(card.badge_label))
         )
     if card.cta is not None:
-        parts.append(link_html(card.cta))
+        parts.append(link_html(card.cta, css_class=_CTA_CLASS))
     return "".join(parts)
 
 
@@ -286,7 +293,7 @@ def _emit_profile_contact_panel(
     if contact.email is not None:
         parts.append(element("p", {}, link_html(contact.email)))
     if contact.website is not None:
-        parts.append(element("p", {}, link_html(contact.website)))
+        parts.append(element("p", {}, link_html(contact.website, css_class=_CTA_CLASS)))
     address = element("address", {}, "".join(parts))
     if contact.disclosure_text:
         address += _disclosure_block(_PROFILE_PREFIX, contact.disclosure_text)

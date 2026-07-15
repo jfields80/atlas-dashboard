@@ -141,11 +141,21 @@ def compile_shared_css(
     definitions: Iterable[ComponentDefinition], tokens: TokenMap
 ) -> str:
     """The complete deterministic shared CSS payload for one build: custom
-    properties, the per-component token-scoping rules, the applied
-    commercial visual layer (ADR-WEB-VISUAL-TOKEN-APPLICATION,
-    AES-WEB-002J.15), then the tree-shaken responsive rules -- always in this
-    fixed order so output is stable regardless of any input collection's
-    iteration order.
+    properties, the applied commercial visual layer
+    (ADR-WEB-VISUAL-TOKEN-APPLICATION, AES-WEB-002J.15/K.2), then the
+    tree-shaken responsive rules -- always in this fixed order so output is
+    stable regardless of any input collection's iteration order.
+
+    AES-WEB-002K.2 removes :func:`compile_component_rules`'s output from
+    this composition (the per-component tier remains defined and unit-tested
+    below for any future component-scoped token *override*, but no such
+    override exists anywhere in this codebase today): every declaration it
+    emitted was provably ``--x:var(--x)`` -- a custom property re-declared,
+    on a narrower selector, to the exact same value it already inherits from
+    ``:root`` -- because nothing ever sets a different value for that
+    property within a component's own scope. Removing a no-op does not
+    change any resolved value any ``var(--x)`` reference anywhere else in
+    this file's output sees.
 
     The visual layer is imported lazily to keep this module's import graph a
     leaf under ``rendering/`` (``visual_styles`` imports ``css_emitter``'s
@@ -158,7 +168,6 @@ def compile_shared_css(
     return "".join(
         (
             compile_custom_properties(tokens),
-            compile_component_rules(ordered_definitions, tokens),
             compile_visual_styles(ordered_definitions, tokens),
             compile_responsive_rules(ordered_definitions, tokens),
         )

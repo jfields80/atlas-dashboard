@@ -59,26 +59,37 @@ class TestDeterministicSharedCss:
 
 class TestManifestDrivenTreeShaking:
     def test_only_present_components_contribute_rules(self):
+        # AES-WEB-002K.2 removes compile_component_rules' provably-no-op
+        # per-component token-scoping output from compile_shared_css (see
+        # that module's docstring) -- the family-gated *applied visual*
+        # rules (visual_styles.py) are now the tree-shaking mechanism this
+        # test proves. "atom"/"nav" both carry no shared class-name
+        # collision risk, and only "nav" has an authored visual_styles.py
+        # family rule, so a nav.header.standard-only build must carry its
+        # selector while a directory-family selector (absent from the
+        # build) must not.
         registry = real_registry()
         brand = real_brand_package()
-        button_definition = registry.get("atom.button.action")
-        badge_definition = registry.get("atom.badge.status")
 
-        result = render_single_component(registry, brand, "atom.button.action")
+        result = render_single_component(registry, brand, "nav.header.standard")
         css = result.shared_css
-        assert "." + component_class(button_definition) in css
-        assert "." + component_class(badge_definition) not in css
+        assert ".ac-nav--header-standard" in css
+        assert ".ac-directory--categories-grid" not in css
 
     def test_shell_is_always_present(self):
         registry = real_registry()
         brand = real_brand_package()
         shell_definition = registry.get("layout.shell.page")
         result = render_single_component(registry, brand, "atom.button.action")
-        # The shell contributes CSS only if it declares token deps; verify
-        # its class is at least evaluable without error and, if it declares
-        # deps, that they appear.
-        if shell_definition.design_token_dependencies:
-            assert "." + component_class(shell_definition) in result.shared_css
+        # The shell's own component-scoped class carries no dedicated
+        # visual_styles.py rule (AES-WEB-002K.2 removed the provably-no-op
+        # per-component scoping tier that previously made this assertion
+        # trivially true for every present component) -- verify instead
+        # that the shell's own declared token dependencies, if any, all
+        # resolve into the shared :root block (the shell's real, current
+        # contribution to shared CSS).
+        for token_id in shell_definition.design_token_dependencies:
+            assert custom_property_name(token_id) + ":" in result.shared_css
 
 
 class TestComponentClassDeterminism:

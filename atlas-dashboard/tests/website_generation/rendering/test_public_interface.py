@@ -40,7 +40,11 @@ class TestEngineVersion:
         # layer (ADR-WEB-VISUAL-TOKEN-APPLICATION; §11.4 snapshot-level change).
         # AES-WEB-002K.1 bumps 1.1.0 -> 1.2.0 for optional render_data
         # threading (real hyperlinks/enrichment; contracts/versions.py).
-        assert wge.ENGINE_VERSIONS["renderer"] == "1.2.0"
+        # AES-WEB-002K.2 bumps 1.2.0 -> 1.3.0: link_html() gained an
+        # optional css_class (applied at the listing-card CTA and profile
+        # website-link call sites) and hero.search.directory gained a real
+        # #main CTA anchor -- real markup-level output changes.
+        assert wge.ENGINE_VERSIONS["renderer"] == "1.3.0"
 
     def test_renderer_class_version_matches_registry(self):
         assert Renderer.version == wge.ENGINE_VERSIONS["renderer"]

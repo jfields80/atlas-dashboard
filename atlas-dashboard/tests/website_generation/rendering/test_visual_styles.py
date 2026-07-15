@@ -18,7 +18,8 @@ from engines.website_generation.rendering.css_emitter import compile_shared_css
 from engines.website_generation.rendering.visual_styles import (
     _COMPONENT_RULES,
     _GLOBAL_RULES,
-    _RESPONSIVE_RULES,
+    _RESPONSIVE_RULES_MD,
+    _RESPONSIVE_RULES_SM,
     compile_visual_styles,
 )
 
@@ -46,18 +47,24 @@ from engines.website_generation.rendering.renderer import Renderer
 _DEMO_COMPONENTS = (
     ("nav.skip.link", RegionKind.SKIP),
     ("nav.header.standard", RegionKind.HEADER),
+    ("nav.utility.bar", RegionKind.ANNOUNCEMENT),
     ("monetization.disclosure.advertising", RegionKind.ANNOUNCEMENT),
     ("hero.search.directory", RegionKind.HERO),
+    ("hero.local.standard", RegionKind.HERO),
     ("directory.categories.grid", RegionKind.BODY),
+    ("content.section.editorial", RegionKind.BODY),
     ("directory.results.summary", RegionKind.BODY),
     ("monetization.ribbon.sponsor", RegionKind.BODY),
+    ("listing.card.standard", RegionKind.BODY),
     ("listing.row.compact", RegionKind.BODY),
     ("trust.statistics.strip", RegionKind.BODY),
     ("trust.reviews.summary", RegionKind.BODY),
     ("cta.claim.listing", RegionKind.BODY),
     ("form.lead.quote", RegionKind.BODY),
     ("form.capture.newsletter", RegionKind.BODY),
+    ("profile.header.business", RegionKind.HERO),
     ("profile.contact.panel", RegionKind.BODY),
+    ("profile.hours.table", RegionKind.BODY),
     ("legal.footer.directory", RegionKind.FOOTER),
 )
 
@@ -130,9 +137,11 @@ class TestAppliedCss:
         assert "border-bottom:var(--border-default) var(--color-border-default)" in rule
 
     def test_hero_surface_and_spacing(self, demo_css):
+        # AES-WEB-002K.2 §4 rhythm re-map: section.large -> section.medium
+        # (the "giant pale hero" defect) -- deliberate, reported change.
         rule = re.search(r"\.ac-hero\{([^}]*)\}", demo_css).group(1)
         assert "background:var(--color-surface-featured)" in rule
-        assert "padding:var(--spacing-section-large) var(--spacing-section-small)" in rule
+        assert "padding:var(--spacing-section-medium) var(--spacing-section-small)" in rule
 
     def test_directory_uses_real_grid_with_tokens(self, demo_css):
         rule = re.search(r"\.ac-directory--categories-grid ul\{([^}]*)\}", demo_css).group(1)
@@ -207,7 +216,9 @@ class TestTokenDiscipline:
         for field in ("palette", "type_scale", "spacing_scale", "radius_scale", "extended_tokens"):
             tokens.update(getattr(brand, field))
         all_rules = list(_GLOBAL_RULES) + [(s, d) for _f, s, d in _COMPONENT_RULES] + [
-            (s, d) for _f, s, d in _RESPONSIVE_RULES
+            (s, d) for _f, s, d in _RESPONSIVE_RULES_MD
+        ] + [
+            (s, d) for _f, s, d in _RESPONSIVE_RULES_SM
         ]
         for _selector, declarations in all_rules:
             for _prop, _template, token_ids in declarations:
@@ -255,7 +266,11 @@ class TestDeterminismAndCoverage:
         assert a == b
 
     def test_tree_shaken_absent_family_gets_no_visual_rule(self):
-        # A build with only an atom present must not carry hero/cta/etc rules.
+        # A build with only an atom present must not carry family-gated
+        # rules like hero. AES-WEB-002K.2: .ac-cta--action moved to the
+        # *global* tier (module docstring) because its anchors are now
+        # emitted by multiple families (hero/listing/profile/cta/form), so
+        # it is deliberately present even in an atom-only build.
         registry = real_registry()
         brand = real_brand_package()
         tokens = {}
@@ -263,7 +278,7 @@ class TestDeterminismAndCoverage:
             tokens.update(getattr(brand, field))
         css = compile_visual_styles([registry.get("atom.button.action")], tokens)
         assert ".ac-hero{" not in css
-        assert ".ac-cta--action{" not in css
+        assert ".ac-cta--action{" in css
 
     def test_styled_selectors_match_emitted_markup_classes(self, demo_css):
         # Every component-variant selector the visual layer emits must be a
@@ -290,8 +305,29 @@ class TestDeterminismAndCoverage:
         for pd in rendered.page_details:
             for cls in re.findall(r'class="([^"]*)"', pd.html):
                 html_classes.update(cls.split())
+        # AES-WEB-002K.2: these classes are real and correctly styled but
+        # are only emitted when layout_ctx.render_data is populated
+        # (K.1's real-hyperlink/enrichment path) -- this synthetic fixture
+        # renders every instance through minimal_fixture_for's FLAT/opaque
+        # content path with no RenderDataBundle threaded in, exactly like
+        # every pre-K.1 case this suite already covers, so these
+        # conditionally-emitted sub-element classes never appear here
+        # regardless of styling correctness. Real render-data-path coverage
+        # lives in test_pettripfinder_pilot_chain.py.
+        _RENDER_DATA_ONLY_CLASSES = frozenset({
+            "ac-listing--area", "ac-listing--rating", "ac-listing--badge",
+            "ac-listing--disclosure", "ac-profile--disclosure",
+        })
         # Extract the leading component class from each authored variant selector.
         for _family, selector, _decls in _COMPONENT_RULES:
-            head = re.match(r"\.([A-Za-z0-9-]+)", selector).group(1)
+            match = re.match(r"\.([A-Za-z0-9-]+)", selector)
+            if match is None:
+                # A non-class-leading selector (e.g. AES-WEB-002K.2's
+                # "main:has(>.ac-profile--contact-panel)" two-column-layout
+                # rule) -- nothing to extract a leading component class from.
+                continue
+            head = match.group(1)
+            if head in _RENDER_DATA_ONLY_CLASSES:
+                continue
             if "--" in head:  # a variant/component class (skip element-only)
                 assert head in html_classes, "%s not in emitted markup" % head

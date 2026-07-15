@@ -114,6 +114,28 @@ def _normalize_key(value: Any) -> str:
     return str(value or "").strip().lower()
 
 
+def _strip_trailing_locality(street: str, city: str, state: str) -> str:
+    """AES-WEB-002K.2 address-duplication fix. A seed record's ``address``
+    field sometimes carries the full postal string, redundantly repeating
+    the record's own ``city``/``state`` as a trailing locality (e.g. "123
+    Sunset Bay Road, Columbus, OH" alongside separate ``city="Columbus"``,
+    ``state="OH"`` fields). Left as-is, ``ListingAddress.street`` and
+    ``ListingAddress.city``/``state`` get joined downstream into a visibly
+    duplicated "123 Sunset Bay Road, Columbus, OH, Columbus, OH". This
+    strips an exact, case-insensitive trailing ", City, State" match only
+    -- a normal street-only value (no repeated locality) is returned
+    unchanged, never altered speculatively."""
+    street = street.strip()
+    city = city.strip()
+    state = state.strip()
+    if not street or not city or not state:
+        return street
+    suffix = ", %s, %s" % (city, state)
+    if street.lower().endswith(suffix.lower()):
+        return street[: -len(suffix)].rstrip(", ").strip()
+    return street
+
+
 # Common street-suffix abbreviation variants (PILOT-PTF-1: two seed records
 # for the same physical address but a slightly different business-name
 # string -- e.g. "123 Sunset Bay Rd" vs "123 Sunset Bay Road" -- must still
@@ -323,10 +345,12 @@ def build_listing_dataset(
         if phone or email or website_url:
             contact = ListingContact(phone=phone, email=email, website_url=website_url)
 
+        raw_city = str(raw.get("city", "")).strip()
+        raw_state = str(raw.get("state", "")).strip()
         address = ListingAddress(
-            street=str(raw.get("address", "")).strip(),
-            city=str(raw.get("city", "")).strip(),
-            state=str(raw.get("state", "")).strip(),
+            street=_strip_trailing_locality(str(raw.get("address", "")), raw_city, raw_state),
+            city=raw_city,
+            state=raw_state,
             country="US",
         )
 

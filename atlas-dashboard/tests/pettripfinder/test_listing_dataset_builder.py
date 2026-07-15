@@ -255,3 +255,41 @@ class TestContact:
     def test_no_contact_when_no_enrichment(self):
         result = build_listing_dataset(seed_businesses=[_biz()], categories=_CATEGORIES, locations=_LOCATIONS)
         assert result.dataset.listings[0].contact is None
+
+
+class TestAddressDuplicationFix:
+    """AES-WEB-002K.2: a seed record's ``address`` field sometimes carries
+    the full postal string, redundantly repeating the record's own
+    ``city``/``state`` (e.g. "123 Sunset Bay Road, Columbus, OH" alongside
+    separate city="Columbus"/state="OH" fields), which downstream rendering
+    then joins into a visibly duplicated locality."""
+
+    def test_trailing_locality_stripped(self):
+        result = build_listing_dataset(
+            seed_businesses=[_biz(address="123 Sunset Bay Road, Columbus, OH", city="Columbus", state="OH")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        assert result.dataset.listings[0].address.street == "123 Sunset Bay Road"
+
+    def test_case_insensitive_trailing_locality_stripped(self):
+        result = build_listing_dataset(
+            seed_businesses=[_biz(address="123 Sunset Bay Road, columbus, oh", city="Columbus", state="OH")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        assert result.dataset.listings[0].address.street == "123 Sunset Bay Road"
+
+    def test_normal_street_only_value_unchanged(self):
+        result = build_listing_dataset(
+            seed_businesses=[_biz(address="456 Barkside Ave", city="Dublin", state="OH")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        assert result.dataset.listings[0].address.street == "456 Barkside Ave"
+
+    def test_city_state_fields_still_populated_after_strip(self):
+        result = build_listing_dataset(
+            seed_businesses=[_biz(address="123 Sunset Bay Road, Columbus, OH", city="Columbus", state="OH")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        address = result.dataset.listings[0].address
+        assert address.city == "Columbus"
+        assert address.state == "OH"
