@@ -32,13 +32,16 @@ clock, no randomness, no network. Malformed or mismatched input raises
 
 from __future__ import annotations
 
+import json
 import struct
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Union
 
 from engines.website_generation.contracts.artifacts import ListingAssetRef
 from engines.website_generation.contracts.enums import AssetRole
+
+DEMO_MEDIA_MANIFEST_FILENAME = "demo_media.json"
 
 # Formats operator ingestion accepts in V1 (see module docstring for why
 # this is narrower than assembly_builders.MEDIA_MIME_EXTENSIONS).
@@ -178,3 +181,88 @@ def ingest_operator_image(
         bundle_allowed=True,
         attribution_text="",
     )
+
+
+# ---------------------------------------------------------------------------
+# Demo-media manifest (AES-WEB-002M.3)
+# ---------------------------------------------------------------------------
+#
+# The smallest data-over-branching configuration for the pilot's
+# repository-owned demo imagery: an optional ``demo_media.json`` in the
+# launch-package directory listing (name, city, state) -> relative image
+# path + honest demo alt text. Absent manifest -> zero media, byte-for-byte
+# the pre-M.3 image-less pilot (media activation is optional configuration,
+# never mandatory architecture).
+
+
+def _normalize_key(value: object) -> str:
+    """Documented duplication of ``listing_dataset_builder._normalize_key``
+    (same file-pair, same convention as the slugify duplicate that module
+    already documents): the manifest's (name, city, state) must normalize
+    exactly as the builder's ``media_by_key`` lookup does."""
+    return str(value or "").strip().lower()
+
+
+def load_demo_media_manifest(package_dir: Union[str, Path]) -> Tuple[Dict[str, str], ...]:
+    """Read and validate the launch package's optional demo-media manifest.
+
+    Returns the entry dicts in file order (deterministic: the manifest is
+    committed data). A missing manifest is the valid zero-media case and
+    returns ``()``. Every ``image`` path must be relative, forward-slash,
+    and inside the package directory -- absolute paths, drive letters,
+    backslashes, and ``..`` segments are rejected fail-closed (no
+    machine-specific or escaping path may enter the pilot's media flow).
+    """
+    manifest_path = Path(package_dir) / DEMO_MEDIA_MANIFEST_FILENAME
+    if not manifest_path.exists():
+        return ()
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    entries = payload.get("demo_media", ())
+    for entry in entries:
+        for field in ("name", "city", "state", "image", "alt_text"):
+            if not str(entry.get(field, "")).strip():
+                raise MediaIngestionError(
+                    "invalid_manifest_entry",
+                    "demo_media entry missing required field %r: %r" % (field, entry),
+                )
+        image = str(entry["image"])
+        if (
+            "\\" in image
+            or image.startswith("/")
+            or ":" in image
+            or ".." in image.split("/")
+        ):
+            raise MediaIngestionError(
+                "invalid_manifest_path",
+                "demo_media image path must be a relative, package-local, "
+                "forward-slash path: %r" % image,
+            )
+    return tuple(dict(entry) for entry in entries)
+
+
+def ingest_demo_media(
+    entries: Sequence[Mapping[str, str]],
+    package_dir: Union[str, Path],
+    cas,
+) -> Dict[Tuple[str, str, str], Tuple[ListingAssetRef, ...]]:
+    """Ingest every manifest entry's image through the real M.2 path
+    (:func:`ingest_operator_image` -> ``cas.put_bytes``) and return the
+    ``media_by_key`` overlay ``listing_dataset_builder.build_listing_dataset``
+    consumes. A missing/malformed image file fails the whole ingestion
+    (fail-closed -- the manifest declared it, so silence would hide a real
+    packaging defect). One key may accumulate multiple refs in manifest
+    order; the resolver's first-HERO_IMAGE rule then applies unchanged."""
+    package_dir = Path(package_dir)
+    media_by_key: Dict[Tuple[str, str, str], Tuple[ListingAssetRef, ...]] = {}
+    for entry in entries:
+        key = (
+            _normalize_key(entry["name"]),
+            _normalize_key(entry["city"]),
+            _normalize_key(entry["state"]),
+        )
+        ref = ingest_operator_image(
+            package_dir / str(entry["image"]), cas, alt_text=str(entry["alt_text"]),
+        )
+        media_by_key[key] = media_by_key.get(key, ()) + (ref,)
+    return media_by_key

@@ -83,8 +83,14 @@ from engines.website_generation.ia.information_architecture_engine import (
 from engines.website_generation.layouts.layout_engine import LayoutEngine
 from engines.website_generation.rendering.renderer import Renderer
 from engines.website_generation.seo.seo_engine import SEOEngine
+from repositories.artifact_store_repository import ArtifactStoreRepository
 from repositories.site_bundle_repository import SiteBundleRepository
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
+from scripts.pettripfinder.media_ingestion import (
+    MediaIngestionError,
+    ingest_demo_media,
+    load_demo_media_manifest,
+)
 
 RUNNER_NAME = "PILOT-PTF-1 PetTripFinder Pilot Generation Runner (NOT production pipeline wiring)"
 DEFAULT_OUTPUT = "generated-sites/pettripfinder-pilot"
@@ -194,10 +200,32 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
     package = load_launch_package()
     pilot_config = package["pilot_config"]
 
+    # AES-WEB-002M.3: optional repository-owned demo media. A missing
+    # demo_media.json means a zero-media pilot (media activation is
+    # optional configuration, never mandatory architecture); a present
+    # manifest ingests each image through the real M.2 path (signature
+    # validation -> dimension parse -> CAS.put_bytes) into the builder's
+    # media_by_key overlay. The CAS lives at the §9.1 layout root
+    # (data/wge/cas -- content-addressed local storage, never committed).
+    demo_media_cas = None
+    media_by_key = {}
+    try:
+        demo_entries = load_demo_media_manifest(LAUNCH_PACKAGE_DIR)
+        if demo_entries:
+            demo_media_cas = ArtifactStoreRepository(_REPO_ROOT / "data" / "wge" / "cas")
+            media_by_key = ingest_demo_media(demo_entries, LAUNCH_PACKAGE_DIR, demo_media_cas)
+            print("Demo media: ingested %d image(s) for %d listing key(s)." % (
+                sum(len(refs) for refs in media_by_key.values()), len(media_by_key),
+            ))
+    except MediaIngestionError as exc:
+        print("Demo media ingestion FAILED (%s): %s" % (exc.reason, exc))
+        return 2
+
     result = build_listing_dataset(
         seed_businesses=package["seed_businesses"],
         categories=package["categories"],
         locations=package["locations"],
+        media_by_key=media_by_key,
     )
     if result.rejected_duplicates:
         print("Deduplicated %d duplicate record(s): %s" % (
@@ -307,19 +335,26 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
 
     blocking = [g for g in report.gate_results if g.severity == GateSeverity.BLOCKING and not g.passed]
 
+    asset_bytes = None
     if bundle.assets:
-        # Fail-closed (AES-WEB-002M.2): the sample runner has no CAS to
-        # fetch asset bytes from -- a media-carrying dataset can only reach
-        # this runner through a future operator-ingestion path that also
-        # supplies the byte source. Refuse loudly rather than let the
-        # repository fail deeper with a less actionable message.
-        print("Materialization REFUSED: bundle declares %d media asset(s) but this "
-              "runner has no asset byte source wired (operator media ingestion is "
-              "not part of the sample path)." % len(bundle.assets))
-        return 2
+        if demo_media_cas is None:
+            # Fail-closed: a media-carrying bundle with no byte source is a
+            # wiring defect -- refuse loudly rather than let the repository
+            # fail deeper with a less actionable message.
+            print("Materialization REFUSED: bundle declares %d media asset(s) but "
+                  "no asset byte source is wired." % len(bundle.assets))
+            return 2
+        # AES-WEB-002M.3: compose the M.1 asset_bytes mapping from the same
+        # CAS ingestion just wrote to -- get_bytes re-verifies each hash.
+        asset_bytes = {
+            asset.asset_hash: demo_media_cas.get_bytes(asset.asset_hash)
+            for asset in bundle.assets
+        }
 
     try:
-        materialization = SiteBundleRepository().materialize(bundle, output, build_id=build_id)
+        materialization = SiteBundleRepository().materialize(
+            bundle, output, build_id=build_id, asset_bytes=asset_bytes,
+        )
     except SiteBundleRepositoryError as exc:
         print("Materialization FAILED: %s" % exc.diagnostics)
         return 2
@@ -331,6 +366,7 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
     print("  category counts: %s" % readiness["counts_by_category"])
     print("  launch_inventory_ready: %s" % readiness["launch_inventory_ready"])
     print("  blocking gate count: %d" % len(blocking))
+    print("  bundled media assets: %d" % len(bundle.assets))
     print("  bundle hash: %s" % materialization.bundle_hash)
     print("  output path: %s" % materialization.destination)
     if not readiness["launch_inventory_ready"]:
