@@ -63,9 +63,10 @@ _SRC_RE = re.compile(r'src="([^"]*)"')
 # The committed manifest's intent (kept in sync with demo_media.json --
 # these tests fail loudly if the manifest and this expectation diverge).
 IMAGED_SLUGS = {"riverbend-off-leash-dog-park", "barkside-cafe"}
-# AES-WEB-002N.1: the launch package's "Duplicate Sunset Bay Inn" noise row
-# was removed, so the real hotel record (and its slug) is now canonical.
-IMAGELESS_SLUG = "sunset-bay-pet-friendly-inn"
+# Inventory Wave 1: the example.com sample hotel row was replaced by 20
+# real researched hotels, none of which carries authorized media yet -- any
+# of them proves the imageless text-only fallback; one is pinned here.
+IMAGELESS_SLUG = "hyatt-regency-columbus"
 
 
 def _real_chain(tmp_path, *, with_media: bool):

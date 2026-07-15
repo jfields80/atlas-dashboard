@@ -7,10 +7,15 @@ inventory. Does NOT assert launch readiness -- the opposite: it asserts the
 real sample package is honestly reported as NOT launch-ready.
 
 AES-WEB-002N.1: the seed authority is now the operator-editable CSV
-(``seed_businesses.csv``; the stale JSON was removed), the sample package
-carries three clean records (the "Duplicate Sunset Bay Inn" noise moved to
-dedicated dedup fixtures in ``tests/pettripfinder/``), provenance survives
+(``seed_businesses.csv``; the stale JSON was removed), provenance survives
 into every record, and the readiness verdict counts READY listings only.
+
+Inventory Wave 1 (2026-07-15): the package now carries 20 researched
+Columbus/Dublin hotel records (official property/brand sources only) plus
+the two demo-media sample rows (park + restaurant); the example.com sample
+hotel was removed so fake inventory never sits beside the real corpus.
+Hotels now meet the 10-per-category floor; parks and restaurants do not,
+so the package remains honestly NOT launch-ready.
 """
 
 from __future__ import annotations
@@ -38,7 +43,7 @@ def _load(name: str):
 class TestRealSeedFilesParse:
     def test_seed_businesses_csv_parses(self):
         seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
-        assert len(seed) == 3
+        assert len(seed) == 22
         for row in seed:
             # Required publish columns are present in the sample rows.
             for field in ("name", "category", "city", "state", "address",
@@ -77,8 +82,9 @@ class TestRealPackageConversion:
         return build_listing_dataset(seed_businesses=seed, categories=cats, locations=locs)
 
     def test_clean_package_has_no_duplicates(self):
-        # AES-WEB-002N.1 cleanup: the "Duplicate Sunset Bay Inn" noise row
-        # was removed from the real package (dedup behavior stays covered
+        # Wave 1 hotels are 20 distinct properties -- nearby same-brand
+        # locations (three Drury, four Red Roof) must NOT collapse in
+        # dedup (distinct addresses; dedup behavior itself stays covered
         # by dedicated fixtures in tests/pettripfinder/).
         result = self._build()
         assert result.ok
@@ -93,15 +99,15 @@ class TestRealPackageConversion:
             assert listing.provenance.source_type
             assert listing.provenance.observed_at
 
-    def test_three_unique_valid_listings_remain(self):
+    def test_twenty_two_unique_valid_listings_remain(self):
         result = self._build()
         assert result.ok
-        assert len(result.dataset.listings) == 3
+        assert len(result.dataset.listings) == 22
 
     def test_no_duplicated_locality_in_street_address(self):
-        # AES-WEB-002K.2 address-duplication fix: the real seed package's
-        # "123 Sunset Bay Road, Columbus, OH" address field must not carry
-        # its own city/state as a trailing, redundant locality.
+        # AES-WEB-002K.2 address-duplication fix: no seed row's street
+        # address may carry its own city/state as a trailing, redundant
+        # locality.
         result = self._build()
         assert result.ok
         for listing in result.dataset.listings:
@@ -126,10 +132,24 @@ class TestRealPackageConversion:
         )
 
     def test_no_fake_default_listings(self):
+        # Wave 1 removed the example.com sample hotel; the only remaining
+        # example.com rows are the two demo-media anchors (park +
+        # restaurant). Every hotel record cites a real official source.
         result = self._build()
         assert result.ok
-        names = {l.business_name for l in result.dataset.listings}
-        assert names == {"Sunset Bay Pet-Friendly Inn", "Barkside Cafe", "Riverbend Off-Leash Dog Park"}
+        by_name = {l.business_name: l for l in result.dataset.listings}
+        assert "Sunset Bay Pet-Friendly Inn" not in by_name
+        assert {"Barkside Cafe", "Riverbend Off-Leash Dog Park"} <= set(by_name)
+        hotel_ids = {
+            c.category_id for c in result.dataset.categories
+            if c.slug == "pet-friendly-hotels"
+        }
+        hotels = [l for l in result.dataset.listings if l.category_id in hotel_ids]
+        assert len(hotels) == 20
+        for listing in hotels:
+            assert "example.com" not in listing.provenance.source_url, listing.business_name
+        assert "Drury Inn & Suites Columbus Polaris" in by_name
+        assert "Staybridge Suites Columbus Dublin" in by_name
 
 
 class TestRealPackageReadiness:
@@ -147,24 +167,29 @@ class TestRealPackageReadiness:
         assert self._readiness()["launch_inventory_ready"] is False
 
     def test_ready_only_counting(self):
-        # AES-WEB-002N.1 (remediated semantics): the strict threshold counts
-        # READY listings only, and recommended-field gaps (no phone; no
-        # authorized image without the media overlay) are non-demoting
-        # advisories -- so the sample's three required-complete, fresh rows
-        # are READY, yet still far below the 30/10-per-category threshold.
+        # AES-WEB-002N.1 (remediated semantics) against the Wave 1 corpus:
+        # all 22 rows (20 researched hotels + 2 sample anchors) are
+        # required-complete and fresh -> READY; advisory gaps (no image,
+        # no rating, some phones absent) never demote. Hotels now clear the
+        # 10-per-category floor; parks and restaurants remain below it.
         readiness = self._readiness()
-        assert readiness["total_unique_listings"] == 3
-        assert readiness["counts_by_state"]["READY"] == 3
+        assert readiness["total_unique_listings"] == 22
+        assert readiness["counts_by_state"]["READY"] == 22
         assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
         assert readiness["counts_by_state"]["NOT_READY"] == 0
-        assert readiness["ready_total"] == 3
+        assert readiness["ready_total"] == 22
+        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 20
         assert set(readiness["categories_below_target"]) == {
-            "pet-friendly-hotels", "pet-friendly-parks", "pet-friendly-restaurants",
+            "pet-friendly-parks", "pet-friendly-restaurants",
         }
         for assessment in readiness["assessments"]:
-            assert "no_phone" in assessment.advisories
+            if assessment.category_slug == "pet-friendly-hotels":
+                # No hotel carries authorized media or a citable official
+                # rating yet -- visible, non-demoting advisories.
+                assert "no_authorized_image" in assessment.advisories
+                assert "no_rating" in assessment.advisories
 
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 3
+        assert len(package["seed_businesses"]) == 22
