@@ -3,12 +3,14 @@
 A small, pure conversion function: parsed launch-package seed records
 (``launch_packages/<slug>/seed_businesses.{csv,json}``-shaped dicts) in,
 a valid :class:`~engines.website_generation.contracts.artifacts.ListingDataset`
-(schema unchanged, 1.0.0) or a deterministic, typed rejection report out --
-never a partially-valid dataset.
+(current schema, 1.1.0 as of AES-WEB-002M.1) or a deterministic, typed
+rejection report out -- never a partially-valid dataset.
 
 Pure: no file I/O, no network, no clock, no randomness. File reading
-(CSV/JSON parsing) is the caller's job (the pilot runner); this module only
-ever sees already-parsed Python data structures.
+(CSV/JSON parsing) is the caller's job (the pilot runner), and media
+ingestion (file reads, signature validation, CAS writes) is
+``media_ingestion.py``'s job (AES-WEB-002M.2); this module only ever sees
+already-parsed Python data structures and already-ingested asset refs.
 
 Lives under ``scripts/`` (not ``engines/website_generation/``) deliberately:
 ``tests/website_generation/architecture/test_import_audit.py`` and
@@ -63,6 +65,7 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 from engines.website_generation.contracts.artifacts import (
     ArtifactKind,
     ListingAddress,
+    ListingAssetRef,
     ListingCategory,
     ListingContact,
     ListingCTA,
@@ -245,6 +248,7 @@ def build_listing_dataset(
     categories: Sequence[Mapping[str, Any]],
     locations: Sequence[Mapping[str, Any]] = (),
     enrichment_by_key: Optional[Mapping[Tuple[str, str, str], Mapping[str, Any]]] = None,
+    media_by_key: Optional[Mapping[Tuple[str, str, str], Tuple[ListingAssetRef, ...]]] = None,
 ) -> ListingDatasetBuildResult:
     """Convert parsed seed-package records into a ``ListingDataset``.
 
@@ -254,8 +258,18 @@ def build_listing_dataset(
     CTA destination URL, phone, email, website, and per-day hours. Absent
     entirely, every listing simply carries no CTA/contact/hours (an honest,
     valid, less-enriched ``ListingRecord`` -- never fabricated).
+
+    ``media_by_key`` (AES-WEB-002M.2) is the analogous optional media
+    overlay, same ``(name, city, state)`` key shape: already-ingested
+    ``ListingAssetRef`` tuples. The file-read/validate/CAS half lives in
+    ``scripts/pettripfinder/media_ingestion.py`` -- this builder stays pure
+    and I/O-free, receiving only durable hash-referenced metadata (no
+    filesystem path ever reaches this function). Absent entirely, every
+    listing simply carries no assets: the honest, valid, image-less record
+    the current sample package produces.
     """
     enrichment_by_key = enrichment_by_key or {}
+    media_by_key = media_by_key or {}
     resolved_categories = build_categories(categories)
     resolved_locations = build_locations(locations)
     categories_by_key = {_normalize_key(c.label): c for c in resolved_categories}
@@ -376,6 +390,7 @@ def build_listing_dataset(
                 contact=contact,
                 address=address,
                 rating=rating,
+                assets=tuple(media_by_key.get(enrichment_key, ())),
                 cta=cta,
             )
         )

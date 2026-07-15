@@ -73,7 +73,11 @@ else:
 # BINDING_MAP_VERSION/COMPOSITION_RULES_VERSION precedent) so a manifest is
 # replay-verifiable against the exact render-data model revision that
 # produced it.
-RENDER_DATA_VERSION: str = "1.0.0"
+# AES-WEB-002M.2 bumps 1.0.0 -> 1.1.0: adds ImageData plus the additive
+# ListingCardData.image / ComponentRenderData.image members (visible
+# listing media -- the M.1-plumbed HERO_IMAGE asset resolved to
+# already-renderable presentation facts).
+RENDER_DATA_VERSION: str = "1.1.0"
 
 
 class LinkSpec(FrozenModel):
@@ -90,6 +94,31 @@ class LinkSpec(FrozenModel):
     rel: str = ""
     aria_label: str = ""
     external: bool = False
+
+
+class ImageData(FrozenModel):
+    """One already-resolved, bundle-local image (AES-WEB-002M.2) -- the
+    presentation slice of a ``ListingAssetRef`` the Component Engine
+    resolved: never a remote URL, never a filesystem path, never raw
+    provenance (source kind / licensing / attribution stay authoritative
+    upstream on ``ListingAssetRef``; an emitter renders what it receives,
+    it never re-derives policy).
+
+    ``src`` is a root-relative bundle path (``/assets/media/<sha256>.<ext>``
+    -- the site's existing internal-link convention: every body href is a
+    root-relative route, so image references resolve identically from every
+    route depth with no per-page relative-prefix arithmetic).
+    ``width``/``height`` are intrinsic pixel dimensions; ``0`` means
+    unknown (the ``ListingAssetRef``/review-count sentinel convention), and
+    emitters omit the attributes rather than emit a fabricated ``0``.
+    ``alt`` is always non-empty for listing primary media (supplied alt
+    text, else the listing's ``business_name`` -- operator decisions
+    20/21); decorative-media semantics are out of scope."""
+
+    src: str
+    alt: str
+    width: int = 0
+    height: int = 0
 
 
 class NavigationData(FrozenModel):
@@ -125,6 +154,10 @@ class ListingCardData(FrozenModel):
     badge_kind: str = ""
     badge_label: str = ""
     cta: Optional[LinkSpec] = None
+    # AES-WEB-002M.2: the listing's primary image (first HERO_IMAGE asset,
+    # resolved by the Component Engine) -- None when the listing has no
+    # renderable image (the honest, valid text-first card, unchanged).
+    image: Optional[ImageData] = None
 
 
 class ContactData(FrozenModel):
@@ -177,6 +210,11 @@ class ComponentRenderData(FrozenModel):
     contact: Optional[ContactData] = None
     hours: Optional[HoursData] = None
     cta: Optional[LinkSpec] = None
+    # AES-WEB-002M.2: the profile's primary image (the same listing
+    # HERO_IMAGE asset the card renders -- one binary, many references),
+    # carried by profile.header.business's render-data entry. None when
+    # the listing has no renderable image.
+    image: Optional[ImageData] = None
 
 
 class RenderDataEntry(FrozenModel):

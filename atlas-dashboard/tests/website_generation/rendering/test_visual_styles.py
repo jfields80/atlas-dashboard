@@ -317,6 +317,11 @@ class TestDeterminismAndCoverage:
         _RENDER_DATA_ONLY_CLASSES = frozenset({
             "ac-listing--area", "ac-listing--rating", "ac-listing--badge",
             "ac-listing--disclosure", "ac-profile--disclosure",
+            # AES-WEB-002M.2: card/profile primary-image classes are
+            # likewise emitted only when render data carries a resolved
+            # ImageData (an image-less render emits no element at all).
+            # Real image-path coverage lives in the M.2 media tests.
+            "ac-listing--card-image", "ac-profile--primary-image",
         })
         # Extract the leading component class from each authored variant selector.
         for _family, selector, _decls in _COMPONENT_RULES:

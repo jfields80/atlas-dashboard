@@ -64,7 +64,14 @@ def _run_real_chain():
         fixture.site_architecture, compilation.content_package, fixture.business_spec,
         base_url=fixture.base_url,
     )
-    bundle = AssemblyEngine().assemble(rendered, seo_package, fixture.brand_package)
+    # AES-WEB-002M.2: the dataset flows into assembly (mirroring the real
+    # runner) so bundle-authorized listing media enters the asset map; the
+    # image-less pilot fixture adds only listing_dataset provenance --
+    # file_map/bundle_hash are unchanged.
+    bundle = AssemblyEngine().assemble(
+        rendered, seo_package, fixture.brand_package,
+        listing_dataset=fixture.listing_dataset,
+    )
     report = QualityGateEngine().evaluate(
         bundle, seo_package, compilation.content_package, fixture.site_architecture
     )

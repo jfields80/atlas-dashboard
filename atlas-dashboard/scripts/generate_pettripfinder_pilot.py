@@ -287,7 +287,14 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
         return 2
 
     try:
-        bundle = AssemblyEngine().assemble(rendered, seo_package, brand)
+        # AES-WEB-002M.2: the dataset flows into assembly so any bundle-
+        # authorized listing assets enter the bundle's asset map (M.1). The
+        # current sample package carries no media, so this adds only the
+        # listing_dataset source-hash provenance -- file_map/bundle_hash
+        # are byte-identical to pre-M.2 output.
+        bundle = AssemblyEngine().assemble(
+            rendered, seo_package, brand, listing_dataset=dataset,
+        )
     except AssemblyError as exc:
         print("Assembly FAILED: %s" % exc.diagnostics)
         return 2
@@ -299,6 +306,17 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
         return 2
 
     blocking = [g for g in report.gate_results if g.severity == GateSeverity.BLOCKING and not g.passed]
+
+    if bundle.assets:
+        # Fail-closed (AES-WEB-002M.2): the sample runner has no CAS to
+        # fetch asset bytes from -- a media-carrying dataset can only reach
+        # this runner through a future operator-ingestion path that also
+        # supplies the byte source. Refuse loudly rather than let the
+        # repository fail deeper with a less actionable message.
+        print("Materialization REFUSED: bundle declares %d media asset(s) but this "
+              "runner has no asset byte source wired (operator media ingestion is "
+              "not part of the sample path)." % len(bundle.assets))
+        return 2
 
     try:
         materialization = SiteBundleRepository().materialize(bundle, output, build_id=build_id)

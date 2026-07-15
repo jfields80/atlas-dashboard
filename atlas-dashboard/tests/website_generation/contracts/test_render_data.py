@@ -36,7 +36,9 @@ from engines.website_generation.contracts.render_data import (
 
 class TestVersionConstant:
     def test_render_data_version(self):
-        assert RENDER_DATA_VERSION == "1.0.0"
+        # AES-WEB-002M.2: 1.0.0 -> 1.1.0 (ImageData + the additive
+        # ListingCardData.image / ComponentRenderData.image members).
+        assert RENDER_DATA_VERSION == "1.1.0"
 
 
 class TestLinkSpec:

@@ -439,10 +439,12 @@ class TestArchitectureInvariants:
         assert SCHEMA_VERSIONS[ArtifactKind.COMPONENT_MANIFEST] == "1.1.0"
 
     def test_component_engine_version_is_1_5_0(self):
-        assert ENGINE_VERSIONS["component_engine"] == "1.5.0"
+        # AES-WEB-002M.2: 1.5.0 -> 1.6.0 (listing primary-image render data).
+        assert ENGINE_VERSIONS["component_engine"] == "1.6.0"
 
     def test_renderer_version_is_1_4_0(self):
-        assert ENGINE_VERSIONS["renderer"] == "1.4.0"
+        # AES-WEB-002M.2: 1.4.0 -> 1.5.0 (card/profile image markup).
+        assert ENGINE_VERSIONS["renderer"] == "1.5.0"
 
     def test_constants_module_imports_no_contracts_or_sibling_constants(self):
         import ast

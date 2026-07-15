@@ -242,7 +242,16 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # unproduced -- two §5.5 behavior changes. source_hashes also gains
     # commercial_strategy/commercial_strategy_version (replayability
     # provenance, the composition_rules_version precedent).
-    "component_engine": "1.5.0",
+    # AES-WEB-002M.2 bumps 1.5.0 -> 1.6.0: render-data production now
+    # resolves each assigned listing's primary image (first bundle-
+    # authorized, supported-MIME HERO_IMAGE asset, in declared tuple order)
+    # into ListingCardData.image, and profile.header.business gains a
+    # render-data producer carrying the same image -- identical pre-M.2
+    # inputs whose listings carry renderable assets now produce different
+    # render data, a §5.5 behavior change requiring an explicit bump
+    # (asset-less datasets produce byte-identical output apart from the
+    # recorded render_data_version provenance string).
+    "component_engine": "1.6.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).
@@ -283,7 +292,14 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # now renders with no CTA anchor at all, where pre-L.1 always rendered
     # one regardless of render_data content -- a real §5.7 markup-level
     # behavior change requiring an explicit bump.
-    "renderer": "1.4.0",
+    # AES-WEB-002M.2 bumps 1.4.0 -> 1.5.0: listing cards render a real
+    # bundled <img> when their render data carries a resolved primary image
+    # (ListingCardData.image), and profile.header.business renders the same
+    # listing's primary image from ComponentRenderData.image -- §5.7
+    # markup-level behavior changes requiring an explicit bump. Image-less
+    # render data reproduces the exact pre-M.2 markup (no wrapper, no
+    # placeholder, no reserved frame).
+    "renderer": "1.5.0",
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).

@@ -234,7 +234,8 @@ class TestPublicSurfaceAndVersion:
         # omission). AES-WEB-002L.1: 1.4.0 -> 1.5.0 (strategy-keyed recipe
         # lookup, hero CTA render-data production).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.5.0"
+        # AES-WEB-002M.2: 1.5.0 -> 1.6.0 (listing primary-image render data).
+        assert ComponentEngine.version == "1.6.0"
 
     def test_compile_returns_component_compilation_result(self):
         result = ComponentEngine().compile(
@@ -367,7 +368,9 @@ class TestGoldenRealCatalog:
             "brand_package": artifact_sha256(brand),
             "binding_map_version": "1.2.0",
             "composition_rules_version": "1.0.0",
-            "render_data_version": "1.0.0",
+            # AES-WEB-002M.2: 1.0.0 -> 1.1.0 (ImageData + card/profile
+            # image members).
+            "render_data_version": "1.1.0",
             "commercial_strategy": "directory",
             "commercial_strategy_version": "1.0.0",
         }

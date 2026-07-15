@@ -115,6 +115,7 @@ from engines.website_generation.contracts.artifacts import (
 from engines.website_generation.contracts.components import ComponentDefinition
 from engines.website_generation.contracts.enums import (
     ArtifactKind,
+    AssetRole,
     CommercialPurpose,
     ListingKind,
     PageRole,
@@ -132,6 +133,7 @@ from engines.website_generation.contracts.render_data import (
     ContactData,
     HoursData,
     HoursRow,
+    ImageData,
     LinkSpec,
     ListingCardData,
     NavigationData,
@@ -224,6 +226,28 @@ _TILES_RENDER_DATA_COMPONENT_ID = "directory.categories.grid"
 # rendering/emitters_discovery.py, now sourced from the strategy-keyed
 # PAGE_COMMERCIAL_DEFAULTS table (CTA ownership migration, §7).
 _HERO_RENDER_DATA_COMPONENT_ID = "hero.search.directory"
+# AES-WEB-002M.2: the profile's primary-image owner -- the smallest
+# existing profile-header surface (operator decision: no new component,
+# no gallery activation).
+_PROFILE_HEADER_RENDER_DATA_COMPONENT_ID = "profile.header.business"
+
+# AES-WEB-002M.2: the media MIME -> bundle extension map and path shape.
+# Documented duplication of assembly_builders.MEDIA_MIME_EXTENSIONS /
+# media_asset_path (the L.2 _route_to_output_path precedent): components/
+# may not import assembly/ (test_import_audit.py's engine-sibling ban,
+# mechanically enforced), so the closed map and the content-addressed path
+# shape are independently declared here and must stay byte-identical to
+# assembly_builders' declarations -- a divergence would make the Component
+# Engine emit an src the Assembly Engine never materializes (caught by the
+# M.2 end-to-end tests, which assert every emitted src resolves in the
+# assembled file_map).
+_MEDIA_MIME_EXTENSIONS = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/svg+xml": "svg",
+    "image/webp": "webp",
+}
+_SHA256_HEX_CHARS = frozenset("0123456789abcdef")
 
 # PILOT-PTF-1 §13: outbound commercial links carry a sponsorship-aware rel
 # policy -- "sponsored noopener" for a listing whose own ListingKind marks it
@@ -735,6 +759,22 @@ class ComponentEngine(ComponentEngineInterface):
             return ComponentRenderData(cta=cta), None
         if cid in _CARD_RENDER_DATA_COMPONENT_IDS:
             return cls._build_card_data(assigned_listing, listing_dataset)
+        if cid == _PROFILE_HEADER_RENDER_DATA_COMPONENT_ID:
+            # AES-WEB-002M.2: the profile's primary image -- the exact same
+            # listing HERO_IMAGE asset the card renders (one binary, many
+            # references). None (an honest omission, never a failure) when
+            # the listing has no renderable image.
+            listing = (
+                assigned_listing
+                if assigned_listing is not None
+                else assign_listing(route_scope, listing_dataset)
+            )
+            if listing is None:
+                return None, None
+            image = cls._resolve_primary_image(listing)
+            if image is None:
+                return None, None
+            return ComponentRenderData(image=image), None
         if cid in (_CONTACT_RENDER_DATA_COMPONENT_ID, _HOURS_RENDER_DATA_COMPONENT_ID):
             listing = (
                 assigned_listing
@@ -903,8 +943,54 @@ class ComponentEngine(ComponentEngineInterface):
             badge_kind=badge_kind,
             badge_label=badge_label,
             cta=cta,
+            image=ComponentEngine._resolve_primary_image(assigned_listing),
         )
         return ComponentRenderData(card=card), None
+
+    @staticmethod
+    def _resolve_primary_image(listing: ListingRecord) -> Optional[ImageData]:
+        """The listing's primary image as already-resolved presentation
+        facts (AES-WEB-002M.2), or ``None`` when no honestly renderable
+        image exists -- a valid, text-first outcome, never a failure and
+        never a fabricated placeholder (operator decisions 22-24).
+
+        Selection rule (operator decisions 2/3 + mission §2): the *first*
+        asset in declared tuple order whose role is ``AssetRole.HERO_IMAGE``
+        and which is structurally renderable -- explicitly authorized for
+        bundling (``bundle_allowed``, the M.1 fail-closed licensing switch:
+        the Assembly Engine will never bundle an unauthorized asset, so
+        rendering one would emit a dead src), a well-formed lowercase-hex
+        sha256, and a MIME type in the closed supported map (the same three
+        facts ``assembly_builders.media_asset_path`` requires, so a
+        resolved image's bundle path is guaranteed derivable). No sorting,
+        no ranking, no CAS read -- pure declared-data inspection.
+
+        Alt text: the supplied ``alt_text`` (stripped) wins; blank or
+        whitespace-only falls back to ``business_name`` (operator decisions
+        20/21) -- never empty for listing primary media, never generated.
+
+        ``src`` is root-relative (``/assets/media/<sha256>.<ext>``),
+        matching the site's existing internal-link convention (every body
+        href is a root-relative route), so the same ``ImageData`` is valid
+        from every route depth with no per-page prefix arithmetic."""
+        for asset in listing.assets:
+            if asset.role is not AssetRole.HERO_IMAGE:
+                continue
+            if not asset.bundle_allowed:
+                continue
+            if len(asset.asset_hash) != 64 or not set(asset.asset_hash) <= _SHA256_HEX_CHARS:
+                continue
+            extension = _MEDIA_MIME_EXTENSIONS.get(asset.mime_type)
+            if extension is None:
+                continue
+            alt = asset.alt_text.strip() or listing.business_name
+            return ImageData(
+                src="/assets/media/%s.%s" % (asset.asset_hash, extension),
+                alt=alt,
+                width=asset.width if asset.width > 0 and asset.height > 0 else 0,
+                height=asset.height if asset.width > 0 and asset.height > 0 else 0,
+            )
+        return None
 
     @staticmethod
     def _build_contact_data(

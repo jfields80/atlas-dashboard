@@ -48,7 +48,8 @@ class TestEngineVersion:
         # anchor is now sourced from layout_ctx.render_data.cta instead of
         # hardcoded, and is honestly omitted when that field is absent --
         # a real replayability-contract output change (contracts/versions.py).
-        assert wge.ENGINE_VERSIONS["renderer"] == "1.4.0"
+        # AES-WEB-002M.2: 1.4.0 -> 1.5.0 (card/profile image markup).
+        assert wge.ENGINE_VERSIONS["renderer"] == "1.5.0"
 
     def test_renderer_class_version_matches_registry(self):
         assert Renderer.version == wge.ENGINE_VERSIONS["renderer"]

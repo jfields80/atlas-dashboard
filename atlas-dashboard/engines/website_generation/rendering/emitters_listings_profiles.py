@@ -42,7 +42,12 @@ from __future__ import annotations
 from typing import Dict, Optional, Tuple
 
 from engines.website_generation.contracts.artifacts import ComponentInstance
-from engines.website_generation.contracts.render_data import ContactData, HoursData, ListingCardData
+from engines.website_generation.contracts.render_data import (
+    ContactData,
+    HoursData,
+    ImageData,
+    ListingCardData,
+)
 from engines.website_generation.rendering.html_emitter import (
     EmitterFn,
     HtmlFragment,
@@ -97,17 +102,50 @@ def _disclosure_block(prefix: str, text: str) -> str:
     )
 
 
+def _image_html(image: ImageData, css_class: str) -> str:
+    """One real, bundle-local ``<img>`` from already-resolved
+    :class:`ImageData` (AES-WEB-002M.2). Renders exactly what it receives
+    -- no policy, no fallback fabrication (an absent image means no markup
+    at all; the *caller* omits the call, never an empty frame). ``src``/
+    ``alt`` are attribute-escaped by :func:`element` like every other
+    attribute; ``width``/``height`` are emitted only when both intrinsic
+    dimensions are actually known (never a fabricated ``0`` -- mission §5);
+    ``loading="lazy"`` + ``decoding="async"`` per §25's below-the-fold
+    policy (listing cards/profile bodies are never the LCP hero)."""
+    attrs = {
+        "alt": image.alt,
+        "class": css_class,
+        "decoding": "async",
+        "loading": "lazy",
+        "src": image.src,
+    }
+    if image.width > 0 and image.height > 0:
+        attrs["height"] = str(image.height)
+        attrs["width"] = str(image.width)
+    return element("img", attrs)
+
+
 def _card_body(card: Optional[ListingCardData], fallback_text: str) -> str:
     """A real, linked, enriched card body (AES-WEB-002K.1) when render data
     is present; degrades to the pre-K.1 unlinked ``<h2>`` heading when it is
     absent (no ListingDataset supplied -- the render-data producer never
     ran). ``<h2>`` (not the pre-K.1 ``<h3>``) either way: the card is the
     first heading level under the page's own ``<h1>``, never a level skip
-    (CG-CMP-005)."""
+    (CG-CMP-005).
+
+    AES-WEB-002M.2: a card whose render data carries a resolved primary
+    image leads with a real bundled ``<img>``; an image-less card renders
+    the exact pre-M.2 text-first body -- no wrapper, no placeholder, no
+    reserved frame (operator decisions 22-25)."""
     if card is None:
         return element("h2", {}, escape(fallback_text))
+    parts = []
+    if card.image is not None:
+        parts.append(
+            _image_html(card.image, class_names(_LISTING_PREFIX, "card-image"))
+        )
     name_html = element("a", {"href": card.profile_href}, escape(card.name))
-    parts = [element("h2", {}, name_html)]
+    parts.append(element("h2", {}, name_html))
     if card.area_label:
         parts.append(
             element("p", {"class": class_names(_LISTING_PREFIX, "area")}, escape(card.area_label))
@@ -258,6 +296,15 @@ def _emit_profile_header_business(
     if rating:
         children += element(
             "p", {"class": class_names(_PROFILE_PREFIX, "rating")}, escape(rating)
+        )
+    # AES-WEB-002M.2: the profile's primary image (the same listing
+    # HERO_IMAGE the card renders), after the H1 so the heading stays the
+    # section's first content. Absent render data or an image-less listing
+    # renders the exact pre-M.2 header -- no frame, no placeholder.
+    image = layout_ctx.render_data.image if layout_ctx.render_data else None
+    if image is not None:
+        children += _image_html(
+            image, class_names(_PROFILE_PREFIX, "primary-image")
         )
     return element("section", attrs, children)
 

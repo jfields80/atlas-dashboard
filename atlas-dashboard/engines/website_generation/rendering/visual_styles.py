@@ -360,6 +360,27 @@ _COMPONENT_RULES: Tuple[FamilyRule, ...] = (
         ),
         (_d("border-color", "%s", "color.action.primary"),),
     ),
+    # AES-WEB-002M.2: the card's optional primary image (media activation
+    # only -- not a card redesign). Full inner-card width with the card's
+    # own radius; a fixed aspect ratio + object-fit:cover so mixed image
+    # dimensions never distort the card grid. The 3/2 ratio is
+    # constants/brand.py's aspect.card token value ("3:2") expressed in CSS
+    # aspect-ratio syntax -- documented duplication of the ratio, since the
+    # token's colon form is not valid CSS and re-tokenizing brand scales is
+    # out of M.2 scope. width:100% + aspect-ratio is inherently responsive;
+    # an image-less card emits no element at all (no empty frame).
+    (
+        "listing",
+        ".ac-listing--card-image",
+        (
+            _d("display", "block"),
+            _d("width", "100%"),
+            _d("aspect-ratio", "3/2"),  # = aspect.card "3:2"
+            _d("object-fit", "cover"),
+            _d("border-radius", "%s", "radius.card"),
+            _d("margin", "0 0 %s", "spacing.stack.default"),
+        ),
+    ),
     (
         "listing",
         (
@@ -474,6 +495,25 @@ _COMPONENT_RULES: Tuple[FamilyRule, ...] = (
             _d("background", "%s", "color.surface.featured"),
             _d("padding", "%s %s", "spacing.section.small", "spacing.stack.default"),
             _d("text-align", "center"),
+        ),
+    ),
+    # AES-WEB-002M.2: the profile's optional primary image -- visually
+    # strong but bounded (max-width caps it inside the centered header;
+    # margin auto centers it), fixed 16/9 ratio + object-fit:cover. The
+    # ratio is constants/brand.py's aspect.hero token value ("16:9") in CSS
+    # syntax -- same documented duplication as .ac-listing--card-image. An
+    # image-less profile emits no element at all (no empty frame).
+    (
+        "profile",
+        ".ac-profile--primary-image",
+        (
+            _d("display", "block"),
+            _d("width", "100%"),
+            _d("max-width", "56rem"),
+            _d("aspect-ratio", "16/9"),  # = aspect.hero "16:9"
+            _d("object-fit", "cover"),
+            _d("border-radius", "%s", "radius.card"),
+            _d("margin", "%s auto 0", "spacing.stack.default"),
         ),
     ),
     (
