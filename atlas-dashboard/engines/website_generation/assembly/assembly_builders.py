@@ -208,3 +208,90 @@ def build_robots(directives: Tuple[str, ...]) -> str:
     absolute URL, and no base host exists in any artifact (§12: no guessed
     hostname)."""
     return "\n".join(directives) + "\n"
+
+
+# ---------------------------------------------------------------------------
+# Media asset path derivation + collection (AES-WEB-002M.1)
+# ---------------------------------------------------------------------------
+
+# The bundle directory every binary media asset materializes under --
+# content-addressed per AES-WEB-001 §8.4/AES-WEB-002 §25 ("hashed immutable
+# asset URLs"): the filename is the asset's own sha256, so repeated builds
+# are byte-stable, names cannot collide (distinct content, distinct hash),
+# and -- lowercase hex only -- cannot case-collide on Windows.
+MEDIA_ASSET_DIR = "assets/media"
+
+# Closed MIME -> extension map (AES-WEB-002M.1). Only formats a static
+# directory site legitimately serves in V1; anything else is an honest
+# rejection, never a guessed extension. Extending this map is a reviewable
+# one-line edit, mirroring the _EVALUATED_GATES discipline.
+MEDIA_MIME_EXTENSIONS = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/svg+xml": "svg",
+    "image/webp": "webp",
+}
+
+_SHA256_HEX_CHARS = frozenset("0123456789abcdef")
+
+
+def media_asset_path(
+    asset_hash: str, mime_type: str
+) -> Tuple[Optional[str], Optional[str]]:
+    """Map a CAS asset hash + declared MIME type to its deterministic
+    bundle-root-relative output path, or return a rejection reason.
+
+    Returns ``(path, None)`` on success or ``(None, reason)`` on rejection
+    -- the exact :func:`route_to_output_path` result convention. Rules:
+
+    * ``asset_hash`` must be a full 64-character lowercase-hex sha256 (an
+      uppercase or truncated hash is rejected, not normalized -- silent
+      normalization would let two spellings of one hash slip past
+      duplicate detection);
+    * ``mime_type`` must be in the closed ``MEDIA_MIME_EXTENSIONS`` map;
+    * the emitted path is always ``assets/media/<sha256>.<ext>`` --
+      forward-slash, relative, and inside the bundle root by construction.
+    """
+    if (
+        len(asset_hash) != 64
+        or not set(asset_hash) <= _SHA256_HEX_CHARS
+    ):
+        return None, "invalid_asset_hash"
+    extension = MEDIA_MIME_EXTENSIONS.get(mime_type)
+    if extension is None:
+        return None, "unsupported_mime_type"
+    return "%s/%s.%s" % (MEDIA_ASSET_DIR, asset_hash, extension), None
+
+
+def collect_media_assets(
+    listing_dataset,
+) -> Tuple[Tuple[Tuple[str, str], ...], Tuple[str, ...]]:
+    """Collect every explicitly bundle-authorized listing asset as
+    deduplicated, hash-sorted ``(asset_hash, mime_type)`` pairs, plus any
+    contradiction issues found.
+
+    Fail-closed licensing (operator decision 3): an asset without
+    ``bundle_allowed=True`` is *skipped* -- not bundling an unauthorized
+    asset is the correct outcome, never an error. A *contradiction* among
+    authorized assets, however, is an issue the caller must fail on: the
+    same ``asset_hash`` declared with two different MIME types cannot map
+    to one deterministic path. Identical (hash, mime) duplicates -- the
+    same image on many listings -- deduplicate naturally (content
+    addressing). Deterministic output order: sorted by hash.
+    """
+    mime_by_hash = {}
+    issues: List[str] = []
+    for record in listing_dataset.listings:
+        for asset in record.assets:
+            if not asset.bundle_allowed:
+                continue
+            existing = mime_by_hash.get(asset.asset_hash)
+            if existing is None:
+                mime_by_hash[asset.asset_hash] = asset.mime_type
+            elif existing != asset.mime_type:
+                issues.append(
+                    "asset %s declared with conflicting mime types %r and %r"
+                    % (asset.asset_hash, existing, asset.mime_type)
+                )
+    pairs = tuple(sorted(mime_by_hash.items()))
+    return pairs, tuple(sorted(set(issues)))

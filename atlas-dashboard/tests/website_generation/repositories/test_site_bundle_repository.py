@@ -691,10 +691,13 @@ class TestArchitecture:
         assert STAGE_GATING not in PHASE1_EXECUTED_STAGES
         assert PHASE1_EXECUTED_STAGES == (STAGE_SPEC_COMPILATION,)
 
-    def test_sitebundle_schema_unchanged(self):
+    def test_sitebundle_schema_current(self):
+        # AES-WEB-002M.1: SiteBundle current schema is 1.2.0 (additive
+        # assets); this repository now also materializes binary asset
+        # entries (see test_media_materialization.py).
         import engines.website_generation as wge
 
-        assert wge.SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.1.0"
+        assert wge.SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.2.0"
 
     def test_result_model_and_repository_not_exported_from_public_surface(self):
         import engines.website_generation as wge

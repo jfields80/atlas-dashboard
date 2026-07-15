@@ -5,10 +5,21 @@ put/get/exists, the three validation rings applied at persistence time
 (§4.4), deterministic file layout, and atomic writes. No business
 orchestration, no AI, no engine invocation.
 
+AES-WEB-002M.1 adds the §9.1-specified raw-bytes object class ("objects ...
+canonical JSON **or raw bytes**"): ``put_bytes``/``get_bytes``/
+``exists_bytes`` for binary assets (images, fonts) per §4.3 ("Binary assets
+... are stored as raw bytes in the CAS and referenced from artifacts by
+hash; artifacts themselves never embed binary data"). Raw-bytes objects are
+identity-only: no schema, no artifact kind, no kind-index marker, no
+provenance ring -- their whole contract is ``sha256(bytes)``. A distinct
+``.bin`` suffix keeps the two object classes structurally separate (an
+artifact hash and a bytes hash can never resolve to each other's payload).
+
 File layout (deterministic, derived from content hashes)::
 
     <base_dir>/
         objects/<first2>/<sha256>.json    # canonical artifact JSON
+        objects/<first2>/<sha256>.bin     # raw binary asset bytes (M.1)
         kinds/<artifact_kind>/<sha256>    # empty marker files (kind index)
 
 Source-hash verification policy (Phase 1 decision, recorded per the
@@ -64,6 +75,11 @@ class ArtifactStoreRepository:
     def _object_path(self, artifact_hash: str) -> Path:
         return self._objects_dir / artifact_hash[:2] / (
             artifact_hash + ".json"
+        )
+
+    def _bytes_path(self, content_hash: str) -> Path:
+        return self._objects_dir / content_hash[:2] / (
+            content_hash + ".bin"
         )
 
     def _kind_marker_path(self, kind: ArtifactKind, artifact_hash: str) -> Path:
@@ -190,6 +206,57 @@ class ArtifactStoreRepository:
         """True iff the hash resolves to a stored object."""
         return self._object_path(str(artifact_hash)).exists()
 
+    # -- raw-bytes object class (AES-WEB-002M.1; §9.1/§4.3) --------------
+
+    def put_bytes(self, data: bytes) -> str:
+        """Persist raw binary bytes content-addressed; return their hash.
+
+        Idempotent, like :meth:`put`: putting bytes whose hash already
+        exists is a no-op returning the existing hash. Only real ``bytes``
+        are accepted -- text belongs in artifacts, never in the binary
+        object class (fail-closed against accidental str writes that would
+        silently pick up an encoding).
+        """
+        if not isinstance(data, bytes):
+            raise ArtifactValidationError(
+                "raw-bytes objects must be bytes, got %s" % type(data).__name__,
+                stage="artifact_store",
+            )
+        content_hash = hashlib.sha256(data).hexdigest()
+        bytes_path = self._bytes_path(content_hash)
+        if bytes_path.exists():
+            return content_hash
+        bytes_path.parent.mkdir(parents=True, exist_ok=True)
+        self._atomic_write_bytes(bytes_path, data)
+        return content_hash
+
+    def get_bytes(self, content_hash: str) -> bytes:
+        """Load raw bytes, verifying content identity (tamper detection --
+        the same ring-3 identity check :meth:`get` applies to artifacts)."""
+        bytes_path = self._bytes_path(str(content_hash))
+        if not bytes_path.exists():
+            raise ArtifactNotFoundError(
+                "bytes object %s not found" % content_hash,
+                stage="artifact_store",
+                diagnostics={"content_hash": str(content_hash)},
+            )
+        data = bytes_path.read_bytes()
+        recomputed = hashlib.sha256(data).hexdigest()
+        if recomputed != content_hash:
+            raise ArtifactIntegrityError(
+                "stored bytes object does not match its hash",
+                stage="artifact_store",
+                diagnostics={
+                    "content_hash": str(content_hash),
+                    "recomputed_hash": recomputed,
+                },
+            )
+        return data
+
+    def exists_bytes(self, content_hash: str) -> bool:
+        """True iff the hash resolves to a stored raw-bytes object."""
+        return self._bytes_path(str(content_hash)).exists()
+
     def list_by_kind(self, kind: ArtifactKind) -> List[str]:
         """Stable-sorted hashes of stored artifacts of one kind."""
         kind_dir = self._kinds_dir / ArtifactKind(kind).value
@@ -208,6 +275,22 @@ class ArtifactStoreRepository:
         try:
             with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
                 handle.write(text)
+            os.replace(tmp_name, str(path))
+        except Exception:
+            if os.path.exists(tmp_name):
+                os.unlink(tmp_name)
+            raise
+
+    @staticmethod
+    def _atomic_write_bytes(path: Path, data: bytes) -> None:
+        """Binary twin of :meth:`_atomic_write_text` -- same same-directory
+        temp file + ``os.replace`` discipline, no encoding involved."""
+        fd, tmp_name = tempfile.mkstemp(
+            dir=str(path.parent), prefix=".tmp-", suffix=".part"
+        )
+        try:
+            with os.fdopen(fd, "wb") as handle:
+                handle.write(data)
             os.replace(tmp_name, str(path))
         except Exception:
             if os.path.exists(tmp_name):

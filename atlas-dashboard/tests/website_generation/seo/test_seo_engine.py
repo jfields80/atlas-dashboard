@@ -600,7 +600,10 @@ class TestContractsAndArchitecture:
         # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET) added the additive
         # thirteenth kind, LISTING_DATASET, at schema 1.0.0 -- unrelated to
         # the SEO Engine, but this guard enumerates every kind so it must
-        # include it. Every SEO-relevant kind's version is unchanged.
+        # include it. AES-WEB-002M.1 (media asset plumbing, likewise
+        # SEO-unrelated) bumped SITE_BUNDLE to 1.2.0 (additive assets) and
+        # LISTING_DATASET to 1.1.0 (additive ListingAssetRef metadata).
+        # Every SEO-relevant kind's version is unchanged.
         assert SCHEMA_VERSIONS == {
             ArtifactKind.BUSINESS_SPEC: "1.0.0",
             ArtifactKind.BRAND_PACKAGE: "1.1.0",
@@ -611,10 +614,10 @@ class TestContractsAndArchitecture:
             ArtifactKind.LAYOUT_PLAN: "1.1.0",
             ArtifactKind.RENDERED_PAGE_SET: "1.1.0",
             ArtifactKind.SEO_PACKAGE: "1.0.0",
-            ArtifactKind.SITE_BUNDLE: "1.1.0",
+            ArtifactKind.SITE_BUNDLE: "1.2.0",
             ArtifactKind.QUALITY_REPORT: "1.1.0",
             ArtifactKind.BUILD_MANIFEST: "1.0.0",
-            ArtifactKind.LISTING_DATASET: "1.0.0",
+            ArtifactKind.LISTING_DATASET: "1.1.0",
         }
 
     def test_seo_package_schema_remains_1_0_0(self):

@@ -1,7 +1,8 @@
-"""Site Bundle Repository (AES-WEB-001 §9.3; AES-WEB-002J.12).
+"""Site Bundle Repository (AES-WEB-001 §9.3; AES-WEB-002J.12; AES-WEB-002M.1
+binary asset materialization).
 
 Deterministic filesystem materialization of an in-memory ``SiteBundle``
-(schema 1.1.0, ``engines/website_generation/contracts/artifacts.py``) to a
+(schema 1.2.0, ``engines/website_generation/contracts/artifacts.py``) to a
 real directory tree, for preview/inspection. This is the WGE's only
 directory-tree writer for rendered sites -- the twin of
 ``artifact_store_repository`` (§9.1, content-addressable JSON) and
@@ -12,6 +13,20 @@ and a ``bundle_manifest.json`` sidecar only. The deployment ZIP and
 ``LaunchCertificate`` embedding (§12.1) are explicitly deferred -- no
 ``LaunchCertificate`` is issued by the Quality Gate Engine yet (§5.10,
 AES-WEB-002J.11), so packaging it would be premature.
+
+Binary assets (AES-WEB-002M.1). A bundle's ``assets`` entries carry CAS
+hash references only, never bytes (§4.3); this repository is where the
+bytes finally meet the filesystem (§9.3 "materializes a SiteBundle from
+the CAS"). The caller supplies them as a plain ``asset_bytes`` mapping
+(``asset_hash -> raw bytes``) -- a mapping, not a store object, because
+this module's import boundary forbids the sibling
+``artifact_store_repository`` import; the caller composes
+``ArtifactStoreRepository.get_bytes`` into the mapping. Fail-closed
+throughout: a declared asset whose bytes are missing from the mapping, or
+whose bytes do not hash to the declared ``asset_hash``, aborts the whole
+materialization before/at write time -- a bundle is never partially
+credible. An asset-less bundle with ``asset_bytes`` omitted behaves
+byte-identically to pre-M.1.
 
 Sequence, per §9.3 ("verifies every file's hash after write") and the
 established staging discipline (mirrors ``artifact_store_repository``'s
@@ -60,10 +75,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
+from typing import Mapping
+
 from engines.website_generation.contracts.artifacts import (
     BundleFile,
     SiteBundle,
     canonical_json,
+    sha256_of_bytes,
     sha256_of_text,
 )
 from engines.website_generation.contracts.errors import SiteBundleRepositoryError
@@ -154,20 +172,30 @@ def _validate_path_syntax(path: str) -> bool:
     return True
 
 
-def _detect_duplicate_paths(files: Tuple[BundleFile, ...]) -> Tuple[str, ...]:
+def _all_bundle_paths(bundle: SiteBundle) -> Tuple[str, ...]:
+    """Every materializable path -- text ``files`` plus (AES-WEB-002M.1)
+    binary ``assets`` -- in declaration order. Duplicate/case/prefix
+    collision detection must run over this combined set, or a text file
+    and an asset could silently fight over one path."""
+    return tuple(bf.path for bf in bundle.files) + tuple(
+        asset.path for asset in bundle.assets
+    )
+
+
+def _detect_duplicate_paths(paths: Tuple[str, ...]) -> Tuple[str, ...]:
     seen: set = set()
     dupes: set = set()
-    for bf in files:
-        if bf.path in seen:
-            dupes.add(bf.path)
-        seen.add(bf.path)
+    for path in paths:
+        if path in seen:
+            dupes.add(path)
+        seen.add(path)
     return tuple(sorted(dupes))
 
 
-def _detect_case_collisions(files: Tuple[BundleFile, ...]) -> Tuple[str, ...]:
+def _detect_case_collisions(paths: Tuple[str, ...]) -> Tuple[str, ...]:
     by_lower: Dict[str, set] = {}
-    for bf in files:
-        by_lower.setdefault(bf.path.lower(), set()).add(bf.path)
+    for path in paths:
+        by_lower.setdefault(path.lower(), set()).add(path)
     collisions: set = set()
     for distinct_paths in by_lower.values():
         if len(distinct_paths) > 1:
@@ -176,13 +204,16 @@ def _detect_case_collisions(files: Tuple[BundleFile, ...]) -> Tuple[str, ...]:
 
 
 def _detect_mapping_mismatch(bundle: SiteBundle) -> Tuple[str, ...]:
-    file_paths = {bf.path for bf in bundle.files}
+    """``file_map`` keys must exactly equal the combined text + asset path
+    set (an asset's ``file_map`` value is its own CAS hash -- checked in
+    :func:`_detect_hash_mismatches`, not here)."""
+    material_paths = set(_all_bundle_paths(bundle))
     map_paths = set(bundle.file_map.keys())
     issues: List[str] = []
-    for path in sorted(map_paths - file_paths):
-        issues.append(f"file_map entry has no matching BundleFile: {path!r}")
-    for path in sorted(file_paths - map_paths):
-        issues.append(f"BundleFile has no file_map entry: {path!r}")
+    for path in sorted(map_paths - material_paths):
+        issues.append(f"file_map entry has no matching BundleFile or asset: {path!r}")
+    for path in sorted(material_paths - map_paths):
+        issues.append(f"bundle entry has no file_map entry: {path!r}")
     return tuple(issues)
 
 
@@ -193,6 +224,15 @@ def _detect_hash_mismatches(bundle: SiteBundle) -> Tuple[str, ...]:
         actual = sha256_of_text(bf.content)
         if actual != expected:
             issues.append(f"{bf.path}: expected {expected}, actual {actual}")
+    # AES-WEB-002M.1: an asset entry's file_map value must be the asset's
+    # own declared CAS hash (references only -- byte verification happens
+    # against the supplied asset_bytes mapping, later and fail-closed).
+    for asset in sorted(bundle.assets, key=lambda a: a.path):
+        expected = bundle.file_map.get(asset.path)
+        if asset.asset_hash != expected:
+            issues.append(
+                f"{asset.path}: file_map has {expected}, asset declares {asset.asset_hash}"
+            )
     return tuple(issues)
 
 
@@ -201,13 +241,13 @@ def _bundle_hash_matches(bundle: SiteBundle) -> bool:
     return expected == bundle.bundle_hash
 
 
-def _detect_file_directory_collisions(files: Tuple[BundleFile, ...]) -> Tuple[str, ...]:
+def _detect_file_directory_collisions(paths: Tuple[str, ...]) -> Tuple[str, ...]:
     """A path collides with another when it (or a case-insensitive match of
     it -- Windows NTFS and default macOS are case-insensitive, so ``Assets``
     and ``assets/logo.svg`` collide there exactly as ``assets`` and
     ``assets/logo.svg`` would) is a directory-prefix implied by another
     path."""
-    file_paths = {bf.path for bf in files}
+    file_paths = set(paths)
     lower_to_original: Dict[str, List[str]] = {}
     for path in file_paths:
         lower_to_original.setdefault(path.lower(), []).append(path)
@@ -221,6 +261,34 @@ def _detect_file_directory_collisions(files: Tuple[BundleFile, ...]) -> Tuple[st
     return tuple(sorted(issues))
 
 
+def _detect_asset_bytes_issues(
+    bundle: SiteBundle, asset_bytes: Optional[Mapping[str, bytes]]
+) -> Tuple[str, ...]:
+    """Fail-closed asset byte availability + identity (AES-WEB-002M.1),
+    checked before a single byte is written: every declared asset must have
+    real ``bytes`` in the supplied mapping, and those bytes must hash to the
+    declared ``asset_hash`` (ring-3 identity, the same tamper check
+    ``artifact_store_repository.get_bytes`` applies at read time -- verified
+    again here because the mapping is caller-supplied, not store-read)."""
+    issues: List[str] = []
+    for asset in sorted(bundle.assets, key=lambda a: a.path):
+        supplied = None if asset_bytes is None else asset_bytes.get(asset.asset_hash)
+        if supplied is None:
+            issues.append(f"{asset.path}: no bytes supplied for {asset.asset_hash}")
+            continue
+        if not isinstance(supplied, bytes):
+            issues.append(
+                f"{asset.path}: supplied payload is {type(supplied).__name__}, not bytes"
+            )
+            continue
+        actual = sha256_of_bytes(supplied)
+        if actual != asset.asset_hash:
+            issues.append(
+                f"{asset.path}: supplied bytes hash {actual}, declared {asset.asset_hash}"
+            )
+    return tuple(issues)
+
+
 class SiteBundleRepository:
     """Materialize a ``SiteBundle`` to disk, deterministically (§9.3)."""
 
@@ -229,13 +297,18 @@ class SiteBundleRepository:
         bundle: SiteBundle,
         output_root: Union[str, Path],
         build_id: Optional[str] = None,
+        asset_bytes: Optional[Mapping[str, bytes]] = None,
     ) -> SiteBundleMaterialization:
-        """Write every ``bundle.files`` entry plus ``bundle_manifest.json``
+        """Write every ``bundle.files`` entry, every ``bundle.assets`` entry
+        (AES-WEB-002M.1; bytes from the caller-supplied ``asset_bytes``
+        mapping, ``asset_hash -> raw bytes``), plus ``bundle_manifest.json``
         below ``output_root``. Raises :class:`SiteBundleRepositoryError`
-        (never returns a partial result) if the bundle is malformed, the
+        (never returns a partial result) if the bundle is malformed, any
+        declared asset's bytes are missing or hash-mismatched, the
         destination is unsafe or non-empty, or any write/verification step
         fails. Never mutates ``bundle``."""
         self._validate_bundle_shape(bundle)
+        self._validate_asset_bytes(bundle, asset_bytes)
         destination = Path(output_root)
         self._validate_destination(destination)
 
@@ -243,10 +316,10 @@ class SiteBundleRepository:
         self._prepare_staging(staging)
 
         try:
-            written = self._write_files(bundle, staging)
+            written = self._write_files(bundle, staging, asset_bytes)
             manifest_bytes = self._manifest_bytes(bundle, build_id)
             (staging / MANIFEST_FILENAME).write_bytes(manifest_bytes)
-            self._verify_written(bundle, staging, manifest_bytes)
+            self._verify_written(bundle, staging, manifest_bytes, asset_bytes)
         except SiteBundleRepositoryError:
             self._cleanup_staging(staging)
             raise
@@ -272,16 +345,20 @@ class SiteBundleRepository:
     @staticmethod
     def _validate_bundle_shape(bundle: SiteBundle) -> None:
         """Deterministic fail-fast stage order; every violation within a
-        stage is batch-reported at once (never first-failure-only)."""
-        dupes = _detect_duplicate_paths(bundle.files)
+        stage is batch-reported at once (never first-failure-only). All
+        path-level checks run over the combined text + asset path set
+        (AES-WEB-002M.1)."""
+        all_paths = _all_bundle_paths(bundle)
+
+        dupes = _detect_duplicate_paths(all_paths)
         if dupes:
             raise SiteBundleRepositoryError(
-                "duplicate BundleFile path(s)",
+                "duplicate bundle path(s)",
                 category="duplicate_path",
                 diagnostics={"paths": list(dupes)},
             )
 
-        collisions = _detect_case_collisions(bundle.files)
+        collisions = _detect_case_collisions(all_paths)
         if collisions:
             raise SiteBundleRepositoryError(
                 "case-only path collision(s)",
@@ -292,7 +369,7 @@ class SiteBundleRepository:
         mapping_issues = _detect_mapping_mismatch(bundle)
         if mapping_issues:
             raise SiteBundleRepositoryError(
-                "file_map does not exactly match BundleFile paths",
+                "file_map does not exactly match bundle entry paths",
                 category="mapping_mismatch",
                 diagnostics={"issues": list(mapping_issues)},
             )
@@ -300,7 +377,7 @@ class SiteBundleRepository:
         hash_issues = _detect_hash_mismatches(bundle)
         if hash_issues:
             raise SiteBundleRepositoryError(
-                "BundleFile content hash does not match file_map",
+                "bundle entry content hash does not match file_map",
                 category="content_hash_mismatch",
                 diagnostics={"issues": list(hash_issues)},
             )
@@ -313,7 +390,7 @@ class SiteBundleRepository:
             )
 
         unsafe = tuple(
-            sorted({bf.path for bf in bundle.files if not _validate_path_syntax(bf.path)})
+            sorted({path for path in all_paths if not _validate_path_syntax(path)})
         )
         if unsafe:
             raise SiteBundleRepositoryError(
@@ -322,12 +399,27 @@ class SiteBundleRepository:
                 diagnostics={"paths": list(unsafe)},
             )
 
-        dir_collisions = _detect_file_directory_collisions(bundle.files)
+        dir_collisions = _detect_file_directory_collisions(all_paths)
         if dir_collisions:
             raise SiteBundleRepositoryError(
                 "file/directory path collision(s)",
                 category="file_directory_collision",
                 diagnostics={"issues": list(dir_collisions)},
+            )
+
+    @staticmethod
+    def _validate_asset_bytes(
+        bundle: SiteBundle, asset_bytes: Optional[Mapping[str, bytes]]
+    ) -> None:
+        """Fail-closed asset byte availability + identity (AES-WEB-002M.1)
+        -- checked before any filesystem work so a byte-less or tampered
+        asset never even creates a staging directory."""
+        issues = _detect_asset_bytes_issues(bundle, asset_bytes)
+        if issues:
+            raise SiteBundleRepositoryError(
+                "asset bytes missing or hash-mismatched",
+                category="asset_bytes_failure",
+                diagnostics={"issues": list(issues)},
             )
 
     # -- destination + staging -----------------------------------------------
@@ -383,19 +475,36 @@ class SiteBundleRepository:
 
     # -- write ----------------------------------------------------------------
 
-    def _write_files(self, bundle: SiteBundle, staging: Path) -> Tuple[str, ...]:
+    def _write_files(
+        self,
+        bundle: SiteBundle,
+        staging: Path,
+        asset_bytes: Optional[Mapping[str, bytes]] = None,
+    ) -> Tuple[str, ...]:
+        # One sorted pass over every materializable entry -- text files as
+        # UTF-8 bytes, assets (AES-WEB-002M.1) as the pre-verified raw bytes
+        # from the caller's mapping -- under the identical containment/
+        # symlink discipline.
+        payloads: List[Tuple[str, bytes]] = [
+            (bf.path, bf.content.encode("utf-8")) for bf in bundle.files
+        ]
+        if asset_bytes is not None:
+            payloads.extend(
+                (asset.path, asset_bytes[asset.asset_hash])
+                for asset in bundle.assets
+            )
         written: List[str] = []
-        for bf in sorted(bundle.files, key=lambda f: f.path):
-            target = staging.joinpath(*bf.path.split("/"))
+        for path, data in sorted(payloads, key=lambda item: item[0]):
+            target = staging.joinpath(*path.split("/"))
             self._assert_contained(target, staging)
             self._mkdir_checked(target.parent, staging)
             if _is_symlink_or_reparse_point(target):
                 raise SiteBundleRepositoryError(
-                    f"refusing to write through an existing symlink: {bf.path}",
+                    f"refusing to write through an existing symlink: {path}",
                     category="symlink_detected",
                 )
-            target.write_bytes(bf.content.encode("utf-8"))
-            written.append(bf.path)
+            target.write_bytes(data)
+            written.append(path)
         return tuple(sorted(written))
 
     @staticmethod
@@ -453,7 +562,12 @@ class SiteBundleRepository:
     # -- post-write verification ----------------------------------------------
 
     @staticmethod
-    def _verify_written(bundle: SiteBundle, staging: Path, manifest_bytes: bytes) -> None:
+    def _verify_written(
+        bundle: SiteBundle,
+        staging: Path,
+        manifest_bytes: bytes,
+        asset_bytes: Optional[Mapping[str, bytes]] = None,
+    ) -> None:
         issues: List[str] = []
         for bf in sorted(bundle.files, key=lambda f: f.path):
             target = staging.joinpath(*bf.path.split("/"))
@@ -468,6 +582,22 @@ class SiteBundleRepository:
                 continue
             if sha256_of_text(bf.content) != bundle.file_map.get(bf.path):
                 issues.append(f"{bf.path}: hash mismatch after write")
+
+        # AES-WEB-002M.1: re-read every asset and re-hash the on-disk bytes
+        # against the declared CAS hash (§9.3 "verifies every file's hash
+        # after write" -- applied to binary entries with sha256_of_bytes).
+        for asset in sorted(bundle.assets, key=lambda a: a.path):
+            target = staging.joinpath(*asset.path.split("/"))
+            try:
+                actual_bytes = target.read_bytes()
+            except OSError as exc:
+                issues.append(f"{asset.path}: unreadable after write ({exc!r})")
+                continue
+            if sha256_of_bytes(actual_bytes) != asset.asset_hash:
+                issues.append(f"{asset.path}: asset hash mismatch after write")
+                continue
+            if bundle.file_map.get(asset.path) != asset.asset_hash:
+                issues.append(f"{asset.path}: file_map hash mismatch after write")
 
         manifest_target = staging / MANIFEST_FILENAME
         try:

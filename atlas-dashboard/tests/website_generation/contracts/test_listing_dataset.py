@@ -394,7 +394,7 @@ class TestNumericValidation:
             )
         )
         payload = canonical_artifact_json(dataset)
-        assert "." not in payload.replace('"1.0.0"', "")  # no decimal points outside the schema-version string
+        assert "." not in payload.replace('"1.1.0"', "")  # no decimal points outside the schema-version string
 
 
 # --------------------------------------------------------------------------- #
@@ -589,12 +589,17 @@ class TestCatalogVersioning:
         assert ArtifactKind.LISTING_DATASET in list(ArtifactKind)
         assert len(list(ArtifactKind)) == 13
 
-    def test_listing_dataset_registered_at_1_0_0(self):
-        model_cls = registered_artifact_model(ArtifactKind.LISTING_DATASET, "1.0.0")
-        assert model_cls is ListingDataset
+    def test_listing_dataset_registration(self):
+        # AES-WEB-002M.1: current schema 1.1.0 (additive ListingAssetRef
+        # metadata); the exact 1.0.0 nested tree stays registered as
+        # ListingDatasetV1.
+        from engines.website_generation.contracts.artifacts import ListingDatasetV1
+
+        assert registered_artifact_model(ArtifactKind.LISTING_DATASET, "1.1.0") is ListingDataset
+        assert registered_artifact_model(ArtifactKind.LISTING_DATASET, "1.0.0") is ListingDatasetV1
 
     def test_schema_versions_map_has_entry(self):
-        assert SCHEMA_VERSIONS[ArtifactKind.LISTING_DATASET] == "1.0.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.LISTING_DATASET] == "1.1.0"
 
     def test_no_existing_artifact_version_changed(self):
         unchanged = {
@@ -608,7 +613,9 @@ class TestCatalogVersioning:
             ArtifactKind.COMPONENT_MANIFEST: "1.1.0",
             ArtifactKind.LAYOUT_PLAN: "1.1.0",
             ArtifactKind.RENDERED_PAGE_SET: "1.1.0",
-            ArtifactKind.SITE_BUNDLE: "1.1.0",
+            # AES-WEB-002M.1: SiteBundle moved to 1.2.0 (additive assets)
+            # in the same delivery that bumped this artifact to 1.1.0.
+            ArtifactKind.SITE_BUNDLE: "1.2.0",
             ArtifactKind.QUALITY_REPORT: "1.1.0",
         }
         for kind, version in unchanged.items():

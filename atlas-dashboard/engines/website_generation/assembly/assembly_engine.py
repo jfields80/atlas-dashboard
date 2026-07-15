@@ -1,5 +1,6 @@
-"""AssemblyEngine -- (RenderedPageSet, SEOPackage, BrandPackage) ->
-SiteBundle (AES-WEB-001 §5.9 / Part 2).
+"""AssemblyEngine -- (RenderedPageSet, SEOPackage, BrandPackage,
+ListingDataset?) -> SiteBundle (AES-WEB-001 §5.9 / Part 2; AES-WEB-002M.1
+media-asset mapping).
 
 Internal sequencing label: AES-WEB-002J.10. Produces the complete static
 site as a deterministic ``SiteBundle``: injects the ``SEOPackage``'s
@@ -31,12 +32,14 @@ more.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from engines.website_generation.constants.build import STAGE_ASSEMBLY
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
+    BundleAssetRef,
     BundleFile,
+    ListingDataset,
     RenderedPageSet,
     SEOPackage,
     SiteBundle,
@@ -55,8 +58,10 @@ from engines.website_generation.assembly.assembly_builders import (
     build_head_additions,
     build_robots,
     build_sitemap,
+    collect_media_assets,
     inject_head,
     is_safe_url,
+    media_asset_path,
     route_to_output_path,
     stylesheet_href_for,
 )
@@ -73,6 +78,7 @@ _DIAGNOSTIC_BUCKET_ORDER: Tuple[str, ...] = (
     "unsafe_canonical_urls",
     "head_injection_failures",
     "unsafe_sitemap_urls",
+    "invalid_media_assets",
     "duplicate_output_paths",
     "output_path_case_collisions",
 )
@@ -89,6 +95,7 @@ class AssemblyEngine(AssemblyEngineInterface):
         rendered_page_set: RenderedPageSet,
         seo_package: SEOPackage,
         brand_package: BrandPackage,
+        listing_dataset: Optional[ListingDataset] = None,
     ) -> SiteBundle:
         """Total function over structurally valid inputs; batch-fails
         otherwise (mirrors the RenderError/SEOCompilationError batch
@@ -96,6 +103,21 @@ class AssemblyEngine(AssemblyEngineInterface):
         diagnostics are pure functions of the inputs' declared content --
         never of dict/set iteration order (AES-WEB-001 §1.1). No partial
         ``SiteBundle`` is ever returned when diagnostics exist.
+
+        ``listing_dataset`` (AES-WEB-002M.1, additive, optional): supplied,
+        every listing asset explicitly marked ``bundle_allowed`` is mapped
+        to its deterministic content-addressed bundle path
+        (``assets/media/<sha256>.<ext>``), entered into ``file_map`` (so
+        ``bundle_hash`` covers it through the same sorted-file-map hash as
+        always), and declared in ``SiteBundle.assets`` -- references only,
+        the raw bytes never enter the artifact (§4.3); the
+        site_bundle_repository materializes them (§9.3). An authorized
+        asset that cannot be mapped (unknown MIME type, malformed hash,
+        conflicting declarations) is an ``invalid_media_assets`` batch
+        failure -- the operator authorized bundling, so failing to bundle
+        must be loud, never silent. Omitted (every pre-M.1 caller), the
+        emitted ``file_map``/``bundle_hash`` are byte-identical to pre-M.1
+        output.
         """
         diagnostics: Dict[str, List[Any]] = {}
 
@@ -187,8 +209,13 @@ class AssemblyEngine(AssemblyEngineInterface):
                 (ROBOTS_FILENAME, build_robots(seo_package.robots_directives))
             )
 
+        bundle_assets = self._map_media_assets(listing_dataset, diagnostics)
+
         all_files = assembled + site_files
-        self._check_path_conflicts(all_files, diagnostics)
+        all_paths = [path for path, _content in all_files] + [
+            asset.path for asset in bundle_assets
+        ]
+        self._check_path_conflicts(all_paths, diagnostics)
 
         if diagnostics:
             raise AssemblyError(
@@ -198,7 +225,8 @@ class AssemblyEngine(AssemblyEngineInterface):
             )
 
         return self._build_bundle(
-            all_files, rendered_page_set, seo_package, brand_package
+            all_files, bundle_assets,
+            rendered_page_set, seo_package, brand_package, listing_dataset,
         )
 
     # -- integrity ---------------------------------------------------------
@@ -237,15 +265,53 @@ class AssemblyEngine(AssemblyEngineInterface):
                 },
             )
 
+    def _map_media_assets(
+        self,
+        listing_dataset: Optional[ListingDataset],
+        diagnostics: Dict[str, List[Any]],
+    ) -> List[BundleAssetRef]:
+        """Map every bundle-authorized listing asset to its deterministic
+        content-addressed bundle entry (AES-WEB-002M.1). Pure -- derives
+        paths from (hash, MIME) declarations only; never reads bytes (the
+        Assembly Engine has no CAS access, §5.9). Fail-closed both ways:
+        an *unauthorized* asset (``bundle_allowed=False``) is skipped --
+        the licensing default is refusal -- while an *authorized* asset
+        that cannot be mapped is a batch failure, never a silent drop."""
+        if listing_dataset is None:
+            return []
+        pairs, issues = collect_media_assets(listing_dataset)
+        for issue in issues:
+            self._add(diagnostics, "invalid_media_assets", {"reason": issue})
+        bundle_assets: List[BundleAssetRef] = []
+        for asset_hash, mime_type in pairs:
+            path, error = media_asset_path(asset_hash, mime_type)
+            if path is None:
+                self._add(
+                    diagnostics,
+                    "invalid_media_assets",
+                    {
+                        "asset_hash": asset_hash,
+                        "mime_type": mime_type,
+                        "reason": error,
+                    },
+                )
+                continue
+            bundle_assets.append(
+                BundleAssetRef(
+                    path=path, asset_hash=asset_hash, mime_type=mime_type
+                )
+            )
+        return bundle_assets
+
     @staticmethod
     def _check_path_conflicts(
-        files: List[Tuple[str, str]], diagnostics: Dict[str, List[Any]]
+        paths: List[str], diagnostics: Dict[str, List[Any]]
     ) -> None:
         seen: Dict[str, int] = {}
         seen_lower: Dict[str, str] = {}
         duplicates: List[str] = []
         collisions: List[Dict[str, str]] = []
-        for path, _content in files:
+        for path in paths:
             seen[path] = seen.get(path, 0) + 1
             lower = path.lower()
             if lower in seen_lower and seen_lower[lower] != path:
@@ -268,30 +334,42 @@ class AssemblyEngine(AssemblyEngineInterface):
     @staticmethod
     def _build_bundle(
         files: List[Tuple[str, str]],
+        bundle_assets: List[BundleAssetRef],
         rendered_page_set: RenderedPageSet,
         seo_package: SEOPackage,
         brand_package: BrandPackage,
+        listing_dataset: Optional[ListingDataset],
     ) -> SiteBundle:
         ordered = sorted(files, key=lambda item: item[0])
         file_map: Dict[str, str] = {
             path: sha256_of_text(content) for path, content in ordered
         }
+        # AES-WEB-002M.1: binary asset entries join the same path -> content-
+        # hash map (their file_map value is the asset's own CAS hash --
+        # sha256-of-raw-bytes and sha256-of-UTF-8-text are one convention),
+        # so §5.9's sorted-file-map bundle hash covers them unchanged.
+        for asset in bundle_assets:
+            file_map[asset.path] = asset.asset_hash
         bundle_files = tuple(
             BundleFile(path=path, content=content) for path, content in ordered
         )
         # §5.9: the bundle-level hash is the hash of the sorted file map.
         bundle_hash = sha256_of_text(canonical_json(file_map))
+        source_hashes = {
+            "rendered_page_set": artifact_sha256(rendered_page_set),
+            "seo_package": artifact_sha256(seo_package),
+            "brand_package": artifact_sha256(brand_package),
+        }
+        if listing_dataset is not None:
+            source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
         return SiteBundle(
             schema_version=SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE],
             artifact_kind=ArtifactKind.SITE_BUNDLE,
-            source_hashes={
-                "rendered_page_set": artifact_sha256(rendered_page_set),
-                "seo_package": artifact_sha256(seo_package),
-                "brand_package": artifact_sha256(brand_package),
-            },
+            source_hashes=source_hashes,
             file_map=file_map,
             bundle_hash=bundle_hash,
             files=bundle_files,
+            assets=tuple(sorted(bundle_assets, key=lambda a: a.path)),
         )
 
     # -- diagnostics helpers ------------------------------------------------

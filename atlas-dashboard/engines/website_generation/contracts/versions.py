@@ -74,6 +74,16 @@ as the additive thirteenth artifact kind, registered directly at schema
 entry above, this is a brand-new artifact, not a schema bump of an existing
 one). Contract-only: no engine consumes ``ListingDataset`` yet, so no
 ``ENGINE_VERSIONS`` entry is added or changed by this delivery.
+
+AES-WEB-002M.1 (media asset plumbing) adds two analogous additive-minor
+bumps. ``ListingDataset`` 1.1.0: the nested ``ListingAssetRef`` gains asset
+metadata (alt text, intrinsic dimensions, MIME type, provenance/licensing
+facts); 1.0.0 stays registered via :class:`ListingDatasetV1` (which
+preserves the 1.0.0 *nested* tree -- the first nested-model schema change,
+so the V1 class chain reaches down to ``ListingAssetRefV1``). ``SiteBundle``
+1.2.0: additive ``assets`` (binary bundle entries referenced by CAS hash,
+never embedded -- §4.3); 1.1.0 stays registered via :class:`SiteBundleV1_1`.
+No migration required for either.
 """
 
 from __future__ import annotations
@@ -93,6 +103,7 @@ from engines.website_generation.contracts.artifacts import (
     LayoutPlan,
     LayoutPlanV1,
     ListingDataset,
+    ListingDatasetV1,
     QualityReport,
     QualityReportV1,
     RenderedPageSet,
@@ -102,6 +113,7 @@ from engines.website_generation.contracts.artifacts import (
     SiteArchitectureV1,
     SiteBundle,
     SiteBundleV1,
+    SiteBundleV1_1,
 )
 from engines.website_generation.contracts.enums import ArtifactKind
 from engines.website_generation.contracts.errors import (
@@ -128,14 +140,18 @@ SCHEMA_VERSIONS: Dict[ArtifactKind, str] = {
     ArtifactKind.RENDERED_PAGE_SET: "1.1.0",
     ArtifactKind.SEO_PACKAGE: "1.0.0",
     # AES-WEB-002J.10: additive-minor bump to 1.1.0 (files).
-    ArtifactKind.SITE_BUNDLE: "1.1.0",
+    # AES-WEB-002M.1: additive-minor bump to 1.2.0 (assets -- binary bundle
+    # entries referenced by CAS hash, never embedded; §4.3/§4.1 row 10).
+    ArtifactKind.SITE_BUNDLE: "1.2.0",
     # AES-WEB-002J.11: additive-minor bump to 1.1.0 (deferred_gate_ids).
     ArtifactKind.QUALITY_REPORT: "1.1.0",
     ArtifactKind.BUILD_MANIFEST: "1.0.0",
     # AES-WEB-002J.17 (ADR-WEB-LISTING-DATASET): the additive thirteenth
     # artifact kind, introduced directly at schema 1.0.0 (no prior shape to
     # be additive over).
-    ArtifactKind.LISTING_DATASET: "1.0.0",
+    # AES-WEB-002M.1: additive-minor bump to 1.1.0 (ListingAssetRef asset
+    # metadata: alt text, dimensions, MIME type, provenance/licensing).
+    ArtifactKind.LISTING_DATASET: "1.1.0",
 }
 
 # Engine versions — Phase 1 engines only. Later phases append; they never
@@ -271,7 +287,15 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).
-    "assembly": "1.0.0",
+    # AES-WEB-002M.1 bumps 1.0.0 -> 1.1.0: assemble() now accepts an
+    # optional listing_dataset input; supplied, every bundle_allowed listing
+    # asset is mapped to a deterministic content-addressed bundle path
+    # (assets/media/<sha256>.<ext>), entered into file_map (so bundle_hash
+    # covers it), and declared in the new SiteBundle.assets tuple -- a real
+    # §5.9 behavior change requiring an explicit bump. Omitting
+    # listing_dataset (the default, and every pre-M.1 caller) produces a
+    # file_map/bundle_hash byte-identical to pre-M.1 output.
+    "assembly": "1.1.0",
     # AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2): initial Quality Gate Engine
     # version. Not wired into pipeline execution (§6: gating remains
     # NOT_EXECUTED in the BuildManifest).
@@ -391,9 +415,10 @@ _V1_0_0_CATALOG: Dict[ArtifactKind, Type[ArtifactHeader]] = {
     ArtifactKind.SITE_BUNDLE: SiteBundleV1,
     ArtifactKind.QUALITY_REPORT: QualityReportV1,
     ArtifactKind.BUILD_MANIFEST: BuildManifest,
-    # AES-WEB-002J.17: ListingDataset has no pre-1.0.0 shape to be additive
-    # over -- it registers its current (and only) shape directly.
-    ArtifactKind.LISTING_DATASET: ListingDataset,
+    # AES-WEB-002J.17 registered ListingDataset's then-only shape at 1.0.0;
+    # AES-WEB-002M.1's additive-minor bump preserves that exact shape as
+    # ListingDatasetV1 (nested 1.0.0 tree included -- see artifacts.py).
+    ArtifactKind.LISTING_DATASET: ListingDatasetV1,
 }
 
 for _kind, _cls in _V1_0_0_CATALOG.items():
@@ -439,9 +464,21 @@ register_artifact_model(
 
 # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2/Part 13 Phase 2): SiteBundle
 # additive-minor schema 1.1.0 carrying files (per-file UTF-8 text content).
-# Registered alongside 1.0.0 with no migration required.
+# Registered alongside 1.0.0 with no migration required. AES-WEB-002M.1
+# preserves that exact shape as SiteBundleV1_1 and registers the current
+# 1.2.0 shape (additive assets) alongside both.
 register_artifact_model(
-    ArtifactKind.SITE_BUNDLE, "1.1.0", SiteBundle
+    ArtifactKind.SITE_BUNDLE, "1.1.0", SiteBundleV1_1
+)
+register_artifact_model(
+    ArtifactKind.SITE_BUNDLE, "1.2.0", SiteBundle
+)
+
+# AES-WEB-002M.1: ListingDataset additive-minor schema 1.1.0 (ListingAssetRef
+# asset metadata). Registered alongside 1.0.0 (ListingDatasetV1, which
+# preserves the full 1.0.0 nested tree) with no migration required.
+register_artifact_model(
+    ArtifactKind.LISTING_DATASET, "1.1.0", ListingDataset
 )
 
 # AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2/Part 13 Phase 3): QualityReport

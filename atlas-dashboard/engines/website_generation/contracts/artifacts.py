@@ -273,6 +273,16 @@ def sha256_of_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def sha256_of_bytes(data: bytes) -> str:
+    """SHA-256 hex digest of raw bytes (AES-WEB-002M.1) -- the content
+    identity of a binary CAS object (AES-WEB-001 §4.3: "Binary assets
+    (images, fonts) are stored as raw bytes in the CAS and referenced from
+    artifacts by hash"). The binary twin of :func:`sha256_of_text`; for any
+    text ``t``, ``sha256_of_bytes(t.encode("utf-8")) == sha256_of_text(t)``
+    -- one hash convention across both object classes."""
+    return hashlib.sha256(data).hexdigest()
+
+
 def artifact_sha256(artifact: BaseModel) -> str:
     """Content identity of an artifact: sha256(canonical_json) (§4.3)."""
     return sha256_of_text(canonical_artifact_json(artifact))
@@ -854,8 +864,8 @@ class SiteBundleV1(ArtifactHeader):
     no per-file text payload -- only the ``file_map`` (path → content hash)
     and ``bundle_hash`` -- so its canonical serialization and content hash
     are byte-identical to the original 1.0.0 contract. The current schema is
-    1.1.0 (:class:`SiteBundle`). Internal compatibility model -- not part of
-    the public surface.
+    1.2.0 (:class:`SiteBundle`); 1.1.0 is :class:`SiteBundleV1_1`. Internal
+    compatibility model -- not part of the public surface.
     """
 
     artifact_kind: ArtifactKind = ArtifactKind.SITE_BUNDLE
@@ -880,27 +890,80 @@ class BundleFile(FrozenModel):
     content: str
 
 
-class SiteBundle(ArtifactHeader):
-    """Complete static site file map: path → content hash (§4.1 artifact
-    #10). Schema 1.1.0.
+class SiteBundleV1_1(ArtifactHeader):
+    """SiteBundle schema 1.1.0 (pre-M.1 shape; AES-WEB-002J.10).
 
-    AES-WEB-002J.10 (AES-WEB-001 §5.9 / Part 2): additive over the 1.0.0
-    shape (:class:`SiteBundleV1`) with ``files`` (the per-file UTF-8 text
-    payloads whose content hashes are ``file_map``). The Assembly Engine is a
-    pure engine with no CAS/filesystem access of its own (§5.9 "No file I/O
-    -- the repository materializes the bundle to disk"), so the assembled
-    text must travel inside the returned artifact for the (future)
-    site_bundle_repository (§9.3) to persist it. ``file_map`` stays the
-    §5.9-mandated path → content-hash map and ``bundle_hash`` the hash of the
-    sorted file map; ``files`` carries the same paths' content, keyed back to
-    ``file_map`` by path. No migration required -- the field is additive and
-    old 1.0.0 payloads still load via SiteBundleV1.
+    Retained for replay of bundles produced before AES-WEB-002M.1: carries
+    ``file_map``/``bundle_hash``/``files`` but no ``assets``, so its
+    canonical serialization and content hash are byte-identical to the
+    original 1.1.0 contract. The current schema is 1.2.0
+    (:class:`SiteBundle`). Internal compatibility model -- not part of the
+    public surface.
     """
 
     artifact_kind: ArtifactKind = ArtifactKind.SITE_BUNDLE
     file_map: Dict[str, str] = {}
     bundle_hash: str = ""
     files: Tuple[BundleFile, ...] = ()
+
+
+class BundleAssetRef(FrozenModel):
+    """One bundled binary asset (AES-WEB-002M.1; the "asset set" AES-WEB-001
+    §4.1 row 10 declares alongside the file map): its bundle-root-relative
+    output path, the CAS content hash of its raw bytes, and its declared
+    MIME type.
+
+    References only -- the raw bytes never travel inside the artifact
+    (§4.3: "artifacts themselves never embed binary data ... stored as raw
+    bytes in the CAS and referenced from artifacts by hash").
+    ``SiteBundleRepository`` materializes the bytes at write time (§9.3
+    "materializes a SiteBundle from the CAS") from a caller-supplied byte
+    source, verifying ``sha256(bytes) == asset_hash`` fail-closed. ``path``
+    is deterministically derived from the hash + MIME type
+    (``assembly_builders.media_asset_path``: ``assets/media/<sha256>.<ext>``
+    -- content-addressed, so repeated builds are byte-stable and lowercase-
+    hex paths cannot case-collide on Windows); the matching
+    :attr:`SiteBundle.file_map` entry for ``path`` is ``asset_hash`` itself
+    (one hash convention across text and binary entries --
+    ``sha256_of_bytes(raw) == sha256_of_text(text)`` for UTF-8 text).
+    """
+
+    path: str
+    asset_hash: str
+    mime_type: str
+
+
+class SiteBundle(ArtifactHeader):
+    """Complete static site file map: path → content hash (§4.1 artifact
+    #10). Schema 1.2.0.
+
+    AES-WEB-002J.10 (AES-WEB-001 §5.9 / Part 2): additive over the 1.0.0
+    shape (:class:`SiteBundleV1`) with ``files`` (the per-file UTF-8 text
+    payloads whose content hashes are ``file_map``). The Assembly Engine is a
+    pure engine with no CAS/filesystem access of its own (§5.9 "No file I/O
+    -- the repository materializes the bundle to disk"), so the assembled
+    text must travel inside the returned artifact for the
+    site_bundle_repository (§9.3) to persist it. ``file_map`` stays the
+    §5.9-mandated path → content-hash map and ``bundle_hash`` the hash of the
+    sorted file map; ``files`` carries the same paths' content, keyed back to
+    ``file_map`` by path.
+
+    AES-WEB-002M.1: additive over the 1.1.0 shape (:class:`SiteBundleV1_1`)
+    with ``assets`` -- the §4.1-row-10 "asset set": binary bundle entries
+    referenced by CAS hash (:class:`BundleAssetRef`), never embedded.
+    Every asset's ``path`` also appears in ``file_map`` (value =
+    ``asset_hash``), so ``bundle_hash`` covers binary entries through the
+    exact same sorted-file-map hash it always used -- an asset-less bundle's
+    ``file_map``/``bundle_hash`` are byte-identical to pre-M.1 output. No
+    migration required -- the field is additive and old payloads still load
+    via their registered schema classes.
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.SITE_BUNDLE
+    file_map: Dict[str, str] = {}
+    bundle_hash: str = ""
+    files: Tuple[BundleFile, ...] = ()
+    assets: Tuple[BundleAssetRef, ...] = ()
 
 
 # ---------------------------------------------------------------------------
@@ -1105,7 +1168,52 @@ class ListingVerification(FrozenModel):
 
 class ListingAssetRef(FrozenModel):
     """A CAS hash reference into an asset store (§10.2's ``AssetRole`` id
-    space) -- never a filesystem path or URL."""
+    space) -- never a filesystem path or URL.
+
+    AES-WEB-002M.1 (ListingDataset schema 1.1.0, additive): the reference
+    gains the minimum asset metadata its actual consumers need -- every
+    field below has a named consumer, none is speculative (AES-WEB-002M
+    review §6):
+
+    * ``alt_text`` -- emitters/CG-A11Y-010 (M.2 renders it; the M.2
+      fallback for a listing primary image is the listing's
+      ``business_name``, operator decision 8 -- never a fabricated
+      description).
+    * ``width``/``height`` -- intrinsic pixel dimensions for CLS-safe
+      ``<img>`` emission (§25); ``0`` means unknown (honest absence, the
+      review-count-sentinel precedent), never a guessed value.
+    * ``mime_type`` -- deterministic bundle-path extension derivation
+      (``assembly_builders.media_asset_path``) and eventual content-type
+      headers.
+    * ``source_kind`` -- provenance: where the bytes came from
+      (free-string in v1; e.g. ``"OPERATOR_UPLOAD"``, ``"PARTNER_FEED"``).
+    * ``bundle_allowed`` -- licensing fail-closed switch: only an asset
+      explicitly marked ``True`` is ever bundled into a generated site
+      (operator decision 3: all V1 media must be explicitly authorized;
+      the default is refusal, never assumption).
+    * ``attribution_text`` -- non-empty means attribution is required and
+      must be rendered wherever the asset is used (M.2's concern).
+    """
+
+    role: AssetRole
+    asset_hash: str
+    alt_text: str = ""
+    width: int = 0
+    height: int = 0
+    mime_type: str = ""
+    source_kind: str = ""
+    bundle_allowed: bool = False
+    attribution_text: str = ""
+
+
+class ListingAssetRefV1(FrozenModel):
+    """``ListingAssetRef``'s exact ListingDataset-schema-1.0.0 shape
+    (AES-WEB-002J.17), retained so pre-M.1 datasets remain replayable with
+    byte-identical canonical serialization (the ``BrandPackageV1``/
+    ``SiteBundleV1`` precedent, applied to a nested model for the first
+    time -- the 1.0.0 registration must reference the 1.0.0 nested tree,
+    or a replayed payload would re-serialize with the additive 1.1.0
+    fields and change its hash)."""
 
     role: AssetRole
     asset_hash: str
@@ -1176,17 +1284,70 @@ class ListingRecord(FrozenModel):
 class ListingDataset(ArtifactHeader):
     """A deterministic, normalized corpus of listings plus their categories
     and locations (AES-WEB-002J.17 additive artifact #13;
-    ADR-WEB-LISTING-DATASET). Schema 1.0.0.
+    ADR-WEB-LISTING-DATASET). Schema 1.1.0.
+
+    AES-WEB-002M.1: additive-minor bump 1.0.0 -> 1.1.0 -- the nested
+    ``ListingAssetRef`` gains asset metadata (alt text, intrinsic
+    dimensions, MIME type, provenance/licensing facts; see that model's
+    docstring). Both versions stay registered
+    (``ListingDatasetV1``/``ListingDataset``), no migration required. A
+    dataset with no assets serializes with an empty ``assets`` tuple on
+    every record under either schema, so the payload *content* of
+    asset-less datasets is unchanged -- only the declared
+    ``schema_version`` header differs.
 
     Input state for the Website Generation Engine -- not the operational
     data authority (AES-WEB-005, when written, owns sourcing/freshness/
     verification methodology/correction). An empty dataset
     (``listings=(), categories=(), locations=()``) is valid. The Component
-    Engine's (future) binding phase is the sole intended consumer; the
-    Renderer never consumes this artifact directly.
+    Engine's binding phase and (AES-WEB-002M.1) the Assembly Engine's
+    media-asset mapping are the intended consumers; the Renderer never
+    consumes this artifact directly.
     """
 
     artifact_kind: ArtifactKind = ArtifactKind.LISTING_DATASET
     listings: Tuple[ListingRecord, ...] = ()
+    categories: Tuple[ListingCategory, ...] = ()
+    locations: Tuple[ListingLocation, ...] = ()
+
+
+class ListingRecordV1(FrozenModel):
+    """``ListingRecord``'s exact ListingDataset-schema-1.0.0 shape:
+    identical fields, but ``assets`` references the 1.0.0
+    ``ListingAssetRefV1`` (see that model's docstring for why the nested
+    tree must be preserved). Every other nested model is unchanged between
+    1.0.0 and 1.1.0 and is therefore shared, not cloned."""
+
+    listing_id: str
+    business_name: str
+    slug: str
+    category_id: str
+    location_id: str = ""
+    description: str = ""
+    listing_kind: ListingKind = ListingKind.ORGANIC
+    contact: Optional[ListingContact] = None
+    address: Optional[ListingAddress] = None
+    geo: Optional[ListingGeo] = None
+    rating: Optional[ListingRating] = None
+    hours: Tuple[ListingHoursEntry, ...] = ()
+    sponsorship: Optional[ListingSponsorship] = None
+    verification: Optional[ListingVerification] = None
+    credentials: Tuple[str, ...] = ()
+    assets: Tuple[ListingAssetRefV1, ...] = ()
+    cta: Optional[ListingCTA] = None
+    provenance: Optional[ListingProvenance] = None
+
+
+class ListingDatasetV1(ArtifactHeader):
+    """ListingDataset schema 1.0.0 (pre-M.1 shape; AES-WEB-002J.17).
+
+    Retained for replay of datasets produced before AES-WEB-002M.1:
+    references the 1.0.0 nested tree (``ListingRecordV1`` ->
+    ``ListingAssetRefV1``) so a replayed 1.0.0 payload re-serializes
+    byte-identically. The current schema is 1.1.0 (:class:`ListingDataset`).
+    """
+
+    artifact_kind: ArtifactKind = ArtifactKind.LISTING_DATASET
+    listings: Tuple[ListingRecordV1, ...] = ()
     categories: Tuple[ListingCategory, ...] = ()
     locations: Tuple[ListingLocation, ...] = ()

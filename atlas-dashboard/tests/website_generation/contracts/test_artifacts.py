@@ -119,8 +119,11 @@ class TestCatalogRegistration:
         assert SCHEMA_VERSIONS[ArtifactKind.SITE_ARCHITECTURE] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.LAYOUT_PLAN] == "1.1.0"
         assert SCHEMA_VERSIONS[ArtifactKind.RENDERED_PAGE_SET] == "1.1.0"
-        assert SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.1.0"
+        # AES-WEB-002M.1: SiteBundle 1.2.0 (additive assets), ListingDataset
+        # 1.1.0 (additive ListingAssetRef metadata).
+        assert SCHEMA_VERSIONS[ArtifactKind.SITE_BUNDLE] == "1.2.0"
         assert SCHEMA_VERSIONS[ArtifactKind.QUALITY_REPORT] == "1.1.0"
+        assert SCHEMA_VERSIONS[ArtifactKind.LISTING_DATASET] == "1.1.0"
         _minor_bumped = (
             ArtifactKind.COMPONENT_MANIFEST,
             ArtifactKind.BRAND_PACKAGE,
@@ -129,6 +132,7 @@ class TestCatalogRegistration:
             ArtifactKind.RENDERED_PAGE_SET,
             ArtifactKind.SITE_BUNDLE,
             ArtifactKind.QUALITY_REPORT,
+            ArtifactKind.LISTING_DATASET,
         )
         for kind in ALL_KINDS:
             if kind in _minor_bumped:
@@ -144,14 +148,18 @@ class TestCatalogRegistration:
             ArtifactKind.SITE_ARCHITECTURE,
             ArtifactKind.LAYOUT_PLAN,
             ArtifactKind.RENDERED_PAGE_SET,
-            ArtifactKind.SITE_BUNDLE,
             ArtifactKind.QUALITY_REPORT,
+            ArtifactKind.LISTING_DATASET,
         )
         for kind in ALL_KINDS:
-            if kind in _minor_bumped:
+            if kind is ArtifactKind.SITE_BUNDLE:
+                # AES-WEB-002M.1: three registered SiteBundle schemas --
+                # 1.0.0 (hash-only), 1.1.0 (files), 1.2.0 (files + assets).
+                assert versions[kind] == ("1.0.0", "1.1.0", "1.2.0")
+            elif kind in _minor_bumped:
                 # A1 / AES-WEB-002J.2 / AES-WEB-002J.3 / AES-WEB-002J.7 /
-                # AES-WEB-002J.8 / AES-WEB-002J.10 / AES-WEB-002J.11: both
-                # 1.0.0 (field-less) and 1.1.0 stay registered.
+                # AES-WEB-002J.8 / AES-WEB-002J.11 / AES-WEB-002M.1: both
+                # 1.0.0 and 1.1.0 stay registered.
                 assert versions[kind] == ("1.0.0", "1.1.0")
             else:
                 assert versions[kind] == ("1.0.0",)
@@ -806,17 +814,22 @@ class TestSiteBundleSchema:
         assert '"file_map"' in text
         assert '"bundle_hash"' in text
 
-    def test_schema_1_1_0_is_registered(self):
-        model_cls = registered_artifact_model(ArtifactKind.SITE_BUNDLE, "1.1.0")
-        assert model_cls is SiteBundle
+    def test_schema_1_2_0_is_registered(self):
+        # AES-WEB-002M.1: current schema 1.2.0 (additive assets); the exact
+        # pre-M.1 1.1.0 shape stays registered as SiteBundleV1_1.
+        from engines.website_generation.contracts.artifacts import SiteBundleV1_1
+
+        assert registered_artifact_model(ArtifactKind.SITE_BUNDLE, "1.2.0") is SiteBundle
+        assert registered_artifact_model(ArtifactKind.SITE_BUNDLE, "1.1.0") is SiteBundleV1_1
 
     def test_new_field_defaults_empty(self):
         bundle = SiteBundle(
-            schema_version="1.1.0",
+            schema_version="1.2.0",
             artifact_kind=ArtifactKind.SITE_BUNDLE,
             source_hashes={},
         )
         assert bundle.files == ()
+        assert bundle.assets == ()
 
     def test_v1_payload_still_parses_via_v1_model(self):
         legacy_json = canonical_artifact_json(

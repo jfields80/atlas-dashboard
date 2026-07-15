@@ -58,8 +58,11 @@ class TestPublicInterface:
         assert isinstance(AssemblyEngine(), AssemblyEngineInterface)
 
     def test_engine_version_registered(self):
-        assert wge.ENGINE_VERSIONS["assembly"] == "1.0.0"
-        assert AssemblyEngine.version == "1.0.0"
+        # AES-WEB-002M.1 bumps 1.0.0 -> 1.1.0: assemble() gained an optional
+        # listing_dataset input mapping bundle-authorized media assets into
+        # the bundle (contracts/versions.py).
+        assert wge.ENGINE_VERSIONS["assembly"] == "1.1.0"
+        assert AssemblyEngine.version == "1.1.0"
 
     def test_assembly_error_shape(self):
         err = AssemblyError("boom", diagnostics={"x": 1})
@@ -73,10 +76,11 @@ class TestPublicInterface:
 # --------------------------------------------------------------------------- #
 
 class TestOutputArtifact:
-    def test_produces_site_bundle_1_1_0(self):
+    def test_produces_site_bundle_1_2_0(self):
+        # AES-WEB-002M.1: SiteBundle schema is now 1.2.0 (additive assets).
         bundle = assemble()
         assert isinstance(bundle, SiteBundle)
-        assert bundle.schema_version == "1.1.0"
+        assert bundle.schema_version == "1.2.0"
         assert bundle.artifact_kind.value == "SITE_BUNDLE"
 
     def test_file_map_matches_files_hashes(self):

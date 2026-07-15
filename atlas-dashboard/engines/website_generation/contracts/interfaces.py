@@ -281,9 +281,17 @@ class AssemblyEngineInterface(ABC):
         rendered_page_set: RenderedPageSet,
         seo_package: SEOPackage,
         brand_package: BrandPackage,
+        listing_dataset: Optional[ListingDataset] = None,
     ) -> SiteBundle:
         """Assemble a deterministic ``SiteBundle`` from a ``RenderedPageSet``,
-        ``SEOPackage``, and ``BrandPackage``."""
+        ``SEOPackage``, and ``BrandPackage``.
+
+        ``listing_dataset`` (AES-WEB-002M.1, additive, optional): supplied,
+        every listing asset explicitly marked ``bundle_allowed`` is mapped
+        to a deterministic content-addressed bundle path and declared in
+        ``SiteBundle.assets`` (references only -- raw bytes never enter an
+        artifact, §4.3; the site_bundle_repository materializes them,
+        §9.3). Omitted, output is byte-identical to pre-M.1 behavior."""
         raise NotImplementedError
 
 
