@@ -73,8 +73,11 @@ class TestPublicInterface:
         assert isinstance(QualityGateEngine(), QualityGateEngineInterface)
 
     def test_engine_version_registered(self):
-        assert wge.ENGINE_VERSIONS["quality_gate_engine"] == "1.0.0"
-        assert QualityGateEngine.version == "1.0.0"
+        # AES-WEB-002L.2 bumps 1.0.0 -> 1.1.0: evaluate() gained an optional
+        # component_manifest input that moves CG-CMP-010 from deferred to
+        # evaluated (contracts/versions.py).
+        assert wge.ENGINE_VERSIONS["quality_gate_engine"] == "1.1.0"
+        assert QualityGateEngine.version == "1.1.0"
 
     def test_error_shape(self):
         err = GateExecutionError("boom", diagnostics={"x": 1})

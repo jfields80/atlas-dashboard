@@ -175,6 +175,19 @@ class SyntheticPage:
     page_role: str = ""
     regions: Tuple["SyntheticInstance", ...] = ()
     required_role_components_present: bool = True
+    # AES-WEB-002L.2: additive, real-extraction-only diagnostic detail for
+    # CG-CMP-010's commercial-completeness reading of "required role
+    # components present" -- the CommercialStrategy this page was composed
+    # under (empty when not derivable, e.g. every synthetic fixture that
+    # predates this delivery) and, when required_role_components_present is
+    # False, which specific declared requirement(s) were missing. Neither
+    # field changes check_cg_cmp_010's pass/fail logic (still governed
+    # entirely by required_role_components_present) -- both exist only to
+    # satisfy the §21 preamble's "name the specific violating value"
+    # diagnostic requirement with real specifics instead of a generic
+    # message.
+    commercial_strategy: str = ""
+    missing_commercial_requirements: Tuple[str, ...] = ()
     section_count: int = 0
     section_ceiling: int = MAX_SECTIONS_PER_BODY_DEFAULT
     sticky_region_count: int = 0

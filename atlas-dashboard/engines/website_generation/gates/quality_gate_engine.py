@@ -24,14 +24,35 @@ passed. The evaluated set is the emitted-markup safety/structure family:
 * CG-CMP-005 (heading hierarchy), CG-CMP-006 (landmark hierarchy),
   CG-CMP-008 (no nested interactive controls).
 
-Deferred (documented in the AES-WEB-002J.11 report): the remaining CG-RND
-gates (need re-render/probes), all CG-CON/CG-COM/CG-RSP (need instance-level
-binding facts the minimal ``ComponentManifest`` does not yet carry), all
-CG-A11Y (need the resolved CSS cascade / layout: contrast, focus, touch
-targets), all CG-SEO (need SEO-gate check functions and richer facts), the
-CG-STR-006 reservation, and CG-RND-010 / structured-data (no JSON-LD exists
--- SEO Decision D4). These stay covered by their two-fixture synthetic
-contract tests, which this delivery does not touch.
+AES-WEB-002L.2 adds one gate to the evaluated set: CG-CMP-010 ("required
+role components present per §6.1 matrix"), read as commercial-completeness
+verification against the CommercialStrategy layer's own declared
+requirements (AES-WEB-002L.1's ``PAGE_COMMERCIAL_DEFAULTS`` -- primary CTA,
+required trust surfaces, non-empty commercial main). This is possible now,
+and was not possible at AES-WEB-002J.11 exit, because CG-CMP-010's real
+evaluation needs to know which ``CommercialStrategy`` a page was composed
+under -- information that lives only in ``ComponentManifest.source_hashes``,
+a new, additive, optional ``compile()`` input this method did not receive
+before. Supplying ``component_manifest`` is the *only* thing that moves
+CG-CMP-010 from deferred to evaluated; omitting it (as every pre-L.2 caller
+does) reproduces the exact pre-L.2 report byte-for-byte, CG-CMP-010 included
+in ``deferred_gate_ids`` exactly as before. The Quality Gate Engine still
+only *verifies* here -- it never classifies a strategy, never selects a
+component, and never invents a requirement PAGE_COMMERCIAL_DEFAULTS does
+not already declare (DECLARE -> COMPOSE -> VERIFY; the Commercial Strategy
+Layer and Component Engine own the first two steps, unchanged).
+
+Deferred (documented in the AES-WEB-002J.11 report; CG-CMP-010 removed from
+this list by AES-WEB-002L.2, see above): the remaining CG-RND gates (need
+re-render/probes), all CG-CON/CG-COM/CG-RSP (need instance-level binding
+facts the minimal ``ComponentManifest`` does not yet carry -- unchanged by
+this delivery, which reads only page-level facts), all CG-A11Y (need the
+resolved CSS cascade / layout: contrast, focus, touch targets), all CG-SEO
+(need SEO-gate check functions and richer facts), the CG-STR-006 reservation
+(a different, zero-results-specific structural concern, not commercial
+completeness), and CG-RND-010 / structured-data (no JSON-LD exists -- SEO
+Decision D4). These stay covered by their two-fixture synthetic contract
+tests, which this delivery does not touch.
 
 Deterministic, pure, serializable, byte-stable: the same four artifacts
 always produce the same ``QualityReport``. No filesystem, network, CAS,
@@ -44,7 +65,7 @@ unchanged by this module).
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from engines.website_generation.constants.build import STAGE_GATING
 from engines.website_generation.constants.gates import (
@@ -54,6 +75,7 @@ from engines.website_generation.constants.gates import (
     GATE_SEVERITY_WARNING,
 )
 from engines.website_generation.contracts.artifacts import (
+    ComponentManifest,
     ContentPackage,
     GateResult,
     QualityReport,
@@ -103,6 +125,52 @@ _EVALUATED_GATES: Tuple[Tuple[str, Callable[[Any], CheckOutcome], str], ...] = (
     ("CG-RND-009", rendering_checks.check_cg_rnd_009, _FACT_RENDERED),
 )
 
+# AES-WEB-002L.2: CG-CMP-010's real evaluation additionally needs to know
+# which CommercialStrategy the page was composed under (ComponentManifest.
+# source_hashes, an input this method did not receive before this
+# delivery) -- so, unlike every gate in _EVALUATED_GATES above, it is not
+# unconditionally evaluated. evaluate() appends this single entry only
+# when its caller supplies component_manifest; omitting it reproduces the
+# exact pre-L.2 report (CG-CMP-010 stays in deferred_gate_ids, exactly as
+# it always has).
+_CG_CMP_010_ENTRY: Tuple[str, Callable[[Any], CheckOutcome], str] = (
+    "CG-CMP-010", composition_checks.check_cg_cmp_010, _FACT_COMPOSITION,
+)
+
+
+def _route_to_output_path(route: str) -> Optional[str]:
+    """Map a page route to its deterministic bundle-root-relative output
+    path, or ``None`` if the route is not a well-formed absolute site path.
+
+    Documented duplication (AES-WEB-001 §3.2-style boundary, the same
+    precedent ``is_safe_url``/``PAGE_ROLE_BUSINESS_PROFILE`` already
+    establish elsewhere): this is the success-path subset of
+    ``assembly.assembly_builders.route_to_output_path`` -- ``gates/`` may
+    import only stdlib, ``contracts/``, ``constants/``, and itself
+    (``tests/website_generation/architecture/test_import_audit.py``'s
+    ``test_gates_imports_contracts_constants_and_gates_only``, mechanically
+    enforced), so ``assembly/`` cannot be imported here. Re-derived, not
+    guessed: ``/`` -> ``index.html``; ``/about`` and ``/about/`` ->
+    ``about/index.html``; ``/a/b`` -> ``a/b/index.html``. Only used to
+    look up a page's own ``page_role`` by the output path the real
+    Assembly Engine already gave it in the ``SiteBundle`` this method
+    receives -- an invalid route here would mean the SiteBundle and
+    SiteArchitecture disagree, an existing precondition this method does
+    not otherwise validate, so a conservative ``None`` (silently excluded
+    from the path->role map) is the honest degrade, never a raise."""
+    if not route or not route.startswith("/") or "\\" in route:
+        return None
+    raw = route.split("/")
+    interior = raw[1:]
+    if interior and interior[-1] == "":
+        interior = interior[:-1]
+    if not interior:
+        return "index.html"
+    if any(not segment or segment in (".", "..") for segment in interior):
+        return None
+    return "/".join(interior) + "/index.html"
+
+
 _EVALUATED_GATE_IDS = frozenset(gid for gid, _fn, _kind in _EVALUATED_GATES)
 
 # The registry's severity per gate id (declared order preserved by the
@@ -129,6 +197,7 @@ class QualityGateEngine(QualityGateEngineInterface):
         seo_package: SEOPackage,
         content_package: ContentPackage,
         site_architecture: SiteArchitecture,
+        component_manifest: Optional[ComponentManifest] = None,
     ) -> QualityReport:
         """Total function over structurally valid inputs. Neither input is
         mutated (all frozen); gate order, page order, and findings are pure
@@ -136,6 +205,15 @@ class QualityGateEngine(QualityGateEngineInterface):
         iteration order (AES-WEB-001 §1.1). Raises ``GateExecutionError``
         only on engine malfunction; every gate content verdict is a
         ``GateResult``. No partial report is returned on malfunction.
+
+        ``component_manifest`` (AES-WEB-002L.2, additive, optional) is the
+        sole source of the page's real, already-resolved CommercialStrategy
+        (``source_hashes["commercial_strategy"]``, recorded by the
+        Component Engine per AES-WEB-002L.1) that CG-CMP-010's real
+        evaluation needs. This engine never classifies or re-derives a
+        strategy itself -- it reads the one the Component Engine already
+        recorded, exactly as declared, or evaluates one fewer gate.
+        Omitting it reproduces the exact pre-L.2 report byte-for-byte.
         """
         pages = self._html_pages(site_bundle)
         if not pages:
@@ -145,15 +223,38 @@ class QualityGateEngine(QualityGateEngineInterface):
                 diagnostics={"file_count": len(site_bundle.files)},
             )
 
+        commercial_strategy = ""
+        page_role_by_path: Dict[str, str] = {}
+        if component_manifest is not None:
+            commercial_strategy = component_manifest.source_hashes.get(
+                "commercial_strategy", ""
+            )
+            for page in site_architecture.pages:
+                output_path = _route_to_output_path(page.route)
+                if output_path is not None:
+                    page_role_by_path[output_path] = page.page_type
+
+        evaluated_gates = _EVALUATED_GATES
+        if component_manifest is not None:
+            evaluated_gates = evaluated_gates + (_CG_CMP_010_ENTRY,)
+        evaluated_gate_ids = frozenset(gid for gid, _fn, _kind in evaluated_gates)
+
         rendered_facts: List[Tuple[str, SyntheticRenderedPage]] = []
         composition_facts: List[Tuple[str, SyntheticPage]] = []
         for path, html in pages:
             rendered_facts.append((path, extract_rendered_page_facts(path, html)))
-            composition_facts.append((path, extract_page_composition_facts(path, html)))
+            composition_facts.append((
+                path,
+                extract_page_composition_facts(
+                    path, html,
+                    page_role=page_role_by_path.get(path, ""),
+                    commercial_strategy=commercial_strategy,
+                ),
+            ))
 
         gate_results: List[GateResult] = []
         execution_faults: List[Dict[str, str]] = []
-        for gate_id, check, fact_kind in _EVALUATED_GATES:
+        for gate_id, check, fact_kind in evaluated_gates:
             facts = rendered_facts if fact_kind == _FACT_RENDERED else composition_facts
             result = self._run_gate_over_pages(gate_id, check, facts, execution_faults)
             if result is not None:
@@ -167,19 +268,23 @@ class QualityGateEngine(QualityGateEngineInterface):
             )
 
         deferred = tuple(
-            gid for gid in _ALL_REGISTERED_GATE_IDS if gid not in _EVALUATED_GATE_IDS
+            gid for gid in _ALL_REGISTERED_GATE_IDS if gid not in evaluated_gate_ids
         )
         certified = self._compute_certified(gate_results, deferred)
+
+        source_hashes = {
+            "site_bundle": artifact_sha256(site_bundle),
+            "seo_package": artifact_sha256(seo_package),
+            "content_package": artifact_sha256(content_package),
+            "site_architecture": artifact_sha256(site_architecture),
+        }
+        if component_manifest is not None:
+            source_hashes["component_manifest"] = artifact_sha256(component_manifest)
 
         return QualityReport(
             schema_version=SCHEMA_VERSIONS[ArtifactKind.QUALITY_REPORT],
             artifact_kind=ArtifactKind.QUALITY_REPORT,
-            source_hashes={
-                "site_bundle": artifact_sha256(site_bundle),
-                "seo_package": artifact_sha256(seo_package),
-                "content_package": artifact_sha256(content_package),
-                "site_architecture": artifact_sha256(site_architecture),
-            },
+            source_hashes=source_hashes,
             gate_results=tuple(gate_results),
             certified=certified,
             certificate=None,

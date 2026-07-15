@@ -298,7 +298,8 @@ class QualityGateEngineInterface(ABC):
     facts are not derivable from the current artifacts are reported in the
     report's ``deferred_gate_ids`` rather than silently omitted or falsely
     passed (the AES-005A honesty lesson). Inputs are the four §5.10 declared
-    artifacts; the engine reads no engine implementation, no filesystem, and
+    artifacts plus (AES-WEB-002L.2) the optional ``component_manifest``;
+    the engine reads no engine implementation, no filesystem, and
     no network -- it consumes artifacts only, and writes nothing (report
     persistence is a repository concern). There is no
     ``render``/``assemble``/``compile`` method, by design.
@@ -311,9 +312,19 @@ class QualityGateEngineInterface(ABC):
         seo_package: SEOPackage,
         content_package: ContentPackage,
         site_architecture: SiteArchitecture,
+        component_manifest: Optional[ComponentManifest] = None,
     ) -> QualityReport:
         """Evaluate a deterministic ``QualityReport`` from a ``SiteBundle``,
-        ``SEOPackage``, ``ContentPackage``, and ``SiteArchitecture``."""
+        ``SEOPackage``, ``ContentPackage``, and ``SiteArchitecture``.
+
+        ``component_manifest`` (AES-WEB-002L.2, additive, optional) supplies
+        the page's already-resolved ``CommercialStrategy``
+        (``source_hashes["commercial_strategy"]``) so CG-CMP-010's real
+        evaluation can verify the CommercialStrategy layer's own declared
+        page requirements (primary CTA, required trust surfaces, non-empty
+        commercial main) against the real rendered output -- verification,
+        never (re)classification. Omitting it reproduces the exact pre-L.2
+        report byte-for-byte (CG-CMP-010 stays in ``deferred_gate_ids``)."""
         raise NotImplementedError
 
 

@@ -458,3 +458,53 @@ class TestCommercialStrategyRegression:
         defaults = PAGE_COMMERCIAL_DEFAULTS[(STRATEGY_DIRECTORY, "home")]
         assert defaults["primary_cta_label"] == "Browse the directory"
         assert defaults["primary_cta_href"] == "#main"
+
+
+class TestCommercialCompletenessGateRegression:
+    """AES-WEB-002L.2 §10/§H: proves DIRECTORY + real PetTripFinder output
+    satisfies its own declared commercial requirements -- CG-CMP-010
+    evaluated for real (not deferred) across every one of the 19 real
+    pages, zero new blocking commercial findings. Re-evaluates the same
+    real bundle/seo_package/content_package/site_architecture
+    ``_run_real_chain()`` already produced (no second pipeline run, no
+    hand-repair) with ``component_manifest`` additionally supplied -- the
+    one thing that moves CG-CMP-010 from deferred to evaluated."""
+
+    def test_zero_blocking_commercial_findings_across_real_site(self):
+        from engines.website_generation.gates.quality_gate_engine import QualityGateEngine
+
+        fixture, compilation, _layout, _rendered, seo_pkg, bundle, report_without = _run_real_chain()
+        report_with = QualityGateEngine().evaluate(
+            bundle, seo_pkg, compilation.content_package, fixture.site_architecture,
+            component_manifest=compilation.component_manifest,
+        )
+        assert "CG-CMP-010" in report_without.deferred_gate_ids
+        assert "CG-CMP-010" not in report_with.deferred_gate_ids
+        cmp_010 = next(g for g in report_with.gate_results if g.gate_id == "CG-CMP-010")
+        assert cmp_010.passed is True, cmp_010.details
+        assert "19 page(s) evaluated" in cmp_010.details
+
+    def test_commercial_strategy_provenance_recorded_on_real_report(self):
+        from engines.website_generation.gates.quality_gate_engine import QualityGateEngine
+
+        fixture, compilation, _layout, _rendered, seo_pkg, bundle, _report = _run_real_chain()
+        report = QualityGateEngine().evaluate(
+            bundle, seo_pkg, compilation.content_package, fixture.site_architecture,
+            component_manifest=compilation.component_manifest,
+        )
+        assert "component_manifest" in report.source_hashes
+
+    def test_gate_does_not_change_the_generated_bundle(self):
+        # Verification never mutates the artifact it verifies (DECLARE ->
+        # COMPOSE -> VERIFY) -- the bundle passed in and the one
+        # _run_real_chain() already asserted K.2's byte-equivalent output
+        # against are the exact same object.
+        fixture, compilation, _layout, _rendered, seo_pkg, bundle, _report = _run_real_chain()
+        from engines.website_generation.gates.quality_gate_engine import QualityGateEngine
+
+        before = bundle.bundle_hash
+        QualityGateEngine().evaluate(
+            bundle, seo_pkg, compilation.content_package, fixture.site_architecture,
+            component_manifest=compilation.component_manifest,
+        )
+        assert bundle.bundle_hash == before

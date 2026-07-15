@@ -212,13 +212,24 @@ def check_cg_cmp_009(page: SyntheticPage) -> CheckOutcome:
 def check_cg_cmp_010(page: SyntheticPage) -> CheckOutcome:
     """CG-CMP-010: required role components present per §6.1 matrix
     (extends AES-WEB-001 structural family; registered alongside
-    CG-STR-006 zero-state rule)."""
+    CG-STR-006 zero-state rule).
+
+    AES-WEB-002L.2: real evaluation reads this against the page's
+    CommercialStrategy-declared requirements (``PAGE_COMMERCIAL_DEFAULTS``)
+    -- required primary CTA, required trust surfaces, and a non-empty
+    commercial main region are all "required role components" under §6.1.
+    The pass/fail verdict is still governed entirely by
+    ``required_role_components_present``; ``commercial_strategy``/
+    ``missing_commercial_requirements`` only enrich the failure message
+    with the specific violating requirement(s), per the §21 preamble."""
     if page.required_role_components_present:
         return CheckOutcome(True, f"{_page_ref(page)}: required role components present")
+    strategy_note = f" strategy={page.commercial_strategy!r}" if page.commercial_strategy else ""
+    reasons = "; ".join(page.missing_commercial_requirements) or "unspecified"
     return CheckOutcome(
         False,
-        f"{_page_ref(page)}: one or more §6.1-required components missing for "
-        f"role {page.page_role!r}",
+        f"{_page_ref(page)}{strategy_note}: one or more §6.1-required components missing for "
+        f"role {page.page_role!r} ({reasons})",
     )
 
 

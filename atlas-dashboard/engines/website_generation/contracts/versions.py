@@ -275,7 +275,15 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # AES-WEB-002J.11 (AES-WEB-001 §5.10/Part 2): initial Quality Gate Engine
     # version. Not wired into pipeline execution (§6: gating remains
     # NOT_EXECUTED in the BuildManifest).
-    "quality_gate_engine": "1.0.0",
+    # AES-WEB-002L.2 bumps 1.0.0 -> 1.1.0: evaluate() now accepts an
+    # optional component_manifest input; supplying it moves CG-CMP-010 from
+    # deferred_gate_ids to a real, evaluated GateResult (commercial-
+    # completeness verification against PAGE_COMMERCIAL_DEFAULTS -- primary
+    # CTA, required trust surfaces, non-empty commercial main), and
+    # source_hashes gains a component_manifest entry when supplied -- a
+    # real §5.10 behavior change requiring an explicit bump. Omitting
+    # component_manifest (the default) is byte-identical to pre-L.2 output.
+    "quality_gate_engine": "1.1.0",
 }
 
 # Component-system version axes (AES-WEB-002 §22.1; AES-WEB-002A). Additive
