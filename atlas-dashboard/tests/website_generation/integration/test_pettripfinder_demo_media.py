@@ -62,7 +62,9 @@ _SRC_RE = re.compile(r'src="([^"]*)"')
 
 # The committed manifest's intent (kept in sync with demo_media.json --
 # these tests fail loudly if the manifest and this expectation diverge).
-IMAGED_SLUGS = {"riverbend-off-leash-dog-park", "barkside-cafe"}
+# Inventory Wave 2: the fake Riverbend sample park was replaced by 14 real
+# parks; the park demo illustration moved to Scioto Audubon Metro Park.
+IMAGED_SLUGS = {"scioto-audubon-metro-park", "barkside-cafe"}
 # Inventory Wave 1: the example.com sample hotel row was replaced by 20
 # real researched hotels, none of which carries authorized media yet -- any
 # of them proves the imageless text-only fallback; one is pinned here.
@@ -212,7 +214,7 @@ class TestRealPilotIngestion:
         by_slug = {l.slug: l for l in dataset.listings}
         park = (LAUNCH_PACKAGE_DIR / "media" / "park-demo.png").read_bytes()
         dining = (LAUNCH_PACKAGE_DIR / "media" / "dining-demo.png").read_bytes()
-        assert by_slug["riverbend-off-leash-dog-park"].assets[0].asset_hash == sha256_of_bytes(park)
+        assert by_slug["scioto-audubon-metro-park"].assets[0].asset_hash == sha256_of_bytes(park)
         assert by_slug["barkside-cafe"].assets[0].asset_hash == sha256_of_bytes(dining)
 
     def test_no_filesystem_path_in_dataset(self, tmp_path):
@@ -237,11 +239,11 @@ class TestGeneratedHtml:
         dataset, rendered, _, _ = _real_chain(tmp_path, with_media=True)
         park_hash = next(
             l.assets[0].asset_hash for l in dataset.listings
-            if l.slug == "riverbend-off-leash-dog-park"
+            if l.slug == "scioto-audubon-metro-park"
         )
         expected_src = "/assets/media/%s.png" % park_hash
         category = self._html(rendered, "/pet-friendly-parks/")
-        profile = self._html(rendered, "/pet-friendly-parks/riverbend-off-leash-dog-park/")
+        profile = self._html(rendered, "/pet-friendly-parks/scioto-audubon-metro-park/")
         assert 'src="%s"' % expected_src in category
         assert "ac-listing--card-image" in category
         assert 'src="%s"' % expected_src in profile
@@ -255,12 +257,15 @@ class TestGeneratedHtml:
             assert "<img" not in html
             assert "card-image" not in html and "primary-image" not in html
 
-    def test_exactly_four_img_tags_sitewide(self, tmp_path):
-        # 2 imaged listings x (1 card + 1 profile) = 4; single-listing
-        # categories have no related-listing repetition here.
+    def test_exactly_seventeen_img_tags_sitewide(self, tmp_path):
+        # 2 imaged listings x (1 category card + 1 profile primary) = 4,
+        # plus the Scioto Audubon card repeating as a J.20 related-listing
+        # card on the other 13 park profiles = 17. Every img is one of the
+        # two repository-owned demo illustrations; all other listings stay
+        # text-only.
         _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
         total = sum(len(_IMG_TAG_RE.findall(p.html)) for p in rendered.page_details)
-        assert total == 4
+        assert total == 17
 
 
 # --------------------------------------------------------------------------- #
