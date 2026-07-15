@@ -62,6 +62,8 @@ from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
+from urllib.parse import urlsplit
+
 from engines.website_generation.contracts.artifacts import (
     ArtifactKind,
     ListingAddress,
@@ -71,6 +73,7 @@ from engines.website_generation.contracts.artifacts import (
     ListingCTA,
     ListingDataset,
     ListingLocation,
+    ListingProvenance,
     ListingRating,
     ListingRecord,
 )
@@ -117,6 +120,15 @@ def _normalize_key(value: Any) -> str:
     return str(value or "").strip().lower()
 
 
+def _source_host(source_url: str) -> str:
+    """The source's host identity (AES-WEB-002N.1 ``ListingProvenance.
+    source_id``), deterministically derived from the URL -- falls back to
+    the full URL when no host parses (never empty for a non-empty URL,
+    since ``source_id`` is the one required provenance field)."""
+    host = urlsplit(source_url).netloc.strip().lower()
+    return host or source_url
+
+
 def _strip_trailing_locality(street: str, city: str, state: str) -> str:
     """AES-WEB-002K.2 address-duplication fix. A seed record's ``address``
     field sometimes carries the full postal string, redundantly repeating
@@ -158,6 +170,77 @@ def _normalize_address(street: Any) -> str:
     variants = dict(_STREET_SUFFIX_VARIANTS)
     normalized_words = [variants.get(word, word) for word in words]
     return " ".join(normalized_words)
+
+
+# AES-WEB-002N.1: the closed canonical-quality field set (operator decision
+# 10). Canonical selection compares populated-field counts over exactly
+# these raw-record fields -- arbitrary future optional fields never change
+# canonical selection, and there is no fuzzy matching and no opaque
+# scoring. "media" is populated when the record's (name, city, state)
+# enrichment key has an authorized entry in the caller's media overlay.
+_CANONICAL_QUALITY_FIELDS: Tuple[str, ...] = (
+    "source_url",
+    "website_url",
+    "address",
+    "pet_policy",
+    "phone",
+    "hours",
+    "postal_code",
+)
+
+
+def _media_key(record: Mapping[str, Any]) -> Tuple[str, str, str]:
+    return (
+        _normalize_key(record.get("name")),
+        _normalize_key(record.get("city")),
+        _normalize_key(record.get("state")),
+    )
+
+
+def _canonical_quality_count(
+    record: Mapping[str, Any],
+    media_by_key: Mapping[Tuple[str, str, str], Tuple[Any, ...]],
+) -> int:
+    count = sum(
+        1 for field in _CANONICAL_QUALITY_FIELDS
+        if str(record.get(field, "") or "").strip()
+    )
+    if media_by_key.get(_media_key(record)):
+        count += 1
+    return count
+
+
+def _is_truthy_marker(value: Any) -> bool:
+    return str(value or "").strip().lower() in ("true", "yes", "1", "x")
+
+
+def _select_canonical_record(
+    group: List[Mapping[str, Any]],
+    media_by_key: Mapping[Tuple[str, str, str], Tuple[Any, ...]],
+) -> Mapping[str, Any]:
+    """The canonical record among duplicates (AES-WEB-002N.1, operator
+    decision 10), in strict priority order:
+
+    1. Explicit operator override: exactly one record marked
+       ``canonical`` wins outright. (Multiple markers cancel each other --
+       contradictory operator input falls through to the deterministic
+       rules rather than silently trusting either marker.)
+    2. Most populated fields from the closed canonical-quality set
+       (``_CANONICAL_QUALITY_FIELDS`` + authorized media).
+    3. Longer non-empty ``pet_policy`` statement.
+    4. Stable lexical name tie-break (ascending).
+    """
+    marked = [raw for raw in group if _is_truthy_marker(raw.get("canonical"))]
+    if len(marked) == 1:
+        return marked[0]
+    return min(
+        group,
+        key=lambda raw: (
+            -_canonical_quality_count(raw, media_by_key),
+            -len(str(raw.get("pet_policy", "") or "").strip()),
+            _normalize_key(raw.get("name")),
+        ),
+    )
 
 
 def _dedup_key(record: Mapping[str, Any]) -> Tuple[str, str, str]:
@@ -285,16 +368,30 @@ def build_listing_dataset(
         key=lambda r: (_dedup_key(r), str(r.get("name", "")), str(r.get("source_url", ""))),
     )
 
+    # AES-WEB-002N.1 canonical-record selection: group all records sharing a
+    # dedup key, then choose the canonical one deterministically -- never
+    # "whichever sorted first" (the rule that let a junk-named, less-complete
+    # duplicate beat the real record). Rejected duplicates are always
+    # reported with the winner's name, never silently discarded.
+    groups: Dict[Tuple[str, str, str], List[Mapping[str, Any]]] = {}
+    for raw in ordered:
+        groups.setdefault(_dedup_key(raw), []).append(raw)
+
     seen_keys: Dict[Tuple[str, str, str], Mapping[str, Any]] = {}
     rejected_duplicates: List[str] = []
-    for raw in ordered:
-        key = _dedup_key(raw)
-        if key in seen_keys:
+    for key in sorted(groups):
+        group = groups[key]
+        winner = _select_canonical_record(group, media_by_key)
+        seen_keys[key] = winner
+        for raw in group:
+            if raw is winner:
+                continue
             rejected_duplicates.append(
-                "%s (%s, %s)" % (raw.get("name", ""), raw.get("city", ""), raw.get("state", ""))
+                "%s (%s, %s) -- duplicate of %s" % (
+                    raw.get("name", ""), raw.get("city", ""), raw.get("state", ""),
+                    winner.get("name", ""),
+                )
             )
-            continue
-        seen_keys[key] = raw
 
     errors: List[str] = []
     listings: List[ListingRecord] = []
@@ -349,10 +446,13 @@ def build_listing_dataset(
             )
             rating = ListingRating(rating_hundredths=rating_hundredths, review_count=review_count)
 
+        # AES-WEB-002N.1: contact facts may now arrive on the seed row
+        # itself (the operator CSV); the enrichment overlay -- operator-
+        # verified data -- still overrides seed values field-by-field.
         contact = None
-        phone = str(enrichment.get("phone", "")).strip()
-        email = str(enrichment.get("email", "")).strip()
-        website_url = str(enrichment.get("website_url", "")).strip()
+        phone = str(enrichment.get("phone", raw.get("phone", "")) or "").strip()
+        email = str(enrichment.get("email", "") or "").strip()
+        website_url = str(enrichment.get("website_url", raw.get("website_url", "")) or "").strip()
         if website_url and not is_safe_url(website_url):
             errors.append("unsafe_website_url: listing %r website_url %r is unsafe" % (name, website_url))
             continue
@@ -365,8 +465,29 @@ def build_listing_dataset(
             street=_strip_trailing_locality(str(raw.get("address", "")), raw_city, raw_state),
             city=raw_city,
             state=raw_state,
+            postal_code=str(raw.get("postal_code", "") or "").strip(),
             country="US",
         )
+
+        # AES-WEB-002N.1 provenance wiring: the seed's source facts finally
+        # survive into the dataset (pre-N.1 the builder silently dropped
+        # source_url despite its own "provenance only" doctrine).
+        # observed_at is a preserved external input from the seed row --
+        # never generated at build time (ListingProvenance's own doctrine;
+        # deterministic builds stay deterministic). source_id is the
+        # source's host identity, deterministically derived.
+        provenance = None
+        source_url = str(raw.get("source_url", "") or "").strip()
+        if source_url:
+            if not is_safe_url(source_url):
+                errors.append("unsafe_source_url: listing %r source_url %r is unsafe" % (name, source_url))
+                continue
+            provenance = ListingProvenance(
+                source_id=_source_host(source_url),
+                source_type=str(raw.get("source_type", "") or "").strip(),
+                source_url=source_url,
+                observed_at=str(raw.get("observed_at", "") or "").strip(),
+            )
 
         cta = None
         cta_url = str(enrichment.get("cta_url", "")).strip()
@@ -392,6 +513,7 @@ def build_listing_dataset(
                 rating=rating,
                 assets=tuple(media_by_key.get(enrichment_key, ())),
                 cta=cta,
+                provenance=provenance,
             )
         )
 

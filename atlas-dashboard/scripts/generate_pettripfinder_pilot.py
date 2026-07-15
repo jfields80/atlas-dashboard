@@ -85,6 +85,11 @@ from engines.website_generation.rendering.renderer import Renderer
 from engines.website_generation.seo.seo_engine import SEOEngine
 from repositories.artifact_store_repository import ArtifactStoreRepository
 from repositories.site_bundle_repository import SiteBundleRepository
+from scripts.pettripfinder.inventory_validation import (
+    assess_inventory,
+    compute_launch_readiness,
+    format_readiness_report,
+)
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
 from scripts.pettripfinder.media_ingestion import (
     MediaIngestionError,
@@ -102,12 +107,45 @@ def _read_json(path: Path) -> Any:
         return json.load(f)
 
 
+def _parse_amenities(cell: str) -> List[str]:
+    """Amenities cell: semicolon-separated tokens (the operator-friendly
+    form), with the legacy JSON-array-in-cell form still accepted."""
+    cell = (cell or "").strip()
+    if not cell:
+        return []
+    if cell.startswith("["):
+        return [str(a).strip() for a in json.loads(cell) if str(a).strip()]
+    return [token.strip() for token in cell.split(";") if token.strip()]
+
+
+def read_seed_businesses_csv(path: Path) -> List[Dict[str, Any]]:
+    """Read the primary operator-editable inventory input (AES-WEB-002N.1:
+    the launch package CSV is the seed authority -- one spreadsheet row per
+    candidate listing). Empty cells become absent fields; the pure builder
+    performs all semantic validation."""
+    import csv
+
+    rows: List[Dict[str, Any]] = []
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        for raw in csv.DictReader(handle):
+            row: Dict[str, Any] = {
+                key: value.strip()
+                for key, value in raw.items()
+                if key is not None and value is not None and value.strip()
+            }
+            row["amenities"] = _parse_amenities(str(raw.get("amenities", "")))
+            rows.append(row)
+    return rows
+
+
 def load_launch_package() -> Dict[str, Any]:
     """Read the real launch-package files. File I/O lives here, never in
-    the pure converter/engine layers."""
+    the pure converter/engine layers. AES-WEB-002N.1: seed businesses come
+    from the operator-editable CSV (the promoted primary inventory input --
+    the legacy seed_businesses.json was removed with it)."""
     return {
         "blueprint": _read_json(LAUNCH_PACKAGE_DIR / "blueprint.json"),
-        "seed_businesses": _read_json(LAUNCH_PACKAGE_DIR / "seed_businesses.json"),
+        "seed_businesses": read_seed_businesses_csv(LAUNCH_PACKAGE_DIR / "seed_businesses.csv"),
         "categories": _read_json(LAUNCH_PACKAGE_DIR / "categories.json"),
         "locations": _read_json(LAUNCH_PACKAGE_DIR / "locations.json"),
         "pilot_config": _read_json(LAUNCH_PACKAGE_DIR / "pilot_config.json"),
@@ -115,34 +153,30 @@ def load_launch_package() -> Dict[str, Any]:
     }
 
 
-def compute_inventory_readiness(dataset, thresholds: Dict[str, Any]) -> Dict[str, Any]:
-    """Deterministic readiness report -- never blocks the automated
-    acceptance fixture (that fixture never calls this function; it is
-    exclusively a production/real-package concern)."""
+def compute_inventory_readiness(
+    dataset, thresholds: Dict[str, Any], reference_date: str = "",
+) -> Dict[str, Any]:
+    """Deterministic readiness verdict (AES-WEB-002N.1): per-listing
+    publish-grade assessment (READY / READY_WITH_WARNINGS / NOT_READY) via
+    ``inventory_validation.assess_inventory``, with the strict launch
+    threshold counting **READY listings only** and any NOT_READY listing
+    blocking launch (operator decisions 1/2/8/9). ``reference_date``
+    (ISO date) enables staleness warnings; empty skips them --
+    deterministic tests pass fixed dates, the runner passes today
+    (console-report-only; no durable artifact carries it)."""
+    assessments = assess_inventory(dataset, reference_date=reference_date)
+    readiness = compute_launch_readiness(assessments, thresholds)
+
     counts: Dict[str, int] = {}
-    for listing in dataset.listings:
-        counts[listing.category_id] = counts.get(listing.category_id, 0) + 1
     slug_by_id = {c.category_id: c.slug for c in dataset.categories}
-    counts_by_slug = {slug_by_id.get(cid, cid): n for cid, n in counts.items()}
+    for listing in dataset.listings:
+        slug = slug_by_id.get(listing.category_id, listing.category_id)
+        counts[slug] = counts.get(slug, 0) + 1
 
-    total = len(dataset.listings)
-    min_total = thresholds["minimum_total_listings"]
-    min_per_category = thresholds["minimum_per_category"]
-    required_categories = thresholds["required_categories"]
-
-    below_target = sorted(
-        cat for cat in required_categories if counts_by_slug.get(cat, 0) < min_per_category
-    )
-    ready = total >= min_total and not below_target
-
-    return {
-        "total_unique_listings": total,
-        "counts_by_category": counts_by_slug,
-        "minimum_total_listings": min_total,
-        "minimum_per_category": min_per_category,
-        "categories_below_target": below_target,
-        "launch_inventory_ready": ready,
-    }
+    readiness["total_unique_listings"] = len(dataset.listings)
+    readiness["counts_by_category"] = counts
+    readiness["assessments"] = assessments
+    return readiness
 
 
 def build_content_package(
@@ -238,16 +272,22 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
         return 2
 
     dataset = result.dataset
-    readiness = compute_inventory_readiness(dataset, pilot_config["inventory_thresholds"])
-    print("Inventory readiness:")
-    print("  total unique listings: %d" % readiness["total_unique_listings"])
-    print("  counts by category: %s" % readiness["counts_by_category"])
-    print("  categories below target: %s" % readiness["categories_below_target"])
-    print("  launch_inventory_ready: %s" % readiness["launch_inventory_ready"])
+    # Staleness is assessed against today's calendar date -- a script-layer
+    # console-report concern only; no durable artifact carries it, so build
+    # output determinism is unaffected (inventory_validation docstring).
+    from datetime import date as _date
+
+    readiness = compute_inventory_readiness(
+        dataset, pilot_config["inventory_thresholds"],
+        reference_date=_date.today().isoformat(),
+    )
+    print(format_readiness_report(
+        readiness["assessments"], readiness, result.rejected_duplicates,
+    ))
 
     if not readiness["launch_inventory_ready"]:
         print()
-        print("NOT LAUNCH READY: real inventory is below the approved launch threshold.")
+        print("NOT LAUNCH READY: validated READY inventory is below the approved launch threshold.")
         if not allow_sample:
             print("Refusing to generate a production site (fail-closed). "
                   "Pass --allow-sample to generate a technical/demo site anyway.")

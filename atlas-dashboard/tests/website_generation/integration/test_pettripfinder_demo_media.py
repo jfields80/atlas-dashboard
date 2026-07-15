@@ -63,7 +63,9 @@ _SRC_RE = re.compile(r'src="([^"]*)"')
 # The committed manifest's intent (kept in sync with demo_media.json --
 # these tests fail loudly if the manifest and this expectation diverge).
 IMAGED_SLUGS = {"riverbend-off-leash-dog-park", "barkside-cafe"}
-IMAGELESS_SLUG = "duplicate-sunset-bay-inn"
+# AES-WEB-002N.1: the launch package's "Duplicate Sunset Bay Inn" noise row
+# was removed, so the real hotel record (and its slug) is now canonical.
+IMAGELESS_SLUG = "sunset-bay-pet-friendly-inn"
 
 
 def _real_chain(tmp_path, *, with_media: bool):

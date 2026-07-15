@@ -1,10 +1,16 @@
-"""PILOT-PTF-1 real-launch-package proof.
+"""PILOT-PTF-1 real-launch-package proof (updated AES-WEB-002N.1).
 
 Uses the actual ``launch_packages/pettripfinder/`` sample files (not the
 dedicated 12-listing acceptance fixture) to prove the converter and
 readiness check behave honestly against real, currently-insufficient
 inventory. Does NOT assert launch readiness -- the opposite: it asserts the
 real sample package is honestly reported as NOT launch-ready.
+
+AES-WEB-002N.1: the seed authority is now the operator-editable CSV
+(``seed_businesses.csv``; the stale JSON was removed), the sample package
+carries three clean records (the "Duplicate Sunset Bay Inn" noise moved to
+dedicated dedup fixtures in ``tests/pettripfinder/``), provenance survives
+into every record, and the readiness verdict counts READY listings only.
 """
 
 from __future__ import annotations
@@ -15,6 +21,7 @@ import pathlib
 from scripts.generate_pettripfinder_pilot import (
     compute_inventory_readiness,
     load_launch_package,
+    read_seed_businesses_csv,
 )
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
 
@@ -29,9 +36,19 @@ def _load(name: str):
 
 
 class TestRealSeedFilesParse:
-    def test_seed_businesses_parses(self):
-        seed = _load("seed_businesses.json")
-        assert len(seed) == 4
+    def test_seed_businesses_csv_parses(self):
+        seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
+        assert len(seed) == 3
+        for row in seed:
+            # Required publish columns are present in the sample rows.
+            for field in ("name", "category", "city", "state", "address",
+                          "website_url", "source_url", "source_type",
+                          "observed_at", "pet_policy"):
+                assert str(row.get(field, "")).strip(), (row.get("name"), field)
+
+    def test_stale_seed_json_removed(self):
+        # The JSON seed was removed with the CSV promotion -- one authority.
+        assert not (_LAUNCH_PACKAGE_DIR / "seed_businesses.json").exists()
 
     def test_categories_parses(self):
         cats = _load("categories.json")
@@ -54,20 +71,27 @@ class TestRealSeedFilesParse:
 
 class TestRealPackageConversion:
     def _build(self):
-        seed = _load("seed_businesses.json")
+        seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
         cats = _load("categories.json")
         locs = _load("locations.json")
         return build_listing_dataset(seed_businesses=seed, categories=cats, locations=locs)
 
-    def test_duplicate_is_deduplicated_and_reported(self):
+    def test_clean_package_has_no_duplicates(self):
+        # AES-WEB-002N.1 cleanup: the "Duplicate Sunset Bay Inn" noise row
+        # was removed from the real package (dedup behavior stays covered
+        # by dedicated fixtures in tests/pettripfinder/).
         result = self._build()
         assert result.ok
-        assert len(result.rejected_duplicates) == 1
-        # Deterministic winner (alphabetically-first name at the tied
-        # address wins, see listing_dataset_builder._dedup_key) -- either
-        # "Sunset Bay..." name is a real record; the point being proven is
-        # that exactly one of the two survives and the other is reported.
-        assert "Columbus, OH" in result.rejected_duplicates[0]
+        assert result.rejected_duplicates == ()
+
+    def test_provenance_survives_into_every_record(self):
+        result = self._build()
+        assert result.ok
+        for listing in result.dataset.listings:
+            assert listing.provenance is not None, listing.listing_id
+            assert listing.provenance.source_url.startswith("https://")
+            assert listing.provenance.source_type
+            assert listing.provenance.observed_at
 
     def test_three_unique_valid_listings_remain(self):
         result = self._build()
@@ -105,36 +129,42 @@ class TestRealPackageConversion:
         result = self._build()
         assert result.ok
         names = {l.business_name for l in result.dataset.listings}
-        # One of the two Sunset Bay records wins deterministically (see
-        # test_duplicate_is_deduplicated_and_reported); both are real
-        # source names, never a fabricated placeholder.
-        assert names == {"Duplicate Sunset Bay Inn", "Barkside Cafe", "Riverbend Off-Leash Dog Park"}
+        assert names == {"Sunset Bay Pet-Friendly Inn", "Barkside Cafe", "Riverbend Off-Leash Dog Park"}
 
 
 class TestRealPackageReadiness:
-    def test_readiness_is_false(self):
-        seed = _load("seed_businesses.json")
+    def _readiness(self):
+        seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
         cats = _load("categories.json")
         locs = _load("locations.json")
         config = _load("pilot_config.json")
         result = build_listing_dataset(seed_businesses=seed, categories=cats, locations=locs)
-        readiness = compute_inventory_readiness(result.dataset, config["inventory_thresholds"])
-        assert readiness["launch_inventory_ready"] is False
+        return compute_inventory_readiness(
+            result.dataset, config["inventory_thresholds"], reference_date="2026-07-15",
+        )
 
-    def test_counts_show_insufficient_inventory(self):
-        seed = _load("seed_businesses.json")
-        cats = _load("categories.json")
-        locs = _load("locations.json")
-        config = _load("pilot_config.json")
-        result = build_listing_dataset(seed_businesses=seed, categories=cats, locations=locs)
-        readiness = compute_inventory_readiness(result.dataset, config["inventory_thresholds"])
+    def test_readiness_is_false(self):
+        assert self._readiness()["launch_inventory_ready"] is False
+
+    def test_ready_only_counting(self):
+        # AES-WEB-002N.1 (remediated semantics): the strict threshold counts
+        # READY listings only, and recommended-field gaps (no phone; no
+        # authorized image without the media overlay) are non-demoting
+        # advisories -- so the sample's three required-complete, fresh rows
+        # are READY, yet still far below the 30/10-per-category threshold.
+        readiness = self._readiness()
         assert readiness["total_unique_listings"] == 3
-        assert readiness["total_unique_listings"] < config["inventory_thresholds"]["minimum_total_listings"]
+        assert readiness["counts_by_state"]["READY"] == 3
+        assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
+        assert readiness["counts_by_state"]["NOT_READY"] == 0
+        assert readiness["ready_total"] == 3
         assert set(readiness["categories_below_target"]) == {
             "pet-friendly-hotels", "pet-friendly-parks", "pet-friendly-restaurants",
         }
+        for assessment in readiness["assessments"]:
+            assert "no_phone" in assessment.advisories
 
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 4
+        assert len(package["seed_businesses"]) == 3
