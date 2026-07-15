@@ -5,8 +5,12 @@ AES-WEB-002J.19 Phase B; ADR-WEB-CONTENT-BINDING-MAP).
 Internal sequencing label: AES-WEB-002J.6 (Phase A: selection) +
 AES-WEB-002J.19 (Phase B: value binding). This is the §5.5 pipeline-stage
 facade over the machinery earlier waves already built: it maps each
-``SiteArchitecture`` page to its PageRole recipe (AES-WEB-002 §26,
-``constants.components.RECIPE_SLOTS_BY_PAGE_ROLE``), runs the deterministic
+``SiteArchitecture`` page to its ``(commercial_strategy, PageRole)`` recipe
+(AES-WEB-002 §26 tables, strategy-keyed by AES-WEB-002L.1 via
+``commercial_strategy.get_recipe_slots`` over
+``constants.components.RECIPE_SLOTS_BY_STRATEGY_AND_ROLE`` -- the default
+``STRATEGY_FALLBACK`` strategy reproduces the original bare
+``RECIPE_SLOTS_BY_PAGE_ROLE`` lookup byte-for-byte), runs the deterministic
 §14.2 selection pipeline (``components.selection.ComponentSelector``) --
 extended by J.19 with an additive bindability-filtering step -- per page,
 then binds every honestly-bindable required prop and content slot (J.19
@@ -88,8 +92,13 @@ from engines.website_generation.constants.components import (
     DEFAULT_LIFECYCLE_ALLOW_DEPRECATED,
     DEFAULT_LIFECYCLE_ALLOW_EXPERIMENTAL,
     DEFAULT_LIFECYCLE_ALLOW_PROPOSED,
-    RECIPE_SLOTS_BY_PAGE_ROLE,
 )
+from engines.website_generation.constants.commercial_strategy import (
+    COMMERCIAL_STRATEGY_VERSION,
+    PAGE_COMMERCIAL_DEFAULTS,
+    STRATEGY_FALLBACK,
+)
+from engines.website_generation.components.commercial_strategy import get_recipe_slots
 from engines.website_generation.contracts.artifacts import (
     BrandPackage,
     ComponentCompilationResult,
@@ -210,6 +219,11 @@ _HOURS_RENDER_DATA_COMPONENT_ID = "profile.hours.table"
 # contract K.1 declared but left unwired (contracts/render_data.py's
 # TileLinks docstring). One tile per launched category, deterministic order.
 _TILES_RENDER_DATA_COMPONENT_ID = "directory.categories.grid"
+# AES-WEB-002L.1: the hero's primary CTA anchor -- previously the
+# K.2-hardcoded _HERO_CTA_LABEL/_HERO_CTA_HREF module constants in
+# rendering/emitters_discovery.py, now sourced from the strategy-keyed
+# PAGE_COMMERCIAL_DEFAULTS table (CTA ownership migration, §7).
+_HERO_RENDER_DATA_COMPONENT_ID = "hero.search.directory"
 
 # PILOT-PTF-1 §13: outbound commercial links carry a sponsorship-aware rel
 # policy -- "sponsored noopener" for a listing whose own ListingKind marks it
@@ -256,6 +270,7 @@ class ComponentEngine(ComponentEngineInterface):
         content_package: ContentPackage,
         listing_dataset: Optional[ListingDataset] = None,
         brand_package: Optional[BrandPackage] = None,
+        commercial_strategy: str = STRATEGY_FALLBACK,
         *,
         registry: Optional[ComponentRegistryView] = None,
         compatibility_versions: Optional[Dict[str, str]] = None,
@@ -264,8 +279,13 @@ class ComponentEngine(ComponentEngineInterface):
         """Total function over structurally valid inputs; batch-fails otherwise.
 
         For every page in ``site_architecture`` (in declared order), resolves
-        the page's PageRole recipe (§26), runs the bindability-aware §14.2
-        selection pipeline, binds every required prop and content slot for
+        the page's ``(commercial_strategy, page_role)`` recipe (AES-WEB-002L.1
+        strategy-keyed lookup over §26's tables via ``commercial_strategy.
+        get_recipe_slots``; defaulting to ``STRATEGY_FALLBACK`` --
+        ``"directory"`` -- reproduces the pre-L.1 ``RECIPE_SLOTS_BY_PAGE_ROLE``
+        lookup byte-for-byte, since ``RECIPE_SLOTS_BY_STRATEGY_AND_ROLE
+        ["directory"]`` *is* that same table object), runs the bindability-aware
+        §14.2 selection pipeline, binds every required prop and content slot for
         each selected instance (Phase B), and emits its ``PageComponents``.
         All per-page selection traces aggregate into the manifest's single
         ``selection_trace`` (§14.3), with each slot id qualified by its page
@@ -273,12 +293,21 @@ class ComponentEngine(ComponentEngineInterface):
         reported together (batch reporting, not first-failure) as one
         ``ComponentResolutionError``.
 
+        ``commercial_strategy`` is consumed as opaque, pre-classified
+        declarative data (AES-WEB-002L.1 Component Engine boundary): this
+        method never classifies a ``BusinessSpec`` itself (that is
+        ``commercial_strategy.classify_commercial_strategy``, run by the
+        caller beforehand), never invents CTA copy or trust content, and
+        never falls back across strategies silently -- an unsupported
+        ``(commercial_strategy, page_role)`` combination is the same honest
+        ``unsupported`` diagnostic an unknown bare page role already produced.
+
         Determinism: no input is mutated (all are frozen); page order, slot
         order, selection, and binding are pure functions of
         ``site_architecture``'s declared page order, each page's recipe, and
-        the supplied ``content_package``/``listing_dataset``/``brand_package``
-        contents -- never of ``content_package.blocks`` input order
-        (AES-WEB-001 §1.1 replayability contract).
+        the supplied ``content_package``/``listing_dataset``/``brand_package``/
+        ``commercial_strategy`` contents -- never of ``content_package.blocks``
+        input order (AES-WEB-001 §1.1 replayability contract).
         """
         registry = registry if registry is not None else build_default_registry()
         compatibility = (
@@ -311,10 +340,14 @@ class ComponentEngine(ComponentEngineInterface):
         render_data_entries: List[RenderDataEntry] = []
 
         for page in site_architecture.pages:
-            recipe = RECIPE_SLOTS_BY_PAGE_ROLE.get(page.page_type)
+            recipe = get_recipe_slots(commercial_strategy, page.page_type)
             if recipe is None:
                 unsupported.append(
-                    {"route": page.route, "page_type": page.page_type}
+                    {
+                        "route": page.route,
+                        "page_type": page.page_type,
+                        "commercial_strategy": commercial_strategy,
+                    }
                 )
                 continue
             role = PageRole(page.page_type)  # key existed => valid role value
@@ -448,6 +481,8 @@ class ComponentEngine(ComponentEngineInterface):
                         listing_dataset=listing_dataset,
                         route_scope=route_scope,
                         assigned_listing=assigned_listing,
+                        commercial_strategy=commercial_strategy,
+                        page_role=page.page_type,
                     )
                     if render_data_failure is not None:
                         entry = dict(render_data_failure)
@@ -483,6 +518,8 @@ class ComponentEngine(ComponentEngineInterface):
             "binding_map_version": BINDING_MAP_VERSION,
             "composition_rules_version": COMPOSITION_RULES_VERSION,
             "render_data_version": RENDER_DATA_VERSION,
+            "commercial_strategy": commercial_strategy,
+            "commercial_strategy_version": COMMERCIAL_STRATEGY_VERSION,
         }
         if listing_dataset is not None:
             source_hashes["listing_dataset"] = artifact_sha256(listing_dataset)
@@ -682,6 +719,8 @@ class ComponentEngine(ComponentEngineInterface):
         listing_dataset: Optional[ListingDataset],
         route_scope: RouteScope,
         assigned_listing: Optional[ListingRecord],
+        commercial_strategy: str,
+        page_role: str,
     ) -> Tuple[Optional[ComponentRenderData], Optional[Dict[str, str]]]:
         cid = definition.component_id
         if cid in _NAV_RENDER_DATA_COMPONENT_IDS:
@@ -691,6 +730,9 @@ class ComponentEngine(ComponentEngineInterface):
             return ComponentRenderData(nav=nav), None
         if cid == _TILES_RENDER_DATA_COMPONENT_ID:
             return ComponentRenderData(tiles=cls._build_category_tiles(site_architecture)), None
+        if cid == _HERO_RENDER_DATA_COMPONENT_ID:
+            cta = cls._build_hero_cta_data(commercial_strategy, page_role)
+            return ComponentRenderData(cta=cta), None
         if cid in _CARD_RENDER_DATA_COMPONENT_IDS:
             return cls._build_card_data(assigned_listing, listing_dataset)
         if cid in (_CONTACT_RENDER_DATA_COMPONENT_ID, _HOURS_RENDER_DATA_COMPONENT_ID):
@@ -751,6 +793,34 @@ class ComponentEngine(ComponentEngineInterface):
             if page.page_type == PageRole.CATEGORY.value and page.title.strip()
         )
         return TileLinks(tiles=tiles)
+
+    @staticmethod
+    def _build_hero_cta_data(
+        commercial_strategy: str, page_role: str,
+    ) -> Optional[LinkSpec]:
+        """The hero's primary CTA anchor (AES-WEB-002L.1) -- looked up from
+        the strategy-keyed ``PAGE_COMMERCIAL_DEFAULTS`` table, never invented
+        here (CTA ownership migration, §7: this engine consumes the
+        declarative default, it does not decide one). ``None`` when the
+        resolved ``(commercial_strategy, page_role)`` entry is absent, or
+        declares no ``primary_cta_href`` (e.g. LEAD_GENERATION/home, which
+        names a ``primary_cta_label`` but deliberately no render-wiring
+        target -- see that table entry's own docstring) -- an honest
+        omission, never a ``render_data_failures`` entry, exactly like a
+        missing rating or missing hours (D6 allowlist): a hero with no CTA
+        data still renders its H1/subhead, just without the anchor."""
+        defaults = PAGE_COMMERCIAL_DEFAULTS.get((commercial_strategy, page_role))
+        if defaults is None:
+            return None
+        href = defaults.get("primary_cta_href")
+        label = defaults.get("primary_cta_label")
+        if not href or not label:
+            return None
+        return LinkSpec(
+            label=str(label),
+            href=str(href),
+            external=bool(defaults.get("primary_cta_external", False)),
+        )
 
     @staticmethod
     def _build_card_data(

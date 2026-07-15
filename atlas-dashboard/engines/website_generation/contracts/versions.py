@@ -216,7 +216,17 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # (previously PROP-only), and an optional recipe slot whose selected
     # instance cannot bind its data is now honestly omitted instead of
     # batch-failing the whole compile -- three §5.5 behavior changes.
-    "component_engine": "1.4.0",
+    # AES-WEB-002L.1 bumps 1.4.0 -> 1.5.0: compile() now accepts an optional
+    # commercial_strategy input (default "directory", byte-identical to
+    # pre-L.1 behavior) that selects a (commercial_strategy, page_role)
+    # recipe via the new strategy-keyed RECIPE_SLOTS_BY_STRATEGY_AND_ROLE
+    # table instead of the bare-page-role RECIPE_SLOTS_BY_PAGE_ROLE lookup,
+    # and hero.search.directory's render-data producer now resolves its CTA
+    # from PAGE_COMMERCIAL_DEFAULTS instead of leaving render_data.cta
+    # unproduced -- two §5.5 behavior changes. source_hashes also gains
+    # commercial_strategy/commercial_strategy_version (replayability
+    # provenance, the composition_rules_version precedent).
+    "component_engine": "1.5.0",
     # AES-WEB-002J.7 (AES-WEB-001 §5.6/Part 2): initial Layout Engine
     # version. Not wired into pipeline execution (§6: layout_composition
     # remains NOT_EXECUTED in the BuildManifest).
@@ -243,7 +253,21 @@ ENGINE_VERSIONS: Dict[str, str] = {
     # hero.search.directory's emitter gained a real, static, in-page CTA
     # anchor to #main -- both §5.7 markup-level behavior changes requiring
     # an explicit bump, mirroring the J.15 "snapshot-level change" precedent.
-    "renderer": "1.3.0",
+    # AES-WEB-002L.1 bumps 1.3.0 -> 1.4.0: hero.search.directory's emitter no
+    # longer hardcodes its CTA anchor -- it now reads layout_ctx.render_data.
+    # cta (a LinkSpec the Component Engine resolves from the strategy-keyed
+    # PAGE_COMMERCIAL_DEFAULTS table) and omits the anchor entirely when that
+    # field is absent. The DIRECTORY strategy's real render data reproduces
+    # K.2's exact anchor byte-for-byte (proven via the real PetTripFinder
+    # chain, TestVisualSystemV2::test_hero_cta_exists_and_points_to_main),
+    # but this is a genuine replayability-contract change per this module's
+    # own "bumped whenever output could differ for identical input" rule: an
+    # identical RenderDataBundle whose hero entry has no cta populated (every
+    # pre-L.1-producible bundle, since the field did not exist to be filled)
+    # now renders with no CTA anchor at all, where pre-L.1 always rendered
+    # one regardless of render_data content -- a real §5.7 markup-level
+    # behavior change requiring an explicit bump.
+    "renderer": "1.4.0",
     # AES-WEB-002J.10 (AES-WEB-001 §5.9/Part 2): initial Assembly Engine
     # version. Not wired into pipeline execution (§6: assembly remains
     # NOT_EXECUTED in the BuildManifest).

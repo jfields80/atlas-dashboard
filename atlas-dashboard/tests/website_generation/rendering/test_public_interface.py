@@ -44,7 +44,11 @@ class TestEngineVersion:
         # optional css_class (applied at the listing-card CTA and profile
         # website-link call sites) and hero.search.directory gained a real
         # #main CTA anchor -- real markup-level output changes.
-        assert wge.ENGINE_VERSIONS["renderer"] == "1.3.0"
+        # AES-WEB-002L.1 bumps 1.3.0 -> 1.4.0: hero.search.directory's CTA
+        # anchor is now sourced from layout_ctx.render_data.cta instead of
+        # hardcoded, and is honestly omitted when that field is absent --
+        # a real replayability-contract output change (contracts/versions.py).
+        assert wge.ENGINE_VERSIONS["renderer"] == "1.4.0"
 
     def test_renderer_class_version_matches_registry(self):
         assert Renderer.version == wge.ENGINE_VERSIONS["renderer"]

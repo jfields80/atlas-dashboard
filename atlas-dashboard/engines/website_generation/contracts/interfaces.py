@@ -163,10 +163,23 @@ class ComponentEngineInterface(ABC):
         content_package: ContentPackage,
         listing_dataset: Optional[ListingDataset] = None,
         brand_package: Optional[BrandPackage] = None,
+        commercial_strategy: str = "directory",
     ) -> ComponentCompilationResult:
         """Compile a deterministic ``ComponentCompilationResult`` from a
         ``SiteArchitecture``, ``ContentPackage``, and the optional
-        ``ListingDataset``/``BrandPackage`` Phase-B binding inputs."""
+        ``ListingDataset``/``BrandPackage`` Phase-B binding inputs.
+
+        ``commercial_strategy`` (AES-WEB-002L.1, additive, defaulting to
+        ``"directory"`` -- byte-identical to pre-L.1 behavior when omitted)
+        selects which per-page-role recipe/commercial-defaults table
+        composes each page; a pre-classified strategy id, never a
+        ``BusinessSpec`` itself (the Component Engine consumes a
+        declarative strategy selection, it does not classify one -- see
+        ``components/commercial_strategy.classify_commercial_strategy``,
+        which the caller runs beforehand). Literal string, not an imported
+        constant: ``contracts/`` may not import ``constants/`` (independent
+        declaration, must stay byte-identical to ``constants.commercial_
+        strategy.STRATEGY_DIRECTORY``)."""
         raise NotImplementedError
 
 

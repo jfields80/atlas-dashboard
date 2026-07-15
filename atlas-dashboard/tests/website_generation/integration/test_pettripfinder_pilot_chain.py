@@ -414,3 +414,47 @@ class TestVisualSystemV2:
         _, _, _, rendered, *_ = _run_real_chain()
         for page in rendered.page_details:
             assert 'class=""' not in page.html
+
+
+class TestCommercialStrategyRegression:
+    """AES-WEB-002L.1 §H: proves the real PetTripFinder BusinessSpec
+    classifies DIRECTORY (never LEAD_GENERATION merely because
+    ``monetization_model="affiliate_booking_links"`` involves money), and
+    that the default (omitted) ``commercial_strategy`` argument the real
+    chain's own ``_run_real_chain()`` already uses (unchanged by this
+    delivery) reproduces exactly that classification end-to-end -- the
+    same real PetTripFinder pilot fixture this whole file already proves
+    K.2's visible output against, now also proven commercial-strategy-
+    correct."""
+
+    def test_pettripfinder_spec_classifies_directory(self):
+        from engines.website_generation.components.commercial_strategy import (
+            classify_commercial_strategy,
+        )
+        from engines.website_generation.constants.commercial_strategy import (
+            STRATEGY_DIRECTORY,
+        )
+        fixture = build_pettripfinder_pilot_fixture_inputs()
+        assert classify_commercial_strategy(fixture.business_spec) == STRATEGY_DIRECTORY
+
+    def test_default_compile_records_directory_strategy_provenance(self):
+        _, compilation, *_ = _run_real_chain()
+        source_hashes = compilation.component_manifest.source_hashes
+        assert source_hashes["commercial_strategy"] == "directory"
+        assert source_hashes["commercial_strategy_version"] == "1.0.0"
+
+    def test_hero_cta_still_present_and_unchanged_under_real_chain(self):
+        # The K.2 hero CTA byte-equivalence tests above
+        # (test_hero_cta_exists_and_points_to_main) already prove the
+        # visible markup; this test names *why* it still holds under
+        # AES-WEB-002L.1: the real chain's DIRECTORY classification
+        # resolves PAGE_COMMERCIAL_DEFAULTS[("directory", "home")], the
+        # exact table entry K.2's former hardcoded module constants were
+        # migrated into verbatim.
+        from engines.website_generation.constants.commercial_strategy import (
+            PAGE_COMMERCIAL_DEFAULTS,
+            STRATEGY_DIRECTORY,
+        )
+        defaults = PAGE_COMMERCIAL_DEFAULTS[(STRATEGY_DIRECTORY, "home")]
+        assert defaults["primary_cta_label"] == "Browse the directory"
+        assert defaults["primary_cta_href"] == "#main"

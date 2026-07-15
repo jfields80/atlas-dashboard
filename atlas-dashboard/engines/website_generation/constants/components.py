@@ -2216,3 +2216,38 @@ RECIPE_SLOTS_BY_PAGE_ROLE = {
     "verification": VERIFICATION_RECIPE_SLOTS,
     "regional-hub": REGIONAL_HUB_RECIPE_SLOTS,
 }
+
+# ---------------------------------------------------------------------------
+# Strategy-keyed recipe resolution (AES-WEB-002L.1; EXTEND_EXISTING_RECIPE_
+# SYSTEM verdict). Adds a second lookup dimension -- CommercialStrategy --
+# without duplicating recipe content: every page role's table is the exact
+# same tuple object RECIPE_SLOTS_BY_PAGE_ROLE already references, aliased
+# under each strategy, except where a strategy's own commercial composition
+# genuinely differs. "directory" strategy's map is RECIPE_SLOTS_BY_PAGE_ROLE
+# unchanged -- current DIRECTORY (PetTripFinder) composition is byte-for-
+# byte preserved. "lead_generation" overrides exactly one role ("home"),
+# aliasing the pre-existing, already-registered LEAD_GEN_LANDING_RECIPE_
+# SLOTS table (AES-WEB-002J.1) rather than authoring new recipe content.
+#
+# Keyed by bare strategy-id strings (independently declared -- constants/
+# may not import constants/commercial_strategy.py either; must stay byte-
+# identical to that module's STRATEGY_DIRECTORY/STRATEGY_LEAD_GENERATION,
+# the same "documented duplication" convention this file's own "home"/
+# "category"/etc. role-id strings already follow relative to constants/ia.py
+# and constants/seo.py).
+#
+# Selection correctness for the aliased lead_generation/home entry does not
+# require LEAD_GEN_LANDING_RECIPE_SLOTS's own slot dicts to be rewritten:
+# each slot's own "page_role": "lead-gen-landing" field (not the hosting
+# page's actual page_type) is what component_engine._slot_request feeds
+# into SlotSelectionRequest.page_role, so trust.statistics.strip/
+# form.lead.quote (both of which declare "lead-gen-landing" in their own
+# supported_page_roles) still resolve correctly even though the actual
+# SiteArchitecture page being composed carries page_type="home".
+RECIPE_SLOTS_BY_STRATEGY_AND_ROLE = {
+    "directory": RECIPE_SLOTS_BY_PAGE_ROLE,
+    "lead_generation": {
+        **RECIPE_SLOTS_BY_PAGE_ROLE,
+        "home": LEAD_GEN_LANDING_RECIPE_SLOTS,
+    },
+}

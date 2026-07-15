@@ -161,13 +161,22 @@ class ComponentRenderData(FrozenModel):
     member is optional and independent -- a given instance carries only the
     member(s) its own emitter actually consumes (a nav component carries
     ``nav``; a listing card carries ``card``; never more than one component
-    "kind" of data on one instance in Wave 1)."""
+    "kind" of data on one instance in Wave 1).
+
+    ``cta`` (AES-WEB-002L.1) is the same reusable ``LinkSpec`` shape
+    ``ListingCardData.cta`` already uses, promoted to top-level for
+    components -- ``hero.search.directory``, to start -- whose primary
+    call-to-action is not itself a listing card. Producer-supplied only:
+    ``None`` when the owning commercial strategy's ``PAGE_COMMERCIAL_
+    DEFAULTS`` entry declares no CTA target, never fabricated by the
+    emitter."""
 
     nav: Optional[NavigationData] = None
     tiles: Optional[TileLinks] = None
     card: Optional[ListingCardData] = None
     contact: Optional[ContactData] = None
     hours: Optional[HoursData] = None
+    cta: Optional[LinkSpec] = None
 
 
 class RenderDataEntry(FrozenModel):

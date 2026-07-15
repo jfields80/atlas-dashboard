@@ -231,9 +231,10 @@ class TestPublicSurfaceAndVersion:
         # 1.1.0 -> 1.2.0 (listing repetition). AES-WEB-002K.1: 1.2.0 -> 1.3.0
         # (render-data production; see contracts/versions.py). PILOT-PTF-1:
         # 1.3.0 -> 1.4.0 (category-tile render-data, honest optional-slot
-        # omission).
+        # omission). AES-WEB-002L.1: 1.4.0 -> 1.5.0 (strategy-keyed recipe
+        # lookup, hero CTA render-data production).
         assert ComponentEngine.version == ENGINE_VERSIONS["component_engine"]
-        assert ComponentEngine.version == "1.4.0"
+        assert ComponentEngine.version == "1.5.0"
 
     def test_compile_returns_component_compilation_result(self):
         result = ComponentEngine().compile(
@@ -367,6 +368,8 @@ class TestGoldenRealCatalog:
             "binding_map_version": "1.2.0",
             "composition_rules_version": "1.0.0",
             "render_data_version": "1.0.0",
+            "commercial_strategy": "directory",
+            "commercial_strategy_version": "1.0.0",
         }
 
     def test_content_refs_populated_when_bindable(self):
@@ -672,7 +675,7 @@ class TestRecipeRoleMapping:
         diagnostics = exc.value.diagnostics
         assert "unsupported_page_roles" in diagnostics
         assert diagnostics["unsupported_page_roles"] == [
-            {"route": "/x", "page_type": "not-a-role"}
+            {"route": "/x", "page_type": "not-a-role", "commercial_strategy": "directory"}
         ]
 
 
@@ -747,4 +750,5 @@ class TestEdgeCases:
         assert set(result.component_manifest.source_hashes) == {
             "site_architecture", "content_package", "binding_map_version",
             "composition_rules_version", "render_data_version",
+            "commercial_strategy", "commercial_strategy_version",
         }
