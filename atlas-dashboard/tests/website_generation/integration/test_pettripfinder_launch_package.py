@@ -1,10 +1,8 @@
 """PILOT-PTF-1 real-launch-package proof (updated AES-WEB-002N.1).
 
-Uses the actual ``launch_packages/pettripfinder/`` sample files (not the
+Uses the actual ``launch_packages/pettripfinder/`` files (not the
 dedicated 12-listing acceptance fixture) to prove the converter and
-readiness check behave honestly against real, currently-insufficient
-inventory. Does NOT assert launch readiness -- the opposite: it asserts the
-real sample package is honestly reported as NOT launch-ready.
+readiness check behave honestly against the real inventory.
 
 AES-WEB-002N.1: the seed authority is now the operator-editable CSV
 (``seed_businesses.csv``; the stale JSON was removed), provenance survives
@@ -17,10 +15,13 @@ removed so fake inventory never sits beside the real corpus.
 Inventory Wave 2 (2026-07-15): 14 researched Columbus-metro park records
 (city, parks-department, and Metro Parks sources); the example.com
 Riverbend sample park was removed and its demo illustration repointed to a
-real park (Scioto Audubon Metro Park). Hotels and parks now meet the
-10-per-category floor and the 30-total floor is met, but restaurants (1
-sample row) remain below target, so the package stays honestly NOT
-launch-ready.
+real park (Scioto Audubon Metro Park).
+
+Inventory Wave 3 (2026-07-15): 13 researched restaurant records (official
+brewery/restaurant/group pages); the example.com Barkside sample was
+removed and the dining demo illustration repointed to Land-Grant Brewing.
+All three categories now clear the 10-per-category floor, every record is
+real, and this suite asserts the first honest launch_inventory_ready=True.
 """
 
 from __future__ import annotations
@@ -48,7 +49,7 @@ def _load(name: str):
 class TestRealSeedFilesParse:
     def test_seed_businesses_csv_parses(self):
         seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
-        assert len(seed) == 35
+        assert len(seed) == 47
         for row in seed:
             # Required publish columns are present in the sample rows.
             for field in ("name", "category", "city", "state", "address",
@@ -104,10 +105,10 @@ class TestRealPackageConversion:
             assert listing.provenance.source_type
             assert listing.provenance.observed_at
 
-    def test_thirty_five_unique_valid_listings_remain(self):
+    def test_forty_seven_unique_valid_listings_remain(self):
         result = self._build()
         assert result.ok
-        assert len(result.dataset.listings) == 35
+        assert len(result.dataset.listings) == 47
 
     def test_no_duplicated_locality_in_street_address(self):
         # AES-WEB-002K.2 address-duplication fix: no seed row's street
@@ -137,29 +138,27 @@ class TestRealPackageConversion:
         )
 
     def test_no_fake_default_listings(self):
-        # Wave 1 removed the example.com sample hotel and Wave 2 removed
-        # the example.com sample park; the sample restaurant remains as the
-        # last demo-media anchor until a real restaurant wave replaces it.
-        # Every hotel and park record cites a real official source.
+        # Waves 1-3 removed every example.com sample row (hotel, park,
+        # restaurant). The corpus is now 100% real records citing real
+        # official sources -- no placeholder URL may appear anywhere.
         result = self._build()
         assert result.ok
         by_name = {l.business_name: l for l in result.dataset.listings}
         assert "Sunset Bay Pet-Friendly Inn" not in by_name
         assert "Riverbend Off-Leash Dog Park" not in by_name
-        assert "Barkside Cafe" in by_name
+        assert "Barkside Cafe" not in by_name
         ids_by_slug = {c.slug: c.category_id for c in result.dataset.categories}
-        hotels = [l for l in result.dataset.listings
-                  if l.category_id == ids_by_slug["pet-friendly-hotels"]]
-        parks = [l for l in result.dataset.listings
-                 if l.category_id == ids_by_slug["pet-friendly-parks"]]
-        assert len(hotels) == 20
-        assert len(parks) == 14
-        for listing in hotels + parks:
+        counts = {}
+        for listing in result.dataset.listings:
             assert "example.com" not in listing.provenance.source_url, listing.business_name
+            counts[listing.category_id] = counts.get(listing.category_id, 0) + 1
+        assert counts[ids_by_slug["pet-friendly-hotels"]] == 20
+        assert counts[ids_by_slug["pet-friendly-parks"]] == 14
+        assert counts[ids_by_slug["pet-friendly-restaurants"]] == 13
         assert "Drury Inn & Suites Columbus Polaris" in by_name
-        assert "Staybridge Suites Columbus Dublin" in by_name
         assert "Scioto Audubon Metro Park" in by_name
-        assert "Nando Dog Park at Darree Fields" in by_name
+        assert "Land-Grant Brewing Company" in by_name
+        assert "Condado Tacos Dublin" in by_name
 
 
 class TestRealPackageReadiness:
@@ -173,25 +172,28 @@ class TestRealPackageReadiness:
             result.dataset, config["inventory_thresholds"], reference_date="2026-07-15",
         )
 
-    def test_readiness_is_false(self):
-        assert self._readiness()["launch_inventory_ready"] is False
+    def test_readiness_is_true(self):
+        # Wave 3 milestone: the first honest launch-threshold pass -- every
+        # category clears 10 READY and the 30-total floor is met with only
+        # real, source-backed records.
+        assert self._readiness()["launch_inventory_ready"] is True
 
     def test_ready_only_counting(self):
-        # AES-WEB-002N.1 (remediated semantics) against the Wave 2 corpus:
-        # all 35 rows (20 hotels + 14 parks + 1 sample restaurant) are
+        # AES-WEB-002N.1 (remediated semantics) against the Wave 3 corpus:
+        # all 47 rows (20 hotels + 14 parks + 13 restaurants) are
         # required-complete and fresh -> READY; advisory gaps (no image,
-        # no rating, most phones absent) never demote. Hotels and parks
-        # clear the 10-per-category floor and the 30-total floor is met;
-        # restaurants remain the only category below target.
+        # no rating, most phones absent) never demote. Every category
+        # clears the 10-per-category floor; no category is below target.
         readiness = self._readiness()
-        assert readiness["total_unique_listings"] == 35
-        assert readiness["counts_by_state"]["READY"] == 35
+        assert readiness["total_unique_listings"] == 47
+        assert readiness["counts_by_state"]["READY"] == 47
         assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
         assert readiness["counts_by_state"]["NOT_READY"] == 0
-        assert readiness["ready_total"] == 35
+        assert readiness["ready_total"] == 47
         assert readiness["ready_by_category"]["pet-friendly-hotels"] == 20
         assert readiness["ready_by_category"]["pet-friendly-parks"] == 14
-        assert readiness["categories_below_target"] == ["pet-friendly-restaurants"]
+        assert readiness["ready_by_category"]["pet-friendly-restaurants"] == 13
+        assert readiness["categories_below_target"] == []
         for assessment in readiness["assessments"]:
             if assessment.category_slug == "pet-friendly-hotels":
                 # No hotel carries authorized media or a citable official
@@ -202,4 +204,4 @@ class TestRealPackageReadiness:
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 35
+        assert len(package["seed_businesses"]) == 47
