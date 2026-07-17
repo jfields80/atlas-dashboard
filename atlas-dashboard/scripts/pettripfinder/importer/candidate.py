@@ -1,0 +1,863 @@
+"""AES-DATA-001 importer -- candidate assembly, pipeline orchestration, and
+durable JSON persistence (mission sections 14/16/17). Non-artifact: a
+candidate is ordinary JSON under a gitignored ``data/import`` root.
+
+The pipeline is:
+    fetch -> snapshot(+CAS) -> structured metadata -> LLM extract ->
+    evidence validation -> conflict detection -> normalization ->
+    policy compose -> recommendation -> CandidateListing.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+from urllib.parse import urlsplit
+
+from scripts.pettripfinder.importer import constants as C
+from scripts.pettripfinder.importer.category_templates import (
+    REQUIRED_CSV_FIELDS,
+    allowed_fields,
+)
+from scripts.pettripfinder.importer.evidence import (
+    build_llm_evidence,
+    build_structured_evidence,
+    cap_quote,
+)
+from scripts.pettripfinder.importer.models import (
+    CandidateListing,
+    Conflict,
+    ExtractedEvidence,
+    FetchResult,
+    ImportContext,
+    ProposedFact,
+    SourceSnapshot,
+)
+from scripts.pettripfinder.importer import normalize as N
+from scripts.pettripfinder.importer.policy_compose import compose_pet_policy
+from scripts.pettripfinder.importer.recommend import RecommendationInput, recommend
+from scripts.pettripfinder.importer.source_snapshot import (
+    build_snapshot,
+    snapshot_has_javascript_warning,
+)
+from scripts.pettripfinder.importer.structured_metadata import (
+    StructuredExtraction,
+    extract_structured_metadata,
+)
+
+# Fields that flow into the CSV identity columns (structured-precedence).
+_IDENTITY_FIELDS = ("name", "phone", "address", "city", "state",
+                    "postal_code", "website_url")
+# Boolean pet facts (normalized to "true"/"false").
+_BOOL_PET_FIELDS = frozenset({
+    "pets_allowed", "off_leash", "fenced", "small_dog_area", "large_dog_area",
+    "water_available", "indoor_prohibited", "patio_or_outdoor_only",
+    "dog_menu", "water_or_treats",
+})
+
+
+# --------------------------------------------------------------------------- #
+# Source-relationship classification (mission section 17).
+# --------------------------------------------------------------------------- #
+
+def _registrable(host: str) -> str:
+    host = (host or "").lower().strip(".")
+    labels = host.split(".")
+    return ".".join(labels[-2:]) if len(labels) >= 2 else host
+
+
+def classify_source_relationship(
+    source_url: str, website_url: str, context: ImportContext,
+) -> Tuple[str, str]:
+    """Deterministic relationship classification (mission section 17).
+    Operator hint wins when supplied and valid; otherwise derived from
+    domain analysis. Never a simplistic host-equality rule."""
+    hint = (context.source_relationship_hint or "").strip().upper()
+    if hint in C.SOURCE_RELATIONSHIPS:
+        return (hint, "operator_hint")
+
+    host = urlsplit(source_url).hostname or ""
+    host_l = host.lower()
+    for marker in C.THIRD_PARTY_HOST_MARKERS:
+        if marker in host_l:
+            return (C.REL_THIRD_PARTY, "third_party_host:%s" % marker)
+    if host_l.endswith(".gov") or host_l.endswith(".gov.us") or ".gov." in host_l:
+        return (C.REL_OFFICIAL_GOVERNMENT_DOMAIN, "government_domain")
+
+    web_host = urlsplit(website_url).hostname or ""
+    if web_host:
+        if host_l == web_host.lower():
+            return (C.REL_EXACT_ENTITY_DOMAIN, "source_host_equals_website")
+        if _registrable(host_l) == _registrable(web_host):
+            return (C.REL_OFFICIAL_BRAND_DOMAIN, "same_registrable_domain")
+    # No website to compare; a non-third-party host is not automatically
+    # official -> honest UNKNOWN (candidate -> REVIEW).
+    return (C.REL_UNKNOWN, "no_website_comparison")
+
+
+def _source_type_for(relationship: str, context: ImportContext) -> str:
+    if context.source_type_hint:
+        return context.source_type_hint.strip()
+    return {
+        C.REL_EXACT_ENTITY_DOMAIN: "OFFICIAL_PROPERTY",
+        C.REL_OFFICIAL_PROPERTY_SUBDOMAIN: "OFFICIAL_PROPERTY",
+        C.REL_OFFICIAL_BRAND_DOMAIN: "OFFICIAL_BRAND",
+        C.REL_OFFICIAL_GROUP_DOMAIN: "OFFICIAL_GROUP",
+        C.REL_OFFICIAL_GOVERNMENT_DOMAIN: "OFFICIAL_CITY",
+        C.REL_OFFICIAL_HOSTED_SYSTEM: "OFFICIAL_PROPERTY",
+        C.REL_OPERATOR_CONFIRMED_OFFICIAL: "OFFICIAL_PROPERTY",
+    }.get(relationship, "")
+
+
+# --------------------------------------------------------------------------- #
+# Evidence assembly + conflict detection.
+# --------------------------------------------------------------------------- #
+
+def _normalize_field_value(field: str, value: str, city: str = "", state: str = "") -> str:
+    if field == "phone":
+        return N.normalize_phone(value)
+    if field == "state":
+        return N.normalize_state(value)
+    if field == "postal_code":
+        return N.normalize_postal(value)
+    if field == "website_url":
+        return N.normalize_url(value)
+    if field == "address":
+        return N.normalize_address(value, city, state)
+    if field == "pet_fee":
+        return N.normalize_fee(value)
+    if field == "weight_limit":
+        return N.normalize_weight(value)
+    if field == "pet_count_limit":
+        return N.normalize_count(value)
+    if field in _BOOL_PET_FIELDS:
+        b = N.normalize_bool(value)
+        return "" if b is None else ("true" if b else "false")
+    return N.normalize_whitespace(value)
+
+
+def _assemble(
+    snapshot: SourceSnapshot,
+    structured: StructuredExtraction,
+    llm_facts: Tuple[ProposedFact, ...],
+    category: str,
+    source_url: str,
+    context: ImportContext,
+) -> Tuple[List[ExtractedEvidence], List[Conflict], Dict[str, str], bool]:
+    """Merge structured + LLM evidence, detect conflicts, and return
+    ``(evidence, conflicts, accepted_values, required_evidence_mismatch)``.
+    ``accepted_values`` maps field -> normalized value (structured
+    precedence for identity fields)."""
+    struct_by_field = structured.by_field()
+
+    # Structured evidence first (SUPPORTED, deterministic). ``phone`` is
+    # handled by role-aware resolution below, not the generic field path.
+    evidence: List[ExtractedEvidence] = []
+    accepted: Dict[str, str] = {}
+    phone_candidates: List[Tuple[str, str, int, int, str, str]] = []
+    name_candidates: List[Tuple[str, str, int, int, str, str]] = []
+    for field, sf in struct_by_field.items():
+        if field == "phone":
+            phone_candidates.append(
+                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED))
+            continue
+        if field == "name":
+            name_candidates.append(
+                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED))
+            continue
+        norm = _normalize_field_value(field, sf.value)
+        if not norm:
+            continue
+        evidence.append(build_structured_evidence(
+            field, norm, sf.quote, source_url, sf.method))
+        accepted[field] = norm
+
+    # LLM evidence (span-validated).
+    conflicts: List[Conflict] = []
+    required_mismatch = False
+    allowed = allowed_fields(category)
+    for fact in llm_facts:
+        if fact.field_name not in allowed:
+            continue
+        ev = build_llm_evidence(fact, snapshot.normalized_text, source_url)
+        if ev.support_state == C.SUPPORT_UNSUPPORTED:
+            if fact.field_name == "pets_allowed" and "pets_allowed" not in accepted:
+                required_mismatch = True
+            # Keep the failed evidence visible in the record but never publish it.
+            evidence.append(ev)
+            continue
+        if fact.field_name == "phone":
+            phone_candidates.append(
+                (ev.proposed_value, ev.snapshot_quote, ev.char_start, ev.char_end,
+                 C.METHOD_LLM_TEXT, ev.support_state))
+            continue
+        if fact.field_name == "name":
+            name_candidates.append(
+                (ev.proposed_value, ev.snapshot_quote, ev.char_start, ev.char_end,
+                 C.METHOD_LLM_TEXT, ev.support_state))
+            continue
+        norm = _normalize_field_value(fact.field_name, ev.proposed_value)
+        if not norm:
+            continue
+        if fact.field_name in accepted and accepted[fact.field_name] != norm:
+            # Conflict: structured vs LLM disagree on the same field.
+            struct_ev = next(
+                (e for e in evidence if e.field_name == fact.field_name
+                 and e.extraction_method != C.METHOD_LLM_TEXT), None)
+            comp = (accepted[fact.field_name], norm)
+            conflicts.append(Conflict(
+                field_name=fact.field_name,
+                competing_values=comp,
+                evidence=tuple(e for e in (struct_ev, ev) if e is not None),
+                precedence_note="structured_metadata_over_llm_text",
+                resolution_status="UNRESOLVED",
+            ))
+            # Keep the structured value as primary; record LLM evidence too.
+            evidence.append(ExtractedEvidence(
+                field_name=ev.field_name, proposed_value=norm,
+                source_wording=ev.source_wording, source_url=source_url,
+                snapshot_quote=ev.snapshot_quote, char_start=ev.char_start,
+                char_end=ev.char_end, extraction_method=C.METHOD_LLM_TEXT,
+                support_state=C.SUPPORT_AMBIGUOUS,
+                warnings=ev.warnings + (C.REASON_CONFLICTING_EVIDENCE,)))
+        else:
+            evidence.append(ExtractedEvidence(
+                field_name=ev.field_name, proposed_value=norm,
+                source_wording=ev.source_wording, source_url=source_url,
+                snapshot_quote=ev.snapshot_quote, char_start=ev.char_start,
+                char_end=ev.char_end, extraction_method=ev.extraction_method,
+                support_state=ev.support_state, warnings=ev.warnings))
+            accepted.setdefault(fact.field_name, norm)
+
+    # Role-aware phone resolution (AES-DATA-001 defect A): pick the property
+    # number over a central reservation/brand number by precedence; only a
+    # same-role collision (or unresolved competing numbers) is a conflict.
+    primary_phone, phone_evidence, phone_conflicts = _resolve_phone(
+        phone_candidates, source_url)
+    evidence.extend(phone_evidence)
+    conflicts.extend(phone_conflicts)
+    if primary_phone:
+        accepted["phone"] = primary_phone
+
+    # Entity-name resolution (AES-DATA-001 defect): an Open Graph/page title
+    # carrying site branding is not a material conflict with the clean entity
+    # name; canonicalize and select by precedence, reconcile every remaining
+    # candidate against the resolved name (never raw pairwise), and only
+    # conflict on genuinely different names. The expected-city suffix rule is
+    # context-bound: it needs the operator's expected city AND page-geography
+    # support for it (page city matches when extracted; otherwise the city
+    # must at least appear in the snapshot text; a conflicting page city or
+    # state withdraws support).
+    exp_city = N.normalize_city(context.expected_city)
+    exp_state = N.normalize_state(context.expected_state)
+    page_city = accepted.get("city", "")
+    page_state = accepted.get("state", "")
+    city_supported = bool(exp_city)
+    if city_supported:
+        if page_city:
+            city_supported = page_city.lower() == exp_city.lower()
+        else:
+            city_supported = exp_city.lower() in (snapshot.normalized_text or "").lower()
+        if city_supported and exp_state and page_state and page_state != exp_state:
+            city_supported = False
+    primary_name, name_evidence, name_conflicts = _resolve_name(
+        name_candidates, context, snapshot.normalized_text, source_url,
+        expected_city=exp_city, expected_city_supported=city_supported)
+    evidence.extend(name_evidence)
+    conflicts.extend(name_conflicts)
+    if primary_name:
+        accepted["name"] = primary_name
+
+    # Cross-derive co-stated numeric pet facts (defect C): a single sentence
+    # can support both pet_count_limit and weight_limit; derive a missing one
+    # from an already-SUPPORTED sibling quote (same span, honestly supported).
+    _derive_dual_facts(snapshot, evidence, accepted, category, source_url)
+
+    return (evidence, conflicts, accepted, required_mismatch)
+
+
+# --------------------------------------------------------------------------- #
+# Phone role resolution (defect A).
+# --------------------------------------------------------------------------- #
+
+def _resolve_phone(
+    phone_candidates: List[Tuple[str, str, int, int, str, str]], source_url: str,
+) -> Tuple[str, List[ExtractedEvidence], List[Conflict]]:
+    """Classify each candidate number, preserve all as evidence (with a
+    ``phone_role`` marker), pick the single production number by precedence,
+    and flag a conflict only for a same-role collision or unresolved
+    materially-competing numbers."""
+    entries: List[Dict[str, str]] = []
+    seen_numbers = set()
+    for raw, quote, cs, ce, method, support in phone_candidates:
+        num = N.normalize_phone(raw)
+        if not num or num in seen_numbers:
+            continue
+        seen_numbers.add(num)
+        entries.append({
+            "num": num, "role": N.classify_phone_role(raw, quote),
+            "quote": quote, "cs": cs, "ce": ce, "method": method, "support": support})
+    if not entries:
+        return ("", [], [])
+
+    prec = {r: i for i, r in enumerate(N.PHONE_ROLE_PRECEDENCE)}
+    ordered = sorted(entries, key=lambda e: prec.get(e["role"], len(prec)))  # stable
+
+    evidences = [ExtractedEvidence(
+        field_name="phone", proposed_value=e["num"], source_wording=e["quote"],
+        source_url=source_url, snapshot_quote=e["quote"], char_start=e["cs"],
+        char_end=e["ce"], extraction_method=e["method"], support_state=e["support"],
+        warnings=("phone_role:%s" % e["role"],)) for e in ordered]
+
+    best_role = ordered[0]["role"]
+    numbers_at_best = {e["num"] for e in entries if e["role"] == best_role}
+    distinct = {e["num"] for e in entries}
+    conflicts: List[Conflict] = []
+    if len(numbers_at_best) >= 2 or (
+        best_role == N.PHONE_ROLE_UNKNOWN and len(distinct) >= 2
+    ):
+        conflicts.append(Conflict(
+            field_name="phone", competing_values=tuple(e["num"] for e in ordered),
+            evidence=tuple(evidences), precedence_note="phone_role_precedence",
+            resolution_status="UNRESOLVED"))
+    return (ordered[0]["num"], evidences, conflicts)
+
+
+# --------------------------------------------------------------------------- #
+# Entity-name resolution (live park-name defect).
+# --------------------------------------------------------------------------- #
+
+_NAME_METHOD_RANK = {
+    C.METHOD_LLM_TEXT: 0,        # visible heading / LLM entity name
+    C.METHOD_JSON_LD: 1, C.METHOD_MICRODATA: 1,   # structured entity name
+    C.METHOD_OPEN_GRAPH: 2, C.METHOD_META: 2,     # page/OG title (branded)
+}
+
+
+def _hint_supported(hint: str, entries: List[Dict[str, str]], snapshot_text: str) -> bool:
+    """An operator name hint is authoritative only when the page supports it:
+    compatible with a page-derived candidate, or present in the snapshot."""
+    for e in entries:
+        if N.names_compatible(hint, e["value"]):
+            return True
+    return N.normalize_name(hint).lower() in N.normalize_name(snapshot_text or "").lower()
+
+
+def _reconciles_with_resolved(
+    resolved: str, candidate: str, expected_city: str,
+    expected_city_supported: bool,
+) -> bool:
+    """A name candidate reconciles with the resolved authoritative name when
+    it denotes the same entity (title-segment rules), when its page-purpose/
+    brand-stripped form equals the resolved name, or when the pair differs
+    only by a trailing expected-city qualifier under the context-bound
+    expected-city suffix rule -- in EITHER direction, because the resolved
+    page-derived name may itself be the brand-short form while a branded
+    title reconciles to "<base> <expected_city>" (live Land-Grant
+    regression, candidate landgrantbrewing-com-e70ad5c876). A raw branded
+    title is always reconciled through the stripping rules first -- never
+    compared directly against a shorter alternate."""
+    if N.names_compatible(resolved, candidate):
+        return True
+    reconciled = N.clean_entity_name(candidate)
+    if reconciled.lower() == N.normalize_name(resolved).lower():
+        return True
+    if N.expected_city_suffix_compatible(
+            resolved, reconciled, expected_city, expected_city_supported):
+        return True
+    return N.expected_city_suffix_compatible(
+        reconciled, resolved, expected_city, expected_city_supported)
+
+
+def _resolve_name(
+    name_candidates: List[Tuple[str, str, int, int, str, str]],
+    context: ImportContext, snapshot_text: str, source_url: str,
+    *, expected_city: str = "", expected_city_supported: bool = False,
+) -> Tuple[str, List[ExtractedEvidence], List[Conflict]]:
+    """Preserve all name evidence, select the entity name by precedence
+    (operator hint > LLM/heading > structured > branded title), then
+    reconcile every remaining candidate against the resolved authoritative
+    name -- conflicting only on candidates that fail reconciliation."""
+    entries: List[Dict[str, str]] = []
+    for value, quote, cs, ce, method, support in name_candidates:
+        nv = N.normalize_name(value)
+        if not nv:
+            continue
+        entries.append({"value": nv, "quote": quote, "cs": cs, "ce": ce,
+                        "method": method, "support": support})
+    if not entries:
+        return ("", [], [])
+
+    evidences = [ExtractedEvidence(
+        field_name="name", proposed_value=e["value"], source_wording=e["quote"],
+        source_url=source_url, snapshot_quote=e["quote"], char_start=e["cs"],
+        char_end=e["ce"], extraction_method=e["method"], support_state=e["support"],
+        warnings=("name_source:%s" % e["method"],)) for e in entries]
+
+    # Resolve the authoritative page-derived name FIRST (AES-DATA-001 final
+    # restaurant-name defect: raw alternates were compared pairwise, so an
+    # already-reconcilable branded title still conflicted with a supported
+    # brand-short form). Conflict collection then reconciles each candidate
+    # against this resolved name.
+    best = min(entries, key=lambda e: _NAME_METHOD_RANK.get(e["method"], 3))
+    resolved = N.clean_entity_name(best["value"])
+
+    conflicts: List[Conflict] = []
+    incompatible = any(
+        not _reconciles_with_resolved(
+            resolved, e["value"], expected_city, expected_city_supported)
+        for e in entries)
+    if incompatible:
+        conflicts.append(Conflict(
+            field_name="name", competing_values=tuple(e["value"] for e in entries),
+            evidence=tuple(evidences), precedence_note="entity_name_canonicalization",
+            resolution_status="UNRESOLVED"))
+
+    hint = N.normalize_name(context.candidate_name)
+    if hint and _hint_supported(hint, entries, snapshot_text):
+        primary = hint
+    else:
+        primary = resolved
+    return (primary, evidences, conflicts)
+
+
+# --------------------------------------------------------------------------- #
+# Co-stated numeric-fact derivation (defect C).
+# --------------------------------------------------------------------------- #
+
+_DUAL_FACT_DERIVERS = {
+    "pet_count_limit": N.normalize_count,
+    "weight_limit": N.normalize_weight,
+}
+
+
+def _sentence_bounds(text: str, start: int, end: int) -> Tuple[int, int]:
+    s = text.rfind(".", 0, max(start, 0)) + 1
+    e = text.find(".", max(end, 0))
+    e = len(text) if e < 0 else e + 1
+    return (s, e)
+
+
+def _derive_dual_facts(snapshot, evidence, accepted, category, source_url) -> None:
+    allowed = allowed_fields(category)
+    for target, fn in _DUAL_FACT_DERIVERS.items():
+        if target in accepted or target not in allowed:
+            continue
+        for ev in list(evidence):
+            if ev.support_state == C.SUPPORT_UNSUPPORTED or ev.field_name == target:
+                continue
+            val, quote, cs, ce = fn(ev.snapshot_quote), ev.snapshot_quote, ev.char_start, ev.char_end
+            if not val and ev.char_start >= 0:
+                s, e = _sentence_bounds(snapshot.normalized_text, ev.char_start, ev.char_end)
+                sentence = snapshot.normalized_text[s:e]
+                derived = fn(sentence)
+                if derived:
+                    val, quote, cs, ce = derived, cap_quote(sentence)[0], s, e
+            if val:
+                evidence.append(ExtractedEvidence(
+                    field_name=target, proposed_value=val, source_wording=ev.source_wording,
+                    source_url=source_url, snapshot_quote=quote, char_start=cs, char_end=ce,
+                    extraction_method=ev.extraction_method, support_state=C.SUPPORT_SUPPORTED,
+                    warnings=("derived_from:%s" % ev.field_name,)))
+                accepted[target] = val
+                break
+
+
+# --------------------------------------------------------------------------- #
+# Candidate id.
+# --------------------------------------------------------------------------- #
+
+def _slug(text: str) -> str:
+    return re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9]+", "-", (text or "").lower())).strip("-")
+
+
+def make_candidate_id(requested_url: str, observed_at: str) -> str:
+    host = urlsplit(requested_url).hostname or "source"
+    short = hashlib.sha256(("%s|%s" % (requested_url, observed_at)).encode("utf-8")).hexdigest()[:10]
+    return "%s-%s" % (_slug(host)[:40] or "source", short)
+
+
+# --------------------------------------------------------------------------- #
+# Pipeline.
+# --------------------------------------------------------------------------- #
+
+def _shallow_snapshot(fetch: FetchResult, observed_at: str) -> SourceSnapshot:
+    return SourceSnapshot(
+        requested_url=fetch.requested_url,
+        final_url=fetch.final_url or fetch.requested_url,
+        observed_at=observed_at,
+        http_status=fetch.http_status,
+        content_type=fetch.content_type,
+        redirect_chain=fetch.redirect_chain,
+        page_title="", canonical_url="",
+        response_header_subset=fetch.response_headers,
+        raw_content_hash="", normalized_text_hash="", normalized_text="",
+        extraction_version=C.EXTRACTION_VERSION,
+        fetch_warnings=(fetch.reason,) if fetch.reason else (),
+        source_relationship=C.REL_UNKNOWN,
+    )
+
+
+def run_import(
+    url: str,
+    context: ImportContext,
+    *,
+    fetcher,
+    extractor,
+    cas,
+    observed_at: str,
+    created_at: str,
+) -> CandidateListing:
+    """Execute the full import pipeline for one official URL."""
+    category = context.category
+    fetch = fetcher.fetch(url)
+
+    # --- fetch-level short circuit (REVIEW/REJECT) --------------------------
+    if not fetch.ok:
+        snapshot = _shallow_snapshot(fetch, observed_at)
+        rec, reasons = recommend(RecommendationInput(
+            fetch_ok=False, fetch_reason=fetch.reason, source_relationship=C.REL_UNKNOWN,
+            entity_identified=False, category_resolved=bool(N.normalize_category_id(category)),
+            missing_required=(), pet_policy_present=False, pets_allowed_state="",
+            has_material_conflict=False, multi_entity=False,
+            required_evidence_mismatch=False, ambiguous_present=False,
+            extraction_ok=True, text_truncated=False))
+        return _finalize(url, context, snapshot, [], [], {}, "", (), rec, reasons,
+                         C.REL_UNKNOWN, "fetch_failed:" + fetch.reason, "", "",
+                         observed_at, created_at, category_conf=C.SUPPORT_UNSUPPORTED,
+                         geo_conf=C.SUPPORT_UNSUPPORTED, multi_entity=False)
+
+    # --- snapshot + JS-only guard ------------------------------------------
+    # relationship needs the extracted website; classify after extraction, but
+    # snapshot needs a relationship string -> start UNKNOWN, refine below.
+    snapshot = build_snapshot(fetch, cas, observed_at, C.REL_UNKNOWN)
+    if snapshot_has_javascript_warning(snapshot):
+        rec, reasons = (C.RECOMMEND_REVIEW, (C.REASON_JAVASCRIPT_RENDERED,))
+        return _finalize(url, context, snapshot, [], [], {}, "", (), rec, reasons,
+                         C.REL_UNKNOWN, "javascript_rendered", "", "",
+                         observed_at, created_at, category_conf=C.SUPPORT_UNSUPPORTED,
+                         geo_conf=C.SUPPORT_UNSUPPORTED, multi_entity=False)
+
+    # --- structured + LLM extraction ---------------------------------------
+    html_bytes = cas.get_bytes(snapshot.raw_content_hash)
+    structured = extract_structured_metadata(_decode(html_bytes))
+    extraction = extractor.extract(
+        snapshot.normalized_text, category, allowed_fields(category))
+
+    source_url = snapshot.final_url
+    evidence, conflicts, accepted, required_mismatch = _assemble(
+        snapshot, structured, extraction.facts, category, source_url, context)
+
+    # --- relationship + source_type ----------------------------------------
+    website_url = accepted.get("website_url", "")
+    relationship, rel_reason = classify_source_relationship(
+        source_url, website_url or source_url, context)
+    source_type = _source_type_for(relationship, context)
+
+    # --- CSV fields + pet facts --------------------------------------------
+    city = accepted.get("city") or N.normalize_city(context.expected_city)
+    state = accepted.get("state") or N.normalize_state(context.expected_state)
+    address_raw = accepted.get("address", "")
+
+    # Postal derivation (defect B): a supported full address that carries a
+    # valid ZIP fills an otherwise-empty postal_code, from the SAME address
+    # evidence span -- never fabricated from city/state alone. Derive before
+    # the address street is stripped of its trailing locality/ZIP.
+    postal = accepted.get("postal_code", "")
+    if not postal:
+        derived_zip = N.extract_postal_from_address(address_raw)
+        if derived_zip:
+            postal = derived_zip
+            addr_ev = next((e for e in evidence if e.field_name == "address"
+                            and e.support_state != C.SUPPORT_UNSUPPORTED), None)
+            if addr_ev is not None:
+                evidence.append(ExtractedEvidence(
+                    field_name="postal_code", proposed_value=postal,
+                    source_wording=addr_ev.source_wording, source_url=source_url,
+                    snapshot_quote=addr_ev.snapshot_quote, char_start=addr_ev.char_start,
+                    char_end=addr_ev.char_end, extraction_method=addr_ev.extraction_method,
+                    support_state=C.SUPPORT_SUPPORTED, warnings=("derived_from:address",)))
+
+    address = N.normalize_address(address_raw, city, state)
+    name = accepted.get("name") or N.normalize_name(context.candidate_name)
+    if not website_url:
+        website_url = source_url
+
+    pet_facts: Dict[str, str] = {}
+    for ev in evidence:
+        if ev.support_state == C.SUPPORT_UNSUPPORTED:
+            continue
+        if ev.field_name in allowed_fields(category) and ev.field_name not in _IDENTITY_FIELDS:
+            pet_facts.setdefault(ev.field_name, ev.proposed_value)
+    pet_policy = compose_pet_policy(pet_facts, category)
+
+    proposed = {
+        "name": name, "category": N.normalize_category_id(category),
+        "address": address, "city": city, "state": state,
+        "postal_code": postal,
+        "phone": accepted.get("phone", ""), "website_url": website_url,
+        "source_url": source_url, "source_type": source_type,
+        "observed_at": observed_at, "rating": "", "pet_policy": pet_policy,
+        "canonical": "",
+    }
+
+    # --- signals for recommendation ----------------------------------------
+    missing = tuple(f for f in REQUIRED_CSV_FIELDS if not proposed.get(f, "").strip())
+    pets_state = pet_facts.get("pets_allowed", "")
+    category_conf = C.SUPPORT_SUPPORTED if proposed["category"] else C.SUPPORT_UNSUPPORTED
+    geo_conf = _geo_confidence(city, state, context)
+    ambiguous_present = any(e.support_state == C.SUPPORT_AMBIGUOUS for e in evidence)
+
+    rec, reasons = recommend(RecommendationInput(
+        fetch_ok=True, fetch_reason="", source_relationship=relationship,
+        entity_identified=bool(name), category_resolved=bool(proposed["category"]),
+        missing_required=missing, pet_policy_present=bool(pet_policy),
+        pets_allowed_state=pets_state, has_material_conflict=bool(conflicts),
+        multi_entity=structured.multi_entity, required_evidence_mismatch=required_mismatch,
+        ambiguous_present=ambiguous_present, extraction_ok=extraction.ok,
+        text_truncated="normalized_text_truncated_50kb" in snapshot.fetch_warnings))
+
+    warnings = list(snapshot.fetch_warnings)
+    if not extraction.ok:
+        warnings.append(extraction.error)
+
+    return _finalize(
+        url, context, snapshot, evidence, conflicts, proposed, ",".join(sorted(pet_facts)),
+        _pet_facts_pairs(pet_facts), rec, reasons, relationship, rel_reason,
+        extraction.provider, extraction.model, observed_at, created_at,
+        category_conf=category_conf, geo_conf=geo_conf,
+        multi_entity=structured.multi_entity, missing=missing, warnings=tuple(warnings),
+        prompt_version=extraction.prompt_version)
+
+
+def _pet_facts_pairs(pet_facts: Dict[str, str]) -> Tuple[Tuple[str, str], ...]:
+    return tuple(sorted(pet_facts.items()))
+
+
+def _geo_confidence(city: str, state: str, context: ImportContext) -> str:
+    if not (city and state):
+        return C.SUPPORT_UNSUPPORTED
+    exp_city = N.normalize_city(context.expected_city)
+    exp_state = N.normalize_state(context.expected_state)
+    if exp_city and exp_city.lower() != city.lower():
+        return C.SUPPORT_AMBIGUOUS
+    if exp_state and exp_state != state:
+        return C.SUPPORT_AMBIGUOUS
+    return C.SUPPORT_SUPPORTED
+
+
+def _decode(body: bytes) -> str:
+    for enc in ("utf-8", "cp1252", "latin-1"):
+        try:
+            return body.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return body.decode("utf-8", "ignore")
+
+
+def _finalize(
+    url, context, snapshot, evidence, conflicts, proposed, ambiguous_join,
+    pet_facts_pairs, rec, reasons, relationship, rel_reason, provider, model,
+    observed_at, created_at, *, category_conf, geo_conf, multi_entity,
+    missing=(), warnings=(), prompt_version=C.PROMPT_VERSION,
+) -> CandidateListing:
+    ambiguous_fields = tuple(sorted({
+        e.field_name for e in evidence if e.support_state == C.SUPPORT_AMBIGUOUS}))
+    return CandidateListing(
+        candidate_id=make_candidate_id(url, observed_at),
+        created_at=created_at, context=context, snapshot=snapshot,
+        proposed_fields=tuple((k, proposed.get(k, "")) for k in C.SEED_CSV_COLUMNS),
+        pet_facts=pet_facts_pairs, evidence=tuple(evidence),
+        missing_required=tuple(missing), ambiguous_fields=ambiguous_fields,
+        conflicts=tuple(conflicts), warnings=tuple(warnings),
+        category_confidence=category_conf, geography_confidence=geo_conf,
+        source_relationship=relationship, source_relationship_reason=rel_reason,
+        extraction_provider=provider, extraction_model=model,
+        prompt_version=prompt_version, extraction_version=C.EXTRACTION_VERSION,
+        recommendation=rec, recommendation_reasons=tuple(reasons),
+        review_status=C.REVIEW_PENDING,
+    )
+
+
+# --------------------------------------------------------------------------- #
+# JSON persistence (deterministic; sorted keys, LF).
+# --------------------------------------------------------------------------- #
+
+def _ev_to_dict(e: ExtractedEvidence) -> dict:
+    return {
+        "field_name": e.field_name, "proposed_value": e.proposed_value,
+        "source_wording": e.source_wording, "source_url": e.source_url,
+        "snapshot_quote": e.snapshot_quote, "char_start": e.char_start,
+        "char_end": e.char_end, "extraction_method": e.extraction_method,
+        "support_state": e.support_state, "warnings": list(e.warnings),
+    }
+
+
+def candidate_to_dict(c: CandidateListing) -> dict:
+    return {
+        "candidate_id": c.candidate_id, "created_at": c.created_at,
+        "context": c.context.__dict__,
+        "snapshot": c.snapshot.to_dict(),
+        "proposed_fields": [list(p) for p in c.proposed_fields],
+        "pet_facts": [list(p) for p in c.pet_facts],
+        "evidence": [_ev_to_dict(e) for e in c.evidence],
+        "missing_required": list(c.missing_required),
+        "ambiguous_fields": list(c.ambiguous_fields),
+        "conflicts": [{
+            "field_name": cf.field_name,
+            "competing_values": list(cf.competing_values),
+            "evidence": [_ev_to_dict(e) for e in cf.evidence],
+            "precedence_note": cf.precedence_note,
+            "resolution_status": cf.resolution_status,
+        } for cf in c.conflicts],
+        "warnings": list(c.warnings),
+        "category_confidence": c.category_confidence,
+        "geography_confidence": c.geography_confidence,
+        "source_relationship": c.source_relationship,
+        "source_relationship_reason": c.source_relationship_reason,
+        "extraction_provider": c.extraction_provider,
+        "extraction_model": c.extraction_model,
+        "prompt_version": c.prompt_version,
+        "extraction_version": c.extraction_version,
+        "recommendation": c.recommendation,
+        "recommendation_reasons": list(c.recommendation_reasons),
+        "review_status": c.review_status,
+        "operator_edits": [list(e) for e in c.operator_edits],
+        "approval_metadata": [list(p) for p in c.approval_metadata],
+    }
+
+
+def _ev_from_dict(d: dict) -> ExtractedEvidence:
+    return ExtractedEvidence(
+        field_name=d["field_name"], proposed_value=d["proposed_value"],
+        source_wording=d["source_wording"], source_url=d["source_url"],
+        snapshot_quote=d["snapshot_quote"], char_start=d["char_start"],
+        char_end=d["char_end"], extraction_method=d["extraction_method"],
+        support_state=d["support_state"], warnings=tuple(d.get("warnings", ())))
+
+
+def candidate_from_dict(d: dict) -> CandidateListing:
+    snap = d["snapshot"]
+    snapshot = SourceSnapshot(
+        requested_url=snap["requested_url"], final_url=snap["final_url"],
+        observed_at=snap["observed_at"], http_status=snap["http_status"],
+        content_type=snap["content_type"],
+        redirect_chain=tuple(snap["redirect_chain"]),
+        page_title=snap["page_title"], canonical_url=snap["canonical_url"],
+        response_header_subset=tuple(tuple(x) for x in snap["response_header_subset"]),
+        raw_content_hash=snap["raw_content_hash"],
+        normalized_text_hash=snap["normalized_text_hash"],
+        normalized_text=snap["normalized_text"],
+        extraction_version=snap["extraction_version"],
+        fetch_warnings=tuple(snap["fetch_warnings"]),
+        source_relationship=snap["source_relationship"])
+    return CandidateListing(
+        candidate_id=d["candidate_id"], created_at=d["created_at"],
+        context=ImportContext(**d["context"]), snapshot=snapshot,
+        proposed_fields=tuple(tuple(p) for p in d["proposed_fields"]),
+        pet_facts=tuple(tuple(p) for p in d["pet_facts"]),
+        evidence=tuple(_ev_from_dict(e) for e in d["evidence"]),
+        missing_required=tuple(d["missing_required"]),
+        ambiguous_fields=tuple(d["ambiguous_fields"]),
+        conflicts=tuple(Conflict(
+            field_name=cf["field_name"],
+            competing_values=tuple(cf["competing_values"]),
+            evidence=tuple(_ev_from_dict(e) for e in cf["evidence"]),
+            precedence_note=cf["precedence_note"],
+            resolution_status=cf["resolution_status"]) for cf in d["conflicts"]),
+        warnings=tuple(d["warnings"]),
+        category_confidence=d["category_confidence"],
+        geography_confidence=d["geography_confidence"],
+        source_relationship=d["source_relationship"],
+        source_relationship_reason=d["source_relationship_reason"],
+        extraction_provider=d["extraction_provider"],
+        extraction_model=d["extraction_model"],
+        prompt_version=d["prompt_version"],
+        extraction_version=d["extraction_version"],
+        recommendation=d["recommendation"],
+        recommendation_reasons=tuple(d["recommendation_reasons"]),
+        review_status=d["review_status"],
+        operator_edits=tuple(tuple(e) for e in d.get("operator_edits", ())),
+        approval_metadata=tuple(tuple(p) for p in d.get("approval_metadata", ())))
+
+
+def dumps_candidate(c: CandidateListing) -> str:
+    return json.dumps(candidate_to_dict(c), sort_keys=True, ensure_ascii=False, indent=2)
+
+
+def persist_candidate(c: CandidateListing, candidates_dir: Path) -> Path:
+    candidates_dir = Path(candidates_dir)
+    candidates_dir.mkdir(parents=True, exist_ok=True)
+    path = candidates_dir / ("%s.json" % c.candidate_id)
+    path.write_text(dumps_candidate(c) + "\n", encoding="utf-8", newline="\n")
+    return path
+
+
+def load_candidate(path) -> CandidateListing:
+    return candidate_from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
+
+
+# --------------------------------------------------------------------------- #
+# Operator edits (mission section 20) -- re-validated, never re-calls the LLM.
+# --------------------------------------------------------------------------- #
+
+def apply_operator_edits(
+    c: CandidateListing, edits: Dict[str, str], *, decided_at: str,
+) -> Tuple[CandidateListing, Tuple[Tuple[str, str, str], ...]]:
+    """Apply narrow field overrides to the CSV-mapped proposed fields. Each
+    edited field is re-recorded as OPERATOR_EDIT evidence; the diff is
+    returned for audit. Recommendation is re-derived deterministically; the
+    LLM is never called again."""
+    current = dict(c.proposed_fields)
+    diffs: List[Tuple[str, str, str]] = []
+    new_evidence = list(c.evidence)
+    for field, new_value in edits.items():
+        if field not in C.SEED_CSV_COLUMNS:
+            continue
+        old = current.get(field, "")
+        norm = _normalize_field_value(field, new_value) if field in (
+            "phone", "state", "postal_code", "website_url") else N.normalize_whitespace(new_value)
+        if norm == old:
+            continue
+        diffs.append((field, old, norm))
+        current[field] = norm
+        new_evidence = [e for e in new_evidence if e.field_name != field]
+        new_evidence.append(ExtractedEvidence(
+            field_name=field, proposed_value=norm, source_wording=new_value,
+            source_url=c.snapshot.final_url, snapshot_quote="(operator edit)",
+            char_start=-1, char_end=-1, extraction_method=C.METHOD_OPERATOR_EDIT,
+            support_state=C.SUPPORT_SUPPORTED, warnings=()))
+    missing = tuple(f for f in REQUIRED_CSV_FIELDS if not current.get(f, "").strip())
+    edited = CandidateListing(
+        candidate_id=c.candidate_id, created_at=c.created_at, context=c.context,
+        snapshot=c.snapshot,
+        proposed_fields=tuple((k, current.get(k, "")) for k in C.SEED_CSV_COLUMNS),
+        pet_facts=c.pet_facts, evidence=tuple(new_evidence),
+        missing_required=missing, ambiguous_fields=c.ambiguous_fields,
+        conflicts=c.conflicts, warnings=c.warnings,
+        category_confidence=c.category_confidence,
+        geography_confidence=c.geography_confidence,
+        source_relationship=c.source_relationship,
+        source_relationship_reason=c.source_relationship_reason,
+        extraction_provider=c.extraction_provider, extraction_model=c.extraction_model,
+        prompt_version=c.prompt_version, extraction_version=c.extraction_version,
+        recommendation=c.recommendation, recommendation_reasons=c.recommendation_reasons,
+        review_status=c.review_status,
+        operator_edits=c.operator_edits + tuple(diffs),
+        approval_metadata=c.approval_metadata + (("edited_at", decided_at),))
+    return (edited, tuple(diffs))
+
+
+def has_unsupported_published_claim(c: CandidateListing) -> bool:
+    """True if any published (non-edit) CSV/pet value lacks SUPPORTED/AMBIGUOUS
+    evidence -- blocks approval (mission section 20)."""
+    published_pet = {k for k, v in c.pet_facts if v}
+    supported = {e.field_name for e in c.evidence
+                 if e.support_state in (C.SUPPORT_SUPPORTED, C.SUPPORT_AMBIGUOUS)}
+    for field in published_pet:
+        if field not in supported:
+            return True
+    return False

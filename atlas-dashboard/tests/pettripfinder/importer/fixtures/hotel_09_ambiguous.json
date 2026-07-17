@@ -1,0 +1,20 @@
+{
+  "url": "https://www.ambighotel.test/pets",
+  "context": {
+    "category": "hotels",
+    "expected_city": "Columbus",
+    "expected_state": "OH"
+  },
+  "html": "<!doctype html><html><head><meta charset='utf-8'><title>Ambiguous Hotel</title></head><body><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"Hotel\", \"name\": \"Ambiguous Hotel\", \"telephone\": \"614-555-0177\", \"url\": \"https://www.ambighotel.test/pets\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"9 Maybe Ln\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><h1>Ambiguous Hotel</h1><p>Pets may be allowed; please contact the front desk to confirm.</p></body></html>",
+  "extraction": {
+    "facts": [
+      {
+        "field": "pets_allowed",
+        "value": "true",
+        "quote": "Pets may be allowed",
+        "ambiguous": true
+      }
+    ]
+  },
+  "expected_recommendation": "REVIEW"
+}

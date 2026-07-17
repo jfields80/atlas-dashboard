@@ -18,3 +18,10 @@ Flask>=2.2,<4.0
 requests>=2.28,<3.0        # services/opportunity_v2/{search_provider,quality_audit}
 beautifulsoup4>=4.11,<5.0  # services/opportunity_v2/quality_audit (HTML parsing)
 PyYAML>=6.0,<7.0           # services/opportunity_v2/dna/loader
+
+# AES-DATA-001 Official URL Importer — live fact-extraction provider
+# (AnthropicFactExtractor). Lazy-imported only inside the live provider, so
+# the deterministic importer pipeline and the whole pytest suite run without
+# this package installed and with no ANTHROPIC_API_KEY. Bounded below 1.0 to
+# stay on the pre-1.0 SDK line the live provider is written against.
+anthropic>=0.40,<1.0       # scripts/pettripfinder/importer/extraction_anthropic.py

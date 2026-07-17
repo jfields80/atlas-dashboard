@@ -1,0 +1,19 @@
+{
+  "url": "https://www.nopetspark.test/rules",
+  "context": {
+    "category": "parks",
+    "expected_city": "Columbus",
+    "expected_state": "OH"
+  },
+  "html": "<!doctype html><html><head><meta charset='utf-8'><title>No Pets Park</title></head><body><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"Park\", \"name\": \"No Pets Preserve\", \"url\": \"https://www.nopetspark.test/rules\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"2 Preserve Rd\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><h1>No Pets Preserve</h1><p>To protect wildlife, no dogs or pets are permitted anywhere in this preserve.</p></body></html>",
+  "extraction": {
+    "facts": [
+      {
+        "field": "pets_allowed",
+        "value": "false",
+        "quote": "no dogs or pets are permitted anywhere in this preserve"
+      }
+    ]
+  },
+  "expected_recommendation": "REJECT"
+}

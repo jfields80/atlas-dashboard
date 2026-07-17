@@ -1,0 +1,19 @@
+{
+  "url": "https://www.nopetshotel.test/policy",
+  "context": {
+    "category": "hotels",
+    "expected_city": "Columbus",
+    "expected_state": "OH"
+  },
+  "html": "<!doctype html><html><head><meta charset='utf-8'><title>No Pets Hotel</title></head><body><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"Hotel\", \"name\": \"No Pets Hotel\", \"telephone\": \"614-555-0111\", \"url\": \"https://www.nopetshotel.test/policy\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"9 Nopets Ave\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><h1>No Pets Hotel</h1><p>We are sorry, but no pets are allowed at this property, except service animals.</p></body></html>",
+  "extraction": {
+    "facts": [
+      {
+        "field": "pets_allowed",
+        "value": "false",
+        "quote": "no pets are allowed at this property"
+      }
+    ]
+  },
+  "expected_recommendation": "REJECT"
+}

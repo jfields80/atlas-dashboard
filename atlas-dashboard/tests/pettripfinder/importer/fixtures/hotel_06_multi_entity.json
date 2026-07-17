@@ -1,0 +1,19 @@
+{
+  "url": "https://www.multihotel.test/two",
+  "context": {
+    "category": "hotels",
+    "expected_city": "Columbus",
+    "expected_state": "OH"
+  },
+  "html": "<!doctype html><html><head><meta charset='utf-8'><title>Two Hotels</title></head><body><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"Hotel\", \"name\": \"First Hotel\", \"telephone\": \"614-555-0133\", \"url\": \"https://www.multihotel.test/two\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"1 First St\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"Hotel\", \"name\": \"Second Hotel\", \"telephone\": \"614-555-0144\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"2 Second St\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><h1>Two Hotels</h1><p>Both properties are dog friendly.</p></body></html>",
+  "extraction": {
+    "facts": [
+      {
+        "field": "pets_allowed",
+        "value": "true",
+        "quote": "Both properties are dog friendly"
+      }
+    ]
+  },
+  "expected_recommendation": "REVIEW"
+}
