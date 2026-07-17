@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlsplit
@@ -34,6 +35,7 @@ from scripts.pettripfinder.importer.models import (
     FetchResult,
     ImportContext,
     ProposedFact,
+    SourceRecord,
     SourceSnapshot,
 )
 from scripts.pettripfinder.importer import normalize as N
@@ -139,18 +141,41 @@ def _normalize_field_value(field: str, value: str, city: str = "", state: str = 
     return N.normalize_whitespace(value)
 
 
-def _assemble(
+# --------------------------------------------------------------------------- #
+# Per-page evidence collection (AES-DATA-002A seam).
+#
+# ``_collect_page_evidence`` performs structured+LLM evidence collection and
+# intra-page (structured-vs-LLM) conflict detection for ONE page, exactly as
+# the prior monolithic ``_assemble`` did -- but stops before candidate-level
+# resolution: it never resolves a final name or phone (those require
+# cross-source pooling by a future aggregator; today ``_resolve_page_fields``
+# performs that resolution for the single supplied page, unchanged). This is
+# a mechanical split with no semantic change; ``_assemble`` remains a thin
+# composition of the two phases and every existing call site is unaffected.
+# --------------------------------------------------------------------------- #
+
+@dataclass(frozen=True)
+class PageEvidence:
+    """One page's collected evidence, prior to candidate-level resolution.
+    Internal to the importer pipeline; never persisted."""
+
+    evidence: Tuple[ExtractedEvidence, ...]
+    conflicts: Tuple[Conflict, ...]
+    accepted: Dict[str, str]
+    name_candidates: Tuple[Tuple[str, str, int, int, str, str], ...]
+    phone_candidates: Tuple[Tuple[str, str, int, int, str, str], ...]
+    required_evidence_mismatch: bool
+
+
+def _collect_page_evidence(
     snapshot: SourceSnapshot,
     structured: StructuredExtraction,
     llm_facts: Tuple[ProposedFact, ...],
     category: str,
     source_url: str,
-    context: ImportContext,
-) -> Tuple[List[ExtractedEvidence], List[Conflict], Dict[str, str], bool]:
-    """Merge structured + LLM evidence, detect conflicts, and return
-    ``(evidence, conflicts, accepted_values, required_evidence_mismatch)``.
-    ``accepted_values`` maps field -> normalized value (structured
-    precedence for identity fields)."""
+) -> PageEvidence:
+    """Merge structured + LLM evidence for one page and detect intra-page
+    conflicts. Name and phone candidates are pooled but NOT resolved here."""
     struct_by_field = structured.by_field()
 
     # Structured evidence first (SUPPORTED, deterministic). ``phone`` is
@@ -232,11 +257,33 @@ def _assemble(
                 support_state=ev.support_state, warnings=ev.warnings))
             accepted.setdefault(fact.field_name, norm)
 
+    return PageEvidence(
+        evidence=tuple(evidence), conflicts=tuple(conflicts), accepted=accepted,
+        name_candidates=tuple(name_candidates), phone_candidates=tuple(phone_candidates),
+        required_evidence_mismatch=required_mismatch)
+
+
+def _resolve_page_fields(
+    page: PageEvidence,
+    snapshot: SourceSnapshot,
+    category: str,
+    source_url: str,
+    context: ImportContext,
+) -> Tuple[List[ExtractedEvidence], List[Conflict], Dict[str, str], bool]:
+    """Candidate-level resolution over one page's collected evidence: phone
+    role precedence, entity-name canonicalization/reconciliation, and derived
+    dual facts. Returns ``(evidence, conflicts, accepted_values,
+    required_evidence_mismatch)`` -- identical shape and semantics to the
+    prior monolithic ``_assemble``."""
+    evidence: List[ExtractedEvidence] = list(page.evidence)
+    conflicts: List[Conflict] = list(page.conflicts)
+    accepted: Dict[str, str] = dict(page.accepted)
+
     # Role-aware phone resolution (AES-DATA-001 defect A): pick the property
     # number over a central reservation/brand number by precedence; only a
     # same-role collision (or unresolved competing numbers) is a conflict.
     primary_phone, phone_evidence, phone_conflicts = _resolve_phone(
-        phone_candidates, source_url)
+        list(page.phone_candidates), source_url)
     evidence.extend(phone_evidence)
     conflicts.extend(phone_conflicts)
     if primary_phone:
@@ -264,7 +311,7 @@ def _assemble(
         if city_supported and exp_state and page_state and page_state != exp_state:
             city_supported = False
     primary_name, name_evidence, name_conflicts = _resolve_name(
-        name_candidates, context, snapshot.normalized_text, source_url,
+        list(page.name_candidates), context, snapshot.normalized_text, source_url,
         expected_city=exp_city, expected_city_supported=city_supported)
     evidence.extend(name_evidence)
     conflicts.extend(name_conflicts)
@@ -276,7 +323,22 @@ def _assemble(
     # from an already-SUPPORTED sibling quote (same span, honestly supported).
     _derive_dual_facts(snapshot, evidence, accepted, category, source_url)
 
-    return (evidence, conflicts, accepted, required_mismatch)
+    return (evidence, conflicts, accepted, page.required_evidence_mismatch)
+
+
+def _assemble(
+    snapshot: SourceSnapshot,
+    structured: StructuredExtraction,
+    llm_facts: Tuple[ProposedFact, ...],
+    category: str,
+    source_url: str,
+    context: ImportContext,
+) -> Tuple[List[ExtractedEvidence], List[Conflict], Dict[str, str], bool]:
+    """Thin composition layer (AES-DATA-002A seam): collect per-page evidence,
+    then resolve candidate-level fields. Signature and behavior are unchanged
+    from the prior monolithic implementation."""
+    page = _collect_page_evidence(snapshot, structured, llm_facts, category, source_url)
+    return _resolve_page_fields(page, snapshot, category, source_url, context)
 
 
 # --------------------------------------------------------------------------- #
@@ -501,6 +563,93 @@ def _shallow_snapshot(fetch: FetchResult, observed_at: str) -> SourceSnapshot:
     )
 
 
+@dataclass(frozen=True)
+class SourceImportResult:
+    """One source's per-page import outcome (AES-DATA-002A primitive): the
+    unresolved building blocks a future cross-source aggregator needs.
+    Internal to the importer pipeline; never persisted. ``run_import`` today
+    consumes this for the existing single-source pipeline with no behavior
+    change; a future aggregator would call ``import_source`` once per
+    supplied URL and pool the ``page_evidence`` across sources before
+    candidate-level resolution."""
+
+    requested_url: str
+    final_url: str = ""
+    usable: bool = False
+    fetch_result: Optional[FetchResult] = None
+    fetch_reason: str = ""
+    javascript_only: bool = False
+    snapshot: Optional[SourceSnapshot] = None
+    page_evidence: Optional[PageEvidence] = None
+    source_relationship: str = ""
+    source_relationship_reason: str = ""
+    extraction_provider: str = ""
+    extraction_model: str = ""
+    prompt_version: str = ""
+    extraction_ok: bool = True
+    extraction_error: str = ""
+    multi_entity: bool = False
+    warnings: Tuple[str, ...] = ()
+
+
+def import_source(
+    url: str,
+    context: ImportContext,
+    *,
+    fetcher,
+    extractor,
+    cas,
+    observed_at: str,
+) -> SourceImportResult:
+    """Fetch, snapshot, and collect per-page evidence for ONE official URL.
+    Stops before candidate-level resolution (name/phone pooling, derived dual
+    facts) -- those require the full candidate context and, for a future
+    aggregator, cross-source pooling; they stay in ``_resolve_page_fields``.
+    Mirrors the fetch/snapshot/extraction preamble ``run_import`` used to
+    perform inline, with identical behavior at every step."""
+    category = context.category
+    fetch = fetcher.fetch(url)
+
+    if not fetch.ok:
+        return SourceImportResult(
+            requested_url=url, final_url=fetch.final_url or url, usable=False,
+            fetch_result=fetch, fetch_reason=fetch.reason)
+
+    # relationship needs the extracted website; classify after extraction, but
+    # snapshot needs a relationship string -> start UNKNOWN, refine below.
+    snapshot = build_snapshot(fetch, cas, observed_at, C.REL_UNKNOWN)
+    if snapshot_has_javascript_warning(snapshot):
+        return SourceImportResult(
+            requested_url=url, final_url=snapshot.final_url, usable=False,
+            fetch_result=fetch, fetch_reason=C.REASON_JAVASCRIPT_RENDERED,
+            javascript_only=True, snapshot=snapshot, warnings=snapshot.fetch_warnings)
+
+    html_bytes = cas.get_bytes(snapshot.raw_content_hash)
+    structured = extract_structured_metadata(_decode(html_bytes))
+    extraction = extractor.extract(
+        snapshot.normalized_text, category, allowed_fields(category))
+
+    source_url = snapshot.final_url
+    page = _collect_page_evidence(snapshot, structured, extraction.facts, category, source_url)
+
+    website_url = page.accepted.get("website_url", "")
+    relationship, rel_reason = classify_source_relationship(
+        source_url, website_url or source_url, context)
+
+    warnings = list(snapshot.fetch_warnings)
+    if not extraction.ok:
+        warnings.append(extraction.error)
+
+    return SourceImportResult(
+        requested_url=url, final_url=source_url, usable=True, fetch_result=fetch,
+        snapshot=snapshot, page_evidence=page,
+        source_relationship=relationship, source_relationship_reason=rel_reason,
+        extraction_provider=extraction.provider, extraction_model=extraction.model,
+        prompt_version=extraction.prompt_version, extraction_ok=extraction.ok,
+        extraction_error=extraction.error, multi_entity=structured.multi_entity,
+        warnings=tuple(warnings))
+
+
 def run_import(
     url: str,
     context: ImportContext,
@@ -511,50 +660,48 @@ def run_import(
     observed_at: str,
     created_at: str,
 ) -> CandidateListing:
-    """Execute the full import pipeline for one official URL."""
+    """Execute the full import pipeline for one official URL. Re-expressed
+    over ``import_source`` (AES-DATA-002A seam): the per-page fetch/snapshot/
+    extraction/collection preamble now lives there; this function performs
+    exactly the same candidate-level resolution and finalization as before,
+    with no change in output."""
     category = context.category
-    fetch = fetcher.fetch(url)
+    source = import_source(
+        url, context, fetcher=fetcher, extractor=extractor, cas=cas,
+        observed_at=observed_at)
 
     # --- fetch-level short circuit (REVIEW/REJECT) --------------------------
-    if not fetch.ok:
-        snapshot = _shallow_snapshot(fetch, observed_at)
+    if source.snapshot is None:
+        snapshot = _shallow_snapshot(source.fetch_result, observed_at)
         rec, reasons = recommend(RecommendationInput(
-            fetch_ok=False, fetch_reason=fetch.reason, source_relationship=C.REL_UNKNOWN,
+            fetch_ok=False, fetch_reason=source.fetch_reason, source_relationship=C.REL_UNKNOWN,
             entity_identified=False, category_resolved=bool(N.normalize_category_id(category)),
             missing_required=(), pet_policy_present=False, pets_allowed_state="",
             has_material_conflict=False, multi_entity=False,
             required_evidence_mismatch=False, ambiguous_present=False,
             extraction_ok=True, text_truncated=False))
         return _finalize(url, context, snapshot, [], [], {}, "", (), rec, reasons,
-                         C.REL_UNKNOWN, "fetch_failed:" + fetch.reason, "", "",
+                         C.REL_UNKNOWN, "fetch_failed:" + source.fetch_reason, "", "",
                          observed_at, created_at, category_conf=C.SUPPORT_UNSUPPORTED,
                          geo_conf=C.SUPPORT_UNSUPPORTED, multi_entity=False)
 
     # --- snapshot + JS-only guard ------------------------------------------
-    # relationship needs the extracted website; classify after extraction, but
-    # snapshot needs a relationship string -> start UNKNOWN, refine below.
-    snapshot = build_snapshot(fetch, cas, observed_at, C.REL_UNKNOWN)
-    if snapshot_has_javascript_warning(snapshot):
+    if source.javascript_only:
         rec, reasons = (C.RECOMMEND_REVIEW, (C.REASON_JAVASCRIPT_RENDERED,))
-        return _finalize(url, context, snapshot, [], [], {}, "", (), rec, reasons,
+        return _finalize(url, context, source.snapshot, [], [], {}, "", (), rec, reasons,
                          C.REL_UNKNOWN, "javascript_rendered", "", "",
                          observed_at, created_at, category_conf=C.SUPPORT_UNSUPPORTED,
                          geo_conf=C.SUPPORT_UNSUPPORTED, multi_entity=False)
 
-    # --- structured + LLM extraction ---------------------------------------
-    html_bytes = cas.get_bytes(snapshot.raw_content_hash)
-    structured = extract_structured_metadata(_decode(html_bytes))
-    extraction = extractor.extract(
-        snapshot.normalized_text, category, allowed_fields(category))
-
+    # --- candidate-level resolution -----------------------------------------
+    snapshot = source.snapshot
     source_url = snapshot.final_url
-    evidence, conflicts, accepted, required_mismatch = _assemble(
-        snapshot, structured, extraction.facts, category, source_url, context)
+    evidence, conflicts, accepted, required_mismatch = _resolve_page_fields(
+        source.page_evidence, snapshot, category, source_url, context)
 
     # --- relationship + source_type ----------------------------------------
     website_url = accepted.get("website_url", "")
-    relationship, rel_reason = classify_source_relationship(
-        source_url, website_url or source_url, context)
+    relationship, rel_reason = source.source_relationship, source.source_relationship_reason
     source_type = _source_type_for(relationship, context)
 
     # --- CSV fields + pet facts --------------------------------------------
@@ -616,21 +763,21 @@ def run_import(
         entity_identified=bool(name), category_resolved=bool(proposed["category"]),
         missing_required=missing, pet_policy_present=bool(pet_policy),
         pets_allowed_state=pets_state, has_material_conflict=bool(conflicts),
-        multi_entity=structured.multi_entity, required_evidence_mismatch=required_mismatch,
-        ambiguous_present=ambiguous_present, extraction_ok=extraction.ok,
+        multi_entity=source.multi_entity, required_evidence_mismatch=required_mismatch,
+        ambiguous_present=ambiguous_present, extraction_ok=source.extraction_ok,
         text_truncated="normalized_text_truncated_50kb" in snapshot.fetch_warnings))
 
     warnings = list(snapshot.fetch_warnings)
-    if not extraction.ok:
-        warnings.append(extraction.error)
+    if not source.extraction_ok:
+        warnings.append(source.extraction_error)
 
     return _finalize(
         url, context, snapshot, evidence, conflicts, proposed, ",".join(sorted(pet_facts)),
         _pet_facts_pairs(pet_facts), rec, reasons, relationship, rel_reason,
-        extraction.provider, extraction.model, observed_at, created_at,
+        source.extraction_provider, source.extraction_model, observed_at, created_at,
         category_conf=category_conf, geo_conf=geo_conf,
-        multi_entity=structured.multi_entity, missing=missing, warnings=tuple(warnings),
-        prompt_version=extraction.prompt_version)
+        multi_entity=source.multi_entity, missing=missing, warnings=tuple(warnings),
+        prompt_version=source.prompt_version)
 
 
 def _pet_facts_pairs(pet_facts: Dict[str, str]) -> Tuple[Tuple[str, str], ...]:
@@ -696,8 +843,23 @@ def _ev_to_dict(e: ExtractedEvidence) -> dict:
     }
 
 
-def candidate_to_dict(c: CandidateListing) -> dict:
+def _source_record_to_dict(s: SourceRecord) -> dict:
     return {
+        "source_id": s.source_id, "requested_url": s.requested_url,
+        "final_url": s.final_url, "role": s.role, "usable": s.usable,
+        "fetch_reason": s.fetch_reason, "excluded_reason": s.excluded_reason,
+        "source_relationship": s.source_relationship,
+        "source_relationship_reason": s.source_relationship_reason,
+        "snapshot": s.snapshot.to_dict() if s.snapshot is not None else None,
+        "extraction_provider": s.extraction_provider,
+        "extraction_model": s.extraction_model,
+        "prompt_version": s.prompt_version,
+        "warnings": list(s.warnings),
+    }
+
+
+def candidate_to_dict(c: CandidateListing) -> dict:
+    d = {
         "candidate_id": c.candidate_id, "created_at": c.created_at,
         "context": c.context.__dict__,
         "snapshot": c.snapshot.to_dict(),
@@ -728,6 +890,12 @@ def candidate_to_dict(c: CandidateListing) -> dict:
         "operator_edits": [list(e) for e in c.operator_edits],
         "approval_metadata": [list(p) for p in c.approval_metadata],
     }
+    # AES-DATA-002A (additive): omit both keys entirely for an ordinary
+    # single-source candidate so the AES-DATA-001 JSON shape is unchanged.
+    if c.sources or c.aggregation_version:
+        d["sources"] = [_source_record_to_dict(s) for s in c.sources]
+        d["aggregation_version"] = c.aggregation_version
+    return d
 
 
 def _ev_from_dict(d: dict) -> ExtractedEvidence:
@@ -739,9 +907,8 @@ def _ev_from_dict(d: dict) -> ExtractedEvidence:
         support_state=d["support_state"], warnings=tuple(d.get("warnings", ())))
 
 
-def candidate_from_dict(d: dict) -> CandidateListing:
-    snap = d["snapshot"]
-    snapshot = SourceSnapshot(
+def _snapshot_from_dict(snap: dict) -> SourceSnapshot:
+    return SourceSnapshot(
         requested_url=snap["requested_url"], final_url=snap["final_url"],
         observed_at=snap["observed_at"], http_status=snap["http_status"],
         content_type=snap["content_type"],
@@ -754,6 +921,26 @@ def candidate_from_dict(d: dict) -> CandidateListing:
         extraction_version=snap["extraction_version"],
         fetch_warnings=tuple(snap["fetch_warnings"]),
         source_relationship=snap["source_relationship"])
+
+
+def _source_record_from_dict(d: dict) -> SourceRecord:
+    snap = d.get("snapshot")
+    return SourceRecord(
+        source_id=d["source_id"], requested_url=d["requested_url"],
+        final_url=d["final_url"], role=d["role"], usable=d["usable"],
+        fetch_reason=d.get("fetch_reason", ""),
+        excluded_reason=d.get("excluded_reason", ""),
+        source_relationship=d.get("source_relationship", ""),
+        source_relationship_reason=d.get("source_relationship_reason", ""),
+        snapshot=_snapshot_from_dict(snap) if snap else None,
+        extraction_provider=d.get("extraction_provider", ""),
+        extraction_model=d.get("extraction_model", ""),
+        prompt_version=d.get("prompt_version", ""),
+        warnings=tuple(d.get("warnings", ())))
+
+
+def candidate_from_dict(d: dict) -> CandidateListing:
+    snapshot = _snapshot_from_dict(d["snapshot"])
     return CandidateListing(
         candidate_id=d["candidate_id"], created_at=d["created_at"],
         context=ImportContext(**d["context"]), snapshot=snapshot,
@@ -781,7 +968,9 @@ def candidate_from_dict(d: dict) -> CandidateListing:
         recommendation_reasons=tuple(d["recommendation_reasons"]),
         review_status=d["review_status"],
         operator_edits=tuple(tuple(e) for e in d.get("operator_edits", ())),
-        approval_metadata=tuple(tuple(p) for p in d.get("approval_metadata", ())))
+        approval_metadata=tuple(tuple(p) for p in d.get("approval_metadata", ())),
+        sources=tuple(_source_record_from_dict(s) for s in d.get("sources", ())),
+        aggregation_version=d.get("aggregation_version", ""))
 
 
 def dumps_candidate(c: CandidateListing) -> str:
@@ -847,7 +1036,8 @@ def apply_operator_edits(
         recommendation=c.recommendation, recommendation_reasons=c.recommendation_reasons,
         review_status=c.review_status,
         operator_edits=c.operator_edits + tuple(diffs),
-        approval_metadata=c.approval_metadata + (("edited_at", decided_at),))
+        approval_metadata=c.approval_metadata + (("edited_at", decided_at),),
+        sources=c.sources, aggregation_version=c.aggregation_version)
     return (edited, tuple(diffs))
 
 

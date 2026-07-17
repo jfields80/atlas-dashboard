@@ -146,6 +146,31 @@ class ImportContext:
     source_relationship_hint: str = ""
 
 
+# --------------------------------------------------------------------------- #
+# Source record (AES-DATA-002A contract; additive). One supplied URL's
+# outcome within a candidate: single-source candidates carry an empty
+# ``sources`` tuple on ``CandidateListing`` (unchanged shape); a future
+# multi-source aggregate populates one ``SourceRecord`` per supplied URL.
+# --------------------------------------------------------------------------- #
+
+@dataclass(frozen=True)
+class SourceRecord:
+    source_id: str
+    requested_url: str
+    final_url: str
+    role: str
+    usable: bool
+    fetch_reason: str
+    excluded_reason: str
+    source_relationship: str
+    source_relationship_reason: str
+    snapshot: Optional[SourceSnapshot]
+    extraction_provider: str = ""
+    extraction_model: str = ""
+    prompt_version: str = ""
+    warnings: Tuple[str, ...] = ()
+
+
 @dataclass(frozen=True)
 class CandidateListing:
     candidate_id: str
@@ -172,6 +197,10 @@ class CandidateListing:
     review_status: str
     operator_edits: Tuple[Tuple[str, str, str], ...] = ()   # (field, old, new)
     approval_metadata: Tuple[Tuple[str, str], ...] = ()
+    # AES-DATA-002A (additive; defaults preserve the AES-DATA-001 shape): a
+    # single-source candidate carries sources=() and aggregation_version="".
+    sources: Tuple[SourceRecord, ...] = ()
+    aggregation_version: str = ""
 
     def proposed_dict(self) -> dict:
         return {k: v for k, v in self.proposed_fields}

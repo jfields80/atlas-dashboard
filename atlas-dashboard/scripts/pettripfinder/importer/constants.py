@@ -13,7 +13,8 @@ from __future__ import annotations
 
 EXTRACTION_VERSION = "1.0.0"          # deterministic snapshot+pipeline revision
 PROMPT_VERSION = "1.0.0"              # LLM prompt/schema revision
-IMPORTER_VERSION = "1.0.0"
+IMPORTER_VERSION = "1.1.0"            # AES-DATA-002A: additive multi-source contracts
+AGGREGATION_VERSION = "1.0.0"         # source-set aggregation schema revision
 
 
 # --------------------------------------------------------------------------- #
@@ -28,6 +29,7 @@ CONNECT_TIMEOUT_SECONDS = 10
 READ_TIMEOUT_SECONDS = 15
 LLM_MAX_TOKENS = 2048
 LLM_MALFORMED_RETRIES = 1                     # one retry only
+MAX_AGGREGATE_SOURCES = 4                     # AES-DATA-002 source-set cap
 
 USER_AGENT = "AtlasImporter/1.0 (+https://pettripfinder.com; official-source importer)"
 
@@ -138,6 +140,16 @@ THIRD_PARTY_HOST_MARKERS = (
 
 
 # --------------------------------------------------------------------------- #
+# Source roles (AES-DATA-002; additive). Deterministically assigned by
+# supply order -- never operator-supplied, never model-proposed. Not yet
+# consumed by any aggregation logic in this phase.
+# --------------------------------------------------------------------------- #
+
+SOURCE_ROLE_PRIMARY = "PRIMARY"
+SOURCE_ROLE_SUPPLEMENTAL = "SUPPLEMENTAL"
+
+
+# --------------------------------------------------------------------------- #
 # Failure / condition reason slugs (mission section 31). Centralized set.
 # --------------------------------------------------------------------------- #
 
@@ -172,6 +184,14 @@ REASON_DUPLICATE_INVENTORY_ROW = "duplicate_inventory_row"
 REASON_STAGING_VALIDATION_FAILED = "staging_validation_failed"
 REASON_PROMOTION_CONFIRMATION_REQUIRED = "promotion_confirmation_required"
 
+# AES-DATA-002 multi-source aggregation reason slugs -- registered now,
+# consumed by a later aggregation phase, never emitted by the current
+# single-source pipeline.
+REASON_IDENTITY_CONFLICT = "identity_conflict"
+REASON_GEOGRAPHY_CONFLICT = "geography_conflict"
+REASON_POLICY_CONFLICT = "policy_conflict"
+REASON_INCOMPLETE_SOURCE_SET = "incomplete_source_set"
+
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
@@ -184,6 +204,8 @@ REASON_SLUGS = frozenset({
     REASON_MISSING_REQUIRED_FIELD, REASON_UNCERTAIN_SOURCE_RELATIONSHIP,
     REASON_DUPLICATE_CANDIDATE, REASON_DUPLICATE_INVENTORY_ROW,
     REASON_STAGING_VALIDATION_FAILED, REASON_PROMOTION_CONFIRMATION_REQUIRED,
+    REASON_IDENTITY_CONFLICT, REASON_GEOGRAPHY_CONFLICT, REASON_POLICY_CONFLICT,
+    REASON_INCOMPLETE_SOURCE_SET,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).
