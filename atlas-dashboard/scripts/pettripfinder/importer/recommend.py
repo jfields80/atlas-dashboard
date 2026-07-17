@@ -28,6 +28,12 @@ class RecommendationInput:
     ambiguous_present: bool
     extraction_ok: bool
     text_truncated: bool
+    # AES-DATA-002B multi-source aggregation signals (defaulted: every
+    # existing single-source constructor call remains valid and unaffected).
+    sources_excluded: bool = False           # a supplemental was gated out or failed
+    aggregate_identity_conflict: bool = False
+    aggregate_geography_conflict: bool = False
+    aggregate_policy_conflict: bool = False  # a pooled pet-fact conflict
 
 
 def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
@@ -50,7 +56,14 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         return (C.RECOMMEND_REJECT, (C.REASON_NO_PETS,))
     if not inp.entity_identified:
         return (C.RECOMMEND_REJECT, (C.REASON_ENTITY_MISMATCH,))
-    if not inp.pet_policy_present and inp.pets_allowed_state != "true":
+    # A pooled aggregate policy conflict (e.g. one source says pets_allowed
+    # true, another says false) means genuine pet-related evidence DOES
+    # exist -- it just disagrees. REVIEW is the correct outcome; the
+    # no-pet-evidence REJECT below would be actively misleading, so an
+    # aggregate policy conflict withdraws it (AES-DATA-002B doctrine: "mixed
+    # true/false -> policy_conflict REVIEW, never automatic REJECT").
+    if (not inp.pet_policy_present and inp.pets_allowed_state != "true"
+            and not inp.aggregate_policy_conflict):
         return (C.RECOMMEND_REJECT, (C.REASON_NO_PET_EVIDENCE,))
     if inp.required_evidence_mismatch:
         return (C.RECOMMEND_REJECT, (C.REASON_EVIDENCE_MISMATCH,))
@@ -72,6 +85,14 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         reasons.append(C.REASON_CONFLICTING_EVIDENCE if False else "ambiguous_field")
     if inp.text_truncated and not inp.pet_policy_present:
         reasons.append("truncated_source_missing_policy")
+    if inp.sources_excluded:
+        reasons.append(C.REASON_INCOMPLETE_SOURCE_SET)
+    if inp.aggregate_identity_conflict:
+        reasons.append(C.REASON_IDENTITY_CONFLICT)
+    if inp.aggregate_geography_conflict:
+        reasons.append(C.REASON_GEOGRAPHY_CONFLICT)
+    if inp.aggregate_policy_conflict:
+        reasons.append(C.REASON_POLICY_CONFLICT)
 
     if reasons:
         return (C.RECOMMEND_REVIEW, tuple(reasons))

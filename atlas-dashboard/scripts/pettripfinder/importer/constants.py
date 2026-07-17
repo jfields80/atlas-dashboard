@@ -184,13 +184,19 @@ REASON_DUPLICATE_INVENTORY_ROW = "duplicate_inventory_row"
 REASON_STAGING_VALIDATION_FAILED = "staging_validation_failed"
 REASON_PROMOTION_CONFIRMATION_REQUIRED = "promotion_confirmation_required"
 
-# AES-DATA-002 multi-source aggregation reason slugs -- registered now,
-# consumed by a later aggregation phase, never emitted by the current
-# single-source pipeline.
+# AES-DATA-002 multi-source aggregation reason slugs. The first four are
+# aggregate-level recommendation reasons (AES-DATA-002A registered them;
+# AES-DATA-002B is the first phase to emit them). The next three are
+# per-source SourceRecord.excluded_reason values (AES-DATA-002B) -- distinct
+# from the aggregate reasons because a SourceRecord names WHY that one
+# source was dropped, not why the whole candidate needs review.
 REASON_IDENTITY_CONFLICT = "identity_conflict"
 REASON_GEOGRAPHY_CONFLICT = "geography_conflict"
 REASON_POLICY_CONFLICT = "policy_conflict"
 REASON_INCOMPLETE_SOURCE_SET = "incomplete_source_set"
+REASON_DUPLICATE_SOURCE_URL = "duplicate_source_url"
+REASON_DIFFERENT_REGISTRABLE_DOMAIN = "different_registrable_domain"
+REASON_THIRD_PARTY_SOURCE = "third_party_source"
 
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
@@ -205,7 +211,8 @@ REASON_SLUGS = frozenset({
     REASON_DUPLICATE_CANDIDATE, REASON_DUPLICATE_INVENTORY_ROW,
     REASON_STAGING_VALIDATION_FAILED, REASON_PROMOTION_CONFIRMATION_REQUIRED,
     REASON_IDENTITY_CONFLICT, REASON_GEOGRAPHY_CONFLICT, REASON_POLICY_CONFLICT,
-    REASON_INCOMPLETE_SOURCE_SET,
+    REASON_INCOMPLETE_SOURCE_SET, REASON_DUPLICATE_SOURCE_URL,
+    REASON_DIFFERENT_REGISTRABLE_DOMAIN, REASON_THIRD_PARTY_SOURCE,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).

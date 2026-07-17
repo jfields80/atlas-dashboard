@@ -162,8 +162,10 @@ class PageEvidence:
     evidence: Tuple[ExtractedEvidence, ...]
     conflicts: Tuple[Conflict, ...]
     accepted: Dict[str, str]
-    name_candidates: Tuple[Tuple[str, str, int, int, str, str], ...]
-    phone_candidates: Tuple[Tuple[str, str, int, int, str, str], ...]
+    # Each candidate tuple is (value, quote, char_start, char_end, method,
+    # support, source_url).
+    name_candidates: Tuple[Tuple[str, str, int, int, str, str, str], ...]
+    phone_candidates: Tuple[Tuple[str, str, int, int, str, str, str], ...]
     required_evidence_mismatch: bool
 
 
@@ -182,16 +184,20 @@ def _collect_page_evidence(
     # handled by role-aware resolution below, not the generic field path.
     evidence: List[ExtractedEvidence] = []
     accepted: Dict[str, str] = {}
-    phone_candidates: List[Tuple[str, str, int, int, str, str]] = []
-    name_candidates: List[Tuple[str, str, int, int, str, str]] = []
+    # Candidate pool tuples carry ``source_url`` as their last element (AES-
+    # DATA-002B) so a future cross-source pool can attribute each candidate's
+    # evidence to the right source; single-page resolution always tags with
+    # this page's own ``source_url``, so single-source behavior is unchanged.
+    phone_candidates: List[Tuple[str, str, int, int, str, str, str]] = []
+    name_candidates: List[Tuple[str, str, int, int, str, str, str]] = []
     for field, sf in struct_by_field.items():
         if field == "phone":
             phone_candidates.append(
-                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED))
+                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED, source_url))
             continue
         if field == "name":
             name_candidates.append(
-                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED))
+                (sf.value, sf.quote, -1, -1, sf.method, C.SUPPORT_SUPPORTED, source_url))
             continue
         norm = _normalize_field_value(field, sf.value)
         if not norm:
@@ -217,12 +223,12 @@ def _collect_page_evidence(
         if fact.field_name == "phone":
             phone_candidates.append(
                 (ev.proposed_value, ev.snapshot_quote, ev.char_start, ev.char_end,
-                 C.METHOD_LLM_TEXT, ev.support_state))
+                 C.METHOD_LLM_TEXT, ev.support_state, source_url))
             continue
         if fact.field_name == "name":
             name_candidates.append(
                 (ev.proposed_value, ev.snapshot_quote, ev.char_start, ev.char_end,
-                 C.METHOD_LLM_TEXT, ev.support_state))
+                 C.METHOD_LLM_TEXT, ev.support_state, source_url))
             continue
         norm = _normalize_field_value(fact.field_name, ev.proposed_value)
         if not norm:
@@ -263,6 +269,30 @@ def _collect_page_evidence(
         required_evidence_mismatch=required_mismatch)
 
 
+def _expected_city_support(
+    accepted: Dict[str, str], snapshot_text: str, context: ImportContext,
+) -> Tuple[str, bool]:
+    """Whether the operator's expected city is supported by this page's own
+    geography (an accepted city/state agreeing with it, or the city's literal
+    presence in the page text), for the context-bound expected-city name-
+    suffix rule (AES-DATA-001 final restaurant-name defect). Returns
+    ``(expected_city, city_supported)``. Reused for both a single page
+    (``_resolve_page_fields``) and an aggregate's PRIMARY page (AES-DATA-002B)."""
+    exp_city = N.normalize_city(context.expected_city)
+    exp_state = N.normalize_state(context.expected_state)
+    page_city = accepted.get("city", "")
+    page_state = accepted.get("state", "")
+    city_supported = bool(exp_city)
+    if city_supported:
+        if page_city:
+            city_supported = page_city.lower() == exp_city.lower()
+        else:
+            city_supported = exp_city.lower() in (snapshot_text or "").lower()
+        if city_supported and exp_state and page_state and page_state != exp_state:
+            city_supported = False
+    return (exp_city, city_supported)
+
+
 def _resolve_page_fields(
     page: PageEvidence,
     snapshot: SourceSnapshot,
@@ -283,7 +313,7 @@ def _resolve_page_fields(
     # number over a central reservation/brand number by precedence; only a
     # same-role collision (or unresolved competing numbers) is a conflict.
     primary_phone, phone_evidence, phone_conflicts = _resolve_phone(
-        list(page.phone_candidates), source_url)
+        list(page.phone_candidates))
     evidence.extend(phone_evidence)
     conflicts.extend(phone_conflicts)
     if primary_phone:
@@ -298,20 +328,10 @@ def _resolve_page_fields(
     # support for it (page city matches when extracted; otherwise the city
     # must at least appear in the snapshot text; a conflicting page city or
     # state withdraws support).
-    exp_city = N.normalize_city(context.expected_city)
-    exp_state = N.normalize_state(context.expected_state)
-    page_city = accepted.get("city", "")
-    page_state = accepted.get("state", "")
-    city_supported = bool(exp_city)
-    if city_supported:
-        if page_city:
-            city_supported = page_city.lower() == exp_city.lower()
-        else:
-            city_supported = exp_city.lower() in (snapshot.normalized_text or "").lower()
-        if city_supported and exp_state and page_state and page_state != exp_state:
-            city_supported = False
+    exp_city, city_supported = _expected_city_support(
+        accepted, snapshot.normalized_text, context)
     primary_name, name_evidence, name_conflicts = _resolve_name(
-        list(page.name_candidates), context, snapshot.normalized_text, source_url,
+        list(page.name_candidates), context, snapshot.normalized_text,
         expected_city=exp_city, expected_city_supported=city_supported)
     evidence.extend(name_evidence)
     conflicts.extend(name_conflicts)
@@ -346,22 +366,26 @@ def _assemble(
 # --------------------------------------------------------------------------- #
 
 def _resolve_phone(
-    phone_candidates: List[Tuple[str, str, int, int, str, str]], source_url: str,
+    phone_candidates: List[Tuple[str, str, int, int, str, str, str]],
 ) -> Tuple[str, List[ExtractedEvidence], List[Conflict]]:
     """Classify each candidate number, preserve all as evidence (with a
     ``phone_role`` marker), pick the single production number by precedence,
     and flag a conflict only for a same-role collision or unresolved
-    materially-competing numbers."""
+    materially-competing numbers. Each candidate tuple ends with its own
+    ``source_url`` (AES-DATA-002B), so a pooled cross-source call attributes
+    evidence to the right source; a single page just tags every candidate
+    with its own URL, so single-source behavior is unchanged."""
     entries: List[Dict[str, str]] = []
     seen_numbers = set()
-    for raw, quote, cs, ce, method, support in phone_candidates:
+    for raw, quote, cs, ce, method, support, cand_source_url in phone_candidates:
         num = N.normalize_phone(raw)
         if not num or num in seen_numbers:
             continue
         seen_numbers.add(num)
         entries.append({
             "num": num, "role": N.classify_phone_role(raw, quote),
-            "quote": quote, "cs": cs, "ce": ce, "method": method, "support": support})
+            "quote": quote, "cs": cs, "ce": ce, "method": method, "support": support,
+            "source_url": cand_source_url})
     if not entries:
         return ("", [], [])
 
@@ -370,7 +394,7 @@ def _resolve_phone(
 
     evidences = [ExtractedEvidence(
         field_name="phone", proposed_value=e["num"], source_wording=e["quote"],
-        source_url=source_url, snapshot_quote=e["quote"], char_start=e["cs"],
+        source_url=e["source_url"], snapshot_quote=e["quote"], char_start=e["cs"],
         char_end=e["ce"], extraction_method=e["method"], support_state=e["support"],
         warnings=("phone_role:%s" % e["role"],)) for e in ordered]
 
@@ -435,27 +459,32 @@ def _reconciles_with_resolved(
 
 
 def _resolve_name(
-    name_candidates: List[Tuple[str, str, int, int, str, str]],
-    context: ImportContext, snapshot_text: str, source_url: str,
+    name_candidates: List[Tuple[str, str, int, int, str, str, str]],
+    context: ImportContext, snapshot_text: str,
     *, expected_city: str = "", expected_city_supported: bool = False,
 ) -> Tuple[str, List[ExtractedEvidence], List[Conflict]]:
     """Preserve all name evidence, select the entity name by precedence
     (operator hint > LLM/heading > structured > branded title), then
     reconcile every remaining candidate against the resolved authoritative
-    name -- conflicting only on candidates that fail reconciliation."""
+    name -- conflicting only on candidates that fail reconciliation. Each
+    candidate tuple ends with its own ``source_url`` (AES-DATA-002B): a
+    pooled cross-source call attributes evidence to the right source; a
+    single page tags every candidate with its own URL, so single-source
+    behavior is unchanged."""
     entries: List[Dict[str, str]] = []
-    for value, quote, cs, ce, method, support in name_candidates:
+    for value, quote, cs, ce, method, support, cand_source_url in name_candidates:
         nv = N.normalize_name(value)
         if not nv:
             continue
         entries.append({"value": nv, "quote": quote, "cs": cs, "ce": ce,
-                        "method": method, "support": support})
+                        "method": method, "support": support,
+                        "source_url": cand_source_url})
     if not entries:
         return ("", [], [])
 
     evidences = [ExtractedEvidence(
         field_name="name", proposed_value=e["value"], source_wording=e["quote"],
-        source_url=source_url, snapshot_quote=e["quote"], char_start=e["cs"],
+        source_url=e["source_url"], snapshot_quote=e["quote"], char_start=e["cs"],
         char_end=e["ce"], extraction_method=e["method"], support_state=e["support"],
         warnings=("name_source:%s" % e["method"],)) for e in entries]
 
@@ -810,11 +839,17 @@ def _finalize(
     pet_facts_pairs, rec, reasons, relationship, rel_reason, provider, model,
     observed_at, created_at, *, category_conf, geo_conf, multi_entity,
     missing=(), warnings=(), prompt_version=C.PROMPT_VERSION,
+    sources=(), aggregation_version="", candidate_id=None,
 ) -> CandidateListing:
+    """``sources``/``aggregation_version``/``candidate_id`` are AES-DATA-002B
+    additions for the aggregate path (``aggregate.py``); every existing
+    single-source call site omits them and keeps its exact prior output
+    (``sources=()``, ``aggregation_version=""``, the existing single-URL id)."""
     ambiguous_fields = tuple(sorted({
         e.field_name for e in evidence if e.support_state == C.SUPPORT_AMBIGUOUS}))
     return CandidateListing(
-        candidate_id=make_candidate_id(url, observed_at),
+        candidate_id=candidate_id if candidate_id is not None
+        else make_candidate_id(url, observed_at),
         created_at=created_at, context=context, snapshot=snapshot,
         proposed_fields=tuple((k, proposed.get(k, "")) for k in C.SEED_CSV_COLUMNS),
         pet_facts=pet_facts_pairs, evidence=tuple(evidence),
@@ -826,6 +861,7 @@ def _finalize(
         prompt_version=prompt_version, extraction_version=C.EXTRACTION_VERSION,
         recommendation=rec, recommendation_reasons=tuple(reasons),
         review_status=C.REVIEW_PENDING,
+        sources=sources, aggregation_version=aggregation_version,
     )
 
 
