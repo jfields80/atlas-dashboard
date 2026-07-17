@@ -84,6 +84,13 @@ _PAGE_PURPOSE_STRONG = frozenset({
     "faq", "faqs", "frequently", "asked", "questions", "contact", "hours",
     "parking", "locations", "location", "visit", "about", "menu", "menus",
     "gallery", "directions", "reservations", "reservation",
+    # AES-DATA-002D live taproom-title defect: a whole isolated segment
+    # naming a location/venue TYPE (not a brand) reads as a page label, the
+    # same way "menu"/"gallery"/"directions" already do. Only fires as an
+    # ISOLATED separator-delimited segment (see looks_like_page_purpose) --
+    # a literal two-word name like "Taproom Coffee" has no separator, so
+    # clean_entity_name never even reaches this check for it.
+    "taproom",
 })
 _PAGE_PURPOSE_WEAK = frozenset({
     "more", "info", "information", "overview", "details", "and", "us", "our",
@@ -177,6 +184,83 @@ def expected_city_suffix_compatible(
         return False
     base = r[: -len(suffix)].strip()
     return bool(base) and a == base
+
+
+# --------------------------------------------------------------------------- #
+# Expected-city+state trailing qualifier (AES-DATA-002D live taproom-title
+# defect). A page/OG title sometimes carries BOTH the expected city and the
+# expected state as a trailing qualifier ("<base> Columbus OH"), one token
+# more than the plain expected-city rule above handles. Deliberately as
+# narrow as that rule: requires BOTH expected_city and expected_state from
+# operator context (never inferred), an EXACT "<city> <state>" trailing
+# pair (never a bare two-letter word stripped from anywhere), and page-
+# geography support. No generic state stripping is added anywhere else.
+# --------------------------------------------------------------------------- #
+
+def expected_city_state_suffix_compatible(
+    resolved: str, alternate: str, expected_city: str, expected_state: str,
+    geography_supported: bool,
+) -> bool:
+    """True when ``resolved`` == "<base> <expected_city> <expected_state>"
+    and ``alternate`` == "<base> <expected_city>" exactly (the SHORT form
+    must NOT itself carry the state, so a competing state can never match).
+    False whenever expected_city/expected_state/geography context is
+    incomplete."""
+    if not (resolved and alternate and expected_city and expected_state
+            and geography_supported):
+        return False
+    r = normalize_name(resolved).lower()
+    a = normalize_name(alternate).lower()
+    city = normalize_name(expected_city).lower()
+    state = normalize_whitespace(expected_state).lower()
+    if not (r and a and city and state):
+        return False
+    long_suffix = " " + city + " " + state
+    short_suffix = " " + city
+    if not r.endswith(long_suffix):
+        return False
+    if not a.endswith(short_suffix) or a.endswith(long_suffix):
+        return False
+    base_long = r[: -len(long_suffix)].strip()
+    base_short = a[: -len(short_suffix)].strip()
+    return bool(base_long) and base_long == base_short
+
+
+# --------------------------------------------------------------------------- #
+# Terminal legal-entity suffix (AES-DATA-002D live taproom-title defect).
+#
+# "Land-Grant Brewing Company" is the legal name of the same entity as the
+# brand name "Land-Grant Brewing" -- but ONLY the trailing whole token is a
+# recognized legal-entity marker (Company/Co/Co.), and stripping it is only
+# ever a COMPARISON step: the caller must still require the resulting base
+# to reconcile through the existing expected-city rule before treating the
+# names as the same entity. This is never a global word removal -- "The
+# Company Bar" (mid-string) and "Craft Beer Company" (whose base "Craft
+# Beer" will not match any real base) are both unaffected/still conflict.
+# --------------------------------------------------------------------------- #
+
+_LEGAL_ENTITY_SUFFIXES = frozenset({"company", "co"})
+
+
+def strip_legal_suffix(name: str) -> str:
+    """Strip a single TERMINAL whole-token legal-entity suffix (Company /
+    Co / Co.) from ``name``. Never touches a non-terminal occurrence, never
+    a partial/substring match, never a broader vocabulary (group, hotel,
+    park, restaurant, taproom, ... are never touched here). Returns the
+    name unchanged when the last token is not a recognized suffix, or when
+    stripping it would leave nothing."""
+    n = normalize_whitespace(name)
+    if not n:
+        return n
+    tokens = n.split(" ")
+    if len(tokens) < 2:
+        return n
+    last = tokens[-1].lower().rstrip(".")
+    if last in _LEGAL_ENTITY_SUFFIXES:
+        base = " ".join(tokens[:-1]).strip()
+        if base:
+            return base
+    return n
 
 
 # --------------------------------------------------------------------------- #

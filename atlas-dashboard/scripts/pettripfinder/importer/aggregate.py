@@ -63,6 +63,16 @@ from scripts.pettripfinder.importer.recommend import RecommendationInput, recomm
 # must never silently pick one source's number over another's.
 _NUMERIC_PET_FIELDS = frozenset({"pet_fee", "weight_limit", "pet_count_limit"})
 
+# Conflict.precedence_note values that already have their OWN dedicated
+# aggregate recommendation reason (identity_conflict / geography_conflict /
+# policy_conflict, AES-DATA-002D). Excluded from the generic material-
+# conflict count so the same underlying issue is never reported under both
+# its specific slug and the generic ``conflicting_evidence`` slug.
+_AGGREGATE_SPECIFIC_PRECEDENCE_NOTES = frozenset({
+    "entity_name_canonicalization", "aggregate_geography_conflict",
+    "aggregate_policy_conflict",
+})
+
 
 # --------------------------------------------------------------------------- #
 # Candidate id + URL deduplication (Task 1/2/12).
@@ -177,18 +187,21 @@ def _identity_gate(
     primary_page: PageEvidence, primary_resolved_name: str, primary_text: str,
     supplemental_page: PageEvidence, supplemental_text: str,
     context: ImportContext, expected_city: str, expected_city_supported: bool,
+    expected_state: str = "",
 ) -> str:
     """Returns an ``excluded_reason`` ("" = passes). Name: the supplemental's
     resolved name must reconcile with PRIMARY's (context-bound expected-city
-    suffix rule included, via ``_reconciles_with_resolved``), OR a supported
-    operator ``candidate_name`` hint must reconcile with BOTH pages. Geography:
-    when both sides carry a supported city/state/street address, they must
-    agree (address compared via existing deterministic normalization, never
+    (+state, AES-DATA-002D) suffix and terminal-legal-suffix rules included,
+    via ``_reconciles_with_resolved``), OR a supported operator
+    ``candidate_name`` hint must reconcile with BOTH pages. Geography: when
+    both sides carry a supported city/state/street address, they must agree
+    (address compared via existing deterministic normalization, never
     fuzzy)."""
     supp_resolved = _page_resolved_name(supplemental_page)
     if supp_resolved:
         direct = bool(primary_resolved_name) and _reconciles_with_resolved(
-            primary_resolved_name, supp_resolved, expected_city, expected_city_supported)
+            primary_resolved_name, supp_resolved, expected_city,
+            expected_city_supported, expected_state)
         if not direct:
             hint = N.normalize_name(context.candidate_name)
             hint_ok = False
@@ -217,6 +230,12 @@ def _identity_gate(
     p_state = primary_page.accepted.get("state", "")
     s_state = supplemental_page.accepted.get("state", "")
     if p_state and s_state and p_state != s_state:
+        return C.REASON_GEOGRAPHY_CONFLICT
+    # AES-DATA-002D: the same PRIMARY-silent gap as the city fallback above
+    # -- a supplemental's own state must not contradict the operator's
+    # expected_state just because PRIMARY never stated one.
+    expected_state = N.normalize_state(expected_state) if expected_state else ""
+    if expected_state and s_state and s_state != expected_state:
         return C.REASON_GEOGRAPHY_CONFLICT
     p_addr = primary_page.accepted.get("address", "")
     s_addr = supplemental_page.accepted.get("address", "")
@@ -451,7 +470,7 @@ def run_multi_import(
 
     primary_page = primary_result.page_evidence
     primary_text = primary_result.snapshot.normalized_text
-    exp_city, city_supported = _expected_city_support(
+    exp_city, exp_state, city_supported = _expected_city_support(
         primary_page.accepted, primary_text, context)
     primary_resolved_name = _page_resolved_name(primary_page)
 
@@ -471,7 +490,7 @@ def run_multi_import(
             reason = _identity_gate(
                 primary_page, primary_resolved_name, primary_text,
                 result.page_evidence, result.snapshot.normalized_text,
-                context, exp_city, city_supported)
+                context, exp_city, city_supported, exp_state)
         if reason:
             record = replace(record, excluded_reason=reason)
         gated_records.append(record)
@@ -497,7 +516,8 @@ def run_multi_import(
 
     resolved_name, name_evidence, name_conflicts = _resolve_name(
         pooled_name_candidates, context, primary_text,
-        expected_city=exp_city, expected_city_supported=city_supported)
+        expected_city=exp_city, expected_state=exp_state,
+        expected_city_supported=city_supported)
     pooled_evidence.extend(name_evidence)
     pooled_conflicts.extend(name_conflicts)
 
@@ -606,11 +626,23 @@ def run_multi_import(
         r.excluded_reason == C.REASON_GEOGRAPHY_CONFLICT for r in gated_records)
     aggregate_policy_conflict = bool(pet_conflicts)
 
+    # AES-DATA-002D: a name/geography/policy conflict already surfaces
+    # through its OWN dedicated aggregate reason above -- counting it again
+    # toward the generic ``has_material_conflict`` would emit both
+    # ``conflicting_evidence`` and (e.g.) ``identity_conflict`` for the SAME
+    # underlying issue (the live taproom-title regression's exact reasons:
+    # ["conflicting_evidence", "identity_conflict"]). An intra-page
+    # (structured-vs-LLM) or phone conflict has no dedicated aggregate
+    # reason, so it genuinely is a distinct class and still counts here.
+    has_material_conflict = any(
+        cf.precedence_note not in _AGGREGATE_SPECIFIC_PRECEDENCE_NOTES
+        for cf in pooled_conflicts)
+
     rec, reasons = recommend(RecommendationInput(
         fetch_ok=True, fetch_reason="", source_relationship=relationship,
         entity_identified=bool(name), category_resolved=bool(proposed["category"]),
         missing_required=missing, pet_policy_present=bool(pet_policy),
-        pets_allowed_state=pets_state, has_material_conflict=bool(pooled_conflicts),
+        pets_allowed_state=pets_state, has_material_conflict=has_material_conflict,
         multi_entity=agg_multi_entity, required_evidence_mismatch=agg_required_mismatch,
         ambiguous_present=ambiguous_present,
         extraction_ok=all(r.extraction_ok for _rec, r in included_results),

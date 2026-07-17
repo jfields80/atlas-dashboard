@@ -271,13 +271,14 @@ def _collect_page_evidence(
 
 def _expected_city_support(
     accepted: Dict[str, str], snapshot_text: str, context: ImportContext,
-) -> Tuple[str, bool]:
+) -> Tuple[str, str, bool]:
     """Whether the operator's expected city is supported by this page's own
     geography (an accepted city/state agreeing with it, or the city's literal
-    presence in the page text), for the context-bound expected-city name-
-    suffix rule (AES-DATA-001 final restaurant-name defect). Returns
-    ``(expected_city, city_supported)``. Reused for both a single page
-    (``_resolve_page_fields``) and an aggregate's PRIMARY page (AES-DATA-002B)."""
+    presence in the page text), for the context-bound expected-city (and
+    expected-city+state, AES-DATA-002D) name-suffix rules. Returns
+    ``(expected_city, expected_state, city_supported)``. Reused for both a
+    single page (``_resolve_page_fields``) and an aggregate's PRIMARY page
+    (AES-DATA-002B)."""
     exp_city = N.normalize_city(context.expected_city)
     exp_state = N.normalize_state(context.expected_state)
     page_city = accepted.get("city", "")
@@ -290,7 +291,7 @@ def _expected_city_support(
             city_supported = exp_city.lower() in (snapshot_text or "").lower()
         if city_supported and exp_state and page_state and page_state != exp_state:
             city_supported = False
-    return (exp_city, city_supported)
+    return (exp_city, exp_state, city_supported)
 
 
 def _resolve_page_fields(
@@ -328,11 +329,12 @@ def _resolve_page_fields(
     # support for it (page city matches when extracted; otherwise the city
     # must at least appear in the snapshot text; a conflicting page city or
     # state withdraws support).
-    exp_city, city_supported = _expected_city_support(
+    exp_city, exp_state, city_supported = _expected_city_support(
         accepted, snapshot.normalized_text, context)
     primary_name, name_evidence, name_conflicts = _resolve_name(
         list(page.name_candidates), context, snapshot.normalized_text,
-        expected_city=exp_city, expected_city_supported=city_supported)
+        expected_city=exp_city, expected_state=exp_state,
+        expected_city_supported=city_supported)
     evidence.extend(name_evidence)
     conflicts.extend(name_conflicts)
     if primary_name:
@@ -434,18 +436,21 @@ def _hint_supported(hint: str, entries: List[Dict[str, str]], snapshot_text: str
 
 def _reconciles_with_resolved(
     resolved: str, candidate: str, expected_city: str,
-    expected_city_supported: bool,
+    expected_city_supported: bool, expected_state: str = "",
 ) -> bool:
     """A name candidate reconciles with the resolved authoritative name when
     it denotes the same entity (title-segment rules), when its page-purpose/
     brand-stripped form equals the resolved name, or when the pair differs
-    only by a trailing expected-city qualifier under the context-bound
-    expected-city suffix rule -- in EITHER direction, because the resolved
-    page-derived name may itself be the brand-short form while a branded
-    title reconciles to "<base> <expected_city>" (live Land-Grant
-    regression, candidate landgrantbrewing-com-e70ad5c876). A raw branded
-    title is always reconciled through the stripping rules first -- never
-    compared directly against a shorter alternate."""
+    only by a trailing expected-city (or expected-city+state, AES-DATA-002D)
+    qualifier under the context-bound suffix rules -- in EITHER direction,
+    because the resolved page-derived name may itself be the brand-short
+    form while a branded title reconciles to "<base> <expected_city>" (live
+    Land-Grant regression, candidate landgrantbrewing-com-e70ad5c876). A raw
+    branded title is always reconciled through the stripping rules first --
+    never compared directly against a shorter alternate. ``expected_state``
+    defaults to "" so every pre-002D positional 4-arg call site (including
+    tests that exercise city-only reconciliation) is unaffected -- the new
+    city+state and legal-suffix rules below simply never fire without it."""
     if N.names_compatible(resolved, candidate):
         return True
     reconciled = N.clean_entity_name(candidate)
@@ -454,23 +459,64 @@ def _reconciles_with_resolved(
     if N.expected_city_suffix_compatible(
             resolved, reconciled, expected_city, expected_city_supported):
         return True
-    return N.expected_city_suffix_compatible(
-        reconciled, resolved, expected_city, expected_city_supported)
+    if N.expected_city_suffix_compatible(
+            reconciled, resolved, expected_city, expected_city_supported):
+        return True
+    # City+state trailing qualifier (AES-DATA-002D live taproom-title
+    # defect): "<base> <city> <state>" vs "<base> <city>", either direction.
+    if N.expected_city_state_suffix_compatible(
+            resolved, reconciled, expected_city, expected_state, expected_city_supported):
+        return True
+    if N.expected_city_state_suffix_compatible(
+            reconciled, resolved, expected_city, expected_state, expected_city_supported):
+        return True
+    # Terminal legal-entity suffix (AES-DATA-002D live taproom-title
+    # defect): strip a trailing Company/Co/Co. from EITHER side, then the
+    # result must STILL pass the existing expected-city suffix rule -- the
+    # suffix strip alone never grants reconciliation.
+    stripped_candidate = N.strip_legal_suffix(reconciled)
+    if stripped_candidate != reconciled:
+        if (N.names_compatible(resolved, stripped_candidate)
+                or N.expected_city_suffix_compatible(
+                    resolved, stripped_candidate, expected_city, expected_city_supported)
+                or N.expected_city_suffix_compatible(
+                    stripped_candidate, resolved, expected_city, expected_city_supported)):
+            return True
+    stripped_resolved = N.strip_legal_suffix(resolved)
+    if stripped_resolved != resolved:
+        if (N.names_compatible(stripped_resolved, reconciled)
+                or N.expected_city_suffix_compatible(
+                    stripped_resolved, reconciled, expected_city, expected_city_supported)
+                or N.expected_city_suffix_compatible(
+                    reconciled, stripped_resolved, expected_city, expected_city_supported)):
+            return True
+    return False
 
 
 def _resolve_name(
     name_candidates: List[Tuple[str, str, int, int, str, str, str]],
     context: ImportContext, snapshot_text: str,
-    *, expected_city: str = "", expected_city_supported: bool = False,
+    *, expected_city: str = "", expected_state: str = "",
+    expected_city_supported: bool = False,
 ) -> Tuple[str, List[ExtractedEvidence], List[Conflict]]:
     """Preserve all name evidence, select the entity name by precedence
     (operator hint > LLM/heading > structured > branded title), then
-    reconcile every remaining candidate against the resolved authoritative
-    name -- conflicting only on candidates that fail reconciliation. Each
-    candidate tuple ends with its own ``source_url`` (AES-DATA-002B): a
-    pooled cross-source call attributes evidence to the right source; a
-    single page tags every candidate with its own URL, so single-source
-    behavior is unchanged."""
+    reconcile every remaining candidate against the PUBLISHED authoritative
+    name (AES-DATA-002D fix: reconciliation must test against ``primary`` --
+    the name actually selected and shown to the operator -- not the interim
+    ``resolved`` pick that a supported operator hint can override; testing
+    against ``resolved`` let a candidate that only reconciles with the hint
+    form spuriously conflict). Each pooled candidate is evaluated
+    INDEPENDENTLY: only candidates that fail reconciliation enter the
+    conflict's ``competing_values``/``evidence`` -- a candidate that already
+    reconciles is never dragged into an unresolved conflict merely because
+    a DIFFERENT candidate failed (live Land-Grant taproom-title regression,
+    candidate landgrantbrewing-com-1b02fab45f). Every candidate's own
+    evidence row is still returned unconditionally regardless of conflict
+    membership. Each candidate tuple ends with its own ``source_url``
+    (AES-DATA-002B): a pooled cross-source call attributes evidence to the
+    right source; a single page tags every candidate with its own URL, so
+    single-source behavior is unchanged."""
     entries: List[Dict[str, str]] = []
     for value, quote, cs, ce, method, support, cand_source_url in name_candidates:
         nv = N.normalize_name(value)
@@ -491,27 +537,55 @@ def _resolve_name(
     # Resolve the authoritative page-derived name FIRST (AES-DATA-001 final
     # restaurant-name defect: raw alternates were compared pairwise, so an
     # already-reconcilable branded title still conflicted with a supported
-    # brand-short form). Conflict collection then reconciles each candidate
-    # against this resolved name.
+    # brand-short form).
     best = min(entries, key=lambda e: _NAME_METHOD_RANK.get(e["method"], 3))
     resolved = N.clean_entity_name(best["value"])
 
-    conflicts: List[Conflict] = []
-    incompatible = any(
-        not _reconciles_with_resolved(
-            resolved, e["value"], expected_city, expected_city_supported)
-        for e in entries)
-    if incompatible:
-        conflicts.append(Conflict(
-            field_name="name", competing_values=tuple(e["value"] for e in entries),
-            evidence=tuple(evidences), precedence_note="entity_name_canonicalization",
-            resolution_status="UNRESOLVED"))
-
+    # Select the PUBLISHED name (operator hint, when the page supports it,
+    # otherwise the resolved pick) BEFORE conflict detection -- every
+    # candidate reconciles against what is actually published, not an
+    # interim value the hint may override.
     hint = N.normalize_name(context.candidate_name)
+    hint_directly_anchored = bool(hint) and any(
+        N.names_compatible(hint, e["value"]) for e in entries)
     if hint and _hint_supported(hint, entries, snapshot_text):
         primary = hint
     else:
         primary = resolved
+
+    # A candidate reconciles against the published ``primary``. When the
+    # hint itself is NOT directly anchored to any real page candidate (its
+    # only support is the weaker literal-substring-in-snapshot-text path --
+    # e.g. an operator hint like "Scioto Audubon Metro Park" that adds its
+    # own descriptive words no page title could ever be expected to
+    # suffix-match), every candidate ALSO gets a second chance against the
+    # raw page-derived ``resolved`` pick, preserving the established,
+    # page-evidence-only reconciliation graph. This fallback is deliberately
+    # withheld once the hint IS directly anchored to a real candidate
+    # (``names_compatible`` succeeded) -- otherwise a DIFFERENT, genuinely
+    # unrelated candidate could hide behind a trivial self-match against
+    # ``resolved`` even under a wrong expected-city context (live Land-Grant
+    # Dublin safety test). Both anchors go through the identical
+    # deterministic rules -- never a fuzzy widening.
+    allow_resolved_fallback = primary != resolved and not hint_directly_anchored
+
+    conflicts: List[Conflict] = []
+    failing_idx = [
+        i for i, e in enumerate(entries)
+        if not (_reconciles_with_resolved(
+                    primary, e["value"], expected_city, expected_city_supported, expected_state)
+                or (allow_resolved_fallback and _reconciles_with_resolved(
+                        resolved, e["value"], expected_city, expected_city_supported, expected_state)))
+    ]
+    if failing_idx:
+        failing_values = tuple(dict.fromkeys(entries[i]["value"] for i in failing_idx))
+        conflicts.append(Conflict(
+            field_name="name",
+            competing_values=(primary,) + failing_values,
+            evidence=tuple(evidences[i] for i in failing_idx),
+            precedence_note="entity_name_canonicalization",
+            resolution_status="UNRESOLVED"))
+
     return (primary, evidences, conflicts)
 
 
