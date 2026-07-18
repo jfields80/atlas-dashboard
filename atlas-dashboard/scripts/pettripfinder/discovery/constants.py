@@ -119,6 +119,37 @@ MERGE_REASONS = frozenset({
 CONFLICT_ADDRESS_MISMATCH = "conflicting_address"
 CONFLICT_CATEGORY_MISMATCH = "conflicting_category"
 CONFLICT_WEBSITE_MISMATCH = "conflicting_website"
+# AES-DATA-004B Phase 4: same address, materially different names (a
+# rebrand, or two distinct tenants sharing one street address) -- flagged,
+# never silently merged.
+CONFLICT_NAME_MISMATCH = "conflicting_name"
+
+# --------------------------------------------------------------------------- #
+# Import-planning next actions (AES-DATA-004B Phase 10). Deterministic,
+# priority-ordered classification of what should happen to a candidate
+# next -- never a verified fact, never a pet-friendliness claim.
+# --------------------------------------------------------------------------- #
+
+NEXT_ACTION_EXCLUDE_CLOSED = "EXCLUDE_CLOSED"
+NEXT_ACTION_REVIEW_OUT_OF_SCOPE = "REVIEW_OUT_OF_SCOPE"
+NEXT_ACTION_REVIEW_IDENTITY = "REVIEW_IDENTITY"
+NEXT_ACTION_REVIEW_CONFLICTING_WEBSITE = "REVIEW_CONFLICTING_WEBSITE"
+NEXT_ACTION_RESOLVE_OFFICIAL_WEBSITE = "RESOLVE_OFFICIAL_WEBSITE"
+NEXT_ACTION_MISSING_WEBSITE = "MISSING_WEBSITE"
+NEXT_ACTION_READY_FOR_OFFICIAL_SITE_IMPORT = "READY_FOR_OFFICIAL_SITE_IMPORT"
+NEXT_ACTIONS = frozenset({
+    NEXT_ACTION_EXCLUDE_CLOSED, NEXT_ACTION_REVIEW_OUT_OF_SCOPE,
+    NEXT_ACTION_REVIEW_IDENTITY, NEXT_ACTION_REVIEW_CONFLICTING_WEBSITE,
+    NEXT_ACTION_RESOLVE_OFFICIAL_WEBSITE, NEXT_ACTION_MISSING_WEBSITE,
+    NEXT_ACTION_READY_FOR_OFFICIAL_SITE_IMPORT,
+})
+
+# AES-DATA-004B Phase 5: a resolved OFFICIAL_WEBSITE_PRESENT URL has not
+# been fetched or verified as THIS property's specific page (vs. a chain
+# homepage, booking redirect, franchise-management page, or third-party
+# booking page) -- syntax/domain classification only, disclosed rather than
+# silently assumed location-specific.
+WARNING_LOCATION_PAGE_UNVERIFIED = "location_page_unverified"
 
 REVIEW_STATE_SINGLE_SOURCE = "SINGLE_SOURCE"
 REVIEW_STATE_AUTO_MERGED = "AUTO_MERGED"
@@ -237,6 +268,20 @@ DEFAULT_MAX_OVERPASS_REQUESTS = 0      # explicit opt-in required at CLI/runner
 # --------------------------------------------------------------------------- #
 
 DEDUP_COORD_PROXIMITY_METERS = 150.0
+
+# --------------------------------------------------------------------------- #
+# Query-yield/saturation reporting (AES-DATA-004B Phase 3). A query
+# returning the provider's per-page maximum is only POTENTIALLY saturated
+# (more may exist beyond the cap) -- never treated as proof of completeness.
+# --------------------------------------------------------------------------- #
+
+YIELD_SATURATION_NOT_SATURATED = "NOT_SATURATED"
+YIELD_SATURATION_POTENTIAL = "POTENTIALLY_SATURATED"
+YIELD_SATURATION_TRUNCATED = "TRUNCATED_BY_ELEMENT_CAP"
+YIELD_CACHE_HIT = "CACHE_HIT"
+YIELD_LIVE_CALL = "LIVE_CALL"
+YIELD_DISABLED = "DISABLED"
+YIELD_SKIPPED = "SKIPPED"
 # Provider trust/priority order for picking a candidate's display fields
 # when multiple source records disagree cosmetically -- Google Places is the
 # mission's designated primary business-discovery source.

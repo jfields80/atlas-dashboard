@@ -252,9 +252,18 @@ class GooglePlacesClient:
             if not page_token:
                 break
 
+        # Budget was exhausted before even the first page could be served
+        # (from cache or live) -- SKIPPED_CAP_REACHED, not COMPLETED, so
+        # yield/coverage reporting doesn't mislabel "nothing happened" as
+        # a finished query (bug found and fixed live during Phase 12).
+        final_state = (
+            C.QUERY_STATE_SKIPPED_CAP_REACHED
+            if pages_fetched == 0 and "google_request_budget_exhausted" in warnings
+            else C.QUERY_STATE_COMPLETED
+        )
         return ProviderQueryResult(
             query_id=query.query_id, provider=C.PROVIDER_GOOGLE_PLACES,
-            state=C.QUERY_STATE_COMPLETED, records=tuple(records),
+            state=final_state, records=tuple(records),
             requests_made=requests_made, pages_fetched=pages_fetched,
             cache_hits=cache_hits, warnings=tuple(warnings),
         )

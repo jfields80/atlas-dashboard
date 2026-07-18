@@ -76,6 +76,7 @@ def dry_run_report(config: RunConfig):
         queries, market_id=market.market_id,
         google_key_present=google_key_present(),
         foursquare_key_present=bool(os.environ.get(C.FOURSQUARE_API_KEY_ENV, "").strip()),
+        market=market, categories=config.categories,
     )
     return market, queries, report
 
@@ -114,6 +115,16 @@ def execute_run(
 
     google_budget = RequestBudget(max_requests=config.max_google_requests)
     overpass_budget = RequestBudget(max_requests=config.max_overpass_requests)
+    # NOTE (bug found and fixed live during AES-DATA-004B Phase 12): resume
+    # must NEVER skip a query via the ledger alone -- doing so discarded
+    # that query's already-collected records entirely (the ledger only
+    # stores a state string, never the records), silently losing real data
+    # on every resumed run. The ledger is bookkeeping/reporting only now;
+    # every query -- resumed or not -- always goes through the client's own
+    # cache-first search() path below, which already returns cached
+    # records with zero new live requests when a cache entry exists (proven
+    # in AES-DATA-004A's cache-reuse tests). This is the ONLY resume
+    # mechanism; there is no separate ledger-skip fast path.
     ledger = _load_ledger(config.output_root) if config.resume else {}
 
     results: List[ProviderQueryResult] = []
@@ -122,26 +133,16 @@ def execute_run(
             results.append(ProviderQueryResult(query_id=query.query_id, provider=query.provider,
                                                state=C.QUERY_STATE_DISABLED))
             continue
-        if config.resume and ledger.get(query.query_id) == C.QUERY_STATE_COMPLETED:
-            # Already completed in a prior run against this output_root --
-            # skip without even touching the cache (that is the point of
-            # --resume: avoid redoing known-finished work).
-            results.append(ProviderQueryResult(query_id=query.query_id, provider=query.provider,
-                                               state=C.QUERY_STATE_COMPLETED,
-                                               warnings=("resumed_from_ledger",)))
-            continue
         if query.provider == C.PROVIDER_GOOGLE_PLACES:
-            if not google_budget.can_spend(1):
-                results.append(ProviderQueryResult(query_id=query.query_id, provider=query.provider,
-                                                   state=C.QUERY_STATE_SKIPPED_CAP_REACHED))
-                continue
+            # No budget pre-check here (bug found and fixed live during
+            # Phase 12): GooglePlacesClient.search() already checks cache
+            # BEFORE consulting the budget, per query/page -- a redundant
+            # cache-blind pre-check at this level would skip a fully-cached
+            # query just because the budget happens to be 0, discarding
+            # data that costs nothing to reuse. Let the client decide.
             results.append(google_client.search(query, cache=cache, budget=google_budget,
                                                  observed_at=config.observed_at, bounds=market.bounds))
         elif query.provider == C.PROVIDER_OPENSTREETMAP:
-            if not overpass_budget.can_spend(1):
-                results.append(ProviderQueryResult(query_id=query.query_id, provider=query.provider,
-                                                   state=C.QUERY_STATE_SKIPPED_CAP_REACHED))
-                continue
             results.append(overpass_client.search(query, cache=cache, budget=overpass_budget,
                                                    observed_at=config.observed_at, bounds=market.bounds))
         elif query.provider == C.PROVIDER_FOURSQUARE:

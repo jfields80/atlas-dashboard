@@ -96,6 +96,7 @@ class DiscoveryCandidate:
     conflict_flags: Tuple[str, ...] = ()
     review_state: str = ""
     market_id: str = ""
+    warnings: Tuple[str, ...] = ()                # e.g. "location_page_unverified"
 
     def provider_id_dict(self) -> dict:
         return dict(self.provider_ids)
@@ -127,3 +128,36 @@ class CoverageSummary:
     page_counts: Tuple[Tuple[str, int], ...] = ()        # provider -> count
     cache_hits: Tuple[Tuple[str, int], ...] = ()         # provider -> count
     estimated_billable_google_calls: int = 0
+    # AES-DATA-004B (Phase 3/11 additions). Default-empty so every 004A
+    # caller/test that doesn't pass these is unaffected.
+    query_yield_table: Tuple["QueryYieldRow", ...] = ()
+    saturated_query_ids: Tuple[str, ...] = ()
+    low_yield_query_ids: Tuple[str, ...] = ()
+    zero_result_query_ids: Tuple[str, ...] = ()
+    known_inventory_recall: Tuple[Tuple[str, int], ...] = ()
+    import_plan_next_action_counts: Tuple[Tuple[str, int], ...] = ()
+
+
+# --------------------------------------------------------------------------- #
+# Per-query yield/saturation reporting (AES-DATA-004B Phase 3). Reuses the
+# real ``deduplicate()``/``normalize_records()`` functions to compute
+# cumulative candidate growth -- never a parallel, approximate merge
+# heuristic invented just for reporting.
+# --------------------------------------------------------------------------- #
+
+@dataclass(frozen=True)
+class QueryYieldRow:
+    query_id: str
+    provider: str
+    category: str
+    cell_id: str
+    state: str
+    raw_records_returned: int
+    new_unique_provider_records: int
+    already_found_by_earlier_query: int
+    candidates_added: int
+    candidates_merged_into_existing: int
+    cumulative_unique_candidates: int
+    zero_result: bool
+    saturation_status: str
+    cache_or_live: str

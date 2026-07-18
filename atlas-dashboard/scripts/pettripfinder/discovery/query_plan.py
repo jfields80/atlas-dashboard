@@ -48,8 +48,16 @@ class RequestBudget:
 # --------------------------------------------------------------------------- #
 
 GOOGLE_QUERY_TEMPLATES: Dict[str, Tuple[str, ...]] = {
-    C.CATEGORY_HOTEL: ("pet friendly hotel",),
-    C.CATEGORY_MOTEL: ("pet friendly motel",),
+    # AES-DATA-004B: "pet friendly hotel"/"pet friendly motel" were the
+    # ORIGINAL 004A templates and are a real, now-fixed defect -- a
+    # provider-labeled-pet-friendly-only query biases the discovered
+    # universe toward properties Google already tags as pet-friendly and
+    # would systematically miss hotels whose pet policy has not been
+    # verified anywhere yet. Discovery's job is to find the lodging
+    # universe first; pet-friendliness is verified later against the
+    # official site. Neutral templates only.
+    C.CATEGORY_HOTEL: ("hotel", "lodging"),
+    C.CATEGORY_MOTEL: ("motel", "roadside motel"),
     C.CATEGORY_VETERINARY: ("veterinarian", "animal hospital"),
     C.CATEGORY_EMERGENCY_VETERINARY: ("emergency veterinarian", "24 hour animal hospital"),
     C.CATEGORY_BOARDING: ("pet boarding", "dog boarding kennel"),
@@ -168,6 +176,11 @@ class PlannerReport:
     estimated_upper_bound_overpass_requests: int
     blocked_queries_missing_credential: Tuple[str, ...]
     credentials_available: Tuple[Tuple[str, bool], ...]
+    # AES-DATA-004B additions (Phase 1 plan-report requirements). Both
+    # default-empty so every pre-004B caller (query_plan tests, the 004A
+    # dry-run path) is unaffected when it doesn't pass ``market``.
+    google_templates_by_category: Tuple[Tuple[str, Tuple[str, ...]], ...] = ()
+    overlapping_cell_pairs: Tuple[Tuple[str, str, int], ...] = ()   # (cell_a, cell_b, overlap_meters)
 
 
 def _count_by(queries: Sequence[DiscoverySourceQuery], key) -> Tuple[Tuple[str, int], ...]:
@@ -178,16 +191,44 @@ def _count_by(queries: Sequence[DiscoverySourceQuery], key) -> Tuple[Tuple[str, 
     return tuple(sorted(counts.items()))
 
 
+def _predicted_overlapping_cell_pairs(market) -> Tuple[Tuple[str, str, int], ...]:
+    """Pairwise cell-center distance vs. combined radius -- a cheap,
+    deterministic geographic-overlap signal (AES-DATA-004B Phase 1). This
+    does not itself change discovery behavior; it only discloses where
+    duplicate-cost risk is expected so the plan report can show it, per
+    Phase 1's explicit "predicted overlap risk" requirement. Lazily imports
+    ``deduplicate.haversine_meters`` to avoid a needless import cost for
+    every caller that never asks for overlap analysis."""
+    if market is None:
+        return ()
+    from scripts.pettripfinder.discovery.deduplicate import haversine_meters
+    cells = market.cells
+    pairs = []
+    for i in range(len(cells)):
+        for j in range(i + 1, len(cells)):
+            a, b = cells[i], cells[j]
+            dist = haversine_meters(a.center_lat, a.center_lng, b.center_lat, b.center_lng)
+            combined = a.radius_meters + b.radius_meters
+            if dist < combined:
+                pairs.append((a.cell_id, b.cell_id, int(combined - dist)))
+    return tuple(sorted(pairs))
+
+
 def build_planner_report(
     queries: Tuple[DiscoverySourceQuery, ...],
     *,
     market_id: str,
     google_key_present: bool,
     foursquare_key_present: bool,
+    market=None,
+    categories: Sequence[str] = (),
 ) -> PlannerReport:
     """Pure accounting over an already-built query plan. Makes no network
     calls -- this is exactly what the CLI's ``plan``/``--dry-run`` path
-    renders (mission Task 6/12)."""
+    renders (mission Task 6/12). ``market`` and ``categories`` are optional
+    (AES-DATA-004B additions) -- omitting them simply leaves
+    ``overlapping_cell_pairs``/``google_templates_by_category`` empty,
+    matching every pre-004B call site's existing behavior exactly."""
     enabled = [q for q in queries if q.enabled]
     google_queries = [q for q in enabled if q.provider == C.PROVIDER_GOOGLE_PLACES]
     overpass_queries = [q for q in enabled if q.provider == C.PROVIDER_OPENSTREETMAP]
@@ -201,6 +242,11 @@ def build_planner_report(
     max_possible = sum(q.max_pages for q in google_queries) + len(overpass_queries)
     google_upper_bound = sum(q.max_pages for q in google_queries) if google_key_present else 0
     overpass_upper_bound = len(overpass_queries)
+
+    templates_used = tuple(sorted(
+        (category, GOOGLE_QUERY_TEMPLATES[category])
+        for category in categories if category in GOOGLE_QUERY_TEMPLATES
+    ))
 
     return PlannerReport(
         market_id=market_id,
@@ -217,4 +263,6 @@ def build_planner_report(
             (C.PROVIDER_OPENSTREETMAP, True),
             (C.PROVIDER_FOURSQUARE, foursquare_key_present),
         ),
+        google_templates_by_category=templates_used,
+        overlapping_cell_pairs=_predicted_overlapping_cell_pairs(market),
     )

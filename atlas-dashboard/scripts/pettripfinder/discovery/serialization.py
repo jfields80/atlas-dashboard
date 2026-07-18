@@ -15,6 +15,7 @@ from scripts.pettripfinder.discovery.models import (
     DiscoveryCandidate,
     DiscoveryRecord,
     DiscoverySourceQuery,
+    QueryYieldRow,
 )
 
 
@@ -50,6 +51,7 @@ def candidate_from_dict(d: dict) -> DiscoveryCandidate:
     d["provider_ids"] = tuple(tuple(p) for p in d.get("provider_ids", ()))
     d["category_candidates"] = tuple(d.get("category_candidates", ()))
     d["conflict_flags"] = tuple(d.get("conflict_flags", ()))
+    d["warnings"] = tuple(d.get("warnings", ()))
     return DiscoveryCandidate(**d)
 
 
@@ -61,8 +63,10 @@ _COVERAGE_PAIR_FIELDS = (
     "credentials_available", "records_by_provider", "overlap_by_provider_pair",
     "provider_only_candidates", "counts_by_category", "counts_by_municipality",
     "query_completion", "provider_errors", "request_counts", "page_counts",
-    "cache_hits",
+    "cache_hits", "known_inventory_recall", "import_plan_next_action_counts",
 )
+_COVERAGE_ID_LIST_FIELDS = ("saturated_query_ids", "low_yield_query_ids", "zero_result_query_ids")
+_COVERAGE_ANNOTATION_ONLY_KEYS = ("disclosure", "pet_friendliness_warning", "market_completeness_warning")
 
 
 def coverage_from_dict(d: dict) -> CoverageSummary:
@@ -72,10 +76,16 @@ def coverage_from_dict(d: dict) -> CoverageSummary:
     each such field back via ``.items()``, not by iterating/tuple-ing a
     JSON array (there is no array to iterate)."""
     d = dict(d)
-    d.pop("disclosure", None)   # render_coverage_json's annotation-only field
+    for key in _COVERAGE_ANNOTATION_ONLY_KEYS:
+        d.pop(key, None)
     d["providers_enabled"] = tuple(d.get("providers_enabled", ()))
     for key in _COVERAGE_PAIR_FIELDS:
         d[key] = tuple(sorted(d.get(key, {}).items()))
+    for key in _COVERAGE_ID_LIST_FIELDS:
+        d[key] = tuple(d.get(key, ()))
+    d["query_yield_table"] = tuple(
+        QueryYieldRow(**row) for row in d.get("query_yield_table", ())
+    )
     return CoverageSummary(**d)
 
 

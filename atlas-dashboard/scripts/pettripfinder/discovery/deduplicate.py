@@ -116,30 +116,47 @@ def _addresses_conflict(a: DiscoveryRecord, b: DiscoveryRecord) -> bool:
     return addr_a != addr_b and not _address_overlaps(a, b)
 
 
-def merge_reason_for_pair(a: DiscoveryRecord, b: DiscoveryRecord) -> Tuple[Optional[str], bool]:
-    """Returns ``(reason_or_None, conflict_flagged)``."""
+def _names_materially_conflict(a: DiscoveryRecord, b: DiscoveryRecord) -> bool:
+    """True only when BOTH records actively assert a name and those names
+    are not compatible (AES-DATA-004B Phase 4 scenario 6 -- a rebrand at
+    the same address). A record with no name at all is silent, not
+    conflicting -- it must never trigger this on its own (the common,
+    legitimate case of an OSM element with no ``name`` tag matching a
+    named Google record must still merge normally)."""
+    return bool(a.normalized_name) and bool(b.normalized_name) and not _names_compatible(a, b)
+
+
+def merge_reason_for_pair(a: DiscoveryRecord, b: DiscoveryRecord) -> Tuple[Optional[str], Optional[str]]:
+    """Returns ``(merge_reason_or_None, conflict_reason_or_None)``."""
     if a.provider == b.provider and a.provider_record_id and a.provider_record_id == b.provider_record_id:
-        return (C.MERGE_REASON_SAME_PROVIDER_ID, False)
+        return (C.MERGE_REASON_SAME_PROVIDER_ID, None)
 
     addr_a, addr_b = _address_key(a), _address_key(b)
     if addr_a is not None and addr_a == addr_b:
-        return (C.MERGE_REASON_SAME_ADDRESS, False)
+        # Same address is normally sufficient alone -- but a materially
+        # different name at that SAME address (a rebrand, or two distinct
+        # tenants sharing one street address) must not be silently
+        # laundered into a merge; it becomes a flagged, unmerged conflict
+        # instead (doctrine: never weaken conservative merge rules).
+        if _names_materially_conflict(a, b):
+            return (None, C.CONFLICT_NAME_MISMATCH)
+        return (C.MERGE_REASON_SAME_ADDRESS, None)
 
     if a.phone and a.phone == b.phone and _names_compatible(a, b):
         if _addresses_conflict(a, b):
-            return (None, True)
-        return (C.MERGE_REASON_PHONE_PLUS_NAME, False)
+            return (None, C.CONFLICT_ADDRESS_MISMATCH)
+        return (C.MERGE_REASON_PHONE_PLUS_NAME, None)
 
     dom_a, dom_b = _domain_key(a), _domain_key(b)
     if dom_a and dom_a == dom_b and _names_compatible(a, b) and _location_matches(a, b):
         if _addresses_conflict(a, b):
-            return (None, True)
-        return (C.MERGE_REASON_DOMAIN_PLUS_NAME_PLUS_ADDRESS, False)
+            return (None, C.CONFLICT_ADDRESS_MISMATCH)
+        return (C.MERGE_REASON_DOMAIN_PLUS_NAME_PLUS_ADDRESS, None)
 
     if _coords_close(a, b) and _names_compatible(a, b) and _address_overlaps(a, b):
-        return (C.MERGE_REASON_COORDS_PLUS_NAME_PLUS_ADDRESS, False)
+        return (C.MERGE_REASON_COORDS_PLUS_NAME_PLUS_ADDRESS, None)
 
-    return (None, False)
+    return (None, None)
 
 
 # --------------------------------------------------------------------------- #
@@ -187,23 +204,24 @@ def deduplicate(records: Sequence[DiscoveryRecord], *, market_id: str = "") -> T
     n = len(ordered)
     uf = _UnionFind(n)
     pair_reasons: Dict[Tuple[int, int], str] = {}
-    # Indices that had a strong-signal-but-conflicting-address pairing with
-    # some OTHER record. Such pairs are never unioned (mission's required
-    # "conflicting addresses remain separate" test), but the tension must
-    # still surface ("represent unresolved conflicts") -- both resulting
-    # (separate) candidates get flagged NEEDS_REVIEW rather than silently
-    # looking clean.
-    conflicted_indices: set = set()
+    # Indices that had a strong-signal-but-conflicting pairing with some
+    # OTHER record (address mismatch or same-address name mismatch). Such
+    # pairs are never unioned (mission's required "conflicting addresses
+    # remain separate" / "rebrand becomes REVIEW" tests), but the tension
+    # must still surface ("represent unresolved conflicts") -- both
+    # resulting (separate) candidates get flagged NEEDS_REVIEW rather than
+    # silently looking clean.
+    conflicted_reasons: Dict[int, set] = {}
 
     for i in range(n):
         for j in range(i + 1, n):
-            reason, conflict = merge_reason_for_pair(ordered[i], ordered[j])
+            reason, conflict_reason = merge_reason_for_pair(ordered[i], ordered[j])
             if reason is not None:
                 uf.union(i, j)
                 pair_reasons[(i, j)] = reason
-            if conflict:
-                conflicted_indices.add(i)
-                conflicted_indices.add(j)
+            if conflict_reason:
+                conflicted_reasons.setdefault(i, set()).add(conflict_reason)
+                conflicted_reasons.setdefault(j, set()).add(conflict_reason)
 
     groups: Dict[int, List[int]] = {}
     for idx in range(n):
@@ -216,18 +234,32 @@ def deduplicate(records: Sequence[DiscoveryRecord], *, market_id: str = "") -> T
             pair_reasons[(i, j)]
             for i in indices for j in indices if i < j and (i, j) in pair_reasons
         })
-        has_conflict = any(idx in conflicted_indices for idx in indices)
+        candidate_conflict_reasons = set()
+        for idx in indices:
+            candidate_conflict_reasons |= conflicted_reasons.get(idx, set())
         best = _best_record(member_records)
         website_state, website_url = classify_candidate_website(tuple(member_records))
         provider_ids = tuple(sorted({(r.provider, r.provider_record_id) for r in member_records}))
         category_candidates = tuple(sorted({r.canonical_category for r in member_records}))
-        conflict_flags = (C.CONFLICT_ADDRESS_MISMATCH,) if has_conflict else ()
+        conflict_flags = tuple(sorted(candidate_conflict_reasons))
         if conflict_flags:
             review_state = C.REVIEW_STATE_NEEDS_REVIEW
         elif len(member_records) == 1:
             review_state = C.REVIEW_STATE_SINGLE_SOURCE
         else:
             review_state = C.REVIEW_STATE_AUTO_MERGED
+
+        # AES-DATA-004B Phase 5: a resolved website is a syntax/domain
+        # classification only -- never fetched, never proven to be THIS
+        # property's specific page rather than a chain homepage, booking
+        # redirect, or franchise-management page. Disclosed on every
+        # candidate that resolves a website at all (not chain-specific --
+        # this module is shared by every discovery category, and the
+        # underlying uncertainty is not unique to lodging).
+        candidate_warnings = (
+            (C.WARNING_LOCATION_PAGE_UNVERIFIED,)
+            if website_state == C.WEBSITE_STATE_OFFICIAL_PRESENT else ()
+        )
 
         candidates.append(DiscoveryCandidate(
             candidate_id=_candidate_id(member_records),
@@ -241,6 +273,7 @@ def deduplicate(records: Sequence[DiscoveryRecord], *, market_id: str = "") -> T
             merge_reason=",".join(reasons), conflict_flags=conflict_flags,
             review_state=review_state,
             market_id=market_id or best.provenance_dict().get("market_id", ""),
+            warnings=candidate_warnings,
         ))
 
     return tuple(sorted(candidates, key=lambda c: c.candidate_id))

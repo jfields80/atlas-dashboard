@@ -40,6 +40,16 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.discovery import constants as C
 from scripts.pettripfinder.discovery.coverage import build_coverage_summary, render_coverage_html, render_coverage_json
 from scripts.pettripfinder.discovery.google_places import api_key_present as google_key_present
+from scripts.pettripfinder.discovery.import_plan import (
+    build_import_plan,
+    dumps_import_plan,
+    next_action_counts,
+)
+from scripts.pettripfinder.discovery.known_inventory import (
+    compute_recall,
+    load_known_hotels,
+    recall_summary_counts,
+)
 from scripts.pettripfinder.discovery.runner import RunConfig, dry_run_report, execute_run
 from scripts.pettripfinder.discovery.serialization import coverage_from_dict, dumps_candidates
 
@@ -84,11 +94,19 @@ def _print_planner_report(report) -> None:
     print("total planned queries           : %d" % report.total_planned_queries)
     print("queries by provider             : %s" % dict(report.queries_by_provider))
     print("queries by category             : %s" % dict(report.queries_by_category))
+    print("queries by cell                 : %s" % dict(report.queries_by_cell))
     print("max possible paginated requests : %d" % report.max_possible_paginated_requests)
     print("est. upper-bound Google calls   : %d" % report.estimated_upper_bound_google_billable_calls)
     print("est. upper-bound Overpass calls : %d" % report.estimated_upper_bound_overpass_requests)
     print("credentials available           : %s" % dict(report.credentials_available))
     print("blocked (missing credential)    : %d" % len(report.blocked_queries_missing_credential))
+    if report.google_templates_by_category:
+        print("Google templates used           : %s" % dict(report.google_templates_by_category))
+    if report.overlapping_cell_pairs:
+        print("predicted overlapping cell pairs: %d (duplicate-cost risk; absorbed by "
+              "same-Place-ID dedup, not a correctness risk)" % len(report.overlapping_cell_pairs))
+        for a, b, overlap_m in report.overlapping_cell_pairs:
+            print("  %s <-> %s (~%dm overlap)" % (a, b, overlap_m))
 
 
 def _add_common_run_args(p: argparse.ArgumentParser) -> None:
@@ -117,6 +135,15 @@ def cmd_plan(args) -> int:
     return 0
 
 
+def _print_run_preamble(config) -> None:
+    print("output root                     : %s" % config.output_root)
+    print("observation date                : %s" % config.observed_at)
+    print("max pages per query             : %d" % config.max_pages_per_query)
+    print("max Google requests (cap)       : %d" % config.max_google_requests)
+    print("max Overpass requests (cap)     : %d" % config.max_overpass_requests)
+    print("Anthropic calls                 : 0 (never used by discovery)")
+
+
 def cmd_run(args) -> int:
     providers = _parse_providers(args.providers)
     categories = _parse_categories(args.categories)
@@ -133,7 +160,10 @@ def cmd_run(args) -> int:
     if args.dry_run:
         _market, _queries, report = dry_run_report(config)
         _print_planner_report(report)
+        _print_run_preamble(config)
         return 0
+
+    _print_run_preamble(config)
 
     if C.PROVIDER_GOOGLE_PLACES in providers and config.max_google_requests <= 0:
         print("WARNING: --max-google-requests not set above 0 -- no live Google "
@@ -149,11 +179,25 @@ def cmd_run(args) -> int:
     candidates_path.parent.mkdir(parents=True, exist_ok=True)
     candidates_path.write_text(dumps_candidates(candidates), encoding="utf-8")
 
+    import_plan_entries = build_import_plan(candidates)
+    import_plan_path = Path(config.output_root) / "import_plan.json"
+    import_plan_path.write_text(dumps_import_plan(import_plan_entries), encoding="utf-8")
+    next_actions = next_action_counts(import_plan_entries)
+
+    known_recall_counts = ()
+    if C.CATEGORY_HOTEL in categories:
+        known_hotels = load_known_hotels()
+        if known_hotels:
+            recall = compute_recall(known_hotels, candidates)
+            known_recall_counts = recall_summary_counts(recall)
+
     summary = build_coverage_summary(
         market=market, observed_at=observed_at, providers_enabled=providers,
         google_key_present=google_key_present(),
         foursquare_key_present=_foursquare_key_present(),
         planned_queries=queries, query_results=results, candidates=candidates,
+        known_inventory_recall=known_recall_counts,
+        import_plan_next_action_counts=next_actions,
     )
     reports_dir = Path(config.output_root) / C.REPORTS_SUBDIR
     reports_dir.mkdir(parents=True, exist_ok=True)
@@ -166,6 +210,10 @@ def cmd_run(args) -> int:
     overpass_requests = sum(r.requests_made for r in results if r.provider == C.PROVIDER_OPENSTREETMAP)
     print("candidates              : %d" % len(candidates))
     print("candidates json         : %s" % candidates_path)
+    print("import plan json        : %s" % import_plan_path)
+    print("next-action counts      : %s" % dict(next_actions))
+    if known_recall_counts:
+        print("known-hotel recall      : %s" % dict(known_recall_counts))
     print("coverage json           : %s" % json_path)
     print("coverage html           : %s" % html_path)
     print("google requests made    : %d" % google_requests)
