@@ -241,3 +241,26 @@ STAGING_AUDIT_NAME = "approved_candidates_audit.jsonl"
 REJECTIONS_NAME = "rejections.jsonl"
 
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5"
+
+
+# --------------------------------------------------------------------------- #
+# AES-WORK-001A -- batch import queue: contracts, manifest, and identity.
+# Additive only; no existing constant above is changed.
+# --------------------------------------------------------------------------- #
+
+BATCHES_SUBDIR = "batches"
+MAX_BATCH_WORKERS = 4
+BATCH_MANIFEST_SCHEMA_VERSION = "1.0"
+BATCH_STATE_VERSION = "1.0"
+BATCH_REPORT_VERSION = "1.0"
+
+REASON_DUPLICATE_JOB_ID = "duplicate_job_id"
+REASON_INVALID_JOB = "invalid_job"
+REASON_UNSAFE_MANIFEST_PATH = "unsafe_manifest_path"
+REASON_INVALID_BATCH_ID = "invalid_batch_id"
+
+BATCH_REASON_SLUGS = frozenset({
+    REASON_DUPLICATE_JOB_ID, REASON_INVALID_JOB, REASON_UNSAFE_MANIFEST_PATH,
+    REASON_INVALID_BATCH_ID,
+})
+REASON_SLUGS = REASON_SLUGS | BATCH_REASON_SLUGS

@@ -1,0 +1,49 @@
+{
+  "manifest_schema_version": "1.0",
+  "batch_id": "columbus-wave-1",
+  "batch_name": "Columbus Wave 1",
+  "defaults": {
+    "expected_state": "OH",
+    "source_relationship_hint": "EXACT_ENTITY_DOMAIN"
+  },
+  "jobs": [
+    {
+      "job_id": "drury-dublin",
+      "candidate_name": "Drury Inn & Suites Columbus Dublin",
+      "category": "hotels",
+      "expected_city": "Dublin",
+      "urls": [
+        "https://www.druryhotels.com/locations/columbus-oh/drury-inn-and-suites-columbus-dublin"
+      ],
+      "static_fixtures": [
+        "tests/pettripfinder/importer/fixtures/hotel_01_strong.json"
+      ]
+    },
+    {
+      "job_id": "scioto-audubon",
+      "candidate_name": "Scioto Audubon",
+      "category": "parks",
+      "expected_city": "Columbus",
+      "urls": [
+        "https://www.metroparks.net/parks-and-trails/scioto-audubon"
+      ],
+      "static_fixtures": [
+        "tests/pettripfinder/importer/fixtures/park_01_offleash.json"
+      ]
+    },
+    {
+      "job_id": "land-grant",
+      "candidate_name": "Land-Grant Brewing Columbus",
+      "category": "restaurants",
+      "expected_city": "Columbus",
+      "urls": [
+        "https://landgrantbrewing.com/faq/",
+        "https://landgrantbrewing.com/taproom/"
+      ],
+      "static_fixtures": [
+        "tests/pettripfinder/importer/fixtures/aggregate_landgrant_faq.json",
+        "tests/pettripfinder/importer/fixtures/aggregate_landgrant_contact.json"
+      ]
+    }
+  ]
+}
