@@ -70,6 +70,18 @@ SEED_CSV_COLUMNS = (
     "amenities", "pet_policy", "canonical",
 )
 
+# Required CSV publish fields for a candidate to be READY (mission section
+# 15). Category-agnostic today across all three importer categories.
+# Canonical home as of AES-DATA-003A (moved from category_templates.py,
+# which re-exports it unchanged, so every existing import keeps working):
+# a pure-leaf home lets scripts/pettripfinder/importer/domain_packs/*.py
+# reference it without importing category_templates.py, which itself will
+# delegate to the domain-pack registry -- avoiding a circular import.
+REQUIRED_CSV_FIELDS = (
+    "name", "category", "address", "city", "state",
+    "website_url", "source_url", "source_type", "observed_at", "pet_policy",
+)
+
 
 # --------------------------------------------------------------------------- #
 # Support states, extraction methods, recommendation, review status.

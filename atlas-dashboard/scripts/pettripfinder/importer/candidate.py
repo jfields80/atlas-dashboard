@@ -23,6 +23,7 @@ from scripts.pettripfinder.importer.category_templates import (
     REQUIRED_CSV_FIELDS,
     allowed_fields,
 )
+from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
 from scripts.pettripfinder.importer.evidence import (
     build_llm_evidence,
     build_structured_evidence,
@@ -985,6 +986,45 @@ def _source_record_to_dict(s: SourceRecord) -> dict:
     }
 
 
+# --------------------------------------------------------------------------- #
+# AES-DATA-003A (additive): capability / category-detail (de)serialization.
+# Narrowly scoped helpers, matching the existing _ev_to_dict/_source_record_
+# to_dict style; not yet reachable from any candidate produced in this
+# phase (mission Amendment 1 -- capabilities/category_detail stay empty for
+# the three existing categories), but ready for AES-DATA-003B+.
+# --------------------------------------------------------------------------- #
+
+def _capability_to_dict(cap: Capability) -> dict:
+    return {
+        "capability_id": cap.capability_id, "state": cap.state, "value": cap.value,
+        "high_risk": cap.high_risk, "evidence_index": cap.evidence_index,
+        "source_url": cap.source_url,
+    }
+
+
+def _capability_from_dict(d: dict) -> Capability:
+    # Capability.__post_init__ validates state/evidence_index itself and
+    # raises DomainPackError on a malformed record -- rejected safely and
+    # clearly rather than silently accepted or a bare KeyError/AttributeError.
+    return Capability(
+        capability_id=d["capability_id"], state=d["state"], value=d.get("value", ""),
+        high_risk=d.get("high_risk", False), evidence_index=d.get("evidence_index", -1),
+        source_url=d.get("source_url", ""))
+
+
+def _category_detail_to_dict(cd: CategoryDetail) -> dict:
+    return {
+        "detail_type": cd.detail_type, "detail_schema_version": cd.detail_schema_version,
+        "fields": [list(p) for p in cd.fields],
+    }
+
+
+def _category_detail_from_dict(d: dict) -> CategoryDetail:
+    return CategoryDetail(
+        detail_type=d["detail_type"], detail_schema_version=d["detail_schema_version"],
+        fields=tuple(tuple(p) for p in d.get("fields", ())))
+
+
 def candidate_to_dict(c: CandidateListing) -> dict:
     d = {
         "candidate_id": c.candidate_id, "created_at": c.created_at,
@@ -1028,6 +1068,20 @@ def candidate_to_dict(c: CandidateListing) -> dict:
     if c.sources or c.aggregation_version:
         d["sources"] = [_source_record_to_dict(s) for s in c.sources]
         d["aggregation_version"] = c.aggregation_version
+    # AES-DATA-003A (additive): omit every new key while empty/defaulted, so
+    # legacy candidate bytes for the three existing categories are byte-
+    # identical in this phase (mission Amendment 1). A future pack that
+    # populates capabilities/category_detail is the first to see these keys.
+    if c.capabilities:
+        d["capabilities"] = [_capability_to_dict(cap) for cap in c.capabilities]
+    if c.category_detail is not None:
+        d["category_detail"] = _category_detail_to_dict(c.category_detail)
+    if c.pack_id:
+        d["pack_id"] = c.pack_id
+    if c.pack_version:
+        d["pack_version"] = c.pack_version
+    if c.capability_schema_version:
+        d["capability_schema_version"] = c.capability_schema_version
     return d
 
 
@@ -1106,7 +1160,13 @@ def candidate_from_dict(d: dict) -> CandidateListing:
         aggregation_version=d.get("aggregation_version", ""),
         input_tokens=d.get("input_tokens", 0),
         output_tokens=d.get("output_tokens", 0),
-        provider_request_count=d.get("provider_request_count", 0))
+        provider_request_count=d.get("provider_request_count", 0),
+        capabilities=tuple(_capability_from_dict(cd) for cd in d.get("capabilities", ())),
+        category_detail=(_category_detail_from_dict(d["category_detail"])
+                         if d.get("category_detail") is not None else None),
+        pack_id=d.get("pack_id", ""),
+        pack_version=d.get("pack_version", ""),
+        capability_schema_version=d.get("capability_schema_version", ""))
 
 
 def dumps_candidate(c: CandidateListing) -> str:

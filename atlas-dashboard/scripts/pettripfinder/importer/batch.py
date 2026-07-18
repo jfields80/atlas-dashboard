@@ -50,6 +50,7 @@ from urllib.parse import urlsplit
 from scripts.pettripfinder.importer import constants as C
 from scripts.pettripfinder.importer import normalize as N
 from scripts.pettripfinder.importer.candidate import _registrable, load_candidate
+from scripts.pettripfinder.importer.domain_packs.registry import default_registry
 from scripts.pettripfinder.importer.models import CandidateListing, ImportContext
 
 # Reuse the existing per-URL-count importer entry points and their static-
@@ -385,7 +386,19 @@ def compute_job_fingerprint(
     changing extractor/model/observed_at/IMPORTER_VERSION/AGGREGATION_VERSION
     changes every job's fingerprint (they are threaded in as shared inputs
     by the caller). Never includes batch_name, other jobs, wall-clock
-    runtime, random values, or output_root."""
+    runtime, random values, or output_root.
+
+    AES-DATA-003A: also folds in the resolved domain pack's ``pack_id`` and
+    ``pack_version`` for the job's category, so pack provenance participates
+    in reuse semantics -- changing ONE pack's version invalidates only the
+    fingerprints of jobs in that pack's categories (proven in
+    test_domain_packs.py), never a different category's jobs, and never
+    batch_id/manifest_hash (both are computed independently of any pack).
+    An unresolvable category fails clearly (UnknownCategoryError) rather
+    than silently fingerprinting without pack provenance -- by the time a
+    real run reaches this function the category has already passed
+    validate_manifest, so this only fires for a caller that bypasses it."""
+    pack = default_registry.for_category(job.category)
     normalized_urls = [N.normalize_url(u) or u for u in job.urls]
     payload = {field: getattr(job, field) for field in _FINGERPRINT_JOB_FIELDS}
     payload["urls"] = normalized_urls
@@ -394,6 +407,8 @@ def compute_job_fingerprint(
     payload["observed_at"] = observed_at
     payload["importer_version"] = C.IMPORTER_VERSION
     payload["aggregation_version"] = C.AGGREGATION_VERSION
+    payload["pack_id"] = pack.pack_id
+    payload["pack_version"] = pack.pack_version
 
     if extractor == "static":
         repo_root = Path(repo_root).resolve()

@@ -15,6 +15,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from typing import Optional, Tuple
 
+from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
+
 
 # --------------------------------------------------------------------------- #
 # Fetch result (raw acquisition; produced by a PageFetcher).
@@ -217,6 +219,17 @@ class CandidateListing:
     input_tokens: int = 0
     output_tokens: int = 0
     provider_request_count: int = 0
+    # AES-DATA-003A (additive; foundation only -- mission Amendment 1: never
+    # populated for the three existing categories in this phase, so legacy
+    # candidate bytes are unaffected). ``capabilities``/``category_detail``
+    # are the future cross-category normalized-fact layer (AES-DATA-003B+);
+    # ``pack_id``/``pack_version``/``capability_schema_version`` are
+    # provenance for whichever domain pack produced this candidate.
+    capabilities: Tuple[Capability, ...] = ()
+    category_detail: Optional[CategoryDetail] = None
+    pack_id: str = ""
+    pack_version: str = ""
+    capability_schema_version: str = ""
 
     def proposed_dict(self) -> dict:
         return {k: v for k, v in self.proposed_fields}
