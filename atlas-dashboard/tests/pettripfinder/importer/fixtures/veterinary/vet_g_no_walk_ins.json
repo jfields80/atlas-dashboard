@@ -1,0 +1,17 @@
+{
+  "url": "https://www.appointmentonlyvet.test/",
+  "context": {
+    "category": "veterinary",
+    "expected_city": "Columbus",
+    "expected_state": "OH"
+  },
+  "html": "<!doctype html><html><head><meta charset='utf-8'><title>Appointment Only Veterinary Clinic</title></head><body><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"VeterinaryCare\", \"name\": \"Appointment Only Veterinary Clinic\", \"telephone\": \"614-555-0177\", \"url\": \"https://www.appointmentonlyvet.test/\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"44 Schedule St\", \"addressLocality\": \"Columbus\", \"addressRegion\": \"OH\", \"postalCode\": \"43215\"}}</script><h1>Appointment Only Veterinary Clinic</h1><p>We provide general veterinary practice by appointment only. Walk-ins are not accepted.</p></body></html>",
+  "extraction": {
+    "facts": [
+      {"field": "general_practice", "value": "true", "quote": "We provide general veterinary practice by appointment only"},
+      {"field": "appointment_required", "value": "true", "quote": "general veterinary practice by appointment only"},
+      {"field": "walk_ins_accepted", "value": "false", "quote": "Walk-ins are not accepted"}
+    ]
+  },
+  "expected_recommendation": "READY"
+}

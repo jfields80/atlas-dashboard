@@ -49,6 +49,16 @@ from scripts.pettripfinder.importer.category_templates import (
     REQUIRED_CSV_FIELDS,
     allowed_fields,
 )
+from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
+from scripts.pettripfinder.importer.domain_packs.capabilities import (
+    CAPABILITY_SCHEMA_VERSION,
+)
+from scripts.pettripfinder.importer.domain_packs.registry import default_registry
+from scripts.pettripfinder.importer.domain_packs.veterinary import (
+    high_risk_capability_conflict as _vet_high_risk_conflict,
+    project_capabilities as _vet_project_capabilities,
+    service_evidence_present as _vet_service_evidence_present,
+)
 from scripts.pettripfinder.importer.models import (
     CandidateListing,
     Conflict,
@@ -587,6 +597,40 @@ def run_multi_import(
     pooled_conflicts.extend(pet_conflicts)
     pet_policy = compose_pet_policy(pet_facts, category)
 
+    # --- AES-DATA-003B: veterinary capability projection (Task 12) ---------
+    # Projected from the FINAL pooled evidence/conflicts (nothing is appended
+    # to ``pooled_evidence``/``pooled_conflicts`` after this point), so
+    # evidence indices match the ``CandidateListing.evidence`` tuple
+    # ``_finalize`` builds below. Each evidence entry already carries its OWN
+    # ``source_url`` (pooled from every gate-included source), so a
+    # capability projected from a supplemental's evidence is attributed to
+    # that supplemental automatically -- no separate merge algorithm needed.
+    # A conflicting high-risk capability across sources is detected the same
+    # way single-source conflicts are: via ``_merge_pet_facts`` (materiality
+    # driven by the shared ``_BOOL_PET_FIELDS`` set) surfacing an
+    # ``aggregate_policy_conflict`` Conflict that ``project_capabilities``
+    # then turns into a CONFLICTED capability.
+    capabilities: Tuple[Capability, ...] = ()
+    category_detail: Optional[CategoryDetail] = None
+    pack_id, pack_version, capability_schema_version = "", "", ""
+    vet_service_evidence_present = None
+    no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
+    high_risk_conflict = False
+    if category == C.CATEGORY_VETERINARY:
+        pack = default_registry.for_category(category)
+        capabilities = _vet_project_capabilities(
+            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url)
+        pack_id, pack_version = pack.pack_id, pack.pack_version
+        capability_schema_version = CAPABILITY_SCHEMA_VERSION
+        vet_service_evidence_present = _vet_service_evidence_present(capabilities)
+        no_service_evidence_reason = C.REASON_NO_VETERINARY_SERVICE_EVIDENCE
+        high_risk_conflict = _vet_high_risk_conflict(capabilities)
+        hours = pet_facts.get("hours", "")
+        if hours:
+            category_detail = CategoryDetail(
+                detail_type="veterinary", detail_schema_version=pack.detail_schema_version,
+                fields=(("hours", hours),))
+
     # --- relationship: the weakest CONTRIBUTING relationship (Task 11) -----
     # An UNKNOWN-relationship contributor never hides behind a stronger
     # PRIMARY; recommend() only distinguishes THIRD_PARTY/UNKNOWN from every
@@ -660,7 +704,10 @@ def run_multi_import(
         sources_excluded=sources_excluded,
         aggregate_identity_conflict=aggregate_identity_conflict,
         aggregate_geography_conflict=aggregate_geography_conflict,
-        aggregate_policy_conflict=aggregate_policy_conflict))
+        aggregate_policy_conflict=aggregate_policy_conflict,
+        service_evidence_present=vet_service_evidence_present,
+        no_service_evidence_reason=no_service_evidence_reason,
+        high_risk_capability_conflict=high_risk_conflict))
 
     warnings = list(primary_result.snapshot.fetch_warnings) + list(dedupe_warnings)
     for _rec, r in included_results:
@@ -677,4 +724,7 @@ def run_multi_import(
         prompt_version=primary_result.prompt_version, sources=tuple(gated_records),
         aggregation_version=C.AGGREGATION_VERSION, candidate_id=aggregate_id,
         input_tokens=total_input_tokens, output_tokens=total_output_tokens,
-        provider_request_count=total_provider_requests)
+        provider_request_count=total_provider_requests,
+        capabilities=capabilities, category_detail=category_detail,
+        pack_id=pack_id, pack_version=pack_version,
+        capability_schema_version=capability_schema_version)

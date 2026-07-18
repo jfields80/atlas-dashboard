@@ -21,6 +21,14 @@ _BUSINESS_TYPES = frozenset({
     "hotel", "lodgingbusiness", "resort", "motel", "bedandbreakfast",
     "restaurant", "foodestablishment", "barorpub", "brewery", "cafeorcoffeeshop",
     "park", "touristattraction", "civicstructure", "localbusiness", "place",
+    # AES-DATA-003B: veterinary business-node recognition only -- this list
+    # only decides which JSON-LD node is read for name/address/phone/website
+    # (Task 13). It has no path to emergency_service, urgent_care, open_24h,
+    # walk_ins_accepted, existing_clients_only, or species/exotic capability
+    # facts; this module never emits those field names (see the
+    # StructuredField construction sites above), so recognizing these types
+    # cannot establish a high-risk capability by itself.
+    "veterinarycare", "medicalbusiness",
 })
 
 

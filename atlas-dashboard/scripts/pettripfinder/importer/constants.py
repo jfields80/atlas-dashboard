@@ -51,12 +51,23 @@ PDF_CONTENT_TYPE = "application/pdf"
 CATEGORY_HOTELS = "hotels"
 CATEGORY_PARKS = "parks"
 CATEGORY_RESTAURANTS = "restaurants"
-IMPORTER_CATEGORIES = (CATEGORY_HOTELS, CATEGORY_PARKS, CATEGORY_RESTAURANTS)
+# AES-DATA-003B: ONE veterinary category covering general practice, hospital,
+# emergency, urgent-care, and specialty care alike -- emergency/urgent/24-hour
+# status are evidence-backed CAPABILITIES on this single category, never
+# separate categories (mission doctrine #1). Do not add "emergency-vet",
+# "urgent-vet", "animal-hospital", or "specialty-vet" categories.
+CATEGORY_VETERINARY = "veterinary"
+IMPORTER_CATEGORIES = (CATEGORY_HOTELS, CATEGORY_PARKS, CATEGORY_RESTAURANTS,
+                       CATEGORY_VETERINARY)
 
 CATEGORY_SLUG_BY_IMPORTER = {
     CATEGORY_HOTELS: "pet-friendly-hotels",
     CATEGORY_PARKS: "pet-friendly-parks",
     CATEGORY_RESTAURANTS: "pet-friendly-restaurants",
+    # Not a "pet-friendly X" venue -- a veterinary practice IS the pet
+    # service, so it gets its own slug pattern rather than reusing the
+    # lodging/park/dining "pet-friendly-*" convention.
+    CATEGORY_VETERINARY: "veterinary-care",
 }
 
 
@@ -210,6 +221,13 @@ REASON_DUPLICATE_SOURCE_URL = "duplicate_source_url"
 REASON_DIFFERENT_REGISTRABLE_DOMAIN = "different_registrable_domain"
 REASON_THIRD_PARTY_SOURCE = "third_party_source"
 
+# AES-DATA-003B: veterinary-specific recommendation reasons. Generalizes the
+# legacy "no_pet_evidence"/"policy_conflict" hard-gate concepts (recommend.py)
+# for a category whose core evidence is service capabilities, not pet-
+# friendliness -- registered centrally per mission doctrine, additive only.
+REASON_NO_VETERINARY_SERVICE_EVIDENCE = "no_veterinary_service_evidence"
+REASON_VETERINARY_CAPABILITY_CONFLICT = "veterinary_capability_conflict"
+
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
@@ -225,6 +243,7 @@ REASON_SLUGS = frozenset({
     REASON_IDENTITY_CONFLICT, REASON_GEOGRAPHY_CONFLICT, REASON_POLICY_CONFLICT,
     REASON_INCOMPLETE_SOURCE_SET, REASON_DUPLICATE_SOURCE_URL,
     REASON_DIFFERENT_REGISTRABLE_DOMAIN, REASON_THIRD_PARTY_SOURCE,
+    REASON_NO_VETERINARY_SERVICE_EVIDENCE, REASON_VETERINARY_CAPABILITY_CONFLICT,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).

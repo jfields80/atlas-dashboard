@@ -1,11 +1,11 @@
-"""AES-DATA-003A -- normalized capability taxonomy: DECLARED VOCABULARY ONLY.
+"""AES-DATA-003A/B -- normalized capability taxonomy: DECLARED VOCABULARY.
 
-This module lists the cross-category capability slugs future domain packs
-(veterinary, boarding, grooming, pet-store -- AES-DATA-003B/C) will project
-evidenced facts onto. Nothing in this phase populates a ``Capability`` on
-any candidate, computes a projection, merges capabilities across sources,
-or infers a value from an existing fact. This is a reviewed vocabulary and
-its schema version -- pure data, no logic.
+This module lists the cross-category capability slugs domain packs project
+evidenced facts onto. AES-DATA-003A declared the vocabulary only (nothing
+populated it). AES-DATA-003B is the first phase to actually populate
+``Capability`` instances -- for the veterinary pack only; this module still
+does no projection, merge, or inference itself, it only names/versions the
+vocabulary and its high-risk subset.
 
 The high-risk subset marks claims that must never be derived or defaulted:
 an explicit, direct evidence span is required before any of these may be
@@ -44,18 +44,39 @@ CAPABILITY_SLUGS: tuple = (
     "existing_clients_only",
     "online_ordering",
     "booking_url",
+    # AES-DATA-003B -- veterinary-specific additions. Biased toward reuse:
+    # every one of these is written so a future boarding/grooming/pet-store
+    # pack could plausibly reuse it too (e.g. "vaccinations" is not called
+    # "veterinary_vaccinations"), never a marketing-phrase-specific slug.
+    "general_practice",
+    "preventive_care",
+    "wellness_exams",
+    "vaccinations",
+    "diagnostics",
+    "surgery",
+    "dentistry",
+    "specialty_care",
+    "critical_care",
+    "after_hours_instructions",
 )
 
 # High-risk: claims that traveler safety/trust depends on. Never derived
 # (see candidate.py's _DUAL_FACT_DERIVERS -- a future pack must exclude
 # these from any deriver mapping by construction), never defaulted, never
 # accepted without an explicit, direct, source-attributed evidence span.
+# "species_served" is included because an exotic/specialty-species claim
+# carries the same no-inference risk as an emergency claim; the veterinary
+# pack's own projection logic additionally flags the PER-INSTANCE
+# ``Capability.high_risk`` marker only when the evidenced value actually
+# denotes an exotic/specialty species (a plain "dogs and cats" is not
+# marked instance-high-risk even though the slug is pack-declared high-risk).
 HIGH_RISK_CAPABILITY_SLUGS: tuple = (
     "open_24h",
     "emergency_service",
     "urgent_care",
     "walk_ins_accepted",
     "existing_clients_only",
+    "species_served",
 )
 
 CAPABILITY_SLUGS_SET = frozenset(CAPABILITY_SLUGS)

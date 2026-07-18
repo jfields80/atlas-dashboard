@@ -24,6 +24,15 @@ from scripts.pettripfinder.importer.category_templates import (
     allowed_fields,
 )
 from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
+from scripts.pettripfinder.importer.domain_packs.capabilities import (
+    CAPABILITY_SCHEMA_VERSION,
+)
+from scripts.pettripfinder.importer.domain_packs.registry import default_registry
+from scripts.pettripfinder.importer.domain_packs.veterinary import (
+    high_risk_capability_conflict as _vet_high_risk_conflict,
+    project_capabilities as _vet_project_capabilities,
+    service_evidence_present as _vet_service_evidence_present,
+)
 from scripts.pettripfinder.importer.evidence import (
     build_llm_evidence,
     build_structured_evidence,
@@ -54,11 +63,25 @@ from scripts.pettripfinder.importer.structured_metadata import (
 # Fields that flow into the CSV identity columns (structured-precedence).
 _IDENTITY_FIELDS = ("name", "phone", "address", "city", "state",
                     "postal_code", "website_url")
-# Boolean pet facts (normalized to "true"/"false").
+# Boolean pet/capability facts (normalized to "true"/"false"). Shared,
+# category-agnostic set -- _normalize_field_value below dispatches on field
+# NAME only, so a field name is safe to add here for any category as long
+# as no OTHER category already uses that name for something non-boolean
+# (verified: none of the AES-DATA-003B veterinary names below collide with
+# any lodging/parks/dining field name). This same set also drives
+# aggregate.py's _merge_pet_facts "is this field material enough to
+# conflict-detect" check, so extending it here is also what makes a
+# disagreeing veterinary capability across sources become a genuine
+# aggregate conflict instead of silently picking the first source's value.
 _BOOL_PET_FIELDS = frozenset({
     "pets_allowed", "off_leash", "fenced", "small_dog_area", "large_dog_area",
     "water_available", "indoor_prohibited", "patio_or_outdoor_only",
     "dog_menu", "water_or_treats",
+    # AES-DATA-003B veterinary boolean capability fields.
+    "general_practice", "preventive_care", "wellness_exams", "vaccinations",
+    "diagnostics", "surgery", "dentistry", "pharmacy", "prescription_fulfillment",
+    "emergency_service", "urgent_care", "open_24h", "walk_ins_accepted",
+    "appointment_required", "existing_clients_only", "critical_care",
 })
 
 
@@ -853,6 +876,32 @@ def run_import(
             pet_facts.setdefault(ev.field_name, ev.proposed_value)
     pet_policy = compose_pet_policy(pet_facts, category)
 
+    # --- AES-DATA-003B: veterinary capability projection --------------------
+    # Projected AFTER ``evidence``/``conflicts`` are final (Task 7: evidence
+    # indices must point at the final CandidateListing.evidence tuple).
+    # ``()``/``None``/``""`` for every non-veterinary category -- legacy
+    # candidates keep the AES-DATA-003A defaults untouched.
+    capabilities: Tuple[Capability, ...] = ()
+    category_detail: Optional[CategoryDetail] = None
+    pack_id, pack_version, capability_schema_version = "", "", ""
+    service_evidence_present = None
+    no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
+    high_risk_conflict = False
+    if category == C.CATEGORY_VETERINARY:
+        pack = default_registry.for_category(category)
+        capabilities = _vet_project_capabilities(
+            pet_facts, evidence, conflicts, source_url)
+        pack_id, pack_version = pack.pack_id, pack.pack_version
+        capability_schema_version = CAPABILITY_SCHEMA_VERSION
+        service_evidence_present = _vet_service_evidence_present(capabilities)
+        no_service_evidence_reason = C.REASON_NO_VETERINARY_SERVICE_EVIDENCE
+        high_risk_conflict = _vet_high_risk_conflict(capabilities)
+        hours = pet_facts.get("hours", "")
+        if hours:
+            category_detail = CategoryDetail(
+                detail_type="veterinary", detail_schema_version=pack.detail_schema_version,
+                fields=(("hours", hours),))
+
     proposed = {
         "name": name, "category": N.normalize_category_id(category),
         "address": address, "city": city, "state": state,
@@ -877,7 +926,10 @@ def run_import(
         pets_allowed_state=pets_state, has_material_conflict=bool(conflicts),
         multi_entity=source.multi_entity, required_evidence_mismatch=required_mismatch,
         ambiguous_present=ambiguous_present, extraction_ok=source.extraction_ok,
-        text_truncated="normalized_text_truncated_50kb" in snapshot.fetch_warnings))
+        text_truncated="normalized_text_truncated_50kb" in snapshot.fetch_warnings,
+        service_evidence_present=service_evidence_present,
+        no_service_evidence_reason=no_service_evidence_reason,
+        high_risk_capability_conflict=high_risk_conflict))
 
     warnings = list(snapshot.fetch_warnings)
     if not source.extraction_ok:
@@ -891,7 +943,10 @@ def run_import(
         multi_entity=source.multi_entity, missing=missing, warnings=tuple(warnings),
         prompt_version=source.prompt_version,
         input_tokens=source.input_tokens, output_tokens=source.output_tokens,
-        provider_request_count=source.provider_request_count)
+        provider_request_count=source.provider_request_count,
+        capabilities=capabilities, category_detail=category_detail,
+        pack_id=pack_id, pack_version=pack_version,
+        capability_schema_version=capability_schema_version)
 
 
 def _pet_facts_pairs(pet_facts: Dict[str, str]) -> Tuple[Tuple[str, str], ...]:
@@ -926,6 +981,8 @@ def _finalize(
     missing=(), warnings=(), prompt_version=C.PROMPT_VERSION,
     sources=(), aggregation_version="", candidate_id=None,
     input_tokens=0, output_tokens=0, provider_request_count=0,
+    capabilities=(), category_detail=None, pack_id="", pack_version="",
+    capability_schema_version="",
 ) -> CandidateListing:
     """``sources``/``aggregation_version``/``candidate_id`` are AES-DATA-002B
     additions for the aggregate path (``aggregate.py``); every existing
@@ -934,7 +991,12 @@ def _finalize(
     ``input_tokens``/``output_tokens``/``provider_request_count`` are the
     AES-WORK-001C total real provider usage spent producing this candidate
     (0 for static/fetch-short-circuit call sites, which is every existing
-    caller that does not pass them explicitly)."""
+    caller that does not pass them explicitly). ``capabilities``/
+    ``category_detail``/``pack_id``/``pack_version``/
+    ``capability_schema_version`` are AES-DATA-003B additions -- populated
+    only by the veterinary path; every legacy (lodging/parks/dining) call
+    site omits them and keeps the AES-DATA-003A defaults (``()``/``None``/
+    ``""``), so legacy candidate bytes are unaffected."""
     ambiguous_fields = tuple(sorted({
         e.field_name for e in evidence if e.support_state == C.SUPPORT_AMBIGUOUS}))
     return CandidateListing(
@@ -954,6 +1016,9 @@ def _finalize(
         sources=sources, aggregation_version=aggregation_version,
         input_tokens=input_tokens, output_tokens=output_tokens,
         provider_request_count=provider_request_count,
+        capabilities=capabilities, category_detail=category_detail,
+        pack_id=pack_id, pack_version=pack_version,
+        capability_schema_version=capability_schema_version,
     )
 
 

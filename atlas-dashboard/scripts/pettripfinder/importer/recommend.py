@@ -7,7 +7,7 @@ promotion.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Optional, Tuple
 
 from scripts.pettripfinder.importer import constants as C
 
@@ -34,6 +34,19 @@ class RecommendationInput:
     aggregate_identity_conflict: bool = False
     aggregate_geography_conflict: bool = False
     aggregate_policy_conflict: bool = False  # a pooled pet-fact conflict
+    # AES-DATA-003B (additive; defaults preserve every existing call site's
+    # exact behavior byte-for-byte). Generalizes "this category's positive
+    # service evidence exists" beyond pet-friendliness: when a caller leaves
+    # ``service_evidence_present`` at its default (None), the hard REJECT
+    # gate below falls back to ``pet_policy_present`` exactly as before --
+    # only the veterinary path (candidate.py/aggregate.py) explicitly
+    # supplies both new fields.
+    service_evidence_present: Optional[bool] = None
+    no_service_evidence_reason: str = C.REASON_NO_PET_EVIDENCE
+    # A conflicting HIGH-RISK capability (e.g. one source says 24/7
+    # emergency, another says limited hours) -- veterinary-only today,
+    # False for every existing caller.
+    high_risk_capability_conflict: bool = False
 
 
 def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
@@ -56,15 +69,23 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         return (C.RECOMMEND_REJECT, (C.REASON_NO_PETS,))
     if not inp.entity_identified:
         return (C.RECOMMEND_REJECT, (C.REASON_ENTITY_MISMATCH,))
+    # AES-DATA-003B: "positive service evidence exists" generalized beyond
+    # pet-friendliness. inp.service_evidence_present is None for every
+    # existing (lodging/parks/dining) caller, so effective_evidence_present
+    # is BYTE-IDENTICAL to the old ``inp.pet_policy_present`` check for
+    # them; only the veterinary path passes an explicit bool.
+    effective_evidence_present = (
+        inp.pet_policy_present if inp.service_evidence_present is None
+        else inp.service_evidence_present)
     # A pooled aggregate policy conflict (e.g. one source says pets_allowed
     # true, another says false) means genuine pet-related evidence DOES
     # exist -- it just disagrees. REVIEW is the correct outcome; the
-    # no-pet-evidence REJECT below would be actively misleading, so an
+    # no-evidence REJECT below would be actively misleading, so an
     # aggregate policy conflict withdraws it (AES-DATA-002B doctrine: "mixed
     # true/false -> policy_conflict REVIEW, never automatic REJECT").
-    if (not inp.pet_policy_present and inp.pets_allowed_state != "true"
+    if (not effective_evidence_present and inp.pets_allowed_state != "true"
             and not inp.aggregate_policy_conflict):
-        return (C.RECOMMEND_REJECT, (C.REASON_NO_PET_EVIDENCE,))
+        return (C.RECOMMEND_REJECT, (inp.no_service_evidence_reason,))
     if inp.required_evidence_mismatch:
         return (C.RECOMMEND_REJECT, (C.REASON_EVIDENCE_MISMATCH,))
 
@@ -83,7 +104,7 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         reasons.append("%s:%s" % (C.REASON_MISSING_REQUIRED_FIELD, field))
     if inp.ambiguous_present:
         reasons.append(C.REASON_CONFLICTING_EVIDENCE if False else "ambiguous_field")
-    if inp.text_truncated and not inp.pet_policy_present:
+    if inp.text_truncated and not effective_evidence_present:
         reasons.append("truncated_source_missing_policy")
     if inp.sources_excluded:
         reasons.append(C.REASON_INCOMPLETE_SOURCE_SET)
@@ -93,6 +114,8 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         reasons.append(C.REASON_GEOGRAPHY_CONFLICT)
     if inp.aggregate_policy_conflict:
         reasons.append(C.REASON_POLICY_CONFLICT)
+    if inp.high_risk_capability_conflict:
+        reasons.append(C.REASON_VETERINARY_CAPABILITY_CONFLICT)
 
     if reasons:
         return (C.RECOMMEND_REVIEW, tuple(reasons))

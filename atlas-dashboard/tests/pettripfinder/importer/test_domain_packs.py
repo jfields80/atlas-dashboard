@@ -88,21 +88,24 @@ def _sample_pack(**overrides) -> DomainPack:
 
 class TestRegistryLookup:
     def test_1_registry_contains_exactly_the_three_existing_categories(self):
-        assert set(default_registry.category_ids()) == {"hotels", "parks", "restaurants"}
+        # AES-DATA-003B: now four categories (adds "veterinary").
+        assert set(default_registry.category_ids()) == {
+            "hotels", "parks", "restaurants", "veterinary"}
 
     def test_2_deterministic_category_ids_ordering(self):
-        assert default_registry.category_ids() == ("hotels", "parks", "restaurants")
+        assert default_registry.category_ids() == (
+            "hotels", "parks", "restaurants", "veterinary")
         # Stable across repeated calls (pure function of registration order).
         assert default_registry.category_ids() == default_registry.category_ids()
 
     def test_3_lookup_by_each_valid_category(self):
-        for cat in ("hotels", "parks", "restaurants"):
+        for cat in ("hotels", "parks", "restaurants", "veterinary"):
             pack = default_registry.for_category(cat)
             assert cat in pack.category_ids
 
     def test_4_unknown_category_raises_typed_error(self):
         with pytest.raises(UnknownCategoryError):
-            default_registry.for_category("veterinary")
+            default_registry.for_category("boarding")   # not registered until 003C
 
 
 # --------------------------------------------------------------------------- #
@@ -184,7 +187,8 @@ class TestCapabilityTaxonomy:
             "SUPPORTED", "EXPLICITLY_ABSENT", "UNKNOWN", "CONFLICTED"}
 
     def test_13_capability_taxonomy_contains_all_declared_initial_slugs(self):
-        expected = {
+        # AES-DATA-003A slugs (unchanged -- still all present).
+        aes_003a = {
             "pets_allowed", "appointment_required", "walk_ins_accepted", "open_24h",
             "emergency_service", "urgent_care", "species_served", "mobile_service",
             "service_area", "boarding_offered", "daycare_offered", "grooming_offered",
@@ -192,12 +196,22 @@ class TestCapabilityTaxonomy:
             "vaccination_clinic", "delivery", "curbside_pickup", "existing_clients_only",
             "online_ordering", "booking_url",
         }
-        assert set(CAPABILITY_SLUGS) == expected
+        # AES-DATA-003B veterinary additions.
+        aes_003b = {
+            "general_practice", "preventive_care", "wellness_exams", "vaccinations",
+            "diagnostics", "surgery", "dentistry", "specialty_care", "critical_care",
+            "after_hours_instructions",
+        }
+        assert set(CAPABILITY_SLUGS) == aes_003a | aes_003b
 
     def test_14_high_risk_subset_exact(self):
+        # AES-DATA-003B adds species_served to the high-risk subset (exotic/
+        # specialty-species claims carry the same no-inference risk as an
+        # emergency claim; per-instance Capability.high_risk stays False for
+        # a plain "dogs and cats" value -- see domain_packs/veterinary.py).
         assert set(HIGH_RISK_CAPABILITY_SLUGS) == {
             "open_24h", "emergency_service", "urgent_care", "walk_ins_accepted",
-            "existing_clients_only"}
+            "existing_clients_only", "species_served"}
         assert set(HIGH_RISK_CAPABILITY_SLUGS) <= set(CAPABILITY_SLUGS)
 
     def test_capability_schema_version_declared(self):
@@ -432,7 +446,7 @@ class TestPackAwareFingerprint:
         assert fp_park_after == fp_park_before
 
     def test_unknown_category_fingerprint_fails_clearly(self):
-        job = _job("veterinary")
+        job = _job("boarding")   # not registered until 003C
         with pytest.raises(UnknownCategoryError):
             compute_job_fingerprint(job, **self._kwargs())
 
@@ -478,8 +492,15 @@ class TestCliCategoryAcceptance:
             default_registry.for_category(cat)   # must not raise
 
     def test_34_no_new_category_is_registered_or_accepted(self):
-        assert default_registry.category_ids() == ("hotels", "parks", "restaurants")
-        for unregistered in ("veterinary", "emergency-vet", "boarding", "grooming", "pet-store"):
+        # AES-DATA-003B update: "veterinary" IS now a registered category
+        # (that is this phase's whole point) -- but emergency/urgent/
+        # specialty vet remain CAPABILITIES on it, never separate
+        # categories (mission doctrine #1), and no OTHER future category
+        # (boarding/grooming/pet-store) is registered yet.
+        assert default_registry.category_ids() == ("hotels", "parks", "restaurants", "veterinary")
+        assert "veterinary" in C.IMPORTER_CATEGORIES
+        for unregistered in ("emergency-vet", "urgent-vet", "animal-hospital",
+                             "specialty-vet", "boarding", "grooming", "pet-store"):
             assert unregistered not in C.IMPORTER_CATEGORIES
             with pytest.raises(UnknownCategoryError):
                 default_registry.for_category(unregistered)

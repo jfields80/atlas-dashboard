@@ -58,6 +58,19 @@ _AGGREGATE_CSS = (
     ".status{font-weight:700;font-size:13px;margin-left:6px}"
 )
 
+# AES-DATA-003B: appended to ``_CSS`` only when a candidate carries domain-
+# pack capabilities/category-detail (veterinary today). A candidate with
+# ``capabilities == ()`` and ``category_detail is None`` (every legacy
+# lodging/parks/dining candidate) renders through the exact same code paths
+# as before this phase, with the new blocks reducing to "" -- byte-identical
+# output, proven by tests.
+_CAPABILITY_CSS = (
+    ".cap-SUPPORTED{color:#1e7a3a}.cap-EXPLICITLY_ABSENT{color:#6b7280}"
+    ".cap-CONFLICTED{color:#b3261e}.cap-UNKNOWN{color:#c2410c}"
+    ".highrisk{display:inline-block;background:#fde2e1;color:#7a1420;border-radius:4px;"
+    "padding:0 5px;font-size:11px;font-weight:700;margin-left:6px}"
+)
+
 
 def _e(v: str) -> str:
     return html.escape(str(v), quote=True)
@@ -235,6 +248,72 @@ def _aggregate_conflicts_html(c: CandidateListing, chip_html) -> str:
     ) if c.conflicts else ""
 
 
+# --------------------------------------------------------------------------- #
+# AES-DATA-003B: domain-pack capability / category-detail rendering
+# (Task 14). Read-only display of data already validated upstream
+# (candidate.py/aggregate.py's capability projection) -- this module infers
+# nothing and never establishes a fact; it only shows the state, value,
+# high-risk marker, source, and evidence quote already attached to each
+# ``Capability``. Empty for every candidate with no capabilities/detail
+# (every legacy category, and any veterinary candidate with none evidenced).
+# --------------------------------------------------------------------------- #
+
+def _capability_evidence_quote(c: CandidateListing, evidence_index: int) -> Tuple[str, str]:
+    """Returns ``(quote, method)`` for the evidence entry a capability points
+    at, or ``("", "")`` if the index is out of range (defensive only -- the
+    projection layer guarantees a valid index for every non-UNKNOWN state)."""
+    if 0 <= evidence_index < len(c.evidence):
+        ev = c.evidence[evidence_index]
+        return (ev.snapshot_quote, ev.extraction_method)
+    return ("", "")
+
+
+def _capabilities_card_html(c: CandidateListing, chip_html) -> str:
+    if not c.capabilities:
+        return ""
+    rows = []
+    for cap in c.capabilities:
+        quote, method = _capability_evidence_quote(c, cap.evidence_index)
+        risk_html = '<span class="highrisk">HIGH-RISK</span>' if cap.high_risk else ""
+        quote_html = (
+            '<div class="ev">%s%s <span class="muted">(%s)</span></div>' % (
+                chip_html(cap.source_url), _e(quote), _e(method))
+            if quote else ""
+        )
+        rows.append(
+            "<tr><td>%s</td><td class=\"cap-%s\">%s</td><td>%s</td><td>%s%s</td></tr>" % (
+                _e(cap.capability_id), _e(cap.state), _e(cap.state),
+                _e(cap.value) or '<span class="muted">(n/a)</span>',
+                risk_html, quote_html))
+    return (
+        '<div class="card"><h3>Capabilities</h3><table><tr><th>Capability</th>'
+        '<th>State</th><th>Value</th><th>Evidence</th></tr>%s</table></div>'
+        % "".join(rows)
+    )
+
+
+def _category_detail_card_html(c: CandidateListing) -> str:
+    if c.category_detail is None or not c.category_detail.fields:
+        return ""
+    rows = "".join(
+        "<tr><td>%s</td><td>%s</td></tr>" % (_e(k), _e(v))
+        for k, v in c.category_detail.fields)
+    return (
+        '<div class="card"><h3>Category detail (%s)</h3><table>'
+        '<tr><th>Field</th><th>Value</th></tr>%s</table></div>'
+        % (_e(c.category_detail.detail_type), rows)
+    )
+
+
+def _pack_provenance_html(c: CandidateListing) -> str:
+    if not c.pack_id:
+        return ""
+    return (
+        '<div class="muted">domain pack: %s v%s &middot; capability schema: %s</div>'
+        % (_e(c.pack_id), _e(c.pack_version), _e(c.capability_schema_version))
+    )
+
+
 def render_report_html(candidate: CandidateListing, candidate_json_path: str = "") -> str:
     c = candidate
     proposed = dict(c.proposed_fields)
@@ -314,6 +393,10 @@ def render_report_html(candidate: CandidateListing, candidate_json_path: str = "
 
     aggregate_summary_block = _aggregate_summary_html(c) if is_aggregate else ""
     sources_block = _sources_card_html(c) if is_aggregate else ""
+    has_pack_data = bool(c.capabilities or c.category_detail)
+    capabilities_block = _capabilities_card_html(c, _chip_html)
+    category_detail_block = _category_detail_card_html(c)
+    pack_provenance_html = _pack_provenance_html(c)
 
     json_path = _e(candidate_json_path)
     approve_cmd = "python scripts/approve_import_candidate.py --candidate %s --decision approve" % json_path
@@ -336,11 +419,13 @@ def render_report_html(candidate: CandidateListing, candidate_json_path: str = "
         "<div class=\"muted\">provider: %s &middot; model: %s &middot; prompt: %s</div>"
         "<div class=\"muted\">raw hash: %s</div>"
         "<div class=\"muted\">text hash: %s</div>"
-        "<div class=\"muted\">candidate json: %s</div></div>"
+        "<div class=\"muted\">candidate json: %s</div>%s</div>"
         "%s"
         "<div class=\"card\"><h3>Proposed listing fields</h3>%s</div>"
         "<div class=\"card\"><h3>Structured pet facts</h3><table>"
         "<tr><th>Fact</th><th>Value</th></tr>%s</table></div>"
+        "%s"
+        "%s"
         "%s"
         "<div class=\"card\"><h3>Recommendation reasons</h3><ul>%s</ul></div>"
         "<div class=\"card\"><h3>Warnings</h3><ul>%s</ul></div>"
@@ -349,7 +434,8 @@ def render_report_html(candidate: CandidateListing, candidate_json_path: str = "
         "<pre>%s\n%s</pre></div>"
         "</main></body></html>"
     ) % (
-        _e(c.candidate_id), _CSS + (_AGGREGATE_CSS if is_aggregate else ""),
+        _e(c.candidate_id),
+        _CSS + (_AGGREGATE_CSS if is_aggregate else "") + (_CAPABILITY_CSS if has_pack_data else ""),
         _e(proposed.get("name") or c.candidate_id),
         rec, rec, _e(c.review_status),
         aggregate_summary_block,
@@ -359,7 +445,8 @@ def render_report_html(candidate: CandidateListing, candidate_json_path: str = "
         _e(proposed.get("category")), _e(c.geography_confidence),
         _e(c.extraction_provider), _e(c.extraction_model), _e(c.prompt_version),
         _e(c.snapshot.raw_content_hash), _e(c.snapshot.normalized_text_hash),
-        json_path, sources_block, "".join(rows), pet_rows, conflicts_block, reasons_html,
+        json_path, pack_provenance_html, sources_block, "".join(rows), pet_rows,
+        capabilities_block, category_detail_block, conflicts_block, reasons_html,
         warnings_html, _e(approve_cmd), _e(reject_cmd),
     )
 
