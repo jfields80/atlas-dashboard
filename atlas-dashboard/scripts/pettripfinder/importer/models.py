@@ -99,6 +99,15 @@ class ExtractionResult:
     ok: bool = True
     retries: int = 0
     error: str = ""                      # reason slug when ok is False
+    # AES-WORK-001C (additive; defaults preserve every existing shape): real
+    # provider usage only -- StaticFactExtractor never sets these (stays 0),
+    # AnthropicFactExtractor captures actual SDK message.usage. Never
+    # inferred from text length. provider_request_count counts REAL calls
+    # made while producing this result (2 when a malformed-output retry
+    # happened, even though only the final call's facts are kept).
+    input_tokens: int = 0
+    output_tokens: int = 0
+    provider_request_count: int = 0
 
 
 # --------------------------------------------------------------------------- #
@@ -201,6 +210,13 @@ class CandidateListing:
     # single-source candidate carries sources=() and aggregation_version="".
     sources: Tuple[SourceRecord, ...] = ()
     aggregation_version: str = ""
+    # AES-WORK-001C (additive): total REAL provider usage spent producing
+    # this candidate -- the one extraction call's usage for a single-source
+    # candidate, summed across every attempted source for an aggregate.
+    # Static mode and legacy candidates both default to 0.
+    input_tokens: int = 0
+    output_tokens: int = 0
+    provider_request_count: int = 0
 
     def proposed_dict(self) -> dict:
         return {k: v for k, v in self.proposed_fields}

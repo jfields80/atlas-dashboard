@@ -8,6 +8,17 @@ on malformed output, no tools, no streaming, no chain-of-thought retained.
 The API key is read from the environment and never written to logs, JSON,
 reports, or snapshots.
 
+AES-WORK-001C: real provider usage (``message.usage.input_tokens`` /
+``output_tokens``) is captured via a private ``_last_usage`` side channel
+set by ``_call_once`` after each real SDK call, deliberately WITHOUT
+changing ``_call_once``'s ``-> str`` return type (existing tests override
+``_call_once`` to return canned strings; changing its signature would break
+that seam). ``extract`` reads ``_last_usage`` immediately after each call
+and accumulates it into the returned ``ExtractionResult`` -- across BOTH
+calls when a malformed-output retry happens, never only the final one.
+Usage extraction failure (missing/malformed ``.usage``) never fails
+extraction: it degrades to ``(0, 0)``, exactly like a static extractor.
+
 Sampling: ``temperature`` is OMITTED by default. Newer models (Sonnet 5 and
 the current 4.x/5.x line) reject ``temperature`` ("deprecated for this
 model"); only the legacy ``claude-3*`` family is explicitly known to accept
@@ -25,7 +36,8 @@ uncontrolled SDK traceback, and never containing the API key.
 from __future__ import annotations
 
 import os
-from typing import FrozenSet, Optional
+from dataclasses import replace
+from typing import FrozenSet, Optional, Tuple
 
 from scripts.pettripfinder.importer import constants as C
 from scripts.pettripfinder.importer.category_templates import allowed_field_order
@@ -75,6 +87,11 @@ class AnthropicFactExtractor:
         self._api_key_env = api_key_env
         self._max_tokens = max_tokens
         self._timeout = timeout_seconds
+        # Side channel: the (input_tokens, output_tokens) of the most recent
+        # real ``_call_once``, or None when no real call has completed yet
+        # (a subclass overriding ``_call_once`` for tests never sets this --
+        # ``extract`` treats None as (0, 0), never as an error).
+        self._last_usage: Optional[Tuple[int, int]] = None
 
     def _client(self):
         try:
@@ -143,6 +160,7 @@ class AnthropicFactExtractor:
         return None
 
     def _call_once(self, client, system: str, user: str) -> str:
+        self._last_usage = None
         try:
             message = client.messages.create(**self._request_kwargs(system, user))
         except Exception as exc:  # noqa: BLE001 - mapped to a controlled error
@@ -150,6 +168,7 @@ class AnthropicFactExtractor:
             if mapped is not None:
                 raise mapped from None      # suppress the raw SDK traceback
             raise
+        self._last_usage = _extract_usage(message)
         parts = []
         for block in getattr(message, "content", []) or []:
             text = getattr(block, "text", None)
@@ -167,25 +186,52 @@ class AnthropicFactExtractor:
         # A provider/transport error (auth/invalid-request/rate/connection/
         # timeout) raises a clean AnthropicExtractorError and never reaches
         # the malformed-output retry (a bad request will not succeed on
-        # retry). Malformed *output* of a successful call is retried once.
+        # retry) -- that path never returns an ExtractionResult at all, so
+        # its usage cannot be attached here; see the module docstring and
+        # the WORK-001C final report for this disclosed limitation.
         raw = self._call_once(client, system, user)
+        in1, out1 = self._last_usage or (0, 0)
         result = parse_extraction_payload(
             _extract_json_object(raw), allowed_fields, "anthropic", self._model)
         if result.ok:
-            return result
+            return replace(
+                result, input_tokens=in1, output_tokens=out1, provider_request_count=1)
 
         raw = self._call_once(client, system, user)
+        in2, out2 = self._last_usage or (0, 0)
+        # Real usage from BOTH calls is kept, even though only the retry's
+        # facts (or neither, on a second malformed output) are used -- the
+        # first call was a real, billed provider request too.
+        total_in, total_out = in1 + in2, out1 + out2
         result = parse_extraction_payload(
             _extract_json_object(raw), allowed_fields, "anthropic", self._model)
         if result.ok:
             return ExtractionResult(
                 facts=result.facts, provider="anthropic", model=self._model,
-                prompt_version=C.PROMPT_VERSION, ok=True, retries=1)
+                prompt_version=C.PROMPT_VERSION, ok=True, retries=1,
+                input_tokens=total_in, output_tokens=total_out, provider_request_count=2)
         # Second malformed output -> honest unparseable result (candidate REVIEW).
         return ExtractionResult(
             provider="anthropic", model=self._model,
             prompt_version=C.PROMPT_VERSION, ok=False, retries=1,
-            error=C.REASON_EXTRACTION_UNPARSEABLE)
+            error=C.REASON_EXTRACTION_UNPARSEABLE,
+            input_tokens=total_in, output_tokens=total_out, provider_request_count=2)
+
+
+def _extract_usage(message) -> Tuple[int, int]:
+    """Best-effort ``(input_tokens, output_tokens)`` from one real SDK
+    response. Never raises and never infers from text length -- any
+    missing/malformed ``.usage`` degrades to ``(0, 0)``, exactly like a
+    static extractor (AES-WORK-001C Task 7: usage capture failure never
+    fails extraction)."""
+    try:
+        usage = getattr(message, "usage", None)
+        if usage is None:
+            return (0, 0)
+        return (int(getattr(usage, "input_tokens", 0) or 0),
+                int(getattr(usage, "output_tokens", 0) or 0))
+    except Exception:
+        return (0, 0)
 
 
 def _safe_message(exc: Exception) -> str:

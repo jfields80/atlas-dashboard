@@ -693,6 +693,12 @@ class SourceImportResult:
     extraction_error: str = ""
     multi_entity: bool = False
     warnings: Tuple[str, ...] = ()
+    # AES-WORK-001C (additive): real provider usage for THIS source's one
+    # extraction call; 0 when no extraction was attempted (fetch/JS-only
+    # short circuit) or the extractor is static.
+    input_tokens: int = 0
+    output_tokens: int = 0
+    provider_request_count: int = 0
 
 
 def import_source(
@@ -750,7 +756,9 @@ def import_source(
         extraction_provider=extraction.provider, extraction_model=extraction.model,
         prompt_version=extraction.prompt_version, extraction_ok=extraction.ok,
         extraction_error=extraction.error, multi_entity=structured.multi_entity,
-        warnings=tuple(warnings))
+        warnings=tuple(warnings),
+        input_tokens=extraction.input_tokens, output_tokens=extraction.output_tokens,
+        provider_request_count=extraction.provider_request_count)
 
 
 def run_import(
@@ -880,7 +888,9 @@ def run_import(
         source.extraction_provider, source.extraction_model, observed_at, created_at,
         category_conf=category_conf, geo_conf=geo_conf,
         multi_entity=source.multi_entity, missing=missing, warnings=tuple(warnings),
-        prompt_version=source.prompt_version)
+        prompt_version=source.prompt_version,
+        input_tokens=source.input_tokens, output_tokens=source.output_tokens,
+        provider_request_count=source.provider_request_count)
 
 
 def _pet_facts_pairs(pet_facts: Dict[str, str]) -> Tuple[Tuple[str, str], ...]:
@@ -914,11 +924,16 @@ def _finalize(
     observed_at, created_at, *, category_conf, geo_conf, multi_entity,
     missing=(), warnings=(), prompt_version=C.PROMPT_VERSION,
     sources=(), aggregation_version="", candidate_id=None,
+    input_tokens=0, output_tokens=0, provider_request_count=0,
 ) -> CandidateListing:
     """``sources``/``aggregation_version``/``candidate_id`` are AES-DATA-002B
     additions for the aggregate path (``aggregate.py``); every existing
     single-source call site omits them and keeps its exact prior output
-    (``sources=()``, ``aggregation_version=""``, the existing single-URL id)."""
+    (``sources=()``, ``aggregation_version=""``, the existing single-URL id).
+    ``input_tokens``/``output_tokens``/``provider_request_count`` are the
+    AES-WORK-001C total real provider usage spent producing this candidate
+    (0 for static/fetch-short-circuit call sites, which is every existing
+    caller that does not pass them explicitly)."""
     ambiguous_fields = tuple(sorted({
         e.field_name for e in evidence if e.support_state == C.SUPPORT_AMBIGUOUS}))
     return CandidateListing(
@@ -936,6 +951,8 @@ def _finalize(
         recommendation=rec, recommendation_reasons=tuple(reasons),
         review_status=C.REVIEW_PENDING,
         sources=sources, aggregation_version=aggregation_version,
+        input_tokens=input_tokens, output_tokens=output_tokens,
+        provider_request_count=provider_request_count,
     )
 
 
@@ -999,6 +1016,12 @@ def candidate_to_dict(c: CandidateListing) -> dict:
         "review_status": c.review_status,
         "operator_edits": [list(e) for e in c.operator_edits],
         "approval_metadata": [list(p) for p in c.approval_metadata],
+        # AES-WORK-001C (additive): always present (0 for static/legacy),
+        # unlike sources/aggregation_version there is no prior JSON shape to
+        # preserve by omission for these new fields.
+        "input_tokens": c.input_tokens,
+        "output_tokens": c.output_tokens,
+        "provider_request_count": c.provider_request_count,
     }
     # AES-DATA-002A (additive): omit both keys entirely for an ordinary
     # single-source candidate so the AES-DATA-001 JSON shape is unchanged.
@@ -1080,7 +1103,10 @@ def candidate_from_dict(d: dict) -> CandidateListing:
         operator_edits=tuple(tuple(e) for e in d.get("operator_edits", ())),
         approval_metadata=tuple(tuple(p) for p in d.get("approval_metadata", ())),
         sources=tuple(_source_record_from_dict(s) for s in d.get("sources", ())),
-        aggregation_version=d.get("aggregation_version", ""))
+        aggregation_version=d.get("aggregation_version", ""),
+        input_tokens=d.get("input_tokens", 0),
+        output_tokens=d.get("output_tokens", 0),
+        provider_request_count=d.get("provider_request_count", 0))
 
 
 def dumps_candidate(c: CandidateListing) -> str:
@@ -1147,7 +1173,9 @@ def apply_operator_edits(
         review_status=c.review_status,
         operator_edits=c.operator_edits + tuple(diffs),
         approval_metadata=c.approval_metadata + (("edited_at", decided_at),),
-        sources=c.sources, aggregation_version=c.aggregation_version)
+        sources=c.sources, aggregation_version=c.aggregation_version,
+        input_tokens=c.input_tokens, output_tokens=c.output_tokens,
+        provider_request_count=c.provider_request_count)
     return (edited, tuple(diffs))
 
 

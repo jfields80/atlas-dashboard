@@ -440,6 +440,13 @@ def run_multi_import(
     records = _build_source_records(unique_urls, results)
     aggregate_id = make_aggregate_candidate_id(unique_urls, observed_at)
 
+    # AES-WORK-001C: total REAL provider usage across every attempted
+    # source (every entry in ``results``, not just the gate-included ones --
+    # an excluded/conflicting source still made a real, billed call).
+    total_input_tokens = sum(r.input_tokens for r in results)
+    total_output_tokens = sum(r.output_tokens for r in results)
+    total_provider_requests = sum(r.provider_request_count for r in results)
+
     primary_record = records[0]
     primary_result = results[0]
 
@@ -466,7 +473,9 @@ def run_multi_import(
             category_conf=C.SUPPORT_UNSUPPORTED, geo_conf=C.SUPPORT_UNSUPPORTED,
             multi_entity=False, warnings=tuple(dedupe_warnings),
             sources=tuple(records), aggregation_version=C.AGGREGATION_VERSION,
-            candidate_id=aggregate_id)
+            candidate_id=aggregate_id,
+            input_tokens=total_input_tokens, output_tokens=total_output_tokens,
+            provider_request_count=total_provider_requests)
 
     primary_page = primary_result.page_evidence
     primary_text = primary_result.snapshot.normalized_text
@@ -666,4 +675,6 @@ def run_multi_import(
         observed_at, created_at, category_conf=category_conf, geo_conf=geo_conf,
         multi_entity=agg_multi_entity, missing=missing, warnings=tuple(warnings),
         prompt_version=primary_result.prompt_version, sources=tuple(gated_records),
-        aggregation_version=C.AGGREGATION_VERSION, candidate_id=aggregate_id)
+        aggregation_version=C.AGGREGATION_VERSION, candidate_id=aggregate_id,
+        input_tokens=total_input_tokens, output_tokens=total_output_tokens,
+        provider_request_count=total_provider_requests)

@@ -133,7 +133,8 @@ def main(argv=None) -> int:
         print(json.dumps(plan, sort_keys=True, ensure_ascii=False, indent=2))
         return 0
 
-    # --- real execution: sequential, through the existing importers --------
+    # --- real execution: through the existing importers, bounded by
+    # --max-workers (1 = the WORK-001B sequential algorithm, unchanged) -----
     try:
         state = run_batch(
             manifest,
@@ -145,6 +146,7 @@ def main(argv=None) -> int:
             force=args.force,
             selected_job_ids=tuple(requested_ids),
             repo_root=_REPO_ROOT,
+            max_workers=args.max_workers,
         )
     except BatchRunError as exc:
         print("ERROR: %s" % exc)
@@ -154,6 +156,8 @@ def main(argv=None) -> int:
         return 130
 
     summary = build_batch_summary(state, manifest)
+    summary["report_path"] = str(
+        Path(args.output_root) / C.BATCHES_SUBDIR / state.batch_id / "report.html")
     print(json.dumps(summary, sort_keys=True, ensure_ascii=False, indent=2))
     return 0
 

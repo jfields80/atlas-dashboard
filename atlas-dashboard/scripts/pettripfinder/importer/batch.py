@@ -39,14 +39,17 @@ import json
 import os
 import re
 import tempfile
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple
+from urllib.parse import urlsplit
 
 from scripts.pettripfinder.importer import constants as C
 from scripts.pettripfinder.importer import normalize as N
-from scripts.pettripfinder.importer.candidate import load_candidate
+from scripts.pettripfinder.importer.candidate import _registrable, load_candidate
 from scripts.pettripfinder.importer.models import CandidateListing, ImportContext
 
 # Reuse the existing per-URL-count importer entry points and their static-
@@ -490,6 +493,15 @@ class JobState:
     provider: str = ""
     model: str = ""
     prompt_version: str = ""
+    # AES-WORK-001C (additive; legacy WORK-001B state.json loads these as
+    # their defaults below). Real provider usage only -- never inferred.
+    # USD estimation is deferred this phase (Task 9): estimated_cost_usd/
+    # pricing_version are carried as schema fields but never populated.
+    provider_request_count: int = 0
+    input_tokens: int = 0
+    output_tokens: int = 0
+    estimated_cost_usd: str = ""
+    pricing_version: str = ""
 
 
 @dataclass(frozen=True)
@@ -531,6 +543,11 @@ def _job_state_to_dict(js: JobState) -> dict:
         "provider": js.provider,
         "model": js.model,
         "prompt_version": js.prompt_version,
+        "provider_request_count": js.provider_request_count,
+        "input_tokens": js.input_tokens,
+        "output_tokens": js.output_tokens,
+        "estimated_cost_usd": js.estimated_cost_usd,
+        "pricing_version": js.pricing_version,
     }
 
 
@@ -563,6 +580,11 @@ def _job_state_from_dict(d: dict) -> JobState:
         provider=d.get("provider", ""),
         model=d.get("model", ""),
         prompt_version=d.get("prompt_version", ""),
+        provider_request_count=d.get("provider_request_count", 0),
+        input_tokens=d.get("input_tokens", 0),
+        output_tokens=d.get("output_tokens", 0),
+        estimated_cost_usd=d.get("estimated_cost_usd", ""),
+        pricing_version=d.get("pricing_version", ""),
     )
 
 
@@ -747,6 +769,30 @@ def _source_status_label(source_record) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# AES-WORK-001C Task 2 -- per-registrable-domain lock keys. Pure, no I/O: no
+# DNS, no fetch, derived only from the requested URL strings (which
+# validate_manifest has already confirmed are non-empty; a malformed URL
+# manifest fails validation long before this is ever called). This is a
+# politeness key for serializing concurrent network/provider work against
+# the same site, not a security boundary -- final-redirect domains remain
+# governed entirely by the existing importer's own fetch-safety checks.
+# --------------------------------------------------------------------------- #
+
+def _job_domain_keys(job: BatchJob) -> Tuple[str, ...]:
+    """The distinct registrable domains this job's requested URLs resolve
+    to, normalized and sorted -- reuses the exact same ``_registrable``
+    helper ``aggregate.py`` already relies on for its own same-domain gate,
+    never a second domain-parsing implementation. Deduplicated: a
+    multi-source job whose URLs share one domain yields exactly ONE key, so
+    a single (non-reentrant) lock is acquired once, not twice."""
+    domains = set()
+    for url in job.urls:
+        host = (urlsplit(url).hostname or "").lower()
+        domains.add(_registrable(host))
+    return tuple(sorted(domains))
+
+
+# --------------------------------------------------------------------------- #
 # Consolidated summary (Task 9). Pure function of durable state + manifest;
 # no elapsed-time/wall-clock field anywhere.
 # --------------------------------------------------------------------------- #
@@ -756,6 +802,7 @@ def build_batch_summary(state: BatchState, manifest: BatchManifest) -> dict:
         "jobs": len(state.jobs), "done": 0, "failed": 0, "pending": 0,
         "running": 0, "disabled": 0, "ready": 0, "review": 0, "reject": 0,
     }
+    usage_totals = {"provider_request_count": 0, "input_tokens": 0, "output_tokens": 0}
     by_id = {js.job_id: js for js in state.jobs}
     jobs_out = []
     for job in manifest.jobs:   # manifest order, always
@@ -778,6 +825,9 @@ def build_batch_summary(state: BatchState, manifest: BatchManifest) -> dict:
             totals["review"] += 1
         elif js.recommendation == C.RECOMMEND_REJECT:
             totals["reject"] += 1
+        usage_totals["provider_request_count"] += js.provider_request_count
+        usage_totals["input_tokens"] += js.input_tokens
+        usage_totals["output_tokens"] += js.output_tokens
         jobs_out.append({
             "job_id": js.job_id,
             "candidate_name": job.candidate_name,
@@ -794,7 +844,18 @@ def build_batch_summary(state: BatchState, manifest: BatchManifest) -> dict:
             "error_message": js.error_message,
             "source_outcomes": [list(t) for t in js.source_outcomes],
             "snapshot_hashes": list(js.snapshot_hashes),
+            "usage": {
+                "provider_request_count": js.provider_request_count,
+                "input_tokens": js.input_tokens,
+                "output_tokens": js.output_tokens,
+                "estimated_cost_usd": js.estimated_cost_usd,
+                "pricing_version": js.pricing_version,
+            },
         })
+    # USD estimation is deferred this phase (Task 9) -- estimated_cost_usd
+    # is never populated on any JobState, so it never appears at the batch
+    # level either. This key is added only once a real pricing table
+    # produces a known cost for every contributing job.
     return {
         "batch_state_version": state.batch_state_version,
         "batch_id": state.batch_id,
@@ -807,8 +868,29 @@ def build_batch_summary(state: BatchState, manifest: BatchManifest) -> dict:
         "importer_version": C.IMPORTER_VERSION,
         "aggregation_version": C.AGGREGATION_VERSION,
         "totals": totals,
+        "usage": usage_totals,
         "jobs": jobs_out,
     }
+
+
+# --------------------------------------------------------------------------- #
+# Resume-reuse eligibility (Task 6 doctrine, factored out so the sequential
+# and concurrent runners share IDENTICAL reuse semantics). Pure/read-only:
+# no lock, no persist, no mutation -- safe to call from any thread.
+# --------------------------------------------------------------------------- #
+
+def _is_reusable(prior: JobState, fingerprint: str) -> bool:
+    if prior.execution_state != JOB_DONE or prior.fingerprint != fingerprint:
+        return False
+    if not prior.candidate_path or not Path(prior.candidate_path).exists():
+        return False
+    if not prior.report_path or not Path(prior.report_path).exists():
+        return False
+    try:
+        load_candidate(prior.candidate_path)
+    except Exception:
+        return False
+    return True
 
 
 # --------------------------------------------------------------------------- #
@@ -831,18 +913,37 @@ def run_batch(
     fetcher_factory: Optional[Callable] = None,
     extractor_factory: Optional[Callable] = None,
     clock: Optional[Callable[[], str]] = None,
+    max_workers: int = 1,
 ) -> BatchState:
-    """Execute a manifest sequentially. Every precondition (unknown selected
-    job id, malformed/incompatible prior state, existing state without
-    resume/force) is checked and raised as ``BatchRunError``/``BatchStateError``
-    BEFORE any directory is created or any file is written -- a rejected
-    run touches nothing. One job's exception is isolated (FAILED, batch
+    """Execute a manifest. ``max_workers=1`` (the default) runs the EXACT
+    WORK-001B sequential algorithm, byte-for-byte unchanged below. Every
+    precondition (unknown selected job id, malformed/incompatible prior
+    state, existing state without resume/force, out-of-range max_workers)
+    is checked and raised as ``BatchRunError``/``BatchStateError`` BEFORE
+    any directory is created or any file is written -- a rejected run
+    touches nothing. One job's exception is isolated (FAILED, batch
     continues); KeyboardInterrupt converts any currently-RUNNING job to
     FAILED before re-raising, so resume never treats an interrupted job as
-    reusable."""
+    reusable.
+
+    ``max_workers>1`` (AES-WORK-001C) additionally bounds concurrency via
+    ``ThreadPoolExecutor`` and serializes jobs that share a registrable
+    domain -- see ``_job_domain_keys``/Task 2. Concurrency is job-level
+    only: sources within one multi-source job stay sequential through the
+    existing ``import_urls`` path, exactly as in WORK-001B."""
+    if not (1 <= max_workers <= C.MAX_BATCH_WORKERS):
+        raise BatchRunError(
+            "max_workers must be between 1 and %d (got %d)"
+            % (C.MAX_BATCH_WORKERS, max_workers))
     repo_root = Path(repo_root).resolve() if repo_root is not None else _default_repo_root()
     output_root = Path(output_root)
     clock = clock or _default_clock
+    # Deferred import: batch_report.py imports contract types FROM this
+    # module, so importing it back at module level here would be a cycle.
+    from scripts.pettripfinder.importer.batch_report import (
+        build_batch_report_html,
+        write_batch_report,
+    )
 
     batch_id = get_batch_id(manifest)
     manifest_hash = compute_manifest_hash(manifest)
@@ -901,104 +1002,254 @@ def run_batch(
             extractor=extractor_mode, model=model, observed_at=observed_at,
             jobs=tuple(job_states[j.job_id] for j in manifest.jobs))
 
-    def _persist() -> BatchState:
+    def _persist_unlocked() -> BatchState:
+        """Compute + write state/summary/report from the CURRENT job_states.
+        Callers are responsible for any locking; the sequential path below
+        is single-threaded and calls this directly via ``_persist()``."""
         state = _current_state()
         write_batch_state(state, batch_dir)
         write_batch_summary(build_batch_summary(state, manifest), batch_dir)
+        write_batch_report(build_batch_report_html(state, manifest, batch_dir), batch_dir)
         return state
+
+    def _persist() -> BatchState:
+        return _persist_unlocked()
 
     _persist()   # initial snapshot: every job visible before any execution
 
-    try:
-        for job in manifest.jobs:
-            fingerprint = fingerprints[job.job_id]
-            prior = job_states[job.job_id]
+    if max_workers <= 1:
+        # --- WORK-001B sequential algorithm, byte-for-byte unchanged. -------
+        try:
+            for job in manifest.jobs:
+                fingerprint = fingerprints[job.job_id]
+                prior = job_states[job.job_id]
 
-            if not job.enabled:
-                job_states[job.job_id] = replace(
-                    prior, fingerprint=fingerprint, execution_state=JOB_SKIPPED,
-                    last_action="skipped_disabled", skip_reason="disabled")
-                _persist()
-                continue
+                if not job.enabled:
+                    job_states[job.job_id] = replace(
+                        prior, fingerprint=fingerprint, execution_state=JOB_SKIPPED,
+                        last_action="skipped_disabled", skip_reason="disabled")
+                    _persist()
+                    continue
 
-            if job.job_id not in selected:
-                # Durable state (execution_state and everything else)
-                # untouched -- only the per-run action is stamped.
-                job_states[job.job_id] = replace(prior, last_action="skipped_not_selected")
-                _persist()
-                continue
+                if job.job_id not in selected:
+                    # Durable state (execution_state and everything else)
+                    # untouched -- only the per-run action is stamped.
+                    job_states[job.job_id] = replace(prior, last_action="skipped_not_selected")
+                    _persist()
+                    continue
 
-            if not force and resume:
-                reusable = (
-                    prior.execution_state == JOB_DONE
-                    and prior.fingerprint == fingerprint
-                    and bool(prior.candidate_path)
-                    and Path(prior.candidate_path).exists()
-                    and bool(prior.report_path)
-                    and Path(prior.report_path).exists()
-                )
-                if reusable:
-                    try:
-                        load_candidate(prior.candidate_path)
-                    except Exception:
-                        reusable = False
-                if reusable:
+                if not force and resume and _is_reusable(prior, fingerprint):
                     job_states[job.job_id] = replace(
                         prior, fingerprint=fingerprint, last_action="reused")
                     _persist()
                     continue
 
-            run_id = clock()
-            job_states[job.job_id] = JobState(
-                job_id=job.job_id, fingerprint=fingerprint,
-                execution_state=JOB_RUNNING, last_action="ran", run_id=run_id)
-            _persist()
-
-            try:
-                candidate, json_path, report_path = run_job(
-                    job, extractor_mode=extractor_mode, model=model,
-                    observed_at=observed_at, created_at=run_id,
-                    output_root=str(output_root), repo_root=repo_root,
-                    fetcher_factory=fetcher_factory, extractor_factory=extractor_factory)
-            except Exception as exc:
+                run_id = clock()
                 job_states[job.job_id] = JobState(
                     job_id=job.job_id, fingerprint=fingerprint,
-                    execution_state=JOB_FAILED, last_action="failed", run_id=run_id,
-                    error_type=type(exc).__name__, error_message=str(exc)[:500])
+                    execution_state=JOB_RUNNING, last_action="ran", run_id=run_id)
                 _persist()
+
+                try:
+                    candidate, json_path, report_path = run_job(
+                        job, extractor_mode=extractor_mode, model=model,
+                        observed_at=observed_at, created_at=run_id,
+                        output_root=str(output_root), repo_root=repo_root,
+                        fetcher_factory=fetcher_factory, extractor_factory=extractor_factory)
+                except Exception as exc:
+                    job_states[job.job_id] = JobState(
+                        job_id=job.job_id, fingerprint=fingerprint,
+                        execution_state=JOB_FAILED, last_action="failed", run_id=run_id,
+                        error_type=type(exc).__name__, error_message=str(exc)[:500])
+                    _persist()
+                    continue
+
+                source_outcomes = tuple(
+                    (s.source_id, s.role, _source_status_label(s)) for s in candidate.sources)
+                snapshot_hashes = (
+                    tuple(s.snapshot.raw_content_hash for s in candidate.sources if s.snapshot)
+                    if candidate.sources else (candidate.snapshot.raw_content_hash,))
+
+                job_states[job.job_id] = JobState(
+                    job_id=job.job_id, fingerprint=fingerprint,
+                    execution_state=JOB_DONE, last_action="ran", run_id=run_id,
+                    recommendation=candidate.recommendation,
+                    recommendation_reasons=candidate.recommendation_reasons,
+                    candidate_id=candidate.candidate_id, candidate_path=str(json_path),
+                    report_path=str(report_path), source_outcomes=source_outcomes,
+                    snapshot_hashes=snapshot_hashes,
+                    provider=candidate.extraction_provider, model=candidate.extraction_model,
+                    prompt_version=candidate.prompt_version,
+                    provider_request_count=candidate.provider_request_count,
+                    input_tokens=candidate.input_tokens, output_tokens=candidate.output_tokens)
+                _persist()
+        except KeyboardInterrupt:
+            # A currently-RUNNING job must never look DONE: convert it to
+            # FAILED atomically before re-raising, so resume reruns it rather
+            # than (incorrectly) treating it as reusable. Ctrl+C is never
+            # swallowed -- it always propagates to the caller.
+            interrupted = False
+            for jid, js in list(job_states.items()):
+                if js.execution_state == JOB_RUNNING:
+                    job_states[jid] = replace(
+                        js, execution_state=JOB_FAILED, last_action="failed",
+                        error_type="KeyboardInterrupt", error_message="interrupted")
+                    interrupted = True
+            if interrupted:
+                _persist()
+            raise
+
+    else:
+        # --- AES-WORK-001C concurrent path (Tasks 1-4, 11) -------------------
+        # ONE coordinator lock around every job_states mutation + write, so a
+        # persisted snapshot never straddles two threads' updates (Task 3).
+        coordinator_lock = threading.Lock()
+
+        def _apply(job_id: str, new_job_state: JobState) -> BatchState:
+            with coordinator_lock:
+                job_states[job_id] = new_job_state
+                return _persist_unlocked()
+
+        # Pre-pass: classify every job in manifest order. Disabled/not-
+        # selected/reused jobs never touch a thread -- identical semantics
+        # to the sequential branch above, via the SAME _is_reusable helper.
+        to_execute: List[Tuple[BatchJob, str]] = []
+        for job in manifest.jobs:
+            fingerprint = fingerprints[job.job_id]
+            prior = job_states[job.job_id]
+
+            if not job.enabled:
+                _apply(job.job_id, replace(
+                    prior, fingerprint=fingerprint, execution_state=JOB_SKIPPED,
+                    last_action="skipped_disabled", skip_reason="disabled"))
                 continue
+            if job.job_id not in selected:
+                _apply(job.job_id, replace(prior, last_action="skipped_not_selected"))
+                continue
+            if not force and resume and _is_reusable(prior, fingerprint):
+                _apply(job.job_id, replace(
+                    prior, fingerprint=fingerprint, last_action="reused"))
+                continue
+            to_execute.append((job, fingerprint))
 
-            source_outcomes = tuple(
-                (s.source_id, s.role, _source_status_label(s)) for s in candidate.sources)
-            snapshot_hashes = (
-                tuple(s.snapshot.raw_content_hash for s in candidate.sources if s.snapshot)
-                if candidate.sources else (candidate.snapshot.raw_content_hash,))
+        if not to_execute:
+            return _current_state()
 
-            job_states[job.job_id] = JobState(
+        # Per-registrable-domain lock registry (Task 2) -- local to THIS
+        # run_batch call only, never a process-wide/global registry.
+        # Pre-created (not lazily created inside a worker) so no thread ever
+        # races another to create-or-fetch the SAME domain's lock object.
+        domain_locks: Dict[str, threading.Lock] = {}
+        for job, _fp in to_execute:
+            for d in _job_domain_keys(job):
+                domain_locks.setdefault(d, threading.Lock())
+
+        def _worker(job: BatchJob, fingerprint: str):
+            """Acquire this job's domain locks in sorted order, run it
+            through the existing single/multi-source entry point, and
+            RETURN an immutable outcome for the coordinator to apply
+            (Task 3.C) -- the only direct (lock-protected) mutation a
+            worker performs itself is the initial RUNNING mark, so
+            operators watching state.json see progress in real time even
+            while a job is still queued behind a same-domain lock."""
+            run_id = clock()
+            _apply(job.job_id, JobState(
                 job_id=job.job_id, fingerprint=fingerprint,
-                execution_state=JOB_DONE, last_action="ran", run_id=run_id,
-                recommendation=candidate.recommendation,
-                recommendation_reasons=candidate.recommendation_reasons,
-                candidate_id=candidate.candidate_id, candidate_path=str(json_path),
-                report_path=str(report_path), source_outcomes=source_outcomes,
-                snapshot_hashes=snapshot_hashes,
-                provider=candidate.extraction_provider, model=candidate.extraction_model,
-                prompt_version=candidate.prompt_version)
-            _persist()
-    except KeyboardInterrupt:
-        # A currently-RUNNING job must never look DONE: convert it to
-        # FAILED atomically before re-raising, so resume reruns it rather
-        # than (incorrectly) treating it as reusable. Ctrl+C is never
-        # swallowed -- it always propagates to the caller.
-        interrupted = False
-        for jid, js in list(job_states.items()):
-            if js.execution_state == JOB_RUNNING:
-                job_states[jid] = replace(
-                    js, execution_state=JOB_FAILED, last_action="failed",
-                    error_type="KeyboardInterrupt", error_message="interrupted")
-                interrupted = True
-        if interrupted:
-            _persist()
-        raise
+                execution_state=JOB_RUNNING, last_action="ran", run_id=run_id))
+
+            domains = _job_domain_keys(job)
+            for d in domains:                      # sorted already
+                domain_locks[d].acquire()
+            try:
+                try:
+                    candidate, json_path, report_path = run_job(
+                        job, extractor_mode=extractor_mode, model=model,
+                        observed_at=observed_at, created_at=run_id,
+                        output_root=str(output_root), repo_root=repo_root,
+                        fetcher_factory=fetcher_factory, extractor_factory=extractor_factory)
+                except Exception as exc:
+                    # Isolated to this job (Task 11): never escapes _worker,
+                    # so a future's .result() never raises for this reason.
+                    return (job.job_id, JobState(
+                        job_id=job.job_id, fingerprint=fingerprint,
+                        execution_state=JOB_FAILED, last_action="failed", run_id=run_id,
+                        error_type=type(exc).__name__, error_message=str(exc)[:500]))
+
+                source_outcomes = tuple(
+                    (s.source_id, s.role, _source_status_label(s)) for s in candidate.sources)
+                snapshot_hashes = (
+                    tuple(s.snapshot.raw_content_hash for s in candidate.sources if s.snapshot)
+                    if candidate.sources else (candidate.snapshot.raw_content_hash,))
+                return (job.job_id, JobState(
+                    job_id=job.job_id, fingerprint=fingerprint,
+                    execution_state=JOB_DONE, last_action="ran", run_id=run_id,
+                    recommendation=candidate.recommendation,
+                    recommendation_reasons=candidate.recommendation_reasons,
+                    candidate_id=candidate.candidate_id, candidate_path=str(json_path),
+                    report_path=str(report_path), source_outcomes=source_outcomes,
+                    snapshot_hashes=snapshot_hashes,
+                    provider=candidate.extraction_provider, model=candidate.extraction_model,
+                    prompt_version=candidate.prompt_version,
+                    provider_request_count=candidate.provider_request_count,
+                    input_tokens=candidate.input_tokens, output_tokens=candidate.output_tokens))
+            finally:
+                # Domain lock is ALWAYS released (Task 11), even on a job
+                # exception or an (in practice signal-delivery-impossible,
+                # but test-injectable) BaseException from run_job.
+                for d in reversed(domains):
+                    domain_locks[d].release()
+
+        executor = ThreadPoolExecutor(max_workers=max_workers)
+        try:
+            futures = {executor.submit(_worker, job, fp): job.job_id
+                      for job, fp in to_execute}
+            try:
+                for future in as_completed(futures):
+                    job_id, outcome_state = future.result()
+                    _apply(job_id, outcome_state)
+            except KeyboardInterrupt:
+                # Stop submitting new work (everything eligible was already
+                # handed to the pool above -- there is nothing left to hold
+                # back) and cancel whatever has not started yet. NOTE: an
+                # ALREADY-RUNNING worker's blocking network/provider call
+                # cannot be forcibly interrupted -- Python's ThreadPoolExecutor
+                # has no thread-kill primitive, and (per the ``signal`` module)
+                # a real KeyboardInterrupt is only ever delivered to the MAIN
+                # thread in the first place, so it always surfaces here, at
+                # this ``as_completed`` wait, never inside a worker. Such a
+                # thread is left to finish in the background (never joined
+                # here -- see the ``finally`` below); its job's durable state
+                # is still correctly converted to FAILED without waiting for it.
+                already_done = [f for f in futures if f.done()]
+                for f in futures:
+                    if not f.done():
+                        f.cancel()   # succeeds only for not-yet-started futures
+                with coordinator_lock:
+                    # Drain any future that genuinely finished (successfully
+                    # or via its own isolated job failure) before the
+                    # interrupt landed -- it must never be mis-reported as
+                    # interrupted just because we had not gotten to it yet.
+                    for f in already_done:
+                        job_id = futures[f]
+                        try:
+                            _, outcome_state = f.result()
+                            job_states[job_id] = outcome_state
+                        except BaseException:
+                            pass   # this future's own exception is exactly
+                                   # what triggered this handler; its job is
+                                   # decided by the RUNNING sweep below.
+                    for jid, js in list(job_states.items()):
+                        if js.execution_state == JOB_RUNNING:
+                            job_states[jid] = replace(
+                                js, execution_state=JOB_FAILED, last_action="failed",
+                                error_type="KeyboardInterrupt", error_message="interrupted")
+                    _persist_unlocked()
+                raise
+        finally:
+            # Never blocks (Task 4: "do not wait indefinitely"): on the
+            # normal-completion path every future is already done, so this
+            # is a fast no-op; on the interrupt path it never joins a
+            # still-running worker thread.
+            executor.shutdown(wait=False, cancel_futures=True)
 
     return _current_state()

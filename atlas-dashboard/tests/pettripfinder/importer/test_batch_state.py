@@ -111,6 +111,10 @@ class TestSerializationRoundTrip:
             "candidate_path", "report_path", "run_id", "skip_reason",
             "error_type", "error_message", "source_outcomes", "snapshot_hashes",
             "provider", "model", "prompt_version",
+            # AES-WORK-001C (additive; legacy WORK-001B state.json loads
+            # these as their zero/empty defaults -- see TestLegacyState).
+            "provider_request_count", "input_tokens", "output_tokens",
+            "estimated_cost_usd", "pricing_version",
         }
 
     def test_dump_batch_state_is_sorted_key_deterministic_json(self):
