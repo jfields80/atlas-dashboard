@@ -286,3 +286,220 @@ YIELD_SKIPPED = "SKIPPED"
 # when multiple source records disagree cosmetically -- Google Places is the
 # mission's designated primary business-discovery source.
 PROVIDER_PRIORITY = (PROVIDER_GOOGLE_PLACES, PROVIDER_OPENSTREETMAP, PROVIDER_FOURSQUARE)
+
+
+# =========================================================================== #
+# AES-DATA-004C -- lodging scope cleanup and official-website resolution.
+# =========================================================================== #
+
+# --------------------------------------------------------------------------- #
+# Task 1: lodging scope classification.
+# --------------------------------------------------------------------------- #
+
+SCOPE_IN_SCOPE = "IN_SCOPE"
+SCOPE_BORDERLINE = "BORDERLINE_SCOPE"
+SCOPE_OUT_OF_SCOPE = "OUT_OF_SCOPE"
+SCOPE_UNKNOWN = "UNKNOWN_SCOPE"
+SCOPE_STATES = frozenset({SCOPE_IN_SCOPE, SCOPE_BORDERLINE, SCOPE_OUT_OF_SCOPE, SCOPE_UNKNOWN})
+# Fraction of the market bounding box's own extent used to build a
+# "borderline" buffer around it -- a candidate just outside the strict
+# bounds but within this buffer is BORDERLINE, not OUT_OF_SCOPE outright.
+SCOPE_BORDERLINE_BUFFER_FRACTION = 0.25
+
+# --------------------------------------------------------------------------- #
+# Task 3: identity-conflict resolution outcomes.
+# --------------------------------------------------------------------------- #
+
+IDENTITY_SAME_LOCATION_CURRENT_NAME = "SAME_LOCATION_CURRENT_NAME"
+IDENTITY_DISTINCT_LOCATIONS = "DISTINCT_LOCATIONS"
+IDENTITY_POSSIBLE_REBRAND = "POSSIBLE_REBRAND"
+IDENTITY_SHARED_COMPLEX_DISTINCT_PROPERTIES = "SHARED_COMPLEX_DISTINCT_PROPERTIES"
+IDENTITY_DIFFERENT_ENTITY = "DIFFERENT_ENTITY"
+IDENTITY_UNRESOLVED = "UNRESOLVED_IDENTITY"
+IDENTITY_OUTCOMES = frozenset({
+    IDENTITY_SAME_LOCATION_CURRENT_NAME, IDENTITY_DISTINCT_LOCATIONS,
+    IDENTITY_POSSIBLE_REBRAND, IDENTITY_SHARED_COMPLEX_DISTINCT_PROPERTIES,
+    IDENTITY_DIFFERENT_ENTITY, IDENTITY_UNRESOLVED,
+})
+# Deterministic, disclosed, non-exhaustive keyword/token lists used only to
+# distinguish non-lodging entities (restaurant/conference center) sharing an
+# address with a real lodging candidate, and to recognize a shared parent
+# hotel-brand family (e.g. "Residence Inn by Marriott" vs "Marriott") when
+# two DIFFERENT bookable brand-lines occupy one development. Never used to
+# merge -- only to classify an already-unmerged conflict pair.
+IDENTITY_RESTAURANT_KEYWORDS = frozenset({
+    "restaurant", "bar", "grill", "cafe", "bistro", "pub", "kitchen", "diner",
+    "steakhouse", "tavern", "brewery", "eatery",
+})
+IDENTITY_CONFERENCE_KEYWORDS = frozenset({"conference", "convention", "banquet"})
+IDENTITY_HOTEL_BRAND_FAMILY_TOKENS = frozenset({
+    "marriott", "hilton", "hyatt", "ihg", "wyndham", "choice", "bestwestern",
+    "radisson", "accor", "redroof", "extendedstay", "sonesta", "wyndhamhotels",
+})
+
+# --------------------------------------------------------------------------- #
+# Task 4: official-website resolution states.
+# --------------------------------------------------------------------------- #
+
+WEBSITE_RES_PROPERTY_URL_CONFIRMED = "PROPERTY_OFFICIAL_URL_CONFIRMED"
+WEBSITE_RES_PROPERTY_URL_PROBABLE = "PROPERTY_OFFICIAL_URL_PROBABLE"
+WEBSITE_RES_CHAIN_HOMEPAGE_ONLY = "CHAIN_HOMEPAGE_ONLY"
+WEBSITE_RES_BRAND_LOCATION_SEARCH_ONLY = "BRAND_LOCATION_SEARCH_ONLY"
+WEBSITE_RES_MANAGEMENT_COMPANY_PAGE = "MANAGEMENT_COMPANY_PAGE"
+WEBSITE_RES_THIRD_PARTY_BOOKING_URL = "THIRD_PARTY_BOOKING_URL"
+WEBSITE_RES_SOCIAL_OR_DIRECTORY_URL = "SOCIAL_OR_DIRECTORY_URL"
+WEBSITE_RES_MISSING = "WEBSITE_MISSING"
+WEBSITE_RES_CONFLICTING_URLS = "CONFLICTING_OFFICIAL_URLS"
+WEBSITE_RES_FETCH_BLOCKED = "FETCH_BLOCKED"
+WEBSITE_RES_UNRESOLVED = "UNRESOLVED"
+WEBSITE_RESOLUTION_STATES = frozenset({
+    WEBSITE_RES_PROPERTY_URL_CONFIRMED, WEBSITE_RES_PROPERTY_URL_PROBABLE,
+    WEBSITE_RES_CHAIN_HOMEPAGE_ONLY, WEBSITE_RES_BRAND_LOCATION_SEARCH_ONLY,
+    WEBSITE_RES_MANAGEMENT_COMPANY_PAGE, WEBSITE_RES_THIRD_PARTY_BOOKING_URL,
+    WEBSITE_RES_SOCIAL_OR_DIRECTORY_URL, WEBSITE_RES_MISSING,
+    WEBSITE_RES_CONFLICTING_URLS, WEBSITE_RES_FETCH_BLOCKED, WEBSITE_RES_UNRESOLVED,
+})
+# States a static (no-fetch) classification is allowed to reach on its own --
+# CONFIRMED and MANAGEMENT_COMPANY_PAGE (an accepted-with-provenance state)
+# require an actual fetch (Task 5: "do not call a URL confirmed merely from
+# path syntax").
+STATIC_REACHABLE_WEBSITE_STATES = frozenset({
+    WEBSITE_RES_PROPERTY_URL_PROBABLE, WEBSITE_RES_CHAIN_HOMEPAGE_ONLY,
+    WEBSITE_RES_BRAND_LOCATION_SEARCH_ONLY, WEBSITE_RES_THIRD_PARTY_BOOKING_URL,
+    WEBSITE_RES_SOCIAL_OR_DIRECTORY_URL, WEBSITE_RES_MISSING, WEBSITE_RES_UNRESOLVED,
+})
+
+# --------------------------------------------------------------------------- #
+# Task 5: static URL classification -- domain lists.
+#
+# Reconciled, disclosed union of discovery's own NON_OFFICIAL_DOMAINS (exact
+# registrable-domain matching) plus the importer's independently-maintained
+# THIRD_PARTY_HOST_MARKERS substring list (constants.py:
+# scripts.pettripfinder.importer -- reddit., petswelcome., allstays. were
+# present there but not here). The importer module itself is NOT modified;
+# this is only a same-spirit addition on the discovery side.
+# --------------------------------------------------------------------------- #
+
+THIRD_PARTY_BOOKING_DOMAINS = frozenset({
+    "booking.com", "expedia.com", "hotels.com", "priceline.com", "trivago.com",
+    "kayak.com", "orbitz.com", "travelocity.com", "agoda.com", "hotwire.com",
+})
+SOCIAL_OR_DIRECTORY_DOMAINS = frozenset({
+    "facebook.com", "instagram.com", "twitter.com", "x.com", "yelp.com",
+    "foursquare.com", "tripadvisor.com", "linkedin.com", "yellowpages.com",
+    "bbb.org", "nextdoor.com", "google.com", "goo.gl", "maps.google.com",
+    "opentable.com", "doordash.com", "grubhub.com", "ubereats.com",
+    "bringfido.com", "reddit.com", "petswelcome.com", "allstays.com",
+})
+URL_SHORTENER_DOMAINS = frozenset({
+    "bit.ly", "tinyurl.com", "t.co", "ow.ly", "buff.ly", "is.gd",
+})
+# Well-known major hotel-brand corporate domains (public, non-exhaustive,
+# general knowledge -- never used to fabricate a property URL, only to
+# distinguish "this is a big multi-property chain domain" from "this is
+# probably an independent single-property domain" during static
+# classification; doctrine #7 -- never invent an official website).
+KNOWN_CHAIN_BRAND_DOMAINS = frozenset({
+    "marriott.com", "hilton.com", "hyatt.com", "ihg.com", "wyndhamhotels.com",
+    "choicehotels.com", "bestwestern.com", "redroof.com",
+    "extendedstayamerica.com", "sonesta.com", "radisson.com", "accor.com",
+    "laquinta.com", "motel6.com", "super8.com", "daysinn.com",
+    "econolodge.com", "ramada.com", "travelodge.com", "qualityinn.com",
+    "comfortinn.com", "holidayinn.com",
+})
+# Path fragments suggesting a brand-wide locator/search page rather than one
+# specific property.
+BRAND_LOCATOR_PATH_HINTS = frozenset({
+    "locations", "search", "find-a-hotel", "find-hotels", "hotel-search",
+})
+# Third-party property-MANAGEMENT platforms (distinct from pure booking
+# aggregators like Booking.com/Expedia, which list any hotel regardless of
+# relationship) -- these operate/franchise the specific properties they
+# list, so a page here can carry real property-specific identity (Task 8:
+# "A management-company property page may be accepted when it clearly
+# identifies the selected hotel and address, but must retain
+# MANAGEMENT_COMPANY_PAGE provenance"). Found live during Wave 1 resolution
+# (oyorooms.com used by Google Places as the "official" website for at
+# least 2 independent budget properties) -- disclosed, minimal, expand only
+# on further confirmed evidence, never guessed.
+PROPERTY_MANAGEMENT_DOMAINS = frozenset({"oyorooms.com"})
+
+# --------------------------------------------------------------------------- #
+# Task 6/14: fetch-plan ceilings (absolute ceilings, not targets).
+# --------------------------------------------------------------------------- #
+
+RESOLUTION_MAX_HTTP_REQUESTS = 40
+RESOLUTION_MAX_REQUESTS_PER_CANDIDATE = 2
+RESOLUTION_MAX_REQUESTS_PER_DOMAIN = 4
+RESOLUTION_MIN_DOMAIN_PACING_SECONDS = 1.0
+
+# --------------------------------------------------------------------------- #
+# Task 9: missing-website next actions.
+# --------------------------------------------------------------------------- #
+
+MISSING_ACTION_RESOLVE_FROM_BRAND_LOCATOR = "RESOLVE_FROM_BRAND_LOCATOR"
+MISSING_ACTION_RESOLVE_FROM_MANAGEMENT_COMPANY = "RESOLVE_FROM_MANAGEMENT_COMPANY"
+MISSING_ACTION_MANUAL_REVIEW = "MANUAL_REVIEW"
+MISSING_ACTION_NO_OFFICIAL_SITE_FOUND = "NO_OFFICIAL_SITE_FOUND"
+MISSING_ACTION_CLOSED_OR_REBRANDED_REVIEW = "CLOSED_OR_REBRANDED_REVIEW"
+MISSING_ACTION_OUT_OF_SCOPE = "OUT_OF_SCOPE"
+MISSING_ACTION_DEFER_LOW_PRIORITY = "DEFER_LOW_PRIORITY"
+MISSING_WEBSITE_ACTIONS = frozenset({
+    MISSING_ACTION_RESOLVE_FROM_BRAND_LOCATOR, MISSING_ACTION_RESOLVE_FROM_MANAGEMENT_COMPANY,
+    MISSING_ACTION_MANUAL_REVIEW, MISSING_ACTION_NO_OFFICIAL_SITE_FOUND,
+    MISSING_ACTION_CLOSED_OR_REBRANDED_REVIEW, MISSING_ACTION_OUT_OF_SCOPE,
+    MISSING_ACTION_DEFER_LOW_PRIORITY,
+})
+
+# --------------------------------------------------------------------------- #
+# Task 10: final resolution / import-eligibility outcomes.
+# --------------------------------------------------------------------------- #
+
+RESOLUTION_READY_FOR_PET_POLICY_IMPORT = "READY_FOR_PET_POLICY_IMPORT"
+RESOLUTION_READY_WITH_BRAND_SUPPLEMENT = "READY_WITH_BRAND_SUPPLEMENT"
+RESOLUTION_REVIEW_IDENTITY = "REVIEW_IDENTITY"
+RESOLUTION_REVIEW_WEBSITE = "REVIEW_WEBSITE"
+RESOLUTION_MISSING_OFFICIAL_WEBSITE = "MISSING_OFFICIAL_WEBSITE"
+RESOLUTION_EXCLUDE_OUT_OF_SCOPE = "EXCLUDE_OUT_OF_SCOPE"
+RESOLUTION_EXCLUDE_CLOSED = "EXCLUDE_CLOSED"
+RESOLUTION_DEFER = "DEFER"
+RESOLUTION_OUTCOMES = frozenset({
+    RESOLUTION_READY_FOR_PET_POLICY_IMPORT, RESOLUTION_READY_WITH_BRAND_SUPPLEMENT,
+    RESOLUTION_REVIEW_IDENTITY, RESOLUTION_REVIEW_WEBSITE,
+    RESOLUTION_MISSING_OFFICIAL_WEBSITE, RESOLUTION_EXCLUDE_OUT_OF_SCOPE,
+    RESOLUTION_EXCLUDE_CLOSED, RESOLUTION_DEFER,
+})
+RESOLUTION_ELIGIBLE_FOR_BATCH = frozenset({
+    RESOLUTION_READY_FOR_PET_POLICY_IMPORT, RESOLUTION_READY_WITH_BRAND_SUPPLEMENT,
+})
+
+# --------------------------------------------------------------------------- #
+# Task 11: import-batch generation (mirrors the importer's own BatchJob
+# schema exactly -- scripts.pettripfinder.importer.batch.BatchJob -- so
+# generated manifests are consumable by scripts/run_import_batch.py
+# unmodified in a later phase; not executed in this phase).
+# --------------------------------------------------------------------------- #
+
+IMPORTER_CATEGORY_HOTELS = "hotels"     # the importer has no separate "motels" category
+RESOLUTION_MAX_JOBS_PER_BATCH = 20
+RESOLUTION_MANIFEST_SCHEMA_VERSION = "1.0"
+
+# --------------------------------------------------------------------------- #
+# Task 9: name-token recognition for missing-website categorization.
+# Deliberately broader than IDENTITY_HOTEL_BRAND_FAMILY_TOKENS (which is
+# narrowly scoped to the shared-complex identity heuristic) -- this list
+# recognizes common major chain/sub-brand NAME words (not domains) so a
+# missing-website candidate that is obviously chain-branded can be queued
+# for a brand-locator lookup in a later phase rather than manual research
+# now. Disclosed, non-exhaustive, public general knowledge only.
+# --------------------------------------------------------------------------- #
+
+MISSING_WEBSITE_CHAIN_NAME_TOKENS = frozenset({
+    "marriott", "hilton", "hyatt", "wyndham", "choice", "bestwestern", "best",
+    "redroof", "extendedstay", "sonesta", "radisson", "hampton", "holiday",
+    "comfort", "quality", "days", "super8", "motel6", "laquinta", "ramada",
+    "travelodge", "econolodge", "baymont", "americinn", "candlewood",
+    "staybridge", "homewood", "home2", "towneplace", "residence", "fairfield",
+    "springhill", "courtyard", "aloft", "sheraton", "westin", "doubletree",
+    "embassy", "tru", "even", "avid", "microtel", "knightsinn", "wingate",
+})

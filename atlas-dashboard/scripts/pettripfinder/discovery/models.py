@@ -146,6 +146,29 @@ class CoverageSummary:
 # --------------------------------------------------------------------------- #
 
 @dataclass(frozen=True)
+class WebsiteResolution:
+    """AES-DATA-004C Task 4 -- one URL's identity-resolution outcome. Never
+    carries pet-policy facts; identity signals only."""
+    candidate_id: str
+    source_provider: str
+    original_url: str
+    normalized_url: str
+    registrable_domain: str
+    redirect_target: str = ""
+    http_status: int = 0
+    page_title: str = ""
+    canonical_url: str = ""
+    structured_identity_name: str = ""
+    structured_identity_address: str = ""
+    address_match: bool = False
+    name_match: bool = False
+    resolution_state: str = ""
+    warnings: Tuple[str, ...] = ()
+    retrieved_at: str = ""
+    cache_reference: str = ""
+
+
+@dataclass(frozen=True)
 class QueryYieldRow:
     query_id: str
     provider: str
