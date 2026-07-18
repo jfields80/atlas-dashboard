@@ -180,6 +180,12 @@ class SourceRecord:
     extraction_model: str = ""
     prompt_version: str = ""
     warnings: Tuple[str, ...] = ()
+    # AES-DATA-003F (Task 5): this source's deterministic applicability
+    # classification (one of constants.SOURCE_APPLICABILITY_*), populated
+    # only for an INCLUDED multi-source record -- "" for every legacy/
+    # single-source/excluded record, so existing serialized shapes and
+    # every pre-003F candidate keep loading unchanged.
+    applicability: str = ""
 
 
 @dataclass(frozen=True)

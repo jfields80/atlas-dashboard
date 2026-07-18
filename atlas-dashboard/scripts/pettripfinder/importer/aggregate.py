@@ -30,6 +30,7 @@ from scripts.pettripfinder.importer.candidate import (
     _BOOL_PET_FIELDS,
     _IDENTITY_FIELDS,
     _NAME_METHOD_RANK,
+    classify_source_applicability,
     _derive_dual_facts,
     _expected_city_support,
     _finalize,
@@ -55,6 +56,9 @@ from scripts.pettripfinder.importer.domain_packs import pet_store as _pet_store_
 from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
 from scripts.pettripfinder.importer.domain_packs.capabilities import (
     CAPABILITY_SCHEMA_VERSION,
+)
+from scripts.pettripfinder.importer.domain_packs.projection import (
+    has_inapplicable_high_risk_capability,
 )
 from scripts.pettripfinder.importer.domain_packs.registry import default_registry
 from scripts.pettripfinder.importer.domain_packs.veterinary import (
@@ -402,12 +406,30 @@ def _geo_conflict_object(field: str, included: List[_IncludedSource]) -> Optiona
 
 def _merge_pet_facts(
     category: str, pooled_evidence: List[ExtractedEvidence],
+    high_risk_fields: frozenset = frozenset(),
+    source_applicability: Dict[str, str] = None,
 ) -> Tuple[Dict[str, str], List[Conflict]]:
     """Boolean and numeric pet facts: a genuine disagreement across sources
     is a ``policy_conflict`` -- the fact is not published, all evidence is
     preserved. Descriptive text: never classified as contradictory; the
     published value follows stable (pooled, source-ordered) precedence while
-    every value's evidence stays visible."""
+    every value's evidence stays visible.
+
+    AES-DATA-003F (Task 2/4): for a HIGH-RISK field specifically, when
+    ``source_applicability`` is supplied and at least one contributing
+    source is classified LOCATION_SPECIFIC, only LOCATION_SPECIFIC evidence
+    is considered for BOTH the published value and the conflict check --
+    doctrine scenario B: an explicit location-specific negative wins over a
+    non-applicable chain-wide source's contradicting positive, with no
+    fabricated conflict. When NO contributing source is LOCATION_SPECIFIC
+    (only a chain-wide/unknown source has evidence at all -- scenario D),
+    every candidate evidence entry is still considered here exactly as
+    before; the resulting value still reaches ``pet_facts``, but the
+    downstream ``project_capabilities`` applicability gate (Task 2) is what
+    keeps a HIGH-RISK claim from ever publishing as SUPPORTED in that case.
+    Non-high-risk fields are completely unaffected (doctrine: "do not
+    automatically block safe non-high-risk capabilities")."""
+    applicability = source_applicability or {}
     fields = allowed_fields(category) - set(_IDENTITY_FIELDS)
     pet_facts: Dict[str, str] = {}
     conflicts: List[Conflict] = []
@@ -416,6 +438,12 @@ def _merge_pet_facts(
                and e.support_state != C.SUPPORT_UNSUPPORTED]
         if not evs:
             continue
+        if field in high_risk_fields and applicability:
+            applicable_evs = [
+                e for e in evs
+                if applicability.get(e.source_url) == C.SOURCE_APPLICABILITY_LOCATION_SPECIFIC]
+            if applicable_evs:
+                evs = applicable_evs
         distinct = {e.proposed_value for e in evs}
         is_material = field in _BOOL_PET_FIELDS or field in _NUMERIC_PET_FIELDS
         if is_material and len(distinct) > 1:
@@ -610,8 +638,45 @@ def run_multi_import(
         website_url = primary_final_url
     name = resolved_name or N.normalize_name(context.candidate_name)
 
+    # --- source applicability (AES-DATA-003F, Task 1/4) ---------------------
+    # Classified per INCLUDED source (an excluded source never contributes a
+    # fact at all, so it needs no classification) using each source's OWN
+    # accepted city/state -- never a pooled/resolved value from a DIFFERENT
+    # source. Every included source (S1 or a supplemental) is presumed
+    # location-applicable when silent, exactly as the single-source path
+    # presumes for a single-location business (Task 3), unless its own page
+    # already shows multiple entities/locations (``restrict_identity`` --
+    # reuses the EXISTING ``multi_entity`` signal, no new detector).
+    source_applicability = {
+        src.source_url: classify_source_applicability(
+            source_url=src.source_url, accepted=src.accepted,
+            expected_city=exp_city, expected_state=exp_state,
+            multi_entity=src.restrict_identity)
+        for src in included
+    }
+    high_risk_fields = frozenset(default_registry.for_category(category).high_risk_capabilities)
+
+    # --- source provenance (Task 5): expose each INCLUDED record's own
+    # applicability classification for report/serialization inspection. An
+    # excluded/unusable record is untouched (stays "" -- it never reached
+    # classification at all, and its own excluded_reason already explains
+    # why it contributed nothing). Legacy categories (hotels/parks/dining)
+    # never declare a high-risk capability at all, so applicability is
+    # meaningless for them -- left unpopulated (Task 11: legacy candidate
+    # bytes, including the Land-Grant golden aggregate fixture's own
+    # SourceRecord shape, stay byte-identical).
+    if category == C.CATEGORY_VETERINARY or category in _SERVICE_PACK_MODULES:
+        applicability_by_id = {
+            src.source_id: source_applicability[src.source_url] for src in included}
+        gated_records = [
+            replace(r, applicability=applicability_by_id[r.source_id])
+            if r.source_id in applicability_by_id else r
+            for r in gated_records
+        ]
+
     # --- pet-fact merge (Task 10) -------------------------------------------
-    pet_facts, pet_conflicts = _merge_pet_facts(category, pooled_evidence)
+    pet_facts, pet_conflicts = _merge_pet_facts(
+        category, pooled_evidence, high_risk_fields, source_applicability)
     pooled_conflicts.extend(pet_conflicts)
     pet_policy = compose_pet_policy(pet_facts, category)
 
@@ -635,15 +700,18 @@ def run_multi_import(
     no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
     high_risk_conflict = False
     high_risk_conflict_reason = C.REASON_VETERINARY_CAPABILITY_CONFLICT
+    source_not_applicable = False
     if category == C.CATEGORY_VETERINARY:
         pack = default_registry.for_category(category)
         capabilities = _vet_project_capabilities(
-            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url)
+            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url,
+            source_applicability)
         pack_id, pack_version = pack.pack_id, pack.pack_version
         capability_schema_version = CAPABILITY_SCHEMA_VERSION
         vet_service_evidence_present = _vet_service_evidence_present(capabilities)
         no_service_evidence_reason = C.REASON_NO_VETERINARY_SERVICE_EVIDENCE
         high_risk_conflict = _vet_high_risk_conflict(capabilities)
+        source_not_applicable = has_inapplicable_high_risk_capability(capabilities)
         hours = pet_facts.get("hours", "")
         if hours:
             category_detail = CategoryDetail(
@@ -653,13 +721,15 @@ def run_multi_import(
         pack_module, no_evidence_reason, conflict_reason = _SERVICE_PACK_MODULES[category]
         pack = default_registry.for_category(category)
         capabilities = pack_module.project_capabilities(
-            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url)
+            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url,
+            source_applicability)
         pack_id, pack_version = pack.pack_id, pack.pack_version
         capability_schema_version = CAPABILITY_SCHEMA_VERSION
         vet_service_evidence_present = pack_module.service_evidence_present(capabilities)
         no_service_evidence_reason = no_evidence_reason
         high_risk_conflict = pack_module.high_risk_capability_conflict(capabilities)
         high_risk_conflict_reason = conflict_reason
+        source_not_applicable = has_inapplicable_high_risk_capability(capabilities)
         hours = pet_facts.get("hours", "")
         if hours:
             category_detail = CategoryDetail(
@@ -743,7 +813,8 @@ def run_multi_import(
         service_evidence_present=vet_service_evidence_present,
         no_service_evidence_reason=no_service_evidence_reason,
         high_risk_capability_conflict=high_risk_conflict,
-        high_risk_capability_conflict_reason=high_risk_conflict_reason))
+        high_risk_capability_conflict_reason=high_risk_conflict_reason,
+        source_not_location_applicable=source_not_applicable))
 
     warnings = list(primary_result.snapshot.fetch_warnings) + list(dedupe_warnings)
     for _rec, r in included_results:

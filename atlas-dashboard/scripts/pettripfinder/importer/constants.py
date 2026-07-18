@@ -191,6 +191,25 @@ SOURCE_ROLE_SUPPLEMENTAL = "SUPPLEMENTAL"
 
 
 # --------------------------------------------------------------------------- #
+# Source applicability (AES-DATA-003F, Task 1). A deterministic classification
+# of whether ONE source's own validated evidence establishes that it applies
+# to the selected business/location -- never a claim the LLM asserts
+# directly, only a pipeline-computed judgment over already-accepted identity/
+# geography facts (and the existing ``multi_entity`` signal). Doctrine #1:
+# official-domain ownership alone (a URL merely living on the right domain)
+# is never sufficient for LOCATION_SPECIFIC by itself.
+# --------------------------------------------------------------------------- #
+
+SOURCE_APPLICABILITY_LOCATION_SPECIFIC = "LOCATION_SPECIFIC"
+SOURCE_APPLICABILITY_ORGANIZATION_WIDE = "ORGANIZATION_WIDE"
+SOURCE_APPLICABILITY_UNKNOWN = "UNKNOWN"
+SOURCE_APPLICABILITY_STATES = frozenset({
+    SOURCE_APPLICABILITY_LOCATION_SPECIFIC, SOURCE_APPLICABILITY_ORGANIZATION_WIDE,
+    SOURCE_APPLICABILITY_UNKNOWN,
+})
+
+
+# --------------------------------------------------------------------------- #
 # Failure / condition reason slugs (mission section 31). Centralized set.
 # --------------------------------------------------------------------------- #
 
@@ -262,6 +281,13 @@ REASON_GROOMING_CAPABILITY_CONFLICT = "grooming_capability_conflict"
 REASON_NO_PET_STORE_SERVICE_EVIDENCE = "no_pet_store_service_evidence"
 REASON_PET_STORE_CAPABILITY_CONFLICT = "pet_store_capability_conflict"
 
+# AES-DATA-003F: a high-risk capability's only evidence came from a source
+# not established as applicable to the selected location (a chain-wide or
+# organization-wide page) -- deliberately ONE general reason shared across
+# every category, not proliferated per-category (Task 2: "do not create
+# category-specific reason proliferation").
+REASON_SOURCE_NOT_LOCATION_APPLICABLE = "source_not_location_applicable"
+
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
@@ -281,6 +307,7 @@ REASON_SLUGS = frozenset({
     REASON_NO_BOARDING_SERVICE_EVIDENCE, REASON_BOARDING_CAPABILITY_CONFLICT,
     REASON_NO_GROOMING_SERVICE_EVIDENCE, REASON_GROOMING_CAPABILITY_CONFLICT,
     REASON_NO_PET_STORE_SERVICE_EVIDENCE, REASON_PET_STORE_CAPABILITY_CONFLICT,
+    REASON_SOURCE_NOT_LOCATION_APPLICABLE,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).

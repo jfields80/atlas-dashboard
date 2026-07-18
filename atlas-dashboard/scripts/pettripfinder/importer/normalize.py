@@ -50,8 +50,9 @@ def normalize_name(value: str) -> str:
 # --------------------------------------------------------------------------- #
 
 # Title/site separators, each surrounded by spaces (an intra-word hyphen in
-# "Wal-Mart" is NOT space-flanked, so it is never split).
-_BRAND_SEP_RE = re.compile(r"\s*[|•]\s*|\s+[–—]\s+|\s+-\s+|:\s+|\s*::\s*")
+# "Wal-Mart" is NOT space-flanked, so it is never split). AES-DATA-003F adds
+# the middot/interpunct (``·``) to the recognized delimiter set (Task 6).
+_BRAND_SEP_RE = re.compile(r"\s*[|•·]\s*|\s+[–—]\s+|\s+-\s+|:\s+|\s*::\s*")
 
 # Deterministic site/brand boilerplate hints. A trailing/leading title
 # segment made of these is recognized as branding, not a distinct entity.
@@ -131,10 +132,19 @@ def clean_entity_name(name: str) -> str:
 
 def names_compatible(a: str, b: str) -> bool:
     """True when two candidate names denote the same entity: equal after
-    normalization, or one is exactly a title segment of the other and every
-    remaining segment is recognized site/brand boilerplate. Genuinely
-    different names (different words, partial accidental overlap) are never
-    compatible."""
+    normalization, one is exactly a title segment of the other with every
+    remaining segment recognized site/brand boilerplate, or (AES-DATA-003F,
+    Task 6/7) one is a delimiter-separated title whose LEADING segment
+    already equals the other name exactly -- a marketing tagline that is
+    not a recognized boilerplate keyword (e.g. "Dog Boarding & Dog
+    Daycare", "Dog Grooming, Cat Grooming & More") still reconciles this
+    way, because the match is on the trusted LEADING segment, not on
+    recognizing the trailing text. Only the first segment is ever checked:
+    a title whose leading segment does not match (a genuinely different
+    business, or a trailing location/entity qualifier with no delimiter at
+    all, e.g. "Pet Palace Columbus" vs "Pet Palace Hilliard") never
+    collapses. Genuinely different names (different words, partial
+    accidental overlap) are never compatible."""
     na, nb = normalize_name(a).lower(), normalize_name(b).lower()
     if not na or not nb:
         return False
@@ -147,6 +157,10 @@ def names_compatible(a: str, b: str) -> bool:
         return True
     if len(a_segs) >= 2 and nb in a_segs and all(
             is_boilerplate_segment(s) for s in a_segs if s != nb):
+        return True
+    if len(b_segs) >= 2 and b_segs[0] == na:
+        return True
+    if len(a_segs) >= 2 and a_segs[0] == nb:
         return True
     return False
 

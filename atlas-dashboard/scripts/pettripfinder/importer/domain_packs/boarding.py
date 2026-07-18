@@ -155,8 +155,10 @@ def project_capabilities(
     evidence: Sequence[ExtractedEvidence],
     conflicts: Sequence[Conflict] = (),
     source_url: str = "",
+    source_applicability: Mapping[str, str] = None,
 ) -> Tuple[Capability, ...]:
-    return _shared_project_capabilities(facts, evidence, _RULES, conflicts, source_url)
+    return _shared_project_capabilities(
+        facts, evidence, _RULES, conflicts, source_url, source_applicability)
 
 
 __all__ = [

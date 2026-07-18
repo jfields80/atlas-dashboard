@@ -52,6 +52,12 @@ class RecommendationInput:
     # so veterinary's own behavior is byte-for-byte unchanged.
     high_risk_capability_conflict: bool = False
     high_risk_capability_conflict_reason: str = C.REASON_VETERINARY_CAPABILITY_CONFLICT
+    # AES-DATA-003F (Task 2): a high-risk capability's only evidence came
+    # from a source not established as applicable to the selected location
+    # (a chain-wide/organization-wide page) -- False for every pre-003F
+    # caller. One shared reason slug across every category (Task 2: "do not
+    # create category-specific reason proliferation").
+    source_not_location_applicable: bool = False
 
 
 def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
@@ -121,6 +127,8 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
         reasons.append(C.REASON_POLICY_CONFLICT)
     if inp.high_risk_capability_conflict:
         reasons.append(inp.high_risk_capability_conflict_reason)
+    if inp.source_not_location_applicable:
+        reasons.append(C.REASON_SOURCE_NOT_LOCATION_APPLICABLE)
 
     if reasons:
         return (C.RECOMMEND_REVIEW, tuple(reasons))

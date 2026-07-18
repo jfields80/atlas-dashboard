@@ -31,6 +31,7 @@ from scripts.pettripfinder.importer.domain_packs.capabilities import (
     CAPABILITY_SCHEMA_VERSION,
     HIGH_RISK_CAPABILITY_SLUGS,
 )
+from scripts.pettripfinder.importer.domain_packs.projection import _source_applicable
 from scripts.pettripfinder.importer.models import Conflict, ExtractedEvidence
 
 # --------------------------------------------------------------------------- #
@@ -228,6 +229,7 @@ def project_capabilities(
     evidence: Sequence[ExtractedEvidence],
     conflicts: Sequence[Conflict] = (),
     source_url: str = "",
+    source_applicability: Mapping[str, str] = None,
 ) -> Tuple[Capability, ...]:
     """Project veterinary ``Capability`` instances from already-resolved,
     already-evidence-validated facts (Task 7).
@@ -247,7 +249,18 @@ def project_capabilities(
       field's state; that is what makes "emergency_service implies
       open_24h" etc. structurally impossible here, not just discouraged).
     - Deterministic order: the pack's declared field order.
+    - AES-DATA-003F (Task 2): a high-risk field whose winning evidence's own
+      ``source_url`` is positively classified (``source_applicability``) as
+      something other than LOCATION_SPECIFIC is still emitted -- never
+      silently dropped -- but downgraded to UNKNOWN rather than SUPPORTED/
+      EXPLICITLY_ABSENT/CONFLICTED, exactly mirroring
+      ``domain_packs/projection.py``'s shared behavior (this pack's
+      projection stays bespoke for the exotic-species logic, but reuses the
+      SAME applicability check via ``_source_applicable`` so both paths
+      enforce identical doctrine). ``source_applicability`` empty/None (every
+      pre-003F call site) is a no-op -- full backward compatibility.
     """
+    applicability = source_applicability or {}
     conflicted_fields = {cf.field_name for cf in conflicts if cf.field_name in _CAPABILITY_FIELDS}
     out: List[Capability] = []
     seen_ids = set()
@@ -257,10 +270,13 @@ def project_capabilities(
             if idx < 0:
                 continue   # no real evidence at all -> omit, never emit CONFLICTED
             high_risk = field in _HIGH_RISK_CAPABILITIES
+            ev_url = evidence[idx].source_url or source_url
+            state = CapabilityState.CONFLICTED.value
+            if high_risk and not _source_applicable(ev_url, applicability):
+                state = CapabilityState.UNKNOWN.value
             out.append(Capability(
-                capability_id=field, state=CapabilityState.CONFLICTED.value,
-                value="", high_risk=high_risk, evidence_index=idx,
-                source_url=evidence[idx].source_url or source_url))
+                capability_id=field, state=state,
+                value="", high_risk=high_risk, evidence_index=idx, source_url=ev_url))
             seen_ids.add(field)
             continue
 
@@ -290,9 +306,14 @@ def project_capabilities(
         if field == "species_served":
             high_risk = _is_exotic_species_claim(value)
 
+        ev_url = evidence[idx].source_url or source_url
+        if high_risk and not _source_applicable(ev_url, applicability):
+            state = CapabilityState.UNKNOWN.value
+            cap_value = ""
+
         out.append(Capability(
             capability_id=field, state=state, value=cap_value, high_risk=high_risk,
-            evidence_index=idx, source_url=evidence[idx].source_url or source_url))
+            evidence_index=idx, source_url=ev_url))
         seen_ids.add(field)
 
     assert len(seen_ids) == len(out), "project_capabilities emitted a duplicate capability_id"

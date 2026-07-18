@@ -30,6 +30,9 @@ from scripts.pettripfinder.importer.domain_packs.base import Capability, Categor
 from scripts.pettripfinder.importer.domain_packs.capabilities import (
     CAPABILITY_SCHEMA_VERSION,
 )
+from scripts.pettripfinder.importer.domain_packs.projection import (
+    has_inapplicable_high_risk_capability,
+)
 from scripts.pettripfinder.importer.domain_packs.registry import default_registry
 from scripts.pettripfinder.importer.domain_packs.veterinary import (
     high_risk_capability_conflict as _vet_high_risk_conflict,
@@ -938,15 +941,28 @@ def run_import(
     no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
     high_risk_conflict = False
     high_risk_conflict_reason = C.REASON_VETERINARY_CAPABILITY_CONFLICT
+    source_not_applicable = False
+    # AES-DATA-003F (Task 1/3): a single-source job has exactly one source.
+    # classify_source_applicability presumes a silent source is location-
+    # applicable (the identity/geography gate already validated this page
+    # belongs to the right business) UNLESS this same page already shows
+    # multiple distinct entities/locations of its own.
+    source_applicability = {
+        source_url: classify_source_applicability(
+            source_url=source_url, accepted=accepted,
+            expected_city=context.expected_city, expected_state=context.expected_state,
+            multi_entity=source.multi_entity)
+    }
     if category == C.CATEGORY_VETERINARY:
         pack = default_registry.for_category(category)
         capabilities = _vet_project_capabilities(
-            pet_facts, evidence, conflicts, source_url)
+            pet_facts, evidence, conflicts, source_url, source_applicability)
         pack_id, pack_version = pack.pack_id, pack.pack_version
         capability_schema_version = CAPABILITY_SCHEMA_VERSION
         service_evidence_present = _vet_service_evidence_present(capabilities)
         no_service_evidence_reason = C.REASON_NO_VETERINARY_SERVICE_EVIDENCE
         high_risk_conflict = _vet_high_risk_conflict(capabilities)
+        source_not_applicable = has_inapplicable_high_risk_capability(capabilities)
         hours = pet_facts.get("hours", "")
         if hours:
             category_detail = CategoryDetail(
@@ -956,13 +972,14 @@ def run_import(
         pack_module, no_evidence_reason, conflict_reason = _SERVICE_PACK_MODULES[category]
         pack = default_registry.for_category(category)
         capabilities = pack_module.project_capabilities(
-            pet_facts, evidence, conflicts, source_url)
+            pet_facts, evidence, conflicts, source_url, source_applicability)
         pack_id, pack_version = pack.pack_id, pack.pack_version
         capability_schema_version = CAPABILITY_SCHEMA_VERSION
         service_evidence_present = pack_module.service_evidence_present(capabilities)
         no_service_evidence_reason = no_evidence_reason
         high_risk_conflict = pack_module.high_risk_capability_conflict(capabilities)
         high_risk_conflict_reason = conflict_reason
+        source_not_applicable = has_inapplicable_high_risk_capability(capabilities)
         hours = pet_facts.get("hours", "")
         if hours:
             category_detail = CategoryDetail(
@@ -997,7 +1014,8 @@ def run_import(
         service_evidence_present=service_evidence_present,
         no_service_evidence_reason=no_service_evidence_reason,
         high_risk_capability_conflict=high_risk_conflict,
-        high_risk_capability_conflict_reason=high_risk_conflict_reason))
+        high_risk_capability_conflict_reason=high_risk_conflict_reason,
+        source_not_location_applicable=source_not_applicable))
 
     warnings = list(snapshot.fetch_warnings)
     if not source.extraction_ok:
@@ -1031,6 +1049,79 @@ def _geo_confidence(city: str, state: str, context: ImportContext) -> str:
     if exp_state and exp_state != state:
         return C.SUPPORT_AMBIGUOUS
     return C.SUPPORT_SUPPORTED
+
+
+# --------------------------------------------------------------------------- #
+# Source applicability (AES-DATA-003F, Task 1): a deterministic, per-source
+# classification of whether a source's OWN validated evidence establishes it
+# applies to the selected business/location. Never depends on the LLM
+# asserting applicability directly -- only on already-accepted identity/
+# geography facts this source itself carries, plus the existing
+# ``multi_entity`` signal (a page already known to show several distinct
+# businesses/locations, e.g. a chain directory). Used to gate HIGH-RISK
+# capability projection (Task 2); never used to exclude a source outright --
+# doctrine #6 ("do not globally reject all chain-wide pages").
+# --------------------------------------------------------------------------- #
+
+def classify_source_applicability(
+    *, source_url: str, accepted: Dict[str, str], expected_city: str,
+    expected_state: str, multi_entity: bool,
+) -> str:
+    """Returns one of ``C.SOURCE_APPLICABILITY_*``.
+
+    Signals, in order:
+
+    1. This source's OWN accepted ``city``/``state`` (from ITS structured or
+       LLM evidence, never a pooled/resolved value from another source)
+       matching the operator's expected city/state -> LOCATION_SPECIFIC. A
+       stated city that does NOT match is never LOCATION_SPECIFIC (a
+       genuine mismatch is a separate, pre-existing identity/geography-gate
+       concern -- this classifier never re-decides inclusion, only
+       applicability for capability purposes).
+    2. ``multi_entity`` (this source's OWN page already shows multiple
+       distinct entities/locations of its own -- an explicit, positive
+       multi-location signal, never inferred from silence) and no matching
+       city of its own -> ORGANIZATION_WIDE, UNLESS the source's URL path
+       names the expected city (a WEAK, non-conclusive signal per Task 1,
+       only used to recover a source that a coarse multi-entity detector
+       over-flagged).
+    3. Otherwise -- no location evidence stated, and nothing marks this
+       page as showing multiple locations -- LOCATION_SPECIFIC. Doctrine
+       basis: every INCLUDED source in a job (PRIMARY or SUPPLEMENTAL) has
+       already passed the identity gate proving it belongs to the SAME
+       selected business (mission doctrine #1 governs OWNERSHIP, not this
+       step; this step only asks "does anything on THIS source contradict
+       or complicate the single selected location", and plain silence does
+       not). This is Task 3's single-location presumption ("a business
+       with only one location stated on its official site remains
+       location-applicable") applied uniformly: a second official page of
+       the SAME single-location business (e.g. a dedicated emergency or
+       services subpage that never repeats the street address) is exactly
+       as applicable as the root homepage would have been. Only a stated,
+       non-matching city, or an explicit multi-entity signal, ever departs
+       from this presumption -- doctrine #5's banned inferences (shared
+       domain, navigation links, branding, nearby location pages, city in
+       the manifest) are never the basis for the presumption itself.
+    """
+    city = N.normalize_whitespace(accepted.get("city", "")).lower()
+    state = accepted.get("state", "")
+    exp_city = N.normalize_whitespace(expected_city or "").lower()
+    exp_state = expected_state or ""
+
+    if city:
+        city_matches = city == exp_city and (not exp_state or not state or state == exp_state)
+        return (C.SOURCE_APPLICABILITY_LOCATION_SPECIFIC if city_matches
+                else C.SOURCE_APPLICABILITY_UNKNOWN)
+
+    if multi_entity:
+        path_city = exp_city.replace(" ", "")
+        if path_city:
+            path = urlsplit(source_url).path.lower().replace("-", "").replace(" ", "")
+            if path_city in path:
+                return C.SOURCE_APPLICABILITY_LOCATION_SPECIFIC
+        return C.SOURCE_APPLICABILITY_ORGANIZATION_WIDE
+
+    return C.SOURCE_APPLICABILITY_LOCATION_SPECIFIC
 
 
 def _decode(body: bytes) -> str:
@@ -1105,7 +1196,7 @@ def _ev_to_dict(e: ExtractedEvidence) -> dict:
 
 
 def _source_record_to_dict(s: SourceRecord) -> dict:
-    return {
+    d = {
         "source_id": s.source_id, "requested_url": s.requested_url,
         "final_url": s.final_url, "role": s.role, "usable": s.usable,
         "fetch_reason": s.fetch_reason, "excluded_reason": s.excluded_reason,
@@ -1117,6 +1208,13 @@ def _source_record_to_dict(s: SourceRecord) -> dict:
         "prompt_version": s.prompt_version,
         "warnings": list(s.warnings),
     }
+    # AES-DATA-003F (Task 5/11): omit entirely while empty (every legacy/
+    # excluded record, and every candidate produced before this phase), so
+    # legacy candidate bytes -- including the Land-Grant golden aggregate
+    # fixture's own SourceRecord shape -- are unaffected.
+    if s.applicability:
+        d["applicability"] = s.applicability
+    return d
 
 
 # --------------------------------------------------------------------------- #
@@ -1256,7 +1354,8 @@ def _source_record_from_dict(d: dict) -> SourceRecord:
         extraction_provider=d.get("extraction_provider", ""),
         extraction_model=d.get("extraction_model", ""),
         prompt_version=d.get("prompt_version", ""),
-        warnings=tuple(d.get("warnings", ())))
+        warnings=tuple(d.get("warnings", ())),
+        applicability=d.get("applicability", ""))
 
 
 def candidate_from_dict(d: dict) -> CandidateListing:

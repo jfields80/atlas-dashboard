@@ -156,6 +156,12 @@ def _source_record_html(s: SourceRecord) -> str:
     text_hash = snap.normalized_text_hash if snap else ""
     warnings_html = ("<div class=\"muted\">warnings: %s</div>" % _e(", ".join(s.warnings))
                      if s.warnings else "")
+    # AES-DATA-003F (Task 5): "" for every legacy candidate and every
+    # excluded/unusable source -- omitted entirely, so a legacy report's
+    # markup is byte-identical to before this phase.
+    applicability_html = (
+        '<div class="muted">applicability: %s</div>' % _e(s.applicability)
+        if s.applicability else "")
     return (
         '<div class="source-row %s">'
         '<div><span class="fname">[%s]</span> <span class="muted">%s</span>'
@@ -168,13 +174,15 @@ def _source_record_html(s: SourceRecord) -> str:
         '<div class="muted">raw hash: %s</div>'
         '<div class="muted">text hash: %s</div>'
         '%s'
+        '%s'
         '</div>'
     ) % (
         css_class, _e(s.source_id), _e(s.role), _e(status_label),
         _e(s.requested_url), _e(s.final_url),
         _e(s.source_relationship), _e(s.source_relationship_reason),
         _e(observed_at), _e(s.extraction_provider), _e(s.extraction_model),
-        _e(s.prompt_version), _e(raw_hash), _e(text_hash), warnings_html,
+        _e(s.prompt_version), _e(raw_hash), _e(text_hash),
+        applicability_html, warnings_html,
     )
 
 
