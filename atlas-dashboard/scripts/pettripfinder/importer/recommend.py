@@ -44,9 +44,14 @@ class RecommendationInput:
     service_evidence_present: Optional[bool] = None
     no_service_evidence_reason: str = C.REASON_NO_PET_EVIDENCE
     # A conflicting HIGH-RISK capability (e.g. one source says 24/7
-    # emergency, another says limited hours) -- veterinary-only today,
-    # False for every existing caller.
+    # emergency, another says limited hours) -- False for every legacy
+    # caller. AES-DATA-003C: ``high_risk_capability_conflict_reason``
+    # generalizes the single hardcoded veterinary reason slug so each
+    # service category (boarding/grooming/pet_store) can supply its own
+    # dedicated conflict reason; it defaults to the exact veterinary slug,
+    # so veterinary's own behavior is byte-for-byte unchanged.
     high_risk_capability_conflict: bool = False
+    high_risk_capability_conflict_reason: str = C.REASON_VETERINARY_CAPABILITY_CONFLICT
 
 
 def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
@@ -115,7 +120,7 @@ def recommend(inp: RecommendationInput) -> Tuple[str, Tuple[str, ...]]:
     if inp.aggregate_policy_conflict:
         reasons.append(C.REASON_POLICY_CONFLICT)
     if inp.high_risk_capability_conflict:
-        reasons.append(C.REASON_VETERINARY_CAPABILITY_CONFLICT)
+        reasons.append(inp.high_risk_capability_conflict_reason)
 
     if reasons:
         return (C.RECOMMEND_REVIEW, tuple(reasons))

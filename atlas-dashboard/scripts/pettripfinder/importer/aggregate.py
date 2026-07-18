@@ -49,6 +49,9 @@ from scripts.pettripfinder.importer.category_templates import (
     REQUIRED_CSV_FIELDS,
     allowed_fields,
 )
+from scripts.pettripfinder.importer.domain_packs import boarding as _boarding_pack_module
+from scripts.pettripfinder.importer.domain_packs import grooming as _grooming_pack_module
+from scripts.pettripfinder.importer.domain_packs import pet_store as _pet_store_pack_module
 from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
 from scripts.pettripfinder.importer.domain_packs.capabilities import (
     CAPABILITY_SCHEMA_VERSION,
@@ -68,6 +71,21 @@ from scripts.pettripfinder.importer.models import (
 )
 from scripts.pettripfinder.importer.policy_compose import compose_pet_policy
 from scripts.pettripfinder.importer.recommend import RecommendationInput, recommend
+
+# AES-DATA-003C: same dispatch table as candidate.py (see there for the full
+# rationale) -- boarding/grooming/pet_store share the projection-module
+# function names; veterinary keeps its own bespoke branch below.
+_SERVICE_PACK_MODULES = {
+    C.CATEGORY_BOARDING: (
+        _boarding_pack_module, C.REASON_NO_BOARDING_SERVICE_EVIDENCE,
+        C.REASON_BOARDING_CAPABILITY_CONFLICT),
+    C.CATEGORY_GROOMING: (
+        _grooming_pack_module, C.REASON_NO_GROOMING_SERVICE_EVIDENCE,
+        C.REASON_GROOMING_CAPABILITY_CONFLICT),
+    C.CATEGORY_PET_STORE: (
+        _pet_store_pack_module, C.REASON_NO_PET_STORE_SERVICE_EVIDENCE,
+        C.REASON_PET_STORE_CAPABILITY_CONFLICT),
+}
 
 # Numeric pet facts -- a material disagreement (not descriptive prose) that
 # must never silently pick one source's number over another's.
@@ -616,6 +634,7 @@ def run_multi_import(
     vet_service_evidence_present = None
     no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
     high_risk_conflict = False
+    high_risk_conflict_reason = C.REASON_VETERINARY_CAPABILITY_CONFLICT
     if category == C.CATEGORY_VETERINARY:
         pack = default_registry.for_category(category)
         capabilities = _vet_project_capabilities(
@@ -629,6 +648,22 @@ def run_multi_import(
         if hours:
             category_detail = CategoryDetail(
                 detail_type="veterinary", detail_schema_version=pack.detail_schema_version,
+                fields=(("hours", hours),))
+    elif category in _SERVICE_PACK_MODULES:
+        pack_module, no_evidence_reason, conflict_reason = _SERVICE_PACK_MODULES[category]
+        pack = default_registry.for_category(category)
+        capabilities = pack_module.project_capabilities(
+            pet_facts, pooled_evidence, pooled_conflicts, primary_final_url)
+        pack_id, pack_version = pack.pack_id, pack.pack_version
+        capability_schema_version = CAPABILITY_SCHEMA_VERSION
+        vet_service_evidence_present = pack_module.service_evidence_present(capabilities)
+        no_service_evidence_reason = no_evidence_reason
+        high_risk_conflict = pack_module.high_risk_capability_conflict(capabilities)
+        high_risk_conflict_reason = conflict_reason
+        hours = pet_facts.get("hours", "")
+        if hours:
+            category_detail = CategoryDetail(
+                detail_type=category, detail_schema_version=pack.detail_schema_version,
                 fields=(("hours", hours),))
 
     # --- relationship: the weakest CONTRIBUTING relationship (Task 11) -----
@@ -707,7 +742,8 @@ def run_multi_import(
         aggregate_policy_conflict=aggregate_policy_conflict,
         service_evidence_present=vet_service_evidence_present,
         no_service_evidence_reason=no_service_evidence_reason,
-        high_risk_capability_conflict=high_risk_conflict))
+        high_risk_capability_conflict=high_risk_conflict,
+        high_risk_capability_conflict_reason=high_risk_conflict_reason))
 
     warnings = list(primary_result.snapshot.fetch_warnings) + list(dedupe_warnings)
     for _rec, r in included_results:

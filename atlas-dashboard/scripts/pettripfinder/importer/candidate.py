@@ -23,6 +23,9 @@ from scripts.pettripfinder.importer.category_templates import (
     REQUIRED_CSV_FIELDS,
     allowed_fields,
 )
+from scripts.pettripfinder.importer.domain_packs import boarding as _boarding_pack_module
+from scripts.pettripfinder.importer.domain_packs import grooming as _grooming_pack_module
+from scripts.pettripfinder.importer.domain_packs import pet_store as _pet_store_pack_module
 from scripts.pettripfinder.importer.domain_packs.base import Capability, CategoryDetail
 from scripts.pettripfinder.importer.domain_packs.capabilities import (
     CAPABILITY_SCHEMA_VERSION,
@@ -33,6 +36,24 @@ from scripts.pettripfinder.importer.domain_packs.veterinary import (
     project_capabilities as _vet_project_capabilities,
     service_evidence_present as _vet_service_evidence_present,
 )
+
+# AES-DATA-003C: boarding/grooming/pet_store all share the SAME projection-
+# module function names (project_capabilities/service_evidence_present/
+# high_risk_capability_conflict) via domain_packs/projection.py, so one
+# dispatch table drives all three -- veterinary keeps its own bespoke branch
+# above (it needs species-keyword high-risk logic the shared helper does not
+# generalize; see domain_packs/projection.py's module docstring).
+_SERVICE_PACK_MODULES = {
+    C.CATEGORY_BOARDING: (
+        _boarding_pack_module, C.REASON_NO_BOARDING_SERVICE_EVIDENCE,
+        C.REASON_BOARDING_CAPABILITY_CONFLICT),
+    C.CATEGORY_GROOMING: (
+        _grooming_pack_module, C.REASON_NO_GROOMING_SERVICE_EVIDENCE,
+        C.REASON_GROOMING_CAPABILITY_CONFLICT),
+    C.CATEGORY_PET_STORE: (
+        _pet_store_pack_module, C.REASON_NO_PET_STORE_SERVICE_EVIDENCE,
+        C.REASON_PET_STORE_CAPABILITY_CONFLICT),
+}
 from scripts.pettripfinder.importer.evidence import (
     build_llm_evidence,
     build_structured_evidence,
@@ -82,6 +103,15 @@ _BOOL_PET_FIELDS = frozenset({
     "diagnostics", "surgery", "dentistry", "pharmacy", "prescription_fulfillment",
     "emergency_service", "urgent_care", "open_24h", "walk_ins_accepted",
     "appointment_required", "existing_clients_only", "critical_care",
+    # AES-DATA-003C boarding/grooming/pet-store boolean capability fields.
+    "boarding_offered", "daycare_offered", "dog_boarding", "cat_boarding",
+    "other_species_boarding", "grooming_offered", "medication_administration",
+    "live_camera", "reservation_required", "same_day_availability", "pricing_available",
+    "dog_grooming", "cat_grooming", "bathing", "nail_trimming", "deshedding",
+    "mobile_service",
+    "retail_products", "pet_food", "pet_supplies", "prescription_food", "self_wash",
+    "vaccination_clinic", "live_animals", "curbside_pickup", "delivery",
+    "online_ordering",
 })
 
 
@@ -887,6 +917,7 @@ def run_import(
     service_evidence_present = None
     no_service_evidence_reason = C.REASON_NO_PET_EVIDENCE
     high_risk_conflict = False
+    high_risk_conflict_reason = C.REASON_VETERINARY_CAPABILITY_CONFLICT
     if category == C.CATEGORY_VETERINARY:
         pack = default_registry.for_category(category)
         capabilities = _vet_project_capabilities(
@@ -900,6 +931,22 @@ def run_import(
         if hours:
             category_detail = CategoryDetail(
                 detail_type="veterinary", detail_schema_version=pack.detail_schema_version,
+                fields=(("hours", hours),))
+    elif category in _SERVICE_PACK_MODULES:
+        pack_module, no_evidence_reason, conflict_reason = _SERVICE_PACK_MODULES[category]
+        pack = default_registry.for_category(category)
+        capabilities = pack_module.project_capabilities(
+            pet_facts, evidence, conflicts, source_url)
+        pack_id, pack_version = pack.pack_id, pack.pack_version
+        capability_schema_version = CAPABILITY_SCHEMA_VERSION
+        service_evidence_present = pack_module.service_evidence_present(capabilities)
+        no_service_evidence_reason = no_evidence_reason
+        high_risk_conflict = pack_module.high_risk_capability_conflict(capabilities)
+        high_risk_conflict_reason = conflict_reason
+        hours = pet_facts.get("hours", "")
+        if hours:
+            category_detail = CategoryDetail(
+                detail_type=category, detail_schema_version=pack.detail_schema_version,
                 fields=(("hours", hours),))
 
     proposed = {
@@ -929,7 +976,8 @@ def run_import(
         text_truncated="normalized_text_truncated_50kb" in snapshot.fetch_warnings,
         service_evidence_present=service_evidence_present,
         no_service_evidence_reason=no_service_evidence_reason,
-        high_risk_capability_conflict=high_risk_conflict))
+        high_risk_capability_conflict=high_risk_conflict,
+        high_risk_capability_conflict_reason=high_risk_conflict_reason))
 
     warnings = list(snapshot.fetch_warnings)
     if not source.extraction_ok:

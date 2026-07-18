@@ -58,6 +58,31 @@ CAPABILITY_SLUGS: tuple = (
     "specialty_care",
     "critical_care",
     "after_hours_instructions",
+    # AES-DATA-003C -- boarding/grooming/pet-store additions. Same reuse
+    # discipline: "pricing_available" and "service_area" are written so any
+    # future pack can reuse them, not just boarding/grooming.
+    "dog_boarding",
+    "cat_boarding",
+    "other_species_boarding",
+    "reservation_required",
+    "same_day_availability",
+    "vaccination_requirements",
+    "temperament_evaluation",
+    "medication_administration",
+    "pickup_dropoff_windows",
+    "live_camera",
+    "pricing_available",
+    "dog_grooming",
+    "cat_grooming",
+    "bathing",
+    "nail_trimming",
+    "deshedding",
+    "breed_restrictions",
+    "size_restrictions",
+    "pet_food",
+    "pet_supplies",
+    "prescription_food",
+    "live_animals",
 )
 
 # High-risk: claims that traveler safety/trust depends on. Never derived
@@ -77,6 +102,21 @@ HIGH_RISK_CAPABILITY_SLUGS: tuple = (
     "walk_ins_accepted",
     "existing_clients_only",
     "species_served",
+    # AES-DATA-003C: species/acceptance and availability claims a traveler
+    # would directly rely on. "dog_boarding"/"dog_grooming"/"cat_grooming"
+    # are deliberately NOT high-risk -- dogs are this marketplace's default
+    # assumed species, and cat_grooming was not requested as high-risk by
+    # the mission (non-inference still applies regardless: no capability is
+    # ever derived from generic wording, high-risk or not).
+    "same_day_availability",
+    "live_animals",
+    "prescription_fulfillment",
+    "vaccination_clinic",
+    "other_species_boarding",
+    "cat_boarding",
+    "medication_administration",
+    "mobile_service",
+    "service_area",
 )
 
 CAPABILITY_SLUGS_SET = frozenset(CAPABILITY_SLUGS)

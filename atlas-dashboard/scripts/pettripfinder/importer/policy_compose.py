@@ -10,8 +10,11 @@ from __future__ import annotations
 from typing import Dict
 
 from scripts.pettripfinder.importer.constants import (
+    CATEGORY_BOARDING,
+    CATEGORY_GROOMING,
     CATEGORY_HOTELS,
     CATEGORY_PARKS,
+    CATEGORY_PET_STORE,
     CATEGORY_RESTAURANTS,
     CATEGORY_VETERINARY,
 )
@@ -162,11 +165,154 @@ def _veterinary_clauses(f: Dict[str, str]) -> list:
     return out
 
 
+# --------------------------------------------------------------------------- #
+# AES-DATA-003C -- TEMPORARY COMPATIBILITY SUMMARIES.
+#
+# The legacy required-CSV contract (REQUIRED_CSV_FIELDS, constants.py) still
+# demands a non-empty ``pet_policy`` column for READY, for every category,
+# including these three service categories where "pet_policy" is not a
+# literal pet-admission policy at all. AES-DATA-003B already established
+# this workaround for veterinary; this is the SAME narrow, disclosed
+# workaround for boarding/grooming/pet_store -- do not multiply it further
+# without also opening a category-aware promotion phase (see the module-
+# level warning below). Each builder composes ONLY from already evidence-
+# validated facts (the shared ``compose_pet_policy`` contract guarantees
+# ``pet_facts`` here holds SUPPORTED/AMBIGUOUS values only), never invents
+# pricing/availability/species-acceptance/restriction text that is not
+# itself a validated fact, and the pack's own Capability/CategoryDetail
+# projections remain the authoritative structured facts -- this text is a
+# compatibility summary only, not a second source of truth.
+#
+# TODO(a later category-aware promotion phase): remove the universal
+# dependence on ``pet_policy`` for service businesses (boarding/grooming/
+# pet_store/veterinary) and replace it with a category-aware published-
+# facts schema that reads Capability/CategoryDetail directly instead of a
+# single free-text CSV column.
+# --------------------------------------------------------------------------- #
+
+def _boarding_clauses(f: Dict[str, str]) -> list:
+    """Temporary compatibility summary for the legacy universal pet_policy
+    column. Replace with category-aware promotion schema in a later phase."""
+    out = []
+    if f.get("boarding_offered") == "true":
+        out.append("Offers overnight boarding")
+    if f.get("daycare_offered") == "true":
+        out.append("Offers dog daycare")
+    if f.get("dog_boarding") == "true":
+        out.append("Boards dogs")
+    if f.get("cat_boarding") == "true":
+        out.append("Boards cats")
+    if f.get("other_species_boarding") == "true":
+        out.append("Boards other species")
+    if f.get("grooming_offered") == "true":
+        out.append("Offers grooming")
+    if f.get("medication_administration") == "true":
+        out.append("Administers medication")
+    if f.get("live_camera") == "true":
+        out.append("Offers a live camera")
+    if f.get("reservation_required") == "true":
+        out.append("Reservations are required")
+    if f.get("same_day_availability") == "true":
+        out.append("Same-day availability has been stated by the business")
+    if f.get("pricing_available") == "true":
+        out.append("Pricing information is available")
+    vaccination = (f.get("vaccination_requirements") or "").strip()
+    if vaccination:
+        out.append("Vaccination requirements: %s" % vaccination)
+    temperament = (f.get("temperament_evaluation") or "").strip()
+    if temperament:
+        out.append("Temperament evaluation: %s" % temperament)
+    windows = (f.get("pickup_dropoff_windows") or "").strip()
+    if windows:
+        out.append("Pickup/drop-off windows: %s" % windows)
+    if not out and f:
+        out.append("This business provides boarding or daycare services")
+    return out
+
+
+def _grooming_clauses(f: Dict[str, str]) -> list:
+    """Temporary compatibility summary for the legacy universal pet_policy
+    column. Replace with category-aware promotion schema in a later phase."""
+    out = []
+    if f.get("grooming_offered") == "true":
+        out.append("Offers grooming")
+    if f.get("dog_grooming") == "true":
+        out.append("Grooms dogs")
+    if f.get("cat_grooming") == "true":
+        out.append("Grooms cats")
+    if f.get("bathing") == "true":
+        out.append("Offers bathing")
+    if f.get("nail_trimming") == "true":
+        out.append("Offers nail trimming")
+    if f.get("deshedding") == "true":
+        out.append("Offers deshedding")
+    if f.get("mobile_service") == "true":
+        out.append("Offers mobile service")
+    if f.get("appointment_required") == "true":
+        out.append("Available by appointment")
+    if f.get("walk_ins_accepted") == "true":
+        out.append("Walk-ins are accepted")
+    elif f.get("walk_ins_accepted") == "false":
+        out.append("Walk-ins are not accepted; appointments are required")
+    if f.get("pricing_available") == "true":
+        out.append("Pricing information is available")
+    breed = (f.get("breed_restrictions") or "").strip()
+    if breed:
+        out.append("Breed restrictions: %s" % breed)
+    size = (f.get("size_restrictions") or "").strip()
+    if size:
+        out.append("Size restrictions: %s" % size)
+    area = (f.get("service_area") or "").strip()
+    if area:
+        out.append("Service area: %s" % area)
+    if not out and f:
+        out.append("This business provides grooming services")
+    return out
+
+
+def _pet_store_clauses(f: Dict[str, str]) -> list:
+    """Temporary compatibility summary for the legacy universal pet_policy
+    column. Replace with category-aware promotion schema in a later phase."""
+    out = []
+    if f.get("retail_products") == "true":
+        out.append("Sells pet products")
+    if f.get("pet_food") == "true":
+        out.append("Sells pet food")
+    if f.get("pet_supplies") == "true":
+        out.append("Sells pet supplies")
+    if f.get("pharmacy") == "true":
+        out.append("Has an on-site pharmacy")
+    if f.get("prescription_fulfillment") == "true":
+        out.append("Fulfills prescriptions")
+    if f.get("prescription_food") == "true":
+        out.append("Sells prescription pet food")
+    if f.get("grooming_offered") == "true":
+        out.append("Offers grooming")
+    if f.get("self_wash") == "true":
+        out.append("Offers self-wash")
+    if f.get("vaccination_clinic") == "true":
+        out.append("Offers a vaccination clinic")
+    if f.get("live_animals") == "true":
+        out.append("Sells live animals")
+    if f.get("curbside_pickup") == "true":
+        out.append("Offers curbside pickup")
+    if f.get("delivery") == "true":
+        out.append("Offers delivery")
+    if f.get("online_ordering") == "true":
+        out.append("Offers online ordering")
+    if not out and f:
+        out.append("This business is a pet supply store")
+    return out
+
+
 _BUILDERS = {
     CATEGORY_HOTELS: _hotel_clauses,
     CATEGORY_PARKS: _park_clauses,
     CATEGORY_RESTAURANTS: _restaurant_clauses,
     CATEGORY_VETERINARY: _veterinary_clauses,
+    CATEGORY_BOARDING: _boarding_clauses,
+    CATEGORY_GROOMING: _grooming_clauses,
+    CATEGORY_PET_STORE: _pet_store_clauses,
 }
 
 

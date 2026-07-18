@@ -57,8 +57,21 @@ CATEGORY_RESTAURANTS = "restaurants"
 # separate categories (mission doctrine #1). Do not add "emergency-vet",
 # "urgent-vet", "animal-hospital", or "specialty-vet" categories.
 CATEGORY_VETERINARY = "veterinary"
+# AES-DATA-003C: THREE primary service categories, each with capabilities for
+# its own service variations -- never a split category per service
+# combination (mission doctrine #12). A boarding business that also grooms
+# stays category "boarding" with grooming_offered=true; a pet store that also
+# grooms stays category "pet_store" with grooming_offered=true. Do not add
+# "daycare", "dog_daycare", "cat_boarding", "mobile_grooming", "self_wash",
+# or "pet_pharmacy" as categories -- those are capabilities/operating
+# characteristics on one of these three (or, for daycare, a capability of
+# "boarding").
+CATEGORY_BOARDING = "boarding"
+CATEGORY_GROOMING = "grooming"
+CATEGORY_PET_STORE = "pet_store"
 IMPORTER_CATEGORIES = (CATEGORY_HOTELS, CATEGORY_PARKS, CATEGORY_RESTAURANTS,
-                       CATEGORY_VETERINARY)
+                       CATEGORY_VETERINARY, CATEGORY_BOARDING, CATEGORY_GROOMING,
+                       CATEGORY_PET_STORE)
 
 CATEGORY_SLUG_BY_IMPORTER = {
     CATEGORY_HOTELS: "pet-friendly-hotels",
@@ -68,6 +81,11 @@ CATEGORY_SLUG_BY_IMPORTER = {
     # service, so it gets its own slug pattern rather than reusing the
     # lodging/park/dining "pet-friendly-*" convention.
     CATEGORY_VETERINARY: "veterinary-care",
+    # AES-DATA-003C: same reasoning as veterinary -- boarding/grooming/pet
+    # stores ARE the pet service, not merely pet-friendly venues.
+    CATEGORY_BOARDING: "pet-boarding",
+    CATEGORY_GROOMING: "pet-grooming",
+    CATEGORY_PET_STORE: "pet-stores",
 }
 
 
@@ -228,6 +246,22 @@ REASON_THIRD_PARTY_SOURCE = "third_party_source"
 REASON_NO_VETERINARY_SERVICE_EVIDENCE = "no_veterinary_service_evidence"
 REASON_VETERINARY_CAPABILITY_CONFLICT = "veterinary_capability_conflict"
 
+# AES-DATA-003C: same generalized-gate pattern as veterinary, one no-evidence
+# reason and one high-risk-conflict reason per new service category.
+# NOTE: the mission's suggested "location_service_applicability_ambiguous"
+# reason is deliberately NOT declared -- no safe, crisp, narrow trigger
+# exists for it this phase without overreaching into a new heuristic ("do
+# not add unused reasons"). The chain-wide/multi-location doctrine scenario
+# (Task 15 scenario U) is instead proven via the EXISTING, already-safe
+# ``REASON_MULTI_ENTITY`` mechanism (a chain directory page listing several
+# named locations already triggers it) -- see test_pet_store_pack.py.
+REASON_NO_BOARDING_SERVICE_EVIDENCE = "no_boarding_service_evidence"
+REASON_BOARDING_CAPABILITY_CONFLICT = "boarding_capability_conflict"
+REASON_NO_GROOMING_SERVICE_EVIDENCE = "no_grooming_service_evidence"
+REASON_GROOMING_CAPABILITY_CONFLICT = "grooming_capability_conflict"
+REASON_NO_PET_STORE_SERVICE_EVIDENCE = "no_pet_store_service_evidence"
+REASON_PET_STORE_CAPABILITY_CONFLICT = "pet_store_capability_conflict"
+
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
@@ -244,6 +278,9 @@ REASON_SLUGS = frozenset({
     REASON_INCOMPLETE_SOURCE_SET, REASON_DUPLICATE_SOURCE_URL,
     REASON_DIFFERENT_REGISTRABLE_DOMAIN, REASON_THIRD_PARTY_SOURCE,
     REASON_NO_VETERINARY_SERVICE_EVIDENCE, REASON_VETERINARY_CAPABILITY_CONFLICT,
+    REASON_NO_BOARDING_SERVICE_EVIDENCE, REASON_BOARDING_CAPABILITY_CONFLICT,
+    REASON_NO_GROOMING_SERVICE_EVIDENCE, REASON_GROOMING_CAPABILITY_CONFLICT,
+    REASON_NO_PET_STORE_SERVICE_EVIDENCE, REASON_PET_STORE_CAPABILITY_CONFLICT,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).

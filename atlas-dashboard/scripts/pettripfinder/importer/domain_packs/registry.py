@@ -65,9 +65,12 @@ def _build_default_registry() -> DomainPackRegistry:
     # Deferred imports: lodging/parks/dining/veterinary import constants.py
     # (a pure leaf module) but never this registry module, so this stays a
     # one-directional dependency with no cycle.
+    from scripts.pettripfinder.importer.domain_packs.boarding import BOARDING_PACK
     from scripts.pettripfinder.importer.domain_packs.dining import DINING_PACK
+    from scripts.pettripfinder.importer.domain_packs.grooming import GROOMING_PACK
     from scripts.pettripfinder.importer.domain_packs.lodging import LODGING_PACK
     from scripts.pettripfinder.importer.domain_packs.parks import PARKS_PACK
+    from scripts.pettripfinder.importer.domain_packs.pet_store import PET_STORE_PACK
     from scripts.pettripfinder.importer.domain_packs.veterinary import VETERINARY_PACK
 
     registry = DomainPackRegistry()
@@ -75,6 +78,11 @@ def _build_default_registry() -> DomainPackRegistry:
     registry.register(PARKS_PACK)
     registry.register(DINING_PACK)
     registry.register(VETERINARY_PACK)   # AES-DATA-003B: first non-legacy pack
+    # AES-DATA-003C: three more non-legacy packs, sharing the projection
+    # helper (domain_packs/projection.py) -- veterinary above is untouched.
+    registry.register(BOARDING_PACK)
+    registry.register(GROOMING_PACK)
+    registry.register(PET_STORE_PACK)
     return registry
 
 

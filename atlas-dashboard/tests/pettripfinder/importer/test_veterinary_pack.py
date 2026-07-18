@@ -54,8 +54,13 @@ def test_4_no_split_category_registered():
         assert name not in default_registry.category_ids()
 
 
-def test_5_registry_now_has_four_categories():
-    assert default_registry.category_ids() == (
+def test_5_registry_includes_veterinary_as_the_fourth_category():
+    # AES-DATA-003C registers three more categories after veterinary
+    # (boarding/grooming/pet_store) -- this test only asserts veterinary's
+    # own position/presence, not registry exhaustiveness (see
+    # test_domain_packs.py::TestRegistryLookup for the full current set).
+    ids = default_registry.category_ids()
+    assert ids[:4] == (
         C.CATEGORY_HOTELS, C.CATEGORY_PARKS, C.CATEGORY_RESTAURANTS, C.CATEGORY_VETERINARY)
 
 
@@ -109,9 +114,16 @@ def test_12_required_fields_match_shared_csv_contract():
 
 
 def test_13_high_risk_capabilities_are_the_doctrine_set():
+    # AES-DATA-003C added "prescription_fulfillment" to the GLOBAL high-risk
+    # slug set (pet-store doctrine); veterinary already had
+    # "prescription_fulfillment" as one of its own fields since 003B, so the
+    # pack's ``high_risk_capabilities`` (a global-set / own-fields
+    # intersection) now correctly includes it too -- a disclosed, regression
+    # -safe strengthening (no existing veterinary fixture exercises it, so
+    # no scenario/golden byte changes).
     expected = {
         "emergency_service", "urgent_care", "open_24h", "walk_ins_accepted",
-        "existing_clients_only", "species_served",
+        "existing_clients_only", "species_served", "prescription_fulfillment",
     }
     assert set(VETERINARY_PACK.high_risk_capabilities) == expected
     # Non-high-risk facts must NOT be in the set.
@@ -189,8 +201,11 @@ def test_21_capability_taxonomy_includes_veterinary_additions():
 
 
 def test_22_high_risk_slugs_include_species_served():
+    # AES-DATA-003C extended the global high-risk set from 6 to 15 (boarding/
+    # grooming/pet-store additions) -- see test_domain_packs.py::test_14 for
+    # the exact full set.
     assert "species_served" in HIGH_RISK_CAPABILITY_SLUGS
-    assert len(HIGH_RISK_CAPABILITY_SLUGS) == 6
+    assert len(HIGH_RISK_CAPABILITY_SLUGS) == 15
 
 
 def test_23_veterinary_pack_is_a_domain_pack_instance():

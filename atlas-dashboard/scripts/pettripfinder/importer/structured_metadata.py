@@ -29,6 +29,17 @@ _BUSINESS_TYPES = frozenset({
     # StructuredField construction sites above), so recognizing these types
     # cannot establish a high-risk capability by itself.
     "veterinarycare", "medicalbusiness",
+    # AES-DATA-003C: boarding/grooming/pet-store business-node recognition.
+    # schema.org has no dedicated "PetBoardingBusiness"/"PetGroomingBusiness"
+    # type -- those already resolve via the existing "localbusiness" entry
+    # above (Task 13: "do not invent unsupported schema.org type names").
+    # "petstore"/"store" are real schema.org types (Store, and its PetStore
+    # subtype) used for pet-store identity recognition only -- same
+    # constraint as veterinary above: this module never emits pharmacy/
+    # prescription_fulfillment/vaccination_clinic/live_animals/delivery/
+    # boarding/grooming/walk-in/availability field names, so recognizing
+    # these types cannot establish any capability by itself.
+    "petstore", "store",
 })
 
 
