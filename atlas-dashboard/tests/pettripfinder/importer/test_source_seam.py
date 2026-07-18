@@ -91,7 +91,7 @@ class TestPageEvidenceParity:
         source_url = snapshot.final_url
 
         page = _collect_page_evidence(
-            snapshot, structured, extraction.facts, ctx.category, source_url)
+            snapshot, structured, extraction.facts, ctx.category, source_url, ctx)
         assert isinstance(page, PageEvidence)
         # Collection never resolves a final name/phone.
         assert "name" not in page.accepted
@@ -123,7 +123,7 @@ class TestPageEvidenceParity:
         # postal derivation fires for these fixtures, so no divergence).
         url2, ctx2, snapshot, structured, extraction = self._manual_collect(fixture, tmp_path)
         page = _collect_page_evidence(
-            snapshot, structured, extraction.facts, ctx2.category, snapshot.final_url)
+            snapshot, structured, extraction.facts, ctx2.category, snapshot.final_url, ctx2)
         evidence, conflicts, accepted, _mismatch = _resolve_page_fields(
             page, snapshot, ctx2.category, snapshot.final_url, ctx2)
         assert tuple(evidence) == candidate.evidence
@@ -377,3 +377,87 @@ class TestNoNewBehavior:
         assert not (set(candidate.recommendation_reasons) & _AGGREGATE_REASON_SLUGS)
         assert candidate.sources == ()
         assert candidate.aggregation_version == ""
+
+
+# --------------------------------------------------------------------------- #
+# AES-DATA-003E live-validation defect: a structured (JSON-LD ``streetAddress``,
+# already street-only) address and an LLM-extracted address quoting the
+# page's own full "street, city, state zip" text line were compared BEFORE
+# either had its locality tail stripped (city/state aren't resolved yet at
+# this point in the pipeline) -- so the exact same real-world address was
+# reported as a material ``conflicting_evidence`` conflict purely from
+# formatting (trailing ", City, ST ZIP" present on one side, absent or
+# differently punctuated on the other). Observed live across 5 of 8 real
+# Columbus businesses in the 003E validation run (MedVet Columbus, Pet
+# Palace, Designer Paws Salon, Fangs & Fur, Petco Weinland Park), each
+# correctly publishing a clean final address despite the spurious conflict
+# -- proving the defect was in conflict DETECTION, not in what eventually
+# got published. Fixed via ``_same_address`` (candidate.py): the two values
+# are re-normalized with the operator's expected_city/expected_state before
+# a genuine conflict is recorded.
+# --------------------------------------------------------------------------- #
+
+class TestAddressConflictFalsePositive:
+    _URL = "https://www.samestreetaddress.test/"
+
+    def _static(self, structured_street: str, llm_full_line: str):
+        html = (
+            "<!doctype html><html><head><meta charset='utf-8'>"
+            "<script type=\"application/ld+json\">{\"@context\": "
+            "\"https://schema.org\", \"@type\": \"VeterinaryCare\", "
+            "\"name\": \"Same Street Address Clinic\", \"telephone\": "
+            "\"614-555-0100\", \"url\": \"%s\", \"address\": {\"@type\": "
+            "\"PostalAddress\", \"streetAddress\": \"%s\", "
+            "\"addressLocality\": \"Worthington\", \"addressRegion\": \"OH\", "
+            "\"postalCode\": \"43085\"}}</script></head>"
+            "<body><h1>Same Street Address Clinic</h1>"
+            "<p>Address: %s</p>"
+            "<p>We provide general veterinary practice services.</p>"
+            "</body></html>"
+        ) % (self._URL, structured_street, llm_full_line)
+        fetcher = StaticPageFetcher()
+        fetcher.add_html(self._URL, html)
+        extractor = StaticFactExtractor({"facts": [
+            {"field": "general_practice", "value": "true",
+             "quote": "We provide general veterinary practice services"},
+            {"field": "address", "value": llm_full_line,
+             "quote": "Address: %s" % llm_full_line},
+        ]})
+        ctx = ImportContext(
+            category="veterinary", expected_city="Worthington", expected_state="OH")
+        return (self._URL, ctx, fetcher, extractor)
+
+    def _run(self, structured_street, llm_full_line, tmp_path):
+        url, ctx, fetcher, extractor = self._static(structured_street, llm_full_line)
+        cas = ArtifactStoreRepository(tmp_path / "cas")
+        return run_import(url, ctx, fetcher=fetcher, extractor=extractor, cas=cas,
+                          observed_at="2026-07-18", created_at="1970-01-01T00:00:00")
+
+    def test_comma_before_locality_is_not_a_conflict(self, tmp_path):
+        # Structured: street-only. LLM: full line, comma before city (the
+        # exact MedVet Columbus live shape).
+        c = self._run(
+            "300 E. Wilson Bridge Rd.",
+            "300 E. Wilson Bridge Rd., Worthington, OH 43085", tmp_path)
+        assert not any(cf.field_name == "address" for cf in c.conflicts)
+        assert dict(c.proposed_fields)["address"] == "300 E. Wilson Bridge Rd."
+
+    def test_period_before_locality_is_not_a_conflict(self, tmp_path):
+        # The Pet Palace/Designer Paws/Fangs & Fur/Petco live shape: no
+        # comma at all before the city name.
+        c = self._run(
+            "300 E. Wilson Bridge Rd.",
+            "300 E. Wilson Bridge Rd. Worthington, OH 43085", tmp_path)
+        assert not any(cf.field_name == "address" for cf in c.conflicts)
+        assert dict(c.proposed_fields)["address"] == "300 E. Wilson Bridge Rd."
+
+    def test_genuinely_different_street_is_still_a_conflict(self, tmp_path):
+        # A real disagreement (different street number) must still be
+        # caught -- this fix narrows a false positive, it never weakens
+        # genuine conflict detection.
+        c = self._run(
+            "300 E. Wilson Bridge Rd.",
+            "425 Some Other Street, Worthington, OH 43085", tmp_path)
+        address_conflicts = [cf for cf in c.conflicts if cf.field_name == "address"]
+        assert len(address_conflicts) == 1
+        assert address_conflicts[0].precedence_note == "structured_metadata_over_llm_text"

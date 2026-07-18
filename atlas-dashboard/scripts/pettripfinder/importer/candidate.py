@@ -223,12 +223,29 @@ class PageEvidence:
     required_evidence_mismatch: bool
 
 
+def _same_address(a: str, b: str, context: ImportContext) -> bool:
+    """True when two address strings describe the same real-world address,
+    once each is stripped of a trailing ``, City, ST ZIP`` locality tail
+    using the operator's expected city/state. Structured markup (schema.org
+    ``streetAddress``) is typically already street-only, while an LLM
+    extracts whatever the page's own visible text shows -- often the full
+    "street, city, state zip" line as written on the page. Comparing the two
+    RAW forms before either is locality-stripped produces a false conflict
+    for the exact same address; this re-normalizes both sides with the one
+    piece of city/state context available this early (before the
+    candidate's own city/state fields are resolved) so only a genuine
+    address disagreement is ever reported."""
+    return (N.normalize_address(a, context.expected_city, context.expected_state)
+            == N.normalize_address(b, context.expected_city, context.expected_state))
+
+
 def _collect_page_evidence(
     snapshot: SourceSnapshot,
     structured: StructuredExtraction,
     llm_facts: Tuple[ProposedFact, ...],
     category: str,
     source_url: str,
+    context: ImportContext,
 ) -> PageEvidence:
     """Merge structured + LLM evidence for one page and detect intra-page
     conflicts. Name and phone candidates are pooled but NOT resolved here."""
@@ -287,7 +304,9 @@ def _collect_page_evidence(
         norm = _normalize_field_value(fact.field_name, ev.proposed_value)
         if not norm:
             continue
-        if fact.field_name in accepted and accepted[fact.field_name] != norm:
+        if (fact.field_name in accepted and accepted[fact.field_name] != norm
+                and (fact.field_name != "address"
+                     or not _same_address(accepted[fact.field_name], norm, context))):
             # Conflict: structured vs LLM disagree on the same field.
             struct_ev = next(
                 (e for e in evidence if e.field_name == fact.field_name
@@ -413,7 +432,7 @@ def _assemble(
     """Thin composition layer (AES-DATA-002A seam): collect per-page evidence,
     then resolve candidate-level fields. Signature and behavior are unchanged
     from the prior monolithic implementation."""
-    page = _collect_page_evidence(snapshot, structured, llm_facts, category, source_url)
+    page = _collect_page_evidence(snapshot, structured, llm_facts, category, source_url, context)
     return _resolve_page_fields(page, snapshot, category, source_url, context)
 
 
@@ -793,7 +812,8 @@ def import_source(
         snapshot.normalized_text, category, allowed_fields(category))
 
     source_url = snapshot.final_url
-    page = _collect_page_evidence(snapshot, structured, extraction.facts, category, source_url)
+    page = _collect_page_evidence(
+        snapshot, structured, extraction.facts, category, source_url, context)
 
     website_url = page.accepted.get("website_url", "")
     relationship, rel_reason = classify_source_relationship(
