@@ -1,12 +1,18 @@
-"""AES-WORK-001A -- batch import queue: contracts, manifest parsing,
-fail-closed validation, stable batch identity, and deterministic per-job
-fingerprints.
+"""AES-WORK-001A/B -- batch import queue: contracts, manifest parsing,
+fail-closed validation, stable batch identity, deterministic per-job
+fingerprints (001A), and the sequential execution runner, atomic state
+persistence, and resume doctrine (001B).
 
-Scope is deliberately narrow: this module has NO execution path. It never
-fetches, extracts, calls a provider, or persists a candidate/batch-state --
-those are later AES-WORK-001 phases, built on top of the existing
-``run_import``/``run_multi_import`` entry points (never a second extraction
-system).
+001B routes every job through the EXISTING importer entry points -- never a
+second extraction system:
+
+  1 URL     -> import_url(...)   (scripts/import_official_url.py)
+  2-4 URLs  -> import_urls(...)  (scripts/import_official_urls.py)
+
+Candidate JSON and per-candidate HTML reports remain authoritative at their
+existing ``<output_root>/candidates|reports/`` paths; batch state stores
+only pointers, status, fingerprints, and execution metadata --
+``<output_root>/batches/<batch_id>/{manifest,state,summary}.json``.
 
 Three separate identity concepts (binding architectural amendment):
 
@@ -30,13 +36,25 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
-from dataclasses import dataclass
+import tempfile
+from dataclasses import dataclass, replace
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from scripts.pettripfinder.importer import constants as C
 from scripts.pettripfinder.importer import normalize as N
+from scripts.pettripfinder.importer.candidate import load_candidate
+from scripts.pettripfinder.importer.models import CandidateListing, ImportContext
+
+# Reuse the existing per-URL-count importer entry points and their static-
+# fixture builders verbatim -- batch.py is an orchestrator, never a second
+# extraction system. Neither CLI imports anything from this module, so this
+# is a one-directional dependency (no cycle).
+from scripts.import_official_url import _build_static, import_url
+from scripts.import_official_urls import _build_static_multi, import_urls
 
 # job_id and batch_id share one safe-path-component grammar: lowercase
 # alnum start, then lowercase alnum/underscore/hyphen, max 64 chars total.
@@ -384,3 +402,603 @@ def compute_job_fingerprint(
 
     blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
+
+# =========================================================================== #
+# AES-WORK-001B -- execution: state contracts, atomic persistence, routing,
+# and the sequential resumable runner.
+# =========================================================================== #
+
+def _default_repo_root() -> Path:
+    return Path(__file__).resolve().parents[3]
+
+
+def _default_clock() -> str:
+    """UTC timestamp string for run_id/created_at provenance. Never
+    participates in batch_id/manifest_hash/job_fingerprint or any other
+    deterministic candidate output -- tests inject a fixed ``clock``
+    callable instead of calling this."""
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+class BatchStateError(ValueError):
+    """Persisted batch state that is malformed or incompatible with the
+    current run: bad JSON, missing/mistyped keys, an unrecognized
+    execution_state, a batch_state_version mismatch, or a batch_id mismatch.
+    Distinct from ``BatchRunError`` -- this is purely about the STORED
+    document's shape; ``BatchRunError`` is the batch-level precondition
+    failure raised once that document (or its absence) has been reconciled
+    against the current invocation."""
+
+
+class BatchRunError(ValueError):
+    """A batch-level precondition failure detected before/during a real
+    execution attempt that must map to CLI exit code 2: existing state
+    without --resume/--force, incompatible persisted state, or an unknown
+    --job-id selection. Raised before any job executes."""
+
+
+# --------------------------------------------------------------------------- #
+# Job execution-state vocabulary (Task 1). Plain string constants, matching
+# the established importer convention (RECOMMEND_READY, SUPPORT_SUPPORTED,
+# ...) rather than introducing enum.Enum for the first time in this package.
+# --------------------------------------------------------------------------- #
+
+JOB_PENDING = "PENDING"
+JOB_RUNNING = "RUNNING"
+JOB_DONE = "DONE"
+JOB_FAILED = "FAILED"
+JOB_SKIPPED = "SKIPPED"
+JOB_EXEC_STATES = frozenset({JOB_PENDING, JOB_RUNNING, JOB_DONE, JOB_FAILED, JOB_SKIPPED})
+
+
+# --------------------------------------------------------------------------- #
+# State contracts (Task 1).
+#
+# Durable-state-versus-current-run-action doctrine: ``execution_state`` is
+# the permanent ledger truth and is machine-checked against JOB_EXEC_STATES.
+# SKIPPED is reserved EXCLUSIVELY for a job that has never produced (and
+# under this invocation will not produce) a candidate -- i.e. a disabled
+# job. A completed job that is merely being reused this run, or was simply
+# not selected this run, keeps its durable DONE (or PENDING) state exactly
+# as it was; ``last_action`` records what THIS invocation did with it
+# ("ran" | "reused" | "skipped_disabled" | "skipped_not_selected" |
+# "failed" | "" for an untouched PENDING job). This is why the summary
+# reports a "disabled" total rather than a generic "skipped" total: durable
+# SKIPPED means only "disabled" (Task 9).
+# --------------------------------------------------------------------------- #
+
+@dataclass(frozen=True)
+class JobState:
+    job_id: str
+    fingerprint: str
+    execution_state: str
+    last_action: str = ""
+    recommendation: str = ""
+    recommendation_reasons: Tuple[str, ...] = ()
+    candidate_id: str = ""
+    candidate_path: str = ""
+    report_path: str = ""
+    run_id: str = ""
+    skip_reason: str = ""
+    error_type: str = ""
+    error_message: str = ""
+    # (source_id, role, status_label) triples; empty for a single-source job
+    # (sources == () on the candidate itself, same AES-DATA-001 shape).
+    source_outcomes: Tuple[Tuple[str, str, str], ...] = ()
+    snapshot_hashes: Tuple[str, ...] = ()
+    provider: str = ""
+    model: str = ""
+    prompt_version: str = ""
+
+
+@dataclass(frozen=True)
+class BatchState:
+    batch_state_version: str
+    batch_id: str
+    manifest_hash: str
+    manifest_schema_version: str
+    extractor: str
+    model: str
+    observed_at: str
+    jobs: Tuple[JobState, ...]   # manifest order, always -- never completion order
+
+
+# --------------------------------------------------------------------------- #
+# State serialization (Task 2). Sorted-key JSON, UTF-8, LF; tuples round-trip
+# through lists; missing optional keys default; malformed/incompatible state
+# is rejected with a clear ``BatchStateError`` -- never arbitrary object
+# decoding (plain ``json.loads`` and explicit field access only).
+# --------------------------------------------------------------------------- #
+
+def _job_state_to_dict(js: JobState) -> dict:
+    return {
+        "job_id": js.job_id,
+        "fingerprint": js.fingerprint,
+        "execution_state": js.execution_state,
+        "last_action": js.last_action,
+        "recommendation": js.recommendation,
+        "recommendation_reasons": list(js.recommendation_reasons),
+        "candidate_id": js.candidate_id,
+        "candidate_path": js.candidate_path,
+        "report_path": js.report_path,
+        "run_id": js.run_id,
+        "skip_reason": js.skip_reason,
+        "error_type": js.error_type,
+        "error_message": js.error_message,
+        "source_outcomes": [list(t) for t in js.source_outcomes],
+        "snapshot_hashes": list(js.snapshot_hashes),
+        "provider": js.provider,
+        "model": js.model,
+        "prompt_version": js.prompt_version,
+    }
+
+
+def _job_state_from_dict(d: dict) -> JobState:
+    if not isinstance(d, dict):
+        raise BatchStateError("a job state entry must be a JSON object")
+    try:
+        job_id = d["job_id"]
+        fingerprint = d["fingerprint"]
+        execution_state = d["execution_state"]
+    except KeyError as exc:
+        raise BatchStateError("job state entry missing required key: %s" % exc) from exc
+    if execution_state not in JOB_EXEC_STATES:
+        raise BatchStateError("job %r has an unrecognized execution_state: %r"
+                              % (job_id, execution_state))
+    return JobState(
+        job_id=job_id, fingerprint=fingerprint, execution_state=execution_state,
+        last_action=d.get("last_action", ""),
+        recommendation=d.get("recommendation", ""),
+        recommendation_reasons=tuple(d.get("recommendation_reasons", ())),
+        candidate_id=d.get("candidate_id", ""),
+        candidate_path=d.get("candidate_path", ""),
+        report_path=d.get("report_path", ""),
+        run_id=d.get("run_id", ""),
+        skip_reason=d.get("skip_reason", ""),
+        error_type=d.get("error_type", ""),
+        error_message=d.get("error_message", ""),
+        source_outcomes=tuple(tuple(t) for t in d.get("source_outcomes", ())),
+        snapshot_hashes=tuple(d.get("snapshot_hashes", ())),
+        provider=d.get("provider", ""),
+        model=d.get("model", ""),
+        prompt_version=d.get("prompt_version", ""),
+    )
+
+
+def batch_state_to_dict(state: BatchState) -> dict:
+    return {
+        "batch_state_version": state.batch_state_version,
+        "batch_id": state.batch_id,
+        "manifest_hash": state.manifest_hash,
+        "manifest_schema_version": state.manifest_schema_version,
+        "extractor": state.extractor,
+        "model": state.model,
+        "observed_at": state.observed_at,
+        "jobs": [_job_state_to_dict(j) for j in state.jobs],
+    }
+
+
+def batch_state_from_dict(d: dict) -> BatchState:
+    if not isinstance(d, dict):
+        raise BatchStateError("batch state must be a JSON object")
+    required = ("batch_state_version", "batch_id", "manifest_hash",
+               "manifest_schema_version", "extractor", "model", "observed_at", "jobs")
+    missing = [k for k in required if k not in d]
+    if missing:
+        raise BatchStateError("batch state missing required key(s): %s" % ", ".join(missing))
+    if not isinstance(d["jobs"], list):
+        raise BatchStateError("batch state 'jobs' must be a list")
+    jobs = tuple(_job_state_from_dict(j) for j in d["jobs"])
+    return BatchState(
+        batch_state_version=d["batch_state_version"],
+        batch_id=d["batch_id"],
+        manifest_hash=d["manifest_hash"],
+        manifest_schema_version=d["manifest_schema_version"],
+        extractor=d["extractor"],
+        model=d["model"],
+        observed_at=d["observed_at"],
+        jobs=jobs,
+    )
+
+
+def dump_batch_state(state: BatchState) -> str:
+    return json.dumps(batch_state_to_dict(state), sort_keys=True, ensure_ascii=False, indent=2)
+
+
+def load_batch_state(path) -> BatchState:
+    try:
+        raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    except ValueError as exc:
+        raise BatchStateError("state.json is not valid JSON: %s" % exc) from exc
+    return batch_state_from_dict(raw)
+
+
+# --------------------------------------------------------------------------- #
+# Atomic JSON writer (Task 3). An independent implementation of the
+# repository's established same-directory-tempfile + os.replace idiom
+# (mirrors, but never imports, ArtifactStoreRepository's private method).
+# --------------------------------------------------------------------------- #
+
+def _atomic_write_json(path, payload: dict) -> None:
+    """Write ``payload`` to ``path`` atomically: serialize, write to a
+    same-directory temp file, flush, best-effort fsync, then ``os.replace``.
+    The parent directory is created here (callers only ever reach this
+    function during real execution, never dry-run). On any failure before
+    ``os.replace`` the prior file (if any) is left completely intact and
+    the abandoned temp file is removed."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, indent=2)
+    fd, tmp_name = tempfile.mkstemp(dir=str(path.parent), prefix=".tmp-", suffix=".part")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(blob)
+            handle.write("\n")
+            handle.flush()
+            try:
+                os.fsync(handle.fileno())
+            except OSError:
+                pass   # best-effort: not every filesystem/mount supports fsync
+        os.replace(tmp_name, str(path))
+    except Exception:
+        if os.path.exists(tmp_name):
+            os.unlink(tmp_name)
+        raise
+
+
+def _manifest_snapshot_dict(manifest: BatchManifest) -> dict:
+    """The frozen, defaults-resolved manifest as persisted to manifest.json
+    -- the current audit copy, always kept up to date (Task 4)."""
+    return {
+        "manifest_schema_version": manifest.manifest_schema_version,
+        "batch_id": manifest.batch_id,
+        "batch_name": manifest.batch_name,
+        "manifest_hash": compute_manifest_hash(manifest),
+        "jobs": [_job_to_ordered_dict(j) for j in manifest.jobs],
+    }
+
+
+def write_manifest_snapshot(manifest: BatchManifest, batch_dir) -> Path:
+    path = Path(batch_dir) / "manifest.json"
+    _atomic_write_json(path, _manifest_snapshot_dict(manifest))
+    return path
+
+
+def write_batch_state(state: BatchState, batch_dir) -> Path:
+    path = Path(batch_dir) / "state.json"
+    _atomic_write_json(path, batch_state_to_dict(state))
+    return path
+
+
+def write_batch_summary(summary: dict, batch_dir) -> Path:
+    path = Path(batch_dir) / "summary.json"
+    _atomic_write_json(path, summary)
+    return path
+
+
+# --------------------------------------------------------------------------- #
+# Execution routing (Task 5): one URL -> import_url; two-to-four -> import_urls.
+# Never a second extraction system.
+# --------------------------------------------------------------------------- #
+
+def _build_fetcher_extractor_for_job(
+    job: BatchJob, *, extractor_mode: str, model: str, repo_root: Path,
+    fetcher_factory: Optional[Callable] = None,
+    extractor_factory: Optional[Callable] = None,
+):
+    """Real construction mirrors the existing CLIs' own static/anthropic
+    branches exactly (their private fixture builders are reused verbatim,
+    never re-implemented). Tests may inject ``fetcher_factory``/
+    ``extractor_factory`` (each called as ``factory(job)``) to bypass real
+    fixture-file/network construction entirely; both or neither must be
+    supplied."""
+    if (fetcher_factory is None) != (extractor_factory is None):
+        raise ValueError("fetcher_factory and extractor_factory must be supplied together")
+    if fetcher_factory is not None and extractor_factory is not None:
+        return (fetcher_factory(job), extractor_factory(job))
+
+    if extractor_mode == "static":
+        if len(job.urls) == 1:
+            fixture_path = str((repo_root / job.static_fixtures[0]).resolve())
+            return _build_static(job.urls[0], fixture_path)
+        fixture_paths = [str((repo_root / f).resolve()) for f in job.static_fixtures]
+        return _build_static_multi(list(job.urls), fixture_paths)
+
+    # anthropic: live provider, never called in tests.
+    from scripts.pettripfinder.importer.fetch import RequestsPageFetcher
+    from scripts.pettripfinder.importer.extraction_anthropic import AnthropicFactExtractor
+    return (RequestsPageFetcher(), AnthropicFactExtractor(model=model))
+
+
+def run_job(
+    job: BatchJob, *, extractor_mode: str, model: str, observed_at: str,
+    created_at: str, output_root: str, repo_root: Path,
+    fetcher_factory: Optional[Callable] = None,
+    extractor_factory: Optional[Callable] = None,
+) -> Tuple[CandidateListing, Path, Path]:
+    """Execute ONE job through the existing single-source or multi-source
+    importer entry point, chosen strictly by URL count. Builds the
+    ``ImportContext`` from the resolved ``BatchJob``; extractor/model/
+    observed_at/created_at/output_root come from the batch-level caller."""
+    context = ImportContext(
+        category=job.category, candidate_name=job.candidate_name,
+        expected_city=job.expected_city, expected_state=job.expected_state,
+        source_relationship_hint=job.source_relationship_hint,
+        source_type_hint=job.source_type_hint)
+    fetcher, extractor = _build_fetcher_extractor_for_job(
+        job, extractor_mode=extractor_mode, model=model, repo_root=repo_root,
+        fetcher_factory=fetcher_factory, extractor_factory=extractor_factory)
+    if len(job.urls) == 1:
+        return import_url(
+            job.urls[0], context, fetcher=fetcher, extractor=extractor,
+            output_root=output_root, observed_at=observed_at, created_at=created_at)
+    return import_urls(
+        list(job.urls), context, fetcher=fetcher, extractor=extractor,
+        output_root=output_root, observed_at=observed_at, created_at=created_at)
+
+
+def _source_status_label(source_record) -> str:
+    if source_record.excluded_reason:
+        return "excluded:%s" % source_record.excluded_reason
+    if not source_record.usable:
+        return "unusable:%s" % source_record.fetch_reason
+    return "included"
+
+
+# --------------------------------------------------------------------------- #
+# Consolidated summary (Task 9). Pure function of durable state + manifest;
+# no elapsed-time/wall-clock field anywhere.
+# --------------------------------------------------------------------------- #
+
+def build_batch_summary(state: BatchState, manifest: BatchManifest) -> dict:
+    totals = {
+        "jobs": len(state.jobs), "done": 0, "failed": 0, "pending": 0,
+        "running": 0, "disabled": 0, "ready": 0, "review": 0, "reject": 0,
+    }
+    by_id = {js.job_id: js for js in state.jobs}
+    jobs_out = []
+    for job in manifest.jobs:   # manifest order, always
+        js = by_id.get(job.job_id)
+        if js is None:
+            continue
+        if js.execution_state == JOB_DONE:
+            totals["done"] += 1
+        elif js.execution_state == JOB_FAILED:
+            totals["failed"] += 1
+        elif js.execution_state == JOB_PENDING:
+            totals["pending"] += 1
+        elif js.execution_state == JOB_RUNNING:
+            totals["running"] += 1
+        elif js.execution_state == JOB_SKIPPED:
+            totals["disabled"] += 1
+        if js.recommendation == C.RECOMMEND_READY:
+            totals["ready"] += 1
+        elif js.recommendation == C.RECOMMEND_REVIEW:
+            totals["review"] += 1
+        elif js.recommendation == C.RECOMMEND_REJECT:
+            totals["reject"] += 1
+        jobs_out.append({
+            "job_id": js.job_id,
+            "candidate_name": job.candidate_name,
+            "execution_state": js.execution_state,
+            "last_action": js.last_action,
+            "recommendation": js.recommendation,
+            "reasons": list(js.recommendation_reasons),
+            "candidate_path": js.candidate_path,
+            "report_path": js.report_path,
+            "fingerprint": js.fingerprint,
+            "run_id": js.run_id,
+            "skip_reason": js.skip_reason,
+            "error_type": js.error_type,
+            "error_message": js.error_message,
+            "source_outcomes": [list(t) for t in js.source_outcomes],
+            "snapshot_hashes": list(js.snapshot_hashes),
+        })
+    return {
+        "batch_state_version": state.batch_state_version,
+        "batch_id": state.batch_id,
+        "batch_name": manifest.batch_name,
+        "manifest_hash": state.manifest_hash,
+        "manifest_schema_version": state.manifest_schema_version,
+        "extractor": state.extractor,
+        "model": state.model,
+        "observed_at": state.observed_at,
+        "importer_version": C.IMPORTER_VERSION,
+        "aggregation_version": C.AGGREGATION_VERSION,
+        "totals": totals,
+        "jobs": jobs_out,
+    }
+
+
+# --------------------------------------------------------------------------- #
+# The sequential runner (Task 6). Manifest order throughout; state+summary
+# persisted atomically after every transition (initial snapshot, RUNNING,
+# and every terminal outcome) -- never only at batch completion.
+# --------------------------------------------------------------------------- #
+
+def run_batch(
+    manifest: BatchManifest,
+    *,
+    extractor_mode: str,
+    model: str,
+    output_root,
+    observed_at: str,
+    resume: bool = False,
+    force: bool = False,
+    selected_job_ids: Tuple[str, ...] = (),
+    repo_root=None,
+    fetcher_factory: Optional[Callable] = None,
+    extractor_factory: Optional[Callable] = None,
+    clock: Optional[Callable[[], str]] = None,
+) -> BatchState:
+    """Execute a manifest sequentially. Every precondition (unknown selected
+    job id, malformed/incompatible prior state, existing state without
+    resume/force) is checked and raised as ``BatchRunError``/``BatchStateError``
+    BEFORE any directory is created or any file is written -- a rejected
+    run touches nothing. One job's exception is isolated (FAILED, batch
+    continues); KeyboardInterrupt converts any currently-RUNNING job to
+    FAILED before re-raising, so resume never treats an interrupted job as
+    reusable."""
+    repo_root = Path(repo_root).resolve() if repo_root is not None else _default_repo_root()
+    output_root = Path(output_root)
+    clock = clock or _default_clock
+
+    batch_id = get_batch_id(manifest)
+    manifest_hash = compute_manifest_hash(manifest)
+    batch_dir = output_root / C.BATCHES_SUBDIR / batch_id
+    state_path = batch_dir / "state.json"
+
+    all_job_ids = [job.job_id for job in manifest.jobs]
+    selected = set(selected_job_ids) if selected_job_ids else set(all_job_ids)
+    unknown = selected - set(all_job_ids)
+    if unknown:
+        raise BatchRunError("unknown selected job id(s): %s" % ", ".join(sorted(unknown)))
+
+    prior_state: Optional[BatchState] = None
+    if state_path.exists():
+        try:
+            prior_state = load_batch_state(state_path)
+        except BatchStateError as exc:
+            raise BatchRunError("existing batch state is malformed: %s" % exc) from exc
+        if prior_state.batch_state_version != C.BATCH_STATE_VERSION:
+            raise BatchRunError(
+                "existing batch state version %r is incompatible with %r"
+                % (prior_state.batch_state_version, C.BATCH_STATE_VERSION))
+        if prior_state.batch_id != batch_id:
+            raise BatchRunError(
+                "existing batch state batch_id %r does not match manifest batch_id %r"
+                % (prior_state.batch_id, batch_id))
+        if not resume and not force:
+            raise BatchRunError(
+                "batch state already exists at %s -- pass resume=True or force=True"
+                % state_path)
+
+    fingerprints = {
+        job.job_id: compute_job_fingerprint(
+            job, extractor=extractor_mode, model=model, observed_at=observed_at,
+            repo_root=repo_root)
+        for job in manifest.jobs
+    }
+
+    # Every precondition has passed -- only now does execution touch disk.
+    batch_dir.mkdir(parents=True, exist_ok=True)
+    write_manifest_snapshot(manifest, batch_dir)
+
+    prior_by_id = {js.job_id: js for js in (prior_state.jobs if prior_state else ())}
+    job_states: Dict[str, JobState] = {}
+    for job in manifest.jobs:
+        prior = prior_by_id.get(job.job_id)
+        job_states[job.job_id] = prior if prior is not None else JobState(
+            job_id=job.job_id, fingerprint=fingerprints[job.job_id],
+            execution_state=JOB_PENDING)
+
+    def _current_state() -> BatchState:
+        return BatchState(
+            batch_state_version=C.BATCH_STATE_VERSION, batch_id=batch_id,
+            manifest_hash=manifest_hash,
+            manifest_schema_version=manifest.manifest_schema_version,
+            extractor=extractor_mode, model=model, observed_at=observed_at,
+            jobs=tuple(job_states[j.job_id] for j in manifest.jobs))
+
+    def _persist() -> BatchState:
+        state = _current_state()
+        write_batch_state(state, batch_dir)
+        write_batch_summary(build_batch_summary(state, manifest), batch_dir)
+        return state
+
+    _persist()   # initial snapshot: every job visible before any execution
+
+    try:
+        for job in manifest.jobs:
+            fingerprint = fingerprints[job.job_id]
+            prior = job_states[job.job_id]
+
+            if not job.enabled:
+                job_states[job.job_id] = replace(
+                    prior, fingerprint=fingerprint, execution_state=JOB_SKIPPED,
+                    last_action="skipped_disabled", skip_reason="disabled")
+                _persist()
+                continue
+
+            if job.job_id not in selected:
+                # Durable state (execution_state and everything else)
+                # untouched -- only the per-run action is stamped.
+                job_states[job.job_id] = replace(prior, last_action="skipped_not_selected")
+                _persist()
+                continue
+
+            if not force and resume:
+                reusable = (
+                    prior.execution_state == JOB_DONE
+                    and prior.fingerprint == fingerprint
+                    and bool(prior.candidate_path)
+                    and Path(prior.candidate_path).exists()
+                    and bool(prior.report_path)
+                    and Path(prior.report_path).exists()
+                )
+                if reusable:
+                    try:
+                        load_candidate(prior.candidate_path)
+                    except Exception:
+                        reusable = False
+                if reusable:
+                    job_states[job.job_id] = replace(
+                        prior, fingerprint=fingerprint, last_action="reused")
+                    _persist()
+                    continue
+
+            run_id = clock()
+            job_states[job.job_id] = JobState(
+                job_id=job.job_id, fingerprint=fingerprint,
+                execution_state=JOB_RUNNING, last_action="ran", run_id=run_id)
+            _persist()
+
+            try:
+                candidate, json_path, report_path = run_job(
+                    job, extractor_mode=extractor_mode, model=model,
+                    observed_at=observed_at, created_at=run_id,
+                    output_root=str(output_root), repo_root=repo_root,
+                    fetcher_factory=fetcher_factory, extractor_factory=extractor_factory)
+            except Exception as exc:
+                job_states[job.job_id] = JobState(
+                    job_id=job.job_id, fingerprint=fingerprint,
+                    execution_state=JOB_FAILED, last_action="failed", run_id=run_id,
+                    error_type=type(exc).__name__, error_message=str(exc)[:500])
+                _persist()
+                continue
+
+            source_outcomes = tuple(
+                (s.source_id, s.role, _source_status_label(s)) for s in candidate.sources)
+            snapshot_hashes = (
+                tuple(s.snapshot.raw_content_hash for s in candidate.sources if s.snapshot)
+                if candidate.sources else (candidate.snapshot.raw_content_hash,))
+
+            job_states[job.job_id] = JobState(
+                job_id=job.job_id, fingerprint=fingerprint,
+                execution_state=JOB_DONE, last_action="ran", run_id=run_id,
+                recommendation=candidate.recommendation,
+                recommendation_reasons=candidate.recommendation_reasons,
+                candidate_id=candidate.candidate_id, candidate_path=str(json_path),
+                report_path=str(report_path), source_outcomes=source_outcomes,
+                snapshot_hashes=snapshot_hashes,
+                provider=candidate.extraction_provider, model=candidate.extraction_model,
+                prompt_version=candidate.prompt_version)
+            _persist()
+    except KeyboardInterrupt:
+        # A currently-RUNNING job must never look DONE: convert it to
+        # FAILED atomically before re-raising, so resume reruns it rather
+        # than (incorrectly) treating it as reusable. Ctrl+C is never
+        # swallowed -- it always propagates to the caller.
+        interrupted = False
+        for jid, js in list(job_states.items()):
+            if js.execution_state == JOB_RUNNING:
+                job_states[jid] = replace(
+                    js, execution_state=JOB_FAILED, last_action="failed",
+                    error_type="KeyboardInterrupt", error_message="interrupted")
+                interrupted = True
+        if interrupted:
+            _persist()
+        raise
+
+    return _current_state()

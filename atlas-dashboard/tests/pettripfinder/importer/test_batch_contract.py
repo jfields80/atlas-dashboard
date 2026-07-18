@@ -459,10 +459,21 @@ class TestDryRunCli:
         assert by_id["land-grant"]["route"] == "multi"
         assert by_id["land-grant"]["url_count"] == 2
 
-    def test_no_dry_run_flag_rejected(self, tmp_path):
+    def test_no_dry_run_flag_now_executes_for_real(self, tmp_path, capsys):
+        """AES-WORK-001B lifts the AES-WORK-001A "--dry-run only" gate:
+        omitting --dry-run now runs the batch for real through the existing
+        importers instead of erroring. Full behavioral coverage of real
+        execution lives in test_batch_runner.py/test_batch_resume.py; this
+        just guards the CLI wiring itself against regressing back to the
+        old always-reject gate."""
         manifest_path = _write_manifest(tmp_path, _base_manifest_dict())
-        code = main(["--manifest", str(manifest_path), "--extractor", "static"])
-        assert code == 2
+        output_root = tmp_path / "out"
+        code = main(["--manifest", str(manifest_path), "--extractor", "static",
+                    "--output-root", str(output_root), "--observed-at", "2026-07-17"])
+        assert code == 0
+        summary = json.loads(capsys.readouterr().out)
+        assert summary["totals"]["done"] == 3
+        assert (output_root / "batches" / "columbus-wave-1" / "state.json").exists()
 
     def test_max_workers_out_of_range_rejected(self, tmp_path):
         manifest_path = _write_manifest(tmp_path, _base_manifest_dict())

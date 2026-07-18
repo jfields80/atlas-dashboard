@@ -1,17 +1,22 @@
-"""AES-WORK-001A -- CLI: validate a batch manifest and print its execution
-plan. No execution path exists yet: this phase is validate-only and
-requires ``--dry-run``. No fetch, no extraction, no provider call, no
-candidate/state persistence.
+"""AES-WORK-001A/B -- CLI: validate a batch manifest and either print its
+execution plan (``--dry-run``, no fetch/extraction/persistence) or run it
+for real, sequentially, through the existing single/multi-source importers.
 
-Deterministic offline example (no network, no API key):
+Deterministic offline dry-run example (no network, no API key):
 
     python scripts/run_import_batch.py `
       --manifest data/import/jobs/columbus-wave-1.json `
       --extractor static `
       --dry-run
 
-Every ``--extractor anthropic`` combination is still validate-only in this
-phase; no live call is ever made by this file.
+Deterministic offline execution example (no network, no API key):
+
+    python scripts/run_import_batch.py `
+      --manifest data/import/jobs/columbus-wave-1.json `
+      --extractor static
+
+Every ``--extractor anthropic`` combination without ``--dry-run`` makes one
+live paid call per job -- never silently.
 """
 
 from __future__ import annotations
@@ -29,10 +34,13 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.importer import constants as C
 from scripts.pettripfinder.importer.batch import (
     BatchManifestError,
+    BatchRunError,
+    build_batch_summary,
     compute_job_fingerprint,
     compute_manifest_hash,
     get_batch_id,
     load_manifest,
+    run_batch,
     validate_manifest,
 )
 
@@ -53,10 +61,6 @@ def main(argv=None) -> int:
     args = p.parse_args(argv)
 
     # --- argument-level validation: fail before touching the manifest ----
-    if not args.dry_run:
-        print("ERROR: AES-WORK-001A supports --dry-run only "
-              "(no execution path exists yet)")
-        return 2
     if args.resume and args.force:
         print("ERROR: --resume and --force cannot be used together")
         return 2
@@ -85,46 +89,72 @@ def main(argv=None) -> int:
         print("ERROR: unknown --job-id value(s): %s" % ", ".join(unknown_ids))
         return 2
 
-    # --- plan: identity + fingerprints, no execution ----------------------
     observed_at = args.observed_at or date.today().isoformat()
-    batch_id = get_batch_id(manifest)
-    manifest_hash = compute_manifest_hash(manifest)
-    selected_ids = set(requested_ids) if requested_ids else set(all_job_ids)
 
-    jobs_plan = []
-    for job in manifest.jobs:
-        route = "single" if len(job.urls) == 1 else "multi"
-        if not job.enabled:
-            action = "disabled"
-        elif job.job_id not in selected_ids:
-            action = "not_selected"
-        else:
-            action = "would_run"
-        fingerprint = compute_job_fingerprint(
-            job, extractor=args.extractor, model=args.model,
-            observed_at=observed_at, repo_root=_REPO_ROOT)
-        jobs_plan.append({
-            "job_id": job.job_id,
-            "enabled": job.enabled,
-            "url_count": len(job.urls),
-            "route": route,
-            "fingerprint": fingerprint,
-            "planned_action": action,
-        })
+    if args.dry_run:
+        # --- plan: identity + fingerprints, no execution -------------------
+        batch_id = get_batch_id(manifest)
+        manifest_hash = compute_manifest_hash(manifest)
+        selected_ids = set(requested_ids) if requested_ids else set(all_job_ids)
 
-    plan = {
-        "batch_id": batch_id,
-        "batch_name": manifest.batch_name,
-        "manifest_hash": manifest_hash,
-        "manifest_schema_version": manifest.manifest_schema_version,
-        "extractor": args.extractor,
-        "model": args.model,
-        "observed_at": observed_at,
-        "max_workers": args.max_workers,
-        "selected_job_ids": sorted(selected_ids),
-        "jobs": jobs_plan,
-    }
-    print(json.dumps(plan, sort_keys=True, ensure_ascii=False, indent=2))
+        jobs_plan = []
+        for job in manifest.jobs:
+            route = "single" if len(job.urls) == 1 else "multi"
+            if not job.enabled:
+                action = "disabled"
+            elif job.job_id not in selected_ids:
+                action = "not_selected"
+            else:
+                action = "would_run"
+            fingerprint = compute_job_fingerprint(
+                job, extractor=args.extractor, model=args.model,
+                observed_at=observed_at, repo_root=_REPO_ROOT)
+            jobs_plan.append({
+                "job_id": job.job_id,
+                "enabled": job.enabled,
+                "url_count": len(job.urls),
+                "route": route,
+                "fingerprint": fingerprint,
+                "planned_action": action,
+            })
+
+        plan = {
+            "batch_id": batch_id,
+            "batch_name": manifest.batch_name,
+            "manifest_hash": manifest_hash,
+            "manifest_schema_version": manifest.manifest_schema_version,
+            "extractor": args.extractor,
+            "model": args.model,
+            "observed_at": observed_at,
+            "max_workers": args.max_workers,
+            "selected_job_ids": sorted(selected_ids),
+            "jobs": jobs_plan,
+        }
+        print(json.dumps(plan, sort_keys=True, ensure_ascii=False, indent=2))
+        return 0
+
+    # --- real execution: sequential, through the existing importers --------
+    try:
+        state = run_batch(
+            manifest,
+            extractor_mode=args.extractor,
+            model=args.model,
+            output_root=args.output_root,
+            observed_at=observed_at,
+            resume=args.resume,
+            force=args.force,
+            selected_job_ids=tuple(requested_ids),
+            repo_root=_REPO_ROOT,
+        )
+    except BatchRunError as exc:
+        print("ERROR: %s" % exc)
+        return 2
+    except KeyboardInterrupt:
+        print("ERROR: batch run interrupted (Ctrl+C)")
+        return 130
+
+    summary = build_batch_summary(state, manifest)
+    print(json.dumps(summary, sort_keys=True, ensure_ascii=False, indent=2))
     return 0
 
 
