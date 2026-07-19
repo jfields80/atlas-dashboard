@@ -32,7 +32,6 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from scripts.pettripfinder.site_data import (
-    load_hotel_policy_facts,
     normalize_name,
     read_production_rows,
 )
@@ -306,10 +305,8 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
     f = (facts_entry or {}).get("facts", {}) if facts_entry else {}
     date = _friendly_date((facts_entry or {}).get("verified_at", "") or row.get("observed_at", ""))
     rows, plain, note = _verified_details(f)
-    quote = None
-    # exact wording, if the candidate carried a composed policy sentence
-    if facts_entry:
-        quote = _evidence_quote_for(row["name"])
+    # exact wording, carried on the fixture facts entry (committed, reproducible)
+    quote = (facts_entry or {}).get("evidence_quote") if facts_entry else None
     return HotelProfileVM(
         state=STATE_VERIFIED, name=row["name"],
         corridor=_corridor_label(row.get("city", ""), row.get("address", ""), row["name"]),
@@ -400,28 +397,6 @@ def _brand_of(url: str) -> str:
         if k in host:
             return v
     return "property"
-
-
-def _evidence_quote_for(name: str) -> Optional[str]:
-    """The exact composed policy sentence recorded for a READY candidate, from
-    the operational candidate JSON (repository-authorized). Returns None when
-    unavailable -- never fabricated."""
-    for root in ("columbus_lodging_wave1", "columbus_lodging_source_strategy_validation",
-                 "columbus_accessible_lodging_wave/run_001"):
-        d = REPO_ROOT / "data" / "import" / root / "candidates"
-        if not d.exists():
-            continue
-        for p in d.glob("*.json"):
-            try:
-                c = json.loads(p.read_text(encoding="utf-8"))
-            except Exception:
-                continue
-            if c.get("recommendation") != "READY":
-                continue
-            if normalize_name(dict(c.get("proposed_fields", [])).get("name", "")) == normalize_name(name):
-                q = dict(c.get("proposed_fields", [])).get("pet_policy", "")
-                return q or None
-    return None
 
 
 # --------------------------------------------------------------------------- #
@@ -573,39 +548,64 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
 
 
 # --------------------------------------------------------------------------- #
-# Controlled fixture builders (repository-authorized data only).
+# Controlled fixture builders.
+#
+# The fixture DATA is committed (hotel_profile_fixtures.json), transcribed
+# verbatim from the repository-authorized verified importer candidates, so the
+# renderer, the fixture runner, and the tests are fully reproducible in a clean
+# checkout -- they never read the gitignored operational data/ tree. Property
+# IDENTITY (address/phone/URL) still comes from the tracked production seed CSV
+# via read_production_rows(); only the verified pet-policy FACTS and the two
+# out-of-inventory (no-pets / unverified) records live in the committed fixture
+# file.
 # --------------------------------------------------------------------------- #
 
-def _load_candidate(root: str, filename: str) -> Dict:
-    return json.loads((REPO_ROOT / "data" / "import" / root / "candidates" / filename).read_text(encoding="utf-8"))
+_FIXTURE_DATA_PATH = Path(__file__).resolve().parent / "hotel_profile_fixtures.json"
+
+
+def _load_fixture_data() -> Dict:
+    return json.loads(_FIXTURE_DATA_PATH.read_text(encoding="utf-8"))
 
 
 def build_fixture_vms() -> Dict[str, HotelProfileVM]:
-    """The five controlled production fixtures, each from repository-authorized
-    data. rich/sparse/no-photo come from the promoted production CSV + verified
-    facts; no-pets/unverified come from repository-authorized candidate records
-    (intentionally not part of the verified pet-friendly production set)."""
+    """The five controlled production fixtures. rich/sparse/no-photo combine the
+    promoted production CSV identity with committed verified facts; no-pets and
+    unverified come from committed, repository-authorized candidate excerpts
+    (intentionally not part of the verified pet-friendly production set). No
+    gitignored operational data is read -- reproducible from a clean checkout."""
     rows = read_production_rows()
     hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-    facts_map = load_hotel_policy_facts()
+    data = _load_fixture_data()
+    facts_map = data["verified_facts"]
 
     def row_by(name_start):
         return next(r for r in hotels if r["name"].startswith(name_start))
 
     rich_row = row_by("Drury Inn & Suites Columbus Grove City")
     sparse_row = row_by("Days Inn by Wyndham Grove City")
-    vms = {
+
+    np = data["no_pets"]
+    cand_no_pets = {
+        "context": {"candidate_name": np["name"], "expected_city": np["city"]},
+        "proposed_fields": [["name", np["name"]], ["city", np["city"]],
+                            ["address", np["address"]], ["website_url", np["website_url"]]],
+        "snapshot": {"observed_at": np["verified_at"], "requested_url": np["website_url"]},
+        "evidence": [{"field_name": "pets_allowed", "snapshot_quote": np["evidence_quote"]}],
+    }
+    uv = data["unverified"]
+    cand_unverified = {
+        "context": {"candidate_name": uv["name"], "expected_city": uv["city"]},
+        "proposed_fields": [], "evidence": [],
+        "snapshot": {"requested_url": uv["official_url"]},
+    }
+
+    return {
         "rich": build_vm_from_production(rich_row, facts_map.get(normalize_name(rich_row["name"])), hotels, facts_map),
         "sparse": build_vm_from_production(sparse_row, facts_map.get(normalize_name(sparse_row["name"])), hotels, facts_map),
         # no-photo is the same verified record as rich -- every hotel is
         # photo-less, so the placeholder is the default; this proves the media
         # region is stable whether a photo or the placeholder fills it.
         "no-photo": build_vm_from_production(rich_row, facts_map.get(normalize_name(rich_row["name"])), hotels, facts_map),
-        "no-pets": build_vm_from_no_pets(
-            _load_candidate("columbus_accessible_lodging_wave/run_001", "www-columbushilliardhotel-com-d7966095f3.json"),
-            hotels, facts_map),
-        "unverified": build_vm_from_unverified(
-            _load_candidate("columbus_lodging_wave1", "www-hilton-com-186ac718d4.json"),
-            hotels, facts_map),
+        "no-pets": build_vm_from_no_pets(cand_no_pets, hotels, facts_map),
+        "unverified": build_vm_from_unverified(cand_unverified, hotels, facts_map),
     }
-    return vms
