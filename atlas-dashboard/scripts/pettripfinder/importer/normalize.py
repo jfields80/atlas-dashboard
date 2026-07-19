@@ -344,22 +344,50 @@ def normalize_city(value: str) -> str:
 _STREET_SUFFIX = normalize_whitespace
 
 
+# Inverse of _US_STATES, for recognizing a spelled-out state name in a
+# locality tail ("..., Columbus, Ohio 43215") -- AES-DATA-004G live defect:
+# the tail strip previously matched only the 2-letter abbreviation, so a
+# page writing the full state name produced a false address conflict.
+_STATE_NAME_BY_CODE = {v: k for k, v in _US_STATES.items()}
+
+# Optional trailing country token after the ZIP ("..., OH 43068-3455 US") --
+# same live defect class: the tail must still strip when a country suffix
+# follows the ZIP.
+_COUNTRY_TAIL = r"(?:\s*,?\s*(?:US|USA|United\s+States(?:\s+of\s+America)?))?"
+
+
+def _state_alternatives(st: str) -> str:
+    """Regex alternation matching the state as its abbreviation OR its full
+    name (case-insensitive), e.g. ``(?:OH|Ohio)``."""
+    alts = [re.escape(st)]
+    full = _STATE_NAME_BY_CODE.get(st.upper())
+    if full:
+        alts.append(re.escape(full))
+    return "(?:%s)" % "|".join(alts)
+
+
 def normalize_address(street: str, city: str = "", state: str = "") -> str:
     """The CSV ``address`` column is the street line only (the builder holds
     city/state separately). Strip a trailing redundant ``, City, ST`` -- with
-    or without a trailing ZIP -- if the extractor included it (matches the
-    K.2 address-duplication guard). A trailing ZIP is only removed as part of
-    a locality tail (when city/state are supplied), never blindly, so callers
-    can still derive the postal code from the raw address first."""
+    or without a trailing ZIP, with the state abbreviated or spelled out, and
+    with or without a trailing country token -- if the extractor included it
+    (matches the K.2 address-duplication guard). A trailing ZIP is only
+    removed as part of a locality tail (when city/state are supplied), never
+    blindly, so callers can still derive the postal code from the raw
+    address first."""
     street = normalize_whitespace(street)
     ct = normalize_whitespace(city)
     st = normalize_state(state) or (state or "")
+    st_pat = _state_alternatives(st) if st else ""
     if ct and st:
         street = re.sub(
-            r",?\s*%s\s*,\s*%s(?:\s+\d{5}(?:-\d{4})?)?\s*$" % (re.escape(ct), re.escape(st)),
+            r",?\s*%s\s*,\s*%s(?:\s+\d{5}(?:-\d{4})?)?%s\s*$"
+            % (re.escape(ct), st_pat, _COUNTRY_TAIL),
             "", street, flags=re.I)
     if st:
-        street = re.sub(r",?\s*%s\s+\d{5}(?:-\d{4})?\s*$" % re.escape(st), "", street, flags=re.I)
+        street = re.sub(
+            r",?\s*%s\s+\d{5}(?:-\d{4})?%s\s*$" % (st_pat, _COUNTRY_TAIL),
+            "", street, flags=re.I)
     if ct:
         street = re.sub(r",?\s*%s\s*$" % re.escape(ct), "", street, flags=re.I)
     return street.strip().rstrip(",").strip()
