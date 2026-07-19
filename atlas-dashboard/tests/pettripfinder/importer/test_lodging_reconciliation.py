@@ -191,7 +191,20 @@ def test_group_duplicates_deterministic():
 # End-to-end over the real repository data.
 # --------------------------------------------------------------------------- #
 
-from scripts.pettripfinder.lodging_reconciliation_cli import build_reconciliation  # noqa: E402
+from scripts.pettripfinder.lodging_reconciliation_cli import build_reconciliation, CANDIDATE_ROOTS  # noqa: E402
+
+# The reconciliation reads importer candidate records from data/import/...,
+# which is gitignored and therefore absent from a clean checkout. Tests that
+# assert on the exact operational catalog (the verified no-pets set) can only
+# run when those candidate records are present; guard only those. The remaining
+# reconciliation tests hold for any catalog (baseline-tracks-live-CSV, clean
+# READY promotions, projection off the tracked production CSV, determinism) and
+# continue to run unconditionally.
+_LODGING_IMPORT_CORPUS_PRESENT = any(
+    (root / "candidates").is_dir() and any((root / "candidates").glob("*.json"))
+    for _, root in CANDIDATE_ROOTS
+)
+_CORPUS_ABSENT_REASON = "Operational lodging import corpus is not present in this checkout."
 
 
 @pytest.fixture(scope="module")
@@ -220,6 +233,7 @@ def test_real_promotions_are_all_clean_ready(result):
         assert p["source_class"] == SOURCE_IMPORTER_READY
 
 
+@pytest.mark.skipif(not _LODGING_IMPORT_CORPUS_PRESENT, reason=_CORPUS_ABSENT_REASON)
 def test_real_no_pets_catalog_is_separate(result):
     names = {n["canonical_name"] for n in result["no_pets"]}
     promoted = {p["canonical_name"] for p in result["promotions"]}
@@ -240,6 +254,7 @@ def test_real_projection_and_decision(result):
     assert r["validation_errors"] == []
 
 
+@pytest.mark.skipif(not _LODGING_IMPORT_CORPUS_PRESENT, reason=_CORPUS_ABSENT_REASON)
 def test_real_sister_properties_not_merged(result):
     ids = {n["source_id"] for n in result["no_pets"]}
     assert any("intownsuites-com-3deca9da3c" in i for i in ids)      # I-70E

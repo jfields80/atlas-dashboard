@@ -120,7 +120,16 @@ def test_ranking_orders_states_then_source_class():
 # Planner tests over the real repository data (still no network).
 # --------------------------------------------------------------------------- #
 
-from scripts.pettripfinder.lodging_accessibility_plan import build_plan  # noqa: E402
+from scripts.pettripfinder.lodging_accessibility_plan import build_plan, MANIFESTS_DIR  # noqa: E402
+
+# The planner counts every generated import job from the operational source
+# manifests under data/discovery/.../import_batches/, which is gitignored and
+# therefore absent from a clean checkout. Tests that assert on the exact corpus
+# (e.g. the 228-job total) can only run when those manifests are present; guard
+# only those. The remaining planner tests make claims that hold for any job set
+# (bounds, disjointness, determinism) and continue to run unconditionally.
+_LODGING_IMPORT_CORPUS_PRESENT = MANIFESTS_DIR.is_dir() and any(MANIFESTS_DIR.glob("*.json"))
+_CORPUS_ABSENT_REASON = "Operational lodging import corpus is not present in this checkout."
 
 
 @pytest.fixture(scope="module")
@@ -128,6 +137,7 @@ def plan():
     return build_plan(max_jobs=20, max_timeout_jobs=1, max_per_domain=4)
 
 
+@pytest.mark.skipif(not _LODGING_IMPORT_CORPUS_PRESENT, reason=_CORPUS_ABSENT_REASON)
 def test_all_jobs_classified(plan):
     assert plan["report"]["total_jobs"] == 228
     assert sum(plan["report"]["counts_by_state"].values()) == 228
@@ -212,6 +222,7 @@ def test_address_zip_never_blindly_stripped_without_locality_tail():
     assert normalize_address("1 Main St 43215", "", "") == "1 Main St 43215"
 
 
+@pytest.mark.skipif(not _LODGING_IMPORT_CORPUS_PRESENT, reason=_CORPUS_ABSENT_REASON)
 def test_batch_schema_compatible_with_real_importer(plan, tmp_path):
     from scripts.pettripfinder.importer.batch import load_manifest, validate_manifest
     p = tmp_path / "batch.json"
