@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PetTripFinder Columbus — Hotel Profile (Final Hybrid)</title>
+<meta name="description" content="Final hybrid PetTripFinder hotel-profile design authority. Verified pet policy, premium image-forward layout.">
+<link rel="stylesheet" href="final.css">
+</head>
+<body>
+<div class="proto-ribbon" id="ribbon">PTF-DESIGN-001B · Final Hybrid · design prototype, not the live product</div>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="fh-header">
+  <div class="wrap">
+    <a class="fh-brand" href="#">PetTripFinder<b> · Columbus</b></a>
+    <nav class="fh-nav" aria-label="Main"><a href="#">Hotels</a><a href="#">Parks</a><a href="#">Restaurants</a><a href="#">Trip planning</a><a href="#">How we verify</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="fh-crumbs" aria-label="Breadcrumb"><ol id="crumbs"></ol></nav>
+  <div id="app"></div>
+</div>
+
+<div class="fh-mobilebar" id="mobilebar"></div>
+
+<footer class="fh-footer">
+  <div class="wrap"><div>© 2026 PetTripFinder · Your verified Columbus pet-travel guide</div><div><a href="#">How we verify</a> · <a href="#">About</a> · <a href="#">Contact</a></div></div>
+</footer>
+
+<script>
+/* Minimal static renderer -- switches fixture state via ?state=. All facts
+   are repository-authorized (see ../shared/fixtures.js). No network. */
+var HOME = '<svg class="glyph" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f6f1e7" stroke-width="1.4" aria-hidden="true"><path d="M3 21V9l9-5 9 5v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>';
+var MEDIA_CAP = 'Property photo unavailable. PetTripFinder uses a branded placeholder when an approved property image is not available.';
+
+var FIX = {
+  rich: {
+    corridor:'Grove City corridor · Columbus, OH', initials:'DI',
+    name:'Drury Inn & Suites Columbus Grove City',
+    mediaName:'Drury Inn & Suites', mediaArea:'Grove City · Columbus, OH',
+    verif:{cls:'ok', text:'Policy verified · July 18, 2026', chip:'✓ Verified policy'},
+    summary:'Dogs and cats are welcome here, with a <b>$50 fee per room, per day</b>, up to <b>2 pets</b> and a combined weight of <b>80&nbsp;lb</b>.',
+    facts:[['Dogs','Accepted','yes'],['Cats','Accepted','yes'],['Pet charge','$50',''],['Charge basis','Per room / day','sm'],['Max pets','2',''],['Weight limit','80 lb','']],
+    actions:'book', phone:'614-875-7000',
+    address:'4109 Parkway Centre Drive, Grove City, OH 43123',
+    details:[['Accepted species','Dogs and cats',''],['Maximum pets','2 per room',''],['Pet charge','$50',''],['Charge basis','Per room, per day',''],['Weight restriction','80 lb combined',''],['Refundable deposit','Not stated by the reviewed source','dim'],['Breed restrictions','Not stated by the reviewed source','dim'],['Unattended-pet rule','Not stated by the reviewed source','dim']],
+    trust:{cls:'ok', line:'Policy verified July&nbsp;18, 2026 from the official Drury Hotels website.', quote:'Dogs and cats are accepted. A $50 fee applies per room per day. A maximum of 2 pets is allowed. Pets may not exceed 80 lb.'},
+    prov:{source:'the official Drury Hotels website', date:'July 18, 2026', quote:'Dogs and cats are accepted. A $50 fee applies per room per day. A maximum of 2 pets is allowed. Pets may not exceed 80 lb.'}
+  },
+  sparse: {
+    corridor:'Grove City corridor · Columbus, OH', initials:'DA',
+    name:'Days Inn by Wyndham Grove City Columbus South',
+    mediaName:'Days Inn by Wyndham', mediaArea:'Grove City · Columbus, OH',
+    verif:{cls:'ok', text:'Policy verified · July 18, 2026', chip:'✓ Verified policy'},
+    summary:'Pets are welcome here. The official source didn’t publish a fee, pet limit, or weight limit.',
+    facts:[['Dogs','Welcome','yes'],['Cats','Not stated','dim'],['Pet charge','Not stated','dim'],['Charge basis','Not stated','dim'],['Max pets','Not stated','dim'],['Weight limit','Not stated','dim']],
+    actions:'book', phone:'614-871-0440',
+    address:'1849 Stringtown Rd, Grove City, OH 43123',
+    details:[['Accepted species','Pets welcome (species not specified)',''],['Pet charge','Not stated by the reviewed source','dim'],['Charge basis','Not stated by the reviewed source','dim'],['Maximum pets','Not stated by the reviewed source','dim'],['Weight restriction','Not stated by the reviewed source','dim'],['Breed restrictions','Not stated by the reviewed source','dim']],
+    trust:{cls:'ok', line:'Policy verified July&nbsp;18, 2026 from the official Days Inn website.', quote:'The official website identifies this hotel as pet-friendly. It did not state a fee, pet limit, or weight limit.'},
+    prov:{source:'the official Days Inn website', date:'July 18, 2026', quote:'The official website identifies this hotel as pet-friendly. It did not state a fee, pet limit, or weight limit.'},
+    note:'“Not stated” means the source didn’t address it — not that the answer is no. Confirm specifics with the property before booking.'
+  },
+  'no-pets': {
+    corridor:'West Hilliard corridor · Columbus, OH', initials:'CH',
+    name:'Columbus Hilliard Hotel',
+    mediaName:'Columbus Hilliard Hotel', mediaArea:'West Hilliard · Columbus, OH',
+    verif:{cls:'stop', text:'Verified · Pets not accepted', chip:'Pets not accepted'},
+    summary:'This property does <b>not</b> accept pets. We’re showing it so you can rule it out and find a stay that welcomes your dog or cat.',
+    factsMode:'nopets',
+    facts:[['Dogs','Not accepted','no'],['Cats','Not accepted','no'],['Pet charge','Does not apply','dim'],['Charge basis','Does not apply','dim'],['Max pets','Does not apply','dim'],['Weight limit','Does not apply','dim']],
+    actions:'alt', phone:'',
+    address:'2350 Westbelt Dr, West Hilliard, Columbus, OH',
+    detailsPlain:'Pets are not accepted at this property, so there is no fee, pet limit, or weight allowance to show.',
+    service:'The official source states service animals are welcome. Service animals are a legal access category under the ADA — not a pet-policy exception — and we never present them as one.',
+    trust:{cls:'stop', line:'Verified July&nbsp;18, 2026 from the official property website: pets are not accepted.', quote:'NO Pets Allowed, Service Animals Welcome.'},
+    prov:{source:'the official property website', date:'July 18, 2026', quote:'NO Pets Allowed, Service Animals Welcome.'}
+  },
+  unverified: {
+    corridor:'Airport corridor · Columbus, OH', initials:'HA',
+    name:'Hampton Inn Columbus-Airport',
+    mediaName:'Hampton Inn', mediaArea:'Airport · Columbus, OH',
+    verif:{cls:'neutral', text:'Pet policy not verified', chip:'Not verified'},
+    summary:'We could not confirm this property’s current pet policy from an approved official source.',
+    factsMode:'unverified',
+    facts:[['Dogs','Not verified','dim'],['Cats','Not verified','dim'],['Pet charge','Not verified','dim'],['Charge basis','Not verified','dim'],['Max pets','Not verified','dim'],['Weight limit','Not verified','dim']],
+    actions:'unverif', phone:'',
+    address:'Columbus, OH',
+    detailsPlain:'No verified pet-policy details are available for this property. Please confirm directly with the property before you travel with a pet.',
+    trust:{cls:'neutral', line:'Not verified. We could not confirm this property’s current pet policy from an approved official source.'},
+    prov:{status:true}
+  }
+};
+FIX['no-photo'] = FIX.rich; // every hotel is photo-less; placeholder is the default
+
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function facts(fx){
+  return '<div class="fh-facts">'+fx.facts.map(function(f){
+    return '<div class="fh-cell"><div class="k">'+f[0]+'</div><div class="v '+(f[2]||'')+'">'+f[1]+'</div></div>';
+  }).join('')+'</div>';
+}
+function actionRegion(fx){
+  var call = fx.phone ? '<a class="btn btn-line" href="#">Call '+fx.phone+'</a>' : '';
+  if(fx.actions==='book') return '<a class="btn btn-primary" href="#">Check booking options</a><a class="btn btn-line" href="#">Visit official site</a><a class="btn btn-line" href="#">Directions</a>'+call;
+  if(fx.actions==='alt')  return '<a class="btn btn-primary alt" href="#">Find pet-friendly alternatives</a><a class="btn btn-line" href="#">Visit official site</a>';
+  return '<a class="btn btn-primary alt" href="#">Visit official site</a><a class="btn btn-line" href="#">How to confirm the policy</a>';
+}
+function mobilebar(fx){
+  if(fx.actions==='book') return '<a class="btn btn-primary" href="#">Check booking options</a><a class="btn btn-line" href="#">Official site</a>';
+  if(fx.actions==='alt')  return '<a class="btn btn-primary alt" href="#">Find pet-friendly alternatives</a><a class="btn btn-line" href="#">Official site</a>';
+  return '<a class="btn btn-primary alt" href="#">Visit official site</a><a class="btn btn-line" href="#">Confirm</a>';
+}
+function trustStrip(fx){
+  var t=fx.trust, q = t.quote ? '<details><summary>Exact wording available</summary><p class="quote">“'+esc(t.quote)+'”</p></details>' : '';
+  var icon = t.cls==='ok'?'✓':(t.cls==='stop'?'✕':'•');
+  return '<div class="fh-trust '+t.cls+'"><span class="badge">'+icon+' '+t.line+'</span>'+q+'</div>';
+}
+function detailsSec(fx){
+  if(fx.detailsPlain){
+    var svc = fx.service ? '<div class="fh-service"><b>Service animals:</b> '+esc(fx.service)+'</div>' : '';
+    return '<p class="fh-plain">'+esc(fx.detailsPlain)+'</p>'+svc;
+  }
+  var rows = fx.details.map(function(r){return '<div class="row"><dt>'+r[0]+'</dt><dd class="'+(r[2]||'')+'">'+esc(r[1])+'</dd></div>';}).join('');
+  var note = fx.note ? '<p class="fh-fallback" style="margin-top:24px">'+esc(fx.note)+'</p>' : '';
+  return '<dl class="fh-details">'+rows+'</dl>'+note;
+}
+function provSec(fx){
+  if(fx.prov.status) return '<div class="fh-prov"><div>Status: <b>not verified</b>. No approved official source has confirmed this property’s pet policy.</div><div class="links"><a href="#">How verification works ›</a></div></div>';
+  var q = fx.prov.quote ? '<details><summary>See the exact recorded wording</summary><p class="quote">“'+esc(fx.prov.quote)+'”</p></details>' : '';
+  return '<div class="fh-prov"><div>Read from <b>'+esc(fx.prov.source)+'</b>, verified <b>'+fx.prov.date+'</b>.</div>'+q+'<div class="links"><a href="#">How we verify ›</a> · <a href="#">Report an outdated policy ›</a></div></div>';
+}
+
+function render(state){
+  var fx = FIX[state] || FIX.rich;
+  document.getElementById('crumbs').innerHTML =
+    '<li><a href="#">Columbus</a></li><li><a href="#">Pet-Friendly Hotels</a></li><li><a href="#">'+esc(fx.corridor.split(' ·')[0])+'</a></li><li aria-current="page">'+esc(fx.mediaName)+'</li>';
+  var hero =
+    '<section class="fh-hero">'
+    + '<div class="fh-media-wrap">'
+      + '<figure class="fh-media" role="img" aria-label="Branded placeholder for '+esc(fx.name)+'. No licensed photograph of this property is available.">'
+        + HOME + '<div class="init">'+esc(fx.initials)+'</div>'
+        + '<div class="mrow">'+esc(fx.mediaName)+'<small>'+esc(fx.mediaArea)+'</small></div>'
+        + '<span class="mchip">'+fx.verif.chip+'</span>'
+      + '</figure>'
+      + '<p class="fh-media-cap">'+MEDIA_CAP+'</p>'
+    + '</div>'
+    + '<span class="fh-corridor">'+esc(fx.corridor)+'</span>'
+    + '<h1 class="fh-name">'+esc(fx.name)+'</h1>'
+    + '<span class="fh-verif '+fx.verif.cls+'"><span class="dot" aria-hidden="true"></span>'+fx.verif.text+'</span>'
+    + '<p class="fh-summary">'+fx.summary+'</p>'
+    + facts(fx)
+    + '<div class="fh-actions">'+actionRegion(fx)+'</div>'
+    + '</section>';
+  var body =
+    trustStrip(fx)
+    + '<div class="fh-body">'
+    + '<section class="fh-sec" style="border-top:0;padding-top:0"><h2 class="fh-h2">Full policy details</h2>'+detailsSec(fx)+'</section>'
+    + '<section class="fh-sec"><h2 class="fh-h2">Address &amp; directions</h2><p class="fh-addr">'+esc(fx.address)+' · <a href="#">Get directions ›</a></p></section>'
+    + '<section class="fh-sec"><h2 class="fh-h2">Traveling with a pet in Columbus</h2><p class="fh-plain">We don’t hold verified coordinates for this property, so we can’t show exact distances to nearby places — and we won’t estimate them.</p><p class="fh-fallback"><a href="#">Explore Columbus pet-travel resources ›</a></p></section>'
+    + '<section class="fh-sec"><h2 class="fh-h2">Verification &amp; provenance</h2>'+provSec(fx)+'</section>'
+    + '<section class="fh-sec"><h2 class="fh-h2">More verified pet-friendly stays <span class="fh-proto">· prototype representation</span></h2>'
+      + '<div class="fh-rel-grid">'
+      + '<a class="fh-rel" href="#"><div class="rn">Sonesta Columbus Downtown</div><div class="ra">Downtown corridor</div><div class="rv">✓ Verified · Jul 18, 2026</div></a>'
+      + '<a class="fh-rel" href="#"><div class="rn">The Plaza Hotel at Capitol Square</div><div class="ra">Downtown corridor</div><div class="rv">✓ Verified · Jul 18, 2026</div></a>'
+      + '<a class="fh-rel" href="#"><div class="rn">Drury Plaza Hotel Columbus Downtown</div><div class="ra">Downtown corridor</div><div class="rv">✓ Verified · Jul 18, 2026</div></a>'
+      + '</div></section>'
+    + '</div>';
+  document.getElementById('app').innerHTML = hero + '<main id="main">' + body + '</main>';
+  document.getElementById('mobilebar').innerHTML = mobilebar(fx);
+  document.title = fx.name + ' — Pet Policy | PetTripFinder';
+  var labels={rich:'RICH VERIFIED',sparse:'SPARSE VERIFIED','no-photo':'NO APPROVED PHOTO (default hotel state)','no-pets':'CONFIRMED NO-PETS',unverified:'POLICY UNVERIFIED'};
+  document.getElementById('ribbon').textContent = 'PTF-DESIGN-001B · Final Hybrid · '+(labels[state]||labels.rich)+' · design prototype, not the live product';
+}
+var params = new URLSearchParams(location.search);
+render(params.get('state') || 'rich');
+if(params.get('diag')){
+  requestAnimationFrame(function(){
+    var iw=window.innerWidth, sw=document.documentElement.scrollWidth, over=sw>iw+1;
+    var b=document.createElement('div');
+    b.style.cssText='position:fixed;top:6px;left:6px;z-index:999;font:12px monospace;background:'+(over?'#c00':'#0a7a0a')+';color:#fff;padding:4px 8px;border-radius:4px';
+    b.textContent='innerW='+iw+' scrollW='+sw+' '+(over?'OVERFLOW':'no-overflow');
+    document.body.appendChild(b);
+  });
+}
+</script>
+</body>
+</html>

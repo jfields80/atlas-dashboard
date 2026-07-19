@@ -1,0 +1,33 @@
+/* PTF-DESIGN-001 -- edge-state additions, layered on Concept C (Trusted
+   Local Guide) so every state shares one skeleton and only the trust/action
+   treatment changes -- never a visibly different template. */
+
+.st-tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: var(--r-pill); margin-bottom: var(--s-3); }
+.st-tag.verified { background: var(--green-soft); color: var(--ok); }
+.st-tag.sparse   { background: #eef2f6; color: var(--blue); }
+.st-tag.nopets   { background: #f7e9e7; color: var(--stop); }
+.st-tag.unverif  { background: #f0ece2; color: var(--ink-soft); }
+
+/* Sparse: honest known/unknown explainer. */
+.st-known { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s-6); }
+.st-known .k-row { display: grid; grid-template-columns: 26px 1fr; gap: var(--s-3); padding: var(--s-2) 0; font-size: 15.5px; }
+.st-known .k-row .mark { color: var(--ok); font-weight: 700; }
+.st-known .k-row.unknown .mark { color: var(--ink-mute); }
+.st-known .k-row.unknown span { color: var(--ink-mute); }
+
+/* No-pets: clear factual stop treatment; NOT styled like a pet-friendly page. */
+.st-nopets-banner { background: #fbeceb; border: 1px solid #e6b5af; border-left: 4px solid var(--stop); border-radius: var(--r-md); padding: var(--s-6); display: grid; grid-template-columns: auto 1fr; gap: var(--s-4); align-items: start; }
+.st-nopets-banner .ic { width: 46px; height: 46px; border-radius: 50%; background: #f3d6d1; color: var(--stop); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.st-nopets-banner h2 { font-family: var(--serif); font-size: 21px; color: var(--stop); }
+.st-nopets-banner p { margin-top: var(--s-2); color: var(--ink-soft); font-size: 15.5px; }
+.st-service { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s-4); margin-top: var(--s-6); font-size: 14.5px; color: var(--ink-soft); }
+.st-service b { color: var(--ink); }
+.st-alt-primary { background: var(--blue) !important; color: #fff !important; }
+.st-alt-primary:hover { background: #244b64 !important; }
+.st-book-muted h3 { color: var(--ink-mute); }
+
+/* Unverified: neutral, no green, no affiliate-first. */
+.st-unverif-banner { background: var(--surface-2); border: 1px dashed var(--line-strong); border-radius: var(--r-md); padding: var(--s-6); }
+.st-unverif-banner h2 { font-family: var(--serif); font-size: 20px; color: var(--ink); }
+.st-unverif-banner p { margin-top: var(--s-2); color: var(--ink-soft); font-size: 15.5px; }
+.st-contact-primary { background: var(--green) !important; }

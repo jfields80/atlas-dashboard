@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{font:15px monospace;margin:0;padding:10px;background:#fff}.row{padding:3px 0}.no{color:#0a7a0a}.yes{color:#c00;font-weight:bold}.f{position:absolute;left:-99999px;top:0}</style></head>
+<body><h3 id="t">viewport overflow check</h3><div id="out"></div><script>
+var widths=[320,390,500,768,1440],target=decodeURIComponent(new URLSearchParams(location.search).get('u')||'final.html?state=rich');
+document.getElementById('t').textContent='overflow check — '+target;
+var out=document.getElementById('out');
+widths.forEach(function(w){var f=document.createElement('iframe');f.className='f';f.style.width=w+'px';f.style.height='700px';f.src=target;
+f.onload=function(){var sw=f.contentDocument.documentElement.scrollWidth,over=sw>w+1;var d=document.createElement('div');d.className='row '+(over?'yes':'no');d.textContent=w+'px : scrollWidth='+sw+'  ->  '+(over?'HORIZONTAL OVERFLOW':'ok, no overflow');out.appendChild(d);};
+document.body.appendChild(f);});
+</script></body></html>

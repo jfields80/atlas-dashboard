@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PTF-DESIGN-001 — PetTripFinder Columbus Hotel Page · Concept Review</title>
+<link rel="stylesheet" href="shared/base.css">
+<style>
+  body { font-family: "Segoe UI", system-ui, sans-serif; background: #f2ede2; color: #26302a; line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: var(--s-8) var(--s-6) var(--s-24); }
+  h1 { font-family: "Roboto Slab", Georgia, serif; font-size: clamp(28px,4vw,40px); color: #1d3a2c; margin-bottom: var(--s-2); }
+  .sub { font-size: 18px; color: #4f5951; max-width: 62ch; }
+  .fixture { background: #fbf8f1; border: 1px solid #ddd6c6; border-left: 4px solid #2c6240; border-radius: 10px; padding: var(--s-6); margin: var(--s-8) 0; }
+  .fixture b { color: #1d3a2c; }
+  .fixture code { background: #f2ede2; padding: 1px 6px; border-radius: 4px; font-size: 14px; }
+  h2 { font-family: "Roboto Slab", Georgia, serif; color: #1d3a2c; font-size: 24px; margin: var(--s-12) 0 var(--s-4); }
+  .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--s-6); }
+  .card { background: #fbf8f1; border: 1px solid #ddd6c6; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+  .card:hover { border-color: #2e5544; }
+  .swatch { height: 90px; display: flex; align-items: center; justify-content: center; color: #f6f1e7; font-weight: 700; letter-spacing: 0.04em; }
+  .sw-a { background: linear-gradient(120deg,#2e5544,#b0603c); }
+  .sw-b { background: linear-gradient(120deg,#14304f,#0c7a63); }
+  .sw-c { background: linear-gradient(120deg,#1d3a2c,#2f5d7c); }
+  .card .body { padding: var(--s-6); }
+  .card h3 { font-size: 18px; margin-bottom: var(--s-2); }
+  .card p { font-size: 14px; color: #6a6b60; }
+  .states { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--s-4); }
+  .state-link { background: #fbf8f1; border: 1px solid #ddd6c6; border-radius: 8px; padding: var(--s-4) var(--s-6); text-decoration: none; color: inherit; font-weight: 600; }
+  .state-link:hover { border-color: #2e5544; }
+  .state-link small { display: block; font-weight: 400; color: #6a6b60; font-size: 13px; margin-top: 2px; }
+  .note { font-size: 14px; color: #6a6b60; margin-top: var(--s-4); }
+  a.doc { color: #2f5d7c; font-weight: 600; }
+  @media (max-width: 700px) { .grid, .states { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto-ribbon">PTF-DESIGN-001 · design sprint · isolated prototype · not the production site · STOP for human design approval</div>
+<div class="wrap">
+  <h1>PetTripFinder Columbus — Hotel Page Design Sprint</h1>
+  <p class="sub">Three genuinely distinct visual directions for one real hotel profile, rendered from the same verified repository data. Design review only — production templates are unchanged.</p>
+
+  <div class="fixture" style="border-left-color:#b0603c">
+    <p><b>▶ PTF-DESIGN-001B — Final Hybrid Design Authority (proposed binding).</b>
+       One data-driven skeleton combining C's trust/corridor identity, B's action hierarchy &amp; compact facts, and A's serif/premium composition.</p>
+    <p style="margin-top:8px">
+       <a class="doc" href="final-hybrid/final.html?state=rich">Rich</a> ·
+       <a class="doc" href="final-hybrid/final.html?state=sparse">Sparse</a> ·
+       <a class="doc" href="final-hybrid/final.html?state=no-photo">No-photo</a> ·
+       <a class="doc" href="final-hybrid/final.html?state=no-pets">No-pets</a> ·
+       <a class="doc" href="final-hybrid/final.html?state=unverified">Unverified</a>
+       &nbsp;— switch states via the <code>?state=</code> parameter; all share one skeleton.</p>
+  </div>
+
+  <div class="fixture">
+    <p><b>Primary fixture (all three concepts):</b> Drury Inn &amp; Suites Columbus Grove City — the richest verified policy in the corpus.</p>
+    <p style="margin-top:8px">Dogs &amp; cats accepted · <code>$50</code> per room / day · max <code>2</code> pets · <code>80 lb</code> · verified from the official Drury site on <b>July 18, 2026</b> (11 evidence entries). No licensed photo exists for any hotel, and the production schema holds no coordinates — so every concept demonstrates the branded-placeholder and honest-no-“nearby” behavior.</p>
+  </div>
+
+  <h2>Three concepts</h2>
+  <div class="grid">
+    <a class="card" href="concept-a-editorial/index.html">
+      <div class="swatch sw-a">A</div>
+      <div class="body"><h3>A · Premium Travel Editorial</h3><p>Serif display, warm off-white, asymmetric hero, refined policy storytelling, elegant trust, softer commercial tone.</p></div>
+    </a>
+    <a class="card" href="concept-b-marketplace/index.html">
+      <div class="swatch sw-b">B</div>
+      <div class="body"><h3>B · Modern Marketplace</h3><p>Navy + teal, sans-serif, compact hero, dense fact chips, sticky booking rail, comparison-style snapshot, mobile action bar.</p></div>
+    </a>
+    <a class="card" href="concept-c-local-guide/index.html">
+      <div class="swatch sw-c">C</div>
+      <div class="body"><h3>C · Trusted Local Guide</h3><p>Warm neutrals, restrained serif, corridor identity, verification-as-advantage strip, local trip-planning module.</p></div>
+    </a>
+  </div>
+
+  <h2>Required edge states <small style="font-weight:400;font-size:15px;color:#6a6b60">(built on the recommended Concept-C base)</small></h2>
+  <div class="states">
+    <a class="state-link" href="states/no-photo.html">No licensed photo<small>The default hotel state — branded placeholder (Drury)</small></a>
+    <a class="state-link" href="states/sparse.html">Sparse verified<small>Only “pets welcome” stated — honest unknowns (Days Inn)</small></a>
+    <a class="state-link" href="states/no-pets.html">Verified no-pets<small>Factual stop treatment (Columbus Hilliard Hotel)</small></a>
+    <a class="state-link" href="states/unverified.html">Policy unverified<small>Neutral, no policy asserted (Hampton Inn Airport)</small></a>
+  </div>
+
+  <h2>Review documents</h2>
+  <p><a class="doc" href="README.md">README.md</a> — package overview, fixtures, preview instructions ·
+     <a class="doc" href="DESIGN-REVIEW.md">DESIGN-REVIEW.md</a> — adversarial review, scorecard, recommendation.</p>
+  <p class="note">Screenshots (Chrome headless, desktop 1440 &amp; mobile 390) are in <code>screenshots/</code>.</p>
+</div>
+</body>
+</html>

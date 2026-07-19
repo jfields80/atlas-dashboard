@@ -1,0 +1,73 @@
+/*
+ * PTF-DESIGN-001 -- shared base: reset + cross-concept design tokens.
+ * Each concept.css layers its own palette/typography on top of these.
+ * Spacing scale is fixed (4/8/12/16/24/32/48/64/96) -- concepts must not
+ * introduce arbitrary values.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+/* Guarantee no horizontal overflow at narrow widths (mission: usable to
+   320px). A shared safeguard so no concept can leak a few pixels past the
+   viewport from a wide chip row, long word, or full-width absolute note. */
+html, body { overflow-x: hidden; max-width: 100%; }
+body { margin: 0; }
+h1, h2, h3 { overflow-wrap: anywhere; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; cursor: pointer; }
+h1, h2, h3, h4, p, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+table { border-collapse: collapse; width: 100%; }
+
+:root {
+  /* Spacing scale (px) -- the ONLY allowed spacing values. */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-6: 24px;
+  --s-8: 32px; --s-12: 48px; --s-16: 64px; --s-24: 96px;
+
+  /* Radii. */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
+
+  /* Breakpoints (documented; used in @media). */
+  --bp-sm: 640px; --bp-md: 1024px; --bp-lg: 1280px;
+
+  /* Content widths. */
+  --w-page: 1120px; --w-text: 68ch;
+
+  /* Focus (shared across concepts for consistent a11y). */
+  --focus-ring: 3px solid #b45309;
+  --focus-offset: 2px;
+}
+
+/* Visible keyboard focus everywhere (non-color-dependent: an outline, not a
+   color swap) -- WCAG 2.4.7. */
+a:focus-visible, button:focus-visible, summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* Skip link, shared. */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 50;
+  padding: var(--s-2) var(--s-4); border-radius: 0 0 var(--r-sm) 0;
+}
+.skip-link:focus { left: 0; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* Prototype-only ribbon so no static file is ever mistaken for the live
+   product during review. */
+.proto-ribbon {
+  font: 600 12px/1 system-ui, sans-serif; letter-spacing: 0.04em;
+  text-transform: uppercase; text-align: center;
+  padding: var(--s-2); background: #23312a; color: #f5f1e6;
+}
+.proto-ribbon a { color: #f3ead9; }
