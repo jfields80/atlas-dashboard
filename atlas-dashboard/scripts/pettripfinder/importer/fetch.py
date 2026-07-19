@@ -22,7 +22,8 @@ from __future__ import annotations
 
 import ipaddress
 import socket
-from typing import List, Optional, Protocol, Tuple
+import time
+from typing import Dict, List, Optional, Protocol, Tuple
 from urllib.parse import urlsplit
 
 from scripts.pettripfinder.importer import constants as C
@@ -147,21 +148,79 @@ def _header_subset(headers) -> Tuple[Tuple[str, str], ...]:
     return tuple(out)
 
 
+# AES-DATA-004E (Task 4): ordinary, non-deceptive content-negotiation
+# headers only -- no browser fingerprint, no stealth. ``Accept-Encoding``
+# names exactly what this fetcher can actually decode (gzip/deflate, both
+# handled transparently by ``requests``/``urllib3``); nothing is claimed
+# that isn't true.
+def _request_headers() -> Dict[str, str]:
+    return {
+        "User-Agent": C.USER_AGENT,
+        "Accept": C.ACCEPT_HEADER,
+        "Accept-Language": C.ACCEPT_LANGUAGE_HEADER,
+        "Accept-Encoding": C.ACCEPT_ENCODING_HEADER,
+    }
+
+
+_TRANSIENT_SERVER_STATUSES = frozenset({500, 502, 503, 504})
+
+
 # --------------------------------------------------------------------------- #
 # Live fetcher.
 # --------------------------------------------------------------------------- #
 
 class RequestsPageFetcher:
-    """Live SSRF-safe fetcher over ``requests`` with manual redirects."""
+    """Live SSRF-safe fetcher over ``requests`` with manual redirects.
 
-    def __init__(self, session=None):
+    AES-DATA-004E (Task 4) adds three general, disclosed, compliant
+    improvements, all bounded and all off by default in tests (which inject
+    a fake session and a no-op ``sleep_fn``):
+
+    1. Ordinary content-negotiation headers (see ``_request_headers``).
+    2. ONE bounded retry, after a short fixed delay, for a TRANSIENT server
+       error (500/502/503/504) only -- never for a block/timeout/redirect
+       outcome, and never more than once per hop (mirrors the existing
+       ``LLM_MALFORMED_RETRIES = 1`` "one retry only" convention elsewhere
+       in this package).
+    3. A minimum per-domain gap between requests issued by THIS fetcher
+       instance (``min_domain_interval_seconds``) -- request pacing, never a
+       rotating identity or anti-detection mechanism. Meaningful within one
+       multi-source job (several URLs on the same domain) and for any
+       caller that chooses to share one instance across a batch; a
+       fresh-fetcher-per-job caller (the default live batch path today)
+       gets no cross-job pacing from this alone -- disclosed, not a
+       correctness issue (the pacing is purely a politeness floor, never
+       required for safety).
+    """
+
+    def __init__(self, session=None, *, min_domain_interval_seconds: float = None,
+                 sleep_fn=time.sleep, time_fn=time.monotonic):
         self._session = session   # injectable for tests; lazily created
+        self._min_domain_interval = (
+            C.MIN_DOMAIN_INTERVAL_SECONDS if min_domain_interval_seconds is None
+            else min_domain_interval_seconds)
+        self._sleep_fn = sleep_fn
+        self._time_fn = time_fn
+        self._last_request_at: Dict[str, float] = {}
 
     def _get_session(self):
         if self._session is None:
             import requests  # lazy: keeps the module importable without deps
             self._session = requests.Session()
         return self._session
+
+    def _pace(self, host: str) -> None:
+        if self._min_domain_interval <= 0:
+            return
+        now = self._time_fn()
+        last = self._last_request_at.get(host)
+        if last is not None:
+            elapsed = now - last
+            remaining = self._min_domain_interval - elapsed
+            if remaining > 0:
+                self._sleep_fn(remaining)
+                now = self._time_fn()
+        self._last_request_at[host] = now
 
     def fetch(self, url: str) -> FetchResult:
         import requests  # lazy import; deterministic tests use StaticPageFetcher
@@ -182,20 +241,38 @@ class RequestsPageFetcher:
                 )
                 return FetchResult(url, False, reason=slug,
                                    redirect_chain=tuple(redirect_chain))
-            try:
-                resp = session.get(
-                    current,
-                    headers={"User-Agent": C.USER_AGENT, "Accept": "text/html"},
-                    timeout=(C.CONNECT_TIMEOUT_SECONDS, C.READ_TIMEOUT_SECONDS),
-                    allow_redirects=False,
-                    stream=True,
-                )
-            except requests.Timeout:
-                return FetchResult(url, False, reason=C.REASON_FETCH_TIMEOUT,
-                                   redirect_chain=tuple(redirect_chain))
-            except requests.RequestException:
-                return FetchResult(url, False, reason=C.REASON_FETCH_FAILED,
-                                   redirect_chain=tuple(redirect_chain))
+
+            attempts_remaining = 1 + C.TRANSIENT_SERVER_ERROR_RETRY_COUNT
+            resp = None
+            first_attempt = True
+            while attempts_remaining > 0:
+                attempts_remaining -= 1
+                if first_attempt:
+                    # Domain pacing applies once per hop, before the FIRST
+                    # attempt only -- a transient-error retry already carries
+                    # its own explicit backoff (below), so stacking generic
+                    # pacing on top of it is redundant.
+                    self._pace(host)
+                    first_attempt = False
+                try:
+                    resp = session.get(
+                        current,
+                        headers=_request_headers(),
+                        timeout=(C.CONNECT_TIMEOUT_SECONDS, C.READ_TIMEOUT_SECONDS),
+                        allow_redirects=False,
+                        stream=True,
+                    )
+                except requests.Timeout:
+                    return FetchResult(url, False, reason=C.REASON_FETCH_TIMEOUT,
+                                       redirect_chain=tuple(redirect_chain))
+                except requests.RequestException:
+                    return FetchResult(url, False, reason=C.REASON_FETCH_FAILED,
+                                       redirect_chain=tuple(redirect_chain))
+                if resp.status_code in _TRANSIENT_SERVER_STATUSES and attempts_remaining > 0:
+                    resp.close()
+                    self._sleep_fn(C.TRANSIENT_SERVER_ERROR_RETRY_DELAY_SECONDS)
+                    continue
+                break
 
             status = resp.status_code
             if status in _REDIRECT_STATUSES:

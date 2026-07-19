@@ -12,7 +12,7 @@ duplicate implementation.
 from __future__ import annotations
 
 from scripts.pettripfinder.importer.constants import CATEGORY_HOTELS, REQUIRED_CSV_FIELDS
-from scripts.pettripfinder.importer.domain_packs.base import DomainPack
+from scripts.pettripfinder.importer.domain_packs.base import DomainPack, SourceRoleSpec
 from scripts.pettripfinder.importer.policy_compose import compose_pet_policy
 
 # Identical to category_templates._COMMON + category_templates._HOTEL_FIELDS
@@ -43,6 +43,31 @@ _HOTEL_FIELD_NORMALIZERS = (
     ("general_restrictions", "whitespace"),
 )
 
+# AES-DATA-004E (Task 5): declaring "pets_allowed" high-risk activates the
+# EXISTING, proven AES-DATA-003F restriction in aggregate._merge_pet_facts
+# (restrict a high-risk field to LOCATION_SPECIFIC evidence whenever such
+# evidence exists) for lodging's multi-source path -- scenario B (a
+# property-specific negative silently wins over a chain-wide positive, no
+# fabricated conflict) needs nothing beyond this declaration. The three
+# NUMERIC fields (pet_fee/weight_limit/pet_count_limit) are deliberately
+# NOT declared high-risk here: they must stay unrestricted so a genuine
+# property-vs-brand numeric disagreement still surfaces as a real
+# ``policy_conflict`` (scenario E) instead of being silently dropped by the
+# restriction. The "no applicable evidence at all" case (scenarios C/D) for
+# all four fields is handled by the separate, lodging-specific
+# ``lodging_source_strategy.gate_high_risk_field_applicability`` gate that
+# runs downstream in aggregate.py -- see that module's docstring.
+_HIGH_RISK_FIELDS = frozenset({"pets_allowed"})
+
+_SOURCE_ROLES = (
+    SourceRoleSpec(role_id="property_identity", capability_affinity=("pets_allowed",)),
+    SourceRoleSpec(role_id="property_policy", capability_affinity=(
+        "pets_allowed", "pet_fee", "weight_limit", "pet_count_limit")),
+    SourceRoleSpec(role_id="brand_policy", capability_affinity=(
+        "pets_allowed", "pet_fee", "weight_limit", "pet_count_limit")),
+    SourceRoleSpec(role_id="management_company", capability_affinity=("pets_allowed",)),
+)
+
 LODGING_PACK = DomainPack(
     pack_id="pettripfinder-lodging",
     category_ids=(CATEGORY_HOTELS,),
@@ -50,6 +75,8 @@ LODGING_PACK = DomainPack(
     field_order=_HOTEL_FIELDS,
     field_normalizers=_HOTEL_FIELD_NORMALIZERS,
     required_fields=REQUIRED_CSV_FIELDS,
+    high_risk_capabilities=_HIGH_RISK_FIELDS,
+    source_roles=_SOURCE_ROLES,
     pack_version="1.0.0",
     compose_summary_fn=lambda facts: compose_pet_policy(facts, CATEGORY_HOTELS),
 )

@@ -66,6 +66,9 @@ from scripts.pettripfinder.importer.domain_packs.veterinary import (
     project_capabilities as _vet_project_capabilities,
     service_evidence_present as _vet_service_evidence_present,
 )
+from scripts.pettripfinder.importer.lodging_source_strategy import (
+    gate_high_risk_field_applicability,
+)
 from scripts.pettripfinder.importer.models import (
     CandidateListing,
     Conflict,
@@ -660,12 +663,15 @@ def run_multi_import(
     # applicability classification for report/serialization inspection. An
     # excluded/unusable record is untouched (stays "" -- it never reached
     # classification at all, and its own excluded_reason already explains
-    # why it contributed nothing). Legacy categories (hotels/parks/dining)
-    # never declare a high-risk capability at all, so applicability is
-    # meaningless for them -- left unpopulated (Task 11: legacy candidate
-    # bytes, including the Land-Grant golden aggregate fixture's own
-    # SourceRecord shape, stay byte-identical).
-    if category == C.CATEGORY_VETERINARY or category in _SERVICE_PACK_MODULES:
+    # why it contributed nothing). Parks/dining never declare a high-risk
+    # capability at all, so applicability is meaningless for them -- left
+    # unpopulated (Task 11: legacy candidate bytes, including the Land-Grant
+    # golden aggregate fixture's own SourceRecord shape, stay byte-identical).
+    # AES-DATA-004E: hotels now declares one high-risk field (pets_allowed,
+    # see domain_packs/lodging.py), so its included sources' applicability is
+    # meaningful too and is populated the same way.
+    if (category == C.CATEGORY_VETERINARY or category in _SERVICE_PACK_MODULES
+            or category == C.CATEGORY_HOTELS):
         applicability_by_id = {
             src.source_id: source_applicability[src.source_url] for src in included}
         gated_records = [
@@ -678,6 +684,20 @@ def run_multi_import(
     pet_facts, pet_conflicts = _merge_pet_facts(
         category, pooled_evidence, high_risk_fields, source_applicability)
     pooled_conflicts.extend(pet_conflicts)
+
+    # --- AES-DATA-004E (Task 5): lodging property+brand applicability gate --
+    # Runs BEFORE compose_pet_policy so a suppressed (unproven brand-wide)
+    # claim never leaks into the composed summary text either. See
+    # lodging_source_strategy.py's module docstring for the full scenario
+    # matrix (A-F). No-op (suppressed_fields == ()) for every single-source
+    # job -- a lone source is always LOCATION_SPECIFIC by default (Task 3's
+    # single-location presumption), so this never touches AES-DATA-004D's
+    # existing Wave 1 candidates.
+    lodging_suppressed_fields: Tuple[str, ...] = ()
+    if category == C.CATEGORY_HOTELS:
+        pet_facts, lodging_suppressed_fields = gate_high_risk_field_applicability(
+            pet_facts, pooled_evidence, source_applicability)
+
     pet_policy = compose_pet_policy(pet_facts, category)
 
     # --- AES-DATA-003B: veterinary capability projection (Task 12) ---------
@@ -735,6 +755,16 @@ def run_multi_import(
             category_detail = CategoryDetail(
                 detail_type=category, detail_schema_version=pack.detail_schema_version,
                 fields=(("hours", hours),))
+    elif category == C.CATEGORY_HOTELS and lodging_suppressed_fields:
+        # AES-DATA-004E (Task 5): at least one field was suppressed above for
+        # lacking a proven property/universal-brand applicability. Force
+        # REVIEW via the existing shared reason (never a NEW reason slug --
+        # Task 2 doctrine: "one shared reason across every category"), and
+        # keep the candidate off the "no evidence at all" REJECT path: real
+        # (if unconfirmed) pet-policy content WAS found on an official
+        # source, it just could not be confirmed applicable to THIS property.
+        source_not_applicable = True
+        vet_service_evidence_present = True
 
     # --- relationship: the weakest CONTRIBUTING relationship (Task 11) -----
     # An UNKNOWN-relationship contributor never hides behind a stronger

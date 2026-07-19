@@ -26,12 +26,24 @@ EVIDENCE_QUOTE_CAP = 300                      # chars per evidence snippet
 MAX_REDIRECTS = 5
 MAX_RESPONSE_BYTES = 3 * 1024 * 1024          # 3 MB decompressed body cap
 CONNECT_TIMEOUT_SECONDS = 10
-READ_TIMEOUT_SECONDS = 15
+READ_TIMEOUT_SECONDS = 20                     # AES-DATA-004E: 15 -> 20, still bounded
 LLM_MAX_TOKENS = 2048
 LLM_MALFORMED_RETRIES = 1                     # one retry only
 MAX_AGGREGATE_SOURCES = 4                     # AES-DATA-002 source-set cap
 
+# AES-DATA-004E (Task 4): compliant fetcher hardening. One bounded retry for
+# a TRANSIENT server error only (never for a block/timeout/redirect issue);
+# a minimum per-domain gap between requests issued by the SAME fetcher
+# instance (never a rotating-identity/anti-detection mechanism -- purely
+# request pacing to avoid hammering one origin).
+TRANSIENT_SERVER_ERROR_RETRY_COUNT = 1
+TRANSIENT_SERVER_ERROR_RETRY_DELAY_SECONDS = 1.0
+MIN_DOMAIN_INTERVAL_SECONDS = 1.0
+
 USER_AGENT = "AtlasImporter/1.0 (+https://pettripfinder.com; official-source importer)"
+ACCEPT_HEADER = "text/html,application/xhtml+xml;q=0.9,*/*;q=0.1"
+ACCEPT_LANGUAGE_HEADER = "en-US,en;q=0.9"
+ACCEPT_ENCODING_HEADER = "gzip, deflate"
 
 
 # --------------------------------------------------------------------------- #
@@ -288,6 +300,13 @@ REASON_PET_STORE_CAPABILITY_CONFLICT = "pet_store_capability_conflict"
 # category-specific reason proliferation").
 REASON_SOURCE_NOT_LOCATION_APPLICABLE = "source_not_location_applicable"
 
+# AES-DATA-004E (Task 6): a numeric pet-policy field's evidence quote failed
+# the deterministic semantic-plausibility check (e.g. a phone number, ZIP
+# code, copyright year, or room count misread as a pet count/fee/weight).
+# The evidence entry is preserved (support_state downgraded to UNSUPPORTED,
+# this warning attached) -- never deleted, never re-indexed.
+REASON_IMPLAUSIBLE_NUMERIC_EVIDENCE = "implausible_numeric_evidence"
+
 REASON_SLUGS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
@@ -307,7 +326,7 @@ REASON_SLUGS = frozenset({
     REASON_NO_BOARDING_SERVICE_EVIDENCE, REASON_BOARDING_CAPABILITY_CONFLICT,
     REASON_NO_GROOMING_SERVICE_EVIDENCE, REASON_GROOMING_CAPABILITY_CONFLICT,
     REASON_NO_PET_STORE_SERVICE_EVIDENCE, REASON_PET_STORE_CAPABILITY_CONFLICT,
-    REASON_SOURCE_NOT_LOCATION_APPLICABLE,
+    REASON_SOURCE_NOT_LOCATION_APPLICABLE, REASON_IMPLAUSIBLE_NUMERIC_EVIDENCE,
 })
 
 # Reasons that force a candidate to REVIEW vs REJECT (recommendation logic).

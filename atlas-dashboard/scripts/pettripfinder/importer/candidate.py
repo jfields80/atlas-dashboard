@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlsplit
@@ -34,6 +34,10 @@ from scripts.pettripfinder.importer.domain_packs.projection import (
     has_inapplicable_high_risk_capability,
 )
 from scripts.pettripfinder.importer.domain_packs.registry import default_registry
+from scripts.pettripfinder.importer.numeric_evidence_validation import (
+    NUMERIC_SEMANTIC_FIELDS,
+    validate_numeric_plausibility,
+)
 from scripts.pettripfinder.importer.domain_packs.veterinary import (
     high_risk_capability_conflict as _vet_high_risk_conflict,
     project_capabilities as _vet_project_capabilities,
@@ -288,6 +292,19 @@ def _collect_page_evidence(
         if fact.field_name not in allowed:
             continue
         ev = build_llm_evidence(fact, snapshot.normalized_text, source_url)
+        if fact.field_name in NUMERIC_SEMANTIC_FIELDS and ev.support_state != C.SUPPORT_UNSUPPORTED:
+            # AES-DATA-004E (Task 6): a numeric pet-policy claim must carry a
+            # genuine semantic anchor for ITS OWN field in the evidence's own
+            # quote (e.g. a phone number or ZIP code is never a pet count).
+            # Downgrading to UNSUPPORTED here reuses the EXISTING "failed
+            # evidence stays visible, never publishes" path below -- no new
+            # suppression mechanism, no evidence-index disruption.
+            plausible, noise_reason = validate_numeric_plausibility(
+                fact.field_name, ev.snapshot_quote)
+            if not plausible:
+                ev = replace(
+                    ev, support_state=C.SUPPORT_UNSUPPORTED,
+                    warnings=ev.warnings + (C.REASON_IMPLAUSIBLE_NUMERIC_EVIDENCE, noise_reason))
         if ev.support_state == C.SUPPORT_UNSUPPORTED:
             if fact.field_name == "pets_allowed" and "pets_allowed" not in accepted:
                 required_mismatch = True
@@ -698,6 +715,18 @@ def _derive_dual_facts(snapshot, evidence, accepted, category, source_url) -> No
                 if derived:
                     val, quote, cs, ce = derived, cap_quote(sentence)[0], s, e
             if val:
+                # AES-DATA-004E (Task 6): a derived numeric fact is exactly
+                # as subject to misattribution as a directly-extracted one
+                # (e.g. a structured street-address evidence entry like "1
+                # Example Way" can otherwise derive a spurious
+                # pet_count_limit=1). Validate before accepting; an
+                # implausible derivation is simply never made -- it was an
+                # internal shortcut attempt, not an independent evidence
+                # source, so there is nothing to preserve. Keep trying other
+                # candidate sentences rather than giving up entirely.
+                plausible, _reason = validate_numeric_plausibility(target, quote)
+                if not plausible:
+                    continue
                 evidence.append(ExtractedEvidence(
                     field_name=target, proposed_value=val, source_wording=ev.source_wording,
                     source_url=source_url, snapshot_quote=quote, char_start=cs, char_end=ce,
