@@ -12,6 +12,7 @@ from scripts.pettripfinder.hotel_profile import (
     STATE_NO_PETS,
     STATE_UNVERIFIED,
     STATE_VERIFIED,
+    _verified_facts,
     build_fixture_vms,
     render_hotel_profile,
 )
@@ -75,10 +76,41 @@ def test_hero_media_facts_trust_present(pages, state):
 def test_unknown_is_not_rendered_as_no(pages, vms):
     html = pages["sparse"]
     assert "Not stated" in html
-    # the sparse Cats fact must be "Not stated", never "No"/"Not accepted"
-    cats = [f for f in vms["sparse"].facts if f[0] == "Cats"][0]
-    assert cats[1] == "Not stated"
+    labels = {f[0]: f for f in vms["sparse"].facts}
+    # A verified generic pet-friendly policy shows the policy + an explicit
+    # unstated species -- never fabricated Dogs/Cats cells, never "Welcome"
+    # under a species label, and never a "No"/"Not accepted".
+    assert "Dogs" not in labels and "Cats" not in labels
+    assert labels["Pet policy"][1] == "Pets welcome"
+    assert labels["Species"][1] == "Not stated"
     assert "Not accepted" not in html    # sparse is pet-friendly, never a no
+    assert ">Welcome<" not in html       # no bare "Welcome" species inference
+
+
+def test_generic_pets_allowed_does_not_imply_dogs():
+    # PTF-PROD-002A: a generic "pets welcome" statement must never be rendered
+    # as an accepted-DOGS claim.
+    grid = dict((lbl, val) for lbl, val, _ in _verified_facts({"pets_allowed": "true"}))
+    assert "Dogs" not in grid
+    assert grid["Pet policy"] == "Pets welcome"
+    assert grid["Species"] == "Not stated"
+    assert "Welcome" not in [v for k, v in grid.items() if k != "Pet policy"]
+
+
+def test_generic_pets_allowed_does_not_imply_cats():
+    grid = dict((lbl, val) for lbl, val, _ in _verified_facts({"pets_allowed": "true"}))
+    assert "Cats" not in grid
+    assert grid["Species"] == "Not stated"
+
+
+def test_rich_species_still_uses_dogs_and_cats_cells():
+    # A policy that actually states species keeps the separate Dogs/Cats cells.
+    grid = dict((lbl, val) for lbl, val, _ in
+                _verified_facts({"pets_allowed": "true", "species_allowed": "dogs and cats",
+                                 "pet_fee": "$50"}))
+    assert grid["Dogs"] == "Accepted"
+    assert grid["Cats"] == "Accepted"
+    assert "Pet policy" not in grid and "Species" not in grid
 
 
 def test_no_pets_excluded_from_pet_friendly_language(pages, vms):

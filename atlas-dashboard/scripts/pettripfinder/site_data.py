@@ -25,6 +25,12 @@ from typing import Dict, List, Optional, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PRODUCTION_CSV = REPO_ROOT / "launch_packages" / "pettripfinder" / "seed_businesses.csv"
+# Tracked, publishable verified hotel-policy facts (PTF-PROD-002A). Exported
+# from the approved READY importer candidates by
+# scripts/pettripfinder/export_hotel_policy_facts.py. This is the DEFAULT source
+# the Columbus generator loads -- it is committed, so normal site generation
+# never requires the gitignored operational data/import corpus.
+PUBLISHED_FACTS_PATH = REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json"
 
 CANDIDATE_ROOTS = (
     REPO_ROOT / "data" / "import" / "columbus_lodging_wave1",
@@ -78,7 +84,34 @@ def load_hotel_policy_facts() -> Dict[str, Dict]:
                 "source_relationship": d.get("source_relationship", ""),
                 "source_url": proposed.get("source_url", ""),
                 "candidate_id": d.get("candidate_id", ""),
+                # The exact composed policy sentence recorded for the READY
+                # candidate -- surfaced so the profile renderer can show the
+                # verbatim "exact recorded wording" evidence toggle (parity with
+                # the approved design). None when the source stated nothing.
+                "evidence_quote": proposed.get("pet_policy", "") or None,
             }
+    return out
+
+
+def load_published_hotel_policy_facts() -> Dict[str, Dict]:
+    """The DEFAULT verified-facts source for the Columbus generator: the tracked
+    launch package (PUBLISHED_FACTS_PATH), keyed by normalized name in the exact
+    shape build_vm_from_production consumes. Committed, deterministic, and free
+    of any operational/import dependency -- normal generation works in a clean
+    checkout. Returns {} if the package is absent (e.g. before its first export)."""
+    if not PUBLISHED_FACTS_PATH.exists():
+        return {}
+    data = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+    out: Dict[str, Dict] = {}
+    for h in data.get("hotels", []):
+        out[h["key"]] = {
+            "facts": dict(h.get("facts", {})),
+            "verified_at": h.get("verified_at", ""),
+            "evidence_count": h.get("evidence_count", 0),
+            "source_relationship": h.get("source_type", ""),
+            "source_url": h.get("source_url", ""),
+            "evidence_quote": h.get("evidence_quote") or None,
+        }
     return out
 
 

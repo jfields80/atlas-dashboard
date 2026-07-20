@@ -11,23 +11,20 @@ import re
 import pytest
 
 from scripts.generate_pettripfinder_columbus_site import run
-from scripts.pettripfinder.site_data import load_hotel_policy_facts
+from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 
-# This end-to-end test exercises the full Columbus generator, whose verified
-# pet-policy content (the "$50" / "Policy verified" assertions below) is derived
-# from the operational importer tree under data/import/, which is gitignored and
-# therefore absent from a clean checkout. When those verified facts are not
-# present, the generator still runs but every hotel degrades to the unverified
-# treatment, so the verified-content assertions would fail for an environmental
-# reason rather than a real regression. Skip the whole module in that case; the
-# self-contained hotel-profile fixtures (test_hotel_profile.py) cover the
-# renderer's verified/sparse/no-pets/unverified states from committed data.
-_HAS_OPERATIONAL_FACTS = bool(load_hotel_policy_facts())
+# PTF-PROD-002A: the generator's verified pet-policy content now comes from the
+# TRACKED publishable package (launch_packages/pettripfinder/hotel_policy_facts.json),
+# not the gitignored operational corpus -- so this end-to-end test runs in a
+# clean checkout. The guard remains only as defence against the package being
+# absent entirely (e.g. before its first export); normally it is committed and
+# this test runs everywhere.
+_HAS_PUBLISHED_FACTS = bool(load_published_hotel_policy_facts())
 
 pytestmark = pytest.mark.skipif(
-    not _HAS_OPERATIONAL_FACTS,
-    reason="operational importer facts (data/import/, gitignored) absent -- "
-           "verified-content assertions are not reproducible in a clean checkout",
+    not _HAS_PUBLISHED_FACTS,
+    reason="tracked hotel_policy_facts.json package absent -- run "
+           "scripts/pettripfinder/export_hotel_policy_facts.py",
 )
 
 
@@ -68,18 +65,27 @@ def test_core_pages_exist(built_site):
         assert (built_site / rel).exists(), rel
 
 
-def test_hotel_profile_with_facts_has_verified_badge_and_table(built_site):
+def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
+    # PTF-PROD-002: hotel profiles now come from the approved renderer
+    # (hotel_profile_page.render_production_hotel_profile), not the old
+    # debug-like layout. A verified hotel shows the approved verified badge and
+    # the approved six-fact grid -- never the old ptf-policy-table/badge markup.
     text = (built_site / "pet-friendly-hotels" / "drury-inn-suites-columbus-grove-city"
            / "index.html").read_text(encoding="utf-8")
     assert "Policy verified" in text
-    assert "ptf-policy-table" in text
+    assert 'class="fh-facts"' in text          # approved fact grid
+    assert "fh-verif ok" in text               # approved verified state
     assert "$50" in text
+    assert "ptf-policy-table" not in text       # old markup path is gone
+    assert "ptf-badge--verified" not in text
 
 
-def test_hotel_profile_without_facts_shows_unverified_notice(built_site):
+def test_hotel_profile_without_facts_shows_approved_unverified_state(built_site):
     text = (built_site / "pet-friendly-hotels" / "aloft-columbus-university-district"
            / "index.html").read_text(encoding="utf-8")
-    assert "not independently verified" in text
+    assert "Pet policy not verified" in text    # approved unverified badge
+    assert "could not confirm" in text          # approved unverified summary
+    assert "Policy verified" not in text        # never asserts a verified policy
     assert "ptf-policy-table" not in text
 
 

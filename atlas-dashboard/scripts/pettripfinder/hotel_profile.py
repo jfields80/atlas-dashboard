@@ -229,13 +229,20 @@ def _verified_summary(f: Dict[str, str]) -> str:
 def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
     sp = (f.get("species_allowed") or "").lower()
     sparse = not any(f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit"))
-    dogs = ("Accepted", "yes") if "dog" in sp else (("Welcome", "yes") if sparse else ("Not stated", "dim"))
-    cats = ("Accepted", "yes") if "cat" in sp else ("Not stated", "dim")
     def cell(v):
         return (v, "") if v else ("Not stated", "dim")
-    return (
-        ("Dogs", dogs[0], dogs[1]),
-        ("Cats", cats[0], cats[1]),
+    if sparse:
+        # Verified generic pet-friendly policy: pets are welcome, but the
+        # reviewed source did NOT identify accepted species. Never infer
+        # dogs/cats from a generic pets-allowed statement -- present the policy
+        # itself plus an explicit "Not stated" species, not a fabricated "Dogs".
+        head = (("Pet policy", "Pets welcome", "yes"), ("Species", "Not stated", "dim"))
+    else:
+        head = (
+            ("Dogs", *(("Accepted", "yes") if "dog" in sp else ("Not stated", "dim"))),
+            ("Cats", *(("Accepted", "yes") if "cat" in sp else ("Not stated", "dim"))),
+        )
+    return head + (
         ("Pet charge", *cell(f.get("pet_fee"))),
         ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
@@ -385,6 +392,38 @@ def build_vm_from_unverified(cand: Dict, all_hotel_rows, facts_map) -> HotelProf
         related=_related_from_production(name, all_hotel_rows, facts_map))
 
 
+def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, facts_map) -> HotelProfileVM:
+    """POLICY_UNVERIFIED VM for a real production seed row that has no verified
+    facts. Identical honest wording to build_vm_from_unverified, but keeps the
+    row's real identity (full address + phone + official URL) instead of the
+    address-less fixture-candidate shape -- so a production unverified hotel
+    still shows its correct location and contact, never asserting a pet policy."""
+    name = row["name"]
+    facts = tuple((lbl, "Not verified", "dim") for lbl in
+                  ("Dogs", "Cats", "Pet charge", "Charge basis", "Max pets", "Weight limit"))
+    return HotelProfileVM(
+        state=STATE_UNVERIFIED, name=name,
+        corridor=_corridor_label(row.get("city", ""), row.get("address", ""), name),
+        initials=_initials(name),
+        address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""),
+                                   row.get("state", ""), row.get("postal_code", "")),
+        phone=row.get("phone", ""), official_url=row.get("website_url", ""),
+        verified_at=None, source_name=None,
+        summary=("We could not confirm this property’s current pet policy from an approved "
+                 "official source."),
+        facts=facts,
+        verif_badge_text="Pet policy not verified", verif_badge_cls="neutral", verif_chip="Not verified",
+        trust_cls="neutral",
+        trust_line=("We could not confirm this property’s current pet policy from an approved "
+                    "official source."),
+        evidence_quote=None,
+        details_plain=("No verified pet-policy details are available for this property. Please "
+                       "confirm directly with the property before you travel with a pet."),
+        prov_status="not verified",
+        actions_mode="unverif",
+        related=_related_from_production(name, all_hotel_rows, facts_map))
+
+
 _BRAND_MAP = {"druryhotels.com": "Drury Hotels", "daysinncolumbusohio.com": "Days Inn",
               "sonesta.com": "Sonesta", "wyndhamhotels.com": "Wyndham",
               "plazahotelcolumbus.com": "property"}
@@ -479,7 +518,13 @@ def _related_html(vm: HotelProfileVM) -> str:
 
 
 def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.css",
-                         diag: bool = False) -> str:
+                         diag: bool = False, market_home: str = "/columbus-oh/") -> str:
+    # ``market_home`` is the route of the Columbus market hub used by the two
+    # "Columbus" links (breadcrumb root + the pet-travel-resources fallback).
+    # It is a link TARGET only -- no visual/markup change -- and defaults to the
+    # design authority's "/columbus-oh/" so the approved prototype and every
+    # committed fixture render byte-for-byte identically. The production site
+    # build passes its real hub route ("/") where no /columbus-oh/ page exists.
     crumb_area = vm.corridor.split(" ·")[0]
     hero = (
         '<section class="fh-hero">'
@@ -507,7 +552,7 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
         + '<section class="fh-sec"><h2 class="fh-h2">Address &amp; directions</h2><p class="fh-addr">%s · <a href="/go/%s/directions/">Get directions ›</a></p></section>' % (_e(vm.address), _slug(vm.name))
         + '<section class="fh-sec"><h2 class="fh-h2">Traveling with a pet in Columbus</h2>'
           '<p class="fh-plain">Distance-based recommendations aren’t available for this property yet.</p>'
-          '<p class="fh-fallback"><a href="/columbus-oh/">Explore Columbus pet-travel resources ›</a></p></section>'
+          '<p class="fh-fallback"><a href="%s">Explore Columbus pet-travel resources ›</a></p></section>' % market_home
         + '<section class="fh-sec"><h2 class="fh-h2">Verification &amp; provenance</h2>%s</section>' % _prov_html(vm)
         + '<section class="fh-sec"><h2 class="fh-h2">More verified pet-friendly stays</h2>%s</section>' % _related_html(vm)
         + '</div>'
@@ -535,7 +580,7 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
         '<nav class="fh-nav" id="sitenav" aria-label="Main"><a href="/pet-friendly-hotels/">Hotels</a><a href="/pet-friendly-parks/">Parks</a><a href="/methodology/">How we verify</a></nav>'
         '</div></header>'
         '<div class="wrap"><nav class="fh-crumbs" aria-label="Breadcrumb"><ol>'
-        '<li><a href="/columbus-oh/">Columbus</a></li><li><a href="/pet-friendly-hotels/">Pet-Friendly Hotels</a></li>'
+        '<li><a href="%s">Columbus</a></li><li><a href="/pet-friendly-hotels/">Pet-Friendly Hotels</a></li>'
         '<li><a href="#">%s</a></li><li aria-current="page">%s</li></ol></nav>'
         '%s<main id="main">%s</main></div>'
         '<footer class="fh-footer"><div class="wrap"><div>© 2026 PetTripFinder · Your verified Columbus pet-travel guide'
@@ -544,7 +589,7 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
         '<div class="fh-mobilebar">%s</div>'
         '%s%s</body></html>'
     ) % (_e(vm.name), _e(re.sub("<[^>]+>", "", vm.summary))[:150], css_href,
-         _e(crumb_area), _e(vm.name), hero, body, _mobilebar_html(vm), menu_js, diag_js)
+         market_home, _e(crumb_area), _e(vm.name), hero, body, _mobilebar_html(vm), menu_js, diag_js)
 
 
 # --------------------------------------------------------------------------- #

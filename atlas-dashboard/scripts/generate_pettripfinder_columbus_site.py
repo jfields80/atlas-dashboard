@@ -67,15 +67,18 @@ from scripts.pettripfinder.site_data import (
     CORRIDOR_MIN_PROPERTIES,
     assign_corridor,
     group_by_corridor,
-    load_hotel_policy_facts,
+    load_published_hotel_policy_facts,
     normalize_name,
     read_production_rows,
+)
+from scripts.pettripfinder.hotel_profile_page import (
+    build_hotel_go_pages,
+    render_production_hotel_profile,
 )
 from scripts.pettripfinder.site_enrichment import (
     BASE_URL,
     build_go_pages_for_listing,
     enrich_hotel_category_page,
-    enrich_hotel_profile,
     enrich_hub_page,
     enrich_place_profile,
     render_hub_intro,
@@ -206,7 +209,7 @@ def run(output: str) -> int:
     hotel_rows = [r for r in all_rows if r["category"] == "pet-friendly-hotels"]
     park_rows = [r for r in all_rows if r["category"] == "pet-friendly-parks"]
     restaurant_rows = [r for r in all_rows if r["category"] == "pet-friendly-restaurants"]
-    policy_facts = load_hotel_policy_facts()
+    policy_facts = load_published_hotel_policy_facts()   # tracked package -- no operational dependency
     corridor_groups = group_by_corridor(hotel_rows)
 
     warnings: List[str] = []
@@ -215,7 +218,15 @@ def run(output: str) -> int:
     def _listing_id(name: str) -> str:
         return _slug(name)
 
-    # --- hotel profiles -----------------------------------------------------
+    # --- hotel profiles (PTF-PROD-002: APPROVED renderer) -------------------
+    # The hotel profile is now produced by the approved hotel-profile renderer
+    # (scripts/pettripfinder/hotel_profile_page.render_production_hotel_profile),
+    # fully replacing the base AES-WEB profile layout + enrich_hotel_profile body
+    # surgery for hotels. The base bundle still materialized a placeholder file
+    # at this route; we overwrite it with the approved page (self-canonical +
+    # breadcrumb/LodgingBusiness JSON-LD injected). Parks/restaurants are
+    # unchanged. render_production_hotel_profile passes market_home="/" so the
+    # renderer's Columbus links resolve to the real hub.
     for row in hotel_rows:
         listing_id = _listing_id(row["name"])
         profile_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
@@ -224,20 +235,9 @@ def run(output: str) -> int:
             continue
         facts_entry = policy_facts.get(normalize_name(row["name"]))
         corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
-        html_text = profile_path.read_text(encoding="utf-8")
-        enriched = enrich_hotel_profile(
-            html_text=html_text, row=row, listing_id=listing_id, corridor=corridor,
-            facts_entry=facts_entry, all_rows=all_rows)
-        profile_path.write_text(enriched, encoding="utf-8", newline="\n")
-        verification_status = (
-            "POLICY_UNVERIFIED" if not facts_entry else
-            "VERIFIED_NO_PETS" if facts_entry["facts"].get("pets_allowed") == "false" else
-            "VERIFIED_PET_FRIENDLY")
-        go_pages.update(build_go_pages_for_listing(
-            listing_id=listing_id, name=row["name"], official_url=row.get("website_url", ""),
-            phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
-            state=row.get("state", ""), category_slug="pet-friendly-hotels", corridor=corridor,
-            verification_status=verification_status))
+        page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, policy_facts)
+        profile_path.write_text(page_html, encoding="utf-8", newline="\n")
+        go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry))
 
     # --- park / restaurant profiles -----------------------------------------
     for rows, slug, place_type in ((park_rows, "pet-friendly-parks", "Park"),
@@ -350,11 +350,20 @@ def run(output: str) -> int:
     styles_path.write_text(
         styles_path.read_text(encoding="utf-8") + "\n" + PTF_EXTRA_CSS,
         encoding="utf-8", newline="\n")
+    # Approved hotel-profile stylesheet, emitted once as /hotel-profile.css and
+    # referenced absolutely by every hotel page (PTF-PROD-002). Self-contained
+    # fh-* design; no duplication onto other pages, no collision with styles.css.
+    (out_dir / "hotel-profile.css").write_text(
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        encoding="utf-8", newline="\n")
     for html_path in out_dir.rglob("index.html"):
         if "go" in html_path.relative_to(out_dir).parts[:1]:
             continue   # noindex redirect pages: no <main>, nothing to skip to
         text = html_path.read_text(encoding="utf-8")
-        if "ptf-skip-link" in text or "<body" not in text:
+        # Skip pages that already carry a skip link -- the base pages get the
+        # "ptf-skip-link" injected here; approved hotel pages already ship their
+        # own "skip-link" (substring of "ptf-skip-link"), so this matches both.
+        if "skip-link" in text or "<body" not in text:
             continue
         text = _BODY_OPEN_RE.sub(r"\1" + _SKIP_LINK, text, count=1)
         html_path.write_text(text, encoding="utf-8", newline="\n")
@@ -404,13 +413,18 @@ def _check_internal_links(out_dir: Path, known_routes: set) -> List[str]:
     for html_path in out_dir.rglob("index.html"):
         text = html_path.read_text(encoding="utf-8")
         for href in href_re.findall(text):
-            if href.startswith("//") or href.startswith("/#"):
+            # A URL fragment (#anchor) points WITHIN a page, not to a separate
+            # file -- strip it before resolving the file target, so a valid link
+            # like /methodology/#photos resolves to /methodology/ (which exists)
+            # rather than being falsely reported as broken.
+            path = href.split("#", 1)[0]
+            if not path or path.startswith("//"):
                 continue
-            target = out_dir / href.lstrip("/").rstrip("/")
-            target_file = target / "index.html" if href.endswith("/") or href == "" else target
-            if href == "/":
+            target = out_dir / path.lstrip("/").rstrip("/")
+            target_file = target / "index.html" if path.endswith("/") or path == "" else target
+            if path == "/":
                 target_file = out_dir / "index.html"
-            if not target_file.exists() and not (out_dir / href.lstrip("/")).exists():
+            if not target_file.exists() and not (out_dir / path.lstrip("/")).exists():
                 broken.append("%s -> %s" % (html_path.relative_to(out_dir), href))
     return broken
 
@@ -474,14 +488,133 @@ def _run_quality_checks(out_dir: Path, hotel_rows: List[Dict], corridor_groups: 
     }
 
 
+SAMPLE_OUTPUT = "data/site_builds/ptf_prod_002_sample"
+
+# The three controlled review records (PTF-PROD-002), by production-name prefix.
+# rich + sparse + a third verified hotel demonstrating the branded no-photo
+# placeholder on its own real route (never a duplicate canonical of the rich
+# page). All three are verified pet-friendly; no no-pets/unverified record
+# enters this sample.
+_SAMPLE_SELECTION = (
+    ("rich", "Drury Inn & Suites Columbus Grove City"),
+    ("sparse", "Days Inn by Wyndham Grove City"),
+    ("no-photo", "Sonesta Columbus Downtown"),
+)
+
+
+def _sample_facts_map(use_fixture_facts: bool) -> Tuple[Dict, str]:
+    """Returns (facts_map, source_label). Default reads the tracked publishable
+    launch package (the normal production source -- committed, no operational
+    dependency, works in a clean checkout). ``use_fixture_facts`` reads the
+    committed review fixture instead -- a test/review convenience only, never
+    the normal production source."""
+    if use_fixture_facts:
+        data = json.loads(
+            (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile_fixtures.json")
+            .read_text(encoding="utf-8"))
+        return data["verified_facts"], "committed_review_fixture"
+    return load_published_hotel_policy_facts(), "published_launch_package"
+
+
+def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
+    """Generate ONLY the three controlled hotel-profile review pages through the
+    approved renderer, into an isolated (gitignored) directory. Does NOT run the
+    base AES-WEB chain, does NOT touch the full market, and never mutates
+    inventory. Emits the real hotel routes + their /go/ interstitials + the
+    approved stylesheet + a review robots.txt/sitemap + a sample report."""
+    out_dir = Path(output)
+    if not out_dir.is_absolute():
+        out_dir = _REPO_ROOT / output
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    rows = read_production_rows()
+    hotel_rows = [r for r in rows if r["category"] == "pet-friendly-hotels"]
+    facts_map, facts_source = _sample_facts_map(use_fixture_facts)
+
+    selected: List[Dict] = []
+    go_pages: Dict[str, str] = {}
+    hotel_routes: List[str] = []
+    for state_label, prefix in _SAMPLE_SELECTION:
+        row = next((r for r in hotel_rows if r["name"].startswith(prefix)), None)
+        if row is None:
+            raise SystemExit("PTF-PROD-002 sample hotel not found in inventory: %r" % prefix)
+        listing_id = _slug(row["name"])
+        facts_entry = facts_map.get(normalize_name(row["name"]))
+        corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
+        page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, facts_map)
+        profile_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
+        profile_path.parent.mkdir(parents=True, exist_ok=True)
+        profile_path.write_text(page_html, encoding="utf-8", newline="\n")
+        route = "/pet-friendly-hotels/%s/" % listing_id
+        hotel_routes.append(route)
+        for gr, gh in build_hotel_go_pages(row, listing_id, corridor, facts_entry).items():
+            go_pages[gr] = gh
+        selected.append({
+            "state": state_label, "name": row["name"], "route": route,
+            "listing_id": listing_id,
+            "verification_status": ("VERIFIED_PET_FRIENDLY" if facts_entry else "POLICY_UNVERIFIED"),
+            "has_verified_facts": bool(facts_entry),
+        })
+
+    for route, page_html in go_pages.items():
+        path = out_dir / route.lstrip("/")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(page_html, encoding="utf-8", newline="\n")
+
+    (out_dir / "hotel-profile.css").write_text(
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        encoding="utf-8", newline="\n")
+
+    # Review output: keep it out of any index (Disallow all); sitemap lists only
+    # the verified hotel pages, never the /go/ interstitials.
+    (out_dir / "robots.txt").write_text(
+        "User-agent: *\nDisallow: /\n", encoding="utf-8", newline="\n")
+    sitemap_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        + "".join("<url><loc>%s%s</loc></url>" % (BASE_URL, r) for r in sorted(hotel_routes))
+        + "</urlset>")
+    (out_dir / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
+
+    report = {
+        "build_tool": "PTF-PROD-002 run_sample",
+        "renderer": "scripts/pettripfinder/hotel_profile_page.render_production_hotel_profile",
+        "facts_source": facts_source,
+        "hotel_pages": len(selected),
+        "go_pages": len(go_pages),
+        "selected": selected,
+        "output_path": str(out_dir),
+    }
+    (out_dir / "_sample_report.json").write_text(
+        json.dumps(report, indent=2), encoding="utf-8", newline="\n")
+
+    print("PTF-PROD-002 three-hotel review sample")
+    print("  facts source: %s" % facts_source)
+    for s in selected:
+        print("  %-9s %-52s %s" % (s["state"], s["listing_id"], s["verification_status"]))
+    print("  /go/ pages: %d" % len(go_pages))
+    print("  output: %s" % out_dir)
+    return 0
+
+
 def build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--output", default=DEFAULT_OUTPUT)
+    p.add_argument("--sample-hotel-profiles", action="store_true",
+                   help="generate ONLY the 3-hotel PTF-PROD-002 review sample (approved renderer), "
+                        "into an isolated gitignored directory; does not build the full market")
+    p.add_argument("--sample-output", default=SAMPLE_OUTPUT,
+                   help="output directory for --sample-hotel-profiles")
+    p.add_argument("--fixture-facts", action="store_true",
+                   help="sample mode only: use the committed review fixture instead of the "
+                        "operational corpus (for clean-clone reproduction)")
     return p
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     args = build_arg_parser().parse_args(argv)
+    if args.sample_hotel_profiles:
+        return run_sample(args.sample_output, use_fixture_facts=args.fixture_facts)
     return run(args.output)
 
 

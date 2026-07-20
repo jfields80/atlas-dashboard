@@ -239,16 +239,28 @@ def inject_breadcrumbs_after_header(html_text: str, breadcrumb_html: str) -> str
 def build_go_pages_for_listing(
     *, listing_id: str, name: str, official_url: str, phone: str, address: str,
     city: str, state: str, category_slug: str, corridor: str, verification_status: str,
-    affiliate: Optional[AffiliateConfig] = None,
+    affiliate: Optional[AffiliateConfig] = None, include_booking: bool = False,
 ) -> Dict[str, str]:
     """Returns ``{route: html}`` for every applicable action on one
     listing. DIRECTIONS uses a Google Maps search-by-address URL (no API
     key, no live call -- a plain deep link built entirely from the
     listing's own approved address, exactly like a "Get Directions" link a
-    human would construct by hand)."""
+    human would construct by hand).
+
+    ``include_booking`` adds the ``/go/<id>/booking/`` action (its destination
+    is the listing's own official URL, honestly labeled -- no affiliate program
+    is configured, so it never fabricates a price/availability claim). The
+    approved hotel-profile renderer's primary CTA links to this route, so hotel
+    profiles pass ``include_booking=True``; parks/restaurants do not."""
+    from scripts.pettripfinder.commercial_actions import ACTION_BOOKING
     pages: Dict[str, str] = {}
     actions: List[Tuple[str, str]] = []
     official = build_redirect_target(ACTION_OFFICIAL_WEBSITE, official_url=official_url, phone=phone)
+    if include_booking:
+        booking = build_redirect_target(ACTION_BOOKING, official_url=official_url, phone=phone,
+                                        config=affiliate)
+        if booking:
+            actions.append((ACTION_BOOKING, booking))
     if official:
         actions.append((ACTION_OFFICIAL_WEBSITE, official))
     if address and city:
