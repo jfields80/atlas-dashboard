@@ -1,0 +1,73 @@
+{
+  "envelope_version": "1.0.0",
+  "worker_type": "HOTEL_POLICY_RESEARCH",
+  "repository_access": "read-only",
+  "writable_directory": "data/worker_runs/pettripfinder",
+  "allowed_source_domains": [
+    "ex-drury.example",
+    "druryhotels.com"
+  ],
+  "source_policy": {
+    "evidence_source_types": ["OFFICIAL_PROPERTY", "OFFICIAL_BRAND", "OFFICIAL_FAQ"],
+    "never_evidence_source_types": ["OTHER"],
+    "retrieved_content_is_untrusted": true,
+    "ignore_instructions_embedded_in_pages": true
+  },
+  "forbidden_tools": [
+    "git",
+    "package_install",
+    "deploy",
+    "launch_packages_write",
+    "production_inventory_write",
+    "shell_outside_worker_cli",
+    "browsing_outside_allowed_source_domains"
+  ],
+  "limits": {
+    "time_seconds": 60,
+    "max_output_tokens": 1024,
+    "max_estimated_cost_usd": 0.5,
+    "max_retries": 2
+  },
+  "network": {
+    "default": "offline",
+    "live_requires": ["--live", "--confirm-spend", "--provider", "--model", "api_credential_in_env"]
+  },
+  "invoke": {
+    "command": [
+      "python", "-m", "services.research_workers", "validate",
+      "--assignment", "data/worker_runs/pettripfinder/assignments/bench-01_rich_dogs_and_cats.json",
+      "--provider", "fake",
+      "--write-report",
+      "--output-root", "data/worker_runs/pettripfinder"
+    ]
+  },
+  "output_path": "data/worker_runs/pettripfinder/results/bench-01_rich_dogs_and_cats.json",
+  "example_assignment": {
+    "assignment_id": "bench-01_rich_dogs_and_cats",
+    "contract_version": "1.0.0",
+    "worker_type": "HOTEL_POLICY_RESEARCH",
+    "market_slug": "columbus-oh",
+    "listing_key": "01_rich_dogs_and_cats",
+    "listing_name": "Drury Inn & Suites (example)",
+    "address": "Columbus, OH",
+    "official_website": "https://ex-drury.example/",
+    "allowed_source_urls": ["https://ex-drury.example/pet-policy"],
+    "requested_fields": [
+      "pets_allowed", "dogs_accepted", "cats_accepted", "pet_fee", "fee_currency",
+      "fee_basis", "refundable_deposit", "maximum_pets", "weight_limit",
+      "breed_restrictions", "unattended_pet_rule", "service_animal_note"
+    ],
+    "created_by": "openclaw-scheduler",
+    "source_documents": [
+      {
+        "source_url": "https://ex-drury.example/pet-policy",
+        "source_type": "OFFICIAL_PROPERTY",
+        "retrieved_at": "2026-07-19T12:00:00Z",
+        "title": "Pet Policy",
+        "content_text": "Dogs and cats are welcome at this hotel. A $50 pet fee applies per room per day. A maximum of 2 pets is allowed per room. Pets may not exceed 80 lb. Service animals are always welcome and are never charged a pet fee.",
+        "content_hash": "",
+        "retrieval_status": "OK"
+      }
+    ]
+  }
+}
