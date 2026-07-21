@@ -97,6 +97,83 @@ def _print_summary(r: dict) -> None:
         print("  BUDGET STOPPED               : %s" % r["stop_reason"])
 
 
+def _print_checkpoint(cp: dict) -> None:
+    print("=== ATLAS-WORKERS-002 operator checkpoint (no paid call yet) ===")
+    print("  planned request count      : %d" % cp["planned_request_count"])
+    print("  output token cap           : %d" % cp["output_token_cap"])
+    print("  worst-case estimated cost  : $%.6f" % cp["worst_case_estimated_cost_usd"])
+    print("  max estimated cost ceiling : $%.2f" % cp["max_estimated_cost_usd"])
+    print("  spend authorization env    : %s" % cp["spend_authorization_env"])
+    print("  spend authorization present: %s" % cp["spend_authorization_present"])
+    print("  output directory           : %s" % cp["output_dir"])
+    print("  providers / credentials (presence only; values never read):")
+    for p in cp["providers"]:
+        print("    - %-9s %-24s env=%-16s present=%s"
+              % (p["provider"], p["model_id"], p["credential_env"], p["credential_present"]))
+
+
+def _cmd_evaluate(args) -> int:
+    from services.research_workers.eval_config import DEFAULT_MODELS, select_model
+    from services.research_workers.model_eval import (
+        EvalCaps, build_run_manifest, operator_checkpoint, run_live_evaluation,
+    )
+    from services.research_workers.providers import SpendingAirlockError
+    # Explicit single-model selection: --model (with --provider) targets exactly
+    # one configured model and NEVER runs DEFAULT_MODELS or falls back to another
+    # model. Omitting --model preserves the default multi-model bakeoff set.
+    if args.model:
+        try:
+            models = [select_model(args.provider, args.model)]
+        except KeyError as exc:
+            raise SpendingAirlockError(str(exc))
+    else:
+        models = DEFAULT_MODELS
+    caps = EvalCaps(repetitions=args.repetitions, max_assignments=args.max_assignments or 90,
+                    max_estimated_cost=(args.max_estimated_cost if args.max_estimated_cost is not None else 1.00),
+                    max_retries=args.max_retries, output_token_cap=args.output_token_cap,
+                    timeout_s=args.timeout)
+    cp = operator_checkpoint(models, caps, args.benchmark, case_id=args.case_id)
+    _print_checkpoint(cp)
+
+    repo = WorkerRepository(Path(args.output_root) if args.output_root else None)
+    if not args.live:
+        manifest = build_run_manifest(models, caps, args.benchmark, case_id=args.case_id)
+        repo.write_benchmark_report("aw002_run_manifest", manifest)
+        print("\nDRY RUN (no --live): manifest written; no network client constructed, no paid call.")
+        return 0
+    # Live path: the airlock decides. A missing credential blocks only that model.
+    try:
+        report = run_live_evaluation(models, caps, benchmark_path=args.benchmark,
+                                     case_id=args.case_id)
+    except SpendingAirlockError as exc:
+        print("\nLIVE BENCHMARK BLOCKED BY AIRLOCK: %s" % exc)
+        print("No network client was constructed and no paid call was made.")
+        return 0
+    path = repo.write_benchmark_report("aw002_live_bakeoff", report)
+    print("\nlive bakeoff complete: calls=%d cost=$%.6f default_model=%s"
+          % (report["calls_made"], report["cumulative_cost_usd"], report["default_model"]))
+    print("report:", path)
+    return 0
+
+
+def _cmd_canary(args) -> int:
+    """ONE live call through the SAME adapter + parser the benchmark uses.
+    Prints a sanitized diagnostic report (never a key, header, or request
+    body). Exit 0 when the model responded and parsed; 5 otherwise."""
+    from services.research_workers.eval_config import select_model
+    from services.research_workers.model_eval import run_canary
+    if not (args.live and args.confirm_spend):
+        raise SpendingAirlockError("canary makes ONE paid call: requires --live and --confirm-spend")
+    try:
+        model = select_model(args.provider, args.model)
+    except KeyError as exc:
+        raise SpendingAirlockError(str(exc))
+    report = run_canary(model, output_token_cap=args.output_token_cap,
+                        timeout_s=args.timeout, max_retries=args.max_retries)
+    print(json.dumps(report, sort_keys=True, ensure_ascii=False, indent=2))
+    return 0 if report["ok"] else 5
+
+
 def _cmd_manifest(args) -> int:
     from services.research_workers.manifest import validate_manifest, verify_evidence_sync
     sync = verify_evidence_sync(args.benchmark)
@@ -174,6 +251,25 @@ def build_parser() -> argparse.ArgumentParser:
     m = sub.add_parser("manifest", help="validate the benchmark manifest + evidence sync (offline)")
     m.add_argument("--benchmark", default=None, help="benchmark JSON path (default: committed Columbus)")
     m.set_defaults(func=_cmd_manifest)
+
+    e = sub.add_parser("evaluate", help="live low-cost model bakeoff (ATLAS-WORKERS-002); dry-run without --live")
+    _add_common(e)
+    e.add_argument("--benchmark", default=None, help="benchmark JSON path (default: committed Columbus)")
+    e.add_argument("--repetitions", type=int, default=3)
+    e.add_argument("--case-id", default=None,
+                   help="run exactly ONE named benchmark case (e.g. 01_rich_dogs_and_cats "
+                        "or its alias bench-01_rich_dogs_and_cats); never substitutes")
+    e.set_defaults(func=_cmd_evaluate)
+
+    c = sub.add_parser("canary", help="ONE live adapter canary call (same adapter + parser as the benchmark)")
+    c.add_argument("--provider", required=True)
+    c.add_argument("--model", required=True)
+    c.add_argument("--live", action="store_true", help="authorize the single paid call")
+    c.add_argument("--confirm-spend", action="store_true", help="second required confirmation")
+    c.add_argument("--output-token-cap", type=int, default=256)
+    c.add_argument("--timeout", type=float, default=60.0)
+    c.add_argument("--max-retries", type=int, default=0)
+    c.set_defaults(func=_cmd_canary)
     return parser
 
 

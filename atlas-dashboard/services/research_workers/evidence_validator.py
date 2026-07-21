@@ -18,9 +18,14 @@ Rule coverage (Stage 3):
   8  per-night / per-stay / per-room / per-room-per-day remain distinct
   9  maximum pets is never inferred from plural wording (number must be quoted)
   10 weight limit is not converted (the stated number must be quoted verbatim)
-  11 "pets welcome" does not imply a species (dogs/cats need the species word)
+  11 a species claim needs the species word in its quote, whether the species
+     is accepted or NOT -- a generic "pets welcome"/"no pets" statement implies
+     neither dogs nor cats in either direction
   12 missing data becomes NOT_STATED, never false or zero
-  13 contradictory same-rank official sources force CONTRADICTORY
+  13 contradictory same-rank official sources force CONTRADICTORY -- now detected
+     DETERMINISTICALLY by re-reading the sources (services.research_workers.
+     reconciliation), so an empty or one-sided model response can no longer hide
+     a genuine cross-source conflict
   14 missing/blocked sources produce no supported facts
   15 source content is untrusted data, not instructions
 """
@@ -36,6 +41,7 @@ from services.research_workers.contracts import (
     Assignment, ProposedField, SourceDocument, WorkerResult,
 )
 from services.research_workers.proposal import ModelProposal, RawFactClaim
+from services.research_workers.reconciliation import detect_field_contradictions
 
 
 # fee_basis -> (required phrases, forbidden phrases). Ordered longest-first so
@@ -101,7 +107,14 @@ def _field_claim_valid(field_name: str, value: str, quote: str) -> Tuple[bool, s
         return (False, "empty_value_or_quote")           # rule 1/12
     if field_name in V.BOOLEAN_FIELDS and value not in ("true", "false"):
         return (False, "non_boolean_value")               # rule 12
-    if field_name in (V.FIELD_DOGS_ACCEPTED, V.FIELD_CATS_ACCEPTED) and value == "true":
+    if field_name in (V.FIELD_DOGS_ACCEPTED, V.FIELD_CATS_ACCEPTED):
+        # Rule 11 is symmetric across the boolean value: a species claim --
+        # accepted OR not -- is supportable only when its quote actually names
+        # that species. A generic "no pets allowed" (or "pets welcome") quote
+        # names no species, so it can never support dogs_accepted / cats_accepted
+        # in EITHER direction; a negative species value is legitimate only from
+        # an explicit "dogs are not accepted"-style statement. (The boolean
+        # format itself is already enforced immediately above.)
         if not _species_supported(field_name, quote):
             return (False, "species_not_in_quote")        # rule 11
     if field_name in V.NUMERIC_FIELDS and not _numeric_supported(value, quote):
@@ -227,6 +240,29 @@ def validate_proposal(
         facts = [ProposedField(V.FIELD_REFUNDABLE_DEPOSIT, V.NOT_STATED) if x is dep else x
                  for x in facts]
         warnings.append("rejected_refundable_deposit:fee_deposit_same_quote")
+
+    # Deterministic cross-source reconciliation (rule 13, ATLAS-WORKERS-002).
+    # Re-read the supplied official sources ourselves and flag any field on which
+    # two eligible authoritative sources genuinely disagree. This does NOT depend
+    # on the model surfacing both sides: an empty response, or one that silently
+    # picked a side, still yields CONTRADICTORY. A disputed field is forced to
+    # CONTRADICTORY (overriding any model SUPPORTED value -- the model must never
+    # silently choose one side), and both citations, values, and verbatim quotes
+    # are preserved in the contradiction record for human review. Fields already
+    # flagged by the model path above are left untouched (no double-reporting).
+    already_contradictory = {c.split(":", 1)[0].strip() for c in contradictions}
+    for field_name, contra in sorted(detect_field_contradictions(usable).items()):
+        if field_name in already_contradictory:
+            continue
+        contradictions.append(contra.summary)
+        first = contra.sides[0]
+        forced = ProposedField(field_name, V.CONTRADICTORY, source_url=first.source_url,
+                               source_type=first.source_type,
+                               warnings=("cross_source_contradiction",))
+        if any(f.field_name == field_name for f in facts):
+            facts = [forced if f.field_name == field_name else f for f in facts]
+        else:
+            facts.append(forced)
 
     # Status derivation.
     if contradictions:
