@@ -33,7 +33,8 @@ ASSIGNMENTS = "assignments"
 RESULTS = "results"
 REJECTED = "rejected"
 BENCHMARK_REPORTS = "benchmark_reports"
-_SUBDIRS = (ASSIGNMENTS, RESULTS, REJECTED, BENCHMARK_REPORTS)
+ROUTING = "routing"                    # ATLAS-WORKERS-003 publication routing queue
+_SUBDIRS = (ASSIGNMENTS, RESULTS, REJECTED, BENCHMARK_REPORTS, ROUTING)
 
 _SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$")
 
@@ -106,6 +107,28 @@ class WorkerRepository:
     def write_benchmark_report(self, name: str, payload: Dict) -> Path:
         return self._atomic_write(self._safe_file(BENCHMARK_REPORTS, name + ".json"), payload)
 
+    def write_routing_envelope(self, envelope) -> Path:
+        """Persist a routing envelope to the gitignored queue (ATLAS-WORKERS-003).
+
+        Idempotent by deterministic route identity: re-routing the same validated
+        result under the same contract versions writes the same file with the
+        same content, so a second write is a no-op. A file already present under
+        the same route id with DIFFERENT content is a collision -- it is NEVER
+        silently overwritten; RepositoryError is raised instead."""
+        target = self._safe_file(ROUTING, envelope.queue_filename())
+        if target.exists():
+            from services.research_workers.routing import RoutingEnvelope
+            existing = RoutingEnvelope.from_dict(json.loads(target.read_text(encoding="utf-8")))
+            if existing.content_hash == envelope.content_hash:
+                return target                       # idempotent: identical decision
+            raise RepositoryError(
+                "route id collision with different content: %s" % target.name)
+        return self._atomic_write(target, envelope.to_dict())
+
     # -- reads ------------------------------------------------------------- #
     def read_result(self, path: Path) -> WorkerResult:
         return WorkerResult.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
+
+    def read_routing_envelope(self, path: Path):
+        from services.research_workers.routing import RoutingEnvelope
+        return RoutingEnvelope.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))

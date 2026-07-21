@@ -174,6 +174,64 @@ def _cmd_canary(args) -> int:
     return 0 if report["ok"] else 5
 
 
+def _print_routing_summary(summary: dict, envelopes: list, written: int, wrote: bool) -> None:
+    print("=== ATLAS-WORKERS-003 routing summary (offline; no model call, no production write) ===")
+    print("  total routed        : %d" % summary["total"])
+    for r in ("READY", "REVIEW", "RETRY", "REJECTED"):
+        print("  %-20s: %d" % (r, summary["routes"].get(r, 0)))
+    print("  reason codes:")
+    for code, n in summary["reasons"].items():
+        print("    - %-32s %d" % (code, n))
+    print("  per assignment:")
+    for e in envelopes:
+        print("    - %-34s %-9s %s" % (e.assignment_id, e.route, ",".join(e.reason_codes)))
+    if wrote:
+        print("  wrote %d routing envelope(s) to the gitignored routing queue" % written)
+    else:
+        print("  DRY RUN: no envelopes written (pass --write to persist to the gitignored queue)")
+
+
+def _cmd_route(args) -> int:
+    """Deterministically route validated worker results into the
+    READY/REVIEW/RETRY/REJECTED airlock. Offline: it evaluates the committed
+    benchmark with the deterministic FakeProvider oracle (never a model call),
+    validates each result, and routes it. Dry-run by default; --write persists
+    immutable envelopes to the gitignored routing queue. No production write."""
+    from services.research_workers.benchmark import load_benchmark
+    from services.research_workers.evidence_validator import validate_proposal
+    from services.research_workers.model_eval import VALIDATOR_VERSION, select_cases
+    from services.research_workers.prompt import PROMPT_VERSION
+    from services.research_workers.routing import route_result, summarize_envelopes
+
+    provider = FakeProvider()          # offline oracle; routing itself never calls a model
+    _bid, cases = load_benchmark(args.benchmark)
+    cases = select_cases(cases, args.assignment_id)          # exact id or bench- alias; never substitutes
+    prompt_version = args.prompt_version or PROMPT_VERSION
+    validator_version = args.validator_version or VALIDATOR_VERSION
+
+    envelopes = []
+    for case in cases:
+        proposal = provider.propose(case.assignment, model="fake-extractor-v1")
+        result = validate_proposal(case.assignment, proposal, provider=provider.name,
+                                   model="fake-extractor-v1")
+        envelopes.append(route_result(
+            case.assignment, result, proposal, prompt_version=prompt_version,
+            validator_version=validator_version, observed_at=args.observed_at, run_id=args.run_id))
+
+    summary = summarize_envelopes(envelopes)
+    written = 0
+    if args.write:
+        repo = WorkerRepository(Path(args.output_root) if args.output_root else None)
+        for env in envelopes:
+            repo.write_routing_envelope(env)
+            written += 1
+    _print_routing_summary(summary, envelopes, written, wrote=args.write)
+    if args.json:
+        print(json.dumps({"summary": summary, "envelopes": [e.to_dict() for e in envelopes]},
+                         sort_keys=True, ensure_ascii=False, indent=2))
+    return 0
+
+
 def _cmd_manifest(args) -> int:
     from services.research_workers.manifest import validate_manifest, verify_evidence_sync
     sync = verify_evidence_sync(args.benchmark)
@@ -270,6 +328,20 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--timeout", type=float, default=60.0)
     c.add_argument("--max-retries", type=int, default=0)
     c.set_defaults(func=_cmd_canary)
+
+    r = sub.add_parser("route", help="route validated worker results (ATLAS-WORKERS-003; offline, dry-run default)")
+    r.add_argument("--benchmark", default=None, help="benchmark JSON path (default: committed Columbus)")
+    r.add_argument("--assignment-id", default=None,
+                   help="route exactly ONE case (id or bench- alias); never substitutes")
+    r.add_argument("--write", action="store_true",
+                   help="persist envelopes to the gitignored routing queue (default: dry-run)")
+    r.add_argument("--output-root", default=None, help="worker runtime root (gitignored)")
+    r.add_argument("--prompt-version", default="", help="override recorded prompt_version (default: current)")
+    r.add_argument("--validator-version", default="", help="override recorded validator_version (default: current)")
+    r.add_argument("--observed-at", default="", help="explicit observation timestamp (no clock is read)")
+    r.add_argument("--run-id", default="", help="optional run correlation id")
+    r.add_argument("--json", action="store_true", help="print full JSON (summary + envelopes)")
+    r.set_defaults(func=_cmd_route)
     return parser
 
 
