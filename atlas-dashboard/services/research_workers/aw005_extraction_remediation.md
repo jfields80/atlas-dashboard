@@ -38,10 +38,103 @@ contradictory sources is still rejected exactly as before.
   REVIEW / generic pet-friendly → pets_allowed / benchmark oracle unchanged /
   contract versions); existing version + prompt-hash pins updated to 1.4.0/1.3.0.
 
-## Expected effect (to be confirmed on a controlled live rerun)
+## Expected effect (confirmed live — see LIVE V2 PILOT RESULTS below)
 
 Deterministically, the three Drury properties (word-number + per_room_per_night,
 single fee) move from REVIEW to READY, and the generic "pet-friendly" hotels can
 now publish `pets_allowed`. The tiered-fee hotels correctly remain REVIEW. The
 actual live READY lift is measured by re-running the ATLAS-WORKERS-004 pilot with
-the resume/skip-completed runner — no gate is relaxed to reach it.
+the resume/skip-completed runner — no gate is relaxed to reach it. This
+prediction was confirmed by the controlled live v2 rerun recorded below.
+
+## LIVE V2 PILOT RESULTS
+
+A controlled live re-run of the ATLAS-WORKERS-004 Columbus/Dublin pilot against
+the remediated contract, into a separate gitignored v2 directory that preserves
+the original v1 baseline for direct comparison.
+
+### Run identity
+
+| | |
+| --- | --- |
+| Baseline commit (before remediation) | `1563f8b` |
+| AW-005 remediation commit | `21fe53c` |
+| Model (exact, no substitution/fallback) | `gpt-5.4-nano-2026-03-17` |
+| Prompt version | 1.4.0 |
+| Validator version | 1.3.0 |
+| Authoritative hotels | 25 |
+| Reused canary (no duplicate network call) | 1 (Drury Inn & Suites Columbus Polaris) |
+| New live calls | 24 |
+| Successful new responses | 24 |
+| Provider failures | 0 |
+
+### Routing: v1 baseline vs v2 remediated
+
+| Route | v1 (baseline) | v2 (remediated) |
+| --- | --- | --- |
+| READY | 3 / 25 — 12% | **17 / 25 — 68%** |
+| REVIEW | 22 / 25 — 88% | 8 / 25 — 32% |
+| RETRY | 0 | 0 |
+| REJECTED | 0 | 0 |
+
+**Improvement:** +14 READY hotels · +56 percentage points · **0 READY
+regressions** · **0 unsafe READY results**.
+
+### Remediation effects (14 hotels moved REVIEW → READY)
+
+- **Explicit number-word normalization** helped **10** records (all 3 Drury plus
+  Home2 Suites Dublin, Hyatt Place OSU, Hyatt Regency, Red Roof Downtown
+  Convention Center, Red Roof Dublin, The Westin Great Southern, TownePlace
+  Dublin) — previously `rejected_maximum_pets:number_not_in_quote` on "two"/
+  "three pets".
+- **`per_room_per_night` representation** helped the **three Drury** records
+  (Dublin, Polaris, Plaza Downtown) — previously
+  `rejected_fee_basis:fee_basis_phrase_absent` on "$50 per room per night".
+- **Generic pet-friendly completeness** helped **four** records (Days Inn,
+  Hampton Inn, Homewood Suites, The Plaza) — previously 0 facts; now publish
+  `pets_allowed = "true"` from the verbatim pet-friendliness sentence.
+- Some records benefited from **more than one** repair (the three Drury
+  properties needed both the word-number and `per_room_per_night` fixes).
+
+### Remaining REVIEW (8) — correctly withheld
+
+| Hotel | Reason |
+| --- | --- |
+| Aloft University District | tiered/conditional pet fees |
+| Extended Stay America Dublin | tiered fees and species quote warning |
+| Hyatt House OSU Short North | conflicting fee and weight conditions |
+| Sonesta Simply Suites Dublin | tiered fee and weight warning |
+| Staybridge Suites Dublin | tiered/conditional fees |
+| La Quinta Columbus Dublin | refundable-deposit evidence mismatch |
+| Red Roof PLUS+ Worthington | refundable-deposit evidence mismatch |
+| Red Roof Inn West Hilliard | fee-basis and source-authority ambiguity |
+
+These eight were **correctly withheld**. Tiered/conditional pricing cannot be
+represented faithfully by the current single-value `pet_fee` schema, so forcing a
+single value would loosen faithfulness; the deposit and source-authority cases
+are genuine validator withholds. **No validator or routing gate was weakened**,
+every READY fact retained **exact verbatim evidence**, and no code was altered in
+response to these normal hotel-specific REVIEW outcomes.
+
+### Cost, tokens, and latency
+
+| Metric | Value |
+| --- | --- |
+| Total input tokens | 37,912 |
+| Total cached-input tokens | 0 |
+| Total output tokens | 8,604 |
+| New 24-call spend | $0.017434 |
+| Cumulative v2 cost (incl. reused canary) | $0.018338 |
+| Average cost per hotel | $0.000734 |
+| Average cost per READY hotel | $0.001079 |
+| Total model latency | 76,738 ms |
+| Average latency per new successful call | 3,197.4 ms |
+
+### Safety confirmations
+
+- The original ATLAS-WORKERS-004 **v1 baseline remains preserved** (still
+  READY 3 / REVIEW 22) for direct comparison.
+- Both the **v1 and v2 runtime artifacts remain gitignored and uncommitted**
+  (`data/worker_runs/pettripfinder/columbus_hotel_pilot{,_v2}/`).
+- **No production inventory, website generation, deployment, OpenClaw, Tier-2,
+  or model substitution occurred**; every READY fact is verbatim-evidenced.
