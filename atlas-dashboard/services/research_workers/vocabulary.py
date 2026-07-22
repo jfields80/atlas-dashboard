@@ -159,3 +159,64 @@ STATUS_FAILED = "FAILED"
 RESULT_STATUSES = frozenset({STATUS_COMPLETED, STATUS_NEEDS_REVIEW,
                              STATUS_NO_OFFICIAL_SOURCE, STATUS_CONTRADICTORY,
                              STATUS_FAILED})
+
+# --------------------------------------------------------------------------- #
+# ATLAS-WORKERS-006 -- structured tiered/conditional pet-fee vocabulary.
+#
+# The single scalar fields (pet_fee/fee_currency/fee_basis) cannot faithfully
+# represent a recurring fee with a total cap, first-N/after-N tiers, short/long
+# stay tiers, or a fee distinct from a refundable deposit. A PetFeePolicy is an
+# ordered set of typed PetFeeTerm records. Per the AW-006 contract corrections:
+# ROLE, BASIS, and SCOPE are DISTINCT typed dimensions -- never folded into a
+# combinatorial value; boundaries are typed integers; amounts are canonical
+# decimals separate from the verbatim quote.
+# --------------------------------------------------------------------------- #
+
+FEE_POLICY_VERSION = "1.0.0"
+
+# Cardinal number words 0-20 -> digit (ATLAS-WORKERS-005/006). A written number
+# ("two pets", "first six nights") is an EXPLICIT statement of a count, so it is
+# recognized alongside digits; a bare plural names no number and is unsupported.
+# Lives here as pure vocabulary so both the fact validator and the fee-term
+# validator share one authority.
+CARDINAL_WORDS = {
+    "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+    "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
+    "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17,
+    "eighteen": 18, "nineteen": 19, "twenty": 20,
+}
+
+# Role -- the semantic kind of money event (a CAP is never an ordinary charge).
+FEE_ROLE_RECURRING_CHARGE = "RECURRING_CHARGE"   # a per-night / per-day recurring fee
+FEE_ROLE_ONE_TIME_CHARGE = "ONE_TIME_CHARGE"     # a non-refundable one-time / per-stay fee
+FEE_ROLE_CAP = "CAP"                             # an explicit maximum total for the stay
+FEE_ROLE_DEPOSIT = "DEPOSIT"                     # a REFUNDABLE deposit (distinct from a fee)
+FEE_TERM_ROLES = frozenset({FEE_ROLE_RECURRING_CHARGE, FEE_ROLE_ONE_TIME_CHARGE,
+                            FEE_ROLE_CAP, FEE_ROLE_DEPOSIT})
+
+# Basis -- the rate UNIT only (scope is a separate dimension, never folded in).
+FEE_TERM_BASIS_PER_DAY = "per_day"
+FEE_TERM_BASIS_PER_NIGHT = "per_night"
+FEE_TERM_BASIS_PER_STAY = "per_stay"
+FEE_TERM_BASIS_ONE_TIME = "one_time"
+FEE_TERM_BASES = frozenset({FEE_TERM_BASIS_PER_DAY, FEE_TERM_BASIS_PER_NIGHT,
+                            FEE_TERM_BASIS_PER_STAY, FEE_TERM_BASIS_ONE_TIME})
+
+# Scope -- who/what the charge applies to (an independent dimension).
+FEE_SCOPE_PER_ROOM = "per_room"
+FEE_SCOPE_PER_PET = "per_pet"
+FEE_SCOPE_POLICY_TOTAL = "policy_total"
+FEE_SCOPE_UNSTATED = "unstated"                  # source states no scope -> never inferred
+FEE_TERM_SCOPES = frozenset({FEE_SCOPE_PER_ROOM, FEE_SCOPE_PER_PET,
+                             FEE_SCOPE_POLICY_TOTAL, FEE_SCOPE_UNSTATED})
+
+# Applicability condition. A stay-length range subsumes first-N ([1, N]) and
+# after-N ([N+1, null]); only values the evidence explicitly states are used.
+FEE_CONDITION_UNCONDITIONAL = "unconditional"
+FEE_CONDITION_STAY_LENGTH_RANGE = "stay_length_range"
+FEE_CONDITION_TYPES = frozenset({FEE_CONDITION_UNCONDITIONAL, FEE_CONDITION_STAY_LENGTH_RANGE})
+
+# Boundary unit for a stay-length-range condition.
+BOUNDARY_UNIT_NIGHTS = "nights"
+BOUNDARY_UNIT_DAYS = "days"
+BOUNDARY_UNITS = frozenset({BOUNDARY_UNIT_NIGHTS, BOUNDARY_UNIT_DAYS})

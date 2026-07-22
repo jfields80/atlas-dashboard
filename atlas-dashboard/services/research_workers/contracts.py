@@ -189,6 +189,91 @@ class ProposedField:
             warnings=tuple(str(w) for w in d.get("warnings", [])))
 
 
+@dataclass(frozen=True)
+class PetFeeTerm:
+    """One typed pet-fee term (ATLAS-WORKERS-006). ROLE, BASIS, and SCOPE are
+    DISTINCT dimensions -- never folded into a combinatorial value. ``amount`` is
+    a canonical decimal string (e.g. "50.00"), never a float and never a raw
+    source fragment like "$50"; the exact wording lives in ``evidence_quote``.
+    Condition boundaries are typed integers (or None)."""
+
+    role: str                                  # V.FEE_TERM_ROLES
+    amount: str                                # canonical decimal string, e.g. "50.00"
+    currency: str                              # canonical currency, e.g. "USD"
+    basis: str                                 # V.FEE_TERM_BASES (rate unit only)
+    scope: str = ""                            # V.FEE_TERM_SCOPES (independent dimension)
+    condition_type: str = ""                   # V.FEE_CONDITION_TYPES
+    condition_min: Optional[int] = None        # typed integer or None
+    condition_max: Optional[int] = None
+    boundary_unit: str = ""                    # V.BOUNDARY_UNITS or "" when unconditional
+    evidence_quote: str = ""                   # verbatim substring of the cited source
+    source_url: str = ""
+    source_type: str = ""
+
+    def to_dict(self) -> Dict:
+        return {
+            "role": self.role, "amount": self.amount, "currency": self.currency,
+            "basis": self.basis, "scope": self.scope, "condition_type": self.condition_type,
+            "condition_min": self.condition_min, "condition_max": self.condition_max,
+            "boundary_unit": self.boundary_unit, "evidence_quote": self.evidence_quote,
+            "source_url": self.source_url, "source_type": self.source_type,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict) -> "PetFeeTerm":
+        def _int(v):
+            return int(v) if isinstance(v, int) or (isinstance(v, str) and v.strip().isdigit()) else None
+        return PetFeeTerm(
+            role=str(d["role"]), amount=str(d["amount"]), currency=str(d.get("currency", "")),
+            basis=str(d.get("basis", "")), scope=str(d.get("scope", "")),
+            condition_type=str(d.get("condition_type", "")),
+            condition_min=_int(d.get("condition_min")), condition_max=_int(d.get("condition_max")),
+            boundary_unit=str(d.get("boundary_unit", "")),
+            evidence_quote=str(d.get("evidence_quote", "")),
+            source_url=str(d.get("source_url", "")), source_type=str(d.get("source_type", "")))
+
+    def sort_key(self) -> Tuple:
+        return (self.role, self.condition_min if self.condition_min is not None else -1,
+                self.condition_max if self.condition_max is not None else 10 ** 9,
+                self.amount, self.basis, self.scope, self.evidence_quote, self.source_url)
+
+    def identity(self) -> Tuple:
+        """Semantic identity for deduplication: role + amount + basis + scope +
+        condition, INDEPENDENT of the exact quote wording (so two differently
+        worded quotes for the same term deduplicate)."""
+        return (self.role, self.amount, self.currency, self.basis, self.scope,
+                self.condition_type, self.condition_min, self.condition_max, self.boundary_unit)
+
+
+@dataclass(frozen=True)
+class PetFeePolicy:
+    """An ordered, deterministic set of pet-fee terms with a content identity."""
+
+    terms: Tuple[PetFeeTerm, ...]
+    fee_policy_version: str = ""
+
+    def _sorted_terms(self) -> Tuple[PetFeeTerm, ...]:
+        return tuple(sorted(self.terms, key=lambda t: t.sort_key()))
+
+    def to_dict(self) -> Dict:
+        return {
+            "fee_policy_version": self.fee_policy_version,
+            "terms": [t.to_dict() for t in self._sorted_terms()],
+            "content_hash": self.content_hash(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict) -> "PetFeePolicy":
+        return PetFeePolicy(
+            terms=tuple(PetFeeTerm.from_dict(t) for t in d.get("terms", [])),
+            fee_policy_version=str(d.get("fee_policy_version", "")))
+
+    def content_hash(self) -> str:
+        payload = {"fee_policy_version": self.fee_policy_version,
+                   "terms": [t.to_dict() for t in self._sorted_terms()]}
+        return "sha256:" + _sha256(canonical_json(payload))
+
+
 # Fields excluded from result_hash: the volatile provider metering/timing, and
 # the hash itself. result_hash therefore identifies the RESULT CONTENT (status,
 # facts, evidence, source selection, provenance) independent of how it was
@@ -220,10 +305,16 @@ class WorkerResult:
     attempt_count: int = 1
     contract_version: str = V.CONTRACT_VERSION
     worker_type: str = V.WORKER_TYPE_HOTEL_POLICY
+    # ATLAS-WORKERS-006 additive structured pet-fee policy. None for a simple
+    # policy (which keeps the scalar pet_fee/fee_currency/fee_basis facts); a
+    # PetFeePolicy for a multi-term policy. Omitted from the content/hash when
+    # None, so every prior serialized result and the committed benchmark keep
+    # their exact result_hash (backward-compatible extension).
+    fee_policy: Optional[PetFeePolicy] = None
     result_hash: str = ""
 
     def _content(self) -> Dict:
-        return {
+        content = {
             "assignment_id": self.assignment_id, "contract_version": self.contract_version,
             "worker_type": self.worker_type, "listing_key": self.listing_key,
             "status": self.status, "selected_source_url": self.selected_source_url,
@@ -234,6 +325,9 @@ class WorkerResult:
             "contradictions": list(self.contradictions), "warnings": list(self.warnings),
             "provider": self.provider, "model": self.model,
         }
+        if self.fee_policy is not None:
+            content["fee_policy"] = self.fee_policy.to_dict()
+        return content
 
     def compute_hash(self) -> str:
         content = {k: v for k, v in self._content().items() if k not in _HASH_EXCLUDED}
@@ -273,4 +367,5 @@ class WorkerResult:
             cached_input_tokens=int(d.get("cached_input_tokens", 0)),
             latency_ms=int(d.get("latency_ms", 0)),
             attempt_count=int(d.get("attempt_count", 1)),
+            fee_policy=(PetFeePolicy.from_dict(d["fee_policy"]) if d.get("fee_policy") else None),
             result_hash=str(d.get("result_hash", "")))

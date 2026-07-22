@@ -175,7 +175,7 @@ def test_benchmark_oracle_unchanged_by_remediation():
 # --------------------------------------------------------------------------- #
 
 def test_contract_versions_and_prompt_content():
-    assert PROMPT_VERSION == "1.4.0" and VALIDATOR_VERSION == "1.3.0"
+    assert PROMPT_VERSION == "1.6.0" and VALIDATOR_VERSION == "1.5.0"
     assert V.FEE_BASIS_PER_ROOM_PER_NIGHT in V.FEE_BASIS_VALUES
     _id, cases = load_benchmark()
     system, _user = build_worker_prompt(cases[0].assignment)

@@ -44,6 +44,7 @@ from services.research_workers.contracts import (
 )
 from services.research_workers.proposal import ModelProposal, RawFactClaim
 from services.research_workers.reconciliation import detect_field_contradictions
+from services.research_workers.fee_terms import build_fee_policy, detect_multiple_fee_amounts
 
 
 # fee_basis -> (required phrases, forbidden phrases). Forbidden phrases keep a
@@ -61,18 +62,13 @@ _FEE_BASIS_PHRASES = {
                             "per room per night", "per room, per night", "room per night")),
 }
 
-# Cardinal number words 0-20 -> digit. An explicitly WRITTEN number ("two pets")
-# is an explicit statement of the count, not an inference from plural wording, so
-# recognizing it preserves rule 9's "the number must be explicitly stated in the
-# source" guarantee (ATLAS-WORKERS-005). Bare plurals ("pets", "several pets")
-# name no number and stay unsupported.
-_NUMBER_WORDS = {
-    "zero": "0", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
-    "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
-    "eleven": "11", "twelve": "12", "thirteen": "13", "fourteen": "14",
-    "fifteen": "15", "sixteen": "16", "seventeen": "17", "eighteen": "18",
-    "nineteen": "19", "twenty": "20",
-}
+# Cardinal number words 0-20 -> digit string. An explicitly WRITTEN number ("two
+# pets") is an explicit statement of the count, not an inference from plural
+# wording, so recognizing it preserves rule 9's "the number must be explicitly
+# stated in the source" guarantee (ATLAS-WORKERS-005). Bare plurals ("pets",
+# "several pets") name no number and stay unsupported. Derived from the single
+# authoritative V.CARDINAL_WORDS map (shared with the fee-term validator).
+_NUMBER_WORDS = {w: str(n) for w, n in V.CARDINAL_WORDS.items()}
 
 
 def _usable_official_docs(assignment: Assignment) -> List[SourceDocument]:
@@ -172,7 +168,7 @@ def validate_proposal(
     model = model or proposal.model
     requested = tuple(assignment.requested_fields) or V.POLICY_FIELDS
 
-    def _finish(status, facts, contradictions, warnings, sel_url, sel_type):
+    def _finish(status, facts, contradictions, warnings, sel_url, sel_type, fee_policy=None):
         proposed = tuple(facts)
         unknown = tuple(f.field_name for f in proposed
                         if f.state == V.NOT_STATED and f.field_name in requested)
@@ -186,6 +182,7 @@ def validate_proposal(
             provider=provider, model=model, input_tokens=proposal.input_tokens,
             output_tokens=proposal.output_tokens, cached_input_tokens=proposal.cached_input_tokens,
             latency_ms=proposal.latency_ms, attempt_count=proposal.attempt_count,
+            fee_policy=fee_policy,
         ).with_hash()
 
     # Provider-level failure (rule 14 for the ok=False case).
@@ -291,6 +288,38 @@ def validate_proposal(
         else:
             facts.append(forced)
 
+    # ATLAS-WORKERS-006: structured tiered/conditional/capped pet-fee terms.
+    # Validate + reconcile the model's untrusted fee terms against THIS
+    # assignment's usable official sources. A structured policy REPLACES the
+    # scalar pet_fee/fee_currency/fee_basis facts (never a misleading single
+    # value); a rejected term raises a NEEDS_REVIEW warning; and a genuine
+    # overlapping/unconditional conflict adds a contradiction (rule D).
+    fee_policy = None
+    if proposal.fee_terms:
+        fee_policy, fee_contradictions, fee_warnings = build_fee_policy(proposal.fee_terms, doc_by_url)
+        warnings.extend(fee_warnings)
+        if fee_policy is not None:
+            contradictions.extend(fee_contradictions)
+            _scalar_fee = {V.FIELD_PET_FEE, V.FIELD_FEE_CURRENCY, V.FIELD_FEE_BASIS}
+            facts = [ProposedField(f.field_name, V.NOT_STATED) if f.field_name in _scalar_fee else f
+                     for f in facts]
+
+    # Fail-closed backstop (ATLAS-WORKERS-006 Stage-D safety remediation): the
+    # model must never be the only protection against lossy flattening. If the
+    # evidence states MULTIPLE distinct pet-fee amounts but NO validated
+    # structured policy is present -- i.e. the model flattened a tiered/capped
+    # fee to one scalar (or omitted it) -- withhold the scalar fee facts and flag
+    # the result, so a lossy single value can never reach READY. Deterministic
+    # and hotel-independent; the triggering amounts are preserved as a diagnostic.
+    if fee_policy is None:
+        _multi, _fee_amounts = detect_multiple_fee_amounts(usable)
+        if _multi:
+            _scalar_fee = {V.FIELD_PET_FEE, V.FIELD_FEE_CURRENCY, V.FIELD_FEE_BASIS}
+            facts = [ProposedField(f.field_name, V.NOT_STATED) if f.field_name in _scalar_fee else f
+                     for f in facts]
+            warnings.append("rejected_pet_fee:multi_term_fee_unrepresented")
+            warnings.append("multi_term_fee_amounts:" + ",".join(_fee_amounts))
+
     # Status derivation.
     if contradictions:
         status = V.STATUS_CONTRADICTORY
@@ -300,4 +329,4 @@ def validate_proposal(
     else:
         status = V.STATUS_COMPLETED
     return _finish(status, facts, contradictions, warnings,
-                   selected.source_url, selected.source_type)
+                   selected.source_url, selected.source_type, fee_policy=fee_policy)

@@ -63,7 +63,21 @@ import os
 #            fee_basis vocabulary gains per_room_per_night with forbidden-phrase
 #            guards. Inference from bare plurals is still rejected, every quote
 #            is still verbatim, and no previously accepted fact changes.
-VALIDATOR_VERSION = "1.3.0"
+#   1.4.0 -- ATLAS-WORKERS-006 structured tiered/conditional/capped pet-fee
+#            validation + same-source reconciliation (services.research_workers.
+#            fee_terms). Additive: a validated multi-term PetFeePolicy replaces
+#            the misleading scalar pet_fee for a structured policy, each term is
+#            independently evidence-verified, and legitimately conditional terms
+#            no longer produce a false contradiction. No prior single-value
+#            behavior or accepted fact changes.
+#   1.5.0 -- ATLAS-WORKERS-006 Stage-D fail-closed safety remediation: a
+#            deterministic backstop (fee_terms.detect_multiple_fee_amounts)
+#            withholds the scalar pet_fee/fee_currency/fee_basis facts when the
+#            evidence states two or more distinct pet-fee amounts but no validated
+#            structured policy is present, so a flattened single value can never
+#            reach READY. Strictly stronger: it only ever withholds MORE; single-
+#            fee policies and the committed benchmark are unaffected.
+VALIDATOR_VERSION = "1.5.0"
 ALLOWED_PROVIDERS = frozenset({"openai", "deepseek", "gemini"})
 
 

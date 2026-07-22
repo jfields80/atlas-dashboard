@@ -418,9 +418,11 @@ class _LiveProviderBase:
                     message=sanitize_error_message(str(exc)), request_id=_rid,
                     transient=False, attempt_count=attempts)
                 break
+            from services.research_workers.prompt import parse_fee_terms
             claims, ok = parse_worker_payload(text, assignment)
+            fee_terms = parse_fee_terms(text, assignment)
             return ModelProposal(
-                claims=tuple(claims), ok=ok, structured_output_valid=ok,
+                claims=tuple(claims), fee_terms=tuple(fee_terms), ok=ok, structured_output_valid=ok,
                 error="" if ok else "unparseable_output", provider=self.name, model=model,
                 input_tokens=inp, output_tokens=out, cached_input_tokens=cached,
                 latency_ms=latency_ms, attempt_count=attempts)

@@ -27,6 +27,26 @@ class RawFactClaim:
 
 
 @dataclass(frozen=True)
+class RawFeeTerm:
+    """One untrusted structured pet-fee term proposed by the model
+    (ATLAS-WORKERS-006). Every field is untrusted input -- the validator
+    canonicalizes the amount, verifies each attribute against the source, and
+    rejects anything not explicitly stated. condition_min/max are typed ints."""
+
+    role: str = ""
+    amount: str = ""                       # raw, e.g. "$50", "up to $150", "50"
+    currency: str = ""
+    basis: str = ""
+    scope: str = ""
+    condition_type: str = ""
+    condition_min: Optional[int] = None
+    condition_max: Optional[int] = None
+    boundary_unit: str = ""
+    evidence_quote: str = ""
+    source_url: str = ""
+
+
+@dataclass(frozen=True)
 class ProviderErrorDetail:
     """Sanitized record of a provider/transport failure (ATLAS-WORKERS-002).
 
@@ -62,6 +82,8 @@ class ProviderErrorDetail:
 @dataclass(frozen=True)
 class ModelProposal:
     claims: Tuple[RawFactClaim, ...] = ()
+    # ATLAS-WORKERS-006 structured pet-fee terms the model proposed (untrusted).
+    fee_terms: Tuple[RawFeeTerm, ...] = ()
     ok: bool = True
     error: str = ""                    # reason slug when ok is False
     structured_output_valid: bool = True

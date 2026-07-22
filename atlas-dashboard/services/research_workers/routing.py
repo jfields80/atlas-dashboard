@@ -42,7 +42,18 @@ from services.research_workers.proposal import ModelProposal, is_provider_error
 # Routing-contract revision, recorded in every envelope so envelopes produced
 # under different routing logic are never silently conflated (the same
 # discipline as prompt_version / validator_version).
-ROUTING_VERSION = "1.0.0"
+#   1.1.0 -- ATLAS-WORKERS-006: a validated structured PetFeePolicy (a tiered/
+#            capped/conditional fee) is carried additively on the envelope, and a
+#            result bearing one can never route READY while the production
+#            importer/renderer remain single-value -- it routes REVIEW with the
+#            deterministic DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED reason (fail-closed).
+#   1.2.0 -- ATLAS-WORKERS-006 Stage-D fail-closed safety remediation: the
+#            STRUCTURED_FEE_REQUIRED review reason. When the evidence states
+#            multiple distinct pet-fee amounts but no validated structured policy
+#            exists (the model flattened to a single scalar), the validator
+#            withholds the scalar and the result routes REVIEW -- a misleading
+#            single fee can never reach READY.
+ROUTING_VERSION = "1.2.0"
 
 
 class RoutingError(RuntimeError):
@@ -81,6 +92,15 @@ MODEL_QUALITY_FAILURE = "MODEL_QUALITY_FAILURE"
 PROMPT_INJECTION_RISK = "PROMPT_INJECTION_RISK"
 SOURCE_AUTHORITY_AMBIGUITY = "SOURCE_AUTHORITY_AMBIGUITY"
 HUMAN_REVIEW_REQUIRED = "HUMAN_REVIEW_REQUIRED"
+# The worker fully represented a structured (tiered/capped/conditional) fee, but
+# the current single-value production importer/renderer cannot consume it, so it
+# is withheld -- research-complete, not publication-eligible (ATLAS-WORKERS-006).
+DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED = "DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED"
+# The evidence states multiple distinct pet-fee amounts but no validated
+# structured policy was produced (the model flattened to a single scalar) -- the
+# deterministic backstop withholds the misleading scalar and blocks READY
+# (ATLAS-WORKERS-006 Stage-D fail-closed safety remediation).
+STRUCTURED_FEE_REQUIRED = "STRUCTURED_FEE_REQUIRED"
 
 # RETRY.
 PROVIDER_TIMEOUT = "PROVIDER_TIMEOUT"
@@ -103,6 +123,7 @@ REVIEW_REASONS = frozenset({
     INCOMPLETE_EXTRACTION, UNSUPPORTED_INFERENCE, FORBIDDEN_INFERENCE,
     VALIDATOR_WARNING, MODEL_QUALITY_FAILURE, PROMPT_INJECTION_RISK,
     SOURCE_AUTHORITY_AMBIGUITY, HUMAN_REVIEW_REQUIRED,
+    DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED, STRUCTURED_FEE_REQUIRED,
 })
 RETRY_REASONS = frozenset({
     PROVIDER_TIMEOUT, PROVIDER_RATE_LIMITED, PROVIDER_SERVER_ERROR, TRANSPORT_FAILURE,
@@ -173,6 +194,7 @@ class RoutingEnvelope:
     supported_facts: Tuple[Dict[str, str], ...]
     contradictions: Tuple[str, ...]
     provider_error: Optional[Dict] = None
+    fee_policy: Optional[Dict] = None       # ATLAS-WORKERS-006 structured pet-fee terms (additive)
     result_hash: str = ""
     run_id: str = ""
     observed_at: str = ""
@@ -201,6 +223,7 @@ class RoutingEnvelope:
             "supported_facts": [dict(f) for f in self.supported_facts],
             "contradictions": list(self.contradictions),
             "provider_error": self.provider_error,
+            "fee_policy": self.fee_policy,
             "result_hash": self.result_hash,
             "run_id": self.run_id,
             "observed_at": self.observed_at,
@@ -229,6 +252,7 @@ class RoutingEnvelope:
                                   for f in d.get("supported_facts", [])),
             contradictions=tuple(str(c) for c in d.get("contradictions", [])),
             provider_error=d.get("provider_error"),
+            fee_policy=d.get("fee_policy"),
             result_hash=str(d.get("result_hash", "")),
             run_id=str(d.get("run_id", "")), observed_at=str(d.get("observed_at", "")),
             content_hash=str(d.get("content_hash", "")))
@@ -340,6 +364,10 @@ def _ready_blockers(result: WorkerResult) -> set:
         blockers.add(VALIDATOR_WARNING)
     if not any(f.state == V.SUPPORTED for f in result.proposed_facts):
         blockers.add(INCOMPLETE_EXTRACTION)     # nothing to publish
+    if result.fee_policy is not None:
+        # A structured (tiered/capped/conditional) fee is research-complete but
+        # cannot be rendered by the single-value production chain -> withhold.
+        blockers.add(DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED)
     return blockers
 
 
@@ -347,9 +375,13 @@ def _warning_reasons(result: WorkerResult) -> set:
     """Map validator warnings on a NEEDS_REVIEW result to canonical reasons."""
     reasons: set = set()
     for w in result.warnings:
+        if w.startswith("multi_term_fee_amounts"):
+            continue                              # diagnostic-only companion warning
         tail = w.split(":", 1)[1] if ":" in w else ""
         if w.startswith("rejected_"):
-            if tail == "species_not_in_quote":
+            if tail == "multi_term_fee_unrepresented":
+                reasons.add(STRUCTURED_FEE_REQUIRED)
+            elif tail == "species_not_in_quote":
                 reasons.add(UNSUPPORTED_INFERENCE)
             elif tail == "quote_not_verbatim":
                 reasons.add(EXACT_EVIDENCE_MISMATCH)
@@ -486,6 +518,7 @@ def route_result(assignment: Assignment, result: WorkerResult,
         supported_facts=_supported_facts(result),
         contradictions=tuple(result.contradictions),
         provider_error=provider_error,
+        fee_policy=(result.fee_policy.to_dict() if result.fee_policy is not None else None),
         result_hash=result.result_hash or result.compute_hash(),
         run_id=run_id, observed_at=observed_at)
     env = _with_content_hash(env)

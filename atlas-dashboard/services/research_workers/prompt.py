@@ -17,7 +17,7 @@ from typing import List, Tuple
 
 from services.research_workers import vocabulary as V
 from services.research_workers.contracts import Assignment
-from services.research_workers.proposal import RawFactClaim
+from services.research_workers.proposal import RawFactClaim, RawFeeTerm
 
 # Prompt/schema contract revision (the same discipline as the importer's
 # scripts/pettripfinder/importer/constants.py PROMPT_VERSION; the two are
@@ -59,7 +59,21 @@ from services.research_workers.proposal import RawFactClaim
 #            pets_allowed = "true" (no species); rule 5 warns against collapsing
 #            a tiered/conditional fee into one value. No evidence gate is
 #            loosened; quotes remain verbatim.
-PROMPT_VERSION = "1.4.0"
+#   1.5.0 -- ATLAS-WORKERS-006 structured tiered/conditional pet fees: rule 12
+#            instructs the model to emit a "fee_terms" array (role/amount/
+#            currency/basis/scope/condition + verbatim quote) for tiered, capped,
+#            conditional, or deposit-bearing fees INSTEAD OF the scalar fee
+#            fields, never selecting one amount or flattening a multi-term policy.
+#            Simple fees keep the scalar fields. Behavioral; the deterministic
+#            validator still verifies every term.
+#   1.6.0 -- ATLAS-WORKERS-006 Stage-D safety remediation: rule 5 no longer tells
+#            the model to "emit only a single unambiguous amount" for a tiered
+#            fee (the flatten-to-one instruction that conflicted with rule 12 and
+#            caused the live fail-open flattening). Multi-amount evidence now
+#            makes fee_terms MANDATORY and forbids the scalar fee fields. Paired
+#            with a deterministic validator backstop, so the model is never the
+#            only protection against lossy flattening.
+PROMPT_VERSION = "1.6.0"
 
 # Closed vocabularies quoted in the prompt are DERIVED from the authoritative
 # constants in vocabulary.py -- never a second hand-typed list. sorted() keeps
@@ -67,6 +81,10 @@ PROMPT_VERSION = "1.4.0"
 _BOOLEAN_FIELDS_TEXT = ", ".join(sorted(V.BOOLEAN_FIELDS))
 _FEE_BASIS_TEXT = ", ".join(sorted(V.FEE_BASIS_VALUES))
 _NUMERIC_FIELDS_TEXT = ", ".join(sorted(V.NUMERIC_FIELDS))
+# ATLAS-WORKERS-006 structured fee-term vocabularies (authority-derived, sorted).
+_FEE_ROLES_TEXT = ", ".join(sorted(V.FEE_TERM_ROLES))
+_FEE_BASES_TEXT = ", ".join(sorted(V.FEE_TERM_BASES))
+_FEE_SCOPES_TEXT = ", ".join(sorted(V.FEE_TERM_SCOPES))
 # The final-checklist enumeration (rule 11) uses POLICY_FIELDS in its
 # authoritative declaration order -- a tuple, so already deterministic.
 _POLICY_FIELDS_TEXT = ", ".join(V.POLICY_FIELDS)
@@ -97,10 +115,13 @@ _SYSTEM_PROMPT = (
     "5. Never invent a fee, deposit, count, weight, or permission. Keep pet_fee and "
     "refundable_deposit separate. Keep per-night, per-stay, per-room, "
     "per-room-per-day, and per-room-per-night distinct. Never convert a weight "
-    "limit. When a fee is tiered or conditional (a different amount for different "
-    "lengths of stay, or per pet), do NOT collapse it into one value -- emit only "
-    "a single unambiguous amount, and omit pet_fee when the source states several "
-    "conflicting amounts.\n"
+    "limit. When the authoritative evidence states TWO OR MORE distinct monetary "
+    "amounts tied to fees, deposits, caps, stay length, or other pet-policy "
+    "conditions, the fee is MULTI-TERM: you MUST use the fee_terms array (rule "
+    "12) and MUST NOT emit the scalar pet_fee, fee_currency, or fee_basis. Never "
+    "select one amount and discard another, and never summarize several amounts "
+    "into one invented value. Use the scalar fee fields ONLY when the evidence "
+    "states a single pet-fee amount.\n"
     "6. Prefer a property-specific official page over a brand-wide policy page. If "
     "two property-specific official sources disagree, emit both so the reviewer sees "
     "the conflict.\n"
@@ -153,12 +174,43 @@ _SYSTEM_PROMPT = (
     "allowed list. For each field, decide independently: if the document "
     "text supports it with a verbatim quote, EMIT it; if not, OMIT it. Emit "
     "every evidence-supported field; omit unsupported fields rather than "
-    "inferring them."
+    "inferring them.\n"
+    "12. STRUCTURED FEE TERMS: when the pet fee is TIERED, CAPPED, CONDITIONAL, "
+    "or paired with a refundable deposit -- i.e. it cannot be stated as a single "
+    "amount plus one basis -- emit a \"fee_terms\" array INSTEAD OF the scalar "
+    "pet_fee/fee_currency/fee_basis fields, and OMIT those scalar fields. Each "
+    "term is an object: {\"role\", \"amount\", \"currency\", \"basis\", "
+    "\"scope\", \"condition_type\", \"condition_min\", \"condition_max\", "
+    "\"boundary_unit\", \"quote\", \"source_url\"}. role is one of "
+    "%(fee_roles)s (RECURRING_CHARGE = a per-night/per-day fee; ONE_TIME_CHARGE "
+    "= a non-refundable flat/per-stay fee; CAP = an explicit maximum total; "
+    "DEPOSIT = a REFUNDABLE deposit). basis is one of %(fee_bases)s (the rate "
+    "UNIT only). scope is one of %(fee_scopes)s (who the charge applies to; use "
+    "\"unstated\" when the source does not say -- never infer). amount is the "
+    "number only (e.g. \"50\"); currency is the ISO code (e.g. \"USD\"). For a "
+    "conditional term set condition_type = \"stay_length_range\" with typed "
+    "integer condition_min/condition_max (either may be null) and boundary_unit "
+    "\"nights\" or \"days\"; otherwise \"unconditional\" with null boundaries and "
+    "no unit. Emit EVERY independently supported term; keep a fee separate from a "
+    "refundable deposit and a recurring charge separate from a maximum cap; NEVER "
+    "select one amount and discard the others, NEVER combine amounts into an "
+    "invented summary, and NEVER emit a duplicate term. Each term's quote must "
+    "verbatim support its amount, basis, scope, and every condition boundary. "
+    "For a genuinely simple fee (the evidence states a SINGLE pet-fee amount), "
+    "keep using the scalar pet_fee/fee_currency/fee_basis fields and emit no "
+    "fee_terms. MANDATORY: if the evidence states two or more distinct fee/"
+    "deposit/cap amounts, fee_terms is REQUIRED and you MUST omit the scalar fee "
+    "fields entirely. Finish with a fee-term completeness check: every stated "
+    "amount, cap, deposit, and tier is represented; no duplicates; no overlapping "
+    "same-basis charges; deposits kept distinct from fees."
 ) % {
     "boolean_fields": _BOOLEAN_FIELDS_TEXT,
     "fee_basis_values": _FEE_BASIS_TEXT,
     "numeric_fields": _NUMERIC_FIELDS_TEXT,
     "policy_fields": _POLICY_FIELDS_TEXT,
+    "fee_roles": _FEE_ROLES_TEXT,
+    "fee_bases": _FEE_BASES_TEXT,
+    "fee_scopes": _FEE_SCOPES_TEXT,
 }
 
 
@@ -230,3 +282,41 @@ def parse_worker_payload(text: str, assignment: Assignment) -> Tuple[List[RawFac
             field_name=field, value=value,
             evidence_quote=str(f.get("quote", "")), source_url=str(f.get("source_url", ""))))
     return (out, True)
+
+
+def parse_fee_terms(text: str, assignment: Assignment) -> List[RawFeeTerm]:
+    """Strict parse of the model's optional "fee_terms" array into RawFeeTerm
+    (ATLAS-WORKERS-006). Missing or malformed -> empty list. condition_min/max
+    are coerced to typed integers or None; every other value stays exactly as
+    sent for the deterministic validator to verify. Independent of
+    parse_worker_payload so the existing parser contract is unchanged."""
+    try:
+        payload = json.loads(text)
+    except (json.JSONDecodeError, TypeError):
+        return []
+    raw = payload.get("fee_terms") if isinstance(payload, dict) else None
+    if not isinstance(raw, list):
+        return []
+
+    def _int(v):
+        if isinstance(v, bool):
+            return None
+        if isinstance(v, int):
+            return v
+        if isinstance(v, str) and v.strip().lstrip("-").isdigit():
+            return int(v)
+        return None
+
+    out: List[RawFeeTerm] = []
+    for t in raw:
+        if not isinstance(t, dict):
+            continue
+        out.append(RawFeeTerm(
+            role=str(t.get("role", "")), amount=str(t.get("amount", "")),
+            currency=str(t.get("currency", "")), basis=str(t.get("basis", "")),
+            scope=str(t.get("scope", "")), condition_type=str(t.get("condition_type", "")),
+            condition_min=_int(t.get("condition_min")), condition_max=_int(t.get("condition_max")),
+            boundary_unit=str(t.get("boundary_unit", "")),
+            evidence_quote=str(t.get("quote", t.get("evidence_quote", ""))),
+            source_url=str(t.get("source_url", ""))))
+    return out

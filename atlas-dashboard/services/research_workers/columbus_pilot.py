@@ -421,6 +421,7 @@ def _hotel_record(classified: Classified, assignment: Assignment, result: Worker
         "estimated_cost_usd": round(cost_usd, 8),
         "provider_error": (proposal.provider_error.to_dict()
                            if proposal.provider_error is not None else None),
+        "fee_policy": envelope.fee_policy,      # ATLAS-WORKERS-006 structured pet-fee terms
         "result_hash": result.result_hash, "routing_envelope_id": envelope.route_id,
         "reused": False,
     }
@@ -480,6 +481,7 @@ def _reused_hotel_record(classified: "Classified", store: "PilotStore", pricing)
         "latency_ms": int(model_rec.get("latency_ms", 0)),
         "estimated_cost_usd": round(cost, 8),
         "provider_error": model_rec.get("provider_error"),
+        "fee_policy": env.get("fee_policy"),        # ATLAS-WORKERS-006 structured pet-fee terms
         "result_hash": validated.get("result_hash", ""),
         "routing_envelope_id": env.get("route_id", ""),
         "reused": True,
