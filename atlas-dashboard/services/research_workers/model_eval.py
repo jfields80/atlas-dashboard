@@ -56,7 +56,14 @@ import os
 #            sources disagree at the same authority tier; single-source and
 #            rank-resolved cases are unchanged, so no previously accepted fact
 #            is loosened.
-VALIDATOR_VERSION = "1.2.0"
+#   1.3.0 -- ATLAS-WORKERS-005 extraction-quality remediation (additive, NOT a
+#            loosening of the evidence guarantee): a numeric field is supported
+#            when its number is explicitly stated in the quote as a digit OR an
+#            explicit cardinal WORD ("two pets" -> maximum_pets=2), and the
+#            fee_basis vocabulary gains per_room_per_night with forbidden-phrase
+#            guards. Inference from bare plurals is still rejected, every quote
+#            is still verbatim, and no previously accepted fact changes.
+VALIDATOR_VERSION = "1.3.0"
 ALLOWED_PROVIDERS = frozenset({"openai", "deepseek", "gemini"})
 
 

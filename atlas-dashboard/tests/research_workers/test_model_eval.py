@@ -1124,8 +1124,13 @@ def test_prompt_declares_value_format_contract_from_authority():
     assert "per_pet_per_stay" not in system                # never invent a non-authority value
 
 
+# prompt_hash of the 1.3.0 single-case bench-01 prompt (injection/inference
+# hardening). The 1.4.0 extraction-remediation contract must differ from it too.
+_PROMPT_1_3_0_BENCH01_HASH = "sha256:672661d9926269286a90d502e248b2e5fa55f17acb025113cf266d181f9b8cf2"
+
+
 def test_prompt_version_bumped_and_hash_changed_deterministically():
-    assert PROMPT_VERSION == "1.3.0"
+    assert PROMPT_VERSION == "1.4.0"
     _id, cases = load_benchmark()
     bench01 = [c for c in cases if c.case_id == "01_rich_dogs_and_cats"]
     h1, h2 = ME.prompt_hash(bench01), ME.prompt_hash(bench01)
@@ -1133,6 +1138,7 @@ def test_prompt_version_bumped_and_hash_changed_deterministically():
     assert h1 != _PROMPT_1_0_0_BENCH01_HASH                # contract change is visible
     assert h1 != _PROMPT_1_1_0_BENCH01_HASH                # ...from ALL prior versions
     assert h1 != _PROMPT_1_2_0_BENCH01_HASH
+    assert h1 != _PROMPT_1_3_0_BENCH01_HASH
     manifest = ME.build_run_manifest([GPT_5_4_NANO_2026_03_17], EvalCaps(),
                                      case_id="01_rich_dogs_and_cats")
     assert manifest["prompt_version"] == PROMPT_VERSION
@@ -1327,7 +1333,7 @@ def test_validator_and_evidence_rules_unchanged_by_completeness_repair():
     guard proves the pre-existing strict checks still reject a paraphrased quote,
     a non-canonical boolean, and a natural-language fee_basis under the current
     validator version."""
-    assert ME.VALIDATOR_VERSION == "1.2.0"
+    assert ME.VALIDATOR_VERSION == "1.3.0"
     case = _bench_case("01_rich_dogs_and_cats")
     prop = ModelProposal(
         claims=(RawFactClaim("pets_allowed", "true", "Pets are welcome here", _BENCH01_URL),

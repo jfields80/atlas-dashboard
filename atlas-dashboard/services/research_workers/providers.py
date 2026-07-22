@@ -119,7 +119,9 @@ _UNATTENDED = re.compile(r"[^.\n]*unattended[^.\n]*|pets? (?:may not|must not) b
 _SERVICE = re.compile(r"[^.\n]*service animals?[^.\n]*", re.I)
 
 _FEE_BASIS = (
+    # Specific "per room per X" first, so a broader value never matches instead.
     (V.FEE_BASIS_PER_ROOM_PER_DAY, re.compile(r"per room[ ,]+per day|per room/day|room per day", re.I)),
+    (V.FEE_BASIS_PER_ROOM_PER_NIGHT, re.compile(r"per room[ ,]+per night|per room/night|room per night", re.I)),
     (V.FEE_BASIS_PER_NIGHT, re.compile(r"per night|nightly|/night|a night", re.I)),
     (V.FEE_BASIS_PER_STAY, re.compile(r"per stay|each stay|/stay|a stay", re.I)),
     (V.FEE_BASIS_PER_ROOM, re.compile(r"per room", re.I)),

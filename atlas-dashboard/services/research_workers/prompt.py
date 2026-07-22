@@ -49,7 +49,17 @@ from services.research_workers.proposal import RawFactClaim
 #            is bumped to 1.1.0 (species-word rule now enforced for negative
 #            species claims too), which is what actually guarantees the species
 #            rule regardless of model behavior.
-PROMPT_VERSION = "1.3.0"
+#   1.4.0 -- ATLAS-WORKERS-005 extraction-quality remediation (Columbus pilot
+#            findings; behavioral guidance only -- the deterministic validator
+#            still decides): rule 9 fee_basis gains the per_room_per_night
+#            mapping and an "only emit fee_basis when an explicit basis phrase is
+#            present" instruction; numeric fields recognize an explicitly written
+#            count word ("two pets" -> "2") while a bare plural stays omitted;
+#            rule 10 states a generic pet-friendliness sentence supports
+#            pets_allowed = "true" (no species); rule 5 warns against collapsing
+#            a tiered/conditional fee into one value. No evidence gate is
+#            loosened; quotes remain verbatim.
+PROMPT_VERSION = "1.4.0"
 
 # Closed vocabularies quoted in the prompt are DERIVED from the authoritative
 # constants in vocabulary.py -- never a second hand-typed list. sorted() keeps
@@ -85,8 +95,12 @@ _SYSTEM_PROMPT = (
     "is a separate legal-access category and never determines ordinary pet "
     "acceptance or any species value.\n"
     "5. Never invent a fee, deposit, count, weight, or permission. Keep pet_fee and "
-    "refundable_deposit separate. Keep per-night, per-stay, per-room, and "
-    "per-room-per-day distinct. Never convert a weight limit.\n"
+    "refundable_deposit separate. Keep per-night, per-stay, per-room, "
+    "per-room-per-day, and per-room-per-night distinct. Never convert a weight "
+    "limit. When a fee is tiered or conditional (a different amount for different "
+    "lengths of stay, or per pet), do NOT collapse it into one value -- emit only "
+    "a single unambiguous amount, and omit pet_fee when the source states several "
+    "conflicting amounts.\n"
     "6. Prefer a property-specific official page over a brand-wide policy page. If "
     "two property-specific official sources disagree, emit both so the reviewer sees "
     "the conflict.\n"
@@ -105,15 +119,21 @@ _SYSTEM_PROMPT = (
     "\"yes\", \"no\", \"True\", or prose.\n"
     "   - fee_basis: the value MUST be exactly one of: %(fee_basis_values)s. "
     "Map the document's wording onto the canonical token: 'a $50 fee per room "
-    "per day' -> \"per_room_per_day\"; 'per stay' or 'each stay' -> "
-    "\"per_stay\"; 'per night' or 'nightly' -> \"per_night\"; 'per room' with "
-    "no per-day wording -> \"per_room\". If the stated basis is none of these "
-    "(e.g. a fee charged per pet per stay), DO NOT emit fee_basis.\n"
+    "per day' -> \"per_room_per_day\"; 'per room per night' -> "
+    "\"per_room_per_night\"; 'per stay' or 'each stay' -> \"per_stay\"; 'per "
+    "night' or 'nightly' (with no per-room wording) -> \"per_night\"; 'per room' "
+    "with no per-day/per-night wording -> \"per_room\". Emit fee_basis ONLY when "
+    "the document states an explicit basis phrase; for a bare fee amount with no "
+    "stated basis, DO NOT emit fee_basis. If the stated basis is none of the "
+    "allowed tokens (e.g. per pet per stay), DO NOT emit fee_basis.\n"
     "   - fee_currency: the three-letter ISO 4217 code stated or implied by "
     "the document's currency symbol (e.g. \"USD\" for a $ amount).\n"
     "   - Numeric fields (%(numeric_fields)s): copy the stated amount/number "
     "exactly as written (e.g. \"$50\", \"2\", \"80 lb\"); never convert units "
-    "or invent precision.\n"
+    "or invent precision. When the source writes a count as a word ('two "
+    "pets'), emit the digit value (\"2\") and quote the sentence containing "
+    "that word verbatim -- but a bare plural with no number ('pets') states no "
+    "count, so omit the field.\n"
     "10. INDEPENDENT FIELD COMPLETENESS: for every supported policy fact, "
     "evaluate and emit each applicable field independently. NEVER omit a "
     "general field because a more specific field is also present. "
@@ -121,8 +141,12 @@ _SYSTEM_PROMPT = (
     "species-specific fields do not substitute for the parent pets_allowed "
     "field: if the source says dogs and cats are accepted, emit all three of "
     "pets_allowed = \"true\", dogs_accepted = \"true\", and cats_accepted = "
-    "\"true\". This rule never licenses inference -- a field the text does "
-    "not support (rules 3, 4, 5) is still omitted.\n"
+    "\"true\". An explicit generic pet-friendliness statement -- e.g. 'the "
+    "property is pet-friendly', 'identifies itself as pet-friendly', or 'pets "
+    "are welcome' -- supports pets_allowed = \"true\": emit it with that "
+    "statement quoted verbatim (this establishes NO species, per rule 4). This "
+    "rule never licenses inference -- a field the text does not support (rules "
+    "3, 4, 5) is still omitted.\n"
     "11. FINAL COMPLETENESS CHECKLIST (mandatory, immediately before writing "
     "the JSON response): go through the policy fields one at a time -- "
     "%(policy_fields)s -- skipping any field not in this assignment's "

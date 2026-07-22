@@ -16,7 +16,9 @@ Rule coverage (Stage 3):
   6  a brand policy cannot override a contradictory property-specific policy
   7  fee and deposit remain separate (distinct fields, distinct quotes)
   8  per-night / per-stay / per-room / per-room-per-day remain distinct
-  9  maximum pets is never inferred from plural wording (number must be quoted)
+  9  maximum pets is never inferred from plural wording -- the number must be
+     explicitly stated in the quote, as a digit ("2 pets") or an explicit
+     cardinal word ("two pets"); a bare plural ("pets") supports no count
   10 weight limit is not converted (the stated number must be quoted verbatim)
   11 a species claim needs the species word in its quote, whether the species
      is accepted or NOT -- a generic "pets welcome"/"no pets" statement implies
@@ -44,13 +46,32 @@ from services.research_workers.proposal import ModelProposal, RawFactClaim
 from services.research_workers.reconciliation import detect_field_contradictions
 
 
-# fee_basis -> (required phrases, forbidden phrases). Ordered longest-first so
-# "per room per day" is never mistaken for "per room".
+# fee_basis -> (required phrases, forbidden phrases). Forbidden phrases keep a
+# broader value (per_night, per_room) from matching a more specific one
+# (per_room_per_day, per_room_per_night) -- so "$50 per room per night" is only
+# ever per_room_per_night, never per_night or per_room (ATLAS-WORKERS-005).
 _FEE_BASIS_PHRASES = {
     V.FEE_BASIS_PER_ROOM_PER_DAY: (("per room per day", "per room, per day", "per room/day", "room per day"), ()),
-    V.FEE_BASIS_PER_NIGHT: (("per night", "nightly", "/night", "a night"), ()),
+    V.FEE_BASIS_PER_ROOM_PER_NIGHT: (("per room per night", "per room, per night", "per room/night", "room per night"), ()),
+    V.FEE_BASIS_PER_NIGHT: (("per night", "nightly", "/night", "a night"),
+                            ("per room per night", "per room, per night", "room per night")),
     V.FEE_BASIS_PER_STAY: (("per stay", "each stay", "/stay", "a stay"), ()),
-    V.FEE_BASIS_PER_ROOM: (("per room",), ("per room per day", "per room, per day", "room per day")),
+    V.FEE_BASIS_PER_ROOM: (("per room",),
+                           ("per room per day", "per room, per day", "room per day",
+                            "per room per night", "per room, per night", "room per night")),
+}
+
+# Cardinal number words 0-20 -> digit. An explicitly WRITTEN number ("two pets")
+# is an explicit statement of the count, not an inference from plural wording, so
+# recognizing it preserves rule 9's "the number must be explicitly stated in the
+# source" guarantee (ATLAS-WORKERS-005). Bare plurals ("pets", "several pets")
+# name no number and stay unsupported.
+_NUMBER_WORDS = {
+    "zero": "0", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
+    "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
+    "eleven": "11", "twelve": "12", "thirteen": "13", "fourteen": "14",
+    "fifteen": "15", "sixteen": "16", "seventeen": "17", "eighteen": "18",
+    "nineteen": "19", "twenty": "20",
 }
 
 
@@ -73,13 +94,19 @@ def _digits(value: str) -> str:
 
 
 def _numeric_supported(value: str, quote: str) -> bool:
-    """The number in ``value`` must appear in ``quote`` (rules 9/10): never
-    inferred from plural wording, never unit-converted."""
+    """The number in ``value`` must be explicitly stated in ``quote`` (rules
+    9/10): never inferred from plural wording, never unit-converted. The number
+    may be written as a digit ("2 pets") OR as an explicit cardinal word ("two
+    pets") -- both are explicit statements of the count. A bare plural with no
+    number word ("pets", "several pets") is still unsupported (ATLAS-WORKERS-005)."""
     num = _digits(value)
     if not num:
         return False
     ql = quote.replace(",", "")
-    return num in ql
+    if num in ql:
+        return True
+    # An explicitly written cardinal word equal to the value counts as stated.
+    return any(_NUMBER_WORDS.get(w) == num for w in re.findall(r"[a-z]+", quote.lower()))
 
 
 def _species_supported(field_name: str, quote: str) -> bool:

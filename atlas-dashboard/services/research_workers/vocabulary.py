@@ -65,14 +65,21 @@ NUMERIC_FIELDS = frozenset({FIELD_PET_FEE, FIELD_REFUNDABLE_DEPOSIT,
                             FIELD_MAXIMUM_PETS, FIELD_WEIGHT_LIMIT})
 
 # fee_basis is a closed vocabulary -- per-night / per-stay / per-room /
-# per-room-per-day are DISTINCT and never collapsed (Stage 3 rule 8).
+# per-room-per-day / per-room-per-night are DISTINCT and never collapsed
+# (Stage 3 rule 8). ATLAS-WORKERS-005 added per_room_per_night: the Columbus
+# live pilot found real official phrasing ("$50 per room per night") that no
+# prior value could represent, so the model was forced into a wrong mapping.
+# This is an ADDITIVE completion of the vocabulary -- existing values are
+# unchanged, and Atlas ingestion (which free-passes the fee_basis display
+# string) is unaffected.
 FEE_BASIS_PER_NIGHT = "per_night"
 FEE_BASIS_PER_STAY = "per_stay"
 FEE_BASIS_PER_ROOM = "per_room"
 FEE_BASIS_PER_ROOM_PER_DAY = "per_room_per_day"
+FEE_BASIS_PER_ROOM_PER_NIGHT = "per_room_per_night"
 FEE_BASIS_VALUES = frozenset({
     FEE_BASIS_PER_NIGHT, FEE_BASIS_PER_STAY, FEE_BASIS_PER_ROOM,
-    FEE_BASIS_PER_ROOM_PER_DAY,
+    FEE_BASIS_PER_ROOM_PER_DAY, FEE_BASIS_PER_ROOM_PER_NIGHT,
 })
 
 # How each worker field maps onto the production importer vocabulary
