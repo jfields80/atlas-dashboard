@@ -232,6 +232,105 @@ def _cmd_route(args) -> int:
     return 0
 
 
+def _print_pilot_checkpoint(cp: dict) -> None:
+    print("=== ATLAS-WORKERS-004 Columbus hotel intake -- operator checkpoint (no paid call yet) ===")
+    print("  hotels found               : %d" % cp["hotels_found"])
+    print("  assignments ready          : %d" % cp["assignments_ready"])
+    print("  assignments blocked        : %d" % cp["assignments_blocked"])
+    print("  readiness                  : %s" % cp["readiness_counts"])
+    print("  planned live calls         : %d" % cp["planned_live_calls"])
+    print("  model snapshot             : %s / %s"
+          % (cp["model_snapshot"]["provider"], cp["model_snapshot"]["model_id"]))
+    print("  prompt version             : %s" % cp["prompt_version"])
+    print("  output token cap           : %d" % cp["output_token_cap"])
+    print("  worst-case estimated cost  : $%.6f" % cp["worst_case_estimated_cost_usd"])
+    print("  spend ceiling              : $%.2f" % cp["max_estimated_cost_ceiling_usd"])
+    print("  spend authorization present: %s" % cp["spend_authorization_present"])
+    print("  credential present         : %s (env %s; value never read)"
+          % (cp["credential_present"], cp["credential_env"]))
+    print("  gitignored output root     : %s" % cp["gitignored_output_root"])
+    print("  no production write         : %s" % cp["no_production_write"])
+
+
+def _print_pilot_summary(s: dict) -> None:
+    inv, rt, q, cost = s["inventory"], s["routing"], s["quality"], s["cost"]
+    print("=== ATLAS-WORKERS-004 Columbus hotel pilot -- operator summary (mode=%s) ===" % s["mode"])
+    print("  candidates=%d ready=%d blocked=%d reused=%d new_calls=%d successful=%d"
+          % (inv["authoritative_hotel_candidates"], inv["assignments_constructed"],
+             inv["assignments_blocked"], inv.get("reused_without_call", 0),
+             inv.get("new_live_calls_attempted", 0), inv["successful_model_responses"]))
+    print("  routes: %s" % rt["counts"])
+    print("  route %%: %s" % rt["percentages"])
+    print("  reasons: %s" % rt["reason_counts"])
+    print("  quality: structurally_valid=%d contradictions=%d unsupported_inf=%d forbidden_inf=%d warnings=%d"
+          % (q["structurally_valid"], q["contradictions"], q["unsupported_inferences"],
+             q["forbidden_inferences"], q["validator_warnings"]))
+    print("  cost: total=$%.6f attempted_avg=$%.6f ready_avg=$%.6f (ceiling $%.2f)"
+          % (cost["total_estimated_cost_usd"], cost["avg_cost_per_attempted_hotel_usd"],
+             cost["avg_cost_per_ready_hotel_usd"], cost["spend_ceiling_usd"]))
+    print("  success criteria: %s" % s["success_criteria"])
+
+
+def _cmd_columbus_pilot(args) -> int:
+    """ATLAS-WORKERS-004 Columbus/Dublin hotel live intake pilot. Dry-run by
+    default (no network, no writes). --report reads persisted artifacts. Live
+    requires --live + --confirm-spend + the spend-authorization token, targets
+    ONLY the approved Nano snapshot, and writes only gitignored pilot artifacts."""
+    from services.research_workers import columbus_pilot as CP
+    store = CP.PilotStore(Path(args.output_root) if args.output_root else None)
+
+    if args.report:
+        summary_path = store.root / "operator_summary.json"
+        if not summary_path.exists():
+            print("no pilot artifacts found at %s (run the pilot first)" % store.root)
+            return 4
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        if args.json:
+            print(json.dumps(summary, sort_keys=True, ensure_ascii=False, indent=2))
+        else:
+            _print_pilot_summary(summary)
+        return 0
+
+    candidates = CP.load_columbus_hotel_candidates(args.seed)
+    classified = CP.classify_candidates(candidates)
+    caps = CP.PilotCaps(max_estimated_cost=args.max_estimated_cost, output_token_cap=args.output_token_cap,
+                        max_retries=args.max_retries, timeout_s=args.timeout,
+                        max_assignments=args.max_assignments)
+    cp = CP.operator_checkpoint(classified, caps, pilot_root=str(store.root),
+                                only_hotel=args.assignment_filter)
+    _print_pilot_checkpoint(cp)
+
+    if not args.live:
+        report = CP.run_pilot(classified, caps, live=False, store=store,
+                              only_hotel=args.assignment_filter)
+        for b in report["blocked"]:
+            print("  BLOCKED %-28s %s (%s)" % (b["readiness"], b["listing_name"], b["reason"]))
+        print("\nDRY RUN: no network call, no pilot artifact written. "
+              "Re-run with --live --confirm-spend to execute.")
+        return 0
+
+    if not args.confirm_spend:
+        raise SpendingAirlockError("live pilot requires --confirm-spend (a paid run)")
+    try:
+        report = CP.run_pilot(classified, caps, live=True, store=store,
+                              observed_at=args.observed_at, run_id=args.run_id,
+                              only_hotel=args.assignment_filter)
+    except SpendingAirlockError as exc:
+        print("\nLIVE PILOT BLOCKED BY AIRLOCK: %s" % exc)
+        print("No network client was constructed and no paid call was made.")
+        print("Operator command (needs OPENAI_API_KEY + %s=YES_MAX_1_USD):" % CP.SPEND_AUTH_ENV)
+        print("  python -m services.research_workers columbus-hotel-pilot --live --confirm-spend")
+        return 3
+    paths = CP.persist_pilot(store, report)
+    _print_pilot_summary(CP.build_operator_summary(report))
+    print("\nstopped_reason:", report.get("stopped_reason") or "(none)")
+    print("operator_summary:", paths["operator_summary"])
+    print("candidate_export:", paths["candidate_export"])
+    if args.json:
+        print(json.dumps(report, sort_keys=True, ensure_ascii=False, indent=2))
+    return 0
+
+
 def _cmd_manifest(args) -> int:
     from services.research_workers.manifest import validate_manifest, verify_evidence_sync
     sync = verify_evidence_sync(args.benchmark)
@@ -342,6 +441,26 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--run-id", default="", help="optional run correlation id")
     r.add_argument("--json", action="store_true", help="print full JSON (summary + envelopes)")
     r.set_defaults(func=_cmd_route)
+
+    cp = sub.add_parser("columbus-hotel-pilot",
+                        help="ATLAS-WORKERS-004 Columbus/Dublin hotel live intake pilot (dry-run default)")
+    cp.add_argument("--seed", default=None, help="seed inventory CSV (default: committed pettripfinder seed)")
+    cp.add_argument("--live", action="store_true", help="authorize live Nano calls (needs --confirm-spend + spend token)")
+    cp.add_argument("--confirm-spend", action="store_true", help="second required live confirmation")
+    cp.add_argument("--report", action="store_true",
+                    help="read previously written pilot artifacts and print the summary (no calls)")
+    cp.add_argument("--max-assignments", type=int, default=None, help="cap the number of live assignments")
+    cp.add_argument("--assignment-filter", default=None,
+                    help="run exactly ONE hotel (name or listing key); never substitutes")
+    cp.add_argument("--output-token-cap", type=int, default=1024)
+    cp.add_argument("--max-retries", type=int, default=1)
+    cp.add_argument("--timeout", type=float, default=60.0)
+    cp.add_argument("--max-estimated-cost", type=float, default=1.00)
+    cp.add_argument("--observed-at", default="", help="explicit observation timestamp (no clock is read)")
+    cp.add_argument("--run-id", default="", help="optional run correlation id")
+    cp.add_argument("--output-root", default=None, help="gitignored pilot root (default under data/worker_runs)")
+    cp.add_argument("--json", action="store_true", help="print full JSON")
+    cp.set_defaults(func=_cmd_columbus_pilot)
     return parser
 
 
