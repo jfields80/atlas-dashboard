@@ -32,10 +32,20 @@ PRODUCTION_CSV = REPO_ROOT / "launch_packages" / "pettripfinder" / "seed_busines
 # never requires the gitignored operational data/import corpus.
 PUBLISHED_FACTS_PATH = REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json"
 
+# Isolated worker-promotion corpus root (PETTRIPFINDER-PROD-003 Gate 2). It is
+# STRICTLY ADDITIVE and LOWEST precedence: it may introduce a NEW hotel but never
+# overrides an existing importer record for the same normalized name (see the
+# additive_only guard in load_hotel_policy_facts). Like every candidate root it
+# is optional -- an absent directory is skipped, and reading never creates it.
+# This is operational data, not committed production authority; site generation
+# still reads only the committed launch package (load_published_hotel_policy_facts).
+WORKER_PROMOTION_ROOT = REPO_ROOT / "data" / "import" / "columbus_worker_promotion"
+
 CANDIDATE_ROOTS = (
     REPO_ROOT / "data" / "import" / "columbus_lodging_wave1",
     REPO_ROOT / "data" / "import" / "columbus_lodging_source_strategy_validation",
     REPO_ROOT / "data" / "import" / "columbus_accessible_lodging_wave" / "run_001",
+    WORKER_PROMOTION_ROOT,   # final, lowest-precedence, additive-only (never overrides)
 )
 
 _POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis",
@@ -64,6 +74,10 @@ def load_hotel_policy_facts() -> Dict[str, Dict]:
     composed ``pet_policy`` sentence, never fabricate a table."""
     out: Dict[str, Dict] = {}
     for root in CANDIDATE_ROOTS:
+        # The worker-promotion root is additive-only: it never overrides a name
+        # already provided by an earlier importer root, and within itself the
+        # deterministic sorted-first candidate wins a normalized-name collision.
+        additive_only = root == WORKER_PROMOTION_ROOT
         cand_dir = root / "candidates"
         if not cand_dir.exists():
             continue
@@ -77,6 +91,8 @@ def load_hotel_policy_facts() -> Dict[str, Dict]:
             name = normalize_name(proposed.get("name", ""))
             if not name:
                 continue
+            if additive_only and name in out:
+                continue                    # fail closed: never overwrite an existing record
             out[name] = {
                 "facts": {k: v for k, v in facts.items() if k in _POLICY_FIELDS},
                 "verified_at": d.get("snapshot", {}).get("observed_at", ""),
