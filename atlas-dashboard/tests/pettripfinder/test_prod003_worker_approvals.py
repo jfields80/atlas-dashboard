@@ -20,6 +20,9 @@ from scripts.pettripfinder import prod003_approvals as PA
 _REPO = Path(__file__).resolve().parents[2]
 _MANIFEST = _REPO / "launch_packages" / "pettripfinder" / "hotel_worker_approvals.json"
 _SCHEMA = _REPO / "launch_packages" / "pettripfinder" / "hotel_worker_approval.schema.json"
+_GATE1_MANIFEST = (_REPO / "data" / "worker_runs" / "pettripfinder"
+                   / "prod003_gate1_review" / "launch_safe_manifest.json")
+_HELD_KEY = "drury plaza hotel columbus downtown"
 
 _HASH_A = "sha256:" + "a" * 64
 _HASH_B = "sha256:" + "b" * 64
@@ -111,19 +114,50 @@ def test_pending_entry_must_not_carry_a_decision():
 # Committed initial manifest + JSON-schema conformance.
 # --------------------------------------------------------------------------- #
 
-def test_committed_initial_manifest_is_empty_and_valid():
+def test_committed_manifest_records_the_stage_b_decisions():
+    """The committed manifest now carries the recorded Stage-B decisions. It must
+    be structurally valid and reflect exactly the operator's tally, with no
+    fabricated notes or unsupported fields on any entry."""
     m = json.loads(_MANIFEST.read_text(encoding="utf-8"))
-    assert m["approvals"] == []                                   # no recorded decisions
-    assert PA.validate_manifest(m) == []
+    assert PA.validate_manifest(m) == []                          # module rules hold
+    assert m["pending_candidates"] == []                         # every record decided
+
+    by_decision = {}
+    for a in m["approvals"]:
+        by_decision.setdefault(a["decision"], []).append(a)
+    assert len(by_decision.get(PA.DECISION_APPROVED, [])) == 9
+    assert len(by_decision.get(PA.DECISION_HOLD, [])) == 1
+    assert by_decision.get(PA.DECISION_REJECTED, []) == []
+    assert by_decision.get(PA.DECISION_SUPERSEDED, []) == []
+    assert by_decision[PA.DECISION_HOLD][0]["listing_key"] == _HELD_KEY
+
+    allowed = set(PA.APPROVAL_REQUIRED_FIELDS)                   # note is the only optional field
+    for a in m["approvals"]:
+        assert a["operator"] == "Jonathan Fields"
+        assert a["approval_date"] == "2026-07-23"
+        assert "note" not in a                                    # no fabricated notes
+        assert set(a) == allowed                                  # no unsupported fields
+        if a["decision"] == PA.DECISION_APPROVED:
+            assert a["gate1_route"] == "READY"
 
 
-def test_committed_manifest_has_no_fabricated_decisions():
+def test_committed_approvals_are_bound_to_gate1_authority():
+    """Every recorded approval remains bound to the current Gate-1 authority: no
+    stale hash, no manual-review approval, and identity/source/date/route match
+    the Gate-1 manifest. Skips when the gitignored Gate-1 manifest is absent."""
+    if not _GATE1_MANIFEST.exists():
+        pytest.skip("Gate-1 manifest absent (gitignored); Gate-1 binding check skipped")
     m = json.loads(_MANIFEST.read_text(encoding="utf-8"))
-    assert m["approvals"] == []
-    assert len(m["pending_candidates"]) == 10
-    for p in m["pending_candidates"]:
-        for forbidden in ("decision", "operator", "approval_date", "note"):
-            assert forbidden not in p
+    g1 = json.loads(_GATE1_MANIFEST.read_text(encoding="utf-8"))
+    idx = PA.gate1_index(g1)
+    assert PA.validate_manifest(m, gate1_idx=idx) == []           # no stale/duplicate/misrouted entry
+    g1_by_key = {r["listing_key"]: r for r in g1["launch_safe_candidates"]}
+    for a in m["approvals"]:
+        assert a["result_hash"] == idx[a["listing_key"]]["result_hash"]
+        assert a["gate1_route"] == idx[a["listing_key"]]["gate1_route"]
+        r = g1_by_key[a["listing_key"]]
+        assert a["source_url"] in r["source_urls"]
+        assert a["verification_date"] == r["verification_date"]
 
 
 def test_committed_manifest_validates_against_json_schema():
