@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "ptf-prod003-approvals/1.0",
+  "title": "PetTripFinder PROD-003 worker-promotion approval manifest",
+  "description": "Committed, deterministic approval contract binding each worker-promotion approval to a frozen Gate-1 result_hash. No approval promotes a record on its own; a promotion stage re-derives the Gate-1 manifest and rejects any stale hash or a record with no approval. Operator and approval_date are human-supplied; no field may be generated from a wall clock, and no raw model output or credential may be stored.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "market", "approvals"],
+  "properties": {
+    "schema": { "const": "ptf-prod003-approvals/1.0" },
+    "market": { "type": "string", "minLength": 1 },
+    "note": { "type": "string" },
+    "bound_to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frozen_worker_commit", "gate1_commit", "gate1_manifest_sha256"],
+      "properties": {
+        "frozen_worker_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "gate1_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "gate1_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "pending_candidates": {
+      "type": "array",
+      "description": "Launch-safe worker candidates awaiting per-record human review. Identity only -- never a decision, operator, or date.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["listing_key", "listing_name", "result_hash", "source_url", "verification_date", "gate1_route"],
+        "properties": {
+          "listing_key": { "type": "string", "minLength": 1 },
+          "listing_name": { "type": "string", "minLength": 1 },
+          "result_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+          "source_url": { "type": "string", "minLength": 1 },
+          "verification_date": { "type": "string", "minLength": 1 },
+          "gate1_route": { "type": "string", "enum": ["READY", "REVIEW", "RETRY", "REJECTED"] }
+        }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "description": "Recorded, individually hash-bound approval decisions. Empty until a human records decisions.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["listing_key", "listing_name", "result_hash", "source_url", "verification_date", "gate1_route", "decision", "operator", "approval_date"],
+        "properties": {
+          "listing_key": { "type": "string", "minLength": 1 },
+          "listing_name": { "type": "string", "minLength": 1 },
+          "result_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+          "source_url": { "type": "string", "minLength": 1 },
+          "verification_date": { "type": "string", "minLength": 1 },
+          "gate1_route": { "type": "string", "enum": ["READY", "REVIEW", "RETRY", "REJECTED"] },
+          "decision": { "type": "string", "enum": ["APPROVED_FOR_PROMOTION", "HOLD_FOR_MANUAL_REVIEW", "REJECTED", "SUPERSEDED"] },
+          "operator": { "type": "string", "minLength": 1 },
+          "approval_date": { "type": "string", "minLength": 1 },
+          "note": { "type": "string" }
+        },
+        "if": { "properties": { "decision": { "const": "APPROVED_FOR_PROMOTION" } } },
+        "then": { "properties": { "gate1_route": { "const": "READY" } } }
+      }
+    }
+  }
+}
