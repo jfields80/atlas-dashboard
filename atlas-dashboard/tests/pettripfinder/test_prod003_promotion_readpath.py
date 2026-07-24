@@ -142,13 +142,22 @@ def test_site_generation_reads_only_the_committed_package():
     gen = (_REPO / "scripts" / "generate_pettripfinder_columbus_site.py").read_text(encoding="utf-8")
     assert "load_published_hotel_policy_facts" in gen
     assert SD.PUBLISHED_FACTS_PATH == _COMMITTED_PACKAGE
-    # the committed package reader is independent of the operational corpus
-    assert len(SD.load_published_hotel_policy_facts()) == 5
+    # Site authority == the committed package: the reader loads exactly its records
+    # (equality to the package, never a hard-coded count). No operational corpus
+    # (data/import) or worker runtime (data/worker_runs) is the site authority.
+    committed = json.loads(_COMMITTED_PACKAGE.read_text(encoding="utf-8"))
+    assert len(SD.load_published_hotel_policy_facts()) == len(committed["hotels"])
+    assert "data/worker_runs" not in gen and "columbus_worker_promotion" not in gen
 
 
-def test_committed_package_unchanged_by_wiring_and_promotion():
-    # The committed launch package is still the pre-promotion 5-record, schema-1.0
-    # file: neither the read-path wiring nor the operational promotion writes it.
-    pkg = json.loads(_COMMITTED_PACKAGE.read_text(encoding="utf-8"))
-    assert pkg["schema_version"] == "1.0"
-    assert len(pkg["hotels"]) == 5
+def test_committed_package_is_the_reviewed_authority():
+    # The reviewed, approved Columbus package: schema 1.1, 14 records, exact hash.
+    # This protects the package from accidental change. The SHA is computed over
+    # normalized (LF) text, so it is stable across line-ending checkout differences.
+    import hashlib
+    text = _COMMITTED_PACKAGE.read_text(encoding="utf-8")
+    pkg = json.loads(text)
+    assert pkg["schema_version"] == "1.1"
+    assert len(pkg["hotels"]) == 14
+    assert hashlib.sha256(text.encode("utf-8")).hexdigest() == (
+        "d836b5d9b3f86a6c5c8141264ea16f611c02a5f7014896bfee0098e82be0cd0c")

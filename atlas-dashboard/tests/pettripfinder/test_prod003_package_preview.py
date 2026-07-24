@@ -55,17 +55,26 @@ def test_schema_version_is_1_1():
 
 
 # --------------------------------------------------------------------------- #
-# Projection: 14 records, 9 additions, 5 preserved.
+# Post-write authority: the committed package IS the 14-record schema-1.1 package.
+# (The historical 5 -> 14 / +9 transition is preserved in git history and the
+# delivery reports; it is simply no longer the current test oracle.)
 # --------------------------------------------------------------------------- #
 
-def test_preview_projects_fourteen_with_nine_additions():
+def test_committed_package_matches_exporter_with_no_pending_delta():
     _skip_unless_ready()
+    committed = json.loads(_COMMITTED.read_text(encoding="utf-8"))
+    assert committed["schema_version"] == "1.1" and len(committed["hotels"]) == 14
+    # the exporter deterministically reproduces the committed package byte-for-byte
+    assert EX.serialize(EX.build_package()) == _COMMITTED.read_text(encoding="utf-8")
+    # so a fresh preview reports zero pending additions/removals/unintended updates
     r = EX.build_preview()["report"]
-    assert r["old_count"] == 5 and r["new_count"] == 14
-    assert r["additions_count"] == 9 and r["removals_count"] == 0
-    assert set(r["additions"]) == _NINE
-    assert r["committed_would_become_stale"] is True
+    assert r["old_count"] == 14 and r["new_count"] == 14
+    assert r["additions_count"] == 0 and r["removals_count"] == 0
+    assert r["unintended_updates_count"] == 0
+    assert r["committed_would_become_stale"] is False
     assert r["wrote_committed_package"] is False
+    # the nine worker records retain complete provenance
+    assert len([h for h in committed["hotels"] if "worker_result_hash" in h]) == 9
 
 
 def test_five_existing_records_preserved_unchanged():
@@ -155,9 +164,11 @@ def test_new_package_is_backward_compatible_for_readers():
     # the committed-package reader consumes; unknown additive keys are ignored.
     reader_keys = {"key", "facts", "verified_at", "evidence_count", "source_type",
                    "source_url", "evidence_quote"}
-    for h in EX.build_package()["hotels"]:
+    committed = json.loads(_COMMITTED.read_text(encoding="utf-8"))
+    for h in committed["hotels"]:
         assert reader_keys <= set(h)
-    assert len(SD.load_published_hotel_policy_facts()) == 5        # committed file still reads 5
+    # a backward-compatible reader loads EVERY committed record (count == package)
+    assert len(SD.load_published_hotel_policy_facts()) == len(committed["hotels"])
 
 
 # --------------------------------------------------------------------------- #

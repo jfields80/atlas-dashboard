@@ -164,9 +164,23 @@ def test_published_package_is_the_default_source(sample):
     facts = load_published_hotel_policy_facts()
     assert facts, "tracked publishable package must be present and non-empty"
     pkg = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+    # Publishable identity/state/fields only. The schema-1.0 base fields plus the
+    # approved schema-1.1 additive provenance (PETTRIPFINDER-PROD-003) -- never
+    # operational internals (candidate_id/candidate_path, corpus metadata, raw
+    # model output, credentials, or runtime worker paths).
+    _PUBLISHABLE = {
+        "key", "name", "verification_state", "facts", "evidence_quote",
+        "verified_at", "source_url", "source_type", "evidence_count",
+        # schema 1.1 additive provenance (worker-promoted records only):
+        "verification_date", "worker_result_hash", "worker_model_id",
+        "worker_prompt_version", "worker_validator_version", "worker_routing_version",
+        "evidence", "approval",
+    }
     for h in pkg["hotels"]:
-        # publishable identity/state/fields only -- never operational internals
-        assert set(h).issubset({
-            "key", "name", "verification_state", "facts", "evidence_quote",
-            "verified_at", "source_url", "source_type", "evidence_count"})
+        assert set(h).issubset(_PUBLISHABLE), set(h) - _PUBLISHABLE
+        # operational internals must never be published
         assert "candidate_id" not in h and "candidate_path" not in h
+        blob = json.dumps(h).lower()
+        for forbidden in ("worker_runs", "data/import", "candidates/", "sk-",
+                          "api_key", "bearer ", "password", "authorization"):
+            assert forbidden not in blob
