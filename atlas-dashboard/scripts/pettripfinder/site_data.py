@@ -105,6 +105,12 @@ def load_hotel_policy_facts() -> Dict[str, Dict]:
                 # verbatim "exact recorded wording" evidence toggle (parity with
                 # the approved design). None when the source stated nothing.
                 "evidence_quote": proposed.get("pet_policy", "") or None,
+                # Additive pass-through (PROD-003 Gate 2 schema 1.1): the raw
+                # per-field evidence list and the worker provenance block, present
+                # only on worker-promotion candidates (None/[] for importer rows).
+                # Existing callers ignore these keys.
+                "evidence": list(d.get("evidence", [])),
+                "worker_provenance": d.get("worker_provenance"),
             }
     return out
 

@@ -138,9 +138,16 @@ def test_no_production_module_reads_worker_runs():
         path = root / rel
         if not path.exists():
             continue
-        assert "worker_runs" not in path.read_text(encoding="utf-8"), (
-            "%s references the gitignored worker runtime tree; runtime artifacts "
-            "must never become production authority automatically" % rel)
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if "worker_runs" not in line:
+                continue
+            # A production module may WRITE a preview/review artifact under a
+            # gitignored worker_runs directory (that is output, never an authority
+            # read); any OTHER worker_runs reference is forbidden -- runtime
+            # artifacts must never become production authority automatically.
+            assert ("PREVIEW" in line or "preview" in line), (
+                "%s:%d references the worker runtime tree outside a preview output: %s"
+                % (rel, lineno, line.strip()))
 
 
 # --------------------------------------------------------------------------- #

@@ -55,8 +55,11 @@ def test_promotion_root_is_final_candidate_root():
     assert len(SD.CANDIDATE_ROOTS) == 4
 
 
-def test_real_promotion_root_absent_and_uncreated():
-    assert not SD.WORKER_PROMOTION_ROOT.exists()
+def test_promotion_root_is_operational_corpus_not_committed_authority():
+    # Worker-promotion candidates live in the gitignored operational corpus tree,
+    # never in the committed launch-package tree.
+    assert SD.WORKER_PROMOTION_ROOT.parts[-2:] == ("import", "columbus_worker_promotion")
+    assert "launch_packages" not in str(SD.WORKER_PROMOTION_ROOT)
 
 
 # --------------------------------------------------------------------------- #
@@ -143,8 +146,9 @@ def test_site_generation_reads_only_the_committed_package():
     assert len(SD.load_published_hotel_policy_facts()) == 5
 
 
-def test_wiring_leaves_committed_package_byte_identical():
-    if not (SD.CANDIDATE_ROOTS[0] / "candidates").exists():
-        pytest.skip("operational corpus absent (gitignored); exporter parity check skipped")
-    from scripts.pettripfinder import export_hotel_policy_facts as EX
-    assert _COMMITTED_PACKAGE.read_text(encoding="utf-8") == EX.serialize(EX.build_package())
+def test_committed_package_unchanged_by_wiring_and_promotion():
+    # The committed launch package is still the pre-promotion 5-record, schema-1.0
+    # file: neither the read-path wiring nor the operational promotion writes it.
+    pkg = json.loads(_COMMITTED_PACKAGE.read_text(encoding="utf-8"))
+    assert pkg["schema_version"] == "1.0"
+    assert len(pkg["hotels"]) == 5

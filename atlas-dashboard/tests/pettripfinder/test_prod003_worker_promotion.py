@@ -259,6 +259,8 @@ def _gate1_present():
 def test_committed_dry_run_selects_nine_and_excludes_held(tmp_path):
     if not _gate1_present():
         pytest.skip("Gate-1 manifest absent (gitignored); end-to-end dry run skipped")
+    if PROM.PROMOTION_ROOT.exists():
+        pytest.skip("promotion already applied; pre-apply selection is covered by the idempotency test")
     report = PROM.run_dry_run(tmp_path / "dry")
     c = report["counts"]
     assert c["approved_selected"] == 9 and c["passed_all_gates"] == 9 and c["excluded_by_gate"] == 1
@@ -267,6 +269,23 @@ def test_committed_dry_run_selects_nine_and_excludes_held(tmp_path):
     assert report["future_package"] == {
         "current_record_count": 5, "proposed_added": 9, "expected_total": 14,
         "would_change": True, "contingent_on": report["future_package"]["contingent_on"]}
+
+
+def test_dry_run_fails_closed_after_apply(tmp_path):
+    if not _gate1_present() or not PROM.PROMOTION_ROOT.exists():
+        pytest.skip("promotion not applied; post-apply idempotency check not applicable")
+    report = PROM.run_dry_run(tmp_path / "dry")
+    c = report["counts"]
+    # Once applied, every approved record is excluded by the idempotency gates
+    # (the candidate now exists as an operational record), so a second --apply
+    # would write nothing. Drury Plaza remains held.
+    assert c["approved_selected"] == 9 and c["passed_all_gates"] == 0
+    for r in report["records"]:
+        if not r.get("selected") or r["decision"] != PA.DECISION_APPROVED:
+            continue
+        assert r["excluded"] and (
+            "collision_existing_corpus_record" in r["failures"]
+            or "destination_would_overwrite" in r["failures"])
 
 
 def test_dry_run_is_deterministic_and_idempotent(tmp_path):
@@ -282,10 +301,14 @@ def test_dry_run_writes_only_under_out_dir_and_no_operational_data(tmp_path):
     if not _gate1_present():
         pytest.skip("Gate-1 manifest absent (gitignored); zero-write check skipped")
     committed = PROM.COMMITTED_PACKAGE_PATH.read_bytes()
+    cand_dir = PROM.PROMOTION_ROOT / "candidates"
+    promo_before = sorted(p.name for p in cand_dir.glob("*.json")) if cand_dir.exists() else None
     out = tmp_path / "dry"
     PROM.run_dry_run(out)
-    # committed launch package byte-identical; dedicated promotion root never created
+    # committed launch package byte-identical; the dry run writes NO operational
+    # data (the promotion root's state is unchanged, whether present or absent).
     assert PROM.COMMITTED_PACKAGE_PATH.read_bytes() == committed
-    assert not PROM.PROMOTION_ROOT.exists()
+    promo_after = sorted(p.name for p in cand_dir.glob("*.json")) if cand_dir.exists() else None
+    assert promo_before == promo_after
     # only the two report files exist under out_dir
     assert sorted(p.name for p in out.iterdir()) == ["promotion_diff.md", "promotion_report.json"]

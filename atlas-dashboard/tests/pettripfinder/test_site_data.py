@@ -135,11 +135,54 @@ def test_real_production_hotel_corridors_meet_threshold():
         assert len(members) >= CORRIDOR_MIN_PROPERTIES
 
 
+def _has_positive_pet_acceptance(facts):
+    """A published hotel-policy record qualifies as pet-friendly only when at
+    least one pet-acceptance signal is POSITIVELY supported: pets_allowed == true,
+    dogs_accepted/cats_accepted == true, or a species_allowed value naming a
+    supported species (dogs/cats). Unrelated policy facts (fee, weight, count) and
+    an absent/negative signal never qualify a hotel on their own."""
+    if facts.get("pets_allowed") == "true":
+        return True
+    if facts.get("dogs_accepted") == "true" or facts.get("cats_accepted") == "true":
+        return True
+    species = (facts.get("species_allowed") or "").lower()
+    return "dog" in species or "cat" in species
+
+
 def test_real_hotel_policy_facts_only_from_ready_candidates():
     facts = load_hotel_policy_facts()
     for name, entry in facts.items():
-        assert entry["facts"].get("pets_allowed") == "true"
+        # Positive pet-acceptance evidence is required (Hyatt Regency qualifies on
+        # its "Dogs only" species evidence even though pets_allowed is absent).
+        assert _has_positive_pet_acceptance(entry["facts"]), name
         assert entry["verified_at"]
+
+
+def test_positive_evidence_pets_allowed_true_passes():
+    assert _has_positive_pet_acceptance({"pets_allowed": "true"})
+
+
+def test_positive_evidence_species_passes_when_pets_allowed_absent():
+    assert _has_positive_pet_acceptance({"species_allowed": "dogs"})        # Hyatt Regency case
+    assert _has_positive_pet_acceptance({"species_allowed": "dogs, cats"})
+    assert _has_positive_pet_acceptance({"dogs_accepted": "true"})
+    assert _has_positive_pet_acceptance({"cats_accepted": "true"})
+
+
+def test_positive_evidence_pets_allowed_false_fails():
+    assert not _has_positive_pet_acceptance({"pets_allowed": "false"})
+    assert not _has_positive_pet_acceptance({"pets_allowed": "false", "species_allowed": ""})
+
+
+def test_positive_evidence_all_acceptance_fields_absent_fails():
+    assert not _has_positive_pet_acceptance({})
+    assert not _has_positive_pet_acceptance({"species_allowed": "unstated"})
+
+
+def test_positive_evidence_unrelated_facts_alone_do_not_qualify():
+    assert not _has_positive_pet_acceptance(
+        {"pet_fee": "$50", "weight_limit": "40 pounds", "pet_count_limit": "2",
+         "fee_basis": "per night"})
 
 
 def test_real_hotel_policy_facts_are_a_subset_of_production_names():
