@@ -1,0 +1,35 @@
+# PetTripFinder Columbus — PREVIEW response headers (Netlify `_headers` format).
+# Source of truth (tracked, tested). The assembler copies this to site/_headers
+# for the `preview` context. Lines beginning with `#` are comments.
+#
+# This is the PRODUCTION baseline PLUS a preview-only `X-Robots-Tag: noindex,
+# nofollow, noarchive` so a non-production preview deploy is never indexed. The
+# production template must NOT carry this directive.
+#
+# HSTS is intentionally NOT emitted (see headers.production). CSP is REPORT-ONLY
+# (see headers.production); no reporting endpoint is invented here.
+
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()
+  X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'
+  Cache-Control: public, max-age=0, must-revalidate
+
+# CSS is not content-hashed, so it must NOT be immutably cached. Short cache with
+# mandatory revalidation until asset content-hashing is added (later).
+/*.css
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# XML / robots / llms are short-cached so edits propagate quickly.
+/sitemap.xml
+  Cache-Control: public, max-age=300, must-revalidate
+
+/robots.txt
+  Cache-Control: public, max-age=300, must-revalidate
+
+/llms.txt
+  Cache-Control: public, max-age=300, must-revalidate

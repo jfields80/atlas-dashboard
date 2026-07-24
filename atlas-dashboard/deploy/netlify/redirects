@@ -1,0 +1,17 @@
+# PetTripFinder Columbus — redirect rules (Netlify `_redirects` format).
+# Source of truth (tracked, tested). The assembler copies this to site/_redirects.
+# Lines beginning with `#` are comments.
+#
+# Canonical host is the apex `pettripfinder.com`. `www` redirects ONCE to apex,
+# preserving path and query string. There is deliberately:
+#   - NO apex -> www redirect (apex stays canonical, no loop);
+#   - NO SPA catch-all (e.g. `/*  /index.html  200`) — unknown paths must remain
+#     genuine 404s so held/manual-review hotels never resolve;
+#   - NO rewrite of existing multipage routes or the /go/ interstitials.
+#
+# These host rules are DORMANT until the `www` alias is attached to the Netlify
+# site in a later, separately authorized stage.
+
+# www -> apex (single hop, forced), path + query preserved via :splat.
+https://www.pettripfinder.com/*   https://pettripfinder.com/:splat   301!
+http://www.pettripfinder.com/*    https://pettripfinder.com/:splat   301!

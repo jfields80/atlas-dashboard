@@ -1,0 +1,42 @@
+# PetTripFinder Columbus — Netlify configuration (PETTRIPFINDER-PROD-005A)
+#
+# MANUAL PREBUILT DEPLOYS ONLY.
+#
+# The deployable site is assembled locally by
+#   scripts/pettripfinder/assemble_netlify_bundle.py
+# and uploaded with an explicit publish directory:
+#   netlify deploy --dir <bundle>/site --site "$NETLIFY_SITE_ID"          (preview)
+#   netlify deploy --prod --dir <bundle>/site --site "$NETLIFY_SITE_ID"   (production)
+#
+# The CLI `--dir` value is the BINDING publish source during manual deployment.
+# See docs/pettripfinder/DEPLOYMENT_RUNBOOK.md.
+#
+# This file contains NO secrets, NO remote project identifiers (site ID / deploy
+# ID / team), and NO machine-specific absolute paths. Project linking is done at
+# deploy time via the NETLIFY_SITE_ID environment variable, never a committed
+# .netlify/state.json.
+
+[build]
+  # Deterministic local default publish directory. `site/` is produced by the
+  # assembler and is never committed to git, so a Netlify-run (Git-triggered)
+  # build would find no publish directory.
+  publish = "site"
+
+  # This pilot does NOT let Netlify run the Python generator. If a Git-based
+  # project import is ever accidentally configured, FAIL LOUDLY instead of
+  # publishing repository internals or an incomplete tree. Manual `netlify deploy
+  # --dir …` uploads a prebuilt directory and does not run this command.
+  command = "sh -c 'echo \"ERROR: PetTripFinder Columbus uses MANUAL prebuilt deploys only (netlify deploy --dir <bundle>/site). Netlify-run Git builds are intentionally disabled for this pilot. See docs/pettripfinder/DEPLOYMENT_RUNBOOK.md.\" 1>&2; exit 1'"
+
+# Serve the deterministically assembled bytes exactly as produced. Disabling all
+# Netlify post-processing (asset bundling / minification / image transforms)
+# keeps the published bytes matching the assembled bundle hash and leaves the
+# report-only CSP and inline scripts untouched.
+[build.processing]
+  skip_processing = true
+
+# Header and redirect authority lives in the tracked source templates
+# (deploy/netlify/headers.production, deploy/netlify/headers.preview,
+# deploy/netlify/redirects). The assembler copies the correct ones into
+# site/_headers and site/_redirects. They are intentionally NOT duplicated here
+# to avoid a second, divergent source of truth.
