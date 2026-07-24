@@ -184,6 +184,7 @@ class HotelProfileVM:
     prov_status: str = ""                              # non-empty => unverified provenance
     actions_mode: str = "book"                         # book | alt | unverif
     related: Tuple[RelatedHotel, ...] = ()
+    source_url: str = ""                               # exact committed policy-evidence URL (PROD-004)
 
     @property
     def media_state(self) -> str:
@@ -329,7 +330,8 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
         evidence_quote=quote,
         details_rows=rows, details_plain=plain, details_note=note,
         actions_mode="book",
-        related=_related_from_production(row["name"], all_hotel_rows, facts_map))
+        related=_related_from_production(row["name"], all_hotel_rows, facts_map),
+        source_url=((facts_entry or {}).get("source_url", "") if facts_entry else ""))
 
 
 def build_vm_from_no_pets(cand: Dict, all_hotel_rows, facts_map) -> HotelProfileVM:
@@ -501,10 +503,17 @@ def _prov_html(vm: HotelProfileVM) -> str:
                 'confirmed this property’s pet policy.</div><div class="links"><a href="/methodology/">How verification works ›</a></div></div>')
     q = ('<details><summary>See the exact recorded wording</summary><p class="quote">“%s”</p></details>'
          % _e(vm.evidence_quote)) if vm.evidence_quote else ""
-    return ('<div class="fh-prov"><div>Read from <b>%s</b>, verified <b>%s</b>.</div>%s'
+    # Exact committed policy-evidence source link (PROD-004). A citation link to
+    # the reviewed policy page -- distinct from the "Visit official site" business
+    # CTA (a /go/ outbound redirect). Direct external link with safe attributes;
+    # the exact target URL is preserved and never routed through the seed website.
+    evidence = ('<div class="fh-evidence"><a class="fh-evidence-link" rel="nofollow noopener external" '
+                'target="_blank" href="%s">View the official pet-policy source ›</a></div>'
+                % _e(vm.source_url)) if vm.source_url else ""
+    return ('<div class="fh-prov"><div>Read from <b>%s</b>, verified <b>%s</b>.</div>%s%s'
             '<div class="links"><a href="/methodology/">How we verify ›</a> · '
             '<a href="/go/%s/report-change/">Report an outdated policy ›</a></div></div>'
-            % (_e(vm.source_name or "the official source"), _e(vm.verified_at or ""), q, _slug(vm.name)))
+            % (_e(vm.source_name or "the official source"), _e(vm.verified_at or ""), q, evidence, _slug(vm.name)))
 
 
 def _related_html(vm: HotelProfileVM) -> str:

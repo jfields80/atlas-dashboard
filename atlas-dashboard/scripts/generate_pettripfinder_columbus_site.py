@@ -70,6 +70,7 @@ from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
     read_production_rows,
+    verified_public_hotels,
 )
 from scripts.pettripfinder.hotel_profile_page import (
     build_hotel_go_pages,
@@ -197,6 +198,23 @@ def _slug(text: str) -> str:
 def run(output: str) -> int:
     print("PetTripFinder Columbus -- AES-SITE-001 public site build")
     package = load_launch_package()
+    policy_facts = load_published_hotel_policy_facts()   # committed package -- the policy authority
+
+    # VERIFIED-ONLY PUBLIC GENERATION (PROD-004): only hotels present in the
+    # committed hotel-policy package receive public routes. Seed hotel rows absent
+    # from the package (held / manual-review) are excluded from the base bundle and
+    # every downstream hotel surface; parks/restaurants are untouched. The join is
+    # deterministic and fails closed (verified_public_hotels raises) rather than
+    # silently dropping a verified hotel.
+    verified_names = {normalize_name(r["name"]) for r in verified_public_hotels(
+        [b for b in package["seed_businesses"] if b.get("category") == "pet-friendly-hotels"],
+        policy_facts)}
+
+    def _verified_only(rows):
+        return [r for r in rows if r.get("category") != "pet-friendly-hotels"
+                or normalize_name(r.get("name", "")) in verified_names]
+
+    package = dict(package, seed_businesses=_verified_only(package["seed_businesses"]))
     bundle, seo_package, gate_report, readiness = _run_base_chain(package)
 
     materialization = SiteBundleRepository().materialize(bundle, output, build_id=None)
@@ -205,11 +223,10 @@ def run(output: str) -> int:
         len(bundle.file_map), materialization.bundle_hash))
 
     # --- load real production/verification data (zero network) -----------
-    all_rows = read_production_rows()
+    all_rows = _verified_only(read_production_rows())   # verified-only hotels; parks/restaurants intact
     hotel_rows = [r for r in all_rows if r["category"] == "pet-friendly-hotels"]
     park_rows = [r for r in all_rows if r["category"] == "pet-friendly-parks"]
     restaurant_rows = [r for r in all_rows if r["category"] == "pet-friendly-restaurants"]
-    policy_facts = load_published_hotel_policy_facts()   # tracked package -- no operational dependency
     corridor_groups = group_by_corridor(hotel_rows)
 
     warnings: List[str] = []
@@ -275,9 +292,14 @@ def run(output: str) -> int:
     latest_verified = max(
         (e["verified_at"] for e in policy_facts.values() if e["verified_at"]), default="")
     hub_html = hub_path.read_text(encoding="utf-8")
+    # Corridor links for the hub reflect only the corridors actually generated
+    # (built below), so a corridor that falls under the minimum is never linked.
+    hub_corridor_links = [("%s hotels" % name, "/pet-friendly-hotels/%s/" % _slug(name))
+                          for name in sorted(corridor_groups)]
     hub_html = enrich_hub_page(hub_html, render_hub_intro(
         hotel_count=len(hotel_rows), park_count=len(park_rows),
-        restaurant_count=len(restaurant_rows), latest_verified_date=latest_verified))
+        restaurant_count=len(restaurant_rows), latest_verified_date=latest_verified,
+        corridor_links=hub_corridor_links))
     hub_path.write_text(hub_html, encoding="utf-8", newline="\n")
 
     # --- methodology page rewrite ------------------------------------------

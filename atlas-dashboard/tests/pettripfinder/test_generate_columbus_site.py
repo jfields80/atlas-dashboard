@@ -39,7 +39,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 25
+    assert report["hotel_count"] == 14   # PROD-004: verified-only public hotels (14 committed package)
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -60,9 +60,13 @@ def test_core_pages_exist(built_site):
     for rel in ("index.html", "sitemap.xml", "robots.txt", "llms.txt", "styles.css",
                 "methodology/index.html", "pet-friendly-hotels/index.html",
                 "pet-friendly-hotels/policy-comparison/index.html",
-                "pet-friendly-hotels/downtown-columbus/index.html",
+                # PROD-004 verified-only: Dublin still clears the corridor minimum;
+                # Downtown Columbus now has 4 verified hotels (< the minimum of 5)
+                # and is intentionally not generated (and never linked -- see the
+                # dynamic hub corridor links).
                 "pet-friendly-hotels/dublin/index.html"):
         assert (built_site / rel).exists(), rel
+    assert not (built_site / "pet-friendly-hotels" / "downtown-columbus" / "index.html").exists()
 
 
 def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
@@ -80,13 +84,15 @@ def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
     assert "ptf-badge--verified" not in text
 
 
-def test_hotel_profile_without_facts_shows_approved_unverified_state(built_site):
-    text = (built_site / "pet-friendly-hotels" / "aloft-columbus-university-district"
-           / "index.html").read_text(encoding="utf-8")
-    assert "Pet policy not verified" in text    # approved unverified badge
-    assert "could not confirm" in text          # approved unverified summary
-    assert "Policy verified" not in text        # never asserts a verified policy
-    assert "ptf-policy-table" not in text
+def test_held_manual_review_hotel_has_no_public_profile(built_site):
+    # PROD-004 verified-only: a seed hotel absent from the committed policy package
+    # (e.g. the held Aloft) no longer receives a public profile at all -- the
+    # unverified-state renderer still exists and is exercised by the renderer's own
+    # fixture tests, but the public build never emits an unverified hotel page.
+    assert not (built_site / "pet-friendly-hotels" / "aloft-columbus-university-district"
+                / "index.html").exists()
+    assert not (built_site / "pet-friendly-hotels" / "drury-plaza-hotel-columbus-downtown"
+                / "index.html").exists()
 
 
 def test_no_production_row_ever_shows_no_pets_badge(built_site):
@@ -123,8 +129,10 @@ def test_sitemap_excludes_go_pages(built_site):
 def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     sitemap = (built_site / "sitemap.xml").read_text(encoding="utf-8")
     assert "/pet-friendly-hotels/policy-comparison/" in sitemap
-    assert "/pet-friendly-hotels/downtown-columbus/" in sitemap
     assert "/pet-friendly-hotels/dublin/" in sitemap
+    # PROD-004 verified-only: the Downtown corridor is below the minimum and is not
+    # generated, so it must not appear in the sitemap.
+    assert "/pet-friendly-hotels/downtown-columbus/" not in sitemap
 
 
 def test_robots_allows_ai_and_search_crawlers(built_site):
@@ -135,10 +143,15 @@ def test_robots_allows_ai_and_search_crawlers(built_site):
     assert not re.search(r"User-agent: \*\s*\nDisallow: /\s*$", robots, re.M)
 
 
-def test_comparison_page_lists_all_25_hotels(built_site):
+def test_comparison_page_lists_the_14_verified_hotels(built_site):
+    # PROD-004 verified-only: the comparison table lists exactly the 14 committed
+    # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 26  # header + 25 hotels
+    assert len(rows) == 15  # header + 14 verified hotels
+    for held in ("Drury Plaza", "Aloft", "Staybridge", "Sonesta Simply", "Extended Stay",
+                 "Red Roof", "Hyatt House"):
+        assert held not in text
 
 
 def test_every_profile_has_exactly_one_structured_data_lodging_or_place_entry(built_site):

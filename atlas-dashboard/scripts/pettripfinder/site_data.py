@@ -64,6 +64,35 @@ def read_production_rows() -> List[Dict[str, str]]:
         return list(csv.DictReader(f))
 
 
+def verified_public_hotels(hotel_rows: List[Dict[str, str]],
+                           policy_facts: Dict[str, Dict]) -> List[Dict[str, str]]:
+    """Deterministic verified-only public-hotel collection (PROD-004): the seed
+    hotel display rows whose normalized name matches a committed hotel-policy
+    package record. The committed package is the authority -- a seed hotel row
+    absent from it is excluded (kept non-public), while a committed policy record
+    with no matching display row FAILS CLOSED (raises) rather than silently
+    dropping a verified hotel. Never hard-codes a hotel identity; the returned
+    rows preserve the seed display order for determinism."""
+    rows_by_name: Dict[str, List[Dict[str, str]]] = {}
+    for r in hotel_rows:
+        rows_by_name.setdefault(normalize_name(r.get("name", "")), []).append(r)
+    matched_keys, unmatched, ambiguous = set(), [], []
+    for key in sorted(policy_facts):
+        matches = rows_by_name.get(key, [])
+        if len(matches) == 0:
+            unmatched.append(key)
+        elif len(matches) > 1:
+            ambiguous.append(key)
+        else:
+            matched_keys.add(key)
+    if unmatched or ambiguous:
+        raise ValueError(
+            "verified-only hotel join failed (fail-closed): committed policy records "
+            "with no display row=%s; ambiguous display matches=%s"
+            % (sorted(unmatched), sorted(ambiguous)))
+    return [r for r in hotel_rows if normalize_name(r.get("name", "")) in matched_keys]
+
+
 def load_hotel_policy_facts() -> Dict[str, Dict]:
     """normalized production hotel name -> {facts, verified_at,
     evidence_count, source_relationship, source_url, candidate_provenance}.

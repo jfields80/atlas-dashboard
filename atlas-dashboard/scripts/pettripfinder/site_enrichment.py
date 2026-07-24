@@ -468,8 +468,14 @@ _HUB_DIRECTORY_MARKER = '<main id="main">'
 
 
 def render_hub_intro(*, hotel_count: int, park_count: int, restaurant_count: int,
-                     latest_verified_date: str) -> str:
-    return (
+                     latest_verified_date: str, corridor_links=()) -> str:
+    # Corridor links are supplied by the caller from the corridors ACTUALLY built
+    # (each corridor must clear the minimum-property threshold). Under verified-only
+    # generation a corridor may fall below the threshold and not be generated, so
+    # the hub must never hard-link a corridor page that does not exist.
+    corridor_lis = "".join(
+        '<li><a href="%s">%s</a></li>' % (_e(route), _e(label)) for label, route in corridor_links)
+    intro = (
         '<section class="ptf-hub-intro">'
         "<p>PetTripFinder Columbus currently lists <strong>%d evidence-backed "
         "pet-friendly hotels</strong>, %d parks, and %d restaurants. Every hotel "
@@ -480,14 +486,14 @@ def render_hub_intro(*, hotel_count: int, park_count: int, restaurant_count: int
         '<a href="/methodology/">Read how verification works</a> or '
         '<a href="/pet-friendly-hotels/policy-comparison/">compare hotel pet fees and limits '
         "side by side</a>.</p>"
-        '<ul class="ptf-hub-links">'
-        '<li><a href="/pet-friendly-hotels/">Verified pet-friendly hotels</a></li>'
-        '<li><a href="/pet-friendly-hotels/downtown-columbus/">Downtown Columbus hotels</a></li>'
-        '<li><a href="/pet-friendly-hotels/dublin/">Dublin hotels</a></li>'
-        '<li><a href="/pet-friendly-parks/">Dog parks &amp; green space</a></li>'
-        '<li><a href="/pet-friendly-restaurants/">Pet-friendly restaurants</a></li>'
-        "</ul></section>"
     ) % (hotel_count, park_count, restaurant_count, _e(latest_verified_date))
+    return (intro
+            + '<ul class="ptf-hub-links">'
+            + '<li><a href="/pet-friendly-hotels/">Verified pet-friendly hotels</a></li>'
+            + corridor_lis
+            + '<li><a href="/pet-friendly-parks/">Dog parks &amp; green space</a></li>'
+            + '<li><a href="/pet-friendly-restaurants/">Pet-friendly restaurants</a></li>'
+            + "</ul></section>")
 
 
 def enrich_hub_page(html_text: str, intro_html: str) -> str:
