@@ -287,20 +287,19 @@ def run(output: str) -> int:
         hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route)
     hotel_cat_path.write_text(hotel_cat_html, encoding="utf-8", newline="\n")
 
-    # --- hub page --------------------------------------------------------------
-    hub_path = out_dir / "index.html"
-    latest_verified = max(
-        (e["verified_at"] for e in policy_facts.values() if e["verified_at"]), default="")
-    hub_html = hub_path.read_text(encoding="utf-8")
-    # Corridor links for the hub reflect only the corridors actually generated
-    # (built below), so a corridor that falls under the minimum is never linked.
-    hub_corridor_links = [("%s hotels" % name, "/pet-friendly-hotels/%s/" % _slug(name))
-                          for name in sorted(corridor_groups)]
-    hub_html = enrich_hub_page(hub_html, render_hub_intro(
-        hotel_count=len(hotel_rows), park_count=len(park_rows),
-        restaurant_count=len(restaurant_rows), latest_verified_date=latest_verified,
-        corridor_links=hub_corridor_links))
-    hub_path.write_text(hub_html, encoding="utf-8", newline="\n")
+    # --- homepage (PETTRIPFINDER approved coded prototype) --------------------
+    # The founder-approved coded homepage (pettripfinder_exact_prototype_v3)
+    # fully replaces the base hub page. It is wired to the real verified hotel
+    # records, the real inventory counts, and live routes; its temporary review
+    # imagery is copied into the site's /assets/ (Google Places media is a
+    # separate later phase). Every other page/route is unchanged.
+    from scripts.pettripfinder.approved_home import render as approved_home
+    (out_dir / "index.html").write_text(
+        approved_home.render_home(
+            hotel_rows, policy_facts, hotel_count=len(hotel_rows),
+            park_count=len(park_rows), restaurant_count=len(restaurant_rows)),
+        encoding="utf-8", newline="\n")
+    approved_home.copy_assets(out_dir)
 
     # --- methodology page rewrite ------------------------------------------
     (out_dir / "methodology").mkdir(exist_ok=True)

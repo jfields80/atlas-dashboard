@@ -176,8 +176,10 @@ def test_css_appended_and_referenced(built_site):
 
 
 def test_skip_link_present_on_content_pages_not_go_pages(built_site):
+    # The approved coded homepage carries its own skip link ("skip skip-link");
+    # /go/ redirect pages have no <main> and intentionally none.
     hub = (built_site / "index.html").read_text(encoding="utf-8")
-    assert "ptf-skip-link" in hub
+    assert "skip-link" in hub and 'href="#main"' in hub
     go_page = (built_site / "go" / "drury-inn-suites-columbus-grove-city" / "official-website"
               / "index.html").read_text(encoding="utf-8")
-    assert "ptf-skip-link" not in go_page
+    assert "skip-link" not in go_page
