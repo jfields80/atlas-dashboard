@@ -68,6 +68,7 @@ from scripts.pettripfinder.site_data import (
     assign_corridor,
     group_by_corridor,
     load_published_hotel_policy_facts,
+    nearby_same_city,
     normalize_name,
     read_production_rows,
     verified_public_hotels,
@@ -90,6 +91,15 @@ from scripts.pettripfinder.site_pages import (
     build_corridor_page,
     build_methodology_page,
 )
+from scripts.pettripfinder.commercial_actions import (
+    ACTION_DIRECTIONS,
+    ACTION_OFFICIAL_WEBSITE,
+    go_route,
+)
+from scripts.pettripfinder.premium import adapter as premium_adapter
+from scripts.pettripfinder.premium import pages as premium_pages
+from scripts.pettripfinder.premium.media import CATEGORY_PARK, CATEGORY_RESTAURANT
+from scripts.pettripfinder.premium.theme import PREMIUM_CSS
 
 _SKIP_LINK = '<a class="ptf-skip-link" href="#main">Skip to main content</a>'
 _BODY_OPEN_RE = re.compile(r"(<body[^>]*>)")
@@ -256,87 +266,113 @@ def run(output: str) -> int:
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
         go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry))
 
-    # --- park / restaurant profiles -----------------------------------------
-    for rows, slug, place_type in ((park_rows, "pet-friendly-parks", "Park"),
-                                   (restaurant_rows, "pet-friendly-restaurants", "Restaurant")):
+    # --- park / restaurant profiles (PETTRIPFINDER-DESIGN-002 premium) -------
+    # Fully replace the base-bundle place profile with the premium renderer.
+    # nearby_same_city keeps the honest city-based (never distance) relationships.
+    for rows, slug, place_type, category in (
+            (park_rows, "pet-friendly-parks", "Park", CATEGORY_PARK),
+            (restaurant_rows, "pet-friendly-restaurants", "Restaurant", CATEGORY_RESTAURANT)):
+        other_slug = "pet-friendly-restaurants" if slug == "pet-friendly-parks" else "pet-friendly-parks"
+        other_title = "Nearby restaurants" if other_slug == "pet-friendly-restaurants" else "Nearby parks"
         for row in rows:
             listing_id = _listing_id(row["name"])
             profile_path = out_dir / slug / listing_id / "index.html"
             if not profile_path.exists():
                 warnings.append("missing %s profile file for %s" % (slug, row["name"]))
                 continue
-            html_text = profile_path.read_text(encoding="utf-8")
-            enriched = enrich_place_profile(
-                html_text=html_text, row=row, listing_id=listing_id, category_slug=slug,
-                place_type=place_type, all_rows=all_rows)
-            profile_path.write_text(enriched, encoding="utf-8", newline="\n")
+            nearby = premium_pages.nearby_block([
+                ("Nearby pet-friendly hotels", "pet-friendly-hotels",
+                 nearby_same_city(all_rows, row, other_category="pet-friendly-hotels")),
+                (other_title, other_slug,
+                 nearby_same_city(all_rows, row, other_category=other_slug)),
+            ])
+            page_html = premium_pages.render_place_profile(
+                row=row, category_slug=slug, category=category, place_type=place_type,
+                go_official=go_route(listing_id, ACTION_OFFICIAL_WEBSITE),
+                go_directions=go_route(listing_id, ACTION_DIRECTIONS),
+                nearby_html=nearby,
+                head_extra=premium_adapter.place_profile_head(row, slug, place_type))
+            profile_path.write_text(page_html, encoding="utf-8", newline="\n")
             go_pages.update(build_go_pages_for_listing(
                 listing_id=listing_id, name=row["name"], official_url=row.get("website_url", ""),
                 phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
                 state=row.get("state", ""), category_slug=slug, corridor="",
                 verification_status="POLICY_UNVERIFIED"))
 
-    # --- hotel category page -------------------------------------------------
-    hotel_cat_path = out_dir / "pet-friendly-hotels" / "index.html"
-    corridor_by_route = {
-        "/pet-friendly-hotels/%s/" % _listing_id(r["name"]): corridor
-        for corridor, members in corridor_groups.items() for r in members
-    }
-    hotel_cat_html = hotel_cat_path.read_text(encoding="utf-8")
-    hotel_cat_html = enrich_hotel_category_page(
-        hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route)
-    hotel_cat_path.write_text(hotel_cat_html, encoding="utf-8", newline="\n")
+    # --- listing pages (PETTRIPFINDER-DESIGN-002 premium) --------------------
+    from scripts.pettripfinder.hotel_profile import _friendly_date
+    latest_iso = max((e["verified_at"] for e in policy_facts.values() if e["verified_at"]), default="")
+    latest_friendly = _friendly_date(latest_iso)
+    hotel_cards = [premium_adapter.hotel_card_dict(r, policy_facts.get(normalize_name(r["name"])))
+                   for r in hotel_rows]
+    (out_dir / "pet-friendly-hotels" / "index.html").write_text(
+        premium_pages.render_hotel_listing(
+            cards=sorted(hotel_cards, key=lambda c: c["name"].lower()),
+            hotel_count=len(hotel_rows), latest_verified_date=latest_friendly,
+            head_extra=premium_adapter.listing_head("pet-friendly-hotels", hotel_rows, "Pet-friendly hotels")),
+        encoding="utf-8", newline="\n")
+    (out_dir / "pet-friendly-parks" / "index.html").write_text(
+        premium_pages.render_place_listing(
+            category_slug="pet-friendly-parks", category=CATEGORY_PARK,
+            title="Pet-friendly parks &amp; dog parks in Columbus",
+            lead="Dog parks and green spaces across Columbus where your dog can stretch out and play "
+                 "&mdash; each listed from an official parks or property source.",
+            eyebrow_text="Get outside", rows=sorted(park_rows, key=lambda r: r["name"].lower()),
+            head_extra=premium_adapter.listing_head("pet-friendly-parks", park_rows, "Pet-friendly parks")),
+        encoding="utf-8", newline="\n")
+    (out_dir / "pet-friendly-restaurants" / "index.html").write_text(
+        premium_pages.render_place_listing(
+            category_slug="pet-friendly-restaurants", category=CATEGORY_RESTAURANT,
+            title="Pet-friendly restaurants &amp; patios in Columbus",
+            lead="Patios, taprooms, and breweries around Columbus that welcome dogs, each drawn from "
+                 "the venue&rsquo;s own published information.",
+            eyebrow_text="Where to eat", rows=sorted(restaurant_rows, key=lambda r: r["name"].lower()),
+            head_extra=premium_adapter.listing_head("pet-friendly-restaurants", restaurant_rows, "Pet-friendly restaurants")),
+        encoding="utf-8", newline="\n")
 
-    # --- hub page --------------------------------------------------------------
-    hub_path = out_dir / "index.html"
-    latest_verified = max(
-        (e["verified_at"] for e in policy_facts.values() if e["verified_at"]), default="")
-    hub_html = hub_path.read_text(encoding="utf-8")
-    # Corridor links for the hub reflect only the corridors actually generated
-    # (built below), so a corridor that falls under the minimum is never linked.
-    hub_corridor_links = [("%s hotels" % name, "/pet-friendly-hotels/%s/" % _slug(name))
-                          for name in sorted(corridor_groups)]
-    hub_html = enrich_hub_page(hub_html, render_hub_intro(
-        hotel_count=len(hotel_rows), park_count=len(park_rows),
-        restaurant_count=len(restaurant_rows), latest_verified_date=latest_verified,
-        corridor_links=hub_corridor_links))
-    hub_path.write_text(hub_html, encoding="utf-8", newline="\n")
+    # --- homepage (premium) --------------------------------------------------
+    # Corridor cards reflect only the corridors actually generated (>= minimum),
+    # so the homepage never links a corridor page that does not exist.
+    home_corridors = [dict(name=name, route="/pet-friendly-hotels/%s/" % _slug(name),
+                           count=len(corridor_groups[name]))
+                      for name in sorted(corridor_groups)]
+    (out_dir / "index.html").write_text(
+        premium_pages.render_home(
+            hotel_count=len(hotel_rows), park_count=len(park_rows),
+            restaurant_count=len(restaurant_rows), latest_verified_date=latest_friendly,
+            featured=premium_adapter.featured_order(hotel_cards), corridors=home_corridors),
+        encoding="utf-8", newline="\n")
 
-    # --- methodology page rewrite ------------------------------------------
+    # --- editorial pages (premium about / contact / methodology) ------------
     (out_dir / "methodology").mkdir(exist_ok=True)
     (out_dir / "methodology" / "index.html").write_text(
-        build_methodology_page(), encoding="utf-8", newline="\n")
+        premium_pages.render_methodology(), encoding="utf-8", newline="\n")
+    (out_dir / "about").mkdir(exist_ok=True)
+    (out_dir / "about" / "index.html").write_text(
+        premium_pages.render_about(), encoding="utf-8", newline="\n")
+    (out_dir / "contact").mkdir(exist_ok=True)
+    (out_dir / "contact" / "index.html").write_text(
+        premium_pages.render_contact(), encoding="utf-8", newline="\n")
 
-    # --- comparison page -----------------------------------------------------
-    comparison_rows = []
-    for row in hotel_rows:
-        entry = policy_facts.get(normalize_name(row["name"]))
-        listing_id = _listing_id(row["name"])
-        if entry and entry["facts"].get("pets_allowed") == "false":
-            continue   # comparison page is pet-FRIENDLY policies only
-        f = entry["facts"] if entry else {}
-        comparison_rows.append({
-            "name": row["name"], "route": "/pet-friendly-hotels/%s/" % listing_id,
-            "area": "%s, %s" % (row.get("city", ""), row.get("state", "")),
-            "species_allowed": f.get("species_allowed", ""), "pet_fee": f.get("pet_fee", ""),
-            "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
-            "weight_limit": f.get("weight_limit", ""),
-            "verified_at": entry["verified_at"] if entry else "",
-        })
+    # --- comparison page (premium) -------------------------------------------
+    comparison_rows = [
+        premium_adapter.comparison_row(row, policy_facts.get(normalize_name(row["name"])))
+        for row in hotel_rows
+        if not (policy_facts.get(normalize_name(row["name"]))
+                and policy_facts[normalize_name(row["name"])]["facts"].get("pets_allowed") == "false")
+    ]
     (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)
     (out_dir / "pet-friendly-hotels" / "policy-comparison" / "index.html").write_text(
-        build_comparison_page(comparison_rows), encoding="utf-8", newline="\n")
+        premium_pages.render_comparison(rows=comparison_rows), encoding="utf-8", newline="\n")
 
-    # --- corridor pages --------------------------------------------------------
+    # --- corridor pages (premium) --------------------------------------------
     corridor_routes: List[str] = []
     for corridor_name, members in corridor_groups.items():
         corridor_slug = _slug(corridor_name)
-        corridor_hotel_rows = [
-            {"name": r["name"], "route": "/pet-friendly-hotels/%s/" % _listing_id(r["name"]),
-             "city": r.get("city", "")}
-            for r in members
-        ]
-        page_html = build_corridor_page(corridor_name, corridor_slug, corridor_hotel_rows)
+        cards = [premium_adapter.hotel_card_dict(r, policy_facts.get(normalize_name(r["name"])))
+                 for r in sorted(members, key=lambda r: r["name"].lower())]
+        page_html = premium_pages.render_corridor(
+            corridor_name=corridor_name, corridor_slug=corridor_slug, cards=cards)
         (out_dir / "pet-friendly-hotels" / corridor_slug).mkdir(exist_ok=True)
         (out_dir / "pet-friendly-hotels" / corridor_slug / "index.html").write_text(
             page_html, encoding="utf-8", newline="\n")
@@ -368,9 +404,14 @@ def run(output: str) -> int:
     # --- CSS + skip link (Task 15/17): applied uniformly to every page, ---
     # base-pipeline-rendered or custom-built here, after all content is in
     # its final place.
+    # PETTRIPFINDER-DESIGN-002: the premium design system is appended to the base
+    # bundle's own styles.css. Every premium page uses body class "pt" and pt-*/
+    # pm-*/btn classes; the premium global element rules are scoped under .pt so
+    # the base engine's remaining ac-* pages (e.g. the self-contained /go/ pages,
+    # which do not even link this sheet) are never restyled.
     styles_path = out_dir / "styles.css"
     styles_path.write_text(
-        styles_path.read_text(encoding="utf-8") + "\n" + PTF_EXTRA_CSS,
+        styles_path.read_text(encoding="utf-8") + "\n" + PREMIUM_CSS,
         encoding="utf-8", newline="\n")
     # Approved hotel-profile stylesheet, emitted once as /hotel-profile.css and
     # referenced absolutely by every hotel page (PTF-PROD-002). Self-contained

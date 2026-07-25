@@ -129,14 +129,15 @@ def test_deterministic_output(tmp_path):
                (b / "pet-friendly-hotels" / slug / "index.html").read_bytes()
 
 
-# 10. Non-hotel page rendering path remains unchanged.
-def test_non_hotel_path_unchanged():
-    # The full generator still routes parks/restaurants through enrich_place_profile;
-    # the PTF-PROD-002 change is confined to the hotel loop.
+# 10. Hotels keep the approved renderer; parks/restaurants use the premium renderer.
+def test_render_paths_wired():
+    # PETTRIPFINDER-DESIGN-002 replaced the base-bundle parks/restaurants
+    # enrichment with the premium place renderer; hotels still go through the
+    # approved production hotel-profile renderer (the PTF-PROD-002 invariant).
     from scripts import generate_pettripfinder_columbus_site as gen
     src = inspect.getsource(gen.run)
-    assert "enrich_place_profile" in src           # non-hotel path intact
-    assert "render_production_hotel_profile" in src  # hotels via approved renderer
+    assert "render_production_hotel_profile" in src   # hotels via approved renderer
+    assert "render_place_profile" in src              # parks/restaurants via premium renderer
 
 
 # 11. No "nearby" label without coordinates.

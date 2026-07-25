@@ -586,7 +586,7 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
         '<header class="fh-header"><div class="wrap">'
         '<a class="fh-brand" href="/">PetTripFinder<b> · Columbus</b></a>'
         '<button class="fh-menu" aria-expanded="false" aria-controls="sitenav">Menu</button>'
-        '<nav class="fh-nav" id="sitenav" aria-label="Main"><a href="/pet-friendly-hotels/">Hotels</a><a href="/pet-friendly-parks/">Parks</a><a href="/methodology/">How we verify</a></nav>'
+        '<nav class="fh-nav" id="sitenav" aria-label="Main"><a href="/pet-friendly-hotels/">Hotels</a><a href="/pet-friendly-parks/">Parks</a><a href="/pet-friendly-restaurants/">Restaurants</a><a href="/pet-friendly-hotels/policy-comparison/">Compare</a><a href="/methodology/">How verification works</a></nav>'
         '</div></header>'
         '<div class="wrap"><nav class="fh-crumbs" aria-label="Breadcrumb"><ol>'
         '<li><a href="%s">Columbus</a></li><li><a href="/pet-friendly-hotels/">Pet-Friendly Hotels</a></li>'

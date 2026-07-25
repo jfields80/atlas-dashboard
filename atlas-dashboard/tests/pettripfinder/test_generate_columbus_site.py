@@ -170,14 +170,18 @@ def test_every_profile_has_exactly_one_structured_data_lodging_or_place_entry(bu
 
 
 def test_css_appended_and_referenced(built_site):
+    # PETTRIPFINDER-DESIGN-002: the premium design system is appended to styles.css.
     css = (built_site / "styles.css").read_text(encoding="utf-8")
-    assert ".ptf-policy-table" in css
-    assert ".ptf-badge--verified" in css
+    assert ".pt-card" in css        # premium card system present
+    assert ".pt-hero" in css        # premium hero present
+    assert ".pm-wash" in css        # premium placeholder-media system present
 
 
 def test_skip_link_present_on_content_pages_not_go_pages(built_site):
+    # Premium pages carry a "skip-link" (pt-skip skip-link); /go/ redirect pages
+    # have no <main> and intentionally none.
     hub = (built_site / "index.html").read_text(encoding="utf-8")
-    assert "ptf-skip-link" in hub
+    assert "skip-link" in hub
     go_page = (built_site / "go" / "drury-inn-suites-columbus-grove-city" / "official-website"
               / "index.html").read_text(encoding="utf-8")
-    assert "ptf-skip-link" not in go_page
+    assert "skip-link" not in go_page
