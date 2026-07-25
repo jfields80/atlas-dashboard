@@ -290,7 +290,7 @@ def run(output: str) -> int:
                 row=row, category_slug=slug, category=category, place_type=place_type,
                 go_official=go_route(listing_id, ACTION_OFFICIAL_WEBSITE),
                 go_directions=go_route(listing_id, ACTION_DIRECTIONS),
-                nearby_html=nearby,
+                nearby=nearby,
                 head_extra=premium_adapter.place_profile_head(row, slug, place_type))
             profile_path.write_text(page_html, encoding="utf-8", newline="\n")
             go_pages.update(build_go_pages_for_listing(
