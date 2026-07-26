@@ -2,18 +2,34 @@
 
 This package provides a small, isolated Python boundary for the Atlas Competitor Directory Intelligence Sandbox (ACDIS).
 
-## Phase 0 boundaries
+## Phase 1 boundaries
 
-The package must remain side-effect free during import. It must not perform network calls, database access, model-provider activity, crawling, deployment work, or production-system behavior during Phase 0.
+Phase 1 adds a manual, deterministic workflow for preparing research case files and rendering them into Markdown reports. The package remains side-effect free and does not perform network calls, database access, model-provider activity, crawling, deployment work, or production-system behavior.
 
 ## Package layout
 
-- contracts/ contains placeholder evidence and input contracts.
-- safeguards/ contains narrow path-fencing helpers that validate the approved worktree.
+- acdis/casefiles/ contains the manual case-file models, loader, and validation logic.
+- acdis/reports/ contains the deterministic Markdown renderer and safe writer.
+- acdis/safeguards/ contains the approved-worktree path-fence helper.
+
+## Phase 1 workflow
+
+Render a case file to Markdown with:
+
+```powershell
+python -m acdis render-case docs\\acdis\\examples\\sample_case.json --output docs\\acdis\\examples\\sample_report.md
+```
+
+## Documentation
+
+- [docs/acdis/PHASE_1_SCOPE.md](../docs/acdis/PHASE_1_SCOPE.md)
+- [docs/acdis/CASE_FILE_FORMAT.md](../docs/acdis/CASE_FILE_FORMAT.md)
+- [docs/acdis/examples/sample_case.json](../docs/acdis/examples/sample_case.json)
+- [docs/acdis/examples/sample_report.md](../docs/acdis/examples/sample_report.md)
 
 ## Targeted verification
 
-Run the Phase 0 tests with:
+Run the ACDIS tests with:
 
 ```powershell
 python -m pytest tests\\acdis -v
