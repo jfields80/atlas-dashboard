@@ -1,0 +1,284 @@
+{
+  "case_id": "case-acdis-phase2-sample",
+  "case_title": "Synthetic competitor comparison and wedge review",
+  "operator_notes": "Fictional synthetic review case for deterministic Phase 2 behavior.",
+  "opportunity_name": "Neighborhood pet-support concierge",
+  "target_market": "Traveling pet owners in mixed-density urban areas",
+  "proposed_directory_category": "Pet Services",
+  "customer_type": "Traveling pet owners",
+  "user_problem": "They need a trustworthy local provider rapidly when plans change.",
+  "proposed_minimum_useful_pilot": "One curated contact page per neighborhood with verified response windows.",
+  "likely_monetization_paths": [
+    "Sponsored verification badges",
+    "Referral agreements"
+  ],
+  "potential_data_moat_opportunities": [
+    "Neighborhood-level response-time history",
+    "Operator verification history"
+  ],
+  "reasons_not_to_pursue": [
+    "Operator participation might be too low initially",
+    "Manual verification throughput could bottleneck"
+  ],
+  "next_research_actions": [
+    "Interview additional operators",
+    "Run one manual contact-flow rehearsal"
+  ],
+  "competitors": [
+    {
+      "competitor_id": "comp-spruce",
+      "name": "Spruce Local",
+      "supplied_urls": [
+        "https://spruce-local.example"
+      ],
+      "artifact_references": [
+        "spruce-local-capture.png"
+      ],
+      "observed_monetization_methods": [
+        "Sponsored listings"
+      ],
+      "operator_notes": "Strong profile density in two neighborhoods."
+    },
+    {
+      "competitor_id": "comp-lantern",
+      "name": "Lantern Listings",
+      "supplied_urls": [
+        "https://lantern-listings.example"
+      ],
+      "artifact_references": [
+        "lantern-listings-export.pdf"
+      ],
+      "observed_monetization_methods": [
+        "Affiliate links"
+      ],
+      "operator_notes": "Content-rich pages with limited operator metadata."
+    },
+    {
+      "competitor_id": "comp-harbor",
+      "name": "Harbor Directory",
+      "supplied_urls": [
+        "https://harbor-directory.example"
+      ],
+      "artifact_references": [
+        "harbor-directory-notes.txt"
+      ],
+      "observed_monetization_methods": [
+        "Featured placement"
+      ],
+      "operator_notes": "Simple directory structure with sparse workflow detail."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev-fact-1",
+      "evidence_type": "FACT",
+      "statement": "Spruce Local shows a visible last-updated timestamp on most operator cards.",
+      "source_references": [
+        "Manual screenshot set A"
+      ],
+      "related_competitor_ids": [
+        "comp-spruce"
+      ],
+      "operator_notes": "Observed directly in synthetic artifact set."
+    },
+    {
+      "evidence_id": "ev-fact-2",
+      "evidence_type": "FACT",
+      "statement": "Lantern Listings does not display verification indicators on listing cards.",
+      "source_references": [
+        "Manual screenshot set B"
+      ],
+      "related_competitor_ids": [
+        "comp-lantern"
+      ]
+    },
+    {
+      "evidence_id": "ev-fact-3",
+      "evidence_type": "FACT",
+      "statement": "Harbor Directory includes paid-featured rows on only selected categories.",
+      "source_references": [
+        "Operator demo notes"
+      ],
+      "related_competitor_ids": [
+        "comp-harbor"
+      ]
+    },
+    {
+      "evidence_id": "ev-inf-1",
+      "evidence_type": "INFERENCE",
+      "statement": "Visible freshness cues may reduce operator-trust friction for first contact.",
+      "supporting_evidence_ids": [
+        "ev-fact-1"
+      ]
+    },
+    {
+      "evidence_id": "ev-hyp-1",
+      "evidence_type": "HYPOTHESIS",
+      "statement": "Operators may pay for manual verification if lead quality appears higher."
+    },
+    {
+      "evidence_id": "ev-unk-1",
+      "evidence_type": "UNKNOWN",
+      "statement": "The best initial neighborhood mix is not yet known."
+    }
+  ],
+  "proposed_wedge_ideas": [
+    "Manual verification and response-window overlay"
+  ],
+  "unresolved_questions": [
+    "Which outreach script produces the best operator response rate?"
+  ],
+  "operator_recommendation": "HOLD",
+  "operator_recommendation_rationale": "Continue manual evidence collection before deciding GO or REJECT.",
+  "review": {
+    "research_questions": [
+      {
+        "question_id": "rq-freshness",
+        "question_text": "Do any competitors expose update freshness reliably?",
+        "status": "ANSWERED",
+        "related_evidence_ids": [
+          "ev-fact-1"
+        ],
+        "related_competitor_ids": [
+          "comp-spruce"
+        ],
+        "operator_notes": "Answer is based on supplied synthetic artifacts only."
+      },
+      {
+        "question_id": "rq-monetization",
+        "question_text": "How clearly do competitors expose monetization pathways?",
+        "status": "PARTIAL",
+        "related_evidence_ids": [
+          "ev-fact-3"
+        ],
+        "related_competitor_ids": [
+          "comp-harbor"
+        ]
+      },
+      {
+        "question_id": "rq-workflow",
+        "question_text": "Which workflow reduces urgent contact friction the most?",
+        "status": "OPEN",
+        "related_evidence_ids": [],
+        "related_competitor_ids": [
+          "comp-spruce",
+          "comp-lantern",
+          "comp-harbor"
+        ]
+      }
+    ],
+    "comparison_dimensions": [
+      {
+        "dimension_id": "dim-freshness",
+        "label": "Freshness",
+        "description": "How clearly recency is represented in listing data.",
+        "why_it_matters": "Users and operators infer reliability from recency cues."
+      },
+      {
+        "dimension_id": "dim-structured-detail",
+        "label": "Structured detail",
+        "description": "How much structured metadata appears for each listing.",
+        "why_it_matters": "Structured detail speeds filtering and outreach decisions."
+      },
+      {
+        "dimension_id": "dim-verification",
+        "label": "Verification",
+        "description": "Whether trust indicators are shown on listing surfaces.",
+        "why_it_matters": "Trust markers can reduce first-contact hesitation."
+      },
+      {
+        "dimension_id": "dim-user-workflow",
+        "label": "User workflow",
+        "description": "How direct the path is from discovery to contact.",
+        "why_it_matters": "Fewer workflow steps can reduce abandonment."
+      }
+    ],
+    "comparison_observations": [
+      {
+        "observation_id": "obs-present",
+        "competitor_id": "comp-spruce",
+        "dimension_id": "dim-freshness",
+        "state": "PRESENT",
+        "statement": "Spruce Local visibly presents update recency on most cards.",
+        "supporting_evidence_ids": [
+          "ev-fact-1"
+        ]
+      },
+      {
+        "observation_id": "obs-absent",
+        "competitor_id": "comp-lantern",
+        "dimension_id": "dim-verification",
+        "state": "ABSENT",
+        "statement": "Lantern Listings shows no verification indicator in card UI.",
+        "supporting_evidence_ids": [
+          "ev-fact-2"
+        ]
+      },
+      {
+        "observation_id": "obs-partial",
+        "competitor_id": "comp-harbor",
+        "dimension_id": "dim-structured-detail",
+        "state": "PARTIAL",
+        "statement": "Harbor Directory includes structured fields for only some categories.",
+        "supporting_evidence_ids": [
+          "ev-fact-3"
+        ]
+      },
+      {
+        "observation_id": "obs-unknown",
+        "competitor_id": "comp-spruce",
+        "dimension_id": "dim-user-workflow",
+        "state": "UNKNOWN",
+        "statement": "The full contact workflow path was not captured in supplied artifacts.",
+        "supporting_evidence_ids": []
+      },
+      {
+        "observation_id": "obs-na",
+        "competitor_id": "comp-lantern",
+        "dimension_id": "dim-user-workflow",
+        "state": "NOT_APPLICABLE",
+        "statement": "No direct booking workflow is present in this competitor model.",
+        "supporting_evidence_ids": []
+      }
+    ],
+    "wedge_candidates": [
+      {
+        "wedge_id": "wedge-ready",
+        "title": "Manual verification timestamp overlay",
+        "target_user": "Traveling pet owners",
+        "payer": "Local service operators",
+        "user_pain": "Hard to trust listing accuracy during urgent planning.",
+        "proposed_advantage": "Verified timestamp and response-window annotation on each listing.",
+        "competitor_gap": "Existing competitors do not consistently expose verification freshness.",
+        "supporting_evidence_ids": [
+          "ev-fact-1"
+        ],
+        "hypothesis_evidence_ids": [
+          "ev-hyp-1"
+        ],
+        "reasons_the_wedge_might_fail": [
+          "Verification workflow could be too labor-intensive",
+          "Operators may not value timestamp badges"
+        ],
+        "smallest_manual_test": "Manually verify and annotate 12 listings across two neighborhoods.",
+        "test_timebox": "2 weeks",
+        "cost_cap": "$400",
+        "success_signal": "At least 4 operators request continuation after review.",
+        "invalidating_signal": "No operator asks for repeated inclusion after first pass.",
+        "test_participants": "12 operators",
+        "dependencies": [
+          "Verification checklist",
+          "Operator outreach script"
+        ],
+        "next_operator_action": "Build operator shortlist and run first verification cycle.",
+        "operator_notes": "Ready for a limited manual pilot only."
+      },
+      {
+        "wedge_id": "wedge-blocked",
+        "title": "Urgent booking handoff board",
+        "target_user": "Traveling pet owners",
+        "operator_notes": "Intentionally incomplete for structural readiness demonstration."
+      }
+    ]
+  }
+}
