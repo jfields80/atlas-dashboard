@@ -1,0 +1,51 @@
+# AAA Approved Auto Repair Notes
+
+- competitor name: AAA Approved Auto Repair
+- capture date: 2026-07-26
+- approved source URLs:
+  - https://www.aaa.com/autorepair/
+  - https://www.aaa.com/autorepair/locations/columbus-oh
+- final URL after redirects:
+  - https://www.aaa.com/autorepair/ -> https://www.aaa.com/autorepair/ (no redirect observed)
+  - https://www.aaa.com/autorepair/locations/columbus-oh -> https://www.aaa.com/autorepair/locations/columbus-oh (no redirect observed)
+- redirect chain if visible:
+  - None recorded.
+- access result:
+  - Both approved pages rendered visible page content in this capture.
+  - Some third-party resource requests failed in console events, but the core page content remained accessible.
+- visible page titles:
+  - https://www.aaa.com/autorepair/: AAA Approved Auto Repair Locator
+  - https://www.aaa.com/autorepair/locations/columbus-oh: Auto Repair Shops - Columbus OH | AAA Approved Auto Repair Facilities
+- captured FACTS:
+  - FACT — official-site representation (https://www.aaa.com/autorepair/): The page shows a "Search Repair Facilities" form with visible inputs for location, facility type, and distance, plus a Search button.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/): The page presents the heading "AAA Approved Auto Repair Facility Locator."
+  - FACT — official-site representation (https://www.aaa.com/autorepair/): The page includes visible text stating facilities undergo inspections by AAA and references over 7,000 shops in North America.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/): The page includes visible membership language that a valid AAA membership card must be presented at time of service.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/): The page shows "Nearest AAA Approved Auto Repair Facilities" with a visible current location value and facility cards containing names, addresses, and distances.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/locations/columbus-oh): The page title and content explicitly reference Columbus, OH.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/locations/columbus-oh): The page shows "Nearest AAA Approved Auto Repair Facilities" and a visible result count of 21.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/locations/columbus-oh): The page shows a visible current location value of Columbus OH.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/locations/columbus-oh): The locator list displays individual facilities with visible name, street address, city/state/ZIP, and distance values.
+  - FACT — official-site representation (https://www.aaa.com/autorepair/locations/columbus-oh): Some facility entries display visible icons/labels such as "AAA approved auto repair," "Appointment Image," and "Discount Image."
+- possible INFERENCES:
+  - The official AAA pages appear to support location-based discovery of approved repair facilities.
+  - The Columbus page appears to function as a pre-filtered locator view for Columbus-area results.
+- HYPOTHESES requiring testing:
+  - HYPOTHESIS: Facility-detail pages may contain additional program requirements, service details, or appointment steps that are not visible from the listing page alone.
+  - HYPOTHESIS: A full appointment or service booking workflow may require additional interactions beyond the captured listing and locator views.
+- UNKNOWN items:
+  - operational details of facility approval and re-inspection cadence
+  - whether all listed facilities support direct online appointment completion
+  - warranty terms, dispute-resolution terms, and claim handling details by facility
+  - consumer fees, facility fees, lead charges, commissions, subscriptions, or other monetization terms
+  - network coverage completeness by metro and by repair category
+  - observed repair outcomes, customer volume, traffic, conversion, and commercial performance
+- evidence limitations:
+  - This pass captures only visible page content and did not execute any appointment or repair workflow.
+  - AAA on-page statements were recorded as official-site representations, not independently verified outcomes.
+  - Third-party request failures were visible in console events and may limit non-core telemetry or auxiliary page components.
+- follow-up questions:
+  - What exact fields and steps appear after selecting a specific facility profile?
+  - Does the Columbus locator support filtering by service type or appointment availability beyond the visible controls?
+  - Where are warranty and dispute-resolution terms shown to a user before service?
+  - Are any consumer or facility fees disclosed during later steps?
