@@ -157,7 +157,7 @@ def test_all_14_verified_hotels_reachable_with_exact_source_url(build):
         page = build / "pet-friendly-hotels" / _display_slug(key) / "index.html"
         assert page.exists()
         txt = page.read_text(encoding="utf-8")
-        m = re.search(r'fh-evidence-link[^>]*href="([^"]+)"', txt)
+        m = re.search(r'hp-evidence-link[^>]*href="([^"]+)"', txt)
         assert m and H.unescape(m.group(1)) == h["source_url"]         # exact committed source_url
         assert ("/go/%s/official-website/" % _display_slug(key)) in txt  # business CTA remains, separate
 
@@ -179,9 +179,15 @@ def test_park_and_restaurant_routes_unchanged(build):
 
 
 def test_hotels_retain_placeholder_no_misattached_media(build):
+    # DESIGN-004: the founder-approved profile design carries a large media
+    # slot filled with the approved TEMPORARY review imagery. The honesty
+    # invariant survives in its new form: the slot is always explicitly
+    # captioned as temporary preview imagery -- never silently presented as
+    # the property's own photo -- and no cross-category demo media appears.
+    # (Licensed Google Places media is a separate, later-approved phase.)
     for slug in _hotel_slugs(build):
         txt = (build / "pet-friendly-hotels" / slug / "index.html").read_text(encoding="utf-8")
-        assert "Property photo unavailable" in txt          # polished placeholder
+        assert "Temporary preview imagery" in txt            # explicit caption
         assert "park-demo.png" not in txt and "dining-demo.png" not in txt   # no cross-category media
 
 

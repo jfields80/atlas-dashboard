@@ -252,7 +252,14 @@ def run(output: str) -> int:
             continue
         facts_entry = policy_facts.get(normalize_name(row["name"]))
         corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
-        page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, policy_facts)
+        # Corridor breadcrumb/see-all links resolve only to corridor pages that
+        # actually exist (groups above the corridor minimum, e.g. Dublin).
+        corridor_href = ("/pet-friendly-hotels/%s/" % _slug(corridor)
+                         if corridor in corridor_groups else None)
+        page_html = render_production_hotel_profile(
+            row, facts_entry, hotel_rows, policy_facts,
+            park_rows=park_rows, restaurant_rows=restaurant_rows,
+            corridor_href=corridor_href)
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
         go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry))
 
@@ -287,20 +294,19 @@ def run(output: str) -> int:
         hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route)
     hotel_cat_path.write_text(hotel_cat_html, encoding="utf-8", newline="\n")
 
-    # --- hub page --------------------------------------------------------------
-    hub_path = out_dir / "index.html"
-    latest_verified = max(
-        (e["verified_at"] for e in policy_facts.values() if e["verified_at"]), default="")
-    hub_html = hub_path.read_text(encoding="utf-8")
-    # Corridor links for the hub reflect only the corridors actually generated
-    # (built below), so a corridor that falls under the minimum is never linked.
-    hub_corridor_links = [("%s hotels" % name, "/pet-friendly-hotels/%s/" % _slug(name))
-                          for name in sorted(corridor_groups)]
-    hub_html = enrich_hub_page(hub_html, render_hub_intro(
-        hotel_count=len(hotel_rows), park_count=len(park_rows),
-        restaurant_count=len(restaurant_rows), latest_verified_date=latest_verified,
-        corridor_links=hub_corridor_links))
-    hub_path.write_text(hub_html, encoding="utf-8", newline="\n")
+    # --- homepage (PETTRIPFINDER approved coded prototype) --------------------
+    # The founder-approved coded homepage (pettripfinder_exact_prototype_v3)
+    # fully replaces the base hub page. It is wired to the real verified hotel
+    # records, the real inventory counts, and live routes; its temporary review
+    # imagery is copied into the site's /assets/ (Google Places media is a
+    # separate later phase). Every other page/route is unchanged.
+    from scripts.pettripfinder.approved_home import render as approved_home
+    (out_dir / "index.html").write_text(
+        approved_home.render_home(
+            hotel_rows, policy_facts, hotel_count=len(hotel_rows),
+            park_count=len(park_rows), restaurant_count=len(restaurant_rows)),
+        encoding="utf-8", newline="\n")
+    approved_home.copy_assets(out_dir)
 
     # --- methodology page rewrite ------------------------------------------
     (out_dir / "methodology").mkdir(exist_ok=True)
@@ -349,8 +355,15 @@ def run(output: str) -> int:
         path.write_text(page_html, encoding="utf-8", newline="\n")
 
     # --- sitemap / robots / llms.txt ---------------------------------------
-    indexable_routes = sorted(set(bundle.file_map.keys()) - {"sitemap.xml", "robots.txt", "styles.css"})
-    indexable_routes = [r for r in bundle.file_map if r.endswith("/index.html")]
+    # Bundle keys are relative, so the homepage is keyed "index.html" with no
+    # directory prefix and a bare endswith("/index.html") test silently drops
+    # it -- the site's most important URL was missing from the sitemap. Match
+    # the root explicitly alongside the nested pages; the normalisation below
+    # already maps "index.html" to "/". Only *.../index.html content pages
+    # qualify, so assets, robots/sitemap themselves and the separately written
+    # /go/ interstitials stay out.
+    indexable_routes = [r for r in bundle.file_map
+                        if r == "index.html" or r.endswith("/index.html")]
     base_sitemap_routes = ["/" + r.rsplit("index.html", 1)[0] for r in indexable_routes]
     base_sitemap_routes = [r if r != "//" else "/" for r in base_sitemap_routes]
     new_routes = ["/pet-friendly-hotels/policy-comparison/"] + corridor_routes
@@ -373,10 +386,11 @@ def run(output: str) -> int:
         styles_path.read_text(encoding="utf-8") + "\n" + PTF_EXTRA_CSS,
         encoding="utf-8", newline="\n")
     # Approved hotel-profile stylesheet, emitted once as /hotel-profile.css and
-    # referenced absolutely by every hotel page (PTF-PROD-002). Self-contained
-    # fh-* design; no duplication onto other pages, no collision with styles.css.
+    # referenced absolutely by every hotel page. DESIGN-004: the founder-approved
+    # profile design (hp-* namespace, approved_hotel_profile.css) replaces the
+    # earlier fh-* sheet; still self-contained, no collision with styles.css.
     (out_dir / "hotel-profile.css").write_text(
-        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "approved_hotel_profile.css").read_text(encoding="utf-8"),
         encoding="utf-8", newline="\n")
     for html_path in out_dir.rglob("index.html"):
         if "go" in html_path.relative_to(out_dir).parts[:1]:
@@ -584,7 +598,7 @@ def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
         path.write_text(page_html, encoding="utf-8", newline="\n")
 
     (out_dir / "hotel-profile.css").write_text(
-        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "approved_hotel_profile.css").read_text(encoding="utf-8"),
         encoding="utf-8", newline="\n")
 
     # Review output: keep it out of any index (Disallow all); sitemap lists only
