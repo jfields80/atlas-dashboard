@@ -355,8 +355,15 @@ def run(output: str) -> int:
         path.write_text(page_html, encoding="utf-8", newline="\n")
 
     # --- sitemap / robots / llms.txt ---------------------------------------
-    indexable_routes = sorted(set(bundle.file_map.keys()) - {"sitemap.xml", "robots.txt", "styles.css"})
-    indexable_routes = [r for r in bundle.file_map if r.endswith("/index.html")]
+    # Bundle keys are relative, so the homepage is keyed "index.html" with no
+    # directory prefix and a bare endswith("/index.html") test silently drops
+    # it -- the site's most important URL was missing from the sitemap. Match
+    # the root explicitly alongside the nested pages; the normalisation below
+    # already maps "index.html" to "/". Only *.../index.html content pages
+    # qualify, so assets, robots/sitemap themselves and the separately written
+    # /go/ interstitials stay out.
+    indexable_routes = [r for r in bundle.file_map
+                        if r == "index.html" or r.endswith("/index.html")]
     base_sitemap_routes = ["/" + r.rsplit("index.html", 1)[0] for r in indexable_routes]
     base_sitemap_routes = [r if r != "//" else "/" for r in base_sitemap_routes]
     new_routes = ["/pet-friendly-hotels/policy-comparison/"] + corridor_routes

@@ -135,6 +135,47 @@ def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     assert "/pet-friendly-hotels/downtown-columbus/" not in sitemap
 
 
+def test_sitemap_covers_every_indexable_route_exactly_once(built_site):
+    """PTF-LAUNCH-001 regression.
+
+    The homepage's bundle key is ``index.html`` with no directory prefix, so an
+    ``endswith("/index.html")`` filter silently dropped the site's most
+    important URL. Assert the sitemap is exactly the set of on-disk indexable
+    routes -- homepage included, /go/ interstitials excluded, no duplicates.
+    """
+    locs = re.findall(r"<loc>([^<]+)</loc>",
+                      (built_site / "sitemap.xml").read_text(encoding="utf-8"))
+
+    # every entry is absolute on the canonical host
+    assert locs, "sitemap contains no <loc> entries"
+    for loc in locs:
+        assert loc.startswith("https://pettripfinder.com/"), loc
+
+    assert len(locs) == len(set(locs)), "sitemap contains duplicate <loc> entries"
+
+    def route_of(path):
+        rel = path.parent.relative_to(built_site).as_posix()
+        return "/" if rel == "." else "/%s/" % rel
+
+    on_disk = {route_of(p) for p in built_site.rglob("index.html")}
+    indexable = {r for r in on_disk if not r.startswith("/go/")}
+    go_routes = {r for r in on_disk if r.startswith("/go/")}
+    in_sitemap = {loc[len("https://pettripfinder.com"):] for loc in locs}
+
+    # the homepage specifically -- the defect this test exists for
+    assert "/" in in_sitemap
+    assert sum(1 for loc in locs if loc == "https://pettripfinder.com/") == 1
+
+    # exact coverage: nothing missing, nothing invented
+    assert in_sitemap == indexable, (
+        "missing=%s unexpected=%s"
+        % (sorted(indexable - in_sitemap), sorted(in_sitemap - indexable)))
+
+    # /go/ interstitials are noindex and must never be advertised
+    assert go_routes, "expected /go/ interstitials to exist in the build"
+    assert not (in_sitemap & go_routes)
+
+
 def test_robots_allows_ai_and_search_crawlers(built_site):
     robots = (built_site / "robots.txt").read_text(encoding="utf-8")
     for agent in ("GPTBot", "OAI-SearchBot", "ClaudeBot", "anthropic-ai", "Googlebot", "Bingbot"):
