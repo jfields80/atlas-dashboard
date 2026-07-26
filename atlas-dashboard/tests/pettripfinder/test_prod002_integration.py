@@ -43,11 +43,12 @@ def _hotel(sample, slug):
     return (sample / "pet-friendly-hotels" / slug / "index.html").read_text(encoding="utf-8")
 
 
-# 1. Real generator dispatches hotel profiles through the approved renderer.
+# 1. Real generator dispatches hotel profiles through the approved renderer
+#    (DESIGN-004: the founder-approved hp-* profile design).
 def test_dispatches_through_approved_renderer(sample):
     for slug in _EXPECTED_SLUGS:
         t = _hotel(sample, slug)
-        assert 'class="fh-hero"' in t and 'class="fh-facts"' in t and "fh-verif" in t
+        assert 'class="hp-lead"' in t and 'class="hp-facts"' in t and "hp-chip" in t
 
 
 # 2. Old hotel-profile markup path is not used.
@@ -89,9 +90,8 @@ def test_sparse_record_maps_correctly(sample):
     # PTF-PROD-002A: a generic pets-allowed policy shows the policy + an explicit
     # unstated species, never a fabricated "Dogs -- Welcome".
     assert "Pets welcome" in t
-    assert re.search(r'<div class="k">Species</div><div class="v [^"]*">Not stated</div>', t)
-    assert "<div class=\"v yes\">Welcome</div>" not in t   # no "Dogs -- Welcome" cell
-    assert re.search(r'<div class="k">Dogs</div>', t) is None
+    assert re.search(r'<small>Species</small><b class="dim">(?:(?!</b>).)*Not stated', t)
+    assert re.search(r'<small>Dogs</small>', t) is None    # no fabricated "Dogs -- Accepted" cell
 
 
 # 6. CSS asset is emitted and referenced correctly.
@@ -139,13 +139,16 @@ def test_non_hotel_path_unchanged():
     assert "render_production_hotel_profile" in src  # hotels via approved renderer
 
 
-# 11. No "nearby" label without coordinates.
+# 11. No fabricated distances, ever (production carries no coordinates).
+#     DESIGN-004: the sample build passes no park/restaurant inventory, so the
+#     "Helpful places" section is absent entirely -- and no distance phrasing
+#     may appear anywhere on a hotel page.
 def test_no_nearby_without_coordinates(sample):
     for slug in _EXPECTED_SLUGS:
         t = _hotel(sample, slug).lower()
         assert "also in" not in t          # the old same-city nearby phrasing
         assert "miles away" not in t and "km away" not in t
-        assert "distance-based recommendations aren’t available" in t
+        assert "helpful places near this hotel" not in t   # no inventory passed -> no section
 
 
 # 12. Inventory remains unchanged by generation.

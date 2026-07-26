@@ -27,12 +27,12 @@ from __future__ import annotations
 import re
 from typing import Dict, List, Optional
 
+from scripts.pettripfinder.approved_hotel_profile import render_approved_hotel_profile
 from scripts.pettripfinder.commercial_actions import ACTION_OFFICIAL_WEBSITE, go_route
 from scripts.pettripfinder.hotel_profile import (
     STATE_NO_PETS,
     build_vm_from_production,
     build_vm_from_production_unverified,
-    render_hotel_profile,
 )
 from scripts.pettripfinder.site_enrichment import (
     BASE_URL,
@@ -96,16 +96,73 @@ def _head_metadata(row: Dict[str, str], listing_id: str, facts_entry: Optional[D
     return canonical + to_script_tag(ld_objects)
 
 
+# Deterministic temporary-review photo per listing (the five approved review
+# JPGs copied to /assets/ by the homepage step). Google Places media is a
+# separate later phase; the renderer captions the slot as temporary.
+_REVIEW_PHOTOS = 5
+
+
+def _media_for(listing_id: str) -> str:
+    idx = sum(ord(c) for c in listing_id) % _REVIEW_PHOTOS + 1
+    return "/assets/hotel%d.jpg" % idx
+
+
+def _place_desc(row: Dict[str, str]) -> str:
+    """One honest descriptive line for a nearby-place card, taken verbatim
+    (truncated) from the place's own recorded pet_policy text."""
+    text = (row.get("pet_policy") or "").split(";")[0].strip()
+    if len(text) > 88:
+        text = text[:85].rstrip() + "…"
+    return text
+
+
+def _nearby_from_inventory(
+    row: Dict[str, str], park_rows: List[Dict[str, str]],
+    restaurant_rows: List[Dict[str, str]],
+) -> List[Dict[str, str]]:
+    """Up to three REAL nearby places (same city first, then the Columbus
+    core) from the existing verified inventory: two parks and one restaurant.
+    No distances -- production carries no coordinates and mileage is never
+    fabricated (site_data doctrine)."""
+    city = (row.get("city") or "").strip().lower()
+
+    def ranked(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+        same = [r for r in rows if (r.get("city") or "").strip().lower() == city]
+        rest = [r for r in rows if r not in same]
+        key = lambda r: r["name"].lower()
+        return sorted(same, key=key) + sorted(rest, key=key)
+
+    out: List[Dict[str, str]] = []
+    for park in ranked(park_rows)[:2]:
+        pid = _slug(park["name"])
+        out.append({
+            "kind": "park", "name": park["name"], "desc": _place_desc(park),
+            "meta": "%s, %s" % (park.get("city", ""), park.get("state", "")),
+            "href": "/go/%s/directions/" % pid, "btn": "Get directions"})
+    for rest in ranked(restaurant_rows)[:1]:
+        out.append({
+            "kind": "restaurant", "name": rest["name"], "desc": _place_desc(rest),
+            "meta": "%s, %s" % (rest.get("city", ""), rest.get("state", "")),
+            "href": "/pet-friendly-restaurants/%s/" % _slug(rest["name"]),
+            "btn": "View details"})
+    return out
+
+
 def render_production_hotel_profile(
     row: Dict[str, str], facts_entry: Optional[Dict], hotel_rows: List[Dict[str, str]],
     facts_map: Dict, *, css_href: str = HOTEL_CSS_HREF, market_home: str = MARKET_HOME,
+    park_rows: Optional[List[Dict[str, str]]] = None,
+    restaurant_rows: Optional[List[Dict[str, str]]] = None,
+    corridor_href: Optional[str] = None,
 ) -> str:
     """A complete, SEO-integrated hotel-profile page for one production row,
-    rendered by the approved renderer. Verified rows (rich/sparse) use
-    build_vm_from_production; rows without verified facts render the honest
-    POLICY_UNVERIFIED state with their real identity. A production no-pets row
-    would be a data error (production carries none) -- fail closed rather than
-    silently mislabel."""
+    rendered by the founder-approved profile design
+    (approved_hotel_profile.render_approved_hotel_profile). Verified rows
+    (rich/sparse) use build_vm_from_production; rows without verified facts
+    render the honest POLICY_UNVERIFIED state with their real identity. A
+    production no-pets row would be a data error (production carries none) --
+    fail closed rather than silently mislabel. ``market_home`` is retained for
+    API compatibility (the approved design links the hub explicitly)."""
     if facts_entry and facts_entry["facts"].get("pets_allowed") == "false":
         raise ValueError(
             "unexpected no-pets facts on production hotel row %r; production "
@@ -115,8 +172,15 @@ def render_production_hotel_profile(
     else:
         vm = build_vm_from_production_unverified(row, hotel_rows, facts_map)
     assert vm.state != STATE_NO_PETS  # guarded above; documents the invariant
-    html_text = render_hotel_profile(vm, css_href=css_href, market_home=market_home)
-    return inject_head(html_text, _head_metadata(row, _slug(row["name"]), facts_entry))
+    listing_id = _slug(row["name"])
+    html_text = render_approved_hotel_profile(
+        vm, listing_id=listing_id, css_href=css_href,
+        media_src=_media_for(listing_id),
+        nearby=_nearby_from_inventory(row, park_rows or [], restaurant_rows or []),
+        corridor_href=corridor_href,
+        related_thumbs={rel.route: _media_for(rel.route.rstrip("/").rsplit("/", 1)[-1])
+                        for rel in vm.related})
+    return inject_head(html_text, _head_metadata(row, listing_id, facts_entry))
 
 
 def build_hotel_go_pages(

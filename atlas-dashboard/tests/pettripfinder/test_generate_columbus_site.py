@@ -70,15 +70,15 @@ def test_core_pages_exist(built_site):
 
 
 def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
-    # PTF-PROD-002: hotel profiles now come from the approved renderer
-    # (hotel_profile_page.render_production_hotel_profile), not the old
-    # debug-like layout. A verified hotel shows the approved verified badge and
-    # the approved six-fact grid -- never the old ptf-policy-table/badge markup.
+    # DESIGN-004: hotel profiles come from the founder-approved profile design
+    # (hotel_profile_page -> approved_hotel_profile), not the old debug-like
+    # layout. A verified hotel shows the approved verified chip and the
+    # approved six-fact strip -- never the old ptf-policy-table/badge markup.
     text = (built_site / "pet-friendly-hotels" / "drury-inn-suites-columbus-grove-city"
            / "index.html").read_text(encoding="utf-8")
     assert "Policy verified" in text
-    assert 'class="fh-facts"' in text          # approved fact grid
-    assert "fh-verif ok" in text               # approved verified state
+    assert 'class="hp-facts"' in text          # approved fact strip
+    assert 'class="hp-chip"' in text           # approved verified chip
     assert "$50" in text
     assert "ptf-policy-table" not in text       # old markup path is gone
     assert "ptf-badge--verified" not in text

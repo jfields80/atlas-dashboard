@@ -252,7 +252,14 @@ def run(output: str) -> int:
             continue
         facts_entry = policy_facts.get(normalize_name(row["name"]))
         corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
-        page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, policy_facts)
+        # Corridor breadcrumb/see-all links resolve only to corridor pages that
+        # actually exist (groups above the corridor minimum, e.g. Dublin).
+        corridor_href = ("/pet-friendly-hotels/%s/" % _slug(corridor)
+                         if corridor in corridor_groups else None)
+        page_html = render_production_hotel_profile(
+            row, facts_entry, hotel_rows, policy_facts,
+            park_rows=park_rows, restaurant_rows=restaurant_rows,
+            corridor_href=corridor_href)
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
         go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry))
 
@@ -372,10 +379,11 @@ def run(output: str) -> int:
         styles_path.read_text(encoding="utf-8") + "\n" + PTF_EXTRA_CSS,
         encoding="utf-8", newline="\n")
     # Approved hotel-profile stylesheet, emitted once as /hotel-profile.css and
-    # referenced absolutely by every hotel page (PTF-PROD-002). Self-contained
-    # fh-* design; no duplication onto other pages, no collision with styles.css.
+    # referenced absolutely by every hotel page. DESIGN-004: the founder-approved
+    # profile design (hp-* namespace, approved_hotel_profile.css) replaces the
+    # earlier fh-* sheet; still self-contained, no collision with styles.css.
     (out_dir / "hotel-profile.css").write_text(
-        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "approved_hotel_profile.css").read_text(encoding="utf-8"),
         encoding="utf-8", newline="\n")
     for html_path in out_dir.rglob("index.html"):
         if "go" in html_path.relative_to(out_dir).parts[:1]:
@@ -583,7 +591,7 @@ def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
         path.write_text(page_html, encoding="utf-8", newline="\n")
 
     (out_dir / "hotel-profile.css").write_text(
-        (_REPO_ROOT / "scripts" / "pettripfinder" / "hotel_profile.css").read_text(encoding="utf-8"),
+        (_REPO_ROOT / "scripts" / "pettripfinder" / "approved_hotel_profile.css").read_text(encoding="utf-8"),
         encoding="utf-8", newline="\n")
 
     # Review output: keep it out of any index (Disallow all); sitemap lists only
