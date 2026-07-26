@@ -1,14 +1,28 @@
 # RepairPal Estimator Notes
 
-- competitor ID:
-- official page title:
-- exact URL:
+- competitor ID: repairpal
+- official page title: Free Car Repair Estimate - Get Auto Repair Costs | RepairPal
+- exact URL: https://repairpal.com/estimator
 - page type: repair-cost estimator
-- operator-supplied observation date:
+- operator-supplied observation date: 2026-07-26
 - captured FACTS:
+	- FACT — official-site representation: The official page title is visible as "Free Car Repair Estimate - Get Auto Repair Costs | RepairPal".
+	- FACT — official-site representation: The official page is currently presenting a security-verification interstitial instead of the estimator workflow in this capture.
 - possible INFERENCES:
+	- The estimator workflow is not directly observable in this capture because the page is gated by security verification.
 - HYPOTHESES requiring testing:
+	- HYPOTHESIS: Once the security verification is cleared, the estimator may expose a ZIP-based repair-cost workflow.
 - UNKNOWN items:
+	- exact calculation methodology
+	- data freshness by repair type and vehicle
+	- geographic completeness
+	- whether every repair category supports direct booking
+	- how many users complete a booking
+	- RepairPal's revenue from the estimator workflow
 - screenshots or saved-artifact references:
+	- Browser capture of the RepairPal estimator tab showing the security-verification interstitial (no saved artifact yet)
 - follow-up questions:
+	- Can the estimator workflow be accessed from an allowed browser session after verification?
+	- What exact ZIP, vehicle, and service inputs appear once the estimator loads?
 - limitations of the evidence:
+	- The estimator content was not directly visible in this capture because the page was blocked by a security-verification interstitial.

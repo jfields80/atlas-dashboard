@@ -1,14 +1,37 @@
 # RepairPal Columbus Notes
 
-- competitor ID:
-- official page title:
-- exact URL:
+- competitor ID: repairpal
+- official page title: Best Auto Repair in Columbus, OH RepairPal
+- exact URL: https://repairpal.com/auto-repair-near-me/auto-repair-in-columbus-ohio
 - page type: Columbus, Ohio repair-shop discovery page
-- operator-supplied observation date:
+- operator-supplied observation date: 2026-07-26
 - captured FACTS:
+	- FACT — official-site representation: The page title is visible as "Best Auto Repair in Columbus, OH RepairPal".
+	- FACT — official-site representation: The page is geographically targeted to Columbus, Ohio and shows the heading "AUTO REPAIR NEAR COLUMBUS, OHIO".
+	- FACT — official-site representation: The page shows a "RepairPal Certified Shops" section.
+	- FACT — official-site representation: The page includes a ZIP Code textbox with the placeholder "Enter ZIP Code" and a prefilled value visible in the capture.
+	- FACT — official-site representation: The page says "We'll find repair shops based on:" and "Find the best shops by vehicle."
+	- FACT — official-site representation: The page shows shop discovery results and availability/call actions for listed shops.
+	- FACT — official-site representation: The page links users to the estimator via an "Estimator" link in the FAQ section.
+	- FACT — official-site representation: The page states that booking an appointment with a RepairPal Certified shop is completely free.
+	- FACT — official-site representation: The page states that final repair cost depends on the number and complexity of repairs or services needed, diagnostic tests completed on the vehicle, taxes, and other relevant fees.
+	- FACT — official-site representation: The page presents a 30-day Fair Price Guarantee claim in the certification section and FAQ.
 - possible INFERENCES:
+	- The page is intended to support local shop discovery alongside estimator-based repair-cost guidance.
 - HYPOTHESES requiring testing:
+	- HYPOTHESIS: RepairPal may surface shop options based on ZIP code and vehicle details once the estimator flow is used.
 - UNKNOWN items:
+	- whether all Columbus repair shops are represented
+	- how shops are ordered
+	- whether placement is paid or organic
+	- lead or booking fees charged to shops
+	- user conversion rates
+	- frequency of listing verification
+	- completeness across Columbus neighborhoods and suburbs
 - screenshots or saved-artifact references:
+	- Browser capture of the Columbus discovery page (no saved artifact yet)
 - follow-up questions:
+	- How many Columbus-area shops are included in the live list at different ZIP codes?
+	- Are the displayed shops ordered by relevance, recommendation, distance, or another rule?
 - limitations of the evidence:
+	- This capture supports only what is visibly represented on the official page; it does not independently verify market demand, popularity, or service outcomes.
