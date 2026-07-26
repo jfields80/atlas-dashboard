@@ -1,0 +1,52 @@
+# Openbay Notes
+
+- competitor name: Openbay
+- capture date: 2026-07-26
+- approved source URLs:
+  - https://app.openbay.com/
+  - https://app.openbay.com/repair-cost/
+  - https://app.openbay.com/auto-repair/OH/Columbus
+- final URL after redirect (if any):
+  - https://app.openbay.com/ -> https://app.openbay.com/ (no redirect observed)
+  - https://app.openbay.com/repair-cost/ -> https://app.openbay.com/repair-cost/ (no redirect observed)
+  - https://app.openbay.com/auto-repair/OH/Columbus -> https://app.openbay.com/auto-repair/OH/Columbus (no redirect observed)
+- access result:
+  - All three pages rendered visible content in this capture.
+  - The `/repair-cost/` and `/auto-repair/OH/Columbus` captures also showed repeated 401 resource errors in console events, but page content remained visible.
+- visible page titles:
+  - https://app.openbay.com/: Find local trustworthy auto repair professionals. Compare multiple competitive price estimates and book service in a few simple steps.
+  - https://app.openbay.com/repair-cost/: Repair Cost Estimates | Openbay
+  - https://app.openbay.com/auto-repair/OH/Columbus: Openbay | Quality auto repair and maintenance in Columbus, OH
+- captured FACTS:
+  - FACT — official-site representation (https://app.openbay.com/): The page invites users to compare service professionals, get upfront pricing, and book service.
+  - FACT — official-site representation (https://app.openbay.com/): Visible inputs include a textbox labeled "Search services or describe problem," a textbox labeled "ZIP Code," and a "GO" button.
+  - FACT — official-site representation (https://app.openbay.com/): The page includes visible statements that Openbay comes at no cost to use and that no credit card is required to schedule service.
+  - FACT — official-site representation (https://app.openbay.com/repair-cost/): The page headline says "Look up estimated repair costs for your vehicle" and describes detailed service cost information by vehicle make.
+  - FACT — official-site representation (https://app.openbay.com/repair-cost/): The page displays a visible list of vehicle makes linking to make-specific `/repair-cost/<make>` pages.
+  - FACT — official-site representation (https://app.openbay.com/auto-repair/OH/Columbus): The page shows "Auto Repair Near Me" with "States / OH / Columbus" and lists local shops with distance/address snippets.
+  - FACT — official-site representation (https://app.openbay.com/auto-repair/OH/Columbus): The page exposes sorting options (Availability, Rating, Distance).
+  - FACT — official-site representation (https://app.openbay.com/auto-repair/OH/Columbus): Listed shops show action buttons including "View details," "Book Auto Repair," and "Get Estimate."
+  - FACT — official-site representation (https://app.openbay.com/auto-repair/OH/Columbus): The listing cards visibly include shop amenities/availability cues such as "Early drop off," "Free wifi," "Wait on site," and "Availability Tomorrow" on multiple entries.
+- possible INFERENCES:
+  - The official Openbay flow appears to combine repair-cost lookup content and local shop discovery/booking options across separate pages.
+  - The Columbus page appears oriented toward booking and estimate initiation from specific listed shops.
+- HYPOTHESES requiring testing:
+  - HYPOTHESIS: A full consumer quote workflow likely requires additional steps after selecting "Get Estimate" or "Book Auto Repair" that were not executed in this capture.
+  - HYPOTHESIS: Some dynamic page features may depend on authenticated or additional API access due to observed 401 resource errors.
+- UNKNOWN items:
+  - exact estimate methodology and pricing data sources
+  - whether and how quotes are normalized across shops
+  - consumer fees, shop fees, commissions, lead charges, and subscription economics
+  - total Columbus coverage and update cadence
+  - true booking completion and conversion behavior
+  - shop vetting standards in operational detail
+  - traffic levels, customer volume, market share, and commercial performance
+- evidence limitations:
+  - This pass captured only directly visible official-page text and UI elements; no flows were completed beyond page viewing.
+  - Official-site statements were recorded as representations, not independently verified outcomes.
+  - 401 console resource errors were observed on two pages, which may limit what was fully loaded in-browser.
+- follow-up questions:
+  - What exact fields and steps appear after selecting "Get Estimate" from a Columbus listing?
+  - Does the consumer receive multiple comparable quotes in one view before booking?
+  - Are any fees disclosed during booking for consumers or service professionals?
+  - What portion of Ohio or Columbus-area shops is represented under this Openbay view?
