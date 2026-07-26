@@ -89,105 +89,128 @@ a{color:inherit}
 
 /* header */
 .ph-top{background:var(--paper);border-bottom:1px solid #f1ece1;position:sticky;top:0;z-index:30}
-.ph-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:56px}
+.ph-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:46px}
 .brand{display:inline-flex;align-items:baseline;text-decoration:none;white-space:nowrap;
-  font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;
+  font-family:Georgia,'Times New Roman',serif;font-size:19.5px;font-weight:700;
   color:var(--ever);letter-spacing:-.2px}
-.brand .dot{margin:0 9px;color:var(--warm);font-weight:700}
+.brand .dot{margin:0 8px;color:var(--warm);font-weight:700}
 .brand em{font-style:normal;color:var(--warm)}
-.links{display:flex;gap:23px;align-items:center}
+.links{display:flex;gap:21px;align-items:center}
 .links a{display:inline-flex;align-items:center;gap:5px;color:#28382f;text-decoration:none;
-  font-size:13px;font-weight:600;white-space:nowrap}
+  font-size:12.5px;font-weight:600;white-space:nowrap}
 .links a:hover{color:var(--warm)}
 .links .caret{width:11px;height:11px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round}
 .nav-actions{display:flex;align-items:center;gap:16px}
 .saved{display:inline-flex;align-items:center;gap:7px;color:#28382f;text-decoration:none;
-  font-size:13px;font-weight:600;white-space:nowrap}
-.saved svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;
+  font-size:12.5px;font-weight:600;white-space:nowrap}
+.saved svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;
-  padding:10px 17px;border:1px solid transparent;text-decoration:none;font-weight:700;
-  font-size:13px;cursor:pointer;white-space:nowrap}
+  padding:8px 15px;border:1px solid transparent;text-decoration:none;font-weight:700;
+  font-size:12.5px;cursor:pointer;white-space:nowrap}
 .btn-primary{background:var(--ever);color:#fff}
 .btn-primary:hover{background:var(--deep)}
 .btn-outline{background:var(--paper);color:var(--ever);border-color:#e2d8c4}
 .btn-outline:hover{border-color:#c3b79c}
+/* 44x44 is the minimum comfortable touch target; the glyph keeps its 25px
+   size and is centred inside that box rather than the box being shrunk to
+   the glyph. Fixed width/height (not padding) so the target cannot vary with
+   the font. The button is the flex-end child of .nav-actions, so the extra
+   width grows leftward into empty header space -- the brand does not move,
+   and the header height is unchanged (46px desktop / 54px mobile both clear
+   44px). */
 .menu{display:none;background:none;border:0;font-size:25px;line-height:1;color:var(--ever);
-  cursor:pointer;padding:4px 6px}
+  cursor:pointer;padding:0;width:44px;height:44px;flex:0 0 auto;
+  align-items:center;justify-content:center}
 
 /* hero -- photo bleeds off the right edge and fades into the page */
 .ph-hero{position:relative;overflow:hidden}
-.hero-media{position:absolute;top:0;right:0;bottom:0;width:56%;pointer-events:none}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:46% center;
-  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 34%);
-          mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 34%)}
-.hero-inner{position:relative;z-index:2;padding:24px 0 24px}
-.ph-hero h1{margin:0 0 13px;font-size:42px;line-height:1.14;letter-spacing:-.9px;
-  color:var(--ever);max-width:560px}
+/* max-width keeps the frame near the photograph's own 2.52 aspect. Without it
+   the panel widens with the viewport (3.46 at 1920) and object-fit:cover pays
+   for that by cropping ~27% off the height -- which is exactly the skyline and
+   river the approved composition is built around. */
+.hero-media{position:absolute;top:0;right:0;bottom:0;width:55%;max-width:820px;
+  pointer-events:none}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;
+  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 14%);
+          mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 14%)}
+.hero-inner{position:relative;z-index:2;padding:20px 0 17px}
+.ph-hero h1{margin:0 0 10px;font-size:37px;line-height:1.12;letter-spacing:-.8px;
+  color:var(--ever);max-width:500px}
 .ph-hero h1 em{font-style:italic;color:var(--warm)}
-.ph-hero .sub{margin:0 0 20px;font-size:14.5px;line-height:1.55;max-width:430px;color:#3f4f47}
-.hero-badge{position:absolute;right:0;bottom:2px;z-index:3;max-width:252px;
-  background:rgba(18,64,44,.94);color:#fff;border-radius:14px;padding:14px 18px}
-.hero-badge b{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:700;
-  margin-bottom:7px}
-.hero-badge svg{width:17px;height:17px;flex:0 0 auto;fill:none;stroke:currentColor;
+.ph-hero .sub{margin:0 0 15px;font-size:13px;line-height:1.5;max-width:385px;color:#3f4f47}
+/* The badge is a child of the centred wrap, so `right:0` pins it to the wrap
+   edge -- at wide viewports that lands mid-photo, on top of the walker. The
+   calc re-anchors it to the photo's own right edge (= viewport edge) with a
+   fixed 24px clearance, dropping it into the open path/grass corner. Any
+   sub-pixel drift from the scrollbar in 100vw is clipped by .ph-hero's
+   overflow:hidden, so it can never widen the page. */
+.hero-badge{position:absolute;right:calc((100% - 100vw)/2 + 24px);bottom:22px;
+  z-index:3;max-width:225px;
+  background:rgba(18,64,44,.94);color:#fff;border-radius:13px;padding:12px 15px}
+.hero-badge b{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;
+  margin-bottom:6px}
+.hero-badge svg{width:16px;height:16px;flex:0 0 auto;fill:none;stroke:currentColor;
   stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.hero-badge p{margin:0;font-size:13px;line-height:1.45;color:#e4ede8}
+.hero-badge p{margin:0;font-size:12px;line-height:1.42;color:#e4ede8}
 
 /* search row (inline on the page -- no floating panel) */
-.ph-search{display:grid;grid-template-columns:minmax(0,1fr) 178px 112px;gap:11px;max-width:730px}
-.ph-field{display:flex;align-items:center;gap:10px;border:1px solid #e6dfd0;border-radius:11px;
-  background:var(--paper);padding:0 14px;min-height:48px;font-size:13.5px;
+.ph-search{display:grid;grid-template-columns:minmax(0,1fr) 162px 96px;gap:10px;max-width:615px}
+.ph-field{display:flex;align-items:center;gap:9px;border:1px solid #e6dfd0;border-radius:10px;
+  background:var(--paper);padding:0 12px;min-height:40px;font-size:12.5px;
   box-shadow:0 1px 2px rgba(30,45,38,.04)}
-.ph-field svg{width:16px;height:16px;flex:0 0 auto;fill:none;stroke:#5c6a63;stroke-width:1.8;
+.ph-field svg{width:15px;height:15px;flex:0 0 auto;fill:none;stroke:#5c6a63;stroke-width:1.8;
   stroke-linecap:round;stroke-linejoin:round}
 .ph-field input{border:0;outline:0;flex:1;min-width:0;background:transparent;font:inherit;color:var(--ink)}
 .ph-field input::placeholder{color:#96a09a}
 .ph-field.loc b{font-weight:650}
 .ph-field.loc .caret{margin-left:auto;stroke:#8b968f}
-.ph-go{border:0;border-radius:11px;background:var(--ever);color:#fff;font-weight:700;font-size:13.5px;
-  min-height:48px;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+.ph-go{border:0;border-radius:10px;background:var(--ever);color:#fff;font-weight:700;font-size:12.5px;
+  min-height:40px;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
 .ph-go:hover{background:var(--deep)}
-.ph-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
-.ph-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid #e9e2d4;border-radius:10px;
-  background:var(--paper);padding:8px 13px;font-size:11.5px;font-weight:600;color:#2c3d35;
+.ph-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.ph-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #e9e2d4;border-radius:9px;
+  background:var(--paper);padding:6px 11px;font-size:10.5px;font-weight:600;color:#2c3d35;
   text-decoration:none;white-space:nowrap}
 .ph-chip:hover{border-color:#a6b8ac}
-.ph-chip svg{width:15px;height:15px;flex:0 0 auto;fill:none;stroke:#3d4f46;stroke-width:1.6;
+.ph-chip svg{width:14px;height:14px;flex:0 0 auto;fill:none;stroke:#3d4f46;stroke-width:1.6;
   stroke-linecap:round;stroke-linejoin:round}
 
-/* two-column body */
-.ph-body{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:28px;align-items:start;
-  padding-top:4px}
+/* two-column body. The secondary column is PROPORTIONAL, not a fixed width:
+   a fixed sidebar keeps its pixels as the viewport narrows and progressively
+   crushes the six place cards. 31.5% holds the approved 66/31 balance at
+   every width, with a floor so the glance table never collapses. */
+.ph-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,31.5%);gap:26px;
+  align-items:start;padding-top:2px}
 .col-main{min-width:0}
-.col-side{min-width:0;display:flex;flex-direction:column;gap:16px}
+.col-side{min-width:0;display:flex;flex-direction:column;gap:12px}
 
 /* qualitative trust strip (no counts -- the approved design states the
    promise, the pages carry the evidence) */
-.ph-trust{display:flex;flex-wrap:wrap;gap:10px 44px;align-items:center;background:var(--panel);
-  border:1px solid #efe9dc;border-radius:12px;padding:12px 20px}
-.ph-trust span{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:650;color:#24352d}
-.ph-trust svg{width:17px;height:17px;flex:0 0 auto;fill:none;stroke:var(--ever);stroke-width:1.7;
+.ph-trust{display:flex;flex-wrap:wrap;gap:8px 38px;align-items:center;background:var(--panel);
+  border:1px solid #efe9dc;border-radius:11px;padding:8px 18px}
+.ph-trust span{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:650;color:#24352d}
+.ph-trust svg{width:15px;height:15px;flex:0 0 auto;fill:none;stroke:var(--ever);stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 
 /* sections */
-.section{padding:24px 0 0}
-.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:12px}
-.sechead h2{margin:0;font-size:22px;letter-spacing:-.3px;color:var(--ever)}
-.sechead a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
+.section{padding:17px 0 0}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:9px}
+.sechead h2{margin:0;font-size:19px;letter-spacing:-.3px;color:var(--ever)}
+.sechead a{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
   color:var(--ever);text-decoration:none;white-space:nowrap}
 .sechead a:hover{text-decoration:underline}
 .sechead a svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round}
 
 /* quick-start cards */
-.start-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.start-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
 .start-card{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);
-  border-radius:12px;padding:13px 12px;text-decoration:none;color:var(--ink);font-weight:700;
-  font-size:11.5px;line-height:1.25;transition:.15s border-color}
+  border-radius:11px;padding:11px 12px;text-decoration:none;color:var(--ink);font-weight:700;
+  font-size:11px;line-height:1.25;transition:.15s border-color}
 .start-card:hover{border-color:#a6b8ac}
-.start-card .ico{width:24px;height:24px;flex:0 0 auto}
+.start-card .ico{width:22px;height:22px;flex:0 0 auto}
 .start-card .ico svg{width:100%;height:100%;display:block;fill:currentColor}
 .start-card .ico.g{color:var(--ever)}
 .start-card .ico.o{color:var(--warm)}
@@ -195,85 +218,87 @@ a{color:inherit}
   stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* recently verified place cards */
-.places{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px}
+.places{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
 .place{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);
-  border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;
+  border-radius:11px;overflow:hidden;text-decoration:none;color:inherit;
   box-shadow:0 1px 3px rgba(35,52,45,.04);transition:.2s transform,.2s box-shadow}
 .place:hover{transform:translateY(-2px);box-shadow:0 9px 20px rgba(31,58,48,.11)}
-.place .photo{display:block;height:74px;flex:0 0 auto;background-size:cover;
+.place .photo{display:block;height:64px;flex:0 0 auto;background-size:cover;
   background-position:center;background-color:#e7e0d2}
-.place .body{display:flex;flex-direction:column;flex:1;padding:10px 11px 11px}
-.place h3{margin:0 0 7px;font-family:inherit;font-size:11px;font-weight:700;line-height:1.3;
-  color:var(--ink)}
-.place .fact{display:flex;align-items:center;gap:7px;font-size:10.5px;color:#33443c;margin-top:4px}
-.place .fact svg{width:13px;height:13px;flex:0 0 auto;fill:none;stroke:var(--fact);stroke-width:1.7;
+.place .body{display:flex;flex-direction:column;flex:1;padding:7px 8px 8px}
+/* min-height reserves the two lines the approved comp shows on every card, so
+   a short name never leaves its card visually lighter than its neighbours. */
+.place h3{margin:0 0 5px;font-family:inherit;font-size:10px;font-weight:700;line-height:1.22;
+  min-height:24px;color:var(--ink)}
+.place .fact{display:flex;align-items:center;gap:6px;font-size:9.5px;color:#33443c;margin-top:2px}
+.place .fact svg{width:12px;height:12px;flex:0 0 auto;fill:none;stroke:var(--fact);stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
-.place .vline{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:8px;
-  border-top:1px solid #f1ebde;font-size:9.5px;white-space:nowrap;color:var(--ok);font-weight:650}
-.place .vline svg{width:12px;height:12px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2.4;
+.place .vline{display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:5px;
+  border-top:1px solid #f1ebde;font-size:9px;white-space:nowrap;color:var(--ok);font-weight:650}
+.place .vline svg{width:11px;height:11px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2.4;
   stroke-linecap:round;stroke-linejoin:round}
 
 /* trip-planning cards */
-.trip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.trip-card{display:grid;grid-template-columns:minmax(0,36%) minmax(0,1fr);min-height:150px;
-  background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+.trip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.trip-card{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);min-height:86px;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;overflow:hidden;
   text-decoration:none;color:inherit}
 .trip-card:hover{box-shadow:0 8px 18px rgba(31,58,48,.09)}
 .trip-card img{width:100%;height:100%;object-fit:cover}
-.trip-copy{padding:14px 15px;display:flex;flex-direction:column;gap:6px}
-.trip-copy .ico{width:34px;height:34px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;color:#fff}
+.trip-copy{padding:9px 11px 10px;display:flex;flex-direction:column;gap:3px}
+.trip-copy .ico{width:26px;height:26px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;color:#fff}
 .trip-copy .ico.g{background:var(--ever)}
 .trip-copy .ico.o{background:var(--warm)}
-.trip-copy .ico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;
+.trip-copy .ico svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;
   stroke-linecap:round;stroke-linejoin:round}
-.trip-copy h3{margin:0;font-family:inherit;font-size:14px;font-weight:700}
-.trip-copy p{margin:0;font-size:11.5px;line-height:1.45;color:var(--muted)}
-.trip-copy .go{margin-top:auto;font-size:11.5px;font-weight:700;color:var(--ever);text-decoration:underline}
+.trip-copy h3{margin:1px 0 0;font-family:inherit;font-size:12px;font-weight:700}
+.trip-copy p{margin:0;font-size:10px;line-height:1.38;color:var(--muted)}
+.trip-copy .go{margin-top:auto;font-size:10px;font-weight:700;color:var(--ever);text-decoration:underline}
 
 /* travel-better band */
-.ph-band{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--panel);
-  border:1px solid #efe9dc;border-radius:14px;padding:18px 22px;margin-top:22px;
+.ph-band{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);
+  border:1px solid #efe9dc;border-radius:12px;padding:12px 18px;margin-top:16px;
   position:relative;overflow:hidden}
-.ph-band .pawcircle{width:44px;height:44px;flex:0 0 auto;border-radius:50%;background:var(--ever);
+.ph-band .pawcircle{width:36px;height:36px;flex:0 0 auto;border-radius:50%;background:var(--ever);
   color:#fff;display:grid;place-items:center}
-.ph-band .pawcircle svg{width:23px;height:21px;fill:currentColor}
-.ph-band h3{margin:0 0 2px;font-size:19px;color:var(--ever)}
-.ph-band p{margin:0;font-size:12.5px;color:var(--muted)}
-.ph-band .actions{display:flex;gap:11px;margin-left:auto;position:relative;z-index:1}
-.ph-band .skyline{flex:0 0 168px;align-self:flex-end;margin:0 0 -14px 16px;color:var(--ever);
+.ph-band .pawcircle svg{width:19px;height:17px;fill:currentColor}
+.ph-band h3{margin:0 0 1px;font-size:16.5px;color:var(--ever)}
+.ph-band p{margin:0;font-size:11px;color:var(--muted)}
+.ph-band .actions{display:flex;gap:10px;margin-left:auto;position:relative;z-index:1}
+.ph-band .skyline{flex:0 0 150px;align-self:flex-end;margin:0 0 -12px 14px;color:var(--ever);
   opacity:.2;pointer-events:none}
 .ph-band .skyline svg{width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:1.3;
   stroke-linecap:round;stroke-linejoin:round}
 
 /* sidebar */
-.side-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}
-.side-card h3{margin:0 0 12px;font-size:18px;letter-spacing:-.2px;color:var(--ever)}
-.glance{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed}
-.glance th{font-size:10px;color:#4d5c55;font-weight:700;text-align:left;padding:0 4px 8px;
+.side-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px}
+.side-card h3{margin:0 0 8px;font-size:16px;letter-spacing:-.2px;color:var(--ever)}
+.glance{width:100%;border-collapse:collapse;font-size:10.5px;table-layout:fixed}
+.glance th{font-size:9.5px;color:#4d5c55;font-weight:700;text-align:left;padding:0 3px 5px;
   border-bottom:1px solid #ece5d6}
-.glance td{padding:9px 4px;border-bottom:1px solid #f3eee2;vertical-align:middle;white-space:nowrap}
+.glance td{padding:4px 3px;border-bottom:1px solid #f3eee2;vertical-align:middle;white-space:nowrap}
 .glance tr:last-child td{border-bottom:0}
-.glance td.name{font-weight:700;color:var(--ever);font-size:10.5px;line-height:1.3;white-space:normal}
+.glance td.name{font-weight:700;color:var(--ever);font-size:10px;line-height:1.25;white-space:normal}
 .glance td.name a{text-decoration:none;color:inherit}
 .glance td.name a:hover{text-decoration:underline}
-.glance .ok svg{width:13px;height:13px;fill:none;stroke:var(--ok);stroke-width:2.6;
+.glance .ok svg{width:12px;height:12px;fill:none;stroke:var(--ok);stroke-width:2.6;
   stroke-linecap:round;stroke-linejoin:round}
 /* NB: never give .ns a `display` other than table-cell -- it sits on the <td>
    itself, and taking it out of table layout shifts every following column. */
-.glance .ns{color:#9aa39c;font-size:9px;line-height:1.2;white-space:normal}
-.glance-more{display:inline-flex;align-items:center;gap:6px;margin-top:13px;font-size:12px;
+.glance .ns{color:#9aa39c;font-size:8.5px;line-height:1.2;white-space:normal}
+.glance-more{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;
   font-weight:700;color:var(--ever);text-decoration:underline}
-.glance-more svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;
+.glance-more svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round}
-.why-card{background:var(--soft);border:1px solid #efe9dc;border-radius:14px;padding:18px}
-.why-card h3{margin:0 0 7px;font-size:18px;letter-spacing:-.2px;color:var(--ever)}
-.why-card>p{margin:0 0 15px;font-size:12.5px;color:#41504a}
-.why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.why-grid div{display:flex;align-items:flex-start;gap:8px;font-size:10.5px;font-weight:650;
-  line-height:1.3;color:#25352e}
-.why-grid svg{width:21px;height:21px;flex:0 0 auto;fill:none;stroke:var(--ever);stroke-width:1.6;
+.why-card{background:var(--soft);border:1px solid #efe9dc;border-radius:12px;padding:12px}
+.why-card h3{margin:0 0 5px;font-size:16px;letter-spacing:-.2px;color:var(--ever)}
+.why-card>p{margin:0 0 11px;font-size:11.5px;color:#41504a}
+.why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.why-grid div{display:flex;align-items:flex-start;gap:7px;font-size:10px;font-weight:650;
+  line-height:1.28;color:#25352e}
+.why-grid svg{width:19px;height:19px;flex:0 0 auto;fill:none;stroke:var(--ever);stroke-width:1.6;
   stroke-linecap:round;stroke-linejoin:round}
-.side-skyline{color:var(--ever);opacity:.11;padding:8px 2px 0;pointer-events:none}
+.side-skyline{color:var(--ever);opacity:.11;padding:6px 2px 0;pointer-events:none}
 .side-skyline svg{width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:1.2;
   stroke-linecap:round;stroke-linejoin:round}
 
@@ -293,8 +318,8 @@ a{color:inherit}
   .why-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:1080px){
-  .links{display:none}.menu{display:block}.saved{display:none}
-  .links.pt-open{display:flex;position:absolute;top:56px;left:0;right:0;flex-direction:column;
+  .links{display:none}.menu{display:flex}.saved{display:none}
+  .links.pt-open{display:flex;position:absolute;top:46px;left:0;right:0;flex-direction:column;
     align-items:flex-start;gap:0;background:#fffdf9;border-bottom:1px solid #ece6da;
     padding:6px 24px 14px;box-shadow:0 18px 40px rgba(26,50,41,.12);z-index:29}
   .links.pt-open a{padding:13px 0;width:100%;font-size:15px}
@@ -337,6 +362,95 @@ a{color:inherit}
   .places{grid-template-columns:minmax(0,1fr)}
   .place .photo{height:130px}
   .trip-card{grid-template-columns:minmax(0,40%) minmax(0,1fr)}
+}
+
+/* ---- wide desktop (>=1600px) ---------------------------------------------
+   The compact 1280 shell is calibrated for 1440. On a 1920 display it strands
+   ~320px of dead margin per side and the page reads as a shrunken screenshot.
+   This block widens the shell to 1680 (120px margins at 1920) and pins the
+   secondary column to a fixed 360px, so every pixel gained goes to the main
+   column and the six place cards -- the sidebar must not grow with the page.
+   Type and controls lift ~10%; vertical density is unchanged, and the hero
+   block (crop, mask, max-width, badge anchor) is deliberately absent here so
+   the approved hero framing carries over untouched. */
+@media(min-width:1600px){
+  :root{--max:1680px}
+  .wrap{width:min(var(--max),calc(100% - 120px))}
+
+  .ph-top .wrap{height:52px}
+  .brand{font-size:21px}
+  .links{gap:24px}
+  .links a{font-size:13.5px}
+  .saved{font-size:13.5px}
+  .saved svg{width:16px;height:16px}
+  .btn{font-size:13.5px;padding:9px 17px}
+
+  .ph-hero h1{font-size:41px;max-width:560px}
+  .ph-hero .sub{font-size:14.5px;max-width:430px;margin-bottom:17px}
+  .ph-search{grid-template-columns:minmax(0,1fr) 178px 108px;gap:11px;max-width:690px}
+  .ph-field{min-height:44px;font-size:13.5px}
+  .ph-field svg{width:16px;height:16px}
+  .ph-go{min-height:44px;font-size:13.5px}
+  .ph-chip{font-size:11.5px;padding:7px 13px}
+  .ph-chip svg{width:15px;height:15px}
+
+  .ph-body{grid-template-columns:minmax(0,1fr) 360px;gap:30px}
+  .ph-trust{padding:10px 22px;gap:9px 46px}
+  .ph-trust span{font-size:12.5px}
+  .ph-trust svg{width:16px;height:16px}
+
+  .section{padding:20px 0 0}
+  .sechead{margin-bottom:11px}
+  .sechead h2{font-size:21px}
+  .sechead a{font-size:12.5px}
+
+  .start-grid{gap:14px}
+  .start-card{font-size:12px;padding:13px 15px;gap:11px}
+  .start-card .ico{width:25px;height:25px}
+
+  .places{gap:14px}
+  .place .photo{height:96px}
+  .place .body{padding:9px 11px 10px}
+  .place h3{font-size:11.5px;line-height:1.24;min-height:29px;margin-bottom:6px}
+  .place .fact{font-size:10.5px;gap:7px;margin-top:3px}
+  .place .fact svg{width:13px;height:13px}
+  .place .vline{font-size:10px;padding-top:6px}
+  .place .vline svg{width:12px;height:12px}
+
+  .trip-grid{gap:16px}
+  .trip-card{min-height:104px}
+  .trip-copy{padding:11px 14px 12px}
+  .trip-copy .ico{width:29px;height:29px}
+  .trip-copy .ico svg{width:16px;height:16px}
+  .trip-copy h3{font-size:13.5px}
+  .trip-copy p{font-size:11px}
+  .trip-copy .go{font-size:11px}
+
+  .ph-band{padding:15px 22px;margin-top:20px;gap:16px}
+  .ph-band .pawcircle{width:40px;height:40px}
+  .ph-band .pawcircle svg{width:21px;height:19px}
+  .ph-band h3{font-size:18px}
+  .ph-band p{font-size:12px}
+  .ph-band .skyline{flex:0 0 175px}
+
+  .side-card,.why-card{padding:15px}
+  .side-card h3,.why-card h3{font-size:17.5px}
+  .glance{font-size:11.5px}
+  .glance th{font-size:10.5px;padding:0 4px 6px}
+  .glance td{padding:5px 4px}
+  .glance td.name{font-size:11px}
+  .glance .ns{font-size:9.5px}
+  .glance .ok svg{width:13px;height:13px}
+  .glance-more{font-size:12px;margin-top:10px}
+  .why-card>p{font-size:12.5px;margin-bottom:13px}
+  .why-grid{gap:12px}
+  .why-grid div{font-size:11px}
+  .why-grid svg{width:21px;height:21px}
+
+  .footer{padding:34px 0 50px}
+  .footer h4{font-size:15px}
+  .footer a{font-size:14px}
+  .note{font-size:12.5px;max-width:470px}
 }"""
 
 _JS = ("<script>(function(){var b=document.querySelector('.menu'),"
