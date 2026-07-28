@@ -26,6 +26,10 @@ from services.research_workers.providers import (
     FakeProvider, LiveAuthorization, SpendingAirlockError, build_provider,
 )
 from services.research_workers.repository import WorkerRepository
+from services.research_workers.web_research import (
+    REASONING_EFFORTS as _WR_EFFORTS,
+    SEARCH_CONTEXT_SIZES as _WR_CONTEXT_SIZES,
+)
 
 
 def _build_provider(args) -> object:
@@ -331,6 +335,612 @@ def _cmd_columbus_pilot(args) -> int:
     return 0
 
 
+def _cmd_retrieve_official_sources(args) -> int:
+    """PTF-WORKERS-003: fetch official hotel pages -> SourceDocument.
+
+    Zero model calls by construction -- no provider is built anywhere on this
+    path, so no credential and no spend authorization are consulted. Writes
+    only under the gitignored pilot root's ``retrieval/`` subdir; touches no
+    production data file.
+    """
+    import json as _json
+
+    from repositories.artifact_store_repository import ArtifactStoreRepository
+    from scripts.pettripfinder.importer import constants as _C
+    from scripts.pettripfinder.importer.fetch import RequestsPageFetcher, StaticPageFetcher
+    from services.research_workers import source_retrieval as SR
+    from services.research_workers.columbus_pilot import (
+        PilotStore, RETRIEVAL, load_columbus_hotel_candidates, normalize_listing_key,
+    )
+
+    candidates = load_columbus_hotel_candidates(args.seed)
+    by_key = {normalize_listing_key(c.name): c for c in candidates}
+
+    # HotelCandidate carries no city/state/website_url (it never needed them
+    # for evidence-text extraction). Identity verification does, so read those
+    # three columns straight from the same committed seed rather than widening
+    # the shared loader contract for one caller.
+    import csv as _csv
+    from services.research_workers.columbus_pilot import DEFAULT_SEED, HOTEL_CATEGORY
+    geo = {}
+    seed_path = Path(args.seed) if args.seed else DEFAULT_SEED
+    with seed_path.open(encoding="utf-8") as fh:
+        for row in _csv.DictReader(fh):
+            if row.get("category") != HOTEL_CATEGORY:
+                continue
+            geo[normalize_listing_key(row.get("name", ""))] = {
+                "city": row.get("city", ""), "state": row.get("state", ""),
+                "postal_code": row.get("postal_code", ""),
+                "website_url": row.get("website_url", ""),
+            }
+
+    selected = []
+    for want in args.hotel:
+        key = normalize_listing_key(want)
+        if key not in by_key:
+            sys.stderr.write("no such hotel in seed inventory: %r (never substitutes)\n" % want)
+            return 2
+        selected.append(by_key[key])
+
+    # Offline fixtures make the whole command deterministic and network-free.
+    fixtures = {}
+    for spec in args.offline_fixture:
+        url, _, path = spec.partition("=")
+        if not url or not path:
+            sys.stderr.write("--offline-fixture expects URL=path, got %r\n" % spec)
+            return 2
+        fixtures[url] = Path(path).read_text(encoding="utf-8")
+    if fixtures:
+        fetcher = StaticPageFetcher()
+        for url, html in fixtures.items():
+            fetcher.add_html(url, html)
+    else:
+        fetcher = RequestsPageFetcher()
+
+    store = PilotStore(Path(args.output_root) if args.output_root else None)
+    cas = ArtifactStoreRepository(store.root / _C.CAS_SUBDIR)
+
+    outcomes = []
+    for cand in selected:
+        g = geo.get(normalize_listing_key(cand.name), {})
+        expected = SR.ExpectedEntity(
+            listing_key=cand.listing_key, listing_name=cand.name,
+            address=cand.address, city=g.get("city", ""), state=g.get("state", ""),
+            postal_code=g.get("postal_code", ""), phone=cand.phone,
+            website_url=g.get("website_url", "") or cand.source_url)
+        out = SR.retrieve_official_source(
+            assignment_id="retr-%s" % cand.listing_key.replace(" ", "-")[:60],
+            expected=expected, source_url=cand.source_url, fetcher=fetcher,
+            cas=cas, observed_at=args.observed_at)
+        store.write_per_hotel(RETRIEVAL, out.assignment_id, out.to_dict())
+        outcomes.append(out)
+
+    print("=== PTF-WORKERS-003 official-source retrieval (retrieval-only) ===")
+    print("  model calls made           : 0")
+    print("  spend                      : $0.00")
+    print("  credential consulted       : none")
+    print("  production data written    : none")
+    print("  artifact root              : %s" % (store.root / RETRIEVAL))
+    print("")
+    for o in outcomes:
+        print("  %-46s %-18s identity=%-22s role=%s"
+              % (o.listing_name[:46], o.status, o.identity or "-", o.source_role or "-"))
+        print("       initial : %s" % o.initial_url)
+        print("       final   : %s" % (o.final_url or "-"))
+        print("       redirects=%d  http=%s  reason=%s  fetch_status=%s"
+              % (len(o.redirect_chain), o.http_status or "-",
+                 o.importer_reason or "-", o.importer_fetch_status or "-"))
+        print("       norm_text=%d bytes  text_hash=%s  raw_hash=%s"
+              % (o.normalized_text_bytes, (o.normalized_text_hash or "-")[:16],
+                 (o.raw_content_hash or "-")[:16]))
+        print("       policy candidates=%d  applicable=%s  brand_scope=%s"
+              % (len(o.policy_candidates), o.policy_applicable, o.brand_policy_scope or "-"))
+        for c in o.policy_candidates[:5]:
+            print("          %4d  %s" % (c.score, c.url))
+        if o.warnings:
+            print("       warnings: %s" % ", ".join(o.warnings))
+        print("       READY FOR EXTRACTION: %s" % o.ready_for_extraction)
+        print("")
+
+    ready = [o for o in outcomes if o.ready_for_extraction]
+    print("  ready for extraction : %d of %d" % (len(ready), len(outcomes)))
+    if args.json:
+        print(_json.dumps([o.to_dict() for o in outcomes], indent=2, sort_keys=True))
+    return 0
+
+
+def _cmd_attest_official_page(args) -> int:
+    """PTF-WORKERS-006: record a PENDING manual official attestation.
+
+    Zero network, zero model calls, zero credential reads. The operator
+    supplies a page capture and screenshots; no policy value is ever typed by
+    a human here.
+    """
+    import csv as _csv
+    import json as _json
+
+    from repositories.artifact_store_repository import ArtifactStoreRepository
+    from scripts.pettripfinder.importer import constants as _C
+    from services.research_workers import operator_capture as OC
+    from services.research_workers.columbus_pilot import (
+        ATTESTATIONS, DEFAULT_SEED, HOTEL_CATEGORY, PilotStore,
+        load_columbus_hotel_candidates, normalize_listing_key,
+    )
+
+    candidates = load_columbus_hotel_candidates(args.seed)
+    by_key = {normalize_listing_key(c.name): c for c in candidates}
+    want = normalize_listing_key(args.hotel)
+    if want not in by_key:
+        sys.stderr.write("no such hotel in seed inventory: %r\n" % args.hotel)
+        return 2
+    cand = by_key[want]
+
+    geo = {}
+    seed_path = Path(args.seed) if args.seed else DEFAULT_SEED
+    with seed_path.open(encoding="utf-8") as fh:
+        for r in _csv.DictReader(fh):
+            if r.get("category") == HOTEL_CATEGORY:
+                geo[normalize_listing_key(r.get("name", ""))] = r
+    row = geo.get(want, {})
+
+    retrieval = _json.loads(Path(args.after_retrieval).read_text(encoding="utf-8-sig"))
+    failure = OC.AutomatedFailure(
+        status=str(retrieval.get("status") or ""),
+        reason=str(retrieval.get("failure_reason") or ""),
+        artifact_path=args.after_retrieval)
+
+    job = OC.CaptureJob(
+        assignment_id="attest-%s" % cand.listing_key.replace(" ", "-")[:48],
+        listing_key=cand.listing_key, listing_name=cand.name,
+        expected_address=cand.address, expected_city=row.get("city", ""),
+        expected_state=row.get("state", ""), expected_postal_code=row.get("postal_code", ""),
+        expected_phone=cand.phone,
+        official_url=row.get("website_url", "") or cand.source_url,
+        alternate_urls=tuple(args.alternate_url), failure_reason=failure.reason,
+        retrieval_status=failure.status)
+
+    payload = _json.loads(Path(args.capture).read_text(encoding="utf-8-sig"))
+    ingestion = OC.ingest_capture(payload, job, observed_at=args.observed_at)
+
+    print("=== PTF-WORKERS-006 manual official attestation ===")
+    print("  model calls made           : 0")
+    print("  credential consulted       : none")
+    print("  production data written    : none")
+    print("  hotel                      : %s" % cand.name)
+    print("  capture status             : %s" % ingestion.status)
+    if not ingestion.accepted:
+        print("  REFUSED                    : %s" % ingestion.failure_reason)
+        return 4
+
+    store = PilotStore(Path(args.output_root) if args.output_root else None)
+    cas = ArtifactStoreRepository(store.root / _C.CAS_SUBDIR)
+    shots = [OC.store_screenshot(cas, Path(p).read_bytes(), note=Path(p).name)
+             for p in args.screenshot]
+
+    ref = None
+    if args.model_research:
+        mr = _json.loads(Path(args.model_research).read_text(encoding="utf-8-sig"))
+        ref = OC.ModelResearchRef(urn=str(mr.get("source_type", "")) and
+                                  "urn:atlas:model-research-report:(linked)",
+                                  report_hash="")
+
+    affirmation = OC.OperatorAffirmation(
+        operator_id=args.operator_id, attested_at=args.attested_at,
+        address_confirmed=args.address_confirmed, address_observed=args.address_observed,
+        phone_confirmed=args.phone_confirmed, phone_observed=args.phone_observed)
+
+    try:
+        attestation = OC.build_attestation(
+            ingestion=ingestion, job=job, affirmation=affirmation,
+            automated_failure=failure, screenshots=shots,
+            observed_at=args.observed_at, observed_timezone=args.timezone,
+            model_research_ref=ref)
+    except OC.AttestationError as exc:
+        print("  ATTESTATION REFUSED        : %s" % exc)
+        return 4
+
+    print("  attestation id             : %s" % attestation.attestation_id)
+    print("  attestation hash           : %s" % attestation.attestation_hash()[:39])
+    print("  capture method             : %s" % attestation.capture_method)
+    print("  source type                : %s" % attestation.source_type)
+    print("  operator                   : %s at %s"
+          % (affirmation.operator_id, affirmation.attested_at))
+    print("  screenshots                : %d (CAS-referenced)" % len(shots))
+    print("  approval state             : %s" % attestation.approval.state)
+    print("  publishable                : %s" % attestation.publishable)
+    print("")
+    print("  preserved statements (nothing resolved):")
+    for s in attestation.statements:
+        print("     [%-20s @%6d] %s" % (s["topic"], s["char_start"], s["quote"][:100]))
+    if attestation.contradictions:
+        print("  CONTRADICTIONS PRESERVED   : %s" % ", ".join(attestation.contradictions))
+    if attestation.fee_amounts:
+        print("  fee amounts                : %s" % ", ".join(attestation.fee_amounts))
+
+    store.write_per_hotel(ATTESTATIONS, attestation.attestation_id, attestation.to_dict())
+    print("  artifact                   : %s" % (store.root / ATTESTATIONS))
+    print("")
+    print("  NOT PUBLISHABLE until approve-attestation records an explicit approval.")
+    if args.json:
+        print(_json.dumps(attestation.to_dict(), indent=2, sort_keys=True))
+    return 0
+
+
+def _cmd_approve_attestation(args) -> int:
+    """PTF-WORKERS-006: the separate, explicit approval act."""
+    import json as _json
+
+    from services.research_workers import operator_capture as OC
+
+    from services.research_workers.columbus_pilot import ATTESTATIONS, PilotStore
+
+    # Confinement. This command WRITES, and its target is operator-supplied, so
+    # it must be proven to live inside the gitignored attestation store before a
+    # single byte is written -- otherwise a mistyped path would overwrite a
+    # tracked repository file with attestation JSON. Every other write in this
+    # CLI already goes through PilotStore, which confines by construction.
+    store = PilotStore(Path(args.output_root) if args.output_root else None)
+    allowed_root = (store.root / ATTESTATIONS).resolve()
+    path = Path(args.attestation).resolve()
+    if allowed_root != path.parent:
+        sys.stderr.write(
+            "refusing to write outside the attestation store\n"
+            "  target : %s\n  allowed: %s\n" % (path, allowed_root))
+        return 2
+    if not path.is_file():
+        sys.stderr.write("no such attestation artifact: %s\n" % path)
+        return 2
+
+    record = _json.loads(path.read_text(encoding="utf-8-sig"))
+    before_hash = record.get("attestation_hash", "")
+
+    # Verify-then-approve, through the SAME function the tests exercise.
+    try:
+        record = OC.approve_attestation_record(
+            record, approver_id=args.approver_id, approved_at=args.approved_at,
+            approval_record_id=args.record_id, reject=args.reject)
+    except OC.AttestationError as exc:
+        sys.stderr.write("approval refused: %s\n" % exc)
+        return 4
+
+    print("=== PTF-WORKERS-006 attestation approval ===")
+    print("  attested content verified  : hash matches the stored artifact")
+    print("  attestation id             : %s" % record.get("attestation_id"))
+    print("  attested by                : %s" % record.get("affirmation", {}).get("operator_id"))
+    print("  approved by                : %s" % args.approver_id)
+    print("  approval record id         : %s" % args.record_id)
+    print("  state                      : %s" % record["approval"]["state"])
+    print("  attestation hash           : %s" % before_hash[:39])
+    print("     (unchanged by approval -- the approval provably applies to the")
+    print("      exact content that was attested)")
+    print("  publishable                : %s" % record["publishable"])
+    path.write_text(_json.dumps(record, indent=2, sort_keys=True), encoding="utf-8")
+    print("  artifact updated           : %s" % path)
+    return 0
+
+
+def _cmd_retrieve_rendered(args) -> int:
+    """PTF-WORKERS-005: browser-render ONE official URL into real evidence.
+
+    Zero model calls, zero credential reads, zero spend -- no provider is built
+    anywhere on this path. Writes only under the gitignored pilot root's
+    ``rendered_retrieval/`` subdir.
+    """
+    import csv as _csv
+    import json as _json
+
+    from repositories.artifact_store_repository import ArtifactStoreRepository
+    from scripts.pettripfinder.importer import constants as _C
+    from scripts.pettripfinder.importer.browser_fetch import (
+        BrowserPageFetcher, PlaywrightBrowserDriver,
+    )
+    from services.research_workers import rendered_capture as RC
+    from services.research_workers import source_retrieval as SR
+    from services.research_workers import web_research as WR
+    from services.research_workers.columbus_pilot import (
+        DEFAULT_SEED, HOTEL_CATEGORY, RENDERED_RETRIEVAL, PilotStore,
+        load_columbus_hotel_candidates, normalize_listing_key,
+    )
+
+    candidates = load_columbus_hotel_candidates(args.seed)
+    by_key = {normalize_listing_key(c.name): c for c in candidates}
+    want = normalize_listing_key(args.hotel)
+    if want not in by_key:
+        sys.stderr.write("no such hotel in seed inventory: %r (never substitutes)\n" % args.hotel)
+        return 2
+    cand = by_key[want]
+
+    geo = {}
+    seed_path = Path(args.seed) if args.seed else DEFAULT_SEED
+    with seed_path.open(encoding="utf-8") as fh:
+        for row in _csv.DictReader(fh):
+            if row.get("category") == HOTEL_CATEGORY:
+                geo[normalize_listing_key(row.get("name", ""))] = row
+    row = geo.get(want, {})
+    website = row.get("website_url", "") or cand.source_url
+
+    allowed = WR.official_domains_for(website, args.allow_domain)
+    expected = SR.ExpectedEntity(
+        listing_key=cand.listing_key, listing_name=cand.name, address=cand.address,
+        city=row.get("city", ""), state=row.get("state", ""),
+        postal_code=row.get("postal_code", ""), phone=cand.phone, website_url=website)
+
+    print("=== PTF-WORKERS-005 browser-rendered official-source retrieval ===")
+    print("  model calls made           : 0")
+    print("  spend                      : $0.00")
+    print("  credential consulted       : none")
+    print("  production data written    : none")
+    print("  hotel                      : %s" % cand.name)
+    print("  target URL                 : %s" % args.url)
+    print("  official domain allowlist  : %s" % ", ".join(allowed))
+    print("  posture                    : detect-and-classify; NO evasion of any kind")
+    print("")
+
+    if not args.live:
+        print("  DRY RUN -- no browser was launched and no request was sent.")
+        print("  Re-run with --live to perform the rendered capture.")
+        return 0
+
+    driver = PlaywrightBrowserDriver(headless=not args.headed)
+    fetcher = BrowserPageFetcher(driver, allowed_domains=allowed,
+                                 expand_content=not args.no_expand)
+    store = PilotStore(Path(args.output_root) if args.output_root else None)
+    cas = ArtifactStoreRepository(store.root / _C.CAS_SUBDIR)
+
+    result = RC.capture_rendered_source(
+        expected=expected, child_url=args.url, fetcher=fetcher, cas=cas,
+        observed_at=args.observed_at,
+        assignment_id="rend-%s" % cand.listing_key.replace(" ", "-")[:50])
+
+    out = result.outcome
+    print("  status                     : %s" % out.status)
+    print("  identity                   : %s (basis=%s)" % (out.identity or "-", out.identity_basis))
+    if result.parent_url:
+        print("  parent page                : %s -> %s"
+              % (result.parent_url, result.parent_identity or "-"))
+    if result.inheritance_failures:
+        print("  inheritance refused        : %s" % ", ".join(result.inheritance_failures))
+    print("  final URL                  : %s" % (out.final_url or "-"))
+    print("  redirect hops              : %d" % len(out.redirect_chain))
+    print("  fetch status               : %s" % (out.importer_fetch_status or "-"))
+    if out.failure_reason:
+        print("  failure reason             : %s" % out.failure_reason)
+    cap = result.child_capture
+    if cap:
+        print("")
+        print("  raw_transport_hash         : %s" % (cap.raw_transport_hash or "-")[:32])
+        print("  rendered_dom_hash          : %s" % (cap.rendered_dom_hash or "-")[:32])
+        print("     (point-in-time attestation, NOT a reproducibility guarantee)")
+        print("  normalized_text_hash       : %s" % (out.normalized_text_hash or "-")[:32])
+        print("  normalized text bytes      : %d" % out.normalized_text_bytes)
+        print("  render stability divergence: %.4f (stable=%s)"
+              % (cap.stability_divergence, cap.stable))
+        print("  consent banner detected    : %s" % cap.consent_banner_detected)
+        print("  interactions performed     : %d" % len(cap.interactions))
+    print("")
+    print("  policy statements preserved (ALL matches, no first-match-wins):")
+    for s in result.statements:
+        print("     [%-20s @%6d] %s" % (s.topic, s.char_start, s.quote[:110]))
+    if not result.statements:
+        print("     (none)")
+    if result.contradictions:
+        print("")
+        print("  CONTRADICTIONS PRESERVED (never resolved here):")
+        for c in result.contradictions:
+            print("     %s" % c)
+    print("")
+    print("  READY FOR EXTRACTION       : %s" % out.ready_for_extraction)
+    if out.source_document is not None:
+        print("  source_type                : %s" % out.source_document.source_type)
+
+    store.write_per_hotel(RENDERED_RETRIEVAL, cand.listing_key.replace(" ", "-")[:60],
+                          result.to_dict())
+    print("  artifact                   : %s" % (store.root / RENDERED_RETRIEVAL))
+    if args.json:
+        print(_json.dumps(result.to_dict(), indent=2, sort_keys=True))
+    return 0
+
+
+def _cmd_web_research(args) -> int:
+    """PTF-WORKERS-004: locate a property's official pet-policy page.
+
+    ESCALATION ONLY. This command refuses to run for a hotel whose official
+    page was already retrieved directly -- ``--after-retrieval`` must point at
+    a retrieval artifact showing a genuine failure. Direct retrieval is free
+    and produces stronger evidence, so paying a model to duplicate it is never
+    the right move.
+
+    Dry-run by default. The paid path additionally requires --live,
+    --confirm-spend, the $5 web-research spend token, and a complete operator-
+    supplied price list -- and it always prints the exact one-hotel maximum
+    cost BEFORE the call is made.
+    """
+    import csv as _csv
+    import json as _json
+
+    from services.research_workers import research_escalation as ESC
+    from services.research_workers import web_research as WR
+    from services.research_workers.columbus_pilot import (
+        DEFAULT_SEED, HOTEL_CATEGORY, WEB_RESEARCH, PilotStore,
+        load_columbus_hotel_candidates, normalize_listing_key,
+    )
+    from services.research_workers.providers import (
+        LiveAuthorization, web_research_spend_authorization_present,
+    )
+
+    candidates = load_columbus_hotel_candidates(args.seed)
+    by_key = {normalize_listing_key(c.name): c for c in candidates}
+    want = normalize_listing_key(args.hotel)
+    if want not in by_key:
+        sys.stderr.write("no such hotel in seed inventory: %r (never substitutes)\n" % args.hotel)
+        return 2
+    cand = by_key[want]
+
+    geo = {}
+    seed_path = Path(args.seed) if args.seed else DEFAULT_SEED
+    with seed_path.open(encoding="utf-8") as fh:
+        for row in _csv.DictReader(fh):
+            if row.get("category") != HOTEL_CATEGORY:
+                continue
+            geo[normalize_listing_key(row.get("name", ""))] = row
+    row = geo.get(want, {})
+    website = row.get("website_url", "") or cand.source_url
+
+    # ---- ESCALATION GATE (before anything else costs anything) ------------ #
+    # utf-8-sig, not utf-8: this repo's own artifacts are BOM-free, but an
+    # operator hand-writing the file on Windows gets a BOM by default and the
+    # resulting failure ("Unexpected UTF-8 BOM") looks nothing like its cause.
+    # utf-8-sig reads both.
+    retrieval = _json.loads(Path(args.after_retrieval).read_text(encoding="utf-8-sig"))
+    escalation_reason = ESC.require_escalation(retrieval, listing_key=cand.listing_key)
+
+    allowed = WR.official_domains_for(website, args.allow_domain)
+    caps = WR.WebResearchCaps(
+        max_tool_calls=args.max_tool_calls, max_output_tokens=args.max_output_tokens,
+        search_context_size=args.search_context_size, reasoning_effort=args.reasoning_effort,
+        assumed_prompt_tokens=args.assumed_prompt_tokens,
+        assumed_tokens_per_search_call=args.assumed_tokens_per_search_call,
+        timeout_s=args.timeout, max_retries=args.max_retries)
+    caps.validate()
+
+    priced = (args.price_input_per_1k is not None and args.price_output_per_1k is not None)
+    pricing = WR.WebResearchPricing(
+        input_per_1k=args.price_input_per_1k or 0.0,
+        output_per_1k=args.price_output_per_1k or 0.0,
+        per_tool_call_usd=args.price_per_tool_call or 0.0) if priced else None
+    # Tier selection is by COMPUTED cost among QUALIFIED tiers. Only the
+    # flagship is qualified today, so it is what the ladder resolves to -- but
+    # the selection runs for real, so the moment a cheaper tier is benchmarked
+    # and priced it wins without a code change here.
+    tier, max_cost = (ESC.select_research_tier(
+        pricing_by_tier={ESC.TIER_FLAGSHIP.key: pricing}, caps=caps)
+        if pricing is not None else (None, None))
+
+    print("=== PTF-WORKERS-004 web research (Responses API + web_search) ===")
+    print("  NOT OpenAI deep research   : dedicated deep-research models are 404 on this project")
+    print("  ESCALATION ONLY            : %s" % escalation_reason)
+    print("  prior retrieval status     : %s (ready_for_extraction=%s)"
+          % (retrieval.get("status", "-"), retrieval.get("ready_for_extraction")))
+    print("  hotel                      : %s" % cand.name)
+    print("  seed website               : %s" % (website or "-"))
+    print("  official domain allowlist  : %s" % (", ".join(allowed) or "(none)"))
+    print("  selected tier              : %s" % (tier.key if tier else "(unpriced)"))
+    print("  model                      : %s" % (tier.model if tier else WR.APPROVED_MODEL))
+    print("  provenance of any output   : %s (never official evidence)"
+          % V.SOURCE_MODEL_RESEARCH_REPORT)
+    print("  routing cap                : forced REVIEW, never READY")
+    print("")
+    print("  -- provider ladder (cheapest qualified tier wins) --")
+    for t in ESC.PROVIDER_LADDER:
+        print("     %-26s %-18s %-18s %s"
+              % (t.key, t.model, t.qualification, "SELECTABLE" if t.selectable else "blocked"))
+    if ESC.PENDING_BENCHMARK_TIERS:
+        print("     pending benchmark: %s"
+              % ", ".join(t.model for t in ESC.PENDING_BENCHMARK_TIERS))
+    print("")
+    print("  -- server-enforced bounds --")
+    print("  max_tool_calls             : %d" % caps.max_tool_calls)
+    print("  max_output_tokens          : %d" % caps.max_output_tokens)
+    print("  search_context_size        : %s" % caps.search_context_size)
+    print("  -- assumed bound (no API parameter caps retrieved-context size) --")
+    print("  assumed prompt tokens      : %d" % caps.assumed_prompt_tokens)
+    print("  assumed tokens per search  : %d" % caps.assumed_tokens_per_search_call)
+    print("  => worst-case input tokens : %d" % caps.max_input_tokens)
+    print("")
+    if pricing is None:
+        print("  EXACT ONE-HOTEL MAX COST   : UNKNOWN -- no pricing supplied")
+        print("     (pass --price-input-per-1k and --price-output-per-1k; this")
+        print("      codebase never guesses a price, per pricing.py's standing rule)")
+    else:
+        print("  EXACT ONE-HOTEL MAX COST   : $%.2f" % max_cost)
+        print("     input  %d tok @ $%.4f/1k = $%.4f"
+              % (caps.max_input_tokens, pricing.input_per_1k,
+                 caps.max_input_tokens / 1000.0 * pricing.input_per_1k))
+        print("     output %d tok @ $%.4f/1k = $%.4f"
+              % (caps.max_output_tokens, pricing.output_per_1k,
+                 caps.max_output_tokens / 1000.0 * pricing.output_per_1k))
+        print("     search %d calls @ $%.4f    = $%.4f"
+              % (caps.max_tool_calls, pricing.per_tool_call_usd,
+                 caps.max_tool_calls * pricing.per_tool_call_usd))
+    print("  $5 spend token present     : %s" % web_research_spend_authorization_present())
+    print("")
+
+    if not (args.live and args.confirm_spend):
+        print("  DRY RUN -- no request was sent, no credential was read, $0.00 spent.")
+        print("  Re-run with --live --confirm-spend (plus prices) to execute.")
+        if args.json:
+            print(_json.dumps({"hotel": cand.name, "allowed_domains": list(allowed),
+                               "exact_max_cost_usd": max_cost,
+                               "escalation_reason": escalation_reason,
+                               "ladder": ESC.ladder_report(),
+                               "dry_run": True}, indent=2, sort_keys=True))
+        return 0
+
+    if pricing is None:
+        raise SpendingAirlockError(
+            "a live run requires --price-input-per-1k and --price-output-per-1k so the "
+            "exact maximum cost is known before spending")
+
+    if tier.model != WR.APPROVED_MODEL:
+        # The ladder selected a tier this adapter cannot yet drive. Refusing is
+        # correct: qualifying a cheaper model is a benchmark task, not a
+        # silent substitution at call time.
+        raise SpendingAirlockError(
+            "tier %r selects model %r, which this adapter does not implement yet "
+            "(approved: %r). Benchmark and wire the tier before selecting it."
+            % (tier.key, tier.model, WR.APPROVED_MODEL))
+    auth = LiveAuthorization(live=True, confirm_spend=True, provider="openai-web-research",
+                             model=tier.model, api_key_env=args.api_key_env)
+    provider, confirmed_max = WR.build_web_research_provider(
+        auth, caps=caps, pricing=pricing)          # raises unless BOTH airlocks clear
+    print("  airlocks cleared. authorized maximum for this ONE call: $%.2f" % confirmed_max)
+
+    report = provider.research(
+        listing_key=cand.listing_key, listing_name=cand.name, address=cand.address,
+        city=row.get("city", ""), state=row.get("state", ""),
+        allowed_domains=allowed, caps=caps, observed_at=args.observed_at)
+
+    spent = WR.actual_cost_usd(report.usage, pricing)
+    print("")
+    print("  ok                         : %s" % report.ok)
+    print("  request id                 : %s" % (report.request_id or "-"))
+    print("  http status                : %s" % (report.http_status or "-"))
+    print("  response status            : %s" % (report.response_status or "-"))
+    if report.incomplete_reason:
+        print("  INCOMPLETE                 : %s" % report.incomplete_reason)
+    if not report.ok:
+        print("  error                      : %s" % report.error)
+    print("  searches performed         : %d (cap %d)"
+          % (report.usage.search_calls, caps.max_tool_calls))
+    print("  tokens in/out              : %d / %d"
+          % (report.usage.input_tokens, report.usage.output_tokens))
+    print("  ACTUAL METERED COST        : $%.6f  (ceiling was $%.2f)" % (spent, confirmed_max))
+    print("  report text bytes          : %d" % len(report.report_text.encode("utf-8")))
+    print("")
+    print("  discovered official URLs (tool citations only, allowlist-checked):")
+    for d in report.discovered_urls:
+        print("     [%s] %s" % (d.origin, d.url))
+    if not report.discovered_urls:
+        print("     (none)")
+    if report.rejected_urls:
+        print("  rejected URLs:")
+        for r in report.rejected_urls:
+            print("     %s  <- %s" % (r["url"], r["reason"]))
+    print("")
+    print("  NEXT STEP (not performed here): feed a discovered URL to")
+    print("    retrieve-official-sources, which fetches and hashes the real page.")
+    print("    The report above is NOT evidence and cannot publish a fact.")
+
+    if args.output_root or args.write:
+        store = PilotStore(Path(args.output_root) if args.output_root else None)
+        store.write_per_hotel(WEB_RESEARCH, cand.listing_key.replace(" ", "-")[:60],
+                              report.to_dict())
+        print("  artifact written under     : %s" % store.root)
+    if args.json:
+        print(_json.dumps(report.to_dict(), indent=2, sort_keys=True))
+    return 0
+
+
 def _cmd_manifest(args) -> int:
     from services.research_workers.manifest import validate_manifest, verify_evidence_sync
     sync = verify_evidence_sync(args.benchmark)
@@ -461,6 +1071,137 @@ def build_parser() -> argparse.ArgumentParser:
     cp.add_argument("--output-root", default=None, help="gitignored pilot root (default under data/worker_runs)")
     cp.add_argument("--json", action="store_true", help="print full JSON")
     cp.set_defaults(func=_cmd_columbus_pilot)
+
+    # PTF-WORKERS-003 -- official-source retrieval. Deliberately a SEPARATE
+    # subcommand from the model pilot: retrieval is free, credential-free and
+    # airlock-free by construction, so it must not sit behind (or accidentally
+    # trigger) the paid path.
+    ret = sub.add_parser(
+        "retrieve-official-sources",
+        help="PTF-WORKERS-003 fetch official hotel pages into SourceDocuments "
+             "(retrieval only; zero model calls, no API key, no spend)")
+    ret.add_argument("--seed", default=None,
+                     help="seed inventory CSV (default: committed pettripfinder seed)")
+    ret.add_argument("--hotel", action="append", default=[], required=True,
+                     help="exact hotel name or listing key; repeatable; never substitutes")
+    ret.add_argument("--retrieve-only", action="store_true", default=True,
+                     help="(default, and currently the only mode) fetch + verify, no model call")
+    ret.add_argument("--observed-at", required=True,
+                     help="explicit observation date (no clock is read)")
+    ret.add_argument("--output-root", default=None,
+                     help="gitignored pilot root (default under data/worker_runs)")
+    ret.add_argument("--offline-fixture", action="append", default=[],
+                     help="URL=path fixture for deterministic offline runs; repeatable")
+    ret.add_argument("--json", action="store_true", help="print full JSON")
+    ret.set_defaults(func=_cmd_retrieve_official_sources)
+
+    # PTF-WORKERS-004 -- web research (Responses API + web_search on gpt-5.4).
+    # A separate subcommand behind a separate $5 airlock. Deliberately NOT
+    # folded into the model pilot or the retrieval command: retrieval must stay
+    # free and credential-free, and the pilot's $1 gate must stay $1.
+    wr = sub.add_parser(
+        "web-research",
+        help="PTF-WORKERS-004 find a hotel's official pet-policy URL via web "
+             "search grounding (dry-run default; NOT OpenAI deep research)")
+    wr.add_argument("--seed", default=None, help="seed inventory CSV (default: committed seed)")
+    wr.add_argument("--hotel", required=True,
+                    help="exact hotel name or listing key; never substitutes")
+    wr.add_argument("--allow-domain", action="append", default=[],
+                    help="additional official domain to permit (e.g. ihg.com); repeatable")
+    wr.add_argument("--after-retrieval", required=True,
+                    help="path to this hotel's retrieval artifact from "
+                         "retrieve-official-sources. ESCALATION ONLY: the run is "
+                         "refused unless that artifact shows direct retrieval failed")
+    wr.add_argument("--live", action="store_true", help="authorize the single paid call")
+    wr.add_argument("--confirm-spend", action="store_true", help="second required confirmation")
+    wr.add_argument("--api-key-env", default="OPENAI_API_KEY",
+                    help="env var holding the credential (value is never logged)")
+    wr.add_argument("--max-tool-calls", type=int, default=4, help="server-enforced search cap")
+    wr.add_argument("--max-output-tokens", type=int, default=3000)
+    wr.add_argument("--search-context-size", default="medium", choices=list(_WR_CONTEXT_SIZES))
+    wr.add_argument("--reasoning-effort", default="medium", choices=list(_WR_EFFORTS))
+    wr.add_argument("--assumed-prompt-tokens", type=int, default=1500)
+    wr.add_argument("--assumed-tokens-per-search-call", type=int, default=12000)
+    wr.add_argument("--price-input-per-1k", type=float, default=None,
+                    help="USD per 1k input tokens (required for --live; never guessed)")
+    wr.add_argument("--price-output-per-1k", type=float, default=None,
+                    help="USD per 1k output tokens (required for --live; never guessed)")
+    wr.add_argument("--price-per-tool-call", type=float, default=0.0,
+                    help="USD per web_search call, if the operator's plan charges one")
+    wr.add_argument("--timeout", type=float, default=300.0)
+    wr.add_argument("--max-retries", type=int, default=0)
+    wr.add_argument("--observed-at", default="", help="explicit observation date (no clock is read)")
+    wr.add_argument("--output-root", default=None, help="gitignored artifact root")
+    wr.add_argument("--write", action="store_true", help="persist the report artifact")
+    wr.add_argument("--json", action="store_true", help="print full JSON")
+    wr.set_defaults(func=_cmd_web_research)
+
+    # PTF-WORKERS-005 -- browser-rendered retrieval. Like the static retrieval
+    # command this is free, credential-free and airlock-free by construction:
+    # it builds no provider, so no paid path can be reached from here.
+    rr = sub.add_parser(
+        "retrieve-rendered",
+        help="PTF-WORKERS-005 browser-render ONE official URL into hash-bound "
+             "evidence (dry-run default; zero model calls, no API key, no spend)")
+    rr.add_argument("--seed", default=None, help="seed inventory CSV (default: committed seed)")
+    rr.add_argument("--hotel", required=True, help="exact hotel name or listing key")
+    rr.add_argument("--url", required=True, help="exact official URL to render")
+    rr.add_argument("--allow-domain", action="append", default=[],
+                    help="additional official domain to permit; repeatable")
+    rr.add_argument("--live", action="store_true",
+                    help="actually launch the browser (dry-run without it)")
+    rr.add_argument("--headed", action="store_true", help="run Chromium headed (debugging)")
+    rr.add_argument("--no-expand", action="store_true",
+                    help="skip bounded accordion expansion")
+    rr.add_argument("--observed-at", required=True,
+                    help="explicit observation date (no clock is read)")
+    rr.add_argument("--output-root", default=None, help="gitignored artifact root")
+    rr.add_argument("--json", action="store_true", help="print full JSON")
+    rr.set_defaults(func=_cmd_retrieve_rendered)
+
+    # PTF-WORKERS-006 -- manual official attestation. Two SEPARATE commands,
+    # because attesting and approving are two separate human decisions.
+    at = sub.add_parser(
+        "attest-official-page",
+        help="PTF-WORKERS-006 record a PENDING operator attestation for a page "
+             "Atlas cannot retrieve (no network, no model call, no spend)")
+    at.add_argument("--seed", default=None)
+    at.add_argument("--hotel", required=True)
+    at.add_argument("--capture", required=True,
+                    help="operator page-capture JSON (ptf-official-capture/1.0)")
+    at.add_argument("--screenshot", action="append", default=[], required=True,
+                    help="screenshot image path; repeatable; at least one required")
+    at.add_argument("--after-retrieval", required=True,
+                    help="artifact proving automated retrieval failed")
+    at.add_argument("--operator-id", required=True,
+                    help="stable non-sensitive handle of the person who captured")
+    at.add_argument("--attested-at", required=True)
+    at.add_argument("--observed-at", required=True)
+    at.add_argument("--timezone", required=True, help="observation timezone, e.g. America/New_York")
+    at.add_argument("--address-confirmed", action="store_true")
+    at.add_argument("--address-observed", default="")
+    at.add_argument("--phone-confirmed", action="store_true")
+    at.add_argument("--phone-observed", default="")
+    at.add_argument("--alternate-url", action="append", default=[])
+    at.add_argument("--model-research", default=None,
+                    help="prior web-research artifact to REFERENCE (never a content source)")
+    at.add_argument("--output-root", default=None)
+    at.add_argument("--json", action="store_true")
+    at.set_defaults(func=_cmd_attest_official_page)
+
+    ap = sub.add_parser(
+        "approve-attestation",
+        help="PTF-WORKERS-006 explicitly approve (or reject) a PENDING attestation")
+    ap.add_argument("--attestation", required=True, help="path to the attestation artifact")
+    ap.add_argument("--approver-id", required=True,
+                    help="stable non-sensitive handle of the approver")
+    ap.add_argument("--approved-at", required=True)
+    ap.add_argument("--record-id", required=True, help="approval record id")
+    ap.add_argument("--reject", action="store_true", help="record a rejection instead")
+    ap.add_argument("--output-root", default=None,
+                    help="gitignored artifact root; the attestation MUST live "
+                         "under its attestations/ subdir")
+    ap.set_defaults(func=_cmd_approve_attestation)
     return parser
 
 

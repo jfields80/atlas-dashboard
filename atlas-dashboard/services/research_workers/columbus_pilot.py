@@ -212,8 +212,22 @@ MODEL_RESULTS = "model_results"
 VALIDATED_RESULTS = "validated_results"
 ROUTING_ENVELOPES = "routing_envelopes"
 FAILURE_DIAGNOSTICS = "failure_diagnostics"
+# PTF-WORKERS-003: official-source retrieval artifacts (fetch outcome,
+# identity, hashes, policy candidates). Additive -- the confinement,
+# atomicity and filename rules of PilotStore apply unchanged.
+RETRIEVAL = "retrieval"
+# PTF-WORKERS-004: web-research reports (model prose + tool citations). Kept in
+# their OWN subdir, never mixed into `retrieval/`, so an audit can tell at a
+# glance which artifacts are fetched pages and which are model output.
+WEB_RESEARCH = "web_research"
+# PTF-WORKERS-005: browser-rendered captures. Separate from `retrieval/` so an
+# auditor can tell a static fetch from a rendered one by directory alone.
+RENDERED_RETRIEVAL = "rendered_retrieval"
+# PTF-WORKERS-006: operator attestations for pages Atlas cannot retrieve.
+ATTESTATIONS = "attestations"
 _PER_HOTEL_SUBDIRS = (ASSIGNMENTS, MODEL_RESULTS, VALIDATED_RESULTS,
-                      ROUTING_ENVELOPES, FAILURE_DIAGNOSTICS)
+                      ROUTING_ENVELOPES, FAILURE_DIAGNOSTICS, RETRIEVAL, WEB_RESEARCH,
+                      RENDERED_RETRIEVAL, ATTESTATIONS)
 _TOP_FILES = ("operator_summary", "candidate_export")
 
 # Trees this pilot may NEVER write to (defensive; it owns none of these).
