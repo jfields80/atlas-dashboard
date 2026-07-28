@@ -85,8 +85,14 @@ def approval(**over):
 
 
 def ctx(**over):
+    """Gate-1 records are keyed by (listing_key, candidate_identity)."""
+    raw = over.pop("g1_manual_recs", [g1_record()])
+    safe_raw = over.pop("g1_safe_recs", [])
     c = {
-        "g1_safe": {}, "g1_manual": {KEY: g1_record()},
+        "g1_safe": PWC.index_gate1(safe_raw),
+        "g1_manual": PWC.index_gate1(raw),
+        "g1_keys_safe": {r["listing_key"] for r in safe_raw},
+        "g1_keys_manual": {r["listing_key"] for r in raw},
         "committed_keys": set(), "corpus_ready": set(),
         "prod_display": {KEY: NAME}, "approvals": {"approvals": []},
     }
@@ -174,7 +180,7 @@ def test_5_approval_for_one_hotel_cannot_authorize_another():
 
 
 def test_5b_a_launch_safe_record_cannot_use_the_tiered_decision():
-    c = ctx(g1_safe={KEY: g1_record(final_route="READY")}, g1_manual={})
+    c = ctx(g1_safe_recs=[g1_record(final_route="READY")], g1_manual_recs=[])
     res = run(c=c)
     assert res["excluded"] is True
     assert "launch_safe_record_needs_standard_approval" in res["failures"]
@@ -185,8 +191,8 @@ def test_5b_a_launch_safe_record_cannot_use_the_tiered_decision():
 # --------------------------------------------------------------------------- #
 
 def test_6_approval_cannot_clear_a_contradiction():
-    c = ctx(g1_manual={KEY: g1_record(
-        reason_codes=["STRUCTURED_FEE_REQUIRED", "CONTRADICTORY_OFFICIAL_SOURCES"])})
+    c = ctx(g1_manual_recs=[g1_record(
+        reason_codes=["STRUCTURED_FEE_REQUIRED", "CONTRADICTORY_OFFICIAL_SOURCES"])])
     res = run(c=c)
     assert res["excluded"] is True
     assert "contradiction" in res["failures"]
@@ -194,24 +200,24 @@ def test_6_approval_cannot_clear_a_contradiction():
 
 def test_7_approval_cannot_clear_source_authority_ambiguity():
     """Exactly the Red Roof West Hilliard case."""
-    c = ctx(g1_manual={KEY: g1_record(
-        reason_codes=["STRUCTURED_FEE_REQUIRED", "SOURCE_AUTHORITY_AMBIGUITY"])})
+    c = ctx(g1_manual_recs=[g1_record(
+        reason_codes=["STRUCTURED_FEE_REQUIRED", "SOURCE_AUTHORITY_AMBIGUITY"])])
     res = run(c=c)
     assert res["excluded"] is True
     assert "source_authority_ambiguity" in res["failures"]
 
 
 def test_7b_approval_cannot_clear_incomplete_extraction():
-    c = ctx(g1_manual={KEY: g1_record(
-        reason_codes=["STRUCTURED_FEE_REQUIRED", "INCOMPLETE_EXTRACTION"])})
+    c = ctx(g1_manual_recs=[g1_record(
+        reason_codes=["STRUCTURED_FEE_REQUIRED", "INCOMPLETE_EXTRACTION"])])
     res = run(c=c)
     assert res["excluded"] is True
     assert "incomplete_extraction" in res["failures"]
 
 
 def test_7c_an_unknown_reason_code_blocks_rather_than_slipping_through():
-    c = ctx(g1_manual={KEY: g1_record(
-        reason_codes=["STRUCTURED_FEE_REQUIRED", "SOME_FUTURE_REASON"])})
+    c = ctx(g1_manual_recs=[g1_record(
+        reason_codes=["STRUCTURED_FEE_REQUIRED", "SOME_FUTURE_REASON"])])
     res = run(c=c)
     assert res["excluded"] is True
     assert any(f.startswith("unwaived_reason_codes") for f in res["failures"])
@@ -235,14 +241,14 @@ def test_7e_never_waivable_set_is_disjoint_from_waivable():
 
 def test_8_changed_evidence_invalidates_the_approval():
     """A different candidate_identity means the evidence moved underneath us."""
-    c = ctx(g1_manual={KEY: g1_record(candidate_identity="sha256:" + "c" * 64)})
+    c = ctx(g1_manual_recs=[g1_record(candidate_identity="sha256:" + "c" * 64)])
     res = run(c=c)
     assert res["excluded"] is True
     assert "stale_result_hash" in res["failures"]
 
 
 def test_8b_waiver_requires_real_multi_amount_evidence():
-    c = ctx(g1_manual={KEY: g1_record(multi_amount_detected=False, multi_amount_values=[])})
+    c = ctx(g1_manual_recs=[g1_record(multi_amount_detected=False, multi_amount_values=[])])
     res = run(c=c)
     assert res["excluded"] is True
     assert "tiered_fee_waiver_without_multi_amount_evidence" in res["failures"]
@@ -253,7 +259,7 @@ def test_8c_waiver_does_not_apply_when_a_scalar_fee_exists():
         {"field_name": "pet_fee", "value": "$15", "evidence_quote": "$15 per night",
          "source_url": "https://www.redroof.com/why-red-roof/pet-policy",
          "source_type": "OFFICIAL_BRAND"}]
-    res = run(c=ctx(g1_manual={KEY: g1_record(supported_facts=facts)}))
+    res = run(c=ctx(g1_manual_recs=[g1_record(supported_facts=facts)]))
     assert "scalar_pet_fee_present_waiver_not_applicable" in res["failures"]
 
 
@@ -287,7 +293,7 @@ def test_10_standard_approvals_behave_exactly_as_before():
     a = approval(decision=PA.DECISION_APPROVED, gate1_route="READY")
     for f in PA.TIERED_FEE_FIELDS:
         a.pop(f, None)
-    res = PWC.evaluate(a, ctx(g1_safe={KEY: safe}, g1_manual={}), [KEY])
+    res = PWC.evaluate(a, ctx(g1_safe_recs=[safe], g1_manual_recs=[]), [KEY])
     assert res["excluded"] is False, res["failures"]
     assert "tiered_fee" not in res["mapped_corpus_candidate"]["worker_provenance"]
 
@@ -308,9 +314,9 @@ def test_10c_collision_gates_still_apply_to_a_tiered_approval():
 
 
 def test_10d_evidence_and_source_gates_still_apply():
-    res = run(c=ctx(g1_manual={KEY: g1_record(source_urls=[])}))
+    res = run(c=ctx(g1_manual_recs=[g1_record(source_urls=[])]))
     assert "no_source_url" in res["failures"]
-    res = run(c=ctx(g1_manual={KEY: g1_record(supported_facts=[])}))
+    res = run(c=ctx(g1_manual_recs=[g1_record(supported_facts=[])]))
     assert "no_supported_facts" in res["failures"]
 
 

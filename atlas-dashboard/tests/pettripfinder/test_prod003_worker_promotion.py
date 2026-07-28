@@ -45,8 +45,15 @@ def _approval(key, **over):
 
 
 def _ctx(key, g1rec, *, committed=(), corpus=(), display=None, manual=None):
-    return {"approvals": {"approvals": []}, "g1_safe": {key: g1rec} if g1rec else {},
-            "g1_manual": manual or {}, "committed_keys": set(committed),
+    # Gate-1 records are indexed by (listing_key, candidate_identity) so a
+    # reprocessed hotel cannot shadow its frozen original.
+    manual_recs = list((manual or {}).values())
+    return {"approvals": {"approvals": []},
+            "g1_safe": PROM.index_gate1([g1rec]) if g1rec else {},
+            "g1_manual": PROM.index_gate1(manual_recs),
+            "g1_keys_safe": {key} if g1rec else set(),
+            "g1_keys_manual": {r["listing_key"] for r in manual_recs},
+            "committed_keys": set(committed),
             "corpus_ready": set(corpus), "prod_display": display or {key: g1rec["listing_name"]}
             if g1rec else {}, "committed_count": len(committed)}
 
@@ -80,7 +87,9 @@ def test_non_approved_decision_not_selected():
 
 def test_manual_review_record_rejected():
     key = "held hotel"
-    ctx = {"approvals": {"approvals": []}, "g1_safe": {}, "g1_manual": {key: _g1(key)},
+    ctx = {"approvals": {"approvals": []}, "g1_safe": {},
+           "g1_manual": PROM.index_gate1([_g1(key)]),
+           "g1_keys_safe": set(), "g1_keys_manual": {key},
            "committed_keys": set(), "corpus_ready": set(), "prod_display": {}, "committed_count": 0}
     r = PROM.evaluate(_approval(key), ctx, [key])
     assert "manual_review_record" in r["failures"]
@@ -239,8 +248,10 @@ def test_exact_evidence_result_hash_and_approval_metadata_preserved():
 
 def test_report_carries_no_credentials():
     key = "h"
-    ctx = {"approvals": {"approvals": [_approval(key)]}, "g1_safe": {key: _g1(key)},
-           "g1_manual": {}, "committed_keys": set(), "corpus_ready": set(),
+    ctx = {"approvals": {"approvals": [_approval(key)]},
+           "g1_safe": PROM.index_gate1([_g1(key)]), "g1_manual": {},
+           "g1_keys_safe": {key}, "g1_keys_manual": set(),
+           "committed_keys": set(), "corpus_ready": set(),
            "prod_display": {key: "H"}, "committed_count": 0}
     report = PROM.build_report(ctx, PROM.evaluate_all(ctx))
     blob = json.dumps(report).lower()
@@ -281,7 +292,7 @@ def test_dry_run_fails_closed_after_apply(tmp_path):
     # would write nothing. Drury Plaza remains held.
     # approved_selected counts every SELECTABLE decision, which since
     # PTF-INVENTORY-001 includes the one APPROVED_TIERED_FEE_OMITTED record.
-    assert c["approved_selected"] == 10 and c["passed_all_gates"] == 0
+    assert c["approved_selected"] == 11 and c["passed_all_gates"] == 0
     for r in report["records"]:
         if not r.get("selected") or r["decision"] != PA.DECISION_APPROVED:
             continue

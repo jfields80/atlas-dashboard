@@ -101,17 +101,47 @@ def _destination_path(listing_key: str) -> Path:
 # Inputs (read-only).
 # --------------------------------------------------------------------------- #
 
-def load_context() -> Dict:
+def index_gate1(records) -> Dict:
+    """(listing_key, candidate_identity) -> Gate-1 record.
+
+    One definition shared by the loader and the tests, so an index built in a
+    test can never drift from the one the adapter actually consults.
+    """
+    return {(r["listing_key"], r["candidate_identity"]): r for r in records}
+
+
+def load_context(gate1_manifests: Optional[List[Path]] = None) -> Dict:
+    """Load approvals plus one or more Gate-1 authorities.
+
+    Gate-1 records are indexed by (listing_key, candidate_identity) rather than
+    by listing_key alone. A hotel that has been REPROCESSED legitimately appears
+    in two authorities -- the frozen original and a newer one -- with different
+    result hashes, and keying on the name alone would make one silently shadow
+    the other. Keying on the hash makes each approval bind to exactly the
+    evidence it was granted against, which is what "hash-bound" already claimed
+    to mean. Frozen manifests are never modified; additional ones are additive.
+    """
     approvals = PA.load_manifest(APPROVALS_PATH)
-    gate1 = json.loads(GATE1_MANIFEST_PATH.read_text(encoding="utf-8"))
-    g1_safe = {r["listing_key"]: r for r in gate1.get("launch_safe_candidates", [])}
-    g1_manual = {r["listing_key"]: r for r in gate1.get("manual_review_candidates", [])}
+    paths = list(gate1_manifests or [GATE1_MANIFEST_PATH])
+    g1_safe: Dict = {}
+    g1_manual: Dict = {}
+    g1_keys_safe, g1_keys_manual = set(), set()
+    for p in paths:
+        gate1 = json.loads(Path(p).read_text(encoding="utf-8"))
+        for r in gate1.get("launch_safe_candidates", []):
+            g1_safe[(r["listing_key"], r["candidate_identity"])] = r
+            g1_keys_safe.add(r["listing_key"])
+        for r in gate1.get("manual_review_candidates", []):
+            g1_manual[(r["listing_key"], r["candidate_identity"])] = r
+            g1_keys_manual.add(r["listing_key"])
     committed = json.loads(COMMITTED_PACKAGE_PATH.read_text(encoding="utf-8"))
     committed_keys = {h["key"] for h in committed.get("hotels", [])}
     corpus_ready = set(SD.load_hotel_policy_facts().keys())         # existing operational READY names
     prod_display = {SD.normalize_name(r["name"]): r["name"]
                     for r in SD.read_production_rows() if r["category"] == "pet-friendly-hotels"}
     return {"approvals": approvals, "g1_safe": g1_safe, "g1_manual": g1_manual,
+            "g1_keys_safe": g1_keys_safe, "g1_keys_manual": g1_keys_manual,
+            "gate1_manifests": [str(p) for p in paths],
             "committed_keys": committed_keys, "corpus_ready": corpus_ready,
             "prod_display": prod_display, "committed_count": len(committed_keys)}
 
@@ -257,18 +287,27 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     tiered = decision == PA.DECISION_TIERED_FEE_OMITTED
     waived = set(approval.get("waived_reason_codes") or []) & PA.WAIVABLE_REASON_CODES if tiered else set()
 
-    g1rec = (ctx["g1_manual"] if tiered else ctx["g1_safe"]).get(key)
-    if g1rec is None:
-        if tiered:
-            failures.append("launch_safe_record_needs_standard_approval"
-                            if key in ctx["g1_safe"] else "unknown_in_gate1_manifest")
-        else:
-            failures.append("manual_review_record" if key in ctx["g1_manual"]
-                            else "unknown_in_gate1_manifest")
-        return _excluded(approval, failures)
+    # Bound to (listing_key, result_hash): the approval must name the exact
+    # Gate-1 record it was granted against, in the expected launch-safe /
+    # manual-review side.
+    ident = (key, approval["result_hash"])
+    side = ctx["g1_manual"] if tiered else ctx["g1_safe"]
+    other = ctx["g1_safe"] if tiered else ctx["g1_manual"]
+    keys_here = ctx.get("g1_keys_manual" if tiered else "g1_keys_safe", set())
+    keys_other = ctx.get("g1_keys_safe" if tiered else "g1_keys_manual", set())
 
-    if approval["result_hash"] != g1rec.get("candidate_identity"):
-        failures.append("stale_result_hash")
+    g1rec = side.get(ident)
+    if g1rec is None:
+        if ident in other:
+            failures.append("launch_safe_record_needs_standard_approval" if tiered
+                            else "manual_review_record")
+        elif key in keys_here or key in keys_other:
+            # The hotel is known but under a DIFFERENT result hash -- the
+            # evidence moved and this approval no longer describes it.
+            failures.append("stale_result_hash")
+        else:
+            failures.append("unknown_in_gate1_manifest")
+        return _excluded(approval, failures)
     # Route: a tiered-fee record is REVIEW *because of* the fee, so requiring
     # READY here would make the approval unusable. Waived only when the fee
     # reason is the one being waived -- never as a blanket route bypass.
@@ -464,11 +503,12 @@ def _write_json(path: Path, payload: Dict) -> None:
                     encoding="utf-8")
 
 
-def run_dry_run(out_dir: Path = DRY_RUN_DIR) -> Dict:
+def run_dry_run(out_dir: Path = DRY_RUN_DIR,
+                gate1_manifests: Optional[List[Path]] = None) -> Dict:
     """Evaluate + map all approvals in memory and write ONLY the report to the
     gitignored ``out_dir``. Writes nothing into data/import or the committed
     package. Returns the report."""
-    ctx = load_context()
+    ctx = load_context(gate1_manifests)
     results = evaluate_all(ctx)
     report = build_report(ctx, results)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -489,7 +529,7 @@ IDEMPOTENCY_FAILURES = frozenset({
 })
 
 
-def apply_promotion() -> Dict:
+def apply_promotion(gate1_manifests: Optional[List[Path]] = None) -> Dict:
     """Write the passing worker candidates into the dedicated promotion root.
 
     Fails closed: refuses (writes nothing) if any selected record fails a gate
@@ -498,7 +538,7 @@ def apply_promotion() -> Dict:
     promotion root -- never the committed package, never a page. It does NOT add
     the root to CANDIDATE_ROOTS.
     """
-    ctx = load_context()
+    ctx = load_context(gate1_manifests)
     results = evaluate_all(ctx)
     selected = [r for r in results if r.get("selected")]
     unsafe = [r for r in selected
@@ -524,14 +564,20 @@ def main(argv: Optional[List[str]] = None) -> int:
                     help="perform the operational write into the dedicated promotion root "
                          "(default is a zero-write dry run)")
     ap.add_argument("--out-dir", default=str(DRY_RUN_DIR))
+    ap.add_argument("--gate1-manifest", action="append", default=None,
+                    help="Gate-1 launch-safety manifest to consult; repeatable. "
+                         "Defaults to the frozen manifest. Additional manifests are "
+                         "ADDITIVE -- records are keyed by (listing_key, result_hash), "
+                         "so a reprocessed hotel never shadows its frozen original.")
     args = ap.parse_args(argv)
+    manifests = [Path(p) for p in args.gate1_manifest] if args.gate1_manifest else None
     if args.apply:
-        result = apply_promotion()
+        result = apply_promotion(manifests)
         print("APPLIED: wrote %d candidate file(s):" % len(result["written"]))
         for p in result["written"]:
             print("  ", p)
         return 0
-    report = run_dry_run(Path(args.out_dir))
+    report = run_dry_run(Path(args.out_dir), manifests)
     c = report["counts"]
     print("DRY RUN: considered %d, passed %d, excluded %d (zero operational writes)"
           % (c["considered"], c["passed_all_gates"], c["excluded_by_gate"]))
