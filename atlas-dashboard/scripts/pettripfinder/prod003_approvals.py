@@ -28,7 +28,36 @@ DECISION_APPROVED = "APPROVED_FOR_PROMOTION"
 DECISION_HOLD = "HOLD_FOR_MANUAL_REVIEW"
 DECISION_REJECTED = "REJECTED"
 DECISION_SUPERSEDED = "SUPERSEDED"
-ALLOWED_DECISIONS = (DECISION_APPROVED, DECISION_HOLD, DECISION_REJECTED, DECISION_SUPERSEDED)
+# PTF-INVENTORY-001. A NARROW, hotel-specific authorization to promote a record
+# whose ONLY blocking Gate-1 reason is STRUCTURED_FEE_REQUIRED -- i.e. the
+# property publishes a genuine tiered or capped pet fee that the single-scalar
+# production schema cannot represent.
+#
+# Business policy: a valid tiered fee is not a contradiction, and the renderer's
+# inability to show two numbers must not suppress otherwise-credible
+# pet-friendly inventory. The fee STRUCTURE is preserved in provenance and the
+# scalar field is OMITTED -- never flattened to one misleading number.
+#
+# This is deliberately not a bypass. It waives exactly one reason code, only for
+# the named hotel, only against the exact frozen result_hash, and it cannot
+# clear a contradiction, an incomplete extraction, an identity conflict, or
+# source-authority ambiguity. Those still fail closed.
+DECISION_TIERED_FEE_OMITTED = "APPROVED_TIERED_FEE_OMITTED"
+ALLOWED_DECISIONS = (DECISION_APPROVED, DECISION_HOLD, DECISION_REJECTED,
+                     DECISION_SUPERSEDED, DECISION_TIERED_FEE_OMITTED)
+
+# The ONLY reason code this decision may waive. Kept as a frozenset so widening
+# it is a visible, reviewable edit rather than a passing thought.
+WAIVABLE_REASON_CODES = frozenset({"STRUCTURED_FEE_REQUIRED"})
+# Reasons that must NEVER be waivable, asserted by test. Listing them explicitly
+# documents the intent to a future reader who is tempted to add "just one more".
+NEVER_WAIVABLE_REASON_CODES = frozenset({
+    "CONTRADICTORY_OFFICIAL_SOURCES", "INCOMPLETE_EXTRACTION",
+    "SOURCE_AUTHORITY_AMBIGUITY", "MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE",
+    "INHERITED_IDENTITY_REQUIRES_REVIEW", "UNSAFE_RESULT",
+})
+# Extra fields REQUIRED on a tiered-fee approval and permitted on no other.
+TIERED_FEE_FIELDS = ("waived_reason_codes", "preserved_fee_amounts")
 
 # Every recorded approval entry requires these (note is optional).
 APPROVAL_REQUIRED_FIELDS = (
@@ -102,14 +131,18 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
         for f in APPROVAL_REQUIRED_FIELDS:
             if not str(a.get(f, "")).strip():          # operator/approval_date must be human-supplied
                 errors.append("approval[%d]:missing_%s" % (i, f))
-        extra = set(a) - set(APPROVAL_REQUIRED_FIELDS) - set(APPROVAL_OPTIONAL_FIELDS)
+        decision = a.get("decision")
+        allowed_extra = set(TIERED_FEE_FIELDS) if decision == DECISION_TIERED_FEE_OMITTED else set()
+        extra = (set(a) - set(APPROVAL_REQUIRED_FIELDS) - set(APPROVAL_OPTIONAL_FIELDS)
+                 - allowed_extra)
         if extra:
             errors.append("approval[%d]:unexpected_fields:%s" % (i, ",".join(sorted(extra))))
-        decision = a.get("decision")
         if decision not in ALLOWED_DECISIONS:
             errors.append("approval[%d]:invalid_decision" % i)
         if decision == DECISION_APPROVED and a.get("gate1_route") != ROUTE_READY:
             errors.append("approval[%d]:approved_requires_ready_route" % i)
+        if decision == DECISION_TIERED_FEE_OMITTED:
+            errors.extend(_tiered_fee_errors(i, a))
         key, rhash = a.get("listing_key"), a.get("result_hash")
         if key in seen_key:
             errors.append("approval[%d]:duplicate_listing_key" % i)
@@ -126,7 +159,36 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
                     errors.append("approval[%d]:stale_result_hash" % i)
                 if decision == DECISION_APPROVED and not g["launch_safe"]:
                     errors.append("approval[%d]:manual_review_cannot_be_approved" % i)
+                # A tiered-fee approval exists precisely FOR a manual-review
+                # record; applying one to a launch-safe record would be
+                # meaningless and is refused so the decision cannot drift into
+                # a general-purpose rubber stamp.
+                if decision == DECISION_TIERED_FEE_OMITTED and g["launch_safe"]:
+                    errors.append("approval[%d]:tiered_fee_requires_manual_review_record" % i)
     return sorted(errors)
+
+
+def _tiered_fee_errors(i: int, a: Dict) -> List[str]:
+    """Extra structural rules for APPROVED_TIERED_FEE_OMITTED."""
+    errors: List[str] = []
+    if a.get("gate1_route") == ROUTE_READY:
+        # A READY record has nothing to waive.
+        errors.append("approval[%d]:tiered_fee_requires_review_route" % i)
+
+    waived = a.get("waived_reason_codes")
+    if not isinstance(waived, list) or not waived:
+        errors.append("approval[%d]:missing_waived_reason_codes" % i)
+    else:
+        illegal = sorted(set(waived) - WAIVABLE_REASON_CODES)
+        if illegal:
+            errors.append("approval[%d]:non_waivable_reason_codes:%s" % (i, ",".join(illegal)))
+
+    amounts = a.get("preserved_fee_amounts")
+    if not isinstance(amounts, list) or len(amounts) < 2:
+        # Fewer than two amounts is not a tiered fee, so the decision does not
+        # apply -- this is what stops it being used on an ordinary blocked record.
+        errors.append("approval[%d]:tiered_fee_requires_two_or_more_amounts" % i)
+    return errors
 
 
 def is_valid(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = None) -> bool:

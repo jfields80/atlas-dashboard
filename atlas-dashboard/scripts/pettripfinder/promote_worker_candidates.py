@@ -58,6 +58,12 @@ DRY_RUN_DIR = _APP_ROOT / "data" / "worker_runs" / "pettripfinder" / "prod003_ga
 
 REPORT_SCHEMA = "prod003-gate2-dryrun/1.0"
 
+# PTF-INVENTORY-001 consumer wording for a hotel whose scalar fee is omitted
+# because the real policy is tiered. Honest about the uncertainty rather than
+# silently showing one of the two numbers as if it were the whole policy.
+TIERED_FEE_CONSUMER_NOTE = ("Pet fees vary by stay length or policy conditions. "
+                            "Confirm the current fee directly with the hotel.")
+
 # worker fee_basis canonical token -> importer human phrase. Unknown -> fail closed.
 FEE_BASIS_MAP = {
     "per_night": "per night",
@@ -194,6 +200,20 @@ def build_mapping(approval: Dict, g1rec: Dict, display_name: str
             "unmapped_facts": unmapped,
         },
     }
+    if approval["decision"] == PA.DECISION_TIERED_FEE_OMITTED:
+        # The COMPLETE fee structure is preserved here, verbatim, precisely
+        # because the scalar field is omitted. Nothing is flattened and no
+        # single number is invented -- a reader of this record can always
+        # reconstruct what the property actually publishes.
+        candidate["worker_provenance"]["tiered_fee"] = {
+            "amounts": list(g1rec.get("multi_amount_values") or []),
+            "scalar_fee_omitted": True,
+            "omission_reason": "single-value production schema cannot represent a "
+                               "tiered or capped pet fee accurately",
+            "evidence_statement": g1rec.get("manual_review_reason", ""),
+            "waived_reason_codes": sorted(approval.get("waived_reason_codes") or []),
+            "consumer_note": TIERED_FEE_CONSUMER_NOTE,
+        }
     return (candidate, transforms, unmapped, None)
 
 
@@ -223,21 +243,37 @@ def package_projection(candidate: Dict, listing_key: str, display_name: str) -> 
 def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     key = approval["listing_key"]
     failures: List[str] = []
+    decision = approval.get("decision")
 
-    if approval.get("decision") != PA.DECISION_APPROVED:
+    if decision not in (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED):
         return {"listing_key": key, "listing_name": approval.get("listing_name", ""),
-                "decision": approval.get("decision"), "selected": False, "excluded": True,
-                "failures": ["decision:%s" % approval.get("decision")], "mapped": None}
+                "decision": decision, "selected": False, "excluded": True,
+                "failures": ["decision:%s" % decision], "mapped": None}
 
-    g1rec = ctx["g1_safe"].get(key)
+    # PTF-INVENTORY-001. A tiered-fee approval targets a MANUAL-REVIEW record --
+    # that is the whole point of it -- so it reads the other side of the Gate-1
+    # manifest. Everything after this line is evaluated identically for both
+    # decisions; the only difference is which reason codes may be waived.
+    tiered = decision == PA.DECISION_TIERED_FEE_OMITTED
+    waived = set(approval.get("waived_reason_codes") or []) & PA.WAIVABLE_REASON_CODES if tiered else set()
+
+    g1rec = (ctx["g1_manual"] if tiered else ctx["g1_safe"]).get(key)
     if g1rec is None:
-        failures.append("manual_review_record" if key in ctx["g1_manual"]
-                        else "unknown_in_gate1_manifest")
+        if tiered:
+            failures.append("launch_safe_record_needs_standard_approval"
+                            if key in ctx["g1_safe"] else "unknown_in_gate1_manifest")
+        else:
+            failures.append("manual_review_record" if key in ctx["g1_manual"]
+                            else "unknown_in_gate1_manifest")
         return _excluded(approval, failures)
 
     if approval["result_hash"] != g1rec.get("candidate_identity"):
         failures.append("stale_result_hash")
-    if g1rec.get("final_route") != "READY":
+    # Route: a tiered-fee record is REVIEW *because of* the fee, so requiring
+    # READY here would make the approval unusable. Waived only when the fee
+    # reason is the one being waived -- never as a blanket route bypass.
+    if g1rec.get("final_route") != "READY" and not (
+            tiered and "STRUCTURED_FEE_REQUIRED" in waived):
         failures.append("gate1_route_not_ready")
     rc = set(g1rec.get("reason_codes", []))
     if "CONTRADICTORY_OFFICIAL_SOURCES" in rc:
@@ -246,10 +282,28 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
         failures.append("incomplete_extraction")
     if "SOURCE_AUTHORITY_AMBIGUITY" in rc:
         failures.append("source_authority_ambiguity")
-    if "STRUCTURED_FEE_REQUIRED" in rc:
+    if "STRUCTURED_FEE_REQUIRED" in rc and "STRUCTURED_FEE_REQUIRED" not in waived:
         failures.append("structured_fee_required")
-    if g1rec.get("multi_amount_detected"):
+    if g1rec.get("multi_amount_detected") and "STRUCTURED_FEE_REQUIRED" not in waived:
         failures.append("multi_term_fee_signal")
+    if tiered:
+        # Fail closed on anything the approval did not explicitly waive. A
+        # reason code this adapter does not yet know about must block rather
+        # than slip through an unrelated waiver.
+        unwaived = sorted(rc - waived - {"PUBLICATION_ELIGIBLE"})
+        if unwaived:
+            failures.append("unwaived_reason_codes:%s" % ",".join(unwaived))
+        # The waiver is only meaningful if the record really is tiered.
+        if not g1rec.get("multi_amount_detected"):
+            failures.append("tiered_fee_waiver_without_multi_amount_evidence")
+        # The scalar fee must be ABSENT. If the validator ever supported one,
+        # the waiver does not apply and the record takes the normal path.
+        if any(f.get("field_name") == "pet_fee" for f in g1rec.get("supported_facts", [])):
+            failures.append("scalar_pet_fee_present_waiver_not_applicable")
+        stated = [str(x) for x in (approval.get("preserved_fee_amounts") or [])]
+        actual = [str(x) for x in (g1rec.get("multi_amount_values") or [])]
+        if sorted(stated) != sorted(actual):
+            failures.append("preserved_fee_amounts_do_not_match_evidence")
     if not g1rec.get("source_urls"):
         failures.append("no_source_url")
     supported = g1rec.get("supported_facts", [])
@@ -311,7 +365,8 @@ def _excluded(approval: Dict, failures: List[str]) -> Dict:
 
 def evaluate_all(ctx: Dict) -> List[Dict]:
     approvals = sorted(ctx["approvals"].get("approvals", []), key=lambda a: a["listing_key"])
-    batch_keys = [a["listing_key"] for a in approvals if a.get("decision") == PA.DECISION_APPROVED]
+    batch_keys = [a["listing_key"] for a in approvals
+                  if a.get("decision") in (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED)]
     return [evaluate(a, ctx, batch_keys) for a in approvals]
 
 
@@ -422,26 +477,45 @@ def run_dry_run(out_dir: Path = DRY_RUN_DIR) -> Dict:
     return report
 
 
+# Failures that mean "this record is ALREADY promoted", not "this record is
+# unsafe". A batch containing only these is a no-op, not a danger -- and
+# treating them as fatal made the adapter single-use: once any record had been
+# applied, no later approval could ever be promoted. Every OTHER failure still
+# refuses the whole batch.
+IDEMPOTENCY_FAILURES = frozenset({
+    "collision_committed_package",
+    "collision_existing_corpus_record",
+    "destination_would_overwrite",
+})
+
+
 def apply_promotion() -> Dict:
     """Write the passing worker candidates into the dedicated promotion root.
-    Fails closed: refuses (writes nothing) if ANY approved record fails a gate.
-    This is the ONLY code path that writes operational data, and it writes ONLY
-    to the dedicated promotion root -- never the committed package, never a page.
-    It does NOT add the root to CANDIDATE_ROOTS."""
+
+    Fails closed: refuses (writes nothing) if any selected record fails a gate
+    for any reason other than already having been promoted. This is the ONLY
+    code path that writes operational data, and it writes ONLY to the dedicated
+    promotion root -- never the committed package, never a page. It does NOT add
+    the root to CANDIDATE_ROOTS.
+    """
     ctx = load_context()
     results = evaluate_all(ctx)
     selected = [r for r in results if r.get("selected")]
-    failing = [r for r in selected if r["excluded"]]
-    if failing:
+    unsafe = [r for r in selected
+              if r["excluded"] and (set(r["failures"]) - IDEMPOTENCY_FAILURES)]
+    if unsafe:
         raise SystemExit("refusing --apply: %d approved record(s) failed a gate: %s"
-                         % (len(failing), {r["listing_key"]: r["failures"] for r in failing}))
+                         % (len(unsafe), {r["listing_key"]: r["failures"] for r in unsafe}))
+    already = sorted(r["listing_key"] for r in selected if r["excluded"])
     (PROMOTION_ROOT / "candidates").mkdir(parents=True, exist_ok=True)
     written = []
     for r in selected:
+        if r["excluded"]:
+            continue                      # already promoted; writing again would be a no-op
         dest = _destination_path(r["listing_key"])
         _write_json(dest, r["mapped_corpus_candidate"])
         written.append(str(dest.relative_to(_APP_ROOT)).replace("\\", "/"))
-    return {"applied": True, "written": sorted(written)}
+    return {"applied": True, "written": sorted(written), "already_promoted": already}
 
 
 def main(argv: Optional[List[str]] = None) -> int:

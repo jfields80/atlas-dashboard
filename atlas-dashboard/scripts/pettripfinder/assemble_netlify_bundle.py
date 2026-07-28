@@ -316,10 +316,18 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
         build_report = json.loads((gen_dir / "_build_report.json").read_text(encoding="utf-8"))
         broken_report = json.loads((gen_dir / "_broken_link_report.json").read_text(encoding="utf-8"))
         quality_report = json.loads((gen_dir / "_quality_report.json").read_text(encoding="utf-8"))
-        _gate(gates, "content.build_report_hotel_count_14",
-              build_report.get("hotel_count") == 14 and not build_report.get("warnings"),
-              "hotel_count=%s warnings=%s" % (build_report.get("hotel_count"),
-                                              build_report.get("warnings")))
+        # PTF-INVENTORY-001: the expected hotel count is read from the release
+        # contract rather than hardcoded here (and in the gate's own NAME, which
+        # previously said "_14"). The gate is just as strict -- the build must
+        # match the contract exactly -- but an approved inventory change is now
+        # a data edit in one place instead of a code edit plus a rename.
+        expected_hotels = int(load_release_contract()["policy_package"]["expected_record_count"])
+        _gate(gates, "content.build_report_hotel_count_matches_contract",
+              build_report.get("hotel_count") == expected_hotels
+              and not build_report.get("warnings"),
+              "hotel_count=%s expected=%s warnings=%s" % (build_report.get("hotel_count"),
+                                                          expected_hotels,
+                                                          build_report.get("warnings")))
         _gate(gates, "content.zero_broken_links",
               broken_report.get("broken_links") == [],
               str(broken_report.get("broken_links")))
