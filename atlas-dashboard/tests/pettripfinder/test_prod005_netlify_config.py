@@ -121,8 +121,8 @@ class TestReleaseContract:
         published = contract["public_surface"]["public_hotel_profile_count"]
         excluded = contract["public_surface"]["excluded_public_profile_count"]
         assert published == 16
-        assert excluded == 9
-        assert published + excluded == 25
+        assert excluded == 17
+        assert published + excluded == 33
 
     def test_identities_derive_from_package_no_duplicated_allowlist(self):
         # The contract must NOT restate the 14 verified hotel identities.
@@ -349,7 +349,7 @@ class TestAssembler:
     def test_held_hotels_absent(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert len(inv["excluded_hotel_slugs"]) == 9
+            assert len(inv["excluded_hotel_slugs"]) == 17
             hotels = assembled[ctx]["root"] / "site" / "pet-friendly-hotels"
             for slug in inv["excluded_hotel_slugs"]:
                 assert not (hotels / slug).exists(), slug

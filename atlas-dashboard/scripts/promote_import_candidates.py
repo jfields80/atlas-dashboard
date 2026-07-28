@@ -33,7 +33,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.importer import constants as C
-from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
+from scripts.pettripfinder.listing_dataset_builder import EVIDENCE_FIELD, build_listing_dataset
 from scripts.pettripfinder.inventory_validation import (
     assess_inventory,
     compute_launch_readiness,
@@ -45,7 +45,12 @@ _LAUNCH_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
 def _read_seed_rows(path: Path) -> List[Dict[str, object]]:
     """Read a 15-column seed CSV into builder-shaped rows (empty cells become
     absent; amenities split on ';'). Mirrors the pilot runner's reader
-    without importing the heavy pilot module."""
+    without importing the heavy pilot module -- including its EVIDENCE_FIELD
+    exception (PTF-INVENTORY-001): a blank evidence cell is preserved as
+    blank rather than dropped, so the renderability boundary can still tell a
+    pending-attestation row apart from a schema that has no evidence concept.
+    These two readers must stay in step; if they diverge, the same seed row
+    resolves to different readiness through the pilot and the importer."""
     if not Path(path).exists():
         return []
     rows: List[Dict[str, object]] = []
@@ -55,6 +60,8 @@ def _read_seed_rows(path: Path) -> List[Dict[str, object]]:
                 k: v.strip() for k, v in raw.items()
                 if k is not None and v is not None and v.strip()
             }
+            if EVIDENCE_FIELD in raw and EVIDENCE_FIELD not in row:
+                row[EVIDENCE_FIELD] = ""
             amenities = str(raw.get("amenities", "") or "").strip()
             row["amenities"] = [a.strip() for a in amenities.split(";") if a.strip()]
             rows.append(row)

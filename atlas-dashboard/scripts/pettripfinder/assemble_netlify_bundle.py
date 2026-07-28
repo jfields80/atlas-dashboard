@@ -287,10 +287,10 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
     corridor_slugs = {_slug(name) for name in group_by_corridor(verified_rows)}
 
     surface = contract["public_surface"]
-    _gate(gates, "identity.verified_14_from_package",
+    _gate(gates, "identity.verified_from_package",
           len(verified_slugs) == surface["public_hotel_profile_count"],
           str(len(verified_slugs)))
-    _gate(gates, "identity.held_11_derived",
+    _gate(gates, "identity.held_derived",
           len(held_slugs) == surface["excluded_public_profile_count"],
           str(len(held_slugs)))
 

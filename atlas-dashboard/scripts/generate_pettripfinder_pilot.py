@@ -122,8 +122,20 @@ def read_seed_businesses_csv(path: Path) -> List[Dict[str, Any]]:
     """Read the primary operator-editable inventory input (AES-WEB-002N.1:
     the launch package CSV is the seed authority -- one spreadsheet row per
     candidate listing). Empty cells become absent fields; the pure builder
-    performs all semantic validation."""
+    performs all semantic validation.
+
+    PTF-INVENTORY-001 exception: the EVIDENCE field is preserved even when
+    blank. Collapsing empty-to-absent is right for optional display fields, but
+    it destroys the one distinction the renderability boundary depends on --
+    "this row carries no policy evidence yet" (pending attestation) versus
+    "this record's schema has no evidence concept at all" (a synthetic fixture
+    from another caller). Without the blank cell, a pending hotel is
+    indistinguishable from a record that was never evidence-gated, and it
+    reaches ComponentManifest compilation as an unrenderable listing.
+    """
     import csv
+
+    from scripts.pettripfinder.listing_dataset_builder import EVIDENCE_FIELD
 
     rows: List[Dict[str, Any]] = []
     with path.open("r", encoding="utf-8", newline="") as handle:
@@ -133,6 +145,8 @@ def read_seed_businesses_csv(path: Path) -> List[Dict[str, Any]]:
                 for key, value in raw.items()
                 if key is not None and value is not None and value.strip()
             }
+            if EVIDENCE_FIELD in raw and EVIDENCE_FIELD not in row:
+                row[EVIDENCE_FIELD] = ""      # blank, not absent: pending evidence
             row["amenities"] = _parse_amenities(str(raw.get("amenities", "")))
             rows.append(row)
     return rows

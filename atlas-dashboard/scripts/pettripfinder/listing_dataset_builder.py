@@ -98,6 +98,88 @@ _CTA_LABEL = "Visit website"
 _UNKNOWN_REVIEW_COUNT = -1
 
 
+# --------------------------------------------------------------------------- #
+# PTF-INVENTORY-001 -- renderability boundary.
+#
+# The authoritative seed is an INVENTORY: it legitimately carries listings that
+# research, reconciliation and operator workflows must see but that are not yet
+# publishable -- a hotel awaiting official-page attestation has identity but no
+# policy evidence.
+#
+# The Website Generation Engine, correctly, expects every listing handed to it
+# to be renderable, and its ComponentManifest compilation fails on one that is
+# not. Rather than weaken a shared engine rule to accommodate a PetTripFinder
+# inventory state, the filter lives HERE, at the pilot-adapter boundary that
+# already owns seed -> dataset conversion.
+#
+# The rule is expressed in state/contract semantics only. It never looks at a
+# hotel name, a brand, or a hard-coded id -- doing so would make the boundary a
+# hidden allowlist that silently rots as inventory changes.
+# --------------------------------------------------------------------------- #
+
+LISTING_RENDERABLE = "RENDERABLE"
+LISTING_PENDING_EVIDENCE = "PENDING_EVIDENCE"
+LISTING_UNRECOGNIZED = "UNRECOGNIZED"
+
+# Only this state may be handed to the WGE.
+RENDERABLE_STATES = frozenset({LISTING_RENDERABLE})
+KNOWN_READINESS_STATES = frozenset({LISTING_RENDERABLE, LISTING_PENDING_EVIDENCE})
+
+# The seed field that carries official policy evidence. Its presence is what
+# makes a listing publishable; its absence is exactly the pending state.
+EVIDENCE_FIELD = "pet_policy"
+# Optional explicit override, for a future seed that states readiness directly.
+READINESS_FIELD = "readiness"
+
+
+def listing_readiness(record: Mapping[str, Any]) -> Tuple[str, str]:
+    """Return ``(state, reason)`` for one seed record.
+
+    Fails closed: an explicitly-declared state that this module does not
+    recognise yields ``LISTING_UNRECOGNIZED`` and is excluded, rather than
+    being optimistically treated as renderable. A state we cannot interpret is
+    not a state we may publish.
+    """
+    declared = str(record.get(READINESS_FIELD, "") or "").strip()
+    if declared:
+        if declared in KNOWN_READINESS_STATES:
+            return (declared, "declared_state")
+        return (LISTING_UNRECOGNIZED, "unrecognized_readiness_state:%s" % declared)
+
+    # A record whose schema has no evidence field at all is not "pending" -- it
+    # comes from a source that does not model policy evidence, and inventing a
+    # pending state for it would silently empty every such dataset. Only a
+    # record that CARRIES the field and leaves it blank is awaiting evidence.
+    if EVIDENCE_FIELD not in record:
+        return (LISTING_RENDERABLE, "evidence_field_absent_from_schema")
+
+    evidence = str(record.get(EVIDENCE_FIELD) or "").strip()
+    if evidence:
+        return (LISTING_RENDERABLE, "evidence_present")
+    return (LISTING_PENDING_EVIDENCE, "missing_evidence")
+
+
+def partition_by_renderability(
+    seed_businesses: Sequence[Mapping[str, Any]],
+) -> Tuple[List[Mapping[str, Any]], Tuple[str, ...]]:
+    """Split seed records into (renderable, excluded-with-reason).
+
+    Pure and non-mutating: a pending listing is never rewritten to look ready,
+    it is simply not passed on. The exclusion strings are the audit trail.
+    """
+    renderable: List[Mapping[str, Any]] = []
+    excluded: List[str] = []
+    for raw in seed_businesses:
+        state, reason = listing_readiness(raw)
+        if state in RENDERABLE_STATES:
+            renderable.append(raw)
+            continue
+        name = str(raw.get("name", "") or "(unnamed)")
+        category = str(raw.get("category", "") or "(uncategorized)")
+        excluded.append("%s [%s]: %s=%s" % (name, category, state, reason))
+    return (renderable, tuple(sorted(excluded)))
+
+
 @dataclass(frozen=True)
 class ListingDatasetBuildResult:
     """The converter's total output: either a valid ``dataset`` (``errors``
@@ -110,6 +192,13 @@ class ListingDatasetBuildResult:
     dataset: Optional[ListingDataset]
     rejected_duplicates: Tuple[str, ...] = ()
     errors: Tuple[str, ...] = ()
+    # PTF-INVENTORY-001 audit trail: inventory rows withheld from the WGE
+    # because they are not yet renderable. Reported, never silently dropped.
+    excluded_pending: Tuple[str, ...] = ()
+
+    @property
+    def excluded_pending_count(self) -> int:
+        return len(self.excluded_pending)
 
     @property
     def ok(self) -> bool:
@@ -363,8 +452,12 @@ def build_listing_dataset(
     # "winner" never depends on the caller's file-read order (mirrors
     # engines/directory_builder/import_package_engine.py's established
     # policy).
+    # PTF-INVENTORY-001: withhold not-yet-renderable inventory BEFORE any
+    # conversion, so the WGE only ever sees listings it can compile.
+    renderable_records, excluded_pending = partition_by_renderability(seed_businesses)
+
     ordered = sorted(
-        seed_businesses,
+        renderable_records,
         key=lambda r: (_dedup_key(r), str(r.get("name", "")), str(r.get("source_url", ""))),
     )
 
@@ -522,6 +615,7 @@ def build_listing_dataset(
             dataset=None,
             rejected_duplicates=tuple(sorted(rejected_duplicates)),
             errors=tuple(sorted(errors)),
+            excluded_pending=excluded_pending,
         )
 
     dataset = ListingDataset(
@@ -532,4 +626,6 @@ def build_listing_dataset(
         categories=resolved_categories,
         locations=resolved_locations,
     )
-    return ListingDatasetBuildResult(dataset=dataset, rejected_duplicates=tuple(sorted(rejected_duplicates)))
+    return ListingDatasetBuildResult(dataset=dataset,
+                                     rejected_duplicates=tuple(sorted(rejected_duplicates)),
+                                     excluded_pending=excluded_pending)

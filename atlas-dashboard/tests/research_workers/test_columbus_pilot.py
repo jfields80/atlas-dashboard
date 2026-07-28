@@ -65,17 +65,26 @@ def _synth(name="Test Hotel", evidence="Pets are welcome at our hotel.",
 
 def test_authoritative_hotel_discovery():
     cs = _candidates()
-    assert len(cs) == 25                                  # authoritative Columbus/Dublin count
+    assert len(cs) == 33                                  # authoritative Columbus/Dublin count
     keys = [c.listing_key for c in cs]
     assert keys == sorted(keys)                           # deterministic order
     names = {c.name for c in cs}
     assert "Sonesta Columbus Downtown" in names and "Drury Inn & Suites Columbus Polaris" in names
-    for c in cs:                                          # every candidate carries usable authority
+    # Discovery deliberately surfaces pending-attestation rows too -- they are
+    # the research targets. Authority is required of the evidence-backed rows;
+    # the pending ones are blocked by classification before any assignment.
+    backed = [c for c in cs if c.evidence_text]
+    assert len(backed) == 26
+    for c in backed:                                      # every candidate carries usable authority
         assert c.evidence_text and c.source_url and c.source_type in V.SOURCE_TYPES
+    for c in cs:                                          # a source url is present regardless
+        assert c.source_url and c.source_type in V.SOURCE_TYPES
 
 
 def test_deterministic_assignment_generation():
-    c = _candidates()[0]
+    # An assignment is only ever built for an evidence-backed candidate; the
+    # pilot blocks pending rows before this point.
+    c = next(x for x in _candidates() if x.evidence_text)
     a1 = CP.build_pilot_assignment(c)
     a2 = CP.build_pilot_assignment(c)
     assert a1.assignment_id == a2.assignment_id
@@ -102,8 +111,16 @@ def test_five_verified_hotels_key_match_authoritative_facts():
 
 def test_all_real_candidates_ready():
     classified = CP.classify_candidates(_candidates())
-    assert all(c.readiness == CP.READY_FOR_RESEARCH for c in classified)
-    assert len(classified) == 25
+    assert len(classified) == 33
+    ready = [c for c in classified if c.readiness == CP.READY_FOR_RESEARCH]
+    blocked = [c for c in classified if c.readiness != CP.READY_FOR_RESEARCH]
+    # Every evidence-backed candidate is research-ready, and the only blocked
+    # ones are the pending-attestation rows -- blocked for missing evidence and
+    # nothing else. No blocked candidate carries an assignment.
+    assert len(ready) == 26
+    assert len(blocked) == 7
+    assert all(c.readiness == CP.BLOCKED_MISSING_EVIDENCE for c in blocked)
+    assert all(c.assignment is None for c in blocked)
 
 
 def test_missing_evidence_blocked():
@@ -149,7 +166,7 @@ def test_checkpoint_reports_exact_nano_and_worst_case_cost():
         "provider": "openai", "model_id": "gpt-5.4-nano-2026-03-17",
         "pricing_source": "Official OpenAI GPT-5.4 Nano model documentation",
         "pricing_observed_date": "2026-07-20"}
-    assert cp["hotels_found"] == 25 and cp["assignments_ready"] == 25
+    assert cp["hotels_found"] == 33 and cp["assignments_ready"] == 26
     assert 0.0 < cp["worst_case_estimated_cost_usd"] < 1.00
     assert cp["no_production_write"] is True
 
@@ -164,17 +181,17 @@ def test_live_pilot_routes_and_persists(monkeypatch, tmp_path):
     classified = CP.classify_candidates(_candidates())
     report = CP.run_pilot(classified, CP.PilotCaps(), live=True, store=store,
                           provider_factory=_fake_factory())
-    assert report["mode"] == "live" and report["calls_made"] == 25
+    assert report["mode"] == "live" and report["calls_made"] == 26
     agg = report["aggregate"]
-    assert sum(agg["routes"].values()) == 25
-    assert agg["provider_failures"] == 0 and agg["structurally_valid"] == 25
+    assert sum(agg["routes"].values()) == 26
+    assert agg["provider_failures"] == 0 and agg["structurally_valid"] == 26
     # Every hotel routed to a valid state via the WORKERS-003 airlock, with reasons.
     for h in report["hotels"]:
         assert h["route"] in RT.ROUTE_STATES and h["reason_codes"]
         assert h["model"] == "gpt-5.4-nano-2026-03-17"           # exact Nano, no substitution
     # Per-hotel artifacts persisted.
     for sub in ("assignments", "model_results", "validated_results", "routing_envelopes"):
-        assert len(list((tmp_path / sub).glob("*.json"))) == 25
+        assert len(list((tmp_path / sub).glob("*.json"))) == 26
     paths = CP.persist_pilot(store, report)
     assert (tmp_path / "operator_summary.json").exists()
     assert (tmp_path / "candidate_export.json").exists()
@@ -188,7 +205,7 @@ def test_live_pilot_deterministic_idempotent_rerun(monkeypatch, tmp_path):
     n1 = len(list((tmp_path / "assignments").glob("*.json")))
     # FakeProvider is deterministic -> a rerun reproduces identical assignments (idempotent).
     CP.run_pilot(classified, CP.PilotCaps(), live=True, store=store, provider_factory=_fake_factory())
-    assert len(list((tmp_path / "assignments").glob("*.json"))) == n1 == 25
+    assert len(list((tmp_path / "assignments").glob("*.json"))) == n1 == 26
 
 
 def test_resume_reuses_completed_without_network_call(monkeypatch, tmp_path):
@@ -240,7 +257,8 @@ def test_resume_rejects_differing_stored_assignment(monkeypatch, tmp_path):
     the freshly-built one, it is NOT a safe reuse (would re-run / collision-detect)."""
     _authorize(monkeypatch)
     store = CP.PilotStore(root=tmp_path)
-    cls = CP.classify_candidates(_candidates())[:1]
+    cls = [c for c in CP.classify_candidates(_candidates())
+           if c.readiness == CP.READY_FOR_RESEARCH][:1]
     CP.run_pilot(cls, CP.PilotCaps(max_assignments=1), live=True, store=store, provider_factory=_fake_factory())
     a = cls[0].assignment
     ap = store._safe("assignments", a.assignment_id + ".json")
@@ -366,7 +384,7 @@ def test_candidate_export_non_production_and_separated(monkeypatch, tmp_path):
     assert set(export["status_markers"]) == {"NON_PRODUCTION", "HUMAN_REVIEW_REQUIRED_BEFORE_IMPORT"}
     # Routes kept in separate buckets; totals reconcile.
     total = sum(export["counts"].values())
-    assert total == 25
+    assert total == 26
     assert len(export["ready_candidates"]) == export["counts"]["READY"]
     assert len(export["review_candidates"]) == export["counts"]["REVIEW"]
     # No READY candidate carries a REVIEW/RETRY/REJECTED reason (separation is real).
@@ -381,9 +399,10 @@ def test_operator_summary_counts_and_cost(monkeypatch, tmp_path):
     report = CP.run_pilot(classified, CP.PilotCaps(), live=True, store=store,
                           provider_factory=_fake_factory(input_tokens=1000, output_tokens=100))
     s = CP.build_operator_summary(report)
-    assert s["inventory"]["authoritative_hotel_candidates"] == 25
-    assert s["inventory"]["successful_model_responses"] == 25
-    assert sum(s["routing"]["counts"].values()) == 25
+    # Discovery total (33) vs. what actually ran (26 evidence-backed).
+    assert s["inventory"]["authoritative_hotel_candidates"] == 33
+    assert s["inventory"]["successful_model_responses"] == 26
+    assert sum(s["routing"]["counts"].values()) == 26
     # Cost aggregation reconciles with the per-hotel records.
     per_hotel = sum(h["estimated_cost_usd"] for h in report["hotels"])
     assert abs(s["cost"]["total_estimated_cost_usd"] - per_hotel) < 1e-6
@@ -419,7 +438,7 @@ def test_cli_dry_run_no_writes(tmp_path, capsys):
     rc = cli_main(["columbus-hotel-pilot", "--output-root", str(tmp_path)])
     assert rc == 0
     out = capsys.readouterr().out
-    assert "hotels found               : 25" in out and "DRY RUN" in out
+    assert "hotels found               : 33" in out and "DRY RUN" in out
     assert not any(tmp_path.iterdir())
 
 
