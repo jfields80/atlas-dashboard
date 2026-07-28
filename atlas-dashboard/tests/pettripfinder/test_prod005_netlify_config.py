@@ -42,7 +42,7 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-EXPECTED_PACKAGE_SHA = "d836b5d9b3f86a6c5c8141264ea16f611c02a5f7014896bfee0098e82be0cd0c"
+EXPECTED_PACKAGE_SHA = "39727aaf35860f3fb5b509f76dfca0b65485c035483dc7e4ccd135b36e32607b"
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
@@ -112,12 +112,17 @@ class TestReleaseContract:
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
         pkg = json.loads(pkg_path.read_text(encoding="utf-8"))
         assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
-        assert len(pkg["hotels"]) == spec["expected_record_count"] == 14
+        assert len(pkg["hotels"]) == spec["expected_record_count"] == 15
 
-    def test_public_profile_count_is_fourteen(self):
+    def test_public_profile_counts_match_the_seed_split(self):
+        """15 published + 10 held == the 25 seed hotels. PTF-INVENTORY-001 moved
+        one hotel across that line under an explicit tiered-fee approval."""
         contract = load_release_contract()
-        assert contract["public_surface"]["public_hotel_profile_count"] == 14
-        assert contract["public_surface"]["excluded_public_profile_count"] == 11
+        published = contract["public_surface"]["public_hotel_profile_count"]
+        excluded = contract["public_surface"]["excluded_public_profile_count"]
+        assert published == 15
+        assert excluded == 10
+        assert published + excluded == 25
 
     def test_identities_derive_from_package_no_duplicated_allowlist(self):
         # The contract must NOT restate the 14 verified hotel identities.
@@ -331,8 +336,8 @@ class TestAssembler:
     def test_exactly_fourteen_hotel_profiles(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert inv["hotel_profile_routes"] == 14
-            assert len(inv["hotel_slugs"]) == 14
+            assert inv["hotel_profile_routes"] == 15
+            assert len(inv["hotel_slugs"]) == 15
 
     def test_all_fourteen_committed_identities_present(self, assembled):
         verified = _verified_slugs()
@@ -341,10 +346,10 @@ class TestAssembler:
             for slug in verified:
                 assert (hotels / slug / "index.html").exists(), slug
 
-    def test_eleven_held_hotels_absent(self, assembled):
+    def test_held_hotels_absent(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert len(inv["excluded_hotel_slugs"]) == 11
+            assert len(inv["excluded_hotel_slugs"]) == 10
             hotels = assembled[ctx]["root"] / "site" / "pet-friendly-hotels"
             for slug in inv["excluded_hotel_slugs"]:
                 assert not (hotels / slug).exists(), slug

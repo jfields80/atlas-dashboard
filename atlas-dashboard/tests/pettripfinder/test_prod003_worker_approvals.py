@@ -127,6 +127,8 @@ def test_committed_manifest_records_the_stage_b_decisions():
         by_decision.setdefault(a["decision"], []).append(a)
     assert len(by_decision.get(PA.DECISION_APPROVED, [])) == 9
     assert len(by_decision.get(PA.DECISION_HOLD, [])) == 1
+    # PTF-INVENTORY-001: one narrow tiered-fee authorization, added 2026-07-28.
+    assert len(by_decision.get(PA.DECISION_TIERED_FEE_OMITTED, [])) == 1
     assert by_decision.get(PA.DECISION_REJECTED, []) == []
     assert by_decision.get(PA.DECISION_SUPERSEDED, []) == []
     assert by_decision[PA.DECISION_HOLD][0]["listing_key"] == _HELD_KEY
@@ -134,6 +136,15 @@ def test_committed_manifest_records_the_stage_b_decisions():
     allowed = set(PA.APPROVAL_REQUIRED_FIELDS)                   # note is the only optional field
     for a in m["approvals"]:
         assert a["operator"] == "Jonathan Fields"
+        if a["decision"] == PA.DECISION_TIERED_FEE_OMITTED:
+            # A separate, later decision: its own date, its own extra fields, and
+            # a REVIEW route (a READY record would have nothing to waive).
+            assert a["approval_date"] == "2026-07-28"
+            assert a["gate1_route"] == "REVIEW"
+            assert set(a) - allowed - {"note"} == set(PA.TIERED_FEE_FIELDS)
+            assert a["waived_reason_codes"] == ["STRUCTURED_FEE_REQUIRED"]
+            assert len(a["preserved_fee_amounts"]) >= 2
+            continue
         assert a["approval_date"] == "2026-07-23"
         assert "note" not in a                                    # no fabricated notes
         assert set(a) == allowed                                  # no unsupported fields
@@ -151,7 +162,10 @@ def test_committed_approvals_are_bound_to_gate1_authority():
     g1 = json.loads(_GATE1_MANIFEST.read_text(encoding="utf-8"))
     idx = PA.gate1_index(g1)
     assert PA.validate_manifest(m, gate1_idx=idx) == []           # no stale/duplicate/misrouted entry
-    g1_by_key = {r["listing_key"]: r for r in g1["launch_safe_candidates"]}
+    # Both sides of the Gate-1 manifest: a tiered-fee approval is bound to a
+    # MANUAL-REVIEW record by design, and must still match it exactly.
+    g1_by_key = {r["listing_key"]: r
+                 for r in (g1["launch_safe_candidates"] + g1["manual_review_candidates"])}
     for a in m["approvals"]:
         assert a["result_hash"] == idx[a["listing_key"]]["result_hash"]
         assert a["gate1_route"] == idx[a["listing_key"]]["gate1_route"]

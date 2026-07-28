@@ -279,7 +279,9 @@ def test_dry_run_fails_closed_after_apply(tmp_path):
     # Once applied, every approved record is excluded by the idempotency gates
     # (the candidate now exists as an operational record), so a second --apply
     # would write nothing. Drury Plaza remains held.
-    assert c["approved_selected"] == 9 and c["passed_all_gates"] == 0
+    # approved_selected counts every SELECTABLE decision, which since
+    # PTF-INVENTORY-001 includes the one APPROVED_TIERED_FEE_OMITTED record.
+    assert c["approved_selected"] == 10 and c["passed_all_gates"] == 0
     for r in report["records"]:
         if not r.get("selected") or r["decision"] != PA.DECISION_APPROVED:
             continue

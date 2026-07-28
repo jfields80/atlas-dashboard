@@ -39,7 +39,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 14   # PROD-004: verified-only public hotels (14 committed package)
+    assert report["hotel_count"] == 15   # PROD-004: verified-only public hotels (15 committed package)
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -66,7 +66,10 @@ def test_core_pages_exist(built_site):
                 # dynamic hub corridor links).
                 "pet-friendly-hotels/dublin/index.html"):
         assert (built_site / rel).exists(), rel
-    assert not (built_site / "pet-friendly-hotels" / "downtown-columbus" / "index.html").exists()
+    # PTF-INVENTORY-001: Downtown reached CORRIDOR_MIN_PROPERTIES (5) when the
+    # Red Roof Convention Center property was promoted, so it now earns an
+    # indexable corridor route it previously did not.
+    assert (built_site / "pet-friendly-hotels" / "downtown-columbus" / "index.html").exists()
 
 
 def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
@@ -130,9 +133,9 @@ def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     sitemap = (built_site / "sitemap.xml").read_text(encoding="utf-8")
     assert "/pet-friendly-hotels/policy-comparison/" in sitemap
     assert "/pet-friendly-hotels/dublin/" in sitemap
-    # PROD-004 verified-only: the Downtown corridor is below the minimum and is not
-    # generated, so it must not appear in the sitemap.
-    assert "/pet-friendly-hotels/downtown-columbus/" not in sitemap
+    # PTF-INVENTORY-001: Downtown now meets CORRIDOR_MIN_PROPERTIES and IS
+    # generated, so it must appear in the sitemap exactly like Dublin.
+    assert "/pet-friendly-hotels/downtown-columbus/" in sitemap
 
 
 def test_sitemap_covers_every_indexable_route_exactly_once(built_site):
@@ -184,15 +187,22 @@ def test_robots_allows_ai_and_search_crawlers(built_site):
     assert not re.search(r"User-agent: \*\s*\nDisallow: /\s*$", robots, re.M)
 
 
-def test_comparison_page_lists_the_14_verified_hotels(built_site):
-    # PROD-004 verified-only: the comparison table lists exactly the 14 committed
+def test_comparison_page_lists_the_verified_hotels(built_site):
+    # PROD-004 verified-only: the comparison table lists exactly the committed
     # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 15  # header + 14 verified hotels
-    for held in ("Drury Plaza", "Aloft", "Staybridge", "Sonesta Simply", "Extended Stay",
-                 "Red Roof", "Hyatt House"):
+    assert len(rows) == 16  # header + 15 verified hotels
+    # Held properties are named in FULL: "Red Roof" alone is no longer a valid
+    # exclusion probe now that the Convention Center property is published
+    # (PTF-INVENTORY-001), and a bare-brand check would silently pass forever.
+    for held in ("Drury Plaza", "Aloft Columbus University District",
+                 "Staybridge", "Sonesta Simply", "Extended Stay",
+                 "Red Roof PLUS+ Columbus Dublin", "Red Roof PLUS+ Columbus Worthington",
+                 "Red Roof Inn Columbus West Hilliard", "Hyatt House"):
         assert held not in text
+    # ...and the newly promoted property IS present.
+    assert "Red Roof PLUS+ Columbus Downtown Convention Center" in text
 
 
 def test_every_profile_has_exactly_one_structured_data_lodging_or_place_entry(built_site):

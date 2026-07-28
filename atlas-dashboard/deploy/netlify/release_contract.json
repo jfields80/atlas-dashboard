@@ -1,51 +1,12 @@
 {
-  "contract_id": "pettripfinder-columbus-release/1.0",
-  "product": "pettripfinder-columbus",
-  "description": "Deterministic release-gate contract for the PetTripFinder Columbus static site (PETTRIPFINDER-PROD-005A). Consumed by scripts/pettripfinder/assemble_netlify_bundle.py. Contains NO credentials and NO remote project identifiers. The committed hotel-policy package is the single identity authority for the 14 verified hotels; this contract deliberately does NOT duplicate a hard-coded production allow-list.",
   "canonical": {
     "base_url": "https://pettripfinder.com",
     "canonical_host": "pettripfinder.com",
-    "sitemap_host": "pettripfinder.com",
-    "robots_sitemap_host": "pettripfinder.com"
+    "robots_sitemap_host": "pettripfinder.com",
+    "sitemap_host": "pettripfinder.com"
   },
-  "policy_package": {
-    "path": "launch_packages/pettripfinder/hotel_policy_facts.json",
-    "identity_authority": true,
-    "expected_schema_version": "1.1",
-    "expected_record_count": 14,
-    "expected_sha256": "d836b5d9b3f86a6c5c8141264ea16f611c02a5f7014896bfee0098e82be0cd0c",
-    "note": "The 14 verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are the seed hotels absent from this package."
-  },
-  "public_surface": {
-    "public_hotel_profile_count": 14,
-    "excluded_public_profile_count": 11,
-    "held_hotel_exclusion": "Every seed hotel absent from the committed package (11 held/manual-review, including Drury Plaza) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials.",
-    "drury_plaza_slug": "drury-plaza-hotel-columbus-downtown"
-  },
-  "publish": {
-    "publishable_root": "site/",
-    "control_files": ["_headers", "_redirects"],
-    "control_file_sources": {
-      "_headers": {
-        "production": "deploy/netlify/headers.production",
-        "preview": "deploy/netlify/headers.preview"
-      },
-      "_redirects": "deploy/netlify/redirects"
-    },
-    "forbidden_path_segments": [
-      ".git", ".github", ".claude", ".netlify", "__pycache__",
-      "data", "docs", "tests", "scripts", "services", "launch_packages",
-      "engines", "repositories"
-    ],
-    "forbidden_extensions": [
-      ".py", ".pyc", ".pyo", ".patch", ".map", ".json", ".env"
-    ],
-    "forbidden_basenames": [
-      "_build_report.json", "_broken_link_report.json", "_quality_report.json",
-      "bundle_manifest.json", ".env"
-    ],
-    "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
-  },
+  "contract_id": "pettripfinder-columbus-release/1.0",
+  "description": "Deterministic release-gate contract for the PetTripFinder Columbus static site (PETTRIPFINDER-PROD-005A). Consumed by scripts/pettripfinder/assemble_netlify_bundle.py. Contains NO credentials and NO remote project identifiers. The committed hotel-policy package is the single identity authority for the 14 verified hotels; this contract deliberately does NOT duplicate a hard-coded production allow-list.",
   "forbidden_output_tokens": [
     "C:\\Atlas",
     "C:/Atlas",
@@ -76,12 +37,73 @@
     "headers.context_noindex_preview_only",
     "content.zero_broken_links",
     "content.quality_report_clean",
-    "content.build_report_hotel_count_14",
+    "content.build_report_hotel_count_matches_contract",
     "tech.go_pages_noindex",
     "tech.sitemap_public_canonical_only",
     "tech.robots_sitemap_host_apex",
     "tech.no_credentials",
     "tech.no_windows_local_paths",
     "tech.no_runtime_paths"
-  ]
+  ],
+  "policy_package": {
+    "expected_record_count": 15,
+    "expected_schema_version": "1.1",
+    "expected_sha256": "39727aaf35860f3fb5b509f76dfca0b65485c035483dc7e4ccd135b36e32607b",
+    "identity_authority": true,
+    "note": "The 15 verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are the seed hotels absent from this package.",
+    "path": "launch_packages/pettripfinder/hotel_policy_facts.json"
+  },
+  "product": "pettripfinder-columbus",
+  "public_surface": {
+    "drury_plaza_slug": "drury-plaza-hotel-columbus-downtown",
+    "excluded_public_profile_count": 10,
+    "held_hotel_exclusion": "Every seed hotel absent from the committed package (10 held/manual-review, including Drury Plaza) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials.",
+    "public_hotel_profile_count": 15
+  },
+  "publish": {
+    "control_file_sources": {
+      "_headers": {
+        "preview": "deploy/netlify/headers.preview",
+        "production": "deploy/netlify/headers.production"
+      },
+      "_redirects": "deploy/netlify/redirects"
+    },
+    "control_files": [
+      "_headers",
+      "_redirects"
+    ],
+    "forbidden_basenames": [
+      "_build_report.json",
+      "_broken_link_report.json",
+      "_quality_report.json",
+      "bundle_manifest.json",
+      ".env"
+    ],
+    "forbidden_extensions": [
+      ".py",
+      ".pyc",
+      ".pyo",
+      ".patch",
+      ".map",
+      ".json",
+      ".env"
+    ],
+    "forbidden_path_segments": [
+      ".git",
+      ".github",
+      ".claude",
+      ".netlify",
+      "__pycache__",
+      "data",
+      "docs",
+      "tests",
+      "scripts",
+      "services",
+      "launch_packages",
+      "engines",
+      "repositories"
+    ],
+    "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship.",
+    "publishable_root": "site/"
+  }
 }

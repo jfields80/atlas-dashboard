@@ -29,10 +29,14 @@ _HELD = [
     "drury-plaza-hotel-columbus-downtown", "aloft-columbus-university-district",
     "staybridge-suites-columbus-dublin", "sonesta-simply-suites-dublin-columbus",
     "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
-    "red-roof-plus-columbus-downtown-convention-center", "red-roof-plus-columbus-worthington",
+    "red-roof-plus-columbus-worthington",
     "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
     "la-quinta-inn-by-wyndham-columbus-dublin",
 ]
+# PTF-INVENTORY-001: red-roof-plus-columbus-downtown-convention-center left this
+# list on 2026-07-28. It was promoted under an explicit APPROVED_TIERED_FEE_OMITTED
+# decision -- its Gate-1 block was solely a tiered fee the scalar schema cannot
+# render, and it now publishes with the fee field omitted rather than flattened.
 
 
 # --------------------------------------------------------------------------- #
@@ -61,7 +65,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 14
+    assert len(verified) == 15
 
 
 # --------------------------------------------------------------------------- #
@@ -123,7 +127,7 @@ def _display_slug(key):
 
 
 def test_exactly_14_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 14
+    assert len(_hotel_slugs(build)) == 15
 
 
 def test_every_profile_belongs_to_the_committed_package(build):
