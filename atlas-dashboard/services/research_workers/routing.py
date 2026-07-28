@@ -101,6 +101,18 @@ DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED = "DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED"
 # deterministic backstop withholds the misleading scalar and blocks READY
 # (ATLAS-WORKERS-006 Stage-D fail-closed safety remediation).
 STRUCTURED_FEE_REQUIRED = "STRUCTURED_FEE_REQUIRED"
+# PTF-WORKERS-004. The result rests on a model-generated research report rather
+# than on a page this system fetched and hashed. Research-useful, never
+# publication-eligible: a report can paraphrase, conflate two properties, or
+# summarize a page it only partly read, and a verbatim-quote check cannot catch
+# any of that (the quote is verbatim in the REPORT). Withheld for a human.
+MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE = "MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE"
+# PTF-WORKERS-005. Real official evidence whose PROPERTY IDENTITY was inherited
+# from a parent page rather than proven on the page itself. The bytes are
+# sound; the "this page is about this hotel" link is inferential, and that link
+# is exactly what a wrong pet policy on the wrong property would turn on. A
+# human confirms it before publication -- never automatic.
+INHERITED_IDENTITY_REQUIRES_REVIEW = "INHERITED_IDENTITY_REQUIRES_REVIEW"
 
 # RETRY.
 PROVIDER_TIMEOUT = "PROVIDER_TIMEOUT"
@@ -124,6 +136,7 @@ REVIEW_REASONS = frozenset({
     VALIDATOR_WARNING, MODEL_QUALITY_FAILURE, PROMPT_INJECTION_RISK,
     SOURCE_AUTHORITY_AMBIGUITY, HUMAN_REVIEW_REQUIRED,
     DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED, STRUCTURED_FEE_REQUIRED,
+    MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE, INHERITED_IDENTITY_REQUIRES_REVIEW,
 })
 RETRY_REASONS = frozenset({
     PROVIDER_TIMEOUT, PROVIDER_RATE_LIMITED, PROVIDER_SERVER_ERROR, TRANSPORT_FAILURE,
@@ -351,7 +364,34 @@ def _safety_blockers(result: WorkerResult) -> set:
     return blockers
 
 
-def _ready_blockers(result: WorkerResult) -> set:
+def _model_research_provenance(assignment: Assignment, result: WorkerResult) -> bool:
+    """True iff this result leans on model-research provenance anywhere.
+
+    Two independent signals, because the two failure modes differ: the result
+    SELECTED a research report as its source, or an individual supported fact
+    cites one (directly by type, or by pointing at a research document supplied
+    in the assignment).
+    """
+    research_urls = {d.source_url for d in assignment.source_documents
+                     if d.source_type in V.NON_PUBLISHABLE_SOURCE_TYPES}
+    if (result.selected_source_type in V.NON_PUBLISHABLE_SOURCE_TYPES
+            or result.selected_source_url in research_urls):
+        return True
+    for f in result.proposed_facts:
+        if f.state != V.SUPPORTED:
+            continue
+        if f.source_type in V.NON_PUBLISHABLE_SOURCE_TYPES or f.source_url in research_urls:
+            return True
+    return False
+
+
+def _non_automatic_urls(assignment: Assignment) -> set:
+    """URLs of every supplied document whose provenance cannot auto-publish."""
+    return {d.source_url for d in assignment.source_documents
+            if d.source_type in V.NON_AUTOMATIC_SOURCE_TYPES}
+
+
+def _ready_blockers(assignment: Assignment, result: WorkerResult) -> set:
     """Publication-airlock conditions for a COMPLETED result. Any blocker means
     REVIEW, never READY (fail-closed)."""
     blockers: set = set()
@@ -368,6 +408,29 @@ def _ready_blockers(result: WorkerResult) -> set:
         # A structured (tiered/capped/conditional) fee is research-complete but
         # cannot be rendered by the single-value production chain -> withhold.
         blockers.add(DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED)
+    # PTF-WORKERS-005/006: inherited identity and manual attestation may support
+    # extraction but never publish automatically. Checked on the selected source
+    # AND on each supported fact, because a result can select a self-identifying
+    # page while an individual fact still rests on a non-automatic document.
+    #
+    # Resolved by source_URL against the assignment, not by the source_type the
+    # result declares. An audit of the combined branch proved the type-only form
+    # was bypassable: a fact citing a MANUAL_OFFICIAL_ATTESTATION document while
+    # declaring a blank or spoofed OFFICIAL_PROPERTY type routed READY. A
+    # backstop that believes the layer it is backstopping is not a backstop --
+    # the document's own provenance is the only trustworthy answer. This mirrors
+    # _model_research_provenance, which was already URL-resolved and was not
+    # bypassable under the same attack.
+    non_automatic = _non_automatic_urls(assignment)
+    if (result.selected_source_type in V.NON_AUTOMATIC_SOURCE_TYPES
+            or result.selected_source_url in non_automatic):
+        blockers.add(INHERITED_IDENTITY_REQUIRES_REVIEW)
+    for f in result.proposed_facts:
+        if f.state != V.SUPPORTED:
+            continue
+        if (f.source_type in V.NON_AUTOMATIC_SOURCE_TYPES
+                or f.source_url in non_automatic):
+            blockers.add(INHERITED_IDENTITY_REQUIRES_REVIEW)
     return blockers
 
 
@@ -432,12 +495,28 @@ def _decide(assignment: Assignment, result: WorkerResult,
     if proposal is not None and not proposal.ok:
         return ROUTE_REVIEW, [MODEL_QUALITY_FAILURE], None
 
-    # 3) Contract / envelope / evidence integrity -> REJECTED.
+    # 3) PTF-WORKERS-004 provenance backstop. Checked BEFORE integrity because
+    #    the two would otherwise disagree on a result built from a model
+    #    research report: _integrity_blockers looks a supported fact's source up
+    #    among the USABLE OFFICIAL documents, finds a research report absent
+    #    from that set, and rejects the whole bundle as corrupt. Rejection is
+    #    not the intent -- model research is meant to be reviewed by a human,
+    #    not discarded -- so the named, narrower rule runs first.
+    #
+    #    This weakens nothing. The condition is strictly "source_type is a
+    #    non-publishable provenance", a source type that did not exist before
+    #    this sprint, so no previously-routable result can reach it and every
+    #    existing envelope routes byte-identically. Its outcome is REVIEW:
+    #    fail-closed, never READY.
+    if _model_research_provenance(assignment, result):
+        return ROUTE_REVIEW, [MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE], None
+
+    # 4) Contract / envelope / evidence integrity -> REJECTED.
     integrity = _integrity_blockers(assignment, result)
     if integrity:
         return ROUTE_REJECTED, sorted(integrity), None
 
-    # 4) Status-driven routing over a structurally-sound result.
+    # 5) Status-driven routing over a structurally-sound result.
     status = result.status
     if status == V.STATUS_FAILED:
         # Reached here only without a proposal to classify (fail-closed): a bare
@@ -451,7 +530,7 @@ def _decide(assignment: Assignment, result: WorkerResult,
         reasons = _warning_reasons(result) or {HUMAN_REVIEW_REQUIRED}
         return ROUTE_REVIEW, sorted(reasons), None
     if status == V.STATUS_COMPLETED:
-        blockers = _safety_blockers(result) | _ready_blockers(result)
+        blockers = _safety_blockers(result) | _ready_blockers(assignment, result)
         if blockers:
             return ROUTE_REVIEW, sorted(blockers), None
         return ROUTE_READY, [PUBLICATION_ELIGIBLE], None

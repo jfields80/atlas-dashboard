@@ -93,6 +93,48 @@ def require_spend_authorization(max_estimated_cost: float) -> None:
             % (max_estimated_cost, SPEND_AUTH_MAX_USD))
 
 
+# PTF-WORKERS-004: a SECOND, fully independent airlock for the web-research
+# provider. It is deliberately a separate env var, token, and ceiling rather
+# than a raised limit on the benchmark gate above -- raising SPEND_AUTH_MAX_USD
+# would have silently widened every existing paid path (benchmark, evaluate,
+# canary, Columbus pilot) from $1 to $5. The two gates share no state: holding
+# one token grants nothing on the other's path.
+#
+# On the env-var NAME: it is the operator's existing shell token and is kept
+# verbatim so an already-provisioned authorization keeps working. The name is
+# not a claim about which models exist -- OpenAI's dedicated deep-research
+# models are NOT available to this API project (verified 404 via
+# GET /v1/models/{id}), and nothing in this codebase implements or claims that
+# product. This provider is web search grounding on a general model.
+WEB_RESEARCH_SPEND_AUTH_ENV = "ATLAS_DEEP_RESEARCH_SPEND_AUTHORIZATION"
+WEB_RESEARCH_SPEND_AUTH_TOKEN = "YES_MAX_5_USD"
+WEB_RESEARCH_SPEND_MAX_USD = 5.00
+
+
+def web_research_spend_authorization_present() -> bool:
+    """True iff the exact web-research spend token is set. Boolean only -- the
+    value is compared, never printed, persisted, or hashed."""
+    return os.environ.get(WEB_RESEARCH_SPEND_AUTH_ENV) == WEB_RESEARCH_SPEND_AUTH_TOKEN
+
+
+def require_web_research_spend_authorization(max_estimated_cost: float) -> None:
+    """Gate a paid web-research run: the exact env token must be present and the
+    caller's own computed maximum cost must not exceed the $5.00 ceiling. Raises
+    before any network client is built.
+
+    Note this takes the MAXIMUM cost, not an average or expected cost: the
+    ceiling is compared against the worst case the caller can actually incur,
+    so a run can never be authorized on an optimistic estimate."""
+    if not web_research_spend_authorization_present():
+        raise SpendingAirlockError(
+            "paid web research requires environment %s=%s (value never logged)"
+            % (WEB_RESEARCH_SPEND_AUTH_ENV, WEB_RESEARCH_SPEND_AUTH_TOKEN))
+    if max_estimated_cost is None or max_estimated_cost > WEB_RESEARCH_SPEND_MAX_USD + 1e-9:
+        raise SpendingAirlockError(
+            "computed maximum cost %s exceeds the $%.2f web-research ceiling"
+            % (max_estimated_cost, WEB_RESEARCH_SPEND_MAX_USD))
+
+
 # --------------------------------------------------------------------------- #
 # Deterministic fake provider (rule-based extractor over supplied text).
 # --------------------------------------------------------------------------- #

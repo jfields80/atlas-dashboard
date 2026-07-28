@@ -117,14 +117,54 @@ SOURCE_OFFICIAL_PROPERTY = "OFFICIAL_PROPERTY"
 SOURCE_OFFICIAL_BRAND = "OFFICIAL_BRAND"
 SOURCE_OFFICIAL_FAQ = "OFFICIAL_FAQ"
 SOURCE_OTHER = "OTHER"
+# PTF-WORKERS-004. A narrative report produced by a web-search-grounded model,
+# NOT a page this system fetched. It is deliberately a distinct provenance from
+# every OFFICIAL_* type and from OTHER, because the failure mode it guards
+# against is specific: a model report can paraphrase, merge two properties, or
+# summarize a page it half-read, and none of that is detectable by the verbatim
+# quote check (the "quote" would be verbatim in the REPORT while being absent
+# from the hotel's actual page). Treating it as its own source type is what lets
+# routing withhold it by name instead of by accident.
+SOURCE_MODEL_RESEARCH_REPORT = "MODEL_RESEARCH_REPORT"
+# PTF-WORKERS-005. An official page whose property identity was established
+# from its PARENT property page rather than from its own content -- e.g. an
+# /amenities sub-page that carries the policy but repeats neither the street
+# address nor the phone number. It is genuine official evidence (we fetched
+# and hashed it), but the identity link is inferential, so it is publishable
+# only after a human confirms it. See NON_AUTOMATIC_SOURCE_TYPES below.
+SOURCE_OFFICIAL_PROPERTY_INHERITED = "OFFICIAL_PROPERTY_INHERITED"
+# PTF-WORKERS-006. An official page a HUMAN opened in an ordinary browser and
+# attested to, because Atlas cannot retrieve it (IHG/Akamai returns 403 to both
+# the static fetcher and headless Chromium, and every technique that would
+# defeat that is forbidden). The bytes are the official page's, transported by
+# a person instead of by code -- so it is official evidence, but it can never
+# publish without an explicit, separately recorded human approval.
+SOURCE_MANUAL_OFFICIAL_ATTESTATION = "MANUAL_OFFICIAL_ATTESTATION"
 SOURCE_TYPES = frozenset({SOURCE_OFFICIAL_PROPERTY, SOURCE_OFFICIAL_BRAND,
-                          SOURCE_OFFICIAL_FAQ, SOURCE_OTHER})
+                          SOURCE_OFFICIAL_FAQ, SOURCE_OTHER,
+                          SOURCE_MODEL_RESEARCH_REPORT,
+                          SOURCE_OFFICIAL_PROPERTY_INHERITED,
+                          SOURCE_MANUAL_OFFICIAL_ATTESTATION})
 
 # Only these count as official publication evidence; OTHER (e.g. a search
 # snippet or a third-party directory) can NEVER support a published fact
-# (Stage 3 rule 4).
+# (Stage 3 rule 4). MODEL_RESEARCH_REPORT is deliberately EXCLUDED: model
+# research is a discovery aid, never directly-fetched official-page evidence.
 OFFICIAL_SOURCE_TYPES = frozenset({SOURCE_OFFICIAL_PROPERTY, SOURCE_OFFICIAL_BRAND,
-                                   SOURCE_OFFICIAL_FAQ})
+                                   SOURCE_OFFICIAL_FAQ,
+                                   SOURCE_OFFICIAL_PROPERTY_INHERITED,
+                                   SOURCE_MANUAL_OFFICIAL_ATTESTATION})
+
+# Official enough to SUPPORT a fact, never enough to publish one automatically.
+# Routing turns membership here into a mandatory REVIEW: the evidence is real,
+# but a human confirms the identity link before it can reach a live page.
+NON_AUTOMATIC_SOURCE_TYPES = frozenset({SOURCE_OFFICIAL_PROPERTY_INHERITED,
+                                        SOURCE_MANUAL_OFFICIAL_ATTESTATION})
+
+# Provenance that must never reach publication on its own, however well-formed.
+# Kept as an explicit named set (rather than "not in OFFICIAL_SOURCE_TYPES") so
+# the routing backstop can state WHICH non-official provenance it withheld.
+NON_PUBLISHABLE_SOURCE_TYPES = frozenset({SOURCE_MODEL_RESEARCH_REPORT})
 
 # Property-specific official sources outrank general brand sources (Stage 3
 # rules 5/6). Higher rank wins source selection; equal rank + contradiction is
@@ -134,6 +174,21 @@ SOURCE_TYPE_RANK = {
     SOURCE_OFFICIAL_FAQ: 2,        # property-level FAQ, above brand-wide policy
     SOURCE_OFFICIAL_BRAND: 1,
     SOURCE_OTHER: 0,
+    # Ranked with OTHER at the bottom. Rank only orders sources that are ALREADY
+    # publishable, and a MODEL_RESEARCH_REPORT never is, so this value can never
+    # promote it -- it exists so rank lookups are total rather than defaulted.
+    SOURCE_MODEL_RESEARCH_REPORT: 0,
+    # Below OFFICIAL_FAQ and level with OFFICIAL_BRAND: a page whose identity is
+    # inherited must never outrank one that identifies itself. Deliberately NOT
+    # added to PROPERTY_SPECIFIC_SOURCE_TYPES -- rule 6 compares a property
+    # source against a brand source, and an inherited-identity page has not
+    # earned the property-specific side of that comparison.
+    SOURCE_OFFICIAL_PROPERTY_INHERITED: 1,
+    # Ranked BELOW every directly-fetched property source. A page a human
+    # carried in is real evidence, but when Atlas has also fetched the property
+    # itself, the fetched copy is the one with an unbroken machine chain of
+    # custody and it must win source selection.
+    SOURCE_MANUAL_OFFICIAL_ATTESTATION: 1,
 }
 # Which source types are "property-specific" vs "brand-wide" (rule 6).
 PROPERTY_SPECIFIC_SOURCE_TYPES = frozenset({SOURCE_OFFICIAL_PROPERTY, SOURCE_OFFICIAL_FAQ})
