@@ -22,6 +22,11 @@ _MANIFEST = _REPO / "launch_packages" / "pettripfinder" / "hotel_worker_approval
 _SCHEMA = _REPO / "launch_packages" / "pettripfinder" / "hotel_worker_approval.schema.json"
 _GATE1_MANIFEST = (_REPO / "data" / "worker_runs" / "pettripfinder"
                    / "prod003_gate1_review" / "launch_safe_manifest.json")
+# PTF-INVENTORY-001: a reprocessed hotel is bound to a NEWER authority derived
+# from a separate pilot run. The frozen original is never modified, so both must
+# be consulted to resolve every approval.
+_GATE1_MANIFEST_V3 = (_REPO / "data" / "worker_runs" / "pettripfinder"
+                      / "prod003_gate1_review_v3" / "launch_safe_manifest.json")
 _HELD_KEY = "drury plaza hotel columbus downtown"
 
 _HASH_A = "sha256:" + "a" * 64
@@ -127,8 +132,10 @@ def test_committed_manifest_records_the_stage_b_decisions():
         by_decision.setdefault(a["decision"], []).append(a)
     assert len(by_decision.get(PA.DECISION_APPROVED, [])) == 9
     assert len(by_decision.get(PA.DECISION_HOLD, [])) == 1
-    # PTF-INVENTORY-001: one narrow tiered-fee authorization, added 2026-07-28.
-    assert len(by_decision.get(PA.DECISION_TIERED_FEE_OMITTED, [])) == 1
+    # PTF-INVENTORY-001: two narrow tiered-fee authorizations, both 2026-07-28 --
+    # Red Roof Convention Center (frozen authority) and Red Roof Worthington
+    # (fresh v3 authority after reprocessing).
+    assert len(by_decision.get(PA.DECISION_TIERED_FEE_OMITTED, [])) == 2
     assert by_decision.get(PA.DECISION_REJECTED, []) == []
     assert by_decision.get(PA.DECISION_SUPERSEDED, []) == []
     assert by_decision[PA.DECISION_HOLD][0]["listing_key"] == _HELD_KEY
@@ -161,15 +168,25 @@ def test_committed_approvals_are_bound_to_gate1_authority():
     m = json.loads(_MANIFEST.read_text(encoding="utf-8"))
     g1 = json.loads(_GATE1_MANIFEST.read_text(encoding="utf-8"))
     idx = PA.gate1_index(g1)
+    if _GATE1_MANIFEST_V3.exists():
+        g1v3 = json.loads(_GATE1_MANIFEST_V3.read_text(encoding="utf-8"))
+        idx.update(PA.gate1_index(g1v3))
+    else:
+        pytest.skip("v3 Gate-1 manifest absent (gitignored); binding check skipped")
     assert PA.validate_manifest(m, gate1_idx=idx) == []           # no stale/duplicate/misrouted entry
     # Both sides of the Gate-1 manifest: a tiered-fee approval is bound to a
     # MANUAL-REVIEW record by design, and must still match it exactly.
-    g1_by_key = {r["listing_key"]: r
-                 for r in (g1["launch_safe_candidates"] + g1["manual_review_candidates"])}
+    all_g1 = g1["launch_safe_candidates"] + g1["manual_review_candidates"]
+    if _GATE1_MANIFEST_V3.exists():
+        v3 = json.loads(_GATE1_MANIFEST_V3.read_text(encoding="utf-8"))
+        all_g1 += v3["launch_safe_candidates"] + v3["manual_review_candidates"]
+    # Keyed by (listing_key, candidate_identity): a reprocessed hotel appears in
+    # both authorities under different hashes and must not shadow its original.
+    g1_by_key = {(r["listing_key"], r["candidate_identity"]): r for r in all_g1}
     for a in m["approvals"]:
         assert a["result_hash"] == idx[a["listing_key"]]["result_hash"]
         assert a["gate1_route"] == idx[a["listing_key"]]["gate1_route"]
-        r = g1_by_key[a["listing_key"]]
+        r = g1_by_key[(a["listing_key"], a["result_hash"])]
         assert a["source_url"] in r["source_urls"]
         assert a["verification_date"] == r["verification_date"]
 

@@ -29,7 +29,6 @@ _HELD = [
     "drury-plaza-hotel-columbus-downtown", "aloft-columbus-university-district",
     "staybridge-suites-columbus-dublin", "sonesta-simply-suites-dublin-columbus",
     "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
-    "red-roof-plus-columbus-worthington",
     "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
     "la-quinta-inn-by-wyndham-columbus-dublin",
 ]
@@ -65,7 +64,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 15
+    assert len(verified) == 16
 
 
 # --------------------------------------------------------------------------- #
@@ -127,7 +126,7 @@ def _display_slug(key):
 
 
 def test_exactly_14_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 15
+    assert len(_hotel_slugs(build)) == 16
 
 
 def test_every_profile_belongs_to_the_committed_package(build):

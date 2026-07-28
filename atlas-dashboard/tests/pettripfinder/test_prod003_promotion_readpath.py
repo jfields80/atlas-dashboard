@@ -151,13 +151,13 @@ def test_site_generation_reads_only_the_committed_package():
 
 
 def test_committed_package_is_the_reviewed_authority():
-    # The reviewed, approved Columbus package: schema 1.1, 15 records, exact hash.
+    # The reviewed, approved Columbus package: schema 1.1, 16 records, exact hash.
     # This protects the package from accidental change. The SHA is computed over
     # normalized (LF) text, so it is stable across line-ending checkout differences.
     import hashlib
     text = _COMMITTED_PACKAGE.read_text(encoding="utf-8")
     pkg = json.loads(text)
     assert pkg["schema_version"] == "1.1"
-    assert len(pkg["hotels"]) == 15
+    assert len(pkg["hotels"]) == 16
     assert hashlib.sha256(text.encode("utf-8")).hexdigest() == (
-        "39727aaf35860f3fb5b509f76dfca0b65485c035483dc7e4ccd135b36e32607b")
+        "506503447100b6ebb3a07044c564bf9609609bf94c5d577bdc019e174b1287a9")
