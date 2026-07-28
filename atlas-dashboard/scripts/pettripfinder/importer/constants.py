@@ -307,7 +307,21 @@ REASON_SOURCE_NOT_LOCATION_APPLICABLE = "source_not_location_applicable"
 # this warning attached) -- never deleted, never re-indexed.
 REASON_IMPLAUSIBLE_NUMERIC_EVIDENCE = "implausible_numeric_evidence"
 
+# PTF-WORKERS-005 (browser-rendered retrieval). Every one of these describes a
+# capture we STOPPED on, not one we worked around: the authorized posture is
+# detect-and-classify, never evade.
+REASON_CHALLENGE_DETECTED = "challenge_detected"        # hard bot challenge
+REASON_LOGIN_REQUIRED = "login_required"                # auth/paywall wall
+REASON_CONSENT_GATED = "consent_gated"                  # content behind consent
+REASON_OFF_ALLOWLIST_NAVIGATION = "off_allowlist_navigation"
+# Two captures of the same page in one session produced different visible text,
+# so no single hash honestly describes "the page". Withheld rather than pinned
+# to whichever capture happened to come first.
+REASON_RENDER_NONDETERMINISTIC = "render_nondeterministic"
+
 REASON_SLUGS = frozenset({
+    REASON_CHALLENGE_DETECTED, REASON_LOGIN_REQUIRED, REASON_CONSENT_GATED,
+    REASON_OFF_ALLOWLIST_NAVIGATION, REASON_RENDER_NONDETERMINISTIC,
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
     REASON_FETCH_TIMEOUT, REASON_REDIRECT_LIMIT, REASON_BLOCKED_SOURCE,
@@ -333,13 +347,35 @@ REASON_SLUGS = frozenset({
 REVIEW_FETCH_REASONS = frozenset({
     REASON_BLOCKED_SOURCE, REASON_RATE_LIMITED_SOURCE, REASON_PDF_SOURCE,
     REASON_JAVASCRIPT_RENDERED,
+    # PTF-WORKERS-005: a human may be able to resolve these; none is a
+    # structural defect in the URL itself, so they withhold rather than reject.
+    REASON_CHALLENGE_DETECTED, REASON_LOGIN_REQUIRED, REASON_CONSENT_GATED,
+    REASON_RENDER_NONDETERMINISTIC,
 })
 REJECT_FETCH_REASONS = frozenset({
     REASON_UNSAFE_URL, REASON_UNSAFE_HOST, REASON_UNSAFE_REDIRECT,
     REASON_INVALID_SCHEME, REASON_INVALID_PORT, REASON_DNS_RESOLUTION_FAILED,
     REASON_FETCH_TIMEOUT, REASON_REDIRECT_LIMIT, REASON_FETCH_FAILED,
     REASON_OVERSIZED_RESPONSE, REASON_UNSUPPORTED_CONTENT_TYPE,
+    REASON_OFF_ALLOWLIST_NAVIGATION,
 })
+
+
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS-005 browser rendering caps. Bounded like every other limit here:
+# a render that needs longer than this is a page we do not understand, not a
+# page to wait harder for.
+# --------------------------------------------------------------------------- #
+
+RENDER_NAVIGATION_TIMEOUT_MS = 30000     # per navigation
+RENDER_TOTAL_BUDGET_MS = 60000           # whole page capture, hard ceiling
+RENDER_SETTLE_MS = 1500                  # quiet period before the first capture
+RENDER_STABILITY_GAP_MS = 750            # wait between capture 1 and capture 2
+RENDER_MAX_EXPAND_CLICKS = 12            # bounded accordion expansion
+RENDER_MAX_PAGES_PER_RUN = 4             # parent + child + slack
+# Divergence below this ratio between the two captures is treated as noise
+# (a clock, a view counter); at or above it the capture is nondeterministic.
+RENDER_STABILITY_MAX_DIVERGENCE = 0.02
 
 
 # --------------------------------------------------------------------------- #

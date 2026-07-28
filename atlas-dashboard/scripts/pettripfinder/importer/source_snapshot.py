@@ -22,13 +22,23 @@ _STRIP_TAGS = ("script", "style", "form", "nav", "footer", "noscript",
                "template", "svg", "iframe")
 
 
-def _decode(body: bytes) -> str:
+def decode_body(body: bytes) -> str:
+    """Deterministic response-body decode (utf-8 -> cp1252 -> latin-1 ->
+    lossy utf-8). Public so a caller that needs the same HTML this module
+    normalized (e.g. the PTF-WORKERS-003 retrieval seam, which discovers
+    policy links from it) reuses this exact decoding instead of duplicating
+    the fallback chain and risking a different byte interpretation."""
     for enc in ("utf-8", "cp1252", "latin-1"):
         try:
             return body.decode(enc)
         except UnicodeDecodeError:
             continue
     return body.decode("utf-8", "ignore")
+
+
+# Back-compat alias: this module used the private name before PTF-WORKERS-003
+# made it public. Kept so no existing caller or test has to change.
+_decode = decode_body
 
 
 def normalize_html_to_text(html: str) -> Tuple[str, bool]:
