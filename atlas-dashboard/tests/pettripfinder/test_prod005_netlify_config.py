@@ -42,7 +42,7 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-EXPECTED_PACKAGE_SHA = "002d2b2aba35b4a6d4dc92f1e8a176dc90b5107e863601d825ae030fd2313155"
+EXPECTED_PACKAGE_SHA = "703e7da3ea3333d5157dc28b24e5ac21b47d47f60bd86c96ae6d0b53f2997e01"
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
@@ -112,7 +112,7 @@ class TestReleaseContract:
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
         pkg = json.loads(pkg_path.read_text(encoding="utf-8"))
         assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
-        assert len(pkg["hotels"]) == spec["expected_record_count"] == 25
+        assert len(pkg["hotels"]) == spec["expected_record_count"] == 29
 
     def test_public_profile_counts_match_the_seed_split(self):
         """15 published + 10 held == the 25 seed hotels. PTF-INVENTORY-001 moved
@@ -120,9 +120,9 @@ class TestReleaseContract:
         contract = load_release_contract()
         published = contract["public_surface"]["public_hotel_profile_count"]
         excluded = contract["public_surface"]["excluded_public_profile_count"]
-        assert published == 25
+        assert published == 29
         assert excluded == 14
-        assert published + excluded == 39
+        assert published + excluded == 43
 
     def test_identities_derive_from_package_no_duplicated_allowlist(self):
         # The contract must NOT restate the 14 verified hotel identities.
@@ -336,8 +336,8 @@ class TestAssembler:
     def test_exactly_fourteen_hotel_profiles(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert inv["hotel_profile_routes"] == 25
-            assert len(inv["hotel_slugs"]) == 25
+            assert inv["hotel_profile_routes"] == 29
+            assert len(inv["hotel_slugs"]) == 29
 
     def test_all_fourteen_committed_identities_present(self, assembled):
         verified = _verified_slugs()

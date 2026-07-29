@@ -49,7 +49,7 @@ def _load(name: str):
 class TestRealSeedFilesParse:
     def test_seed_businesses_csv_parses(self):
         seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
-        assert len(seed) == 66
+        assert len(seed) == 70
         for row in seed:
             # Identity columns are required of every row, pending or not.
             for field in ("name", "category", "city", "state", "address",
@@ -64,7 +64,7 @@ class TestRealSeedFilesParse:
         pending = [r for r in seed if not str(r.get("pet_policy", "")).strip()]
         assert len(pending) == 4
         assert all(r["category"] == "pet-friendly-hotels" for r in pending)
-        assert len(seed) - len(pending) == 62
+        assert len(seed) - len(pending) == 66
 
     def test_stale_seed_json_removed(self):
         # The JSON seed was removed with the CSV promotion -- one authority.
@@ -117,7 +117,7 @@ class TestRealPackageConversion:
     def test_forty_seven_unique_valid_listings_remain(self):
         result = self._build()
         assert result.ok
-        assert len(result.dataset.listings) == 62
+        assert len(result.dataset.listings) == 66
 
     def test_no_duplicated_locality_in_street_address(self):
         # AES-WEB-002K.2 address-duplication fix: no seed row's street
@@ -161,7 +161,7 @@ class TestRealPackageConversion:
         for listing in result.dataset.listings:
             assert "example.com" not in listing.provenance.source_url, listing.business_name
             counts[listing.category_id] = counts.get(listing.category_id, 0) + 1
-        assert counts[ids_by_slug["pet-friendly-hotels"]] == 35
+        assert counts[ids_by_slug["pet-friendly-hotels"]] == 39
         assert counts[ids_by_slug["pet-friendly-parks"]] == 14
         assert counts[ids_by_slug["pet-friendly-restaurants"]] == 13
         assert "Drury Inn & Suites Columbus Polaris" in by_name
@@ -196,12 +196,12 @@ class TestRealPackageReadiness:
         readiness = self._readiness()
         # Pending-evidence rows are excluded at the boundary, so everything that
         # reaches readiness is still READY -- NOT_READY must stay 0.
-        assert readiness["total_unique_listings"] == 62
-        assert readiness["counts_by_state"]["READY"] == 62
+        assert readiness["total_unique_listings"] == 66
+        assert readiness["counts_by_state"]["READY"] == 66
         assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
         assert readiness["counts_by_state"]["NOT_READY"] == 0
-        assert readiness["ready_total"] == 62
-        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 35
+        assert readiness["ready_total"] == 66
+        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 39
         assert readiness["ready_by_category"]["pet-friendly-parks"] == 14
         assert readiness["ready_by_category"]["pet-friendly-restaurants"] == 13
         assert readiness["categories_below_target"] == []
@@ -215,4 +215,4 @@ class TestRealPackageReadiness:
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 66
+        assert len(package["seed_businesses"]) == 70
