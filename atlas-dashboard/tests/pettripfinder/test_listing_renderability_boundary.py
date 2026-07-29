@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import csv
 import pathlib
+import re
 
 import pytest
 
@@ -43,16 +44,20 @@ from scripts.pettripfinder.listing_dataset_builder import (
 
 _SEED_CSV = pathlib.Path(LAUNCH_PACKAGE_DIR) / "seed_businesses.csv"
 
-# The seven Columbus hotels awaiting manual official-page attestation. Named
-# here as an *expected outcome* to assert against -- never as filter input.
+# Named here as an *expected outcome* to assert against -- never as filter input.
+#
+# Hotels still awaiting attestation. Nine hotels attested and approved on
+# 2026-07-29 are deliberately ABSENT: their seed rows now carry the attested
+# policy text and they publish. A hotel leaving this set is the intended
+# lifecycle -- pending is a state hotels pass through, not one they sit in.
+# What must stay true is that whatever IS pending never reaches the engine.
 _PENDING_NAMES = frozenset({
-    "Aloft Columbus Easton",
+    # The four remaining Hilton properties whose pages refuse our fetchers and
+    # which no operator has captured yet.
     "Hampton Inn Columbus Airport",
-    "Hilton Columbus at Easton",
     "Hilton Garden Inn Columbus Airport",
     "Home2 Suites New Albany Columbus",
     "Home2 Suites by Hilton Columbus Easton",
-    "TownePlace Suites Columbus Airport Gahanna",
 })
 
 
@@ -181,9 +186,9 @@ class TestRealSeedBoundary:
         )
         assert result.ok
         assert result.errors == ()
-        assert len(package["seed_businesses"]) == 60
-        assert len(result.dataset.listings) == 53
-        assert result.excluded_pending_count == 7
+        assert len(package["seed_businesses"]) == 66
+        assert len(result.dataset.listings) == 62
+        assert result.excluded_pending_count == 4
 
     def test_every_exclusion_names_a_pending_hotel_and_its_reason(self, package):
         result = build_listing_dataset(
@@ -209,10 +214,13 @@ class TestRealSeedBoundary:
         )
         names = {l.business_name for l in result.dataset.listings}
         assert not (names & _PENDING_NAMES)
+        # Also by slug, so a pending hotel cannot slip through under a
+        # differently-spelled display name. Slugified the same way the builder
+        # does, rather than by substring guesswork.
         slugs = {l.listing_id for l in result.dataset.listings}
         for name in _PENDING_NAMES:
-            assert not any(name.lower().split()[0] in s and "easton" in s
-                           for s in slugs if "hilton-columbus" in s)
+            pending_slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+            assert pending_slug not in slugs, name
 
     def test_every_delivered_listing_carries_evidence(self, package):
         """Positive form of the same guarantee: no listing is published
@@ -233,9 +241,9 @@ class TestRealSeedBoundary:
         All 33 hotel rows, pending included, stay in the one seed file."""
         with _SEED_CSV.open("r", encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
-        assert len(rows) == 60
+        assert len(rows) == 66
         hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-        assert len(hotels) == 33
+        assert len(hotels) == 39
         present = {r["name"] for r in hotels}
         assert _PENDING_NAMES <= present
         # And they are retained as real rows, not tombstones: identity intact.
@@ -255,7 +263,7 @@ class TestRealSeedBoundary:
         assert ([listing_readiness(r)[0] for r in direct]
                 == [listing_readiness(r)[0] for r in importer])
         assert sum(1 for r in direct
-                   if listing_readiness(r)[0] == LISTING_PENDING_EVIDENCE) == 7
+                   if listing_readiness(r)[0] == LISTING_PENDING_EVIDENCE) == 4
 
     def test_build_is_deterministic(self, package):
         a = build_listing_dataset(seed_businesses=package["seed_businesses"],

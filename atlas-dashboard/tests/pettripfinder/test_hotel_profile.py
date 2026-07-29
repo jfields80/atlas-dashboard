@@ -324,8 +324,20 @@ def test_phone_action_cannot_wrap_mid_number(pages):
 
 
 def test_related_card_shows_supported_fact_when_available(vms):
-    days = [r for r in vms["rich"].related if "Days Inn" in r.name]
-    assert days, "Days Inn should appear as a related card"
+    # Related cards are the first N hotels in normalized-name order, so which
+    # hotels appear shifts whenever inventory grows. The behaviour under test is
+    # "a card shows its supported fact", not "Days Inn is nearby" -- so ask the
+    # builder for a window wide enough to contain the fixture hotel rather than
+    # relying on it staying inside the default three.
+    from scripts.pettripfinder.hotel_profile import _related_from_production
+    from scripts.pettripfinder.hotel_profile import _load_fixture_data
+    from scripts.pettripfinder.site_data import read_production_rows
+
+    rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
+    facts = _load_fixture_data()["verified_facts"]
+    related = _related_from_production(vms["rich"].name, rows, facts, limit=len(rows))
+    days = [r for r in related if "Days Inn" in r.name]
+    assert days, "Days Inn should appear among the related hotels"
     assert days[0].fact == "Pets welcome"            # supported, from pets_allowed=true
 
 

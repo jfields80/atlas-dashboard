@@ -349,9 +349,16 @@ def test_evidence_sync_in_sync():
 
 
 def test_evidence_sync_detects_drift(tmp_path):
-    # tamper with the committed quote -> sync must fail loudly
+    # tamper with the committed quote -> sync must fail loudly.
+    # Tamper a hotel the sync actually covers: the package now also holds
+    # attested hotels that no benchmark case references, and hotels[0] is
+    # whichever sorts first -- picking blindly can tamper a record the sync
+    # never inspects, which would make this test silently stop testing.
     facts = json.loads((_REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    facts["hotels"][0]["evidence_quote"] = "TAMPERED " + facts["hotels"][0]["evidence_quote"]
+    _bid, cases = load_benchmark()
+    covered = {c.provenance["source_record_key"] for c in cases if c.case_kind == "REAL"}
+    target = next(h for h in facts["hotels"] if h["key"] in covered)
+    target["evidence_quote"] = "TAMPERED " + target["evidence_quote"]
     p = tmp_path / "facts.json"
     p.write_text(json.dumps(facts), encoding="utf-8")
     problems = manifest.verify_evidence_sync(facts_path=str(p))
