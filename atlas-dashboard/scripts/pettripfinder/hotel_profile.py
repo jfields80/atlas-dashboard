@@ -58,11 +58,18 @@ _MONTHS = ("January", "February", "March", "April", "May", "June", "July",
 
 
 def _friendly_date(value: Optional[str]) -> str:
-    """Render an ISO date (YYYY-MM-DD) as "Month D, YYYY" to match the approved
-    design authority. Any non-ISO / empty value is returned unchanged."""
+    """Render an ISO date as "Month D, YYYY" to match the approved design
+    authority. Any non-ISO / empty value is returned unchanged.
+
+    Accepts a full ISO-8601 timestamp as well as a bare date. Attested hotels
+    carry an observed_at taken from the capture itself, which is a timestamp --
+    and a page reading "Verified 2026-07-29T14:28:29.492Z" is an internal
+    artifact leaking onto a consumer surface. Only the date is displayed; the
+    exact instant remains in the attestation record where it belongs.
+    """
     if not value:
         return ""
-    m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", value.strip())
+    m = re.match(r"^(\d{4})-(\d{2})-(\d{2})(?:[T ]\d{2}:\d{2}.*)?$", value.strip())
     if not m:
         return value
     y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))

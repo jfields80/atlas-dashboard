@@ -14,6 +14,7 @@ from __future__ import annotations
 import html
 from typing import Dict, List, Optional, Tuple
 
+from scripts.pettripfinder.hotel_profile import _friendly_date
 from scripts.pettripfinder.site_data import normalize_name
 from scripts.pettripfinder.structured_data import breadcrumb_ld, to_script_tag
 
@@ -160,6 +161,11 @@ def build_comparison_page(rows: List[Dict]) -> str:
                 cells.append('<th scope="row"><a href="%s">%s</a></th>' % (r["route"], _e(r["name"])))
                 continue
             value = (r.get(key) or "").strip()
+            if key == "verified_at":
+                # Attested hotels carry an observed_at taken from the capture,
+                # which is a full timestamp. "Verified 2026-07-29T14:28:29.492Z"
+                # in a consumer comparison table is an internal artifact.
+                value = _friendly_date(value)
             cells.append("<td>%s</td>" % (_e(value) if value else '<span class="ptf-unknown">Not stated</span>'))
         body_rows.append("<tr>%s</tr>" % "".join(cells))
     table = (

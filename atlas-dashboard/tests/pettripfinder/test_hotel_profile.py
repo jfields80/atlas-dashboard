@@ -349,6 +349,26 @@ def test_related_card_omits_fact_when_none(vms):
     assert '<div class="rf"></div>' not in html
 
 
+def test_friendly_date_accepts_a_full_timestamp():
+    """Attested hotels carry an observed_at taken from the capture, which is a
+    timestamp rather than a bare date. Before this was handled, 30 published
+    pages read 'Verified 2026-07-29T14:28:29.492Z' -- an internal artifact on a
+    consumer surface."""
+    from scripts.pettripfinder.hotel_profile import _friendly_date
+    assert _friendly_date("2026-07-15") == "July 15, 2026"
+    assert _friendly_date("2026-07-29T14:28:29.492Z") == "July 29, 2026"
+    assert _friendly_date("2026-07-29 14:28:29") == "July 29, 2026"
+    # Anything not a date is still passed through untouched, never guessed at.
+    assert _friendly_date("not a date") == "not a date"
+    assert _friendly_date("") == ""
+
+
+def test_no_raw_timestamp_reaches_a_rendered_page(pages):
+    import re as _re
+    for name, html in pages.items():
+        assert not _re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", html), name
+
+
 def test_related_fact_priority_and_no_fabrication():
     from scripts.pettripfinder.hotel_profile import _related_fact
     assert _related_fact({"pet_fee": "$75", "fee_basis": "per stay"}) == "$75 per stay"
