@@ -15,3 +15,12 @@ launch_packages/**/*.json    text eol=lf
 launch_packages/**/*.csv     text eol=lf
 deploy/**/*.json             text eol=lf
 deploy/**/*.toml             text eol=lf
+
+# Netlify control-file SOURCES, copied byte-for-byte into the published bundle
+# as site/_headers and site/_redirects. Their names defeat extension globs --
+# "redirects" has none and ".production"/".preview" are not matched above -- so
+# they checked out with CRLF and the assembled bundle hashed differently per
+# clone. Two files of 309 differing is enough to make the release name
+# unreproducible and a byte-comparison of two builds meaningless.
+deploy/netlify/headers.*     text eol=lf
+deploy/netlify/redirects     text eol=lf
