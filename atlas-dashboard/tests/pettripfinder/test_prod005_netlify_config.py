@@ -47,7 +47,12 @@ DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    """Content hash, matching the gate. A raw byte hash is not a stable
+    identity for a text file whose line endings a checkout may rewrite --
+    asserting one here passed in the authoring tree and failed in every fresh
+    clone, which is how the gate defect stayed hidden."""
+    from scripts.pettripfinder.assemble_netlify_bundle import content_sha256
+    return content_sha256(path.read_bytes())
 
 
 def _verified_slugs():
@@ -110,9 +115,30 @@ class TestReleaseContract:
         spec = contract["policy_package"]
         pkg_path = REPO_ROOT / spec["path"]
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
-        pkg = json.loads(pkg_path.read_text(encoding="utf-8"))
+        pkg = json.loads(pkg_path.read_text(encoding="utf-8-sig"))
         assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
         assert len(pkg["hotels"]) == spec["expected_record_count"] == 29
+
+    def test_package_identity_survives_a_checkout_rewriting_line_endings(self):
+        """The defect this closes: the gate hashed raw bytes, so a clone whose
+        checkout used CRLF computed a different digest for the SAME reviewed
+        package, failed the gate, and refused to assemble. Found by running the
+        suite in a clean worktree, not by any existing test."""
+        from scripts.pettripfinder.assemble_netlify_bundle import content_sha256
+        pkg_path = REPO_ROOT / load_release_contract()["policy_package"]["path"]
+        lf = pkg_path.read_bytes().replace(b"\r\n", b"\n")
+        assert content_sha256(lf) == EXPECTED_PACKAGE_SHA
+        assert content_sha256(lf.replace(b"\n", b"\r\n")) == EXPECTED_PACKAGE_SHA
+        assert content_sha256(b"\xef\xbb\xbf" + lf) == EXPECTED_PACKAGE_SHA
+
+    def test_content_hash_still_detects_a_real_change(self):
+        """Line-ending tolerance must not become change tolerance."""
+        from scripts.pettripfinder.assemble_netlify_bundle import content_sha256
+        pkg_path = REPO_ROOT / load_release_contract()["policy_package"]["path"]
+        raw = pkg_path.read_bytes()
+        assert content_sha256(raw.replace(b'"pet_fee"', b'"pet_price"', 1)) != \
+            EXPECTED_PACKAGE_SHA
+        assert content_sha256(raw + b" ") != EXPECTED_PACKAGE_SHA
 
     def test_public_profile_counts_match_the_seed_split(self):
         """15 published + 10 held == the 25 seed hotels. PTF-INVENTORY-001 moved

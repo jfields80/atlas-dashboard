@@ -153,6 +153,29 @@ def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def content_sha256(data: bytes) -> str:
+    """SHA-256 of a text artifact's CONTENT, independent of line endings.
+
+    PTF-SITE-005. The committed policy package was gated on a raw byte hash,
+    which is not a stable identity for a text file under version control: git
+    rewrites LF to CRLF on checkout when core.autocrlf is enabled, so the same
+    reviewed package hashes differently in a fresh clone than in the working
+    tree it was written from. The gate then failed closed and the assembler
+    refused to build -- correct behaviour on a wrong premise.
+
+    A CR before a LF is a checkout artifact, not content. Normalising it away
+    still detects every change that matters: an altered fee, an added or
+    removed hotel, a reordered key. Nothing about the package's meaning can
+    change without changing this digest.
+
+    A UTF-8 BOM is stripped for the same reason -- it is an encoding marker
+    some editors add, not part of the document.
+    """
+    if data[:3] == b"\xef\xbb\xbf":
+        data = data[3:]
+    return hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
+
+
 def bundle_hash(site_dir: Path) -> Tuple[str, "OrderedDict[str, str]"]:
     """Deterministic hash over the publishable ``site/`` tree.
 
@@ -263,14 +286,18 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
         raise AssembleError("committed policy package missing: %s" % pkg_path)
 
     pkg_bytes = pkg_path.read_bytes()
-    pkg_sha = _sha256_bytes(pkg_bytes)
+    # Content hash, not byte hash: see content_sha256. A raw byte hash made this
+    # gate fail in any clone whose checkout used different line endings.
+    pkg_sha = content_sha256(pkg_bytes)
     _gate(gates, "authority.package_sha256",
           pkg_sha == pkg_spec["expected_sha256"], pkg_sha)
-    pkg = json.loads(pkg_bytes)
+    pkg = json.loads(pkg_bytes.decode("utf-8-sig"))
     _gate(gates, "authority.package_schema_1_1",
           str(pkg.get("schema_version")) == str(pkg_spec["expected_schema_version"]),
           str(pkg.get("schema_version")))
-    _gate(gates, "authority.package_count_14",
+    # The expected count lives in the contract, never in the gate NAME -- baking
+    # it in made an intended inventory change present as a gate failure.
+    _gate(gates, "authority.package_count",
           len(pkg.get("hotels", [])) == pkg_spec["expected_record_count"],
           str(len(pkg.get("hotels", []))))
 

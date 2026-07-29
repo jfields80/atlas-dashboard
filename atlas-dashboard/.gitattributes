@@ -1,0 +1,17 @@
+# PTF-SITE-005. Committed authority artifacts check out with LF on every
+# platform, so the bytes a reviewer approved are the bytes every clone gets.
+#
+# The release contract's package digest is line-ending independent
+# (assemble_netlify_bundle.content_sha256), so a CRLF checkout no longer breaks
+# the gate. This file removes the ambiguity a layer earlier instead of relying
+# on that tolerance: a data artifact under version control should not change
+# shape depending on who cloned it.
+#
+# Deliberately narrow. Source files keep the repository's existing behaviour --
+# widening this to "* text=auto eol=lf" would rewrite thousands of files and
+# bury the change that matters.
+
+launch_packages/**/*.json    text eol=lf
+launch_packages/**/*.csv     text eol=lf
+deploy/**/*.json             text eol=lf
+deploy/**/*.toml             text eol=lf
