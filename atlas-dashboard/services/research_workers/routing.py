@@ -113,6 +113,13 @@ MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE = "MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE"
 # is exactly what a wrong pet policy on the wrong property would turn on. A
 # human confirms it before publication -- never automatic.
 INHERITED_IDENTITY_REQUIRES_REVIEW = "INHERITED_IDENTITY_REQUIRES_REVIEW"
+# PTF-WORKERS-007. Real official evidence whose POLICY TEXT came from a search
+# surface bound to a separately-captured property page. Every strong signal
+# matched and the binding is recorded -- but "these two official pages describe
+# the same hotel" remains an inference drawn across two documents, and a search
+# surface re-queried tomorrow may show something else entirely. Publishable
+# only through an explicit, hash-bound approval; never automatically.
+PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW = "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW"
 
 # RETRY.
 PROVIDER_TIMEOUT = "PROVIDER_TIMEOUT"
@@ -137,6 +144,7 @@ REVIEW_REASONS = frozenset({
     SOURCE_AUTHORITY_AMBIGUITY, HUMAN_REVIEW_REQUIRED,
     DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED, STRUCTURED_FEE_REQUIRED,
     MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE, INHERITED_IDENTITY_REQUIRES_REVIEW,
+    PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW,
 })
 RETRY_REASONS = frozenset({
     PROVIDER_TIMEOUT, PROVIDER_RATE_LIMITED, PROVIDER_SERVER_ERROR, TRANSPORT_FAILURE,

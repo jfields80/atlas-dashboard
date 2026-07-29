@@ -51,6 +51,43 @@ behaviour. It never approves or submits anything.
 
 Click again after scrolling to collect additional screenshots.
 
+## When the policy is not on the property page (Marriott)
+
+Some brands state the policy somewhere other than the property page. Marriott
+is the case in hand: the property page proves identity, but the pet policy is
+far down the page, while the expanded card on the search results page shows it
+immediately.
+
+You may capture both and submit them as ONE evidence package:
+
+* **Capture A -- identity.** The property page,
+  `marriott.com/en-us/hotels/<code>-<slug>/overview/`. Confirm the address bar
+  actually left the search page.
+* **Capture B -- policy.** The search results page with **one** hotel's card
+  expanded, pet policy visible.
+
+Take them minutes apart, in the same browser session, with only one card open.
+The validator then re-checks the link between them and requires **all four** of:
+exact hotel name, exact address, exact phone, and the property code -- plus the
+policy sitting inside the same expanded card as the identity. Miss any one and
+the pairing is refused with every failing reason listed.
+
+A paired record cites the **property** URL, never the search URL, and always
+routes REVIEW. Publishing it needs a second, explicitly recorded
+`APPROVED_PAIRED_OFFICIAL_SOURCE` approval bound to both capture hashes.
+
+If the policy *is* visible on the property page, capture that alone -- a single
+self-identifying capture is always preferred to a pair.
+
+```
+python -m services.research_workers attest-official-page \
+  --hotel "<exact seed name>" \
+  --identity-capture Downloads/ptf-capture/<property-page>.json \
+  --capture          Downloads/ptf-capture/<search-card>.json \
+  --screenshot       Downloads/ptf-capture/<search-card>.png \
+  ... (remaining flags as below)
+```
+
 ## Then hand it to the pipeline
 
 ```

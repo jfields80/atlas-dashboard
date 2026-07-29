@@ -500,9 +500,32 @@ def _cmd_attest_official_page(args) -> int:
         retrieval_status=failure.status)
 
     payload = _json.loads(Path(args.capture).read_text(encoding="utf-8-sig"))
-    ingestion = OC.ingest_capture(payload, job, observed_at=args.observed_at)
+
+    # PTF-WORKERS-007: with --identity-capture, --capture is the POLICY surface
+    # and the identity capture supplies the property URL. Without it, nothing
+    # about the single-capture path changes.
+    paired = None
+    pair_failures = ()
+    if getattr(args, "identity_capture", ""):
+        identity_payload = _json.loads(
+            Path(args.identity_capture).read_text(encoding="utf-8-sig"))
+        ingestion, paired, pair_failures = OC.ingest_paired_capture(
+            identity_payload=identity_payload, policy_payload=payload, job=job,
+            observed_at=args.observed_at)
+    else:
+        ingestion = OC.ingest_capture(payload, job, observed_at=args.observed_at)
 
     print("=== PTF-WORKERS-006 manual official attestation ===")
+    if getattr(args, "identity_capture", ""):
+        print("  evidence mode              : PAIRED (identity + policy captures)")
+        if pair_failures:
+            print("  BINDING REFUSED            : %s" % ", ".join(pair_failures))
+            return 4
+        print("  identity capture           : %s" % paired.identity_capture_url)
+        print("  policy capture             : %s" % paired.policy_capture_url)
+        print("  binding signals            : %s" % ", ".join(paired.matched_signals))
+        print("  card span / capture gap    : %d chars / %d s"
+              % (paired.card_span_chars, paired.capture_gap_seconds))
     print("  model calls made           : 0")
     print("  credential consulted       : none")
     print("  production data written    : none")
@@ -534,7 +557,7 @@ def _cmd_attest_official_page(args) -> int:
             ingestion=ingestion, job=job, affirmation=affirmation,
             automated_failure=failure, screenshots=shots,
             observed_at=args.observed_at, observed_timezone=args.timezone,
-            model_research_ref=ref)
+            model_research_ref=ref, paired_evidence=paired)
     except OC.AttestationError as exc:
         print("  ATTESTATION REFUSED        : %s" % exc)
         return 4
@@ -1168,7 +1191,13 @@ def build_parser() -> argparse.ArgumentParser:
     at.add_argument("--seed", default=None)
     at.add_argument("--hotel", required=True)
     at.add_argument("--capture", required=True,
-                    help="operator page-capture JSON (ptf-official-capture/1.0)")
+                    help="operator page-capture JSON (ptf-official-capture/1.0); "
+                         "with --identity-capture this is the POLICY capture")
+    at.add_argument("--identity-capture", default="",
+                    help="PTF-WORKERS-007 paired evidence: property-page capture "
+                         "JSON proving identity, when the policy was read from an "
+                         "official search surface. Routes REVIEW and needs an "
+                         "explicit APPROVED_PAIRED_OFFICIAL_SOURCE approval.")
     at.add_argument("--screenshot", action="append", default=[], required=True,
                     help="screenshot image path; repeatable; at least one required")
     at.add_argument("--after-retrieval", required=True,

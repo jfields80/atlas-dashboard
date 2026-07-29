@@ -102,6 +102,46 @@ def _build(**over):
 
 
 # --------------------------------------------------------------------------- #
+# PTF-WORKERS-007 regression: the single-capture path did not change.
+#
+# Paired evidence added an optional field to the attestation. If that field
+# ever appears on a single-capture record, every attestation hash issued before
+# the feature existed becomes unverifiable -- so these assertions guard the
+# shape, not just the behaviour.
+# --------------------------------------------------------------------------- #
+
+def test_single_capture_attested_content_has_no_paired_key():
+    content = _build().attested_content()
+    assert "paired_evidence" not in content
+
+
+def test_single_capture_record_reports_no_paired_evidence():
+    att = _build()
+    assert att.paired_evidence is None
+    assert "paired_evidence" not in att.to_dict()
+
+
+def test_single_capture_hash_is_deterministic():
+    assert _build().attestation_hash() == _build().attestation_hash()
+
+
+def test_single_capture_role_is_property_not_paired():
+    assert _ingest().source_role == OC.SOURCE_ROLE_PROPERTY
+
+
+def test_binding_evidence_cannot_be_attached_to_a_single_capture():
+    """Gate P in the other direction: binding evidence on an ordinary capture
+    would be a claim nothing re-checked."""
+    fake = OC.PairedEvidence(
+        identity_capture_url=OFFICIAL_URL, identity_text_hash="a" * 64,
+        policy_capture_url="https://www.ihg.com/search/findHotels.mi",
+        policy_text_hash="b" * 64,
+        matched_signals=OC.REQUIRED_BINDING_SIGNALS)
+    with pytest.raises(OC.AttestationError, match="gateP"):
+        _build(paired_evidence=fake)
+
+
+# --------------------------------------------------------------------------- #
 # Defect regressions (the two latent bugs).
 # --------------------------------------------------------------------------- #
 

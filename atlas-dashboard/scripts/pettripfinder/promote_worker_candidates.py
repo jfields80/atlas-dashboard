@@ -61,6 +61,11 @@ REPORT_SCHEMA = "prod003-gate2-dryrun/1.0"
 # PTF-INVENTORY-001 consumer wording for a hotel whose scalar fee is omitted
 # because the real policy is tiered. Honest about the uncertainty rather than
 # silently showing one of the two numbers as if it were the whole policy.
+# The decisions that actually promote. Every other decision -- HOLD, REJECTED,
+# SUPERSEDED -- is excluded with its decision recorded, never silently skipped.
+PROMOTING_DECISIONS = (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED,
+                       PA.DECISION_PAIRED_OFFICIAL_SOURCE)
+
 TIERED_FEE_CONSUMER_NOTE = ("Pet fees vary by stay length or policy conditions. "
                             "Confirm the current fee directly with the hotel.")
 
@@ -275,26 +280,36 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     failures: List[str] = []
     decision = approval.get("decision")
 
-    if decision not in (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED):
+    if decision not in PROMOTING_DECISIONS:
         return {"listing_key": key, "listing_name": approval.get("listing_name", ""),
                 "decision": decision, "selected": False, "excluded": True,
                 "failures": ["decision:%s" % decision], "mapped": None}
 
-    # PTF-INVENTORY-001. A tiered-fee approval targets a MANUAL-REVIEW record --
-    # that is the whole point of it -- so it reads the other side of the Gate-1
-    # manifest. Everything after this line is evaluated identically for both
-    # decisions; the only difference is which reason codes may be waived.
+    # PTF-INVENTORY-001 / PTF-WORKERS-007. Both waiver decisions target a
+    # MANUAL-REVIEW record -- that is the whole point of them -- so they read
+    # the other side of the Gate-1 manifest. Everything after this line is
+    # evaluated identically for all three decisions; the only difference is
+    # which reason codes each may waive, and neither waiver set may ever clear
+    # the other's blocker.
     tiered = decision == PA.DECISION_TIERED_FEE_OMITTED
-    waived = set(approval.get("waived_reason_codes") or []) & PA.WAIVABLE_REASON_CODES if tiered else set()
+    paired = decision == PA.DECISION_PAIRED_OFFICIAL_SOURCE
+    review_side = tiered or paired
+    if tiered:
+        waived = set(approval.get("waived_reason_codes") or []) & PA.WAIVABLE_REASON_CODES
+    elif paired:
+        waived = (set(approval.get("waived_reason_codes") or [])
+                  & PA.PAIRED_WAIVABLE_REASON_CODES)
+    else:
+        waived = set()
 
     # Bound to (listing_key, result_hash): the approval must name the exact
     # Gate-1 record it was granted against, in the expected launch-safe /
     # manual-review side.
     ident = (key, approval["result_hash"])
-    side = ctx["g1_manual"] if tiered else ctx["g1_safe"]
-    other = ctx["g1_safe"] if tiered else ctx["g1_manual"]
-    keys_here = ctx.get("g1_keys_manual" if tiered else "g1_keys_safe", set())
-    keys_other = ctx.get("g1_keys_safe" if tiered else "g1_keys_manual", set())
+    side = ctx["g1_manual"] if review_side else ctx["g1_safe"]
+    other = ctx["g1_safe"] if review_side else ctx["g1_manual"]
+    keys_here = ctx.get("g1_keys_manual" if review_side else "g1_keys_safe", set())
+    keys_other = ctx.get("g1_keys_safe" if review_side else "g1_keys_manual", set())
 
     g1rec = side.get(ident)
     if g1rec is None:
@@ -312,7 +327,8 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     # READY here would make the approval unusable. Waived only when the fee
     # reason is the one being waived -- never as a blanket route bypass.
     if g1rec.get("final_route") != "READY" and not (
-            tiered and "STRUCTURED_FEE_REQUIRED" in waived):
+            (tiered and "STRUCTURED_FEE_REQUIRED" in waived)
+            or (paired and "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW" in waived)):
         failures.append("gate1_route_not_ready")
     rc = set(g1rec.get("reason_codes", []))
     if "CONTRADICTORY_OFFICIAL_SOURCES" in rc:
@@ -343,6 +359,20 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
         actual = [str(x) for x in (g1rec.get("multi_amount_values") or [])]
         if sorted(stated) != sorted(actual):
             failures.append("preserved_fee_amounts_do_not_match_evidence")
+    if paired:
+        # Same fail-closed rule: only the paired blocker may be waived, and
+        # only when the Gate-1 record actually carries it. A paired approval
+        # applied to a record blocked for some other reason would be clearing
+        # a blocker nobody reviewed.
+        unwaived = sorted(rc - waived - {"PUBLICATION_ELIGIBLE"})
+        if unwaived:
+            failures.append("unwaived_reason_codes:%s" % ",".join(unwaived))
+        if "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW" not in rc:
+            failures.append("paired_waiver_without_paired_evidence")
+        missing_sig = sorted(set(PA.REQUIRED_BINDING_SIGNALS)
+                             - set(approval.get("matched_signals") or []))
+        if missing_sig:
+            failures.append("missing_binding_signals:%s" % ",".join(missing_sig))
     if not g1rec.get("source_urls"):
         failures.append("no_source_url")
     supported = g1rec.get("supported_facts", [])
@@ -405,7 +435,7 @@ def _excluded(approval: Dict, failures: List[str]) -> Dict:
 def evaluate_all(ctx: Dict) -> List[Dict]:
     approvals = sorted(ctx["approvals"].get("approvals", []), key=lambda a: a["listing_key"])
     batch_keys = [a["listing_key"] for a in approvals
-                  if a.get("decision") in (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED)]
+                  if a.get("decision") in PROMOTING_DECISIONS]
     return [evaluate(a, ctx, batch_keys) for a in approvals]
 
 

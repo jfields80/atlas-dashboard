@@ -38,12 +38,26 @@ from services.research_workers import vocabulary as V
 from services.research_workers.contracts import SourceDocument
 from services.research_workers.contracts import content_hash as contract_content_hash
 from services.research_workers.source_retrieval import (
-    EXACT_MATCH, IDENTITY_ACCEPTABLE, ExpectedEntity, PolicyCandidate,
-    assess_identity, discover_policy_candidates, looks_like_directory_page,
+    EXACT_MATCH, IDENTITY_ACCEPTABLE, URL_SHAPE_PROPERTY, URL_SHAPE_SEARCH,
+    ExpectedEntity, PolicyCandidate, assess_identity, classify_url_shape,
+    discover_policy_candidates, extract_property_code_from_url,
+    looks_like_directory_page,
 )
 
 CAPTURE_SCHEMA = "ptf-official-capture/1.0"
 CAPTURE_MODULE_VERSION = "ptf-workers-003-capture/1.0.0"
+
+# What a captured page IS, relative to the hotel being evidenced. Promoted from
+# bare string literals to named constants in PTF-WORKERS-007, when a fourth
+# role was added and the set stopped being self-evident at the call site.
+SOURCE_ROLE_PROPERTY = "PROPERTY_POLICY_SOURCE"
+SOURCE_ROLE_BRAND = "BRAND_POLICY_SOURCE"
+SOURCE_ROLE_SEARCH_SURFACE = "SEARCH_RESULTS_SURFACE"
+# A search surface that has been BOUND to a property-page identity capture. It
+# is not promoted to PROPERTY: the distinction stays visible in every artifact,
+# so a reader can always tell a page that identified itself from one that
+# borrowed its identity.
+SOURCE_ROLE_PAIRED_POLICY = "PAIRED_POLICY_SURFACE"
 
 # Queue directory names (under the gitignored worker-run root).
 OPERATOR_CAPTURE = "operator_capture"
@@ -396,12 +410,24 @@ def ingest_capture(payload: dict, job: CaptureJob,
         return _fail(job, ENTITY_MISMATCH,
                      "identity_%s" % identity.classification.lower(), **common)
 
-    # Same brand-vs-property rule as automatic retrieval.
-    if identity.classification == EXACT_MATCH and not directory:
-        role = "PROPERTY_POLICY_SOURCE"
+    # Same brand-vs-property rule as automatic retrieval, plus the URL-shape
+    # check (PTF-WORKERS-007). The link-graph test alone passed a search page:
+    # /search/findHotels.mi links to /en-us/hotels/..., which is not beneath
+    # /search, so no siblings were counted and a card carrying one hotel's
+    # name, address and phone classified EXACT_MATCH. The search URL then
+    # became the cited official source for that hotel's policy. Shape is
+    # judged first because a query-driven URL is never a stable citation,
+    # whatever its content happens to say.
+    shape = classify_url_shape(captured_url)
+    if shape == URL_SHAPE_SEARCH:
+        role = SOURCE_ROLE_SEARCH_SURFACE
+        applicable = False
+        warnings.append("search_results_page")
+    elif identity.classification == EXACT_MATCH and not directory:
+        role = SOURCE_ROLE_PROPERTY
         applicable = True
     else:
-        role = "BRAND_POLICY_SOURCE"
+        role = SOURCE_ROLE_BRAND
         applicable = False
         warnings.append("directory_listing_page" if directory else "not_property_specific")
 
@@ -433,6 +459,310 @@ def ingest_capture(payload: dict, job: CaptureJob,
         listing_name=job.listing_name, status=CAPTURE_ACCEPTED,
         source_role=role, policy_applicable=True, warnings=tuple(warnings),
         source_document=doc, **common)
+
+
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS-007 -- PAIRED OFFICIAL EVIDENCE.
+#
+# Some brands put a property's identity on one official page and its pet policy
+# on another. Marriott is the case in hand: the property page at
+# /en-us/hotels/<code>-<slug>/overview/ proves WHO the hotel is, while the
+# expanded card on /search/findHotels.mi states the policy in a form an
+# operator can read and photograph in seconds.
+#
+# Neither capture is an attestation by itself. The search page cannot identify
+# a property (its URL is a query, and it lists dozens of hotels); the property
+# page identifies one but may not show the policy above the fold. What makes
+# the pair usable is the BINDING between them -- and the binding, not the
+# operator's say-so, is what this module records and re-checks.
+#
+# The binding is deliberately expensive to satisfy: all four strong signals
+# must match, the policy must be contiguous with the identity inside a single
+# expanded card, and exactly one card may be open. Anything less fails closed.
+# Even when it succeeds the result is never READY -- it routes REVIEW and needs
+# an explicit, hash-bound approval, because "these two pages are about the same
+# hotel" is an inference, and an inference is exactly what a wrong pet policy
+# on the wrong property would turn on.
+# --------------------------------------------------------------------------- #
+
+# Every condition, mapped to the slug recorded when it FAILS. Data rather than
+# a chain of ifs, so an artifact can state exactly what blocked a pairing.
+PAIRING_CONDITIONS = (
+    "identity_capture_not_property_specific",
+    "identity_capture_not_exact_match",
+    "different_source_family",
+    "name_not_matched",
+    "address_not_matched",
+    "phone_not_matched",
+    "property_code_unconfirmed",
+    "policy_not_contiguous_with_identity",
+    "multiple_expanded_cards",
+    "captures_not_same_session",
+    "duplicate_capture",
+    "policy_capture_has_no_policy_text",
+)
+
+# The four signals that must ALL be present. No scoring, no "three of four":
+# each one alone is forgeable or coincidental, and a hotel chain reuses names
+# and phone formats across properties.
+REQUIRED_BINDING_SIGNALS = ("name_exact", "address_exact", "phone_exact", "property_code")
+
+# A bound card must hold identity and policy within this many characters of one
+# another. Sized from the real Marriott card (address at ~730, pet block at
+# ~1094 -- a span of ~360). Two thousand leaves generous headroom while still
+# excluding "somewhere else on a 9,900-character page".
+MAX_CARD_SPAN_CHARS = 2000
+# Captures further apart than this are not one session. Half an hour is long
+# enough for a careful operator and short enough that the page cannot have been
+# re-queried into a different result set unnoticed.
+MAX_CAPTURE_GAP_SECONDS = 1800
+
+
+def _digits(value: str) -> str:
+    """Phone comparison ignores punctuation and a leading country code."""
+    d = re.sub(r"\D", "", value or "")
+    return d[1:] if len(d) == 11 and d.startswith("1") else d
+
+
+def _squash(value: str) -> str:
+    """Collapse whitespace and case for tolerant-but-exact text matching.
+
+    'Drive' vs 'Dr' is NOT normalized away: an address that differs in wording
+    is an address the operator should look at, not one this code should guess
+    about.
+    """
+    return " ".join((value or "").split()).lower()
+
+
+def _parse_iso_seconds(stamp: str) -> Optional[int]:
+    """Seconds since epoch from an ISO-8601 stamp, or None if unparseable."""
+    from datetime import datetime
+    s = (stamp or "").strip().replace("Z", "+00:00")
+    try:
+        return int(datetime.fromisoformat(s).timestamp())
+    except (ValueError, TypeError):
+        return None
+
+
+@dataclass(frozen=True)
+class PairedEvidence:
+    """The recorded binding between an identity capture and a policy capture.
+
+    This is evidence, not permission: every field is re-derivable from the two
+    capture files, and ``bind_paired_captures`` re-checks all of it rather than
+    trusting anything asserted here.
+    """
+
+    identity_capture_url: str
+    identity_text_hash: str
+    policy_capture_url: str
+    policy_text_hash: str
+    matched_signals: Tuple[str, ...] = ()
+    property_code: str = ""
+    card_span_chars: int = 0
+    capture_gap_seconds: int = 0
+    binding_note: str = ""
+
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d["matched_signals"] = list(self.matched_signals)
+        return dict(sorted(d.items()))
+
+
+def _one_expanded_card(policy_text: str, listing_name: str) -> Tuple[bool, int]:
+    """Is exactly one property card expanded in this search capture?
+
+    An expanded card carries a 'Property Information' block. Two of them means
+    the operator had two hotels open and the screenshot cannot say which one
+    the policy belonged to.
+    """
+    blocks = len(re.findall(r"property information", policy_text, re.I))
+    return (blocks == 1, blocks)
+
+
+def bind_paired_captures(*, identity: IngestionOutcome, policy_payload: dict,
+                         job: CaptureJob,
+                         identity_captured_at: str = "",
+                         policy_captured_at: str = "") -> Tuple[Optional[PairedEvidence],
+                                                                Tuple[str, ...]]:
+    """Bind a policy capture to an identity capture, or explain why not.
+
+    Fail-closed and TOTAL: every condition is evaluated and every failure is
+    returned, so an operator sees the complete reason a pairing was refused
+    rather than only the first problem found.
+    """
+    failures: List[str] = []
+
+    # -- Capture A must be a property page that proved its own identity.
+    id_url = identity.captured_url or ""
+    if classify_url_shape(id_url) != URL_SHAPE_PROPERTY:
+        failures.append("identity_capture_not_property_specific")
+    if identity.identity != EXACT_MATCH:
+        failures.append("identity_capture_not_exact_match")
+
+    # -- Capture B: normalize once, then test everything against it.
+    policy_html = str(policy_payload.get("html") or "")
+    policy_url = str(policy_payload.get("final_url") or "")
+    policy_text, _ = normalize_html_to_text(policy_html)
+    policy_hash = hashlib.sha256(policy_text.encode("utf-8")).hexdigest()
+    flat = _squash(policy_text)
+
+    if _registrable(urlsplit(id_url).hostname or "") != _registrable(
+            urlsplit(policy_url).hostname or ""):
+        failures.append("different_source_family")
+
+    if identity.normalized_text_hash and identity.normalized_text_hash == policy_hash:
+        # The same file passed twice is not corroboration.
+        failures.append("duplicate_capture")
+
+    # -- The four strong signals, all required.
+    signals: List[str] = []
+    name = _squash(job.listing_name)
+    if name and name in flat:
+        signals.append("name_exact")
+    else:
+        failures.append("name_not_matched")
+
+    address = _squash(job.expected_address)
+    if address and address in flat:
+        signals.append("address_exact")
+    else:
+        failures.append("address_not_matched")
+
+    phone = _digits(job.expected_phone)
+    if phone and phone in _digits(policy_text):
+        signals.append("phone_exact")
+    else:
+        failures.append("phone_not_matched")
+
+    known = [c for c in (extract_property_code_from_url(id_url),) if c]
+    code = extract_property_code_from_url(id_url)
+    in_policy = bool(code) and (code in policy_url.lower() or code in flat)
+    if code and in_policy:
+        signals.append("property_code")
+    else:
+        failures.append("property_code_unconfirmed")
+
+    # -- Exactly one card open, and the policy contiguous with the identity.
+    single, blocks = _one_expanded_card(policy_text, job.listing_name)
+    if not single:
+        failures.append("multiple_expanded_cards")
+
+    span = 0
+    pet_at = flat.find("pet policy")
+    if pet_at < 0:
+        failures.append("policy_capture_has_no_policy_text")
+    else:
+        anchors = [flat.find(address) if address else -1,
+                   flat.find(name) if name else -1]
+        anchors = [a for a in anchors if a >= 0]
+        if not anchors:
+            failures.append("policy_not_contiguous_with_identity")
+        else:
+            span = max(abs(pet_at - a) for a in anchors)
+            if span > MAX_CARD_SPAN_CHARS:
+                failures.append("policy_not_contiguous_with_identity")
+
+    # -- Same session.
+    gap = 0
+    t_a = _parse_iso_seconds(identity_captured_at)
+    t_b = _parse_iso_seconds(policy_captured_at)
+    if t_a is None or t_b is None:
+        failures.append("captures_not_same_session")
+    else:
+        gap = abs(t_b - t_a)
+        if gap > MAX_CAPTURE_GAP_SECONDS:
+            failures.append("captures_not_same_session")
+
+    if failures:
+        return (None, tuple(sorted(set(failures))))
+
+    note = (
+        "Policy text captured from %s and bound to the property identity proved at "
+        "%s. Binding signals: %s. Identity and policy appear within %d characters "
+        "of one another inside a single expanded card; captures are %d seconds "
+        "apart in one session." % (
+            policy_url, id_url, ", ".join(sorted(signals)), span, gap)
+    )
+    return (PairedEvidence(
+        identity_capture_url=id_url,
+        identity_text_hash=identity.normalized_text_hash,
+        policy_capture_url=policy_url,
+        policy_text_hash=policy_hash,
+        matched_signals=tuple(sorted(signals)),
+        property_code=code,
+        card_span_chars=span,
+        capture_gap_seconds=gap,
+        binding_note=note), ())
+
+
+def ingest_paired_capture(*, identity_payload: dict, policy_payload: dict,
+                          job: CaptureJob,
+                          observed_at: str = "") -> Tuple[IngestionOutcome,
+                                                          Optional[PairedEvidence],
+                                                          Tuple[str, ...]]:
+    """Ingest an identity capture + a policy capture as ONE evidence package.
+
+    Returns ``(outcome, paired_evidence, failures)``. The outcome's source
+    document carries the POLICY text (that is the evidence being attested) but
+    cites the PROPERTY url (that is what identifies the hotel) -- so nothing
+    downstream ever publishes a search link, and the policy still routes REVIEW
+    behind an explicit approval.
+    """
+    identity = ingest_capture(identity_payload, job, observed_at=observed_at)
+    if not identity.accepted:
+        # A property page that cannot carry its own identity cannot lend one.
+        return (identity, None, ("identity_capture_not_accepted:%s"
+                                 % (identity.failure_reason or identity.status),))
+
+    ok, reason = validate_capture(policy_payload)
+    if not ok:
+        return (identity, None, ("policy_capture_invalid:%s" % reason,))
+
+    policy_url = str(policy_payload.get("final_url") or "")
+    authorized = [job.official_url] + list(job.alternate_urls)
+    if not host_is_authorized(policy_url, authorized):
+        return (identity, None, ("policy_capture_unauthorized_domain:%s"
+                                 % (urlsplit(policy_url).hostname or "?"),))
+
+    policy_html = str(policy_payload.get("html") or "")
+    policy_text, truncated = normalize_html_to_text(policy_html)
+    blocked = _page_block_reason(policy_text)
+    if blocked:
+        return (identity, None, ("policy_capture_%s" % blocked,))
+
+    paired, failures = bind_paired_captures(
+        identity=identity, policy_payload=policy_payload, job=job,
+        identity_captured_at=str(identity_payload.get("captured_at") or ""),
+        policy_captured_at=str(policy_payload.get("captured_at") or ""))
+    if paired is None:
+        return (identity, None, failures)
+
+    warnings = list(identity.warnings) + ["paired_policy_surface"]
+    if truncated:
+        warnings.append("policy_normalized_text_truncated_50kb")
+
+    doc = SourceDocument(
+        source_url=identity.captured_url,          # cite the PROPERTY, never the query
+        source_type=V.SOURCE_MANUAL_OFFICIAL_ATTESTATION,
+        retrieved_at=observed_at or str(policy_payload.get("captured_at") or ""),
+        title=identity.title, content_text=policy_text,
+        content_hash=contract_content_hash(policy_text),
+        retrieval_status=V.RETRIEVAL_OK)
+
+    outcome = IngestionOutcome(
+        assignment_id=job.assignment_id, listing_key=job.listing_key,
+        listing_name=job.listing_name, status=CAPTURE_ACCEPTED,
+        captured_url=identity.captured_url, canonical_url=identity.canonical_url,
+        title=identity.title, identity=identity.identity,
+        identity_reasons=identity.identity_reasons,
+        source_role=SOURCE_ROLE_PAIRED_POLICY, policy_applicable=True,
+        raw_content_hash=identity.raw_content_hash,
+        normalized_text_hash=paired.policy_text_hash,
+        normalized_text_bytes=len(policy_text.encode("utf-8")),
+        jsonld_blocks=identity.jsonld_blocks,
+        warnings=tuple(warnings), source_document=doc)
+    return (outcome, paired, ())
 
 
 # --------------------------------------------------------------------------- #
@@ -594,6 +924,7 @@ class OfficialAttestation:
     fee_amounts: Tuple[str, ...] = ()
     model_research_ref: Optional[ModelResearchRef] = None
     approval: ApprovalRecord = field(default_factory=ApprovalRecord)
+    paired_evidence: Optional[PairedEvidence] = None
     schema: str = ATTESTATION_SCHEMA
     capture_method: str = CAPTURE_METHOD_MANUAL_ATTESTATION
 
@@ -615,7 +946,7 @@ class OfficialAttestation:
         and the whole point of the hash is to prove the attested content did
         NOT change between attestation and approval.
         """
-        return {
+        content = {
             "schema": self.schema,
             "attestation_id": self.attestation_id,
             "capture_method": self.capture_method,
@@ -635,6 +966,14 @@ class OfficialAttestation:
                                    if self.model_research_ref else None),
             "ingestion": self.ingestion.to_dict(),
         }
+        # Added ONLY when the evidence is paired, so a single-capture record's
+        # attested content -- and therefore its hash -- is byte-identical to
+        # what it was before PTF-WORKERS-007 existed. A schema change that
+        # silently re-hashed every prior attestation would invalidate exactly
+        # the records this system exists to keep verifiable.
+        if self.paired_evidence is not None:
+            content["paired_evidence"] = self.paired_evidence.to_dict()
+        return content
 
     def attestation_hash(self) -> str:
         return "sha256:" + hashlib.sha256(
@@ -656,11 +995,16 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
                       screenshots: Sequence[Screenshot],
                       observed_at: str, observed_timezone: str,
                       model_research_ref: Optional[ModelResearchRef] = None,
+                      paired_evidence: Optional[PairedEvidence] = None,
                       ) -> OfficialAttestation:
     """Apply all six gates and build an immutable, PENDING attestation.
 
     Every gate raises rather than warns. A partially-satisfied attestation is
     not a weaker attestation, it is not an attestation.
+
+    ``paired_evidence`` adds Gate P (PTF-WORKERS-007). Passing it is the only
+    way a policy capture taken from a search surface may be attested, and it
+    must carry all four strong binding signals.
     """
     # Gate 1 -- a human is only justified where automation demonstrably failed.
     if not automated_failure or not automated_failure.status:
@@ -714,6 +1058,33 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
                 "gate5: attested content is identical to the model research report; "
                 "a report may be referenced but never attested as the official page")
 
+    # Gate P -- paired evidence. The role and the pairing must agree in BOTH
+    # directions: a paired role without recorded binding evidence would be an
+    # unexplained search-surface attestation, and binding evidence attached to
+    # an ordinary single capture would be a claim nothing re-checked.
+    paired_role = ingestion.source_role == SOURCE_ROLE_PAIRED_POLICY
+    if paired_role and paired_evidence is None:
+        raise AttestationError(
+            "gateP: a paired policy surface requires recorded binding evidence")
+    if paired_evidence is not None:
+        if not paired_role:
+            raise AttestationError(
+                "gateP: binding evidence supplied for a non-paired capture")
+        missing = [s for s in REQUIRED_BINDING_SIGNALS
+                   if s not in paired_evidence.matched_signals]
+        if missing:
+            raise AttestationError(
+                "gateP: binding requires all four strong signals; missing %s"
+                % ",".join(sorted(missing)))
+        if classify_url_shape(paired_evidence.identity_capture_url) != URL_SHAPE_PROPERTY:
+            raise AttestationError("gateP: identity capture is not a property URL")
+        if paired_evidence.identity_text_hash == paired_evidence.policy_text_hash:
+            raise AttestationError("gateP: identity and policy captures are the same page")
+        if doc.source_url != paired_evidence.identity_capture_url:
+            raise AttestationError(
+                "gateP: a paired attestation must cite the property URL, not the "
+                "policy surface")
+
     # Privacy: the same forbidden-key scan ingestion applies, re-run over the
     # assembled record so nothing sensitive enters via the attestation fields.
     probe = {"affirmation": affirmation.to_dict(),
@@ -743,6 +1114,7 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
         contradictions=detect_contradictions(statements),
         fee_amounts=fee_amounts(statements),
         model_research_ref=model_research_ref,
+        paired_evidence=paired_evidence,
         approval=ApprovalRecord())          # gate 6: always begins PENDING
 
 

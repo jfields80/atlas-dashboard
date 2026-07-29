@@ -368,6 +368,94 @@ def looks_like_directory_page(final_url: str,
     return len(siblings) >= DIRECTORY_SIBLING_THRESHOLD
 
 
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS-007 -- URL SHAPE.
+#
+# ``looks_like_directory_page`` asks a link-graph question: does this page link
+# to children beneath its own path? That catches a city listing at
+# ``/locations/usa/ohio/columbus/``, whose properties genuinely live beneath it.
+#
+# It does NOT catch a search results page. On ``/search/findHotels.mi`` the
+# result links point at ``/en-us/hotels/<code>/``, which is not beneath
+# ``/search``, so no siblings are counted and the page reads as property-
+# specific. A capture of that page carrying one hotel's name, address and phone
+# then classifies EXACT_MATCH, and the search URL -- which identifies no
+# property and would resolve differently on any later visit -- becomes the
+# cited official source.
+#
+# URL shape is the orthogonal, deterministic answer: judge the address bar, not
+# the link graph. A search URL is a QUERY, and a query is not a property.
+# --------------------------------------------------------------------------- #
+
+URL_SHAPE_PROPERTY = "PROPERTY"
+URL_SHAPE_SEARCH = "SEARCH"
+URL_SHAPE_BRAND = "BRAND"
+URL_SHAPE_UNKNOWN = "UNKNOWN"
+
+# Path markers that make a URL a search/result surface rather than a page about
+# one property. Matched case-insensitively against the path.
+_SEARCH_PATH_MARKERS = (
+    "/search", "findhotels", "/find-hotels", "/hotel-search", "/results",
+    "/availability", "/list", "/browse",
+)
+# Query parameters that only a search surface carries. Their presence means the
+# page content depends on the query string, so the URL is not a stable anchor.
+_SEARCH_QUERY_MARKERS = (
+    "destinationaddress", "destination", "searchtype", "fromdate", "todate",
+    "lengthofstay", "numberofrooms", "checkin", "checkout", "query", "keyword",
+)
+# Path markers for brand-wide policy/marketing pages (not one property).
+_BRAND_PATH_MARKERS = (
+    "/about-us", "/why-", "/policies", "/pet-policy", "/pet-friendly",
+    "/locations", "/destinations", "/offers", "/brands",
+)
+
+
+def classify_url_shape(url: str) -> str:
+    """Classify a URL as PROPERTY / SEARCH / BRAND / UNKNOWN from its shape.
+
+    Deliberately independent of page content: content can be made to look like
+    anything, but a search URL cannot be made to name a property. SEARCH wins
+    over every other classification -- if a URL is query-driven at all, it is
+    not a stable citation, whatever else it also looks like.
+    """
+    parts = urlsplit(url or "")
+    path = (parts.path or "").lower()
+    query = (parts.query or "").lower()
+
+    if any(m in path for m in _SEARCH_PATH_MARKERS):
+        return URL_SHAPE_SEARCH
+    # A bare "?" of tracking noise is not a search; named search parameters are.
+    if any(("%s=" % m) in query for m in _SEARCH_QUERY_MARKERS):
+        return URL_SHAPE_SEARCH
+    if any(m in path for m in _BRAND_PATH_MARKERS):
+        return URL_SHAPE_BRAND
+
+    # A property page names one property in its path: at least two non-trivial
+    # segments, the last of which is a slug rather than a bare section word.
+    segments = [s for s in path.split("/") if s]
+    if len(segments) >= 2 and any("-" in s or len(s) >= 8 for s in segments[1:]):
+        return URL_SHAPE_PROPERTY
+    return URL_SHAPE_UNKNOWN
+
+
+def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) -> str:
+    """Return the property code embedded in a URL, if one is present.
+
+    Prefers an explicit known code (the seed's, when we have it) over guessing,
+    because a guessed code that happens to match the wrong hotel is worse than
+    no code at all.
+    """
+    low = (url or "").lower()
+    for code in known_codes:
+        c = (code or "").strip().lower()
+        if c and c in low:
+            return c
+    # Marriott/IHG style: a short alphanumeric code leading a property slug.
+    m = re.search(r"/(?:hotels?|hoteldetail)/(?:[a-z-]+/)?([a-z0-9]{4,7})-", low)
+    return m.group(1) if m else ""
+
+
 def discover_policy_candidates(html: str, base_url: str,
                                limit: int = MAX_CANDIDATES) -> Tuple[PolicyCandidate, ...]:
     """Same-registrable-domain links whose URL or anchor text suggests a pet

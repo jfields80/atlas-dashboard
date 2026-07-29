@@ -18,6 +18,7 @@ approval, and a record with no approval is never promoted.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -43,12 +44,23 @@ DECISION_SUPERSEDED = "SUPERSEDED"
 # clear a contradiction, an incomplete extraction, an identity conflict, or
 # source-authority ambiguity. Those still fail closed.
 DECISION_TIERED_FEE_OMITTED = "APPROVED_TIERED_FEE_OMITTED"
+# PTF-WORKERS-007. A NARROW authorization to promote a record whose policy text
+# came from an official search surface bound to a separately captured property
+# page. It waives ONLY PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW, and only when
+# all four strong binding signals were recorded AND the approval is bound to
+# both capture hashes plus the attestation hash. Alter any of the three and the
+# approval goes stale -- which is the point: an approval must apply to exactly
+# the evidence a human looked at, not to whatever later occupies its slot.
+DECISION_PAIRED_OFFICIAL_SOURCE = "APPROVED_PAIRED_OFFICIAL_SOURCE"
 ALLOWED_DECISIONS = (DECISION_APPROVED, DECISION_HOLD, DECISION_REJECTED,
-                     DECISION_SUPERSEDED, DECISION_TIERED_FEE_OMITTED)
+                     DECISION_SUPERSEDED, DECISION_TIERED_FEE_OMITTED,
+                     DECISION_PAIRED_OFFICIAL_SOURCE)
 
-# The ONLY reason code this decision may waive. Kept as a frozenset so widening
-# it is a visible, reviewable edit rather than a passing thought.
+# The ONLY reason codes these decisions may waive, one frozenset per decision.
+# Kept separate so a widening is a visible, reviewable edit rather than a
+# passing thought, and so neither decision can ever clear the other's blocker.
 WAIVABLE_REASON_CODES = frozenset({"STRUCTURED_FEE_REQUIRED"})
+PAIRED_WAIVABLE_REASON_CODES = frozenset({"PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW"})
 # Reasons that must NEVER be waivable, asserted by test. Listing them explicitly
 # documents the intent to a future reader who is tempted to add "just one more".
 NEVER_WAIVABLE_REASON_CODES = frozenset({
@@ -58,6 +70,15 @@ NEVER_WAIVABLE_REASON_CODES = frozenset({
 })
 # Extra fields REQUIRED on a tiered-fee approval and permitted on no other.
 TIERED_FEE_FIELDS = ("waived_reason_codes", "preserved_fee_amounts")
+# Extra fields REQUIRED on a paired-source approval and permitted on no other.
+PAIRED_SOURCE_FIELDS = ("waived_reason_codes", "identity_capture_url",
+                        "identity_text_hash", "policy_capture_url",
+                        "policy_text_hash", "matched_signals",
+                        "attestation_hash")
+# All four must be recorded. A three-of-four pairing is not a weaker pairing;
+# it is an unproven one.
+REQUIRED_BINDING_SIGNALS = ("address_exact", "name_exact", "phone_exact",
+                            "property_code")
 
 # Every recorded approval entry requires these (note is optional).
 APPROVAL_REQUIRED_FIELDS = (
@@ -132,7 +153,12 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
             if not str(a.get(f, "")).strip():          # operator/approval_date must be human-supplied
                 errors.append("approval[%d]:missing_%s" % (i, f))
         decision = a.get("decision")
-        allowed_extra = set(TIERED_FEE_FIELDS) if decision == DECISION_TIERED_FEE_OMITTED else set()
+        if decision == DECISION_TIERED_FEE_OMITTED:
+            allowed_extra = set(TIERED_FEE_FIELDS)
+        elif decision == DECISION_PAIRED_OFFICIAL_SOURCE:
+            allowed_extra = set(PAIRED_SOURCE_FIELDS)
+        else:
+            allowed_extra = set()
         extra = (set(a) - set(APPROVAL_REQUIRED_FIELDS) - set(APPROVAL_OPTIONAL_FIELDS)
                  - allowed_extra)
         if extra:
@@ -143,6 +169,8 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
             errors.append("approval[%d]:approved_requires_ready_route" % i)
         if decision == DECISION_TIERED_FEE_OMITTED:
             errors.extend(_tiered_fee_errors(i, a))
+        if decision == DECISION_PAIRED_OFFICIAL_SOURCE:
+            errors.extend(_paired_source_errors(i, a))
         key, rhash = a.get("listing_key"), a.get("result_hash")
         if key in seen_key:
             errors.append("approval[%d]:duplicate_listing_key" % i)
@@ -165,7 +193,64 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
                 # a general-purpose rubber stamp.
                 if decision == DECISION_TIERED_FEE_OMITTED and g["launch_safe"]:
                     errors.append("approval[%d]:tiered_fee_requires_manual_review_record" % i)
+                if decision == DECISION_PAIRED_OFFICIAL_SOURCE and g["launch_safe"]:
+                    errors.append("approval[%d]:paired_source_requires_manual_review_record" % i)
     return sorted(errors)
+
+
+_SHA256_HEX = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
+
+
+def _paired_source_errors(i: int, a: Dict) -> List[str]:
+    """Extra structural rules for APPROVED_PAIRED_OFFICIAL_SOURCE.
+
+    Three independent bindings must hold: to the identity capture, to the
+    policy capture, and to the attestation that joined them. Any one of the
+    three going stale invalidates the approval, because an approval that could
+    outlive its evidence is not an approval, it is a standing permission.
+    """
+    errors: List[str] = []
+    if a.get("gate1_route") == ROUTE_READY:
+        errors.append("approval[%d]:paired_source_requires_review_route" % i)
+
+    waived = a.get("waived_reason_codes")
+    if not isinstance(waived, list) or not waived:
+        errors.append("approval[%d]:paired_source_requires_waived_reason_codes" % i)
+    else:
+        illegal = sorted(set(waived) - PAIRED_WAIVABLE_REASON_CODES)
+        if illegal:
+            errors.append("approval[%d]:non_waivable_reason_codes:%s"
+                          % (i, ",".join(illegal)))
+
+    signals = a.get("matched_signals")
+    if not isinstance(signals, list):
+        errors.append("approval[%d]:paired_source_requires_matched_signals" % i)
+    else:
+        missing = sorted(set(REQUIRED_BINDING_SIGNALS) - set(signals))
+        if missing:
+            errors.append("approval[%d]:missing_binding_signals:%s"
+                          % (i, ",".join(missing)))
+
+    # Both captures must be hash-bound, and they must be different pages: the
+    # same file cited twice would let one capture stand as its own corroboration.
+    id_hash = str(a.get("identity_text_hash") or "")
+    pol_hash = str(a.get("policy_text_hash") or "")
+    for label, value in (("identity_text_hash", id_hash),
+                         ("policy_text_hash", pol_hash),
+                         ("attestation_hash", str(a.get("attestation_hash") or ""))):
+        if not _SHA256_HEX.match(value):
+            errors.append("approval[%d]:invalid_%s" % (i, label))
+    if id_hash and id_hash == pol_hash:
+        errors.append("approval[%d]:identity_and_policy_captures_identical" % i)
+
+    # The cited source_url must be the property page, never the search surface.
+    id_url = str(a.get("identity_capture_url") or "")
+    pol_url = str(a.get("policy_capture_url") or "")
+    if not id_url or not pol_url:
+        errors.append("approval[%d]:paired_source_requires_both_capture_urls" % i)
+    elif str(a.get("source_url") or "") != id_url:
+        errors.append("approval[%d]:source_url_must_be_the_identity_capture" % i)
+    return errors
 
 
 def _tiered_fee_errors(i: int, a: Dict) -> List[str]:
