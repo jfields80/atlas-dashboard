@@ -141,6 +141,89 @@ class TestUrlShape:
 
 
 # --------------------------------------------------------------------------- #
+# 1b. Cross-brand property-code extraction (PTF-CAPTURE-002A).
+#
+# Both defects below were found by running the parser over real captures, not
+# by its tests -- so these pin the real URL shapes of all three brands.
+# --------------------------------------------------------------------------- #
+
+class TestPropertyCodeExtraction:
+    @pytest.mark.parametrize("url,expected", [
+        # Marriott -- code leads the slug, two-part locale segment first.
+        ("https://www.marriott.com/en-us/hotels/cmhea-aloft-columbus-easton/overview/",
+         "cmhea"),
+        ("https://www.marriott.com/en-us/hotels/cmhta-towneplace-suites-columbus-"
+         "airport-gahanna/overview/", "cmhta"),
+        # Hilton -- previously returned "hotel", picked up from /hotel-info/.
+        ("https://www.hilton.com/en/hotels/cmhchhf-hilton-columbus-at-easton/hotel-info/",
+         "cmhchhf"),
+        ("https://www.hilton.com/en/hotels/cmhaphx-hampton-suites-columbus-airport/",
+         "cmhaphx"),
+        # IHG -- bare segment before /hoteldetail; previously returned "".
+        ("https://www.ihg.com/staybridge/hotels/us/en/dublin/cmhtc/hoteldetail",
+         "cmhtc"),
+        ("https://www.ihg.com/holidayinn/hotels/us/en/columbus/cmhdt/hoteldetail",
+         "cmhdt"),
+    ])
+    def test_recognised_brand_shapes(self, url, expected):
+        assert SR.extract_property_code_from_url(url) == expected
+
+    @pytest.mark.parametrize("url", [
+        "https://www.marriott.com/search/findHotels.mi?destinationAddress.destination=x",
+        "https://www.hilton.com/en/locations/usa/ohio/columbus/",
+        "https://www.redroof.com/why-red-roof/pet-policy",
+        "https://www.marriott.com/hotels/travel/",
+        "https://www.marriott.com/en-us/hotels/",
+        "https://example.invalid/",
+        "not even a url",
+        "",
+    ])
+    def test_fails_closed_on_generic_and_malformed(self, url):
+        """A guessed code that matches the wrong hotel is worse than no code."""
+        assert SR.extract_property_code_from_url(url) == ""
+
+    def test_never_returns_a_generic_path_word(self):
+        for url in ("https://www.hilton.com/en/hotels/cmhchhf-x/hotel-info/",
+                    "https://brand.invalid/hotels/overview/rooms/"):
+            assert SR.extract_property_code_from_url(url) not in (
+                "hotel", "hotels", "overview", "rooms", "hotel-info")
+
+    def test_known_code_matches_only_on_a_segment_boundary(self):
+        """The collision that made this a correctness bug, not a tidiness one:
+        Marriott's 'cmhap' is a prefix of Hilton's 'cmhaphx'. A bare substring
+        match silently identified one hotel as the other."""
+        hilton = "https://www.hilton.com/en/hotels/cmhaphx-hampton-columbus-airport/"
+        # The Marriott code must NOT be claimed for this Hilton property. It no
+        # longer matches, so the parser falls through and reports the code the
+        # URL actually carries.
+        assert SR.extract_property_code_from_url(hilton, known_codes=["cmhap"]) != "cmhap"
+        assert SR.extract_property_code_from_url(hilton, known_codes=["cmhap"]) == "cmhaphx"
+        assert SR.extract_property_code_from_url(hilton, known_codes=["cmhaphx"]) == "cmhaphx"
+
+    def test_prefix_collision_across_two_real_seed_codes(self):
+        """Both codes are real: cmhap (Courtyard Columbus Airport, Marriott)
+        and cmhaphx (Hampton Inn Columbus Airport, Hilton)."""
+        marriott = "https://www.marriott.com/en-us/hotels/cmhap-courtyard-columbus-airport/"
+        assert SR.extract_property_code_from_url(marriott) == "cmhap"
+        hilton = "https://www.hilton.com/en/hotels/cmhaphx-hampton-columbus-airport/"
+        assert SR.extract_property_code_from_url(hilton) == "cmhaphx"
+
+    def test_known_code_wins_when_it_matches(self):
+        url = "https://www.marriott.com/en-us/hotels/cmhea-aloft-columbus-easton/overview/"
+        assert SR.extract_property_code_from_url(url, known_codes=["cmhea"]) == "cmhea"
+
+    def test_unknown_known_code_falls_back_to_parsing(self):
+        url = "https://www.marriott.com/en-us/hotels/cmhea-aloft-columbus-easton/overview/"
+        assert SR.extract_property_code_from_url(url, known_codes=["zzzz"]) == "cmhea"
+
+    def test_paired_binding_still_confirms_the_marriott_code(self):
+        """The consumer that motivated the fix keeps working."""
+        _, paired, _ = _pair()
+        assert paired.property_code == "cmhea"
+        assert "property_code" in paired.matched_signals
+
+
+# --------------------------------------------------------------------------- #
 # 2. The valid Aloft package.
 # --------------------------------------------------------------------------- #
 

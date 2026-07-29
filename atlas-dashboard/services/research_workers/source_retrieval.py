@@ -439,21 +439,76 @@ def classify_url_shape(url: str) -> str:
     return URL_SHAPE_UNKNOWN
 
 
-def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) -> str:
-    """Return the property code embedded in a URL, if one is present.
+# Path segments that are never a property code. Without this list the parser
+# happily returns "hotel" for a Hilton URL, because /hotel-info/ looks exactly
+# like a code followed by a slug.
+_NOT_A_PROPERTY_CODE = frozenset({
+    "hotel", "hotels", "hoteldetail", "hotel-info", "overview", "search",
+    "index", "rooms", "gallery", "location", "dining", "events", "offers",
+    "about", "amenities", "policies", "travel", "reservation", "book",
+})
 
-    Prefers an explicit known code (the seed's, when we have it) over guessing,
-    because a guessed code that happens to match the wrong hotel is worse than
-    no code at all.
+
+def _looks_like_property_code(segment: str) -> bool:
+    """A code is a short alphanumeric token, not an English word we recognise."""
+    s = (segment or "").strip().lower()
+    return (4 <= len(s) <= 8 and s.isalnum() and any(c.isalpha() for c in s)
+            and s not in _NOT_A_PROPERTY_CODE)
+
+
+def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) -> str:
+    """Return the property code embedded in a URL, or "" if none is present.
+
+    Handles the three brand shapes this project actually meets:
+
+        marriott  /en-us/hotels/cmhea-aloft-columbus-easton/overview/  -> cmhea
+        hilton    /en/hotels/cmhchhf-hilton-columbus-at-easton/...     -> cmhchhf
+        ihg       /staybridge/hotels/us/en/dublin/cmhtc/hoteldetail    -> cmhtc
+
+    Fails CLOSED. A guessed code that happens to match the wrong hotel is worse
+    than no code at all, so anything not recognisably a code returns "".
+
+    PTF-CAPTURE-002A: the previous implementation had two defects, both found
+    by running it over real captures rather than by its tests.
+
+    1. The optional locale group let the pattern skip the real code and match
+       the NEXT hyphenated segment, so a Hilton property URL returned "hotel"
+       (from /hotel-info/) and an IHG URL returned "" -- its code is a bare
+       path segment with no trailing hyphen and nothing matched at all.
+    2. ``known_codes`` was matched as a bare substring, so the Marriott code
+       "cmhap" matched inside Hilton's "cmhaphx" -- two different hotels, one
+       silently mistaken for the other. Matching is now anchored to a whole
+       path segment (or a segment's leading token before the slug).
     """
-    low = (url or "").lower()
+    parts = urlsplit(url or "")
+    segments = [s for s in (parts.path or "").lower().split("/") if s]
+
+    # An explicitly supplied code wins -- but only on a real segment boundary.
     for code in known_codes:
         c = (code or "").strip().lower()
-        if c and c in low:
-            return c
-    # Marriott/IHG style: a short alphanumeric code leading a property slug.
-    m = re.search(r"/(?:hotels?|hoteldetail)/(?:[a-z-]+/)?([a-z0-9]{4,7})-", low)
-    return m.group(1) if m else ""
+        if not c:
+            continue
+        for seg in segments:
+            if seg == c or seg.startswith(c + "-"):
+                return c
+
+    for i, seg in enumerate(segments):
+        if seg not in ("hotels", "hotel"):
+            continue
+        tail = segments[i + 1:]
+        if not tail:
+            break
+        # marriott / hilton: the code leads the property slug.
+        head = tail[0]
+        if "-" in head:
+            candidate = head.split("-", 1)[0]
+            if _looks_like_property_code(candidate):
+                return candidate
+        # ihg: .../hotels/<country>/<lang>/<city>/<code>/hoteldetail
+        for j, t in enumerate(tail):
+            if t == "hoteldetail" and j >= 1 and _looks_like_property_code(tail[j - 1]):
+                return tail[j - 1]
+    return ""
 
 
 def discover_policy_candidates(html: str, base_url: str,
