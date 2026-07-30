@@ -29,7 +29,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.site_data import (
     normalize_name,
@@ -259,6 +259,54 @@ def _prose_number(text: str) -> str:
     return _TRAILING_ZEROS_RE.sub(r"\1", text or "")
 
 
+def tier_fee_range(tiers: Sequence[Dict]) -> str:
+    """"$75–$125" for a ladder; a single amount if every tier charges the same.
+
+    Shared with the comparison table so one ladder cannot be summarised two
+    different ways on two pages.
+    """
+    amounts = [_prose_number("$%s" % t.get("amount", "")) for t in tiers if t.get("amount")]
+    if not amounts:
+        return ""
+    lo = min(amounts, key=lambda a: float(a.lstrip("$")))
+    hi = max(amounts, key=lambda a: float(a.lstrip("$")))
+    return lo if lo == hi else "%s–%s" % (lo, hi)
+
+
+def _tier_range_phrase(t: Dict) -> str:
+    """"1-4 nights" -> "stays of 1-4 nights"; open-ended -> "5 nights or more"."""
+    lo, hi = t.get("condition_min"), t.get("condition_max")
+    unit = t.get("boundary_unit") or "nights"
+    if hi is None:
+        return "stays of %s %s or more" % (lo, unit)
+    if lo == hi:
+        return "stays of %s %s" % (lo, unit)
+    return "stays of %s–%s %s" % (lo, hi, unit)
+
+
+def _tier_amount(t: Dict) -> str:
+    return _prose_number("$%s" % t.get("amount", ""))
+
+
+def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
+    """A source-faithful sentence for a stay-length fee ladder.
+
+    Deliberately states no basis. A field reading "$75(1-4n)$125(5+n)" gives an
+    amount and a stay range and says nothing about recurrence -- calling it
+    "per night" or "per stay" would invent the difference. Basis appears only
+    where the source states one, carried on the tier as ``basis_stated``.
+    """
+    if not tiers:
+        return ""
+    nonref = "non-refundable " if _NONREFUNDABLE_RE.search(evidence or "") else ""
+    first, rest = tiers[0], tiers[1:]
+    s = "A %spet fee of %s applies for %s" % (
+        nonref, _tier_amount(first), _tier_range_phrase(first))
+    for t in rest:
+        s += ", and %s applies for %s" % (_tier_amount(t), _tier_range_phrase(t))
+    return s + "."
+
+
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     """Compose the consumer summary from stated facts plus the source wording.
 
@@ -267,11 +315,15 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     per-pet weight, and whether a fee is non-refundable. Nothing is added to the
     summary that the quote does not support.
     """
-    if not any(f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit")):
+    tiers = f.get("fee_tiers") or []
+    if not tiers and not any(f.get(k) for k in ("species_allowed", "pet_fee",
+                                                "pet_count_limit", "weight_limit")):
         return ("Pets are welcome. The reviewed official source did not state the species, "
                 "fee, pet limit, or weight limit.")
     parts = [_species_phrase(f.get("species_allowed", ""))]
-    fee, basis = f.get("pet_fee"), f.get("fee_basis")
+    if tiers:
+        parts.append(_tiered_fee_sentence(tiers, evidence))
+    fee, basis = (None, None) if tiers else (f.get("pet_fee"), f.get("fee_basis"))
     if fee:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
         s = "A %s%s fee applies" % (_prose_number(fee), nonref)
@@ -309,6 +361,16 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Dogs", *(("Accepted", "yes") if "dog" in sp else ("Not stated", "dim"))),
             ("Cats", *(("Accepted", "yes") if "cat" in sp else ("Not stated", "dim"))),
         )
+    tiers = f.get("fee_tiers") or []
+    if tiers:
+        # A ladder has no single charge and no stated basis, so the chips say
+        # the range and name the reason rather than showing one number.
+        return head + (
+            ("Pet charge", tier_fee_range(tiers), ""),
+            ("Charge basis", "Tiered by stay length", "sm"),
+            ("Max pets", *cell(f.get("pet_count_limit"))),
+            ("Weight limit", *cell(f.get("weight_limit"))),
+        )
     return head + (
         ("Pet charge", *cell(f.get("pet_fee"))),
         ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
@@ -335,8 +397,15 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
     rows = (
         ("Accepted species", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("species_allowed"))),
         ("Maximum pets", *(lambda v: (v + " per room", "") if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
-        ("Pet charge", *d(f.get("pet_fee"))),
-        ("Charge basis", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("fee_basis"))),
+        *(tuple(("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
+                 _tier_amount(t), "")
+                for t in (f.get("fee_tiers") or []))
+          or ((("Pet charge", *d(f.get("pet_fee")))),)),
+        ("Charge basis",
+         *(("Tiered by stay length; the source does not state a per-night or "
+            "per-stay basis.", "") if f.get("fee_tiers")
+           else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
+               f.get("fee_basis")))),
         ("Weight restriction", *d(f.get("weight_limit"))),
         ("Refundable deposit", *d(f.get("pet_deposit"))),
         ("Breed restrictions", *d(f.get("breed_restrictions"))),

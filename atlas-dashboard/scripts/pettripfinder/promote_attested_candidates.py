@@ -63,20 +63,30 @@ MAX_BLOCK_CHARS = 700
 _MONEY = r"\$?\s*([0-9][0-9,]*(?:\.[0-9]{2})?)"
 
 # Labelled patterns, evaluated ONLY inside the block. Each yields (value, quote).
+# The colon is optional throughout: the same brand renders these fields as
+# "Max weight: 75 lbs" on one page template and as bare table cells reading
+# "Max weight 75 lbs" on another. Requiring the colon silently found no policy
+# block at all on the table layout.
 _FEE_PATTERNS = (
     # Marriott: basis is part of the label.
-    (re.compile(r"Non-Refundable\s+Pet\s+Fee\s+Per\s+(Night|Stay)\s*:\s*" + _MONEY, re.I),
+    (re.compile(r"Non-Refundable\s+Pet\s+Fee\s+Per\s+(Night|Stay)\s*:?\s*" + _MONEY, re.I),
      "labelled_pet_fee_with_basis"),
     # Hilton: inside the Pets card, so "fee" alone is unambiguous here.
-    (re.compile(r"Non-refundable\s+fee\s*:\s*" + _MONEY, re.I),
+    (re.compile(r"Non-refundable\s+fee\s*:?\s*" + _MONEY, re.I),
      "labelled_nonrefundable_fee_in_pet_block"),
-    (re.compile(r"Pet\s+Fee\s*:\s*" + _MONEY, re.I), "labelled_pet_fee"),
+    (re.compile(r"Pet\s+Fee\s*:?\s*" + _MONEY, re.I), "labelled_pet_fee"),
+    # Table layout, amount BEFORE the label: "Deposit Yes. $75.00 Non-refundable Fee".
+    (re.compile(r"Deposit[^$\d]{0,12}" + _MONEY + r"\s*Non-refundable\s+Fee", re.I),
+     "deposit_row_amount_before_label"),
 )
-_WEIGHT = re.compile(r"(?:Max(?:imum)?\s+Pet\s+Weight|Max\s+weight)\s*:\s*"
+_WEIGHT = re.compile(r"(?:Max(?:imum)?\s+Pet\s+Weight|Max\s+weight)\s*:?\s*"
                      r"([0-9]+(?:\.[0-9]+)?)\s*(?:lbs?|pounds?)", re.I)
-_COUNT = re.compile(r"(?:Maximum\s+Number\s+of\s+Pets\s+in\s+Room|Max\s+pets?)\s*:\s*([0-9]+)",
+_COUNT = re.compile(r"(?:Maximum\s+Number\s+of\s+Pets\s+in\s+Room|Max\s+pets?)\s*:?\s*([0-9]+)",
                     re.I)
-_WELCOME = re.compile(r"Pets\s+Welcome", re.I)
+_WELCOME = re.compile(r"Pets\s+Welcome|Pets\s+allowed\s+Yes", re.I)
+# The row a property uses for terms its structured fields cannot hold -- where
+# a stay-length ladder is published.
+_OTHER_PET_INFO_RE = re.compile(r"Other\s+pet\s+information", re.I)
 
 
 class PromotionError(ValueError):
@@ -97,6 +107,10 @@ def find_pet_block(text: str) -> Tuple[str, int]:
         block = window[:end.start()] if end else window
         score = sum(1 for rx in (_WEIGHT, _COUNT) if rx.search(block))
         score += sum(1 for rx, _ in _FEE_PATTERNS if rx.search(block))
+        # A stay-length ladder is policy content too -- a block carrying only
+        # tiers (no weight, no count) is still the pet-policy block.
+        if _OTHER_PET_INFO_RE.search(block):
+            score += 1
         if score and (best is None or score > best[2]):
             best = (block, m.start(), score)
     if best is None:
@@ -114,6 +128,25 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     facts: Dict[str, str] = {}
     evidence: List[Dict[str, str]] = []
 
+    # PTF-WORKERS-FEE-TERMS. A stay-length tier ladder is parsed BEFORE the
+    # scalar fee, and when one is found the scalar is deliberately not emitted:
+    # publishing "$75" for a policy that charges $125 from the fifth night is
+    # the flattening this whole path exists to prevent.
+    from services.research_workers.fee_terms import (
+        basis_is_stated, parse_fee_tiers, tier_facts,
+    )
+    tiers, tier_problems = parse_fee_tiers(block)
+    if tiers:
+        facts["fee_tiers"] = tier_facts(tiers, basis_stated=basis_is_stated(block))
+        for t in tiers:
+            evidence.append({"field": "fee_tiers", "value": "$%s" % t.amount,
+                             "quote": t.evidence_quote})
+    elif tier_problems and tier_problems != ["tier_notation_unparseable"] \
+            and tier_problems != ["tier_single_only"]:
+        # Tier wording that is present but not understood is a review matter,
+        # never something to fall back to a single number over.
+        raise PromotionError("tiered_fee_not_understood:%s" % ",".join(tier_problems))
+
     fees: List[Tuple[str, str, str]] = []      # (amount, basis, quote)
     for rx, _label in _FEE_PATTERNS:
         for m in rx.finditer(block):
@@ -126,7 +159,19 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             fees.append((amount.replace(",", ""), basis, " ".join(m.group(0).split())))
 
     distinct = {f[0] for f in fees}
-    if len(distinct) > 1:
+    if tiers:
+        # The ladder is the fee. A Deposit row stating the first tier's amount
+        # is consistent; anything else is a conflict between two rows of the
+        # same source and must be reviewed with both quotations kept.
+        tier_amounts = {t.amount for t in tiers}
+        conflicting = {a for a in distinct
+                       if a not in tier_amounts and ("%s.00" % a) not in tier_amounts}
+        if conflicting:
+            raise PromotionError(
+                "deposit_row_conflicts_with_tiers:deposit=%s tiers=%s"
+                % (",".join(sorted(conflicting)), ",".join(sorted(tier_amounts))))
+        fees = []                       # never publish a scalar beside a ladder
+    elif len(distinct) > 1:
         raise PromotionError("multiple_distinct_pet_fees_in_block:%s"
                              % ",".join(sorted(distinct)))
     if fees:
@@ -157,6 +202,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             "quote": " ".join((welcome.group(0) if welcome
                                else evidence[0]["quote"]).split())})
 
+    if welcome or facts.get("fee_tiers"):
+        facts.setdefault("pets_allowed", "true")
     if "pets_allowed" not in facts:
         raise PromotionError("no_publishable_pet_facts_in_block")
     return (facts, evidence, " ".join(block.split()))

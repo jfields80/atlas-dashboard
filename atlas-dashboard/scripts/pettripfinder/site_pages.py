@@ -14,7 +14,7 @@ from __future__ import annotations
 import html
 from typing import Dict, List, Optional, Tuple
 
-from scripts.pettripfinder.hotel_profile import _friendly_date
+from scripts.pettripfinder.hotel_profile import _friendly_date, tier_fee_range
 from scripts.pettripfinder.site_data import normalize_name
 from scripts.pettripfinder.structured_data import breadcrumb_ld, to_script_tag
 
@@ -159,6 +159,17 @@ def build_comparison_page(rows: List[Dict]) -> str:
         for key, _ in _COMPARISON_COLUMNS:
             if key == "name":
                 cells.append('<th scope="row"><a href="%s">%s</a></th>' % (r["route"], _e(r["name"])))
+                continue
+            tiers = r.get("fee_tiers") or []
+            if tiers and key == "pet_fee":
+                # A ladder has no single fee. Show its range and say why, rather
+                # than a number that is wrong for one end of the stay.
+                cells.append('<td>%s<br><span class="ptf-tier-note">Tiered by stay '
+                             "length</span></td>" % _e(tier_fee_range(tiers)))
+                continue
+            if tiers and key == "fee_basis":
+                # The source states an amount and a stay range, never a basis.
+                cells.append('<td><span class="ptf-unknown">Not stated</span></td>')
                 continue
             value = (r.get(key) or "").strip()
             if key == "verified_at":

@@ -135,6 +135,166 @@ def validate_fee_term(raw: RawFeeTerm,
                        source_url=doc.source_url, source_type=doc.source_type), "")
 
 
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS-FEE-TERMS -- parsing compressed stay-length tier notation.
+#
+# validate_fee_term above checks terms a MODEL proposed. This parses them
+# straight out of source text, for the common case of a property publishing its
+# tiers in a compressed field:
+#
+#     $75(1-4n)$125(5+n)2pet Max dog/cat only
+#     $50(1-4n),$75(5+n) 2petsMax,dog/cat only
+#     $75 for 1-4 nights; $125 for 5 nights or more
+#
+# Brand-neutral by construction: it keys on notation, never on a hotel, chain or
+# domain. Two properties printing the same numbers is a coincidence this code
+# cannot observe -- each capture is parsed on its own.
+#
+# Fails closed and TOTALLY: any problem returns NO terms rather than some, and
+# every problem found is reported, so a reviewer sees the whole reason.
+# --------------------------------------------------------------------------- #
+
+# One tier: an amount, then a stay-length range, in the punctuation variants
+# real pages use -- "(1-4n)", "(1-4 nights)", "for 1-4 nights", "5+n",
+# "5 nights or more", with -, en dash or em dash.
+_TIER_RE = re.compile(
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)"
+    # A short connector may sit between the amount and its range -- "for",
+    # "per night for", a bracket, or nothing. Digits and $ are excluded so an
+    # amount can never reach past a neighbouring tier to claim its range.
+    r"[^$\d]{0,20}?[\(\[]?\s*"
+    r"(?P<lo>\d+)\s*"
+    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>\+))?"
+    r"\s*(?:nights?|n)\b"
+    r"\s*(?P<ormore>or\s+(?:more|longer|greater))?"
+    r"\s*[\)\]]?",
+    re.I)
+
+# The same ladder written range-first. Hilton's own rendered page uses this for
+# one property while its embedded payload uses the amount-first form for
+# another -- one chain, two notations, which is exactly why this parser keys on
+# notation rather than on a source.
+#
+#     1-4 night stay $50; 5+ night stay $75
+_TIER_RANGE_FIRST_RE = re.compile(
+    r"(?P<lo>\d+)\s*"
+    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>\+))?"
+    r"\s*(?:nights?|n)\b\s*"
+    r"(?P<ormore>or\s+(?:more|longer|greater))?"
+    r"[^$\d]{0,16}?"
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)",
+    re.I)
+
+# Wording that would make a basis EXPLICIT. Absent these, the basis is not
+# stated and must never be asserted in public copy -- mirroring the existing
+# FEE_SCOPE_UNSTATED rule that a scope the source omits is never inferred.
+_BASIS_STATED_RE = re.compile(
+    r"per\s+(?:night|day|stay|visit)|nightly|daily|each\s+night|a\s+night", re.I)
+
+TIER_PARSE_PROBLEMS = (
+    "tier_notation_unparseable",
+    "tier_single_only",
+    "tier_missing_range_boundary",
+    "tier_invalid_range",
+    "tier_duplicate_range",
+    "tier_ranges_overlap",
+    "tier_amount_not_in_source",
+)
+
+
+def basis_is_stated(text: str) -> bool:
+    """Does the source explicitly state a fee basis (per night / per stay / ...)?
+
+    A compressed tier field like "$75(1-4n)$125(5+n)" states an AMOUNT and a
+    STAY RANGE and nothing about recurrence. Whether $75 is a per-stay total for
+    a 1-4 night stay or a nightly rate within it is genuinely unstated, and
+    publishing either reading as fact would invent the difference.
+    """
+    return bool(_BASIS_STATED_RE.search(text or ""))
+
+
+def parse_fee_tiers(text: str, *, source_url: str = "", source_type: str = "",
+                    currency: str = "USD") -> Tuple[Tuple[PetFeeTerm, ...], List[str]]:
+    """Parse stay-length fee tiers out of source text.
+
+    Returns ``(terms, problems)``. ``terms`` is empty whenever ``problems`` is
+    non-empty -- a partially-understood tiered fee is not a fee to publish.
+
+    The role is ONE_TIME_CHARGE and the basis ONE_TIME because the contract
+    requires members of its closed vocabularies; neither is a claim about
+    recurrence. ``basis_is_stated`` is what callers consult before saying
+    anything about basis to a reader.
+    """
+    problems: List[str] = []
+    matches = list(_TIER_RE.finditer(text or ""))
+    if len(matches) < 2:
+        # Try the range-first notation before giving up -- the same ladder,
+        # written the other way round.
+        alt = list(_TIER_RANGE_FIRST_RE.finditer(text or ""))
+        if len(alt) > len(matches):
+            matches = alt
+    if not matches:
+        return ((), ["tier_notation_unparseable"])
+    if len(matches) < 2:
+        # One priced range is a conditional single fee, not a tier ladder. The
+        # caller keeps its ordinary scalar handling.
+        return ((), ["tier_single_only"])
+
+    terms: List[PetFeeTerm] = []
+    for m in matches:
+        amount = canonical_amount(m.group("amt"))
+        if amount is None:
+            problems.append("tier_amount_not_in_source")
+            continue
+        lo = int(m.group("lo"))
+        hi = int(m.group("hi")) if m.group("hi") else None
+        open_ended = bool(m.group("plus") or m.group("ormore"))
+        if hi is None and not open_ended:
+            # "$75 for 4 nights" states a point, not a range this can bound.
+            problems.append("tier_missing_range_boundary")
+            continue
+        if hi is not None and hi < lo:
+            problems.append("tier_invalid_range")
+            continue
+        terms.append(PetFeeTerm(
+            role=V.FEE_ROLE_ONE_TIME_CHARGE, amount=amount, currency=currency,
+            basis=V.FEE_TERM_BASIS_ONE_TIME, scope=V.FEE_SCOPE_UNSTATED,
+            condition_type=V.FEE_CONDITION_STAY_LENGTH_RANGE,
+            condition_min=lo, condition_max=hi,
+            boundary_unit=V.BOUNDARY_UNIT_NIGHTS,
+            evidence_quote=" ".join(m.group(0).split()),
+            source_url=source_url, source_type=source_type))
+
+    ordered = sorted(terms, key=lambda t: (t.condition_min or 0,
+                                           t.condition_max if t.condition_max is not None
+                                           else float("inf")))
+    for i, a in enumerate(ordered):
+        for b in ordered[i + 1:]:
+            if (a.condition_min, a.condition_max) == (b.condition_min, b.condition_max):
+                problems.append("tier_duplicate_range")
+            elif _overlaps(a, b):
+                problems.append("tier_ranges_overlap")
+
+    if problems:
+        return ((), sorted(set(problems)))
+    return (tuple(ordered), [])
+
+
+def tier_facts(terms: Sequence[PetFeeTerm], *, basis_stated: bool) -> List[Dict]:
+    """Publishable dicts for a parsed tier ladder.
+
+    ``basis_stated`` travels WITH the data rather than being recomputed at
+    render time, so a renderer cannot accidentally assert a basis the source
+    never gave.
+    """
+    out = []
+    for t in terms:
+        d = t.to_dict()
+        d["basis_stated"] = bool(basis_stated)
+        out.append(d)
+    return out
+
+
 def _bounds(t: PetFeeTerm) -> Tuple[float, float]:
     if t.condition_type == V.FEE_CONDITION_UNCONDITIONAL:
         return (float("-inf"), float("inf"))          # the whole stay

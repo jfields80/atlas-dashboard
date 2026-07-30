@@ -48,7 +48,11 @@ CANDIDATE_ROOTS = (
     WORKER_PROMOTION_ROOT,   # final, lowest-precedence, additive-only (never overrides)
 )
 
-_POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis",
+# fee_tiers (PTF-WORKERS-FEE-TERMS) is a LIST of typed tier dicts, not a
+# string like the others -- a stay-length ladder cannot be a scalar without
+# losing the thing that makes it a ladder. It is absent on scalar-fee hotels,
+# so their records are unchanged.
+_POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers",
                   "pet_count_limit", "weight_limit", "breed_restrictions",
                   "unattended_policy", "general_restrictions")
 

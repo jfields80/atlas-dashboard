@@ -327,6 +327,9 @@ def run(output: str) -> int:
             "species_allowed": f.get("species_allowed", ""), "pet_fee": f.get("pet_fee", ""),
             "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
             "weight_limit": f.get("weight_limit", ""),
+            # A stay-length ladder has no single fee; the table renders its
+            # range plus a note instead of one misleading number.
+            "fee_tiers": f.get("fee_tiers") or [],
             "verified_at": entry["verified_at"] if entry else "",
         })
     (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)
