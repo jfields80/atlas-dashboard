@@ -102,6 +102,62 @@ def _build(**over):
 
 
 # --------------------------------------------------------------------------- #
+# PTF-CAPTURE-004 -- a citation is not an address bar.
+#
+# Four Hilton captures arrived carrying sessionToken=<uuid> from the operator's
+# own browsing session, plus gclid/gbraid Google Ads click ids. That URL is
+# published as the hotel's official source and as the /go/official-website
+# target, so it would have put a personal session identifier on a consumer page.
+# --------------------------------------------------------------------------- #
+
+_TOKEN_URL = (OFFICIAL_URL + "?flexibleDates=false&numRooms=1"
+              "&sessionToken=fc17ec36-bf4f-43b9-80d1-60247cc6b733")
+_ADS_URL = OFFICIAL_URL + "?WT.mc_id=zlada0ww1hi2psh&gclsrc=aw.ds&gclid=CjwKCAjw7KvT"
+
+
+@pytest.mark.parametrize("url,private", [
+    (_TOKEN_URL, True),
+    (_ADS_URL, True),
+    (OFFICIAL_URL + "?utm_source=newsletter", True),
+    (OFFICIAL_URL + "?numRooms=1&numAdults=1", False),
+    (OFFICIAL_URL, False),
+    ("", False),
+])
+def test_private_query_params_are_recognised(url, private):
+    assert OC.url_carries_private_params(url) is private
+
+
+def test_canonical_is_cited_over_the_address_bar():
+    """The canonical url is the page's own statement of its address, and it is
+    clean by construction."""
+    out = OC.ingest_capture(
+        _payload(final_url=_TOKEN_URL,
+                 html=PAGE_HTML.replace("<head>", '<head><link rel="canonical" href="%s">'
+                                        % OFFICIAL_URL)),
+        _job(), observed_at="2026-07-27")
+    assert out.accepted
+    assert out.source_document.source_url == OFFICIAL_URL
+    assert "sessionToken" not in out.source_document.source_url
+
+
+def test_a_canonical_naming_a_different_page_is_not_borrowed():
+    """Tidying a query string by adopting another page's address would misstate
+    which page was actually read."""
+    other = "https://www.ihg.com/staybridge/hotels/us/en/dublin/xxxxx/hoteldetail"
+    assert OC._citable_url(_TOKEN_URL, other) == _TOKEN_URL
+    assert OC._citable_url(_TOKEN_URL, OFFICIAL_URL) == OFFICIAL_URL
+    assert OC._citable_url(_TOKEN_URL, "") == _TOKEN_URL
+
+
+def test_attestation_refuses_a_citation_carrying_a_session_token():
+    single = OC.ingest_capture(_payload(final_url=_TOKEN_URL), _job(),
+                               observed_at="2026-07-27")
+    assert single.accepted                      # the PAGE is fine
+    with pytest.raises(OC.AttestationError, match="session or ad-tracking"):
+        _build(ingestion=single)                # the CITATION is not
+
+
+# --------------------------------------------------------------------------- #
 # PTF-WORKERS-007 regression: the single-capture path did not change.
 #
 # Paired evidence added an optional field to the attestation. If that field

@@ -327,6 +327,38 @@ class IngestionOutcome:
         }
 
 
+# Query parameters that must never reach a published citation: a browsing
+# session identifier, and advertising click ids that say how the operator got
+# there rather than what the page is.
+_PRIVATE_QUERY_KEYS = ("sessiontoken", "gclid", "gbraid", "wbraid", "fbclid",
+                       "msclkid", "wt.mc_id", "gclsrc", "gad_source",
+                       "gad_campaignid", "utm_source", "utm_medium",
+                       "utm_campaign", "utm_term", "utm_content")
+
+
+def url_carries_private_params(url: str) -> bool:
+    """Does this URL carry a session or ad-tracking parameter?"""
+    query = (urlsplit(url or "").query or "").lower()
+    return any(("%s=" % k) in query or query.startswith("%s=" % k)
+               for k in _PRIVATE_QUERY_KEYS)
+
+
+def _citable_url(captured_url: str, canonical_url: str) -> str:
+    """The URL safe to publish as this page's official source.
+
+    Prefers the page's own canonical URL, which is clean by construction. Falls
+    back to the captured URL when no canonical is offered or when the canonical
+    names a DIFFERENT path -- borrowing another page's address to tidy a query
+    string would misstate which page was actually read.
+    """
+    cap, can = urlsplit(captured_url or ""), urlsplit(canonical_url or "")
+    if not canonical_url:
+        return captured_url
+    same_place = (cap.hostname or "").lower() == (can.hostname or "").lower() and \
+        (cap.path or "/").rstrip("/") == (can.path or "/").rstrip("/")
+    return canonical_url if same_place else captured_url
+
+
 def _fail(job: CaptureJob, status: str, reason: str, **kw) -> IngestionOutcome:
     return IngestionOutcome(
         assignment_id=job.assignment_id, listing_key=job.listing_key,
@@ -447,8 +479,22 @@ def ingest_capture(payload: dict, job: CaptureJob,
     # Either alone raised ContractError the first time a real assignment was
     # built from a capture. The type is now MANUAL_OFFICIAL_ATTESTATION, which
     # is what an operator-transported page has always actually been.
+    # PTF-CAPTURE-004. CITE the canonical URL, not the address bar. A capture's
+    # final_url carries whatever took the operator to the page -- Hilton
+    # captures arrived with sessionToken=<uuid> from the operator's own browsing
+    # session and gclid/gbraid Google Ads click ids. That URL becomes the
+    # public "official source" citation and the /go/official-website target, so
+    # publishing it would leak a personal session identifier and a marketing
+    # click id onto a consumer page.
+    #
+    # The canonical URL is the page's own statement of its address, and it is
+    # used ONLY when it points at the same property -- a canonical that
+    # redirects elsewhere is exactly the brand-vs-property confusion this
+    # pipeline refuses, so it falls back to the captured URL rather than
+    # trusting a mismatch.
+    cite_url = _citable_url(captured_url, canonical)
     doc = SourceDocument(
-        source_url=captured_url, source_type=V.SOURCE_MANUAL_OFFICIAL_ATTESTATION,
+        source_url=cite_url, source_type=V.SOURCE_MANUAL_OFFICIAL_ATTESTATION,
         retrieved_at=observed_at or str(payload.get("captured_at") or ""),
         title=title, content_text=normalized_text,
         content_hash=contract_content_hash(normalized_text),
@@ -1050,6 +1096,15 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
         raise AttestationError("gate5: unexpected source_type %r" % doc.source_type)
     if not doc.content_text.strip():
         raise AttestationError("gate5: attested content is empty")
+    # PTF-CAPTURE-004. The cited URL is published as this hotel's official
+    # source. A session identifier or ad click id in it would put the
+    # operator's own browsing trail on a consumer page, so this refuses rather
+    # than silently stripping -- a citation that needs editing is one a human
+    # should look at.
+    if url_carries_private_params(doc.source_url):
+        raise AttestationError(
+            "gate5: cited url carries a session or ad-tracking parameter; "
+            "recapture or cite the canonical url: %s" % doc.source_url)
     if model_research_ref is not None:
         ref_hash = (model_research_ref.report_hash or "").split(":")[-1]
         if ref_hash and ref_hash in (ingestion.normalized_text_hash,
