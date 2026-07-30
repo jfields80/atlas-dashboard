@@ -42,7 +42,7 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-EXPECTED_PACKAGE_SHA = "703e7da3ea3333d5157dc28b24e5ac21b47d47f60bd86c96ae6d0b53f2997e01"
+EXPECTED_PACKAGE_SHA = "7d5abf7bef555271f22c7fde97fbd2601de6196452d457e21fa368f868905142"
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
@@ -117,7 +117,7 @@ class TestReleaseContract:
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
         pkg = json.loads(pkg_path.read_text(encoding="utf-8-sig"))
         assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
-        assert len(pkg["hotels"]) == spec["expected_record_count"] == 29
+        assert len(pkg["hotels"]) == spec["expected_record_count"] == 33
 
     def test_package_identity_survives_a_checkout_rewriting_line_endings(self):
         """The defect this closes: the gate hashed raw bytes, so a clone whose
@@ -146,8 +146,8 @@ class TestReleaseContract:
         contract = load_release_contract()
         published = contract["public_surface"]["public_hotel_profile_count"]
         excluded = contract["public_surface"]["excluded_public_profile_count"]
-        assert published == 29
-        assert excluded == 14
+        assert published == 33
+        assert excluded == 10
         assert published + excluded == 43
 
     def test_identities_derive_from_package_no_duplicated_allowlist(self):
@@ -362,8 +362,8 @@ class TestAssembler:
     def test_exactly_fourteen_hotel_profiles(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert inv["hotel_profile_routes"] == 29
-            assert len(inv["hotel_slugs"]) == 29
+            assert inv["hotel_profile_routes"] == 33
+            assert len(inv["hotel_slugs"]) == 33
 
     def test_all_fourteen_committed_identities_present(self, assembled):
         verified = _verified_slugs()
@@ -375,7 +375,7 @@ class TestAssembler:
     def test_held_hotels_absent(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert len(inv["excluded_hotel_slugs"]) == 14
+            assert len(inv["excluded_hotel_slugs"]) == 10
             hotels = assembled[ctx]["root"] / "site" / "pet-friendly-hotels"
             for slug in inv["excluded_hotel_slugs"]:
                 assert not (hotels / slug).exists(), slug

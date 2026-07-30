@@ -74,7 +74,7 @@ def test_authoritative_hotel_discovery():
     # the research targets. Authority is required of the evidence-backed rows;
     # the pending ones are blocked by classification before any assignment.
     backed = [c for c in cs if c.evidence_text]
-    assert len(backed) == 39
+    assert len(backed) == 43
     for c in backed:                                      # every candidate carries usable authority
         assert c.evidence_text and c.source_url and c.source_type in V.SOURCE_TYPES
     for c in cs:                                          # a source url is present regardless
@@ -117,8 +117,8 @@ def test_all_real_candidates_ready():
     # Every evidence-backed candidate is research-ready, and the only blocked
     # ones are the pending-attestation rows -- blocked for missing evidence and
     # nothing else. No blocked candidate carries an assignment.
-    assert len(ready) == 39
-    assert len(blocked) == 4
+    assert len(ready) == 43
+    assert len(blocked) == 0
     assert all(c.readiness == CP.BLOCKED_MISSING_EVIDENCE for c in blocked)
     assert all(c.assignment is None for c in blocked)
 
@@ -166,7 +166,7 @@ def test_checkpoint_reports_exact_nano_and_worst_case_cost():
         "provider": "openai", "model_id": "gpt-5.4-nano-2026-03-17",
         "pricing_source": "Official OpenAI GPT-5.4 Nano model documentation",
         "pricing_observed_date": "2026-07-20"}
-    assert cp["hotels_found"] == 43 and cp["assignments_ready"] == 39
+    assert cp["hotels_found"] == 43 and cp["assignments_ready"] == 43
     assert 0.0 < cp["worst_case_estimated_cost_usd"] < 1.00
     assert cp["no_production_write"] is True
 
@@ -181,17 +181,17 @@ def test_live_pilot_routes_and_persists(monkeypatch, tmp_path):
     classified = CP.classify_candidates(_candidates())
     report = CP.run_pilot(classified, CP.PilotCaps(), live=True, store=store,
                           provider_factory=_fake_factory())
-    assert report["mode"] == "live" and report["calls_made"] == 39
+    assert report["mode"] == "live" and report["calls_made"] == 43
     agg = report["aggregate"]
-    assert sum(agg["routes"].values()) == 39
-    assert agg["provider_failures"] == 0 and agg["structurally_valid"] == 39
+    assert sum(agg["routes"].values()) == 43
+    assert agg["provider_failures"] == 0 and agg["structurally_valid"] == 43
     # Every hotel routed to a valid state via the WORKERS-003 airlock, with reasons.
     for h in report["hotels"]:
         assert h["route"] in RT.ROUTE_STATES and h["reason_codes"]
         assert h["model"] == "gpt-5.4-nano-2026-03-17"           # exact Nano, no substitution
     # Per-hotel artifacts persisted.
     for sub in ("assignments", "model_results", "validated_results", "routing_envelopes"):
-        assert len(list((tmp_path / sub).glob("*.json"))) == 39
+        assert len(list((tmp_path / sub).glob("*.json"))) == 43
     paths = CP.persist_pilot(store, report)
     assert (tmp_path / "operator_summary.json").exists()
     assert (tmp_path / "candidate_export.json").exists()
@@ -205,7 +205,7 @@ def test_live_pilot_deterministic_idempotent_rerun(monkeypatch, tmp_path):
     n1 = len(list((tmp_path / "assignments").glob("*.json")))
     # FakeProvider is deterministic -> a rerun reproduces identical assignments (idempotent).
     CP.run_pilot(classified, CP.PilotCaps(), live=True, store=store, provider_factory=_fake_factory())
-    assert len(list((tmp_path / "assignments").glob("*.json"))) == n1 == 39
+    assert len(list((tmp_path / "assignments").glob("*.json"))) == n1 == 43
 
 
 def test_resume_reuses_completed_without_network_call(monkeypatch, tmp_path):
@@ -384,7 +384,7 @@ def test_candidate_export_non_production_and_separated(monkeypatch, tmp_path):
     assert set(export["status_markers"]) == {"NON_PRODUCTION", "HUMAN_REVIEW_REQUIRED_BEFORE_IMPORT"}
     # Routes kept in separate buckets; totals reconcile.
     total = sum(export["counts"].values())
-    assert total == 39
+    assert total == 43
     assert len(export["ready_candidates"]) == export["counts"]["READY"]
     assert len(export["review_candidates"]) == export["counts"]["REVIEW"]
     # No READY candidate carries a REVIEW/RETRY/REJECTED reason (separation is real).
@@ -401,8 +401,8 @@ def test_operator_summary_counts_and_cost(monkeypatch, tmp_path):
     s = CP.build_operator_summary(report)
     # Discovery total (33) vs. what actually ran (26 evidence-backed).
     assert s["inventory"]["authoritative_hotel_candidates"] == 43
-    assert s["inventory"]["successful_model_responses"] == 39
-    assert sum(s["routing"]["counts"].values()) == 39
+    assert s["inventory"]["successful_model_responses"] == 43
+    assert sum(s["routing"]["counts"].values()) == 43
     # Cost aggregation reconciles with the per-hotel records.
     per_hotel = sum(h["estimated_cost_usd"] for h in report["hotels"])
     assert abs(s["cost"]["total_estimated_cost_usd"] - per_hotel) < 1e-6

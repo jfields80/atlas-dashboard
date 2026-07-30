@@ -51,14 +51,13 @@ _SEED_CSV = pathlib.Path(LAUNCH_PACKAGE_DIR) / "seed_businesses.csv"
 # policy text and they publish. A hotel leaving this set is the intended
 # lifecycle -- pending is a state hotels pass through, not one they sit in.
 # What must stay true is that whatever IS pending never reaches the engine.
-_PENDING_NAMES = frozenset({
-    # The four remaining Hilton properties whose pages refuse our fetchers and
-    # which no operator has captured yet.
-    "Hampton Inn Columbus Airport",
-    "Hilton Garden Inn Columbus Airport",
-    "Home2 Suites New Albany Columbus",
-    "Home2 Suites by Hilton Columbus Easton",
-})
+# EMPTY as of 2026-07-30: every seeded hotel is now evidence-backed. Pending is
+# a state hotels pass through, not one they sit in, so an empty set is the
+# healthy end state rather than a disabled test. The boundary MECHANISM stays
+# fully exercised by the synthetic cases in TestListingReadiness and
+# TestPartition above; what the real-seed tests below now assert is that the
+# published inventory has nothing left to withhold.
+_PENDING_NAMES = frozenset()
 
 
 def _record(**over):
@@ -187,8 +186,8 @@ class TestRealSeedBoundary:
         assert result.ok
         assert result.errors == ()
         assert len(package["seed_businesses"]) == 70
-        assert len(result.dataset.listings) == 66
-        assert result.excluded_pending_count == 4
+        assert len(result.dataset.listings) == 70
+        assert result.excluded_pending_count == 0
 
     def test_every_exclusion_names_a_pending_hotel_and_its_reason(self, package):
         result = build_listing_dataset(
@@ -198,11 +197,23 @@ class TestRealSeedBoundary:
         )
         excluded = result.excluded_pending
         assert len(excluded) == len(_PENDING_NAMES)
+        # Whatever IS excluded must name a pending hotel and give its reason.
+        # Vacuous while the inventory is fully backed, and load-bearing again
+        # the moment a new hotel is seeded ahead of its evidence.
         for entry in excluded:
             assert "PENDING_EVIDENCE=missing_evidence" in entry
             assert any(n in entry for n in _PENDING_NAMES), entry
         for name in _PENDING_NAMES:
             assert any(name in e for e in excluded), name
+
+    def test_every_seeded_hotel_is_now_evidence_backed(self, package):
+        """The inventory reached zero pending. Any row losing its evidence must
+        fail here rather than quietly disappearing from the public site."""
+        hotels = [r for r in package["seed_businesses"]
+                  if r.get("category") == "pet-friendly-hotels"]
+        assert len(hotels) == 43
+        assert [r["name"] for r in hotels
+                if not str(r.get(EVIDENCE_FIELD, "")).strip()] == []
 
     def test_no_pending_listing_reaches_the_engine(self, package):
         """The load-bearing assertion: nothing pending is in the dataset the
@@ -263,7 +274,7 @@ class TestRealSeedBoundary:
         assert ([listing_readiness(r)[0] for r in direct]
                 == [listing_readiness(r)[0] for r in importer])
         assert sum(1 for r in direct
-                   if listing_readiness(r)[0] == LISTING_PENDING_EVIDENCE) == 4
+                   if listing_readiness(r)[0] == LISTING_PENDING_EVIDENCE) == 0
 
     def test_build_is_deterministic(self, package):
         a = build_listing_dataset(seed_businesses=package["seed_businesses"],

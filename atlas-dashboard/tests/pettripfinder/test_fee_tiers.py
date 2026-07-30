@@ -225,14 +225,37 @@ class TestScalarUnchanged:
         assert rows["Pet charge"] == "$50.00"
         assert rows["Charge basis"] == "Per night"
 
-    def test_published_package_records_are_all_still_scalar(self):
-        """Regression against the 29 live hotels: none has gained a fee_tiers
-        field, so every published record is byte-for-byte what it was."""
+    def test_only_the_genuinely_tiered_hotels_carry_tiers(self):
+        """Exactly three published properties state a stay-length ladder. Every
+        other record stays scalar -- a hotel gaining tiers without its source
+        stating them would be the flattening bug in reverse."""
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 29
-        assert not [h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
+        assert len(pkg["hotels"]) == 33
+        tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
+        assert tiered == ["hampton inn columbus airport",
+                          "hilton garden inn columbus airport",
+                          "home2 suites new albany columbus"]
+        for h in pkg["hotels"]:
+            facts = h.get("facts", {})
+            # A record may carry a ladder OR a scalar fee, never both.
+            assert not (facts.get("fee_tiers") and facts.get("pet_fee")), h["key"]
+
+    def test_every_published_tier_ladder_is_contiguous_and_non_overlapping(self):
+        pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
+                          "pettripfinder" / "hotel_policy_facts.json")
+                         .read_text(encoding="utf-8-sig"))
+        for h in pkg["hotels"]:
+            tiers = h.get("facts", {}).get("fee_tiers") or []
+            if not tiers:
+                continue
+            ordered = sorted(tiers, key=lambda t: t["condition_min"])
+            for a, b in zip(ordered, ordered[1:]):
+                assert a["condition_max"] is not None, h["key"]
+                assert b["condition_min"] == a["condition_max"] + 1, h["key"]
+            assert ordered[-1]["condition_max"] is None, h["key"]
+            assert all(t["basis_stated"] is False for t in tiers), h["key"]
 
     def test_every_published_hotel_still_renders(self):
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
