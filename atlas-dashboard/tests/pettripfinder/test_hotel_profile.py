@@ -349,6 +349,96 @@ def test_related_card_omits_fact_when_none(vms):
     assert '<div class="rf"></div>' not in html
 
 
+# --------------------------------------------------------------------------- #
+# PTF-SITE-006 -- "combined" is a claim, not a default.
+#
+# The summary composer called EVERY weight limit combined. Aloft Columbus Easton
+# published "up to 2 pets with a combined weight limit of 40.0 pounds" from a
+# source stating "Maximum Pet Weight: 40.0lbs" per pet -- the difference between
+# one 40lb dog and two, published as fact.
+# --------------------------------------------------------------------------- #
+
+ALOFT_FACTS = {"pets_allowed": "true", "pet_fee": "$50.00", "fee_basis": "per night",
+               "pet_count_limit": "2", "weight_limit": "40.0 pounds"}
+ALOFT_QUOTE = ("Pet Policy Pets Welcome A signed policy is required at check in "
+               "Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 40.0lbs "
+               "Maximum Number of Pets in Room: 2")
+
+
+def test_per_pet_weight_is_never_called_combined():
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    summary = _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
+    assert "combined" not in summary.lower()
+    assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night. "
+                       "Maximum pet weight is 40 pounds, with up to 2 pets permitted "
+                       "per room.")
+
+
+def test_combined_is_used_only_when_the_source_says_so():
+    """Drury's own wording ties the 80lb limit to both pets, so the summary may
+    say so. This is the one case where "combined" is reporting, not inferring."""
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    facts = {"species_allowed": "dogs, cats", "pet_fee": "$50.00",
+             "fee_basis": "per room per night", "pet_count_limit": "2",
+             "weight_limit": "80 pounds"}
+    quote = "limit two pets per room combined weight of 80 pounds"
+    assert "combined weight limit of 80 pounds" in _verified_summary(facts, quote)
+
+
+def test_combined_requires_the_word_beside_the_published_number():
+    """A Hyatt source states BOTH a per-pet 50 and a combined 75. The recorded
+    limit is the per-pet 50, so matching the bare word "combined" anywhere would
+    relabel it -- the same error in a subtler form."""
+    from scripts.pettripfinder.hotel_profile import _source_states_combined_weight
+    quote = "up to 50 pounds (two dogs permitted if combined weight is under 75 pounds)"
+    assert _source_states_combined_weight(quote, "50 pounds") is False
+    assert _source_states_combined_weight(quote, "75 pounds") is True
+
+
+def test_no_weight_limit_means_no_weight_claim():
+    from scripts.pettripfinder.hotel_profile import _source_states_combined_weight
+    assert _source_states_combined_weight("combined weight of 80 pounds", "") is False
+    assert _source_states_combined_weight("", "40.0 pounds") is False
+
+
+def test_nonrefundable_only_when_the_source_states_it():
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    assert "non-refundable" in _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
+    plain = _verified_summary(ALOFT_FACTS, "Pets welcome. Pet fee $50.00 per night.")
+    assert "non-refundable" not in plain
+    assert "A $50 fee applies per night." in plain
+
+
+def test_structured_fields_are_preserved_exactly():
+    """The prose drops a trailing zero; the recorded values must not."""
+    from scripts.pettripfinder.hotel_profile import _verified_facts
+    chips = dict((label, value) for label, value, _cls in _verified_facts(ALOFT_FACTS))
+    assert chips["Pet charge"] == "$50.00"
+    assert chips["Charge basis"] == "Per night"
+    assert chips["Max pets"] == "2"
+    assert chips["Weight limit"] == "40.0 pounds"
+    assert chips["Dogs"] == chips["Cats"] == "Not stated"
+
+
+def test_no_published_page_calls_a_weight_limit_combined_without_source_backing():
+    """Whole-inventory guard: any page saying "combined" must have a committed
+    evidence quote that ties that wording to the number it publishes."""
+    import json
+    import pathlib
+    from scripts.pettripfinder.hotel_profile import _source_states_combined_weight
+    pkg = json.loads(
+        (pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
+         "pettripfinder" / "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
+    for h in pkg["hotels"]:
+        facts = h.get("facts", {})
+        quote = h.get("evidence_quote", "") or ""
+        from scripts.pettripfinder.hotel_profile import _verified_summary
+        summary = _verified_summary(facts, quote)
+        if "combined" in summary.lower():
+            assert _source_states_combined_weight(quote, facts.get("weight_limit", "")), \
+                h["key"]
+
+
 def test_friendly_date_accepts_a_full_timestamp():
     """Attested hotels carry an observed_at taken from the capture, which is a
     timestamp rather than a bare date. Before this was handled, 30 published

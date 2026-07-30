@@ -213,24 +213,83 @@ def _species_phrase(species: str) -> str:
     return "Pets are welcome."
 
 
-def _verified_summary(f: Dict[str, str]) -> str:
+# A weight limit is COMBINED across pets only where the source says so. Drury
+# ("a combined weight of 80 pounds") and Hyatt ("75 pounds combined") do; a
+# Marriott property stating "Maximum Pet Weight: 40.0lbs" states a PER-PET
+# limit, and calling that combined understates what a guest may bring.
+def _source_states_combined_weight(evidence: str, weight_limit: str = "") -> bool:
+    """True only when the official wording ties THIS limit to all pets together.
+
+    PTF-SITE-006. The summary previously called EVERY weight limit combined, so
+    Aloft Columbus Easton published "up to 2 pets with a combined weight limit
+    of 40.0 pounds" from a source that says "Maximum Pet Weight: 40.0lbs" per
+    pet. Whether a limit is per-pet or combined is the difference between one
+    40lb dog and two, so it is never inferred.
+
+    The word "combined" appearing anywhere is not enough. A Hyatt source reads
+    "up to 50 pounds (two dogs permitted if combined weight is under 75
+    pounds)" -- it states a per-pet limit of 50 AND a combined limit of 75, and
+    the recorded weight_limit is the per-pet 50. Matching on the bare word would
+    relabel that 50 as combined, which is the same error in a subtler form. So
+    "combined" must sit next to the number actually being published.
+    """
+    text = evidence or ""
+    m = re.search(r"\d+(?:\.\d+)?", weight_limit or "")
+    if not m:
+        return False
+    number = _TRAILING_ZEROS_RE.sub(r"\1", m.group(0))
+    # The number, in either recorded form, within a short window of "combined".
+    for form in {number, m.group(0)}:
+        n = re.escape(form)
+        if re.search(r"combined[^.]{0,30}?%s|%s[^.]{0,30}?combined" % (n, n), text, re.I):
+            return True
+    return False
+
+
+_NONREFUNDABLE_RE = re.compile(r"non[- ]?refundable", re.I)
+_TRAILING_ZEROS_RE = re.compile(r"(\d+)\.0+(?=\D|$)")
+
+
+def _prose_number(text: str) -> str:
+    """"$50.00" -> "$50", "40.0 pounds" -> "40 pounds", for running prose.
+
+    The structured fields keep their exact recorded values; only the sentence
+    drops a trailing zero a reader does not need.
+    """
+    return _TRAILING_ZEROS_RE.sub(r"\1", text or "")
+
+
+def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
+    """Compose the consumer summary from stated facts plus the source wording.
+
+    ``evidence`` is the recorded official quote. It is consulted only to decide
+    between two phrasings the facts alone cannot distinguish -- combined versus
+    per-pet weight, and whether a fee is non-refundable. Nothing is added to the
+    summary that the quote does not support.
+    """
     if not any(f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit")):
         return ("Pets are welcome. The reviewed official source did not state the species, "
                 "fee, pet limit, or weight limit.")
     parts = [_species_phrase(f.get("species_allowed", ""))]
     fee, basis = f.get("pet_fee"), f.get("fee_basis")
     if fee:
-        s = "A %s fee applies" % fee
+        nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
+        s = "A %s%s fee applies" % (_prose_number(fee), nonref)
         if basis:
             s += " %s" % basis.lower()
         parts.append(s + ".")
-    tail = []
-    if f.get("pet_count_limit"):
-        tail.append("up to %s pets" % f["pet_count_limit"])
-    if f.get("weight_limit"):
-        tail.append("a combined weight limit of %s" % f["weight_limit"])
-    if tail:
-        parts.append(("Allowed " + " with ".join(tail) + ".").replace("Allowed up to", "Up to"))
+
+    count = f.get("pet_count_limit")
+    weight = _prose_number(f.get("weight_limit", ""))
+    if weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
+        parts.append("Up to %s pets with a combined weight limit of %s." % (count, weight)
+                     if count else "A combined weight limit of %s applies." % weight)
+    elif weight:
+        parts.append("Maximum pet weight is %s%s" % (
+            weight,
+            (", with up to %s pets permitted per room." % count) if count else "."))
+    elif count:
+        parts.append("Up to %s pets permitted per room." % count)
     return " ".join(parts)
 
 
@@ -329,7 +388,7 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
         address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("postal_code", "")),
         phone=row.get("phone", ""), official_url=row.get("website_url", ""),
         verified_at=date, source_name="the official %s website" % _brand_of(row.get("website_url", "")),
-        summary=_verified_summary(f),
+        summary=_verified_summary(f, quote or ""),
         facts=_verified_facts(f),
         verif_badge_text="Policy verified · %s" % date, verif_badge_cls="ok", verif_chip="✓ Verified policy",
         trust_cls="ok",
