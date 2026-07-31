@@ -130,7 +130,7 @@ print a value.
 2. **Future preview command (do not run in Stage A):**
 
    ```sh
-   netlify deploy --dir <preview-site-path> --site "$NETLIFY_SITE_ID"
+   netlify deploy --dir <preview-site-path> --site "$NETLIFY_SITE_ID" --no-build
    ```
 
    where `<preview-site-path>` is the assembled `…/prod005a_preview/site`
@@ -174,7 +174,7 @@ Ordered sequence (each remote write separately authorized):
 8. **Future production command (do not run in Stage A):**
 
    ```sh
-   netlify deploy --prod --dir <production-site-path> --site "$NETLIFY_SITE_ID"
+   netlify deploy --prod --no-build --dir <production-site-path> --site "$NETLIFY_SITE_ID"
    ```
 
    where `<production-site-path>` is the assembled `…/prod005a_production/site`.
