@@ -74,6 +74,26 @@ NAVIGATION_TIMEOUT_SECONDS = 45.0
 NETWORK_QUIET_SECONDS = 2.0
 NETWORK_QUIET_TIMEOUT_SECONDS = 20.0
 
+# Hydration readiness. `domContentEventFired` fires before a single-page app
+# has rendered anything identity-bearing, and the runner used to take exactly
+# one snapshot at that moment -- so a page that was merely slow read as a page
+# with no identity at all. Aloft Columbus University District failed
+# IDENTITY_UNVERIFIABLE after 7.2s, then succeeded unchanged on a later run.
+#
+# Bounded by construction: a maximum wait, a fixed poll interval, and a
+# requirement that the signal hold still. No refresh, no re-navigation.
+HYDRATION_TIMEOUT_SECONDS = 20.0
+HYDRATION_POLL_SECONDS = 1.0
+
+#: How many consecutive polls must show the same qualifying signal. Two is the
+#: minimum that can distinguish "present" from "present and settled".
+HYDRATION_STABLE_CHECKS = 2
+
+#: Rendered text may still grow between the two qualifying checks by at most
+#: this fraction. Beyond it the page is still assembling itself, and a snapshot
+#: taken mid-assembly is not the page the screenshot will show.
+HYDRATION_TEXT_DRIFT_TOLERANCE = 0.05
+
 # The affirmation fields automation must never populate. Asserted by test
 # against the emitted manifest and capture records.
 OPERATOR_ONLY_FIELDS = (

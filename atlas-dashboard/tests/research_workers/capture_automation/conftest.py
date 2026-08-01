@@ -108,7 +108,13 @@ class FakeBrowserSession:
                  no_screenshot_for: Sequence[str] = (),
                  raise_for: Sequence[str] = (),
                  box_after: Optional[BoxModel] = None,
-                 box_after_missing: bool = False):
+                 box_after_missing: bool = False,
+                 snapshot_sequence: Optional[Dict[str, List[dict]]] = None):
+        # url -> list of payloads returned by successive snapshot() calls, so a
+        # test can model a page that hydrates over several polls. The final
+        # entry repeats once exhausted.
+        self.snapshot_sequence = snapshot_sequence or {}
+        self.snapshot_calls = 0
         self.pages = pages
         self.nav_failures = nav_failures or {}
         self._screenshot = screenshot if screenshot is not None else make_png(320, 200)
@@ -144,6 +150,11 @@ class FakeBrowserSession:
         return NavigationResult(True, final_url=self.pages[url]["final_url"])
 
     def snapshot(self) -> DomSnapshot:
+        self.snapshot_calls += 1
+        seq = self.snapshot_sequence.get(self.current)
+        if seq:
+            idx = min(self.snapshot_calls - 1, len(seq) - 1)
+            return DomSnapshot.from_capture_payload(seq[idx])
         return DomSnapshot.from_capture_payload(self.pages[self.current])
 
     def query_selector_exists(self, selector: str) -> bool:

@@ -111,5 +111,13 @@ class BaseAdapter:
         exception. Returning empty is that ruling, in code."""
         return ()
 
+    #: Selectors that only exist once the property view has rendered. Used by
+    #: the hydration wait to notice readiness sooner; purely ADDITIVE, and
+    #: never consulted by the identity gate itself.
+    hydration_identity_selectors: Tuple[str, ...] = ()
+
+    def identity_selectors(self) -> Tuple[str, ...]:
+        return self.hydration_identity_selectors
+
     def policy_container_selectors(self) -> Tuple[str, ...]:
         return self.container_selectors

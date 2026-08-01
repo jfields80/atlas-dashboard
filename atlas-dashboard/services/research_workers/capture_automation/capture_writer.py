@@ -76,7 +76,8 @@ def build_payload(dom: DomSnapshot, *, captured_at: str, requested_url: str,
                   policy_box: Optional[BoxModel] = None,
                   policy_box_after: Optional[BoxModel] = None,
                   interaction_log: Sequence[dict] = (),
-                  viewport: Tuple[int, int] = (0, 0)) -> dict:
+                  viewport: Tuple[int, int] = (0, 0),
+                  hydration: Optional[dict] = None) -> dict:
     """The capture payload. Same shape as the extension's, plus ``automation``.
 
     Both geometry readings are recorded -- the one taken before the screenshot
@@ -116,6 +117,7 @@ def build_payload(dom: DomSnapshot, *, captured_at: str, requested_url: str,
                 "policy_box_after_screenshot after it; both had to be in frame "
                 "for this capture to be accepted"),
             "interaction_log": [dict(s) for s in interaction_log],
+            "hydration": dict(hydration) if hydration else None,
             "affirmation": None,
             "affirmation_note": (
                 "Automation never populates operator affirmation fields; a "

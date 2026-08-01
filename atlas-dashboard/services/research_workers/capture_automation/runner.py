@@ -31,6 +31,7 @@ from .doctrine import (
     CONSECUTIVE_CHALLENGE_LIMIT, MAX_SECONDS_BETWEEN_HOTELS,
     MIN_SECONDS_BETWEEN_HOTELS,
 )
+from .hydration import wait_for_identity
 from .identity_check import verify_identity
 from .manifest import Journal, build_manifest, write_manifest
 from .queue import CaptureQueue, QueueEntry, remaining_entries
@@ -84,6 +85,11 @@ class CaptureRunner:
         self._clock = clock
         self._sleep = sleep
         self._jitter = jitter
+        #: Every inter-hotel pause, in order. Recorded separately from the
+        #: injected sleep because the runner also sleeps for page settling and
+        #: hydration polling, and the pacing floor is a guarantee that has to
+        #: stay independently checkable.
+        self.pace_waits: List[float] = []
 
     # -- one hotel -------------------------------------------------------- #
 
@@ -111,20 +117,38 @@ class CaptureRunner:
                 return done(EXCEPTION, nav.reason or "NAVIGATION_FAILED",
                             (nav.detail,) if nav.detail else ())
 
-            dom = self._session.snapshot()
+            # Wait, bounded, for the page to render something identity-bearing.
+            # domContentEventFired says the markup arrived, not that a
+            # single-page app has drawn anything; a single snapshot at that
+            # moment made "slow" and "anonymous" indistinguishable.
+            readiness = wait_for_identity(
+                self._session, entry, adapter=adapter,
+                clock=self._clock, sleep=self._sleep)
+            dom = readiness.dom
 
-            # A challenge or denial is visible in the rendered text, so check
-            # before spending any more effort on this hotel.
-            from ..operator_capture import _page_block_reason
-            blocked = _page_block_reason(dom.text)
-            if blocked:
+            # A challenge or denial is visible in the rendered text, and ends
+            # the wait immediately rather than being waited out.
+            if readiness.blocked_reason:
                 mapped = {"captcha_or_challenge_page": "CAPTCHA_OR_CHALLENGE",
                           "access_denied_page": "ACCESS_DENIED",
                           "login_required_page": "LOGIN_REQUIRED"}.get(
-                              blocked, "ACCESS_DENIED")
-                return done(EXCEPTION, mapped, (blocked,))
+                              readiness.blocked_reason, "ACCESS_DENIED")
+                return done(EXCEPTION, mapped, (readiness.blocked_reason,))
+
+            if dom is None:
+                return done(EXCEPTION, "IDENTITY_UNVERIFIABLE", ("no_snapshot",))
+
+            if not readiness.ready:
+                # Fails closed exactly as before; the diagnostics say whether
+                # the page was anonymous or merely slower than the budget.
+                return done(EXCEPTION, "IDENTITY_UNVERIFIABLE",
+                            ("hydration_timeout" if readiness.timed_out
+                             else "no_identity_signal",
+                             "checks:%d" % readiness.checks,
+                             "waited:%.1fs" % readiness.waited_seconds))
 
             # -- URL_SHAPE + IDENTITY -------------------------------------- #
+            # Readiness decided only WHEN to look. This is still the gate.
             verdict = verify_identity(dom, entry, observed_at=_now_iso(self._clock))
             if not verdict.ok:
                 return done(EXCEPTION, verdict.reason, verdict.detail)
@@ -184,7 +208,8 @@ class CaptureRunner:
             payload = build_payload(
                 dom, captured_at=captured_at, requested_url=entry.official_url,
                 policy=location, policy_box=box, policy_box_after=box_after,
-                interaction_log=interaction_log, viewport=viewport)
+                interaction_log=interaction_log, viewport=viewport,
+                hydration=readiness.to_dict())
 
             stem = capture_stem(dom.final_url, captured_at)
             try:
@@ -217,6 +242,7 @@ class CaptureRunner:
                 "citable_url": _citable_url(dom.final_url, dom.canonical_url),
                 "policy": location.to_dict(), "policy_box": box.to_dict(),
                 "policy_box_after_screenshot": box_after.to_dict() if box_after else None,
+                "hydration": readiness.to_dict(),
                 "interaction_log": interaction_log,
                 "warnings": warnings,
             }
@@ -341,7 +367,9 @@ class CaptureRunner:
         a batch cannot be told to run flat out from the command line."""
         low = max(MIN_SECONDS_BETWEEN_HOTELS, self._config.min_pace)
         high = max(low, self._config.max_pace)
-        self._sleep(self._jitter(low, high))
+        waited = self._jitter(low, high)
+        self.pace_waits.append(waited)
+        self._sleep(waited)
 
 
 def _policy_handle(location: PolicyLocation, session) -> Tuple[str, str]:

@@ -410,26 +410,41 @@ class TestFramingCheckUnit:
 
 
 class TestPacing:
+    """Asserted against ``runner.pace_waits``, not the raw sleep log.
+
+    The runner also sleeps for page settling and hydration polling, so counting
+    every sleep would conflate three different waits and let a pacing
+    regression hide behind a poll interval.
+    """
+
     def test_the_runner_waits_between_hotels(self, tmp_path):
         names = MARRIOTT[:3]
         session = FakeBrowserSession(pages_from(*names))
-        runner, slept = make_runner(tmp_path, session)
+        runner, _slept = make_runner(tmp_path, session)
         runner.run(build_queue(names))
-        assert len(slept) == 2, "one pause between each pair, none after the last"
-        assert all(s >= 20.0 for s in slept)
+        assert len(runner.pace_waits) == 2, "one pause per pair, none after the last"
+        assert all(s >= 20.0 for s in runner.pace_waits)
 
     def test_a_single_hotel_batch_never_pauses(self, tmp_path):
         session = FakeBrowserSession(pages_from("marriott-cmham.json"))
-        runner, slept = make_runner(tmp_path, session)
+        runner, _slept = make_runner(tmp_path, session)
         runner.run(build_queue(["marriott-cmham.json"]))
-        assert slept == []
+        assert runner.pace_waits == []
 
     def test_the_floor_cannot_be_configured_away(self, tmp_path):
         names = MARRIOTT[:2]
         session = FakeBrowserSession(pages_from(*names))
-        runner, slept = make_runner(tmp_path, session, min_pace=0.0, max_pace=0.0)
+        runner, _slept = make_runner(tmp_path, session, min_pace=0.0, max_pace=0.0)
         runner.run(build_queue(names))
-        assert slept and all(s >= 20.0 for s in slept)
+        assert runner.pace_waits and all(s >= 20.0 for s in runner.pace_waits)
+
+    def test_hydration_polling_is_not_counted_as_pacing(self, tmp_path):
+        """A poll interval must never be mistaken for an inter-hotel pause."""
+        session = FakeBrowserSession(pages_from("marriott-cmham.json"))
+        runner, slept = make_runner(tmp_path, session)
+        runner.run(build_queue(["marriott-cmham.json"]))
+        assert any(s < 20.0 for s in slept), "hydration did poll"
+        assert runner.pace_waits == []
 
 
 class TestResume:
