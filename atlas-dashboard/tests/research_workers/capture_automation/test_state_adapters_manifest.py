@@ -80,8 +80,17 @@ class TestOutcomes:
 
 
 class TestAdapterContract:
-    def test_both_phase_one_brands_are_registered(self):
-        assert set(known_brands()) == {"marriott", "hilton"}
+    def test_the_registered_brands_are_exactly_the_supported_ones(self):
+        """Phase 1 shipped Marriott and Hilton; Phase 2A added IHG.
+
+        Hyatt is absent on purpose -- hyatt.com serves a Kasada interstitial
+        our automation must not try to defeat -- and Wyndham is absent because
+        its pages answer ordinary automated retrieval with HTTP 200 and
+        EXACT_MATCH, so those hotels do not belong on the manual path at all.
+        """
+        assert set(known_brands()) == {"marriott", "hilton", "ihg"}
+        assert adapter_for("hyatt") is None
+        assert adapter_for("wyndham") is None
 
     def test_an_unknown_brand_returns_none(self):
         assert adapter_for("fictional-inns") is None

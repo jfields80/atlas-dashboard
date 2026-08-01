@@ -71,16 +71,19 @@ def entry_for(name: str, **overrides) -> QueueEntry:
                   if str(b.get("@type", "")).lower() in ("hotel", "lodgingbusiness")), {})
     addr = hotel.get("address") if isinstance(hotel.get("address"), dict) else {}
     url = payload["final_url"]
-    code = ""
-    for seg in url.split("/"):
-        if seg and "-" in seg and seg.split("-")[0].startswith("cmh"):
-            code = seg.split("-")[0]
-            break
+    # Use the real extractor rather than a hyphen heuristic: IHG puts the code
+    # in its own bare path segment (/dublin/cmhtc/hoteldetail), which a
+    # "<code>-<slug>" guess silently misses.
+    from services.research_workers.source_retrieval import (
+        extract_property_code_from_url,
+    )
+    code = extract_property_code_from_url(url)
     base = dict(
         hotel_id=name.replace(".json", ""),
         listing_key=name.replace(".json", "").replace("_", "-"),
         hotel_name=str(hotel.get("name") or payload.get("title") or ""),
-        brand="hilton" if "hilton" in url else "marriott",
+        brand=("hilton" if "hilton.com" in url else
+               "ihg" if "ihg.com" in url else "marriott"),
         official_url=url,
         expected_address=str(addr.get("streetAddress") or ""),
         expected_city=str(addr.get("addressLocality") or ""),

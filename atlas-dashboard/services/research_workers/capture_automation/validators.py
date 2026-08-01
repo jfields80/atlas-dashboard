@@ -112,11 +112,21 @@ def check_policy_framing(before: Optional[BoxModel], after: Optional[BoxModel],
     if not policy_in_frame(before, viewport_height):
         return (False, "off_screen_before_screenshot:%.2f"
                 % visible_fraction(before, viewport_height))
+    # The post-screenshot reading is the authoritative one: Chrome's
+    # captureScreenshot scrolls the page and THEN composites, so the image
+    # depicts the scroll position that exists afterwards.
     if not policy_in_frame(after, viewport_height):
         return (False, "off_screen_after_screenshot:%.2f"
                 % visible_fraction(after, viewport_height))
 
-    drift = abs(viewport_offset(after) - viewport_offset(before))
+    # Drift means the CONTENT moved, measured in page coordinates -- not that
+    # the camera moved. Measuring viewport-relative offset instead conflates
+    # the two and refuses healthy captures: on a real IHG page the policy sat
+    # rock-still at page-y 6233 while captureScreenshot nudged window.scrollY
+    # by 106px, and a viewport-relative test called that "geometry_drift_px:106"
+    # three runs in a row. Scroll movement is harmless once both readings are
+    # confirmed in frame; content movement under the camera is not.
+    drift = abs(after.y - before.y)
     if drift > tolerance_px:
         return (False, "geometry_drift_px:%.0f" % drift)
 

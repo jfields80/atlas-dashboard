@@ -12,6 +12,7 @@ from typing import Dict, Optional, Tuple
 
 from .base import BaseAdapter
 from .hilton import HiltonAdapter
+from .ihg import IhgAdapter
 from .marriott import MarriottAdapter
 
 _REGISTRY: Dict[str, BaseAdapter] = {}
@@ -33,3 +34,17 @@ def known_brands() -> Tuple[str, ...]:
 
 register(MarriottAdapter())
 register(HiltonAdapter())
+register(IhgAdapter())
+
+# Deliberately NOT registered: Hyatt. hyatt.com serves a Kasada bot-defence
+# interstitial to our visible Chrome -- an 811-byte shell containing only
+# window.KPSDK and an ips.js challenge loader, which never resolves (measured
+# unchanged across 15 seconds, readyState complete, 858 bytes transferred, page
+# blank). Reaching the real page would mean satisfying that challenge, which
+# ADR-PTF-AUTOMATED-BROWSING forbids by name. An adapter would be dead code
+# whose only use would be to invite someone to try.
+#
+# Also deliberately NOT registered: Wyndham. Its official pages return HTTP 200
+# with EXACT_MATCH identity to ordinary automated retrieval, so those hotels
+# belong on the automated path; routing them through manual attestation would
+# force REVIEW on records that do not need it.

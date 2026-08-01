@@ -44,6 +44,9 @@ BLOCK_TERMINATORS = (
     "All Policies", "Parking", "Gather your group", "GATHER YOUR GROUP",
     "Dining and drinks", "Discover ", "More Ways to Enjoy",
     "Additional Parking Information", "Explore",
+    # FAQ accordions: the answer ends where the list's own controls begin.
+    "READ FEWER FAQS", "Read fewer FAQs", "READ MORE FAQS",
+    "Was anything missing",
 )
 
 # Corroborating content: a real policy block says something about money,

@@ -46,6 +46,43 @@ SIGNAL_OBSERVED_IDENTITY = "observed_name_and_contact"
 STRONG_SIGNALS = (SIGNAL_JSONLD_HOTEL, SIGNAL_URL_CODE_AND_NAME,
                   SIGNAL_ADAPTER_SELECTOR, SIGNAL_OBSERVED_IDENTITY)
 
+# Bot-defence interstitials that replace the page with a challenge loader.
+#
+# These carry NO text, so `_page_block_reason` -- which reads rendered text --
+# cannot see them, and the hotel would time out as IDENTITY_UNVERIFIABLE:
+# "we could not tell who this is" rather than the truth, "this brand refused
+# us". Hyatt serves exactly this: an 811-byte body holding window.KPSDK and an
+# ips.js loader, unchanged across 15 seconds with the page blank.
+#
+# Recognising it is honest reporting, not evasion. The response is still to
+# stop and hand the hotel to a human.
+_CHALLENGE_SHELL_MARKERS = (
+    "KPSDK",            # Kasada
+    "_Incapsula_Resource",
+    "distil_r_captcha",
+    "/_sec/cp_challenge",
+    "px-captcha",       # PerimeterX
+    "awswaf",           # AWS WAF challenge
+)
+
+#: A body this small cannot be a hotel page; used only together with a marker.
+CHALLENGE_SHELL_MAX_HTML_BYTES = 8000
+
+
+def looks_like_challenge_shell(dom: DomSnapshot) -> str:
+    """Is this a bot-defence interstitial rather than a page? Returns a slug."""
+    if dom is None:
+        return ""
+    html = dom.html or ""
+    if len(html) > CHALLENGE_SHELL_MAX_HTML_BYTES:
+        return ""
+    if (dom.text or "").strip():
+        return ""                       # a page with words is not a bare shell
+    for marker in _CHALLENGE_SHELL_MARKERS:
+        if marker in html:
+            return "captcha_or_challenge_page"
+    return ""
+
 
 @dataclass(frozen=True)
 class ReadinessResult:
@@ -182,8 +219,11 @@ def wait_for_identity(session, entry, *, adapter=None,
         dom = session.snapshot()
         checks += 1
 
-        # A bot wall or denial ends the wait at once.
-        blocked = block_reason(dom.text or "")
+        # A bot wall or denial ends the wait at once. The textless
+        # interstitial is checked too, because a challenge that renders no
+        # words would otherwise be reported as "we could not identify this
+        # hotel" -- which is not what happened.
+        blocked = block_reason(dom.text or "") or looks_like_challenge_shell(dom)
         if blocked:
             return ReadinessResult(
                 ready=False, checks=checks, waited_seconds=clock() - started,

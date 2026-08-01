@@ -311,11 +311,11 @@ class TestPolicyFramingIsCheckedTwice:
         assert exc["detail"] == ["policy_element_missing_after_screenshot"]
 
     def test_material_drift_fails(self, tmp_path):
-        """Still comfortably on screen, but not where it was.
+        """The CONTENT moved under the camera: same scroll, new page position.
 
-        Chosen so the in-frame check cannot be what rejects it: at y=800 in a
-        905px viewport, 105 of the block's 140px are visible (75%). Only the
-        400px move from y=400 disqualifies it.
+        Chosen so the in-frame check cannot be what rejects it: at page-y 800
+        with scroll 0 in a 905px viewport, 105 of the block's 140px are visible
+        (75%). Only the 400px move from page-y 400 disqualifies it.
         """
         drifted = BoxModel(x=0, y=800, width=600, height=140, scroll_y=0)
         result, _ = self._run(tmp_path, box_after=drifted)
@@ -329,6 +329,23 @@ class TestPolicyFramingIsCheckedTwice:
         the scroll landed marginally differently. That must not fail a batch."""
         nudged = BoxModel(x=0, y=414, width=600, height=140, scroll_y=0)
         result, _ = self._run(tmp_path, box_after=nudged)
+        assert result.manifest["counts"]["captured"] == 1
+
+    def test_the_screenshot_scrolling_the_page_is_not_drift(self, tmp_path):
+        """Chrome's captureScreenshot scrolls, then composites. The content is
+        stationary; only the camera moved, and the block is still in frame.
+
+        Measured on a real IHG page: page-y 6233 before and after, scrollY
+        5810 -> 5916. Treating that 106px as drift refused three healthy
+        captures in a row.
+        """
+        before = BoxModel(x=0, y=6233, width=870, height=141, scroll_y=5810)
+        after = BoxModel(x=0, y=6233, width=870, height=141, scroll_y=5916)
+        session = FakeBrowserSession(pages_from("marriott-cmham.json"),
+                                     box=before, box_after=after,
+                                     viewport=(1424, 905))
+        runner, _ = make_runner(tmp_path, session)
+        result = runner.run(build_queue(["marriott-cmham.json"]))
         assert result.manifest["counts"]["captured"] == 1
 
     def test_a_height_change_fails(self, tmp_path):
@@ -403,10 +420,21 @@ class TestFramingCheckUnit:
         assert check_policy_framing(self.OK, self.OK, self.VH)[0]
 
     @pytest.mark.parametrize("dy,expected", [(0, True), (10, True), (24, True),
-                                             (25, False), (470, False)])
-    def test_tolerance_boundary(self, dy, expected):
+                                             (25, False), (400, False)])
+    def test_tolerance_boundary_on_page_coordinates(self, dy, expected):
         after = BoxModel(x=0, y=400 + dy, width=600, height=140, scroll_y=0)
         assert check_policy_framing(self.OK, after, self.VH)[0] is expected
+
+    @pytest.mark.parametrize("dscroll", [0, 106, 300])
+    def test_scroll_change_alone_is_never_drift(self, dscroll):
+        """Same PAGE position, different camera position, still in frame.
+
+        page-y stays at 400; only scroll_y moves. That is exactly what
+        captureScreenshot does, and it must not be called drift.
+        """
+        after = BoxModel(x=0, y=400, width=600, height=140, scroll_y=dscroll)
+        ok, detail = check_policy_framing(self.OK, after, self.VH)
+        assert ok, detail
 
 
 class TestPacing:

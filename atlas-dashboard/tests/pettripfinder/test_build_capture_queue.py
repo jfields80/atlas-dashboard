@@ -310,11 +310,25 @@ class TestFailsClosed:
         assert "expected_city" in reason
 
     def test_brand_without_an_adapter_is_refused(self, workspace):
+        """Hyatt, deliberately. hyatt.com serves a Kasada interstitial our
+        automation must not try to defeat, so no adapter exists and its hotels
+        must be excluded here with a reason rather than queued and failed."""
         reason = self._only_exclusion(
-            workspace, seed_row("Staybridge Suites Columbus Dublin",
-                                "https://www.ihg.com/staybridge/hotels/us/en/columbus/"
-                                "cmhtc/hoteldetail"))
-        assert "no_adapter_for_brand:ihg" in reason
+            workspace, seed_row("Hyatt House Columbus OSU Short North",
+                                "https://www.hyatt.com/hyatt-house/en-US/"
+                                "cmhxo-hyatt-house-columbus-osu-short-north"))
+        assert "no_adapter_for_brand:hyatt" in reason
+
+    def test_a_brand_that_gained_an_adapter_is_now_selectable(self, workspace):
+        """IHG was excluded for this reason until Phase 2A; the same seed row
+        must now pass."""
+        ws = workspace([seed_row("Staybridge Suites Columbus Dublin",
+                                 "https://www.ihg.com/staybridge/hotels/us/en/"
+                                 "dublin/cmhtc/hoteldetail")])
+        result = build_queue(batch_id="b", **ws)
+        assert result.counts["selected"] == 1
+        assert result.selected[0]["brand"] == "ihg"
+        assert result.selected[0]["expected_property_code"] == "cmhtc"
 
     def test_unrecognised_host_is_refused(self, workspace):
         reason = self._only_exclusion(
