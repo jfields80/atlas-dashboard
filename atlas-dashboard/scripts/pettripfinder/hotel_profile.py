@@ -285,6 +285,40 @@ def fee_withheld_notice(f: Dict) -> str:
     return ""
 
 
+def weight_phrase(f: Dict) -> str:
+    """The weight limit as the source states it, exclusivity preserved.
+
+    "Under 80 lbs" and "up to 80 lbs" are different promises: the first turns
+    an 80-pound dog away, the second takes it. Rendering the first as
+    "Maximum pet weight is 80 pounds" told owners of 80-pound dogs the hotel
+    would accept them, which its own page denies.
+
+    Absent operator means inclusive -- what every labelled "Maximum Pet
+    Weight: N" has always meant -- so existing hotels read exactly as before.
+    """
+    value = (f.get("weight_limit") or "").strip()
+    if not value:
+        return ""
+    if (f.get("weight_limit_operator") or "") == "lt":
+        return "under %s" % _prose_number(value)
+    return _prose_number(value)
+
+
+def weight_display(f: Dict) -> str:
+    """Table/chip form of the same limit: "Under 80.0 pounds", or "" if absent.
+
+    Keeps the exact recorded value -- structured cells never round, only the
+    running sentence does -- and carries the same exclusivity as the prose so
+    the two can never disagree with each other.
+    """
+    value = (f.get("weight_limit") or "").strip()
+    if not value:
+        return ""
+    if (f.get("weight_limit_operator") or "") == "lt":
+        return "Under %s" % value
+    return value
+
+
 def tier_fee_range(tiers: Sequence[Dict]) -> str:
     """"$75–$125" for a ladder; a single amount if every tier charges the same.
 
@@ -375,6 +409,12 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     if weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
         parts.append("Up to %s pets with a combined weight limit of %s." % (count, weight)
                      if count else "A combined weight limit of %s applies." % weight)
+    elif weight and (f.get("weight_limit_operator") or "") == "lt":
+        # An exclusive ceiling gets a sentence that excludes: "under 80 pounds"
+        # turns the 80-pound dog away, and "maximum ... is 80 pounds" does not.
+        parts.append("Pets must weigh %s%s" % (
+            weight_phrase(f),
+            (", with up to %s pets permitted per room." % count) if count else "."))
     elif weight:
         parts.append("Maximum pet weight is %s%s" % (
             weight,
@@ -407,7 +447,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Charge basis",
              "Source conflict" if f.get("fee_conflict") else "Range by stay", "dim"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(f.get("weight_limit"))),
+            ("Weight limit", *cell(weight_display(f))),
         )
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
@@ -416,7 +456,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", tier_fee_range(tiers), ""),
             ("Charge basis", "Tiered by stay length", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(f.get("weight_limit"))),
+            ("Weight limit", *cell(weight_display(f))),
         )
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
@@ -426,7 +466,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         ("Pet charge", *cell(charge)),
         ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
-        ("Weight limit", *cell(f.get("weight_limit"))),
+        ("Weight limit", *cell(weight_display(f))),
     )
 
 
@@ -467,7 +507,7 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
            if f.get("fee_withheld")
            else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
                f.get("fee_basis")))),
-        ("Weight restriction", *d(f.get("weight_limit"))),
+        ("Weight restriction", *d(weight_display(f))),
         ("Refundable deposit", *d(f.get("pet_deposit"))),
         ("Breed restrictions", *d(f.get("breed_restrictions"))),
         ("Unattended-pet rule", *d(f.get("unattended_policy"))),

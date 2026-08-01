@@ -327,6 +327,7 @@ def run(output: str) -> int:
             "species_allowed": f.get("species_allowed", ""), "pet_fee": f.get("pet_fee", ""),
             "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
             "weight_limit": f.get("weight_limit", ""),
+            "weight_limit_operator": f.get("weight_limit_operator", ""),
             # A stay-length ladder has no single fee; the table renders its
             # range plus a note instead of one misleading number. A capped fee
             # carries its ceiling, and a conflicted source carries neither.

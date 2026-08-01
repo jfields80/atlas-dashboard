@@ -235,9 +235,9 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # value always wins, so every hotel already publishing keeps exactly the
     # fields it had; prose can add, never overwrite.
     from scripts.pettripfinder.prose_facts import (
-        UNREPRESENTABLE_FEE_RANGE, detect_unrepresentable_fee_range,
-        extract_pet_count, extract_pets_allowed, extract_species,
-        extract_weight_limit,
+        UNREPRESENTABLE_FEE_RANGE, WEIGHT_OP_LT,
+        detect_unrepresentable_fee_range, extract_pet_count,
+        extract_pets_allowed, extract_species, extract_weight_limit,
     )
 
     if "weight_limit" not in facts:
@@ -246,6 +246,13 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             facts["weight_limit"] = got.value
             evidence.append({"field": "weight_limit", "value": got.value,
                              "quote": got.quote})
+            # Only recorded when the source EXCLUDES the stated figure. Absent
+            # means inclusive, which is what every labelled "Maximum Pet
+            # Weight: N" has always meant -- so no existing record changes.
+            if got.operator == WEIGHT_OP_LT:
+                facts["weight_limit_operator"] = WEIGHT_OP_LT
+                evidence.append({"field": "weight_limit_operator",
+                                 "value": WEIGHT_OP_LT, "quote": got.quote})
 
     if "pet_count_limit" not in facts:
         got = extract_pet_count(block)

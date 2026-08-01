@@ -42,7 +42,7 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-EXPECTED_PACKAGE_SHA = "dd0ae8d76aa918e3fae12990bb2622e8a15dde70dafcd125ae36858319325ba3"
+EXPECTED_PACKAGE_SHA = "9fd9050f4b21225076973613176efe0318e140e39ec66fab60510663a4ea9bdd"
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 

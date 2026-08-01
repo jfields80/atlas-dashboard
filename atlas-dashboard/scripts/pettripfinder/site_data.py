@@ -53,7 +53,8 @@ CANDIDATE_ROOTS = (
 # losing the thing that makes it a ladder. It is absent on scalar-fee hotels,
 # so their records are unchanged.
 _POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers", "fee_cap", "fee_conflict", "fee_withheld",
-                  "pet_count_limit", "weight_limit", "breed_restrictions",
+                  "pet_count_limit", "weight_limit", "weight_limit_operator",
+                  "breed_restrictions",
                   "unattended_policy", "general_restrictions")
 
 

@@ -89,14 +89,31 @@ def _span(text: str, start: int, end: int, pad: int = 0) -> str:
 # 1. Counts.
 # --------------------------------------------------------------------------- #
 
+#: Weight-limit comparison operators. "under 80 lbs" and "up to 80 lbs" are
+#: different promises: the first excludes an 80-pound dog, the second admits
+#: it. Publishing one as the other is a factual error about which animals the
+#: hotel will take, so the operator travels with the number.
+WEIGHT_OP_LT = "lt"        # strictly under
+WEIGHT_OP_LTE = "lte"      # at most (the historical assumption)
+
+#: Ceiling words that EXCLUDE the stated figure. Anything not here is treated
+#: as inclusive, which is the pre-existing behaviour and the safer default for
+#: labelled fields like "Maximum Pet Weight: 40.0lbs".
+_EXCLUSIVE_CEILINGS = ("under", "less than", "below", "fewer than")
+
+
 @dataclass(frozen=True)
 class ProseFact:
     value: str
     quote: str
     rule: str
+    operator: str = ""
 
     def to_dict(self) -> dict:
-        return {"value": self.value, "quote": self.quote, "rule": self.rule}
+        d = {"value": self.value, "quote": self.quote, "rule": self.rule}
+        if self.operator:
+            d["operator"] = self.operator
+        return d
 
 
 # "up to two pets", "maximum of 2 dogs", "no more than two pets",
@@ -188,8 +205,15 @@ def extract_weight_limit(block: str) -> Optional[ProseFact]:
                 continue
             if re.search(r"\$\s*%s\b" % re.escape(m.group("num")), context):
                 continue
+            # Which ceiling word governed it decides whether the stated figure
+            # is itself allowed. "under 80 lbs" turns an 80-pound dog away;
+            # "up to 80 lbs" takes it.
+            governing = (m.groupdict().get("ceil") or "").lower()
+            operator = (WEIGHT_OP_LT
+                        if any(e in governing for e in _EXCLUSIVE_CEILINGS)
+                        else WEIGHT_OP_LTE)
             return ProseFact("%.1f pounds" % value,
-                             _span(text, m.start(), m.end()), rule)
+                             _span(text, m.start(), m.end()), rule, operator)
     return None
 
 

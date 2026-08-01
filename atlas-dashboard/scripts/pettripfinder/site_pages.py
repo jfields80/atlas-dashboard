@@ -14,7 +14,9 @@ from __future__ import annotations
 import html
 from typing import Dict, List, Optional, Tuple
 
-from scripts.pettripfinder.hotel_profile import _friendly_date, tier_fee_range
+from scripts.pettripfinder.hotel_profile import (
+    _friendly_date, tier_fee_range, weight_display,
+)
 from scripts.pettripfinder.site_data import normalize_name
 from scripts.pettripfinder.structured_data import breadcrumb_ld, to_script_tag
 
@@ -188,6 +190,11 @@ def build_comparison_page(rows: List[Dict]) -> str:
                 cells.append('<td><span class="ptf-unknown">Not stated</span></td>')
                 continue
             value = (r.get(key) or "").strip()
+            if key == "weight_limit":
+                # "Under 80 pounds" and "80 pounds" are different answers to
+                # "will they take my 80-pound dog?", and a comparison table is
+                # exactly where that difference decides a booking.
+                value = weight_display(r)
             if key == "verified_at":
                 # Attested hotels carry an observed_at taken from the capture,
                 # which is a full timestamp. "Verified 2026-07-29T14:28:29.492Z"
