@@ -258,6 +258,36 @@ def _page_block_reason(text: str) -> str:
     return ""
 
 
+#: A visible-text field shorter than this is not a rendered page. Below it the
+#: normalized HTML is the only usable evidence, so the check falls back.
+MIN_VISIBLE_TEXT_BYTES_FOR_BLOCK_CHECK = 200
+
+
+def page_block_reason_for_capture(visible_text: str, normalized_text: str) -> Tuple[str, str]:
+    """Decide whether a captured page is a wall, and say which text decided it.
+
+    PTF-CAPTURE-003D. This used to run over the NORMALIZED HTML only, which
+    includes markup a visitor never sees. IHG ships a dormant sign-in widget in
+    every page's chrome -- "your session has expired. please sign in to your
+    profile" -- so a fully public property page, whose pet policy, address and
+    phone were all plainly rendered and photographed, was rejected as
+    ``login_required_page``. The string was in the document; it was never on
+    the screen.
+
+    A wall is a thing a *reader* is shown. So when the capture carries rendered
+    visible text, that is what decides. The normalized HTML remains the
+    fallback for captures that have no usable rendered text -- where it is the
+    only evidence there is, and where erring toward rejection is correct.
+
+    Returns ``(reason, source)``; ``reason`` is "" when the page is not a wall.
+    """
+    visible = visible_text or ""
+    usable = len(visible.strip().encode("utf-8")) >= MIN_VISIBLE_TEXT_BYTES_FOR_BLOCK_CHECK
+    if usable:
+        return (_page_block_reason(visible), "visible_text")
+    return (_page_block_reason(normalized_text or ""), "normalized_html_fallback")
+
+
 # --------------------------------------------------------------------------- #
 # Ingestion result.
 # --------------------------------------------------------------------------- #
@@ -404,9 +434,15 @@ def ingest_capture(payload: dict, job: CaptureJob,
                   normalized_text_bytes=text_bytes,
                   jsonld_blocks=len(jsonld) if isinstance(jsonld, list) else 0)
 
-    blocked = _page_block_reason(normalized_text)
+    # PTF-CAPTURE-003D. Judge the page a reader saw, not the markup shipped
+    # with it. The capture's own rendered text decides when it is usable; the
+    # normalized HTML remains the fallback when it is not.
+    blocked, block_source = page_block_reason_for_capture(
+        str(payload.get("text") or ""), normalized_text)
     if blocked:
         return _fail(job, CAPTURE_REJECTED, blocked, **common)
+    if block_source == "normalized_html_fallback":
+        warnings.append("block_check_used_normalized_html")
 
     if text_bytes < MIN_USEFUL_TEXT_BYTES or detect_javascript_only(soup, normalized_text):
         return _fail(job, NOT_USEFUL,
