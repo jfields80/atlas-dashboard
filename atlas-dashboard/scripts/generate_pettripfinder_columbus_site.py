@@ -333,6 +333,7 @@ def run(output: str) -> int:
             "fee_tiers": f.get("fee_tiers") or [],
             "fee_cap": f.get("fee_cap") or {},
             "fee_conflict": f.get("fee_conflict") or None,
+            "fee_withheld": f.get("fee_withheld") or None,
             "verified_at": entry["verified_at"] if entry else "",
         })
     (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)

@@ -266,6 +266,24 @@ FEE_CONFLICT_NOTICE = ("Official source contains conflicting pet-fee terms. "
                        "See the exact recorded policy wording or confirm with "
                        "the hotel.")
 
+# Shown where a fee is withheld because the source states a RANGE or a
+# conditional fee rather than a figure -- "75 to 150 dollars depending on
+# length of stay". Deliberately NOT the conflict wording: nothing here
+# contradicts anything. The source is clear and simply says more than a single
+# number can carry, and saying "conflicting" would misdescribe the hotel.
+FEE_RANGE_NOTICE = ("Official source gives a pet-fee range that depends on "
+                    "the stay, not a single figure. See the exact recorded "
+                    "policy wording or confirm with the hotel.")
+
+
+def fee_withheld_notice(f: Dict) -> str:
+    """The right sentence for whichever reason the fee was withheld, or ""."""
+    if f.get("fee_conflict"):
+        return FEE_CONFLICT_NOTICE
+    if f.get("fee_withheld"):
+        return FEE_RANGE_NOTICE
+    return ""
+
 
 def tier_fee_range(tiers: Sequence[Dict]) -> str:
     """"$75–$125" for a ladder; a single amount if every tier charges the same.
@@ -324,7 +342,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     summary that the quote does not support.
     """
     tiers = f.get("fee_tiers") or []
-    conflict = f.get("fee_conflict")
+    conflict = f.get("fee_conflict") or f.get("fee_withheld")
     if not tiers and not conflict and not any(
             f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit",
                                "weight_limit")):
@@ -332,9 +350,10 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                 "fee, pet limit, or weight limit.")
     parts = [_species_phrase(f.get("species_allowed", ""))]
     if conflict:
-        # No amount and no basis: the source gives two incompatible answers, so
-        # stating either as fact would be a guess dressed as verification.
-        parts.append(FEE_CONFLICT_NOTICE)
+        # No amount and no basis. Either the source gives two incompatible
+        # answers, or it gives a range no single figure can carry; the notice
+        # says which, because they are different facts about the hotel.
+        parts.append(fee_withheld_notice(f))
     if tiers:
         parts.append(_tiered_fee_sentence(tiers, evidence))
     fee, basis = (None, None) if (tiers or conflict) else (f.get("pet_fee"),
@@ -382,10 +401,11 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Cats", *(("Accepted", "yes") if "cat" in sp else ("Not stated", "dim"))),
         )
     tiers = f.get("fee_tiers") or []
-    if f.get("fee_conflict"):
+    if f.get("fee_conflict") or f.get("fee_withheld"):
         return head + (
             ("Pet charge", "See policy wording", "dim"),
-            ("Charge basis", "Source conflict", "dim"),
+            ("Charge basis",
+             "Source conflict" if f.get("fee_conflict") else "Range by stay", "dim"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(f.get("weight_limit"))),
         )
@@ -431,15 +451,20 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         *(tuple(("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
                  _tier_amount(t), "")
                 for t in (f.get("fee_tiers") or []))
-          or ((("Pet charge", FEE_CONFLICT_NOTICE, "dim"),) if f.get("fee_conflict")
+          or ((("Pet charge", fee_withheld_notice(f), "dim"),)
+              if (f.get("fee_conflict") or f.get("fee_withheld"))
               else (("Pet charge", *d(f.get("pet_fee"))),))),
         *((("Maximum total", _prose_number("$%s" % (f.get("fee_cap") or {})["amount"]), ""),)
-          if (f.get("fee_cap") or {}).get("amount") and not f.get("fee_conflict") else ()),
+          if (f.get("fee_cap") or {}).get("amount")
+          and not (f.get("fee_conflict") or f.get("fee_withheld")) else ()),
         ("Charge basis",
          *(("Tiered by stay length; the source does not state a per-night or "
             "per-stay basis.", "") if f.get("fee_tiers")
            else ("Withheld: the official source states conflicting terms.", "dim")
            if f.get("fee_conflict")
+           else ("Withheld: the official source gives a range that depends on "
+                 "the stay.", "dim")
+           if f.get("fee_withheld")
            else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
                f.get("fee_basis")))),
         ("Weight restriction", *d(f.get("weight_limit"))),

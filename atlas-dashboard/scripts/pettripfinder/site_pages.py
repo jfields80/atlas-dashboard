@@ -161,10 +161,15 @@ def build_comparison_page(rows: List[Dict]) -> str:
                 cells.append('<th scope="row"><a href="%s">%s</a></th>' % (r["route"], _e(r["name"])))
                 continue
             tiers = r.get("fee_tiers") or []
-            if r.get("fee_conflict") and key in ("pet_fee", "fee_basis"):
-                # Neither an amount nor a basis: the source gives two answers.
-                cells.append('<td><span class="ptf-unknown">Conflicting source '
-                             "terms</span></td>" if key == "pet_fee"
+            if (r.get("fee_conflict") or r.get("fee_withheld"))                     and key in ("pet_fee", "fee_basis"):
+                # Neither an amount nor a basis. The two reasons read
+                # differently because they are different facts: one source
+                # contradicts itself, the other simply says more than a single
+                # figure can carry.
+                label = ("Conflicting source terms" if r.get("fee_conflict")
+                         else "Range by stay length")
+                cells.append('<td><span class="ptf-unknown">%s</span></td>' % label
+                             if key == "pet_fee"
                              else '<td><span class="ptf-unknown">See policy</span></td>')
                 continue
             if key == "pet_fee" and (r.get("fee_cap") or {}).get("amount") and r.get("pet_fee"):

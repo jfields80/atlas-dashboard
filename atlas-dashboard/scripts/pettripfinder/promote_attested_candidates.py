@@ -113,6 +113,31 @@ def find_pet_block(text: str) -> Tuple[str, int]:
             score += 1
         if score and (best is None or score > best[2]):
             best = (block, m.start(), score)
+    if best is not None:
+        return (best[0], best[1])
+
+    # PTF-PROMOTE. No block carries a labelled field. Before refusing, look for
+    # one stating its policy in prose -- "Up to two friendly pups under 80 lbs
+    # are welcome" is every bit as official as a table cell, and until now was
+    # unreachable, so such a hotel could not be published at all.
+    #
+    # This pass runs ONLY when the labelled pass found nothing anywhere in the
+    # page. A page with any labelled block keeps exactly the block it had, so
+    # no already-published hotel can have its selection changed by this.
+    from scripts.pettripfinder.prose_facts import (
+        extract_pet_count, extract_pets_allowed, extract_species,
+        extract_weight_limit,
+    )
+    for m in _BLOCK_START.finditer(text or ""):
+        window = text[m.start():m.start() + MAX_BLOCK_CHARS]
+        end = _BLOCK_END.search(window, m.end() - m.start())
+        block = window[:end.start()] if end else window
+        score = sum(1 for fn in (extract_pet_count, extract_weight_limit,
+                                 extract_species)
+                    if fn(block) is not None)
+        if score and extract_pets_allowed(block) is not None:
+            if best is None or score > best[2]:
+                best = (block, m.start(), score)
     if best is None:
         raise PromotionError("no_labelled_pet_policy_block_found")
     return (best[0], best[1])
@@ -206,6 +231,55 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
         evidence.append({"field": "fee_cap", "value": "$%s" % cap_amount,
                          "quote": cap_quote})
 
+    # PTF-PROMOTE. Fill ONLY the gaps the labelled patterns left. A labelled
+    # value always wins, so every hotel already publishing keeps exactly the
+    # fields it had; prose can add, never overwrite.
+    from scripts.pettripfinder.prose_facts import (
+        UNREPRESENTABLE_FEE_RANGE, detect_unrepresentable_fee_range,
+        extract_pet_count, extract_pets_allowed, extract_species,
+        extract_weight_limit,
+    )
+
+    if "weight_limit" not in facts:
+        got = extract_weight_limit(block)
+        if got:
+            facts["weight_limit"] = got.value
+            evidence.append({"field": "weight_limit", "value": got.value,
+                             "quote": got.quote})
+
+    if "pet_count_limit" not in facts:
+        got = extract_pet_count(block)
+        if got:
+            facts["pet_count_limit"] = got.value
+            evidence.append({"field": "pet_count_limit", "value": got.value,
+                             "quote": got.quote})
+
+    if "species_allowed" not in facts:
+        got = extract_species(block)
+        if got:
+            facts["species_allowed"] = got.value
+            evidence.append({"field": "species_allowed", "value": got.value,
+                             "quote": got.quote})
+
+    # A fee stated as a RANGE is two numbers and a condition. Publishing either
+    # end is wrong -- the high overstates a short stay, the low understates a
+    # long one -- and the thresholds that would separate them are not stated,
+    # so no ladder can be built either. Withhold the number, keep the sentence.
+    #
+    # Only when no scalar and no ladder were found: a labelled amount is a
+    # statement of fact and outranks a range read out of prose.
+    if not facts.get("pet_fee") and not facts.get("fee_tiers"):
+        fee_range = detect_unrepresentable_fee_range(block)
+        if fee_range:
+            facts["fee_withheld"] = {
+                "reason": UNREPRESENTABLE_FEE_RANGE,
+                "detail": ["fee_range_%s_to_%s" % (fee_range.low, fee_range.high)],
+                "evidence_quote": fee_range.quote,
+            }
+            evidence.append({"field": "fee_withheld",
+                             "value": "withheld_unrepresentable_range",
+                             "quote": fee_range.quote})
+
     welcome = _WELCOME.search(block)
     if welcome or facts.get("pet_fee"):
         facts["pets_allowed"] = "true"
@@ -216,6 +290,14 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
 
     if welcome or facts.get("fee_tiers"):
         facts.setdefault("pets_allowed", "true")
+
+    if "pets_allowed" not in facts:
+        stated = extract_pets_allowed(block)
+        if stated is not None:
+            facts["pets_allowed"] = stated.value
+            evidence.append({"field": "pets_allowed", "value": stated.value,
+                             "quote": stated.quote})
+
     if "pets_allowed" not in facts:
         raise PromotionError("no_publishable_pet_facts_in_block")
     return (facts, evidence, " ".join(block.split()))
