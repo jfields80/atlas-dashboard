@@ -657,7 +657,8 @@ def _cmd_approve_attestation(args) -> int:
     try:
         record = OC.approve_attestation_record(
             record, approver_id=args.approver_id, approved_at=args.approved_at,
-            approval_record_id=args.record_id, reject=args.reject)
+            approval_record_id=args.record_id, reject=args.reject,
+            rationale=getattr(args, "rationale", ""))
     except OC.AttestationError as exc:
         sys.stderr.write("approval refused: %s\n" % exc)
         return 4
@@ -1336,6 +1337,10 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--output-root", default=None,
                     help="gitignored artifact root; the attestation MUST live "
                          "under its attestations/ subdir")
+    ap.add_argument("--rationale", default="",
+                    help="why this decision was made; recorded on the approval "
+                         "so grounds that override a recorded observation stay "
+                         "auditable")
     ap.set_defaults(func=_cmd_approve_attestation)
 
     cb = sub.add_parser(

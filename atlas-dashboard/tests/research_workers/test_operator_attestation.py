@@ -692,3 +692,56 @@ def test_attestation_path_has_no_network_or_credential_access():
                    "import socket", "OPENAI_API_KEY", "os.environ",
                    "build_provider", "playwright", "/v1/responses"):
         assert banned not in code, "%r reachable from the attestation path" % banned
+
+
+# --------------------------------------------------------------------------- #
+# PTF-CAPTURE-003F -- an approval that overrides an observation must say why.
+# --------------------------------------------------------------------------- #
+
+def test_approval_rationale_is_recorded_beside_the_decision():
+    """Aloft was approved over preserved `multiple_fee_amounts` on the
+    judgement that the page-wide amounts were a promo and a guest review, not
+    pet-policy terms. That judgement is the whole basis of the approval; kept
+    only in someone's memory it cannot be reviewed later."""
+    why = ("page-wide 100/150 are promotional and review copy outside the "
+           "Pets card; $50/night and a $150/stay maximum are complementary")
+    approved = OC.approve_attestation_record(
+        _build().to_dict(), approver_id="jfields80", approved_at="2026-08-01",
+        approval_record_id="APR-ALOFT-CMHCO-001", rationale=why)
+    assert approved["approval"]["rationale"] == why
+    assert approved["approval"]["state"] == OC.APPROVAL_APPROVED
+
+
+def test_rationale_does_not_disturb_the_attested_content_or_its_hash():
+    record = _build().to_dict()
+    before = record["attestation_hash"]
+    approved = OC.approve_attestation_record(
+        record, approver_id="jfields80", approved_at="2026-08-01",
+        approval_record_id="APR-1", rationale="x" * 400)
+    assert approved["attestation_hash"] == before
+    assert OC.verify_attestation_record(approved) == (True, "")
+    assert OC.attested_content_from_record(approved) == \
+        OC.attested_content_from_record(record)
+
+
+def test_rationale_is_optional_and_absent_rather_than_empty():
+    """Approvals that need no explanation must not carry a hollow field that
+    later reads as 'a reason was given'."""
+    approved = OC.approve_attestation_record(
+        _build().to_dict(), approver_id="jfields80", approved_at="2026-08-01",
+        approval_record_id="APR-2")
+    assert "rationale" not in approved["approval"]
+    blank = OC.approve_attestation_record(
+        _build().to_dict(), approver_id="jfields80", approved_at="2026-08-01",
+        approval_record_id="APR-3", rationale="   ")
+    assert "rationale" not in blank["approval"]
+
+
+def test_a_rejection_can_also_carry_its_grounds():
+    rejected = OC.approve_attestation_record(
+        _build().to_dict(), approver_id="jfields80", approved_at="2026-08-01",
+        approval_record_id="APR-4", reject=True,
+        rationale="policy block names a different property")
+    assert rejected["approval"]["state"] == OC.APPROVAL_REJECTED
+    assert "different property" in rejected["approval"]["rationale"]
+    assert rejected["publishable"] is False

@@ -1273,7 +1273,8 @@ def verify_attestation_record(record: dict) -> Tuple[bool, str]:
 
 
 def approve_attestation_record(record: dict, *, approver_id: str, approved_at: str,
-                               approval_record_id: str, reject: bool = False) -> dict:
+                               approval_record_id: str, reject: bool = False,
+                               rationale: str = "") -> dict:
     """Approve (or reject) a STORED attestation artifact.
 
     The CLI used to hand-edit the JSON, which meant the guards written and
@@ -1301,6 +1302,12 @@ def approve_attestation_record(record: dict, *, approver_id: str, approved_at: s
         "state": new_state, "approver_id": approver_id,
         "approved_at": approved_at, "approval_record_id": approval_record_id,
     }
+    # PTF-CAPTURE-003F. Where an approver overrides a recorded observation --
+    # judging preserved contradictions to be unrelated to the pet policy, say
+    # -- the reasoning belongs beside the decision. An approval whose grounds
+    # live only in someone's memory cannot be reviewed later.
+    if (rationale or "").strip():
+        updated["approval"]["rationale"] = rationale.strip()
     updated["publishable"] = new_state == APPROVAL_APPROVED
     # Re-verify: the attested content -- and therefore the hash -- must be
     # byte-identical after approval.

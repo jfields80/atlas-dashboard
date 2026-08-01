@@ -26,7 +26,7 @@ _REPO = Path(__file__).resolve().parents[2]
 _PKG = json.loads((_REPO / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json").read_text(encoding="utf-8"))
 _PKG_KEYS = {h["key"] for h in _PKG["hotels"]}
 _HELD = [
-    "drury-plaza-hotel-columbus-downtown", "aloft-columbus-university-district",
+    "drury-plaza-hotel-columbus-downtown",
     "sonesta-simply-suites-dublin-columbus",
     "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
     "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
@@ -36,6 +36,14 @@ _HELD = [
 # list on 2026-07-28. It was promoted under an explicit APPROVED_TIERED_FEE_OMITTED
 # decision -- its Gate-1 block was solely a tiered fee the scalar schema cannot
 # render, and it now publishes with the fee field omitted rather than flattened.
+#
+# PTF-CAPTURE-003F: aloft-columbus-university-district left this list on
+# 2026-08-01. Its automated retrieval was blocked (403), so it was attested
+# from a visible-browser capture and approved under APR-ALOFT-CMHCO-001. The
+# approver's recorded judgement: the page-wide amounts 100/150/50 are a Bonvoy
+# promo and a guest review, not conflicting pet-policy terms -- the Pets card
+# itself states $50 per night with a $150 per-stay maximum, which are
+# complementary.
 #
 # PTF-PROMOTE: staybridge-suites-columbus-dublin left this list on 2026-08-01.
 # Its policy is stated in prose rather than labelled fields, so nothing about it
@@ -71,7 +79,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 34
+    assert len(verified) == 35
 
 
 # --------------------------------------------------------------------------- #
@@ -133,7 +141,7 @@ def _display_slug(key):
 
 
 def test_exactly_14_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 34
+    assert len(_hotel_slugs(build)) == 35
 
 
 def test_every_profile_belongs_to_the_committed_package(build):
