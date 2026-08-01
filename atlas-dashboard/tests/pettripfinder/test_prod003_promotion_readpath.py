@@ -160,4 +160,4 @@ def test_committed_package_is_the_reviewed_authority():
     assert pkg["schema_version"] == "1.1"
     assert len(pkg["hotels"]) == 33
     assert hashlib.sha256(text.encode("utf-8")).hexdigest() == (
-        "7d5abf7bef555271f22c7fde97fbd2601de6196452d457e21fa368f868905142")
+        "cd32d7fa72f4dd7de5a9519eb4cb1c601f96e0a5a40c13c38b589e6439081a92")

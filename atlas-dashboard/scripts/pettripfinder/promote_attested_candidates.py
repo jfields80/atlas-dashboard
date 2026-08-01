@@ -194,6 +194,18 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
         evidence.append({"field": "pet_count_limit", "value": m.group(1),
                          "quote": " ".join(m.group(0).split())})
 
+    # PTF-FEES-CAP. A stated ceiling travels with the rate it caps. "$50 per
+    # night up to $150" costs $150 for a week, not $350 -- publishing the rate
+    # without its ceiling overstates a long stay, the mirror image of tier
+    # flattening.
+    from services.research_workers.fee_terms import detect_fee_cap
+    cap_amount, cap_quote = detect_fee_cap(block)
+    if cap_amount and facts.get("pet_fee"):
+        facts["fee_cap"] = {"amount": cap_amount, "currency": "USD",
+                            "evidence_quote": cap_quote}
+        evidence.append({"field": "fee_cap", "value": "$%s" % cap_amount,
+                         "quote": cap_quote})
+
     welcome = _WELCOME.search(block)
     if welcome or facts.get("pet_fee"):
         facts["pets_allowed"] = "true"
@@ -222,6 +234,34 @@ def build_candidate(attestation: Dict, page_text: str) -> Dict:
         raise PromotionError("attestation_not_publishable")
 
     facts, evidence, block = extract_pet_facts(page_text)
+
+    # PTF-FEES-CONFLICT. The attestation already records when the SAME official
+    # source states incompatible fee terms -- "$50 per night" beside
+    # "Per Stay: $50.00", or "per pet" beside "Per Stay". Until now that list
+    # was carried as provenance and never read, so a record with a recorded
+    # conflict still published one of the two readings as fact. A four-night
+    # stay at Courtyard Columbus Easton is $150 under one sentence and $50
+    # under the other; choosing silently is not a rounding error.
+    #
+    # The hotel stays published -- the rest of its policy is sound -- but the
+    # fee is withheld and the conflict stated plainly, with both quotations
+    # preserved for a reader and a reviewer.
+    conflicts = [c for c in (attestation.get("contradictions") or [])
+                 if c.startswith("conflicting_fee_basis")]
+    if conflicts:
+        for field in ("pet_fee", "fee_basis", "fee_cap"):
+            facts.pop(field, None)
+        evidence = [e for e in evidence
+                    if e["field"] not in ("pet_fee", "fee_cap")]
+        facts["fee_conflict"] = {
+            "reason": "conflicting_fee_terms_in_official_source",
+            "detail": sorted(conflicts),
+            "evidence_quote": " ".join(block.split())[:400],
+        }
+        evidence.append({"field": "fee_conflict",
+                         "value": "withheld_pending_resolution",
+                         "quote": " ".join(block.split())[:400]})
+
     url = attestation["official_url"]
     for e in evidence:
         e["source_url"] = url

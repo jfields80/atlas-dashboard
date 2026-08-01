@@ -328,8 +328,11 @@ def run(output: str) -> int:
             "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
             "weight_limit": f.get("weight_limit", ""),
             # A stay-length ladder has no single fee; the table renders its
-            # range plus a note instead of one misleading number.
+            # range plus a note instead of one misleading number. A capped fee
+            # carries its ceiling, and a conflicted source carries neither.
             "fee_tiers": f.get("fee_tiers") or [],
+            "fee_cap": f.get("fee_cap") or {},
+            "fee_conflict": f.get("fee_conflict") or None,
             "verified_at": entry["verified_at"] if entry else "",
         })
     (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)

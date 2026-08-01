@@ -280,6 +280,34 @@ def parse_fee_tiers(text: str, *, source_url: str = "", source_type: str = "",
     return (tuple(ordered), [])
 
 
+# A stated ceiling on what a stay can cost: "$50 per night up to $150",
+# "up to $150 fee", "not to exceed $150", "capped at $150". The dollar sign is
+# required -- "Earn up to 150,000 Bonus Points" is not a fee cap, and a bare
+# number never becomes one.
+_FEE_CAP_RE = re.compile(
+    r"(?:up\s+to|not\s+to\s+exceed|capped\s+at|maximum\s+of|max(?:imum)?)\s*"
+    r"(?:a\s+)?(?:total\s+of\s+)?\$\s?(\d[\d,]*(?:\.\d{1,2})?)",
+    re.I)
+
+
+def detect_fee_cap(text: str) -> Tuple[Optional[str], str]:
+    """Return ``(canonical_amount, verbatim_quote)`` for a stated fee ceiling.
+
+    PTF-FEES-CAP. A recurring fee with a cap is not the same policy as the
+    recurring fee alone: "$50 per night up to $150" costs $150 for a week, not
+    $350. Publishing the rate without its ceiling overstates a long stay, which
+    is the mirror image of the tier-flattening bug -- same class, opposite
+    direction.
+
+    Returns ``(None, "")`` when no ceiling is stated. Never inferred from an
+    amount alone.
+    """
+    m = _FEE_CAP_RE.search(text or "")
+    if not m:
+        return (None, "")
+    return (canonical_amount(m.group(1)), " ".join(m.group(0).split()))
+
+
 def tier_facts(terms: Sequence[PetFeeTerm], *, basis_stated: bool) -> List[Dict]:
     """Publishable dicts for a parsed tier ladder.
 

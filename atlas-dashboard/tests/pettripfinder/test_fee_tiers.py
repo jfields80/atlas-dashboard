@@ -22,6 +22,7 @@ from scripts.pettripfinder.hotel_profile import (
     _tiered_fee_sentence, _verified_details, _verified_facts, _verified_summary,
     tier_fee_range,
 )
+from scripts.pettripfinder.promote_attested_candidates import build_candidate
 from services.research_workers import vocabulary as V
 from services.research_workers.fee_terms import (
     basis_is_stated, parse_fee_tiers, tier_facts,
@@ -200,6 +201,151 @@ class TestRendering:
             "Pets are welcome. A non-refundable pet fee of $75 applies for stays of "
             "1–4 nights, and $125 applies for stays of 5 nights or more. "
             "Maximum pet weight is 75 pounds, with up to 2 pets permitted per room.")
+
+
+# --------------------------------------------------------------------------- #
+# 4b. Source conflicts and capped fees (PTF-FEES-CONFLICT / PTF-FEES-CAP).
+#
+# Courtyard Columbus Easton published "$50.00 / Per stay" from a source whose
+# very next clause reads "$50 dollar per night up to $150". A four-night stay
+# is $150 under one sentence and $50 under the other. The attestation RECORDED
+# the contradiction; nothing read it, so one reading shipped as fact.
+# --------------------------------------------------------------------------- #
+
+COURTYARD_EASTON = (
+    "Pet Policy Pets Welcome Pets are allowed at this property. There is $50 dollar "
+    "per night up to $150 fee Non-Refundable Pet Fee Per Stay: $50.00 "
+    "Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2 Parking")
+RESIDENCE_EASTON = (
+    "Pet Policy Pets Welcome Pets are allowed at this property. There is $50 dollar "
+    "per night up to $150 fee Non-Refundable Pet Fee Per Night: $50.00 "
+    "Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2 Parking")
+SHERATON_WORTHINGTON = (
+    "Pet Policy Pets Welcome Small pets under 50 lbs are welcome. $75 nonrefundable "
+    "fees charged per pet. Non-Refundable Pet Fee Per Stay: $75.00 "
+    "Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2 Parking")
+
+
+def _attestation(contradictions):
+    return {"attestation_id": "attest-test", "attestation_hash": "sha256:" + "a" * 64,
+            "listing_key": "k", "listing_name": "Test Hotel",
+            "official_url": "https://www.marriott.com/en-us/hotels/cmhce-x/overview/",
+            "observed_at": "2026-07-29", "capture_method": "MANUAL_ATTESTATION",
+            "source_type": "MANUAL_OFFICIAL_ATTESTATION",
+            "affirmation": {"operator_id": "jfields80", "attested_at": "t"},
+            "approval": {"state": "APPROVED", "approver_id": "j", "approved_at": "t",
+                         "approval_record_id": "APR-x"},
+            "publishable": True, "contradictions": contradictions, "fee_amounts": []}
+
+
+class TestFeeCapDetection:
+    @pytest.mark.parametrize("text,amount", [
+        ("There is $50 dollar per night up to $150 fee", "150.00"),
+        ("up to $150 fee", "150.00"),
+        ("fee not to exceed $200 per stay", "200.00"),
+        ("pet fee capped at $ 120", "120.00"),
+        ("up to a maximum of $99.50", "99.50"),
+    ])
+    def test_cap_wording_variants(self, text, amount):
+        from services.research_workers.fee_terms import detect_fee_cap
+        assert detect_fee_cap(text)[0] == amount
+
+    def test_a_bare_number_is_never_a_cap(self):
+        """"Earn up to 150,000 Bonus Points" sits on the same page."""
+        from services.research_workers.fee_terms import detect_fee_cap
+        assert detect_fee_cap("Earn up to 150,000 Marriott Bonvoy Bonus Points") == (None, "")
+        assert detect_fee_cap("Up to 2 pets are allowed per room") == (None, "")
+
+    def test_cap_quote_is_verbatim(self):
+        from services.research_workers.fee_terms import detect_fee_cap
+        amount, quote = detect_fee_cap(RESIDENCE_EASTON)
+        assert amount == "150.00"
+        assert quote in " ".join(RESIDENCE_EASTON.split())
+
+
+class TestSourceConflictWithholdsTheFee:
+    def test_courtyard_easton_publishes_no_fee(self):
+        c = build_candidate(
+            _attestation(["conflicting_fee_basis_per_stay_vs_fee_basis_per_night"]),
+            COURTYARD_EASTON)
+        facts = dict(c["pet_facts"])
+        assert "pet_fee" not in facts and "fee_basis" not in facts
+        assert "fee_cap" not in facts          # a cap on a withheld fee is meaningless
+        assert facts["fee_conflict"]["reason"] == "conflicting_fee_terms_in_official_source"
+
+    def test_sheraton_worthington_publishes_no_fee(self):
+        c = build_candidate(
+            _attestation(["conflicting_fee_basis_per_pet_vs_fee_basis_per_stay"]),
+            SHERATON_WORTHINGTON)
+        facts = dict(c["pet_facts"])
+        assert "pet_fee" not in facts and "fee_basis" not in facts
+        assert "per_pet" in facts["fee_conflict"]["detail"][0]
+
+    def test_both_quotations_are_preserved(self):
+        c = build_candidate(
+            _attestation(["conflicting_fee_basis_per_stay_vs_fee_basis_per_night"]),
+            COURTYARD_EASTON)
+        quote = dict((k, v) for k, v in
+                     (tuple(p) for p in c["proposed_fields"]))["pet_policy"]
+        assert "per night up to $150" in quote
+        assert "Non-Refundable Pet Fee Per Stay: $50.00" in quote
+
+    def test_the_rest_of_the_policy_still_publishes(self):
+        """The hotel is not withdrawn -- only the fee is withheld."""
+        facts = dict(build_candidate(
+            _attestation(["conflicting_fee_basis_per_stay_vs_fee_basis_per_night"]),
+            COURTYARD_EASTON)["pet_facts"])
+        assert facts["pets_allowed"] == "true"
+        assert facts["pet_count_limit"] == "2"
+        assert facts["weight_limit"] == "100.0 pounds"
+
+    def test_public_wording_states_the_conflict_and_no_amount(self):
+        facts = dict(build_candidate(
+            _attestation(["conflicting_fee_basis_per_stay_vs_fee_basis_per_night"]),
+            COURTYARD_EASTON)["pet_facts"])
+        summary = _verified_summary(facts, COURTYARD_EASTON)
+        assert ("Official source contains conflicting pet-fee terms. See the exact "
+                "recorded policy wording or confirm with the hotel.") in summary
+        assert "$50" not in summary and "$150" not in summary
+        assert "per stay" not in summary.lower() and "per night" not in summary.lower()
+
+    def test_an_unrelated_contradiction_does_not_withhold_the_fee(self):
+        """multiple_fee_amounts fires on parking and restaurant reviews too, so
+        it must never gate a fee on its own."""
+        facts = dict(build_candidate(
+            _attestation(["multiple_fee_amounts:150,20,30.00,50,50.00"]),
+            RESIDENCE_EASTON)["pet_facts"])
+        assert facts["pet_fee"] == "$50.00"
+        assert "fee_conflict" not in facts
+
+
+class TestCappedFeePublishesBothNumbers:
+    def test_residence_inn_easton_keeps_its_rate_and_its_ceiling(self):
+        facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
+        assert facts["pet_fee"] == "$50.00"
+        assert facts["fee_basis"] == "per night"
+        assert facts["fee_cap"]["amount"] == "150.00"
+        assert facts["fee_cap"]["evidence_quote"] == "up to $150"
+
+    def test_summary_states_the_ceiling_in_the_same_sentence_as_the_rate(self):
+        facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
+        assert _verified_summary(facts, RESIDENCE_EASTON) == (
+            "Pets are welcome. A $50 non-refundable fee applies per night, up to a "
+            "maximum of $150. Maximum pet weight is 50 pounds, with up to 2 pets "
+            "permitted per room.")
+
+    def test_chip_and_detail_row_show_the_ceiling(self):
+        facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
+        chips = dict((l, v) for l, v, _c in _verified_facts(facts))
+        assert chips["Pet charge"] == "$50.00 (max $150)"
+        rows = dict((l, v) for l, v, _c in _verified_details(facts)[0])
+        assert rows["Maximum total"] == "$150"
+        assert rows["Pet charge"] == "$50.00"
+
+    def test_a_hotel_without_a_stated_cap_gains_none(self):
+        facts = dict(build_candidate(_attestation([]), SHERATON_WORTHINGTON.replace(
+            "$75 nonrefundable fees charged per pet. ", ""))["pet_facts"])
+        assert "fee_cap" not in facts
 
 
 # --------------------------------------------------------------------------- #

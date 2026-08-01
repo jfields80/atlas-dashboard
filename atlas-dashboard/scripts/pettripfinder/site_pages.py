@@ -161,6 +161,17 @@ def build_comparison_page(rows: List[Dict]) -> str:
                 cells.append('<th scope="row"><a href="%s">%s</a></th>' % (r["route"], _e(r["name"])))
                 continue
             tiers = r.get("fee_tiers") or []
+            if r.get("fee_conflict") and key in ("pet_fee", "fee_basis"):
+                # Neither an amount nor a basis: the source gives two answers.
+                cells.append('<td><span class="ptf-unknown">Conflicting source '
+                             "terms</span></td>" if key == "pet_fee"
+                             else '<td><span class="ptf-unknown">See policy</span></td>')
+                continue
+            if key == "pet_fee" and (r.get("fee_cap") or {}).get("amount") and r.get("pet_fee"):
+                cells.append("<td>%s<br><span class=\"ptf-tier-note\">max $%s</span></td>"
+                             % (_e(r["pet_fee"]),
+                                _e(str(r["fee_cap"]["amount"]).rstrip("0").rstrip("."))))
+                continue
             if tiers and key == "pet_fee":
                 # A ladder has no single fee. Show its range and say why, rather
                 # than a number that is wrong for one end of the stay.

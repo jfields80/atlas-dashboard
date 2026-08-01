@@ -259,6 +259,14 @@ def _prose_number(text: str) -> str:
     return _TRAILING_ZEROS_RE.sub(r"\1", text or "")
 
 
+# Shown wherever a fee is withheld because the official source contradicts
+# itself. Neutral by design: it reports the state of the source, blames no one,
+# and points the reader at the recorded wording and the hotel.
+FEE_CONFLICT_NOTICE = ("Official source contains conflicting pet-fee terms. "
+                       "See the exact recorded policy wording or confirm with "
+                       "the hotel.")
+
+
 def tier_fee_range(tiers: Sequence[Dict]) -> str:
     """"$75–$125" for a ladder; a single amount if every tier charges the same.
 
@@ -316,19 +324,31 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     summary that the quote does not support.
     """
     tiers = f.get("fee_tiers") or []
-    if not tiers and not any(f.get(k) for k in ("species_allowed", "pet_fee",
-                                                "pet_count_limit", "weight_limit")):
+    conflict = f.get("fee_conflict")
+    if not tiers and not conflict and not any(
+            f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit",
+                               "weight_limit")):
         return ("Pets are welcome. The reviewed official source did not state the species, "
                 "fee, pet limit, or weight limit.")
     parts = [_species_phrase(f.get("species_allowed", ""))]
+    if conflict:
+        # No amount and no basis: the source gives two incompatible answers, so
+        # stating either as fact would be a guess dressed as verification.
+        parts.append(FEE_CONFLICT_NOTICE)
     if tiers:
         parts.append(_tiered_fee_sentence(tiers, evidence))
-    fee, basis = (None, None) if tiers else (f.get("pet_fee"), f.get("fee_basis"))
+    fee, basis = (None, None) if (tiers or conflict) else (f.get("pet_fee"),
+                                                          f.get("fee_basis"))
     if fee:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
         s = "A %s%s fee applies" % (_prose_number(fee), nonref)
         if basis:
             s += " %s" % basis.lower()
+        cap = f.get("fee_cap") or {}
+        if cap.get("amount"):
+            # The ceiling belongs in the same sentence as the rate it caps --
+            # a reader who sees "$50 per night" and stops has the wrong total.
+            s += ", up to a maximum of %s" % _prose_number("$%s" % cap["amount"])
         parts.append(s + ".")
 
     count = f.get("pet_count_limit")
@@ -362,6 +382,13 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Cats", *(("Accepted", "yes") if "cat" in sp else ("Not stated", "dim"))),
         )
     tiers = f.get("fee_tiers") or []
+    if f.get("fee_conflict"):
+        return head + (
+            ("Pet charge", "See policy wording", "dim"),
+            ("Charge basis", "Source conflict", "dim"),
+            ("Max pets", *cell(f.get("pet_count_limit"))),
+            ("Weight limit", *cell(f.get("weight_limit"))),
+        )
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
         # the range and name the reason rather than showing one number.
@@ -371,8 +398,12 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(f.get("weight_limit"))),
         )
+    cap = (f.get("fee_cap") or {}).get("amount")
+    charge = f.get("pet_fee")
+    if charge and cap:
+        charge = "%s (max %s)" % (charge, _prose_number("$%s" % cap))
     return head + (
-        ("Pet charge", *cell(f.get("pet_fee"))),
+        ("Pet charge", *cell(charge)),
         ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
         ("Weight limit", *cell(f.get("weight_limit"))),
@@ -400,10 +431,15 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         *(tuple(("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
                  _tier_amount(t), "")
                 for t in (f.get("fee_tiers") or []))
-          or ((("Pet charge", *d(f.get("pet_fee")))),)),
+          or ((("Pet charge", FEE_CONFLICT_NOTICE, "dim"),) if f.get("fee_conflict")
+              else (("Pet charge", *d(f.get("pet_fee"))),))),
+        *((("Maximum total", _prose_number("$%s" % (f.get("fee_cap") or {})["amount"]), ""),)
+          if (f.get("fee_cap") or {}).get("amount") and not f.get("fee_conflict") else ()),
         ("Charge basis",
          *(("Tiered by stay length; the source does not state a per-night or "
             "per-stay basis.", "") if f.get("fee_tiers")
+           else ("Withheld: the official source states conflicting terms.", "dim")
+           if f.get("fee_conflict")
            else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
                f.get("fee_basis")))),
         ("Weight restriction", *d(f.get("weight_limit"))),

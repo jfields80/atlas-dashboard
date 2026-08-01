@@ -52,7 +52,7 @@ CANDIDATE_ROOTS = (
 # string like the others -- a stay-length ladder cannot be a scalar without
 # losing the thing that makes it a ladder. It is absent on scalar-fee hotels,
 # so their records are unchanged.
-_POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers",
+_POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers", "fee_cap", "fee_conflict",
                   "pet_count_limit", "weight_limit", "breed_restrictions",
                   "unattended_policy", "general_restrictions")
 
