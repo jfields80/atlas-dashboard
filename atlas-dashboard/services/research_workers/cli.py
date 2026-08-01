@@ -1003,6 +1003,76 @@ def _cmd_validate(args) -> int:
     raise SpendingAirlockError("validate requires --result <path> or --assignment <path>")
 
 
+def _cmd_capture_batch(args) -> int:
+    """PTF-CAPTURE-003 Phase 1.
+
+    Launches a dedicated, visible Chrome (never the operator's own profile),
+    walks the queue, and writes captures plus a manifest. It does not attest,
+    approve, promote or publish -- those stay human, per
+    ADR-PTF-AUTOMATED-BROWSING.
+    """
+    from .browser_control import chrome_launcher
+    from .browser_control.cdp_client import CdpConnection
+    from .browser_control.live_session import LiveBrowserSession
+    from .capture_automation.adapters import known_brands
+    from .capture_automation.queue import QueueError, load_queue
+    from .capture_automation.runner import CaptureRunner, RunnerConfig
+
+    try:
+        queue = load_queue(args.queue, known_brands=known_brands())
+    except QueueError as exc:
+        sys.stderr.write("queue preflight failed:\n%s\n" % exc)
+        return 2
+
+    print("queue OK: %d hotel(s), batch_id=%s" % (len(queue), queue.batch_id))
+    if args.preflight_only:
+        return 0
+
+    batch_dir = Path(args.output)
+    config = RunnerConfig(
+        batch_dir=batch_dir,
+        archived_corpus_dirs=tuple(args.archived_corpus or ()),
+        limit=args.limit or 0)
+
+    profile_dir = batch_dir / ".chrome-profile"
+    chrome = chrome_launcher.launch(
+        user_data_dir=profile_dir, chrome_path=args.chrome_path,
+        window_size=args.window_size)
+    print("chrome up on port %d (dedicated profile, visible window)" % chrome.port)
+
+    session = None
+    try:
+        # Attach to the tab Chrome opened at startup. Its debugger URL comes
+        # from Chrome's own target list, never from string surgery on the
+        # browser socket's address.
+        session = LiveBrowserSession(
+            CdpConnection(chrome_launcher.page_websocket_url(chrome.port)))
+
+        result = CaptureRunner(session, config).run(queue)
+    finally:
+        if session is not None:
+            session.close()
+        chrome.stop()
+
+    counts = result.manifest["counts"]
+    if args.json:
+        print(json.dumps(result.manifest, indent=2, ensure_ascii=False))
+    else:
+        print("\nbatch %s" % queue.batch_id)
+        print("  captured   : %d" % counts["captured"])
+        print("  exceptions : %d" % counts["exceptions"])
+        print("  duplicates : %d" % counts["duplicates"])
+        print("  skipped    : %d" % counts["skipped"])
+        print("  unattended : %.0f%%" % (result.manifest["unattended_success_rate"] * 100))
+        if result.aborted_reason:
+            print("  ABORTED    : %s" % result.aborted_reason)
+        for reason, n in sorted(result.manifest["exceptions_by_reason"].items()):
+            print("    %-32s %d" % (reason, n))
+        print("  manifest   : %s" % result.manifest_path)
+        print("\nNothing has been attested, approved, promoted or published.")
+    return 0
+
+
 def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--provider", default="fake", help="fake (offline default) | openai")
     p.add_argument("--model", default="")
@@ -1231,6 +1301,25 @@ def build_parser() -> argparse.ArgumentParser:
                     help="gitignored artifact root; the attestation MUST live "
                          "under its attestations/ subdir")
     ap.set_defaults(func=_cmd_approve_attestation)
+
+    cb = sub.add_parser(
+        "capture-batch",
+        help="PTF-CAPTURE-003 drive a visible Chrome through a queue of official "
+             "property pages, capturing each (never attests, approves or publishes)")
+    cb.add_argument("--queue", required=True, help="ptf-capture-queue/1.0 JSON path")
+    cb.add_argument("--output", required=True, help="batch directory (gitignored)")
+    cb.add_argument("--chrome-path", default="", help="explicit chrome.exe path")
+    cb.add_argument("--limit", type=int, default=0, help="stop after N hotels")
+    cb.add_argument("--resume", action="store_true",
+                    help="skip hotels that already have a terminal journal record")
+    cb.add_argument("--archived-corpus", action="append", default=[],
+                    help="prior capture directory for cross-batch duplicate detection; "
+                         "repeatable")
+    cb.add_argument("--window-size", default="1440,1000")
+    cb.add_argument("--preflight-only", action="store_true",
+                    help="validate the queue and exit; never launches Chrome")
+    cb.add_argument("--json", action="store_true")
+    cb.set_defaults(func=_cmd_capture_batch)
     return parser
 
 
