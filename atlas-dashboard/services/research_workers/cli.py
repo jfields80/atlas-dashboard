@@ -515,7 +515,43 @@ def _cmd_attest_official_page(args) -> int:
     else:
         ingestion = OC.ingest_capture(payload, job, observed_at=args.observed_at)
 
+    # PTF-CAPTURE-003E. Before a human is asked to affirm identity, check that
+    # the package in front of them can actually show it. Fails closed: an
+    # operator cannot confirm an address that appears in no screenshot, and
+    # being asked to is how a sincere affirmation becomes a false one.
+    from services.research_workers.capture_automation.evidence_completeness import (
+        FIELD_CITY, FIELD_HOTEL_NAME, FIELD_POSTAL_CODE, FIELD_PROPERTY_PHONE,
+        FIELD_STATE, FIELD_STREET, assess_evidence,
+    )
+    from services.research_workers.capture_automation.identity_views import (
+        load_views_for_capture,
+    )
+    expected_identity = {
+        FIELD_HOTEL_NAME: job.listing_name, FIELD_STREET: job.expected_address,
+        FIELD_CITY: job.expected_city, FIELD_STATE: job.expected_state,
+        FIELD_POSTAL_CODE: job.expected_postal_code,
+        FIELD_PROPERTY_PHONE: job.expected_phone,
+    }
+    evidence = assess_evidence(load_views_for_capture(args.capture),
+                               official_url=str(payload.get("final_url") or ""),
+                               expected=expected_identity)
+    if not evidence.complete:
+        # No override flag by design. "Fail closed" with a bypass is a warning,
+        # and a warning is what let an incomplete package reach a human in the
+        # first place. The remedy is to capture the missing views.
+        sys.stderr.write(evidence.render())
+        sys.stderr.write("\n\nREFUSED: the review package cannot show every field "
+                         "the operator is asked to affirm.\n"
+                         "Capture additional views of the same official page for "
+                         "the missing fields,\nattach them to this capture, and "
+                         "run again.\n")
+        return 5
+
     print("=== PTF-WORKERS-006 manual official attestation ===")
+    print("  evidence completeness      : COMPLETE (%d field(s) visibly proven)"
+          % len(evidence.proven))
+    for _f, (_view, _quote) in sorted(evidence.proven.items()):
+        print("     %-16s %s" % (_f, _view))
     if getattr(args, "identity_capture", ""):
         print("  evidence mode              : PAIRED (identity + policy captures)")
         if pair_failures:
