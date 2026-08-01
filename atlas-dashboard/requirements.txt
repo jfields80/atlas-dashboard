@@ -31,3 +31,10 @@ PyYAML>=6.0,<7.0           # services/opportunity_v2/dna/loader
 # this package installed and with no ANTHROPIC_API_KEY. Bounded below 1.0 to
 # stay on the pre-1.0 SDK line the live provider is written against.
 anthropic>=0.40,<1.0       # scripts/pettripfinder/importer/extraction_anthropic.py
+
+# PTF-CAPTURE-003 — Chrome DevTools Protocol transport for operator-authorised
+# visible-browser capture (services/research_workers/browser_control). Chosen
+# over a browser-automation framework so that every command this build can send
+# to a browser is readable in one file; see ADR-PTF-AUTOMATED-BROWSING. Lazy-
+# imported inside CdpConnection, so the offline test suite never needs it.
+websocket-client>=1.7,<2.0 # services/research_workers/browser_control/cdp_client.py
