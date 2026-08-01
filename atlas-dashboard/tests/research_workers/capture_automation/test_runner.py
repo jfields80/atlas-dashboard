@@ -24,6 +24,9 @@ from services.research_workers.capture_automation.runner import (
 from services.research_workers.capture_automation.state_machine import (
     CAPTURED, EXCEPTION, HotelOutcome, KillSwitch,
 )
+from services.research_workers.capture_automation.validators import (
+    check_policy_framing,
+)
 
 from .conftest import FakeBrowserSession, entry_for, load_fixture, pages_from
 
@@ -265,6 +268,145 @@ class TestPolicyGeometry:
         runner, _ = make_runner(tmp_path, session)
         runner.run(build_queue([name]))
         assert any("Pet Policy" in s for s in session.scrolls)
+
+
+class TestPolicyFramingIsCheckedTwice:
+    """A single pre-screenshot reading is not evidence the policy was in frame.
+
+    A real Aloft Columbus University District capture recorded "100% visible at
+    viewport y=368", passed every automated gate, and its PNG showed the bar
+    section 470px further down the page. The recorded geometry could not
+    contradict itself because it held one measurement of a moment already gone.
+    The fix reads the same element again after the screenshot and requires both
+    readings to agree.
+    """
+
+    IN_FRAME = BoxModel(x=0, y=400, width=600, height=140, scroll_y=0)
+
+    def _run(self, tmp_path, **session_kw):
+        name = "marriott-cmham.json"
+        session = FakeBrowserSession(pages_from(name), box=self.IN_FRAME,
+                                     viewport=(1424, 905), **session_kw)
+        runner, _ = make_runner(tmp_path, session)
+        return runner.run(build_queue([name])), session
+
+    def test_stable_in_frame_element_passes(self, tmp_path):
+        result, _ = self._run(tmp_path)
+        assert result.manifest["counts"]["captured"] == 1
+
+    def test_in_frame_before_but_off_screen_after_fails(self, tmp_path):
+        """The exact defect: the page moved while the image was taken."""
+        moved = BoxModel(x=0, y=400, width=600, height=140, scroll_y=3000)
+        result, _ = self._run(tmp_path, box_after=moved)
+        assert result.manifest["counts"]["captured"] == 0
+        exc = result.manifest["exceptions"][0]
+        assert exc["reason"] == "POLICY_OFF_SCREEN"
+        assert "off_screen_after_screenshot" in exc["detail"][0]
+
+    def test_element_disappearing_after_screenshot_fails(self, tmp_path):
+        result, _ = self._run(tmp_path, box_after_missing=True)
+        assert result.manifest["counts"]["captured"] == 0
+        exc = result.manifest["exceptions"][0]
+        assert exc["reason"] == "POLICY_OFF_SCREEN"
+        assert exc["detail"] == ["policy_element_missing_after_screenshot"]
+
+    def test_material_drift_fails(self, tmp_path):
+        """Still comfortably on screen, but not where it was.
+
+        Chosen so the in-frame check cannot be what rejects it: at y=800 in a
+        905px viewport, 105 of the block's 140px are visible (75%). Only the
+        400px move from y=400 disqualifies it.
+        """
+        drifted = BoxModel(x=0, y=800, width=600, height=140, scroll_y=0)
+        result, _ = self._run(tmp_path, box_after=drifted)
+        assert result.manifest["counts"]["captured"] == 0
+        exc = result.manifest["exceptions"][0]
+        assert exc["reason"] == "POLICY_OFF_SCREEN"
+        assert "geometry_drift_px" in exc["detail"][0]
+
+    def test_small_drift_within_tolerance_passes(self, tmp_path):
+        """Two healthy runs of the same page differed by 14px purely because
+        the scroll landed marginally differently. That must not fail a batch."""
+        nudged = BoxModel(x=0, y=414, width=600, height=140, scroll_y=0)
+        result, _ = self._run(tmp_path, box_after=nudged)
+        assert result.manifest["counts"]["captured"] == 1
+
+    def test_a_height_change_fails(self, tmp_path):
+        """The block re-laid out under the camera; same top edge, new shape."""
+        reshaped = BoxModel(x=0, y=400, width=600, height=600, scroll_y=0)
+        result, _ = self._run(tmp_path, box_after=reshaped)
+        assert result.manifest["counts"]["captured"] == 0
+        assert "height_changed" in result.manifest["exceptions"][0]["detail"][0]
+
+    def test_both_readings_are_recorded_in_the_capture(self, tmp_path):
+        result, _ = self._run(tmp_path)
+        payload = json.loads(pathlib.Path(
+            result.manifest["successful_captures"][0]["json_path"]).read_text("utf-8"))
+        auto = payload["automation"]
+        assert auto["policy_box"] is not None
+        assert auto["policy_box_after_screenshot"] is not None
+        assert "before" in auto["geometry_note"] and "after" in auto["geometry_note"]
+
+    def test_the_written_capture_revalidates_from_both_boxes(self, tmp_path):
+        """The artifact must be able to prove the claim on its own."""
+        from services.research_workers.capture_automation.validators import (
+            validate_written_capture,
+        )
+        result, _ = self._run(tmp_path)
+        cap = result.manifest["successful_captures"][0]
+        assert validate_written_capture(cap["json_path"], cap["png_path"]).ok
+
+    def test_a_tampered_after_box_is_caught_on_revalidation(self, tmp_path):
+        from services.research_workers.capture_automation.validators import (
+            validate_written_capture,
+        )
+        result, _ = self._run(tmp_path)
+        cap = result.manifest["successful_captures"][0]
+        p = pathlib.Path(cap["json_path"])
+        payload = json.loads(p.read_text("utf-8"))
+        payload["automation"]["policy_box_after_screenshot"]["scroll_y"] = 9000
+        p.write_text(json.dumps(payload), encoding="utf-8")
+        out = validate_written_capture(cap["json_path"], cap["png_path"])
+        assert not out.ok and out.reason == "POLICY_OFF_SCREEN"
+
+    def test_the_same_element_is_measured_both_times(self, tmp_path):
+        """Re-deriving the handle could compare two different elements and call
+        the difference drift."""
+        from services.research_workers.capture_automation.runner import _policy_handle
+        from services.research_workers.capture_automation.policy_locator import (
+            locate_policy,
+        )
+        from .conftest import snapshot_for
+        dom = snapshot_for("marriott-cmham.json")
+        session = FakeBrowserSession(pages_from("marriott-cmham.json"))
+        handle = _policy_handle(locate_policy(dom), session)
+        assert handle[0] in ("selector", "text") and handle[1]
+
+
+class TestFramingCheckUnit:
+    VH = 905.0
+    OK = BoxModel(x=0, y=400, width=600, height=140, scroll_y=0)
+
+    def test_missing_before(self):
+        ok, detail = check_policy_framing(None, self.OK, self.VH)
+        assert not ok and detail == "no_box_before_screenshot"
+
+    def test_missing_after(self):
+        ok, detail = check_policy_framing(self.OK, None, self.VH)
+        assert not ok and detail == "policy_element_missing_after_screenshot"
+
+    def test_unknown_viewport(self):
+        ok, detail = check_policy_framing(self.OK, self.OK, 0.0)
+        assert not ok and detail == "unknown_viewport_height"
+
+    def test_identical_boxes_pass(self):
+        assert check_policy_framing(self.OK, self.OK, self.VH)[0]
+
+    @pytest.mark.parametrize("dy,expected", [(0, True), (10, True), (24, True),
+                                             (25, False), (470, False)])
+    def test_tolerance_boundary(self, dy, expected):
+        after = BoxModel(x=0, y=400 + dy, width=600, height=140, scroll_y=0)
+        assert check_policy_framing(self.OK, after, self.VH)[0] is expected
 
 
 class TestPacing:

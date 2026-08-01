@@ -63,6 +63,70 @@ def policy_in_frame(box: Optional[BoxModel], viewport_height: float,
     return visible_fraction(box, viewport_height) >= minimum
 
 
+def _box_from(raw) -> Optional[BoxModel]:
+    """Rebuild a BoxModel from a capture's recorded geometry, or None."""
+    if not isinstance(raw, dict):
+        return None
+    try:
+        return BoxModel(x=float(raw.get("x") or 0.0), y=float(raw.get("y") or 0.0),
+                        width=float(raw.get("width") or 0.0),
+                        height=float(raw.get("height") or 0.0),
+                        scroll_x=float(raw.get("scroll_x") or 0.0),
+                        scroll_y=float(raw.get("scroll_y") or 0.0))
+    except (TypeError, ValueError):
+        return None
+
+
+def viewport_offset(box: BoxModel) -> float:
+    """Top edge of the box relative to the visible viewport."""
+    return box.y - box.scroll_y
+
+
+def check_policy_framing(before: Optional[BoxModel], after: Optional[BoxModel],
+                         viewport_height: float,
+                         *, tolerance_px: float = None) -> Tuple[bool, str]:
+    """Both readings must agree that the policy was on screen.
+
+    Reading the box only BEFORE ``Page.captureScreenshot`` is not enough, and
+    that is not a theoretical worry: a real Marriott capture recorded
+    "100% visible at viewport y=368" while the PNG showed the bar section 470px
+    further down the page. Every automated gate passed and the artifact could
+    not contradict itself, because it held a single measurement of a moment
+    that had already gone.
+
+    Returns ``(ok, detail)``. ``detail`` is empty when ok.
+    """
+    if tolerance_px is None:
+        from .doctrine import POLICY_BOX_DRIFT_TOLERANCE_PX
+        tolerance_px = POLICY_BOX_DRIFT_TOLERANCE_PX
+
+    if before is None:
+        return (False, "no_box_before_screenshot")
+    if after is None:
+        # The element vanished while the image was being taken. Whatever the
+        # screenshot shows, it is not a page we can still measure.
+        return (False, "policy_element_missing_after_screenshot")
+    if viewport_height <= 0:
+        return (False, "unknown_viewport_height")
+
+    if not policy_in_frame(before, viewport_height):
+        return (False, "off_screen_before_screenshot:%.2f"
+                % visible_fraction(before, viewport_height))
+    if not policy_in_frame(after, viewport_height):
+        return (False, "off_screen_after_screenshot:%.2f"
+                % visible_fraction(after, viewport_height))
+
+    drift = abs(viewport_offset(after) - viewport_offset(before))
+    if drift > tolerance_px:
+        return (False, "geometry_drift_px:%.0f" % drift)
+
+    if abs(after.height - before.height) > tolerance_px:
+        return (False, "geometry_height_changed_px:%.0f"
+                % abs(after.height - before.height))
+
+    return (True, "")
+
+
 def check_pair(json_path: pathlib.Path, png_path: pathlib.Path) -> List[str]:
     """JSON and PNG must exist and share a stem."""
     problems: List[str] = []
@@ -166,12 +230,25 @@ def validate_written_capture(
         return ValidationResult(False, "PRIVATE_PARAMS_IN_CITATION",
                                 ("no_clean_citable_url",))
 
-    # 7. Policy geometry: was the block actually in frame?
-    if policy_box is not None and viewport_height > 0:
-        if not policy_in_frame(policy_box, viewport_height):
+    # 7. Policy geometry: was the block actually in frame -- BEFORE and AFTER
+    #    the screenshot? Read back from the file rather than trusted from the
+    #    caller, so the artifact validates itself.
+    auto = payload.get("automation") or {}
+    vh = float(viewport_height or auto.get("viewport_height") or 0.0)
+    stored_before = _box_from(auto.get("policy_box"))
+    stored_after = _box_from(auto.get("policy_box_after_screenshot"))
+
+    if stored_before is not None and stored_after is not None and vh > 0:
+        ok, detail = check_policy_framing(stored_before, stored_after, vh)
+        if not ok:
+            return ValidationResult(False, "POLICY_OFF_SCREEN", (detail,))
+    elif policy_box is not None and vh > 0:
+        # Caller-supplied single box: still checked, but this path cannot prove
+        # the page held still while the image was taken.
+        if not policy_in_frame(policy_box, vh):
             return ValidationResult(
                 False, "POLICY_OFF_SCREEN",
-                ("visible_fraction:%.2f" % visible_fraction(policy_box, viewport_height),))
+                ("visible_fraction:%.2f" % visible_fraction(policy_box, vh),))
 
     # 8. Duplicate detection, by exact rendered text.
     if seen_text_hashes:

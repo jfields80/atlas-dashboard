@@ -39,7 +39,9 @@ from .state_machine import (
     CAPTURED, CAPTURING, EXCEPTION, HotelOutcome, IDENTITY, INTERACTING,
     KillSwitch, NAVIGATING, POLICY_SCAN, QUEUED, URL_SHAPE, VALIDATING,
 )
-from .validators import detect_fee_conflict, validate_written_capture
+from .validators import (
+    check_policy_framing, detect_fee_conflict, validate_written_capture,
+)
 
 
 @dataclass
@@ -155,7 +157,8 @@ class CaptureRunner:
                 return done(EXCEPTION, "POLICY_NOT_FOUND",
                             ("no_anchor_after_supported_expansion",))
 
-            box, viewport = self._frame_policy(location)
+            handle = _policy_handle(location, self._session)
+            box, viewport = self._frame_policy(location, handle)
             if box is None:
                 return done(EXCEPTION, "POLICY_OFF_SCREEN", ("no_box_for_policy",))
 
@@ -164,14 +167,24 @@ class CaptureRunner:
                 return done(EXCEPTION, "BATCH_ABORTED", ("dry_run",))
 
             captured_at = _now_iso(self._clock)
-            payload = build_payload(
-                dom, captured_at=captured_at, requested_url=entry.official_url,
-                policy=location, policy_box=box,
-                interaction_log=interaction_log, viewport=viewport)
 
             png = self._session.screenshot_png()
             if not png:
                 return done(EXCEPTION, "SCREENSHOT_UNAVAILABLE", ("empty_png",))
+
+            # Re-read the SAME element now that the image exists. A single
+            # pre-screenshot reading describes a moment that has already gone,
+            # and one real capture recorded "100% visible" while the PNG showed
+            # a different section of the page entirely.
+            box_after = self._measure_policy(handle)
+            framed, detail = check_policy_framing(box, box_after, float(viewport[1]))
+            if not framed:
+                return done(EXCEPTION, "POLICY_OFF_SCREEN", (detail,))
+
+            payload = build_payload(
+                dom, captured_at=captured_at, requested_url=entry.official_url,
+                policy=location, policy_box=box, policy_box_after=box_after,
+                interaction_log=interaction_log, viewport=viewport)
 
             stem = capture_stem(dom.final_url, captured_at)
             try:
@@ -203,6 +216,7 @@ class CaptureRunner:
                 "png_sha256": png_hash, "png_width": w, "png_height": h,
                 "citable_url": _citable_url(dom.final_url, dom.canonical_url),
                 "policy": location.to_dict(), "policy_box": box.to_dict(),
+                "policy_box_after_screenshot": box_after.to_dict() if box_after else None,
                 "interaction_log": interaction_log,
                 "warnings": warnings,
             }
@@ -243,23 +257,36 @@ class CaptureRunner:
             log.append(entry)
         return log
 
-    def _frame_policy(self, location: PolicyLocation) -> Tuple[Optional[BoxModel], Tuple[int, int]]:
+    def _measure_policy(self, handle: Tuple[str, str]) -> Optional[BoxModel]:
+        """Read the policy element's box via a fixed handle.
+
+        The handle is resolved once and reused, so the reading taken after the
+        screenshot measures the SAME element as the one taken before it.
+        Re-deriving the handle each time would risk comparing two different
+        elements and calling the difference "drift".
+        """
+        kind, value = handle
+        if kind == "selector":
+            return self._session.box_model(value)
+        return self._session.box_for_text(value)
+
+    def _frame_policy(self, location: PolicyLocation,
+                      handle: Tuple[str, str]) -> Tuple[Optional[BoxModel], Tuple[int, int]]:
         """Scroll the policy into view and read its box.
 
         Text is the primary handle, not a selector. The locator works on
         rendered text, brands rarely offer a stable selector for a policy
         block, and the text is what the operator will be asked to confirm.
         """
-        needle = _needle_for(location)
-        if location.selector and self._session.query_selector_exists(location.selector):
-            self._session.scroll_into_view(location.selector)
-            box = self._session.box_model(location.selector)
+        kind, value = handle
+        if kind == "selector":
+            self._session.scroll_into_view(value)
         else:
-            self._session.scroll_to_text(needle)
-            box = self._session.box_for_text(needle)
-        if box is None and needle:
-            self._session.scroll_to_text(needle)
-            box = self._session.box_for_text(needle)
+            self._session.scroll_to_text(value)
+        box = self._measure_policy(handle)
+        if box is None and kind == "text" and value:
+            self._session.scroll_to_text(value)
+            box = self._measure_policy(handle)
         return (box, self._session.viewport())
 
     # -- the batch -------------------------------------------------------- #
@@ -315,6 +342,22 @@ class CaptureRunner:
         low = max(MIN_SECONDS_BETWEEN_HOTELS, self._config.min_pace)
         high = max(low, self._config.max_pace)
         self._sleep(self._jitter(low, high))
+
+
+def _policy_handle(location: PolicyLocation, session) -> Tuple[str, str]:
+    """How this policy element will be addressed, resolved once.
+
+    Prefers the adapter's selector when the page actually has it; otherwise
+    falls back to a distinctive slice of the policy text, which is what the
+    locator worked on and what the operator will be asked to confirm.
+    """
+    if location.selector:
+        try:
+            if session.query_selector_exists(location.selector):
+                return ("selector", location.selector)
+        except Exception:                              # noqa: BLE001
+            pass
+    return ("text", _needle_for(location))
 
 
 def _needle_for(location: PolicyLocation) -> str:

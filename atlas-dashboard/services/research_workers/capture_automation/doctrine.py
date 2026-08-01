@@ -58,6 +58,17 @@ MAX_SECONDS_BETWEEN_HOTELS = 40.0
 # would genuinely look like abuse, so it is not a tunable.
 CONSECUTIVE_CHALLENGE_LIMIT = 3
 
+# How far the policy block may move, in viewport-relative pixels, between the
+# reading taken before the screenshot and the reading taken after it.
+#
+# Sized from real measurements: on a healthy Marriott page the same block reads
+# identically across a screenshot and a three-second settle (0 px drift across
+# four probes), and two independent runs differed by 14 px only because the
+# scroll landed marginally differently. A block that has moved more than this
+# between the two readings was not sitting still while the image was taken, and
+# the image is the thing a human will be asked to affirm.
+POLICY_BOX_DRIFT_TOLERANCE_PX = 24.0
+
 # How long to wait for render and network quiet, in seconds.
 NAVIGATION_TIMEOUT_SECONDS = 45.0
 NETWORK_QUIET_SECONDS = 2.0

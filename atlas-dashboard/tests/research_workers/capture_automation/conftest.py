@@ -106,12 +106,20 @@ class FakeBrowserSession:
                  viewport: Tuple[int, int] = (1440, 1000),
                  box: Optional[BoxModel] = None,
                  no_screenshot_for: Sequence[str] = (),
-                 raise_for: Sequence[str] = ()):
+                 raise_for: Sequence[str] = (),
+                 box_after: Optional[BoxModel] = None,
+                 box_after_missing: bool = False):
         self.pages = pages
         self.nav_failures = nav_failures or {}
         self._screenshot = screenshot if screenshot is not None else make_png(320, 200)
         self._viewport = viewport
         self._box = box or BoxModel(x=0, y=200, width=600, height=300, scroll_y=100)
+        # Geometry the page reports AFTER the screenshot. Defaults to the same
+        # box (a page that held still); set it to model drift, and
+        # ``box_after_missing`` to model the element vanishing.
+        self._box_after = box_after
+        self._box_after_missing = box_after_missing
+        self.screenshot_taken = False
         self._no_shot = frozenset(no_screenshot_for)
         self._raise_for = frozenset(raise_for)
         self.current = ""
@@ -157,16 +165,24 @@ class FakeBrowserSession:
         self.scrolls.append(needle)
         return True
 
+    def _current_box(self) -> Optional[BoxModel]:
+        if not self.screenshot_taken:
+            return self._box
+        if self._box_after_missing:
+            return None
+        return self._box_after if self._box_after is not None else self._box
+
     def box_model(self, selector: str) -> Optional[BoxModel]:
-        return self._box
+        return self._current_box()
 
     def box_for_text(self, needle: str) -> Optional[BoxModel]:
-        return self._box
+        return self._current_box()
 
     def viewport(self) -> Tuple[int, int]:
         return self._viewport
 
     def screenshot_png(self) -> bytes:
+        self.screenshot_taken = True
         if self.current in self._no_shot:
             return b""
         return self._screenshot

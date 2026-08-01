@@ -74,9 +74,17 @@ def capture_stem(final_url: str, captured_at: str) -> str:
 def build_payload(dom: DomSnapshot, *, captured_at: str, requested_url: str,
                   policy: Optional[PolicyLocation] = None,
                   policy_box: Optional[BoxModel] = None,
+                  policy_box_after: Optional[BoxModel] = None,
                   interaction_log: Sequence[dict] = (),
                   viewport: Tuple[int, int] = (0, 0)) -> dict:
-    """The capture payload. Same shape as the extension's, plus ``automation``."""
+    """The capture payload. Same shape as the extension's, plus ``automation``.
+
+    Both geometry readings are recorded -- the one taken before the screenshot
+    and the one taken after it. A capture that carried only the "before" box
+    once claimed a policy was 100% in frame while the image showed an entirely
+    different section of the page, and nothing in the artifact could contradict
+    it. Keeping both makes the claim re-checkable from the file alone.
+    """
     payload = {
         "schema": CAPTURE_SCHEMA,
         "extension_version": AUTOMATION_VERSION,
@@ -101,6 +109,12 @@ def build_payload(dom: DomSnapshot, *, captured_at: str, requested_url: str,
             "viewport_height": viewport[1],
             "policy": policy.to_dict() if policy else None,
             "policy_box": policy_box.to_dict() if policy_box else None,
+            "policy_box_after_screenshot": (policy_box_after.to_dict()
+                                            if policy_box_after else None),
+            "geometry_note": (
+                "policy_box was read before Page.captureScreenshot and "
+                "policy_box_after_screenshot after it; both had to be in frame "
+                "for this capture to be accepted"),
             "interaction_log": [dict(s) for s in interaction_log],
             "affirmation": None,
             "affirmation_note": (
