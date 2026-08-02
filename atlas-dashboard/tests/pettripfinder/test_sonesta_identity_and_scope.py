@@ -175,22 +175,35 @@ class TestStatedFeeScope:
 # --------------------------------------------------------------------------- #
 
 class TestPublishedProfilesUnaffected:
-    def test_the_package_still_holds_37_hotels_and_no_sonesta(self):
+    def test_the_package_holds_38_hotels_including_sonesta(self):
         pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 37
-        assert KEY not in {h["key"] for h in pkg["hotels"]}
+        assert len(pkg["hotels"]) == 38
+        assert KEY in {h["key"] for h in pkg["hotels"]}
 
-    def test_every_published_tier_ladder_still_states_no_scope(self):
-        """The three live ladders carry scope "unstated", so the new per-pet
-        rendering cannot change a single published byte."""
+    def test_the_pre_existing_ladders_still_state_no_scope(self):
+        """The three ladders that were live before this work carry scope
+        "unstated", so the per-pet rendering cannot change a published byte of
+        theirs. Sonesta is the only record that states a scope."""
         pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
-        tiered = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
-        assert len(tiered) == 3
-        for h in tiered:
-            for t in h["facts"]["fee_tiers"]:
-                assert t["scope"] == V.FEE_SCOPE_UNSTATED, h["key"]
+        tiered = {h["key"]: h["facts"]["fee_tiers"]
+                  for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")}
+        assert sorted(tiered) == ["hampton inn columbus airport",
+                                  "hilton garden inn columbus airport",
+                                  "home2 suites new albany columbus",
+                                  KEY]
+        for key, tiers in tiered.items():
+            if key == KEY:
+                continue
+            for t in tiers:
+                assert t["scope"] == V.FEE_SCOPE_UNSTATED, key
+
+    def test_sonesta_publishes_the_scope_its_source_states(self):
+        pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
+                          "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
+        tiers = [h for h in pkg["hotels"] if h["key"] == KEY][0]["facts"]["fee_tiers"]
+        assert [t["scope"] for t in tiers] == [V.FEE_SCOPE_PER_PET, V.FEE_SCOPE_UNSTATED]
 
     def test_the_published_tier_sentences_are_unchanged(self):
         from scripts.pettripfinder.hotel_profile import _tiered_fee_sentence

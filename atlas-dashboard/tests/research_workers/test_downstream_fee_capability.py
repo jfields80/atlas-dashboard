@@ -57,11 +57,12 @@ class TestSupportedShapes:
         supported, reasons = downstream_fee_schema_support(SONESTA)
         assert supported and reasons == []
 
-    def test_g_the_three_published_ladders_are_supported(self):
-        """Exactly the shape three live profiles already carry."""
+    def test_g_every_published_ladder_is_supported(self):
+        """Exactly the shape the live profiles carry. Sonesta joined them on
+        2026-08-02 as the first to arrive through the worker path."""
         pkg = json.loads(_PKG.read_text(encoding="utf-8-sig"))
         tiered = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
-        assert len(tiered) == 3
+        assert len(tiered) == 4
         for h in tiered:
             terms = [term(t["amount"], t["condition_min"], t["condition_max"],
                           unit=t["boundary_unit"], currency=t["currency"],

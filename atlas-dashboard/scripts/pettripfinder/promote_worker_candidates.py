@@ -90,7 +90,19 @@ DIRECT_FACT_MAP = {
 # Supported worker facts with NO importer field -> retained in provenance ONLY,
 # never force-fit (fee_currency: no field; refundable_deposit: no field;
 # service_animal_note: MUST NOT be mapped into general_restrictions).
+#
+# PTF-PROMOTION. cats_accepted / dogs_accepted join this list for their NEGATIVE
+# value only. The production field is ``species_allowed``, a positive list, and
+# a positive list cannot say "cats are excluded" -- it can only fail to mention
+# them, which reads as "not stated" and is a different fact. Force-fitting the
+# exclusion into general_restrictions is exactly what this module forbids, and
+# inventing a species_excluded field is not this sprint's work. So the negative
+# is preserved in provenance with an explicit reason and is NOT silently lost;
+# the profile under-claims rather than mis-states, which is the safe direction.
 PROVENANCE_ONLY_FACTS = ("fee_currency", "refundable_deposit", "service_animal_note")
+#: Reason recorded when an explicit species NEGATIVE cannot reach the positive
+#: species_allowed list.
+SPECIES_NEGATIVE_REASON = "no_importer_field_for_explicit_species_exclusion"
 # worker source_type -> importer source_relationship.
 SOURCE_REL_MAP = {"OFFICIAL_PROPERTY": "EXACT_ENTITY_DOMAIN", "OFFICIAL_BRAND": "BRAND_DOMAIN"}
 
@@ -162,6 +174,39 @@ def _species_allowed(facts: Dict[str, Dict]) -> Optional[str]:
     return ", ".join(species) if species else None
 
 
+#: Terms whose basis names a real recurrence. ONE_TIME means the source stated
+#: none, which is what the renderer reports; deriving the flag from the
+#: contract's own vocabulary keeps it out of guesswork.
+_STATED_BASES = ("per_night", "per_day", "per_stay")
+
+#: The exact tier keys the committed package carries. Pinned so a promoted
+#: ladder is byte-comparable with one that arrived through attestation.
+_TIER_KEYS = ("amount", "basis", "basis_stated", "boundary_unit", "condition_max",
+              "condition_min", "condition_type", "currency", "evidence_quote",
+              "role", "scope", "source_type", "source_url")
+
+
+def _fee_tiers_from_policy(policy: Optional[Dict]) -> Optional[List[Dict]]:
+    """The Gate-1 structured fee policy, in the package's fee_tiers shape.
+
+    Nothing is flattened, inferred or dropped: every amount, currency, boundary,
+    basis, scope and source quote travels verbatim, and an open-ended final tier
+    keeps its null condition_max. ``basis_stated`` is derived from the term's own
+    basis vocabulary -- ONE_TIME means the source stated no recurrence -- so the
+    renderer never asserts a per-night or per-stay reading the source lacks.
+    """
+    terms = (policy or {}).get("terms") or []
+    if not terms:
+        return None
+    stated = any(t.get("basis") in _STATED_BASES for t in terms)
+    out = []
+    for t in terms:
+        row = {k: t.get(k) for k in _TIER_KEYS if k != "basis_stated"}
+        row["basis_stated"] = stated
+        out.append(row)
+    return out
+
+
 def build_mapping(approval: Dict, g1rec: Dict, display_name: str
                   ) -> Tuple[Optional[Dict], List[Dict], List[Dict], Optional[str]]:
     """Return (corpus_candidate, field_transformations, unmapped_facts, fail_reason).
@@ -192,10 +237,50 @@ def build_mapping(approval: Dict, g1rec: Dict, display_name: str
                            "importer_field": "fee_basis", "importer_value": FEE_BASIS_MAP[token],
                            "transform": "value_map"})
 
+    # PTF-PROMOTION. The structured fee. Before this, a validated stay-length
+    # ladder reached Gate-1 and then vanished at the promotion boundary: the
+    # mapper reads supported_facts, the ladder lives in fee_policy, and nothing
+    # carried one into the other. A hotel whose fee we had, validated and
+    # renderable, published with no fee at all.
+    fee_policy = g1rec.get("fee_policy")
+    if fee_policy:
+        if not g1rec.get("downstream_fee_schema_supported"):
+            # A shape the production chain cannot render must not be promoted
+            # into it. Fails closed rather than publishing a partial ladder.
+            return (None, transforms, [], "fee_policy_not_downstream_supported")
+        tiers = _fee_tiers_from_policy(fee_policy)
+        if not tiers:
+            return (None, transforms, [], "fee_policy_present_but_no_terms")
+        pet_facts["fee_tiers"] = tiers
+        transforms.append({"worker_field": "fee_policy", "worker_value": "%d tier(s)" % len(tiers),
+                           "importer_field": "fee_tiers",
+                           "importer_value": ",".join(str(t["amount"]) for t in tiers),
+                           "transform": "structured_fee_policy_to_tiers"})
+
     unmapped = [{"field": wf, "value": facts[wf]["value"], "evidence_quote": facts[wf]["evidence_quote"],
                  "reason": "no_importer_field" if wf != "service_animal_note"
                            else "must_not_map_to_general_restrictions"}
                 for wf in PROVENANCE_ONLY_FACTS if wf in facts]
+    # An explicit species NEGATIVE has no positive-list home. Recorded, never
+    # dropped in silence, and never force-fit into an unrelated field.
+    for wf in ("dogs_accepted", "cats_accepted"):
+        if facts.get(wf, {}).get("value") == "false":
+            unmapped.append({"field": wf, "value": "false",
+                             "evidence_quote": facts[wf]["evidence_quote"],
+                             "reason": SPECIES_NEGATIVE_REASON})
+
+    # Fail-closed completeness. Every supported Gate-1 fact must be either
+    # MAPPED into the corpus record or explicitly ACCOUNTED FOR in provenance.
+    # A field this adapter has never heard of must stop the promotion loudly
+    # rather than disappear -- which is precisely how the fee ladder was lost.
+    accounted = (set(DIRECT_FACT_MAP) | set(PROVENANCE_ONLY_FACTS)
+                 | {"dogs_accepted", "cats_accepted", "fee_basis"})
+    unaccounted = sorted(set(facts) - accounted)
+    if unaccounted:
+        return (None, transforms, unmapped,
+                "unmapped_supported_facts:%s" % ",".join(unaccounted))
+    if fee_policy and "fee_tiers" not in pet_facts:
+        return (None, transforms, unmapped, "fee_policy_dropped_by_mapper")
 
     evidence = [{"field": f["field_name"], "value": f["value"],
                  "quote": f["evidence_quote"], "source_url": f["source_url"]}

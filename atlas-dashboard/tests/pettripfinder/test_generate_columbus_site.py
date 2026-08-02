@@ -39,7 +39,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 37   # PROD-004: verified-only public hotels
+    assert report["hotel_count"] == 38   # PROD-004: verified-only public hotels
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -196,12 +196,14 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
     # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 38  # header + 37 verified hotels
+    assert len(rows) == 39  # header + 38 verified hotels
     # Held properties are named in FULL: "Red Roof" alone is no longer a valid
     # exclusion probe now that the Convention Center property is published
     # (PTF-INVENTORY-001), and a bare-brand check would silently pass forever.
     for held in ("Drury Plaza",
-                 "Sonesta Simply", "Extended Stay",
+                              # Sonesta Simply Suites was promoted 2026-08-02 and is now
+                     # published, so it is deliberately NOT an exclusion probe.
+                     "Extended Stay",
                  "Red Roof PLUS+ Columbus Dublin", "Red Roof Inn Columbus West Hilliard", "Hyatt House"):
         assert held not in text
     # ...and the newly promoted properties ARE present.

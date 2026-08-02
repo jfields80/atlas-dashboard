@@ -27,10 +27,20 @@ _PKG = json.loads((_REPO / "launch_packages" / "pettripfinder" / "hotel_policy_f
 _PKG_KEYS = {h["key"] for h in _PKG["hotels"]}
 _HELD = [
     "drury-plaza-hotel-columbus-downtown",
-    "sonesta-simply-suites-dublin-columbus",
     "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
     "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
 ]
+# PTF-PROMOTION: sonesta-simply-suites-dublin-columbus left this list on
+# 2026-08-02. Its only remaining Gate-1 reason was a MODEL_OVERCLAIM -- the
+# model proposed a dogs value the official page never supports, and the airlock
+# rejected and removed it -- so it was approved under
+# APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT, which acknowledges the diagnostic
+# rather than waiving a defect. It publishes pets_allowed, a 2-pet limit, no
+# breed restriction and a two-tier fee ladder ($75 nights 1-7 per pet, $150
+# nights 8+); its explicit "cats are not permitted" is preserved in promotion
+# provenance because species_allowed is a positive list with no way to express
+# an exclusion, so the profile under-claims rather than mis-states. Dogs stay
+# NOT_STATED: the page never uses the word.
 # PTF-DATA: both Columbus La Quinta properties left this list on 2026-08-02.
 # Their pages answer ordinary retrieval with HTTP 200 but do not carry the
 # policy VALUES, which exist only after rendering -- PTF-CAPTURE-004A gave that
@@ -134,7 +144,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 37
+    assert len(verified) == 38
 
 
 # --------------------------------------------------------------------------- #
@@ -196,7 +206,7 @@ def _display_slug(key):
 
 
 def test_exactly_14_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 37
+    assert len(_hotel_slugs(build)) == 38
 
 
 def test_every_profile_belongs_to_the_committed_package(build):

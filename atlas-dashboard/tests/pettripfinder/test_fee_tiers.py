@@ -494,11 +494,14 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 37
+        assert len(pkg["hotels"]) == 38
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
+        # PTF-PROMOTION: Sonesta joined on 2026-08-02 -- the first ladder to
+        # reach the package through the WORKER path rather than attestation.
         assert tiered == ["hampton inn columbus airport",
                           "hilton garden inn columbus airport",
-                          "home2 suites new albany columbus"]
+                          "home2 suites new albany columbus",
+                          "sonesta simply suites dublin columbus"]
         for h in pkg["hotels"]:
             facts = h.get("facts", {})
             # A record may carry a ladder OR a scalar fee, never both.

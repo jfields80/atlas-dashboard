@@ -27,6 +27,11 @@ _GATE1_MANIFEST = (_REPO / "data" / "worker_runs" / "pettripfinder"
 # be consulted to resolve every approval.
 _GATE1_MANIFEST_V3 = (_REPO / "data" / "worker_runs" / "pettripfinder"
                       / "prod003_gate1_review_v3" / "launch_safe_manifest.json")
+# PTF-PROMOTION: Sonesta was reprocessed again under the current contracts and
+# carries its own authority. Additive like the others -- the earlier manifests
+# are untouched, and every approval still resolves to exactly one record.
+_GATE1_MANIFEST_SONESTA = (_REPO / "data" / "worker_runs" / "pettripfinder"
+                           / "sonesta_final_g1" / "launch_safe_manifest.json")
 _HELD_KEY = "drury plaza hotel columbus downtown"
 
 _HASH_A = "sha256:" + "a" * 64
@@ -136,6 +141,9 @@ def test_committed_manifest_records_the_stage_b_decisions():
     # Red Roof Convention Center (frozen authority) and Red Roof Worthington
     # (fresh v3 authority after reprocessing).
     assert len(by_decision.get(PA.DECISION_TIERED_FEE_OMITTED, [])) == 2
+    # PTF-PROMOTION: one diagnostic acknowledgement -- Sonesta, whose only
+    # remaining reason was a MODEL_OVERCLAIM the airlock caught and removed.
+    assert len(by_decision.get(PA.DECISION_DIAGNOSTIC_ACKNOWLEDGED, [])) == 1
     assert by_decision.get(PA.DECISION_REJECTED, []) == []
     assert by_decision.get(PA.DECISION_SUPERSEDED, []) == []
     assert by_decision[PA.DECISION_HOLD][0]["listing_key"] == _HELD_KEY
@@ -151,6 +159,23 @@ def test_committed_manifest_records_the_stage_b_decisions():
             assert set(a) - allowed - {"note"} == set(PA.TIERED_FEE_FIELDS)
             assert a["waived_reason_codes"] == ["STRUCTURED_FEE_REQUIRED"]
             assert len(a["preserved_fee_amounts"]) >= 2
+            continue
+        if a["decision"] == PA.DECISION_DIAGNOSTIC_ACKNOWLEDGED:
+            # Its own date and its own extra fields. A REVIEW route is required
+            # (a READY record carries no diagnostic to acknowledge), the
+            # acknowledged codes must be approval-eligible ONLY, and the
+            # underlying warning must travel with them so the rejected claim is
+            # never lost behind the approval.
+            assert a["approval_date"] == "2026-08-02"
+            assert a["gate1_route"] == "REVIEW"
+            assert set(a) - allowed - {"note"} == set(PA.DIAGNOSTIC_ACK_FIELDS)
+            assert a["acknowledged_reason_codes"] == ["MODEL_OVERCLAIM"]
+            assert set(a["acknowledged_reason_codes"]) <= PA.APPROVAL_ELIGIBLE_WARNING_CODES
+            assert not (set(a["acknowledged_reason_codes"])
+                        & PA.NEVER_WAIVABLE_REASON_CODES)
+            assert a["acknowledged_warnings"] and all(
+                w.startswith("rejected_") for w in a["acknowledged_warnings"])
+            assert "waived_reason_codes" not in a          # an acknowledgement is not a waiver
             continue
         assert a["approval_date"] == "2026-07-23"
         assert "note" not in a                                    # no fabricated notes
@@ -173,6 +198,11 @@ def test_committed_approvals_are_bound_to_gate1_authority():
         idx.update(PA.gate1_index(g1v3))
     else:
         pytest.skip("v3 Gate-1 manifest absent (gitignored); binding check skipped")
+    if _GATE1_MANIFEST_SONESTA.exists():
+        idx.update(PA.gate1_index(json.loads(
+            _GATE1_MANIFEST_SONESTA.read_text(encoding="utf-8"))))
+    else:
+        pytest.skip("Sonesta Gate-1 manifest absent (gitignored); binding check skipped")
     assert PA.validate_manifest(m, gate1_idx=idx) == []           # no stale/duplicate/misrouted entry
     # Both sides of the Gate-1 manifest: a tiered-fee approval is bound to a
     # MANUAL-REVIEW record by design, and must still match it exactly.
@@ -180,6 +210,9 @@ def test_committed_approvals_are_bound_to_gate1_authority():
     if _GATE1_MANIFEST_V3.exists():
         v3 = json.loads(_GATE1_MANIFEST_V3.read_text(encoding="utf-8"))
         all_g1 += v3["launch_safe_candidates"] + v3["manual_review_candidates"]
+    if _GATE1_MANIFEST_SONESTA.exists():
+        sn = json.loads(_GATE1_MANIFEST_SONESTA.read_text(encoding="utf-8"))
+        all_g1 += sn["launch_safe_candidates"] + sn["manual_review_candidates"]
     # Keyed by (listing_key, candidate_identity): a reprocessed hotel appears in
     # both authorities under different hashes and must not shadow its original.
     g1_by_key = {(r["listing_key"], r["candidate_identity"]): r for r in all_g1}

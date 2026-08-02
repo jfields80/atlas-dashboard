@@ -20,14 +20,72 @@
             "minLength": 1,
             "type": "string"
           },
+          "acknowledged_reason_codes": {
+            "description": "PTF-WORKERS: reason codes a human ACKNOWLEDGED under APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT. Deliberately not a waiver -- the claim was rejected and removed, so nothing unsupported is being accepted. Only approval-eligible diagnostics may appear.",
+            "items": {
+              "enum": [
+                "MODEL_OVERCLAIM"
+              ],
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "acknowledged_warnings": {
+            "description": "PTF-WORKERS: the underlying validator warnings, verbatim, so the fact that a claim was rejected and removed survives into the approval record rather than disappearing with it.",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "attestation_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "type": "string"
+          },
           "decision": {
             "enum": [
               "APPROVED_FOR_PROMOTION",
               "HOLD_FOR_MANUAL_REVIEW",
               "REJECTED",
               "SUPERSEDED",
-              "APPROVED_TIERED_FEE_OMITTED"
+              "APPROVED_TIERED_FEE_OMITTED",
+              "APPROVED_PAIRED_OFFICIAL_SOURCE",
+              "APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT"
             ],
+            "type": "string"
+          },
+          "identity_capture_url": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "identity_text_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "matched_signals": {
+            "description": "PTF-WORKERS-007: the strong binding signals recorded for a paired official source. All four are required by the approval contract; a three-of-four pairing is not a weaker pairing, it is an unproven one.",
+            "items": {
+              "enum": [
+                "address_exact",
+                "name_exact",
+                "phone_exact",
+                "property_code"
+              ],
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "policy_capture_url": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "policy_text_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
             "type": "string"
           },
           "gate1_route": {
@@ -76,10 +134,11 @@
             "type": "string"
           },
           "waived_reason_codes": {
-            "description": "PTF-INVENTORY-001: reason codes waived by APPROVED_TIERED_FEE_OMITTED. Only STRUCTURED_FEE_REQUIRED may ever appear.",
+            "description": "Reason codes waived by a waiver decision. APPROVED_TIERED_FEE_OMITTED may waive only STRUCTURED_FEE_REQUIRED (PTF-INVENTORY-001); APPROVED_PAIRED_OFFICIAL_SOURCE may waive only PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW (PTF-WORKERS-007). The module enforces which decision may use which; neither may ever clear the other's blocker, and no never-waivable code appears here.",
             "items": {
               "enum": [
-                "STRUCTURED_FEE_REQUIRED"
+                "STRUCTURED_FEE_REQUIRED",
+                "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW"
               ],
               "type": "string"
             },
