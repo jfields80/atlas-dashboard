@@ -199,7 +199,116 @@ TIER_PARSE_PROBLEMS = (
     "tier_duplicate_range",
     "tier_ranges_overlap",
     "tier_amount_not_in_source",
+    "tier_open_tail_without_bounded_opener",
+    "tier_prose_ladder_ambiguous",
 )
+
+# PTF-FEE-TIERS-005 -- the PROSE ladder.
+#
+# A property may write the same two-tier fee without any of the notations
+# above:
+#
+#     $75 fee, per pet, applies for stays up to 7 nights; $150 for all
+#     longer stays.
+#
+# Neither tier is in compressed form. The first states only its UPPER bound,
+# in words ("up to 7 nights"), so _TIER_RE reads its 7 as a range START and
+# then finds no boundary. The second states no number at all -- "longer" is
+# its whole range -- so nothing matches it. The ladder is entirely legible to
+# a reader and entirely invisible to the parser.
+#
+# This path is consulted ONLY when the notations above could not form a
+# ladder, so no source that parses today can have its reading changed here.
+# It is brand-neutral like everything else in this module: it keys on the
+# wording, never on a property, chain or domain.
+
+#: The bounded opener: an amount whose range is given as a spoken ceiling.
+#: The gap excludes "$" so an amount can never reach past a neighbouring
+#: amount to claim its boundary.
+_PROSE_OPENER_RE = re.compile(
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)"
+    r"[^$]{0,64}?"
+    r"\bup\s+to\s+(?P<hi>\d+)\s*(?P<unit>nights?|days?)\b",
+    re.I)
+
+#: The open final tier, amount first: "$150 for all longer stays".
+_PROSE_TAIL_AFTER_RE = re.compile(
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)"
+    r"[^$\d]{0,28}?"
+    r"\b(?:for\s+(?:all\s+|any\s+)?longer(?:\s+stays?)?"
+    r"|thereafter"
+    r"|for\s+stays?\s+beyond\s+that)\b",
+    re.I)
+
+#: The same tier written phrase first: "thereafter $150", "then $150".
+_PROSE_TAIL_BEFORE_RE = re.compile(
+    r"\b(?:then|thereafter)\b"
+    r"[^$\d]{0,28}?"
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)",
+    re.I)
+
+_PROSE_UNIT = {"night": V.BOUNDARY_UNIT_NIGHTS, "nights": V.BOUNDARY_UNIT_NIGHTS,
+               "day": V.BOUNDARY_UNIT_DAYS, "days": V.BOUNDARY_UNIT_DAYS}
+
+
+def _parse_prose_ladder(text: str, *, source_url: str, source_type: str,
+                        currency: str) -> Tuple[Tuple[PetFeeTerm, ...], List[str]]:
+    """A bounded spoken opener followed by an open-ended spoken final tier.
+
+    The open tier's lower bound is DERIVED as ``opener.hi + 1`` -- arithmetic
+    on a boundary the source states, not a number invented here. "Longer than
+    7 nights" is 8 nights or more, and nothing else, for a whole-night stay.
+    Because that derivation is the one step a reader cannot see in a bare
+    "$150 for all longer stays", the open tier carries the WHOLE ladder span
+    as its evidence quote, so the 7 that licenses the 8 travels with it.
+
+    Fails closed and totally, like every other path here: exactly one opener
+    and exactly one tail, the tail after the opener, or no terms at all.
+    """
+    src = text or ""
+    openers = list(_PROSE_OPENER_RE.finditer(src))
+    tails = list(_PROSE_TAIL_AFTER_RE.finditer(src)) + list(_PROSE_TAIL_BEFORE_RE.finditer(src))
+    if not tails:
+        return ((), [])                      # not this shape; caller keeps its own verdict
+    if not openers:
+        # A trailing "and $150 thereafter" with nothing bounding what came
+        # before it cannot be positioned on a stay at all.
+        return ((), ["tier_open_tail_without_bounded_opener"])
+    if len(openers) > 1 or len(tails) > 1:
+        return ((), ["tier_prose_ladder_ambiguous"])
+
+    opener, tail = openers[0], tails[0]
+    if tail.start() < opener.end():
+        # The open tier must FOLLOW the bounded one; a ladder written the other
+        # way round is not a shape this understands.
+        return ((), ["tier_prose_ladder_ambiguous"])
+
+    lo_amount = canonical_amount(opener.group("amt"))
+    hi_amount = canonical_amount(tail.group("amt"))
+    if lo_amount is None or hi_amount is None:
+        return ((), ["tier_amount_not_in_source"])
+    boundary = int(opener.group("hi"))
+    if boundary < 1:
+        return ((), ["tier_invalid_range"])
+    unit = _PROSE_UNIT[opener.group("unit").lower()]
+    ladder_quote = " ".join(src[opener.start():tail.end()].split())
+
+    return ((
+        PetFeeTerm(
+            role=V.FEE_ROLE_ONE_TIME_CHARGE, amount=lo_amount, currency=currency,
+            basis=V.FEE_TERM_BASIS_ONE_TIME, scope=V.FEE_SCOPE_UNSTATED,
+            condition_type=V.FEE_CONDITION_STAY_LENGTH_RANGE,
+            condition_min=1, condition_max=boundary, boundary_unit=unit,
+            evidence_quote=" ".join(opener.group(0).split()),
+            source_url=source_url, source_type=source_type),
+        PetFeeTerm(
+            role=V.FEE_ROLE_ONE_TIME_CHARGE, amount=hi_amount, currency=currency,
+            basis=V.FEE_TERM_BASIS_ONE_TIME, scope=V.FEE_SCOPE_UNSTATED,
+            condition_type=V.FEE_CONDITION_STAY_LENGTH_RANGE,
+            condition_min=boundary + 1, condition_max=None, boundary_unit=unit,
+            evidence_quote=ladder_quote,
+            source_url=source_url, source_type=source_type),
+    ), [])
 
 
 def basis_is_stated(text: str) -> bool:
@@ -233,6 +342,16 @@ def parse_fee_tiers(text: str, *, source_url: str = "", source_type: str = "",
         alt = list(_TIER_RANGE_FIRST_RE.finditer(text or ""))
         if len(alt) > len(matches):
             matches = alt
+    if len(matches) < 2:
+        # PTF-FEE-TIERS-005. Neither compressed notation formed a ladder. Before
+        # settling for that verdict, try the spoken form. Consulted LAST and
+        # only here, so a source that parses above is never re-read by it.
+        prose_terms, prose_problems = _parse_prose_ladder(
+            text, source_url=source_url, source_type=source_type, currency=currency)
+        if prose_terms:
+            return (prose_terms, [])
+        if prose_problems:
+            return ((), sorted(set(prose_problems)))
     if not matches:
         return ((), ["tier_notation_unparseable"])
     if len(matches) < 2:

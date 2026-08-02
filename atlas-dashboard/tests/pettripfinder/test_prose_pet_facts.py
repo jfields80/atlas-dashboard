@@ -21,8 +21,9 @@ import pytest
 
 from scripts.pettripfinder.prose_facts import (
     UNREPRESENTABLE_FEE_RANGE, WORD_NUMBERS, detect_unrepresentable_fee_range,
-    extract_pet_count, extract_pets_allowed, extract_species,
-    extract_weight_limit,
+    extract_fee_cap, extract_fee_with_basis, extract_pet_count,
+    extract_pets_allowed, extract_species, extract_weight_limit,
+    is_stay_conditional_multi_amount,
 )
 
 STAYBRIDGE = ("Pets are welcome at this property. Our Pet Policy: This is a "
@@ -30,6 +31,100 @@ STAYBRIDGE = ("Pets are welcome at this property. Our Pet Policy: This is a "
               "welcome. Pet fee per pet is 75 to 150 dollars depending on "
               "length of stay of reservation. Guests are responsible for any "
               "damages or extra cleaning needs billed post departure.")
+
+
+# --------------------------------------------------------------------------- #
+# A0. PTF-FEE-TIERS-005 -- the flattening guard.
+#
+# A sentence naming two fees for two stay lengths is a ladder. The scalar
+# readers see one amount at a time, so on such a sentence they answer with
+# whichever they reach first. Publishing "$150" for a policy that charges $75
+# for a week overstates every short stay; "$75" understates every long one.
+# Only the tier parser may speak for these sentences -- and when it cannot read
+# one, the honest outcome is that NO fee publishes, not that a scalar reader
+# guesses.
+# --------------------------------------------------------------------------- #
+
+#: Verbatim from the live page.
+SONESTA_LIVE = ("$75 fee, per pet, applies for stays up to 7 nights; "
+                "$150 for all longer stays.")
+#: The seed's composed sentence -- a different shape, same hazard. On this one
+#: the scalar reader really did answer "$150" before this guard existed.
+SONESTA_SEED = ("Up to two well-mannered dogs per suite with no breed or weight "
+                "restrictions; cats are not allowed; $75 fee per pet for stays up "
+                "to 7 nights, $150 for longer stays")
+EXTENDED_STAY = ("A maximum of two pets per suite (no longer or taller than 36 "
+                 "inches); non-refundable pet cleaning fee of up to $25 plus tax per "
+                 "day per pet for the first six nights, then up to $15 per day; "
+                 "service animals exempt")
+HYATT_HOUSE = ("Up to two housebroken dogs per room (50 pounds each, 75 pounds "
+               "combined); $75 non-refundable pet fee for stays of one to six "
+               "nights, with an additional $100 cleaning fee for stays of 7 to 30 "
+               "nights")
+
+
+class TestStayConditionalLaddersNeverFlatten:
+    @pytest.mark.parametrize("label,text", [
+        ("sonesta_live", SONESTA_LIVE),
+        ("sonesta_seed", SONESTA_SEED),
+        ("extended_stay", EXTENDED_STAY),
+        ("hyatt_house", HYATT_HOUSE),
+    ])
+    def test_no_scalar_fee_and_no_cap_is_ever_read(self, label, text):
+        assert is_stay_conditional_multi_amount(text) is True
+        assert extract_fee_with_basis(text) is None, label
+        assert extract_fee_cap(text) is None, label
+
+    def test_the_seed_sentence_used_to_publish_the_long_stay_figure(self):
+        """Pinned as the specific defect: $150 is the 8+ night price, and it was
+        what a reader would have been shown as THE fee."""
+        assert "$150" in SONESTA_SEED
+        assert extract_fee_with_basis(SONESTA_SEED) is None
+
+    def test_extended_stay_rate_ceiling_is_not_mistaken_for_a_cap(self):
+        """"up to $25 ... per day" bounds a RATE, not a stay total. Reading it
+        as a $25 cap would understate a six-night stay by a factor of six."""
+        assert extract_fee_cap(EXTENDED_STAY) is None
+
+
+class TestTheGuardStaysNarrow:
+    @pytest.mark.parametrize("text", [
+        # One fee plus its cap: two amounts, no stay-length condition.
+        "Dogs Allowed - 2 dogs max. 75lbs or less per pet. Fees - 25 USD per pet "
+        "per night. Max 75 USD per stay.",
+        # One amount, with stay wording present.
+        "A $75 fee applies for stays up to 7 nights.",
+        # One amount, no stay wording at all.
+        "Pets welcome. A pet fee of 50 dollars per night applies.",
+    ])
+    def test_does_not_fire_on_a_non_ladder(self, text):
+        assert is_stay_conditional_multi_amount(text) is False
+
+    def test_a_capped_nightly_fee_still_publishes_both_numbers(self):
+        text = ("Dogs Allowed - 2 dogs max. 75lbs or less per pet. Fees - 25 USD per "
+                "pet per night. Max 75 USD per stay.")
+        fee, cap = extract_fee_with_basis(text), extract_fee_cap(text)
+        assert fee is not None and fee.value == "$25.00"
+        assert cap is not None and cap.value == "$75.00"
+
+    def test_an_unrepresentable_range_is_still_a_range_not_a_ladder(self):
+        """Staybridge states no thresholds, so no ladder can be built and the
+        existing withholding must remain the outcome."""
+        assert is_stay_conditional_multi_amount(STAYBRIDGE) is False
+        assert detect_unrepresentable_fee_range(STAYBRIDGE) is not None
+
+    def test_no_published_hotel_loses_its_scalar_fee(self):
+        """The guard may fire only on hotels that publish a ladder or no fee."""
+        import json
+        import pathlib
+        pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
+                          "pettripfinder" / "hotel_policy_facts.json")
+                         .read_text(encoding="utf-8-sig"))
+        for h in pkg["hotels"]:
+            if is_stay_conditional_multi_amount(h.get("evidence_quote") or ""):
+                facts = h.get("facts", {})
+                assert not facts.get("pet_fee"), h["key"]
+                assert facts.get("fee_tiers"), h["key"]
 
 
 # --------------------------------------------------------------------------- #

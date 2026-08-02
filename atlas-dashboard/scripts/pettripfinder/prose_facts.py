@@ -497,6 +497,62 @@ def _basis_from(tail: str) -> str:
     return ""
 
 
+# PTF-FEE-TIERS-005 -- the flattening guard.
+#
+# A sentence that names two different fees for two different stay lengths is a
+# LADDER, whatever the parser managed to make of it. The scalar readers below
+# see only one amount at a time, so on such a sentence they answer with
+# whichever amount they reach first -- and publishing "$150" for a policy that
+# charges $75 for a week overstates every short stay, exactly as publishing
+# "$75" would understate every long one.
+#
+# The tier parser is the only path allowed to speak for these sentences. When
+# it cannot read one, the honest outcome is that no fee publishes at all --
+# not that a scalar reader gets to guess. This guard makes that structural
+# rather than incidental: before PTF-FEE-TIERS-005 the promoter's scalar
+# fallback was gated only on a ladder having been SUCCESSFULLY parsed, so a
+# ladder the parser failed on fell straight through to it.
+#
+# Deliberately narrow. It fires only when BOTH are true: two or more distinct
+# fee-adjacent amounts, and stay-length conditioning. A single fee with a cap
+# ("$25 per night, max $75 per stay") has two amounts and no stay condition;
+# a flat fee on a page mentioning a 7-night minimum has a stay condition and
+# one amount. Neither is a ladder and neither is blocked.
+
+#: Wording that makes an amount conditional on how long the stay is.
+_STAY_CONDITION_RE = re.compile(
+    r"\bfor\s+(?:all\s+|any\s+)?longer(?:\s+stays?)?\b"
+    r"|\bthereafter\b"
+    r"|\bfor\s+stays?\s+beyond\s+that\b"
+    r"|\bup\s+to\s+\w+\s+(?:nights?|days?)\b"
+    r"|\bfor\s+the\s+first\s+\w+\s+(?:nights?|days?)\b"
+    r"|\bfor\s+stays?\s+of\s+\w+(?:\s+to\s+\w+)?\s+(?:nights?|days?)\b"
+    r"|\b\d+\s*(?:[-–—]|\s+to\s+)\s*\d+\s*(?:nights?|days?)\b"
+    r"|\b\d+\+\s*(?:nights?|days?|n)\b",
+    re.I)
+
+#: An amount that sits in money context, for counting distinct fees.
+_FEE_AMOUNT_RE = re.compile(
+    r"(?:\$\s*(\d[\d,]*(?:\.\d{2})?)|(\d[\d,]*(?:\.\d{2})?)\s*(?:USD|usd|dollars?))")
+
+
+def is_stay_conditional_multi_amount(block: str) -> bool:
+    """Two or more distinct fee amounts, at least one conditioned on stay length.
+
+    This is a ladder the scalar readers must not answer for -- whether or not
+    ``parse_fee_tiers`` succeeded in reading it.
+    """
+    text = block or ""
+    if not _STAY_CONDITION_RE.search(text):
+        return False
+    amounts = set()
+    for m in _FEE_AMOUNT_RE.finditer(text):
+        raw = (m.group(1) or m.group(2) or "").replace(",", "")
+        if raw:
+            amounts.add("%.2f" % float(raw))
+    return len(amounts) >= 2
+
+
 def extract_fee_with_basis(block: str) -> Optional[ProseFact]:
     """A pet fee stated in prose, carrying the basis the source gave it.
 
@@ -504,8 +560,13 @@ def extract_fee_with_basis(block: str) -> Optional[ProseFact]:
     take one without the other. A fee whose basis is unstated still returns --
     the amount is a fact -- but with an empty basis, which downstream renders
     as "Not stated" rather than as an invented "per night".
+
+    Returns None outright on a stay-conditional multi-amount sentence: that is
+    a ladder, and this reader is structurally unable to represent one.
     """
     text = block or ""
+    if is_stay_conditional_multi_amount(text):
+        return None
     # A cap is not a rate. Remove cap phrases before looking for the rate, or
     # "Max 75 USD per stay" is harvested as a 75-per-stay fee.
     for m in _PROSE_FEE.finditer(text):
@@ -521,7 +582,15 @@ def extract_fee_with_basis(block: str) -> Optional[ProseFact]:
 
 
 def extract_fee_cap(block: str) -> Optional[ProseFact]:
-    """A stated ceiling on the total, or None. Never inferred from a rate."""
+    """A stated ceiling on the total, or None. Never inferred from a rate.
+
+    Refuses a stay-conditional multi-amount sentence for the same reason
+    ``extract_fee_with_basis`` does, and for one more: on such a sentence the
+    "up to" that reads as a ceiling is usually bounding NIGHTS, not dollars
+    ("up to $25 ... for the first six nights" is a rate, not a $25 cap).
+    """
+    if is_stay_conditional_multi_amount(block):
+        return None
     m = _PROSE_CAP.search(block or "")
     if not m:
         return None

@@ -101,6 +101,118 @@ class TestValidTiers:
 
 
 # --------------------------------------------------------------------------- #
+# 1b. PTF-FEE-TIERS-005 -- the same ladder written in ordinary prose.
+#
+# Verbatim from the live Sonesta Simply Suites Dublin Columbus page. Neither
+# tier uses the compressed notation: the first gives only a spoken upper bound
+# and the second gives no number at all. Before this sprint the parser saw one
+# priced range and returned tier_single_only, so the fee could not publish.
+# --------------------------------------------------------------------------- #
+
+SONESTA = ("pets, with no breed or weight restrictions. Up to two pets are permitted "
+           "per suite. We apologize as cats are not permitted. $75 fee, per pet, "
+           "applies for stays up to 7 nights; $150 for all longer stays. Learn more "
+           "about our pet policy here .")
+
+
+class TestProseLadder:
+    def test_sonesta_ladder_parses(self):
+        terms, problems = parse_fee_tiers(SONESTA)
+        assert problems == []
+        assert [(t.amount, t.condition_min, t.condition_max) for t in terms] == [
+            ("75.00", 1, 7), ("150.00", 8, None)]
+
+    def test_open_tier_lower_bound_is_derived_from_the_stated_boundary(self):
+        """8 is not stated; 7 is. "Longer than 7 nights" is 8 or more, and the
+        quote carried on the open tier contains the 7 that licenses it."""
+        terms, _ = parse_fee_tiers(SONESTA)
+        assert terms[1].condition_min == 8 and terms[1].condition_max is None
+        assert "up to 7 nights" in terms[1].evidence_quote
+        assert "$150 for all longer stays" in terms[1].evidence_quote
+
+    def test_every_quote_is_verbatim_from_the_source(self):
+        terms, _ = parse_fee_tiers(SONESTA)
+        normalized = " ".join(SONESTA.split())
+        for t in terms:
+            assert t.evidence_quote in normalized
+
+    def test_basis_is_not_stated_by_this_wording(self):
+        """"per pet" is a SCOPE. It says nothing about per-night vs per-stay,
+        so no basis may be asserted from it."""
+        assert basis_is_stated(SONESTA) is False
+
+    @pytest.mark.parametrize("text,expected", [
+        ("$75 fee applies for stays up to 7 nights; $150 for all longer stays",
+         [("75.00", 1, 7), ("150.00", 8, None)]),
+        ("$75 for stays up to 7 nights, $150 for longer stays",
+         [("75.00", 1, 7), ("150.00", 8, None)]),
+        ("$75 applies up to 7 nights, thereafter $150",
+         [("75.00", 1, 7), ("150.00", 8, None)]),
+        ("$75 up to 7 nights; $150 for stays beyond that",
+         [("75.00", 1, 7), ("150.00", 8, None)]),
+        ("A fee of $40 applies for stays up to 3 days; $90 thereafter",
+         [("40.00", 1, 3), ("90.00", 4, None)]),
+    ])
+    def test_spoken_variants(self, text, expected):
+        terms, problems = parse_fee_tiers(text)
+        assert problems == []
+        assert [(t.amount, t.condition_min, t.condition_max) for t in terms] == expected
+
+    @pytest.mark.parametrize("text,slug", [
+        # An open tail with nothing bounding what precedes it cannot be placed.
+        ("A pet fee of $150 applies thereafter.",
+         "tier_open_tail_without_bounded_opener"),
+        # The open tier must FOLLOW the bounded one.
+        ("$150 thereafter; $75 fee applies for stays up to 7 nights",
+         "tier_prose_ladder_ambiguous"),
+    ])
+    def test_prose_ladder_fails_closed(self, text, slug):
+        terms, problems = parse_fee_tiers(text)
+        assert terms == ()
+        assert slug in problems
+
+    def test_new_slugs_are_declared(self):
+        from services.research_workers.fee_terms import TIER_PARSE_PROBLEMS
+        assert "tier_open_tail_without_bounded_opener" in TIER_PARSE_PROBLEMS
+        assert "tier_prose_ladder_ambiguous" in TIER_PARSE_PROBLEMS
+
+    def test_the_prose_path_never_re_reads_a_source_that_already_parses(self):
+        """Consulted only when the compressed notations formed no ladder, so
+        every already-published tiered hotel reads exactly as before."""
+        for text, expected in ((HAMPTON, [("75.00", 1, 4), ("125.00", 5, None)]),
+                               (NEW_ALBANY_PAYLOAD, [("50.00", 1, 4), ("75.00", 5, None)]),
+                               (NEW_ALBANY_RENDERED, [("50.00", 1, 4), ("75.00", 5, None)])):
+            terms, problems = parse_fee_tiers(text)
+            assert problems == []
+            assert [(t.amount, t.condition_min, t.condition_max) for t in terms] == expected
+
+    def test_a_single_spoken_tier_is_still_not_a_ladder(self):
+        """A bounded opener with no open tail is one conditional fee. The prose
+        path requires BOTH halves, so it declines and the caller keeps its
+        ordinary scalar handling."""
+        terms, problems = parse_fee_tiers("$75 fee applies for stays up to 7 nights.")
+        assert terms == ()
+        assert problems == ["tier_notation_unparseable"]
+
+    def test_renders_as_a_faithful_sentence(self):
+        tiers = _tiers(SONESTA)
+        assert _tiered_fee_sentence(tiers, SONESTA) == (
+            "A pet fee of $75 applies for stays of 1–7 nights, and $150 "
+            "applies for stays of 8 nights or more.")
+        assert tier_fee_range(tiers) == "$75–$150"
+
+    def test_detail_rows_and_basis_row(self):
+        rows, _plain, _note = _verified_details(
+            {"pets_allowed": "true", "fee_tiers": _tiers(SONESTA),
+             "species_allowed": "dogs", "pet_count_limit": "2"})
+        d = dict((label, value) for label, value, _c in rows)
+        assert d["Pet charge, 1–7 nights"] == "$75"
+        assert d["Pet charge, 8 nights or more"] == "$150"
+        assert "Tiered by stay length" in d["Charge basis"]
+        assert "does not state" in d["Charge basis"]
+
+
+# --------------------------------------------------------------------------- #
 # 2. Fails closed.
 # --------------------------------------------------------------------------- #
 
