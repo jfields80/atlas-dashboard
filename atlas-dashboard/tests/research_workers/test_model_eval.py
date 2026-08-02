@@ -1132,7 +1132,8 @@ _PROMPT_1_4_0_BENCH01_HASH = "sha256:8542730abe3c1d65a818b7f28158e744378bc791c96
 
 
 def test_prompt_version_bumped_and_hash_changed_deterministically():
-    assert PROMPT_VERSION == "1.6.0"
+    # 1.7.0 -- PTF-WORKERS negated-field hardening (prompt rules 13-15).
+    assert PROMPT_VERSION == "1.7.0"
     _id, cases = load_benchmark()
     bench01 = [c for c in cases if c.case_id == "01_rich_dogs_and_cats"]
     h1, h2 = ME.prompt_hash(bench01), ME.prompt_hash(bench01)

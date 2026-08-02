@@ -456,6 +456,15 @@ def _warning_reasons(result: WorkerResult) -> set:
                 reasons.add(UNSUPPORTED_INFERENCE)
             elif tail == "quote_not_verbatim":
                 reasons.add(EXACT_EVIDENCE_MISMATCH)
+            elif tail == "overclaim_against_explicit_negation":
+                # PTF-WORKERS. The source explicitly states this field is
+                # UNRESTRICTED and the model proposed a restriction anyway. That
+                # is a model-quality fault, not missing evidence: the fact IS
+                # extracted -- it is "there is no limit" -- so calling it an
+                # INCOMPLETE_EXTRACTION (which is never waivable) blocked
+                # properties for stating their policy more completely than most.
+                # The claim is still rejected and the value is never published.
+                reasons.add(VALIDATOR_WARNING)
             elif tail in ("non_boolean_value", "fee_basis_phrase_absent",
                           "number_not_in_quote", "deposit_word_absent",
                           "empty_value_or_quote"):

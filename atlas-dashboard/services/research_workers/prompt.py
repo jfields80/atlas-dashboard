@@ -73,7 +73,16 @@ from services.research_workers.proposal import RawFactClaim, RawFeeTerm
 #            makes fee_terms MANDATORY and forbids the scalar fee fields. Paired
 #            with a deterministic validator backstop, so the model is never the
 #            only protection against lossy flattening.
-PROMPT_VERSION = "1.6.0"
+#   1.7.0 -- PTF-WORKERS negated-field hardening: rules 13-15. Rule 13 makes
+#            "no restriction" and "not stated" different findings and forbids
+#            proposing a positive restriction for a field the source explicitly
+#            says is unrestricted; rule 14 forbids converting a COMBINED limit
+#            into a per-pet one (or the reverse); rule 15 requires a verbatim
+#            quote carrying the exact number for every proposed numeric
+#            restriction. Prompt-only change: no validator or routing rule is
+#            weakened by it, and the deterministic classification of such an
+#            overclaim is enforced independently in evidence_validator.
+PROMPT_VERSION = "1.7.0"
 
 # Closed vocabularies quoted in the prompt are DERIVED from the authoritative
 # constants in vocabulary.py -- never a second hand-typed list. sorted() keeps
@@ -202,7 +211,30 @@ _SYSTEM_PROMPT = (
     "deposit/cap amounts, fee_terms is REQUIRED and you MUST omit the scalar fee "
     "fields entirely. Finish with a fee-term completeness check: every stated "
     "amount, cap, deposit, and tier is represented; no duplicates; no overlapping "
-    "same-basis charges; deposits kept distinct from fees."
+    "same-basis charges; deposits kept distinct from fees.\n"
+    "13. \"NO RESTRICTION\" IS NOT \"NOT STATED\". These are different findings "
+    "and must never be swapped:\n"
+    "  - When the source explicitly says a restriction does NOT exist -- \"no "
+    "breed or weight restrictions\", \"no pet fee\", \"no limit on the number of "
+    "pets\", \"all breeds welcome\" -- that is a STATED fact. NEVER propose a "
+    "positive restriction for that field. Do not emit a weight_limit when the "
+    "source says there is no weight restriction, and do not emit a pet_fee when "
+    "the source says there is no fee. Where the field is a boolean, state the "
+    "negative (e.g. breed_restrictions = \"false\") with the negating sentence as "
+    "the quote; where the field is numeric, OMIT it entirely -- there is no "
+    "number to state.\n"
+    "  - When the source is simply SILENT about a field, omit that field. Do not "
+    "report silence as \"no restriction\": a policy the page never mentions is "
+    "unknown, not unlimited.\n"
+    "14. NEVER convert a COMBINED limit into a per-pet limit, or a per-pet limit "
+    "into a combined one. \"50 pounds each, 75 pounds combined\" states two "
+    "different things, and \"combined weight of 80 pounds\" is not an 80-pound "
+    "ceiling for one animal. If the source gives only a combined allowance, do "
+    "not emit a per-pet weight_limit.\n"
+    "15. Every numeric restriction you propose -- weight, count, fee, deposit, "
+    "cap -- MUST be supported by a quote containing that exact number in the "
+    "source's own words. If you cannot copy a verbatim span containing the "
+    "number, omit the field rather than approximating, rounding, or restating it."
 ) % {
     "boolean_fields": _BOOLEAN_FIELDS_TEXT,
     "fee_basis_values": _FEE_BASIS_TEXT,

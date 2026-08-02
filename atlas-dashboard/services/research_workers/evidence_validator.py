@@ -127,6 +127,95 @@ def _fee_basis_supported(value: str, quote: str) -> bool:
     return any(good in ql for good in required)
 
 
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS -- fields the SOURCE explicitly says are unrestricted.
+#
+# "No breed or weight restrictions" is not a gap in the evidence. It is the
+# evidence: the property is telling a guest there is no ceiling. When a model
+# then proposes a weight limit anyway, the validator rightly rejects it -- but
+# the rejection was mapped to INCOMPLETE_EXTRACTION, which reads "we failed to
+# extract a fact that exists" and is never waivable. So a property that stated
+# its policy MORE completely than most was blocked for it.
+#
+# This distinguishes the two. A rejected positive claim about a field the
+# source explicitly NEGATES is a model overclaim -- a model-quality problem,
+# not missing evidence. The claim is still rejected and the positive value is
+# still never published; only the classification changes.
+#
+# Deliberately narrow. It requires the source to negate THAT field in words.
+# A field the source merely omits is untouched, and so is a field whose real
+# stated number the model simply got wrong.
+# --------------------------------------------------------------------------- #
+
+#: Explicit negations, per field. Each requires a negating word bound to the
+#: thing negated -- never a bare "no" and never mere absence.
+_NEGATION_PATTERNS: Dict[str, Tuple[str, ...]] = {
+    V.FIELD_WEIGHT_LIMIT: (
+        r"no\s+(?:\w+\s+){0,3}?weight(?:\s+\w+){0,3}?\s+(?:restrictions?|limits?|requirements?|maximums?)",
+        r"without\s+(?:\w+\s+){0,3}?weight(?:\s+\w+){0,3}?\s+(?:restrictions?|limits?)",
+        r"weight\s+(?:restrictions?|limits?)\s*:?\s*(?:none|n/?a)\b",
+        r"(?:any|all)\s+(?:size|weight)s?\s+(?:are\s+)?welcome",
+    ),
+    V.FIELD_BREED_RESTRICTIONS: (
+        # The noun may be shared across a coordinated pair -- "no breed or
+        # weight restrictions" negates BOTH, so words are allowed on either
+        # side of the keyword, not only before it.
+        r"no\s+(?:\w+\s+){0,3}?breed(?:\s+\w+){0,3}?\s+(?:restrictions?|limits?|requirements?)",
+        r"without\s+(?:\w+\s+){0,3}?breed(?:\s+\w+){0,3}?\s+(?:restrictions?|limits?)",
+        r"breed\s+(?:restrictions?|limits?)\s*:?\s*(?:none|n/?a)\b",
+        r"(?:all|any)\s+breeds?\s+(?:are\s+)?(?:welcome|accepted|permitted)",
+    ),
+    V.FIELD_PET_FEE: (
+        r"no\s+(?:\w+\s+){0,3}?pet\s+fees?\b",
+        r"no\s+(?:additional|extra|added)\s+(?:pet\s+)?(?:fee|charge|cost)s?\b",
+        r"pets?\s+stays?\s+free\b",
+        r"(?:at\s+)?no\s+(?:additional\s+)?(?:charge|cost)\b",
+        r"free\s+of\s+charge\b",
+        r"pet\s+fees?\s*:?\s*(?:none|n/?a|\$?0(?:\.00)?)\b",
+    ),
+    V.FIELD_MAXIMUM_PETS: (
+        r"no\s+limit\s+(?:on|to)\s+(?:the\s+)?number\s+of\s+pets\b",
+        r"no\s+(?:\w+\s+){0,3}?(?:maximum|limit)\s+(?:on\s+)?pets?\b",
+        r"unlimited\s+pets\b",
+    ),
+}
+_NEGATION_RE: Dict[str, Tuple] = {
+    f: tuple(re.compile(p, re.I) for p in pats) for f, pats in _NEGATION_PATTERNS.items()
+}
+
+#: The rejection slug used when a model overclaims a field the source negates.
+#: Distinct so routing can classify it without re-reading the source.
+OVERCLAIM_AGAINST_NEGATION = "overclaim_against_explicit_negation"
+
+
+def _is_positive_restriction(field_name: str, value: str) -> bool:
+    """Does this proposed value ASSERT a restriction (rather than deny one)?
+
+    Only an asserted restriction can be an overclaim against a negation. A model
+    that agrees with the source -- "breed_restrictions: false" -- is not
+    overclaiming, and a zero or empty value asserts nothing.
+    """
+    v = (value or "").strip().lower()
+    if not v:
+        return False
+    if field_name in V.BOOLEAN_FIELDS:
+        return v == "true"
+    if re.fullmatch(r"\$?0*(?:\.0+)?", v.replace(",", "")):
+        return False                       # "0", "$0.00" -- no restriction asserted
+    return bool(re.search(r"\d", v))       # a number is the restriction
+
+
+def explicitly_negated_fields(text: str) -> frozenset:
+    """The policy fields this source states are UNRESTRICTED, in words.
+
+    Absence is never negation: a source that simply does not mention weight
+    returns nothing here, and its fields keep the ordinary fail-closed rules.
+    """
+    t = text or ""
+    return frozenset(f for f, pats in _NEGATION_RE.items()
+                     if any(p.search(t) for p in pats))
+
+
 def _field_claim_valid(field_name: str, value: str, quote: str) -> Tuple[bool, str]:
     """Field-specific deterministic checks. Returns (ok, warning_slug)."""
     if not value or not quote:
@@ -203,6 +292,10 @@ def validate_proposal(
     selected = usable[0]                     # highest rank, deterministic (rule 5)
 
     warnings: List[str] = []
+    # Fields these official sources state are UNRESTRICTED, in words. Computed
+    # once from the evidence, never from the model's claims.
+    negated_fields = explicitly_negated_fields(
+        " ".join(d.content_text or "" for d in usable))
     valid_by_field: Dict[str, List[_ValidClaim]] = {}
     for claim in proposal.claims:
         f = claim.field_name
@@ -218,7 +311,16 @@ def validate_proposal(
             continue
         ok, why = _field_claim_valid(f, claim.value, claim.evidence_quote)
         if not ok:                            # rules 1/7/8/9/10/11/12
-            warnings.append("rejected_%s:%s" % (f, why))
+            # PTF-WORKERS. The claim is rejected either way; only its
+            # CLASSIFICATION changes. A positive restriction proposed for a
+            # field this source explicitly says is unrestricted is a model
+            # overclaim, not evidence we failed to extract -- and mapping it to
+            # INCOMPLETE_EXTRACTION blocked properties for stating their policy
+            # more completely than most.
+            if f in negated_fields and _is_positive_restriction(f, claim.value):
+                warnings.append("rejected_%s:%s" % (f, OVERCLAIM_AGAINST_NEGATION))
+            else:
+                warnings.append("rejected_%s:%s" % (f, why))
             continue
         valid_by_field.setdefault(f, []).append(
             _ValidClaim(claim.value, claim.evidence_quote, doc.source_url,

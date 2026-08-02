@@ -401,7 +401,10 @@ def test_offline_replay_zero_network_and_classification(tmp_path):
 
 
 def test_contract_versions():
-    assert PROMPT_VERSION == "1.6.0" and VALIDATOR_VERSION == "1.5.0"
+    # 1.7.0 -- PTF-WORKERS negated-field prompt hardening. The VALIDATOR
+    # version is unchanged: no validation RULE moved, only the classification
+    # of one already-rejected claim.
+    assert PROMPT_VERSION == "1.7.0" and VALIDATOR_VERSION == "1.5.0"
     assert V.FEE_POLICY_VERSION == "1.0.0"
     assert RT.ROUTING_VERSION == "1.2.0"
     assert RT.DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED in RT.REVIEW_REASONS
