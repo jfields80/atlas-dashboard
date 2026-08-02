@@ -227,6 +227,15 @@ NEGATED_FIELD_SENTINEL = "negated_field_sent_as_numeric_sentinel"
 #: Rejection slug for a claim the source says nothing about.
 UNSUPPORTED_MODEL_CLAIM = "unsupported_model_claim"
 
+#: Warnings are colon-delimited, so a value carrying a colon would corrupt the
+#: record it is meant to preserve. Bounded and flattened rather than dropped:
+#: an approver needs to see WHAT was claimed.
+_WARNING_VALUE_CAP = 60
+
+
+def _warning_safe(value: str) -> str:
+    return re.sub(r"[:\s]+", " ", (value or "").strip())[:_WARNING_VALUE_CAP] or "(empty)"
+
 #: ONLY these rejections are ambiguous between "the model invented it" and "the
 #: model mangled a real stated fact" -- they are exactly the ones routing maps
 #: to INCOMPLETE_EXTRACTION. Every other rejection already names its fault
@@ -237,6 +246,22 @@ _INCOMPLETE_MAPPED_REJECTIONS = frozenset({
     "non_boolean_value", "fee_basis_phrase_absent", "number_not_in_quote",
     "deposit_word_absent", "empty_value_or_quote",
 })
+
+#: Rule 11 rejects a generic-to-specific species inference -- "pets welcome"
+#: never establishes DOGS, in either direction. That rule is untouched and the
+#: claim is always rejected. But the rejection means two different things
+#: depending on the source:
+#:
+#:   the source never names the species -> the model invented it, and the
+#:       airlock caught it; the sanitized record says "not stated", which is
+#:       exactly what the page says
+#:   the source DOES name it ("dogs are not permitted") -> the model contradicted
+#:       or mangled a real statement, which is a far more serious fault and
+#:       keeps UNSUPPORTED_INFERENCE
+#:
+#: Kept separate from the set above because the discriminator is the same but
+#: the rule being enforced is not.
+_SPECIES_SILENCE_REJECTIONS = frozenset({"species_not_in_quote"})
 
 
 def is_absence_sentinel(value: str) -> bool:
@@ -407,13 +432,23 @@ def validate_proposal(
             # more completely than most.
             if f in negated_fields and _is_positive_restriction(f, claim.value):
                 warnings.append("rejected_%s:%s" % (f, OVERCLAIM_AGAINST_NEGATION))
-            elif why in _INCOMPLETE_MAPPED_REJECTIONS and f not in source_stated_fields:
+            elif ((why in _INCOMPLETE_MAPPED_REJECTIONS
+                   or why in _SPECIES_SILENCE_REJECTIONS)
+                  and f not in source_stated_fields):
                 # The source says nothing about this field, so there was no
                 # fact here to extract. The model invented one and the
                 # validator caught it -- a model-quality fault, not a gap in
                 # our extraction. The claim is still rejected and its value is
                 # still never published.
-                warnings.append("rejected_%s:%s" % (f, UNSUPPORTED_MODEL_CLAIM))
+                #
+                # The classification leads so routing can read it, but the RULE
+                # that rejected the claim and the VALUE that was refused both
+                # travel with it. An approver acknowledging this diagnostic
+                # needs to see what was claimed and which gate caught it, not
+                # merely that something was discarded.
+                warnings.append("rejected_%s:%s:%s:value=%s"
+                                % (f, UNSUPPORTED_MODEL_CLAIM, why,
+                                   _warning_safe(claim.value)))
             else:
                 # The source DOES state this field. A rejection here means a
                 # real stated fact was missed or mangled -- genuinely

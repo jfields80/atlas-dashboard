@@ -183,6 +183,13 @@ _FIELD_MENTION = (
         r"pet\s+fee|non-?refundable\s+fee|pet\s+charge", re.I)),
     (V.FIELD_REFUNDABLE_DEPOSIT, re.compile(r"deposit", re.I)),
     (V.FIELD_BREED_RESTRICTIONS, re.compile(r"breed", re.I)),
+    # A species word ANYWHERE means the source speaks to that species -- whether
+    # it welcomes, limits or forbids it. Naming the species is the whole
+    # question here, never the stance: a page saying "dogs are not permitted"
+    # and one saying "dogs welcome" both make a dogs claim reviewable against a
+    # real statement rather than an invention.
+    (V.FIELD_DOGS_ACCEPTED, re.compile(r"\bdogs?\b|\bcanines?\b|\bpupp(?:y|ies)\b", re.I)),
+    (V.FIELD_CATS_ACCEPTED, re.compile(r"\bcats?\b|\bfelines?\b|\bkittens?\b", re.I)),
 )
 
 

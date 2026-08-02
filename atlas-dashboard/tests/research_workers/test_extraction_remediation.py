@@ -80,7 +80,8 @@ def test_bare_plural_count_rejected_end_to_end():
     u = asg.source_documents[0].source_url
     r = validate_proposal(asg, _claims(("maximum_pets", "2", "pets are welcome at our hotel", u)))
     assert "maximum_pets" not in _supported(r)
-    assert "rejected_maximum_pets:unsupported_model_claim" in r.warnings
+    assert any(w.startswith("rejected_maximum_pets:unsupported_model_claim")
+               and "number_not_in_quote" in w for w in r.warnings)
 
 
 # --------------------------------------------------------------------------- #

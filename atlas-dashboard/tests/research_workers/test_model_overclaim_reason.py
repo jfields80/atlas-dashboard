@@ -92,8 +92,9 @@ class TestRequiredCases:
             (V.FIELD_PETS_ALLOWED, "true", "Up to two well-mannered dogs per suite", URL),
             (V.FIELD_FEE_BASIS, "per_night", "$75 fee per pet for stays up to 7 nights", URL),
         ))
-        assert ("rejected_%s:%s" % (V.FIELD_FEE_BASIS, UNSUPPORTED_MODEL_CLAIM)
-                in res.warnings)
+        w = next(w for w in res.warnings if w.startswith("rejected_%s:" % V.FIELD_FEE_BASIS))
+        assert w.split(":")[1] == UNSUPPORTED_MODEL_CLAIM
+        assert "fee_basis_phrase_absent" in w              # the rule that fired is kept
         assert RT.MODEL_OVERCLAIM in env.reason_codes
         assert RT.INCOMPLETE_EXTRACTION not in env.reason_codes
         assert _supported(res, V.FIELD_FEE_BASIS) is None       # never published
@@ -135,8 +136,9 @@ class TestRequiredCases:
             (V.FIELD_PETS_ALLOWED, "true", "Pets are welcome at this property", URL),
             (V.FIELD_WEIGHT_LIMIT, "50", "Pets are welcome at this property", URL),
         ))
-        assert ("rejected_%s:%s" % (V.FIELD_WEIGHT_LIMIT, UNSUPPORTED_MODEL_CLAIM)
-                in res.warnings)
+        w = next(w for w in res.warnings if w.startswith("rejected_%s:" % V.FIELD_WEIGHT_LIMIT))
+        assert w.split(":")[1] == UNSUPPORTED_MODEL_CLAIM
+        assert "value=50" in w                             # the refused value is kept
         assert RT.MODEL_OVERCLAIM in env.reason_codes
         assert RT.INCOMPLETE_EXTRACTION not in env.reason_codes
         assert _supported(res, V.FIELD_WEIGHT_LIMIT) is None

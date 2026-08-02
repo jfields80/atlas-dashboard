@@ -148,13 +148,49 @@ def test_evidence_mismatch_withheld():
 
 
 def test_unsupported_inference_withheld():
+    """Rule 11 still refuses the claim and nothing publishes.
+
+    PTF-WORKERS refined the REASON: this source never names a dog, so the
+    rejection is an invention the airlock caught (MODEL_OVERCLAIM) rather than
+    a stated fact we mangled. The record is still withheld, and with nothing
+    left to publish it is still INCOMPLETE_EXTRACTION as well.
+    """
     case = _cases()["05_sparse_official"]
     generic = "The property identifies itself as pet-friendly."
     prop = ModelProposal(claims=(RawFactClaim("dogs_accepted", "true", generic, _url(case)),),
                          ok=True, structured_output_valid=True, provider="fake", model="m")
     res = validate_proposal(case.assignment, prop)          # species word absent -> rejected
     env = R.route_result(case.assignment, res, prop)
-    assert env.route == R.ROUTE_REVIEW and R.UNSUPPORTED_INFERENCE in env.reason_codes
+    assert env.route == R.ROUTE_REVIEW
+    assert R.MODEL_OVERCLAIM in env.reason_codes
+    assert R.INCOMPLETE_EXTRACTION in env.reason_codes      # nothing publishable survives
+    assert not [f for f in res.proposed_facts
+                if f.field_name == "dogs_accepted" and f.state == V.SUPPORTED]
+
+
+def test_unsupported_inference_remains_for_a_named_species():
+    """The UNSUPPORTED_INFERENCE gate is untouched where it belongs: a source
+    that NAMES the species is one the model mangled, not one it invented."""
+    case = _cases()["05_sparse_official"]
+    doc = case.assignment.source_documents[0]
+    named = SourceDocument(doc.source_url, doc.source_type, doc.retrieved_at, doc.title,
+                           doc.content_text + " Dogs are not permitted at this property.",
+                           content_hash(doc.content_text + " x"), doc.retrieval_status)
+    asg = Assignment(case.assignment.assignment_id, case.assignment.market_slug,
+                     case.assignment.listing_key, case.assignment.listing_name,
+                     case.assignment.address, case.assignment.official_website,
+                     case.assignment.allowed_source_urls, (named,),
+                     case.assignment.requested_fields, case.assignment.created_by)
+    prop = ModelProposal(
+        claims=(RawFactClaim("pets_allowed", "true",
+                             "The property identifies itself as pet-friendly.", doc.source_url),
+                RawFactClaim("dogs_accepted", "true",
+                             "The property identifies itself as pet-friendly.", doc.source_url)),
+        ok=True, structured_output_valid=True, provider="fake", model="m")
+    res = validate_proposal(asg, prop)
+    env = R.route_result(asg, res, prop)
+    assert R.UNSUPPORTED_INFERENCE in env.reason_codes
+    assert R.MODEL_OVERCLAIM not in env.reason_codes
 
 
 def test_incomplete_extraction_withheld():

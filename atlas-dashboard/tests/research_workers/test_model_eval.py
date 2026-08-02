@@ -1291,8 +1291,12 @@ def test_unsupported_parent_and_species_fields_still_not_inferred():
     result2 = validate_proposal(case2.assignment, prop2)
     supported2 = {f.field_name: f.value for f in result2.proposed_facts if f.state == V.SUPPORTED}
     assert supported2 == {"pets_allowed": "true"}
-    assert "rejected_dogs_accepted:species_not_in_quote" in result2.warnings
-    assert "rejected_cats_accepted:species_not_in_quote" in result2.warnings
+    # PTF-WORKERS: the rejection now leads with its CLASSIFICATION and carries
+    # the rule that fired plus the refused value. Rule 11 is unchanged -- only
+    # the record of it is richer.
+    for field in ("dogs_accepted", "cats_accepted"):
+        assert any(w.startswith("rejected_%s:" % field) and "species_not_in_quote" in w
+                   for w in result2.warnings), field
     sc2 = score_case(case2, result2, prop2)
     assert sc2["forbidden_inference_count"] == 0           # the inference never validated
     assert sc2["species_inference_error"] == 0
@@ -1392,8 +1396,9 @@ def test_generic_no_pets_quote_cannot_support_species_negatives():
     result = validate_proposal(case.assignment, prop)
     supported = {f.field_name: f.value for f in result.proposed_facts if f.state == V.SUPPORTED}
     assert supported == {"pets_allowed": "false"}          # only the parent survives
-    assert "rejected_dogs_accepted:species_not_in_quote" in result.warnings
-    assert "rejected_cats_accepted:species_not_in_quote" in result.warnings
+    for field in ("dogs_accepted", "cats_accepted"):
+        assert any(w.startswith("rejected_%s:" % field) and "species_not_in_quote" in w
+                   for w in result.warnings), field
     assert result.status == V.STATUS_NEEDS_REVIEW          # over-claim flagged, never published
     sc = score_case(case, result, prop)
     assert sc["forbidden_inference_count"] == 0            # no bad species fact published
@@ -1517,7 +1522,8 @@ def test_service_animal_language_does_not_determine_species_acceptance():
     assert supported.get("pets_allowed") == "false"
     assert supported.get("service_animal_note") == "with the exception of service animals"
     assert "dogs_accepted" not in supported               # service-animal quote names no dog
-    assert "rejected_dogs_accepted:species_not_in_quote" in result.warnings
+    assert any(w.startswith("rejected_dogs_accepted:") and "species_not_in_quote" in w
+               for w in result.warnings)
 
 
 def test_prompt_hardens_untrusted_data_and_forbids_species_inference():

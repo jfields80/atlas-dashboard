@@ -494,6 +494,11 @@ def _warning_reasons(result: WorkerResult) -> set:
         if w.startswith(_DIAGNOSTIC_WARNING_PREFIXES):
             continue                              # diagnostic-only companion warning
         tail = w.split(":", 1)[1] if ":" in w else ""
+        # A rejection may carry provenance after its classification --
+        # "unsupported_model_claim:species_not_in_quote:value=true" records the
+        # rule that fired and what was refused. The classification leads, so
+        # read that; the remainder is for a human, not for routing.
+        tail = tail.split(":", 1)[0]
         if w.startswith("rejected_"):
             if tail == "multi_term_fee_unrepresented":
                 reasons.add(STRUCTURED_FEE_REQUIRED)
