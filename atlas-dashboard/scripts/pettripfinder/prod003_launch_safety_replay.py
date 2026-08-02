@@ -51,7 +51,9 @@ from services.research_workers import routing as RT
 from services.research_workers import vocabulary as V
 from services.research_workers.contracts import Assignment, WorkerResult
 from services.research_workers.evidence_validator import validate_proposal
-from services.research_workers.fee_terms import detect_multiple_fee_amounts
+from services.research_workers.fee_terms import (
+    detect_multiple_fee_amounts, source_stay_length_ladder,
+)
 from services.research_workers.model_eval import VALIDATOR_VERSION
 from services.research_workers.proposal import ModelProposal, RawFactClaim
 
@@ -146,7 +148,15 @@ def classify_record(assignment: Assignment, v2_result: WorkerResult, *,
     # maps to STRUCTURED_FEE_REQUIRED. A CONTRADICTORY status short-circuits in
     # routing._decide (routing.py:446) to CONTRADICTORY_OFFICIAL_SOURCES only, so it
     # is never augmented; COMPLETED records run the real backstop via reconstruction.
-    if v2_result.status == V.STATUS_NEEDS_REVIEW and multi_amount:
+    #
+    # PTF-FEE-TIERS-005A narrows that premise. It holds only while the ladder is
+    # UNREPRESENTED. When the source states a ladder the parser reads completely,
+    # a full re-validation now produces a structured fee_policy and NO
+    # multi_term_fee_unrepresented warning -- so augmenting would assert a
+    # blocker the real validator does not raise. The predicate is the same
+    # brand-neutral reader the validator uses, so the two can never disagree.
+    if (v2_result.status == V.STATUS_NEEDS_REVIEW and multi_amount
+            and not source_stay_length_ladder(usable)):
         reasons.add(RT.STRUCTURED_FEE_REQUIRED)
         rederivation_method += "+backstop_augmented"
     reason_codes = sorted(reasons)

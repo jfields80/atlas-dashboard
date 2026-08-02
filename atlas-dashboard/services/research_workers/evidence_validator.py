@@ -44,7 +44,10 @@ from services.research_workers.contracts import (
 )
 from services.research_workers.proposal import ModelProposal, RawFactClaim
 from services.research_workers.reconciliation import detect_field_contradictions
-from services.research_workers.fee_terms import build_fee_policy, detect_multiple_fee_amounts
+from services.research_workers.fee_terms import (
+    build_fee_policy, canonical_amount, detect_multiple_fee_amounts,
+    reconcile_fee_terms, source_stay_length_ladder,
+)
 
 
 # fee_basis -> (required phrases, forbidden phrases). Forbidden phrases keep a
@@ -223,6 +226,24 @@ def validate_proposal(
 
     facts: List[ProposedField] = []
     contradictions: List[str] = []
+
+    # PTF-FEE-TIERS-005A. Read the stay-length ladder the SOURCE states, before
+    # its several amounts are classified. A ladder necessarily names more than
+    # one amount, and the disagreement rule below cannot tell "the source says
+    # two different things" from "the source says $75 for a short stay and $150
+    # for a long one" -- so a property stating its tiers perfectly clearly was
+    # routed CONTRADICTORY for being clear about them.
+    #
+    # This never invents a reading: the parser returns a complete ladder or
+    # nothing, two sources that disagree return nothing, and nothing here
+    # touches any field the ladder does not account for.
+    source_ladder = source_stay_length_ladder(usable)
+    _ladder_amounts = {t.amount for t in source_ladder}
+    # The scalar fee fields a ladder SUBSUMES. A ladder speaks for the fee and
+    # its basis; it says nothing about a deposit, a weight limit or a species,
+    # so those keep the ordinary rules in full.
+    _LADDER_FIELDS = {V.FIELD_PET_FEE, V.FIELD_FEE_CURRENCY, V.FIELD_FEE_BASIS}
+
     field_names = list(requested) + [f for f in valid_by_field if f not in requested]
     seen = set()
     for f in field_names:
@@ -237,6 +258,17 @@ def validate_proposal(
         top = [c for c in claims if c.rank == top_rank]
         top_values = {c.value for c in top}
         if len(top_values) > 1:
+            # A ladder ACCOUNTS for these values: every side of the apparent
+            # disagreement is one of its tier amounts, read deterministically
+            # from the same source. That is not two claims about one price, it
+            # is one price schedule -- so no contradiction is recorded and the
+            # scalar field is withheld in favour of the structured ladder.
+            # Anything the ladder does not account for still contradicts.
+            if (f in _LADDER_FIELDS and source_ladder
+                    and {canonical_amount(v) for v in top_values} <= _ladder_amounts):
+                facts.append(ProposedField(f, V.NOT_STATED))
+                warnings.append("stay_length_ladder_supersedes_scalar:" + f)
+                continue
             # Two same-rank (e.g. property-specific) sources disagree -> genuine
             # contradiction (rule 13). Never silently pick one.
             contradictions.append("%s: %s" % (f, " vs ".join(sorted(top_values))))
@@ -303,6 +335,27 @@ def validate_proposal(
             _scalar_fee = {V.FIELD_PET_FEE, V.FIELD_FEE_CURRENCY, V.FIELD_FEE_BASIS}
             facts = [ProposedField(f.field_name, V.NOT_STATED) if f.field_name in _scalar_fee else f
                      for f in facts]
+
+    # PTF-FEE-TIERS-005A. The model proposed no usable structured policy, but
+    # the SOURCE states a complete ladder. Deterministically parsed tiers are
+    # strictly better evidence than a model proposal -- the parser cannot
+    # paraphrase, and it yields a whole ladder or none -- so they become the
+    # structured policy, and the scalar fee fields they supersede are withheld.
+    #
+    # This is the opposite of a weakening. The backstop below exists to stop a
+    # ladder being published as one misleading number; representing the ladder
+    # exactly is what it was always asking for.
+    if fee_policy is None and source_ladder:
+        fee_policy, _ladder_contradictions = reconcile_fee_terms(source_ladder)
+        if _ladder_contradictions:
+            # A ladder that cannot reconcile with itself is not a ladder.
+            fee_policy = None
+        else:
+            _scalar_fee = {V.FIELD_PET_FEE, V.FIELD_FEE_CURRENCY, V.FIELD_FEE_BASIS}
+            facts = [ProposedField(f.field_name, V.NOT_STATED) if f.field_name in _scalar_fee else f
+                     for f in facts]
+            warnings.append("stay_length_ladder_read_from_source:"
+                            + ",".join(t.amount for t in source_ladder))
 
     # Fail-closed backstop (ATLAS-WORKERS-006 Stage-D safety remediation): the
     # model must never be the only protection against lossy flattening. If the

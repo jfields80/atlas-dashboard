@@ -549,6 +549,63 @@ def detect_multiple_fee_amounts(docs: Sequence[SourceDocument]) -> Tuple[bool, l
     return (len(amounts) >= 2, sorted(amounts))
 
 
+# --------------------------------------------------------------------------- #
+# PTF-FEE-TIERS-005A -- read the ladder the SOURCE states, before its several
+# amounts are mistaken for disagreement.
+#
+# ``detect_multiple_fee_amounts`` answers "does this evidence state more than
+# one pet-fee amount?", and a ladder always does. That question is the right
+# backstop against a model FLATTENING a ladder, but it cannot tell a ladder
+# from a contradiction, so a source that states its tiers perfectly clearly was
+# routed as though it disagreed with itself.
+#
+# This reads the tiers deterministically from the source text. It is strictly
+# stronger evidence than the model's proposal -- the parser cannot paraphrase --
+# and it either produces a COMPLETE ladder or nothing at all. Brand-neutral and
+# notation-driven, like every other path in this module.
+# --------------------------------------------------------------------------- #
+
+def source_stay_length_ladder(
+        docs: Sequence[SourceDocument]) -> Tuple[PetFeeTerm, ...]:
+    """The one unambiguous stay-length ladder these official sources state.
+
+    Returns ``()`` unless exactly one reading emerges. Specifically:
+
+      * only usable official documents are read;
+      * a document whose text yields any parse PROBLEM contributes nothing --
+        the total-failure rule of ``parse_fee_tiers`` is preserved end to end;
+      * if two documents yield ladders that disagree, that is a real conflict
+        between sources and this reports no ladder, leaving the existing
+        contradiction machinery to handle it.
+
+    A ladder is returned only when it is also internally sound: contiguous,
+    non-overlapping, and open-ended in its final tier -- the same shape the
+    published package already carries.
+    """
+    readings: Dict[Tuple, Tuple[PetFeeTerm, ...]] = {}
+    for d in docs:
+        if not getattr(d, "is_usable_official", False):
+            continue
+        terms, problems = parse_fee_tiers(
+            d.content_text, source_url=d.source_url, source_type=d.source_type)
+        if problems or len(terms) < 2:
+            continue
+        key = tuple((t.amount, t.condition_min, t.condition_max, t.boundary_unit)
+                    for t in terms)
+        readings[key] = terms
+    if len(readings) != 1:
+        return ()                       # nothing, or two sources that disagree
+    terms = next(iter(readings.values()))
+
+    ordered = sorted(terms, key=lambda t: (t.condition_min or 0))
+    for a, b in zip(ordered, ordered[1:]):
+        if a.condition_max is None or b.condition_min != a.condition_max + 1:
+            return ()                   # a gap or an early open tier is not a ladder
+    if ordered[-1].condition_max is not None:
+        return ()                       # a ladder's last tier must be open-ended
+    return tuple(ordered)
+
+
 def build_fee_policy(raw_terms: Sequence[RawFeeTerm],
                      doc_by_url: Dict[str, SourceDocument]) -> Tuple[Optional[PetFeePolicy], List[str], List[str]]:
     """Validate then reconcile the model's untrusted fee terms.
