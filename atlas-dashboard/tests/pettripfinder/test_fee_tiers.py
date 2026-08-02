@@ -195,9 +195,11 @@ class TestProseLadder:
         assert problems == ["tier_notation_unparseable"]
 
     def test_renders_as_a_faithful_sentence(self):
+        """PTF-SONESTA: the source states "per pet" on the first tier and elides
+        it on the second, so the sentence shows it exactly where it is stated."""
         tiers = _tiers(SONESTA)
         assert _tiered_fee_sentence(tiers, SONESTA) == (
-            "A pet fee of $75 applies for stays of 1–7 nights, and $150 "
+            "A pet fee of $75 per pet applies for stays of 1–7 nights, and $150 "
             "applies for stays of 8 nights or more.")
         assert tier_fee_range(tiers) == "$75–$150"
 
@@ -206,7 +208,9 @@ class TestProseLadder:
             {"pets_allowed": "true", "fee_tiers": _tiers(SONESTA),
              "species_allowed": "dogs", "pet_count_limit": "2"})
         d = dict((label, value) for label, value, _c in rows)
-        assert d["Pet charge, 1–7 nights"] == "$75"
+        # The stated scope travels with the amount it qualifies; the elided one
+        # is not invented for the second tier.
+        assert d["Pet charge, 1–7 nights"] == "$75 per pet"
         assert d["Pet charge, 8 nights or more"] == "$150"
         assert "Tiered by stay length" in d["Charge basis"]
         assert "does not state" in d["Charge basis"]

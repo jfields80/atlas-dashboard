@@ -348,6 +348,17 @@ def _tier_amount(t: Dict) -> str:
     return _prose_number("$%s" % t.get("amount", ""))
 
 
+def _tier_scope_phrase(t: Dict) -> str:
+    """" per pet" when the source states that scope for THIS tier, else "".
+
+    A per-pet charge and a per-room charge are the same number and different
+    policies: a second dog doubles one and not the other. Shown only where the
+    source states it -- a tier whose scope is unstated says nothing, exactly as
+    before, so no existing profile changes.
+    """
+    return " per pet" if t.get("scope") == "per_pet" else ""
+
+
 def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     """A source-faithful sentence for a stay-length fee ladder.
 
@@ -360,10 +371,12 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
         return ""
     nonref = "non-refundable " if _NONREFUNDABLE_RE.search(evidence or "") else ""
     first, rest = tiers[0], tiers[1:]
-    s = "A %spet fee of %s applies for %s" % (
-        nonref, _tier_amount(first), _tier_range_phrase(first))
+    s = "A %spet fee of %s%s applies for %s" % (
+        nonref, _tier_amount(first), _tier_scope_phrase(first),
+        _tier_range_phrase(first))
     for t in rest:
-        s += ", and %s applies for %s" % (_tier_amount(t), _tier_range_phrase(t))
+        s += ", and %s%s applies for %s" % (
+            _tier_amount(t), _tier_scope_phrase(t), _tier_range_phrase(t))
     return s + "."
 
 
@@ -510,7 +523,7 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         ("Accepted species", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("species_allowed"))),
         ("Maximum pets", *(lambda v: (v + " per room", "") if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
         *(tuple(("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
-                 _tier_amount(t), "")
+                 _tier_amount(t) + _tier_scope_phrase(t), "")
                 for t in (f.get("fee_tiers") or []))
           or ((("Pet charge", fee_withheld_notice(f), "dim"),)
               if (f.get("fee_conflict") or f.get("fee_withheld"))

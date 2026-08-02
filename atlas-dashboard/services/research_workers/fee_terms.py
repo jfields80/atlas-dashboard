@@ -250,6 +250,30 @@ _PROSE_TAIL_BEFORE_RE = re.compile(
 _PROSE_UNIT = {"night": V.BOUNDARY_UNIT_NIGHTS, "nights": V.BOUNDARY_UNIT_NIGHTS,
                "day": V.BOUNDARY_UNIT_DAYS, "days": V.BOUNDARY_UNIT_DAYS}
 
+#: An explicit per-pet scope: the charge applies to each animal, so a second pet
+#: doubles it. Read per TIER, from that tier's OWN span -- never from a
+#: neighbouring clause, because scope elided by grammar is not scope stated.
+_SCOPE_PER_PET_RE = re.compile(r"per\s+(?:pet|animal)\b|each\s+(?:pet|animal)\b", re.I)
+#: A scope stated about the ROOM or the whole stay is not a per-pet scope, and a
+#: span carrying both is ambiguous rather than per-pet.
+_SCOPE_NOT_PER_PET_RE = re.compile(r"per\s+room\b|per\s+party\b|per\s+reservation\b", re.I)
+
+
+def _prose_tier_scope(span: str) -> str:
+    """The scope this tier's own wording states, or UNSTATED.
+
+    Deliberately blind to the rest of the sentence. "$75 fee, per pet, applies
+    for stays up to 7 nights; $150 for all longer stays" states a scope for the
+    first tier and elides it for the second. Ellipsis is how English avoids
+    repetition, not a statement -- and this module's rule is that a scope the
+    source does not state is never inferred.
+    """
+    if _SCOPE_NOT_PER_PET_RE.search(span or ""):
+        return V.FEE_SCOPE_UNSTATED
+    if _SCOPE_PER_PET_RE.search(span or ""):
+        return V.FEE_SCOPE_PER_PET
+    return V.FEE_SCOPE_UNSTATED
+
 
 def _parse_prose_ladder(text: str, *, source_url: str, source_type: str,
                         currency: str) -> Tuple[Tuple[PetFeeTerm, ...], List[str]]:
@@ -293,17 +317,23 @@ def _parse_prose_ladder(text: str, *, source_url: str, source_type: str,
     unit = _PROSE_UNIT[opener.group("unit").lower()]
     ladder_quote = " ".join(src[opener.start():tail.end()].split())
 
+    # Scope is read PER TIER from that tier's own span. A source may state it
+    # once and elide it for the rest of the sentence; carrying the first tier's
+    # scope onto the second would publish an inference, and dropping it from the
+    # first would discard something the source says plainly.
     return ((
         PetFeeTerm(
             role=V.FEE_ROLE_ONE_TIME_CHARGE, amount=lo_amount, currency=currency,
-            basis=V.FEE_TERM_BASIS_ONE_TIME, scope=V.FEE_SCOPE_UNSTATED,
+            basis=V.FEE_TERM_BASIS_ONE_TIME,
+            scope=_prose_tier_scope(opener.group(0)),
             condition_type=V.FEE_CONDITION_STAY_LENGTH_RANGE,
             condition_min=1, condition_max=boundary, boundary_unit=unit,
             evidence_quote=" ".join(opener.group(0).split()),
             source_url=source_url, source_type=source_type),
         PetFeeTerm(
             role=V.FEE_ROLE_ONE_TIME_CHARGE, amount=hi_amount, currency=currency,
-            basis=V.FEE_TERM_BASIS_ONE_TIME, scope=V.FEE_SCOPE_UNSTATED,
+            basis=V.FEE_TERM_BASIS_ONE_TIME,
+            scope=_prose_tier_scope(tail.group(0)),
             condition_type=V.FEE_CONDITION_STAY_LENGTH_RANGE,
             condition_min=boundary + 1, condition_max=None, boundary_unit=unit,
             evidence_quote=ladder_quote,
