@@ -444,3 +444,111 @@ def test_existing_evidence_text_assignment_builder_is_unchanged():
     # the seam did not remove or rename the pilot's own SourceDocument builder
     src = __import__("inspect").getsource(CP)
     assert "evidence_text" in src
+
+
+# --------------------------------------------------------------------------- #
+# PTF-CAPTURE-004A -- policy-level RENDER_REQUIRED, end to end.
+#
+# The unit rules live in test_render_evidence.py. What matters here is that the
+# seam applies them in the right PLACE: last, so it can only ever reclassify an
+# outcome that was about to be RETRIEVED, and never rescue a page that failed
+# an earlier gate.
+# --------------------------------------------------------------------------- #
+
+LAQUINTA = SR.ExpectedEntity(
+    listing_key="la quinta columbus west hilliard",
+    listing_name="La Quinta Inn & Suites by Wyndham Columbus West - Hilliard",
+    address="5510 Trabue Rd", city="Columbus", state="OH",
+    postal_code="43228", phone="614-878-8844",
+    website_url="https://www.wyndhamhotels.com/laquinta/columbus-ohio/"
+                "la-quinta-columbus-west-hilliard/overview")
+
+LAQUINTA_URL = ("https://www.wyndhamhotels.com/laquinta/columbus-ohio/"
+                "la-quinta-columbus-west-hilliard/overview")
+
+# The shape of the real page: identity and a policy LANDMARK statically, the
+# policy VALUES nowhere. Padded so it is not mistaken for an empty shell.
+LAQUINTA_HTML = """<html><head><title>La Quinta Inn &amp; Suites by Wyndham Columbus West - Hilliard</title>
+<link rel="canonical" href="%s"></head>
+<body><h1>La Quinta Inn &amp; Suites by Wyndham Columbus West - Hilliard</h1>
+<p>5510 Trabue Rd, Columbus, OH 43228</p><p>Phone: 614-878-8844</p>
+<div class="row policy-lists"><div class="policy-items pet-policy">
+<span class="display-inline-block">Pet &amp; Service Animal Policy</span>
+<span class="display-block policy-desc pet-policy-desc"></span></div></div>
+<a href="#" data-target="#hotelPoliciesLightbox">Hotel Policies</a>
+<p>Our pet-friendly hotel is a short drive from the mall. %s</p>
+</body></html>""" % (LAQUINTA_URL, "Comfortable rooms and a warm welcome await. " * 60)
+
+LAQUINTA_RENDERED = ("Service Animals - ADA-defined service animals are welcome "
+                     "free of charge. / Dogs Allowed - 2 dogs max. 75lbs or less "
+                     "per pet. / Fees - 25 USD per pet per night. Max 75 USD per "
+                     "stay. / Other Information - Contact hotel for details.")
+
+
+def _run_rendered(url, html, expected, rendered):
+    fetcher = StaticPageFetcher()
+    fetcher.add_html(url, html)
+    return SR.retrieve_official_source(
+        assignment_id="test-004a", expected=expected, source_url=url,
+        fetcher=fetcher, cas=MemoryCas(), observed_at="2026-08-01",
+        rendered_policy_text=rendered)
+
+
+def test_without_rendered_evidence_the_page_stays_retrieved():
+    """The default path is untouched: no rendered evidence, no reclassification.
+    This is what every existing caller does."""
+    out = _run(LAQUINTA_URL, LAQUINTA_HTML, expected=LAQUINTA)
+    assert out.status == SR.RETRIEVED
+    assert out.identity == SR.EXACT_MATCH
+
+
+def test_rendered_only_policy_values_become_render_required():
+    out = _run_rendered(LAQUINTA_URL, LAQUINTA_HTML, LAQUINTA, LAQUINTA_RENDERED)
+    assert out.status == SR.RENDER_REQUIRED
+    assert out.failure_reason == "policy_values_require_rendering"
+    assert "policy_values_absent_from_static_html" in out.warnings
+    # the document is still produced; this is a routing decision, not a failure
+    assert out.source_document is not None
+    assert out.identity == SR.EXACT_MATCH
+
+
+def test_render_required_is_capture_worthy_so_gate1_now_accepts_it():
+    """The whole point: this status is what lets an operator legitimately open
+    the page in a browser."""
+    from services.research_workers.operator_capture import CAPTURE_WORTHY
+
+    out = _run_rendered(LAQUINTA_URL, LAQUINTA_HTML, LAQUINTA, LAQUINTA_RENDERED)
+    assert out.status in CAPTURE_WORTHY
+
+
+def test_a_page_serving_its_values_statically_is_unaffected():
+    """Red Roof states its policy in the static HTML. Even handed rendered
+    evidence, it must stay RETRIEVED -- the automated path can read it."""
+    out = _run_rendered(REDROOF_URL, REDROOF_HTML, REDROOF,
+                        "Up to two pets, 80 pounds each, $25 per night.")
+    assert out.status == SR.RETRIEVED
+
+
+def test_rendered_evidence_cannot_rescue_a_blocked_page():
+    """ACCESS_BLOCKED is decided before this rule is consulted, and stays."""
+    blocked = FetchResult(
+        LAQUINTA_URL, False, final_url=LAQUINTA_URL, http_status=403,
+        reason=C.REASON_BLOCKED_SOURCE, body=b"", content_type="text/html")
+    fetcher = StaticPageFetcher()
+    fetcher.add_result(LAQUINTA_URL, blocked)
+    out = SR.retrieve_official_source(
+        assignment_id="t", expected=LAQUINTA, source_url=LAQUINTA_URL,
+        fetcher=fetcher, cas=MemoryCas(), observed_at="2026-08-01",
+        rendered_policy_text=LAQUINTA_RENDERED)
+    assert out.status == SR.ACCESS_BLOCKED
+
+
+def test_rendered_evidence_cannot_rescue_a_wrong_property():
+    """Identity is decided before this rule, and a page that cannot identify
+    itself stays ENTITY_MISMATCH however good the rendered text is."""
+    anonymous = """<html><head><title>Pet-Friendly Hotels</title></head><body>
+    <div class="policy-items pet-policy">Pet &amp; Service Animal Policy</div>
+    <p>%s</p></body></html>""" % ("Wyndham welcomes pets at participating hotels. " * 60)
+    out = _run_rendered("https://www.wyndhamhotels.com/laquinta/about-us/pet-friendly",
+                        anonymous, LAQUINTA, LAQUINTA_RENDERED)
+    assert out.status == SR.ENTITY_MISMATCH

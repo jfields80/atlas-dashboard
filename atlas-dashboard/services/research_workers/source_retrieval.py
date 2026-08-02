@@ -83,6 +83,9 @@ from scripts.pettripfinder.importer.official_source_roles import (
 from scripts.pettripfinder.importer.source_snapshot import build_snapshot, decode_body
 from services.research_workers import vocabulary as V
 from services.research_workers.contracts import SourceDocument, content_hash
+from services.research_workers.render_evidence import (
+    POLICY_VALUES_REQUIRE_RENDERING, classify_render_requirement,
+)
 
 RETRIEVAL_VERSION = "ptf-workers-003/1.0.0"
 
@@ -763,12 +766,20 @@ def retrieve_official_source(
     context: Optional[ImportContext] = None,
     inherited_from: Optional[ParentIdentity] = None,
     capture_method: str = CAPTURE_METHOD_HTTP_STATIC,
+    rendered_policy_text: str = "",
 ) -> RetrievalOutcome:
     """Fetch ONE official URL through the importer and convert the result.
 
     Pure orchestration: every safety decision (URL shape, DNS, redirects,
     size, content type) is made inside ``fetcher``; every text decision is
     made inside ``build_snapshot``. This function only classifies and maps.
+
+    ``rendered_policy_text`` is PTF-CAPTURE-004A: deterministic evidence, from
+    a saved rendered DOM, of what the page shows once it has rendered. It is
+    optional and defaults to empty, so every existing caller behaves exactly as
+    before. Supplying it can only ever move a RETRIEVED outcome to
+    RENDER_REQUIRED, and only when all six conditions in ``render_evidence``
+    hold; it can never rescue a blocked, mismatched or brand-scoped page.
     """
     ctx = context or ImportContext(
         category="hotels", expected_city=expected.city, expected_state=expected.state,
@@ -917,6 +928,27 @@ def retrieve_official_source(
     if effective_identity == INHERITED_FROM_PARENT:
         warns.append("identity_inherited_requires_human_confirmation")
     base["warnings"] = tuple(warns)
+
+    # PTF-CAPTURE-004A. The page is readable, identified and property-scoped --
+    # and may still be one whose pet-policy VALUES only exist after rendering.
+    # Checked last, so it can only ever reclassify an outcome that was about to
+    # be RETRIEVED: every blocked, mismatched, shell or brand-scoped page has
+    # already returned above with its own status, and none of them reach here.
+    verdict = classify_render_requirement(
+        retrieval_succeeded=True,
+        identity_sufficient=identity.classification in IDENTITY_ACCEPTABLE,
+        property_scoped=(role == LODGING_SOURCE_ROLE_PROPERTY_POLICY),
+        static_html=html,
+        static_text=snapshot.normalized_text,
+        rendered_text=rendered_policy_text,
+    )
+    if verdict.qualifies:
+        base["warnings"] = tuple(list(base["warnings"]) + [
+            "policy_values_absent_from_static_html"])
+        return RetrievalOutcome(
+            status=RENDER_REQUIRED, source_role=role,
+            policy_applicable=applicable, source_document=doc,
+            failure_reason=POLICY_VALUES_REQUIRE_RENDERING, **base)
 
     return RetrievalOutcome(status=RETRIEVED, source_role=role,
                             policy_applicable=applicable, source_document=doc, **base)
