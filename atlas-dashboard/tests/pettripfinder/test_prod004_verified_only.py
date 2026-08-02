@@ -58,6 +58,54 @@ _HELD = [
 # and weight, with its fee withheld under
 # unrepresentable_fee_range_in_official_source -- the source gives "75 to 150
 # dollars depending on length of stay", which no single figure can carry.
+#
+# --------------------------------------------------------------------------- #
+# PTF-INVENTORY triage, 2026-08-02 (operator rule: anything needing more than
+# ~15 minutes of bespoke work is held rather than carried as open work).
+#
+# Every entry above this line records a hotel that LEFT the list. The four
+# below record why hotels REMAIN on it, so a future reader does not have to
+# re-derive a blocker that was already investigated and priced.
+#
+# HELD -- red-roof-inn-columbus-west-hilliard. Its Gate-1 record carries
+# INCOMPLETE_EXTRACTION and SOURCE_AUTHORITY_AMBIGUITY on top of the tiered fee,
+# and both are never-waivable. Its sibling Worthington shed exactly those codes
+# on a re-run, so a refresh is plausible -- but the seed also carries NO PHONE
+# for this property, which is an identity gap a re-run cannot close.
+#
+# HELD -- drury-plaza-hotel-columbus-downtown. Gate-1 routed it READY and the
+# operator recorded HOLD_FOR_MANUAL_REVIEW, because the seed's official URL
+# serves a DIFFERENT Drury property: expected 88 East Nationwide Blvd /
+# 614-221-7008, served 640 Marconi Blvd / 614-221-9700. assess_identity names
+# this exact case. Drury's static retrieval is proven (three siblings publish
+# from druryhotels.com), so the blocker is discovery of the correct property
+# URL -- or a decision that the seed row itself is wrong -- not extraction.
+#
+# HELD -- extended-stay-america-suites-columbus-dublin. The only Columbus hotel
+# with NO retrieval artifact of any kind, so its access posture is unmeasured.
+# Its fee is "up to $25 per day per pet for the first six nights, then up to
+# $15 per day": a word-number boundary and a "then" rate the tier parser cannot
+# represent, and its Gate-1 block is CONTRADICTORY_OFFICIAL_SOURCES, which is
+# never waivable. Two live extraction hazards are also recorded against this
+# wording (a flattened $25 scalar and a rate ceiling misread as a stay cap);
+# both are contained by the PTF-FEE-TIERS-005 guard, neither is fixed.
+#
+# HELD (indefinitely) -- hyatt-house-columbus-osu-short-north. hyatt.com serves
+# a Kasada bot-defence interstitial that never resolves, measured even in a
+# visible browser, and ADR-PTF-AUTOMATED-BROWSING forbids satisfying it.
+# services/research_workers/capture_automation/adapters/registry.py refuses to
+# register a Hyatt adapter for this reason. Its Gate-1 block is independently
+# CONTRADICTORY_OFFICIAL_SOURCES ($100 vs $75; 50 pounds each vs 75 combined).
+# This one is not waiting on effort; it is waiting on a policy change we have
+# declined to make.
+#
+# NOT triaged as held -- sonesta-simply-suites-dublin-columbus and
+# red-roof-plus-columbus-dublin are the next batch candidates. Each needs one
+# worker run and a Gate-1 refresh, no new architecture. Sonesta already has an
+# authorised APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT decision waiting on a
+# current result_hash to bind to. They remain in this list only because nothing
+# is published until it is promoted.
+# --------------------------------------------------------------------------- #
 
 
 # --------------------------------------------------------------------------- #
