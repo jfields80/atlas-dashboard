@@ -645,6 +645,87 @@ def _cmd_attest_official_page(args) -> int:
     return 0
 
 
+def _cmd_resolve_contradiction(args) -> int:
+    """PTF-APPROVAL-RESOLUTION: dispose of named markers on ONE attestation.
+
+    Writes only inside the gitignored attestation store, leaves the attested
+    content and its hash untouched, and never removes a detector marker.
+    """
+    import json as _json
+
+    from services.research_workers import approval_resolution as AR
+    from services.research_workers.columbus_pilot import ATTESTATIONS, PilotStore
+    from services.research_workers.operator_capture import verify_attestation_record
+
+    store = PilotStore(Path(args.output_root) if args.output_root else None)
+    allowed_root = (store.root / ATTESTATIONS).resolve()
+    path = Path(args.attestation).resolve()
+    if allowed_root != path.parent:
+        sys.stderr.write("refusing to write outside the attestation store\n"
+                         "  target : %s\n  allowed: %s\n" % (path, allowed_root))
+        return 2
+    if not path.is_file():
+        sys.stderr.write("no such attestation artifact: %s\n" % path)
+        return 2
+
+    record = _json.loads(path.read_text(encoding="utf-8-sig"))
+    ok, why = verify_attestation_record(record)
+    if not ok:
+        sys.stderr.write("attested content does not verify: %s\n" % why)
+        return 4
+
+    recorded = [str(m) for m in (record.get("contradictions") or [])]
+    wanted = []
+    for family in args.family:
+        hits = [m for m in recorded if AR.family_of(m) == family]
+        if not hits:
+            sys.stderr.write("no %s marker on this attestation; nothing to "
+                             "resolve\n" % family)
+            return 2
+        wanted.append((family, hits))
+
+    rationale = args.rationale
+    if args.rationale_file:
+        rationale = Path(args.rationale_file).read_text(encoding="utf-8").strip()
+
+    approval = record.get("approval") or {}
+    try:
+        resolutions = [
+            AR.build_resolution(
+                markers=hits, disposition=args.disposition,
+                approver_id=args.approver_id,
+                approval_record_id=approval.get("approval_record_id", ""),
+                attestation_id=record.get("attestation_id", ""),
+                attestation_hash=record.get("attestation_hash", ""),
+                rationale=rationale, resolved_at=args.resolved_at)
+            for _family, hits in wanted]
+        updated = AR.attach_resolutions(record, resolutions)
+    except AR.ResolutionError as exc:
+        sys.stderr.write("resolution refused: %s\n" % exc)
+        return 4
+
+    ok, why = verify_attestation_record(updated)
+    if not ok:                                  # unreachable by construction
+        sys.stderr.write("resolution altered attested content: %s\n" % why)
+        return 4
+    path.write_text(_json.dumps(updated, indent=2, sort_keys=True), encoding="utf-8")
+
+    print("=== PTF-APPROVAL-RESOLUTION ===")
+    print("  attestation id        : %s" % updated.get("attestation_id"))
+    print("  attested content      : verified, hash unchanged")
+    print("  approval record       : %s" % approval.get("approval_record_id"))
+    print("  approver              : %s" % args.approver_id)
+    print("  disposition           : %s" % args.disposition)
+    for family, hits in wanted:
+        print("  resolved %-13s : %s" % (family, ", ".join(hits)))
+    print("  detector markers kept : %s" % ", ".join(recorded))
+    print("  artifact updated      : %s" % path)
+    print("")
+    print("  Markers are NOT removed. Promotion may now carry the affected")
+    print("  fields for THIS attestation hash only.")
+    return 0
+
+
 def _cmd_approve_attestation(args) -> int:
     """PTF-WORKERS-006: the separate, explicit approval act."""
     import json as _json
@@ -1374,6 +1455,29 @@ def build_parser() -> argparse.ArgumentParser:
                          "so grounds that override a recorded observation stay "
                          "auditable")
     ap.set_defaults(func=_cmd_approve_attestation)
+
+    rc = sub.add_parser(
+        "resolve-contradiction",
+        help="PTF-APPROVAL-RESOLUTION dispose of named contradiction markers on "
+             "one APPROVED attestation (never removes them; never weakens the "
+             "detector)")
+    rc.add_argument("--attestation", required=True, help="path to the artifact")
+    rc.add_argument("--family", action="append", required=True,
+                    choices=list(__import__(
+                        "services.research_workers.approval_resolution",
+                        fromlist=["x"]).RESOLVABLE_FAMILIES),
+                    help="marker family to resolve; repeatable")
+    rc.add_argument("--disposition", required=True,
+                    choices=list(__import__(
+                        "services.research_workers.approval_resolution",
+                        fromlist=["x"]).DISPOSITIONS))
+    rc.add_argument("--approver-id", required=True)
+    rc.add_argument("--resolved-at", required=True)
+    rc.add_argument("--rationale", default="")
+    rc.add_argument("--rationale-file", default="",
+                    help="read the rationale from a file instead")
+    rc.add_argument("--output-root", default=None)
+    rc.set_defaults(func=_cmd_resolve_contradiction)
 
     cb = sub.add_parser(
         "capture-batch",

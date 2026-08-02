@@ -375,8 +375,24 @@ def build_candidate(attestation: Dict, page_text: str) -> Dict:
     # The hotel stays published -- the rest of its policy is sound -- but the
     # fee is withheld and the conflict stated plainly, with both quotations
     # preserved for a reader and a reviewer.
+    #
+    # PTF-APPROVAL-RESOLUTION. A human may dispose of specific markers on this
+    # exact attestation, and only then is the fee carried. The detector is
+    # untouched: it still reports what it saw, the markers stay on the record,
+    # and anything unresolved still withholds. An approval with no structured
+    # resolution -- however emphatic its prose -- changes nothing here.
+    from services.research_workers.approval_resolution import (
+        FAMILY_FEE_BASIS, authorizing_resolution, family_fully_resolved,
+    )
+
     conflicts = [c for c in (attestation.get("contradictions") or [])
                  if c.startswith("conflicting_fee_basis")]
+    fee_resolution = {}
+    if conflicts and family_fully_resolved(attestation, FAMILY_FEE_BASIS):
+        fee_resolution = authorizing_resolution(attestation, FAMILY_FEE_BASIS)
+        if fee_resolution:
+            conflicts = []
+
     if conflicts:
         for field in ("pet_fee", "fee_basis", "fee_cap"):
             facts.pop(field, None)
@@ -429,6 +445,19 @@ def build_candidate(attestation: Dict, page_text: str) -> Dict:
                 "approval_record_id": approval.get("approval_record_id"),
             },
             "preserved_contradictions": list(attestation.get("contradictions") or []),
+            # The audit trail: what the detector said, and what a named human
+            # decided about it. Both, always -- the markers above are never
+            # edited away, and this says who overrode which of them and why.
+            "resolved_contradictions": (
+                {"family": fee_resolution.get("marker_family"),
+                 "markers": list(fee_resolution.get("markers") or []),
+                 "disposition": fee_resolution.get("disposition"),
+                 "approval_record_id": fee_resolution.get("approval_record_id"),
+                 "approver_id": fee_resolution.get("approver_id"),
+                 "attestation_hash": fee_resolution.get("attestation_hash"),
+                 "resolved_at": fee_resolution.get("resolved_at"),
+                 "rationale": fee_resolution.get("rationale")}
+                if fee_resolution else None),
             "all_page_fee_amounts": list(attestation.get("fee_amounts") or []),
         },
     }

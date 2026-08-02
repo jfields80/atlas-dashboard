@@ -204,3 +204,62 @@ def test_a_labelled_fee_still_outranks_prose():
     assert facts["fee_basis"] == "per night"
     assert facts["fee_cap"]["amount"] == "150.00"
     assert "species_allowed" not in facts       # the source names no species
+
+
+# --------------------------------------------------------------------------- #
+# Public wording for a room-scoped nightly fee.
+# --------------------------------------------------------------------------- #
+
+DUBLIN_FACTS = {"species_allowed": "dogs, cats", "pet_fee": "$25.00",
+                "fee_basis": "per night for up to 2 pets", "pet_count_limit": "2",
+                "weight_limit": "75.0 pounds", "pets_allowed": "true",
+                "fee_cap": {"amount": "75.00", "currency": "USD"}}
+WH_FACTS = {"species_allowed": "dogs", "pet_fee": "$25.00",
+            "fee_basis": "per pet per night", "pet_count_limit": "2",
+            "weight_limit": "75.0 pounds", "pets_allowed": "true",
+            "fee_cap": {"amount": "75.00", "currency": "USD"}}
+
+
+def test_a_room_scoped_nightly_fee_reads_naturally():
+    """"applies per night for up to 2 pets, up to a maximum of $75" stacks two
+    "up to" phrases for two different quantities. Say it directly instead."""
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    s = _verified_summary(DUBLIN_FACTS, "")
+    assert "A $25 nightly fee covers up to 2 pets and is capped at $75 per stay." in s
+    assert "up to a maximum of" not in s
+    assert "per pet" not in s
+
+
+def test_the_per_pet_basis_keeps_its_original_wording():
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    s = _verified_summary(WH_FACTS, "")
+    assert "A $25 fee applies per pet per night, up to a maximum of $75." in s
+
+
+def test_a_plain_per_night_fee_is_unaffected():
+    """Aloft and every other published hotel keep the sentence they have."""
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    s = _verified_summary({"pets_allowed": "true", "pet_fee": "$50.00",
+                           "fee_basis": "per night", "pet_count_limit": "2",
+                           "weight_limit": "50.0 pounds",
+                           "fee_cap": {"amount": "150.00", "currency": "USD"}}, "")
+    assert "A $50 fee applies per night, up to a maximum of $150." in s
+
+
+def test_the_structured_basis_is_untouched_by_the_wording_choice():
+    """Prose is a rendering decision. The stored basis, the chip and the
+    comparison cell still carry the exact structured string."""
+    from scripts.pettripfinder.hotel_profile import _verified_details, _verified_facts
+    chips = dict((lab, val) for lab, val, _ in _verified_facts(DUBLIN_FACTS))
+    assert chips["Charge basis"] == "Per night for up to 2 pets"
+    rows = dict((lab, val) for lab, val, _ in _verified_details(DUBLIN_FACTS)[0])
+    assert rows["Charge basis"] == "Per night for up to 2 pets"
+    assert DUBLIN_FACTS["fee_basis"] == "per night for up to 2 pets"
+
+
+def test_the_wording_follows_the_basis_shape_not_the_hotel():
+    """Any policy stating this basis reads the same way -- no hotel literal."""
+    from scripts.pettripfinder.hotel_profile import _verified_summary
+    other = dict(DUBLIN_FACTS, fee_basis="per night for up to 3 pets",
+                 pet_count_limit="3")
+    assert "covers up to 3 pets" in _verified_summary(other, "")

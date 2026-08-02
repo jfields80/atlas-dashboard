@@ -30,8 +30,15 @@ _HELD = [
     "sonesta-simply-suites-dublin-columbus",
     "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
     "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
-    "la-quinta-inn-by-wyndham-columbus-dublin",
 ]
+# PTF-DATA: both Columbus La Quinta properties left this list on 2026-08-02.
+# Their pages answer ordinary retrieval with HTTP 200 but do not carry the
+# policy VALUES, which exist only after rendering -- PTF-CAPTURE-004A gave that
+# state its own classification (RENDER_REQUIRED), 004B captured them, 004C made
+# the evidence complete, and both were attested and approved. Each fee is
+# published under an explicit structured resolution of the page-wide
+# conflicting_fee_basis markers (APR-LAQ-WEST-HILLIARD-001, APR-LAQ-DUBLIN-001);
+# the markers themselves remain on the attestations.
 # PTF-INVENTORY-001: red-roof-plus-columbus-downtown-convention-center left this
 # list on 2026-07-28. It was promoted under an explicit APPROVED_TIERED_FEE_OMITTED
 # decision -- its Gate-1 block was solely a tiered fee the scalar schema cannot
@@ -79,7 +86,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 35
+    assert len(verified) == 37
 
 
 # --------------------------------------------------------------------------- #
@@ -141,7 +148,7 @@ def _display_slug(key):
 
 
 def test_exactly_14_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 35
+    assert len(_hotel_slugs(build)) == 37
 
 
 def test_every_profile_belongs_to_the_committed_package(build):

@@ -367,6 +367,13 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     return s + "."
 
 
+#: A room-scoped nightly rate: "per night for up to 2 pets". Matched on the
+#: STRUCTURED basis, so the wording follows the policy shape rather than the
+#: property -- any hotel stating this basis reads the same way.
+_ROOM_NIGHTLY_BASIS_RE = re.compile(
+    r"^per\s+night\s+for\s+up\s+to\s+(?P<count>\d+)\s+pets?$")
+
+
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     """Compose the consumer summary from stated facts plus the source wording.
 
@@ -394,14 +401,28 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                                                           f.get("fee_basis"))
     if fee:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
-        s = "A %s%s fee applies" % (_prose_number(fee), nonref)
-        if basis:
-            s += " %s" % basis.lower()
         cap = f.get("fee_cap") or {}
-        if cap.get("amount"):
-            # The ceiling belongs in the same sentence as the rate it caps --
-            # a reader who sees "$50 per night" and stops has the wrong total.
-            s += ", up to a maximum of %s" % _prose_number("$%s" % cap["amount"])
+        room_nightly = _ROOM_NIGHTLY_BASIS_RE.match((basis or "").strip().lower())
+        if room_nightly:
+            # A nightly rate that covers a number of pets rather than charging
+            # each one. Saying it directly avoids "applies per night for up to
+            # 2 pets, up to a maximum of $75" -- two "up to" phrases for two
+            # different quantities in one sentence.
+            s = "A %s%s nightly fee covers up to %s pets" % (
+                _prose_number(fee), nonref, room_nightly.group("count"))
+            if cap.get("amount"):
+                s += " and is capped at %s per stay" % _prose_number(
+                    "$%s" % cap["amount"])
+        else:
+            s = "A %s%s fee applies" % (_prose_number(fee), nonref)
+            if basis:
+                s += " %s" % basis.lower()
+            if cap.get("amount"):
+                # The ceiling belongs in the same sentence as the rate it caps
+                # -- a reader who sees "$50 per night" and stops has the wrong
+                # total.
+                s += ", up to a maximum of %s" % _prose_number(
+                    "$%s" % cap["amount"])
         parts.append(s + ".")
 
     count = f.get("pet_count_limit")
