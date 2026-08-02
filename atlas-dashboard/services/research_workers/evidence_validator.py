@@ -48,6 +48,7 @@ from services.research_workers.fee_terms import (
     build_fee_policy, canonical_amount, detect_multiple_fee_amounts,
     reconcile_fee_terms, source_stay_length_ladder,
 )
+from services.research_workers.providers import fields_stated_by_source
 
 
 # fee_basis -> (required phrases, forbidden phrases). Forbidden phrases keep a
@@ -203,6 +204,40 @@ _ABSENCE_SENTINEL_RE = re.compile(
 #: Warning recorded when an absence sentinel is normalized away.
 NEGATED_FIELD_SENTINEL = "negated_field_sent_as_numeric_sentinel"
 
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS -- an invented fact is not a missing one.
+#
+# INCOMPLETE_EXTRACTION conflated two opposite failures: "a fact exists in the
+# source and we failed to carry it through" and "the model asserted a fact the
+# source never states". Only the first is a gap in OUR pipeline, and only the
+# first deserves a never-waivable gate. The second is the validator working --
+# it caught an invention -- and punishing a record for its own defence blocked
+# properties whose evidence was entirely sound.
+#
+# The two are told apart by asking the SOURCE, never the model: does the
+# authoritative text speak to this field at all?
+#
+#   silent  -> the model invented it            -> UNSUPPORTED_MODEL_CLAIM
+#   speaks  -> a real stated fact was mangled   -> the original rejection stands
+#
+# Field-agnostic by construction: the question is asked the same way for every
+# field, using the shared deterministic source reader.
+# --------------------------------------------------------------------------- #
+
+#: Rejection slug for a claim the source says nothing about.
+UNSUPPORTED_MODEL_CLAIM = "unsupported_model_claim"
+
+#: ONLY these rejections are ambiguous between "the model invented it" and "the
+#: model mangled a real stated fact" -- they are exactly the ones routing maps
+#: to INCOMPLETE_EXTRACTION. Every other rejection already names its fault
+#: precisely (a forbidden species inference, a fabricated quote, an
+#: unauthorised source) and keeps that name: those are not overclaims of a
+#: missing fact, they are specific rule violations with their own gates.
+_INCOMPLETE_MAPPED_REJECTIONS = frozenset({
+    "non_boolean_value", "fee_basis_phrase_absent", "number_not_in_quote",
+    "deposit_word_absent", "empty_value_or_quote",
+})
+
 
 def is_absence_sentinel(value: str) -> bool:
     """The value asserts ABSENCE of a restriction, not a quantity.
@@ -321,6 +356,15 @@ def validate_proposal(
     # once from the evidence, never from the model's claims.
     negated_fields = explicitly_negated_fields(
         " ".join(d.content_text or "" for d in usable))
+    # Which fields the SOURCE speaks to at all. Read from the evidence, never
+    # from the model's claims, so an invention can never make itself look
+    # source-backed.
+    #
+    # A field the source explicitly NEGATES is removed: "no weight restrictions"
+    # mentions weight, but it states that there is no value to extract. Left in,
+    # the mention alone would make every rejected claim about that field look
+    # like a real fact we mangled -- the exact conflation this separates.
+    source_stated_fields = fields_stated_by_source(usable) - negated_fields
     valid_by_field: Dict[str, List[_ValidClaim]] = {}
     for claim in proposal.claims:
         f = claim.field_name
@@ -363,7 +407,17 @@ def validate_proposal(
             # more completely than most.
             if f in negated_fields and _is_positive_restriction(f, claim.value):
                 warnings.append("rejected_%s:%s" % (f, OVERCLAIM_AGAINST_NEGATION))
+            elif why in _INCOMPLETE_MAPPED_REJECTIONS and f not in source_stated_fields:
+                # The source says nothing about this field, so there was no
+                # fact here to extract. The model invented one and the
+                # validator caught it -- a model-quality fault, not a gap in
+                # our extraction. The claim is still rejected and its value is
+                # still never published.
+                warnings.append("rejected_%s:%s" % (f, UNSUPPORTED_MODEL_CLAIM))
             else:
+                # The source DOES state this field. A rejection here means a
+                # real stated fact was missed or mangled -- genuinely
+                # incomplete, and it keeps its original never-waivable weight.
                 warnings.append("rejected_%s:%s" % (f, why))
             continue
         valid_by_field.setdefault(f, []).append(

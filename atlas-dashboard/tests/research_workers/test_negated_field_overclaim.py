@@ -114,7 +114,7 @@ class TestOverclaimClassification:
         assert ("rejected_%s:%s" % (V.FIELD_WEIGHT_LIMIT, OVERCLAIM_AGAINST_NEGATION)
                 in res.warnings)                                   # rejected, and labelled
         assert RT.INCOMPLETE_EXTRACTION not in env.reason_codes    # not missing evidence
-        assert RT.VALIDATOR_WARNING in env.reason_codes            # still a fault
+        assert RT.MODEL_OVERCLAIM in env.reason_codes              # still a recorded fault
         assert _supported(res, V.FIELD_WEIGHT_LIMIT) is None       # never published
 
     def test_a_the_source_supported_negative_fact_survives(self):
@@ -126,14 +126,22 @@ class TestOverclaimClassification:
         assert _supported(res, V.FIELD_BREED_RESTRICTIONS) == "false"
         assert _supported(res, V.FIELD_PETS_ALLOWED) == "true"
 
-    def test_b_silence_keeps_the_existing_fail_closed_routing(self):
-        """The source never mentions weight. That is unknown, not unlimited."""
+    def test_b_silence_is_not_negation_and_the_claim_is_still_rejected(self):
+        """The source never mentions weight. That is unknown, not unlimited, so
+        the NEGATION exception must not fire.
+
+        Superseded in part: this claim is now an UNSUPPORTED_MODEL_CLAIM rather
+        than an INCOMPLETE_EXTRACTION, because the source states nothing to
+        extract. The claim is still rejected and the value still never
+        publishes -- only the name of the fault changed.
+        """
         res, env = _run(SILENT_ON_WEIGHT, (
             (V.FIELD_PETS_ALLOWED, "true", "Pets are welcome at this property", URL),
             (V.FIELD_WEIGHT_LIMIT, "50", "Pets are welcome at this property", URL),
         ))
-        assert ("rejected_%s:number_not_in_quote" % V.FIELD_WEIGHT_LIMIT) in res.warnings
-        assert RT.INCOMPLETE_EXTRACTION in env.reason_codes        # unchanged
+        assert any(w.startswith("rejected_%s" % V.FIELD_WEIGHT_LIMIT) for w in res.warnings)
+        assert OVERCLAIM_AGAINST_NEGATION not in " ".join(res.warnings)
+        assert RT.MODEL_OVERCLAIM in env.reason_codes
         assert _supported(res, V.FIELD_WEIGHT_LIMIT) is None
 
     def test_c_a_wrong_number_against_a_real_limit_is_not_downgraded(self):
@@ -185,12 +193,15 @@ class TestTheExceptionStaysNarrow:
     def test_it_never_fires_for_a_field_the_source_did_not_negate(self):
         """The source negates WEIGHT; the model overclaims a COUNT. Only the
         negated field may be reclassified."""
-        res, env = _run(SONESTA_NO_LIMITS, (
+        res, _env = _run(SONESTA_NO_LIMITS, (
             (V.FIELD_PETS_ALLOWED, "true", "Up to two well-mannered dogs per suite", URL),
             (V.FIELD_MAXIMUM_PETS, "9", "with no breed or weight restrictions", URL),
         ))
-        assert ("rejected_%s:number_not_in_quote" % V.FIELD_MAXIMUM_PETS) in res.warnings
-        assert RT.INCOMPLETE_EXTRACTION in env.reason_codes
+        # Rejected, and NOT under the negation exception -- the source negates
+        # weight and breed, never the pet count.
+        assert any(w.startswith("rejected_%s" % V.FIELD_MAXIMUM_PETS) for w in res.warnings)
+        assert ("rejected_%s:%s" % (V.FIELD_MAXIMUM_PETS, OVERCLAIM_AGAINST_NEGATION)
+                not in res.warnings)
 
     def test_a_record_with_nothing_supported_is_still_incomplete(self):
         """The exception reclassifies ONE rejected overclaim. It cannot make a

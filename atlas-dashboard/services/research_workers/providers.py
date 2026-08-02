@@ -170,6 +170,22 @@ _FEE_BASIS = (
 )
 
 
+#: Labelled forms that show a source SPEAKS to a field, whatever value follows.
+#: Used only by ``fields_stated_by_source`` -- never to extract a value.
+_FIELD_MENTION = (
+    (V.FIELD_MAXIMUM_PETS, re.compile(
+        r"max(?:imum)?\s+(?:number\s+of\s+)?pets?|pets?\s+(?:per\s+room|maximum)|"
+        r"number\s+of\s+pets?", re.I)),
+    (V.FIELD_WEIGHT_LIMIT, re.compile(
+        r"max(?:imum)?\s+(?:pet\s+)?weight|weight\s+(?:limit|restriction)|"
+        r"\b(?:lbs?|pounds?|kg|kilograms?)\b", re.I)),
+    (V.FIELD_PET_FEE, re.compile(
+        r"pet\s+fee|non-?refundable\s+fee|pet\s+charge", re.I)),
+    (V.FIELD_REFUNDABLE_DEPOSIT, re.compile(r"deposit", re.I)),
+    (V.FIELD_BREED_RESTRICTIONS, re.compile(r"breed", re.I)),
+)
+
+
 def _sentence_around(text: str, start: int, end: int, cap: int = V.EVIDENCE_QUOTE_CAP) -> str:
     """A verbatim substring of ``text`` covering the sentence around [start,end)."""
     left = max(text.rfind(". ", 0, start), text.rfind("\n", 0, start))
@@ -191,6 +207,43 @@ def _first(regex, text: str) -> Optional[Tuple[str, int, int]]:
     if not m:
         return None
     return (m.group(0), m.start(), m.end())
+
+
+def fields_stated_by_source(docs) -> frozenset:
+    """Which policy fields the authoritative text SPEAKS TO at all.
+
+    Not what the values are -- only whether the source says anything about each
+    field. This is what separates "the model invented a fact" from "the model
+    got a fact wrong": a rejected claim for a field the source never mentions is
+    an invention, while the same rejection for a field the source quantifies
+    means a real stated fact was missed or mangled.
+
+    Deliberately built on the SAME deterministic detectors the offline extractor
+    uses, so the two can never disagree about what a document states. Silence is
+    the only thing it reports as silence -- a detector that fires is enough to
+    make the field "spoken to", whatever the value turns out to be.
+    """
+    out = set()
+    for d in docs or ():
+        if not getattr(d, "is_usable_official", False):
+            continue
+        text = d.content_text or ""
+        out |= {c.field_name for c in _fake_claims_for_doc(d, frozenset())}
+        # fee_basis is emitted above only when an AMOUNT was found alongside it.
+        # A source may state a basis without one ("pets stay free, per night"),
+        # and for THIS question the basis phrase alone is the evidence.
+        if any(rx.search(text) for _basis, rx in _FEE_BASIS):
+            out.add(V.FIELD_FEE_BASIS)
+        # Deliberately detect MORE than the extractor does. This probe decides
+        # whether a rejected claim was an INVENTION or a mangled real fact, and
+        # under-detection would downgrade a real fault to the milder reading --
+        # the wrong direction for a fail-closed airlock. A labelled field the
+        # extractor's value regexes cannot parse still means the source SPEAKS
+        # to that field, which is the only question being asked here.
+        for field, rx in _FIELD_MENTION:
+            if rx.search(text):
+                out.add(field)
+    return frozenset(out)
 
 
 def _fake_claims_for_doc(doc: SourceDocument, requested: frozenset) -> List[RawFactClaim]:

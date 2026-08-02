@@ -108,15 +108,19 @@ class TestNormalizationCases:
         assert _supported(res, V.FIELD_BREED_RESTRICTIONS) == "false"  # negative preserved
         assert _supported(res, V.FIELD_PETS_ALLOWED) == "true"
 
-    def test_b_silence_keeps_the_existing_rejection(self):
-        """The source never mentions weight. Unknown is not unlimited."""
+    def test_b_silence_is_not_negation_so_the_sentinel_is_still_rejected(self):
+        """The source never mentions weight. Unknown is not unlimited, so the
+        sentinel is NOT normalized away -- it is rejected like any other
+        unsupported claim. (It now reports as MODEL_OVERCLAIM rather than
+        INCOMPLETE_EXTRACTION, because the source states nothing to extract.)"""
         assert V.FIELD_WEIGHT_LIMIT not in explicitly_negated_fields(SILENT_ON_WEIGHT)
         res, env = _run(SILENT_ON_WEIGHT, (
             (V.FIELD_PETS_ALLOWED, "true", "Pets are welcome at this property", URL),
             (V.FIELD_WEIGHT_LIMIT, "none", "Pets are welcome at this property", URL),
         ))
         assert any(w.startswith("rejected_%s" % V.FIELD_WEIGHT_LIMIT) for w in res.warnings)
-        assert RT.INCOMPLETE_EXTRACTION in env.reason_codes
+        assert not any(w.startswith(NEGATED_FIELD_SENTINEL) for w in res.warnings)
+        assert RT.MODEL_OVERCLAIM in env.reason_codes
         assert _supported(res, V.FIELD_WEIGHT_LIMIT) is None
 
     def test_c_a_real_stated_limit_makes_the_sentinel_a_missed_fact(self):

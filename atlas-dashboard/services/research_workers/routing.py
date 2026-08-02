@@ -1,4 +1,4 @@
-"""ATLAS-WORKERS-003 -- deterministic publication routing airlock.
+﻿"""ATLAS-WORKERS-003 -- deterministic publication routing airlock.
 
 Converts a validated HOTEL_POLICY_RESEARCH result into exactly one safe
 operational destination -- READY / REVIEW / RETRY / REJECTED -- plus canonical
@@ -53,7 +53,17 @@ from services.research_workers.proposal import ModelProposal, is_provider_error
 #            exists (the model flattened to a single scalar), the validator
 #            withholds the scalar and the result routes REVIEW -- a misleading
 #            single fee can never reach READY.
-ROUTING_VERSION = "1.2.0"
+#   1.3.0 -- PTF-WORKERS: the MODEL_OVERCLAIM review reason. A rejected claim
+#            for a field the SOURCE never states is an invention the airlock
+#            caught, not a fact we failed to extract, and only the latter
+#            deserves the never-waivable INCOMPLETE_EXTRACTION. Additive:
+#            diagnostic-only warnings stop becoming reason codes, and an
+#            overclaim-only reason set on a record with nothing publishable
+#            still reports INCOMPLETE_EXTRACTION. No route decision changes for
+#            any record in the frozen corpus -- proven by replaying it: the 15
+#            launch-safe result_hashes are byte-identical, so every existing
+#            approval stays bound and only gate1_manifest_sha256 is re-pinned.
+ROUTING_VERSION = "1.3.0"
 
 
 class RoutingError(RuntimeError):
@@ -85,6 +95,12 @@ CONTRADICTORY_OFFICIAL_SOURCES = "CONTRADICTORY_OFFICIAL_SOURCES"
 NO_OFFICIAL_SOURCE = "NO_OFFICIAL_SOURCE"
 EXACT_EVIDENCE_MISMATCH = "EXACT_EVIDENCE_MISMATCH"
 INCOMPLETE_EXTRACTION = "INCOMPLETE_EXTRACTION"
+# The model asserted a fact the authoritative source never states, and the
+# validator rejected it. That is the airlock WORKING, not a gap in extraction:
+# nothing was missed, because there was nothing there. Kept as its own reason so
+# a reviewer can see the difference between "we failed to read the page" and
+# "the model made something up and we caught it" (PTF-WORKERS).
+MODEL_OVERCLAIM = "MODEL_OVERCLAIM"
 UNSUPPORTED_INFERENCE = "UNSUPPORTED_INFERENCE"
 FORBIDDEN_INFERENCE = "FORBIDDEN_INFERENCE"
 VALIDATOR_WARNING = "VALIDATOR_WARNING"
@@ -140,6 +156,7 @@ READY_REASONS = frozenset({PUBLICATION_ELIGIBLE})
 REVIEW_REASONS = frozenset({
     CONTRADICTORY_OFFICIAL_SOURCES, NO_OFFICIAL_SOURCE, EXACT_EVIDENCE_MISMATCH,
     INCOMPLETE_EXTRACTION, UNSUPPORTED_INFERENCE, FORBIDDEN_INFERENCE,
+    MODEL_OVERCLAIM,
     VALIDATOR_WARNING, MODEL_QUALITY_FAILURE, PROMPT_INJECTION_RISK,
     SOURCE_AUTHORITY_AMBIGUITY, HUMAN_REVIEW_REQUIRED,
     DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED, STRUCTURED_FEE_REQUIRED,
@@ -442,11 +459,23 @@ def _ready_blockers(assignment: Assignment, result: WorkerResult) -> set:
     return blockers
 
 
+#: Warnings that RECORD what the validator did rather than reporting a fault.
+#: They belong in provenance, never in a reason code -- a record must not be
+#: held for review because we wrote down how we read its evidence. The
+#: multi-amount companion warning established this treatment; the ladder and
+#: sentinel diagnostics are the same kind of thing.
+_DIAGNOSTIC_WARNING_PREFIXES = (
+    "multi_term_fee_amounts",
+    "stay_length_ladder_read_from_source",
+    "stay_length_ladder_supersedes_scalar",
+)
+
+
 def _warning_reasons(result: WorkerResult) -> set:
     """Map validator warnings on a NEEDS_REVIEW result to canonical reasons."""
     reasons: set = set()
     for w in result.warnings:
-        if w.startswith("multi_term_fee_amounts"):
+        if w.startswith(_DIAGNOSTIC_WARNING_PREFIXES):
             continue                              # diagnostic-only companion warning
         tail = w.split(":", 1)[1] if ":" in w else ""
         if w.startswith("rejected_"):
@@ -456,15 +485,19 @@ def _warning_reasons(result: WorkerResult) -> set:
                 reasons.add(UNSUPPORTED_INFERENCE)
             elif tail == "quote_not_verbatim":
                 reasons.add(EXACT_EVIDENCE_MISMATCH)
+            elif tail == "unsupported_model_claim":
+                # The source states nothing about this field, so nothing was
+                # missed. The model invented a value and the validator rejected
+                # it -- the airlock working, not an extraction gap.
+                reasons.add(MODEL_OVERCLAIM)
             elif tail == "overclaim_against_explicit_negation":
-                # PTF-WORKERS. The source explicitly states this field is
-                # UNRESTRICTED and the model proposed a restriction anyway. That
-                # is a model-quality fault, not missing evidence: the fact IS
-                # extracted -- it is "there is no limit" -- so calling it an
-                # INCOMPLETE_EXTRACTION (which is never waivable) blocked
-                # properties for stating their policy more completely than most.
-                # The claim is still rejected and the value is never published.
-                reasons.add(VALIDATOR_WARNING)
+                # The source explicitly states this field is UNRESTRICTED and
+                # the model proposed a restriction anyway. Same family as an
+                # unsupported claim -- the model asserted something the evidence
+                # does not carry -- so it reports under the same reason. The
+                # fact IS extracted ("there is no limit"), which is why this was
+                # never an INCOMPLETE_EXTRACTION.
+                reasons.add(MODEL_OVERCLAIM)
             elif tail in ("non_boolean_value", "fee_basis_phrase_absent",
                           "number_not_in_quote", "deposit_word_absent",
                           "empty_value_or_quote"):
@@ -477,6 +510,11 @@ def _warning_reasons(result: WorkerResult) -> set:
             reasons.add(SOURCE_AUTHORITY_AMBIGUITY)
         elif w == "no_usable_official_source":
             reasons.add(NO_OFFICIAL_SOURCE)
+        elif w.startswith("negated_field_sent_as_numeric_sentinel"):
+            # The model put an absence into a field that holds quantities. The
+            # claim was normalized away, not rejected; it is still an assertion
+            # the evidence does not carry, so it reports as an overclaim.
+            reasons.add(MODEL_OVERCLAIM)
         else:
             reasons.add(VALIDATOR_WARNING)
     return reasons
@@ -545,6 +583,15 @@ def _decide(assignment: Assignment, result: WorkerResult,
         return ROUTE_REVIEW, [NO_OFFICIAL_SOURCE], None
     if status == V.STATUS_NEEDS_REVIEW:
         reasons = _warning_reasons(result) or {HUMAN_REVIEW_REQUIRED}
+        # MODEL_OVERCLAIM explains why a claim was DISCARDED. It can never be
+        # the whole story for a record that has nothing left to publish: an
+        # empty candidate is incomplete no matter what was thrown away to get
+        # there. Scoped to an overclaim-only reason set so the specific faults
+        # (unsupported inference, evidence mismatch, human review) keep
+        # reporting themselves exactly as before.
+        if (reasons == {MODEL_OVERCLAIM}
+                and not any(f.state == V.SUPPORTED for f in result.proposed_facts)):
+            reasons.add(INCOMPLETE_EXTRACTION)
         return ROUTE_REVIEW, sorted(reasons), None
     if status == V.STATUS_COMPLETED:
         blockers = _safety_blockers(result) | _ready_blockers(assignment, result)

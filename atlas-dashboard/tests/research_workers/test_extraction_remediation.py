@@ -69,11 +69,18 @@ def test_number_word_end_to_end_preserves_verbatim_quote():
 
 
 def test_bare_plural_count_rejected_end_to_end():
+    """A bare plural never supports a count.
+
+    PTF-WORKERS refined only the NAME of the rejection: this source states no
+    count at all, so the claim is recorded as an unsupported model claim rather
+    than as an incomplete extraction of a number that was never there. It is
+    still rejected, and maximum_pets still never publishes.
+    """
     asg = _asg("Pet Policy: pets are welcome at our hotel.")
     u = asg.source_documents[0].source_url
     r = validate_proposal(asg, _claims(("maximum_pets", "2", "pets are welcome at our hotel", u)))
     assert "maximum_pets" not in _supported(r)
-    assert "rejected_maximum_pets:number_not_in_quote" in r.warnings
+    assert "rejected_maximum_pets:unsupported_model_claim" in r.warnings
 
 
 # --------------------------------------------------------------------------- #
