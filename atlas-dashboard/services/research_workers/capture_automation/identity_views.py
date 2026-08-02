@@ -187,14 +187,19 @@ PROBE_JS = """
   for (const [field, needles] of Object.entries(want)) {
     const hits = [];
     for (const needle of needles) {
+      // Case-insensitive: a page that paints "5510 TRABUE ROAD" for a seed
+      // that says "5510 Trabue Rd" is rendering, not disagreeing.
+      const want = needle.toLowerCase();
       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
       while (w.nextNode()) {
         const el = w.currentNode;
         const t = el.innerText || '';
-        if (t.indexOf(needle) === -1) continue;
+        if (t.toLowerCase().indexOf(want) === -1) continue;
         let deeper = false;
         for (const c of el.children) {
-          if ((c.innerText || '').indexOf(needle) !== -1) { deeper = true; break; }
+          if ((c.innerText || '').toLowerCase().indexOf(want) !== -1) {
+            deeper = true; break;
+          }
         }
         if (deeper) continue;
         const style = window.getComputedStyle(el);

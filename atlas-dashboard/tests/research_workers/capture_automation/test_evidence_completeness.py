@@ -431,3 +431,50 @@ def test_a_genuinely_different_street_still_contradicts(tmp_path):
         expected={FIELD_STREET: "500 Metro Place North Dublin OH 43017"})
     assert FIELD_STREET in report.missing
     assert any("contradicts expected" in r for r in report.rejected)
+
+
+# --------------------------------------------------------------------------- #
+# PTF-CAPTURE-004C -- variants of one expected value are not two values.
+# --------------------------------------------------------------------------- #
+
+def test_several_renderings_of_the_expected_value_corroborate(tmp_path):
+    """The planner hunts "Rd" and "Road", "OH" and "Ohio", the full name and
+    its tail. The probe finds several, each recorded with the needle it
+    matched. Comparing those to each other called a settled field AMBIGUOUS and
+    sent the sweep back for another view that could only repeat the problem."""
+    obs = [
+        _obs(FIELD_STREET, "5510 Trabue Rd"),
+        _obs(FIELD_STREET, "5510 TRABUE ROAD"),
+        _obs(FIELD_STATE, "OH"),
+        _obs(FIELD_STATE, "Ohio"),
+    ]
+    report = assess_evidence(
+        [_view(tmp_path, "identity.png", obs)], official_url=OFFICIAL,
+        expected={FIELD_STREET: "5510 Trabue Rd", FIELD_STATE: "OH"})
+    assert FIELD_STREET not in report.ambiguous
+    assert FIELD_STATE not in report.ambiguous
+    assert FIELD_STREET in report.proven
+    assert FIELD_STATE in report.proven
+
+
+def test_two_genuinely_different_values_are_still_ambiguous_with_an_expectation(tmp_path):
+    """The relaxation must not swallow a real conflict. An observation that
+    contradicts the expected value is rejected outright, so a field backed by
+    nothing survivable stays unproven rather than quietly passing."""
+    obs = [_obs(FIELD_STREET, "5510 Trabue Rd"),
+           _obs(FIELD_STREET, "9999 Nowhere Avenue")]
+    report = assess_evidence(
+        [_view(tmp_path, "identity.png", obs)], official_url=OFFICIAL,
+        expected={FIELD_STREET: "5510 Trabue Rd"})
+    assert any("contradicts expected" in r for r in report.rejected)
+    assert report.proven[FIELD_STREET][1] == "5510 Trabue Rd"
+
+
+def test_without_an_expectation_conflicting_text_is_still_ambiguous(tmp_path):
+    """No expected value means nothing to agree with, so raw disagreement is
+    the honest test and stays in force."""
+    obs = [_obs(FIELD_STREET, "5510 Trabue Rd"),
+           _obs(FIELD_STREET, "1250 Olentangy River Road")]
+    report = assess_evidence([_view(tmp_path, "identity.png", obs)],
+                             official_url=OFFICIAL)
+    assert FIELD_STREET in report.ambiguous

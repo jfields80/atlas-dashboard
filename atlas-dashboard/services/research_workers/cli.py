@@ -397,6 +397,24 @@ def _cmd_retrieve_official_sources(args) -> int:
     else:
         fetcher = RequestsPageFetcher()
 
+    # Per-hotel overrides must not be able to attach one hotel's evidence to
+    # another, so they are refused outright for a multi-hotel run.
+    rendered_text = ""
+    if args.rendered_evidence or args.source_url:
+        if len(selected) != 1:
+            sys.stderr.write("--source-url/--rendered-evidence require exactly "
+                             "one --hotel (got %d)\n" % len(selected))
+            return 2
+    if args.rendered_evidence:
+        cap = _json.loads(Path(args.rendered_evidence).read_text(encoding="utf-8-sig"))
+        rendered_text = str(
+            ((cap.get("automation") or {}).get("policy") or {}).get("text_excerpt")
+            or "")
+        if not rendered_text.strip():
+            sys.stderr.write("--rendered-evidence carries no policy text: %s\n"
+                             % args.rendered_evidence)
+            return 2
+
     store = PilotStore(Path(args.output_root) if args.output_root else None)
     cas = ArtifactStoreRepository(store.root / _C.CAS_SUBDIR)
 
@@ -410,8 +428,10 @@ def _cmd_retrieve_official_sources(args) -> int:
             website_url=g.get("website_url", "") or cand.source_url)
         out = SR.retrieve_official_source(
             assignment_id="retr-%s" % cand.listing_key.replace(" ", "-")[:60],
-            expected=expected, source_url=cand.source_url, fetcher=fetcher,
-            cas=cas, observed_at=args.observed_at)
+            expected=expected,
+            source_url=args.source_url or cand.source_url, fetcher=fetcher,
+            cas=cas, observed_at=args.observed_at,
+            rendered_policy_text=rendered_text)
         store.write_per_hotel(RETRIEVAL, out.assignment_id, out.to_dict())
         outcomes.append(out)
 
@@ -1223,6 +1243,18 @@ def build_parser() -> argparse.ArgumentParser:
     ret.add_argument("--offline-fixture", action="append", default=[],
                      help="URL=path fixture for deterministic offline runs; repeatable")
     ret.add_argument("--json", action="store_true", help="print full JSON")
+    ret.add_argument("--source-url", default="",
+                     help="fetch this URL instead of the seed's source_url; "
+                          "single --hotel only. For properties whose seed "
+                          "source_url points at a brand page rather than the "
+                          "property's own.")
+    ret.add_argument("--rendered-evidence", default="",
+                     help="PTF-CAPTURE-004A: path to a capture JSON whose "
+                          "recorded policy text is deterministic evidence of "
+                          "what the page shows once rendered. Single --hotel "
+                          "only. Can only ever move RETRIEVED to "
+                          "RENDER_REQUIRED, and only when all six conditions "
+                          "in render_evidence hold.")
     ret.set_defaults(func=_cmd_retrieve_official_sources)
 
     # PTF-WORKERS-004 -- web research (Responses API + web_search on gpt-5.4).

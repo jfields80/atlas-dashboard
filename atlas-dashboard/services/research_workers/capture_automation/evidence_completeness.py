@@ -520,6 +520,14 @@ def assess_evidence(views: Sequence[EvidenceView], *, official_url: str,
             continue
         if f == FIELD_PROPERTY_PHONE:
             distinct = {national_digits(t) for _, t in hits}
+        elif (expected.get(f) or "").strip():
+            # Every surviving observation already matched the expected value --
+            # contradictions were rejected above -- so several of them agree by
+            # construction. They differ only because the planner hunts more
+            # than one rendering of the same fact ("Rd"/"Road", "OH"/"Ohio",
+            # the full name and its tail). Comparing those to each other made
+            # thoroughness look like disagreement.
+            distinct = {" ".join((expected[f] or "").lower().split())}
         else:
             distinct = {" ".join((t or "").lower().split()) for _, t in hits}
         if len(distinct) > 1:
