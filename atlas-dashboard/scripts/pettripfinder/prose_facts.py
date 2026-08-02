@@ -249,6 +249,47 @@ _DOGS_EXCLUDED = re.compile(
     r"\bdogs?\s+not\s+(?:permitted|allowed|accepted)\b", re.I)
 
 
+#: Sentences about service animals, which are a legal access category and
+#: never evidence of a pet-species permission.
+_SERVICE_ANIMAL_SENTENCE = re.compile(
+    r"[^.]*\bservice\s+(?:animals?|dogs?|cats?)\b[^.]*\.?", re.I)
+
+
+#: A species named in a permission-row LABEL: "Dogs Allowed", "Cats
+#: Permitted". Deliberately NOT "dogs are welcome" -- that is prose, and a
+#: page that mentions dogs in prose has said nothing about cats.
+_LABEL_DOGS = re.compile(r"\bdogs?\s+(?:allowed|permitted)\b", re.I)
+_LABEL_CATS = re.compile(r"\bcats?\s+(?:allowed|permitted)\b", re.I)
+
+
+def _labelled_species(text: str) -> Optional[ProseFact]:
+    """Species named by a permission-row label, or None.
+
+    Returns None for "Pets Allowed": that label names no species, and treating
+    it as one would publish a restriction the source never stated.
+
+    Service-animal sentences are removed first. A policy block that opens
+    "Service Animals - ADA-defined service animals are welcome free of charge"
+    would otherwise read as "dogs accepted", turning a legal-access statement
+    into a pet-policy permission -- a hotel that takes guide dogs has said
+    nothing about whether it takes pets.
+    """
+    text = _SERVICE_ANIMAL_SENTENCE.sub(" ", text or "")
+    dogs = _LABEL_DOGS.search(text)
+    cats = _LABEL_CATS.search(text)
+    if dogs and cats:
+        first = dogs if dogs.start() <= cats.start() else cats
+        return ProseFact("dogs, cats", _span(text, first.start(), first.end(), pad=30),
+                         "species_labelled_both")
+    if dogs:
+        return ProseFact("dogs", _span(text, dogs.start(), dogs.end(), pad=30),
+                         "species_labelled_dogs")
+    if cats:
+        return ProseFact("cats", _span(text, cats.start(), cats.end(), pad=30),
+                         "species_labelled_cats")
+    return None
+
+
 def extract_species(block: str) -> Optional[ProseFact]:
     """Explicit species permission or exclusion, or None.
 
@@ -269,6 +310,19 @@ def extract_species(block: str) -> Optional[ProseFact]:
         m = rx.search(text)
         if m:
             return ProseFact(value, _span(text, m.start(), m.end(), pad=30), rule)
+
+    # Labelled permission rows: "Dogs Allowed - 2 dogs max." A brand that
+    # names the species in the LABEL is stating a restriction as surely as one
+    # that writes "dogs only" -- West-Hilliard permits dogs and says nothing
+    # about cats anywhere on the page.
+    #
+    # Checked after the both-species and exclusivity rules so an explicit
+    # sentence always outranks a row label, and skipped entirely when the label
+    # is the generic "Pets Allowed", which names no species at all. Reading
+    # that as a species would invent one.
+    labelled = _labelled_species(text)
+    if labelled is not None:
+        return labelled
 
     m = _CATS_EXCLUDED.search(text)
     if m and not _DOGS_EXCLUDED.search(text):
@@ -379,3 +433,100 @@ def detect_unrepresentable_fee_range(block: str) -> Optional[FeeRange]:
             continue
         return FeeRange(low, high, _span(text, m.start(), m.end(), pad=70))
     return None
+
+
+# --------------------------------------------------------------------------- #
+# 5. Fees stated in prose, with an explicit basis.
+# --------------------------------------------------------------------------- #
+
+#: An amount with or without a dollar sign. Sources write "$25.00", "25 USD"
+#: and "25 dollars" interchangeably, and the labelled patterns only ever taught
+#: the promoter the first of those.
+_AMOUNT = r"(?:\$\s*(?P<dollar>\d[\d,]*(?:\.\d{2})?)|(?P<plain>\d[\d,]*(?:\.\d{2})?)\s*(?:USD|usd|dollars?))"
+
+#: Fee bases, most specific FIRST. Per-pet must beat per-night: "25 USD per pet
+#: per night" satisfies both patterns, and the per-pet reading is the one that
+#: doubles for a second animal.
+FEE_BASIS_PER_PET_PER_NIGHT = "per pet per night"
+FEE_BASIS_PER_PET_PER_STAY = "per pet per stay"
+FEE_BASIS_PER_NIGHT_UP_TO_N = "per night for up to %s pets"
+FEE_BASIS_PER_NIGHT = "per night"
+FEE_BASIS_PER_STAY = "per stay"
+
+_BASIS_PATTERNS = (
+    (re.compile(r"per\s+pet\s+per\s+night\b", re.I), FEE_BASIS_PER_PET_PER_NIGHT),
+    (re.compile(r"per\s+night\s+per\s+pet\b", re.I), FEE_BASIS_PER_PET_PER_NIGHT),
+    (re.compile(r"per\s+pet\s+per\s+stay\b", re.I), FEE_BASIS_PER_PET_PER_STAY),
+    (re.compile(r"(?:nightly|per\s+night|each\s+night)\s+for\s+up\s+to\s+"
+                r"(?P<n>\d+|one|two|three|four)\s+pets?\b", re.I), None),
+    (re.compile(r"\bper\s+pet\b", re.I), "per pet"),
+    (re.compile(r"\b(?:per\s+night|nightly|each\s+night)\b", re.I), FEE_BASIS_PER_NIGHT),
+    (re.compile(r"\bper\s+stay\b", re.I), FEE_BASIS_PER_STAY),
+)
+
+#: "Max 75 USD per stay" -- a ceiling, not a rate.
+_PROSE_CAP = re.compile(
+    r"(?:max(?:imum)?|up\s+to|not\s+to\s+exceed|capped\s+at)\s*"
+    r"(?:of\s+|a\s+total\s+of\s+)?" + _AMOUNT + r"(?P<tail>[^.]{0,24})", re.I)
+
+#: The rate itself. Anchored on a fee word so a room rate is never harvested.
+_PROSE_FEE = re.compile(
+    r"(?:fees?|charge)\b[^.]{0,40}?" + _AMOUNT + r"(?P<tail>[^.]{0,60})", re.I)
+
+_NUMBER_WORD = {"one": "1", "two": "2", "three": "3", "four": "4"}
+
+
+def _amount_from(m) -> str:
+    raw = m.group("dollar") or m.group("plain") or ""
+    raw = raw.replace(",", "")
+    if not raw:
+        return ""
+    return "$%.2f" % float(raw)
+
+
+def _basis_from(tail: str) -> str:
+    """The stated basis, or "" when the source states none."""
+    for rx, basis in _BASIS_PATTERNS:
+        m = rx.search(tail or "")
+        if not m:
+            continue
+        if basis is None:                       # "nightly for up to N pets"
+            n = (m.groupdict().get("n") or "").lower()
+            return FEE_BASIS_PER_NIGHT_UP_TO_N % _NUMBER_WORD.get(n, n)
+        return basis
+    return ""
+
+
+def extract_fee_with_basis(block: str) -> Optional[ProseFact]:
+    """A pet fee stated in prose, carrying the basis the source gave it.
+
+    ``value`` is the amount; ``operator`` carries the basis, so a caller cannot
+    take one without the other. A fee whose basis is unstated still returns --
+    the amount is a fact -- but with an empty basis, which downstream renders
+    as "Not stated" rather than as an invented "per night".
+    """
+    text = block or ""
+    # A cap is not a rate. Remove cap phrases before looking for the rate, or
+    # "Max 75 USD per stay" is harvested as a 75-per-stay fee.
+    for m in _PROSE_FEE.finditer(text):
+        span = text[m.start():m.end()]
+        if re.search(r"max(?:imum)?|not\s+to\s+exceed|capped", span, re.I):
+            continue
+        amount = _amount_from(m)
+        if not amount:
+            continue
+        return ProseFact(amount, _span(text, m.start(), m.end()),
+                         "prose_fee_with_basis", _basis_from(m.group("tail")))
+    return None
+
+
+def extract_fee_cap(block: str) -> Optional[ProseFact]:
+    """A stated ceiling on the total, or None. Never inferred from a rate."""
+    m = _PROSE_CAP.search(block or "")
+    if not m:
+        return None
+    amount = _amount_from(m)
+    if not amount:
+        return None
+    return ProseFact(amount, _span(block or "", m.start(), m.end()),
+                     "prose_fee_cap", _basis_from(m.group("tail")))

@@ -75,6 +75,18 @@ CONSECUTIVE_CHALLENGE_LIMIT = 3
 # landed marginally differently.
 POLICY_BOX_DRIFT_TOLERANCE_PX = 24.0
 
+#: A reveal control may open a panel that animates into place. Measured on two
+#: real property pages: the block reads 0x0 at the click, reaches its final
+#: position between 0.5s and 1.0s, and then holds still indefinitely. Measuring
+#: during that flight produced a 140-171px drift for a block that never moved
+#: afterwards.
+#:
+#: The wait is for STABILITY, not a fixed sleep: two consecutive identical
+#: reads, or give up and let the drift check do its job.
+POLICY_SETTLE_TIMEOUT_SECONDS = 6.0
+POLICY_SETTLE_POLL_SECONDS = 0.4
+POLICY_SETTLE_STABLE_CHECKS = 2
+
 
 # How long to wait for render and network quiet, in seconds.
 NAVIGATION_TIMEOUT_SECONDS = 45.0

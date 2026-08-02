@@ -14,6 +14,7 @@ from .base import BaseAdapter
 from .hilton import HiltonAdapter
 from .ihg import IhgAdapter
 from .marriott import MarriottAdapter
+from .wyndham import WyndhamAdapter
 
 _REGISTRY: Dict[str, BaseAdapter] = {}
 
@@ -35,6 +36,7 @@ def known_brands() -> Tuple[str, ...]:
 register(MarriottAdapter())
 register(HiltonAdapter())
 register(IhgAdapter())
+register(WyndhamAdapter())
 
 # Deliberately NOT registered: Hyatt. hyatt.com serves a Kasada bot-defence
 # interstitial to our visible Chrome -- an 811-byte shell containing only
@@ -44,7 +46,13 @@ register(IhgAdapter())
 # ADR-PTF-AUTOMATED-BROWSING forbids by name. An adapter would be dead code
 # whose only use would be to invite someone to try.
 #
-# Also deliberately NOT registered: Wyndham. Its official pages return HTTP 200
-# with EXACT_MATCH identity to ordinary automated retrieval, so those hotels
-# belong on the automated path; routing them through manual attestation would
-# force REVIEW on records that do not need it.
+# Wyndham WAS on that list, for a reason that turned out to be half right:
+# its pages do return HTTP 200 with EXACT_MATCH identity. What the note missed
+# is that the 200 does not carry the policy. "Pet & Service Animal Policy"
+# ships in the static markup; "Dogs Allowed - 2 dogs max. 75lbs or less per
+# pet. Fees - 25 USD per pet per night." does not, and appears only once the
+# page renders and the visible "Hotel Policies" control is opened. So the
+# automated path could reach the page and never the policy, and the RETRIEVED
+# status forbade anyone else from trying. PTF-CAPTURE-004A gave that state its
+# own classification (RENDER_REQUIRED, reason policy_values_require_rendering)
+# and 004B registers the adapter it licenses.

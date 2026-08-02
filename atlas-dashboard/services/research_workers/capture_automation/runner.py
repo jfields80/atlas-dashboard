@@ -29,7 +29,8 @@ from .capture_writer import (
 from .contracts import BoxModel, DomSnapshot, PolicyLocation
 from .doctrine import (
     CONSECUTIVE_CHALLENGE_LIMIT, MAX_SECONDS_BETWEEN_HOTELS,
-    MIN_SECONDS_BETWEEN_HOTELS,
+    MIN_SECONDS_BETWEEN_HOTELS, POLICY_SETTLE_POLL_SECONDS,
+    POLICY_SETTLE_STABLE_CHECKS, POLICY_SETTLE_TIMEOUT_SECONDS,
 )
 from .hydration import wait_for_identity
 from .identity_check import verify_identity
@@ -177,6 +178,22 @@ class CaptureRunner:
                 if relocated is not None:
                     location = relocated
 
+                # One discarded capture. The FIRST Page.captureScreenshot after
+                # a reveal can itself relayout the page, and a panel anchored to
+                # the viewport moves when it does: measured on two real property
+                # pages, the revealed block sat at page-y 1231, the first
+                # screenshot moved it to 1371, and the second, third and fourth
+                # moved it not at all. Measuring across that one-time reflow
+                # reported 140-171px of drift for a policy that was in frame,
+                # readable and thereafter perfectly still.
+                #
+                # Absorbing the reflow here keeps the drift check at full
+                # strength rather than widening its tolerance -- the check that
+                # caught a Marriott capture describing a section 470px from the
+                # one in the image is the last thing to weaken.
+                self._session.screenshot_png()
+                self._sleep(0.5)
+
             if location is None:
                 return done(EXCEPTION, "POLICY_NOT_FOUND",
                             ("no_anchor_after_supported_expansion",))
@@ -313,7 +330,34 @@ class CaptureRunner:
         if box is None and kind == "text" and value:
             self._session.scroll_to_text(value)
             box = self._measure_policy(handle)
+        box = self._settle_policy(handle, box)
         return (box, self._session.viewport())
+
+    def _settle_policy(self, handle: Tuple[str, str],
+                       box: Optional[BoxModel]) -> Optional[BoxModel]:
+        """Read the box until it stops changing, or the budget runs out.
+
+        A block revealed by a click may still be animating. Its geometry only
+        becomes evidence once it holds still, and a screenshot taken mid-flight
+        disagrees with a measurement taken a moment earlier -- which reads as
+        drift, and fails a policy that is perfectly visible.
+        """
+        deadline = self._clock() + POLICY_SETTLE_TIMEOUT_SECONDS
+        stable = 0
+        last = box
+        while self._clock() < deadline:
+            self._sleep(POLICY_SETTLE_POLL_SECONDS)
+            current = self._measure_policy(handle)
+            if current is None:
+                continue
+            if last is not None and _same_box(current, last):
+                stable += 1
+                if stable >= POLICY_SETTLE_STABLE_CHECKS:
+                    return current
+            else:
+                stable = 0
+            last = current
+        return last if last is not None else box
 
     # -- the batch -------------------------------------------------------- #
 
@@ -370,6 +414,13 @@ class CaptureRunner:
         waited = self._jitter(low, high)
         self.pace_waits.append(waited)
         self._sleep(waited)
+
+
+def _same_box(a: BoxModel, b: BoxModel) -> bool:
+    """Identical to the pixel. A block that is still moving is not settled."""
+    return (round(a.x) == round(b.x) and round(a.y) == round(b.y)
+            and round(a.width) == round(b.width)
+            and round(a.height) == round(b.height))
 
 
 def _policy_handle(location: PolicyLocation, session) -> Tuple[str, str]:

@@ -81,16 +81,19 @@ class TestOutcomes:
 
 class TestAdapterContract:
     def test_the_registered_brands_are_exactly_the_supported_ones(self):
-        """Phase 1 shipped Marriott and Hilton; Phase 2A added IHG.
+        """Phase 1 shipped Marriott and Hilton; 2A added IHG; 004B added Wyndham.
 
-        Hyatt is absent on purpose -- hyatt.com serves a Kasada interstitial
-        our automation must not try to defeat -- and Wyndham is absent because
-        its pages answer ordinary automated retrieval with HTTP 200 and
-        EXACT_MATCH, so those hotels do not belong on the manual path at all.
+        Wyndham was previously absent on the grounds that its pages answer
+        ordinary retrieval with HTTP 200 and EXACT_MATCH. That was half right:
+        the 200 does not carry the policy, which exists only after rendering
+        and a click. PTF-CAPTURE-004A gave that state its own classification
+        and 004B registers the adapter it licenses.
+
+        Hyatt is still absent, and for a reason that has not changed --
+        hyatt.com serves a Kasada interstitial our automation must not defeat.
         """
-        assert set(known_brands()) == {"marriott", "hilton", "ihg"}
+        assert set(known_brands()) == {"marriott", "hilton", "ihg", "wyndham"}
         assert adapter_for("hyatt") is None
-        assert adapter_for("wyndham") is None
 
     def test_an_unknown_brand_returns_none(self):
         assert adapter_for("fictional-inns") is None

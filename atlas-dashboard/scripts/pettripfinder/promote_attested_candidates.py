@@ -50,7 +50,14 @@ PROMOTION_SUBDIR = "candidates"
 ADAPTER_VERSION = "ptf-capture-003/1.0.0"
 
 # Headings that open a property's pet-policy block.
-_BLOCK_START = re.compile(r"(?:Pet\s+Policy|(?<![A-Za-z])Pets(?![A-Za-z]))", re.I)
+# "Pet & Service Animal Policy" is a heading in its own right, and the one
+# Wyndham uses. Without it a block whose only other cue is "Dogs Allowed"
+# is never found at all -- the bare word "Pets" never appears on the
+# West-Hilliard page.
+_BLOCK_START = re.compile(
+    r"(?:Pet\s+Policy"
+    r"|Pet\s*(?:&|and)\s*Service\s+Animal(?:\s+Policy)?"
+    r"|(?<![A-Za-z])Pets(?![A-Za-z]))", re.I)
 # Headings that close it. The block ends at whichever appears first -- this is
 # what keeps a checkout or parking fee from being read as a pet fee.
 _BLOCK_END = re.compile(
@@ -236,8 +243,9 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # fields it had; prose can add, never overwrite.
     from scripts.pettripfinder.prose_facts import (
         UNREPRESENTABLE_FEE_RANGE, WEIGHT_OP_LT,
-        detect_unrepresentable_fee_range, extract_pet_count,
-        extract_pets_allowed, extract_species, extract_weight_limit,
+        detect_unrepresentable_fee_range, extract_fee_cap,
+        extract_fee_with_basis, extract_pet_count, extract_pets_allowed,
+        extract_species, extract_weight_limit,
     )
 
     if "weight_limit" not in facts:
@@ -286,6 +294,38 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             evidence.append({"field": "fee_withheld",
                              "value": "withheld_unrepresentable_range",
                              "quote": fee_range.quote})
+
+    # PTF-CAPTURE-004B. A fee written without a dollar sign -- "25 USD per pet
+    # per night" -- is still a stated fee, and the labelled patterns only ever
+    # recognised "$25". The BASIS travels with the amount and is never
+    # defaulted: "per pet per night" and "per night for up to 2 pets" are the
+    # same number and different policies, and a second dog doubles only one of
+    # them.
+    #
+    # Runs AFTER the range check, and only when no range was withheld. Ordered
+    # the other way round it read "Pet fee per pet is 75 to 150 dollars" as a
+    # $150 fee -- the high end of a range published as the price, which is the
+    # error the withholding exists to prevent. Gap-filling only: a labelled
+    # amount or a tier ladder still outranks prose, so no hotel publishing
+    # today can have its fee changed by this.
+    if (not facts.get("pet_fee") and not facts.get("fee_tiers")
+            and not facts.get("fee_withheld")):
+        got = extract_fee_with_basis(block)
+        if got:
+            facts["pet_fee"] = got.value
+            evidence.append({"field": "pet_fee", "value": got.value,
+                             "quote": got.quote})
+            if got.operator:
+                facts["fee_basis"] = got.operator
+                evidence.append({"field": "fee_basis", "value": got.operator,
+                                 "quote": got.quote})
+            cap = extract_fee_cap(block)
+            if cap and not facts.get("fee_cap"):
+                facts["fee_cap"] = {"amount": cap.value.lstrip("$"),
+                                    "currency": "USD",
+                                    "evidence_quote": cap.quote}
+                evidence.append({"field": "fee_cap", "value": cap.value,
+                                 "quote": cap.quote})
 
     welcome = _WELCOME.search(block)
     if welcome or facts.get("pet_fee"):
