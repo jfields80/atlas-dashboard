@@ -456,10 +456,27 @@ def _expected_matches(field: str, text: str, expected: Mapping[str, str]) -> boo
         return national_digits(text) == national_digits(want)
     haystack = (text or "").lower()
     builder = _VARIANTS.get(field)
-    for candidate in (builder(want) if builder else (want,)):
+    candidates = builder(want) if builder else (want,)
+    for candidate in candidates:
         if candidate.lower() in haystack:
             return True
+    if field == FIELD_HOTEL_NAME:
+        # Every word of the expected name must appear in the observed one. A
+        # brand may ADD words ("Inn & Suites by Wyndham", "by Marriott"); a
+        # different property drops the distinctive ones. Substring matching
+        # cannot survive a brand line inserted mid-name, and a short tail
+        # ("Columbus Airport") is not distinctive enough to be safe.
+        return _name_tokens(want) <= _name_tokens(text)
     return False
+
+
+def _name_tokens(text: str) -> frozenset:
+    """Lowercase word set, punctuation discarded.
+
+    "West-Hilliard" and "West - Hilliard" reduce to the same two tokens, which
+    is the point: hyphen spacing is typesetting, not identity.
+    """
+    return frozenset(w for w in re.split(r"[^a-z0-9]+", (text or "").lower()) if w)
 
 
 def assess_evidence(views: Sequence[EvidenceView], *, official_url: str,

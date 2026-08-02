@@ -478,3 +478,57 @@ def test_without_an_expectation_conflicting_text_is_still_ambiguous(tmp_path):
     report = assess_evidence([_view(tmp_path, "identity.png", obs)],
                              official_url=OFFICIAL)
     assert FIELD_STREET in report.ambiguous
+
+
+# --------------------------------------------------------------------------- #
+# Hotel names: a brand may add words; a different property drops them.
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize("seed,page", [
+    # brand line inserted mid-name
+    ("La Quinta Columbus West-Hilliard",
+     "La Quinta Inn & Suites by Wyndham Columbus West - Hilliard"),
+    ("Aloft Columbus University District",
+     "Aloft by Marriott Columbus University District"),
+    # punctuation only
+    ("Staybridge Suites Columbus Dublin", "Staybridge Suites Columbus-Dublin"),
+    # identical
+    ("La Quinta Inn by Wyndham Columbus Dublin",
+     "La Quinta Inn by Wyndham Columbus Dublin"),
+])
+def test_the_same_hotel_typeset_differently_still_matches(tmp_path, seed, page):
+    report = assess_evidence(
+        [_view(tmp_path, "identity.png", [_obs(FIELD_HOTEL_NAME, page)])],
+        official_url=OFFICIAL, expected={FIELD_HOTEL_NAME: seed})
+    assert FIELD_HOTEL_NAME in report.proven, report.rejected
+
+
+@pytest.mark.parametrize("seed,page", [
+    # a genuinely different property on the same brand
+    ("La Quinta Columbus West-Hilliard",
+     "La Quinta Inn by Wyndham Columbus Dublin"),
+    ("Courtyard Columbus Easton", "Courtyard Columbus Worthington"),
+    # the real Hilton case: a property page titled with another brand. A
+    # two-word tail would have matched this on "Columbus Airport" alone.
+    ("Hampton Inn Columbus Airport",
+     "Embassy Suites by Hilton Columbus Airport"),
+])
+def test_a_different_property_is_still_refused(tmp_path, seed, page):
+    report = assess_evidence(
+        [_view(tmp_path, "identity.png", [_obs(FIELD_HOTEL_NAME, page)])],
+        official_url=OFFICIAL, expected={FIELD_HOTEL_NAME: seed})
+    assert FIELD_HOTEL_NAME in report.missing
+    assert any("contradicts expected" in r for r in report.rejected)
+
+
+def test_name_matching_is_not_applied_to_street_or_phone(tmp_path):
+    """The allowance is for names only. An address that differs is a different
+    fact, and must not inherit the name rule's tolerance."""
+    obs = [_obs(FIELD_STREET, "9999 Somewhere Else Road"),
+           _obs(FIELD_PROPERTY_PHONE, "614-555-0000", context="Tel:")]
+    report = assess_evidence(
+        [_view(tmp_path, "identity.png", obs)], official_url=OFFICIAL,
+        expected={FIELD_STREET: "5510 Trabue Rd",
+                  FIELD_PROPERTY_PHONE: "614-878-8844"})
+    assert FIELD_STREET in report.missing
+    assert FIELD_PROPERTY_PHONE in report.missing
