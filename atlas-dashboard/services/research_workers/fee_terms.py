@@ -427,6 +427,103 @@ def detect_fee_cap(text: str) -> Tuple[Optional[str], str]:
     return (canonical_amount(m.group(1)), " ".join(m.group(0).split()))
 
 
+# --------------------------------------------------------------------------- #
+# PTF-WORKERS -- what the CURRENT production chain can faithfully carry.
+#
+# Routing used to withhold every non-null fee policy as
+# DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED, on the grounds that the importer and
+# renderer were single-value. That stopped being true when fee_tiers shipped:
+# three published profiles render a stay-length ladder today. The blanket rule
+# therefore answered the wrong question -- "is there a structured fee?" instead
+# of "can we render THIS one honestly?"
+#
+# This answers the second. It is deliberately a capability statement about the
+# production chain as it exists, derived from the shape those three profiles
+# actually carry and from what the renderer demonstrably does with it. Anything
+# outside that shape is refused rather than guessed at, because the failure mode
+# is publishing a fee a guest would be charged differently for.
+# --------------------------------------------------------------------------- #
+
+#: Units the profile renderer prints verbatim in "stays of 1-7 <unit>".
+_DOWNSTREAM_UNITS = (V.BOUNDARY_UNIT_NIGHTS, V.BOUNDARY_UNIT_DAYS)
+#: The renderer formats every amount with a literal "$".
+_DOWNSTREAM_CURRENCY = "USD"
+
+DOWNSTREAM_UNSUPPORTED_REASONS = (
+    "downstream_no_terms",
+    "downstream_single_tier_is_not_a_ladder",
+    "downstream_role_not_renderable",
+    "downstream_condition_not_stay_length",
+    "downstream_mixed_or_unsupported_unit",
+    "downstream_currency_not_renderable",
+    "downstream_amount_unparseable",
+    "downstream_ladder_does_not_start_at_one",
+    "downstream_ladder_has_gap",
+    "downstream_ladder_overlaps",
+    "downstream_open_tier_not_last",
+    "downstream_final_tier_not_open",
+    "downstream_basis_asserted_but_unrenderable",
+)
+
+
+def downstream_fee_schema_support(policy: Optional[PetFeePolicy]) -> Tuple[bool, List[str]]:
+    """Can the production package + renderer represent THIS policy faithfully?
+
+    Returns ``(supported, reasons)``; ``reasons`` is empty exactly when
+    supported. A policy of ``None`` is trivially supported -- there is no
+    structure to carry.
+
+    The supported shape is the one three published profiles already carry: a
+    contiguous stay-length ladder of two or more one-time charges, starting at
+    night 1, each tier closed except the last, one unit, USD, and no asserted
+    basis (the renderer states plainly that the source gives none, so a policy
+    claiming one would be rendered as a falsehood).
+    """
+    if policy is None:
+        return (True, [])
+    terms = list(policy.terms or ())
+    problems: List[str] = []
+    if not terms:
+        return (False, ["downstream_no_terms"])
+    if len(terms) < 2:
+        # One priced range is a conditional single fee. The renderer would print
+        # "stays of 1 nights or more", which is not a ladder and reads as one.
+        problems.append("downstream_single_tier_is_not_a_ladder")
+
+    for t in terms:
+        if t.role != V.FEE_ROLE_ONE_TIME_CHARGE:
+            problems.append("downstream_role_not_renderable")
+        if t.condition_type != V.FEE_CONDITION_STAY_LENGTH_RANGE:
+            problems.append("downstream_condition_not_stay_length")
+        if t.currency != _DOWNSTREAM_CURRENCY:
+            problems.append("downstream_currency_not_renderable")
+        if canonical_amount(t.amount) != t.amount:
+            problems.append("downstream_amount_unparseable")
+    units = {t.boundary_unit for t in terms}
+    if len(units) != 1 or not units <= set(_DOWNSTREAM_UNITS):
+        problems.append("downstream_mixed_or_unsupported_unit")
+
+    ordered = sorted(terms, key=lambda t: (t.condition_min if t.condition_min is not None else 0))
+    if ordered[0].condition_min != 1:
+        problems.append("downstream_ladder_does_not_start_at_one")
+    for i, t in enumerate(ordered):
+        is_last = i == len(ordered) - 1
+        if t.condition_max is None and not is_last:
+            problems.append("downstream_open_tier_not_last")
+        if t.condition_max is not None and is_last:
+            problems.append("downstream_final_tier_not_open")
+    for a, b in zip(ordered, ordered[1:]):
+        if a.condition_max is None:
+            continue                       # already reported as an open non-final tier
+        if b.condition_min is None or b.condition_min <= a.condition_max:
+            problems.append("downstream_ladder_overlaps")
+        elif b.condition_min != a.condition_max + 1:
+            # A gap leaves stays whose price nothing states. The package schema
+            # has no way to say "unpriced between 5 and 8 nights".
+            problems.append("downstream_ladder_has_gap")
+    return (not problems, sorted(set(problems)))
+
+
 def tier_facts(terms: Sequence[PetFeeTerm], *, basis_stated: bool) -> List[Dict]:
     """Publishable dicts for a parsed tier ladder.
 

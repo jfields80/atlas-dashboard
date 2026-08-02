@@ -52,9 +52,25 @@ DECISION_TIERED_FEE_OMITTED = "APPROVED_TIERED_FEE_OMITTED"
 # approval goes stale -- which is the point: an approval must apply to exactly
 # the evidence a human looked at, not to whatever later occupies its slot.
 DECISION_PAIRED_OFFICIAL_SOURCE = "APPROVED_PAIRED_OFFICIAL_SOURCE"
+# PTF-WORKERS. An approval for a record whose only remaining reason is an
+# APPROVAL-ELIGIBLE DIAGNOSTIC -- a note about what the airlock DID, not a
+# defect being tolerated.
+#
+# It is deliberately NOT called a waiver, and MODEL_OVERCLAIM is deliberately
+# not in WAIVABLE_REASON_CODES, because nothing unsupported is being accepted:
+# the model's invented claim was rejected, removed, and never published. What a
+# waiver does is carry a known defect into production; what this does is record
+# that a human saw the diagnostic and the record is sound without it.
+#
+# It cannot clear anything else. A record carrying a contradiction, a genuine
+# incomplete extraction, an identity or source-authority failure, or any other
+# never-waivable reason is refused exactly as before -- the diagnostic must be
+# the ONLY reason present.
+DECISION_DIAGNOSTIC_ACKNOWLEDGED = "APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT"
 ALLOWED_DECISIONS = (DECISION_APPROVED, DECISION_HOLD, DECISION_REJECTED,
                      DECISION_SUPERSEDED, DECISION_TIERED_FEE_OMITTED,
-                     DECISION_PAIRED_OFFICIAL_SOURCE)
+                     DECISION_PAIRED_OFFICIAL_SOURCE,
+                     DECISION_DIAGNOSTIC_ACKNOWLEDGED)
 
 # The ONLY reason codes these decisions may waive, one frozenset per decision.
 # Kept separate so a widening is a visible, reviewable edit rather than a
@@ -68,6 +84,19 @@ NEVER_WAIVABLE_REASON_CODES = frozenset({
     "SOURCE_AUTHORITY_AMBIGUITY", "MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE",
     "INHERITED_IDENTITY_REQUIRES_REVIEW", "UNSAFE_RESULT",
 })
+# PTF-WORKERS. A THIRD category, distinct from both of the above: reasons that
+# record what the airlock DID rather than a defect it tolerated.
+#
+# MODEL_OVERCLAIM means an unsupported model claim was caught, rejected and
+# removed. There is no bad fact in the record to waive -- the record is sound
+# BECAUSE the claim is gone. Filing it under WAIVABLE would say the opposite,
+# and filing it under NEVER_WAIVABLE would hold a clean record forever for a
+# note about a claim that never reached it.
+#
+# Membership here does NOT make a record approvable on its own: it only means
+# this reason, ALONE, does not block. Every other gate is unchanged, and a
+# human must still acknowledge the diagnostic explicitly on the approval.
+APPROVAL_ELIGIBLE_WARNING_CODES = frozenset({"MODEL_OVERCLAIM"})
 # Extra fields REQUIRED on a tiered-fee approval and permitted on no other.
 TIERED_FEE_FIELDS = ("waived_reason_codes", "preserved_fee_amounts")
 # Extra fields REQUIRED on a paired-source approval and permitted on no other.
@@ -75,6 +104,12 @@ PAIRED_SOURCE_FIELDS = ("waived_reason_codes", "identity_capture_url",
                         "identity_text_hash", "policy_capture_url",
                         "policy_text_hash", "matched_signals",
                         "attestation_hash")
+# Extra fields REQUIRED on a diagnostic-acknowledgement approval and permitted
+# on no other. The acknowledgement is the point of the decision: the diagnostic
+# must be named, and what the model claimed and why it was rejected must survive
+# in the approval record, so an approved hotel never loses the fact that
+# something was thrown away to make it clean.
+DIAGNOSTIC_ACK_FIELDS = ("acknowledged_reason_codes", "acknowledged_warnings")
 # All four must be recorded. A three-of-four pairing is not a weaker pairing;
 # it is an unproven one.
 REQUIRED_BINDING_SIGNALS = ("address_exact", "name_exact", "phone_exact",
@@ -157,6 +192,8 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
             allowed_extra = set(TIERED_FEE_FIELDS)
         elif decision == DECISION_PAIRED_OFFICIAL_SOURCE:
             allowed_extra = set(PAIRED_SOURCE_FIELDS)
+        elif decision == DECISION_DIAGNOSTIC_ACKNOWLEDGED:
+            allowed_extra = set(DIAGNOSTIC_ACK_FIELDS)
         else:
             allowed_extra = set()
         extra = (set(a) - set(APPROVAL_REQUIRED_FIELDS) - set(APPROVAL_OPTIONAL_FIELDS)
@@ -171,6 +208,8 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
             errors.extend(_tiered_fee_errors(i, a))
         if decision == DECISION_PAIRED_OFFICIAL_SOURCE:
             errors.extend(_paired_source_errors(i, a))
+        if decision == DECISION_DIAGNOSTIC_ACKNOWLEDGED:
+            errors.extend(_diagnostic_ack_errors(i, a))
         key, rhash = a.get("listing_key"), a.get("result_hash")
         if key in seen_key:
             errors.append("approval[%d]:duplicate_listing_key" % i)
@@ -199,6 +238,39 @@ def validate_manifest(manifest: Dict, *, gate1_idx: Optional[Dict[str, Dict]] = 
 
 
 _SHA256_HEX = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
+
+
+def _diagnostic_ack_errors(i: int, a: Dict) -> List[str]:
+    """Extra structural rules for APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT.
+
+    The decision exists to record that a human SAW a diagnostic, so an approval
+    that names none is meaningless. The acknowledged codes must be exactly the
+    approval-eligible ones -- this decision can never reach a waivable reason,
+    let alone a never-waivable one -- and the underlying warnings must be
+    carried verbatim, so the fact that a claim was rejected and removed survives
+    into the approval record rather than disappearing with it.
+    """
+    errors: List[str] = []
+    if a.get("gate1_route") == ROUTE_READY:
+        # A READY record has no diagnostic to acknowledge; using this decision
+        # there would turn it into a general-purpose rubber stamp.
+        errors.append("approval[%d]:diagnostic_ack_requires_review_route" % i)
+
+    codes = a.get("acknowledged_reason_codes")
+    if not isinstance(codes, list) or not codes:
+        errors.append("approval[%d]:diagnostic_ack_requires_reason_codes" % i)
+    else:
+        illegal = sorted(set(codes) - APPROVAL_ELIGIBLE_WARNING_CODES)
+        if illegal:
+            errors.append("approval[%d]:not_approval_eligible_reason_codes:%s"
+                          % (i, ",".join(illegal)))
+
+    warnings = a.get("acknowledged_warnings")
+    if not isinstance(warnings, list) or not warnings:
+        errors.append("approval[%d]:diagnostic_ack_requires_warnings" % i)
+    elif not all(isinstance(w, str) and w.strip() for w in warnings):
+        errors.append("approval[%d]:diagnostic_ack_warnings_must_be_text" % i)
+    return errors
 
 
 def _paired_source_errors(i: int, a: Dict) -> List[str]:

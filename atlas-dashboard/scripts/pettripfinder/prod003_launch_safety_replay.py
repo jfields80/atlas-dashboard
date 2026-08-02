@@ -52,7 +52,8 @@ from services.research_workers import vocabulary as V
 from services.research_workers.contracts import Assignment, WorkerResult
 from services.research_workers.evidence_validator import validate_proposal
 from services.research_workers.fee_terms import (
-    detect_multiple_fee_amounts, source_stay_length_ladder,
+    detect_multiple_fee_amounts, downstream_fee_schema_support,
+    source_stay_length_ladder,
 )
 from services.research_workers.model_eval import VALIDATOR_VERSION
 from services.research_workers.proposal import ModelProposal, RawFactClaim
@@ -194,6 +195,15 @@ def classify_record(assignment: Assignment, v2_result: WorkerResult, *,
         "rederivation_method": rederivation_method,
         "multi_amount_detected": multi_amount,
         "multi_amount_values": amounts,
+        # PTF-WORKERS. The multi-amount SIGNAL and a faithfully STRUCTURED fee
+        # are different facts, and a downstream consumer cannot tell them apart
+        # from the signal alone. Carried so the promoter can distinguish "two
+        # amounts and nothing representing them" from "two amounts, represented
+        # exactly, in a shape the production chain renders today".
+        "fee_policy": (frozen_result.fee_policy.to_dict()
+                       if frozen_result.fee_policy is not None else None),
+        "downstream_fee_schema_supported":
+            downstream_fee_schema_support(frozen_result.fee_policy)[0],
         "v2_status": v2_result.status,
         "v2_contradictions": list(v2_result.contradictions),
         "v2_result_hash": v2_result_hash,

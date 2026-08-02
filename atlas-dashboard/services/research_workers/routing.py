@@ -37,6 +37,7 @@ from services.research_workers import vocabulary as V
 from services.research_workers.contracts import (
     Assignment, WorkerResult, canonical_json,
 )
+from services.research_workers.fee_terms import downstream_fee_schema_support
 from services.research_workers.proposal import ModelProposal, is_provider_error
 
 # Routing-contract revision, recorded in every envelope so envelopes produced
@@ -63,7 +64,17 @@ from services.research_workers.proposal import ModelProposal, is_provider_error
 #            any record in the frozen corpus -- proven by replaying it: the 15
 #            launch-safe result_hashes are byte-identical, so every existing
 #            approval stays bound and only gate1_manifest_sha256 is re-pinned.
-ROUTING_VERSION = "1.3.0"
+#   1.4.0 -- PTF-WORKERS: DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED becomes a
+#            CAPABILITY check. It withheld every structured fee on the grounds
+#            that the production chain was single-value; fee_tiers shipped and
+#            three published profiles render a stay-length ladder today, so the
+#            rule was answering "is there a structured fee?" instead of "can we
+#            render THIS one honestly?". A shape the chain cannot carry -- a
+#            gap, an overlap, a non-final open tier, a cap or deposit role, a
+#            currency the renderer cannot format -- is still withheld, now with
+#            the exact reason. Same replay proof: routes and result_hashes
+#            byte-identical across the frozen corpus.
+ROUTING_VERSION = "1.4.0"
 
 
 class RoutingError(RuntimeError):
@@ -429,9 +440,14 @@ def _ready_blockers(assignment: Assignment, result: WorkerResult) -> set:
         blockers.add(VALIDATOR_WARNING)
     if not any(f.state == V.SUPPORTED for f in result.proposed_facts):
         blockers.add(INCOMPLETE_EXTRACTION)     # nothing to publish
-    if result.fee_policy is not None:
-        # A structured (tiered/capped/conditional) fee is research-complete but
-        # cannot be rendered by the single-value production chain -> withhold.
+    # PTF-WORKERS. This once withheld EVERY structured fee, on the grounds that
+    # the production chain was single-value. That stopped being true when
+    # fee_tiers shipped -- three published profiles render a stay-length ladder
+    # today -- so the rule was answering "is there a structured fee?" when the
+    # question is "can we render THIS one honestly?". It now asks the second.
+    # A shape the chain cannot carry is still withheld, with the exact reason.
+    supported, _why = downstream_fee_schema_support(result.fee_policy)
+    if not supported:
         blockers.add(DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED)
     # PTF-WORKERS-005/006: inherited identity and manual attestation may support
     # extraction but never publish automatically. Checked on the selected source

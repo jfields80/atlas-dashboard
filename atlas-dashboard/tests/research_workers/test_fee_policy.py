@@ -406,8 +406,9 @@ def test_contract_versions():
     # of one already-rejected claim.
     assert PROMPT_VERSION == "1.7.0" and VALIDATOR_VERSION == "1.5.0"
     assert V.FEE_POLICY_VERSION == "1.0.0"
-    # 1.3.0 -- PTF-WORKERS MODEL_OVERCLAIM. Additive reason vocabulary; no route
-    # decision changed in the frozen corpus.
-    assert RT.ROUTING_VERSION == "1.3.0"
+    # 1.4.0 -- PTF-WORKERS: MODEL_OVERCLAIM (1.3.0) then the capability-based
+    # downstream fee check (1.4.0). No route decision or reason code changed for
+    # any record in the frozen corpus.
+    assert RT.ROUTING_VERSION == "1.4.0"
     assert RT.DOWNSTREAM_FEE_SCHEMA_UNSUPPORTED in RT.REVIEW_REASONS
     assert RT.STRUCTURED_FEE_REQUIRED in RT.REVIEW_REASONS

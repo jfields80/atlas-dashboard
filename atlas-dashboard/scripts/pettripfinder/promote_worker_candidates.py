@@ -64,7 +64,8 @@ REPORT_SCHEMA = "prod003-gate2-dryrun/1.0"
 # The decisions that actually promote. Every other decision -- HOLD, REJECTED,
 # SUPERSEDED -- is excluded with its decision recorded, never silently skipped.
 PROMOTING_DECISIONS = (PA.DECISION_APPROVED, PA.DECISION_TIERED_FEE_OMITTED,
-                       PA.DECISION_PAIRED_OFFICIAL_SOURCE)
+                       PA.DECISION_PAIRED_OFFICIAL_SOURCE,
+                       PA.DECISION_DIAGNOSTIC_ACKNOWLEDGED)
 
 TIERED_FEE_CONSUMER_NOTE = ("Pet fees vary by stay length or policy conditions. "
                             "Confirm the current fee directly with the hotel.")
@@ -293,12 +294,21 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     # the other's blocker.
     tiered = decision == PA.DECISION_TIERED_FEE_OMITTED
     paired = decision == PA.DECISION_PAIRED_OFFICIAL_SOURCE
-    review_side = tiered or paired
+    # PTF-WORKERS. A diagnostic acknowledgement is NOT a waiver -- nothing
+    # unsupported is being carried -- but it targets a manual-review record for
+    # the same reason the waivers do, so it reads the same side of the manifest.
+    diagnostic = decision == PA.DECISION_DIAGNOSTIC_ACKNOWLEDGED
+    review_side = tiered or paired or diagnostic
     if tiered:
         waived = set(approval.get("waived_reason_codes") or []) & PA.WAIVABLE_REASON_CODES
     elif paired:
         waived = (set(approval.get("waived_reason_codes") or [])
                   & PA.PAIRED_WAIVABLE_REASON_CODES)
+    elif diagnostic:
+        # Acknowledged, not waived: the codes clear the ROUTE because they never
+        # denoted a defect, and only the approval-eligible set may appear here.
+        waived = (set(approval.get("acknowledged_reason_codes") or [])
+                  & PA.APPROVAL_ELIGIBLE_WARNING_CODES)
     else:
         waived = set()
 
@@ -328,7 +338,13 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
     # reason is the one being waived -- never as a blanket route bypass.
     if g1rec.get("final_route") != "READY" and not (
             (tiered and "STRUCTURED_FEE_REQUIRED" in waived)
-            or (paired and "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW" in waived)):
+            or (paired and "PAIRED_OFFICIAL_SOURCE_REQUIRES_REVIEW" in waived)
+            # A diagnostic-only record is REVIEW *because of* the diagnostic;
+            # requiring READY here would make the decision unusable. Cleared
+            # only when the acknowledged codes are the record's ONLY reasons.
+            or (diagnostic and waived
+                and not (set(g1rec.get("reason_codes", [])) - waived
+                         - {"PUBLICATION_ELIGIBLE"}))):
         failures.append("gate1_route_not_ready")
     rc = set(g1rec.get("reason_codes", []))
     if "CONTRADICTORY_OFFICIAL_SOURCES" in rc:
@@ -339,7 +355,15 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
         failures.append("source_authority_ambiguity")
     if "STRUCTURED_FEE_REQUIRED" in rc and "STRUCTURED_FEE_REQUIRED" not in waived:
         failures.append("structured_fee_required")
-    if g1rec.get("multi_amount_detected") and "STRUCTURED_FEE_REQUIRED" not in waived:
+    # PTF-WORKERS. The multi-amount signal exists to stop a ladder publishing as
+    # one misleading number. It is satisfied -- not bypassed -- when the record
+    # carries the ladder EXACTLY, in a shape the production chain renders today.
+    # Absent that, or if the shape is one the chain cannot carry, it still
+    # blocks, and a waiver is still the only other way past it.
+    _structured_ok = bool(g1rec.get("fee_policy")
+                          and g1rec.get("downstream_fee_schema_supported"))
+    if (g1rec.get("multi_amount_detected") and "STRUCTURED_FEE_REQUIRED" not in waived
+            and not _structured_ok):
         failures.append("multi_term_fee_signal")
     if tiered:
         # Fail closed on anything the approval did not explicitly waive. A
@@ -359,6 +383,20 @@ def evaluate(approval: Dict, ctx: Dict, batch_keys: List[str]) -> Dict:
         actual = [str(x) for x in (g1rec.get("multi_amount_values") or [])]
         if sorted(stated) != sorted(actual):
             failures.append("preserved_fee_amounts_do_not_match_evidence")
+    if diagnostic:
+        # Identical fail-closed rule. Every reason the Gate-1 record carries
+        # must be one this decision may acknowledge; anything else -- including
+        # a code this adapter has never seen -- blocks. The acknowledgement is
+        # only meaningful if the record actually carries the diagnostic, and it
+        # may never stand in for a waiver, so a waivable code present here is a
+        # failure rather than a quiet pass.
+        unwaived = sorted(rc - waived - {"PUBLICATION_ELIGIBLE"})
+        if unwaived:
+            failures.append("unwaived_reason_codes:%s" % ",".join(unwaived))
+        if not (rc & PA.APPROVAL_ELIGIBLE_WARNING_CODES):
+            failures.append("diagnostic_ack_without_diagnostic")
+        if rc & PA.WAIVABLE_REASON_CODES:
+            failures.append("diagnostic_ack_cannot_stand_in_for_a_waiver")
     if paired:
         # Same fail-closed rule: only the paired blocker may be waived, and
         # only when the Gate-1 record actually carries it. A paired approval
