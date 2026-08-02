@@ -187,6 +187,31 @@ _NEGATION_RE: Dict[str, Tuple] = {
 #: Distinct so routing can classify it without re-reading the source.
 OVERCLAIM_AGAINST_NEGATION = "overclaim_against_explicit_negation"
 
+#: Values that ASSERT absence rather than a quantity. A model that has read
+#: "no weight restrictions" correctly and has nowhere numeric to put that
+#: finding tends to write one of these into the numeric field.
+#:
+#: A CLOSED list of whole values, anchored end to end. Arbitrary prose, a
+#: malformed number, and a partially-parsed quantity are all excluded by
+#: construction -- "none of our rooms", "5O lbs" and "80 combined" match
+#: nothing here.
+_ABSENCE_SENTINEL_RE = re.compile(
+    r"\s*(?:none|no\s+restrictions?|no\s+limits?|no\s+maximum|no\s+max"
+    r"|not\s+applicable|n/?a|unrestricted|unlimited|any|no)\s*\.?\s*",
+    re.I)
+
+#: Warning recorded when an absence sentinel is normalized away.
+NEGATED_FIELD_SENTINEL = "negated_field_sent_as_numeric_sentinel"
+
+
+def is_absence_sentinel(value: str) -> bool:
+    """The value asserts ABSENCE of a restriction, not a quantity.
+
+    Whole-value match only. A string that merely contains one of these words
+    among others is a claim about something else and is never a sentinel.
+    """
+    return bool(_ABSENCE_SENTINEL_RE.fullmatch(value or ""))
+
 
 def _is_positive_restriction(field_name: str, value: str) -> bool:
     """Does this proposed value ASSERT a restriction (rather than deny one)?
@@ -309,6 +334,25 @@ def validate_proposal(
         if not _quote_verbatim(claim.evidence_quote, doc):   # rule 2
             warnings.append("rejected_%s:quote_not_verbatim" % f)
             continue
+        # PTF-WORKERS. The model read the source correctly -- "no weight
+        # restrictions" -- and had nowhere numeric to put that finding, so it
+        # wrote an absence sentinel into a field that can only hold a quantity.
+        # That is a field-shape mistake, not a missing extraction: the fact IS
+        # extracted, and it is "there is no limit".
+        #
+        # Normalized away rather than rejected, so it can never become the
+        # INCOMPLETE_EXTRACTION that would block the record. Gated on the SOURCE
+        # explicitly negating this exact field, so a sentinel sent for a field
+        # the source quantifies -- or never mentions -- still fails closed on
+        # the ordinary rules.
+        # A BOOLEAN field could hold this finding ("breed_restrictions: false"),
+        # so a sentinel there is the same shape mistake and is classified the
+        # same way -- but the value is NOT converted. Turning "none" into
+        # "false" would manufacture a supported fact out of a malformed claim,
+        # and the negative publishes only when the model states it properly.
+        if f in negated_fields and is_absence_sentinel(claim.value):
+            warnings.append("%s:%s" % (NEGATED_FIELD_SENTINEL, f))
+            continue                          # no claim, and no rejection
         ok, why = _field_claim_valid(f, claim.value, claim.evidence_quote)
         if not ok:                            # rules 1/7/8/9/10/11/12
             # PTF-WORKERS. The claim is rejected either way; only its
