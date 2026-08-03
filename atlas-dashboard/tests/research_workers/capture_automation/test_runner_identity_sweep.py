@@ -324,4 +324,4 @@ class TestNothingElseMoved:
         import inspect
         src = inspect.getsource(R)
         assert "sweep_missing_views(" in src
-        assert "from .identity_views import sweep_missing_views" in src
+        assert "from .identity_views import attach_view_to_capture, sweep_missing_views" in src

@@ -192,7 +192,11 @@ class TestChallengeHandling:
         runner, _ = make_runner(tmp_path, session)
         result = runner.run(build_queue(names))
         assert not result.aborted_reason
-        assert len(session.navigations) == 5
+        # Distinct pages, not raw loads: a hotel that captures is requested a
+        # second time so its identity can be photographed once the policy modal
+        # is gone. What matters here is that every hotel was reached exactly
+        # once as a hotel.
+        assert len(set(session.navigations)) == 5
 
 
 class TestKillSwitchUnit:
@@ -485,7 +489,7 @@ class TestResume:
         first = FakeBrowserSession(pages, nav_failures={broken: "NAVIGATION_TIMEOUT"})
         runner, _ = make_runner(tmp_path, first)
         runner.run(build_queue(names))
-        assert len(first.navigations) == 4
+        assert len(set(first.navigations)) == 4
 
         # Second run over the same batch dir: everything already terminal.
         second = FakeBrowserSession(pages)
@@ -501,12 +505,12 @@ class TestResume:
         partial = FakeBrowserSession(pages)
         runner, _ = make_runner(tmp_path, partial, limit=2)
         runner.run(build_queue(names))
-        assert len(partial.navigations) == 2
+        assert len(set(partial.navigations)) == 2
 
         rest = FakeBrowserSession(pages)
         runner2, _ = make_runner(tmp_path, rest)
         result = runner2.run(build_queue(names))
-        assert len(rest.navigations) == 2, "only the unfinished two"
+        assert len(set(rest.navigations)) == 2, "only the unfinished two"
         assert result.manifest["counts"]["captured"] == 4
 
     def test_the_journal_survives_a_lost_manifest(self, tmp_path):

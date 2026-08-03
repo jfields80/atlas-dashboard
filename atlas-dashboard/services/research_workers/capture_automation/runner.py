@@ -28,9 +28,9 @@ from .capture_writer import (
 )
 from .evidence_completeness import (
     FIELD_CITY, FIELD_HOTEL_NAME, FIELD_POLICY_TEXT, FIELD_POSTAL_CODE,
-    FIELD_PROPERTY_PHONE, FIELD_STATE, FIELD_STREET,
+    FIELD_PROPERTY_PHONE, FIELD_STATE, FIELD_STREET, FieldObservation,
 )
-from .identity_views import sweep_missing_views
+from .identity_views import attach_view_to_capture, sweep_missing_views
 from .contracts import BoxModel, DomSnapshot, PolicyLocation
 from .doctrine import (
     CONSECUTIVE_CHALLENGE_LIMIT, MAX_SECONDS_BETWEEN_HOTELS,
@@ -249,25 +249,45 @@ class CaptureRunner:
                 return done(EXCEPTION, result.reason, result.problems,
                             duplicate_of=result.duplicate_of)
 
-            # -- IDENTITY VIEWS --------------------------------------------- #
+            # -- EVIDENCE VIEWS --------------------------------------------- #
             # PTF-CAPTURE. The attestation gate asks a human to affirm seven
             # fields and refuses unless the package can SHOW each one painted.
             # sweep_missing_views was written and tested for exactly that and
-            # had no production caller, so every batch capture arrived one
-            # screenshot short of attestable -- the policy proven, the identity
-            # not. Called here because this is the first moment all of its
-            # preconditions hold: the page is rendered, the adapter's
-            # interactions are done, the policy region is painted and framed,
-            # and the primary capture plus its DOM probe exist on disk.
+            # had no production caller, so every batch capture arrived short of
+            # attestable and could never be used.
             #
-            # The sweep never fabricates: it probes the live DOM, screenshots
-            # only a frame that actually paints the value, and writes nothing
-            # for a field the page does not show. An incomplete result is
-            # RECORDED, not repaired -- the attestation gate stays the enforcer,
-            # so a capture that was CAPTURED before is CAPTURED still.
+            # Two views, because one frame cannot hold both halves. The policy
+            # is what this capture exists to photograph and is already framed
+            # and geometry-checked, so the image on disk IS its evidence. The
+            # identity lives on the page the interactions covered over. Nothing
+            # here fabricates: the sweep probes the live DOM, photographs only
+            # a frame that actually paints the value, and writes nothing for a
+            # field the page does not show. An incomplete result is RECORDED,
+            # not repaired -- the attestation gate stays the enforcer, so a
+            # capture that was CAPTURED before is CAPTURED still.
             evidence_notes: List[str] = []
             evidence_complete = False
             try:
+                evidence_notes.extend(self._attach_policy_view(
+                    json_path, png_path, png_sha256=png_hash,
+                    png_bytes=len(png), png_width=w, png_height=h,
+                    captured_at=captured_at, final_url=dom.final_url,
+                    location=location, box=box, viewport=viewport))
+
+                # Reload the same official URL before hunting identity. The
+                # click that revealed the policy left a full-viewport modal
+                # over the page, and behind it the address and phone are
+                # genuinely not visible -- photographing them there would be
+                # photographing a backdrop. The capture is already written and
+                # hashed, so nothing it says can change.
+                renav = self._session.navigate(dom.final_url)
+                if not renav.ok:
+                    evidence_notes.append("identity_reload_failed:%s"
+                                          % (renav.reason or "unknown"))
+                else:
+                    wait_for_identity(self._session, entry, adapter=adapter,
+                                      clock=self._clock, sleep=self._sleep)
+
                 sweep = sweep_missing_views(
                     self._session,
                     capture_path=json_path,
@@ -276,12 +296,12 @@ class CaptureRunner:
                     write_view=self._view_writer(json_path, dom.final_url),
                     settle=lambda: self._sleep(POLICY_SETTLE_POLL_SECONDS))
                 evidence_complete = sweep.complete
-                evidence_notes = list(sweep.notes)
+                evidence_notes.extend(sweep.notes)
             except Exception as exc:                  # noqa: BLE001 - isolation
                 # A sweep failure must not discard a good policy capture; the
                 # capture stands and the missing views are reported.
-                evidence_notes = ["sweep_failed:%s: %s"
-                                  % (exc.__class__.__name__, exc)]
+                evidence_notes.append("sweep_failed:%s: %s"
+                                      % (exc.__class__.__name__, exc))
 
             warnings: List[str] = []
             conflicted, slugs = detect_fee_conflict(dom.text)
@@ -317,6 +337,57 @@ class CaptureRunner:
 
     def _captures_dir(self) -> pathlib.Path:
         return pathlib.Path(self._config.batch_dir) / "captures"
+
+    def _attach_policy_view(self, capture_path, png_path, *, png_sha256,
+                            png_bytes, png_width, png_height, captured_at,
+                            final_url, location, box, viewport) -> List[str]:
+        """Record the capture's OWN screenshot as the view that shows the policy.
+
+        The policy is the one required field no later sweep can reach: it is
+        why the capture exists, the framing check has already proved it was on
+        screen when the shutter fired, and the modal that revealed it is gone
+        by the time the identity is hunted. The image is already on disk and is
+        already the evidence -- this only states what it shows, in the shape
+        the completeness gate reads.
+
+        Claims nothing the geometry does not. ``in_frame`` is computed from the
+        same box ``check_policy_framing`` passed on, so a policy that was not
+        actually in the picture yields an unreadable observation and no proof.
+        """
+        import json as _json
+
+        top, bottom = box.viewport_rect()
+        observation = FieldObservation(
+            field=FIELD_POLICY_TEXT,
+            text=(location.text_excerpt or "").strip(),
+            visible=True,
+            in_frame=(top >= 0 and bottom <= float(viewport[1] or 0)),
+            context=location.selector or "",
+            box={"x": box.x, "y": top, "width": box.width, "height": box.height})
+
+        name = pathlib.Path(png_path).name
+        sidecar = {
+            "png_file": name,
+            "png_sha256": png_sha256,
+            "png_bytes": png_bytes,
+            "png_width": png_width,
+            "png_height": png_height,
+            "captured_at": captured_at,
+            "final_url": final_url,
+            "scroll_y": box.scroll_y,
+            "viewport_width": viewport[0],
+            "viewport_height": viewport[1],
+            "proves_fields": [FIELD_POLICY_TEXT] if observation.readable else [],
+            "field_observations": [observation.to_dict()],
+            "note": ("The capture's own screenshot, recorded as the view that "
+                     "shows the pet policy. Not a second capture and never an "
+                     "independent source of policy text."),
+        }
+        directory = pathlib.Path(png_path).parent
+        (directory / (name[:-4] + ".view.json")).write_text(
+            _json.dumps(sidecar, indent=1), encoding="utf-8")
+        attach_view_to_capture(capture_path, sidecar)
+        return [] if observation.readable else ["policy_view_unreadable"]
 
     def _view_writer(self, capture_path, final_url: str):
         """Persist one additional view: the PNG plus its ``.view.json`` sidecar.

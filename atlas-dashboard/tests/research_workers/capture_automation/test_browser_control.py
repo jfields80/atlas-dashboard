@@ -78,8 +78,30 @@ class TestSessionProtocol:
         )
         for method in ("navigate", "snapshot", "click", "scroll_into_view",
                        "scroll_to_text", "box_model", "box_for_text",
-                       "viewport", "screenshot_png", "close"):
+                       "viewport", "evaluate", "screenshot_png", "close"):
             assert callable(getattr(LiveBrowserSession, method))
+
+    def test_evaluate_delegates_to_the_connection_and_returns_its_value(self):
+        """The identity-view sweep probes with a script of its own. Without
+        this accessor the wired sweep raised AttributeError on every live
+        capture and every package stayed one screenshot short."""
+        from services.research_workers.browser_control.live_session import (
+            LiveBrowserSession,
+        )
+
+        class Conn(object):
+            def __init__(self):
+                self.seen = []
+
+            def evaluate(self, expression, timeout=None):
+                self.seen.append((expression, timeout))
+                return {"ok": True}
+
+        conn = Conn()
+        session = LiveBrowserSession.__new__(LiveBrowserSession)
+        session._cdp = conn
+        assert session.evaluate("1 + 1") == {"ok": True}
+        assert conn.seen[0][0] == "1 + 1"
 
     def test_the_session_exposes_no_cookie_or_storage_method(self):
         """Not merely unused -- unavailable."""

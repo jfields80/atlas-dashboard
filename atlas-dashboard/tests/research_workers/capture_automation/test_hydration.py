@@ -303,7 +303,9 @@ class TestThroughTheRunner:
             entries=(entry_for(NAME), entry_for("marriott-cmhaw.json"))))
         assert result.manifest["counts"]["captured"] == 1
         assert result.manifest["counts"]["exceptions"] == 1
-        assert len(session.navigations) == 2, "the batch must continue"
+        # Distinct pages: a hotel that captures is requested again so its
+        # identity can be photographed with the policy modal gone.
+        assert len(set(session.navigations)) == 2, "the batch must continue"
 
     def test_hydration_diagnostics_land_in_the_capture(self, tmp_path):
         session = FakeBrowserSession(pages_from(NAME))

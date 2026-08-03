@@ -184,6 +184,17 @@ class LiveBrowserSession:
         except CdpError:
             return (0, 0)
 
+    def evaluate(self, expression: str, timeout: float = 60.0):
+        """Run one expression in the page and return its JSON value.
+
+        The identity-view sweep probes the DOM with a script of its own rather
+        than through one of the fixed accessors above -- it hunts an arbitrary
+        set of needles and needs each painter's geometry back. Delegating is
+        all that is required; every other caller keeps using the named methods,
+        which stay the readable way to ask the page a known question.
+        """
+        return self._cdp.evaluate(expression, timeout=timeout)
+
     # -- interaction ------------------------------------------------------ #
 
     def click(self, selector: str) -> bool:
