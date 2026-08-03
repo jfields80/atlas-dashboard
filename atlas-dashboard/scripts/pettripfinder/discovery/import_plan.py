@@ -14,6 +14,10 @@ from dataclasses import dataclass
 from typing import Sequence, Tuple
 
 from scripts.pettripfinder.discovery import constants as C
+from scripts.pettripfinder.discovery.membrane import (
+    assert_dataclasses_clean,
+    assert_no_policy_keys,
+)
 from scripts.pettripfinder.discovery.models import DiscoveryCandidate
 
 
@@ -107,4 +111,13 @@ def dumps_import_plan(entries: Sequence[ImportPlanEntry]) -> str:
         }
         for e in entries
     ]
+    # Membrane gate on the reviewable artifact (WO-1A Step 1). Top-level
+    # keys only: ``provider_ids`` below is data-keyed
+    # ({provider_name: provider_record_id}), and checking data-derived keys
+    # would be the same category error as checking values.
+    for row in data:
+        assert_no_policy_keys(row, context="import_plan entry")
     return json.dumps(data, sort_keys=True, indent=2)
+
+
+assert_dataclasses_clean(ImportPlanEntry, context="discovery.import_plan")

@@ -18,6 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
+from scripts.pettripfinder.discovery.membrane import assert_dataclasses_clean
+
 
 # --------------------------------------------------------------------------- #
 # One provider's parsed record for one place (Task 1).
@@ -97,6 +99,21 @@ class DiscoveryCandidate:
     review_state: str = ""
     market_id: str = ""
     warnings: Tuple[str, ...] = ()                # e.g. "location_page_unverified"
+    # PTF-DISCOVERY-001 WO-1A Step 2 (amendment §B3). Points at the
+    # DiscoveryRunContext that produced this candidate. Defaulted empty so
+    # every previously serialized candidate still loads through
+    # ``serialization.candidate_from_dict`` unchanged, and so every existing
+    # construction site is unaffected.
+    run_context_ref: str = ""
+    # WO-1A Step 7 (amendment §B9). Single-active-record bookkeeping. All
+    # defaulted empty so every previously serialized candidate still loads and
+    # every existing construction site is unaffected.
+    supersedes: str = ""            # candidate_id this one replaced
+    superseded_by: str = ""         # candidate_id that replaced this one
+    merge_history_ref: str = ""     # -> MergeHistoryRecord
+    # WO-1A Step 8. Discovery may only PROPOSE a lifecycle state; a
+    # destructive proposal on a published property requires human approval.
+    lifecycle_status: str = ""
 
     def provider_id_dict(self) -> dict:
         return dict(self.provider_ids)
@@ -184,3 +201,25 @@ class QueryYieldRow:
     zero_result: bool
     saturation_status: str
     cache_or_live: str
+
+
+# --------------------------------------------------------------------------- #
+# Membrane enforcement (PTF-DISCOVERY-001 WO-1A Step 1,
+# INV-MEMBRANE-FIELD-DENYLIST). Checked once, here, at import: a dataclass's
+# declared fields are fixed when the class object is created, so a violating
+# class cannot be imported -- there is no constructor left to reach and no
+# per-record cost in the deduplication hot loop. This is the structural
+# absence amendment §A1 requires, and it also covers every provider
+# normalizer transitively (google_places.parse_page, overpass, foursquare all
+# construct DiscoveryRecord, which cannot exist with a policy field).
+# --------------------------------------------------------------------------- #
+
+assert_dataclasses_clean(
+    DiscoveryRecord,
+    DiscoverySourceQuery,
+    DiscoveryCandidate,
+    CoverageSummary,
+    WebsiteResolution,
+    QueryYieldRow,
+    context="discovery.models",
+)

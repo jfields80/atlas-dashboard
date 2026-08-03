@@ -1,0 +1,70 @@
+{
+  "registry_version": "terms-registry-v1",
+  "note": "PTF-DISCOVERY-001 WO-1A Step 10. Entries are TRANSCRIBED from constants documented in the discovery code, NOT from a human review of current provider terms. Every entry is therefore last_terms_review_date=null / review_state=UNREVIEWED, and no provider may run live until an entry is reviewed and approved (FD-1). Marking these reviewed without an actual terms review would launder an engineer's code comment into a compliance record.",
+  "providers": [
+    {
+      "provider_name": "GOOGLE_PLACES",
+      "review_state": "UNREVIEWED",
+      "last_terms_review_date": null,
+      "review_freshness_days": 180,
+      "enabled": false,
+      "permitted_use": [],
+      "permitted_storage": "unknown",
+      "required_attribution": null,
+      "request_limits": {"per_sec": null, "per_day": null, "burst": null},
+      "retention_limits_days": 30,
+      "prohibited_fields": [],
+      "allowed_persistence_fields": [],
+      "transcribed_from": "scripts/pettripfinder/discovery/constants.py GOOGLE_CACHE_RETENTION_DAYS and the policy note at constants.py lines 244-255 (place-id exemption; 30-day temporary coordinate cache; no stated long-term retention allowance for other fields)",
+      "operator_notes": "Already called live; cached responses exist under data/discovery/columbus_wave1_lodging/. The 30-day expiry is enforced by cache.py. Terms research required before any NEW live call (FD-1)."
+    },
+    {
+      "provider_name": "OPENSTREETMAP",
+      "review_state": "UNREVIEWED",
+      "last_terms_review_date": null,
+      "review_freshness_days": 365,
+      "enabled": false,
+      "permitted_use": [],
+      "permitted_storage": "unknown",
+      "required_attribution": "© OpenStreetMap contributors (ODbL) -- www.openstreetmap.org/copyright",
+      "request_limits": {"per_sec": null, "per_day": null, "burst": null},
+      "retention_limits_days": null,
+      "prohibited_fields": [],
+      "allowed_persistence_fields": [],
+      "transcribed_from": "scripts/pettripfinder/discovery/constants.py OVERPASS_ATTRIBUTION and the fair-use note at constants.py lines 230-240",
+      "operator_notes": "ODbL data, freely cacheable WITH attribution; cache.py deliberately never expires OSM entries. Attribution obligation is real and must appear wherever discovered OSM data is displayed."
+    },
+    {
+      "provider_name": "FOURSQUARE",
+      "review_state": "UNREVIEWED",
+      "last_terms_review_date": null,
+      "review_freshness_days": 180,
+      "enabled": false,
+      "permitted_use": [],
+      "permitted_storage": "unknown",
+      "required_attribution": null,
+      "request_limits": {"per_sec": null, "per_day": null, "burst": null},
+      "retention_limits_days": null,
+      "prohibited_fields": [],
+      "allowed_persistence_fields": [],
+      "transcribed_from": "scripts/pettripfinder/discovery/constants.py -- reserved identifier only; not in IMPLEMENTED_PROVIDERS",
+      "operator_notes": "No working client ships. Structurally disabled, not merely unreviewed."
+    },
+    {
+      "provider_name": "PROVIDER_ZERO",
+      "review_state": "NOT_APPLICABLE",
+      "last_terms_review_date": null,
+      "review_freshness_days": null,
+      "enabled": true,
+      "permitted_use": ["local cached and manually supplied inputs only"],
+      "permitted_storage": "full",
+      "required_attribution": null,
+      "request_limits": {"per_sec": 0, "per_day": 0, "burst": 0},
+      "retention_limits_days": null,
+      "prohibited_fields": [],
+      "allowed_persistence_fields": [],
+      "transcribed_from": "FD-1: Provider Zero is not a live provider",
+      "operator_notes": "Cache-only pipeline validation harness. Makes zero network requests and incurs zero spend, so it carries no terms exposure and is eligible to run while every live provider remains UNREVIEWED."
+    }
+  ]
+}

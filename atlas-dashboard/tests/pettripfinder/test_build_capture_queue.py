@@ -426,13 +426,29 @@ class TestOutputIsValid:
                        if isinstance(v, str))
 
     def test_the_queue_keys_are_exactly_the_contract(self, workspace):
+        # ``worker_contract_version`` was added by founder decision FD-3
+        # (PTF-DISCOVERY-001 WO-1A Step 3): the worker owns the value and the
+        # producer reads and propagates it, so the contract a queue was built
+        # against is auditable from the file itself rather than inferred from
+        # whenever it happens to be loaded. It is an OPTIONAL entry field --
+        # ``queue._REQUIRED_HOTEL_FIELDS`` is still exactly nine, so every
+        # queue file written before this key existed still loads unchanged.
         ws = workspace([seed_row("Columbus Airport Marriott")])
         entry = build_queue(batch_id="b", **ws).selected[0]
         assert set(entry) == {
             "hotel_id", "listing_key", "hotel_name", "brand", "official_url",
             "expected_address", "expected_city", "expected_state",
             "expected_postal_code", "expected_phone", "expected_property_code",
-            "required_fields", "retrieval_artifact", "notes"}
+            "required_fields", "retrieval_artifact", "notes",
+            "worker_contract_version"}
+
+    def test_the_queue_records_the_worker_contract_version(self, workspace):
+        """FD-3 rule 2: read and propagate, never invent."""
+        from services.research_workers import vocabulary as V
+
+        ws = workspace([seed_row("Columbus Airport Marriott")])
+        entry = build_queue(batch_id="b", **ws).selected[0]
+        assert entry["worker_contract_version"] == V.CONTRACT_VERSION
 
 
 # --------------------------------------------------------------------------- #

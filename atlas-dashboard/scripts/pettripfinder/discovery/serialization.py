@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 
+from scripts.pettripfinder.discovery.membrane import assert_no_policy_keys
 from scripts.pettripfinder.discovery.models import (
     CoverageSummary,
     DiscoveryCandidate,
@@ -18,9 +19,23 @@ from scripts.pettripfinder.discovery.models import (
     QueryYieldRow,
 )
 
+# Membrane enforcement at the SERIALIZATION boundary (WO-1A Step 1). The
+# import-time class check in ``models.py`` already makes a violating field
+# unconstructable; this is the second gate amendment §A1 asks for
+# ("enforced at construction and serialization"), and it also catches a
+# hand-built dict that never passed through a dataclass at all.
+#
+# ``recursive=True`` is correct here and ONLY here: every mapping below is
+# ``dataclasses.asdict`` output over nested dataclasses, so every nested key
+# is a field name. Hand-built dicts with data-derived keys (import_plan's
+# ``provider_ids``, coverage's per-query counters) are checked top-level
+# only -- see ``membrane.assert_no_policy_keys``.
+
 
 def record_to_dict(r: DiscoveryRecord) -> dict:
-    return asdict(r)
+    d = asdict(r)
+    assert_no_policy_keys(d, context="DiscoveryRecord", recursive=True)
+    return d
 
 
 def record_from_dict(d: dict) -> DiscoveryRecord:
@@ -42,6 +57,7 @@ def query_from_dict(d: dict) -> DiscoverySourceQuery:
 def candidate_to_dict(c: DiscoveryCandidate) -> dict:
     d = asdict(c)
     d["source_records"] = [record_to_dict(r) for r in c.source_records]
+    assert_no_policy_keys(d, context="DiscoveryCandidate", recursive=True)
     return d
 
 
@@ -56,7 +72,9 @@ def candidate_from_dict(d: dict) -> DiscoveryCandidate:
 
 
 def coverage_to_dict(s: CoverageSummary) -> dict:
-    return asdict(s)
+    d = asdict(s)
+    assert_no_policy_keys(d, context="CoverageSummary", recursive=True)
+    return d
 
 
 _COVERAGE_PAIR_FIELDS = (

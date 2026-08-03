@@ -363,7 +363,24 @@ def _integrity_blockers(assignment: Assignment, result: WorkerResult) -> set:
     if (assignment.worker_type != V.WORKER_TYPE_HOTEL_POLICY
             or result.worker_type != V.WORKER_TYPE_HOTEL_POLICY):
         blockers.add(INVALID_WORKER_CONTRACT)
-    if result.contract_version != assignment.contract_version:
+    # FD-3 rule 6: an assignment issued under an OLDER contract version may be
+    # routed only if that pairing appears in the explicit compatibility
+    # allowlist (V.CONTRACT_COMPATIBILITY). Previously this was strict
+    # equality, which was correct while the version had never moved; once
+    # 1.0.0 -> 1.1.0 landed, strict equality would have rejected every
+    # assignment issued under 1.0.0 -- including the frozen Columbus pilot
+    # replay -- turning a purely ADDITIVE contract change into a total
+    # publication outage.
+    #
+    # This widens the check by exactly one thing: a named, enumerated pair.
+    # There is no version-range parsing and no implicit "close enough" rule,
+    # an unknown version still fails closed, and a MAJOR bump starts a new
+    # allowlist row rather than extending an existing one -- so breaking
+    # changes remain rejected by default. Every other routing semantic
+    # (decisions, reason codes, envelope shape, route_id derivation) is
+    # unchanged.
+    if not V.contract_versions_compatible(result.contract_version,
+                                          assignment.contract_version):
         blockers.add(INVALID_WORKER_CONTRACT)
     if result.assignment_id != assignment.assignment_id:
         blockers.add(INVALID_ROUTING_ENVELOPE)

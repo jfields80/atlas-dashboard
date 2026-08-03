@@ -17,7 +17,62 @@ from __future__ import annotations
 # Versions (recorded in every assignment/result for replay).
 # --------------------------------------------------------------------------- #
 
-CONTRACT_VERSION = "1.0.0"
+# The worker OWNS this value (founder decision FD-3, PTF-DISCOVERY-001).
+# Producers downstream -- discovery, the capture queue, manifests, replay
+# artifacts -- READ and propagate it; none of them invents or overrides it.
+#
+# Semantic versioning, per FD-3:
+#
+#   PATCH  internal implementation changes that do not alter contract fields,
+#          accepted values, requiredness, or semantic meaning.
+#   MINOR  backward-compatible additive contract changes: optional fields,
+#          additive enum values, additive result metadata, or compatible
+#          routing-envelope additions.
+#   MAJOR  breaking changes: removed or renamed fields, changed required
+#          fields, incompatible type changes, removed enum values, or changed
+#          semantic meaning.
+#
+# A contract-changing commit must carry the bump, a compatibility note, and
+# targeted contract tests. Silent reuse of a version after a contract change
+# is prohibited.
+#
+# 1.0.0 -> 1.1.0 (PTF-DISCOVERY-001 WO-1A, FD-3 correction).
+# MINOR, because two backward-compatible additive contract changes shipped
+# after 1.0.0 without a bump:
+#   * ATLAS-WORKERS-005 added FEE_BASIS_PER_ROOM_PER_NIGHT to
+#     FEE_BASIS_VALUES (an additive enum value).
+#   * ATLAS-WORKERS-006 added the optional WorkerResult.fee_policy field
+#     (additive result metadata; omitted from the content hash when None, so
+#     every previously serialized result keeps its exact result_hash).
+# Neither removed or renamed anything, so no consumer of 1.0.0 is invalidated
+# -- which is precisely what makes 1.1.0 the correct level and what lets
+# CONTRACT_COMPATIBILITY below accept 1.0.0 work under 1.1.0 code.
+CONTRACT_VERSION = "1.1.0"
+
+#: Explicit compatibility allowlist (FD-3 rule 6). Maps the version a result
+#: was produced under -> the assignment contract versions it may be paired
+#: with. Old versions are accepted ONLY by appearing here; there is no
+#: implicit "close enough" rule and no version-range parsing.
+#:
+#: 1.1.0 accepts 1.0.0 because the 1.0.0 -> 1.1.0 delta is MINOR (purely
+#: additive). A MAJOR bump must NOT extend an existing row -- it starts a new
+#: one, so breaking changes fail closed by default.
+CONTRACT_COMPATIBILITY = {
+    "1.0.0": frozenset({"1.0.0"}),
+    "1.1.0": frozenset({"1.1.0", "1.0.0"}),
+}
+
+
+def contract_versions_compatible(result_version: str, assignment_version: str) -> bool:
+    """True when a result produced under ``result_version`` may be routed
+    against an assignment issued under ``assignment_version``.
+
+    Unknown versions are refused (fail closed): an unrecognized version is a
+    reason to stop, never a reason to assume compatibility.
+    """
+    return assignment_version in CONTRACT_COMPATIBILITY.get(result_version, frozenset())
+
+
 WORKER_TYPE_HOTEL_POLICY = "HOTEL_POLICY_RESEARCH"
 
 # --------------------------------------------------------------------------- #

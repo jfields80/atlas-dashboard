@@ -19,6 +19,10 @@ from dataclasses import dataclass
 from typing import Sequence, Tuple
 
 from scripts.pettripfinder.discovery import constants as C
+from scripts.pettripfinder.discovery.membrane import (
+    assert_dataclasses_clean,
+    assert_no_policy_keys,
+)
 from scripts.pettripfinder.discovery.models import DiscoveryCandidate, WebsiteResolution
 
 
@@ -94,10 +98,18 @@ def build_batches(
                 for j in chunk
             ],
         })
+    # THE handoff seam: this is where discovery data crosses into the policy
+    # domain, and therefore the single most important Membrane gate in the
+    # subsystem (WO-1A Step 1, insertion point 4). ``recursive=True`` is
+    # correct here -- every nested key in a manifest is a schema key from the
+    # importer's own BatchJob contract, never data-derived.
+    for manifest in manifests:
+        assert_no_policy_keys(manifest, context="import batch manifest", recursive=True)
     return tuple(manifests)
 
 
 def dumps_batch_manifest(manifest: dict) -> str:
+    assert_no_policy_keys(manifest, context="import batch manifest", recursive=True)
     return json.dumps(manifest, sort_keys=True, indent=2)
 
 
@@ -117,3 +129,6 @@ def build_batch_index(
         "total_jobs": sum(len(m["jobs"]) for m in hotel_manifests)
                      + sum(len(m["jobs"]) for m in motel_manifests),
     }
+
+
+assert_dataclasses_clean(ImportJob, context="discovery.import_batch_builder")

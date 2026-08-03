@@ -284,6 +284,11 @@ def build_queue(*, batch_id: str, created_at: str = "",
             "expected_phone": (row.get("phone") or "").strip(),
             "expected_property_code": _property_code(url),
             "required_fields": list(V.POLICY_FIELDS),
+            # FD-3 rule 2: the worker owns this value; the producer reads and
+            # propagates it. Emitting it explicitly makes the contract the
+            # queue was built against auditable from the file itself rather
+            # than inferred from whenever it happens to be loaded.
+            "worker_contract_version": V.CONTRACT_VERSION,
             "retrieval_artifact": artifact,
             "notes": "generated from %s" % (pathlib.Path(seed_csv).name if seed_csv
                                             else PRODUCTION_CSV.name),
