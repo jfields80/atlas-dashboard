@@ -42,6 +42,7 @@ from scripts.pettripfinder.discovery.models import DiscoveryCandidate
 # The worker owns its contract version; discovery reads it (FD-3 rule 2).
 from services.research_workers import vocabulary as V
 from services.research_workers.capture_automation.adapters import adapter_for, known_brands
+from services.research_workers.source_retrieval import extract_property_code_from_url
 from services.research_workers.capture_automation.queue import (
     CAPTURE_STATE_PENDING_IDENTITY, CAPTURE_STATE_READY, QUEUE_SCHEMA, QueueEntry,
     is_provisional, validate_entry,
@@ -141,6 +142,23 @@ def _phone_for(candidate: DiscoveryCandidate) -> str:
     return ""
 
 
+def _property_code_for(candidate: DiscoveryCandidate, url: str) -> str:
+    """The stable chain property code, or "" when the URL does not carry one.
+
+    Deliberately thin. Every guarantee comes from
+    ``source_retrieval.extract_property_code_from_url``, which fails closed and
+    was itself hardened against two real defects found on live captures (a
+    locale segment letting the pattern match the wrong slug, and a bare
+    substring match confusing Marriott's "cmhap" with Hilton's "cmhaphx").
+    Re-deriving that logic here would be a second definition of "property
+    code" -- exactly the fork this seam avoids everywhere else.
+
+    No brand special-casing: a shape that carries no code simply returns "",
+    and the candidate keeps confirming on address + phone.
+    """
+    return extract_property_code_from_url(url or "")
+
+
 def _provenance_refs(candidate: DiscoveryCandidate, run_context_ref: str) -> Tuple[str, ...]:
     refs = {"provider:%s:%s" % (p, rid) for p, rid in candidate.provider_ids if rid}
     refs |= {"query:%s" % r.source_query_id for r in candidate.source_records if r.source_query_id}
@@ -222,6 +240,24 @@ def project_candidate(
         "expected_state": candidate.state,
         "expected_postal_code": candidate.postal_code,
         "expected_phone": _phone_for(candidate),
+        # Stable chain property code, when the official URL already carries one
+        # deterministically. Reuses source_retrieval.extract_property_code_from_url
+        # -- the SAME extractor build_capture_queue.py uses for the seed path, so
+        # the two paths cannot disagree about what a code is.
+        #
+        # It fails CLOSED by construction: anything not recognisably a code
+        # returns "", so nothing is inferred where none exists. Wyndham URLs
+        # carry no code segment and correctly stay empty; that is a supported
+        # shape, not a defect, and those properties still confirm on
+        # address + phone exactly as the pilot measured (2/2 wyndham confirmed).
+        #
+        # This is added for DETECTION STRENGTH, not coverage. The pilot showed
+        # address+phone already confirms 10/10, so the code adds no yield. What
+        # it adds is the one signal that catches a silent redirect to a SIBLING
+        # property: a sibling publishes its own valid address and phone, so both
+        # keys would agree with the wrong hotel. A mismatched code is the only
+        # thing that turns that into IDENTITY_FAILED.
+        "expected_property_code": _property_code_for(candidate, url),
         # A provisional entry asks for NO policy fields. It is a request to
         # prove identity, not to extract policy, and the empty list is what
         # makes that structurally true rather than merely stated.
