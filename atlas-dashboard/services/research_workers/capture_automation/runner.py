@@ -24,8 +24,13 @@ from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 from .adapters import adapter_for
 from .capture_writer import (
-    CaptureWriteError, build_payload, capture_stem, write_capture,
+    CaptureWriteError, build_payload, capture_stem, png_dimensions, write_capture,
 )
+from .evidence_completeness import (
+    FIELD_CITY, FIELD_HOTEL_NAME, FIELD_POLICY_TEXT, FIELD_POSTAL_CODE,
+    FIELD_PROPERTY_PHONE, FIELD_STATE, FIELD_STREET,
+)
+from .identity_views import sweep_missing_views
 from .contracts import BoxModel, DomSnapshot, PolicyLocation
 from .doctrine import (
     CONSECUTIVE_CHALLENGE_LIMIT, MAX_SECONDS_BETWEEN_HOTELS,
@@ -244,10 +249,46 @@ class CaptureRunner:
                 return done(EXCEPTION, result.reason, result.problems,
                             duplicate_of=result.duplicate_of)
 
+            # -- IDENTITY VIEWS --------------------------------------------- #
+            # PTF-CAPTURE. The attestation gate asks a human to affirm seven
+            # fields and refuses unless the package can SHOW each one painted.
+            # sweep_missing_views was written and tested for exactly that and
+            # had no production caller, so every batch capture arrived one
+            # screenshot short of attestable -- the policy proven, the identity
+            # not. Called here because this is the first moment all of its
+            # preconditions hold: the page is rendered, the adapter's
+            # interactions are done, the policy region is painted and framed,
+            # and the primary capture plus its DOM probe exist on disk.
+            #
+            # The sweep never fabricates: it probes the live DOM, screenshots
+            # only a frame that actually paints the value, and writes nothing
+            # for a field the page does not show. An incomplete result is
+            # RECORDED, not repaired -- the attestation gate stays the enforcer,
+            # so a capture that was CAPTURED before is CAPTURED still.
+            evidence_notes: List[str] = []
+            evidence_complete = False
+            try:
+                sweep = sweep_missing_views(
+                    self._session,
+                    capture_path=json_path,
+                    official_url=dom.final_url,
+                    expected=_expected_identity(entry, location.text_excerpt),
+                    write_view=self._view_writer(json_path, dom.final_url),
+                    settle=lambda: self._sleep(POLICY_SETTLE_POLL_SECONDS))
+                evidence_complete = sweep.complete
+                evidence_notes = list(sweep.notes)
+            except Exception as exc:                  # noqa: BLE001 - isolation
+                # A sweep failure must not discard a good policy capture; the
+                # capture stands and the missing views are reported.
+                evidence_notes = ["sweep_failed:%s: %s"
+                                  % (exc.__class__.__name__, exc)]
+
             warnings: List[str] = []
             conflicted, slugs = detect_fee_conflict(dom.text)
             if conflicted:
                 warnings.append("fee_terms_conflict:%s" % ",".join(slugs[:2]))
+            if not evidence_complete:
+                warnings.append("identity_evidence_incomplete")
 
             from ..operator_capture import _citable_url
             artifacts = {
@@ -262,6 +303,8 @@ class CaptureRunner:
                 "hydration": readiness.to_dict(),
                 "interaction_log": interaction_log,
                 "warnings": warnings,
+                "evidence_complete": evidence_complete,
+                "evidence_notes": evidence_notes,
             }
             seen_hashes[payload["text_sha256"]] = entry.hotel_id
             return done(CAPTURED, artifacts=artifacts)
@@ -274,6 +317,51 @@ class CaptureRunner:
 
     def _captures_dir(self) -> pathlib.Path:
         return pathlib.Path(self._config.batch_dir) / "captures"
+
+    def _view_writer(self, capture_path, final_url: str):
+        """Persist one additional view: the PNG plus its ``.view.json`` sidecar.
+
+        The sidecar on disk is what a later assessment reads, so the
+        observations are written INTO it rather than returned for someone else
+        to attach. Named from the image's own sha, so re-running a sweep
+        overwrites the identical file instead of accumulating near-duplicates.
+        """
+        directory = pathlib.Path(capture_path).parent
+        stem_base = pathlib.Path(capture_path).stem
+
+        def write_view(png_bytes, observations, scroll_y, viewport):
+            import hashlib
+            import json as _json
+
+            sha = hashlib.sha256(png_bytes).hexdigest()
+            width, height = png_dimensions(png_bytes)
+            png_file = "%s.view-%s.png" % (stem_base, sha[:12])
+            (directory / png_file).write_bytes(png_bytes)
+            sidecar = {
+                "png_file": png_file,
+                "png_sha256": sha,
+                "png_bytes": len(png_bytes),
+                "png_width": width,
+                "png_height": height,
+                "captured_at": _now_iso(self._clock),
+                "final_url": final_url,
+                "scroll_y": scroll_y,
+                "viewport_width": viewport[0],
+                "viewport_height": viewport[1],
+                "proves_fields": sorted({o.field for o in observations if o.readable}),
+                "field_observations": [
+                    {"field": o.field, "text": o.text, "visible": o.visible,
+                     "in_frame": o.in_frame, "context": o.context, "box": dict(o.box)}
+                    for o in observations],
+                "note": ("An additional VIEW of the same rendered page, taken in "
+                         "the same browser session as the capture it is attached "
+                         "to. Never an independent source of policy text."),
+            }
+            (directory / (png_file[:-4] + ".view.json")).write_text(
+                _json.dumps(sidecar, indent=1), encoding="utf-8")
+            return sidecar
+
+        return write_view
 
     def _perform_interactions(self, adapter, dom: DomSnapshot,
                               location: PolicyLocation) -> List[dict]:
@@ -421,6 +509,57 @@ def _same_box(a: BoxModel, b: BoxModel) -> bool:
     return (round(a.x) == round(b.x) and round(a.y) == round(b.y)
             and round(a.width) == round(b.width)
             and round(a.height) == round(b.height))
+
+
+#: What ``plan_needles`` will keep of a policy needle. A longer expected value
+#: cannot match the observation the probe reports back -- the observation
+#: records the NEEDLE, so the two must be the same string.
+POLICY_NEEDLE_MAX = 60
+
+
+def _policy_needle(policy_text: str) -> str:
+    """A phrase from the policy the DOM probe can actually find.
+
+    The located excerpt is NORMALISED text: block boundaries inside the policy
+    region arrive as " / ", which no element's ``innerText`` contains. Hunting
+    the raw excerpt therefore finds nothing on a multi-block policy card. The
+    longest separator-free run is the longest phrase that is still contiguous
+    in some single element, so it is what the probe is given -- trimmed to a
+    whole word at the planner's own limit so the needle hunted and the needle
+    reported are one value.
+
+    Page-derived, never authored here: if the page does not paint this phrase,
+    no view is written and the field stays unproven.
+    """
+    segments = [s.strip() for s in (policy_text or "").split(" / ")]
+    longest = max(segments, key=len) if segments else ""
+    if len(longest) <= POLICY_NEEDLE_MAX:
+        return longest
+    head = longest[:POLICY_NEEDLE_MAX]
+    return head[:head.rindex(" ")] if " " in head else head
+
+
+def _expected_identity(entry, policy_text: str = "") -> Dict[str, str]:
+    """The identity the VALIDATED QUEUE ENTRY expects, for the probe to hunt.
+
+    These are needles, never evidence: the sweep only ever proves a field by
+    finding it PAINTED on the page. A value here that the page does not show
+    yields no view, which is why queue metadata alone can never satisfy the
+    completeness gate.
+
+    ``policy_text`` is the located policy excerpt from THIS capture, so the
+    seventh required field is hunted on the same terms as the other six
+    instead of being left permanently unhuntable.
+    """
+    return {
+        FIELD_HOTEL_NAME: entry.hotel_name,
+        FIELD_STREET: entry.expected_address,
+        FIELD_CITY: entry.expected_city,
+        FIELD_STATE: entry.expected_state,
+        FIELD_POSTAL_CODE: entry.expected_postal_code,
+        FIELD_PROPERTY_PHONE: entry.expected_phone,
+        FIELD_POLICY_TEXT: _policy_needle(policy_text),
+    }
 
 
 def _policy_handle(location: PolicyLocation, session) -> Tuple[str, str]:
