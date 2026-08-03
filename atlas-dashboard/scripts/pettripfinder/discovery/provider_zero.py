@@ -31,7 +31,8 @@ from scripts.pettripfinder.discovery import url_record as U
 from scripts.pettripfinder.discovery.history import merge_history_ref, merge_record_for
 from scripts.pettripfinder.discovery.models import DiscoveryCandidate
 from scripts.pettripfinder.discovery.queue_seam import (
-    PROJECTED, build_queue_payload, project_candidate, summarize,
+    PROJECTED, PROJECTED_PENDING_IDENTITY, SEAM_OUTCOMES_WITH_ENTRY,
+    build_queue_payload, entries_with_identity, project_candidate, summarize,
 )
 from scripts.pettripfinder.discovery.run_context import DiscoveryRunContext
 from scripts.pettripfinder.discovery.serialization import candidate_from_dict
@@ -145,6 +146,18 @@ class CheckpointReport:
     robots_hosts: int = 0
     seam: Dict[str, int] = field(default_factory=dict)
     queued: int = 0
+    #: C-5. Provisional entries: eligible, adapter-supported, and awaiting
+    #: capture-session identity proof. Counted SEPARATELY from ``queued`` --
+    #: folding them together would report unproven work as ready work, which
+    #: is the exact illusion the Provider Zero checkpoint exists to catch.
+    queued_pending_identity: int = 0
+    #: Entries actually written to the payload, after collapsing repeats of the
+    #: same idempotency key and withholding hotel_id collisions.
+    entries_emitted: int = 0
+    #: Distinct candidates whose names slugify to one ``hotel_id``. Withheld
+    #: rather than merged: a queue cannot carry two entries under one id, and
+    #: merging two properties on a name match is the false-merge FD-5 forbids.
+    withheld_hotel_id_collisions: Tuple[str, ...] = ()
     activation: Dict[str, list] = field(default_factory=dict)
     terms: Dict[str, int] = field(default_factory=dict)
     membrane_violations: int = 0
@@ -215,6 +228,7 @@ def run_checkpoint(*, run_id: str, effective_time: str,
         url_rec = None
         blocked = False
         block_reason = ""
+        never_validated = False
         if resolved_url:
             url_rec = build_url_record(resolved_url, fetch_cache,
                                        is_confirmed=is_confirmed)
@@ -227,6 +241,15 @@ def run_checkpoint(*, run_id: str, effective_time: str,
             url_decisions.append(decision)
             blocked = not decision.allowed
             block_reason = decision.reason
+            # C-5. "Never validated" and "validated and REFUTED" are different
+            # facts. Only the first may become a provisional entry for the
+            # capture session to prove; a FAILED identity check stays blocked,
+            # so the two URLs that actually failed at the checkpoint remain
+            # exactly as blocked as they were.
+            never_validated = (
+                blocked
+                and url_rec.property_identity_check != U.IDENTITY_FAIL
+                and U.TRIGGER_NEVER_VALIDATED in decision.triggers)
             if blocked:
                 report.urls_blocked_by_revalidation += 1
 
@@ -249,15 +272,25 @@ def run_checkpoint(*, run_id: str, effective_time: str,
             run_context_ref=context.ref(),
             official_url_record=url_rec.to_dict() if url_rec else None,
             url_revalidation_blocked=blocked,
-            revalidation_reason=block_reason))
+            revalidation_reason=block_reason,
+            url_identity_never_validated=never_validated))
 
     report.seam = summarize(seam_results)
     report.queued = report.seam.get(PROJECTED, 0)
+    report.queued_pending_identity = report.seam.get(PROJECTED_PENDING_IDENTITY, 0)
+    emittable, withheld = entries_with_identity(seam_results)
+    report.entries_emitted = len(emittable)
+    report.withheld_hotel_id_collisions = tuple(
+        "%s:%s" % (hotel_id, ",".join(cands)) for hotel_id, cands in withheld)
     report.url_decisions = U.summarize_decisions(url_decisions)
     report.robots = robots.summarize_decisions(robots_decisions)
     report.robots_hosts = len(seen_hosts)
 
-    projected = [r for r in seam_results if r.outcome == PROJECTED and r.entry]
+    # Both kinds are ACTIVE queue entries, so both take part in idempotency:
+    # a re-run must supersede a provisional entry in place, never append a
+    # second one for the same candidate.
+    projected = [r for r in seam_results
+                 if r.outcome in SEAM_OUTCOMES_WITH_ENTRY and r.entry]
     plan = idempotency.plan_activation({}, [
         (r.entry.candidate_id, r.entry.worker_contract_version, r.entry.queue_entry_id)
         for r in projected])

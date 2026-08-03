@@ -27,7 +27,7 @@ import json
 import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Tuple
+from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 from urllib.parse import urlsplit
 
 from scripts.pettripfinder.importer import constants as C
@@ -989,6 +989,81 @@ def _canonical(payload: dict) -> str:
                       ensure_ascii=False)
 
 
+#: PTF-DISCOVERY-001 C-7. Outcome vocabulary of the capture-time identity gate,
+#: restated here as plain strings on purpose: this module records what the
+#: capture layer DECIDED, and must not acquire a dependency on the module that
+#: decides it. The attestation stores evidence, it does not re-run the gate.
+CAPTURE_IDENTITY_CONFIRMED = "IDENTITY_CONFIRMED"
+CAPTURE_IDENTITY_ADDRESS_GROUP = "address"
+CAPTURE_IDENTITY_PHONE_GROUP = "phone"
+MINIMUM_CAPTURE_IDENTITY_KEYS = 2
+
+
+@dataclass(frozen=True)
+class CaptureIdentityBasis:
+    """Why the capture session believed this page was the right property.
+
+    An attestation says a human saw the hotel's identity on the official page.
+    Recording only that something passed leaves a reviewer unable to tell a
+    confirmation resting on a structured address and phone from one resting on
+    a page title. This carries the citation itself: which independent key groups
+    agreed, on what evidence basis, and which capture they were read from.
+    """
+
+    identity_outcome: str
+    independent_key_groups: Tuple[str, ...] = ()
+    authoritative_bases: Tuple[str, ...] = ()
+    agreeing_keys: Tuple[str, ...] = ()          # "key@basis"
+    capture_url: str = ""
+    capture_text_hash: str = ""
+    capture_session_id: str = ""
+
+    @property
+    def confirmed(self) -> bool:
+        return self.identity_outcome == CAPTURE_IDENTITY_CONFIRMED
+
+    @property
+    def proves_address(self) -> bool:
+        return CAPTURE_IDENTITY_ADDRESS_GROUP in self.independent_key_groups
+
+    @property
+    def proves_phone(self) -> bool:
+        return CAPTURE_IDENTITY_PHONE_GROUP in self.independent_key_groups
+
+    @classmethod
+    def from_capture_record(cls, record: Mapping, *, capture_url: str = "",
+                            capture_text_hash: str = "",
+                            capture_session_id: str = "") -> "CaptureIdentityBasis":
+        """Build from the identity block the capture runner writes."""
+        keys = record.get("keys") if isinstance(record, Mapping) else None
+        keys = keys if isinstance(keys, Mapping) else {}
+        entries = [k for k in (keys.get("keys") or ()) if isinstance(k, Mapping)]
+        counting = [k for k in entries if k.get("counts")]
+        return cls(
+            identity_outcome=str(record.get("outcome") or ""),
+            independent_key_groups=tuple(
+                str(g) for g in (keys.get("independent_groups") or ())),
+            authoritative_bases=tuple(sorted({
+                str(k.get("basis")) for k in counting if k.get("authoritative")})),
+            agreeing_keys=tuple("%s@%s" % (k.get("key"), k.get("basis"))
+                                for k in counting),
+            capture_url=capture_url,
+            capture_text_hash=capture_text_hash,
+            capture_session_id=capture_session_id,
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "identity_outcome": self.identity_outcome,
+            "independent_key_groups": list(self.independent_key_groups),
+            "authoritative_bases": list(self.authoritative_bases),
+            "agreeing_keys": list(self.agreeing_keys),
+            "capture_url": self.capture_url,
+            "capture_text_hash": self.capture_text_hash,
+            "capture_session_id": self.capture_session_id,
+        }
+
+
 @dataclass(frozen=True)
 class OfficialAttestation:
     attestation_id: str
@@ -1007,6 +1082,7 @@ class OfficialAttestation:
     model_research_ref: Optional[ModelResearchRef] = None
     approval: ApprovalRecord = field(default_factory=ApprovalRecord)
     paired_evidence: Optional[PairedEvidence] = None
+    capture_identity: Optional[CaptureIdentityBasis] = None
     schema: str = ATTESTATION_SCHEMA
     capture_method: str = CAPTURE_METHOD_MANUAL_ATTESTATION
 
@@ -1055,6 +1131,12 @@ class OfficialAttestation:
         # the records this system exists to keep verifiable.
         if self.paired_evidence is not None:
             content["paired_evidence"] = self.paired_evidence.to_dict()
+        # Same discipline for the C-7 identity basis, and for the same reason:
+        # added ONLY when present, so every attestation written before it
+        # existed hashes to exactly the value it always did. All prior
+        # hash-bound approvals stay valid.
+        if self.capture_identity is not None:
+            content["capture_identity"] = self.capture_identity.to_dict()
         return content
 
     def attestation_hash(self) -> str:
@@ -1078,6 +1160,7 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
                       observed_at: str, observed_timezone: str,
                       model_research_ref: Optional[ModelResearchRef] = None,
                       paired_evidence: Optional[PairedEvidence] = None,
+                      capture_identity: Optional[CaptureIdentityBasis] = None,
                       ) -> OfficialAttestation:
     """Apply all six gates and build an immutable, PENDING attestation.
 
@@ -1111,6 +1194,49 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
         raise AttestationError("gate3: address_confirmed is required")
     if not affirmation.phone_confirmed:
         raise AttestationError("gate3: phone_confirmed is required")
+
+    # Gate I (PTF-DISCOVERY-001 C-7) -- an operator may not affirm an identity
+    # fact the capture did not visibly prove.
+    #
+    # Gate 3 above takes the operator's word. When the capture session recorded
+    # what it actually proved, that word must agree with the evidence: a
+    # confirmation resting only on an address cannot support "phone_confirmed",
+    # because nothing in the package shows the phone. This is the difference
+    # between an attestation and a formality.
+    #
+    # Supplying the basis is what turns the gate on. That is deliberate --
+    # captures predating the gate have nothing to check, and inventing a pass
+    # for them would be exactly the laundering this refuses.
+    if capture_identity is not None:
+        ci = capture_identity
+        if not ci.confirmed:
+            raise AttestationError(
+                "gateI: capture-time identity was not confirmed (%s); an "
+                "unconfirmed page may not be attested"
+                % (ci.identity_outcome or "no outcome recorded"))
+        if len(set(ci.independent_key_groups)) < MINIMUM_CAPTURE_IDENTITY_KEYS:
+            raise AttestationError(
+                "gateI: identity rests on %d independent stable key group(s); "
+                "at least %d are required"
+                % (len(set(ci.independent_key_groups)), MINIMUM_CAPTURE_IDENTITY_KEYS))
+        if not ci.authoritative_bases:
+            raise AttestationError(
+                "gateI: no authoritative evidence basis recorded; unlabelled "
+                "page text alone cannot support an attestation")
+        if not ci.agreeing_keys:
+            raise AttestationError("gateI: the agreeing keys must be recorded")
+        if not (ci.capture_url.strip() and ci.capture_text_hash.strip()):
+            raise AttestationError(
+                "gateI: the identity basis must be bound to the capture it was "
+                "read from (capture_url and capture_text_hash)")
+        if affirmation.address_confirmed and not ci.proves_address:
+            raise AttestationError(
+                "gateI: address_confirmed was affirmed but the capture proved no "
+                "address key (groups: %s)" % (", ".join(ci.independent_key_groups) or "none"))
+        if affirmation.phone_confirmed and not ci.proves_phone:
+            raise AttestationError(
+                "gateI: phone_confirmed was affirmed but the capture proved no "
+                "phone key (groups: %s)" % (", ".join(ci.independent_key_groups) or "none"))
 
     # Gate 4 -- at least one CAS-backed screenshot.
     shots = tuple(screenshots or ())
@@ -1206,6 +1332,7 @@ def build_attestation(*, ingestion: IngestionOutcome, job: CaptureJob,
         fee_amounts=fee_amounts(statements),
         model_research_ref=model_research_ref,
         paired_evidence=paired_evidence,
+        capture_identity=capture_identity,
         approval=ApprovalRecord())          # gate 6: always begins PENDING
 
 

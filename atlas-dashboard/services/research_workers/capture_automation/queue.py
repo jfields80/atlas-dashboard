@@ -39,6 +39,40 @@ _REQUIRED_HOTEL_FIELDS = (
     "expected_address", "expected_city", "expected_state", "expected_phone",
 )
 
+# --------------------------------------------------------------------------- #
+# PTF-DISCOVERY-001 C-4 -- provisional capture state.
+#
+# An entry whose identity could not be confirmed statically may still be worth
+# opening in the rendered capture session, which reaches hosts the static
+# fetcher cannot. Such an entry is NOT a request to extract policy: it is a
+# request to PROVE IDENTITY first. The distinction has to be structural, not a
+# note, because everything downstream treats a queue entry as work to do.
+#
+# Three properties make it safe:
+#   1. the state is a small CLOSED vocabulary, and an unrecognised value is a
+#      preflight failure -- never a silently-tolerated unknown;
+#   2. the empty string is the historical value and means "an ordinary work
+#      entry", so every queue written before this existed is unchanged;
+#   3. a provisional entry must carry NO ``required_fields``. That is the
+#      structural separation: ``required_fields`` is the list of policy fields
+#      the worker is being asked to look for, and a provisional entry is not
+#      asking for any of them yet.
+# --------------------------------------------------------------------------- #
+
+CAPTURE_STATE_READY = ""                                   # ordinary work entry
+CAPTURE_STATE_PENDING_IDENTITY = "PENDING_CAPTURE_IDENTITY"
+
+CAPTURE_STATES = frozenset({CAPTURE_STATE_READY, CAPTURE_STATE_PENDING_IDENTITY})
+
+#: States that are NOT yet a request to extract policy, and may never be
+#: treated as ready, verified or publishable.
+PROVISIONAL_CAPTURE_STATES = frozenset({CAPTURE_STATE_PENDING_IDENTITY})
+
+
+def is_provisional(entry: "QueueEntry") -> bool:
+    """Is this entry awaiting capture-time identity proof rather than policy?"""
+    return entry.capture_state in PROVISIONAL_CAPTURE_STATES
+
 
 class QueueError(ValueError):
     """Raised when a queue cannot be trusted to drive a batch."""
@@ -94,6 +128,10 @@ class QueueEntry:
     # import: the queue lives in the policy domain and must not depend on a
     # discovery class to be loadable.
     official_url_record: Optional[dict] = None
+    # --- C-4: provisional capture state (OPTIONAL, defaulted) --------------- #
+    # "" is the historical value and means an ordinary work entry, so a queue
+    # written before this field existed loads with exactly its old meaning.
+    capture_state: str = CAPTURE_STATE_READY
 
     def to_dict(self) -> dict:
         return {
@@ -121,6 +159,7 @@ class QueueEntry:
             "discovery_provenance_refs": list(self.discovery_provenance_refs),
             "run_context_ref": self.run_context_ref,
             "official_url_record": self.official_url_record,
+            "capture_state": self.capture_state,
         }
 
 
@@ -201,13 +240,30 @@ def validate_entry(raw: dict, index: int,
     if artifact and not pathlib.Path(artifact).exists():
         problems.append(_problem(index, hotel_id, "retrieval_artifact_missing"))
 
+    # C-4. An unrecognised capture state FAILS CLOSED. Tolerating an unknown
+    # value would let a future or mistyped state be read as the ordinary
+    # work-entry default, which is the one reading that must never happen by
+    # accident.
+    capture_state = str(raw.get("capture_state") or "").strip()
+    required_raw = tuple(str(f).strip() for f in (raw.get("required_fields") or [])
+                         if str(f).strip())
+    if capture_state not in CAPTURE_STATES:
+        problems.append(_problem(index, hotel_id,
+                                 "unknown_capture_state:%s" % capture_state))
+    elif capture_state in PROVISIONAL_CAPTURE_STATES and required_raw:
+        # The structural separation from a policy-work entry. A provisional
+        # entry that also asked for policy fields would be indistinguishable
+        # from ready work to everything downstream.
+        problems.append(_problem(
+            index, hotel_id,
+            "provisional_entry_must_not_request_policy_fields:%s" % capture_state))
+
     if problems:
         return (None, problems)
 
     alternates = tuple(str(u).strip() for u in (raw.get("alternate_urls") or [])
                        if str(u).strip())
-    required = tuple(str(f).strip() for f in (raw.get("required_fields") or [])
-                     if str(f).strip())
+    required = required_raw
 
     return (QueueEntry(
         hotel_id=hotel_id,
@@ -242,6 +298,7 @@ def validate_entry(raw: dict, index: int,
         run_context_ref=str(raw.get("run_context_ref") or "").strip(),
         official_url_record=(raw.get("official_url_record")
                              if isinstance(raw.get("official_url_record"), dict) else None),
+        capture_state=capture_state,
     ), [])
 
 

@@ -122,20 +122,72 @@ class TestProviderZeroOnTheRealCorpus:
         report, _payload, _results = run
         assert report.membrane_violations == 0
 
-    def test_the_unvalidated_corpus_is_refused_rather_than_queued(self, run):
-        """THE finding. The existing corpus reports 228
+    def test_the_unvalidated_corpus_is_never_queued_as_ready(self, run):
+        """THE finding, and C-5 does not soften it. The corpus reports 228
         READY_FOR_PET_POLICY_IMPORT, but not one URL was ever identity-
-        confirmed, so FD-5 blocks every handoff. A queue of zero is the
-        correct, safe answer here -- and it is the whole reason this
-        checkpoint exists rather than a batch of 228 unverified jobs."""
+        confirmed, so NOTHING is ready: ``queued`` stays at zero.
+
+        What C-5 changes is where the unproven ones wait. They are no longer
+        discarded at the seam; they become PROVISIONAL entries that must prove
+        identity inside the capture session, which reaches hosts the static
+        fetcher cannot. That is a different queue, counted separately, and it
+        is not a claim that any of them is verified."""
         report, _payload, _results = run
         assert report.urls_blocked_by_revalidation > 200
-        assert report.seam[SKIPPED_URL_REVALIDATION] > 200
-        assert report.queued == 0
+        assert report.queued == 0, "nothing is READY; that finding is unchanged"
+        assert report.queued_pending_identity > 0
 
-    def test_the_queue_payload_is_consistent_with_the_count(self, run):
+    def test_a_failed_identity_check_is_still_blocked_outright(self, run):
+        """FD-5 is not weakened. The two URLs that were actually fetched and
+        REFUTED stay blocked -- they never become provisional entries, because
+        'never checked' and 'checked and wrong' are different facts."""
+        report, _payload, _results = run
+        assert report.seam[SKIPPED_URL_REVALIDATION] > 0
+
+    def test_the_queue_payload_is_consistent_with_the_counts(self, run):
         report, payload, _results = run
-        assert len(payload["hotels"]) == report.queued
+        assert len(payload["hotels"]) == report.entries_emitted
+        assert report.entries_emitted <= report.queued + report.queued_pending_identity
+
+    def test_the_emitted_payload_actually_loads(self, run):
+        """The seam must never write a file the real preflight refuses. Before
+        the collision guard this payload failed with 14 duplicate_hotel_id
+        problems -- invisible until C-5 made the seam emit anything at all."""
+        import json
+        import tempfile
+
+        from services.research_workers.capture_automation.adapters import known_brands
+        from services.research_workers.capture_automation.queue import load_queue
+
+        _report, payload, _results = run
+        path = pathlib.Path(tempfile.mkdtemp()) / "q.json"
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        loaded = load_queue(path, known_brands=known_brands())
+        assert len(loaded) == len(payload["hotels"])
+
+    def test_hotel_id_collisions_are_withheld_not_merged(self, run):
+        """Two distinct candidates whose NAMES slugify to one hotel_id are held,
+        never collapsed -- merging two properties on a name match is the
+        false-merge this architecture forbids everywhere else."""
+        report, payload, _results = run
+        assert report.withheld_hotel_id_collisions
+        emitted = {h["hotel_id"] for h in payload["hotels"]}
+        for record in report.withheld_hotel_id_collisions:
+            assert record.split(":")[0] not in emitted
+
+    def test_every_provisional_entry_is_marked_and_asks_for_no_policy(self, run):
+        """A provisional entry in the payload must be structurally
+        distinguishable from ready work, not merely annotated."""
+        from services.research_workers.capture_automation.queue import (
+            CAPTURE_STATE_PENDING_IDENTITY,
+        )
+
+        _report, payload, _results = run
+        provisional = [h for h in payload["hotels"]
+                       if h["capture_state"] == CAPTURE_STATE_PENDING_IDENTITY]
+        assert provisional
+        for hotel in provisional:
+            assert hotel["required_fields"] == []
 
     def test_every_candidate_is_accounted_for(self, run):
         """No silent drops: the seam summary totals the whole corpus."""

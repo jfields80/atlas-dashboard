@@ -38,7 +38,7 @@ from .doctrine import (
     POLICY_SETTLE_STABLE_CHECKS, POLICY_SETTLE_TIMEOUT_SECONDS,
 )
 from .hydration import wait_for_identity
-from .identity_check import verify_identity
+from .identity_check import classify_identity, verify_identity
 from .manifest import Journal, build_manifest, write_manifest
 from .queue import CaptureQueue, QueueEntry, remaining_entries
 from .reasons import CHALLENGE_REASONS
@@ -77,6 +77,29 @@ def _now_iso(clock: Callable[[], float]) -> str:
     import datetime as _dt
     stamp = _dt.datetime.fromtimestamp(clock(), _dt.timezone.utc)
     return stamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
+def _identity_detail(identity) -> Tuple[str, ...]:
+    """Journal lines describing WHY identity resolved the way it did.
+
+    Emitted for confirmed captures as well as refusals. On a refusal it explains
+    what was missing; on a capture it is the citation -- which independent key
+    groups agreed, on what evidence basis, and which authoritative source
+    carried it.
+    """
+    lines = ["identity_outcome:%s" % identity.outcome]
+    keys = identity.keys
+    if keys is None:
+        return tuple(lines)
+
+    counting = keys.counting_keys
+    lines.append("independent_keys:%s" % ",".join(keys.independent_groups or ("none",)))
+    lines.append("authoritative_key:%s" % ("yes" if keys.has_authoritative else "no"))
+    authoritative = sorted({k.basis for k in counting if k.authoritative})
+    lines.append("authoritative_basis:%s" % ",".join(authoritative or ("none",)))
+    agreeing = ["%s@%s" % (k.key, k.basis) for k in counting]
+    lines.append("agreeing_keys:%s" % (",".join(agreeing) if agreeing else "none"))
+    return tuple(lines)
 
 
 class CaptureRunner:
@@ -155,9 +178,25 @@ class CaptureRunner:
 
             # -- URL_SHAPE + IDENTITY -------------------------------------- #
             # Readiness decided only WHEN to look. This is still the gate.
-            verdict = verify_identity(dom, entry, observed_at=_now_iso(self._clock))
-            if not verdict.ok:
-                return done(EXCEPTION, verdict.reason, verdict.detail)
+            #
+            # PTF-DISCOVERY-001 capture-time identity gate: the existing verdict
+            # still runs first and still decides URL shape before content, but
+            # acceptance now also requires FD-5's bar -- two INDEPENDENT approved
+            # stable keys, at least one proven by an authoritative field-specific
+            # source. A page that satisfies the old classifications but not FD-5
+            # (name + one key, or name + city) is IDENTITY_INCOMPLETE and stops
+            # here, before POLICY_SCAN. Only IDENTITY_CONFIRMED continues.
+            identity = classify_identity(dom, entry, observed_at=_now_iso(self._clock),
+                                         adapter_metadata=getattr(adapter, "property_metadata", None))
+            identity_detail = _identity_detail(identity)
+            if not identity.may_proceed:
+                return done(EXCEPTION,
+                            identity.verdict.reason if (identity.verdict
+                                                        and not identity.verdict.ok)
+                            else identity.outcome,
+                            tuple(identity.verdict.detail if identity.verdict else ())
+                            + identity_detail)
+            verdict = identity.verdict
 
             # -- POLICY_SCAN + INTERACTING ---------------------------------- #
             # These are one loop, not two phases. A collapsed policy is invisible
@@ -325,9 +364,14 @@ class CaptureRunner:
                 "warnings": warnings,
                 "evidence_complete": evidence_complete,
                 "evidence_notes": evidence_notes,
+                # Why we believe this page was the right property. Recorded on
+                # the SUCCESS path too: a reviewer reading a completed capture
+                # needs to see which two keys confirmed it, not just that
+                # something passed.
+                "identity": identity.to_dict(),
             }
             seen_hashes[payload["text_sha256"]] = entry.hotel_id
-            return done(CAPTURED, artifacts=artifacts)
+            return done(CAPTURED, detail=identity_detail, artifacts=artifacts)
 
         except Exception as exc:                      # noqa: BLE001 - isolation
             # The whole point of this clause: a hotel that explodes is one

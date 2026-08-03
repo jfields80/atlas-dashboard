@@ -185,3 +185,85 @@ def verify_identity(dom: DomSnapshot, entry: QueueEntry,
 
     return IdentityVerdict(True, "", classification=assessed.classification,
                            detail=tuple(assessed.reasons), observed=observed)
+
+
+# --------------------------------------------------------------------------- #
+# PTF-DISCOVERY-001 capture-time identity gate.
+#
+# ``verify_identity`` above is UNCHANGED: ``operator_capture`` and the importer
+# depend on its behaviour, so the FD-5 bar is added as a wrapper rather than by
+# retuning ``assess_identity`` underneath them (founder decision 5).
+#
+# The wrapper can only ever withhold. It takes an already-acceptable verdict
+# and asks the further question FD-5 requires -- were at least two INDEPENDENT
+# approved stable keys proven, at least one of them from an authoritative
+# field-specific source? -- and it never rescues a verdict that failed.
+# --------------------------------------------------------------------------- #
+
+from .identity_keys import (                                    # noqa: E402
+    ACCESS_BLOCKED, IDENTITY_CONFIRMED, IDENTITY_FAILED, IDENTITY_INCOMPLETE,
+    ExpectedIdentity, KeyAssessment,
+)
+from .identity_keys import evaluate as _evaluate_keys           # noqa: E402
+from .reasons import CHALLENGE_REASONS                          # noqa: E402
+
+#: Verdict reasons that mean "we could not reach the property page at all",
+#: as opposed to "we reached it and the identity did not hold up".
+_ACCESS_BLOCKED_REASONS = frozenset({"SEARCH_URL", "REDIRECTED_OFF_PROPERTY"}) | CHALLENGE_REASONS
+
+#: Verdict reasons that are an active contradiction rather than a shortfall.
+_FAILED_REASONS = frozenset({"IDENTITY_MISMATCH", "PROPERTY_CODE_MISMATCH"})
+
+
+@dataclass(frozen=True)
+class IdentityOutcome:
+    """The four-outcome result the capture runner acts on."""
+
+    outcome: str
+    reason: str
+    verdict: Optional[IdentityVerdict] = None
+    keys: Optional[KeyAssessment] = None
+
+    @property
+    def may_proceed(self) -> bool:
+        """Only IDENTITY_CONFIRMED continues to policy interaction/capture."""
+        return self.outcome == IDENTITY_CONFIRMED
+
+    def to_dict(self) -> dict:
+        return {
+            "outcome": self.outcome, "reason": self.reason,
+            "may_proceed": self.may_proceed,
+            "verdict": self.verdict.to_dict() if self.verdict else None,
+            "keys": self.keys.to_dict() if self.keys else None,
+        }
+
+
+def classify_identity(dom: DomSnapshot, entry: QueueEntry, *, observed_at: str = "",
+                      field_observations=(), adapter_metadata=None) -> IdentityOutcome:
+    """Full capture-time identity gate: existing verdict, then the FD-5 bar.
+
+    Order is deliberate. The existing verdict runs first because it already
+    encodes hard-won rules the key count does not replace -- URL shape before
+    content (the PTF-WORKERS-007 fix), and property-code mismatch as an active
+    contradiction. Only a page that survives all of that is asked whether its
+    evidence actually clears FD-5.
+    """
+    verdict = verify_identity(dom, entry, observed_at=observed_at)
+
+    if not verdict.ok:
+        if verdict.reason in _ACCESS_BLOCKED_REASONS:
+            outcome = ACCESS_BLOCKED
+        elif verdict.reason in _FAILED_REASONS:
+            outcome = IDENTITY_FAILED
+        else:
+            # IDENTITY_UNVERIFIABLE and anything unrecognised: the page did not
+            # say enough. Unknown reasons fail closed as INCOMPLETE rather than
+            # being waved through.
+            outcome = IDENTITY_INCOMPLETE
+        return IdentityOutcome(outcome, verdict.reason or "identity_not_verified",
+                               verdict=verdict)
+
+    keys = _evaluate_keys(
+        dom, ExpectedIdentity.from_queue_entry(entry), observed=verdict.observed,
+        field_observations=field_observations, adapter_metadata=adapter_metadata)
+    return IdentityOutcome(keys.outcome, keys.reason, verdict=verdict, keys=keys)

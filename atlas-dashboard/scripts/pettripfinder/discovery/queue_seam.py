@@ -43,7 +43,8 @@ from scripts.pettripfinder.discovery.models import DiscoveryCandidate
 from services.research_workers import vocabulary as V
 from services.research_workers.capture_automation.adapters import adapter_for, known_brands
 from services.research_workers.capture_automation.queue import (
-    QUEUE_SCHEMA, QueueEntry, validate_entry,
+    CAPTURE_STATE_PENDING_IDENTITY, CAPTURE_STATE_READY, QUEUE_SCHEMA, QueueEntry,
+    is_provisional, validate_entry,
 )
 
 # Reuse the seed path's identity helpers rather than re-deriving them.
@@ -59,13 +60,31 @@ PROJECTED = "PROJECTED"                       # became a valid queue entry
 SKIPPED_NOT_READY = "SKIPPED_NOT_READY"       # resolution outcome not eligible
 SKIPPED_NO_URL = "SKIPPED_NO_URL"             # no usable official property URL
 SKIPPED_UNSUPPORTED_BRAND = "SKIPPED_UNSUPPORTED_BRAND"   # exception list (FD-8)
-SKIPPED_URL_REVALIDATION = "SKIPPED_URL_REVALIDATION"     # FD-5 identity check failed
+SKIPPED_URL_REVALIDATION = "SKIPPED_URL_REVALIDATION"     # FD-5 identity check FAILED
 REJECTED_BY_PREFLIGHT = "REJECTED_BY_PREFLIGHT"           # real validate_entry said no
 
+#: C-5. Eligible, adapter-supported, and NOT statically identity-confirmed --
+#: emitted as a PROVISIONAL entry so the rendered capture session can prove
+#: identity on hosts the static fetcher cannot reach (reval-001 measured 5
+#: robots denials and 2 HTTP 403s across the major chains).
+#:
+#: This is NOT a relaxation of FD-5. FD-5 blocks a handoff whose URL resolves to
+#: a DIFFERENT property; that case still returns SKIPPED_URL_REVALIDATION and
+#: never becomes an entry. What changes is the separate case of an identity that
+#: was never *checked* -- 251 of the 253 blocked candidates at the Provider Zero
+#: checkpoint -- which is deferred to the capture session rather than discarded.
+#: The proof requirement is unchanged; only the place it is discharged moves.
+PROJECTED_PENDING_IDENTITY = "PROJECTED_PENDING_IDENTITY"
+
 SEAM_OUTCOMES = frozenset({
-    PROJECTED, SKIPPED_NOT_READY, SKIPPED_NO_URL, SKIPPED_UNSUPPORTED_BRAND,
-    SKIPPED_URL_REVALIDATION, REJECTED_BY_PREFLIGHT,
+    PROJECTED, PROJECTED_PENDING_IDENTITY, SKIPPED_NOT_READY, SKIPPED_NO_URL,
+    SKIPPED_UNSUPPORTED_BRAND, SKIPPED_URL_REVALIDATION, REJECTED_BY_PREFLIGHT,
 })
+
+#: Outcomes that produce a queue entry. Provisional entries are included --
+#: they are real work for the capture runner -- which is exactly why they must
+#: be structurally distinguishable, never merely annotated.
+SEAM_OUTCOMES_WITH_ENTRY = frozenset({PROJECTED, PROJECTED_PENDING_IDENTITY})
 
 
 @dataclass(frozen=True)
@@ -142,10 +161,24 @@ def project_candidate(
     worker_contract_version: str = "",
     url_revalidation_blocked: bool = False,
     revalidation_reason: str = "",
+    url_identity_never_validated: bool = False,
 ) -> SeamResult:
     """Project ONE candidate onto a queue entry, or explain why it did not.
 
     Every rejection is a structured outcome; nothing is dropped silently.
+
+    ``url_revalidation_blocked`` still BLOCKS by default. C-5 adds one narrow
+    exception, and it is opt-in for a reason: the caller must state positively
+    that identity was never *checked*, via ``url_identity_never_validated``.
+
+      * blocked, nothing else said        -> SKIPPED_URL_REVALIDATION (as before)
+      * blocked + never validated         -> PROJECTED_PENDING_IDENTITY
+      * blocked because identity FAILED   -> SKIPPED_URL_REVALIDATION
+
+    Defaulting the other way would have been a fail-OPEN default: every
+    existing caller signalling a genuine identity failure would silently start
+    producing provisional entries. An unchecked identity and a refuted one look
+    identical in a boolean, so the permissive path has to be asked for.
     """
     contract_version = worker_contract_version or V.CONTRACT_VERSION
 
@@ -153,10 +186,10 @@ def project_candidate(
         return SeamResult(candidate.candidate_id, SKIPPED_NOT_READY,
                           reason=resolution_outcome or "no_resolution_outcome")
 
-    # FD-5: a redirect resolving to a different property identity BLOCKS the
-    # handoff. Checked before anything else that could make the entry look
-    # legitimate.
-    if url_revalidation_blocked:
+    # FD-5, unchanged: a URL that is not cleared for handoff BLOCKS, and a
+    # redirect resolving to a DIFFERENT property blocks unconditionally.
+    # Checked before anything else that could make the entry look legitimate.
+    if url_revalidation_blocked and not url_identity_never_validated:
         return SeamResult(candidate.candidate_id, SKIPPED_URL_REVALIDATION,
                           reason=revalidation_reason or "property_identity_check_failed")
 
@@ -173,6 +206,11 @@ def project_candidate(
 
     priority, priority_reasons = _priority(candidate, brand=brand, confirmed=url_confirmed)
 
+    # C-5. Provisional when identity was never established statically.
+    provisional = bool(url_revalidation_blocked and url_identity_never_validated)
+    if provisional:
+        priority_reasons = priority_reasons + ("identity_unconfirmed_pending_capture",)
+
     raw = {
         "hotel_id": hotel_id_for(candidate.name),
         "listing_key": normalize_name(candidate.name),
@@ -184,7 +222,12 @@ def project_candidate(
         "expected_state": candidate.state,
         "expected_postal_code": candidate.postal_code,
         "expected_phone": _phone_for(candidate),
-        "required_fields": list(V.POLICY_FIELDS),
+        # A provisional entry asks for NO policy fields. It is a request to
+        # prove identity, not to extract policy, and the empty list is what
+        # makes that structurally true rather than merely stated.
+        "required_fields": [] if provisional else list(V.POLICY_FIELDS),
+        "capture_state": (CAPTURE_STATE_PENDING_IDENTITY if provisional
+                          else CAPTURE_STATE_READY),
         "worker_contract_version": contract_version,
         "queue_entry_id": queue_entry_id_for(candidate.candidate_id, contract_version),
         "candidate_id": candidate.candidate_id,
@@ -196,7 +239,9 @@ def project_candidate(
         "discovery_provenance_refs": list(_provenance_refs(candidate, run_context_ref)),
         "run_context_ref": run_context_ref,
         "official_url_record": official_url_record,
-        "notes": "projected from discovery candidate %s" % candidate.candidate_id,
+        "notes": ("projected from discovery candidate %s%s"
+                  % (candidate.candidate_id,
+                     "; identity pending capture-session proof" if provisional else "")),
     }
 
     # Membrane gate before the entry can exist at all.
@@ -207,18 +252,72 @@ def project_candidate(
     if entry is None:
         return SeamResult(candidate.candidate_id, REJECTED_BY_PREFLIGHT,
                           problems=tuple(problems))
+    if provisional:
+        return SeamResult(candidate.candidate_id, PROJECTED_PENDING_IDENTITY,
+                          entry=entry,
+                          reason=revalidation_reason or "identity_never_validated")
     return SeamResult(candidate.candidate_id, PROJECTED, entry=entry)
+
+
+def entries_with_identity(results: Sequence[SeamResult]) -> Tuple[
+        Tuple[QueueEntry, ...], Tuple[Tuple[str, Tuple[str, ...]], ...]]:
+    """Split projected entries into ``(emittable, withheld_hotel_id_collisions)``.
+
+    Two different failures hide behind the same symptom -- a repeated key in the
+    payload -- and they must not be treated the same way.
+
+    **Same ``queue_entry_id``** means the same candidate under the same worker
+    contract. That is the idempotency key, so a repeat is genuinely one entry
+    and is collapsed. (The Columbus corpus contains two candidates recorded
+    twice; before C-5 this never surfaced because nothing was ever emitted.)
+
+    **Different candidates sharing a ``hotel_id``** is the opposite problem.
+    ``hotel_id`` is slugified from the property NAME, and two distinct
+    properties can slugify identically. Collapsing those would merge two real
+    hotels on a name match alone -- the precise false-merge this architecture
+    forbids everywhere else. They are WITHHELD with a reason instead, because a
+    queue cannot carry two entries under one id and we may not guess which one
+    is wanted.
+    """
+    by_entry_id: Dict[str, QueueEntry] = {}
+    for r in results:
+        if r.outcome in SEAM_OUTCOMES_WITH_ENTRY and r.entry is not None:
+            by_entry_id.setdefault(r.entry.queue_entry_id, r.entry)
+
+    by_hotel_id: Dict[str, List[QueueEntry]] = {}
+    for entry in by_entry_id.values():
+        by_hotel_id.setdefault(entry.hotel_id, []).append(entry)
+
+    emittable: List[QueueEntry] = []
+    withheld: List[Tuple[str, Tuple[str, ...]]] = []
+    for hotel_id, group in by_hotel_id.items():
+        if len(group) == 1:
+            emittable.append(group[0])
+        else:
+            withheld.append((hotel_id, tuple(sorted(e.candidate_id for e in group))))
+
+    emittable.sort(key=lambda e: (is_provisional(e), e.queue_priority, e.hotel_id))
+    return (tuple(emittable), tuple(sorted(withheld)))
 
 
 def build_queue_payload(results: Sequence[SeamResult], *, batch_id: str,
                         created_at: str = "") -> dict:
     """Assemble projected entries into a loadable queue file payload.
 
-    Ordering is by ``queue_priority`` then ``hotel_id`` -- deterministic, and
-    explainable from ``priority_reasons`` on every entry.
+    Ordering is deterministic and explainable from ``priority_reasons`` on every
+    entry: statically-confirmed entries first, then provisional ones, then by
+    ``queue_priority`` and ``hotel_id``. Provisional entries sort last because
+    an operator working the queue top-down should reach proven work first.
+
+    Both kinds are included -- a provisional entry IS work for the capture
+    runner -- and they stay distinguishable by ``capture_state`` and by their
+    empty ``required_fields``, never by their position in this list.
+
+    The payload this returns always LOADS: duplicates are collapsed and
+    hotel_id collisions withheld by ``entries_with_identity``, so the seam
+    cannot emit a file the real preflight would refuse.
     """
-    entries = [r.entry for r in results if r.outcome == PROJECTED and r.entry is not None]
-    entries.sort(key=lambda e: (e.queue_priority, e.hotel_id))
+    entries, _withheld = entries_with_identity(results)
     return {
         "schema": QUEUE_SCHEMA,
         "batch_id": batch_id,

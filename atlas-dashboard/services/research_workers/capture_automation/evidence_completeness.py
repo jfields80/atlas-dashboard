@@ -72,6 +72,68 @@ _CENTRAL_CONTEXT = (
 _PROPERTY_CONTEXT = ("front desk", "hotel phone", "property phone", "tel", "call the hotel")
 
 
+# --------------------------------------------------------------------------- #
+# PTF-DISCOVERY-001 C-6 -- identity evidence and policy evidence, both required.
+#
+# Until now the ordering of the runner guaranteed that no capture was written
+# before identity confirmed. That is a guarantee by SEQUENCE: it holds only as
+# long as nobody reorders the stages. C-6 makes it a guarantee by CONSTRUCTION,
+# so a capture whose recorded identity outcome is not a confirmation cannot be
+# counted as evidence however it came to exist.
+#
+# Symmetry is the point. Neither half is sufficient alone:
+#   * identity confirmed with no policy view  -> INCOMPLETE (missing policy)
+#   * a policy view with unconfirmed identity -> INCOMPLETE (identity problem)
+# Both failures are held with named reasons rather than downgraded.
+# --------------------------------------------------------------------------- #
+
+IDENTITY_CONFIRMED = "IDENTITY_CONFIRMED"
+
+#: Identity fields the operator is asked to affirm. Separated from the policy
+#: field so a report can say WHICH half of the package is missing.
+IDENTITY_FIELDS = (
+    FIELD_HOTEL_NAME, FIELD_STREET, FIELD_CITY, FIELD_STATE, FIELD_POSTAL_CODE,
+    FIELD_PROPERTY_PHONE,
+)
+POLICY_FIELDS = (FIELD_POLICY_TEXT,)
+
+MINIMUM_INDEPENDENT_KEY_GROUPS = 2
+
+#: Distinguishes "identity was not part of this question" (the parameter is
+#: omitted, historical behaviour) from "identity is required and absent"
+#: (``None`` passed explicitly, which fails closed). Conflating the two would
+#: make a missing gate look like a passing one.
+_IDENTITY_NOT_ASKED = object()
+
+
+def identity_problems(identity: Optional[Mapping]) -> Tuple[str, ...]:
+    """Why a recorded capture-time identity cannot support an attestation.
+
+    Empty tuple means the identity half is satisfied. ``None`` is itself a
+    failure when identity is required -- an absent record is not a passing one.
+    """
+    if identity is None:
+        return ("identity_evidence_missing",)
+    if not isinstance(identity, Mapping):
+        return ("identity_evidence_malformed",)
+
+    outcome = str(identity.get("outcome") or "").strip()
+    if outcome != IDENTITY_CONFIRMED:
+        return ("identity_outcome_not_confirmed:%s" % (outcome or "none"),)
+
+    keys = identity.get("keys")
+    if not isinstance(keys, Mapping):
+        return ("identity_key_evidence_missing",)
+
+    problems = []
+    groups = [g for g in (keys.get("independent_groups") or ()) if str(g).strip()]
+    if len(groups) < MINIMUM_INDEPENDENT_KEY_GROUPS:
+        problems.append("identity_independent_keys_below_minimum:%d" % len(groups))
+    if not keys.get("has_authoritative_key"):
+        problems.append("identity_no_authoritative_evidence_basis")
+    return tuple(problems)
+
+
 class EvidenceError(ValueError):
     """A view record that cannot be trusted as evidence."""
 
@@ -427,11 +489,40 @@ class EvidenceReport:
     problems: Tuple[str, ...]
     rejected: Tuple[str, ...]                  # field -> why an observation did not count
     phones: Tuple[Tuple[str, str, str], ...] = ()   # (view, text, classification)
+    #: C-6. Why the capture-time identity half failed, if it did. Empty means
+    #: either that it passed or that it was not asked about.
+    identity_issues: Tuple[str, ...] = ()
+
+    @property
+    def missing_policy_evidence(self) -> Tuple[str, ...]:
+        return tuple(f for f in POLICY_FIELDS
+                     if f in self.missing or f in self.ambiguous)
+
+    @property
+    def missing_identity_evidence(self) -> Tuple[str, ...]:
+        return tuple(f for f in IDENTITY_FIELDS
+                     if f in self.missing or f in self.ambiguous)
+
+    @property
+    def held_reasons(self) -> Tuple[str, ...]:
+        """Every explicit reason this package is held. Empty iff complete."""
+        reasons = []
+        reasons.extend("identity:%s" % i for i in self.identity_issues)
+        reasons.extend("identity_field_not_proven:%s" % f
+                       for f in self.missing_identity_evidence)
+        reasons.extend("policy_field_not_proven:%s" % f
+                       for f in self.missing_policy_evidence)
+        reasons.extend("view:%s" % p for p in self.problems)
+        if not reasons and not self.complete:
+            reasons.append("no_usable_views")
+        return tuple(reasons)
 
     def summary_line(self) -> str:
         if self.complete:
             return "evidence complete: all %d required fields visibly proven" % len(REQUIRED_FIELDS)
         bits = []
+        if self.identity_issues:
+            bits.append("identity=%s" % ",".join(self.identity_issues))
         if self.missing:
             bits.append("missing=%s" % ",".join(self.missing))
         if self.ambiguous:
@@ -524,14 +615,25 @@ def _name_tokens(text: str) -> frozenset:
 
 def assess_evidence(views: Sequence[EvidenceView], *, official_url: str,
                     expected: Optional[Mapping[str, str]] = None,
-                    read_bytes=None) -> EvidenceReport:
+                    read_bytes=None,
+                    identity=_IDENTITY_NOT_ASKED) -> EvidenceReport:
     """Can a human be shown this package and asked to affirm it?
 
     Fails closed on every axis: an unvalidated view contributes nothing, an
     unreadable observation contributes nothing, and two observations that
     disagree about the same field make it ambiguous rather than picking one.
+
+    ``identity`` is the capture-time identity assessment the runner recorded.
+    When supplied it must be a confirmation resting on at least two independent
+    stable keys with an authoritative basis; anything less makes the package
+    incomplete no matter how good the screenshots are. Omitting it preserves the
+    historical behaviour exactly, so captures taken before the gate existed are
+    assessed as they always were -- use ``require_complete_capture`` where an
+    identity record must be present.
     """
     expected = dict(expected or {})
+    identity_issues = (() if identity is _IDENTITY_NOT_ASKED
+                       else identity_problems(identity))
     problems: list = []
     rejected: list = []
     usable: list = []
@@ -595,22 +697,41 @@ def assess_evidence(views: Sequence[EvidenceView], *, official_url: str,
             continue
         proven[f] = hits[0]
 
-    complete = not missing and not ambiguous and bool(usable)
+    complete = (not missing and not ambiguous and bool(usable)
+                and not identity_issues)
     return EvidenceReport(complete=complete, proven=proven,
                           missing=tuple(missing), ambiguous=tuple(ambiguous),
                           problems=tuple(problems), rejected=tuple(rejected),
-                          phones=tuple(phones))
+                          phones=tuple(phones), identity_issues=identity_issues)
 
 
 def require_complete_evidence(views: Sequence[EvidenceView], *, official_url: str,
                               expected: Optional[Mapping[str, str]] = None,
-                              read_bytes=None) -> EvidenceReport:
+                              read_bytes=None,
+                              identity=_IDENTITY_NOT_ASKED) -> EvidenceReport:
     """Gate an attestation prompt. Raises rather than asking a human to guess."""
     report = assess_evidence(views, official_url=official_url, expected=expected,
-                             read_bytes=read_bytes)
+                             read_bytes=read_bytes, identity=identity)
     if not report.complete:
         raise EvidenceIncompleteError(report)
     return report
+
+
+def require_complete_capture(views: Sequence[EvidenceView], *, official_url: str,
+                             identity: Optional[Mapping],
+                             expected: Optional[Mapping[str, str]] = None,
+                             read_bytes=None) -> EvidenceReport:
+    """C-6. The strict gate: identity evidence AND policy evidence, both proven.
+
+    Differs from ``require_complete_evidence`` in one way that matters -- a
+    missing ``identity`` record is a failure here rather than a skipped check.
+    Use this for any capture produced after the capture-time identity gate
+    existed; an absent record then means the gate did not run, which is not a
+    reason to proceed.
+    """
+    return require_complete_evidence(views, official_url=official_url,
+                                     expected=expected, read_bytes=read_bytes,
+                                     identity=identity)
 
 
 def fields_to_recapture(report: EvidenceReport) -> Tuple[str, ...]:
