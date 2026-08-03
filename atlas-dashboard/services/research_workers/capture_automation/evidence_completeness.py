@@ -175,6 +175,46 @@ def street_line(value: str) -> str:
     return " ".join(out)
 
 
+#: Leading directional, either spelling. USPS treats these as the same
+#: address; the seed and the brand page routinely disagree about which to
+#: write, and until PTF-WYNDHAM that disagreement read as a contradiction:
+#: the seed's "7474 N High St" was called missing from a page plainly
+#: printing "7474 North High St".
+_DIRECTIONALS = (
+    ("n", "North"), ("s", "South"), ("e", "East"), ("w", "West"),
+    ("ne", "Northeast"), ("nw", "Northwest"),
+    ("se", "Southeast"), ("sw", "Southwest"),
+)
+
+_DIRECTIONAL_CANON = {}
+for _short_d, _long_d in _DIRECTIONALS:
+    _DIRECTIONAL_CANON[_short_d] = _long_d
+    _DIRECTIONAL_CANON[_long_d.lower()] = _long_d
+
+
+def _directional_swaps(value: str) -> Tuple[str, ...]:
+    """The same street line with a leading directional written the other way.
+
+    Positional on purpose, and narrowly so: only the token directly after the
+    house number is considered, and only when it is a directional in its
+    entirety. A blind substring swap would rewrite "Westerville" to
+    "Wersterville" and "Newark" to "Northewark" -- which is why the rule is
+    anchored to a token position rather than applied to text.
+    """
+    tokens = value.split()
+    if len(tokens) < 3:                 # number + directional + street name
+        return ()
+    if not re.match(r"^\d", tokens[0]):  # not a house-numbered street line
+        return ()
+    raw = tokens[1].rstrip(".").lower()
+    canon = _DIRECTIONAL_CANON.get(raw)
+    if canon is None:
+        return ()
+    short = next(s for s, l in _DIRECTIONALS if l == canon)
+    other = short.upper() if raw == canon.lower() else canon
+    return (" ".join([tokens[0], other] + tokens[2:]),)
+
+
 def street_variants(street: str) -> Tuple[str, ...]:
     """The seed's street, plus the spelled-out suffix a brand page tends to use."""
     s = street_line(street)
@@ -189,6 +229,9 @@ def street_variants(street: str) -> Tuple[str, ...]:
                 out.append("%s %s" % (head, long))
             elif suffix == long.lower():
                 out.append("%s %s" % (head, short.upper()))
+    # Directional and suffix vary independently -- "N High St" can meet
+    # "North High Street" -- so every suffix form gets both directionals.
+    out.extend(alt for v in list(out) for alt in _directional_swaps(v))
     # de-duplicate, preserve order
     seen, uniq = set(), []
     for v in out:

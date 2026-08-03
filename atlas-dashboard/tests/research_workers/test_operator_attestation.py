@@ -502,10 +502,19 @@ def test_attestation_id_is_deterministic():
 # --------------------------------------------------------------------------- #
 
 def test_both_per_pet_and_per_stay_language_are_preserved():
+    """Preservation is the subject, and it is unchanged: both wordings survive
+    into the artifact verbatim.
+
+    PTF-WYNDHAM corrects what that co-occurrence MEANS. "Per pet" answers who
+    is charged and "per stay" answers how often; a fee naming one of each is
+    fully specified, not self-contradictory. The tiered amounts in this same
+    fixture are still reported, so nothing stops being flagged that should be.
+    """
     a = _build()
     topics = [s["topic"] for s in a.statements]
     assert "fee_basis_per_pet" in topics and "fee_basis_per_stay" in topics
-    assert "conflicting_fee_basis_per_pet_vs_fee_basis_per_stay" in a.contradictions
+    assert "conflicting_fee_basis_per_pet_vs_fee_basis_per_stay" not in a.contradictions
+    assert any(c.startswith("multiple_fee_amounts") for c in a.contradictions)
 
 
 def test_both_fee_tiers_and_conditions_are_preserved():

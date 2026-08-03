@@ -680,7 +680,7 @@ class RetrievalOutcome:
 
     @property
     def ready_for_extraction(self) -> bool:
-        """Retrieved AND actually applicable to THIS property.
+        """Retrieved AND applicable to THIS property AND actually carrying a policy.
 
         ``policy_applicable`` is deliberately part of the gate: a directory or
         non-universal brand page can be fetched, identified and hashed
@@ -688,10 +688,42 @@ class RetrievalOutcome:
         property's (or no property's) policy to this record. Readiness must
         therefore mean "safe to extract for this hotel", not merely "bytes
         arrived".
+
+        PTF-WYNDHAM. Nor merely "a policy section exists here". Retrieving a
+        PAGE and retrieving a POLICY are different achievements, and this
+        property used to conflate them: every Wyndham property page returns
+        200 with exact identity and ships a "Pet & Service Animal Policy"
+        heading over an empty container, while the values appear only once the
+        page renders. Measured on five Columbus properties, not one static body
+        carried a single pet count, weight ceiling or amount -- and three were
+        still called ready. What they DO carry is brochure copy ("pet-friendly
+        hotel", "an extra nightly fee"), so a worker sent to extract from them
+        would have published advertising as policy.
+
+        ``policy_value_signals`` is the same quantified-fact test that already
+        decides render-requirement, reused rather than restated, so the two
+        answers cannot drift apart. Identity retrieval is untouched and stays
+        successful on its own terms: this narrows what may be EXTRACTED, not
+        what was reached.
         """
         return (self.status == RETRIEVED
                 and self.source_document is not None
-                and self.policy_applicable)
+                and self.policy_applicable
+                and self.static_policy_values_present)
+
+    @property
+    def static_policy_values_present(self) -> bool:
+        """Does the retrieved body state a quantified policy fact at all?
+
+        False for a page that only names a pet-policy section, ships an empty
+        or hidden container, or advertises itself as pet-friendly. Such a page
+        is not evidence of a policy; it is evidence of a heading.
+        """
+        from .render_evidence import policy_value_signals
+
+        doc = self.source_document
+        text = getattr(doc, "content_text", "") if doc is not None else ""
+        return bool(policy_value_signals(text or ""))
 
     def to_dict(self) -> dict:
         """Deterministic, secret-free artifact shape. No headers, cookies or
@@ -729,6 +761,9 @@ class RetrievalOutcome:
             "warnings": list(self.warnings),
             "failure_reason": self.failure_reason,
             "ready_for_extraction": self.ready_for_extraction,
+            # Recorded so "the page arrived but the policy did not" is
+            # diagnosable from the artifact alone, without re-fetching.
+            "static_policy_values_present": self.static_policy_values_present,
             "capture_method": self.capture_method,
             "parent_url": self.parent_url,
             "identity_basis": self.identity_basis,

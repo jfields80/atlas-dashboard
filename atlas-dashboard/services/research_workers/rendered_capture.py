@@ -113,6 +113,11 @@ _TOPIC_PATTERNS: Tuple[Tuple[str, "re.Pattern"], ...] = (
     ("fee_basis_per_pet", re.compile(r"[^.]{0,120}\bper\s+pet\b[^.]{0,120}\.", re.I)),
     ("fee_basis_per_stay", re.compile(r"[^.]{0,120}\bper\s+stay\b[^.]{0,120}\.", re.I)),
     ("fee_basis_per_night", re.compile(r"[^.]{0,120}\bper\s+night\b[^.]{0,120}\.", re.I)),
+    # The other SCOPE a fee can take. Charging per party and charging per pet
+    # are rival answers to the same question, which is what makes them a
+    # contradiction; charging per pet and charging per night are not.
+    ("fee_scope_per_party",
+     re.compile(r"[^.]{0,120}\bper\s+(?:party|room|reservation)\b[^.]{0,120}\.", re.I)),
     # Both money forms matter: official pages write "$75" and "75 dollars"
     # interchangeably, sometimes in the same paragraph, and missing one form
     # would silently hide half of a tiered fee.
@@ -155,10 +160,24 @@ def collect_statements(text: str) -> Tuple[Statement, ...]:
 
 
 # Topic pairs that are contradictory when both appear. Reported, never resolved.
+#
+# PTF-WYNDHAM. A fee has two INDEPENDENT dimensions -- who is charged (scope)
+# and how often (time basis) -- and this table used to treat them as one. So
+# "25 USD per pet per night", a single unambiguous sentence naming one value on
+# each axis, was reported as a contradiction with itself. Five Columbus
+# properties were held on that reading, and the fee they were held over was
+# never in doubt.
+#
+# Two claims conflict only when they compete for the SAME axis. Cross-axis
+# pairs are removed for that reason, not to make anything pass: per-night
+# against per-stay still conflicts, and so does per-pet against per-party.
+# Nothing here resolves a conflict; it still only names one.
+_FEE_SCOPE_TOPICS = ("fee_basis_per_pet", "fee_scope_per_party")
+_FEE_TIME_TOPICS = ("fee_basis_per_stay", "fee_basis_per_night")
+
 _CONTRADICTORY_PAIRS = (
-    ("fee_basis_per_pet", "fee_basis_per_stay"),
-    ("fee_basis_per_pet", "fee_basis_per_night"),
-    ("fee_basis_per_stay", "fee_basis_per_night"),
+    ("fee_basis_per_stay", "fee_basis_per_night"),      # same axis: time basis
+    ("fee_basis_per_pet", "fee_scope_per_party"),       # same axis: scope
     ("species_cats", "species_dogs"),
 )
 

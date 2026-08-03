@@ -284,8 +284,23 @@ def test_both_per_pet_and_per_stay_wording_are_preserved():
 
 
 def test_the_contradiction_is_named_and_never_resolved():
+    """A real conflict is still named and still left unresolved.
+
+    PTF-WYNDHAM: this fixture's conflict is its two competing AMOUNTS, not its
+    per-pet/per-stay wording -- those describe different dimensions of one fee.
+    The marker is reported, never a resolution.
+    """
     result, _ = _capture()
-    assert "conflicting_fee_basis_per_pet_vs_fee_basis_per_stay" in result.contradictions
+    assert any(c.startswith("multiple_fee_amounts") for c in result.contradictions)
+    assert ("conflicting_fee_basis_per_pet_vs_fee_basis_per_stay"
+            not in result.contradictions)
+    # Same-axis wording still conflicts, so the rule narrowed rather than went away.
+    from services.research_workers.rendered_capture import (
+        collect_statements, detect_contradictions,
+    )
+    same_axis = detect_contradictions(collect_statements(
+        "A fee of 25 USD per night applies. A fee of 75 USD per stay applies."))
+    assert "conflicting_fee_basis_per_stay_vs_fee_basis_per_night" in same_axis
 
 
 def test_both_fee_tiers_survive_with_amounts_and_tax_language():
