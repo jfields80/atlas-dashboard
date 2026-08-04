@@ -41,6 +41,7 @@ from .diagnostics import DiagnosticCollector, DiagnosticContext
 from .hydration import wait_for_identity
 from .identity_check import classify_identity, verify_identity
 from .manifest import Journal, build_manifest, write_manifest
+from .policy_absence import POLICY_ABSENT_CONFIRMED, assess_absence
 from .queue import CaptureQueue, QueueEntry, remaining_entries
 from .reasons import CHALLENGE_REASONS, RETRY_MANUAL, retry_for
 from .state_machine import (
@@ -295,8 +296,27 @@ class CaptureRunner:
                 self._sleep(0.5)
 
             if location is None:
+                # PTF-DISCOVERY: "we could not find it" and "the page says no"
+                # are different answers, and conflating them reported nine
+                # correct results as extraction defects while burying the one
+                # genuine miss among them.
+                #
+                # This is a CLASSIFICATION of a failure, not a capture and not a
+                # policy fact: no capture files are written, nothing enters
+                # extraction or attestation, and the outcome is still EXCEPTION.
+                # It is never inferred from silence -- assess_absence requires an
+                # affirmative property-level refusal on the official page, read
+                # from RENDERED text (dom.text), never from HTML that a
+                # display:none panel could supply.
+                absence = assess_absence(jsonld=dom.jsonld, visible_text=dom.text)
+                if absence.confirmed:
+                    return done(EXCEPTION, POLICY_ABSENT_CONFIRMED,
+                                ("no_anchor_after_supported_expansion",)
+                                + tuple("absence_evidence:%s" % e for e in absence.evidence)
+                                + tuple("absence_quote:%s" % q for q in absence.quotes))
                 return done(EXCEPTION, "POLICY_NOT_FOUND",
-                            ("no_anchor_after_supported_expansion",))
+                            ("no_anchor_after_supported_expansion",
+                             "absence_not_confirmed:%s" % absence.explanation))
 
             handle = _policy_handle(location, self._session)
             box, viewport = self._frame_policy(location, handle)
@@ -648,12 +668,20 @@ class CaptureRunner:
             "manual_review": sorted(
                 hid for hid in (set(incomplete) & set(queued_ids))
                 if retry_for(reasons.get(hid, "")) == RETRY_MANUAL),
+            # Named separately so a resumed run states plainly that these are
+            # not pending work. They are still re-attempted like any other
+            # non-capture -- nothing is skipped on the strength of a
+            # classification -- but the operator is told the queue's remaining
+            # failures include N hotels that simply do not take pets.
+            "confirmed_policy_absence": sorted(
+                set(journal.confirmed_absent_ids()) & set(queued_ids)),
         }
         resume_summary["counts"] = {
             "total_candidates": len(queued_ids),
             "skipped_completed": len(resume_summary["skipped_completed"]),
             "attempted": len(resume_summary["attempted"]),
             "manual_review": len(resume_summary["manual_review"]),
+            "confirmed_policy_absence": len(resume_summary["confirmed_policy_absence"]),
         }
 
         seen: Dict[str, str] = {}

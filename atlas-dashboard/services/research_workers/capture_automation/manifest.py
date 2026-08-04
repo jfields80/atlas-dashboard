@@ -147,6 +147,20 @@ class Journal:
             if r.get("state") in (CAPTURED, EXCEPTION)
             and str(r.get("hotel_id")) not in complete))
 
+    def confirmed_absent_ids(self) -> Tuple[str, ...]:
+        """Hotels whose official page affirmatively stated pets are not accepted.
+
+        Reported separately from both successes and failures. These are NOT in
+        ``completed_capture_ids`` -- no capture exists -- so a resumed run still
+        re-attempts them like any other non-capture, and they remain in
+        ``incomplete_hotel_ids``. The distinction is for the operator: a hotel
+        here needs a human decision about the listing, not an adapter fix.
+        """
+        return tuple(dict.fromkeys(
+            str(r.get("hotel_id")) for r in self.records()
+            if r.get("state") == EXCEPTION
+            and str(r.get("reason") or "") == "POLICY_ABSENT_CONFIRMED"))
+
     def last_reason_by_hotel(self) -> Dict[str, str]:
         """Most recent terminal reason per hotel, for the resume summary."""
         out: Dict[str, str] = {}
@@ -249,6 +263,13 @@ def build_manifest(*, batch_id: str, queue_size: int, journal: Journal,
             "exceptions": len(exceptions),
             "duplicates": len(duplicates),
             "skipped": len(skipped_hotel_ids),
+            # A subset of `exceptions`, not a separate total: these hotels still
+            # produced no capture. Counted so a batch's headline numbers stop
+            # reading as nine adapter defects when nine hotels simply take no
+            # pets.
+            "confirmed_policy_absence": sum(
+                1 for r in exceptions
+                if str(r.get("reason") or "") == "POLICY_ABSENT_CONFIRMED"),
         },
         "unattended_success_rate": round(rate, 4),
         "exceptions_by_reason": dict(sorted(by_reason.items())),
@@ -283,6 +304,18 @@ def build_manifest(*, batch_id: str, queue_size: int, journal: Journal,
              "artifacts": _artifacts(r).get("artifacts", [])}
             for r in exceptions
             if _artifacts(r).get("schema") == "ptf-capture-diagnostic/1.0"],
+        # Listed separately from both successes and ordinary failures. A hotel
+        # here is not an adapter defect and not a capture: the official page
+        # said pets are not accepted, which is a correct observation needing a
+        # human listing decision. It supplies NO policy fact -- the
+        # official-source worker plus human approval remain the sole producers
+        # of published facts, negative ones included.
+        "confirmed_policy_absence": [
+            {"hotel_id": r.get("hotel_id"), "detail": r.get("detail", []),
+             "non_authoritative": True, "not_for_extraction": True,
+             "explanation": explain("POLICY_ABSENT_CONFIRMED")}
+            for r in exceptions
+            if str(r.get("reason") or "") == "POLICY_ABSENT_CONFIRMED"],
         "duplicate_captures": [
             {"hotel_id": r.get("hotel_id"), "duplicate_of": r.get("duplicate_of", ""),
              "detail": r.get("detail", [])}

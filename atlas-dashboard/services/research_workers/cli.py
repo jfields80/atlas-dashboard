@@ -1209,6 +1209,12 @@ def _cmd_capture_batch(args) -> int:
                      rc.get("attempted", 0), rc.get("manual_review", 0)))
         print("  captured   : %d" % counts["captured"])
         print("  exceptions : %d" % counts["exceptions"])
+        if counts.get("confirmed_policy_absence"):
+            # Printed under exceptions, indented, because it IS a subset of
+            # them -- no capture was produced. Surfaced anyway so the headline
+            # failure count is not read as N adapter defects.
+            print("    of which pets-not-accepted (page says so) : %d"
+                  % counts["confirmed_policy_absence"])
         print("  duplicates : %d" % counts["duplicates"])
         print("  skipped    : %d" % counts["skipped"])
         print("  unattended : %.0f%%" % (result.manifest["unattended_success_rate"] * 100))

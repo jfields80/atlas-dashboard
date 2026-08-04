@@ -60,6 +60,19 @@ EXCEPTION_REASONS = {
     "POLICY_NOT_FOUND": (
         RETRY_MANUAL,
         "No pet-policy anchor appeared in the rendered page."),
+    # Distinct from POLICY_NOT_FOUND on purpose. That reason means "we could
+    # not locate policy information"; this one means "the official page said
+    # pets are not accepted". Ten of the fourteen POLICY_NOT_FOUND outcomes in
+    # the consolidated run were this, and reporting a correct answer as a
+    # failure buried the one genuine miss among nine non-problems.
+    #
+    # RETRY_NEVER: re-running the browser cannot change a hotel's pet policy.
+    # It is still NOT a successful capture and supplies no policy fact -- the
+    # official-source worker plus human approval remain the sole producers of
+    # published facts, including negative ones.
+    "POLICY_ABSENT_CONFIRMED": (
+        RETRY_NEVER,
+        "The official property page affirmatively indicates pets are not accepted."),
     "POLICY_OFF_SCREEN": (
         RETRY_NOW,
         "The policy block could not be brought into the screenshot viewport."),

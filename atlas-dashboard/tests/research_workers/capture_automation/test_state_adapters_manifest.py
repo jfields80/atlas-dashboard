@@ -180,8 +180,13 @@ class TestJournalAndManifest:
         j.append(HotelOutcome("c", EXCEPTION, "DUPLICATE_CAPTURE",
                               duplicate_of="a"), at="t")
         m = build_manifest(batch_id="b1", queue_size=3, journal=j)
+        # confirmed_policy_absence is a SUBSET of exceptions, not a fourth
+        # total: a hotel whose page says it takes no pets still produced no
+        # capture. Counted separately so a batch's headline failure number
+        # stops reading as N adapter defects.
         assert m["counts"] == {"queued": 3, "attempted": 3, "captured": 1,
-                               "exceptions": 1, "duplicates": 1, "skipped": 0}
+                               "exceptions": 1, "duplicates": 1, "skipped": 0,
+                               "confirmed_policy_absence": 0}
         assert m["duplicate_captures"][0]["duplicate_of"] == "a"
 
     def test_retry_recommendations_are_grouped(self, tmp_path):
