@@ -1170,7 +1170,10 @@ def _cmd_capture_batch(args) -> int:
     config = RunnerConfig(
         batch_dir=batch_dir,
         archived_corpus_dirs=tuple(args.archived_corpus or ()),
-        limit=args.limit or 0)
+        limit=args.limit or 0,
+        # PTF-DISCOVERY: previously declared on the parser and never passed
+        # here, which made --resume a silent no-op.
+        resume=bool(getattr(args, "resume", False)))
 
     profile_dir = batch_dir / ".chrome-profile"
     chrome = chrome_launcher.launch(
@@ -1197,6 +1200,13 @@ def _cmd_capture_batch(args) -> int:
         print(json.dumps(result.manifest, indent=2, ensure_ascii=False))
     else:
         print("\nbatch %s" % queue.batch_id)
+        rs = result.manifest.get("resume") or {}
+        if rs.get("resume_requested"):
+            rc = rs.get("counts", {})
+            print("  resume     : %d total, %d already complete (skipped), "
+                  "%d attempted, %d need manual review"
+                  % (rc.get("total_candidates", 0), rc.get("skipped_completed", 0),
+                     rc.get("attempted", 0), rc.get("manual_review", 0)))
         print("  captured   : %d" % counts["captured"])
         print("  exceptions : %d" % counts["exceptions"])
         print("  duplicates : %d" % counts["duplicates"])

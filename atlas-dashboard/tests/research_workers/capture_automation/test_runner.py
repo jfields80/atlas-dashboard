@@ -480,7 +480,16 @@ class TestPacing:
 
 
 class TestResume:
-    def test_a_second_run_skips_completed_hotels(self, tmp_path):
+    def test_a_second_run_skips_completed_and_reattempts_failures(self, tmp_path):
+        """Only COMPLETED captures are skipped; a failure is unfinished work.
+
+        This assertion was inverted before PTF-DISCOVERY: the second run
+        skipped the failed hotel too, because resume was driven by
+        ``completed_hotel_ids()`` which counts EXCEPTION as terminal. That
+        silently abandoned every NAVIGATION_TIMEOUT, IDENTITY_FAILED and
+        POLICY_OFF_SCREEN in the batch -- exactly the work a resume exists to
+        pick up -- while reporting a clean run.
+        """
         names = MARRIOTT[:4]
         pages = pages_from(*names)
 
@@ -491,12 +500,19 @@ class TestResume:
         runner.run(build_queue(names))
         assert len(set(first.navigations)) == 4
 
-        # Second run over the same batch dir: everything already terminal.
+        # Second run over the same batch dir: the three captures are complete
+        # and are skipped; the failure is retried.
         second = FakeBrowserSession(pages)
-        runner2, _ = make_runner(tmp_path, second)
+        runner2, _ = make_runner(tmp_path, second, resume=True)
         result = runner2.run(build_queue(names))
-        assert second.navigations == [], "resume must re-request nothing"
-        assert result.manifest["counts"]["attempted"] == 4
+
+        assert len(set(second.navigations)) == 1, "only the unfinished hotel"
+        assert entry_for(names[2]).official_url in second.navigations
+
+        rs = result.manifest["resume"]
+        assert rs["counts"]["skipped_completed"] == 3
+        assert rs["counts"]["attempted"] == 1
+        assert rs["attempted"] == [entry_for(names[2]).hotel_id]
 
     def test_interruption_mid_batch_resumes_where_it_stopped(self, tmp_path):
         names = MARRIOTT[:4]

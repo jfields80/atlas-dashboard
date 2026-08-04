@@ -41,7 +41,7 @@ from .hydration import wait_for_identity
 from .identity_check import classify_identity, verify_identity
 from .manifest import Journal, build_manifest, write_manifest
 from .queue import CaptureQueue, QueueEntry, remaining_entries
-from .reasons import CHALLENGE_REASONS
+from .reasons import CHALLENGE_REASONS, RETRY_MANUAL, retry_for
 from .state_machine import (
     CAPTURED, CAPTURING, EXCEPTION, HotelOutcome, IDENTITY, INTERACTING,
     KillSwitch, NAVIGATING, POLICY_SCAN, QUEUED, URL_SHAPE, VALIDATING,
@@ -62,6 +62,18 @@ class RunnerConfig:
     archived_corpus_dirs: Tuple[str, ...] = ()
     limit: int = 0
     dry_run: bool = False
+    # PTF-DISCOVERY: --resume was declared on the CLI but never reached here,
+    # so it was a no-op. Worse, the runner resumed UNCONDITIONALLY off
+    # ``completed_hotel_ids()``, which counts EXCEPTION as terminal -- so a
+    # second run over the same batch directory silently abandoned every
+    # IDENTITY_FAILED, IDENTITY_UNVERIFIABLE, POLICY_NOT_FOUND and
+    # POLICY_OFF_SCREEN instead of re-attempting them.
+    #
+    # Skipping is now driven by ``completed_capture_ids()`` -- a complete,
+    # on-disk, hash-bearing capture -- in both modes. ``resume`` additionally
+    # emits an auditable summary so a resumed run states exactly what it
+    # skipped and why.
+    resume: bool = False
 
 
 @dataclass
@@ -568,10 +580,34 @@ class CaptureRunner:
         journal = Journal.open(self._config.batch_dir)
         started_at = _now_iso(self._clock)
 
-        already = journal.completed_hotel_ids()
-        pending = remaining_entries(queue, already)
+        # Only a COMPLETE, VERIFIED capture may be skipped. An EXCEPTION is
+        # unfinished work: re-attempting it is the whole point of resuming.
+        # A CAPTURED record whose artifacts are missing or unhashed fails
+        # closed and is re-attempted too.
+        completed = journal.completed_capture_ids()
+        incomplete = journal.incomplete_hotel_ids()
+        pending = remaining_entries(queue, completed)
         if self._config.limit:
             pending = pending[:self._config.limit]
+
+        queued_ids = [e.hotel_id for e in queue.entries]
+        reasons = journal.last_reason_by_hotel()
+        resume_summary = {
+            "resume_requested": bool(self._config.resume),
+            "total_candidates": len(queued_ids),
+            "skipped_completed": sorted(set(completed) & set(queued_ids)),
+            "reattempted_incomplete": sorted(set(incomplete) & set(queued_ids)),
+            "attempted": [e.hotel_id for e in pending],
+            "manual_review": sorted(
+                hid for hid in (set(incomplete) & set(queued_ids))
+                if retry_for(reasons.get(hid, "")) == RETRY_MANUAL),
+        }
+        resume_summary["counts"] = {
+            "total_candidates": len(queued_ids),
+            "skipped_completed": len(resume_summary["skipped_completed"]),
+            "attempted": len(resume_summary["attempted"]),
+            "manual_review": len(resume_summary["manual_review"]),
+        }
 
         seen: Dict[str, str] = {}
         from .manifest import archived_text_hashes
@@ -604,6 +640,10 @@ class CaptureRunner:
             batch_id=queue.batch_id, queue_size=len(queue), journal=journal,
             started_at=started_at, finished_at=_now_iso(self._clock),
             aborted_reason=aborted, skipped_hotel_ids=skipped)
+        # Auditable and deterministic: the manifest states exactly which
+        # hotels were skipped because a complete capture already existed,
+        # which were re-attempted, and which need a human.
+        manifest["resume"] = resume_summary
         path = write_manifest(manifest, self._config.batch_dir)
 
         return BatchResult(manifest=manifest, manifest_path=path,

@@ -78,10 +78,82 @@ class Journal:
     def completed_hotel_ids(self) -> Tuple[str, ...]:
         """Hotels with any terminal record. Both CAPTURED and EXCEPTION count:
         a hotel that failed is done for this batch, and re-attempting it inside
-        the same run is exactly the retry storm the design forbids."""
+        the same run is exactly the retry storm the design forbids.
+
+        NOTE: this is the WITHIN-RUN notion of "done". It must not be used to
+        decide what a *resumed* run may skip -- an EXCEPTION is unfinished work,
+        not a completed capture. Use ``completed_capture_ids`` for that.
+        """
         return tuple(dict.fromkeys(
             str(r.get("hotel_id")) for r in self.records()
             if r.get("state") in (CAPTURED, EXCEPTION)))
+
+    # ----------------------------------------------------------------- #
+    # Resume support.
+    #
+    # Resume asks a different question from "did we reach a terminal state".
+    # It asks "does a complete, valid capture already exist". Those diverge
+    # for every EXCEPTION, and conflating them is how a resumed run silently
+    # abandons an IDENTITY_FAILED or a retryable POLICY_OFF_SCREEN.
+    # ----------------------------------------------------------------- #
+
+    def completed_capture_ids(self) -> Tuple[str, ...]:
+        """Hotels with a COMPLETE, VALID capture -- the only ones a resumed run
+        may skip.
+
+        A record qualifies only when all of the following hold:
+          * state is CAPTURED;
+          * it carries an artifacts mapping;
+          * that mapping names both a json_path and a png_path;
+          * both files still exist on disk;
+          * a png_sha256 is recorded.
+
+        Anything short of that FAILS CLOSED -- the hotel is re-attempted. A
+        half-written or hand-edited record must never be able to make a resumed
+        run believe evidence exists that does not.
+        """
+        out: List[str] = []
+        for r in self.records():
+            if r.get("state") != CAPTURED:
+                continue
+            art = r.get("artifacts")
+            if not isinstance(art, dict):
+                continue
+            json_path = str(art.get("json_path") or "")
+            png_path = str(art.get("png_path") or "")
+            if not json_path or not png_path:
+                continue
+            if not str(art.get("png_sha256") or ""):
+                continue
+            try:
+                if not (pathlib.Path(json_path).exists() and pathlib.Path(png_path).exists()):
+                    continue
+            except OSError:
+                continue
+            out.append(str(r.get("hotel_id")))
+        return tuple(dict.fromkeys(out))
+
+    def incomplete_hotel_ids(self) -> Tuple[str, ...]:
+        """Hotels with a terminal record that is NOT a complete capture.
+
+        These are exactly the ones a resumed run must re-attempt rather than
+        skip: identity failures, unverifiable pages, missing policy anchors,
+        framing failures, and any CAPTURED record whose artifacts cannot be
+        verified.
+        """
+        complete = set(self.completed_capture_ids())
+        return tuple(dict.fromkeys(
+            str(r.get("hotel_id")) for r in self.records()
+            if r.get("state") in (CAPTURED, EXCEPTION)
+            and str(r.get("hotel_id")) not in complete))
+
+    def last_reason_by_hotel(self) -> Dict[str, str]:
+        """Most recent terminal reason per hotel, for the resume summary."""
+        out: Dict[str, str] = {}
+        for r in self.records():
+            if r.get("state") in (CAPTURED, EXCEPTION):
+                out[str(r.get("hotel_id"))] = str(r.get("reason") or "")
+        return out
 
     def captured_text_hashes(self) -> Dict[str, str]:
         """``text_sha256 -> hotel_id`` for everything captured so far."""
@@ -89,7 +161,14 @@ class Journal:
         for r in self.records():
             if r.get("state") != CAPTURED:
                 continue
-            art = r.get("artifacts") or {}
+            # A malformed artifacts value (anything that is not a mapping) used
+            # to raise AttributeError here and take the whole run down. It is
+            # treated as "no usable hash" instead: duplicate detection loses one
+            # data point, which is strictly safer than crashing, and the record
+            # is separately refused a resume skip by completed_capture_ids.
+            art = r.get("artifacts")
+            if not isinstance(art, dict):
+                continue
             digest = str(art.get("text_sha256") or "")
             if digest:
                 out.setdefault(digest, str(r.get("hotel_id") or ""))
@@ -118,6 +197,19 @@ def archived_text_hashes(*corpus_dirs) -> Dict[str, str]:
             if digest:
                 out.setdefault(digest, "archived:%s" % f.name)
     return out
+
+
+def _artifacts(record: dict) -> dict:
+    """The artifacts mapping of a journal record, or an empty one.
+
+    A record whose ``artifacts`` value is not a mapping (hand-edited, truncated
+    mid-write, or written by an older shape) previously reached ``.get`` on a
+    string and raised AttributeError, taking the whole manifest build down. It
+    degrades to "no artifacts" instead -- which is also what makes
+    ``completed_capture_ids`` refuse it a resume skip.
+    """
+    art = record.get("artifacts")
+    return art if isinstance(art, dict) else {}
 
 
 def build_manifest(*, batch_id: str, queue_size: int, journal: Journal,
@@ -162,16 +254,16 @@ def build_manifest(*, batch_id: str, queue_size: int, journal: Journal,
         "exceptions_by_reason": dict(sorted(by_reason.items())),
         "successful_captures": [
             {"hotel_id": r.get("hotel_id"),
-             "json_path": (r.get("artifacts") or {}).get("json_path", ""),
-             "png_path": (r.get("artifacts") or {}).get("png_path", ""),
-             "text_sha256": (r.get("artifacts") or {}).get("text_sha256", ""),
-             "png_sha256": (r.get("artifacts") or {}).get("png_sha256", ""),
-             "png_width": (r.get("artifacts") or {}).get("png_width", 0),
-             "png_height": (r.get("artifacts") or {}).get("png_height", 0),
-             "citable_url": (r.get("artifacts") or {}).get("citable_url", ""),
-             "policy_confidence": ((r.get("artifacts") or {}).get("policy") or {})
+             "json_path": _artifacts(r).get("json_path", ""),
+             "png_path": _artifacts(r).get("png_path", ""),
+             "text_sha256": _artifacts(r).get("text_sha256", ""),
+             "png_sha256": _artifacts(r).get("png_sha256", ""),
+             "png_width": _artifacts(r).get("png_width", 0),
+             "png_height": _artifacts(r).get("png_height", 0),
+             "citable_url": _artifacts(r).get("citable_url", ""),
+             "policy_confidence": (_artifacts(r).get("policy") or {})
                                   .get("confidence", ""),
-             "warnings": (r.get("artifacts") or {}).get("warnings", [])}
+             "warnings": _artifacts(r).get("warnings", [])}
             for r in successes],
         "exceptions": [
             {"hotel_id": r.get("hotel_id"), "reason": r.get("reason"),
