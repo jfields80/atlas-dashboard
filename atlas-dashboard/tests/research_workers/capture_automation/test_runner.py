@@ -312,7 +312,14 @@ class TestPolicyFramingIsCheckedTwice:
         assert result.manifest["counts"]["captured"] == 0
         exc = result.manifest["exceptions"][0]
         assert exc["reason"] == "POLICY_OFF_SCREEN"
-        assert exc["detail"] == ["policy_element_missing_after_screenshot"]
+        assert "policy_element_missing_after_screenshot" in exc["detail"]
+        # This is a POST-identity failure, so the record also carries the
+        # identity account the gate already produced. Asserted by membership
+        # rather than equality: the framing finding is what this test is about,
+        # and it is still exactly one line.
+        assert "identity_outcome:IDENTITY_CONFIRMED" in exc["detail"]
+        assert sum(1 for d in exc["detail"]
+                   if d == "policy_element_missing_after_screenshot") == 1
 
     def test_material_drift_fails(self, tmp_path):
         """The CONTENT moved under the camera: same scroll, new page position.

@@ -154,10 +154,36 @@ class CaptureRunner:
             "policy_location": None, "policy_box": None, "policy_box_after": None,
             "viewport": (0, 0), "interaction_log": (), "screenshot_png": None,
             "identity_outcome": "", "identity_keys": (),
+            # The lines _identity_detail already produced, held so every
+            # terminal record reached AFTER identity succeeded can carry them.
+            # Empty until identity runs, which is what keeps pre-identity
+            # failures (ADAPTER_UNAVAILABLE, NAVIGATION_FAILED) unannotated --
+            # there is nothing true to say about identity yet.
+            "identity_detail": (),
         }
 
         def done(state: str, reason: str = "", detail: Sequence[str] = (),
                  artifacts: Optional[dict] = None, duplicate_of: str = "") -> HotelOutcome:
+            # PTF-CAPTURE: every terminal record reached after identity
+            # succeeded says so.
+            #
+            # The diagnostic FILES already carried the identity outcome; the
+            # journal record did not, so a POLICY_OFF_SCREEN or POLICY_NOT_FOUND
+            # line could not prove identity had passed -- and the pilot plan
+            # names exactly that as a stop condition ("the identity outcome is
+            # missing from a journal record -- un-diagnosable"). At ten hotels a
+            # reviewer can open the diagnostics; at eighty-five that is the
+            # difference between a readable batch and a re-run.
+            #
+            # Attached HERE rather than at the fourteen return sites, so no
+            # outcome, reason, retry disposition or control-flow branch changes.
+            # Purely additive, and only ever appended: the two sites that
+            # already pass these lines (the CAPTURED path and the identity-stage
+            # exception) are left byte-identical by the containment guard.
+            detail = tuple(detail)
+            carried = diag["identity_detail"]
+            if carried and not any(d.startswith("identity_outcome:") for d in detail):
+                detail = detail + carried
             # Failure diagnostics: collected BEFORE the runner moves on, while
             # the page is still live. Attached to an EXCEPTION outcome only, so
             # they can never satisfy completed_capture_ids (which requires
@@ -245,6 +271,10 @@ class CaptureRunner:
             identity_detail = _identity_detail(identity)
             diag["identity_outcome"] = identity.outcome
             diag["identity_keys"] = tuple(identity.keys.independent_groups) if identity.keys else ()
+            # Reuse, never recompute. Everything downstream reads these exact
+            # lines, so a record's identity account cannot drift from the one
+            # the gate actually produced.
+            diag["identity_detail"] = identity_detail
             if not identity.may_proceed:
                 return done(EXCEPTION,
                             identity.verdict.reason if (identity.verdict
