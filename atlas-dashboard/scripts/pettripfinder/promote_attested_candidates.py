@@ -135,6 +135,7 @@ def find_pet_block(text: str) -> Tuple[str, int]:
         extract_pet_count, extract_pets_allowed, extract_species,
         extract_weight_limit,
     )
+    from scripts.pettripfinder.prose_fee_ladder import has_prose_fee_schedule
     for m in _BLOCK_START.finditer(text or ""):
         window = text[m.start():m.start() + MAX_BLOCK_CHARS]
         end = _BLOCK_END.search(window, m.end() - m.start())
@@ -142,7 +143,17 @@ def find_pet_block(text: str) -> Tuple[str, int]:
         score = sum(1 for fn in (extract_pet_count, extract_weight_limit,
                                  extract_species)
                     if fn(block) is not None)
-        if score and extract_pets_allowed(block) is not None:
+        # PTF-FEES-PROSE. A stated pet PRICE is policy content, and a property
+        # that publishes one has said pets are accepted -- nobody prices an
+        # animal they refuse. A card reading only "Pets ... are allowed for a
+        # non-refundable fee of 45 USD for the 1st night and 10 USD for each
+        # additional night" satisfies neither the labelled patterns nor the
+        # count/weight/species readers, so it was unreachable and the property
+        # could not be published at all.
+        priced = has_prose_fee_schedule(block)
+        if priced:
+            score += 1
+        if score and (priced or extract_pets_allowed(block) is not None):
             if best is None or score > best[2]:
                 best = (block, m.start(), score)
     if best is None:
@@ -276,6 +287,58 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             evidence.append({"field": "species_allowed", "value": got.value,
                              "quote": got.quote})
 
+    # PTF-FEES-PROSE. A fee with more than one DIMENSION -- a nightly rate under
+    # a stay-length ceiling, or a first night priced apart from every night
+    # after it -- is read as a schedule, with the dimensions kept apart.
+    #
+    # This runs BEFORE the scalar prose reader, and suppresses it, because on a
+    # staged fee the scalar reader is not merely blind but wrong: given "45 USD
+    # for the 1st night and 10 USD for each additional night" it returns $45,
+    # and $45 is the price of exactly one night. Reading the first number of a
+    # schedule as the whole fee understates every longer stay.
+    #
+    # Gap-filling only, like every prose reader here: a labelled amount or a
+    # parsed tier ladder still wins, so no hotel publishing today can have its
+    # fee changed by this.
+    from scripts.pettripfinder.prose_fee_ladder import parse_prose_fee_schedule
+    schedule = None
+    if not facts.get("pet_fee") and not facts.get("fee_tiers"):
+        schedule = parse_prose_fee_schedule(block)
+    if schedule is not None:
+        if schedule.is_staged:
+            # No single number is "the fee", so none is published as one. The
+            # two stages travel together or not at all.
+            facts["fee_schedule"] = {
+                "first_night": schedule.first_night.to_dict(),
+                "additional_night": schedule.additional_night.to_dict(),
+                "evidence_quote": schedule.quote,
+            }
+            evidence.append({"field": "fee_schedule",
+                             "value": "$%s first night, $%s each additional night"
+                                      % (schedule.first_night.amount,
+                                         schedule.additional_night.amount),
+                             "quote": schedule.first_night.quote})
+        else:
+            facts["pet_fee"] = "$%s" % schedule.rate.amount
+            evidence.append({"field": "pet_fee", "value": facts["pet_fee"],
+                             "quote": schedule.rate.quote})
+            if schedule.rate.basis:
+                facts["fee_basis"] = schedule.rate.basis
+                evidence.append({"field": "fee_basis", "value": schedule.rate.basis,
+                                 "quote": schedule.rate.quote})
+        if schedule.cap and not facts.get("fee_cap"):
+            facts["fee_cap"] = schedule.cap.to_dict()
+            evidence.append({"field": "fee_cap", "value": "$%s" % schedule.cap.amount,
+                             "quote": schedule.cap.quote})
+        # A ceiling that itself varies with stay length is NOT a fee ladder and
+        # must never be published as one: at this property a single night costs
+        # the $25 rate, not the $75 six-night ceiling.
+        if schedule.cap_tiers:
+            facts["fee_cap_tiers"] = [t.to_dict() for t in schedule.cap_tiers]
+            for t in schedule.cap_tiers:
+                evidence.append({"field": "fee_cap_tiers", "value": "$%s" % t.amount,
+                                 "quote": t.quote})
+
     # A fee stated as a RANGE is two numbers and a condition. Publishing either
     # end is wrong -- the high overstates a short stay, the low understates a
     # long one -- and the thresholds that would separate them are not stated,
@@ -283,7 +346,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     #
     # Only when no scalar and no ladder were found: a labelled amount is a
     # statement of fact and outranks a range read out of prose.
-    if not facts.get("pet_fee") and not facts.get("fee_tiers"):
+    if (not facts.get("pet_fee") and not facts.get("fee_tiers")
+            and not facts.get("fee_schedule")):
         fee_range = detect_unrepresentable_fee_range(block)
         if fee_range:
             facts["fee_withheld"] = {
@@ -309,7 +373,7 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # amount or a tier ladder still outranks prose, so no hotel publishing
     # today can have its fee changed by this.
     if (not facts.get("pet_fee") and not facts.get("fee_tiers")
-            and not facts.get("fee_withheld")):
+            and not facts.get("fee_withheld") and not facts.get("fee_schedule")):
         got = extract_fee_with_basis(block)
         if got:
             facts["pet_fee"] = got.value
@@ -328,12 +392,15 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
                                  "quote": cap.quote})
 
     welcome = _WELCOME.search(block)
-    if welcome or facts.get("pet_fee"):
+    if welcome or facts.get("pet_fee") or facts.get("fee_schedule"):
         facts["pets_allowed"] = "true"
-        evidence.append({
-            "field": "pets_allowed", "value": "true",
-            "quote": " ".join((welcome.group(0) if welcome
-                               else evidence[0]["quote"]).split())})
+        # A staged fee carries its own sentence, which states the permission far
+        # better than whichever fact happened to be recorded first.
+        stated = (welcome.group(0) if welcome
+                  else facts["fee_schedule"]["evidence_quote"]
+                  if facts.get("fee_schedule") else evidence[0]["quote"])
+        evidence.append({"field": "pets_allowed", "value": "true",
+                         "quote": " ".join(stated.split())})
 
     if welcome or facts.get("fee_tiers"):
         facts.setdefault("pets_allowed", "true")
