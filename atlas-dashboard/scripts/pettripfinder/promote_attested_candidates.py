@@ -54,16 +54,32 @@ ADAPTER_VERSION = "ptf-capture-003/1.0.0"
 # Wyndham uses. Without it a block whose only other cue is "Dogs Allowed"
 # is never found at all -- the bare word "Pets" never appears on the
 # West-Hilliard page.
+#
+# A species-led row -- "Dogs Allowed - 2 dogs max." -- opens the same Wyndham
+# table, on a page where the word "Pets" never appears. It is admitted ONLY when
+# a dash or colon follows, i.e. when it is the label of a table row rather than
+# prose. Without that guard "Only dogs and cats allowed", which appears mid
+# sentence inside other properties' blocks, would open a new block and could
+# change which block those pages already select.
 _BLOCK_START = re.compile(
     r"(?:Pet\s+Policy"
     r"|Pet\s*(?:&|and)\s*Service\s+Animal(?:\s+Policy)?"
+    r"|Dogs?\s*(?:&|and)\s*Cats?\s+Allowed(?=\s*[-–—:])"
+    r"|Dogs?\s+Allowed(?=\s*[-–—:])"
+    r"|Cats?\s+Allowed(?=\s*[-–—:])"
     r"|(?<![A-Za-z])Pets(?![A-Za-z]))", re.I)
 # Headings that close it. The block ends at whichever appears first -- this is
 # what keeps a checkout or parking fee from being read as a pet fee.
+#
+# Every entry here is a HEADING. "Front Desk" needs the extra guard because it
+# is also ordinary prose inside a policy card -- "Please ask front desk for any
+# questions." -- and closing the block there cut a property off immediately
+# before its own "Pet fee per night: 30 USD". The lookbehind admits the heading
+# (preceded by a boundary) and rejects the phrase (preceded by a word).
 _BLOCK_END = re.compile(
     r"(?:Our\s+policies|Parking|Amenities|Property\s+Amenities|Cancellation|"
     r"Check-in/Check-out|Airport\s+shuttle|Kids\s+services|Breakfast|"
-    r"Smoke[- ]free|Front\s+Desk)", re.I)
+    r"Smoke[- ]free|(?<![a-z]\s)Front\s+Desk)", re.I)
 # A block longer than this is not a policy card; refuse rather than guess.
 MAX_BLOCK_CHARS = 700
 
@@ -339,6 +355,51 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
                 evidence.append({"field": "fee_cap_tiers", "value": "$%s" % t.amount,
                                  "quote": t.quote})
 
+    # PTF-FEES-FORMS. Two fee wordings the labelled patterns cannot reach --
+    # the amount written before its label ("$50 USD pet fee will apply per pet
+    # per night") and the basis written inside it ("Pet fee per night: 30 USD").
+    # Gap-filling only, and deliberately AFTER the tier and schedule readers, so
+    # a property whose ladder is already understood keeps it.
+    #
+    # Before either may speak, the block is checked for a contradiction: one
+    # property states a stay-length ladder AND a flat nightly rate, which price
+    # the same stay differently. Neither is published. Both quotations are kept
+    # and the fee is withheld, which is what the source actually supports.
+    from scripts.pettripfinder.fee_forms import fee_contradiction, stated_fee
+    if not facts.get("pet_fee") and not facts.get("fee_tiers") \
+            and not facts.get("fee_schedule"):
+        clash = fee_contradiction(block)
+        if clash is not None:
+            facts["fee_conflict"] = {
+                "reason": "conflicting_fee_terms_in_official_source",
+                "detail": [clash.detail],
+                "quotes": [clash.ladder_quote, clash.rate_quote],
+                "evidence_quote": "%s | %s" % (clash.ladder_quote, clash.rate_quote),
+            }
+            for quote in (clash.ladder_quote, clash.rate_quote):
+                evidence.append({"field": "fee_conflict",
+                                 "value": "withheld_conflicting_terms",
+                                 "quote": quote})
+        else:
+            got = stated_fee(block)
+            if got is not None:
+                facts["pet_fee"] = "$%s" % got.amount
+                evidence.append({"field": "pet_fee", "value": facts["pet_fee"],
+                                 "quote": got.quote})
+                # Never defaulted. "$150 non-refundable fee" states an amount and
+                # no recurrence, and calling it per-stay would invent the term.
+                if got.basis:
+                    facts["fee_basis"] = got.basis
+                    evidence.append({"field": "fee_basis", "value": got.basis,
+                                     "quote": got.quote})
+                cap = extract_fee_cap(block)
+                if cap and not facts.get("fee_cap"):
+                    facts["fee_cap"] = {"amount": cap.value.lstrip("$"),
+                                        "currency": "USD",
+                                        "evidence_quote": cap.quote}
+                    evidence.append({"field": "fee_cap", "value": cap.value,
+                                     "quote": cap.quote})
+
     # A fee stated as a RANGE is two numbers and a condition. Publishing either
     # end is wrong -- the high overstates a short stay, the low understates a
     # long one -- and the thresholds that would separate them are not stated,
@@ -347,7 +408,7 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # Only when no scalar and no ladder were found: a labelled amount is a
     # statement of fact and outranks a range read out of prose.
     if (not facts.get("pet_fee") and not facts.get("fee_tiers")
-            and not facts.get("fee_schedule")):
+            and not facts.get("fee_schedule") and not facts.get("fee_conflict")):
         fee_range = detect_unrepresentable_fee_range(block)
         if fee_range:
             facts["fee_withheld"] = {
@@ -373,7 +434,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # amount or a tier ladder still outranks prose, so no hotel publishing
     # today can have its fee changed by this.
     if (not facts.get("pet_fee") and not facts.get("fee_tiers")
-            and not facts.get("fee_withheld") and not facts.get("fee_schedule")):
+            and not facts.get("fee_withheld") and not facts.get("fee_schedule")
+            and not facts.get("fee_conflict")):
         got = extract_fee_with_basis(block)
         if got:
             facts["pet_fee"] = got.value
