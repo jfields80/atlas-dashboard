@@ -202,6 +202,13 @@ class HotelProfileVM:
 # Summary / facts / details composition (deterministic; evidence-only).
 # --------------------------------------------------------------------------- #
 
+#: Fields whose total absence means the reviewed source stated no policy detail
+#: at all. A staged schedule and a tiered ceiling are policy detail too: a record
+#: carrying one is NOT sparse, and must never be described as stating no fee.
+_STATED_FIELDS = ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit",
+                  "fee_schedule", "fee_cap_tiers")
+
+
 def _species_phrase(species: str) -> str:
     sp = (species or "").lower()
     if "dog" in sp and "cat" in sp:
@@ -380,6 +387,104 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     return s + "."
 
 
+# --------------------------------------------------------------------------- #
+# PTF-FEES-PROSE rendering. Two dimensions the older fields cannot carry.
+#
+# A STAGED fee charges the first night at one rate and every night after it at
+# another. There is no single "the fee": $45 is the price of exactly one night,
+# and showing it alone understates every longer stay. Both stages render or
+# neither does.
+#
+# A TIERED CEILING is a maximum that itself varies with stay length. It is not a
+# fee ladder and must never be labelled as one -- at a property charging $25 a
+# night under a $75 six-night ceiling, a one-night stay costs $25, and showing
+# the $75 as a charge would treble it.
+#
+# Both fail closed: a half-stated schedule and a tier missing its amount or its
+# stay window render nothing at all, which is the pre-existing outcome for a
+# hotel carrying neither field.
+# --------------------------------------------------------------------------- #
+
+def staged_fee(f: Dict) -> Tuple[str, str]:
+    """``(first night, each additional night)`` for prose, or ``("", "")``.
+
+    Empty unless BOTH stages are stated. Half a schedule is not a schedule: the
+    first night alone reads as the whole price, and the additional night alone
+    says nothing about arriving.
+    """
+    schedule = f.get("fee_schedule")
+    if not isinstance(schedule, dict):
+        return ("", "")
+    first = (schedule.get("first_night") or {}).get("amount") or ""
+    additional = (schedule.get("additional_night") or {}).get("amount") or ""
+    if not first or not additional:
+        return ("", "")
+    return (_prose_number("$%s" % first), _prose_number("$%s" % additional))
+
+
+def cap_tiers(f: Dict) -> Tuple[Dict, ...]:
+    """Usable ceiling tiers, in the order the source stated them.
+
+    Empty if ANY tier is unusable. A ladder rendered with one rung missing tells
+    a reader the ceiling for a stay length it never covered.
+    """
+    raw = f.get("fee_cap_tiers")
+    if not isinstance(raw, (list, tuple)) or not raw:
+        return ()
+    for t in raw:
+        if not isinstance(t, dict) or not t.get("amount"):
+            return ()
+        if t.get("min_nights") in (None, ""):
+            return ()
+    return tuple(raw)
+
+
+def _cap_basis(cap: Dict) -> str:
+    """" per stay" where the source stated a basis for the ceiling, else "".
+
+    Never guessed. A ceiling with no stated basis is shown as a bare amount,
+    which is what every ceiling recorded before this field said.
+    """
+    basis = (cap.get("basis") or "").strip()
+    return " %s" % basis.lower() if basis else ""
+
+
+def _cap_tier_range_phrase(t: Dict) -> str:
+    """"stays of 1–6 nights", "stays of 7 or more nights"."""
+    low, high = t.get("min_nights"), t.get("max_nights")
+    if high in (None, "", 0):
+        return "stays of %s or more nights" % low
+    if high == low:
+        return "stays of %s night%s" % (low, "" if str(low) == "1" else "s")
+    return "stays of %s–%s nights" % (low, high)
+
+
+def _cap_tier_amount(t: Dict) -> str:
+    return _prose_number("$%s" % t.get("amount", "")) + _cap_basis(t)
+
+
+def staged_fee_sentence(f: Dict, evidence: str = "") -> str:
+    """Both stages in one sentence, with neither standing for the whole stay."""
+    first, additional = staged_fee(f)
+    if not first:
+        return ""
+    nonref = "non-refundable " if _NONREFUNDABLE_RE.search(evidence or "") else ""
+    return ("A %spet fee of %s applies for the first night and %s for each "
+            "additional night." % (nonref, first, additional))
+
+
+def cap_tier_sentence(tiers: Sequence[Dict]) -> str:
+    """The ceiling ladder, stated as a maximum and never as a charge."""
+    if not tiers:
+        return ""
+    first, rest = tiers[0], tiers[1:]
+    s = "A maximum of %s applies for %s" % (
+        _cap_tier_amount(first), _cap_tier_range_phrase(first))
+    for t in rest:
+        s += ", and %s for %s" % (_cap_tier_amount(t), _cap_tier_range_phrase(t))
+    return s + "."
+
+
 #: A room-scoped nightly rate: "per night for up to 2 pets". Matched on the
 #: STRUCTURED basis, so the wording follows the policy shape rather than the
 #: property -- any hotel stating this basis reads the same way.
@@ -398,8 +503,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     tiers = f.get("fee_tiers") or []
     conflict = f.get("fee_conflict") or f.get("fee_withheld")
     if not tiers and not conflict and not any(
-            f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit",
-                               "weight_limit")):
+            f.get(k) for k in _STATED_FIELDS):
         return ("Pets are welcome. The reviewed official source did not state the species, "
                 "fee, pet limit, or weight limit.")
     parts = [_species_phrase(f.get("species_allowed", ""))]
@@ -410,8 +514,19 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         parts.append(fee_withheld_notice(f))
     if tiers:
         parts.append(_tiered_fee_sentence(tiers, evidence))
-    fee, basis = (None, None) if (tiers or conflict) else (f.get("pet_fee"),
-                                                          f.get("fee_basis"))
+    # A staged schedule speaks for the whole fee, so no scalar may be shown
+    # beside it -- two fee sentences on one page is the duplication guard, and
+    # the scalar would be the first night's price wearing the stay's name.
+    staged = staged_fee_sentence(f, evidence)
+    tier_caps = cap_tiers(f)
+    if staged:
+        parts.append(staged)
+        scalar_cap = f.get("fee_cap") or {}
+        if scalar_cap.get("amount") and not tier_caps:
+            parts.append("A maximum of %s%s applies." % (
+                _prose_number("$%s" % scalar_cap["amount"]), _cap_basis(scalar_cap)))
+    fee, basis = (None, None) if (tiers or conflict or staged) else (f.get("pet_fee"),
+                                                                    f.get("fee_basis"))
     if fee:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
         cap = f.get("fee_cap") or {}
@@ -423,20 +538,25 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # different quantities in one sentence.
             s = "A %s%s nightly fee covers up to %s pets" % (
                 _prose_number(fee), nonref, room_nightly.group("count"))
-            if cap.get("amount"):
+            if cap.get("amount") and not tier_caps:
                 s += " and is capped at %s per stay" % _prose_number(
                     "$%s" % cap["amount"])
         else:
             s = "A %s%s fee applies" % (_prose_number(fee), nonref)
             if basis:
                 s += " %s" % basis.lower()
-            if cap.get("amount"):
+            if cap.get("amount") and not tier_caps:
                 # The ceiling belongs in the same sentence as the rate it caps
                 # -- a reader who sees "$50 per night" and stops has the wrong
                 # total.
                 s += ", up to a maximum of %s" % _prose_number(
                     "$%s" % cap["amount"])
         parts.append(s + ".")
+
+    # A ceiling that varies with stay length gets its own sentence: it will not
+    # fit inside the rate's, and it is a maximum rather than a charge.
+    if tier_caps and not conflict:
+        parts.append(cap_tier_sentence(tier_caps))
 
     count = f.get("pet_count_limit")
     weight = _prose_number(f.get("weight_limit", ""))
@@ -460,7 +580,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
 
 def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
     sp = (f.get("species_allowed") or "").lower()
-    sparse = not any(f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit"))
+    sparse = not any(f.get(k) for k in _STATED_FIELDS)
     def cell(v):
         return (v, "") if v else ("Not stated", "dim")
     if sparse:
@@ -492,9 +612,23 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(weight_display(f))),
         )
+    # A staged fee has no single charge, so the chip names both stages rather
+    # than the first night's price standing in for the stay.
+    first_night, additional_night = staged_fee(f)
+    if first_night:
+        return head + (
+            ("Pet charge", "%s first night, then %s" % (first_night, additional_night), ""),
+            ("Charge basis", "Staged by night", "sm"),
+            ("Max pets", *cell(f.get("pet_count_limit"))),
+            ("Weight limit", *cell(weight_display(f))),
+        )
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
-    if charge and cap:
+    # A ceiling only ever LOWERS a total, so leaving a tiered one out of the
+    # compact chip cannot overstate what a guest pays -- and putting "$75–$150"
+    # beside a $25 rate invites reading the ceiling as the charge. The tiers are
+    # stated in full in the summary and the detail table.
+    if charge and cap and not cap_tiers(f):
         charge = "%s (max %s)" % (charge, _prose_number("$%s" % cap))
     return head + (
         ("Pet charge", *cell(charge)),
@@ -505,7 +639,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
 
 
 def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
-    sparse = not any(f.get(k) for k in ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit"))
+    sparse = not any(f.get(k) for k in _STATED_FIELDS)
     svc = "A separate legal access category — not treated as a pet-policy exception."
     if sparse:
         rows = (
@@ -519,21 +653,47 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         return rows, "", note
     def d(v):
         return (v, "") if v else (_NOT_STATED, "dim")
+
+    # Charge rows, in strict precedence: a staged schedule, then a tier ladder,
+    # then a withheld fee, then the scalar. Exactly one of these speaks, so no
+    # page can carry two accounts of the same money.
+    first_night, additional_night = staged_fee(f)
+    tier_caps = cap_tiers(f)
+    if first_night:
+        charge_rows = (("Pet charge, first night", first_night, ""),
+                       ("Pet charge, each additional night", additional_night, ""))
+    elif f.get("fee_tiers"):
+        charge_rows = tuple(
+            ("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
+             _tier_amount(t) + _tier_scope_phrase(t), "")
+            for t in f["fee_tiers"])
+    elif f.get("fee_conflict") or f.get("fee_withheld"):
+        charge_rows = (("Pet charge", fee_withheld_notice(f), "dim"),)
+    else:
+        charge_rows = (("Pet charge", *d(f.get("pet_fee"))),)
+
+    scalar_cap = f.get("fee_cap") or {}
+    if tier_caps:
+        maximum_rows = tuple(
+            ("Maximum total, %s" % _cap_tier_range_phrase(t), _cap_tier_amount(t), "")
+            for t in tier_caps)
+    elif scalar_cap.get("amount") and not (f.get("fee_conflict") or f.get("fee_withheld")):
+        maximum_rows = (("Maximum total",
+                         _prose_number("$%s" % scalar_cap["amount"])
+                         + _cap_basis(scalar_cap), ""),)
+    else:
+        maximum_rows = ()
+
     rows = (
         ("Accepted species", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("species_allowed"))),
         ("Maximum pets", *(lambda v: (v + " per room", "") if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
-        *(tuple(("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
-                 _tier_amount(t) + _tier_scope_phrase(t), "")
-                for t in (f.get("fee_tiers") or []))
-          or ((("Pet charge", fee_withheld_notice(f), "dim"),)
-              if (f.get("fee_conflict") or f.get("fee_withheld"))
-              else (("Pet charge", *d(f.get("pet_fee"))),))),
-        *((("Maximum total", _prose_number("$%s" % (f.get("fee_cap") or {})["amount"]), ""),)
-          if (f.get("fee_cap") or {}).get("amount")
-          and not (f.get("fee_conflict") or f.get("fee_withheld")) else ()),
+        *charge_rows,
+        *maximum_rows,
         ("Charge basis",
          *(("Tiered by stay length; the source does not state a per-night or "
             "per-stay basis.", "") if f.get("fee_tiers")
+           else ("Staged: the first night is charged at a different rate from "
+                 "each additional night.", "") if first_night
            else ("Withheld: the official source states conflicting terms.", "dim")
            if f.get("fee_conflict")
            else ("Withheld: the official source gives a range that depends on "
