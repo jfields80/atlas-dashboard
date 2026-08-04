@@ -119,16 +119,30 @@ def check_policy_framing(before: Optional[BoxModel], after: Optional[BoxModel],
         return (False, "off_screen_after_screenshot:%.2f"
                 % visible_fraction(after, viewport_height))
 
-    # Drift means the CONTENT moved, measured in page coordinates -- not that
-    # the camera moved. Measuring viewport-relative offset instead conflates
-    # the two and refuses healthy captures: on a real IHG page the policy sat
-    # rock-still at page-y 6233 while captureScreenshot nudged window.scrollY
-    # by 106px, and a viewport-relative test called that "geometry_drift_px:106"
-    # three runs in a row. Scroll movement is harmless once both readings are
-    # confirmed in frame; content movement under the camera is not.
-    drift = abs(after.y - before.y)
-    if drift > tolerance_px:
-        return (False, "geometry_drift_px:%.0f" % drift)
+    # Drift means the policy moved between the two readings. Two measurements
+    # are needed because each one alone produces a false failure, and they fail
+    # in OPPOSITE directions:
+    #
+    #   * page-coordinate drift alone: on Le Meridien the content moved 31px in
+    #     page coordinates while the scroll moved 30px the same way, so the
+    #     block sat still under the camera (424.5px from the viewport top before,
+    #     423.8px after) and was refused as "geometry_drift_px:31";
+    #   * viewport-relative drift alone: on a real IHG page the policy sat
+    #     rock-still at page-y 6233 while captureScreenshot nudged window.scrollY
+    #     by 106px, refused as "geometry_drift_px:106" three runs in a row.
+    #
+    # So: reject only when BOTH agree the policy moved. Either one staying
+    # within tolerance is positive evidence that the capture is sound -- the
+    # content held still in the document, or it held still under the camera.
+    #
+    # This strictly NARROWS what is refused, and does not weaken the case the
+    # check exists for: a capture describing a section 470px from the one in the
+    # image moves in both frames of reference at once, and is still rejected.
+    page_drift = abs(after.y - before.y)
+    viewport_drift = abs((after.y - after.scroll_y) - (before.y - before.scroll_y))
+    if page_drift > tolerance_px and viewport_drift > tolerance_px:
+        return (False, "geometry_drift_px:%.0f,viewport_drift_px:%.0f"
+                % (page_drift, viewport_drift))
 
     if abs(after.height - before.height) > tolerance_px:
         return (False, "geometry_height_changed_px:%.0f"

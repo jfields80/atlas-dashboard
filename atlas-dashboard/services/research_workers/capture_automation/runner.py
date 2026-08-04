@@ -593,30 +593,105 @@ class CaptureRunner:
             # hidden-DOM read, no hotel-specific branch -- only a check that
             # the click did what it claimed.
             if performed and step.action == "click_text":
-                entry["expanded"] = self._verify_expanded(step, entry)
+                entry["expanded"] = self._verify_expanded(step, entry, adapter)
             log.append(entry)
         return log
 
-    def _verify_expanded(self, step, entry: dict) -> Optional[bool]:
+    def _policy_is_visible(self, adapter) -> bool:
+        """Is the policy locatable in the page as RENDERED, right now?
+
+        Deliberately the ordinary locator on a fresh snapshot, and nothing
+        else. ``locate_policy`` reads ``dom.text`` -- ``document.body.innerText``
+        -- which by construction omits ``display:none``, ``visibility:hidden``,
+        ``opacity:0`` and ``aria-hidden`` content. So "visible" here means the
+        same thing it means everywhere else in this system, and hidden text
+        cannot satisfy it. No second definition, no page-text fallback, no
+        brand-specific selector.
+        """
+        try:
+            return adapter.locate_policy(self._session.snapshot()) is not None
+        except Exception:                             # noqa: BLE001
+            return False
+
+    def _verify_expanded(self, step, entry: dict, adapter) -> Optional[bool]:
         """Did the clicked control actually open? One bounded re-click if not.
 
         Returns True/False when expansion state is observable, None when the
         control exposes no ``aria-expanded`` (most controls do not, and their
         absence must not be read as failure).
         """
-        state = self._expanded_state(step.selector, step.text)
+        state = self._settled_expanded_state(step.selector, step.text)
         if state is None or state is True:
             return state
+
+        # The re-click is a remedy, so it only fires where there is something
+        # to remedy. La Quinta is why: its expansion state reads false, its
+        # policy is nonetheless rendered and locatable, and re-clicking a page
+        # that did not need it turned a working capture into POLICY_NOT_FOUND.
+        # Measured, not theorised -- 5/5 positive captures fell to 4/5.
+        #
+        # So: ask the locator first. A visible policy ends the matter; the
+        # unconfirmed expansion state is still recorded, because "we could not
+        # prove the control opened, and it did not matter" is worth reading.
+        if self._policy_is_visible(adapter):
+            entry["policy_visible_without_expansion"] = True
+            return state
+
         entry["reclicked"] = True
         try:
             self._session.click_text(step.selector, step.text)
         except Exception as exc:                      # noqa: BLE001
             entry["reclick_error"] = exc.__class__.__name__
             return False
-        return self._expanded_state(step.selector, step.text)
+        state = self._settled_expanded_state(step.selector, step.text)
+        # One more look: the re-click may have revealed the policy even where
+        # the control's own state stays unreadable.
+        if self._policy_is_visible(adapter):
+            entry["policy_visible_after_reclick"] = True
+        return state
+
+    #: A disclosure animates. Bootstrap's ``.fade`` runs opacity 0 -> 1 over
+    #: ~150ms, and reading during it reports a dialog that IS opening as shut.
+    #: That is not a theoretical race: it cost a working La Quinta capture,
+    #: because "shut" triggered the re-click and the re-click closed the modal
+    #: the first click had just opened. Polled, not slept once, so a fast page
+    #: is not charged for a slow one.
+    EXPANSION_SETTLE_TIMEOUT_SECONDS = 1.2
+    EXPANSION_SETTLE_POLL_SECONDS = 0.15
+
+    def _settled_expanded_state(self, selector: str, text: str) -> Optional[bool]:
+        """``_expanded_state`` once the disclosure has stopped animating.
+
+        Returns as soon as the answer is True or None -- only a False is worth
+        waiting on, since that is the answer that triggers a re-click.
+        """
+        deadline = self._clock() + self.EXPANSION_SETTLE_TIMEOUT_SECONDS
+        state = self._expanded_state(selector, text)
+        while state is False and self._clock() < deadline:
+            self._sleep(self.EXPANSION_SETTLE_POLL_SECONDS)
+            state = self._expanded_state(selector, text)
+        return state
 
     def _expanded_state(self, selector: str, text: str) -> Optional[bool]:
-        """``aria-expanded`` of the control matching ``selector`` + ``text``."""
+        """Did the control's disclosure actually open?
+
+        Two dialects, checked in this order:
+
+        1. ``aria-expanded`` on the control itself -- accordions.
+        2. the OPEN STATE OF THE TARGET a modal trigger points at, via
+           ``data-target`` / ``data-bs-target`` -- dialogs.
+
+        The second exists because the first silently did not apply to modals.
+        A Bootstrap trigger carries no ``aria-expanded``, so ``None`` was
+        returned, ``None`` means "not observable", and the whole verification
+        was skipped -- which is how three Wyndham hotels reported
+        POLICY_NOT_FOUND while their Hotel Policies lightbox sat closed with the
+        policy inside it. That is the same "click reported success, nothing
+        opened" defect this check exists to catch, in a second dialect.
+
+        ``None`` still means "this control exposes no observable state", and is
+        still never read as failure.
+        """
         if not hasattr(self._session, "evaluate"):
             return None
         expression = """(function () {
@@ -624,9 +699,47 @@ class CaptureRunner:
           for (var i = 0; i < nodes.length; i++) {
             var t = (nodes[i].innerText || nodes[i].textContent || '').toLowerCase();
             if (t.indexOf(%s) === -1) continue;
-            var a = nodes[i].getAttribute('aria-expanded');
-            if (a === null) return null;
-            return a === 'true';
+            var node = nodes[i];
+
+            // 1. Accordion: the control states its own expansion.
+            var a = node.getAttribute('aria-expanded');
+            if (a !== null) return a === 'true';
+
+            // 2. Modal: the control names a target; the TARGET states it.
+            var ref = node.getAttribute('data-bs-target')
+                   || node.getAttribute('data-target');
+            if (!ref || ref.charAt(0) !== '#') return null;
+            var target = null;
+            try { target = document.querySelector(ref); } catch (e) { return null; }
+            if (!target) return null;
+
+            // Observable rendered state of THE TARGET -- never its text, and
+            // never a page-wide signal on its own. ``modal-open`` on <body> and
+            // a ``.modal-backdrop`` anywhere both report that SOME dialog is
+            // open, which on a page carrying fourteen of them says nothing
+            // about this one. Used as corroboration only, after the target has
+            // proved it is rendered.
+            //
+            // Hidden wins first, and decisively. Bootstrap's closed state is
+            // ``.modal`` with ``display:none``; a mid-transition ``.fade`` can
+            // briefly report a non-zero box, so a bare rect test reads a
+            // shut dialog as open.
+            if (target.getAttribute('aria-hidden') === 'true') return false;
+            var style = window.getComputedStyle ? window.getComputedStyle(target) : null;
+            if (style && (style.display === 'none'
+                       || style.visibility === 'hidden'
+                       || parseFloat(style.opacity || '1') === 0)) return false;
+
+            var cls = ' ' + (target.className || '') + ' ';
+            if (cls.indexOf(' show ') !== -1 || cls.indexOf(' in ') !== -1) return true;
+
+            var r = target.getBoundingClientRect();
+            var laidOut = !!(r && r.width > 0 && r.height > 0);
+            if (!laidOut) return false;
+            if (document.body && (' ' + document.body.className + ' ')
+                .indexOf(' modal-open ') !== -1) return true;
+            if (document.querySelector('.modal-backdrop')) return true;
+            return true;
           }
           return null;
         })()""" % (json.dumps(selector), json.dumps((text or "").lower()))
