@@ -379,6 +379,51 @@ def load_queue(path, *, known_brands: Sequence[str] = ()) -> CaptureQueue:
                         schema=str(raw.get("schema")))
 
 
+def round_robin_by_brand(entries: Sequence[QueueEntry]) -> Tuple[QueueEntry, ...]:
+    """Interleave by brand so long same-brand runs do not occur.
+
+    Sorting by ``(queue_priority, hotel_id)`` groups brands together, because
+    hotel ids begin with the brand's own naming. On the real 79-candidate queue
+    that produced a run of ELEVEN consecutive IHG requests and a run of ten
+    Hilton -- and Hilton began refusing us five hotels into such a run.
+    Interleaving is the cheapest thing that stops asking one brand for
+    everything at once.
+
+    The algorithm, and nothing more:
+
+      1. start from the existing deterministic sort ``(queue_priority,
+         hotel_id)`` -- unchanged, and still the only thing that decides order
+         WITHIN a brand;
+      2. partition into one bucket per brand, preserving that order;
+      3. bucket order is first appearance in the sorted input;
+      4. emit one candidate from each non-empty bucket per round, in bucket
+         order, until every bucket is empty.
+
+    Pure and total: no clock, no randomness, no brand knowledge beyond the
+    ``brand`` field already on the entry. Identical input always produces
+    identical output, so a replay orders identically.
+
+    ``queue_priority`` keeps its exact meaning -- it decides which candidate a
+    brand offers next, not which brand goes next. A skewed queue therefore ends
+    with a tail of whichever brand has the most entries; that is arithmetic, not
+    a defect, and it is what the same-brand floor exists to cover.
+    """
+    buckets: Dict[str, List[QueueEntry]] = {}
+    order: List[str] = []
+    for entry in sorted(entries, key=lambda e: (e.queue_priority, e.hotel_id)):
+        if entry.brand not in buckets:
+            buckets[entry.brand] = []
+            order.append(entry.brand)
+        buckets[entry.brand].append(entry)
+
+    out: List[QueueEntry] = []
+    while any(buckets[b] for b in order):
+        for brand in order:
+            if buckets[brand]:
+                out.append(buckets[brand].pop(0))
+    return tuple(out)
+
+
 def remaining_entries(queue: CaptureQueue,
                       completed_hotel_ids: Sequence[str]) -> Tuple[QueueEntry, ...]:
     """Entries with no terminal journal record yet. This is the whole of resume:

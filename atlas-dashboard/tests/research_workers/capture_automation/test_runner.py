@@ -145,6 +145,20 @@ class TestOneFailureDoesNotStopTheBatch:
                    for e in result.manifest["exceptions"])
 
 
+def _run_order(names):
+    """The order the runner will actually execute these fixtures in.
+
+    The runner interleaves by brand from the deterministic
+    ``(queue_priority, hotel_id)`` sort, so a test that marks pages by their
+    position in the QUEUE FILE is marking the wrong hotels. Derived from the
+    same function the runner uses rather than assumed.
+    """
+    from services.research_workers.capture_automation.queue import round_robin_by_brand
+    ordered = round_robin_by_brand([entry_for(n) for n in names])
+    by_id = {entry_for(n).hotel_id: n for n in names}
+    return [by_id[e.hotel_id] for e in ordered]
+
+
 class TestChallengeHandling:
     def test_a_challenge_page_becomes_an_exception_and_advances(self, tmp_path):
         names = MARRIOTT[:3]
@@ -172,7 +186,7 @@ class TestChallengeHandling:
     def test_three_consecutive_challenges_abort_the_batch(self, tmp_path):
         names = MARRIOTT[:5]
         pages = pages_from(*names)
-        for n in names[:3]:
+        for n in _run_order(names)[:3]:
             url = entry_for(n).official_url
             pages[url] = dict(pages[url], text="Please verify you are a human. CAPTCHA")
         session = FakeBrowserSession(pages)
@@ -185,7 +199,8 @@ class TestChallengeHandling:
     def test_a_success_between_challenges_resets_the_counter(self, tmp_path):
         names = MARRIOTT[:5]
         pages = pages_from(*names)
-        for n in (names[0], names[1], names[3]):
+        order = _run_order(names)
+        for n in (order[0], order[1], order[3]):
             url = entry_for(n).official_url
             pages[url] = dict(pages[url], text="Please verify you are a human. CAPTCHA")
         session = FakeBrowserSession(pages)

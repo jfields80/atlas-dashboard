@@ -53,6 +53,20 @@ PERMITTED_CHROME_FLAGS = (
 MIN_SECONDS_BETWEEN_HOTELS = 20.0
 MAX_SECONDS_BETWEEN_HOTELS = 40.0
 
+# Minimum seconds between two requests to the SAME brand, drawn per request
+# from this band. Unrelated-brand work counts toward the gap, so an interleaved
+# queue usually owes nothing and this costs no wall clock; it binds only where
+# a skewed queue runs out of other brands to ask.
+#
+# Measured cause: Hilton refused 11 candidates and Marriott 6 in one batch,
+# both after a long unbroken run of requests to that one brand. Asking any one
+# brand less often is the whole remedy -- there is no evasion here and none is
+# wanted. A refusal is still a refusal, still fail-closed, still counted.
+#
+# Constants, not CLI flags, for the same reason the pacing floor above is.
+SAME_BRAND_FLOOR_MIN_SECONDS = 45.0
+SAME_BRAND_FLOOR_MAX_SECONDS = 75.0
+
 # Stop the batch after this many consecutive challenge pages. Continuing to
 # request a brand that has started challenging us is the one behaviour that
 # would genuinely look like abuse, so it is not a tunable.

@@ -37,13 +37,16 @@ from .doctrine import (
     CONSECUTIVE_CHALLENGE_LIMIT, MAX_SECONDS_BETWEEN_HOTELS,
     MIN_SECONDS_BETWEEN_HOTELS, POLICY_SETTLE_POLL_SECONDS,
     POLICY_SETTLE_STABLE_CHECKS, POLICY_SETTLE_TIMEOUT_SECONDS,
+    SAME_BRAND_FLOOR_MAX_SECONDS, SAME_BRAND_FLOOR_MIN_SECONDS,
 )
 from .diagnostics import DiagnosticCollector, DiagnosticContext
 from .hydration import wait_for_identity
 from .identity_check import classify_identity, verify_identity
 from .manifest import Journal, build_manifest, write_manifest
 from .policy_absence import POLICY_ABSENT_CONFIRMED, assess_absence
-from .queue import CaptureQueue, QueueEntry, remaining_entries
+from .queue import (
+    CaptureQueue, QueueEntry, remaining_entries, round_robin_by_brand,
+)
 from .reasons import CHALLENGE_REASONS, RETRY_MANUAL, retry_for
 from .state_machine import (
     CAPTURED, CAPTURING, EXCEPTION, HotelOutcome, IDENTITY, INTERACTING,
@@ -134,6 +137,13 @@ class CaptureRunner:
         #: hydration polling, and the pacing floor is a guarantee that has to
         #: stay independently checkable.
         self.pace_waits: List[float] = []
+        #: Last request START time per brand, for the same-brand floor.
+        #: Start, not finish: the thing a brand notices is how often we
+        #: ARRIVE, and measuring from the finish would let a slow hotel
+        #: silently shorten the next gap.
+        self._brand_last_start: Dict[str, float] = {}
+        #: (brand, seconds) for every wait the floor actually imposed.
+        self.brand_waits: List[Tuple[str, float]] = []
         #: Failure-diagnostic collector. Writes under <batch>/diagnostics/,
         #: never under captures/, and only ever for EXCEPTION outcomes.
         self._diagnostics = DiagnosticCollector(config.batch_dir)
@@ -915,7 +925,11 @@ class CaptureRunner:
         # closed and is re-attempted too.
         completed = journal.completed_capture_ids()
         incomplete = journal.incomplete_hotel_ids()
-        pending = remaining_entries(queue, completed)
+        # Interleave by brand BEFORE the limit is applied, so a truncated
+        # batch is still spread across brands rather than being the head of
+        # one of them. Resume is unaffected: skipping is decided by the
+        # journal, and the ordering is a pure function of what remains.
+        pending = round_robin_by_brand(remaining_entries(queue, completed))
         if self._config.limit:
             pending = pending[:self._config.limit]
 
@@ -961,6 +975,11 @@ class CaptureRunner:
                 skipped.append(entry.hotel_id)
                 continue
 
+            # Wait only what this brand still owes. Unrelated-brand work
+            # already counted toward the gap, so an interleaved queue
+            # usually owes nothing.
+            self._await_brand_floor(entry.brand)
+
             outcome = self.capture_one(entry, seen)
             journal.append(outcome, at=_now_iso(self._clock))
             outcomes.append(outcome)
@@ -994,6 +1013,39 @@ class CaptureRunner:
         waited = self._jitter(low, high)
         self.pace_waits.append(waited)
         self._sleep(waited)
+
+    def _await_brand_floor(self, brand: str) -> float:
+        """Wait only as long as this BRAND still owes, then record the start.
+
+        Hilton refused 11 candidates mid-batch and Marriott 6, in both cases
+        after a long unbroken run of requests to that one brand. The remedy is
+        to ask any single brand less often -- not to ask less overall, which is
+        why this adds no global delay: unrelated-brand work counts toward the
+        gap, so an interleaved queue usually owes nothing at all by the time it
+        comes back around.
+
+        The floor is drawn per request from the authorized band, so the spacing
+        is not a fixed rhythm. Returns the seconds actually slept, for the
+        manifest and for tests.
+        """
+        floor = self._jitter(SAME_BRAND_FLOOR_MIN_SECONDS, SAME_BRAND_FLOOR_MAX_SECONDS)
+        # Defensive clamp: a jitter callable is injectable, and the band is a
+        # doctrine limit rather than a suggestion.
+        floor = max(SAME_BRAND_FLOOR_MIN_SECONDS,
+                    min(SAME_BRAND_FLOOR_MAX_SECONDS, floor))
+
+        now = self._clock()
+        last = self._brand_last_start.get(brand)
+        waited = 0.0
+        if last is not None:
+            owed = floor - (now - last)
+            if owed > 0:
+                waited = owed
+                self.brand_waits.append((brand, owed))
+                self._sleep(owed)
+                now = self._clock()
+        self._brand_last_start[brand] = now
+        return waited
 
 
 def _same_box(a: BoxModel, b: BoxModel) -> bool:
