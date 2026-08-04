@@ -16,6 +16,7 @@ batch instantly and deterministically.
 
 from __future__ import annotations
 
+import json
 import pathlib
 import random
 import time
@@ -579,8 +580,61 @@ class CaptureRunner:
             except Exception as exc:                  # noqa: BLE001
                 entry["error"] = exc.__class__.__name__
             entry["performed"] = bool(performed)
+            # PTF-DISCOVERY: a click that REPORTS success has not necessarily
+            # done anything. Expo Center reported both clicks performed, yet
+            # all eleven accordion panels stayed closed (aria-expanded="true"
+            # count: 0) while every successful IHG page shows exactly one.
+            # The content was in the HTML the whole time, inside a
+            # display:none panel -- unreadable, and rightly so, because text a
+            # screenshot cannot show must never become evidence.
+            #
+            # So: verify the control actually expanded, and allow exactly ONE
+            # bounded re-click. No new selectors, no vocabulary change, no
+            # hidden-DOM read, no hotel-specific branch -- only a check that
+            # the click did what it claimed.
+            if performed and step.action == "click_text":
+                entry["expanded"] = self._verify_expanded(step, entry)
             log.append(entry)
         return log
+
+    def _verify_expanded(self, step, entry: dict) -> Optional[bool]:
+        """Did the clicked control actually open? One bounded re-click if not.
+
+        Returns True/False when expansion state is observable, None when the
+        control exposes no ``aria-expanded`` (most controls do not, and their
+        absence must not be read as failure).
+        """
+        state = self._expanded_state(step.selector, step.text)
+        if state is None or state is True:
+            return state
+        entry["reclicked"] = True
+        try:
+            self._session.click_text(step.selector, step.text)
+        except Exception as exc:                      # noqa: BLE001
+            entry["reclick_error"] = exc.__class__.__name__
+            return False
+        return self._expanded_state(step.selector, step.text)
+
+    def _expanded_state(self, selector: str, text: str) -> Optional[bool]:
+        """``aria-expanded`` of the control matching ``selector`` + ``text``."""
+        if not hasattr(self._session, "evaluate"):
+            return None
+        expression = """(function () {
+          var nodes = document.querySelectorAll(%s);
+          for (var i = 0; i < nodes.length; i++) {
+            var t = (nodes[i].innerText || nodes[i].textContent || '').toLowerCase();
+            if (t.indexOf(%s) === -1) continue;
+            var a = nodes[i].getAttribute('aria-expanded');
+            if (a === null) return null;
+            return a === 'true';
+          }
+          return null;
+        })()""" % (json.dumps(selector), json.dumps((text or "").lower()))
+        try:
+            result = self._session.evaluate(expression)
+        except Exception:                             # noqa: BLE001
+            return None
+        return result if isinstance(result, bool) else None
 
     def _measure_policy(self, handle: Tuple[str, str]) -> Optional[BoxModel]:
         """Read the policy element's box via a fixed handle.
