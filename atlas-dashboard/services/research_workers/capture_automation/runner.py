@@ -667,7 +667,72 @@ class CaptureRunner:
             self._session.scroll_to_text(value)
             box = self._measure_policy(handle)
         box = self._settle_policy(handle, box)
+
+        # PTF-DISCOVERY: scroll -> settle -> VERIFY -> bounded re-scroll.
+        #
+        # Settling only waits for the geometry to stop moving; it never asked
+        # whether the stabilised element was still in frame. Content expanding
+        # after the scroll pushes the target down while scroll_y stays put, and
+        # the measured evidence showed it landing ~490-500px below the fold on
+        # three different hotels with different page heights. The correction is
+        # computed from the CURRENT geometry, never from those observed offsets.
+        box = self._reframe_if_needed(handle, box)
         return (box, self._session.viewport())
+
+    #: At most one corrective cycle. The evidence shows a single re-scroll is
+    #: what the failure needs; more would be a retry loop wearing a different
+    #: name, and an unbounded one could never fail honestly.
+    MAX_REFRAME_CYCLES = 1
+
+    def _reframe_if_needed(self, handle: Tuple[str, str],
+                           box: Optional[BoxModel]) -> Optional[BoxModel]:
+        """Re-scroll once if the settled target is outside the capture frame.
+
+        Framing TOLERANCE is untouched -- ``policy_in_frame`` is the same
+        predicate the final gate uses, so this can only move the page to satisfy
+        the existing rule, never relax it. If the target is still outside
+        afterwards, the box is returned unchanged and the existing
+        POLICY_OFF_SCREEN path decides the hotel's fate exactly as before.
+        """
+        from .validators import policy_in_frame
+
+        # A corrective scroll needs a computed offset, which the fixed session
+        # accessors cannot express -- scroll_into_view is exactly what already
+        # left the element below the fold. Sessions without ``evaluate`` (the
+        # offline fakes) keep their previous behaviour untouched.
+        if not hasattr(self._session, "evaluate"):
+            return box
+
+        for _ in range(self.MAX_REFRAME_CYCLES):
+            if box is None:
+                return box
+            try:
+                viewport_h = float(self._session.viewport()[1])
+            except Exception:                          # noqa: BLE001
+                return box
+            if viewport_h <= 0 or policy_in_frame(box, viewport_h):
+                return box
+
+            # Delta from CURRENT geometry: put the element's top a third of the
+            # way down the viewport, which clears any sticky header without
+            # assuming its height and without a hard-coded offset.
+            target_top = viewport_h / 3.0
+            delta = (box.y - box.scroll_y) - target_top
+            if abs(delta) < 1.0:
+                return box
+            new_scroll = max(0.0, box.scroll_y + delta)
+            try:
+                moved = self._session.evaluate(
+                    "(function(){window.scrollTo(0, %d); return window.scrollY;})()"
+                    % int(new_scroll))
+            except Exception:                          # noqa: BLE001
+                return box
+            if moved is None:
+                return box
+
+            settled = self._settle_policy(handle, self._measure_policy(handle))
+            box = settled if settled is not None else box
+        return box
 
     def _settle_policy(self, handle: Tuple[str, str],
                        box: Optional[BoxModel]) -> Optional[BoxModel]:
