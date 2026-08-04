@@ -1,0 +1,52 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://pettripfinder.com/schemas/machine_review_decision.schema.json",
+ "title": "PetTripFinder machine-review decisions",
+ "description": "Durable, append-only record of human decisions on machine-verified capture reviews. A reversal or correction is a NEW entry; an existing entry is never edited or removed. Carries no screenshot, no HTML, no policy excerpt, no absolute path and no credential -- the evidence lives outside git and is referenced only by hash.",
+ "type": "object",
+ "required": ["schema", "decisions"],
+ "additionalProperties": false,
+ "properties": {
+  "schema": {"const": "ptf-machine-review-decisions/1.0"},
+  "note": {"type": "string"},
+  "decisions": {
+   "type": "array",
+   "items": {"$ref": "#/definitions/decision"}
+  }
+ },
+ "definitions": {
+  "decision": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["listing_key", "hotel_id", "reviewer_id", "reviewed_at",
+                "decision", "field_decisions", "overlap_approved", "notes",
+                "source_record_hash", "approval_hash"],
+   "properties": {
+    "listing_key": {"type": "string", "minLength": 1},
+    "hotel_id": {"type": "string", "minLength": 1},
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["APPROVED", "REJECTED"]},
+    "field_decisions": {
+     "type": "object",
+     "description": "Per-field verdict. A REJECTED field is withheld from promotion while the record as a whole may still be approved.",
+     "additionalProperties": {"enum": ["APPROVED", "REJECTED"]}
+    },
+    "overlap_approved": {
+     "type": "boolean",
+     "description": "Required true before a COMPARE_ONLY published overlap may be promoted. Prevents any automatic overwrite of an existing published fact."
+    },
+    "notes": {"type": "string"},
+    "source_record_hash": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$",
+     "description": "Hash of the machine-review record this decision was made against. Promotion re-derives it from the record's own content; a mismatch means the evidence changed and the decision no longer applies."
+    },
+    "approval_hash": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+   }
+  }
+ }
+}
