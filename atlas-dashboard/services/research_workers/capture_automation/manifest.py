@@ -270,6 +270,19 @@ def build_manifest(*, batch_id: str, queue_size: int, journal: Journal,
              "detail": r.get("detail", []), "retry": r.get("retry", ""),
              "explanation": explain(str(r.get("reason") or ""))}
             for r in exceptions],
+        # Failure diagnostics are listed SEPARATELY from successful_captures,
+        # and carry their labels on every entry, so nothing downstream can read
+        # this section and mistake it for capture evidence.
+        "failure_diagnostics": [
+            {"hotel_id": r.get("hotel_id"),
+             "terminal_reason": r.get("reason"),
+             "diagnostic_level": _artifacts(r).get("diagnostic_level", ""),
+             "relative_dir": _artifacts(r).get("relative_dir", ""),
+             "collection_status": _artifacts(r).get("collection_status", ""),
+             "labels": _artifacts(r).get("labels", []),
+             "artifacts": _artifacts(r).get("artifacts", [])}
+            for r in exceptions
+            if _artifacts(r).get("schema") == "ptf-capture-diagnostic/1.0"],
         "duplicate_captures": [
             {"hotel_id": r.get("hotel_id"), "duplicate_of": r.get("duplicate_of", ""),
              "detail": r.get("detail", [])}

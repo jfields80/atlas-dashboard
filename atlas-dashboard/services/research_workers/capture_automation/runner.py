@@ -20,7 +20,7 @@ import pathlib
 import random
 import time
 from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
 from .adapters import adapter_for
 from .capture_writer import (
@@ -37,6 +37,7 @@ from .doctrine import (
     MIN_SECONDS_BETWEEN_HOTELS, POLICY_SETTLE_POLL_SECONDS,
     POLICY_SETTLE_STABLE_CHECKS, POLICY_SETTLE_TIMEOUT_SECONDS,
 )
+from .diagnostics import DiagnosticCollector, DiagnosticContext
 from .hydration import wait_for_identity
 from .identity_check import classify_identity, verify_identity
 from .manifest import Journal, build_manifest, write_manifest
@@ -131,6 +132,9 @@ class CaptureRunner:
         #: hydration polling, and the pacing floor is a guarantee that has to
         #: stay independently checkable.
         self.pace_waits: List[float] = []
+        #: Failure-diagnostic collector. Writes under <batch>/diagnostics/,
+        #: never under captures/, and only ever for EXCEPTION outcomes.
+        self._diagnostics = DiagnosticCollector(config.batch_dir)
 
     # -- one hotel -------------------------------------------------------- #
 
@@ -139,8 +143,42 @@ class CaptureRunner:
         """Run one hotel to a terminal outcome. Never raises."""
         started = self._clock()
 
+        # Diagnostic scope. Updated in place as the attempt progresses, so the
+        # single ``done()`` below can preserve whatever existed at the moment
+        # of failure without any exception path having to know about it. Not
+        # one of the fourteen ``return done(EXCEPTION, ...)`` sites changes.
+        diag: Dict[str, Any] = {
+            "session": self._session, "dom": None, "adapter": None,
+            "policy_location": None, "policy_box": None, "policy_box_after": None,
+            "viewport": (0, 0), "interaction_log": (), "screenshot_png": None,
+            "identity_outcome": "", "identity_keys": (),
+        }
+
         def done(state: str, reason: str = "", detail: Sequence[str] = (),
                  artifacts: Optional[dict] = None, duplicate_of: str = "") -> HotelOutcome:
+            # Failure diagnostics: collected BEFORE the runner moves on, while
+            # the page is still live. Attached to an EXCEPTION outcome only, so
+            # they can never satisfy completed_capture_ids (which requires
+            # CAPTURED) and a resumed run re-attempts the hotel.
+            #
+            # collect() never raises: the terminal reason decided above is the
+            # one that survives, whatever happens during collection.
+            if state == EXCEPTION and artifacts is None and self._diagnostics is not None:
+                artifacts = self._diagnostics.collect(DiagnosticContext(
+                    hotel_id=entry.hotel_id, reason=reason,
+                    official_url=entry.official_url, candidate_id=entry.candidate_id,
+                    brand=entry.brand, attempt=1, detail=tuple(detail),
+                    retry_classification=retry_for(reason),
+                    property_code=entry.expected_property_code,
+                    identity_outcome=diag["identity_outcome"],
+                    identity_keys=diag["identity_keys"],
+                    session=diag["session"], dom=diag["dom"], adapter=diag["adapter"],
+                    policy_location=diag["policy_location"],
+                    policy_box=diag["policy_box"],
+                    policy_box_after=diag["policy_box_after"],
+                    viewport=diag["viewport"],
+                    interaction_log=diag["interaction_log"],
+                    screenshot_png=diag["screenshot_png"]))
             return HotelOutcome(
                 hotel_id=entry.hotel_id, state=state, reason=reason,
                 detail=tuple(detail), artifacts=artifacts,
@@ -149,6 +187,7 @@ class CaptureRunner:
 
         try:
             adapter = adapter_for(entry.brand)
+            diag["adapter"] = adapter
             if adapter is None:
                 return done(EXCEPTION, "ADAPTER_UNAVAILABLE", ("brand:%s" % entry.brand,))
 
@@ -166,6 +205,7 @@ class CaptureRunner:
                 self._session, entry, adapter=adapter,
                 clock=self._clock, sleep=self._sleep)
             dom = readiness.dom
+            diag["dom"] = dom
 
             # A challenge or denial is visible in the rendered text, and ends
             # the wait immediately rather than being waited out.
@@ -201,6 +241,8 @@ class CaptureRunner:
             identity = classify_identity(dom, entry, observed_at=_now_iso(self._clock),
                                          adapter_metadata=getattr(adapter, "property_metadata", None))
             identity_detail = _identity_detail(identity)
+            diag["identity_outcome"] = identity.outcome
+            diag["identity_keys"] = tuple(identity.keys.independent_groups) if identity.keys else ()
             if not identity.may_proceed:
                 return done(EXCEPTION,
                             identity.verdict.reason if (identity.verdict
@@ -218,7 +260,9 @@ class CaptureRunner:
             # only then interacting reported POLICY_NOT_FOUND for four of five
             # Hilton hotels while the policy sat one click away.
             location = adapter.locate_policy(dom)
+            diag["policy_location"] = location
             interaction_log = self._perform_interactions(adapter, dom, location)
+            diag["interaction_log"] = tuple(interaction_log or ())
 
             # Re-read whenever the page was touched: expanding a section changes
             # the text the capture will carry, and capturing the pre-click DOM
@@ -256,6 +300,7 @@ class CaptureRunner:
 
             handle = _policy_handle(location, self._session)
             box, viewport = self._frame_policy(location, handle)
+            diag["policy_box"], diag["viewport"] = box, viewport
             if box is None:
                 return done(EXCEPTION, "POLICY_OFF_SCREEN", ("no_box_for_policy",))
 
@@ -266,6 +311,7 @@ class CaptureRunner:
             captured_at = _now_iso(self._clock)
 
             png = self._session.screenshot_png()
+            diag["screenshot_png"] = png
             if not png:
                 return done(EXCEPTION, "SCREENSHOT_UNAVAILABLE", ("empty_png",))
 
@@ -274,6 +320,7 @@ class CaptureRunner:
             # and one real capture recorded "100% visible" while the PNG showed
             # a different section of the page entirely.
             box_after = self._measure_policy(handle)
+            diag["policy_box_after"] = box_after
             framed, detail = check_policy_framing(box, box_after, float(viewport[1]))
             if not framed:
                 return done(EXCEPTION, "POLICY_OFF_SCREEN", (detail,))
