@@ -735,3 +735,63 @@ def test_redaction_masks_known_patterns():
     assert "AIzaSy" not in clean and "nfp_" not in clean
     assert clean.count("[REDACTED]") == 2
     assert res.redact(dirty) == clean
+
+
+# --------------------------------------------------------------------------- #
+# PTF-BACKUP -- browser profiles and Windows extended-length paths.
+#
+# A full run failed partway through on a Service Worker cache path inside a
+# .chrome-profile tree. Two defects sat behind that one error: the profiles were
+# being backed up at all, and long paths were not addressed correctly.
+# --------------------------------------------------------------------------- #
+
+def test_browser_profiles_are_excluded_at_any_depth():
+    """.chrome-profile is browser scratch, and it holds session credentials."""
+    from scripts.pettripfinder.backup_worker_artifacts import is_excluded
+    assert is_excluded("batch/.chrome-profile/Default/Cookies")
+    assert is_excluded("batch/.chrome-profile/Default/Login Data")
+    assert is_excluded("a/b/.chrome-profile/Default/Service Worker/CacheStorage/x/y")
+    assert is_excluded("batch/site/index.html")            # unchanged
+    # Evidence is still included.
+    assert not is_excluded("batch/captures/prop.json")
+    assert not is_excluded("batch/captures/prop.png")
+    assert not is_excluded("batch/journal.jsonl")
+    assert not is_excluded("batch/attestations/attest-1.json")
+
+
+def test_a_profile_directory_is_never_scanned_into_a_snapshot(tmp_path):
+    """The scanner must not even see a browser profile's credential stores."""
+    from scripts.pettripfinder.backup_worker_artifacts import is_excluded, scan_source
+    src = tmp_path / "src"
+    (src / "captures").mkdir(parents=True)
+    (src / "captures" / "prop.json").write_text("{}", encoding="utf-8")
+    (src / "journal.jsonl").write_text("{}\n", encoding="utf-8")
+    prof = src / ".chrome-profile" / "Default"
+    (prof / "Service Worker" / "CacheStorage").mkdir(parents=True)
+    (prof / "Cookies").write_bytes(b"SQLite format 3\x00session")
+    (prof / "Login Data").write_bytes(b"SQLite format 3\x00creds")
+    (prof / "Service Worker" / "CacheStorage" / "blob").write_bytes(b"cached")
+
+    found = sorted(p.relative_to(src).as_posix() for p in scan_source(src))
+    assert found == ["captures/prop.json", "journal.jsonl"]
+    assert not any(".chrome-profile" in p for p in found)
+    assert not any(p.endswith(("Cookies", "Login Data")) for p in found)
+    assert is_excluded(".chrome-profile/Default/Cookies")
+
+
+def test_extended_length_paths_are_used_on_windows():
+    """Capture filenames are URL-derived; one reached 275 chars and broke a run."""
+    import os
+    from pathlib import Path
+    from scripts.pettripfinder.backup_worker_artifacts import long_path
+
+    prefix = "\\" + "\\" + "?" + "\\"          # the literal \\?\ , escaping-free
+    got = long_path(Path("data") / "worker_runs")
+    if os.name != "nt":
+        assert got == str(Path("data") / "worker_runs")
+        return
+    assert got.startswith(prefix)
+    assert os.path.isabs(got[len(prefix):])
+    # Idempotent: wrapping an already-wrapped path must not double the prefix.
+    assert long_path(got) == got
+    assert not got[len(prefix):].startswith(prefix)

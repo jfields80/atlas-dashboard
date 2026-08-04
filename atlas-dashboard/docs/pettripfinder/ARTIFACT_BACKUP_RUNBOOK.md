@@ -12,8 +12,11 @@ PetTripFinder worker-artifact tree.
 
 ## 0. Why this exists
 
-The worker-run tree is gitignored and **entirely untracked**: 1,098 files,
-~31.7 MB, 0 tracked by git. It holds the only copies of
+The worker-run tree is gitignored and **entirely untracked**: 0 files tracked by
+git. Its size changes with every capture run, so no fixed file or byte count is
+recorded here -- **read the live figures from the manifest of the snapshot you
+just took** (`manifest.json` -> `files[]`, or the totals the tool prints), or run
+the tool with `--dry-run` to scan without writing. It holds the only copies of
 
 - operator **attestations** — a human opened a page and affirmed what it said;
 - the browser **captures** behind them;
@@ -56,15 +59,42 @@ artifact class, timestamp) and the attestation index (see §6).
 | Included | Excluded |
 |---|---|
 | `attestations/`, `captures/`, `cas/objects/` | `**/site/**` rendered previews |
-| `retrieval/`, `rendered_retrieval/` | |
-| `model_results/`, `assignments/`, `validated_results/`, `routing_envelopes/` | |
+| `retrieval/`, `rendered_retrieval/` | `**/.chrome-profile/**` browser session scratch |
+| `model_results/`, `assignments/`, `validated_results/`, `routing_envelopes/` | `*-partial` snapshot directories from a failed run |
 | run-level reports and manifests | |
 
 Rendered previews are excluded because the assembler regenerates them from the
-committed policy package. That removes 687 files (63% of the count) for 3.5 MB
-(11% of the bytes) — the point is restore clarity, not space.
+committed policy package. The point is restore clarity, not space.
 
-Current scope for the primary root: **411 files, ~29.5 MB.**
+> ### `.chrome-profile` — never back up a browser profile
+>
+> Every capture batch driven by the automation carries a `.chrome-profile/`
+> directory: the dedicated Chrome profile the runner drives. **It is not
+> evidence.** No capture JSON, screenshot, view file, journal or batch manifest
+> lives inside one.
+>
+> It does contain, per profile:
+>
+> - `Cookies` — live session cookies for the sites visited
+> - `Login Data` — the credential store
+> - `Web Data` — autofill and form data
+> - `Trust Tokens`
+> - `Service Worker/CacheStorage/**` — service-worker caches
+>
+> **A browser profile must never enter an artifact backup.** §1 already forbids
+> moving third-party API keys found inside captured markup; session cookies and a
+> credential store are a sharper form of the same exposure, and unlike the API
+> keys they are not somebody else's — they are this machine's browsing session.
+>
+> This exclusion was added after a full run failed partway through. At the time,
+> profiles accounted for the large majority of both the file count and the byte
+> total of the source tree, so excluding them also removes most of the volume —
+> but volume is not the reason. Credentials are.
+
+Do not read this section as licence to drop anything else. The evidence
+inclusion policy is unchanged apart from browser profiles and failed-run
+`*-partial` directories: everything that is evidence is still backed up, and
+nothing is pruned.
 
 ### Source roots (namespaces)
 
@@ -73,10 +103,13 @@ namespace directory inside `payload/`, so two trees can hold files with
 identical relative paths without colliding. Nothing is included implicitly —
 every root must be named on the command line.
 
-| Namespace | Path | Files | MB | Include? |
-|---|---|---|---|---|
-| `pettripfinder` | `data/worker_runs/pettripfinder` | 411 | 29.5 | **Yes** — operator attestations |
-| `accessible_lodging_wave` | `data/import/columbus_accessible_lodging_wave/run_001` | 65 | 6.65 | **Yes, separate namespace** — see below |
+File and byte counts are deliberately not tabulated here; they move with every
+run. Take them from the manifest, or from `--dry-run`.
+
+| Namespace | Path | Include? |
+|---|---|---|
+| `pettripfinder` | `data/worker_runs/pettripfinder` | **Yes** — operator attestations, captures, machine-review records |
+| `accessible_lodging_wave` | `data/import/columbus_accessible_lodging_wave/run_001` | **Yes, separate namespace** — see below |
 
 **Second tree (`accessible_lodging_wave`)** — an automated accessible-lodging
 import wave: 20 candidate records, 20 reports, 20 content-addressed page
@@ -105,9 +138,37 @@ C:\AtlasBackups\worker_artifacts
 - Outside `C:\Atlas`, so no git operation and no `git clean -fdx` can reach it.
 - **Not** inside `C:\Users\jfiel\OneDrive` — that folder auto-syncs and would
   upload third-party keys in the clear.
-- **Honest limitation:** this is the same physical disk as the source. It
-  protects against accidental deletion, not against drive failure. A second
-  physical destination and an encrypted offsite copy are Phase 2.
+- **Honest limitation — read this before relying on the snapshot.**
+  `C:\AtlasBackups` is on the **same physical disk as the source**. This machine
+  has exactly one filesystem drive (`C:`), so no second local destination is
+  available. The snapshot therefore protects against **accidental deletion,
+  `git clean -fdx`, and a bad edit** — and **not** against drive failure, theft,
+  ransomware, or loss of the machine. A single-disk backup is a copy, not
+  disaster recovery.
+
+- **Required for off-device disaster recovery:** a **verified, encrypted second
+  copy** held off this device. Encryption is not optional — §1 explains why: the
+  payload contains third-party API keys embedded in captured markup, and a
+  snapshot moved in the clear exposes them along with operator identity. The
+  second copy must be verified exactly as the primary is: every manifest entry
+  present, every hash matched. Until it exists, treat the corpus as single-copy,
+  and remember that a lost capture can only be re-earned by a person doing the
+  work again.
+
+### Windows extended-length paths
+
+Capture filenames are derived from URLs and run long. Under the snapshot prefix
+one real capture reached **275 characters**, past the Win32 `MAX_PATH` limit of
+260, and a full run failed outright with a bare
+`[WinError 3] The system cannot find the path specified`.
+
+The tool therefore addresses every file it reads, copies or hashes through the
+Win32 extended-length form — see `long_path()`, used by the copy, the hash and
+the verification passes. A deep destination is handled rather than truncated, so
+neither a registry change nor a shortened backup root is required.
+
+If you ever see `WinError 3` from this tool on a path that plainly exists,
+suspect a code path that bypassed `long_path()`, not a missing file.
 
 ---
 

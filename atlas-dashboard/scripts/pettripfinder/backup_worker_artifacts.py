@@ -48,7 +48,21 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 SCHEMA = "atlas-worker-backup/1.1"
 NAMESPACE_RX = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
-EXCLUDED_DIR_PART = "site"  # every **/site/** rendered-preview tree
+# Directory names excluded at any depth.
+#   site            -- rendered previews, derived and regenerable.
+#   .chrome-profile -- the dedicated Chrome profile the capture runner drives.
+#                      Not evidence: no capture, screenshot, view file, journal
+#                      or manifest lives inside one. Excluded for two reasons.
+#                      They hold Cookies, Login Data, Web Data and Trust Tokens
+#                      -- session credentials this runbook forbids copying
+#                      anywhere -- and their Service Worker CacheStorage paths
+#                      overflow Windows MAX_PATH once the snapshot prefix is
+#                      added, which failed a full run outright. They are 49
+#                      directories, 53,709 files and 8.96 GB of the 10.06 GB
+#                      tree; excluding them leaves the evidence and drops the
+#                      scratch.
+EXCLUDED_DIR_PARTS = ("site", ".chrome-profile")
+EXCLUDED_DIR_PART = EXCLUDED_DIR_PARTS[0]   # retained: existing callers/tests
 MANIFEST_NAME = "manifest.json"
 MANIFEST_HASH_NAME = "manifest.sha256"
 PAYLOAD_DIRNAME = "payload"
@@ -82,11 +96,35 @@ def redact(text: str) -> str:
     return out
 
 
+#: Win32 extended-length prefix. Anything carrying it bypasses MAX_PATH.
+_WIN_LONG_PREFIX = "\\\\?\\"
+_WIN_UNC_LONG_PREFIX = "\\\\?\\UNC"
+
+
+def long_path(path: Path) -> str:
+    r"""A Win32 extended-length form of ``path`` on Windows, else the path.
+
+    Capture filenames are derived from URLs and run long. Under the snapshot
+    prefix a real capture reached 275 characters, and the Win32 API refuses
+    anything past MAX_PATH (260) without the ``\\?\`` prefix -- which failed a
+    full run with a bare "cannot find the path specified". The tree only grows,
+    so this is fixed here rather than by shortening the backup root.
+    """
+    if os.name != "nt":
+        return str(path)
+    resolved = os.path.abspath(str(path))
+    if resolved.startswith(_WIN_LONG_PREFIX):
+        return resolved
+    if resolved.startswith("\\\\"):
+        return _WIN_UNC_LONG_PREFIX + resolved[1:]
+    return _WIN_LONG_PREFIX + resolved
+
+
 def sha256_file(path: Path) -> Tuple[str, int]:
     """Return (hex digest, byte size). Streams; never holds the file in memory."""
     h = hashlib.sha256()
     size = 0
-    with path.open("rb") as fh:
+    with open(long_path(path), "rb") as fh:
         while True:
             chunk = fh.read(READ_CHUNK)
             if not chunk:
@@ -126,14 +164,15 @@ def artifact_class(relative_posix: str) -> str:
             return "validated_result"
         if part == "routing_envelopes":
             return "routing_envelope"
-        if part == EXCLUDED_DIR_PART:
+        if part in EXCLUDED_DIR_PARTS:
             return "derived_preview"
     return "report"
 
 
 def is_excluded(relative_posix: str) -> bool:
-    """True for every path under a ``site/`` directory at any depth."""
-    return EXCLUDED_DIR_PART in relative_posix.split("/")[:-1]
+    """True for every path under an excluded directory, at any depth."""
+    parts = relative_posix.split("/")[:-1]
+    return any(part in EXCLUDED_DIR_PARTS for part in parts)
 
 
 def find_repo_root(start: Path) -> Optional[Path]:
@@ -356,8 +395,8 @@ def copy_and_verify(roots: Dict[str, Path], payload_root: Path,
         rel = entry["relative_path"]
         src = roots[namespace] / rel
         dst = payload_root / namespace / rel
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
+        os.makedirs(long_path(dst.parent), exist_ok=True)
+        shutil.copy2(long_path(src), long_path(dst))
         digest, size = sha256_file(dst)
         if digest != entry["sha256"] or size != entry["byte_size"]:
             raise BackupError(
