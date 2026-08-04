@@ -223,7 +223,15 @@ def wait_for_identity(session, entry, *, adapter=None,
         # interstitial is checked too, because a challenge that renders no
         # words would otherwise be reported as "we could not identify this
         # hotel" -- which is not what happened.
-        blocked = block_reason(dom.text or "") or looks_like_challenge_shell(dom)
+        # The TITLE is checked as well as the body. A refusal page states what
+        # it is in its title and then says little else -- Hilton's names itself
+        # "Hilton Page Reference Code" and carries no other marker -- so a
+        # body-only check reads it as an ordinary page that has not finished
+        # rendering, and waits out the whole hydration budget for content that
+        # is never coming.
+        blocked = (block_reason(dom.text or "")
+                   or block_reason(dom.title or "")
+                   or looks_like_challenge_shell(dom))
         if blocked:
             return ReadinessResult(
                 ready=False, checks=checks, waited_seconds=clock() - started,

@@ -97,7 +97,20 @@ MIN_USEFUL_TEXT_BYTES = 400
 # detect a blocked/interstitial page the operator captured by accident; they
 # are NOT used to work around anything.
 _DENIED_MARKERS = ("access denied", "you don't have permission",
-                   "request blocked", "403 forbidden", "error 403")
+                   "request blocked", "403 forbidden", "error 403",
+                   # PTF-CAPTURE: Hilton's refusal interstitial. Observed on 11
+                   # candidates in one batch, every one titled exactly this,
+                   # every one a static 1206px document with no hotel content.
+                   # It carries words, so the empty-shell check never saw it,
+                   # and it says none of the phrases above, so the text check
+                   # never saw it either -- it fell through to the hydration
+                   # budget and was reported as IDENTITY_UNVERIFIABLE, i.e. as
+                   # if the property page had merely been slow. The same URL
+                   # captured cleanly one attempt earlier in the same run.
+                   #
+                   # An exact phrase, not a fuzzy rule: a real property page
+                   # has no reason to carry it.
+                   "hilton page reference code")
 _CHALLENGE_MARKERS = ("captcha", "recaptcha", "hcaptcha", "are you a human",
                       "verify you are human", "unusual traffic",
                       "security check", "please enable javascript and cookies")

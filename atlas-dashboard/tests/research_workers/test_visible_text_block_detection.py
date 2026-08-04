@@ -169,9 +169,29 @@ class TestFallback:
 
 class TestTheGateIsNotWeakened:
     def test_no_marker_was_removed(self):
-        assert len(_LOGIN_MARKERS) == 6
-        assert len(_CHALLENGE_MARKERS) == 8
-        assert len(_DENIED_MARKERS) == 5
+        """Membership, not head-count.
+
+        The guarantee this test exists for is that no marker is ever taken
+        away. Asserting an exact length also forbids ADDING one, which is not
+        the same thing and is not what the gate needs protecting from -- a new
+        marker can only refuse more, never less. Every original marker is named
+        here, so a deletion still fails loudly.
+        """
+        for marker in ("sign in to continue", "please sign in", "log in to continue",
+                       "enter your password", "member sign in",
+                       "create an account to view"):
+            assert marker in _LOGIN_MARKERS, marker
+        for marker in ("captcha", "recaptcha", "hcaptcha", "are you a human",
+                       "verify you are human", "unusual traffic", "security check",
+                       "please enable javascript and cookies"):
+            assert marker in _CHALLENGE_MARKERS, marker
+        for marker in ("access denied", "you don't have permission",
+                       "request blocked", "403 forbidden", "error 403"):
+            assert marker in _DENIED_MARKERS, marker
+
+        assert len(_LOGIN_MARKERS) >= 6
+        assert len(_CHALLENGE_MARKERS) >= 8
+        assert len(_DENIED_MARKERS) >= 5
 
     def test_the_underlying_detector_is_unchanged(self):
         """_page_block_reason itself behaves exactly as before; only the choice
