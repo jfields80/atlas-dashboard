@@ -671,3 +671,83 @@ def test_well_mannered_is_not_read_as_a_breed_restriction():
 ])
 def test_ordinary_species_readings_are_unchanged(text, expected):
     assert extract_species(text).value == expected
+
+
+# --------------------------------------------------------------------------- #
+# 11. PTF-REVIEW-B3 -- a fee the source scopes to the room.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.fee_forms import room_scope_for_amount   # noqa: E402
+
+
+def test_a_room_scoped_fee_says_so_to_the_reader():
+    facts, evidence, _b = _extract(TOWNEPLACE_OSU)
+    assert facts["fee_scope"] == "per_room"
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert summary == (
+        "Birds, fish, dogs, and cats are accepted. A $100 non-refundable fee "
+        "applies per stay for the room. Up to 2 pets are permitted per room.")
+
+
+def test_a_count_qualifier_is_not_read_as_a_fee_scope():
+    """"max 2 pets per room" says how many animals, not how the fee is charged.
+
+    This is the dominant use of "per room" in the corpus. Reading it as a fee
+    scope would attribute to the hotel a statement it did not make -- and would
+    have silently rewritten two already-approved records.
+    """
+    for block in ("Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee "
+                  "Other pet information dogs and cats only / max 2 pets per room",
+                  "Pets Welcome 2 pets per room Non-Refundable Pet Fee: $50.00"):
+        facts, _e, _b = _extract(block)
+        assert "fee_scope" not in facts
+
+
+def test_competing_pet_and_room_scopes_are_left_unresolved():
+    """A source stating both scopes gets neither invented for it."""
+    block = ("Pet Policy Pets Welcome 2 pets 75lbs max per pet per room with "
+             "Non Refundable fee Non-Refundable Pet Fee Per Stay: $100.00")
+    facts, _e, _b = _extract(block)
+    assert "fee_scope" not in facts
+
+
+@pytest.mark.parametrize("block, amount", [
+    ("A $150 cleaning fee per room applies", "150"),
+    ("Pets allowed Yes $100 fee. A $250 damage deposit per room", "250"),
+    ("Deposit Yes. $50.00 Non-refundable Fee Max weight 75 lbs 2 pets max", "50.00"),
+])
+def test_no_room_scope_is_read_from_another_charge(block, amount):
+    assert room_scope_for_amount(block, amount) == ("", "")
+
+
+def test_a_fee_stated_to_cover_a_number_of_pets_is_room_scoped():
+    assert room_scope_for_amount(
+        "Pets welcome. A $120 fee applies for up to 2 pets.", "120")[0] == "per_room"
+
+
+def test_an_unscoped_fee_stays_unscoped():
+    facts, evidence, _b = _extract(SCIOTO)
+    assert "fee_scope" not in facts
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "for the room" not in summary
+
+
+def test_the_room_scoped_verb_does_not_leak_into_other_profiles():
+    """The verb belongs to the room-scoped sentence, not to every count.
+
+    Adding it globally rewrote a line on eight already-published pages for no
+    reason a reader would benefit from. The generated site must stay
+    byte-identical, so the established phrasing stands everywhere else.
+    """
+    block = ("Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee "
+             "Other pet information 2 pets max; dog or cat only")
+    facts, evidence, _b = _extract(block)
+    assert "fee_scope" not in facts
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert summary.endswith("Up to 2 pets permitted per room.")
+
+
+def test_the_room_scoped_path_carries_its_verb():
+    facts, evidence, _b = _extract(TOWNEPLACE_OSU)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert summary.endswith("Up to 2 pets are permitted per room.")

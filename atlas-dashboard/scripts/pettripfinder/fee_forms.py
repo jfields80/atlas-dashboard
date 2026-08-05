@@ -523,6 +523,51 @@ def basis_for_amount(block: str, amount: str) -> Tuple[str, str]:
     return ("", "")
 
 
+#: An explicit statement that ONE charge covers the room, however many animals
+#: occupy it. Both forms bind the scope to the FEE, which is the whole point:
+#: "per room" on its own is far more often a count qualifier -- "max 2 pets per
+#: room" says nothing about how the fee is charged, and reading it as a fee
+#: scope would put words in the hotel's mouth on most of this corpus.
+_ROOM_SCOPE_RE = re.compile(
+    r"per\s+room\s+with\b[^.]{0,40}?\bfee\b"
+    r"|(?:for|covers)\s+up\s+to\s+\d{1,2}\s+(?:" + _PET_NOUNS + r")\b",
+    re.I)
+
+#: A source that says "per pet per room" has stated BOTH scopes. Choosing one
+#: would be this reader's choice, not the hotel's, so it declines to choose.
+_COMPETING_PET_SCOPE_RE = re.compile(r"per\s+pet\s+per\s+room\b", re.I)
+
+
+def room_scope_for_amount(block: str, amount: str) -> Tuple[str, str]:
+    """``("per_room", quote)`` when THIS amount is stated to cover the room.
+
+    A pet fee is silent about its own scope far more often than not, and that
+    silence must survive: a guest booking two animals reads an unscoped fee at
+    their own risk either way, but a fee this reader *invented* a scope for
+    would be worse than the silence it replaced. So the phrase must sit in the
+    same clause as the amount, and the amounts must match exactly -- a room
+    scope stated about some neighbouring charge cannot travel to this one.
+
+    Returns ``("", "")`` when the source does not say. There is deliberately no
+    ``per_pet`` return: nothing in the corpus states it about a scalar fee, and
+    a scope this function guessed would be indistinguishable from one it read.
+    """
+    text = " ".join((block or "").split())
+    if not amount:
+        return ("", "")
+    bare = amount.rstrip("0").rstrip(".") if "." in amount else amount
+    for token in (amount, bare):
+        for m in re.finditer(r"\$?\s*" + re.escape(token) + r"(?![\d.])", text):
+            seg = _segment_for(text, m.start())
+            if _DISQUALIFIER_RE.search(seg) or _COMPETING_PET_SCOPE_RE.search(seg):
+                continue
+            found = _ROOM_SCOPE_RE.search(seg)
+            if found:
+                return ("per_room",
+                        _quote(seg, found.start(), found.end(), pad=30))
+    return ("", "")
+
+
 #: The two halves of a recurrence contradiction.
 #: Bounded on BOTH sides. A run to the next full stop is not a quotation when
 #: the source omits one -- it swallows the rest of the card and hands a reviewer

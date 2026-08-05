@@ -593,6 +593,11 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             s = "A %s%s fee applies" % (_prose_number(fee), nonref)
             if basis:
                 s += " %s" % basis.lower()
+            # A room-scoped fee is one charge however many animals arrive. Said
+            # plainly and only where the source said it -- a guest bringing two
+            # pets otherwise has to guess whether to double the figure.
+            if f.get("fee_scope") == "per_room":
+                s += " for the room"
             if cap.get("amount") and not tier_caps:
                 # The ceiling belongs in the same sentence as the rate it caps
                 # -- a reader who sees "$50 per night" and stops has the wrong
@@ -661,6 +666,16 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             parts.append("%s is permitted per room, with no pet weight limit "
                          "stated by the hotel."
                          % _cap_first(_pets_phrase(count).replace("1 pet", "One pet")))
+        elif f.get("fee_scope") == "per_room":
+            # A room-scoped fee has just told the reader the charge covers the
+            # room; the allowance sentence that follows it carries its verb so
+            # the two read as one statement about the room rather than as a
+            # heading and a fragment. Everywhere else the established phrasing
+            # stands unchanged -- this is a wording choice for one path, not a
+            # licence to reword every profile that states a count.
+            phrase = _pets_phrase(count)
+            parts.append("Up to %s %s permitted per room."
+                         % (phrase, "is" if phrase.startswith("1 pet") else "are"))
         else:
             parts.append("Up to %s permitted per room." % _pets_phrase(count))
     elif f.get("weight_limit_stated_none") == "true":

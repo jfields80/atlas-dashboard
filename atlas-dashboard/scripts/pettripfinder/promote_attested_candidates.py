@@ -335,6 +335,18 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             facts["fee_basis"] = _b
             evidence.append({"field": "fee_basis", "value": _b, "quote": _bq})
 
+    # PTF-REVIEW-B3. A fee the source scopes to the ROOM is a different offer
+    # from the same figure unscoped: "$100" beside a two-pet allowance reads as
+    # $200 to a guest travelling with two animals unless the page's own "per
+    # room" survives into the facts. `fee_tiers` already carries this
+    # distinction as `scope`; the scalar fee had nowhere to put it.
+    if facts.get("pet_fee"):
+        from scripts.pettripfinder.fee_forms import room_scope_for_amount
+        _s, _sq = room_scope_for_amount(block, facts["pet_fee"].lstrip("$"))
+        if _s:
+            facts["fee_scope"] = _s
+            evidence.append({"field": "fee_scope", "value": _s, "quote": _sq})
+
     # An explicitly PET deposit is its own obligation: refundable, and separate
     # from both the pet fee and any conditional sanitation charge.
     from scripts.pettripfinder.fee_forms import pet_deposit as _pet_deposit
