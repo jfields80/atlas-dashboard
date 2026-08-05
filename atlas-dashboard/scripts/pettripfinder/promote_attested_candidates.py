@@ -110,6 +110,9 @@ _WELCOME = re.compile(r"Pets\s+Welcome|Pets\s+allowed\s+Yes", re.I)
 # The row a property uses for terms its structured fields cannot hold -- where
 # a stay-length ladder is published.
 _OTHER_PET_INFO_RE = re.compile(r"Other\s+pet\s+information", re.I)
+#: An explicit statement that there is NO weight limit. Distinct from silence.
+_NO_WEIGHT_LIMIT_RE = re.compile(
+    r"(?:Pet\s+weight\s+limit\s*:?\s*)?No\s+weight\s+limit(?:\s+per\s+pet)?", re.I)
 
 
 class PromotionError(ValueError):
@@ -175,6 +178,27 @@ def find_pet_block(text: str) -> Tuple[str, int]:
     if best is None:
         raise PromotionError("no_labelled_pet_policy_block_found")
     return (best[0], best[1])
+
+
+def _cap_fact(block: str, amount: str, quote: str, basis: str = "") -> Dict:
+    """A stated ceiling, with everything the source said about it.
+
+    ``basis`` and the qualifier are recorded ONLY when a reader actually parsed
+    them. A ceiling with no stated recurrence stays bare -- "Maximum total $150"
+    -- because a cap that is silent about per-night versus per-stay is a
+    different promise from one that says so.
+    """
+    from scripts.pettripfinder.fee_forms import cap_qualifier
+    fact = {"amount": amount, "currency": "USD", "evidence_quote": quote}
+    if basis:
+        fact["basis"] = basis
+    qualifier = cap_qualifier(block, amount)
+    if qualifier:
+        # "for two (2) pets" -- the ceiling covers that many animals and the
+        # source says nothing about fewer. Kept verbatim so no reader can turn
+        # a two-pet ceiling into a per-pet charge.
+        fact["applies_to"] = qualifier
+    return fact
 
 
 def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], str]:
@@ -275,6 +299,14 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
         evidence.append({"field": "pet_fee", "value": facts["pet_fee"],
                          "quote": quote})
 
+    # A source that says "No weight limit per pet" has stated a fact. Recording
+    # it lets the renderer say so, instead of showing the same silence as a page
+    # that simply never mentioned weight.
+    if _NO_WEIGHT_LIMIT_RE.search(block):
+        facts["weight_limit_stated_none"] = "true"
+        evidence.append({"field": "weight_limit_stated_none", "value": "true",
+                         "quote": " ".join(_NO_WEIGHT_LIMIT_RE.search(block).group(0).split())})
+
     m = _WEIGHT.search(block)
     if m:
         facts["weight_limit"] = "%s pounds" % m.group(1)
@@ -294,8 +326,12 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     from services.research_workers.fee_terms import detect_fee_cap
     cap_amount, cap_quote = detect_fee_cap(block)
     if cap_amount and facts.get("pet_fee"):
-        facts["fee_cap"] = {"amount": cap_amount, "currency": "USD",
-                            "evidence_quote": cap_quote}
+        # The tier reader finds the ceiling but states no basis. The prose cap
+        # reader parses one; take it only when both agree on the amount.
+        from scripts.pettripfinder.prose_facts import extract_fee_cap as _prose_cap
+        _pc = _prose_cap(block)
+        _basis = _pc.operator if (_pc and _pc.value.lstrip("$") == cap_amount) else ""
+        facts["fee_cap"] = _cap_fact(block, cap_amount, cap_quote, _basis)
         evidence.append({"field": "fee_cap", "value": "$%s" % cap_amount,
                          "quote": cap_quote})
 
@@ -432,9 +468,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
                                      "quote": got.quote})
                 cap = extract_fee_cap(block)
                 if cap and not facts.get("fee_cap"):
-                    facts["fee_cap"] = {"amount": cap.value.lstrip("$"),
-                                        "currency": "USD",
-                                        "evidence_quote": cap.quote}
+                    facts["fee_cap"] = _cap_fact(
+                        block, cap.value.lstrip("$"), cap.quote, cap.operator)
                     evidence.append({"field": "fee_cap", "value": cap.value,
                                      "quote": cap.quote})
 
@@ -487,9 +522,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
                                  "quote": got.quote})
             cap = extract_fee_cap(block)
             if cap and not facts.get("fee_cap"):
-                facts["fee_cap"] = {"amount": cap.value.lstrip("$"),
-                                    "currency": "USD",
-                                    "evidence_quote": cap.quote}
+                facts["fee_cap"] = _cap_fact(
+                    block, cap.value.lstrip("$"), cap.quote, cap.operator)
                 evidence.append({"field": "fee_cap", "value": cap.value,
                                  "quote": cap.quote})
 

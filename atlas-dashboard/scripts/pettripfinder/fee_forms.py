@@ -419,3 +419,38 @@ def nightly_versus_per_stay_conflict(block: str) -> Optional[FeeContradiction]:
         return None
     return FeeContradiction(ladder_quote=nightly[1], rate_quote=per_stay[1],
                             detail="nightly_fee_conflicts_with_per_stay_fee")
+
+
+# --------------------------------------------------------------------------- #
+# 8. What a ceiling applies to.
+# --------------------------------------------------------------------------- #
+
+#: "Maximum of $150 per stay for two (2) pets". The ceiling is qualified: it is
+#: the most two animals can cost, and the source says nothing about what one
+#: animal costs. Recording the qualifier verbatim keeps the caller from turning
+#: a two-pet ceiling into a per-pet charge, or from claiming a different ceiling
+#: for a single pet.
+_CAP_QUALIFIER_RE = re.compile(
+    r"for\s+(?:up\s+to\s+)?(?:\d+|one|two|three|four)\s*(?:\(\s*\d+\s*\))?\s*"
+    r"(?:pets?|animals?|dogs?|cats?)\b", re.I)
+
+
+def cap_qualifier(block: str, cap_amount: str) -> str:
+    """The verbatim clause qualifying a stated ceiling, or "".
+
+    Read from the text immediately AFTER the ceiling amount, so a qualifier
+    belonging to some other sentence cannot attach itself to this one.
+    """
+    text = " ".join((block or "").split())
+    if not cap_amount:
+        return ""
+    bare = cap_amount.rstrip("0").rstrip(".") if "." in cap_amount else cap_amount
+    for token in (cap_amount, bare):
+        for m in re.finditer(re.escape(token), text):
+            # Bounded to the same clause: the qualifier may sit after the basis
+            # ("per stay for two (2) pets"), but never past the sentence end.
+            tail = text[m.end():m.end() + 48].split(".")[0]
+            found = _CAP_QUALIFIER_RE.search(tail)
+            if found:
+                return " ".join(found.group(0).split())
+    return ""

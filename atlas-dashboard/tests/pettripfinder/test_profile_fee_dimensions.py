@@ -385,3 +385,83 @@ def test_the_production_package_has_no_pending_change():
     assert report["unintended_updates_count"] == 0
     assert report["before_package_sha256"] == report["after_package_sha256"]
     assert report["new_count"] == report["old_count"] == 38
+
+
+# --------------------------------------------------------------------------- #
+# 8. PTF-REVIEW-B1 -- corrections raised during Columbus Batch 1 human review.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.promote_attested_candidates import (   # noqa: E402
+    extract_pet_facts as _extract,
+)
+
+LA_QUINTA = ("Service Animals - ADA-defined service animals are welcome free of "
+             "charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or "
+             "less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 "
+             "pets. Max 75 USD per stay.")
+RENAISSANCE = ("Pet Policy Pets Welcome Pet fee of $50 per night. Maximum of "
+               "$150 per stay for two (2) pets. Maximum Pet Weight: 50.0lbs "
+               "Maximum Number of Pets in Room: 2")
+REYNOLDSBURG = ("Can I bring my pet to Holiday Inn Express? Pets are welcome. "
+                "Pet policy description. We gladly accept pet with a pet fee. "
+                "Fee is per night. No more than one animal per room. Pet fee "
+                "per night: 30 USD Pet weight limit: No weight limit per pet 1 "
+                "pets allowed Pets allowed: Only dogs and cats allowed")
+
+
+def test_a_stated_cap_basis_is_kept_in_the_structured_fact():
+    """"Max 75 USD per stay" -- the basis must survive into the fact, not only
+    into the sentence a renderer happens to build."""
+    facts, _e, _b = _extract(LA_QUINTA)
+    assert facts["fee_cap"]["basis"] == "per stay"
+
+
+def test_a_cap_basis_is_never_inferred_when_the_source_omits_one():
+    block = ("Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00 up to a "
+             "maximum of $300. Maximum Pet Weight: 75.0lbs")
+    facts, _e, _b = _extract(block)
+    assert "basis" not in (facts.get("fee_cap") or {})
+
+
+def test_a_qualified_ceiling_keeps_its_qualifier_verbatim():
+    """"for two (2) pets" bounds what TWO animals cost. It is not a per-pet
+    charge, and the source says nothing about one animal."""
+    facts, _e, _b = _extract(RENAISSANCE)
+    cap = facts["fee_cap"]
+    assert cap["amount"] == "150.00"
+    assert cap["basis"] == "per stay"
+    assert cap["applies_to"] == "for two (2) pets"
+    assert facts["pet_fee"] == "$50.00" and facts["fee_basis"] == "per night"
+
+
+def test_a_qualified_ceiling_is_attributed_and_never_read_as_a_per_pet_charge():
+    facts, evidence, _b = _extract(RENAISSANCE)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "The hotel states a maximum of $150 per stay for two pets." in summary
+    assert "per pet" not in summary
+    # The cap must not be folded into the rate's own clause.
+    assert "A $50 fee applies per night." in summary
+
+
+def test_an_explicit_no_weight_limit_is_stated_not_shown_as_unknown():
+    """"No weight limit per pet" is a FACT the hotel gave, not a gap."""
+    facts, evidence, _b = _extract(REYNOLDSBURG)
+    assert facts["weight_limit_stated_none"] == "true"
+    assert "weight_limit" not in facts
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "no pet weight limit stated by the hotel" in summary
+    assert "Not stated" not in summary
+
+
+def test_a_single_pet_allowance_reads_in_the_singular():
+    facts, evidence, _b = _extract(REYNOLDSBURG)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "One pet is permitted per room" in summary
+    assert "1 pets" not in summary
+
+
+def test_a_multi_pet_allowance_still_reads_in_the_plural():
+    facts, evidence, _b = _extract(LA_QUINTA)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "up to 2 pets permitted per room" in summary
+    assert "2 pet " not in summary

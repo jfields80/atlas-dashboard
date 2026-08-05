@@ -492,6 +492,21 @@ _ROOM_NIGHTLY_BASIS_RE = re.compile(
     r"^per\s+night\s+for\s+up\s+to\s+(?P<count>\d+)\s+pets?$")
 
 
+def _qualifier_phrase(raw: str) -> str:
+    """"for two (2) pets" -> "for two pets".
+
+    Only the redundant numeral parenthetical is dropped; the qualifier itself is
+    never reworded, because what it limits is the whole point of keeping it.
+    """
+    return " ".join(re.sub(r"\s*\(\s*\d+\s*\)", "", raw or "").split())
+
+
+def _pets_phrase(count) -> str:
+    """"2 pets" / "1 pet". A policy that permits one animal should not read
+    "Up to 1 pets permitted per room"."""
+    return "%s pet%s" % (count, "" if str(count).strip() == "1" else "s")
+
+
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     """Compose the consumer summary from stated facts plus the source wording.
 
@@ -530,6 +545,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     if fee:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
         cap = f.get("fee_cap") or {}
+        pending_cap_sentence = ""
         room_nightly = _ROOM_NIGHTLY_BASIS_RE.match((basis or "").strip().lower())
         if room_nightly:
             # A nightly rate that covers a number of pets rather than charging
@@ -549,9 +565,24 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                 # The ceiling belongs in the same sentence as the rate it caps
                 # -- a reader who sees "$50 per night" and stops has the wrong
                 # total.
-                s += ", up to a maximum of %s" % _prose_number(
-                    "$%s" % cap["amount"])
+                # The ceiling is stated with everything the source gave it.
+                # "for two (2) pets" is a qualifier, not a per-pet charge: it
+                # says what two animals cost at most and nothing about one.
+                if cap.get("applies_to"):
+                    # A ceiling that names how many animals it covers is stated
+                    # separately and attributed, so it can never read as the
+                    # price of one pet.
+                    pending_cap_sentence = "The hotel states a maximum of %s%s %s." % (
+                        _prose_number("$%s" % cap["amount"]),
+                        (" %s" % cap["basis"].lower()) if cap.get("basis") else "",
+                        _qualifier_phrase(cap["applies_to"]))
+                else:
+                    s += ", up to a maximum of %s%s" % (
+                        _prose_number("$%s" % cap["amount"]),
+                        (" %s" % cap["basis"].lower()) if cap.get("basis") else "")
         parts.append(s + ".")
+        if pending_cap_sentence:
+            parts.append(pending_cap_sentence)
 
     # A ceiling that varies with stay length gets its own sentence: it will not
     # fit inside the rate's, and it is a maximum rather than a charge.
@@ -561,20 +592,33 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     count = f.get("pet_count_limit")
     weight = _prose_number(f.get("weight_limit", ""))
     if weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
-        parts.append("Up to %s pets with a combined weight limit of %s." % (count, weight)
+        parts.append("Up to %s with a combined weight limit of %s."
+                     % (_pets_phrase(count), weight)
                      if count else "A combined weight limit of %s applies." % weight)
     elif weight and (f.get("weight_limit_operator") or "") == "lt":
         # An exclusive ceiling gets a sentence that excludes: "under 80 pounds"
         # turns the 80-pound dog away, and "maximum ... is 80 pounds" does not.
         parts.append("Pets must weigh %s%s" % (
             weight_phrase(f),
-            (", with up to %s pets permitted per room." % count) if count else "."))
+            (", with up to %s permitted per room." % _pets_phrase(count))
+            if count else "."))
     elif weight:
         parts.append("Maximum pet weight is %s%s" % (
             weight,
-            (", with up to %s pets permitted per room." % count) if count else "."))
+            (", with up to %s permitted per room." % _pets_phrase(count))
+            if count else "."))
     elif count:
-        parts.append("Up to %s pets permitted per room." % count)
+        # A source that says "No weight limit per pet" has stated a FACT, not
+        # left a gap. Rendering it as silence would tell a reader the hotel was
+        # unclear when it was explicit.
+        if f.get("weight_limit_stated_none") == "true":
+            parts.append("%s is permitted per room, with no pet weight limit "
+                         "stated by the hotel."
+                         % _cap_first(_pets_phrase(count).replace("1 pet", "One pet")))
+        else:
+            parts.append("Up to %s permitted per room." % _pets_phrase(count))
+    elif f.get("weight_limit_stated_none") == "true":
+        parts.append("The hotel states no pet weight limit.")
     return " ".join(parts)
 
 
