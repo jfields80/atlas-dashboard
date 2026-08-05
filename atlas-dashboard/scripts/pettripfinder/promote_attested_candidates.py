@@ -206,6 +206,36 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
         # never something to fall back to a single number over.
         raise PromotionError("tiered_fee_not_understood:%s" % ",".join(tier_problems))
 
+    # PTF-FEES-ORDINAL. Two shapes must be settled BEFORE any scalar is read,
+    # because on these blocks a labelled scalar is present and wrong.
+    #
+    #   * a per-ANIMAL ladder -- "$80 for first pet and $50 for second pet" --
+    #     where a single number cannot describe a two-pet stay;
+    #   * a nightly fee stated beside an unrelated per-stay fee, which price the
+    #     same stay differently and cannot both be true.
+    from scripts.pettripfinder.fee_forms import (
+        nightly_versus_per_stay_conflict, ordinal_pet_fees,
+    )
+    ordinal = None if tiers else ordinal_pet_fees(block)
+    stay_clash = None if tiers else nightly_versus_per_stay_conflict(block)
+    if stay_clash is not None:
+        facts["fee_conflict"] = {
+            "reason": "conflicting_fee_terms_in_official_source",
+            "detail": [stay_clash.detail],
+            "quotes": [stay_clash.ladder_quote, stay_clash.rate_quote],
+            "evidence_quote": "%s | %s" % (stay_clash.ladder_quote,
+                                           stay_clash.rate_quote),
+        }
+        for quote in (stay_clash.ladder_quote, stay_clash.rate_quote):
+            evidence.append({"field": "fee_conflict",
+                             "value": "withheld_conflicting_terms", "quote": quote})
+    elif ordinal is not None:
+        facts["fee_pet_schedule"] = ordinal.to_dict()
+        for name, fee in ordinal.fees:
+            evidence.append({"field": "fee_pet_schedule",
+                             "value": "%s $%s" % (name, fee.amount),
+                             "quote": fee.quote})
+
     fees: List[Tuple[str, str, str]] = []      # (amount, basis, quote)
     for rx, _label in _FEE_PATTERNS:
         for m in rx.finditer(block):
@@ -233,7 +263,11 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     elif len(distinct) > 1:
         raise PromotionError("multiple_distinct_pet_fees_in_block:%s"
                              % ",".join(sorted(distinct)))
-    if fees:
+    # A per-animal ladder or a contradicted fee suppresses the scalar entirely.
+    # On both of these blocks a labelled scalar IS present and IS wrong: it is
+    # the first pet's price standing in for two, or one side of a contradiction
+    # standing in for the source.
+    if fees and ordinal is None and stay_clash is None:
         amount, basis, quote = fees[0]
         facts["pet_fee"] = "$%s" % amount
         if basis:
@@ -318,7 +352,9 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # fee changed by this.
     from scripts.pettripfinder.prose_fee_ladder import parse_prose_fee_schedule
     schedule = None
-    if not facts.get("pet_fee") and not facts.get("fee_tiers"):
+    if (not facts.get("pet_fee") and not facts.get("fee_tiers")
+            and not facts.get("fee_conflict")
+            and not facts.get("fee_pet_schedule")):
         schedule = parse_prose_fee_schedule(block)
     if schedule is not None:
         if schedule.is_staged:
@@ -367,7 +403,9 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # and the fee is withheld, which is what the source actually supports.
     from scripts.pettripfinder.fee_forms import fee_contradiction, stated_fee
     if not facts.get("pet_fee") and not facts.get("fee_tiers") \
-            and not facts.get("fee_schedule"):
+            and not facts.get("fee_schedule") \
+            and not facts.get("fee_conflict") \
+            and not facts.get("fee_pet_schedule"):
         clash = fee_contradiction(block)
         if clash is not None:
             facts["fee_conflict"] = {
@@ -408,7 +446,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # Only when no scalar and no ladder were found: a labelled amount is a
     # statement of fact and outranks a range read out of prose.
     if (not facts.get("pet_fee") and not facts.get("fee_tiers")
-            and not facts.get("fee_schedule") and not facts.get("fee_conflict")):
+            and not facts.get("fee_schedule") and not facts.get("fee_conflict")
+            and not facts.get("fee_pet_schedule")):
         fee_range = detect_unrepresentable_fee_range(block)
         if fee_range:
             facts["fee_withheld"] = {
@@ -435,7 +474,8 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # today can have its fee changed by this.
     if (not facts.get("pet_fee") and not facts.get("fee_tiers")
             and not facts.get("fee_withheld") and not facts.get("fee_schedule")
-            and not facts.get("fee_conflict")):
+            and not facts.get("fee_conflict")
+            and not facts.get("fee_pet_schedule")):
         got = extract_fee_with_basis(block)
         if got:
             facts["pet_fee"] = got.value

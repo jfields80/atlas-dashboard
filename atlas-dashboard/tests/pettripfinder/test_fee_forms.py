@@ -373,3 +373,153 @@ def test_the_staged_schedule_property_is_unchanged():
     facts, _e, _b = extract_pet_facts(block)
     assert facts["fee_schedule"]["first_night"]["amount"] == "45.00"
     assert "pet_fee" not in facts
+
+
+# --------------------------------------------------------------------------- #
+# 9. PTF-FEES-LADDER -- notation variants, ordinal pet ladders, and one more
+#    contradiction shape. All six came from Columbus Machine Review Batch 1,
+#    where each would have published a fee wrong for a real booking.
+# --------------------------------------------------------------------------- #
+
+from services.research_workers.fee_terms import parse_fee_tiers   # noqa: E402
+from scripts.pettripfinder.fee_forms import (                     # noqa: E402
+    nightly_versus_per_stay_conflict, ordinal_pet_fees,
+)
+
+HILTON_ROW = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $%s Non-refundable "
+              "Fee Max weight 75 lbs Other pet information %s")
+
+
+@pytest.mark.parametrize("ladder", [
+    "1-4n $75, 5+ $125",                    # unit only on the first rung
+    "1-4 days $75.00, 5 plus days $125.00",  # "days" unit, "plus" spelled out
+    "$75(1-4nt), $125(5+n)",                 # compact "nt"
+    "$75(1-4n)$125(5+n)",                    # the form that already worked
+    "1-4 night stay $50; 5+ night stay $75",
+])
+def test_stay_length_ladder_notations_all_parse(ladder):
+    terms, problems = parse_fee_tiers(ladder)
+    assert problems == [], (ladder, problems)
+    assert len(terms) == 2, ladder
+    assert terms[0].condition_min == 1
+    assert terms[1].condition_max is None       # open-ended upper rung
+
+
+def test_a_days_ladder_reaches_the_extractor():
+    facts, _e, _b = extract_pet_facts(HILTON_ROW % ("75.00", "1-4 days $75.00, 5 plus days $125.00"))
+    assert [t["amount"] for t in facts["fee_tiers"]] == ["75.00", "125.00"]
+    assert "pet_fee" not in facts               # the deposit row never wins
+
+
+def test_a_unitless_open_rung_reaches_the_extractor():
+    facts, _e, _b = extract_pet_facts(HILTON_ROW % ("75.00", "1-4n $75, 5+ $125, 2 pets max dog/cat"))
+    assert [t["amount"] for t in facts["fee_tiers"]] == ["75.00", "125.00"]
+    assert "pet_fee" not in facts
+
+
+def test_a_lone_open_rung_is_not_a_ladder():
+    """"5+ $125" with no sibling states no stay length at all."""
+    terms, problems = parse_fee_tiers("Other pet information 5+ $125")
+    assert terms == () and problems == ["tier_notation_unparseable"]
+
+
+def test_a_malformed_range_boundary_refuses_rather_than_publishing_a_sibling():
+    """"$75(1-na)" is unreadable. Publishing the surviving $125 as a flat fee
+    would overcharge every short stay."""
+    terms, problems = parse_fee_tiers("$75(1-na) $125(5+n)")
+    assert terms == () and problems == ["tier_malformed_range_boundary"]
+    with pytest.raises(PromotionError, match="tier_malformed_range_boundary"):
+        extract_pet_facts(HILTON_ROW % ("125.00", "$75(1-na) $125(5+n) 2pets Max, dog only"))
+
+
+# --------------------------------------------------------------------------- #
+# Ordinal pet ladders.
+# --------------------------------------------------------------------------- #
+
+ORDINAL_BLOCK = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $80.00 "
+                 "Non-refundable Fee Max weight 50 lbs Other pet information "
+                 "Max 2 cat(s) or 2 dog(s), Fee $80 for first pet and $50 for "
+                 "second pet per stay.")
+
+
+def test_a_per_animal_ladder_is_kept_apart():
+    got = ordinal_pet_fees(ORDINAL_BLOCK)
+    assert dict((n, (f.amount, f.basis)) for n, f in got.fees) == {
+        "first_pet": ("80.00", "per stay"), "second_pet": ("50.00", "per stay")}
+
+
+def test_the_per_animal_ladder_is_never_flattened_to_one_fee():
+    """A two-pet stay here costs $130. No single number can say that."""
+    facts, evidence, _b = extract_pet_facts(ORDINAL_BLOCK)
+    assert "pet_fee" not in facts
+    sched = facts["fee_pet_schedule"]
+    assert sched["first_pet"]["amount"] == "80.00"
+    assert sched["second_pet"]["amount"] == "50.00"
+    assert sched["first_pet"]["basis"] == sched["second_pet"]["basis"] == "per stay"
+    assert len([e for e in evidence if e["field"] == "fee_pet_schedule"]) == 2
+
+
+def test_a_single_ordinal_mention_is_not_a_ladder():
+    assert ordinal_pet_fees("Pets welcome. $80 for first pet per stay.") is None
+
+
+def test_an_ordinal_basis_is_not_invented_when_the_clause_states_two():
+    got = ordinal_pet_fees("Pets welcome. $80 for first pet per night and $50 "
+                           "for second pet per stay.")
+    assert all(f.basis == "" for _n, f in got.fees)
+
+
+# --------------------------------------------------------------------------- #
+# Nightly fee versus an unrelated per-stay fee.
+# --------------------------------------------------------------------------- #
+
+TOWNEPLACE = ("Pet Policy Pets Welcome $50 nonrefundable pet fee per night; max "
+              "$300 per stay. 2 pets, 50 lbs max. Non-Refundable Pet Fee Per "
+              "Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets "
+              "in Room: 2")
+
+
+def test_a_nightly_fee_beside_a_per_stay_fee_is_surfaced_not_resolved():
+    clash = nightly_versus_per_stay_conflict(TOWNEPLACE)
+    assert clash is not None
+    assert clash.detail == "nightly_fee_conflicts_with_per_stay_fee"
+    assert "$50 nonrefundable pet fee per night" in clash.ladder_quote
+    assert "$100.00" in clash.rate_quote
+
+
+def test_the_conflicting_scalar_is_never_paired_with_the_other_statement_s_cap():
+    """The $300 ceiling belongs to the $50 nightly rate. Publishing "$100 per
+    stay, max $300" would state a total neither sentence supports."""
+    facts, evidence, _b = extract_pet_facts(TOWNEPLACE)
+    assert "pet_fee" not in facts and "fee_basis" not in facts
+    assert "fee_cap" not in facts
+    conflict = facts["fee_conflict"]
+    assert conflict["detail"] == ["nightly_fee_conflicts_with_per_stay_fee"]
+    assert len(conflict["quotes"]) == 2
+    assert len([e for e in evidence if e["field"] == "fee_conflict"]) == 2
+    assert facts["pets_allowed"] == "true"      # only the money is withheld
+
+
+def test_a_cap_is_not_a_competing_fee():
+    """"$50 per night, max $300 per stay" is one coherent term, not two."""
+    assert nightly_versus_per_stay_conflict(
+        "Pets welcome. $50 pet fee per night, max $300 per stay.") is None
+
+
+def test_the_same_amount_stated_twice_is_not_a_conflict():
+    assert nightly_versus_per_stay_conflict(
+        "Pets welcome. $100 pet fee per night. Pet Fee Per Stay: $100.00") is None
+
+
+@pytest.mark.parametrize("text", [
+    "Pets welcome. $50 pet fee per night. Refundable deposit $200 per stay.",
+    "Pets welcome. $50 pet fee per night. Damage charge per stay: $250.",
+    "Pets welcome. $50 pet fee per night. Cleaning fee per stay: $95.",
+])
+def test_deposits_damage_and_cleaning_never_form_a_conflict(text):
+    assert nightly_versus_per_stay_conflict(text) is None
+
+
+def test_an_incidentals_deposit_is_not_an_ordinal_pet_fee():
+    assert ordinal_pet_fees("Pets welcome. A refundable deposit of $80 for first "
+                            "pet and $50 for second pet is held at check-in.") is None

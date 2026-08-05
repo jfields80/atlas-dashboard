@@ -157,6 +157,15 @@ def validate_fee_term(raw: RawFeeTerm,
 # One tier: an amount, then a stay-length range, in the punctuation variants
 # real pages use -- "(1-4n)", "(1-4 nights)", "for 1-4 nights", "5+n",
 # "5 nights or more", with -, en dash or em dash.
+#: Stay-length units a lodging ladder actually uses. "days" appears beside
+#: "nights" on the same chain's pages ("1-4 days $75.00, 5 plus days $125.00"),
+#: and the compact forms drop to "nt" or a bare "n". Longest alternative first,
+#: so "nt" is never shortened to "n".
+_STAY_UNIT = r"(?:nights?|nts?|days?|n)\b"
+
+#: Open-ended marker: "5+" or "5 plus".
+_TIER_OPEN = r"(?:\+|\s+plus\b)"
+
 _TIER_RE = re.compile(
     r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)"
     # A short connector may sit between the amount and its range -- "for",
@@ -164,8 +173,8 @@ _TIER_RE = re.compile(
     # amount can never reach past a neighbouring tier to claim its range.
     r"[^$\d]{0,20}?[\(\[]?\s*"
     r"(?P<lo>\d+)\s*"
-    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>\+))?"
-    r"\s*(?:nights?|n)\b"
+    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>" + _TIER_OPEN + r"))?"
+    r"\s*" + _STAY_UNIT +
     r"\s*(?P<ormore>or\s+(?:more|longer|greater))?"
     r"\s*[\)\]]?",
     re.I)
@@ -178,12 +187,32 @@ _TIER_RE = re.compile(
 #     1-4 night stay $50; 5+ night stay $75
 _TIER_RANGE_FIRST_RE = re.compile(
     r"(?P<lo>\d+)\s*"
-    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>\+))?"
-    r"\s*(?:nights?|n)\b\s*"
+    r"(?:(?:[-–—]|\s+to\s+)\s*(?P<hi>\d+)|(?P<plus>" + _TIER_OPEN + r"))?"
+    r"\s*" + _STAY_UNIT + r"\s*"
     r"(?P<ormore>or\s+(?:more|longer|greater))?"
     r"[^$\d]{0,16}?"
     r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)",
     re.I)
+
+#: The open-ended rung sometimes drops its unit once the first rung has
+#: established it -- "1-4n $75, 5+ $125". Admitted ONLY to supplement a ladder
+#: that already carries a unit-bearing tier: a lone "5+ $125" states no stay
+#: length at all, and reading one as a ladder rung would invent the unit.
+#: ``hi`` is present but always empty: an open-ended rung has no upper bound,
+#: and the assembly reads the same group names from every tier pattern.
+_TIER_OPEN_NO_UNIT_RE = re.compile(
+    r"(?P<lo>\d+)(?P<hi>)\s*(?P<plus>\+)\s*"
+    r"(?P<ormore>or\s+(?:more|longer|greater))?"
+    r"[^$\d]{0,16}?"
+    r"\$\s?(?P<amt>\d[\d,]*(?:\.\d{1,2})?)",
+    re.I)
+
+#: An amount whose bracketed range has a NON-NUMERIC boundary -- "$75(1-na)".
+#: The source plainly means a ladder and its boundary is unreadable. Such a
+#: ladder is refused outright, because the alternative is publishing whichever
+#: sibling rung happened to parse as though it were a flat fee for every stay.
+_TIER_MALFORMED_RANGE_RE = re.compile(
+    r"\$\s?\d[\d,]*(?:\.\d{1,2})?\s*[\(\[]\s*\d+\s*[-–—]\s*[A-Za-z]+", re.I)
 
 # Wording that would make a basis EXPLICIT. Absent these, the basis is not
 # stated and must never be asserted in public copy -- mirroring the existing
@@ -365,6 +394,12 @@ def parse_fee_tiers(text: str, *, source_url: str = "", source_type: str = "",
     anything about basis to a reader.
     """
     problems: List[str] = []
+    # A ladder whose range boundary is unreadable is refused before anything
+    # else. Parsing on would leave one surviving rung to be published as a flat
+    # fee for every stay length, which is worse than saying nothing.
+    if _TIER_MALFORMED_RANGE_RE.search(text or ""):
+        return ((), ["tier_malformed_range_boundary"])
+
     matches = list(_TIER_RE.finditer(text or ""))
     if len(matches) < 2:
         # Try the range-first notation before giving up -- the same ladder,
@@ -372,6 +407,16 @@ def parse_fee_tiers(text: str, *, source_url: str = "", source_type: str = "",
         alt = list(_TIER_RANGE_FIRST_RE.finditer(text or ""))
         if len(alt) > len(matches):
             matches = alt
+    if len(matches) == 1:
+        # One unit-bearing rung found. Its ladder may have an open-ended sibling
+        # that dropped the unit ("1-4n $75, 5+ $125"). Supplement only -- and
+        # only with rungs that do not overlap what already matched, so an
+        # amount is never counted twice.
+        spans = {(m.start(), m.end()) for m in matches}
+        extra = [m for m in _TIER_OPEN_NO_UNIT_RE.finditer(text or "")
+                 if not any(m.start() < e and s < m.end() for s, e in spans)]
+        if extra:
+            matches = sorted(matches + extra, key=lambda m: m.start())
     if len(matches) < 2:
         # PTF-FEE-TIERS-005. Neither compressed notation formed a ladder. Before
         # settling for that verdict, try the spoken form. Consulted LAST and

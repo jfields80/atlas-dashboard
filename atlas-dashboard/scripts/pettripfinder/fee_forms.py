@@ -123,6 +123,13 @@ class StatedFee:
     quote: str
     rule: str
 
+    def to_dict(self) -> dict:
+        out = {"amount": self.amount, "currency": "USD",
+               "evidence_quote": self.quote}
+        if self.basis:
+            out["basis"] = self.basis
+        return out
+
 
 @dataclass(frozen=True)
 class FeeContradiction:
@@ -299,3 +306,116 @@ def fee_contradiction(block: str) -> Optional[FeeContradiction]:
         return None
     return FeeContradiction(ladder_quote=ladder, rate_quote=rate.quote,
                             detail="stay_length_ladder_conflicts_with_flat_rate")
+
+
+# --------------------------------------------------------------------------- #
+# 7. Ordinal pet schedules, and one more contradiction shape.
+# --------------------------------------------------------------------------- #
+
+#: "$80 for first pet and $50 for second pet". A second animal costs a different
+#: amount from the first, so a single number cannot describe the policy: a
+#: two-pet stay at this property is $130, not $80.
+_ORDINAL_PET_FEE_RE = re.compile(
+    _MONEY + r"\s+for\s+(?:the\s+|each\s+)?"
+    r"(?P<ord>first|1st|second|2nd|additional|extra)\s+"
+    r"(?:pet|animal|dog|cat)\b", re.I)
+
+_ORDINAL_CANON = {"first": "first_pet", "1st": "first_pet",
+                  "second": "second_pet", "2nd": "second_pet",
+                  "additional": "additional_pet", "extra": "additional_pet"}
+
+
+@dataclass(frozen=True)
+class OrdinalPetFees:
+    """What each successive animal costs, kept apart."""
+
+    fees: Tuple[Tuple[str, StatedFee], ...]
+    quote: str
+
+    def to_dict(self) -> Dict[str, object]:
+        out: Dict[str, object] = {"evidence_quote": self.quote}
+        for name, fee in self.fees:
+            out[name] = fee.to_dict()
+        return out
+
+
+def ordinal_pet_fees(block: str) -> Optional[OrdinalPetFees]:
+    """A per-animal fee ladder, or None.
+
+    The basis is read from the clause, not from each amount: a source writes
+    "$80 for first pet and $50 for second pet per stay" once, and the trailing
+    "per stay" governs both. It is applied only when the whole list sits in ONE
+    sentence and that sentence states exactly one basis -- otherwise no basis is
+    asserted at all.
+    """
+    text = " ".join((block or "").split())
+    for sentence in _segments(text):
+        seg = sentence[1]
+        if _DISQUALIFIER_RE.search(seg):
+            continue
+        found = []
+        for m in _ORDINAL_PET_FEE_RE.finditer(seg):
+            amount = _normalise(m)
+            if amount is None:
+                continue
+            name = _ORDINAL_CANON[m.group("ord").lower()]
+            found.append((name, m, amount))
+        if len(found) < 2:
+            continue
+        bases = {_canon_basis(b) for b in
+                 re.findall(r"\b(" + _BASIS_ALT + r")\b", seg, re.I)}
+        basis = bases.pop() if len(bases) == 1 else ""
+        fees = tuple((name, StatedFee(amount, basis,
+                                      _quote(seg, m.start(), m.end()),
+                                      "ordinal_pet_fee"))
+                     for name, m, amount in found)
+        if len({n for n, _f in fees}) != len(fees):
+            return None                      # the same rung named twice
+        return OrdinalPetFees(fees=fees, quote=seg.strip())
+    return None
+
+
+#: A per-stay fee that is NOT a ceiling. "max $300 per stay" bounds a nightly
+#: rate; "Per Stay: $100.00" competes with it.
+_PER_STAY_SCALAR_RE = re.compile(
+    r"(?<!max )(?<!maximum )pet\s+fee\s+per\s+stay\s*:?\s*" + _MONEY, re.I)
+_NIGHTLY_FEE_RE = re.compile(
+    _MONEY + r"[^.$]{0,40}?\bper\s+night\b", re.I)
+
+#: A ceiling word immediately before an amount. A capped total is not a second
+#: fee competing with the rate it bounds.
+_CAP_BEFORE_RE = re.compile(
+    r"(?:max(?:imum)?|cap(?:ped)?|not\s+to\s+exceed|up\s+to)"
+    r"(?:\s+(?:of|at))?\s*(?:a\s+)?$", re.I)
+
+
+def nightly_versus_per_stay_conflict(block: str) -> Optional[FeeContradiction]:
+    """A nightly fee stated beside an unrelated per-stay fee, or None.
+
+    One property says "$50 nonrefundable pet fee per night; max $300 per stay"
+    and, further down, "Non-Refundable Pet Fee Per Stay: $100.00". Four nights
+    costs $200 under the first and $100 under the second. The ceiling belongs to
+    the nightly statement, so pairing it with the per-stay scalar would publish a
+    total neither sentence supports. Nothing here chooses.
+    """
+    text = " ".join((block or "").split())
+    nightly = None
+    for m in _NIGHTLY_FEE_RE.finditer(text):
+        if _DISQUALIFIER_RE.search(_segment_for(text, m.start())):
+            continue
+        if _CAP_BEFORE_RE.search(text[max(0, m.start() - 40):m.start()]):
+            continue
+        nightly = (_normalise(m), _quote(text, m.start(), m.end()))
+        break
+    if not nightly or nightly[0] is None:
+        return None
+    per_stay = None
+    for m in _PER_STAY_SCALAR_RE.finditer(text):
+        if _DISQUALIFIER_RE.search(_segment_for(text, m.start())):
+            continue
+        per_stay = (_normalise(m), _quote(text, m.start(), m.end()))
+        break
+    if not per_stay or per_stay[0] is None or per_stay[0] == nightly[0]:
+        return None
+    return FeeContradiction(ladder_quote=nightly[1], rate_quote=per_stay[1],
+                            detail="nightly_fee_conflicts_with_per_stay_fee")
