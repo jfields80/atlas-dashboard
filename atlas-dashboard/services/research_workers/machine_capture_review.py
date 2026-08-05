@@ -247,7 +247,15 @@ def build_machine_review(*, bridge_result, identity: Mapping,
     if outcome != IDENTITY_CONFIRMED:
         raise MachineReviewError("identity_not_confirmed:%s" % (outcome or "missing"))
 
-    groups = tuple(bridge_result.identity_key_groups or ())
+    # A bare postcode is not an address. One property's expected address is the
+    # five digits "43221", which matches an observed "43221" trivially and
+    # distinguishes nothing -- a ZIP covers many hotels. It stays RECORDED as
+    # evidence, but it does not count toward the independent-group floor.
+    keys_seen = tuple((identity or {}).get("keys", {}).get("keys") or ())
+    weak = {k.get("group") for k in keys_seen
+            if k.get("group") == "address"
+            and re.fullmatch(r"\s*[0-9]{5}(?:-[0-9]{4})?\s*", str(k.get("expected") or ""))}
+    groups = tuple(g for g in (bridge_result.identity_key_groups or ()) if g not in weak)
     if len(groups) < MIN_IDENTITY_GROUPS:
         raise MachineReviewError(
             "insufficient_identity_groups:%d<%d" % (len(groups), MIN_IDENTITY_GROUPS))

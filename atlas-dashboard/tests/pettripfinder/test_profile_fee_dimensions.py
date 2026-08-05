@@ -582,3 +582,92 @@ def test_basis_recovery_requires_an_exact_amount_match():
 def test_basis_recovery_ignores_a_conditional_charge():
     assert basis_for_amount("Pet fee $50. Sanitation fee $50 per night if "
                             "required.", "50.00") == ("", "")
+
+
+# --------------------------------------------------------------------------- #
+# 10. PTF-REVIEW-B3 -- corrections raised during Columbus Batch 3 human review.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.prose_facts import (                  # noqa: E402
+    extract_pet_count, extract_species,
+)
+
+TOWNEPLACE_OSU = ("Pet Policy Pets Welcome Birds/fish/2 well-mannered dogs or "
+                  "cats per room with USD 100 non-refundable fee "
+                  "Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of "
+                  "Pets in Room: 2")
+GROVE_CITY = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 "
+              "Non-refundable Fee Max weight 100 lbs Max size Medium Other pet "
+              "information 1-4 nights $75.00 per stay or 5+ nights $100 per stay")
+SCIOTO = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $50.00 "
+          "Non-refundable Fee Max weight 75 lbs Max size Large Other pet "
+          "information $50 2petsMax,dog/cat only")
+
+
+# A. Unspaced pet-count notation.
+
+@pytest.mark.parametrize("text", [
+    "$50 2petsMax,dog/cat only", "$75(1-4n)$125(5+n)2pet Max dog/cat only",
+    "$75(1-4n),$125(5+n) 2petsMax,dog/cat", "2pets max", "2petsmaximum",
+])
+def test_compact_pet_count_notation_is_read(text):
+    got = extract_pet_count(text)
+    assert got is not None and got.value == "2"
+
+
+def test_a_compact_count_reaches_the_facts():
+    facts, _e, _b = _extract(SCIOTO)
+    assert facts["pet_count_limit"] == "2"
+
+
+@pytest.mark.parametrize("text", [
+    "room 2 pets welcome",          # no explicit max word
+    "Max weight 75 lbs",            # a weight, not a count
+    "$50 fee 2 max",                # no pet noun
+])
+def test_a_compact_count_needs_integer_noun_and_max(text):
+    assert extract_pet_count(text) is None
+
+
+# B. A tier basis the source states must reach the reader.
+
+def test_a_stated_tier_basis_is_rendered():
+    facts, evidence, _b = _extract(GROVE_CITY)
+    assert all(t["basis_stated"] for t in facts["fee_tiers"])
+    assert all(t["stated_basis"] == "per stay" for t in facts["fee_tiers"])
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert ("A pet fee of $75 per stay applies for stays of 1–4 nights, and "
+            "$100 per stay applies for stays of 5 nights or more.") in summary
+
+
+def test_a_tier_basis_is_never_invented_when_unstated():
+    block = ("Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max "
+             "weight 50 lbs Other pet information 1-4 night stay $75; 5+ night "
+             "stay $125; 2 pets max; dog or cat only")
+    facts, evidence, _b = _extract(block)
+    assert not any(t.get("stated_basis") for t in facts["fee_tiers"])
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "per stay" not in summary and "per night" not in summary
+
+
+# C. Every permitted species reaches the reader.
+
+def test_all_explicitly_permitted_species_are_preserved():
+    got = extract_species(TOWNEPLACE_OSU)
+    assert got.value == "birds, fish, dogs, cats"
+    facts, evidence, _b = _extract(TOWNEPLACE_OSU)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert summary.startswith("Birds, fish, dogs, and cats are accepted.")
+
+
+def test_well_mannered_is_not_read_as_a_breed_restriction():
+    facts, _e, _b = _extract(TOWNEPLACE_OSU)
+    assert "breed_restrictions" not in facts
+
+
+@pytest.mark.parametrize("text, expected", [
+    ("dog/cat only", "dogs, cats"), ("Only dogs and cats allowed", "dogs, cats"),
+    ("dogs only", "dogs"), ("cats only", "cats"),
+])
+def test_ordinary_species_readings_are_unchanged(text, expected):
+    assert extract_species(text).value == expected

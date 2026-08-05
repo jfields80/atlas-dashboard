@@ -132,6 +132,13 @@ _COUNT_TRAILING = re.compile(
     r"(?P<noun>" + _PET_NOUNS + r")\s+"
     r"(?:per\s+room|max(?:imum)?|allowed|permitted)\b", re.I)
 
+#: The same statement with the spaces squeezed out -- "2petsMax", "2pet Max",
+#: "2pets max", "2petsmaximum". Three Columbus properties publish their limit
+#: this way and every one of them read as "not stated". Deliberately narrow: an
+#: explicit integer, a pet noun, an explicit max word, and nothing between them.
+_COUNT_COMPACT = re.compile(
+    r"\b(?P<num>\d{1,2})\s*(?P<noun>pets?|dogs?|cats?)\s*(?:max(?:imum)?)\b", re.I)
+
 MAX_PLAUSIBLE_PETS = 10
 
 
@@ -150,7 +157,8 @@ def extract_pet_count(block: str) -> Optional[ProseFact]:
     """
     text = block or ""
     for rx, rule in ((_COUNT_GOVERNED, "count_governed"),
-                     (_COUNT_TRAILING, "count_trailing")):
+                     (_COUNT_TRAILING, "count_trailing"),
+                     (_COUNT_COMPACT, "count_compact")):
         for m in rx.finditer(text):
             n = _as_int(m.group("num"))
             if n is None or not (1 <= n <= MAX_PLAUSIBLE_PETS):
@@ -293,6 +301,30 @@ def _labelled_species(text: str) -> Optional[ProseFact]:
     return None
 
 
+#: Species beyond the usual two, in the order a reader expects them. Matched
+#: only as an explicit run -- "Birds/fish/2 ... dogs or cats" -- so a passing
+#: mention of a bird elsewhere on a page can never widen a policy.
+_EXTENDED_SPECIES_RUN = re.compile(
+    r"\b(?P<run>(?:birds?|fish|dogs?|cats?)"
+    r"(?:\s*/\s*(?:\d{1,2}\s+)?(?:[a-z-]+\s+){0,2}?(?:birds?|fish|dogs?|cats?))+"
+    r"(?:\s+or\s+(?:birds?|fish|dogs?|cats?))?)", re.I)
+
+_SPECIES_CANON = (("bird", "birds"), ("fish", "fish"), ("dog", "dogs"), ("cat", "cats"))
+
+
+def _extended_species(text: str) -> Optional[ProseFact]:
+    """A slash-separated species run naming more than dogs and cats, or None."""
+    m = _EXTENDED_SPECIES_RUN.search(text or "")
+    if not m:
+        return None
+    run = m.group("run").lower()
+    found = [plural for stem, plural in _SPECIES_CANON if stem in run]
+    if len(found) < 3:
+        return None                      # dogs+cats alone is the ordinary case
+    return ProseFact(", ".join(found), _span(text, m.start(), m.end(), pad=20),
+                     "species_extended_run")
+
+
 def extract_species(block: str) -> Optional[ProseFact]:
     """Explicit species permission or exclusion, or None.
 
@@ -302,6 +334,15 @@ def extract_species(block: str) -> Optional[ProseFact]:
     "cats excluded".
     """
     text = block or ""
+
+    # A source that lists MORE than dogs and cats has permitted more. Narrowing
+    # "Birds/fish/2 well-mannered dogs or cats per room" to "dogs, cats" tells an
+    # owner with a bird the hotel will refuse it, which the page does not say.
+    # Read first, because every rule below stops at two species.
+    extended = _extended_species(text)
+    if extended is not None:
+        return extended
+
     for rx, value, rule in (
         # Both-species phrasings FIRST. "dog/cat only" is a permission for two
         # species, not an exclusivity claim about one.

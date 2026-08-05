@@ -209,8 +209,21 @@ _STATED_FIELDS = ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit
                   "fee_schedule", "fee_cap_tiers")
 
 
+#: Species this renderer can name, in the order a reader expects them.
+_SPECIES_ORDER = (("bird", "Birds"), ("fish", "fish"), ("dog", "dogs"), ("cat", "cats"))
+
+
 def _species_phrase(species: str) -> str:
+    """A sentence naming every species the source permits.
+
+    A property that admits birds and fish as well as dogs and cats has said so;
+    rendering only the usual two would tell a bird's owner the hotel refuses it.
+    """
     sp = (species or "").lower()
+    named = [label for stem, label in _SPECIES_ORDER if stem in sp]
+    if len(named) > 2:
+        listed = ", ".join(named[:-1]) + ", and " + named[-1]
+        return "%s are accepted." % listed
     if "dog" in sp and "cat" in sp:
         return "Dogs and cats are accepted."
     if "dog" in sp:
@@ -366,6 +379,21 @@ def _tier_scope_phrase(t: Dict) -> str:
     return " per pet" if t.get("scope") == "per_pet" else ""
 
 
+def _tier_basis_phrase(tiers) -> str:
+    """" per stay" when EVERY tier records a source-stated basis, else "".
+
+    All-or-nothing on purpose: a ladder whose rungs disagree about recurrence is
+    not one this sentence can describe.
+    """
+    if not tiers or not all(t.get("basis_stated") for t in tiers):
+        return ""
+    stated = {(t.get("stated_basis") or "").strip().lower() for t in tiers}
+    stated.discard("")
+    if len(stated) != 1:
+        return ""
+    return " %s" % stated.pop()
+
+
 def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     """A source-faithful sentence for a stay-length fee ladder.
 
@@ -377,13 +405,17 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     if not tiers:
         return ""
     nonref = "non-refundable " if _NONREFUNDABLE_RE.search(evidence or "") else ""
+    # Where the SOURCE states the recurrence -- "1-4 nights $75.00 per stay" --
+    # it is carried through. Where it does not, nothing is said: an amount and a
+    # stay range say nothing about whether the charge repeats.
+    basis = _tier_basis_phrase(tiers)
     first, rest = tiers[0], tiers[1:]
-    s = "A %spet fee of %s%s applies for %s" % (
-        nonref, _tier_amount(first), _tier_scope_phrase(first),
+    s = "A %spet fee of %s%s%s applies for %s" % (
+        nonref, _tier_amount(first), basis, _tier_scope_phrase(first),
         _tier_range_phrase(first))
     for t in rest:
-        s += ", and %s%s applies for %s" % (
-            _tier_amount(t), _tier_scope_phrase(t), _tier_range_phrase(t))
+        s += ", and %s%s%s applies for %s" % (
+            _tier_amount(t), basis, _tier_scope_phrase(t), _tier_range_phrase(t))
     return s + "."
 
 

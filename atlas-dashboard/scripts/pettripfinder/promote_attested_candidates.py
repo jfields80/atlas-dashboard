@@ -220,7 +220,17 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     )
     tiers, tier_problems = parse_fee_tiers(block)
     if tiers:
-        facts["fee_tiers"] = tier_facts(tiers, basis_stated=basis_is_stated(block))
+        _stated = basis_is_stated(block)
+        facts["fee_tiers"] = tier_facts(tiers, basis_stated=_stated)
+        if _stated:
+            # Carry the literal recurrence the source used. The tier vocabulary
+            # stores ONE_TIME, which is a contract value, not the property words
+            # a reader needs to see.
+            import re as _re
+            _m = _re.search(r"per\s+(?:night|day|stay|visit)|nightly|daily", block, _re.I)
+            if _m:
+                for _t in facts["fee_tiers"]:
+                    _t["stated_basis"] = " ".join(_m.group(0).split()).lower()
         for t in tiers:
             evidence.append({"field": "fee_tiers", "value": "$%s" % t.amount,
                              "quote": t.evidence_quote})
