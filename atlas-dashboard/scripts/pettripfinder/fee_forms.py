@@ -454,3 +454,105 @@ def cap_qualifier(block: str, cap_amount: str) -> str:
             if found:
                 return " ".join(found.group(0).split())
     return ""
+
+
+# --------------------------------------------------------------------------- #
+# 9. Pet deposits, basis recovery, and the recurrence contradiction.
+# --------------------------------------------------------------------------- #
+
+#: A deposit the source explicitly calls a PET deposit. Distinct from an
+#: incidentals deposit, which is not a pet-related charge and must stay out of
+#: pet facts, and distinct from the pet FEE, which is not refundable.
+_PET_DEPOSIT_AFTER = re.compile(
+    r"pets?\s+deposit\s*(?:is|of|are|:)?\s*" + _MONEY, re.I)
+_PET_DEPOSIT_BEFORE = re.compile(
+    _MONEY + r"\s+(?:refundable\s+)?pets?\s+deposit\b", re.I)
+
+#: Charges that are conditional or purpose-specific. A sanitation fee "if
+#: required" is not the price of bringing an animal.
+_CONDITIONAL_FEE_RE = re.compile(
+    r"sanitation|cleaning|damage|if\s+required|if\s+needed|as\s+needed", re.I)
+
+#: A basis sitting immediately after an amount, with no filler at all. Stricter
+#: than ``_TRAILING_BASIS``: this recovers a recurrence for an amount already
+#: captured elsewhere, so it must not reach across words to find one.
+_TRAILING_BASIS_ONLY = re.compile(
+    r"^\s*(?P<basis>" + _BASIS_ALT + r")\b", re.I)
+
+
+def pet_deposit(block: str) -> Optional[StatedFee]:
+    """A deposit the source names as a PET deposit, or None.
+
+    Requires the word "pet" beside "deposit". An incidentals deposit stays out:
+    the source has not called it pet-related, and inferring that it is would
+    invent a charge the guest may never face.
+    """
+    text = " ".join((block or "").split())
+    for rx, rule in ((_PET_DEPOSIT_AFTER, "pet_deposit_label_first"),
+                     (_PET_DEPOSIT_BEFORE, "pet_deposit_amount_first")):
+        for m in rx.finditer(text):
+            amount = _normalise(m)
+            if amount is None:
+                continue
+            return StatedFee(amount, "", _quote(text, m.start(), m.end()), rule)
+    return None
+
+
+def basis_for_amount(block: str, amount: str) -> Tuple[str, str]:
+    """``(basis, quote)`` for a basis stated beside THIS amount, or ``("", "")``.
+
+    Recovers a recurrence the first reader missed because it captured the amount
+    from a different row -- a labelled deposit row, say -- while the basis sits
+    beside the same figure further along ("Other pet information $75 per stay").
+    The amounts must match exactly, so no other charge's recurrence can attach.
+    """
+    text = " ".join((block or "").split())
+    if not amount:
+        return ("", "")
+    bare = amount.rstrip("0").rstrip(".") if "." in amount else amount
+    for token in (amount, bare):
+        for m in re.finditer(r"\$?\s*" + re.escape(token) + r"(?![\d.])", text):
+            seg = _segment_for(text, m.start())
+            if _CONDITIONAL_FEE_RE.search(seg) or _DISQUALIFIER_RE.search(seg):
+                continue
+            tail = text[m.end():m.end() + 26]
+            found = _TRAILING_BASIS_ONLY.match(tail)
+            if found:
+                return (_canon_basis(found.group("basis")),
+                        _quote(text, m.start(), m.end() + found.end()))
+    return ("", "")
+
+
+#: The two halves of a recurrence contradiction.
+#: Bounded on BOTH sides. A run to the next full stop is not a quotation when
+#: the source omits one -- it swallows the rest of the card and hands a reviewer
+#: a paragraph where a clause was meant.
+_ONE_TIME_STATEMENT_RE = re.compile(
+    r"[^.]{0,60}\b(?:one[-\s]?time|single\s+charge|flat\s+fee)\b[^.]{0,20}", re.I)
+_NIGHTLY_STATEMENT_RE = re.compile(
+    r"[^.]{0,40}\b(?:per\s+night|nightly|each\s+night)\b"
+    r"(?:\s*:?\s*\$?\s*\d[\d,]*(?:\.\d{1,2})?\s*(?:USD|dollars?)?)?", re.I)
+
+
+def recurrence_conflict(block: str) -> Optional[FeeContradiction]:
+    """A source that calls the same fee both one-time and nightly, or None.
+
+    "There is a 75 USD, one time pet fee" beside "Pet fee per night: 75 USD"
+    prices a five-night stay at $75 or $375. The amounts agreeing does not make
+    the terms agree -- it is the RECURRENCE that decides the bill, and the source
+    states two. Publishing the amount with a silent basis would let a reader
+    assume the cheaper reading.
+    """
+    text = " ".join((block or "").split())
+    if not competing_recurrence(text):
+        return None
+    stripped = _CAP_CLAUSE_RE.sub(" ", text)
+    one = _ONE_TIME_STATEMENT_RE.search(stripped)
+    nightly = _NIGHTLY_STATEMENT_RE.search(stripped)
+    if not one or not nightly:
+        return None
+    one_q, night_q = " ".join(one.group(0).split()), " ".join(nightly.group(0).split())
+    if one_q == night_q:
+        return None
+    return FeeContradiction(ladder_quote=one_q, rate_quote=night_q,
+                            detail="one_time_fee_conflicts_with_nightly_fee")

@@ -176,9 +176,12 @@ _WEIGHT_CEILING = re.compile(
 # "pets must weigh less than 80 lbs" -- ceiling word AFTER the noun, number
 # after that; covered by _WEIGHT_CEILING because "less than" precedes 80.
 # "80 lb maximum" -- number first, ceiling after.
+#: "75lbs or less", "40 lb max", and -- the form that reached a live page --
+#: "75lb weight limit", where the noun sits between the unit and the ceiling
+#: word. Without it a plainly stated limit reads as silence.
 _WEIGHT_TRAILING = re.compile(
     r"\b(?P<num>\d{1,3}(?:\.\d+)?)\s*(?P<unit>lbs?\.?|pounds?|kilograms?|kgs?)\s*"
-    r"(?:or\s+under|or\s+less|max(?:imum)?|limit)\b", re.I)
+    r"(?:or\s+under|or\s+less|max(?:imum)?|(?:weight\s+)?limit)\b", re.I)
 
 MAX_PLAUSIBLE_WEIGHT_LB = 400.0
 

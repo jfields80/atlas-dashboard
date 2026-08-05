@@ -240,8 +240,15 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     from scripts.pettripfinder.fee_forms import (
         nightly_versus_per_stay_conflict, ordinal_pet_fees,
     )
+    from scripts.pettripfinder.fee_forms import recurrence_conflict
     ordinal = None if tiers else ordinal_pet_fees(block)
     stay_clash = None if tiers else nightly_versus_per_stay_conflict(block)
+    # A source that calls the SAME fee both one-time and nightly states two
+    # incompatible bills. Equal amounts do not make equal terms: five nights is
+    # $75 or $375, and publishing the amount with a silent basis invites the
+    # cheaper reading.
+    if stay_clash is None and not tiers:
+        stay_clash = recurrence_conflict(block)
     if stay_clash is not None:
         facts["fee_conflict"] = {
             "reason": "conflicting_fee_terms_in_official_source",
@@ -306,6 +313,27 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
         facts["weight_limit_stated_none"] = "true"
         evidence.append({"field": "weight_limit_stated_none", "value": "true",
                          "quote": " ".join(_NO_WEIGHT_LIMIT_RE.search(block).group(0).split())})
+
+    # PTF-REVIEW-B2. The amount may have been captured from a labelled row while
+    # its recurrence sits beside the same figure further along -- "Other pet
+    # information $75 per stay". Recovered only on an exact amount match, so no
+    # other charge's basis can attach itself here.
+    if facts.get("pet_fee") and not facts.get("fee_basis"):
+        from scripts.pettripfinder.fee_forms import basis_for_amount
+        _b, _bq = basis_for_amount(block, facts["pet_fee"].lstrip("$"))
+        if _b:
+            facts["fee_basis"] = _b
+            evidence.append({"field": "fee_basis", "value": _b, "quote": _bq})
+
+    # An explicitly PET deposit is its own obligation: refundable, and separate
+    # from both the pet fee and any conditional sanitation charge.
+    from scripts.pettripfinder.fee_forms import pet_deposit as _pet_deposit
+    _dep = _pet_deposit(block)
+    if _dep and not facts.get("pet_deposit"):
+        facts["pet_deposit"] = {"amount": _dep.amount, "currency": "USD",
+                                "evidence_quote": _dep.quote}
+        evidence.append({"field": "pet_deposit", "value": "$%s" % _dep.amount,
+                         "quote": _dep.quote})
 
     m = _WEIGHT.search(block)
     if m:

@@ -233,13 +233,21 @@ def test_the_contradiction_publishes_no_fee_and_keeps_both_quotes():
     assert facts["pets_allowed"] == "true"
 
 
-def test_a_one_time_fee_stated_beside_a_nightly_one_invents_no_basis():
-    """$75 once, or $75 a night? Five nights differ by $300."""
+def test_a_one_time_fee_stated_beside_a_nightly_one_is_a_contradiction():
+    """$75 once, or $75 a night? Five nights differ by $300.
+
+    Superseded behaviour, changed under PTF-REVIEW-B2 on reviewer direction:
+    this used to publish the amount with a silent basis. That let a reader
+    assume the cheaper reading of two terms the source states with equal force,
+    so the fee is now withheld and both quotations are kept.
+    """
     assert competing_recurrence(HIE_COLUMBUS_DUBLIN) is True
     assert stated_fee(HIE_COLUMBUS_DUBLIN) is None
     facts, _evidence, _b = extract_pet_facts(HIE_COLUMBUS_DUBLIN)
-    assert facts["pet_fee"] == "$75.00"
-    assert "fee_basis" not in facts
+    assert "pet_fee" not in facts and "fee_basis" not in facts
+    assert facts["fee_conflict"]["detail"] == [
+        "one_time_fee_conflicts_with_nightly_fee"]
+    assert len(facts["fee_conflict"]["quotes"]) == 2
 
 
 def test_a_cap_stated_per_stay_does_not_compete_with_a_nightly_rate():

@@ -584,6 +584,20 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         if pending_cap_sentence:
             parts.append(pending_cap_sentence)
 
+    # PTF-REVIEW-B2. A per-ANIMAL ladder has no single fee, so the fee sentence
+    # above never fires for it -- and without this branch the property rendered
+    # as though it charged nothing at all. Each rung is stated in turn; the
+    # second animal's price is explicitly ADDITIONAL, never multiplied.
+    pet_schedule = f.get("fee_pet_schedule") or {}
+    first_pet, second_pet = pet_schedule.get("first_pet"), pet_schedule.get("second_pet")
+    if first_pet and second_pet and not conflict:
+        parts.append("The first pet costs %s%s, and a second pet costs an "
+                     "additional %s%s." % (
+                         _prose_number("$%s" % first_pet["amount"]),
+                         (" %s" % first_pet["basis"].lower()) if first_pet.get("basis") else "",
+                         _prose_number("$%s" % second_pet["amount"]),
+                         (" %s" % second_pet["basis"].lower()) if second_pet.get("basis") else ""))
+
     # A ceiling that varies with stay length gets its own sentence: it will not
     # fit inside the rate's, and it is a maximum rather than a charge.
     if tier_caps and not conflict:
@@ -619,6 +633,13 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             parts.append("Up to %s permitted per room." % _pets_phrase(count))
     elif f.get("weight_limit_stated_none") == "true":
         parts.append("The hotel states no pet weight limit.")
+
+    # A refundable pet deposit is a separate obligation from the fee: the guest
+    # gets it back. Stated last so it can never be read as part of the price.
+    deposit = f.get("pet_deposit") or {}
+    if isinstance(deposit, dict) and deposit.get("amount"):
+        parts.append("A separate refundable pet deposit of %s is also stated."
+                     % _prose_number("$%s" % deposit["amount"]))
     return " ".join(parts)
 
 

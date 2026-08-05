@@ -465,3 +465,120 @@ def test_a_multi_pet_allowance_still_reads_in_the_plural():
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert "up to 2 pets permitted per room" in summary
     assert "2 pet " not in summary
+
+
+# --------------------------------------------------------------------------- #
+# 9. PTF-REVIEW-B2 -- corrections raised during Columbus Batch 2 human review.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.fee_forms import (                    # noqa: E402
+    basis_for_amount, pet_deposit, recurrence_conflict,
+)
+
+DAYS_INN = ("Service Animals - ADA-defined service animals welcome./Pets "
+            "Allowed.2 pets max.20lbs or less per pet./Fees - 50USD per stay. "
+            "Pet Sanitation Fee 50USD if required./Other Information - Pet "
+            "deposit is 150 USD.")
+HIE_DUBLIN = ("Pets are welcome. Pet policy description. There is a limit of 2 "
+              "dogs per room, 75lb weight limit. We do not accept cats at our "
+              "property. There is a 75 USD, one time pet fee. Pet Fee is Non "
+              "Refundable. Pet fee per night: 75 USD")
+HILTON_POLARIS = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $80.00 "
+                  "Non-refundable Fee Max weight 50 lbs Other pet information "
+                  "Max 2 cat(s) or 2 dog(s), Fee $80 for first pet and $50 for "
+                  "second pet per stay.")
+HGI_EASTON = ("Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 "
+              "Non-refundable Fee Max weight 75 lbs Other pet information $75 "
+              "per stay / dogs and cats only / max 2 pets per room")
+
+
+# A. An explicitly pet-named deposit is its own obligation.
+
+def test_an_explicit_pet_deposit_is_captured_separately():
+    facts, _e, _b = _extract(DAYS_INN)
+    assert facts["pet_deposit"]["amount"] == "150.00"
+    assert facts["pet_fee"] == "$50.00" and facts["fee_basis"] == "per stay"
+
+
+def test_a_conditional_sanitation_fee_is_never_merged_into_the_pet_fee():
+    """"$50 if required" is contingent. It is not the price of bringing a pet."""
+    facts, _e, _b = _extract(DAYS_INN)
+    assert facts["pet_fee"] == "$50.00"
+    assert "sanitation" not in json.dumps(facts).lower()
+
+
+def test_an_incidentals_deposit_is_still_not_a_pet_deposit():
+    assert pet_deposit("A refundable deposit of up to 50.00 USD is required at "
+                       "check-in for incidentals.") is None
+
+
+def test_the_pet_deposit_renders_as_a_separate_refundable_sentence():
+    facts, evidence, _b = _extract(DAYS_INN)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "A separate refundable pet deposit of $150 is also stated." in summary
+    assert "A $50 fee applies per stay." in summary
+
+
+# B. One-time versus per-night is a contradiction even at the same amount.
+
+def test_equal_amounts_with_conflicting_recurrence_are_a_contradiction():
+    """$75 once or $75 a night: five nights is $75 or $375. The amounts
+    agreeing does not make the terms agree."""
+    clash = recurrence_conflict(HIE_DUBLIN)
+    assert clash is not None
+    assert clash.detail == "one_time_fee_conflicts_with_nightly_fee"
+    assert clash.ladder_quote == "There is a 75 USD, one time pet fee"
+    assert clash.rate_quote == "Pet fee per night: 75 USD"
+
+
+def test_the_recurrence_contradiction_withholds_the_fee_and_the_basis():
+    facts, evidence, _b = _extract(HIE_DUBLIN)
+    assert "pet_fee" not in facts and "fee_basis" not in facts
+    assert facts["fee_conflict"]["quotes"] == [
+        "There is a 75 USD, one time pet fee", "Pet fee per night: 75 USD"]
+    assert len([e for e in evidence if e["field"] == "fee_conflict"]) == 2
+    assert facts["pets_allowed"] == "true"
+
+
+def test_a_trailing_weight_limit_phrase_is_read():
+    """"75lb weight limit" states a ceiling as plainly as "75lbs or less"."""
+    facts, _e, _b = _extract(HIE_DUBLIN)
+    assert facts["weight_limit"] == "75.0 pounds"
+
+
+def test_a_cap_is_not_a_recurrence_contradiction():
+    assert recurrence_conflict("Pets welcome. $25 per night, max $75 per stay.") is None
+
+
+# C. The per-animal ladder must reach the reader.
+
+def test_the_per_animal_ladder_is_rendered_for_the_customer():
+    facts, evidence, _b = _extract(HILTON_POLARIS)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert ("The first pet costs $80 per stay, and a second pet costs an "
+            "additional $50 per stay.") in summary
+    assert "$160" not in summary            # never multiplied
+    assert "per pet" not in summary          # never flattened
+
+
+def test_a_property_with_a_fee_never_renders_as_free():
+    facts, evidence, _b = _extract(HILTON_POLARIS)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "$" in summary, "a paying property must not read as free"
+
+
+# D. A basis stated beside the same amount is recovered.
+
+def test_a_basis_stated_beside_the_same_amount_is_recovered():
+    facts, _e, _b = _extract(HGI_EASTON)
+    assert facts["pet_fee"] == "$75.00" and facts["fee_basis"] == "per stay"
+
+
+def test_basis_recovery_requires_an_exact_amount_match():
+    """A different charge's recurrence must not attach to this fee."""
+    assert basis_for_amount("Pet fee $75. Parking is $32 per night.", "75.00") == ("", "")
+
+
+def test_basis_recovery_ignores_a_conditional_charge():
+    assert basis_for_amount("Pet fee $50. Sanitation fee $50 per night if "
+                            "required.", "50.00") == ("", "")
