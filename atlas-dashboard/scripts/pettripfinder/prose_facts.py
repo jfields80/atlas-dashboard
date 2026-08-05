@@ -325,6 +325,60 @@ def _extended_species(text: str) -> Optional[ProseFact]:
                      "species_extended_run")
 
 
+#: A weight bound by grammar to ONE named animal: "Dogs and 20-lb. cats",
+#: "dogs and cats under 25 lbs" does NOT qualify -- the adjective there governs
+#: both nouns. Only the attributive forms are read, where the figure sits
+#: immediately against a single species noun.
+_SPECIES_BOUND_WEIGHT = re.compile(
+    r"(?P<lb>\d{1,3})\s*-?\s*lbs?\.?\s+(?P<sp>dogs?|cats?)\b"
+    r"|(?P<sp2>dogs?|cats?)\s+(?:under|below|less\s+than|up\s+to|"
+    r"max(?:imum)?(?:\s+of)?)\s+(?P<lb2>\d{1,3})\s*lbs?", re.I)
+
+#: Another species joined to this one immediately before it, so a ceiling that
+#: follows governs the pair rather than the nearer noun.
+_COORDINATED_SPECIES_RE = re.compile(
+    r"\b(?:birds?|fish|dogs?|cats?)\s*(?:,|and|or|/)\s*$", re.I)
+
+
+def species_bound_weight(block: str) -> Optional[Tuple[str, ProseFact, Tuple[str, ...]]]:
+    """``(species, fact, all_permitted)`` when a weight governs ONE of several
+    permitted species, else ``None``.
+
+    "Dogs and 20-lb. cats" limits the cat and says nothing about the dog. Read
+    flat, it becomes a 20-pound ceiling for every animal and turns away a
+    labrador the hotel would have taken -- a refusal the source never wrote.
+    So the figure is kept where the grammar put it.
+
+    Requires a second permitted species to exist: on a dogs-only page a bound
+    weight and a universal one describe the same rule, and the flat reading is
+    both correct and already established.
+    """
+    text = " ".join((block or "").split())
+    m = _SPECIES_BOUND_WEIGHT.search(text)
+    if not m:
+        return None
+    # "dogs and cats under 25 lbs" limits BOTH: the ceiling follows a coordinated
+    # pair, so binding it to the nearer noun would free the dog from a rule the
+    # source applied to it. Only the attributive form survives that test.
+    if m.group("sp2") and _COORDINATED_SPECIES_RE.search(text[:m.start("sp2")]):
+        return None
+    species = (m.group("sp") or m.group("sp2") or "").lower().rstrip(".")
+    pounds = m.group("lb") or m.group("lb2")
+    species = species if species.endswith("s") else species + "s"
+    # The companion species is looked for in the SAME sentence, not the page: an
+    # animal named in some other clause was not permitted by this one.
+    lo = text.rfind(".", 0, m.start()) + 1
+    hi = text.find(".", m.end())
+    clause = text[lo:hi if hi != -1 else len(text)]
+    permitted = tuple(p for stem, p in _SPECIES_CANON
+                      if re.search(r"\b%ss?\b" % stem, clause, re.I))
+    if len(permitted) < 2:
+        return None
+    return species, ProseFact("%s pounds" % pounds,
+                              _span(text, m.start(), m.end(), pad=20),
+                              "weight_bound_to_species"), permitted
+
+
 def extract_species(block: str) -> Optional[ProseFact]:
     """Explicit species permission or exclusion, or None.
 

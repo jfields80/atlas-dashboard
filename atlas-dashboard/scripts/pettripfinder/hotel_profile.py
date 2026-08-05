@@ -642,7 +642,17 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
 
     count = f.get("pet_count_limit")
     weight = _prose_number(f.get("weight_limit", ""))
-    if weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
+    bound = f.get("species_weight_limits") or {}
+    if bound:
+        # Named animal, named ceiling, and silence about the rest -- because the
+        # source limited one species and said nothing about the other. "Maximum
+        # pet weight is 20 pounds" would invent the missing half.
+        species, rule = sorted(bound.items())[0]
+        parts.append("%s must weigh %s or less%s" % (
+            _cap_first(species), _prose_number(rule.get("value", "")),
+            (", with up to %s permitted per room." % _pets_phrase(count))
+            if count else "."))
+    elif weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
         parts.append("Up to %s with a combined weight limit of %s."
                      % (_pets_phrase(count), weight)
                      if count else "A combined weight limit of %s applies." % weight)

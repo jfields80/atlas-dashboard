@@ -373,8 +373,15 @@ def safe_url(url: str) -> Tuple[str, str]:
     return (urlunsplit((parts.scheme, parts.netloc, parts.path, parts.query, "")), "")
 
 
-def build_index(records: Iterable[Mapping]) -> dict:
-    """Git-safe metadata only. No excerpt, no path, no HTML, no screenshot."""
+def build_index(records: Iterable[Mapping], held: Iterable[Mapping] = ()) -> dict:
+    """Git-safe metadata only. No excerpt, no path, no HTML, no screenshot.
+
+    ``held`` names records deliberately kept OUT of the clean review queue, each
+    bound to the record hash it was held at. A hold recorded nowhere is a hold
+    that quietly expires the next time the queue is rebuilt: the record simply
+    reappears, and the reason it was pulled is a fact about a session rather
+    than about the corpus. Holding is a review outcome and belongs in the index.
+    """
     rows = []
     stripped = 0
     for record in records:
@@ -398,6 +405,15 @@ def build_index(records: Iterable[Mapping]) -> dict:
             stripped += 1
         rows.append(row)
     rows.sort(key=lambda r: r["hotel_id"])
+    held_rows = sorted(
+        ({"hotel_id": h["hotel_id"], "listing_key": h.get("listing_key", ""),
+          "record_hash": h["record_hash"], "reason": h["reason"]}
+         for h in held), key=lambda r: r["hotel_id"])
+    queued = {r["hotel_id"] for r in rows}
+    clash = sorted(queued & {r["hotel_id"] for r in held_rows})
+    if clash:
+        raise StorageError(
+            "held_record_still_in_clean_queue:%s" % ",".join(clash))
     return {
         "schema": INDEX_SCHEMA,
         "description": ("Git-safe metadata about machine-verified capture reviews. "
@@ -406,8 +422,10 @@ def build_index(records: Iterable[Mapping]) -> dict:
                         "The evidence itself lives outside git -- see "
                         "docs/pettripfinder/ARTIFACT_BACKUP_RUNBOOK.md."),
         "totals": {"records": len(rows), "publishable": 0,
+                   "held": len(held_rows),
                    "normalized_url_adjusted": stripped},
         "records": rows,
+        "held": held_rows,
     }
 
 

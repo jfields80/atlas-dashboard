@@ -751,3 +751,91 @@ def test_the_room_scoped_path_carries_its_verb():
     facts, evidence, _b = _extract(TOWNEPLACE_OSU)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert summary.endswith("Up to 2 pets are permitted per room.")
+
+
+# --------------------------------------------------------------------------- #
+# 12. PTF-REVIEW-FINAL -- fee-scope conflict and species-bound weight.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.fee_forms import scope_conflict           # noqa: E402
+from scripts.pettripfinder.prose_facts import species_bound_weight   # noqa: E402
+
+SHERATON = ("Pet Policy Pets Welcome Small pets under 50 lbs are welcome. $75 "
+            "nonrefundable fees charged per pet. Non-Refundable Pet Fee Per "
+            "Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets "
+            "in Room: 2")
+TOWNEPLACE_DUBLIN = ("Pet Policy Pets Welcome Dogs and 20-lb. cats. $150 "
+                     "non-refundable fee. Maximum Pet Weight: 20.0lbs "
+                     "Maximum Number of Pets in Room: 2")
+
+
+# A. The same money charged per pet and per stay is a conflict, not a price.
+
+def test_a_fee_scoped_both_per_pet_and_per_stay_is_withheld():
+    facts, _e, _b = _extract(SHERATON)
+    assert facts["fee_conflict"]["detail"] == [
+        "conflicting_fee_basis_per_pet_vs_fee_basis_per_stay"]
+    assert facts["fee_conflict"]["quotes"] == [
+        "$75 nonrefundable fees charged per pet",
+        "Non-Refundable Pet Fee Per Stay: $75.00"]
+    assert "pet_fee" not in facts and "fee_basis" not in facts
+
+
+def test_neither_side_of_a_scope_conflict_is_rendered_as_authoritative():
+    facts, evidence, _b = _extract(SHERATON)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert "$75" not in summary
+    assert "conflicting pet-fee terms" in summary
+    # Facts the conflict does not touch still reach the reader.
+    assert "Maximum pet weight is 50 pounds" in summary
+
+
+@pytest.mark.parametrize("block", [
+    # A weight per pet beside a per-stay cap states two different things.
+    "Dogs Allowed - 2 dogs max. 75lbs or less per pet. Fees - Max 75 USD per stay.",
+    # A per-pet rate under a per-stay ceiling is a structure, not a conflict.
+    "Fees - 25 USD per pet per night. Max 75 USD per stay.",
+    # Different amounts are not the same fee stated twice.
+    "$50 charged per pet. Non-Refundable Pet Fee Per Stay: $75.00",
+])
+def test_no_scope_conflict_is_invented(block):
+    assert scope_conflict(block) is None
+
+
+# B. A weight the source binds to one species stays bound to it.
+
+def test_a_species_bound_weight_is_not_flattened():
+    facts, _e, _b = _extract(TOWNEPLACE_DUBLIN)
+    assert facts["species_weight_limits"] == {
+        "cats": {"value": "20 pounds",
+                 "evidence_quote": facts["species_weight_limits"]["cats"]["evidence_quote"]}}
+    assert "weight_limit" not in facts
+    assert facts["species_allowed"] == "dogs, cats"
+    assert facts["pet_fee"] == "$150.00" and "fee_basis" not in facts
+    assert facts["pet_count_limit"] == "2"
+
+
+def test_the_summary_never_implies_dogs_share_the_cat_limit():
+    facts, evidence, _b = _extract(TOWNEPLACE_DUBLIN)
+    summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
+    assert summary == ("Dogs and cats are accepted. A $150 non-refundable fee "
+                       "applies. Cats must weigh 20 pounds or less, with up to "
+                       "2 pets permitted per room.")
+    assert "Maximum pet weight" not in summary
+
+
+def test_a_single_species_page_keeps_its_flat_weight():
+    """On a dogs-only page the bound and flat readings describe one rule.
+
+    Splitting it would churn established records to say the same thing.
+    """
+    assert species_bound_weight("2 dogs max. dogs under 50lbs.") is None
+    facts, _e, _b = _extract("Pets Allowed - 2 dogs max. dogs under 50lbs. "
+                             "Fees - 150USD per stay.")
+    assert facts["weight_limit"] == "50.0 pounds"
+    assert "species_weight_limits" not in facts
+
+
+def test_an_adjective_governing_both_species_is_not_bound_to_one():
+    """"dogs and cats under 25 lbs" limits both; only attributive forms bind."""
+    assert species_bound_weight("dogs and cats under 25 lbs are welcome") is None

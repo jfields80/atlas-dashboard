@@ -523,6 +523,48 @@ def basis_for_amount(block: str, amount: str) -> Tuple[str, str]:
     return ("", "")
 
 
+#: The two halves of a fee-SCOPE contradiction: the same money stated once as a
+#: charge per animal and once as a charge for the stay. Each side must carry its
+#: own currency marker, so a weight ("75lbs or less per pet") beside a cap
+#: ("Max 75 USD per stay") is never mistaken for two prices.
+_MONEY = r"(?:\$\s*(?P<a>\d{1,4}(?:\.\d{2})?)|(?P<b>\d{1,4}(?:\.\d{2})?)\s*USD)"
+_FEE_PER_PET_RE = re.compile(
+    r"[^.]{0,60}?" + _MONEY + r"[^.$]{0,45}?per\s+pet\b", re.I)
+_FEE_PER_STAY_RE = re.compile(
+    r"[^.]{0,60}?per\s+stay\b[:\s]*" + _MONEY, re.I)
+
+
+def _money_of(match) -> str:
+    raw = match.group("a") or match.group("b") or ""
+    return raw.rstrip("0").rstrip(".") if "." in raw else raw
+
+
+def scope_conflict(block: str) -> Optional[FeeContradiction]:
+    """A source pricing the same fee both per pet and per stay, or None.
+
+    "$75 nonrefundable fees charged per pet" beside "Non-Refundable Pet Fee Per
+    Stay: $75.00" bills a two-animal stay at either $75 or $150. The amounts
+    agreeing does not make the TERMS agree -- what a guest owes depends on which
+    scope governs, and the source states both. Neither side is chosen: publishing
+    one would resolve, silently and in our own voice, a contradiction only the
+    hotel can settle.
+    """
+    text = " ".join((block or "").split())
+    pets = [m for m in _FEE_PER_PET_RE.finditer(text)]
+    stays = [m for m in _FEE_PER_STAY_RE.finditer(text)]
+    for p in pets:
+        for s in stays:
+            if _money_of(p) != _money_of(s):
+                continue
+            pq, sq = " ".join(p.group(0).split()), " ".join(s.group(0).split())
+            if pq == sq:
+                continue
+            return FeeContradiction(
+                ladder_quote=pq, rate_quote=sq,
+                detail="conflicting_fee_basis_per_pet_vs_fee_basis_per_stay")
+    return None
+
+
 #: An explicit statement that ONE charge covers the room, however many animals
 #: occupy it. Both forms bind the scope to the FEE, which is the whole point:
 #: "per room" on its own is far more often a count qualifier -- "max 2 pets per

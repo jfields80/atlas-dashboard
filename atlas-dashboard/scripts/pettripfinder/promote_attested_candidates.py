@@ -259,6 +259,13 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
     # cheaper reading.
     if stay_clash is None and not tiers:
         stay_clash = recurrence_conflict(block)
+    # PTF-REVIEW-FINAL. The same money charged "per pet" in one sentence and
+    # "per stay" in the next is the same kind of defect as one-time-vs-nightly:
+    # equal amounts, incompatible bills. It routes through the same gate so the
+    # scalar fee and its basis are withheld rather than half-published.
+    if stay_clash is None and not tiers:
+        from scripts.pettripfinder.fee_forms import scope_conflict
+        stay_clash = scope_conflict(block)
     if stay_clash is not None:
         facts["fee_conflict"] = {
             "reason": "conflicting_fee_terms_in_official_source",
@@ -422,6 +429,32 @@ def extract_pet_facts(text: str) -> Tuple[Dict[str, str], List[Dict[str, str]], 
             facts["species_allowed"] = got.value
             evidence.append({"field": "species_allowed", "value": got.value,
                              "quote": got.quote})
+
+    # PTF-REVIEW-FINAL. "Dogs and 20-lb. cats" limits the CAT. Published flat, it
+    # bars a labrador the hotel accepts -- a refusal the page never wrote. The
+    # bound figure replaces the flat one rather than sitting beside it, because
+    # two weights in one record is how the flat reading survives downstream.
+    from scripts.pettripfinder.prose_facts import species_bound_weight
+    bound = species_bound_weight(block)
+    if bound is not None:
+        species, got, permitted = bound
+        # The clause that bound the weight also named who is welcome. Saying
+        # only "cats must weigh 20 pounds" without "dogs and cats are accepted"
+        # would leave the reader to guess whether a dog may come at all.
+        if "species_allowed" not in facts:
+            facts["species_allowed"] = ", ".join(permitted)
+            evidence.append({"field": "species_allowed",
+                             "value": facts["species_allowed"], "quote": got.quote})
+        facts["species_weight_limits"] = {species: {"value": got.value,
+                                                    "evidence_quote": got.quote}}
+        evidence.append({"field": "species_weight_limits",
+                         "value": "%s %s" % (species, got.value), "quote": got.quote})
+        # A universal ceiling read from the same page is the same figure wearing
+        # a scope the source did not give it.
+        facts.pop("weight_limit", None)
+        facts.pop("weight_limit_operator", None)
+        evidence[:] = [e for e in evidence if e["field"] not in
+                       ("weight_limit", "weight_limit_operator")]
 
     # PTF-FEES-PROSE. A fee with more than one DIMENSION -- a nightly rate under
     # a stay-length ceiling, or a first night priced apart from every night

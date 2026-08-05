@@ -330,11 +330,20 @@ def test_four_points_extracts_fifty_per_pet_per_night():
     assert facts["weight_limit"] == "50.0 pounds"
 
 
-def test_towneplace_dublin_extracts_one_fifty_with_no_basis():
+def test_towneplace_dublin_extracts_one_fifty_and_binds_the_weight_to_cats():
+    """PTF-REVIEW-FINAL supersedes the flat 20-pound reading this once asserted.
+
+    The source says "Dogs and 20-lb. cats." The labelled "Maximum Pet Weight:
+    20.0lbs" row repeats that figure, and reading either as universal turns
+    away a labrador the hotel accepts. The fee and its silent basis are
+    unchanged; only the weight moved to the species the sentence gave it.
+    """
     facts, _e, _b = extract_pet_facts(TOWNEPLACE_DUBLIN)
     assert facts["pet_fee"] == "$150.00"
     assert "fee_basis" not in facts
-    assert facts["weight_limit"] == "20.0 pounds"
+    assert "weight_limit" not in facts
+    assert facts["species_weight_limits"]["cats"]["value"] == "20 pounds"
+    assert facts["species_allowed"] == "dogs, cats"
 
 
 # --------------------------------------------------------------------------- #
