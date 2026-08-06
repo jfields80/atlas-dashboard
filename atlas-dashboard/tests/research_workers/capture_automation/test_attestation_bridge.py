@@ -391,3 +391,65 @@ class TestBatchAccounting:
                                                       identity=identity_block())])
         assert batch.bridged == ()
         assert batch.refused[0][1] == "screenshot_hash_mismatch"
+
+
+# --------------------------------------------------------------------------- #
+# PTF-OVERLAP-001 -- published-overlap matching by property identifier.
+# --------------------------------------------------------------------------- #
+
+class _R:
+    """Only the two fields published_overlaps reads."""
+    def __init__(self, url, key="k"):
+        self.normalized_url = url
+        self.job = type("J", (), {"listing_key": key})()
+
+
+HILTON = "https://www.hilton.com/en/hotels/cmhduhw-homewood-suites-columbus-dublin"
+
+
+def test_a_property_subpage_matches_the_published_property():
+    """The defect this fix exists for: /hotel-info differs by a path SEGMENT.
+
+    normalized_url keeps segments by design, so a URL-only join missed a hotel
+    that was already published and classified it net-new.
+    """
+    published = [{"key": "homewood suites by hilton columbus dublin",
+                  "name": "Homewood Suites", "source_url": HILTON + "/hotel-info/"}]
+    got = published_overlaps([_R(HILTON)], published)
+    assert len(got) == 1 and got[0]["action"] == "COMPARE_ONLY"
+
+
+def test_two_hotels_behind_one_brand_policy_url_are_never_merged():
+    """Both Red Roof properties publish the same brand pet-policy page.
+
+    That URL names a brand, not a property, so it may not identify either.
+    """
+    brand = "https://www.redroof.com/why-red-roof/pet-policy"
+    published = [{"key": "red roof plus columbus downtown convention center",
+                  "name": "A", "source_url": brand},
+                 {"key": "red roof plus columbus worthington",
+                  "name": "B", "source_url": brand}]
+    assert published_overlaps([_R(brand)], published) == ()
+
+
+def test_a_url_match_is_refused_when_the_property_codes_differ():
+    other = "https://www.hilton.com/en/hotels/cmhaphx-hampton-columbus-airport"
+    published = [{"key": "hampton inn columbus airport", "name": "H",
+                  "source_url": other}]
+    assert published_overlaps([_R(HILTON)], published) == ()
+
+
+def test_an_unrelated_property_still_does_not_match():
+    published = [{"key": "somewhere else", "name": "X",
+                  "source_url": "https://www.hilton.com/en/hotels/cmhzzzz-other"}]
+    assert published_overlaps([_R(HILTON)], published) == ()
+
+
+def test_codeless_urls_still_match_exactly_as_before():
+    """Wyndham URLs carry no code, so tier 2 must still decide them."""
+    url = ("https://www.wyndhamhotels.com/laquinta/columbus-ohio/"
+           "la-quinta-columbus-west-hilliard/overview")
+    published = [{"key": "la quinta columbus west hilliard", "name": "LQ",
+                  "source_url": url}]
+    got = published_overlaps([_R(url)], published)
+    assert len(got) == 1

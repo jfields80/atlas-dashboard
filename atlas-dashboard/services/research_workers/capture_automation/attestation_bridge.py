@@ -371,14 +371,50 @@ def published_overlaps(results: Sequence[BridgeResult],
     another ``fee_withheld`` -- and a re-extraction that silently overwrote
     either would undo a decision, not correct one.
     """
-    by_url = {}
+    # PTF-OVERLAP-001. Two tiers, identifier first.
+    #
+    # The URL alone was never enough. A published record and a capture can name
+    # one property through different pages of it -- ".../cmhduhw-homewood-suites-
+    # columbus-dublin/hotel-info" and ".../cmhduhw-homewood-suites-columbus-
+    # dublin" differ by a path SEGMENT, which normalized_url deliberately keeps.
+    # The brand-assigned code is the same on both, and it is what identity
+    # already trusts, so it decides first. ``extract_property_code_from_url``
+    # fails closed and is anchored to whole path segments, so a code is either
+    # read exactly or not at all.
+    from services.research_workers.source_retrieval import (
+        extract_property_code_from_url,
+    )
+
+    by_url, shared_url, by_code = {}, set(), {}
     for record in published:
-        key = normalized_url(str(record.get("source_url") or ""))
+        url = str(record.get("source_url") or "")
+        key = normalized_url(url)
         if key:
+            if key in by_url:
+                # Several hotels published behind one brand-level policy page.
+                # That URL names a BRAND, not a property, so it may never
+                # identify either of them.
+                shared_url.add(key)
             by_url[key] = record
+        code = extract_property_code_from_url(url)
+        if code:
+            by_code.setdefault(code, []).append(record)
+
     out = []
     for r in results:
-        match = by_url.get(r.normalized_url)
+        code = extract_property_code_from_url(r.normalized_url)
+        candidates = by_code.get(code, ()) if code else ()
+        # Tier 1: one published property carries this exact code.
+        match = candidates[0] if len(candidates) == 1 else None
+        if match is None and r.normalized_url not in shared_url:
+            # Tier 2: the URL, used only where the code could not decide.
+            match = by_url.get(r.normalized_url)
+            if match is not None and code:
+                other = extract_property_code_from_url(
+                    str(match.get("source_url") or ""))
+                if other and other != code:
+                    # Same page, different properties named on it. Refuse.
+                    match = None
         if match is None:
             continue
         out.append({
