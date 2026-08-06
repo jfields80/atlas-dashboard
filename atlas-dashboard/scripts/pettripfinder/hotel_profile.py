@@ -395,6 +395,112 @@ def _tier_basis_phrase(tiers) -> str:
     return " %s" % stated.pop()
 
 
+# --------------------------------------------------------------------------- #
+# PTF-RENDER refundability binding.
+#
+# A ladder priced $75 for a short stay and $125 for a long one may have only
+# ONE of those amounts described as non-refundable by the source. Qualifying the
+# whole sentence then makes a claim about the other tier that no wording
+# supports. The amount the source actually names decides which tier carries the
+# word, and an amount that resolves to no single tier withholds it entirely.
+# --------------------------------------------------------------------------- #
+
+_MONEY_RE = re.compile(
+    r"\$\s*(?P<sym>\d[\d,]*(?:\.\d{1,2})?)"
+    r"|(?P<bare>\d[\d,]*(?:\.\d{1,2})?)\s*(?:USD|dollars)\b", re.I)
+
+# How far from the words "non-refundable" a figure may sit and still be read as
+# the figure those words describe. Sources place it adjacent -- "Deposit  Yes.
+# $125.00 Non-refundable Fee" before, "Non-Refundable Pet Fee Per Stay: $50.00"
+# after -- while an unrelated tier or a weight sits further off.
+_NONREFUNDABLE_WINDOW = 40
+
+REFUND_NONE = "none"
+REFUND_GENERIC = "generic"
+REFUND_TIER = "tier"
+REFUND_UNRESOLVED = "unresolved"
+
+
+def _money_values(text: str) -> List[Tuple[Decimal, int, int]]:
+    """``(value, start, end)`` for every currency figure in ``text``."""
+    out: List[Tuple[Decimal, int, int]] = []
+    for m in _MONEY_RE.finditer(text or ""):
+        raw = m.group("sym") or m.group("bare") or ""
+        try:
+            out.append((Decimal(raw.replace(",", "")), m.start(), m.end()))
+        except ArithmeticError:
+            continue
+    return out
+
+
+def _amount_of(value) -> Optional[Decimal]:
+    try:
+        return Decimal(str(value).replace("$", "").replace(",", "").strip())
+    except (ArithmeticError, AttributeError, TypeError, ValueError):
+        return None
+
+
+def refundability_amounts(evidence: str) -> Tuple[Decimal, ...]:
+    """Every amount THIS record's wording states to be non-refundable.
+
+    Each occurrence of "non-refundable" claims the currency figure nearest to
+    it within a bounded window. Nearest wins because these sources write the
+    figure against the words; a further-off figure belongs to something else.
+    An occurrence with no figure in range contributes nothing, which is what
+    lets a bare "non-refundable pet fee" stay generic.
+    """
+    text = evidence or ""
+    money = _money_values(text)
+    found: List[Decimal] = []
+    for m in _NONREFUNDABLE_RE.finditer(text):
+        best: Optional[Tuple[int, Decimal]] = None
+        for value, start, end in money:
+            if end <= m.start():
+                gap = m.start() - end
+            elif start >= m.end():
+                gap = start - m.end()
+            else:
+                gap = 0
+            if gap <= _NONREFUNDABLE_WINDOW and (best is None or gap < best[0]):
+                best = (gap, value)
+        if best is not None:
+            found.append(best[1])
+    return tuple(found)
+
+
+def refundability_binding(tiers: Sequence[Dict],
+                          evidence: str = "") -> Tuple[str, Tuple[str, ...]]:
+    """Bind a non-refundable statement to the tier its own wording supports.
+
+    ``(mode, amounts)`` where mode is:
+
+      ``none``        the wording states no non-refundability;
+      ``generic``     stated without naming a figure, so it describes the whole
+                      schedule and renders on the leading tier as before;
+      ``tier``        stated for exactly one figure matching exactly one tier;
+      ``unresolved``  figures were named that do not resolve to a single tier
+                      -- two contradictory ones, one matching no tier, or one
+                      matching several. The qualifier is withheld rather than
+                      attached to a tier the source never described.
+
+    Only the evidence handed in is consulted, which is always a single record's
+    own approved wording; nothing is shared between hotels.
+    """
+    if not _NONREFUNDABLE_RE.search(evidence or ""):
+        return (REFUND_NONE, ())
+    amounts = refundability_amounts(evidence)
+    if not amounts:
+        return (REFUND_GENERIC, ())
+    distinct = sorted(set(amounts))
+    if len(distinct) != 1:
+        return (REFUND_UNRESOLVED, tuple(str(a) for a in distinct))
+    target = distinct[0]
+    matched = [t for t in (tiers or []) if _amount_of(t.get("amount")) == target]
+    if len(matched) != 1:
+        return (REFUND_UNRESOLVED, (str(target),))
+    return (REFUND_TIER, (str(target),))
+
+
 def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     """A source-faithful sentence for a stay-length fee ladder.
 
@@ -402,21 +508,32 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
     amount and a stay range and says nothing about recurrence -- calling it
     "per night" or "per stay" would invent the difference. Basis appears only
     where the source states one, carried on the tier as ``basis_stated``.
+
+    Refundability is bound to the tier the source named, so a ladder whose
+    upper rung is the non-refundable one says so on that rung.
     """
     if not tiers:
         return ""
-    nonref = "non-refundable " if _NONREFUNDABLE_RE.search(evidence or "") else ""
+    mode, amounts = refundability_binding(tiers, evidence)
+    target = _amount_of(amounts[0]) if mode == REFUND_TIER else None
+
+    def _binds(tier: Dict) -> bool:
+        return mode == REFUND_TIER and _amount_of(tier.get("amount")) == target
+
     # Where the SOURCE states the recurrence -- "1-4 nights $75.00 per stay" --
     # it is carried through. Where it does not, nothing is said: an amount and a
     # stay range say nothing about whether the charge repeats.
     basis = _tier_basis_phrase(tiers)
     first, rest = tiers[0], tiers[1:]
+    lead = "non-refundable " if (mode == REFUND_GENERIC or _binds(first)) else ""
     s = "A %spet fee of %s%s%s applies for %s" % (
-        nonref, _tier_amount(first), basis, _tier_scope_phrase(first),
+        lead, _tier_amount(first), basis, _tier_scope_phrase(first),
         _tier_range_phrase(first))
     for t in rest:
-        s += ", and %s%s%s applies for %s" % (
-            _tier_amount(t), basis, _tier_scope_phrase(t), _tier_range_phrase(t))
+        prefix = "a non-refundable pet fee of " if _binds(t) else ""
+        s += ", and %s%s%s%s applies for %s" % (
+            prefix, _tier_amount(t), basis, _tier_scope_phrase(t),
+            _tier_range_phrase(t))
     return s + "."
 
 
