@@ -360,18 +360,9 @@ class TestScopeDiscipline:
         types = {a["artifact_type"] for a in rec["artifacts"]}
         assert "rendered_dom" not in types
 
-    def test_18_the_three_unrelated_files_remain_untouched(self):
-        """Guards the standing instruction across this work order."""
-        import subprocess
-
-        out = subprocess.run(["git", "status", "--short", "--",
-                              "services/research_workers/research_escalation.py",
-                              "services/research_workers/web_research.py",
-                              "tests/research_workers/test_research_provenance.py"],
-                             capture_output=True, text=True,
-                             cwd=r"C:\Atlas\atlas-dashboard").stdout
-        # They were already modified/untracked before this work order and must
-        # stay exactly that way -- never staged, never reverted.
-        assert " M services/research_workers/research_escalation.py" in out
-        assert " M services/research_workers/web_research.py" in out
-        assert "?? tests/research_workers/test_research_provenance.py" in out
+    # A guard once stood here pinning research_escalation.py, web_research.py and
+    # test_research_provenance.py to modified/untracked for the duration of the
+    # capture-automation work order. That order has closed and the provenance work
+    # has been recovered and committed, so the guard's premise is gone. It is not
+    # replaced: a test asserting those files stay permanently clean or permanently
+    # unchanged would forbid the legitimate edits they are now open to.
