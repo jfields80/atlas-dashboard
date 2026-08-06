@@ -29,6 +29,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from decimal import Decimal
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.site_data import (
@@ -760,6 +761,85 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
     )
 
 
+class PolicyRenderError(ValueError):
+    """A fact value the details table has no agreed way to display."""
+
+
+#: Species in a fixed order, so a page never reorders itself between builds.
+_SPECIES_ROW_ORDER = ("dogs", "cats", "birds", "fish")
+_SPECIES_SINGULAR = {"dogs": "Dogs", "cats": "Cats", "birds": "Birds", "fish": "Fish"}
+
+#: The structured fact schemas the details table understands. A dict outside
+#: this set is a fact somebody added without deciding how a guest should read it,
+#: and guessing on their behalf is how "{'amount': '150.00'}" reaches a page.
+_MONEY_KEYS = {"amount", "currency", "basis", "evidence_quote", "applies_to"}
+
+
+def _money_fact(field: str, value: Dict, hotel_key: str) -> str:
+    """``$150 per stay`` from an approved money object. Amount is mandatory."""
+    unknown = set(value) - _MONEY_KEYS
+    if unknown or not str(value.get("amount", "")).strip():
+        raise PolicyRenderError(
+            "unrenderable_fact hotel=%s field=%s shape=%s"
+            % (hotel_key, field, sorted(value)))
+    out = _prose_number("$%s" % value["amount"])
+    basis = str(value.get("basis") or "").strip()
+    if basis:
+        out += " %s" % basis.lower()
+    return out
+
+
+def _species_weight_fact(field: str, value: Dict, hotel_key: str) -> str:
+    """``Cats: maximum 20 pounds`` -- and silence about every other species.
+
+    A species the source did not limit gets no sentence here. Rendering "Dogs:
+    not stated" beside it would read as a restriction the hotel never wrote, and
+    the whole reason this fact is structured is that "Dogs and 20-lb. cats"
+    limits exactly one of them.
+    """
+    parts = []
+    for species in _SPECIES_ROW_ORDER:
+        rule = value.get(species)
+        if rule is None:
+            continue
+        if not isinstance(rule, dict) or not str(rule.get("value", "")).strip():
+            raise PolicyRenderError(
+                "unrenderable_fact hotel=%s field=%s species=%s shape=%r"
+                % (hotel_key, field, species, rule))
+        parts.append("%s: maximum %s" % (_SPECIES_SINGULAR[species],
+                                         str(rule["value"]).strip()))
+    unknown = set(value) - set(_SPECIES_ROW_ORDER)
+    if unknown or not parts:
+        raise PolicyRenderError("unrenderable_fact hotel=%s field=%s shape=%s"
+                                % (hotel_key, field, sorted(value)))
+    return "; ".join(parts)
+
+
+def format_fact_value(field: str, value, *, hotel_key: str = "") -> str:
+    """The one place a fact value becomes display text. Fails closed.
+
+    Scalars pass through unchanged so every existing page stays byte-identical.
+    Structured values are rendered only where a schema has been agreed; anything
+    else raises with the hotel and field named, because a silent omission hides a
+    fact a reviewer approved and ``str(dict)`` publishes Python syntax.
+
+    Returns UNESCAPED text: escaping belongs to the template, once, at the leaf.
+    """
+    if value is None or value == "":
+        return ""
+    if isinstance(value, bool):
+        return "Yes" if value else "No"
+    if isinstance(value, (str, int, float, Decimal)):
+        return str(value)
+    if isinstance(value, dict):
+        if field == "species_weight_limits":
+            return _species_weight_fact(field, value, hotel_key)
+        if field in ("pet_deposit", "fee_cap"):
+            return _money_fact(field, value, hotel_key)
+    raise PolicyRenderError("unrenderable_fact hotel=%s field=%s type=%s"
+                            % (hotel_key, field, type(value).__name__))
+
+
 def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
     sparse = not any(f.get(k) for k in _STATED_FIELDS)
     svc = "A separate legal access category — not treated as a pet-policy exception."
@@ -824,7 +904,16 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
            else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
                f.get("fee_basis")))),
         ("Weight restriction", *d(weight_display(f))),
-        ("Refundable deposit", *d(f.get("pet_deposit"))),
+        # Emitted ONLY where the source limited one species. A dim "not
+        # stated" row on every other profile would add a line to 38 live
+        # pages to say nothing.
+        *((("Species-specific weight limits",
+            format_fact_value("species_weight_limits", f["species_weight_limits"],
+                              hotel_key=f.get("_hotel_key", "")), ""),)
+          if f.get("species_weight_limits") else ()),
+        ("Refundable deposit",
+         *d(format_fact_value("pet_deposit", f.get("pet_deposit"),
+                              hotel_key=f.get("_hotel_key", "")))),
         ("Breed restrictions", *d(f.get("breed_restrictions"))),
         ("Unattended-pet rule", *d(f.get("unattended_policy"))),
         ("Service animals", svc, ""),
