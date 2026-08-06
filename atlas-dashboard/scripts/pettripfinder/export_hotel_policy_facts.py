@@ -13,6 +13,16 @@ only on the committed package.
 --check exits non-zero if the tracked package is stale vs the operational corpus
 (useful in CI where the corpus is present). No network. Writes only the tracked
 package (never inventory, never operational data).
+
+AUTHORITY OWNERSHIP (PTF-EXPORT). This exporter is not the sole writer of the
+committed package. Records approved through machine review are promoted by a
+separately reviewed process and are NOT present in this exporter's candidate
+corpus, so a rebuild from that corpus alone is smaller than the authority it
+would replace. The machine-review promotion process is the authoritative
+production-promotion mechanism; this legacy export path is permitted only to
+reproduce or add to the committed authority. Any write that would remove or
+rewrite an already-published record fails closed with AuthorityRegressionError
+and leaves the tracked package byte-identical. There is deliberately no --force.
 """
 
 from __future__ import annotations
@@ -99,8 +109,143 @@ def serialize(package: dict) -> str:
     return json.dumps(package, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
 
 
-def write_package(path: Path = PUBLISHED_FACTS_PATH) -> int:
+# --------------------------------------------------------------------------- #
+# PTF-EXPORT authority-regression guard.
+#
+# This exporter is NOT the only writer of the committed authority. Records
+# approved through machine review are promoted by a separately reviewed process
+# and live in the machine-review record store, not in this exporter's candidate
+# corpus. Rebuilding from an incomplete corpus therefore produces a SMALLER
+# package that, written blindly, deletes published hotels.
+#
+# The authoritative production-promotion mechanism is the machine-review
+# promotion process. This legacy export path may only ever reproduce or add to
+# the committed authority; it must never become a second, uncoordinated writer
+# that silently removes or rewrites records it does not know about. That is
+# enforced here, at the write itself, so no caller can bypass it.
+# --------------------------------------------------------------------------- #
+
+_MAX_LISTED_IDENTITIES = 20
+
+
+class AuthorityRegressionError(RuntimeError):
+    """A write would remove or alter records already published in the authority.
+
+    Carries the full structured ``delta`` so a caller can report or assert on
+    it without re-deriving the comparison.
+    """
+
+    def __init__(self, delta: dict):
+        self.delta = delta
+        super().__init__(format_authority_regression(delta))
+
+
+def _bounded(identities) -> list:
+    """Deterministic, bounded identity list for an error report."""
+    ordered = sorted(identities)
+    if len(ordered) <= _MAX_LISTED_IDENTITIES:
+        return ordered
+    return ordered[:_MAX_LISTED_IDENTITIES] + [
+        "... and %d more" % (len(ordered) - _MAX_LISTED_IDENTITIES)]
+
+
+def authority_delta(existing_text: str, proposed_text: str) -> dict:
+    """Compare two authority packages by stable hotel identity (``key``).
+
+    Pure and side-effect free, so it can be unit-tested against small synthetic
+    authorities as well as the real market corpus.
+    """
+    existing_pkg = json.loads(existing_text) if existing_text.strip() else {"hotels": []}
+    proposed_pkg = json.loads(proposed_text) if proposed_text.strip() else {"hotels": []}
+    existing_records = existing_pkg.get("hotels", [])
+    proposed_records = proposed_pkg.get("hotels", [])
+
+    existing = {h["key"]: h for h in existing_records}
+    proposed = {h["key"]: h for h in proposed_records}
+    duplicate_existing = sorted({h["key"] for h in existing_records
+                                 if sum(1 for x in existing_records if x["key"] == h["key"]) > 1})
+    duplicate_proposed = sorted({h["key"] for h in proposed_records
+                                 if sum(1 for x in proposed_records if x["key"] == h["key"]) > 1})
+
+    removals = sorted(set(existing) - set(proposed))
+    additions = sorted(set(proposed) - set(existing))
+    updates = sorted(k for k in set(existing) & set(proposed)
+                     if json.dumps(existing[k], sort_keys=True) !=
+                     json.dumps(proposed[k], sort_keys=True))
+    return {
+        "existing_count": len(existing_records),
+        "proposed_count": len(proposed_records),
+        "existing_sha256": _sha256_text(existing_text),
+        "proposed_sha256": _sha256_text(proposed_text),
+        "removal_count": len(removals),
+        "removals": removals,
+        "unintended_update_count": len(updates),
+        "unintended_updates": updates,
+        "addition_count": len(additions),
+        "additions": additions,
+        "duplicate_identities": sorted(set(duplicate_existing) | set(duplicate_proposed)),
+        "count_regression": len(proposed_records) < len(existing_records),
+        "unrepresented_existing": removals,
+        "identical": (not removals and not updates and not additions
+                      and not duplicate_existing and not duplicate_proposed),
+    }
+
+
+def is_destructive(delta: dict) -> bool:
+    """A write is destructive if any published record would vanish or change."""
+    return bool(delta["removals"] or delta["unintended_updates"]
+                or delta["duplicate_identities"] or delta["count_regression"])
+
+
+def format_authority_regression(delta: dict) -> str:
+    lines = [
+        "REFUSED: writing this package would regress the committed production authority.",
+        "  existing records : %d  (sha256 %s)" % (delta["existing_count"], delta["existing_sha256"]),
+        "  proposed records : %d  (sha256 %s)" % (delta["proposed_count"], delta["proposed_sha256"]),
+        "  removals         : %d" % delta["removal_count"],
+    ]
+    lines += ["    - %s" % k for k in _bounded(delta["removals"])]
+    lines.append("  unintended updates: %d" % delta["unintended_update_count"])
+    lines += ["    - %s" % k for k in _bounded(delta["unintended_updates"])]
+    if delta["duplicate_identities"]:
+        lines.append("  duplicate identities: %d" % len(delta["duplicate_identities"]))
+        lines += ["    - %s" % k for k in _bounded(delta["duplicate_identities"])]
+    lines += [
+        "  The export candidate corpus is INCOMPLETE relative to the committed",
+        "  production authority: records promoted through machine review are not",
+        "  present in it, so rebuilding from the corpus alone would delete them.",
+        "  The machine-review promotion process is the authoritative production-",
+        "  promotion mechanism. This exporter may reproduce or add to the",
+        "  authority, never remove from or rewrite it.",
+    ]
+    return "\n".join(lines)
+
+
+def write_package(path: Path = PUBLISHED_FACTS_PATH,
+                  authorized_delta: dict | None = None) -> int:
+    """Write the export package, refusing any destructive replacement.
+
+    ``authorized_delta`` is the separately controlled promotion authorization.
+    It must name the EXACT expected change -- ``{"removals": [...],
+    "unintended_updates": [...]}`` matching the detected delta identity for
+    identity. It is deliberately not reachable from the command line: there is
+    no ``--force``, because a flag that waves this through would be indis-
+    tinguishable from the accident it exists to prevent.
+    """
     text = serialize(build_package())
+    existing_text = path.read_text(encoding="utf-8") if path.exists() else ""
+    if existing_text.strip():
+        delta = authority_delta(existing_text, text)
+        if is_destructive(delta):
+            authorized = authorized_delta or {}
+            expected_removals = sorted(authorized.get("removals", []))
+            expected_updates = sorted(authorized.get("unintended_updates", []))
+            if not (expected_removals == delta["removals"]
+                    and expected_updates == delta["unintended_updates"]
+                    and not delta["duplicate_identities"]):
+                # Nothing is written and nothing partial is left behind: the
+                # refusal happens before the file is opened at all.
+                raise AuthorityRegressionError(delta)
     path.write_text(text, encoding="utf-8", newline="\n")
     print("wrote %s (%d hotels)" % (path, len(json.loads(text)["hotels"])))
     return 0
@@ -237,7 +382,15 @@ def main(argv=None) -> int:
               % (r["old_count"], r["new_count"], r["additions_count"], r["removals_count"],
                  r["committed_would_become_stale"], DEFAULT_PREVIEW_DIR))
         return 0
-    return check() if args.check else write_package()
+    if args.check:
+        return check()
+    try:
+        return write_package()
+    except AuthorityRegressionError as exc:
+        # A refusal is an ordinary, expected outcome of this command against an
+        # incomplete corpus -- reported deterministically, not as a traceback.
+        print(str(exc), file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":
