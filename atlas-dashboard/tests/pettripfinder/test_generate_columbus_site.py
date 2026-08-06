@@ -81,9 +81,15 @@ def test_core_pages_exist(built_site):
     # PTF-CORRIDORS-002: the explicit operator-reviewed Easton assignment
     # gives Easton five verified members, so it publishes on current data.
     assert (built_site / "pet-friendly-hotels" / "easton" / "index.html").exists()
+    # PTF-CORRIDORS-003: Airport reached six verified members under the
+    # 70-hotel authority, crossing the five-member minimum, so it now
+    # publishes on the same explicit-assignment terms as Easton. It was
+    # asserted absent here while it stood at four.
+    assert (built_site / "pet-friendly-hotels" / "airport" / "index.html").exists()
     # Below-minimum corridors are configured but suppressed -- no route.
-    assert not (built_site / "pet-friendly-hotels" / "airport").exists()
     assert not (built_site / "pet-friendly-hotels" / "grove-city").exists()
+    assert not (built_site / "pet-friendly-hotels" / "hilliard-west-columbus").exists()
+    assert not (built_site / "pet-friendly-hotels" / "worthington-north-columbus").exists()
 
 
 def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
@@ -157,7 +163,10 @@ def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     # PTF-CORRIDORS-002: published corridors from the market config appear;
     # suppressed (below-minimum) corridors never do.
     assert "/pet-friendly-hotels/easton/" in sitemap
-    assert "/pet-friendly-hotels/airport/" not in sitemap
+    # PTF-CORRIDORS-003: Airport publishes at six members under the
+    # 70-hotel authority; a still-suppressed corridor keeps the negative.
+    assert "/pet-friendly-hotels/airport/" in sitemap
+    assert "/pet-friendly-hotels/grove-city/" not in sitemap
 
 
 def test_sitemap_covers_every_indexable_route_exactly_once(built_site):
