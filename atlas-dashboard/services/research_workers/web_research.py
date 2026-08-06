@@ -381,6 +381,222 @@ def research_report_document(report: WebResearchReport) -> SourceDocument:
 
 
 # --------------------------------------------------------------------------- #
+# Per-claim provenance (PTF-WORKERS-004 provenance contract, rules 6 and 7).
+# --------------------------------------------------------------------------- #
+#
+# The distinction this section exists to make unmissable:
+#
+#     a quote is verbatim IN THE REPORT   !=   the hotel's page says it
+#
+# ``evidence_validator._quote_verbatim`` answers the first question. When the
+# document it checks is a MODEL_RESEARCH_REPORT, a passing check proves only
+# that the model quoted itself -- the report is the model's own prose, so any
+# sentence in it is trivially "verbatim" against it. Treating that as evidence
+# would make a paraphrase indistinguishable from a fetched page.
+#
+# So the two facts are carried in two separate fields that cannot be conflated:
+# ``report_quote`` (what the report said) and ``cited_source_quote_status``
+# (what, if anything, independently confirmed it). The status starts UNVERIFIED
+# and there is no code path that constructs it otherwise -- it is promoted only
+# by the functions below, each of which demands real evidence.
+
+# What, if anything, has independently confirmed the quote against the cited
+# page. UNVERIFIED is the only value a fresh research claim may hold.
+QUOTE_UNVERIFIED = "UNVERIFIED"
+QUOTE_RETRIEVED_VERBATIM = "RETRIEVED_VERBATIM"    # we fetched + hashed the page
+QUOTE_RENDERED_ATTESTED = "RENDERED_ATTESTED"      # a human captured the rendered page
+QUOTE_DIRECTLY_CONFIRMED = "DIRECTLY_CONFIRMED"    # first-party hotel contact recorded
+CITED_SOURCE_QUOTE_STATUSES = frozenset({
+    QUOTE_UNVERIFIED, QUOTE_RETRIEVED_VERBATIM, QUOTE_RENDERED_ATTESTED,
+    QUOTE_DIRECTLY_CONFIRMED,
+})
+# The three statuses that represent real independent confirmation. Membership
+# here is necessary for promotion past REVIEW -- never sufficient on its own,
+# because routing and operator approval still apply.
+CONFIRMED_QUOTE_STATUSES = frozenset({
+    QUOTE_RETRIEVED_VERBATIM, QUOTE_RENDERED_ATTESTED, QUOTE_DIRECTLY_CONFIRMED,
+})
+
+
+class ClaimProvenanceError(ValueError):
+    """Raised when a claim would misrepresent where its evidence came from."""
+
+
+@dataclass(frozen=True)
+class ResearchClaim:
+    """One statement a research report made, with its full provenance chain.
+
+    A claim is a POINTER to evidence, never evidence. Even at
+    ``DIRECTLY_CONFIRMED`` it does not publish anything: it records that some
+    other approved evidence path verified the same fact, so the pipeline can
+    stop asking. The published fact still comes from that other path's
+    hash-bound document, not from here.
+    """
+
+    listing_key: str
+    report_quote: str                 # exact excerpt, verbatim in the report
+    cited_url: str                    # the official URL the SEARCH TOOL returned
+    cited_page_title: str = ""
+    report_retrieved_at: str = ""     # when the research call ran
+    model: str = ""
+    response_id: str = ""             # the API response id, for replay
+    citation_origin: str = ""         # url_citation | search_sources
+    cited_source_quote_status: str = QUOTE_UNVERIFIED
+    independently_retrieved: bool = False
+    confirmed_by: str = ""            # what performed the confirmation
+
+    def __post_init__(self):
+        if self.cited_source_quote_status not in CITED_SOURCE_QUOTE_STATUSES:
+            raise ClaimProvenanceError(
+                "unknown cited_source_quote_status %r" % self.cited_source_quote_status)
+        # independently_retrieved is a claim about OUR retrieval specifically,
+        # so it may be true only for the status that records our fetch. A human
+        # capture or a phone call confirms the fact without Atlas retrieving
+        # anything, and conflating the two would overstate the chain of custody.
+        if self.independently_retrieved and (
+                self.cited_source_quote_status != QUOTE_RETRIEVED_VERBATIM):
+            raise ClaimProvenanceError(
+                "independently_retrieved is true but status is %s; only "
+                "%s records a page this system fetched"
+                % (self.cited_source_quote_status, QUOTE_RETRIEVED_VERBATIM))
+
+    @property
+    def source_type(self) -> str:
+        """Unconditionally model-research provenance.
+
+        Deliberately not a stored field. A confirmed claim still ORIGINATED in a
+        model report, and the published fact must be attributed to the document
+        that confirmed it -- never to this claim.
+        """
+        return V.SOURCE_MODEL_RESEARCH_REPORT
+
+    @property
+    def is_confirmed(self) -> bool:
+        return self.cited_source_quote_status in CONFIRMED_QUOTE_STATUSES
+
+    @property
+    def publication_eligible(self) -> bool:
+        """Always False. A research claim never publishes a policy fact."""
+        return False
+
+    def to_dict(self) -> Dict:
+        return {
+            "listing_key": self.listing_key,
+            "source_type": self.source_type,
+            "report_quote": self.report_quote,
+            "cited_url": self.cited_url,
+            "cited_page_title": self.cited_page_title,
+            "report_retrieved_at": self.report_retrieved_at,
+            "model": self.model,
+            "response_id": self.response_id,
+            "citation_origin": self.citation_origin,
+            "cited_source_quote_status": self.cited_source_quote_status,
+            "independently_retrieved": self.independently_retrieved,
+            "confirmed_by": self.confirmed_by,
+            "is_confirmed": self.is_confirmed,
+            "is_official_evidence": False,
+            "publication_eligible": False,
+        }
+
+
+def report_quote_present(report: WebResearchReport, quote: str) -> bool:
+    """Does ``quote`` appear verbatim in the REPORT text?
+
+    Named for exactly what it proves. It is the report-scoped analogue of the
+    validator's verbatim check, and it says nothing whatsoever about the cited
+    hotel page -- see this section's header.
+    """
+    q = " ".join((quote or "").split())
+    if not q:
+        return False
+    return q in " ".join((report.report_text or "").split())
+
+
+def claim_from_report(report: WebResearchReport, *, report_quote: str,
+                      cited_url: str) -> ResearchClaim:
+    """Build an UNVERIFIED claim, refusing anything the report cannot support.
+
+    Two integrity gates, both of which reject rather than downgrade:
+
+    * the quote must actually appear in the report -- a claim assembled from a
+      remembered or paraphrased sentence has no audit value; and
+    * the URL must be one the SEARCH TOOL returned and the allowlist kept. A
+      URL absent from ``discovered_urls`` was either fabricated in model prose
+      or rejected as off-allowlist, and neither may acquire a citation here.
+    """
+    if not report.ok:
+        raise ClaimProvenanceError(
+            "cannot build a claim from a failed research call (%s)" % (report.error or "?"))
+    if not report_quote_present(report, report_quote):
+        raise ClaimProvenanceError(
+            "report_quote does not appear verbatim in the report text")
+    match = next((d for d in report.discovered_urls if d.url == cited_url), None)
+    if match is None:
+        rejected = any(r.get("url") == cited_url for r in report.rejected_urls)
+        raise ClaimProvenanceError(
+            "cited_url is not an allowlisted tool citation for this report (%s)"
+            % ("rejected by the domain allowlist" if rejected
+               else "absent from discovered_urls"))
+    return ResearchClaim(
+        listing_key=report.listing_key,
+        report_quote=" ".join(report_quote.split()),
+        cited_url=match.url,
+        cited_page_title=match.title,
+        report_retrieved_at=report.observed_at,
+        model=report.model,
+        response_id=report.request_id,
+        citation_origin=match.origin,
+    )
+
+
+def confirm_claim_with_source(claim: ResearchClaim, document: SourceDocument,
+                              *, status: str = QUOTE_RETRIEVED_VERBATIM
+                              ) -> ResearchClaim:
+    """Promote a claim once genuine official evidence confirms its quote.
+
+    This is the code form of promotion rule 5. It refuses three ways:
+
+    * a MODEL_RESEARCH_REPORT document cannot confirm a model research claim --
+      that is the circularity the whole contract exists to prevent;
+    * the document must be usable official evidence; and
+    * the quote must appear verbatim in THAT document's text, not in the report.
+
+    ``status`` selects which confirmation path is being recorded, so a human
+    render capture is never mislabelled as a page this system fetched.
+    """
+    if status not in CONFIRMED_QUOTE_STATUSES:
+        raise ClaimProvenanceError(
+            "%r is not a confirmation status; expected one of %s"
+            % (status, sorted(CONFIRMED_QUOTE_STATUSES)))
+    if document.source_type in V.NON_PUBLISHABLE_SOURCE_TYPES:
+        raise ClaimProvenanceError(
+            "a %s document cannot confirm a research claim -- confirmation "
+            "requires evidence from outside the model" % document.source_type)
+    if not document.is_usable_official:
+        raise ClaimProvenanceError(
+            "confirming document is not usable official evidence (source_type=%s, "
+            "retrieval_status=%s)" % (document.source_type, document.retrieval_status))
+    haystack = " ".join((document.content_text or "").split())
+    if claim.report_quote not in haystack:
+        raise ClaimProvenanceError(
+            "the quote does not appear verbatim in the confirming document; the "
+            "report said something the official page does not")
+    return ResearchClaim(
+        listing_key=claim.listing_key,
+        report_quote=claim.report_quote,
+        cited_url=claim.cited_url,
+        cited_page_title=claim.cited_page_title,
+        report_retrieved_at=claim.report_retrieved_at,
+        model=claim.model,
+        response_id=claim.response_id,
+        citation_origin=claim.citation_origin,
+        cited_source_quote_status=status,
+        independently_retrieved=(status == QUOTE_RETRIEVED_VERBATIM),
+        confirmed_by=document.source_url,
+    )
+
+
+# --------------------------------------------------------------------------- #
 # Prompt.
 # --------------------------------------------------------------------------- #
 

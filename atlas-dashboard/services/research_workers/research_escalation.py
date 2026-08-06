@@ -175,6 +175,101 @@ def select_research_tier(*, pricing_by_tier: Mapping[str, object],
     return tier, cost
 
 
+# --------------------------------------------------------------------------- #
+# Gate 3: given a report, what must happen NEXT?
+# --------------------------------------------------------------------------- #
+#
+# Every one of these is an instruction to do more work, never a conclusion. A
+# research report can tell us where to look and what a page appears to say; it
+# can never close a hotel out. So the whole set is REVIEW-capped by
+# construction: routing's MODEL_RESEARCH_NOT_OFFICIAL_EVIDENCE backstop fires on
+# the provenance regardless of which action was recorded, and no value here is
+# consulted when deciding READY.
+
+# The report gave us prose but nothing retrievable yet -- someone must obtain
+# the actual page before any of it counts.
+RESEARCH_REPORT_REQUIRES_SOURCE_CAPTURE = "RESEARCH_REPORT_REQUIRES_SOURCE_CAPTURE"
+# A plausible official URL was found. Next step is automatic retrieval.
+OFFICIAL_SOURCE_LOCATED = "OFFICIAL_SOURCE_LOCATED"
+# We found it and tried; the edge refused us (Akamai/Cloudflare 403 et al).
+OFFICIAL_SOURCE_ACCESS_BLOCKED = "OFFICIAL_SOURCE_ACCESS_BLOCKED"
+# Only a real browser will render it -- the operator-capture lane.
+HUMAN_RENDER_CAPTURE_REQUIRED = "HUMAN_RENDER_CAPTURE_REQUIRED"
+# No web path remains; the fact must come from the property itself.
+DIRECT_CONTACT_REQUIRED = "DIRECT_CONTACT_REQUIRED"
+# The search found no official page stating an applicable policy at all. This
+# records ABSENCE OF FOUND EVIDENCE, never "this hotel has no pet policy".
+NO_APPLICABLE_OFFICIAL_POLICY_FOUND = "NO_APPLICABLE_OFFICIAL_POLICY_FOUND"
+
+RESEARCH_ACTIONS = frozenset({
+    RESEARCH_REPORT_REQUIRES_SOURCE_CAPTURE, OFFICIAL_SOURCE_LOCATED,
+    OFFICIAL_SOURCE_ACCESS_BLOCKED, HUMAN_RENDER_CAPTURE_REQUIRED,
+    DIRECT_CONTACT_REQUIRED, NO_APPLICABLE_OFFICIAL_POLICY_FOUND,
+})
+
+# Actions a machine cannot discharge on its own.
+HUMAN_ACTIONS = frozenset({HUMAN_RENDER_CAPTURE_REQUIRED, DIRECT_CONTACT_REQUIRED})
+
+# Follow-up retrieval statuses (source_retrieval vocabulary) that mean the page
+# was located but withheld by the far end, versus never found at all.
+_BLOCKED_STATUSES = frozenset({"ACCESS_BLOCKED", "BROWSER_ACCESS_BLOCKED"})
+_RENDER_STATUSES = frozenset({"RENDER_REQUIRED"})
+_EXHAUSTED_STATUSES = frozenset({"NOT_FOUND", "ENTITY_MISMATCH",
+                                 "UNSUPPORTED_CONTENT", "REJECTED_UNSAFE_URL"})
+
+
+def classify_research_outcome(report, followup_retrieval: Optional[Mapping] = None) -> str:
+    """The single next action implied by a report (+ any follow-up retrieval).
+
+    Deterministic and total: every input maps to exactly one member of
+    ``RESEARCH_ACTIONS``. ``followup_retrieval`` is the artifact from re-running
+    ``retrieve-official-sources`` against a URL the report discovered; when it
+    is absent, the report has not yet been acted on.
+
+    Ordering matters. A blocked or render-only outcome is classified from the
+    RETRIEVAL, not from the report, because the report's optimism about a URL
+    says nothing about whether the edge will serve it to us.
+    """
+    if report is None or not getattr(report, "ok", False):
+        # A failed or absent call is not a finding about the hotel. Saying
+        # "no policy found" here would convert our own error into evidence.
+        return RESEARCH_REPORT_REQUIRES_SOURCE_CAPTURE
+
+    discovered = tuple(getattr(report, "discovered_urls", ()) or ())
+    if not discovered:
+        return NO_APPLICABLE_OFFICIAL_POLICY_FOUND
+
+    if not followup_retrieval:
+        return OFFICIAL_SOURCE_LOCATED
+
+    status = str(followup_retrieval.get("status") or "")
+    if followup_retrieval.get("ready_for_extraction") is True:
+        # Retrieval succeeded on a URL the report found: the report did its job
+        # and the evidence now comes from the fetched page, not from here.
+        return OFFICIAL_SOURCE_LOCATED
+    if status in _RENDER_STATUSES:
+        return HUMAN_RENDER_CAPTURE_REQUIRED
+    if status in _BLOCKED_STATUSES:
+        return OFFICIAL_SOURCE_ACCESS_BLOCKED
+    if status in _EXHAUSTED_STATUSES:
+        return DIRECT_CONTACT_REQUIRED
+    return RESEARCH_REPORT_REQUIRES_SOURCE_CAPTURE
+
+
+def research_outcome_report(report, followup_retrieval: Optional[Mapping] = None) -> Dict:
+    """Auditable record of the action and why it can never publish alone."""
+    action = classify_research_outcome(report, followup_retrieval)
+    return {
+        "escalation_version": ESCALATION_VERSION,
+        "action": action,
+        "requires_human": action in HUMAN_ACTIONS,
+        "max_route": "REVIEW",
+        "publication_eligible": False,
+        "rationale": "MODEL_RESEARCH_REPORT provenance is capped at REVIEW; this "
+                     "action names the next evidence step, not a conclusion",
+    }
+
+
 def ladder_report() -> Dict:
     """Auditable snapshot of the ladder for operator output."""
     return {
