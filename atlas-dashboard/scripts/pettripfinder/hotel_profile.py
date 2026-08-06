@@ -83,48 +83,48 @@ def _cap_first(s: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Authoritative display-corridor taxonomy (PTF-PROD-001A correction 1).
+# Corridor display labels (PTF-CORRIDORS-002 Part D).
 #
-# Presentation-only. Deliberately NOT site_data.assign_corridor: that adapter's
-# Downtown/Dublin grouping drives the >=5-property *indexable-corridor* logic
-# used by the site build / reconciliation, and must keep its exact semantics.
-# This produces the display label the approved design authority uses:
-# "<Area> corridor · Columbus, OH", anchored to the Columbus market. A suburb
-# city becomes "<City> corridor"; a Columbus-city hotel is placed into a named
-# sub-area corridor by ADDRESS markers (never a marketing name), with an
-# airport fallback used only when no street address is available.
+# The second, address-token display taxonomy that used to live here is
+# retired: the label now comes from the SAME market-config assignment that
+# drives corridor routes, sitemap entries, and navigation
+# (``scripts/pettripfinder/markets``). An assigned hotel shows its
+# corridor's configured display area (even when the corridor is suppressed
+# from publication -- the label is a fact about location, the route is
+# not); an unassigned hotel falls back to its own city, never to an area
+# inferred from address text or a marketing name. The metro anchor is the
+# market's primary city + state code.
 # --------------------------------------------------------------------------- #
 
-_DOWNTOWN_MARKERS = ("nationwide blvd", "state street", "capitol square")
-_HIGH_ST_RE = re.compile(r"\b(\d{1,4})\s+(?:north|south|n|s)?\.?\s*high\s+st", re.I)
-_METRO_ANCHOR = "Columbus, OH"
+
+def _market_display_context():
+    """(market, assignment over ALL seed hotel rows) -- cached: the config
+    files and the seed CSV are committed, deterministic inputs."""
+    global _MARKET_DISPLAY_CONTEXT
+    if _MARKET_DISPLAY_CONTEXT is None:
+        from scripts.pettripfinder.markets import (
+            assign_hotels, default_market, load_markets,
+        )
+        market = default_market(load_markets())
+        rows = [r for r in read_production_rows()
+                if r.get("category") == "pet-friendly-hotels"]
+        _MARKET_DISPLAY_CONTEXT = (market, assign_hotels(market, rows))
+    return _MARKET_DISPLAY_CONTEXT
 
 
-def _corridor_area(city: str, address: str, name: str = "") -> str:
-    c = (city or "").strip()
-    addr = (address or "").lower()
-    if c.lower() == "columbus":
-        if any(m in addr for m in _DOWNTOWN_MARKERS):
-            return "Downtown corridor"
-        m = _HIGH_ST_RE.search(addr)
-        if m and int(m.group(1)) < 1000:
-            return "Downtown corridor"
-        if "west hilliard" in addr or "westbelt" in addr:
-            return "West Hilliard corridor"
-        if "polaris" in addr:
-            return "Polaris corridor"
-        if "airport" in addr:
-            return "Airport corridor"
-        if not addr and "airport" in (name or "").lower():
-            return "Airport corridor"     # last-resort hint when no address exists
-        return "Columbus corridor"
-    if c:
-        return "%s corridor" % c
-    return "Columbus corridor"
+_MARKET_DISPLAY_CONTEXT = None
 
 
-def _corridor_label(city: str, address: str, name: str = "") -> str:
-    return "%s · %s" % (_corridor_area(city, address, name), _METRO_ANCHOR)
+def _corridor_area(city: str, name: str = "") -> str:
+    from scripts.pettripfinder.markets import corridor_display_area
+    market, assignment = _market_display_context()
+    return "%s corridor" % corridor_display_area(market, assignment, name, city)
+
+
+def _corridor_label(city: str, name: str = "") -> str:
+    from scripts.pettripfinder.markets import corridor_display_label
+    market, assignment = _market_display_context()
+    return corridor_display_label(market, assignment, name, city)
 
 
 def _related_fact(ff: Dict[str, str]) -> str:
@@ -1118,7 +1118,7 @@ def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3)
         fact = _related_fact(fe["facts"]) if fe else ""
         date = _friendly_date((fe["verified_at"] if fe else "") or row.get("observed_at", ""))
         out.append(RelatedHotel(
-            name=row["name"], area=_corridor_area(row.get("city", ""), row.get("address", ""), row["name"]),
+            name=row["name"], area=_corridor_area(row.get("city", ""), row["name"]),
             fact=fact, verified_at=date,
             route="/pet-friendly-hotels/%s/" % _slug(row["name"])))
         if len(out) >= limit:
@@ -1142,7 +1142,7 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
     quote = (facts_entry or {}).get("evidence_quote") if facts_entry else None
     return HotelProfileVM(
         state=STATE_VERIFIED, name=row["name"],
-        corridor=_corridor_label(row.get("city", ""), row.get("address", ""), row["name"]),
+        corridor=_corridor_label(row.get("city", ""), row["name"]),
         initials=_initials(row["name"]),
         address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("postal_code", "")),
         phone=row.get("phone", ""), official_url=row.get("website_url", ""),
@@ -1172,7 +1172,7 @@ def build_vm_from_no_pets(cand: Dict, all_hotel_rows, facts_map) -> HotelProfile
         ("Max pets", "Does not apply", "dim"), ("Weight limit", "Does not apply", "dim"),
     )
     return HotelProfileVM(
-        state=STATE_NO_PETS, name=name, corridor=_corridor_label(city, proposed.get("address", ""), name),
+        state=STATE_NO_PETS, name=name, corridor=_corridor_label(city, name),
         initials=_initials(name),
         address="%s, %s, OH" % (proposed.get("address", ""), city),
         phone="", official_url=proposed.get("website_url", "") or cand.get("snapshot", {}).get("requested_url", ""),
@@ -1199,7 +1199,7 @@ def build_vm_from_unverified(cand: Dict, all_hotel_rows, facts_map) -> HotelProf
     facts = tuple((lbl, "Not verified", "dim") for lbl in
                   ("Dogs", "Cats", "Pet charge", "Charge basis", "Max pets", "Weight limit"))
     return HotelProfileVM(
-        state=STATE_UNVERIFIED, name=name, corridor=_corridor_label(city, "", name),
+        state=STATE_UNVERIFIED, name=name, corridor=_corridor_label(city, name),
         initials=_initials(name),
         address="%s, OH" % city,
         phone="", official_url=cand.get("snapshot", {}).get("requested_url", ""),
@@ -1230,7 +1230,7 @@ def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, fac
                   ("Dogs", "Cats", "Pet charge", "Charge basis", "Max pets", "Weight limit"))
     return HotelProfileVM(
         state=STATE_UNVERIFIED, name=name,
-        corridor=_corridor_label(row.get("city", ""), row.get("address", ""), name),
+        corridor=_corridor_label(row.get("city", ""), name),
         initials=_initials(name),
         address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""),
                                    row.get("state", ""), row.get("postal_code", "")),

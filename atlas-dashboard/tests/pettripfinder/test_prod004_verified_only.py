@@ -191,7 +191,11 @@ def build(tmp_path_factory):
 
 
 def _hotel_slugs(build):
-    non = {"downtown-columbus", "dublin", "policy-comparison"}
+    # PTF-CORRIDORS-002: corridor pages are config-driven, so the non-profile
+    # directory set is derived from the committed market config.
+    from scripts.pettripfinder.markets import default_market, load_markets
+    non = {"policy-comparison"} | {
+        c.slug for c in default_market(load_markets()).corridors}
     return sorted(
         os.path.relpath(f, build).replace(os.sep, "/").split("/")[1]
         for f in glob.glob(str(build) + "/pet-friendly-hotels/*/index.html")

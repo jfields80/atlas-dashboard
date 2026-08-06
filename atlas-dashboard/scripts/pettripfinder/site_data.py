@@ -9,10 +9,11 @@ real fact TABLE (species/fee/fee-basis/count/weight/restrictions/verified
 date/evidence count) instead of only the flat composed sentence already in
 the seed CSV, without ever inventing a fact the importer didn't evidence.
 
-Also provides deterministic, address-based (never name-based) corridor
-assignment and city-based "nearby" grouping (no coordinates exist in the
-production schema, so distance is never fabricated -- see the module
-docstring in ``site_enrichment.py`` for the doctrine this follows).
+Also provides the corridor-grouping compatibility wrapper (assignment
+itself now lives in the ``scripts/pettripfinder/markets`` configuration
+layer, PTF-CORRIDORS-002) and city-based "nearby" grouping (no coordinates
+exist in the production schema, so distance is never fabricated -- see the
+module docstring in ``site_enrichment.py`` for the doctrine this follows).
 """
 
 from __future__ import annotations
@@ -229,61 +230,34 @@ def load_published_hotel_policy_facts() -> Dict[str, Dict]:
 
 
 # --------------------------------------------------------------------------- #
-# Corridor assignment (Task 7). Address-token based ONLY -- the classifier
-# never reads the business name, so a hotel named "... Downtown" is placed
-# in the Downtown corridor because its STREET carries a downtown signal, not
-# because of its marketing name (doctrine: "Do not assign areas merely from
-# property marketing names").
+# Corridor grouping (PTF-CORRIDORS-002). The address-token classifier this
+# module used to carry is retired: assignment now lives in the shared
+# market/corridor configuration layer (``scripts/pettripfinder/markets``),
+# driven by the committed ptf-market/1.0 config under
+# ``launch_packages/pettripfinder/markets/``. That layer is the ONE
+# assignment authority for routes, sitemap, navigation, and display labels;
+# this wrapper keeps the historical (hotel_rows) -> {corridor name: rows}
+# grouping surface used by the Netlify assembler compatibility path and the
+# tests. The doctrine is unchanged: deterministic city/ZIP/explicit
+# matching only, never a marketing name, never fuzzy.
 # --------------------------------------------------------------------------- #
 
-CORRIDOR_DOWNTOWN = "Downtown Columbus"
-CORRIDOR_DUBLIN = "Dublin"
-
-# "nationwide blvd"/"state street"/"capitol square" are unambiguous -- those
-# streets exist only in/immediately around downtown Columbus. "high st"
-# alone is NOT unambiguous: High Street runs the entire north-south length
-# of the city (Worthington, Clintonville, Short North, downtown, German
-# Village), so a bare substring match would misclassify a property miles
-# away (live case: "7480 North High St" is Worthington, not downtown).
-# Columbus's street numbering originates at the Broad & High intersection
-# downtown and increases with distance from it -- an address-derived,
-# non-fabricated proxy: only a LOW High Street number is treated as
-# downtown, never High Street alone.
-_DOWNTOWN_UNAMBIGUOUS_MARKERS = ("nationwide blvd", "state street", "capitol square")
-_HIGH_ST_DOWNTOWN_NUMBER_CEILING = 1000
-_HIGH_ST_RE = re.compile(r"^\s*(\d+)\s+(?:north|south|n|s)?\.?\s*high\s+st", re.I)
-
-
-def assign_corridor(address: str, city: str) -> str:
-    """Returns a corridor label or "" (no corridor). City=="Dublin" is
-    itself a committed, unambiguous corridor signal (Dublin is a distinct
-    named suburb, not a Columbus street). Downtown is address-street-token
-    based within Columbus city only -- never the business name."""
-    city_norm = (city or "").strip().lower()
-    if city_norm == "dublin":
-        return CORRIDOR_DUBLIN
-    if city_norm == "columbus":
-        addr_norm = (address or "").strip().lower()
-        if any(marker in addr_norm for marker in _DOWNTOWN_UNAMBIGUOUS_MARKERS):
-            return CORRIDOR_DOWNTOWN
-        m = _HIGH_ST_RE.match(addr_norm)
-        if m and int(m.group(1)) < _HIGH_ST_DOWNTOWN_NUMBER_CEILING:
-            return CORRIDOR_DOWNTOWN
-    return ""
-
-
-# Minimum properties required before a corridor becomes an indexable route
-# (Task 7's explicit threshold).
+# Default per-corridor publication minimum (Task 7's original threshold).
+# It is now the ptf-market config DEFAULT; each corridor may override it in
+# its committed configuration.
 CORRIDOR_MIN_PROPERTIES = 5
 
 
 def group_by_corridor(hotel_rows: List[Dict[str, str]]) -> Dict[str, List[Dict[str, str]]]:
-    groups: Dict[str, List[Dict[str, str]]] = {}
-    for row in hotel_rows:
-        corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
-        if corridor:
-            groups.setdefault(corridor, []).append(row)
-    return {c: rows for c, rows in groups.items() if len(rows) >= CORRIDOR_MIN_PROPERTIES}
+    """Published corridor name -> member rows for the default configured
+    market, via the shared deterministic assignment. Suppressed corridors
+    (below their configured minimum, or empty) are omitted; an ambiguous
+    multi-corridor match fails closed (raises) rather than guessing."""
+    from scripts.pettripfinder.markets import assign_hotels, default_market, load_markets
+    market = default_market(load_markets())
+    assignment = assign_hotels(market, hotel_rows)
+    return {market.corridor_by_id(cid).name: list(assignment.members_of(cid))
+            for cid in assignment.published}
 
 
 # --------------------------------------------------------------------------- #

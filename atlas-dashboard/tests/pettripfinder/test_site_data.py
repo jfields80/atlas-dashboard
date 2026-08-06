@@ -1,14 +1,14 @@
 """AES-SITE-001 -- site data helper tests. No network; corridor/nearby
-logic tested against both synthetic fixtures and the real production CSV."""
+logic tested against both synthetic fixtures and the real production CSV.
+Corridor assignment is config-driven since PTF-CORRIDORS-002: these tests
+exercise the ``group_by_corridor`` compatibility surface against the
+committed ptf-market Columbus configuration."""
 
 from __future__ import annotations
 
 from scripts.pettripfinder.site_data import (
-    CORRIDOR_DOWNTOWN,
-    CORRIDOR_DUBLIN,
     CORRIDOR_MIN_PROPERTIES,
     NEARBY_MAX_RESULTS,
-    assign_corridor,
     group_by_corridor,
     load_hotel_policy_facts,
     nearby_same_city,
@@ -16,48 +16,54 @@ from scripts.pettripfinder.site_data import (
     read_production_rows,
 )
 
+CORRIDOR_DOWNTOWN = "Downtown Columbus"
+CORRIDOR_DUBLIN = "Dublin"
+
+
+def _rows(n, *, city="Columbus", postal_code="", prefix="H"):
+    return [{"name": "%s%d" % (prefix, i), "address": "%d Test Rd" % i,
+             "city": city, "postal_code": postal_code} for i in range(n)]
+
 
 def test_dublin_corridor_from_city_alone():
-    assert assign_corridor("1 Any St", "Dublin") == CORRIDOR_DUBLIN
+    # City is a committed corridor signal in the Columbus config; no address
+    # or ZIP is needed.
+    groups = group_by_corridor(_rows(5, city="Dublin"))
+    assert set(groups) == {CORRIDOR_DUBLIN}
+    assert len(groups[CORRIDOR_DUBLIN]) == 5
 
 
-def test_downtown_corridor_unambiguous_street():
-    assert assign_corridor("33 East Nationwide Blvd", "Columbus") == CORRIDOR_DOWNTOWN
-    assert assign_corridor("75 East State Street", "Columbus") == CORRIDOR_DOWNTOWN
+def test_downtown_corridor_from_exact_zip():
+    # PTF-CORRIDORS-002: Downtown is the exact 43215 ZIP -- deterministic,
+    # never an address-token heuristic.
+    groups = group_by_corridor(_rows(5, postal_code="43215"))
+    assert set(groups) == {CORRIDOR_DOWNTOWN}
+    assert len(groups[CORRIDOR_DOWNTOWN]) == 5
 
 
-def test_high_street_low_number_is_downtown():
-    assert assign_corridor("350 North High St", "Columbus") == CORRIDOR_DOWNTOWN
-    assert assign_corridor("310 South High St", "Columbus") == CORRIDOR_DOWNTOWN
-
-
-def test_high_street_high_number_is_not_downtown():
-    # Live defect this test locks in: 7480 North High St is Worthington,
-    # miles from downtown -- a bare "high st" substring match would
-    # misclassify it.
-    assert assign_corridor("7480 North High St", "Columbus") == ""
-
-
-def test_no_corridor_for_unrecognized_address():
-    assert assign_corridor("1 Random Rd", "Columbus") == ""
-    assert assign_corridor("1 Random Rd", "Grove City") == ""
+def test_no_corridor_for_unmatched_city_and_zip():
+    # 43235 belongs to the (below-minimum) Worthington corridor config; a
+    # ZIP matching no corridor at all also yields nothing publishable.
+    assert group_by_corridor(_rows(1, postal_code="99999")) == {}
+    assert group_by_corridor(_rows(1, city="Nowhereville")) == {}
 
 
 def test_corridor_never_reads_business_name():
-    # The function signature itself proves this (no name parameter), but
-    # assert explicitly that two different names at the same address/city
-    # produce the identical result.
-    a = assign_corridor("1 Random Rd", "Grove City")
-    b = assign_corridor("1 Random Rd", "Grove City")
-    assert a == b == ""
+    # Identical city/ZIP with wildly different marketing names must produce
+    # identical assignment -- names are identity keys only, never signals.
+    a = group_by_corridor(
+        [{"name": "Downtown Suites Airport Polaris", "city": "Dublin",
+          "postal_code": "", "address": "1 Rd"}] * 0
+        + [{"name": "Downtown Suites Airport Polaris %d" % i, "city": "Dublin",
+            "postal_code": "", "address": "1 Rd"} for i in range(5)])
+    b = group_by_corridor(_rows(5, city="Dublin"))
+    assert set(a) == set(b) == {CORRIDOR_DUBLIN}
 
 
 def test_group_by_corridor_enforces_minimum_threshold():
-    rows = [{"name": "H%d" % i, "address": "1 East Nationwide Blvd", "city": "Columbus"}
-            for i in range(CORRIDOR_MIN_PROPERTIES - 1)]
+    rows = _rows(CORRIDOR_MIN_PROPERTIES - 1, postal_code="43215")
     assert group_by_corridor(rows) == {}
-    rows.append({"name": "Hlast", "address": "1 East Nationwide Blvd", "city": "Columbus"})
-    assert len(rows) == CORRIDOR_MIN_PROPERTIES
+    rows = _rows(CORRIDOR_MIN_PROPERTIES, postal_code="43215")
     groups = group_by_corridor(rows)
     assert len(groups[CORRIDOR_DOWNTOWN]) == CORRIDOR_MIN_PROPERTIES
 
@@ -131,8 +137,13 @@ def test_real_production_hotel_corridors_meet_threshold():
     groups = group_by_corridor(rows)
     assert CORRIDOR_DOWNTOWN in groups
     assert CORRIDOR_DUBLIN in groups
+    # PTF-CORRIDORS-002: every corridor the config publishes clears its own
+    # configured minimum (the default equals CORRIDOR_MIN_PROPERTIES).
+    from scripts.pettripfinder.markets import default_market, load_markets
+    market = default_market(load_markets())
+    minimums = {c.name: c.minimum_hotel_count for c in market.corridors}
     for corridor, members in groups.items():
-        assert len(members) >= CORRIDOR_MIN_PROPERTIES
+        assert len(members) >= minimums[corridor]
 
 
 def _has_positive_pet_acceptance(facts):

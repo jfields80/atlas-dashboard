@@ -51,7 +51,7 @@ import html
 import re
 import shutil
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.hotel_profile import _friendly_date
 
@@ -835,7 +835,10 @@ def _trip() -> str:
         '<div class="trip-grid">%s</div></section>') % "".join(cards)
 
 
-def _band() -> str:
+def _band(browse_href: str) -> str:
+    # ``browse_href`` is data-driven (PTF-CORRIDORS-002 Part E): the first
+    # PUBLISHED corridor from the market configuration, falling back to the
+    # hotels hub when no corridor publishes -- never a hard-coded corridor.
     return (
         '<div class="ph-band">'
         '<span class="pawcircle">%s</span>'
@@ -843,9 +846,9 @@ def _band() -> str:
         "<p>Reliable info. Happy pets. Better trips.</p></div>"
         '<div class="actions">'
         '<a class="btn btn-primary" href="/pet-friendly-hotels/policy-comparison/">Compare places</a>'
-        '<a class="btn btn-outline" href="/pet-friendly-hotels/dublin/">Browse by area</a></div>'
+        '<a class="btn btn-outline" href="%s">Browse by area</a></div>'
         '<span class="skyline">%s</span>'
-        "</div>") % (_PAW_SOLID, _SKYLINE)
+        "</div>") % (_PAW_SOLID, _e(browse_href), _SKYLINE)
 
 
 def _glance(hotel_rows: List[Dict], facts_map: Dict) -> str:
@@ -900,7 +903,12 @@ def _why() -> str:
             '<div class="why-grid">%s</div></section>') % grid
 
 
-def _footer() -> str:
+def _footer(corridor_nav: Sequence[Tuple[str, str]]) -> str:
+    # Corridor links are data-driven (PTF-CORRIDORS-002 Part E): one link per
+    # PUBLISHED, nav-visible corridor from the market configuration, in
+    # configured display order. A corridor that did not publish gets no link.
+    corridor_links = "".join(
+        '<a href="%s">%s</a>' % (_e(route), _e(label)) for label, route in corridor_nav)
     return (
         '<footer class="footer"><div class="wrap footer-grid">'
         '<div><a class="brand" href="/">PetTripFinder<span class="dot">&middot;</span>'
@@ -911,7 +919,7 @@ def _footer() -> str:
         '<a href="/pet-friendly-parks/">Parks &amp; trails</a>'
         '<a href="/pet-friendly-restaurants/">Eat &amp; drink</a></div>'
         '<div><h4>Planning</h4><a href="/pet-friendly-hotels/policy-comparison/">Compare policies</a>'
-        '<a href="/pet-friendly-hotels/dublin/">Columbus corridors</a>'
+        + corridor_links +
         '<a href="/methodology/">How verification works</a></div>'
         '<div><h4>Company</h4><a href="/about/">About</a><a href="/contact/">Contact</a>'
         '<a href="/methodology/">Privacy</a></div></div></footer>')
@@ -922,7 +930,8 @@ def _footer() -> str:
 # --------------------------------------------------------------------------- #
 
 def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
-                park_count: int, restaurant_count: int) -> str:
+                park_count: int, restaurant_count: int,
+                corridor_nav: Optional[Sequence[Tuple[str, str]]] = None) -> str:
     """Render the approved final homepage.
 
     ``hotel_count``/``park_count``/``restaurant_count`` are accepted to keep
@@ -931,7 +940,20 @@ def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
     "Official-source policies / Honest unknowns / Review dates you can trust"
     strip) rather than through the earlier numeric inventory counter, so the
     counts are no longer surfaced on this page.
+
+    ``corridor_nav`` (PTF-CORRIDORS-002 Part E): ordered (label, route)
+    pairs for the market's PUBLISHED, nav-visible corridors. When None,
+    they are derived here from the committed market configuration over the
+    supplied ``hotel_rows`` -- corridor links are never hard-coded.
     """
+    if corridor_nav is None:
+        from scripts.pettripfinder.markets import (
+            assign_hotels, corridor_navigation, default_market, load_markets,
+        )
+        market = default_market(load_markets())
+        entries = corridor_navigation(market, assign_hotels(market, hotel_rows))
+        corridor_nav = [(e.label, e.route) for e in entries]
+    browse_href = corridor_nav[0][1] if corridor_nav else "/pet-friendly-hotels/"
     body = (
         '<a class="skip skip-link" href="#main">Skip to content</a>'
         + _header()
@@ -943,7 +965,7 @@ def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
         + _start_section()
         + _featured(hotel_rows, facts_map)
         + _trip()
-        + _band()
+        + _band(browse_href)
         + "</div>"
         + '<aside class="col-side" aria-label="Policy comparison and how we verify">'
         + _glance(hotel_rows, facts_map)
@@ -952,7 +974,7 @@ def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
         + "</aside>"
         + "</div>"
         + "</main>"
-        + _footer()
+        + _footer(corridor_nav)
         + _JS
     )
     return (

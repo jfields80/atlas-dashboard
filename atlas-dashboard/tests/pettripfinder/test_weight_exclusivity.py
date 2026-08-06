@@ -124,11 +124,12 @@ def test_chips_and_detail_table_show_under_80():
 
 
 def test_comparison_table_cell_preserves_exclusivity():
+    from scripts.pettripfinder.markets import default_market, load_markets
     row = dict(STAYBRIDGE_FACTS,
                name="Staybridge Suites Columbus-Dublin",
                route="/pet-friendly-hotels/staybridge-suites-columbus-dublin/",
                area="Dublin, OH", verified_at="2026-08-01")
-    page = build_comparison_page([row])
+    page = build_comparison_page([row], default_market(load_markets()))
     assert "<td>Under 80.0 pounds</td>" in page
     assert "<td>80.0 pounds</td>" not in page
 

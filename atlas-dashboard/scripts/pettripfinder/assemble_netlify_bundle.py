@@ -53,8 +53,8 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.generate_pettripfinder_columbus_site import run as generate_site, _slug
+from scripts.pettripfinder.markets import assign_hotels, default_market, load_markets
 from scripts.pettripfinder.site_data import (
-    group_by_corridor,
     load_published_hotel_policy_facts,
     normalize_name,
     read_production_rows,
@@ -311,7 +311,12 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
     held_slugs = {_slug(r["name"]) for r in held_rows}
     verified_names = {r["name"] for r in verified_rows}
     held_names = {r["name"] for r in held_rows if r.get("name")}
-    corridor_slugs = {_slug(name) for name in group_by_corridor(verified_rows)}
+    # PTF-CORRIDORS-002: allowed corridor routes come from the SAME committed
+    # market-config assignment the generator publishes from (config slugs,
+    # published corridors only) -- the gate and the build can never disagree.
+    _market = default_market(load_markets())
+    _assignment = assign_hotels(_market, verified_rows)
+    corridor_slugs = {_market.corridor_by_id(cid).slug for cid in _assignment.published}
 
     surface = contract["public_surface"]
     _gate(gates, "identity.verified_from_package",

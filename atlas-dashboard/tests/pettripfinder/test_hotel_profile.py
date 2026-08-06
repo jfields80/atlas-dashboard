@@ -273,9 +273,17 @@ from scripts.pettripfinder.hotel_profile import _corridor_area, _corridor_label 
 
 
 def test_authoritative_corridor_labels(vms):
+    # PTF-CORRIDORS-002 Part D: labels come from the SAME market-config
+    # assignment that drives routes -- not a second address-token taxonomy.
     assert vms["rich"].corridor == "Grove City corridor · Columbus, OH"
     assert vms["sparse"].corridor == "Grove City corridor · Columbus, OH"
-    assert vms["no-pets"].corridor == "West Hilliard corridor · Columbus, OH"
+    # The no-pets fixture is not in the market inventory and carries no ZIP,
+    # so no sub-area is claimed for it -- the honest fallback is the market
+    # primary city (the old taxonomy inferred "West Hilliard" from address
+    # TEXT, which the unified authority deliberately does not do).
+    assert vms["no-pets"].corridor == "Columbus corridor · Columbus, OH"
+    # The unverified fixture IS a real inventory hotel with an explicit
+    # operator-reviewed Airport assignment, so its label is preserved.
     assert vms["unverified"].corridor == "Airport corridor · Columbus, OH"
 
 
@@ -291,16 +299,20 @@ def test_no_duplicated_city_or_corridor(vms, state):
 
 
 def test_corridor_area_taxonomy_deterministic_not_name_based():
-    # a suburb city -> "<City> corridor"
-    assert _corridor_area("Grove City", "4109 Parkway Centre Drive", "Anything") == "Grove City corridor"
-    assert _corridor_area("Reynoldsburg", "2447 Brice Road", "X") == "Reynoldsburg corridor"
-    # Columbus sub-areas by ADDRESS, never a marketing name
-    assert _corridor_area("Columbus", "33 East Nationwide Blvd", "Generic Hotel") == "Downtown corridor"
-    assert _corridor_area("Columbus", "2350 Westbelt Dr, West Hilliard", "X") == "West Hilliard corridor"
-    # a name that merely SAYS downtown must not move an address-elsewhere hotel
-    assert _corridor_area("Grove City", "1 Rural Rd", "Downtown Suites") == "Grove City corridor"
-    # airport is a last-resort hint only when no address exists
-    assert _corridor_area("Columbus", "", "Hampton Inn Columbus-Airport") == "Airport corridor"
+    # An unknown hotel in a suburb city -> "<City> corridor" (honest fallback).
+    assert _corridor_area("Grove City", "Anything") == "Grove City corridor"
+    assert _corridor_area("Reynoldsburg", "X") == "Reynoldsburg corridor"
+    # An inventory hotel shows its configured corridor's display area: the
+    # Sonesta is Downtown by the exact 43215 ZIP in the market config.
+    assert _corridor_area("Columbus", "Sonesta Columbus Downtown") == "Downtown corridor"
+    # A marketing name that merely SAYS downtown must not move an unknown
+    # hotel anywhere -- names are identity keys, never assignment signals.
+    assert _corridor_area("Grove City", "Downtown Suites") == "Grove City corridor"
+    assert _corridor_area("Columbus", "Downtown Suites Polaris Airport") == "Columbus corridor"
+    # An explicit operator-reviewed assignment (the 43219 Airport/Easton
+    # split) resolves through the identity key.
+    assert _corridor_area("Columbus", "Hampton Inn Columbus-Airport") == "Airport corridor"
+    assert _corridor_area("Columbus", "Hilton Columbus at Easton") == "Easton corridor"
 
 
 def test_corridor_label_never_repeats_postal_city(vms):

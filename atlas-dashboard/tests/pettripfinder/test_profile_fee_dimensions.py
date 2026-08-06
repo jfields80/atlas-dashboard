@@ -406,6 +406,13 @@ def test_the_export_corpus_cannot_regress_the_production_package():
     someone ran the exporter and lost the promoted records.
     """
     import scripts.pettripfinder.export_hotel_policy_facts as EX
+    from scripts.pettripfinder.site_data import load_hotel_policy_facts
+    # The gitignored operational corpus exists only on the operator machine;
+    # load_hotel_policy_facts returns {} (not FileNotFoundError) when its
+    # roots are absent, which previously slipped past this skip guard and
+    # reported every committed hotel as a "removal" in clean checkouts.
+    if not load_hotel_policy_facts():
+        pytest.skip("operational promotion corpus absent (gitignored)")
     try:
         report = EX.build_preview()["report"]
     except (FileNotFoundError, KeyError):

@@ -44,9 +44,6 @@ from scripts.pettripfinder.commercial_actions import (
     go_route,
 )
 from scripts.pettripfinder.site_data import (
-    CORRIDOR_MIN_PROPERTIES,
-    assign_corridor,
-    group_by_corridor,
     load_hotel_policy_facts,
     nearby_same_city,
     normalize_name,

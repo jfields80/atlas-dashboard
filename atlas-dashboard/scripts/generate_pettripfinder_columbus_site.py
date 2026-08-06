@@ -63,10 +63,18 @@ from scripts.generate_pettripfinder_pilot import (
     load_launch_package,
 )
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
+from scripts.pettripfinder.markets import (
+    CorridorAssignment,
+    MarketConfig,
+    assign_hotels,
+    corridor_href_for,
+    corridor_navigation,
+    corridor_route,
+    default_market,
+    load_markets,
+    sitemap_corridor_routes,
+)
 from scripts.pettripfinder.site_data import (
-    CORRIDOR_MIN_PROPERTIES,
-    assign_corridor,
-    group_by_corridor,
     load_published_hotel_policy_facts,
     normalize_name,
     read_production_rows,
@@ -96,8 +104,8 @@ _BODY_OPEN_RE = re.compile(r"(<body[^>]*>)")
 
 DEFAULT_OUTPUT = "data/site_builds/pettripfinder_columbus"
 
-_LLMS_TXT = """\
-# PetTripFinder Columbus
+_LLMS_TXT_TEMPLATE = """\
+# PetTripFinder %(market_name)s
 
 PetTripFinder verifies pet policies directly from each business's own
 official website. See /methodology/ for the full verification standard.
@@ -233,7 +241,19 @@ def run(output: str) -> int:
     hotel_rows = [r for r in all_rows if r["category"] == "pet-friendly-hotels"]
     park_rows = [r for r in all_rows if r["category"] == "pet-friendly-parks"]
     restaurant_rows = [r for r in all_rows if r["category"] == "pet-friendly-restaurants"]
-    corridor_groups = group_by_corridor(hotel_rows)
+
+    # PTF-CORRIDORS-002: the committed ptf-market config is the ONE corridor
+    # authority. Assignment is deterministic (exclusion > explicit > city >
+    # ZIP) and fails closed on ambiguity; unassigned hotels stay published
+    # and are REPORTED below, never silently dropped.
+    market = default_market(load_markets())
+    assignment = assign_hotels(market, hotel_rows)
+    corridor_groups = {market.corridor_by_id(cid).name: list(assignment.members_of(cid))
+                       for cid in assignment.published}
+
+    def _corridor_name_for(row: Dict) -> str:
+        ids = assignment.corridor_of.get(normalize_name(row.get("name", "")), ())
+        return market.corridor_by_id(ids[0]).name if ids else ""
 
     warnings: List[str] = []
     go_pages: Dict[str, str] = {}
@@ -257,11 +277,11 @@ def run(output: str) -> int:
             warnings.append("missing hotel profile file for %s" % row["name"])
             continue
         facts_entry = policy_facts.get(normalize_name(row["name"]))
-        corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
-        # Corridor breadcrumb/see-all links resolve only to corridor pages that
-        # actually exist (groups above the corridor minimum, e.g. Dublin).
-        corridor_href = ("/pet-friendly-hotels/%s/" % _slug(corridor)
-                         if corridor in corridor_groups else None)
+        corridor = _corridor_name_for(row)
+        # Corridor breadcrumb/see-all links resolve only to corridor pages
+        # that actually PUBLISH (corridor_href_for returns None for a
+        # suppressed corridor -- never a broken link).
+        corridor_href = corridor_href_for(market, assignment, row["name"])
         page_html = render_production_hotel_profile(
             row, facts_entry, hotel_rows, policy_facts,
             park_rows=park_rows, restaurant_rows=restaurant_rows,
@@ -310,7 +330,9 @@ def run(output: str) -> int:
     (out_dir / "index.html").write_text(
         approved_home.render_home(
             hotel_rows, policy_facts, hotel_count=len(hotel_rows),
-            park_count=len(park_rows), restaurant_count=len(restaurant_rows)),
+            park_count=len(park_rows), restaurant_count=len(restaurant_rows),
+            corridor_nav=[(e.label, e.route)
+                          for e in corridor_navigation(market, assignment)]),
         encoding="utf-8", newline="\n")
     approved_home.copy_assets(out_dir)
 
@@ -345,22 +367,24 @@ def run(output: str) -> int:
         })
     (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)
     (out_dir / "pet-friendly-hotels" / "policy-comparison" / "index.html").write_text(
-        build_comparison_page(comparison_rows), encoding="utf-8", newline="\n")
+        build_comparison_page(comparison_rows, market), encoding="utf-8", newline="\n")
 
-    # --- corridor pages --------------------------------------------------------
+    # --- corridor pages (published corridors only, display order) -------------
     corridor_routes: List[str] = []
-    for corridor_name, members in corridor_groups.items():
-        corridor_slug = _slug(corridor_name)
+    for corridor_cfg in sorted(assignment.published_corridors(),
+                               key=lambda c: (c.display_order, c.slug)):
+        members = assignment.members_of(corridor_cfg.corridor_id)
         corridor_hotel_rows = [
             {"name": r["name"], "route": "/pet-friendly-hotels/%s/" % _listing_id(r["name"]),
              "city": r.get("city", "")}
             for r in members
         ]
-        page_html = build_corridor_page(corridor_name, corridor_slug, corridor_hotel_rows)
-        (out_dir / "pet-friendly-hotels" / corridor_slug).mkdir(exist_ok=True)
-        (out_dir / "pet-friendly-hotels" / corridor_slug / "index.html").write_text(
-            page_html, encoding="utf-8", newline="\n")
-        corridor_routes.append("/pet-friendly-hotels/%s/" % corridor_slug)
+        page_html = build_corridor_page(corridor_cfg, market, corridor_hotel_rows)
+        route = corridor_route(market, corridor_cfg)
+        page_dir = out_dir / route.strip("/")
+        page_dir.mkdir(parents=True, exist_ok=True)
+        (page_dir / "index.html").write_text(page_html, encoding="utf-8", newline="\n")
+        corridor_routes.append(route)
 
     # --- /go/ redirect pages ----------------------------------------------
     for route, page_html in go_pages.items():
@@ -380,7 +404,10 @@ def run(output: str) -> int:
                         if r == "index.html" or r.endswith("/index.html")]
     base_sitemap_routes = ["/" + r.rsplit("index.html", 1)[0] for r in indexable_routes]
     base_sitemap_routes = [r if r != "//" else "/" for r in base_sitemap_routes]
-    new_routes = ["/pet-friendly-hotels/policy-comparison/"] + corridor_routes
+    # Sitemap corridors respect per-corridor show_in_sitemap (a published,
+    # sitemap-hidden corridor still renders but is not advertised).
+    new_routes = (["/pet-friendly-hotels/policy-comparison/"]
+                  + list(sitemap_corridor_routes(market, assignment)))
     all_sitemap_routes = sorted(set(base_sitemap_routes) | set(new_routes))
     sitemap_xml = (
         '<?xml version="1.0" encoding="UTF-8"?>'
@@ -390,7 +417,9 @@ def run(output: str) -> int:
     )
     (out_dir / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
     (out_dir / "robots.txt").write_text(_ROBOTS_TXT, encoding="utf-8", newline="\n")
-    (out_dir / "llms.txt").write_text(_LLMS_TXT, encoding="utf-8", newline="\n")
+    (out_dir / "llms.txt").write_text(
+        _LLMS_TXT_TEMPLATE % {"market_name": market.market_name},
+        encoding="utf-8", newline="\n")
 
     # --- CSS + skip link (Task 15/17): applied uniformly to every page, ---
     # base-pipeline-rendered or custom-built here, after all content is in
@@ -426,7 +455,17 @@ def run(output: str) -> int:
         "hotel_count": len(hotel_rows), "park_count": len(park_rows),
         "restaurant_count": len(restaurant_rows),
         "hotels_with_structured_facts": len(policy_facts),
+        "market_id": market.market_id,
+        "market_schema": "ptf-market/1.0",
         "corridors_built": sorted(corridor_groups.keys()),
+        # PTF-CORRIDORS-002 honesty surface: what did NOT publish, and which
+        # published hotels belong to no corridor (they keep their routes).
+        "corridors_suppressed": [
+            {"corridor": market.corridor_by_id(s["corridor_id"]).name,
+             "reason": s["reason"], "member_count": s["member_count"]}
+            for s in assignment.suppressed],
+        "unassigned_hotels": sorted(r["name"] for r in assignment.unassigned),
+        "assignment_conflicts": list(assignment.conflicts),
         "go_pages_built": len(go_pages),
         "new_pages_built": 2 + len(corridor_routes),  # comparison + methodology + corridors
         "warnings": warnings,
@@ -439,7 +478,7 @@ def run(output: str) -> int:
     (out_dir / "_broken_link_report.json").write_text(
         json.dumps({"broken_links": broken}, indent=2), encoding="utf-8", newline="\n")
 
-    quality_report = _run_quality_checks(out_dir, hotel_rows, corridor_groups, policy_facts)
+    quality_report = _run_quality_checks(out_dir, hotel_rows, market, assignment, policy_facts)
     (out_dir / "_quality_report.json").write_text(
         json.dumps(quality_report, indent=2), encoding="utf-8", newline="\n")
 
@@ -485,12 +524,16 @@ _LD_SCRIPT_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>'
 _H1_RE = re.compile(r"<h1[^>]*>")
 
 
-def _run_quality_checks(out_dir: Path, hotel_rows: List[Dict], corridor_groups: Dict,
-                        policy_facts: Dict) -> Dict:
+def _run_quality_checks(out_dir: Path, hotel_rows: List[Dict], market: MarketConfig,
+                        assignment: CorridorAssignment, policy_facts: Dict) -> Dict:
     failures: List[str] = []
-    for corridor, members in corridor_groups.items():
-        if len(members) < CORRIDOR_MIN_PROPERTIES:
-            failures.append("corridor %r below minimum threshold" % corridor)
+    for cid in assignment.published:
+        corridor = market.corridor_by_id(cid)
+        if len(assignment.members_of(cid)) < corridor.minimum_hotel_count:
+            failures.append("corridor %r below its configured minimum" % corridor.name)
+    if assignment.conflicts:
+        failures.append("unresolved corridor assignment conflicts: %s"
+                        % list(assignment.conflicts))
 
     canonicals: Dict[str, str] = {}
     real_routes: List[str] = []
@@ -580,6 +623,8 @@ def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
     rows = read_production_rows()
     hotel_rows = [r for r in rows if r["category"] == "pet-friendly-hotels"]
     facts_map, facts_source = _sample_facts_map(use_fixture_facts)
+    market = default_market(load_markets())
+    assignment = assign_hotels(market, hotel_rows)
 
     selected: List[Dict] = []
     go_pages: Dict[str, str] = {}
@@ -590,7 +635,8 @@ def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
             raise SystemExit("PTF-PROD-002 sample hotel not found in inventory: %r" % prefix)
         listing_id = _slug(row["name"])
         facts_entry = facts_map.get(normalize_name(row["name"]))
-        corridor = assign_corridor(row.get("address", ""), row.get("city", ""))
+        corridor_ids = assignment.corridor_of.get(normalize_name(row["name"]), ())
+        corridor = market.corridor_by_id(corridor_ids[0]).name if corridor_ids else ""
         page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, facts_map)
         profile_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
         profile_path.parent.mkdir(parents=True, exist_ok=True)

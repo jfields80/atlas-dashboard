@@ -17,6 +17,13 @@ from typing import Dict, List, Optional, Tuple
 from scripts.pettripfinder.hotel_profile import (
     _friendly_date, tier_fee_range, weight_display,
 )
+from scripts.pettripfinder.markets import (
+    ROUTE_MODE_LEGACY_UNPREFIXED,
+    CorridorConfig,
+    MarketConfig,
+    corridor_route,
+    market_route,
+)
 from scripts.pettripfinder.site_data import normalize_name
 from scripts.pettripfinder.structured_data import breadcrumb_ld, to_script_tag
 
@@ -147,12 +154,13 @@ _COMPARISON_COLUMNS = (
 )
 
 
-def build_comparison_page(rows: List[Dict]) -> str:
+def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
     """``rows``: one dict per verified pet-friendly hotel with keys
     matching ``_COMPARISON_COLUMNS`` plus ``route``/``corridor``. Sorted by
     name -- a deterministic, non-"best"-implying default order (Task 6:
     "Do not sort by best unless objective criteria are explicitly
-    defined")."""
+    defined"). All market copy (city/state/site suffix) comes from the
+    ptf-market config -- nothing here names a market (PTF-CORRIDORS-002)."""
     rows_sorted = sorted(rows, key=lambda r: normalize_name(r.get("name", "")))
     header = "".join("<th scope=\"col\">%s</th>" % _e(label) for _, label in _COMPARISON_COLUMNS)
     body_rows = []
@@ -204,55 +212,64 @@ def build_comparison_page(rows: List[Dict]) -> str:
         body_rows.append("<tr>%s</tr>" % "".join(cells))
     table = (
         '<div class="ptf-table-scroll"><table class="ptf-comparison-table">'
-        "<caption>Verified pet-friendly hotel policies in Columbus, compared side by side. "
+        "<caption>Verified pet-friendly hotel policies in %s, compared side by side. "
         "Fees and limits can change &mdash; always confirm directly with the hotel before booking."
         "</caption><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>"
-    ) % (header, "".join(body_rows))
+    ) % (_e(market.market_name), header, "".join(body_rows))
     intro = (
-        "<h1>Compare Verified Hotel Pet Policies in Columbus, Ohio</h1>"
+        "<h1>Compare Verified Hotel Pet Policies in %s, %s</h1>"
         "<p>Every row below comes from that hotel's own official website, checked and quoted "
         "directly &mdash; never estimated. Rows without a stated value show "
         '<span class="ptf-unknown">Not stated</span> rather than a guess. '
         '<a href="/methodology/">Read our verification methodology</a>.</p>'
-    )
+    ) % (_e(market.primary_city), _e(market.state_name))
+    route = market_route(market) + "policy-comparison/"
     body = _breadcrumb_html([("PetTripFinder", "/"), ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
                             ("Policy Comparison", "")]) + intro + table
     ld = [breadcrumb_ld(BASE_URL, [("PetTripFinder", "/"), ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
-                                   ("Policy Comparison", "/pet-friendly-hotels/policy-comparison/")])]
+                                   ("Policy Comparison", route)])]
     return _shell(
-        title="Hotel Pet Policy Comparison | PetTripFinder Columbus",
+        title="Hotel Pet Policy Comparison | PetTripFinder %s" % market.market_name,
         meta_description="Compare verified pet fees, weight limits, and pet counts across "
-                          "every evidence-backed pet-friendly hotel in Columbus, Ohio.",
-        route="/pet-friendly-hotels/policy-comparison/", body=body, ld_objects=ld)
+                          "every evidence-backed pet-friendly hotel in %s, %s."
+                          % (market.primary_city, market.state_name),
+        route=route, body=body, ld_objects=ld)
 
 
 # --------------------------------------------------------------------------- #
-# Corridor pages (Task 7).
+# Corridor pages (Task 7; market-aware since PTF-CORRIDORS-002).
 # --------------------------------------------------------------------------- #
 
-def build_corridor_page(corridor_name: str, corridor_slug: str, hotel_rows: List[Dict]) -> str:
+def build_corridor_page(corridor: "CorridorConfig", market: "MarketConfig",
+                        hotel_rows: List[Dict]) -> str:
+    """One corridor page from its ptf-market config entry. Title and meta
+    description come from the corridor config verbatim; the state code in
+    each card and the breadcrumb chain come from the market -- no market
+    name or state is hard-coded here."""
     items = "".join(
         '<article class="ac-listing ac-listing--card-standard"><h2><a href="%s">%s</a></h2>'
-        '<p class="ac-listing ac-listing--area">%s, OH</p></article>'
-        % (r["route"], _e(r["name"]), _e(r.get("city", "")))
+        '<p class="ac-listing ac-listing--area">%s, %s</p></article>'
+        % (r["route"], _e(r["name"]), _e(r.get("city", "")), _e(market.state_code))
         for r in sorted(hotel_rows, key=lambda r: normalize_name(r["name"]))
     )
+    comparison_route = market_route(market) + "policy-comparison/"
     intro = (
         "<h1>Verified Pet-Friendly Hotels in %s</h1>"
         "<p>%d verified pet-friendly hotels in the %s area. Every listing links to its full, "
         "evidence-backed pet policy. See the "
-        '<a href="/pet-friendly-hotels/policy-comparison/">full comparison table</a> to check '
+        '<a href="%s">full comparison table</a> to check '
         "fees and limits at a glance.</p>"
-    ) % (_e(corridor_name), len(hotel_rows), _e(corridor_name))
-    body = _breadcrumb_html([("PetTripFinder", "/"), ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
-                            (corridor_name, "")]) + intro + '<div class="ptf-card-grid">%s</div>' % items
-    route = "/pet-friendly-hotels/%s/" % corridor_slug
-    ld = [breadcrumb_ld(BASE_URL, [("PetTripFinder", "/"), ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
-                                   (corridor_name, route)])]
+    ) % (_e(corridor.name), len(hotel_rows), _e(corridor.name), comparison_route)
+    route = corridor_route(market, corridor)
+    crumbs = [("PetTripFinder", "/"), ("Pet-Friendly Hotels", "/pet-friendly-hotels/")]
+    if market.route_mode != ROUTE_MODE_LEGACY_UNPREFIXED:
+        crumbs.append((market.market_name, market_route(market)))
+    body = (_breadcrumb_html(crumbs + [(corridor.name, "")]) + intro
+            + '<div class="ptf-card-grid">%s</div>' % items)
+    ld = [breadcrumb_ld(BASE_URL, crumbs + [(corridor.name, route)])]
     return _shell(
-        title="Pet-Friendly Hotels in %s | PetTripFinder Columbus" % corridor_name,
-        meta_description="Verified pet-friendly hotels in the %s area of Columbus, Ohio, "
-                          "with real pet fees and policies from each hotel's own website." % corridor_name,
+        title=corridor.title,
+        meta_description=corridor.meta_description,
         route=route, body=body, ld_objects=ld)
 
 

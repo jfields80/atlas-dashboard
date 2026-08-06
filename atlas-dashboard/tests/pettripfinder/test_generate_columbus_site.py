@@ -11,7 +11,15 @@ import re
 import pytest
 
 from scripts.generate_pettripfinder_columbus_site import run
+from scripts.pettripfinder.markets import default_market, load_markets
 from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
+
+# Non-profile directories under /pet-friendly-hotels/: the comparison page
+# plus every corridor slug the market config could publish (PTF-CORRIDORS-002:
+# corridor pages are config-driven, so tests derive the set from the config
+# rather than naming corridors).
+_NON_PROFILE_DIRS = {"policy-comparison"} | {
+    c.slug for c in default_market(load_markets()).corridors}
 
 # PTF-PROD-002A: the generator's verified pet-policy content now comes from the
 # TRACKED publishable package (launch_packages/pettripfinder/hotel_policy_facts.json),
@@ -70,6 +78,12 @@ def test_core_pages_exist(built_site):
     # Red Roof Convention Center property was promoted, so it now earns an
     # indexable corridor route it previously did not.
     assert (built_site / "pet-friendly-hotels" / "downtown-columbus" / "index.html").exists()
+    # PTF-CORRIDORS-002: the explicit operator-reviewed Easton assignment
+    # gives Easton five verified members, so it publishes on current data.
+    assert (built_site / "pet-friendly-hotels" / "easton" / "index.html").exists()
+    # Below-minimum corridors are configured but suppressed -- no route.
+    assert not (built_site / "pet-friendly-hotels" / "airport").exists()
+    assert not (built_site / "pet-friendly-hotels" / "grove-city").exists()
 
 
 def test_hotel_profile_with_facts_rendered_by_approved_renderer(built_site):
@@ -106,7 +120,7 @@ def test_no_production_row_ever_shows_no_pets_badge(built_site):
     # Production contains zero no-pets rows (004I finding) -- confirm the
     # site never fabricates one.
     for path in (built_site / "pet-friendly-hotels").rglob("index.html"):
-        if "policy-comparison" in str(path) or "downtown-columbus" in str(path) or "dublin" in str(path):
+        if path.parent.name in _NON_PROFILE_DIRS:
             continue
         if path.parent == built_site / "pet-friendly-hotels":
             continue
@@ -140,6 +154,10 @@ def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     # PTF-INVENTORY-001: Downtown now meets CORRIDOR_MIN_PROPERTIES and IS
     # generated, so it must appear in the sitemap exactly like Dublin.
     assert "/pet-friendly-hotels/downtown-columbus/" in sitemap
+    # PTF-CORRIDORS-002: published corridors from the market config appear;
+    # suppressed (below-minimum) corridors never do.
+    assert "/pet-friendly-hotels/easton/" in sitemap
+    assert "/pet-friendly-hotels/airport/" not in sitemap
 
 
 def test_sitemap_covers_every_indexable_route_exactly_once(built_site):
@@ -227,7 +245,7 @@ def test_every_profile_has_exactly_one_structured_data_lodging_or_place_entry(bu
                           ("pet-friendly-parks", "Park"), ("pet-friendly-restaurants", "Restaurant")):
         found_any = False
         for path in (built_site / slug).iterdir():
-            if not path.is_dir() or path.name in ("policy-comparison", "downtown-columbus", "dublin"):
+            if not path.is_dir() or path.name in _NON_PROFILE_DIRS:
                 continue
             text = (path / "index.html").read_text(encoding="utf-8")
             payloads = re.findall(r'<script type="application/ld\+json">(.*?)</script>', text)
