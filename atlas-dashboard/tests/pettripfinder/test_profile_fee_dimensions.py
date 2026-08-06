@@ -276,15 +276,36 @@ def test_a_fee_tiers_page_is_unchanged():
     assert rows["Pet charge, 5 nights or more"] == "$125"
 
 
-def test_no_published_hotel_carries_either_new_field():
-    """The 38 published pages cannot change, because none carries the fields."""
+# PTF-PROMOTION-002: these two dimensions are now genuinely published. The
+# guard therefore stops asserting that nobody carries them -- which is no
+# longer true and would have to be deleted to pass -- and instead pins WHICH
+# records carry them and proves each renders completely. Both fields fail
+# closed by design: half a staged schedule, or a ceiling missing its window,
+# renders nothing at all, so "carries the field" and "renders it" must agree.
+STAGED_FEE_IDENTITIES = ["hawthorn extended stay by wyndham columbus west"]
+CAP_TIER_IDENTITIES = ["candlewood suites columbus north polaris by ihg"]
+
+
+def test_only_the_reviewed_hotels_carry_the_new_fee_dimensions():
     hotels = json.loads(PACKAGE_FACTS.read_text(encoding="utf-8"))["hotels"]
-    assert len(hotels) == 38
-    blob = json.dumps(hotels)
-    assert "fee_schedule" not in blob and "fee_cap_tiers" not in blob
+    assert len(hotels) == 70
+    staged = sorted(h["key"] for h in hotels
+                    if (h.get("facts") or {}).get("fee_schedule"))
+    capped = sorted(h["key"] for h in hotels
+                    if (h.get("facts") or {}).get("fee_cap_tiers"))
+    assert staged == STAGED_FEE_IDENTITIES
+    assert capped == CAP_TIER_IDENTITIES
     for h in hotels:
-        f = h.get("pet_facts") or h
-        assert staged_fee(f) == ("", "") and cap_tiers(f) == ()
+        f = h.get("facts") or {}
+        key = h["key"]
+        # A record renders a dimension exactly when it carries it.
+        assert (staged_fee(f) != ("", "")) is (key in STAGED_FEE_IDENTITIES), key
+        assert (cap_tiers(f) != ()) is (key in CAP_TIER_IDENTITIES), key
+    # Both stages of a staged schedule are present, never half of one.
+    for h in hotels:
+        if h["key"] in STAGED_FEE_IDENTITIES:
+            first, additional = staged_fee(h["facts"])
+            assert first and additional, h["key"]
 
 
 # --------------------------------------------------------------------------- #
@@ -374,17 +395,33 @@ def test_preview_still_carries_noindex_and_production_does_not():
     assert "X-Robots-Tag" not in prod
 
 
-def test_the_production_package_has_no_pending_change():
+def test_the_export_corpus_cannot_regress_the_production_package():
+    """The export corpus no longer reconstructs the committed authority, and
+    that is expected: records promoted through machine review are absent from
+    it. The contract is therefore no longer "these must be equal" -- which
+    would be satisfied only by deleting 32 published hotels -- but "the export
+    path must refuse to make them equal by destroying the authority".
+
+    The equality expectation this replaces would have passed happily the moment
+    someone ran the exporter and lost the promoted records.
+    """
     import scripts.pettripfinder.export_hotel_policy_facts as EX
     try:
         report = EX.build_preview()["report"]
     except (FileNotFoundError, KeyError):
         pytest.skip("operational promotion corpus absent (gitignored)")
+    # Preview stays read-only and honest about the divergence.
     assert report["additions_count"] == 0
-    assert report["removals_count"] == 0
-    assert report["unintended_updates_count"] == 0
-    assert report["before_package_sha256"] == report["after_package_sha256"]
-    assert report["new_count"] == report["old_count"] == 38
+    assert report["old_count"] == 70
+    before = EX.PUBLISHED_FACTS_PATH.read_bytes()
+    delta = EX.authority_delta(before.decode("utf-8"), EX.serialize(EX.build_package()))
+    if not EX.is_destructive(delta):
+        # A corpus that legitimately reproduces the authority must still write.
+        assert delta["identical"]
+        return
+    with pytest.raises(EX.AuthorityRegressionError):
+        EX.write_package()
+    assert EX.PUBLISHED_FACTS_PATH.read_bytes() == before
 
 
 # --------------------------------------------------------------------------- #

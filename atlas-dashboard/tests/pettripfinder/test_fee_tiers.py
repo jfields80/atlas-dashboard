@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+from decimal import Decimal
 
 import pytest
 
@@ -487,25 +488,69 @@ class TestScalarUnchanged:
         assert rows["Pet charge"] == "$50.00"
         assert rows["Charge basis"] == "Per night"
 
+    # PTF-PROMOTION-002: the published stay-length ladders, listed explicitly so
+    # a record gaining or losing one is a reviewable diff rather than a silently
+    # moving number. A hotel acquiring tiers its source never stated is the
+    # flattening bug in reverse, and that is what this fixture pins.
+    TIERED_IDENTITIES = [
+        "hampton inn and suites columbus downtown",
+        "hampton inn and suites columbus easton area",
+        "hampton inn and suites columbus hilliard",
+        "hampton inn and suites columbus polaris",
+        "hampton inn columbus airport",
+        "hilton garden inn columbus airport",
+        "hilton garden inn columbus grove city",
+        "hilton garden inn columbus polaris",
+        "hilton garden inn columbus university area",
+        "home2 suites by hilton columbus airport east broad",
+        "home2 suites by hilton columbus downtown",
+        "home2 suites by hilton columbus dublin",
+        "home2 suites by hilton reynoldsburg columbus east",
+        "home2 suites new albany columbus",
+        "homewood suites by hilton columbus dublin",
+        "homewood suites by hilton columbus hilliard",
+        "homewood suites by hilton columbus osu oh",
+        "homewood suites by hilton columbus polaris oh",
+        "sonesta simply suites dublin columbus",
+        "tru by hilton columbus east broad",
+    ]
+
     def test_only_the_genuinely_tiered_hotels_carry_tiers(self):
-        """Exactly three published properties state a stay-length ladder. Every
-        other record stays scalar -- a hotel gaining tiers without its source
-        stating them would be the flattening bug in reverse."""
+        """Exactly the published properties that state a stay-length ladder.
+        Every other record stays scalar."""
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 38
+        assert len(pkg["hotels"]) == 70
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
-        # PTF-PROMOTION: Sonesta joined on 2026-08-02 -- the first ladder to
-        # reach the package through the WORKER path rather than attestation.
-        assert tiered == ["hampton inn columbus airport",
-                          "hilton garden inn columbus airport",
-                          "home2 suites new albany columbus",
-                          "sonesta simply suites dublin columbus"]
+        assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:
             facts = h.get("facts", {})
-            # A record may carry a ladder OR a scalar fee, never both.
+            # A record may carry a ladder OR a scalar fee, never both. A tiered
+            # CEILING over a scalar fee is a different shape and is allowed --
+            # see test_a_capped_scalar_fee_is_not_a_ladder.
             assert not (facts.get("fee_tiers") and facts.get("pet_fee")), h["key"]
+
+    def test_a_capped_scalar_fee_is_not_a_ladder(self):
+        """fee_cap_tiers is a ceiling schedule over a scalar fee, never a ladder.
+
+        Candlewood charges $25 per night under a ceiling that itself varies with
+        stay length. Reading that ceiling as a fee ladder would treble a
+        one-night stay, so the two shapes must stay distinct: a capped scalar
+        keeps its fee and basis and must never acquire synthetic fee_tiers.
+        """
+        pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
+                          "pettripfinder" / "hotel_policy_facts.json")
+                         .read_text(encoding="utf-8-sig"))
+        capped = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_cap_tiers")]
+        assert capped, "expected at least one capped-scalar record"
+        for h in capped:
+            facts = h["facts"]
+            assert not facts.get("fee_tiers"), h["key"]
+            assert facts.get("pet_fee"), h["key"]
+            assert facts.get("fee_basis"), h["key"]
+            for cap in facts["fee_cap_tiers"]:
+                assert cap.get("amount"), h["key"]
 
     def test_every_published_tier_ladder_is_contiguous_and_non_overlapping(self):
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
@@ -520,7 +565,29 @@ class TestScalarUnchanged:
                 assert a["condition_max"] is not None, h["key"]
                 assert b["condition_min"] == a["condition_max"] + 1, h["key"]
             assert ordered[-1]["condition_max"] is None, h["key"]
-            assert all(t["basis_stated"] is False for t in tiers), h["key"]
+            for t in ordered:
+                # Ranges and amounts must be usable, not merely present.
+                assert isinstance(t["condition_min"], int) and t["condition_min"] >= 1, h["key"]
+                if t["condition_max"] is not None:
+                    assert t["condition_max"] >= t["condition_min"], h["key"]
+                assert Decimal(str(t["amount"])) > 0, h["key"]
+                # Basis metadata must be internally consistent. A source that
+                # states the recurrence is carried through; one that does not
+                # must not smuggle a recurrence in beside basis_stated=False,
+                # because the sentence would then assert a per-stay or
+                # per-night charge the official page never made.
+                assert isinstance(t["basis_stated"], bool), h["key"]
+                stated = (t.get("stated_basis") or "").strip()
+                if t["basis_stated"]:
+                    assert stated, "%s: basis_stated=True without a basis" % h["key"]
+                else:
+                    assert not stated, "%s: unstated basis carries %r" % (h["key"], stated)
+            # All rungs must agree about whether a basis was stated -- a ladder
+            # whose rungs disagree is not one the summary can describe.
+            assert len({t["basis_stated"] for t in ordered}) == 1, h["key"]
+            if ordered[0]["basis_stated"]:
+                assert len({(t.get("stated_basis") or "").strip().lower()
+                            for t in ordered}) == 1, h["key"]
 
     def test_every_published_hotel_still_renders(self):
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /

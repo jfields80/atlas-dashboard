@@ -249,11 +249,11 @@ def test_real_review_candidates_never_promoted(result):
 
 def test_real_projection_and_decision(result):
     r = result["report"]
-    # 33 hotel seed rows after the PTF-INVENTORY-001 expansion (was 25). This
-    # projection counts seed inventory, not the published surface -- the seven
-    # pending-attestation rows are carried here and excluded at the render
-    # boundary, so this total legitimately exceeds the 16 public profiles.
-    assert r["projected_verified_pet_friendly_total"] == 43
+    # 75 hotel seed rows after the PTF-PROMOTION-002 expansion (was 43). This
+    # projection counts seed inventory, not the published surface -- rows
+    # without policy evidence are carried here and excluded at the render
+    # boundary, so this total legitimately exceeds the 70 public profiles.
+    assert r["projected_verified_pet_friendly_total"] == 75
     assert r["beta_threshold_decision"] == DECISION_BETA_THRESHOLD_REACHED
     assert r["validation_errors"] == []
 

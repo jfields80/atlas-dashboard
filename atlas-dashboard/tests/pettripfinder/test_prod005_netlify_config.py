@@ -42,7 +42,13 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-EXPECTED_PACKAGE_SHA = "17b3d9af0628fc4f31e48753ac3d5b7894e5463bccf57bf17257247eaac82133"
+# PTF-PROMOTION-002: the release identity of the committed 70-hotel Columbus
+# package. Deliberately an explicit constant, not a value read back from the
+# package -- a gate that recomputes its own expectation proves nothing. It must
+# agree with deploy/netlify/release_contract.json, and both must agree with the
+# file on disk; the three-way check below is the release contract.
+EXPECTED_PACKAGE_SHA = "f389bd6495e6ec252b7394dd3fd0b18b54d42e017c497bbd48d3d9c7311a86f5"
+EXPECTED_RECORD_COUNT = 70
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
@@ -117,7 +123,7 @@ class TestReleaseContract:
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
         pkg = json.loads(pkg_path.read_text(encoding="utf-8-sig"))
         assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
-        assert len(pkg["hotels"]) == spec["expected_record_count"] == 38
+        assert len(pkg["hotels"]) == spec["expected_record_count"] == EXPECTED_RECORD_COUNT
 
     def test_package_identity_survives_a_checkout_rewriting_line_endings(self):
         """The defect this closes: the gate hashed raw bytes, so a clone whose
@@ -141,26 +147,40 @@ class TestReleaseContract:
         assert content_sha256(raw + b" ") != EXPECTED_PACKAGE_SHA
 
     def test_public_profile_counts_match_the_seed_split(self):
-        """15 published + 10 held == the 25 seed hotels. PTF-INVENTORY-001 moved
-        one hotel across that line under an explicit tiered-fee approval."""
+        """Published + excluded must exhaust the seed's hotel rows.
+
+        Derived from the two committed authorities rather than restated as
+        magic numbers: the contract's published count must equal the package's
+        record count, and the split must account for every seeded hotel. A row
+        that silently stopped being either published or excluded is the failure
+        this catches, at whatever inventory size the market has reached.
+        """
         contract = load_release_contract()
         published = contract["public_surface"]["public_hotel_profile_count"]
         excluded = contract["public_surface"]["excluded_public_profile_count"]
-        assert published == 38
-        assert excluded == 5
-        assert published + excluded == 43
+        pkg = json.loads((REPO_ROOT / contract["policy_package"]["path"])
+                         .read_text(encoding="utf-8-sig"))
+        seed_hotel_rows = sum(1 for r in read_production_rows()
+                              if r.get("category") == "pet-friendly-hotels")
+        assert published == len(pkg["hotels"]) == EXPECTED_RECORD_COUNT
+        assert published + excluded == seed_hotel_rows
+        assert excluded == seed_hotel_rows - published
 
     def test_identities_derive_from_package_no_duplicated_allowlist(self):
-        # The contract must NOT restate the 14 verified hotel identities.
+        # The contract must NOT restate the verified hotel identities.
         raw = RELEASE_CONTRACT_PATH.read_text(encoding="utf-8")
         for slug in _verified_slugs():
             assert slug not in raw, "contract duplicates a verified identity: %s" % slug
-        # And no value in the contract is a 14-element identity list.
+        # And no value in the contract is an identity list of the published
+        # size -- checked against the live count so the guard keeps working as
+        # the market grows, instead of pinning the size the market once was.
         contract = load_release_contract()
+        identity_count = len(_verified_slugs())
 
         def _walk(node):
             if isinstance(node, list):
-                assert len(node) != 14, "contract holds a 14-element list (possible allow-list)"
+                assert len(node) != identity_count, (
+                    "contract holds a %d-element list (possible allow-list)" % identity_count)
                 for x in node:
                     _walk(x)
             elif isinstance(node, dict):
@@ -360,10 +380,13 @@ class TestAssembler:
             assert copied == REDIRECTS_PATH.read_bytes()
 
     def test_exactly_fourteen_hotel_profiles(self, assembled):
+        """Route count must equal the committed package exactly -- one route
+        more or fewer than the reviewed authority is a release defect."""
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert inv["hotel_profile_routes"] == 38
-            assert len(inv["hotel_slugs"]) == 38
+            assert inv["hotel_profile_routes"] == EXPECTED_RECORD_COUNT
+            assert len(inv["hotel_slugs"]) == EXPECTED_RECORD_COUNT
+            assert set(inv["hotel_slugs"]) == _verified_slugs()
 
     def test_all_fourteen_committed_identities_present(self, assembled):
         verified = _verified_slugs()
@@ -375,7 +398,8 @@ class TestAssembler:
     def test_held_hotels_absent(self, assembled):
         for ctx in ("preview", "production"):
             inv = json.loads((assembled[ctx]["root"] / "route_inventory.json").read_text(encoding="utf-8"))
-            assert len(inv["excluded_hotel_slugs"]) == 5
+            assert len(inv["excluded_hotel_slugs"]) == (
+                load_release_contract()["public_surface"]["excluded_public_profile_count"])
             hotels = assembled[ctx]["root"] / "site" / "pet-friendly-hotels"
             for slug in inv["excluded_hotel_slugs"]:
                 assert not (hotels / slug).exists(), slug

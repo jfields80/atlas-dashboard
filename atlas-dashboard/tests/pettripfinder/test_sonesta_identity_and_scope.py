@@ -178,7 +178,7 @@ class TestPublishedProfilesUnaffected:
     def test_the_package_holds_38_hotels_including_sonesta(self):
         pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 38
+        assert len(pkg["hotels"]) == 70
         assert KEY in {h["key"] for h in pkg["hotels"]}
 
     def test_the_pre_existing_ladders_still_state_no_scope(self):
@@ -189,10 +189,11 @@ class TestPublishedProfilesUnaffected:
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
         tiered = {h["key"]: h["facts"]["fee_tiers"]
                   for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")}
-        assert sorted(tiered) == ["hampton inn columbus airport",
-                                  "hilton garden inn columbus airport",
-                                  "home2 suites new albany columbus",
-                                  KEY]
+        # Every published ladder except Sonesta leaves scope unstated, so the
+        # per-pet rendering cannot change a published byte of theirs. Asserted
+        # over the whole published set rather than a frozen four-name list, so
+        # a new ladder that silently claims a scope is caught too.
+        assert KEY in tiered
         for key, tiers in tiered.items():
             if key == KEY:
                 continue

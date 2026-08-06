@@ -114,17 +114,36 @@ class TestTheGuardStaysNarrow:
         assert detect_unrepresentable_fee_range(STAYBRIDGE) is not None
 
     def test_no_published_hotel_loses_its_scalar_fee(self):
-        """The guard may fire only on hotels that publish a ladder or no fee."""
+        """The guard may fire only on hotels that publish a ladder or no fee.
+
+        Stay-conditional wording has two legitimate shapes and they must not be
+        confused. A stay-length FEE LADDER replaces the scalar fee outright. A
+        stay-length CEILING over a scalar fee keeps it -- Candlewood charges $25
+        per night under a cap that varies with stay length, so demanding
+        fee_tiers there would delete a real per-night price and demanding the
+        absence of pet_fee would delete the only amount the guest pays nightly.
+
+        The anti-flattening contract is unchanged for genuine ladders: a record
+        whose source states a ladder must carry fee_tiers and no scalar fee.
+        """
         import json
         import pathlib
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
         for h in pkg["hotels"]:
-            if is_stay_conditional_multi_amount(h.get("evidence_quote") or ""):
-                facts = h.get("facts", {})
-                assert not facts.get("pet_fee"), h["key"]
-                assert facts.get("fee_tiers"), h["key"]
+            if not is_stay_conditional_multi_amount(h.get("evidence_quote") or ""):
+                continue
+            facts = h.get("facts", {})
+            if facts.get("fee_cap_tiers"):
+                # Capped scalar: the fee and its basis survive, the ceiling is
+                # carried separately, and no ladder is invented.
+                assert facts.get("pet_fee"), h["key"]
+                assert facts.get("fee_basis"), h["key"]
+                assert not facts.get("fee_tiers"), h["key"]
+                continue
+            assert not facts.get("pet_fee"), h["key"]
+            assert facts.get("fee_tiers"), h["key"]
 
 
 # --------------------------------------------------------------------------- #

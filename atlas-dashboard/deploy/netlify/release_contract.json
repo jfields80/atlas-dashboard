@@ -6,7 +6,7 @@
     "sitemap_host": "pettripfinder.com"
   },
   "contract_id": "pettripfinder-columbus-release/1.0",
-  "description": "Deterministic release-gate contract for the PetTripFinder Columbus static site (PETTRIPFINDER-PROD-005A). Consumed by scripts/pettripfinder/assemble_netlify_bundle.py. Contains NO credentials and NO remote project identifiers. The committed hotel-policy package is the single identity authority for the 14 verified hotels; this contract deliberately does NOT duplicate a hard-coded production allow-list.",
+  "description": "Deterministic release-gate contract for the PetTripFinder Columbus static site (PETTRIPFINDER-PROD-005A). Consumed by scripts/pettripfinder/assemble_netlify_bundle.py. Contains NO credentials and NO remote project identifiers. The committed hotel-policy package is the single identity authority for the verified hotels; this contract deliberately does NOT duplicate a hard-coded production allow-list.",
   "forbidden_output_tokens": [
     "C:\\Atlas",
     "C:/Atlas",
@@ -46,19 +46,19 @@
     "tech.no_runtime_paths"
   ],
   "policy_package": {
-    "expected_record_count": 38,
+    "expected_record_count": 70,
     "expected_schema_version": "1.1",
-    "expected_sha256": "17b3d9af0628fc4f31e48753ac3d5b7894e5463bccf57bf17257247eaac82133",
+    "expected_sha256": "f389bd6495e6ec252b7394dd3fd0b18b54d42e017c497bbd48d3d9c7311a86f5",
     "identity_authority": true,
-    "note": "The 33 verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are the seed hotels absent from this package.",
+    "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are the seed hotels absent from this package.",
     "path": "launch_packages/pettripfinder/hotel_policy_facts.json"
   },
   "product": "pettripfinder-columbus",
   "public_surface": {
     "drury_plaza_slug": "drury-plaza-hotel-columbus-downtown",
     "excluded_public_profile_count": 5,
-    "held_hotel_exclusion": "Every seed hotel absent from the committed package (9 not-published (9 held/manual-review + 0 pending attestation), including Drury Plaza) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials.",
-    "public_hotel_profile_count": 38
+    "held_hotel_exclusion": "Every seed hotel absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence, including Drury Plaza) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials.",
+    "public_hotel_profile_count": 70
   },
   "publish": {
     "control_file_sources": {

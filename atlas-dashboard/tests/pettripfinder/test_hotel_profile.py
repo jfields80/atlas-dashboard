@@ -336,8 +336,13 @@ def test_related_card_shows_supported_fact_when_available(vms):
     rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     facts = _load_fixture_data()["verified_facts"]
     related = _related_from_production(vms["rich"].name, rows, facts, limit=len(rows))
-    days = [r for r in related if "Days Inn" in r.name]
-    assert days, "Days Inn should appear among the related hotels"
+    # Select the Days Inn this fixture actually carries facts for. Picking
+    # positionally broke when the market grew: another Days Inn now sorts
+    # ahead of it and, having no committed fixture facts, correctly shows no
+    # fact at all. The contract under test is "a supported fact is shown when
+    # one is available", not which hotel happens to sort first.
+    days = [r for r in related if r.name.startswith("Days Inn by Wyndham Grove City")]
+    assert days, "Days Inn Grove City should appear among the related hotels"
     assert days[0].fact == "Pets welcome"            # supported, from pets_allowed=true
 
 

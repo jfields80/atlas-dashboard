@@ -178,6 +178,13 @@ def test_published_package_is_the_default_source(sample):
         "verification_date", "worker_result_hash", "worker_model_id",
         "worker_prompt_version", "worker_validator_version", "worker_routing_version",
         "evidence", "approval",
+        # PTF-PROMOTION-002: review provenance for records promoted through the
+        # machine-review path, the same category as the worker_* fields above
+        # and admitted on the same terms. Each block holds only hashes, the
+        # reviewer id and the review timestamp -- no candidate id or path, no
+        # corpus metadata, no raw model output. The operational-internals
+        # assertions below still run against them unchanged.
+        "machine_review", "display_review",
     }
     for h in pkg["hotels"]:
         assert set(h).issubset(_PUBLISHABLE), set(h) - _PUBLISHABLE
