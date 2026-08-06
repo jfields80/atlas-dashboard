@@ -66,6 +66,9 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.site_data import (            # noqa: E402
     PRODUCTION_CSV, normalize_name,
 )
+from scripts.pettripfinder.hotel_exclusions import (   # noqa: E402
+    exclusion_for, load_exclusions,
+)
 from services.research_workers import vocabulary as V    # noqa: E402
 from services.research_workers.capture_automation.adapters import (  # noqa: E402
     known_brands,
@@ -220,10 +223,17 @@ def build_queue(*, batch_id: str, created_at: str = "",
                 status: str = STATUS_ANY, hotel_ids: Sequence[str] = (),
                 limit: int = 0, require_retrieval_artifact: bool = True,
                 seed_csv=None, package_path=None, retrieval_root=None,
-                include_filtered_in_report: bool = False) -> BuildResult:
-    """Select seed hotels and build a validated ``ptf-capture-queue/1.0``."""
+                include_filtered_in_report: bool = False,
+                exclusions_path=None, revalidate_excluded: bool = False) -> BuildResult:
+    """Select seed hotels and build a validated ``ptf-capture-queue/1.0``.
+
+    ``revalidate_excluded`` is the explicit revalidation workflow: it is the
+    ONLY way an excluded identity re-enters a capture queue, and it must be
+    asked for deliberately.
+    """
     rows = read_seed_hotels(seed_csv)
     published = published_keys(package_path)
+    exclusion_records = [] if revalidate_excluded else load_exclusions(exclusions_path)
     artifacts = retrieval_artifacts(retrieval_root)
     adapters = frozenset(known_brands())
 
@@ -247,6 +257,18 @@ def build_queue(*, batch_id: str, created_at: str = "",
         if skip:
             if include_filtered_in_report:
                 excluded.append(Excluded(hotel_id, name, skip))
+            continue
+
+        # PTF-EXCLUSIONS: an identity already answered by evidence -- its own
+        # official page says no pets, or it is closed, duplicated or out of
+        # market -- is not capture-worthy. Re-reading the same sentence every
+        # sweep is wasted operator time. A merely UNVERIFIED hold is not an
+        # exclusion and never reaches this check.
+        excl = exclusion_for(name, row.get("address", ""), row.get("postal_code", ""),
+                             records=exclusion_records)
+        if excl is not None:
+            excluded.append(Excluded(hotel_id, name,
+                                     "excluded_identity:%s" % excl["exclusion_state"]))
             continue
 
         # -- fail-closed checks the queue contract cannot see ---------------- #
