@@ -103,6 +103,33 @@ def row_problems(row: Mapping) -> Tuple[str, ...]:
     return tuple(sorted(set(found)))
 
 
+def _refuse_excluded_row(row: Mapping) -> None:
+    """Raise ``DisplayReviewError`` if this display row's identity is excluded.
+
+    The row carries name, address and postal code, so both the name and the
+    street-identity bases apply here -- this is the boundary where a renamed
+    property at a known excluded address is caught.
+
+    Imported lazily so the review service does not take a module-level
+    dependency on the publication layer.
+    """
+    from scripts.pettripfinder.publication_guard import (
+        PublicationBlockedError, assert_publishable)
+
+    try:
+        assert_publishable([{"name": row.get("name", ""),
+                             "address": row.get("address", ""),
+                             "postal_code": row.get("postal_code", ""),
+                             "category": row.get("category", "")}],
+                           check_collisions=False)
+    except PublicationBlockedError as exc:
+        block = exc.blocks[0]
+        raise DisplayReviewError(
+            "cannot approve an excluded identity:%s:%s (matched by %s)"
+            % (block.get("exclusion_state", ""), block.get("exclusion_id", ""),
+               block.get("match_basis", ""))) from exc
+
+
 def build_decision(*, hotel_id: str, normalized_name: str, row: Mapping,
                    identity_evidence_hash: str, policy_source_record_hash: str,
                    policy_approval_hash: str, reviewer_id: str, reviewed_at: str,
@@ -124,6 +151,12 @@ def build_decision(*, hotel_id: str, normalized_name: str, row: Mapping,
     if problems and decision == DISPLAY_APPROVED:
         raise DisplayReviewError("cannot approve a row that fails its gates:%s"
                                  % ",".join(problems))
+    if decision == DISPLAY_APPROVED:
+        # PTF-EXCLUSIONS-002. An approved display row is the seed row a hotel
+        # publishes with. Held rows are still recordable -- holding an excluded
+        # identity is exactly what a reviewer should be able to do -- but it can
+        # never be approved.
+        _refuse_excluded_row(row)
     body = {
         "schema": DISPLAY_REVIEW_SCHEMA,
         "hotel_id": hotel_id,

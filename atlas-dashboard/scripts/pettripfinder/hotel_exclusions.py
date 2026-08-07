@@ -253,17 +253,18 @@ def supersede(record: Dict, *, reviewer_id: str, reviewed_at: str, reason: str,
 def assert_not_excluded_for_publication(names_with_addresses: Iterable[Sequence[str]],
                                         records: Sequence[Dict] = None,
                                         path: Path = None) -> None:
-    """Promotion gate. Raises if any candidate for publication is excluded."""
+    """Promotion gate. Raises if any candidate for publication is excluded.
+
+    Delegates to :mod:`publication_guard`, which owns the structured refusal
+    every publication boundary shares. The raised error is a
+    ``PublicationBlockedError`` -- a subclass of ``ExclusionContractError``, so
+    existing callers catch it unchanged, but it now names the match basis,
+    evidence lineage and remediation instead of only the identity.
+
+    Imported inside the function on purpose: ``publication_guard`` imports this
+    module, and the authority reader must not depend on the gate that reads it.
+    """
+    from scripts.pettripfinder.publication_guard import assert_publishable
+
     recs = records if records is not None else load_exclusions(path)
-    hits = []
-    for item in names_with_addresses:
-        name = item[0]
-        addr = item[1] if len(item) > 1 else ""
-        zipc = item[2] if len(item) > 2 else ""
-        hit = exclusion_for(name, addr, zipc, recs)
-        if hit:
-            hits.append((name, hit["exclusion_state"], hit["exclusion_id"]))
-    if hits:
-        raise ExclusionContractError(
-            "refusing to publish excluded identities: %s"
-            % "; ".join("%s (%s, %s)" % h for h in sorted(hits)))
+    assert_publishable(names_with_addresses, exclusions=recs, check_collisions=False)

@@ -461,6 +461,30 @@ def record_review(record: MachineCaptureReview, *, reviewer_id: str,
 # Promotion safety.
 # --------------------------------------------------------------------------- #
 
+def _refuse_if_excluded(record: Mapping) -> None:
+    """Raise ``MachineReviewError`` if this record's identity is excluded.
+
+    Imported lazily: the review service must not take a hard import dependency
+    on the publication layer just to be constructed, and a missing authority
+    file is not an excuse to publish -- the guard's own loader fails closed.
+    The block detail is preserved in the message so a refusal is diagnosable
+    without re-running the guard by hand.
+    """
+    from scripts.pettripfinder.publication_guard import (
+        PublicationBlockedError, assert_publishable)
+
+    name = str(record.get("hotel_name") or record.get("listing_key") or "").strip()
+    if not name:
+        return
+    try:
+        assert_publishable([name], check_collisions=False)
+    except PublicationBlockedError as exc:
+        block = exc.blocks[0]
+        raise MachineReviewError(
+            "promotion_refused:excluded_identity:%s:%s"
+            % (block.get("exclusion_state", ""), block.get("exclusion_id", ""))) from exc
+
+
 def promotion_input(record: Mapping, review: Optional[Mapping]) -> dict:
     """The facts promotion may use, or a refusal.
 
@@ -468,6 +492,12 @@ def promotion_input(record: Mapping, review: Optional[Mapping]) -> dict:
     the stored value, so evidence edited after an approval invalidates it instead
     of travelling under it.
     """
+    # PTF-EXCLUSIONS-002. The exclusion authority outranks an approval: a
+    # reviewer approving the evidence does not overturn a recorded decision that
+    # this identity must never publish. Checked first, so an excluded record is
+    # refused before any facts are assembled from it.
+    _refuse_if_excluded(record)
+
     if not review:
         raise MachineReviewError("promotion_refused:no_review_record")
     if review.get("decision") != DECISION_APPROVED:

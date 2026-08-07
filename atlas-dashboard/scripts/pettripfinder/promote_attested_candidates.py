@@ -45,6 +45,7 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.site_data import (  # noqa: E402
     WORKER_PROMOTION_ROOT, normalize_name,
 )
+from scripts.pettripfinder.publication_guard import assert_publishable  # noqa: E402
 
 PROMOTION_SUBDIR = "candidates"
 ADAPTER_VERSION = "ptf-capture-003/1.0.0"
@@ -755,6 +756,12 @@ def write_candidate(candidate: Dict, root: Path = None) -> Path:
     Refuses to overwrite: a second promotion of the same hotel must be a
     deliberate act, not a silent replacement of published evidence.
     """
+    # PTF-EXCLUSIONS-002. This file feeds the exporter's corpus and therefore
+    # the published policy package. Checked before the directory is created so a
+    # refusal leaves nothing behind, not even an empty candidates/ directory.
+    assert_publishable([dict(candidate.get("proposed_fields") or []).get("name", "")],
+                       check_collisions=False)
+
     root = Path(root or WORKER_PROMOTION_ROOT)
     out_dir = root / PROMOTION_SUBDIR
     out_dir.mkdir(parents=True, exist_ok=True)

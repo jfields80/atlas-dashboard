@@ -38,6 +38,7 @@ from scripts.pettripfinder.inventory_validation import (
     assess_inventory,
     compute_launch_readiness,
 )
+from scripts.pettripfinder.publication_guard import assert_publishable
 
 _LAUNCH_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
 
@@ -187,6 +188,13 @@ def promote(
             continue
         existing_identities.add(ident)
         appended.append(row)
+
+    # PTF-EXCLUSIONS-002. The seed CSV is a publication authority: a row here
+    # becomes a public route. Excluded identities and unreviewed same-address
+    # collisions are refused BEFORE the temporary file is opened, so one bad row
+    # fails the whole batch and the committed authority is left byte-identical
+    # with no partial write and no .tmp left behind.
+    assert_publishable(appended, published=existing_raw)
 
     all_rows = existing_raw + appended
     _atomic_write_csv(target_path, all_rows)

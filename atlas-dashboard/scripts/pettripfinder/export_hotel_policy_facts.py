@@ -42,6 +42,7 @@ from scripts.pettripfinder.site_data import (  # noqa: E402
     normalize_name,
     read_production_rows,
 )
+from scripts.pettripfinder.publication_guard import assert_publishable  # noqa: E402
 
 SCHEMA_VERSION = "1.1"
 MARKET = "columbus-oh"
@@ -221,6 +222,26 @@ def format_authority_regression(delta: dict) -> str:
     return "\n".join(lines)
 
 
+def _package_identities(package_text: str) -> list:
+    """Package records as publication identities, addressed from the seed rows.
+
+    A package record carries a normalized ``key`` and a display ``name`` but no
+    address; the seed CSV is where the street identity lives. Joining them here
+    means the exclusion check sees both bases, so an excluded building cannot
+    slip through under a different display name.
+    """
+    seed = {normalize_name(r.get("name", "")): r for r in read_production_rows()
+            if r.get("category") == "pet-friendly-hotels"}
+    rows = []
+    for record in json.loads(package_text).get("hotels", []):
+        display = seed.get(record.get("key", ""), {})
+        rows.append({"name": record.get("name") or record.get("key", ""),
+                     "address": display.get("address", ""),
+                     "postal_code": display.get("postal_code", ""),
+                     "category": "pet-friendly-hotels"})
+    return rows
+
+
 def write_package(path: Path = PUBLISHED_FACTS_PATH,
                   authorized_delta: dict | None = None) -> int:
     """Write the export package, refusing any destructive replacement.
@@ -233,6 +254,16 @@ def write_package(path: Path = PUBLISHED_FACTS_PATH,
     tinguishable from the accident it exists to prevent.
     """
     text = serialize(build_package())
+
+    # PTF-EXCLUSIONS-002. The policy package is the record set the public site
+    # publishes from. An excluded identity reaching it would publish a hotel the
+    # exclusion authority says must never publish -- including, for
+    # VERIFIED_NO_PETS, a property presented as pet-friendly. Checked here,
+    # before the file is opened, so a refusal leaves the committed authority
+    # untouched. Addresses are taken from the seed display rows, so a rename at
+    # a known street identity is caught as well as a name match.
+    assert_publishable(_package_identities(text), check_collisions=False)
+
     existing_text = path.read_text(encoding="utf-8") if path.exists() else ""
     if existing_text.strip():
         delta = authority_delta(existing_text, text)

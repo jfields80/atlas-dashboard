@@ -42,6 +42,7 @@ if str(_APP_ROOT) not in sys.path:
 
 from scripts.pettripfinder import prod003_approvals as PA          # noqa: E402
 from scripts.pettripfinder import site_data as SD                  # noqa: E402
+from scripts.pettripfinder.publication_guard import assert_publishable  # noqa: E402
 from services.research_workers import vocabulary as V              # noqa: E402
 
 BASELINE_COMMIT = "9bc30c13bd05e4e84f77f5826c8e7bb5e776ca53"
@@ -699,6 +700,17 @@ def apply_promotion(gate1_manifests: Optional[List[Path]] = None) -> Dict:
     if unsafe:
         raise SystemExit("refusing --apply: %d approved record(s) failed a gate: %s"
                          % (len(unsafe), {r["listing_key"]: r["failures"] for r in unsafe}))
+    # PTF-EXCLUSIONS-002. A candidate written here is read by
+    # ``site_data.load_hotel_policy_facts`` and becomes a published policy
+    # record; this is a publication path even though it writes no page. The
+    # whole batch is checked before the first file is created, so an excluded
+    # identity refuses the batch atomically rather than leaving some candidates
+    # promoted. Names only: a worker candidate carries no address, and inventing
+    # one to satisfy the address basis would be worse than checking the basis we
+    # actually have.
+    assert_publishable([r.get("display_name") or r["listing_key"] for r in selected],
+                       check_collisions=False)
+
     already = sorted(r["listing_key"] for r in selected if r["excluded"])
     (PROMOTION_ROOT / "candidates").mkdir(parents=True, exist_ok=True)
     written = []
