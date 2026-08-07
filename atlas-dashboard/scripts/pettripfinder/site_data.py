@@ -248,13 +248,19 @@ def load_published_hotel_policy_facts() -> Dict[str, Dict]:
 CORRIDOR_MIN_PROPERTIES = 5
 
 
-def group_by_corridor(hotel_rows: List[Dict[str, str]]) -> Dict[str, List[Dict[str, str]]]:
-    """Published corridor name -> member rows for the default configured
-    market, via the shared deterministic assignment. Suppressed corridors
-    (below their configured minimum, or empty) are omitted; an ambiguous
-    multi-corridor match fails closed (raises) rather than guessing."""
-    from scripts.pettripfinder.markets import assign_hotels, default_market, load_markets
-    market = default_market(load_markets())
+def group_by_corridor(hotel_rows: List[Dict[str, str]],
+                      market=None) -> Dict[str, List[Dict[str, str]]]:
+    """Published corridor name -> member rows for ``market``, via the shared
+    deterministic assignment. Suppressed corridors (below their configured
+    minimum, or empty) are omitted; an ambiguous multi-corridor match fails
+    closed (raises) rather than guessing.
+
+    PTF-MULTIMARKET-001: ``market`` is explicit context. Omitted, it is this
+    build's named production market -- never 'the only configured one', so
+    registering a second market cannot change this grouping."""
+    from scripts.pettripfinder.market_context import resolve_market
+    from scripts.pettripfinder.markets import assign_hotels
+    market = resolve_market(market)
     assignment = assign_hotels(market, hotel_rows)
     return {market.corridor_by_id(cid).name: list(assignment.members_of(cid))
             for cid in assignment.published}

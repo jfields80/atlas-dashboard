@@ -6,14 +6,14 @@ from __future__ import annotations
 import json
 import re
 
-from scripts.pettripfinder.markets import default_market, load_markets
+from scripts.pettripfinder.market_context import production_market
 from scripts.pettripfinder.site_pages import (
     build_comparison_page,
     build_corridor_page,
     build_methodology_page,
 )
 
-_MARKET = default_market(load_markets())
+_MARKET = production_market()
 _DUBLIN = _MARKET.corridor_by_id("columbus-oh__dublin")
 
 _ROWS = [

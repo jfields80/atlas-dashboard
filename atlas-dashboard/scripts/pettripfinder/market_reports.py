@@ -32,11 +32,10 @@ from scripts.pettripfinder.markets import (
     MarketConfig,
     assign_hotels,
     corridor_route,
-    default_market,
     hotel_route,
-    load_markets,
     market_route,
 )
+from scripts.pettripfinder.market_context import resolve_market
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
@@ -231,7 +230,7 @@ def build_route_migration_md(market: MarketConfig) -> str:
 
 
 def write_reports(market: MarketConfig = None) -> Tuple[Path, Path]:
-    market = market if market is not None else default_market(load_markets())
+    market = resolve_market(market)
     # reports/ subdirectory: the market LOADER fail-closed-parses every
     # *.json directly in MARKETS_DIR, so report artifacts live one level
     # down where they can never be mistaken for a market document.

@@ -323,11 +323,32 @@ def load_markets(markets_dir: Optional[Path] = None) -> Tuple[MarketConfig, ...]
 
 
 def default_market(markets: Tuple[MarketConfig, ...]) -> MarketConfig:
-    """The implied market for single-market callers (today's production
-    build). With more than one market configured there is no honest default:
-    callers must then name the market explicitly, so this fails closed."""
+    """The implied market for genuinely single-market callers. With more than
+    one market configured there is no honest default: callers must then name
+    the market explicitly, so this fails closed.
+
+    PTF-MULTIMARKET-001: the production build path no longer relies on this.
+    Site generation, assembly, rendering, and reporting resolve their market
+    by id through ``market_by_id`` so that registering market N+1 cannot
+    change what an existing market publishes. This helper remains for
+    one-market tools (ad-hoc scripts, config inspection) where ambiguity is
+    impossible -- and it must keep failing closed for them."""
     if len(markets) != 1:
         raise MarketContractError(
             "default_market requires exactly one configured market, found %d (%s); "
             "pass the market explicitly" % (len(markets), [m.market_id for m in markets]))
     return markets[0]
+
+
+def market_by_id(markets: Tuple[MarketConfig, ...], market_id: str) -> MarketConfig:
+    """The named market, regardless of how many others are configured.
+
+    The explicit counterpart to ``default_market``: a caller that knows which
+    market it is building states so, and an unknown id fails closed rather
+    than falling back to whatever happens to be configured."""
+    for market in markets:
+        if market.market_id == market_id:
+            return market
+    raise MarketContractError(
+        "no configured market with market_id %r (configured: %s)"
+        % (market_id, [m.market_id for m in markets]))

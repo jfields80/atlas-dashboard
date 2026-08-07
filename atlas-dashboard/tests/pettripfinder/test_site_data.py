@@ -139,8 +139,8 @@ def test_real_production_hotel_corridors_meet_threshold():
     assert CORRIDOR_DUBLIN in groups
     # PTF-CORRIDORS-002: every corridor the config publishes clears its own
     # configured minimum (the default equals CORRIDOR_MIN_PROPERTIES).
-    from scripts.pettripfinder.markets import default_market, load_markets
-    market = default_market(load_markets())
+    from scripts.pettripfinder.market_context import production_market
+    market = production_market()
     minimums = {c.name: c.minimum_hotel_count for c in market.corridors}
     for corridor, members in groups.items():
         assert len(members) >= minimums[corridor]

@@ -97,33 +97,38 @@ def _cap_first(s: str) -> str:
 # --------------------------------------------------------------------------- #
 
 
-def _market_display_context():
-    """(market, assignment over ALL seed hotel rows) -- cached: the config
-    files and the seed CSV are committed, deterministic inputs."""
-    global _MARKET_DISPLAY_CONTEXT
-    if _MARKET_DISPLAY_CONTEXT is None:
-        from scripts.pettripfinder.markets import (
-            assign_hotels, default_market, load_markets,
-        )
-        market = default_market(load_markets())
+def _market_display_context(market_id: str = None):
+    """(market, assignment over ALL seed hotel rows) -- cached per market id:
+    the config files and the seed CSV are committed, deterministic inputs.
+
+    PTF-MULTIMARKET-001: the market is named, not inferred from the number
+    of configured markets, and the cache is keyed by that name so a second
+    registered market can never be served from another market's entry."""
+    from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
+    market_id = market_id or PRODUCTION_MARKET_ID
+    cached = _MARKET_DISPLAY_CONTEXT.get(market_id)
+    if cached is None:
+        from scripts.pettripfinder.markets import assign_hotels
+        market = resolve_market(market_id=market_id)
         rows = [r for r in read_production_rows()
                 if r.get("category") == "pet-friendly-hotels"]
-        _MARKET_DISPLAY_CONTEXT = (market, assign_hotels(market, rows))
-    return _MARKET_DISPLAY_CONTEXT
+        cached = (market, assign_hotels(market, rows))
+        _MARKET_DISPLAY_CONTEXT[market_id] = cached
+    return cached
 
 
-_MARKET_DISPLAY_CONTEXT = None
+_MARKET_DISPLAY_CONTEXT = {}
 
 
-def _corridor_area(city: str, name: str = "") -> str:
+def _corridor_area(city: str, name: str = "", market_id: str = None) -> str:
     from scripts.pettripfinder.markets import corridor_display_area
-    market, assignment = _market_display_context()
+    market, assignment = _market_display_context(market_id)
     return "%s corridor" % corridor_display_area(market, assignment, name, city)
 
 
-def _corridor_label(city: str, name: str = "") -> str:
+def _corridor_label(city: str, name: str = "", market_id: str = None) -> str:
     from scripts.pettripfinder.markets import corridor_display_label
-    market, assignment = _market_display_context()
+    market, assignment = _market_display_context(market_id)
     return corridor_display_label(market, assignment, name, city)
 
 

@@ -11,7 +11,7 @@ import re
 import pytest
 
 from scripts.generate_pettripfinder_columbus_site import run
-from scripts.pettripfinder.markets import default_market, load_markets
+from scripts.pettripfinder.market_context import production_market
 from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 
 # Non-profile directories under /pet-friendly-hotels/: the comparison page
@@ -19,7 +19,7 @@ from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 # corridor pages are config-driven, so tests derive the set from the config
 # rather than naming corridors).
 _NON_PROFILE_DIRS = {"policy-comparison"} | {
-    c.slug for c in default_market(load_markets()).corridors}
+    c.slug for c in production_market().corridors}
 
 # PTF-PROD-002A: the generator's verified pet-policy content now comes from the
 # TRACKED publishable package (launch_packages/pettripfinder/hotel_policy_facts.json),

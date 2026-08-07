@@ -70,10 +70,9 @@ from scripts.pettripfinder.markets import (
     corridor_href_for,
     corridor_navigation,
     corridor_route,
-    default_market,
-    load_markets,
     sitemap_corridor_routes,
 )
+from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
@@ -209,7 +208,11 @@ def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", (text or "").strip().lower()).strip("-")
 
 
-def run(output: str) -> int:
+def run(output: str, *, market: MarketConfig = None) -> int:
+    # PTF-MULTIMARKET-001: the market being built is explicit context, not a
+    # count-based inference. Callers may thread a resolved MarketConfig in;
+    # otherwise this build's named production market is used.
+    market = resolve_market(market)
     print("PetTripFinder Columbus -- AES-SITE-001 public site build")
     package = load_launch_package()
     policy_facts = load_published_hotel_policy_facts()   # committed package -- the policy authority
@@ -246,7 +249,6 @@ def run(output: str) -> int:
     # authority. Assignment is deterministic (exclusion > explicit > city >
     # ZIP) and fails closed on ambiguity; unassigned hotels stay published
     # and are REPORTED below, never silently dropped.
-    market = default_market(load_markets())
     assignment = assign_hotels(market, hotel_rows)
     corridor_groups = {market.corridor_by_id(cid).name: list(assignment.members_of(cid))
                        for cid in assignment.published}
@@ -609,7 +611,8 @@ def _sample_facts_map(use_fixture_facts: bool) -> Tuple[Dict, str]:
     return load_published_hotel_policy_facts(), "published_launch_package"
 
 
-def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
+def run_sample(output: str, *, use_fixture_facts: bool = False,
+               market: MarketConfig = None) -> int:
     """Generate ONLY the three controlled hotel-profile review pages through the
     approved renderer, into an isolated (gitignored) directory. Does NOT run the
     base AES-WEB chain, does NOT touch the full market, and never mutates
@@ -623,7 +626,7 @@ def run_sample(output: str, *, use_fixture_facts: bool = False) -> int:
     rows = read_production_rows()
     hotel_rows = [r for r in rows if r["category"] == "pet-friendly-hotels"]
     facts_map, facts_source = _sample_facts_map(use_fixture_facts)
-    market = default_market(load_markets())
+    market = resolve_market(market)
     assignment = assign_hotels(market, hotel_rows)
 
     selected: List[Dict] = []
@@ -704,14 +707,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--fixture-facts", action="store_true",
                    help="sample mode only: use the committed review fixture instead of the "
                         "operational corpus (for clean-clone reproduction)")
+    p.add_argument("--market", default=PRODUCTION_MARKET_ID,
+                   help="market_id to build (PTF-MULTIMARKET-001: explicit, never "
+                        "inferred from how many markets are configured)")
     return p
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     args = build_arg_parser().parse_args(argv)
+    market = resolve_market(market_id=args.market)
     if args.sample_hotel_profiles:
-        return run_sample(args.sample_output, use_fixture_facts=args.fixture_facts)
-    return run(args.output)
+        return run_sample(args.sample_output, use_fixture_facts=args.fixture_facts,
+                          market=market)
+    return run(args.output, market=market)
 
 
 if __name__ == "__main__":

@@ -34,6 +34,7 @@ from scripts.pettripfinder.markets.contract import (
     MarketContractError,
     default_market,
     load_markets,
+    market_by_id,
     parse_market,
     slugify,
 )
@@ -78,6 +79,7 @@ __all__ = [
     "default_market",
     "hotel_route",
     "load_markets",
+    "market_by_id",
     "market_route",
     "parse_market",
     "sitemap_corridor_routes",

@@ -53,7 +53,8 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.generate_pettripfinder_columbus_site import run as generate_site, _slug
-from scripts.pettripfinder.markets import assign_hotels, default_market, load_markets
+from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
+from scripts.pettripfinder.markets import MarketConfig, assign_hotels
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
@@ -263,7 +264,8 @@ def _gate(gates: "OrderedDict[str, Dict]", gate_id: str, passed: bool, detail: s
 # Assembly.
 # --------------------------------------------------------------------------- #
 
-def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict:
+def assemble(context: str, output: str, contract: Optional[Dict] = None,
+             market: Optional[MarketConfig] = None) -> Dict:
     """Assemble the deploy bundle for ``context`` into ``output``.
 
     Returns the deployment manifest dict. Raises ``AssembleError`` (fail-closed)
@@ -314,7 +316,7 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
     # PTF-CORRIDORS-002: allowed corridor routes come from the SAME committed
     # market-config assignment the generator publishes from (config slugs,
     # published corridors only) -- the gate and the build can never disagree.
-    _market = default_market(load_markets())
+    _market = resolve_market(market)
     _assignment = assign_hotels(_market, verified_rows)
     corridor_slugs = {_market.corridor_by_id(cid).slug for cid in _assignment.published}
 
@@ -340,7 +342,10 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None) -> Dict
     try:
         gen_dir = work / "generated"
         gen_dir.mkdir(parents=True)
-        rc = generate_site(str(gen_dir))
+        # The generator receives the SAME resolved market the gate above used,
+        # so the route gate and the build it checks can never disagree about
+        # which market's corridors are published (PTF-MULTIMARKET-001).
+        rc = generate_site(str(gen_dir), market=_market)
         if rc != 0:
             raise AssembleError("generator returned non-zero exit code %s" % rc)
 
@@ -645,13 +650,17 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--output", required=True,
                    help="output root (must be under the gitignored data/ tree or "
                         "outside the repo)")
+    p.add_argument("--market", default=PRODUCTION_MARKET_ID,
+                   help="market_id to assemble (PTF-MULTIMARKET-001: explicit, never "
+                        "inferred from how many markets are configured)")
     return p
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     args = build_arg_parser().parse_args(argv)
     try:
-        manifest = assemble(args.context, args.output)
+        manifest = assemble(args.context, args.output,
+                            market=resolve_market(market_id=args.market))
     except AssembleError as exc:
         print("ASSEMBLY FAILED (fail-closed): %s" % exc, file=sys.stderr)
         return 2

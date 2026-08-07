@@ -30,6 +30,7 @@ from scripts.pettripfinder.markets import (
     default_market,
     hotel_route,
     load_markets,
+    market_by_id,
     market_route,
     parse_market,
     sitemap_corridor_routes,
@@ -459,7 +460,11 @@ def test_cleveland_fixture_bootstraps_without_generator_changes():
 
 def test_production_markets_dir_loads_and_is_single_market_columbus():
     markets = load_markets()
-    market = default_market(markets)
+    # PTF-MULTIMARKET-001: resolve the market the way the build now does --
+    # by name. The single-market assertion below records today's committed
+    # state; it is no longer something the production build depends on.
+    market = market_by_id(markets, "columbus-oh")
+    assert len(markets) == 1
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"
     assert len(market.corridors) == 10

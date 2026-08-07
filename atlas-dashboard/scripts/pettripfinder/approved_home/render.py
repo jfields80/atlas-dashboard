@@ -931,7 +931,8 @@ def _footer(corridor_nav: Sequence[Tuple[str, str]]) -> str:
 
 def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
                 park_count: int, restaurant_count: int,
-                corridor_nav: Optional[Sequence[Tuple[str, str]]] = None) -> str:
+                corridor_nav: Optional[Sequence[Tuple[str, str]]] = None,
+                market=None) -> str:
     """Render the approved final homepage.
 
     ``hotel_count``/``park_count``/``restaurant_count`` are accepted to keep
@@ -945,12 +946,15 @@ def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
     pairs for the market's PUBLISHED, nav-visible corridors. When None,
     they are derived here from the committed market configuration over the
     supplied ``hotel_rows`` -- corridor links are never hard-coded.
+
+    ``market`` (PTF-MULTIMARKET-001): the market to derive that fallback
+    navigation from. Omitted, it is this build's named production market, so
+    the derivation cannot change because another market was registered.
     """
     if corridor_nav is None:
-        from scripts.pettripfinder.markets import (
-            assign_hotels, corridor_navigation, default_market, load_markets,
-        )
-        market = default_market(load_markets())
+        from scripts.pettripfinder.market_context import resolve_market
+        from scripts.pettripfinder.markets import assign_hotels, corridor_navigation
+        market = resolve_market(market)
         entries = corridor_navigation(market, assign_hotels(market, hotel_rows))
         corridor_nav = [(e.label, e.route) for e in entries]
     browse_href = corridor_nav[0][1] if corridor_nav else "/pet-friendly-hotels/"
