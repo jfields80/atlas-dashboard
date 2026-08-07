@@ -855,9 +855,13 @@ def test_a_species_bound_weight_is_not_flattened():
 def test_the_summary_never_implies_dogs_share_the_cat_limit():
     facts, evidence, _b = _extract(TOWNEPLACE_DUBLIN)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert summary == ("Dogs and cats are accepted. A $150 non-refundable fee "
-                       "applies. Cats must weigh 20 pounds or less, with up to "
-                       "2 pets permitted per room.")
+    # PTF-POLICY-PRECISION-001 changed the fee clause for records that state an
+    # amount but no basis: "a $150 fee applies" read as a complete answer to a
+    # question this source never answered. The point of THIS test -- that the
+    # cat-only weight limit is never extended to dogs -- is unchanged.
+    assert summary == ("Dogs and cats are accepted. A $150 non-refundable pet fee is "
+                       "stated; the fee basis is not specified. Cats must weigh 20 "
+                       "pounds or less, with up to 2 pets permitted per room.")
     assert "Maximum pet weight" not in summary
 
 

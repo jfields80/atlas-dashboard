@@ -55,6 +55,18 @@ CANDIDATE_ROOTS = (
 _POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers", "fee_cap", "fee_conflict", "fee_withheld",
                   "pet_count_limit", "weight_limit", "weight_limit_operator",
                   "breed_restrictions",
+                  # PTF-POLICY-PRECISION-001. Three additive names, each of which
+                  # records something a source SAID that the vocabulary could not
+                  # previously carry:
+                  #   pet_count_scope                the unit the count applies to
+                  #                                  (a suite is not a room)
+                  #   weight_limit_stated_none       "no weight restrictions" --
+                  #   breed_restrictions_stated_none an affirmative statement, not
+                  #                                  a gap in the record
+                  # Absent means unstated, exactly as before, so every existing
+                  # record renders unchanged.
+                  "pet_count_scope",
+                  "weight_limit_stated_none", "breed_restrictions_stated_none",
                   "unattended_policy", "general_restrictions")
 
 

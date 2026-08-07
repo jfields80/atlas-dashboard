@@ -325,15 +325,29 @@ def weight_phrase(f: Dict) -> str:
     return _prose_number(value)
 
 
+#: PTF-POLICY-PRECISION-001. Cell text for a dimension the property affirmatively
+#: said it does not restrict. Deliberately names the property: a reader must be
+#: able to tell "they told us there is no limit" from "we do not know", and the
+#: dim "Not stated" used for silence cannot carry that difference.
+UNRESTRICTED_WEIGHT_DISPLAY = "No restriction stated by the property"
+UNRESTRICTED_BREED_DISPLAY = "None stated by the property"
+
+
 def weight_display(f: Dict) -> str:
     """Table/chip form of the same limit: "Under 80.0 pounds", or "" if absent.
 
     Keeps the exact recorded value -- structured cells never round, only the
     running sentence does -- and carries the same exclusivity as the prose so
     the two can never disagree with each other.
+
+    A source that states there is NO weight restriction gets its own cell text
+    rather than the empty string, because an empty string renders as the same
+    dim "Not stated" that silence renders as.
     """
     value = (f.get("weight_limit") or "").strip()
     if not value:
+        if f.get("weight_limit_stated_none") == "true":
+            return UNRESTRICTED_WEIGHT_DISPLAY
         return ""
     if (f.get("weight_limit_operator") or "") == "lt":
         return "Under %s" % value
@@ -657,6 +671,20 @@ def _pets_phrase(count) -> str:
     return "%s pet%s" % (count, "" if str(count).strip() == "1" else "s")
 
 
+#: PTF-POLICY-PRECISION-001. The unit a pet count applies to. "Up to two pets
+#: are permitted per suite" is what an all-suite property states, and calling it
+#: a room changes the promise for a guest booking a multi-room suite. Only the
+#: two units a source has actually stated are accepted; anything else -- and
+#: absence, which is every existing record -- keeps the established "room"
+#: wording, so no published profile changes.
+_COUNT_SCOPES = ("room", "suite")
+
+
+def _count_scope(f: Dict) -> str:
+    scope = str(f.get("pet_count_scope") or "").strip().lower()
+    return scope if scope in _COUNT_SCOPES else "room"
+
+
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
     """Compose the consumer summary from stated facts plus the source wording.
 
@@ -696,6 +724,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         nonref = " non-refundable" if _NONREFUNDABLE_RE.search(evidence or "") else ""
         cap = f.get("fee_cap") or {}
         pending_cap_sentence = ""
+        basis_unspecified = False
         room_nightly = _ROOM_NIGHTLY_BASIS_RE.match((basis or "").strip().lower())
         if room_nightly:
             # A nightly rate that covers a number of pets rather than charging
@@ -708,9 +737,18 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                 s += " and is capped at %s per stay" % _prose_number(
                     "$%s" % cap["amount"])
         else:
-            s = "A %s%s fee applies" % (_prose_number(fee), nonref)
+            # PTF-POLICY-PRECISION-001. A stated amount with no stated basis is
+            # genuinely ambiguous: $100 could be the whole stay or every night,
+            # and the difference is the price of the trip. Where the source
+            # states a basis nothing changes. Where it does not, the sentence
+            # says so instead of letting "a $100 fee applies" read as a complete
+            # answer -- and it still infers nothing: per stay, per night and per
+            # pet all stay unsaid, because the source did not say them.
             if basis:
-                s += " %s" % basis.lower()
+                s = "A %s%s fee applies %s" % (_prose_number(fee), nonref, basis.lower())
+            else:
+                s = "A %s%s pet fee is stated" % (_prose_number(fee), nonref)
+                basis_unspecified = True
             # A room-scoped fee is one charge however many animals arrive. Said
             # plainly and only where the source said it -- a guest bringing two
             # pets otherwise has to guess whether to double the figure.
@@ -735,7 +773,8 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                     s += ", up to a maximum of %s%s" % (
                         _prose_number("$%s" % cap["amount"]),
                         (" %s" % cap["basis"].lower()) if cap.get("basis") else "")
-        parts.append(s + ".")
+        parts.append(s + ("; the fee basis is not specified." if basis_unspecified
+                          else "."))
         if pending_cap_sentence:
             parts.append(pending_cap_sentence)
 
@@ -768,7 +807,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         species, rule = sorted(bound.items())[0]
         parts.append("%s must weigh %s or less%s" % (
             _cap_first(species), _prose_number(rule.get("value", "")),
-            (", with up to %s permitted per room." % _pets_phrase(count))
+            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
             if count else "."))
     elif weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
         parts.append("Up to %s with a combined weight limit of %s."
@@ -779,21 +818,26 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         # turns the 80-pound dog away, and "maximum ... is 80 pounds" does not.
         parts.append("Pets must weigh %s%s" % (
             weight_phrase(f),
-            (", with up to %s permitted per room." % _pets_phrase(count))
+            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
             if count else "."))
     elif weight:
         parts.append("Maximum pet weight is %s%s" % (
             weight,
-            (", with up to %s permitted per room." % _pets_phrase(count))
+            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
             if count else "."))
     elif count:
         # A source that says "No weight limit per pet" has stated a FACT, not
         # left a gap. Rendering it as silence would tell a reader the hotel was
         # unclear when it was explicit.
         if f.get("weight_limit_stated_none") == "true":
-            parts.append("%s is permitted per room, with no pet weight limit "
+            # PTF-POLICY-PRECISION-001: the verb has to agree with the count.
+            # This branch was written for the one-pet case and read "2 pets is
+            # permitted" the first time a multi-pet property stated it.
+            phrase = _cap_first(_pets_phrase(count).replace("1 pet", "One pet"))
+            parts.append("%s %s permitted per %s, with no pet weight limit "
                          "stated by the hotel."
-                         % _cap_first(_pets_phrase(count).replace("1 pet", "One pet")))
+                         % (phrase, "is" if phrase.startswith("One pet") else "are",
+                            _count_scope(f)))
         elif f.get("fee_scope") == "per_room":
             # A room-scoped fee has just told the reader the charge covers the
             # room; the allowance sentence that follows it carries its verb so
@@ -802,10 +846,11 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # stands unchanged -- this is a wording choice for one path, not a
             # licence to reword every profile that states a count.
             phrase = _pets_phrase(count)
-            parts.append("Up to %s %s permitted per room."
-                         % (phrase, "is" if phrase.startswith("1 pet") else "are"))
+            parts.append("Up to %s %s permitted per %s."
+                         % (phrase, "is" if phrase.startswith("1 pet") else "are",
+                            _count_scope(f)))
         else:
-            parts.append("Up to %s permitted per room." % _pets_phrase(count))
+            parts.append("Up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
     elif f.get("weight_limit_stated_none") == "true":
         parts.append("The hotel states no pet weight limit.")
 
@@ -816,6 +861,20 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         parts.append("A separate refundable pet deposit of %s is also stated."
                      % _prose_number("$%s" % deposit["amount"]))
     return " ".join(parts)
+
+
+def _breed_chip(f: Dict) -> Tuple[Tuple[str, str, str], ...]:
+    """A breed chip ONLY where the property affirmatively stated it restricts no
+    breeds (PTF-POLICY-PRECISION-001).
+
+    Deliberately not emitted for silence, and not for a record that merely lists
+    a restriction: adding a chip to every profile would rewrite pages that this
+    work order must leave alone, and a dim "Not stated" breed row would add a
+    line to say nothing.
+    """
+    if f.get("breed_restrictions_stated_none") == "true":
+        return (("Breed restrictions", UNRESTRICTED_BREED_DISPLAY, ""),)
+    return ()
 
 
 def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
@@ -842,7 +901,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
              "Source conflict" if f.get("fee_conflict") else "Range by stay", "dim"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(weight_display(f))),
-        )
+        ) + _breed_chip(f)
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
         # the range and name the reason rather than showing one number.
@@ -851,7 +910,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Charge basis", "Tiered by stay length", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(weight_display(f))),
-        )
+        ) + _breed_chip(f)
     # A staged fee has no single charge, so the chip names both stages rather
     # than the first night's price standing in for the stay.
     first_night, additional_night = staged_fee(f)
@@ -861,7 +920,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Charge basis", "Staged by night", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
             ("Weight limit", *cell(weight_display(f))),
-        )
+        ) + _breed_chip(f)
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
     # A ceiling only ever LOWERS a total, so leaving a tiered one out of the
@@ -875,7 +934,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
         ("Weight limit", *cell(weight_display(f))),
-    )
+    ) + _breed_chip(f)
 
 
 class PolicyRenderError(ValueError):
@@ -1031,7 +1090,10 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         ("Refundable deposit",
          *d(format_fact_value("pet_deposit", f.get("pet_deposit"),
                               hotel_key=f.get("_hotel_key", "")))),
-        ("Breed restrictions", *d(f.get("breed_restrictions"))),
+        ("Breed restrictions",
+         *((UNRESTRICTED_BREED_DISPLAY, "")
+           if f.get("breed_restrictions_stated_none") == "true"
+           else d(f.get("breed_restrictions")))),
         ("Unattended-pet rule", *d(f.get("unattended_policy"))),
         ("Service animals", svc, ""),
     )
