@@ -280,11 +280,14 @@ def run_pilot(*, allow_sample: bool, output: str, build_id: Optional[str]) -> in
         print("Demo media ingestion FAILED (%s): %s" % (exc.reason, exc))
         return 2
 
+    from scripts.pettripfinder.publication_guard import distinct_entity_groups
+
     result = build_listing_dataset(
         seed_businesses=package["seed_businesses"],
         categories=package["categories"],
         locations=package["locations"],
         media_by_key=media_by_key,
+        distinct_entity_groups=distinct_entity_groups(),
     )
     if result.rejected_duplicates:
         print("Deduplicated %d duplicate record(s): %s" % (

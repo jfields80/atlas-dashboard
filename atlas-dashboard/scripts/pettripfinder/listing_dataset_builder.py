@@ -345,6 +345,33 @@ def _dedup_key(record: Mapping[str, Any]) -> Tuple[str, str, str]:
     return (_normalize_key(record.get("name")), city, state)
 
 
+def _split_reviewed_distinct_entities(
+    groups: Dict[Tuple[str, str, str], List[Mapping[str, Any]]],
+    distinct_entity_groups: Sequence[Sequence[str]],
+) -> Dict[Tuple[str, str, str], List[Mapping[str, Any]]]:
+    """Split address-dedup groups a reviewer has declared to be separate businesses.
+
+    Only a group whose every distinct name is covered by ONE reviewed set is
+    split, and only into one sub-group per name. A partially-covered group is
+    left alone: half a review is not a review.
+    """
+    if not distinct_entity_groups:
+        return groups
+    # Normalized HERE, with this module's own key function, so a caller can pass
+    # display names without having to reproduce the builder's normalization.
+    reviewed = [{_normalize_key(n) for n in names} for names in distinct_entity_groups]
+    out: Dict[Tuple[str, str, str], List[Mapping[str, Any]]] = {}
+    for key, group in groups.items():
+        names = {_normalize_key(r.get("name")) for r in group}
+        covered = next((s for s in reviewed if names <= s), None)
+        if covered is None or len(names) < 2:
+            out[key] = group
+            continue
+        for raw in group:
+            out.setdefault(key + (_normalize_key(raw.get("name")),), []).append(raw)
+    return out
+
+
 def _parse_rating_hundredths(raw_rating: Any) -> Optional[int]:
     """``None`` when no rating was supplied at all (a listing may honestly
     carry no rating); raises :class:`InvalidOperation`/``ValueError`` on a
@@ -421,6 +448,7 @@ def build_listing_dataset(
     locations: Sequence[Mapping[str, Any]] = (),
     enrichment_by_key: Optional[Mapping[Tuple[str, str, str], Mapping[str, Any]]] = None,
     media_by_key: Optional[Mapping[Tuple[str, str, str], Tuple[ListingAssetRef, ...]]] = None,
+    distinct_entity_groups: Sequence[Sequence[str]] = (),
 ) -> ListingDatasetBuildResult:
     """Convert parsed seed-package records into a ``ListingDataset``.
 
@@ -439,6 +467,18 @@ def build_listing_dataset(
     filesystem path ever reaches this function). Absent entirely, every
     listing simply carries no assets: the honest, valid, image-less record
     the current sample package produces.
+
+    ``distinct_entity_groups`` (PTF-BREWDOG-PROMOTION-001) is the caller's
+    reviewed exception to the address dedup rule: each entry is a frozenset of
+    normalized business names a human has recorded as SEPARATE businesses at one
+    address. The default rule -- same street address in one city/state means one
+    physical business -- is right for the case it was written for, a renamed or
+    re-listed duplicate. It is wrong for a hotel and the taproom on its campus,
+    and applying it there silently deletes one of two real listings. Rather than
+    weaken the rule for everyone, the exception must be named: a group whose
+    members are all covered by one reviewed set is split back apart, one listing
+    each. The builder stays pure -- the caller loads the reviewed authority and
+    passes the names in.
     """
     enrichment_by_key = enrichment_by_key or {}
     media_by_key = media_by_key or {}
@@ -469,6 +509,13 @@ def build_listing_dataset(
     groups: Dict[Tuple[str, str, str], List[Mapping[str, Any]]] = {}
     for raw in ordered:
         groups.setdefault(_dedup_key(raw), []).append(raw)
+
+    # Split the reviewed same-campus groups back apart before a winner is ever
+    # chosen, so neither record is merged, suppressed, or reported as a
+    # duplicate of the other. The sub-key keeps each name's own dedup key
+    # distinct; two records with the SAME name at one address are still one
+    # record, reviewed or not.
+    groups = _split_reviewed_distinct_entities(groups, distinct_entity_groups)
 
     seen_keys: Dict[Tuple[str, str, str], Mapping[str, Any]] = {}
     rejected_duplicates: List[str] = []

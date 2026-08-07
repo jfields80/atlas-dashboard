@@ -146,9 +146,15 @@ def _run_base_chain(package: Dict) -> Tuple[object, object, object, Dict]:
     """The proven chain, unchanged from the pilot script -- fails loudly
     (raises) rather than silently degrading if any stage errors."""
     pilot_config = package["pilot_config"]
+    # PTF-BREWDOG-PROMOTION-001: hand the builder the reviewed same-campus
+    # exceptions, so two businesses sharing one street address keep two listings
+    # instead of one silently winning the address dedup.
+    from scripts.pettripfinder.publication_guard import distinct_entity_groups
+
     result = build_listing_dataset(
         seed_businesses=package["seed_businesses"], categories=package["categories"],
-        locations=package["locations"])
+        locations=package["locations"],
+        distinct_entity_groups=distinct_entity_groups())
     if not result.ok:
         raise SystemExit("ListingDataset conversion FAILED: %s" % result.errors)
     dataset = result.dataset

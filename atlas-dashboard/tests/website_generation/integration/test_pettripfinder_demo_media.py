@@ -51,6 +51,7 @@ from scripts.generate_pettripfinder_pilot import (  # noqa: E402
     load_launch_package,
 )
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset  # noqa: E402
+from scripts.pettripfinder.publication_guard import distinct_entity_groups  # noqa: E402
 from scripts.pettripfinder.media_ingestion import (  # noqa: E402
     MediaIngestionError,
     ingest_demo_media,
@@ -88,6 +89,7 @@ def _real_chain(tmp_path, *, with_media: bool):
         categories=package["categories"],
         locations=package["locations"],
         media_by_key=media_by_key,
+        distinct_entity_groups=distinct_entity_groups(),
     )
     assert result.ok
     dataset = result.dataset

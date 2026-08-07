@@ -38,7 +38,8 @@ from scripts.pettripfinder.inventory_validation import (
     assess_inventory,
     compute_launch_readiness,
 )
-from scripts.pettripfinder.publication_guard import assert_publishable
+from scripts.pettripfinder.publication_guard import (
+    assert_publishable, distinct_entity_groups)
 
 _LAUNCH_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
 
@@ -88,8 +89,13 @@ def _identity(row: Dict[str, str]) -> str:
 
 
 def _assess(seed_rows, categories, locations, reference_date):
+    # PTF-BREWDOG-PROMOTION-001: the assessment reads the real seed authority,
+    # so it must honour the reviewed same-campus resolutions too. Without them a
+    # reviewed pair is reported as a duplicate and the assessed inventory is one
+    # row short of the authority it is assessing.
     result = build_listing_dataset(
-        seed_businesses=seed_rows, categories=categories, locations=locations)
+        seed_businesses=seed_rows, categories=categories, locations=locations,
+        distinct_entity_groups=distinct_entity_groups())
     if result.dataset is None:
         return (result, {}, None)
     assessments = assess_inventory(result.dataset, reference_date=reference_date)

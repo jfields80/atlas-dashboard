@@ -339,6 +339,20 @@ def load_resolutions(path: Path = None) -> List[Dict]:
     return validate_resolutions(json.loads(p.read_text(encoding="utf-8-sig")))
 
 
+def distinct_entity_groups(resolutions: Sequence[Mapping] = None,
+                           path: Path = None) -> Tuple[Tuple[str, ...], ...]:
+    """Reviewed same-campus identity sets, as display-name groups.
+
+    The dataset builder's address dedup rule would collapse a reviewed pair back
+    into one listing, silently deleting a real business. This hands it the exact
+    exception a human recorded -- nothing wider.
+    """
+    resolved = resolutions if resolutions is not None else load_resolutions(path)
+    return tuple(
+        tuple(sorted(str(i["canonical_name"]) for i in r.get("identities", [])))
+        for r in resolved if r.get("resolution_type") == SAME_CAMPUS)
+
+
 def _resolution_for(key: str, names: Sequence[str], resolutions: Sequence[Mapping]
                     ) -> Optional[Mapping]:
     """The resolution covering this address key and every colliding name."""
@@ -438,6 +452,81 @@ def collision_blocks(candidates: Iterable, published: Iterable = (),
 # --------------------------------------------------------------------------- #
 # The gate itself.
 # --------------------------------------------------------------------------- #
+
+#: A published record may reference a reviewed resolution by ID and by nothing
+#: else. These substrings are the shapes an operational leak would take -- a
+#: path, a corpus location, a candidate or run identifier, a status word.
+FORBIDDEN_REFERENCE_SUBSTRINGS = ("/", "\\", "..", "candidate", "cand-", "tmp",
+                                  "temp", "run-", "run_", "data", "worker",
+                                  "pending", "draft", "status")
+
+BLOCK_REFERENCE_MALFORMED = "resolution_reference_malformed"
+BLOCK_REFERENCE_UNKNOWN = "resolution_reference_unknown"
+BLOCK_REFERENCE_WRONG_PAIR = "resolution_reference_wrong_pair"
+BLOCK_REFERENCE_WRONG_ADDRESS = "resolution_reference_wrong_address"
+
+REMEDIATION_REFERENCE = (
+    "A published record's same_campus_resolution must name an existing "
+    "ptf-identity-resolutions/1.0 resolution that covers THIS identity at THIS "
+    "street address, by id alone. Correct the reference or remove it; a reference "
+    "that cannot be resolved is not publishable.")
+
+
+def resolution_reference_blocks(records: Iterable[Mapping],
+                                resolutions: Sequence[Mapping] = None,
+                                path: Path = None) -> List[Dict]:
+    """Blocks for published records whose same_campus_resolution does not hold up.
+
+    The reference is the only reason a reader can tell WHY two businesses share
+    one address legitimately, so an unresolvable one is worse than none: it
+    asserts a review that cannot be produced. Missing is fine -- most records
+    have no collision to explain. Present-and-wrong fails closed.
+
+    ``load_resolutions`` validates the whole authority on read, so a resolution
+    whose hash no longer re-derives never reaches this function: it raises
+    first. That is deliberate -- a tampered authority must not be selectively
+    survivable.
+    """
+    resolved = resolutions if resolutions is not None else load_resolutions(path)
+    by_id = {r["resolution_id"]: r for r in resolved}
+    blocks: List[Dict] = []
+    for record in records:
+        reference = record.get("same_campus_resolution")
+        if not reference:
+            continue
+        identity = _identity(record)
+        base = {"proposed_identity": identity, "resolution_id": reference,
+                "match_basis": MATCH_NAME, "remediation": REMEDIATION_REFERENCE}
+        text = str(reference)
+        if (not text.strip() or text != text.strip()
+                or any(bad in text.lower() for bad in FORBIDDEN_REFERENCE_SUBSTRINGS)):
+            blocks.append(dict(base, reason=BLOCK_REFERENCE_MALFORMED,
+                               lineage={"rejected_reference": text}))
+            continue
+        resolution = by_id.get(text)
+        if resolution is None:
+            blocks.append(dict(base, reason=BLOCK_REFERENCE_UNKNOWN,
+                               lineage={"known_resolution_ids": sorted(by_id)[:MAX_LISTED_BLOCKS]}))
+            continue
+        covered = {normalize_name(i["canonical_name"]) for i in resolution.get("identities", [])}
+        if identity["normalized_name"] not in covered or len(covered) < 2:
+            blocks.append(dict(base, reason=BLOCK_REFERENCE_WRONG_PAIR,
+                               lineage={"resolution_covers": ", ".join(sorted(covered))}))
+            continue
+        key = address_key(identity["address"], identity["postal_code"])
+        if key.strip("|") and resolution.get("address_key") != key:
+            blocks.append(dict(base, reason=BLOCK_REFERENCE_WRONG_ADDRESS,
+                               lineage={"record_address_key": key,
+                                        "resolution_address_key": resolution.get("address_key", "")}))
+    return blocks
+
+
+def assert_resolution_references(records: Iterable[Mapping], **kwargs) -> None:
+    """Raise unless every same_campus_resolution reference resolves correctly."""
+    blocks = resolution_reference_blocks(records, **kwargs)
+    if blocks:
+        raise PublicationBlockedError(blocks)
+
 
 def publication_blocks(candidates: Iterable, published: Iterable = (), *,
                        exclusions: Sequence[Mapping] = None,
