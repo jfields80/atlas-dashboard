@@ -24,6 +24,7 @@ hrefs are generated, so they follow automatically on regeneration).
 | corridor: Easton | `/pet-friendly-hotels/easton/` | `/pet-friendly-hotels/columbus-oh/easton/` |
 | hotel: Aloft Columbus Easton | `/pet-friendly-hotels/aloft-columbus-easton/` | `/pet-friendly-hotels/columbus-oh/aloft-columbus-easton/` |
 | hotel: Aloft Columbus University District | `/pet-friendly-hotels/aloft-columbus-university-district/` | `/pet-friendly-hotels/columbus-oh/aloft-columbus-university-district/` |
+| hotel: BrewDog DogHouse Columbus | `/pet-friendly-hotels/brewdog-doghouse-columbus/` | `/pet-friendly-hotels/columbus-oh/brewdog-doghouse-columbus/` |
 | hotel: Candlewood Suites Columbus North - Polaris by IHG | `/pet-friendly-hotels/candlewood-suites-columbus-north-polaris-by-ihg/` | `/pet-friendly-hotels/columbus-oh/candlewood-suites-columbus-north-polaris-by-ihg/` |
 | hotel: Columbus Airport Marriott | `/pet-friendly-hotels/columbus-airport-marriott/` | `/pet-friendly-hotels/columbus-oh/columbus-airport-marriott/` |
 | hotel: Courtyard Columbus Easton | `/pet-friendly-hotels/courtyard-columbus-easton/` | `/pet-friendly-hotels/columbus-oh/courtyard-columbus-easton/` |
@@ -66,6 +67,7 @@ hrefs are generated, so they follow automatically on regeneration).
 | hotel: Homewood Suites by Hilton Columbus-Hilliard | `/pet-friendly-hotels/homewood-suites-by-hilton-columbus-hilliard/` | `/pet-friendly-hotels/columbus-oh/homewood-suites-by-hilton-columbus-hilliard/` |
 | hotel: Homewood Suites by Hilton Columbus/OSU, OH | `/pet-friendly-hotels/homewood-suites-by-hilton-columbus-osu-oh/` | `/pet-friendly-hotels/columbus-oh/homewood-suites-by-hilton-columbus-osu-oh/` |
 | hotel: Homewood Suites by Hilton Columbus/Polaris, OH | `/pet-friendly-hotels/homewood-suites-by-hilton-columbus-polaris-oh/` | `/pet-friendly-hotels/columbus-oh/homewood-suites-by-hilton-columbus-polaris-oh/` |
+| hotel: Hotel LeVeque, Autograph Collection | `/pet-friendly-hotels/hotel-leveque-autograph-collection/` | `/pet-friendly-hotels/columbus-oh/hotel-leveque-autograph-collection/` |
 | hotel: Hyatt Place Columbus OSU | `/pet-friendly-hotels/hyatt-place-columbus-osu/` | `/pet-friendly-hotels/columbus-oh/hyatt-place-columbus-osu/` |
 | hotel: Hyatt Regency Columbus | `/pet-friendly-hotels/hyatt-regency-columbus/` | `/pet-friendly-hotels/columbus-oh/hyatt-regency-columbus/` |
 | hotel: La Quinta Columbus West-Hilliard | `/pet-friendly-hotels/la-quinta-columbus-west-hilliard/` | `/pet-friendly-hotels/columbus-oh/la-quinta-columbus-west-hilliard/` |
@@ -81,6 +83,7 @@ hrefs are generated, so they follow automatically on regeneration).
 | hotel: Residence Inn Columbus OSU | `/pet-friendly-hotels/residence-inn-columbus-osu/` | `/pet-friendly-hotels/columbus-oh/residence-inn-columbus-osu/` |
 | hotel: Sheraton Suites Columbus Worthington | `/pet-friendly-hotels/sheraton-suites-columbus-worthington/` | `/pet-friendly-hotels/columbus-oh/sheraton-suites-columbus-worthington/` |
 | hotel: Sonesta Columbus Downtown | `/pet-friendly-hotels/sonesta-columbus-downtown/` | `/pet-friendly-hotels/columbus-oh/sonesta-columbus-downtown/` |
+| hotel: Sonesta Simply Suites Columbus Airport Gahanna | `/pet-friendly-hotels/sonesta-simply-suites-columbus-airport-gahanna/` | `/pet-friendly-hotels/columbus-oh/sonesta-simply-suites-columbus-airport-gahanna/` |
 | hotel: Sonesta Simply Suites Dublin Columbus | `/pet-friendly-hotels/sonesta-simply-suites-dublin-columbus/` | `/pet-friendly-hotels/columbus-oh/sonesta-simply-suites-dublin-columbus/` |
 | hotel: SpringHill Suites by Marriott Columbus Dublin | `/pet-friendly-hotels/springhill-suites-by-marriott-columbus-dublin/` | `/pet-friendly-hotels/columbus-oh/springhill-suites-by-marriott-columbus-dublin/` |
 | hotel: Staybridge Suites Columbus Dublin | `/pet-friendly-hotels/staybridge-suites-columbus-dublin/` | `/pet-friendly-hotels/columbus-oh/staybridge-suites-columbus-dublin/` |
