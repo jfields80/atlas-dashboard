@@ -95,6 +95,15 @@ LODGING_BRANDS = (
     "red roof", "motel 6", "studio 6", "drury", "great wolf lodge",
 )
 
+#: Exact phrases that settle the category on their own because they contain a
+#: lodging noun while naming something else entirely. Kept deliberately short:
+#: every entry must be a complete phrase whose presence is decisive, never a
+#: word that merely hints.
+DECISIVE_NON_LODGING = (
+    "pet hotel", "pet resort", "dog hotel", "boarding kennel", "kennel",
+    "day camp", "doggie day care", "dog daycare", "self storage",
+)
+
 #: Connectors that turn a following noun into a LOCATION reference rather than
 #: the thing itself: "1833 Restaurant at the Hotel at Oberlin" is a restaurant,
 #: and "Alfredo's at the Inn" is not a hotel.
@@ -133,14 +142,24 @@ def classify_lodging(display_name: str,
     Structured evidence from the source page decides on its own. Otherwise a
     bounded head-noun test applies, and an undecidable name becomes
     NEEDS_REVIEW rather than being dropped."""
+    name = display_name.strip()
+    if not name:
+        return NEEDS_REVIEW, "empty name"
+
+    # Checked before everything else, including structured evidence: these
+    # phrases name a different business outright, and the generic head-noun
+    # test cannot see it because they CONTAIN a lodging noun. "The Barkley Pet
+    # Hotel & Day Camp" boards animals; it reached a proposed hotel census
+    # because "Hotel" was the only word any rule looked at.
+    for phrase in DECISIVE_NON_LODGING:
+        if _word_positions(name, phrase):
+            return NON_LODGING, "%r names a %s, not transient lodging for people" % (
+                name, phrase)
+
     markers = set(section_markers)
     for marker in LODGING_SECTION_MARKERS:
         if marker in markers:
             return LODGING_CONFIRMED, "source page carries its %r section" % marker
-
-    name = display_name.strip()
-    if not name:
-        return NEEDS_REVIEW, "empty name"
 
     # A trailing parenthetical is a location qualifier, not the head noun:
     # "Eliot's Bar (Hilton Cleveland Downtown)" is a bar inside a hotel.
@@ -357,6 +376,27 @@ def _base_name(display_name: str) -> str:
     return _PAREN_TAIL.sub("", (display_name or "").strip()).strip()
 
 
+def is_brand_only(name: str) -> bool:
+    """True when ``name`` is nothing but a lodging brand.
+
+    "Residence Inn" and "AC Hotel" name a chain, not a property: a hundred of
+    them exist. Such a name cannot identify a hotel even when it happens to
+    be unique within one batch -- uniqueness is an accident of what was
+    collected, not evidence. Detecting this needs the brand vocabulary, so a
+    multi-word brand that IS the whole property name ("Great Wolf Lodge")
+    still reads as brand-only; the caller decides what to do about it, and
+    ``canonical_property_names`` keeps such a record's disambiguator rather
+    than dropping it."""
+    residue = (name or "").strip().lower()
+    if not residue:
+        return False
+    for brand in sorted(LODGING_BRANDS, key=len, reverse=True):
+        residue = re.sub(r"\b%s\b" % re.escape(brand), " ", residue)
+    for noun in LODGING_HEAD_NOUNS:
+        residue = re.sub(r"\b%s\b" % re.escape(noun), " ", residue)
+    return not re.sub(r"[^a-z0-9]+", "", residue)
+
+
 def _tidy(label: str) -> str:
     """Normalise a disambiguating fragment into name-shaped text."""
     text = re.sub(r"\s*/\s*", " ", re.sub(r"\s+", " ", label or "")).strip()
@@ -399,7 +439,10 @@ def canonical_property_names(display_names: Sequence[str],
     for name, hint in zip(names, hints):
         base = _base_name(name)
         tail = _PAREN_TAIL.search((name or "").strip())
-        shared = bases.get(base, 0) > 1
+        # A bare brand must keep its qualifier even when nothing else in this
+        # batch shares it: "Residence Inn" identifies a chain, and its being
+        # the only one collected is an accident of collection, not evidence.
+        shared = bases.get(base, 0) > 1 or is_brand_only(base)
         if tail and shared:
             canonical.append("%s %s" % (base, _tidy(tail.group(1))))
         elif tail:
@@ -449,20 +492,48 @@ def street_identity(address: str, postal_code: str = "") -> str:
     return "%s|%s" % (" ".join(tokens), (postal_code or "").strip())
 
 
+def normalize_phone(phone: str) -> str:
+    """A comparable telephone key: digits only, US country code dropped.
+
+    "330.405.4488" and "(330) 405-4488" are one number written two ways, and
+    comparing the raw strings made one hotel look like two. A shared number is
+    strong same-property evidence -- stronger than an address, which sources
+    transcribe inconsistently -- so it must survive formatting."""
+    digits = re.sub(r"\D", "", phone or "")
+    if len(digits) == 11 and digits.startswith("1"):
+        digits = digits[1:]
+    return digits if len(digits) == 10 else ""
+
+
 SAME_PROPERTY = "SAME_PROPERTY"
 DISTINCT_PROPERTIES = "DISTINCT_PROPERTIES"
 NEEDS_ADJUDICATION = "NEEDS_ADJUDICATION"
+SAME_PROPERTY_ADDRESS_DISCREPANCY = "SAME_PROPERTY_ADDRESS_DISCREPANCY"
 
 
 def compare_identities(name_a: str, street_a: str,
                        name_b: str, street_b: str,
-                       rebrand_evidence: bool = False) -> Tuple[str, str]:
+                       rebrand_evidence: bool = False,
+                       phone_a: str = "", phone_b: str = "") -> Tuple[str, str]:
     """(verdict, reason) for two identity records.
 
     Encodes the rule the broken pipeline lacked: matching names never
-    outrank differing streets."""
+    outrank differing streets. Telephone numbers, when both are present and
+    equal, are treated as proof of one property -- a directory may transcribe
+    a house number inconsistently, but two hotels do not share a line."""
     same_name = (name_a or "").strip().lower() == (name_b or "").strip().lower()
     same_street = street_a == street_b and bool(street_a.strip("|"))
+    key_a, key_b = normalize_phone(phone_a), normalize_phone(phone_b)
+    same_phone = bool(key_a) and key_a == key_b
+
+    if same_phone and not same_street:
+        if same_name:
+            return SAME_PROPERTY_ADDRESS_DISCREPANCY, (
+                "one telephone number and one name, but the sources disagree on the "
+                "street address -- one property, with its address unresolved")
+        return NEEDS_ADJUDICATION, (
+            "one telephone number but different names and streets -- adjudicate, "
+            "never merge automatically")
     if same_name and same_street:
         return SAME_PROPERTY, "same name at the same street identity"
     if same_name and not same_street:
@@ -502,10 +573,13 @@ def assert_distinct_street_identities(records: Sequence[Dict],
 __all__ = [
     "SCHEMA", "PropertyIdentityError", "PropertyRecord",
     "LODGING_CONFIRMED", "LODGING_BY_NAME", "NON_LODGING", "NEEDS_REVIEW",
-    "LODGING_HEAD_NOUNS", "NON_LODGING_HEAD_NOUNS", "BREADCRUMB",
+    "LODGING_HEAD_NOUNS", "NON_LODGING_HEAD_NOUNS", "DECISIVE_NON_LODGING",
+    "BREADCRUMB",
     "SAME_PROPERTY", "DISTINCT_PROPERTIES", "NEEDS_ADJUDICATION",
+    "SAME_PROPERTY_ADDRESS_DISCREPANCY", "normalize_phone",
     "classify_lodging", "is_navigation_breadcrumb", "parse_property_container",
     "validate_pairing",
-    "canonical_property_names", "ambiguous_names", "street_identity",
+    "canonical_property_names", "ambiguous_names", "is_brand_only",
+    "street_identity",
     "compare_identities", "assert_distinct_street_identities",
 ]

@@ -17,6 +17,7 @@ from scripts.pettripfinder.discovery.property_identity import (
     LODGING_BY_NAME,
     LODGING_CONFIRMED,
     NEEDS_ADJUDICATION,
+    SAME_PROPERTY_ADDRESS_DISCREPANCY,
     NEEDS_REVIEW,
     NON_LODGING,
     SAME_PROPERTY,
@@ -26,7 +27,9 @@ from scripts.pettripfinder.discovery.property_identity import (
     canonical_property_names,
     classify_lodging,
     compare_identities,
+    is_brand_only,
     is_navigation_breadcrumb,
+    normalize_phone,
     parse_property_container,
     street_identity,
     validate_pairing,
@@ -142,8 +145,35 @@ class TestCanonicalNaming:
         assert "Courtyard by Marriott Beachwood" in names
         assert "Courtyard by Marriott" not in names
 
-    def test_a_unique_base_name_drops_its_area_label(self):
-        assert canonical_property_names(["Aloft (Beachwood)"]) == ["Aloft"]
+    def test_a_unique_non_brand_base_name_drops_its_area_label(self):
+        """The label really is directory chrome when what remains identifies
+        the property on its own."""
+        assert canonical_property_names(["Stonehill Hotel (Eastlake)"]) == ["Stonehill Hotel"]
+        assert canonical_property_names(["Aurora Inn (Aurora)"]) == ["Aurora Inn"]
+
+    @pytest.mark.parametrize("display,expected", [
+        ("Residence Inn (Cleveland Airport/Middleburg Heights)",
+         "Residence Inn Cleveland Airport Middleburg Heights"),
+        ("Hilton (Cleveland Downtown)", "Hilton Cleveland Downtown"),
+        ("AC Hotel (Cleveland Beachwood)", "AC Hotel Cleveland Beachwood"),
+        ("Aloft (Beachwood)", "Aloft Beachwood"),
+        ("Comfort Suites (Twinsburg)", "Comfort Suites Twinsburg"),
+    ])
+    def test_a_bare_brand_keeps_its_qualifier_even_when_unique(self, display, expected):
+        """"Residence Inn" names a chain, not a hotel. Being the only one in a
+        batch is an accident of collection, not evidence -- and seven such
+        names survived into a proposed census because uniqueness was the only
+        test applied."""
+        assert canonical_property_names([display]) == [expected]
+
+    @pytest.mark.parametrize("name,brand_only", [
+        ("Residence Inn", True), ("AC Hotel", True), ("Hilton", True),
+        ("Comfort Suites", True), ("Great Wolf Lodge", True),
+        ("Aloft Beachwood", False), ("Stonehill Hotel", False),
+        ("Aurora Inn", False), ("Hotel Cleveland", False),
+    ])
+    def test_is_brand_only(self, name, brand_only):
+        assert is_brand_only(name) is brand_only
 
     def test_no_arbitrary_brand_only_survivor(self):
         """The exact failure: six Courtyards collapsed into one, and five real
@@ -320,3 +350,83 @@ class TestLodgingClassification:
         from scripts.pettripfinder.discovery import property_identity as pi
         for noun in pi.LODGING_HEAD_NOUNS + pi.NON_LODGING_HEAD_NOUNS + pi.LODGING_BRANDS:
             assert noun == noun.strip() and len(noun) >= 2
+
+
+# --------------------------------------------------------------------------- #
+# 5. Telephone as same-property evidence.
+# --------------------------------------------------------------------------- #
+
+class TestPhoneIdentity:
+
+    @pytest.mark.parametrize("raw", [
+        "330.405.4488", "(330) 405-4488", "330-405-4488", "1-330-405-4488",
+        " 3304054488 "])
+    def test_one_number_written_many_ways_is_one_key(self, raw):
+        assert normalize_phone(raw) == "3304054488"
+
+    @pytest.mark.parametrize("raw", ["", "n/a", "12345", "call us"])
+    def test_a_non_number_yields_no_key(self, raw):
+        assert normalize_phone(raw) == ""
+
+    def test_a_shared_number_with_a_differing_house_number_is_one_property(self):
+        """One Comfort Suites reached a proposed census twice, as 2715 and
+        2716 Creekside Dr, because the two sources transcribed the house
+        number differently. Two hotels do not share a telephone line."""
+        verdict, reason = compare_identities(
+            "Comfort Suites Twinsburg", street_identity("2715 Creekside Dr", "44087"),
+            "Comfort Suites Twinsburg", street_identity("2716 Creekside Dr", "44087"),
+            phone_a="330.963.5909", phone_b="(330) 963-5909")
+        assert verdict == SAME_PROPERTY_ADDRESS_DISCREPANCY
+        assert "address" in reason
+
+    def test_a_shared_number_with_different_names_is_adjudicated_not_merged(self):
+        verdict, _ = compare_identities(
+            "Clarion Inn and Conference Center", street_identity("6625 Dean Memorial Pkwy", "44236"),
+            "The Norwood Inn", street_identity("6625 Dean Memorial Parkway", "44236"),
+            phone_a="330.653.9191", phone_b="330-653-9191")
+        assert verdict in (NEEDS_ADJUDICATION, SAME_PROPERTY)
+
+    def test_no_phone_leaves_the_street_rule_untouched(self):
+        """Absent phones must not weaken the street guard."""
+        verdict, _ = compare_identities(
+            "Courtyard by Marriott", street_identity("3695 Orange Pl.", "44122"),
+            "Courtyard by Marriott", street_identity("7345 Engle Rd.", "44130"))
+        assert verdict == DISTINCT_PROPERTIES
+
+    def test_different_numbers_at_one_address_stay_a_review(self):
+        key = street_identity("1700 55th Street NE", "44721")
+        verdict, _ = compare_identities("The Casa at Gervasi Vineyard", key,
+                                        "The Villas at Gervasi Vineyard", key,
+                                        phone_a="330.497.1000", phone_b="330.497.2000")
+        assert verdict == NEEDS_ADJUDICATION
+
+
+# --------------------------------------------------------------------------- #
+# 6. Businesses that contain a lodging noun but are not lodging.
+# --------------------------------------------------------------------------- #
+
+class TestDecisiveNonLodging:
+
+    @pytest.mark.parametrize("name", [
+        "The Barkley Pet Hotel & Day Camp", "Pet Resort of Cleveland",
+        "Akron Boarding Kennel", "Fido's Dog Hotel"])
+    def test_animal_boarding_is_not_a_hotel(self, name):
+        """"The Barkley Pet Hotel & Day Camp" reached a proposed hotel census
+        because "Hotel" was the only word any rule looked at."""
+        state, reason = classify_lodging(name)
+        assert state == NON_LODGING
+        assert "not transient lodging for people" in reason
+
+    def test_a_decisive_phrase_outranks_even_structured_evidence(self):
+        assert classify_lodging("The Barkley Pet Hotel", ["Guest Rooms"])[0] == NON_LODGING
+
+    @pytest.mark.parametrize("name", [
+        "Roost Cleveland - Apartment Hotel", "Hotel Cleveland",
+        "The Lakehouse Inn & Winery", "Aurora Inn"])
+    def test_real_lodging_is_untouched_by_the_decisive_list(self, name):
+        assert classify_lodging(name)[0] in (LODGING_BY_NAME, LODGING_CONFIRMED)
+
+    def test_the_decisive_list_stays_short_and_phrasal(self):
+        from scripts.pettripfinder.discovery import property_identity as pi
+        for phrase in pi.DECISIVE_NON_LODGING:
+            assert phrase == phrase.strip().lower() and len(phrase) >= 6
