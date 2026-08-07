@@ -157,9 +157,20 @@ def load_launch_package() -> Dict[str, Any]:
     the pure converter/engine layers. AES-WEB-002N.1: seed businesses come
     from the operator-editable CSV (the promoted primary inventory input --
     the legacy seed_businesses.json was removed with it)."""
+    seed_businesses = read_seed_businesses_csv(LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
+
+    # PTF-EXCLUSIONS-002 -- the seed read both site generators share. Two checks
+    # run here, on every category, before any route can be planned from these
+    # rows: no hotel row may match an active exclusion, and no two differently
+    # named rows may share a street identity without a reviewed same-campus
+    # resolution. The second is what keeps a hotel and the taproom on its campus
+    # as two distinct businesses instead of silently merging or dropping one.
+    from scripts.pettripfinder.publication_guard import assert_publishable
+    assert_publishable(seed_businesses, published=seed_businesses)
+
     return {
         "blueprint": _read_json(LAUNCH_PACKAGE_DIR / "blueprint.json"),
-        "seed_businesses": read_seed_businesses_csv(LAUNCH_PACKAGE_DIR / "seed_businesses.csv"),
+        "seed_businesses": seed_businesses,
         "categories": _read_json(LAUNCH_PACKAGE_DIR / "categories.json"),
         "locations": _read_json(LAUNCH_PACKAGE_DIR / "locations.json"),
         "pilot_config": _read_json(LAUNCH_PACKAGE_DIR / "pilot_config.json"),

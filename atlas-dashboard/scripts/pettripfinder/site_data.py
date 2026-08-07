@@ -70,7 +70,9 @@ def read_production_rows() -> List[Dict[str, str]]:
 
 
 def verified_public_hotels(hotel_rows: List[Dict[str, str]],
-                           policy_facts: Dict[str, Dict]) -> List[Dict[str, str]]:
+                           policy_facts: Dict[str, Dict],
+                           *, exclusions: Optional[List[Dict]] = None,
+                           check_exclusions: bool = True) -> List[Dict[str, str]]:
     """Deterministic verified-only public-hotel collection (PROD-004): the seed
     hotel display rows whose normalized name matches a committed hotel-policy
     package record. The committed package is the authority -- a seed hotel row
@@ -95,7 +97,28 @@ def verified_public_hotels(hotel_rows: List[Dict[str, str]],
             "verified-only hotel join failed (fail-closed): committed policy records "
             "with no display row=%s; ambiguous display matches=%s"
             % (sorted(unmatched), sorted(ambiguous)))
-    return [r for r in hotel_rows if normalize_name(r.get("name", "")) in matched_keys]
+    selected = [r for r in hotel_rows if normalize_name(r.get("name", "")) in matched_keys]
+
+    # PTF-EXCLUSIONS-002 -- defence in depth, not a substitute for the
+    # promotion-time gate. This is the single join every public hotel surface is
+    # derived from (profiles, index, corridors, comparison page, sitemap, and the
+    # Netlify release assembler), so an excluded identity that reached BOTH
+    # authorities is caught here before a route exists for it.
+    #
+    # It REFUSES rather than omitting. Silent omission is the documented
+    # behaviour for a seed row that is merely unverified -- absent from the
+    # policy package, held, and correctly non-public. An identity that is present
+    # in both authorities AND excluded is not a held record; it is a
+    # contradiction between two authorities, and quietly dropping it would hide
+    # the contradiction instead of surfacing it.
+    if check_exclusions and selected:
+        from scripts.pettripfinder.publication_guard import assert_publishable
+        assert_publishable(
+            [{"name": r.get("name", ""), "address": r.get("address", ""),
+              "postal_code": r.get("postal_code", ""), "category": "pet-friendly-hotels"}
+             for r in selected],
+            exclusions=exclusions, check_collisions=False)
+    return selected
 
 
 def load_hotel_policy_facts() -> Dict[str, Dict]:
