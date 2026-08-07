@@ -209,7 +209,7 @@ class TestColumbusDivergence:
     def test_preview_remains_available_and_read_only(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()
         report = build_preview()["report"]
-        assert report["old_count"] == 71
+        assert report["old_count"] == 73
         assert report["new_count"] == 38
         assert PUBLISHED_FACTS_PATH.read_bytes() == before
 
@@ -217,13 +217,13 @@ class TestColumbusDivergence:
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
         assert is_destructive(delta)
-        assert delta["existing_count"] == 71 and delta["proposed_count"] == 38
+        assert delta["existing_count"] == 73 and delta["proposed_count"] == 38
 
     def test_every_removal_identity_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["removal_count"] == 33
-        assert len(delta["removals"]) == 33
+        assert delta["removal_count"] == 35
+        assert len(delta["removals"]) == 35
         published = {h["key"] for h in json.loads(
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         assert set(delta["removals"]) <= published
@@ -254,7 +254,7 @@ class TestColumbusDivergence:
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         corpus = {h["key"] for h in build_package()["hotels"]}
         promoted_only = published - corpus
-        assert len(promoted_only) == 33
+        assert len(promoted_only) == 35
         # Every promoted record still carries its machine-review provenance.
         by_key = {h["key"]: h for h in json.loads(
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}

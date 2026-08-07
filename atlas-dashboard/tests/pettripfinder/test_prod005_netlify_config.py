@@ -49,8 +49,8 @@ from scripts.pettripfinder.site_data import (
 # package -- a gate that recomputes its own expectation proves nothing. It must
 # agree with deploy/netlify/release_contract.json, and both must agree with the
 # file on disk; the three-way check below is the release contract.
-EXPECTED_PACKAGE_SHA = "b13206830ba66112071d7a7029c72221e45ef16c1e194ff6d3fff9a07ee18a71"
-EXPECTED_RECORD_COUNT = 71
+EXPECTED_PACKAGE_SHA = "551c366b777407246237fba2f88680ddc327002cf93d140bcb4d9d1d199ea204"
+EXPECTED_RECORD_COUNT = 73
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 

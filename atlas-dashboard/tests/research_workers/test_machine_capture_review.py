@@ -496,7 +496,7 @@ def test_no_production_inventory_or_site_data_is_touched(evidence, tmp_path):
                               decision=MR.DECISION_APPROVED).to_dict()
     MR.promotion_input(rec.to_dict(), review)
     assert package.read_bytes() == before
-    assert len(json.loads(before)["hotels"]) == 71
+    assert len(json.loads(before)["hotels"]) == 73
     source = pathlib.Path(MR.__file__).read_text(encoding="utf-8")
     for forbidden in ("hotel_policy_facts", "assemble_netlify", "netlify deploy",
                       "site/"):

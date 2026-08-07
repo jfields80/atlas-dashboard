@@ -1064,7 +1064,12 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
 
     rows = (
         ("Accepted species", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("species_allowed"))),
-        ("Maximum pets", *(lambda v: (v + " per room", "") if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
+        # The detail table has to name the same unit the summary does. It said
+        # "per room" for every record, so an all-suite property read "2 pets are
+        # permitted per suite" in the sentence and "2 per room" in the table on
+        # the same page. Absent scope still renders "per room", unchanged.
+        ("Maximum pets", *(lambda v: ("%s per %s" % (v, _count_scope(f)), "")
+                           if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
         *charge_rows,
         *maximum_rows,
         ("Charge basis",

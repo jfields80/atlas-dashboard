@@ -253,7 +253,7 @@ def test_real_projection_and_decision(result):
     # projection counts seed inventory, not the published surface -- rows
     # without policy evidence are carried here and excluded at the render
     # boundary, so this total legitimately exceeds the 70 public profiles.
-    assert r["projected_verified_pet_friendly_total"] == 76
+    assert r["projected_verified_pet_friendly_total"] == 78
     assert r["beta_threshold_decision"] == DECISION_BETA_THRESHOLD_REACHED
     assert r["validation_errors"] == []
 

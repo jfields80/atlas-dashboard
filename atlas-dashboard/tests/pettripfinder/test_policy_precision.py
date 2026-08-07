@@ -218,7 +218,11 @@ class TestVocabularyAndBlastRadius:
                 if r["category"] == "pet-friendly-hotels"}
         affected = [h["key"] for h in pkg["hotels"]
                     if h["facts"].get("pet_fee") and not h["facts"].get("fee_basis")]
-        assert len(affected) == 9
+        # 9 when PTF-POLICY-PRECISION-001 measured this; 10 since
+        # PTF-COLUMBUS-PROMOTION-002 published Hotel LeVeque, whose source states
+        # a $100 fee and no basis at all. The count is asserted rather than
+        # ranged so a new no-basis record cannot arrive unnoticed.
+        assert len(affected) == 10
         for h in pkg["hotels"]:
             summary = _verified_summary(dict(h["facts"]), h.get("evidence_quote") or "")
             if h["key"] in affected:
@@ -247,20 +251,32 @@ class TestVocabularyAndBlastRadius:
                               "reservation_requirement"):
             assert unimplemented not in _POLICY_FIELDS
 
-    def test_neither_new_hotel_reached_a_tracked_authority(self):
-        import csv
+    def test_both_promoted_hotels_carry_exactly_their_approved_facts(self):
+        """PTF-COLUMBUS-PROMOTION-002 replaced this file's earlier "neither hotel
+        reached a tracked authority" assertion, which was true until they were
+        promoted. The successor is stronger: they are published, and they carry
+        the approved facts and nothing else."""
         import json
         import pathlib
 
-        from scripts.pettripfinder.site_data import normalize_name
-
         root = pathlib.Path(__file__).resolve().parents[2]
-        seed = {normalize_name(r["name"]) for r in csv.DictReader(
-            (root / "launch_packages/pettripfinder/seed_businesses.csv").open(encoding="utf-8"))}
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
-        assert len(pkg["hotels"]) == 71
-        for name in ("Sonesta Simply Suites Columbus Airport Gahanna",
-                     "Hotel LeVeque, Autograph Collection"):
-            assert normalize_name(name) not in seed
-            assert normalize_name(name) not in {h["key"] for h in pkg["hotels"]}
+        by_key = {h["key"]: h for h in pkg["hotels"]}
+        assert len(pkg["hotels"]) == 73
+
+        sonesta = by_key["sonesta simply suites columbus airport gahanna"]
+        assert set(sonesta["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",
+                                         "weight_limit_stated_none",
+                                         "breed_restrictions_stated_none", "fee_tiers"}
+        assert sonesta["facts"]["pet_count_scope"] == "suite"
+        assert [t["amount"] for t in sonesta["facts"]["fee_tiers"]] == ["75.00", "150.00"]
+
+        leveque = by_key["hotel leveque autograph collection"]
+        assert set(leveque["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",
+                                         "pet_fee", "weight_limit", "weight_limit_operator"}
+        assert "fee_basis" not in leveque["facts"]
+
+        for record in (sonesta, leveque):
+            for never in ("species_allowed", "pet_deposit", "breed_restrictions"):
+                assert never not in record["facts"], (record["key"], never)

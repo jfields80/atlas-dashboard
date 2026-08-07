@@ -238,7 +238,7 @@ class TestGenerationDefenceInDepth:
 
         rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
         verified = verified_public_hotels(rows, load_published_hotel_policy_facts())
-        assert len(verified) == 71
+        assert len(verified) == 73
 
     def test_the_shared_launch_package_loader_passes_today(self):
         """The seed read both generators share must not have become fail-open or
@@ -247,7 +247,7 @@ class TestGenerationDefenceInDepth:
         resolution is what lets that read succeed."""
         from scripts.generate_pettripfinder_pilot import load_launch_package
 
-        assert len(load_launch_package()["seed_businesses"]) == 103
+        assert len(load_launch_package()["seed_businesses"]) == 105
 
 
 # --------------------------------------------------------------------------- #
@@ -543,7 +543,7 @@ class TestSameCampusDistinctEntities:
         """The generator and the release assembler both come through here."""
         from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 
-        assert len(load_published_hotel_policy_facts()) == 71
+        assert len(load_published_hotel_policy_facts()) == 73
 
     def test_records_without_a_reference_are_untouched(self):
         from scripts.pettripfinder.publication_guard import resolution_reference_blocks
@@ -749,5 +749,5 @@ class TestWiredBoundaries:
         text = (REPO_ROOT / "launch_packages/pettripfinder/hotel_policy_facts.json") \
             .read_text(encoding="utf-8")
         identities = EX._package_identities(text)
-        assert len(identities) == 71
+        assert len(identities) == 73
         assert_publishable(identities, check_collisions=False)

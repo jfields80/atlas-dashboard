@@ -241,7 +241,7 @@ class TestPublishedRecordsUnaffected:
         """37 published hotels plus Sonesta, promoted through the fixed
         boundary. No other record was added or removed."""
         pkg = self._pkg()
-        assert len(pkg["hotels"]) == 71
+        assert len(pkg["hotels"]) == 73
         s = [h for h in pkg["hotels"] if h["key"] == "sonesta simply suites dublin columbus"]
         assert len(s) == 1
         assert "pet_fee" not in s[0]["facts"]          # never flattened to a scalar

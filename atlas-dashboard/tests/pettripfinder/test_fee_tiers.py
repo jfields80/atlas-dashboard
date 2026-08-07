@@ -511,6 +511,7 @@ class TestScalarUnchanged:
         "homewood suites by hilton columbus hilliard",
         "homewood suites by hilton columbus osu oh",
         "homewood suites by hilton columbus polaris oh",
+        "sonesta simply suites columbus airport gahanna",
         "sonesta simply suites dublin columbus",
         "tru by hilton columbus east broad",
     ]
@@ -521,7 +522,7 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 71
+        assert len(pkg["hotels"]) == 73
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
         assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:

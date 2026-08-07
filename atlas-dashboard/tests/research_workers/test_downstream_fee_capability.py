@@ -62,7 +62,7 @@ class TestSupportedShapes:
         2026-08-02 as the first to arrive through the worker path."""
         pkg = json.loads(_PKG.read_text(encoding="utf-8-sig"))
         tiered = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
-        assert len(tiered) == 20
+        assert len(tiered) == 21
         for h in tiered:
             terms = [term(t["amount"], t["condition_min"], t["condition_max"],
                           unit=t["boundary_unit"], currency=t["currency"],
