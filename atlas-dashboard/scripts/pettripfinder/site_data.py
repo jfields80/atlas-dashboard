@@ -181,6 +181,28 @@ def load_published_hotel_policy_facts() -> Dict[str, Dict]:
     if not PUBLISHED_FACTS_PATH.exists():
         return {}
     data = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+
+    # PTF-BREWDOG-PROMOTION-001. A record may carry same_campus_resolution: the
+    # id of the reviewed decision that lets it share a street address with a
+    # different business. It is the only thing that explains the coexistence to a
+    # reader, so an unresolvable reference is worse than none -- it asserts a
+    # review that cannot be produced. Validated on every read of the package, so
+    # the generator and the release assembler both fail closed, and validated
+    # against the SEED address so a reference cannot be pointed at some other
+    # campus. Records with no reference are untouched.
+    from scripts.pettripfinder.publication_guard import assert_resolution_references
+
+    seed_by_key = {normalize_name(r.get("name", "")): r for r in read_production_rows()
+                   if r.get("category") == "pet-friendly-hotels"}
+    referenced = [
+        {"name": h.get("name") or h.get("key", ""),
+         "address": seed_by_key.get(h.get("key", ""), {}).get("address", ""),
+         "postal_code": seed_by_key.get(h.get("key", ""), {}).get("postal_code", ""),
+         "same_campus_resolution": h["same_campus_resolution"]}
+        for h in data.get("hotels", []) if h.get("same_campus_resolution")]
+    if referenced:
+        assert_resolution_references(referenced)
+
     out: Dict[str, Dict] = {}
     for h in data.get("hotels", []):
         out[h["key"]] = {

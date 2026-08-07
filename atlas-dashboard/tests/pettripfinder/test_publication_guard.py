@@ -238,14 +238,16 @@ class TestGenerationDefenceInDepth:
 
         rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
         verified = verified_public_hotels(rows, load_published_hotel_policy_facts())
-        assert len(verified) == 70
+        assert len(verified) == 71
 
     def test_the_shared_launch_package_loader_passes_today(self):
         """The seed read both generators share must not have become fail-open or
-        fail-noisy: it loads the real 102-row package without raising."""
+        fail-noisy: it loads the real 103-row package without raising. It now
+        contains a reviewed same-campus pair, so this also proves the tracked
+        resolution is what lets that read succeed."""
         from scripts.generate_pettripfinder_pilot import load_launch_package
 
-        assert len(load_launch_package()["seed_businesses"]) == 102
+        assert len(load_launch_package()["seed_businesses"]) == 103
 
 
 # --------------------------------------------------------------------------- #
@@ -373,16 +375,86 @@ class TestSameCampusDistinctEntities:
                                     exclusions=[], resolutions_path=tmp_path / "nope.json")
         assert [b["reason"] for b in blocks] == [BLOCK_UNRESOLVED_COLLISION]
 
-    def test_brewdog_is_not_promoted_by_this_work_order(self):
-        """No resolution is tracked yet, and no BrewDog hotel row exists."""
-        from scripts.pettripfinder.publication_guard import RESOLUTIONS_PATH
+    def test_the_tracked_resolution_is_what_admits_the_promoted_hotel(self):
+        """PTF-BREWDOG-PROMOTION-001 replaced this file's earlier
+        'BrewDog is not promoted' assertion, which was true until the hotel was
+        promoted. The successor is stronger: both rows are now in the seed, and
+        the ONLY thing that makes that legal is the tracked resolution. Remove
+        the resolution and the same seed stops publishing."""
+        from scripts.pettripfinder.publication_guard import (
+            RESOLUTIONS_PATH, load_resolutions)
 
         seed = list(csv.DictReader(
             (REPO_ROOT / "launch_packages/pettripfinder/seed_businesses.csv")
             .open(encoding="utf-8")))
-        assert not [r for r in seed
-                    if normalize_name(r["name"]) == "brewdog doghouse columbus"]
-        assert not RESOLUTIONS_PATH.exists()
+        hotel = [r for r in seed if normalize_name(r["name"]) == "brewdog doghouse columbus"]
+        taproom = [r for r in seed if normalize_name(r["name"]) == "brewdog dogtap columbus"]
+        assert len(hotel) == 1 and len(taproom) == 1
+        assert hotel[0]["category"] == "pet-friendly-hotels"
+        assert taproom[0]["category"] == "pet-friendly-restaurants"
+
+        assert RESOLUTIONS_PATH.exists()
+        tracked = load_resolutions()
+        assert [r["resolution_id"] for r in tracked] == ["res-brewdog-gender-rd"]
+        assert publication_blocks(hotel, published=seed, exclusions=[],
+                                  resolutions=tracked) == []
+        # Without it, the very same seed is refused.
+        blocked = publication_blocks(hotel, published=seed, exclusions=[], resolutions=[])
+        assert [b["reason"] for b in blocked] == [BLOCK_UNRESOLVED_COLLISION]
+
+    def test_the_promoted_hotel_asserts_only_the_two_approved_facts(self):
+        """No cat, no fee, no count, no weight, no breed rule -- the package
+        record carries exactly what the official page states."""
+        pkg = json.loads((REPO_ROOT / "launch_packages/pettripfinder/hotel_policy_facts.json")
+                         .read_text(encoding="utf-8"))
+        record = [h for h in pkg["hotels"] if h["key"] == "brewdog doghouse columbus"][0]
+        assert record["facts"] == {"pets_allowed": "true", "species_allowed": "dogs"}
+        assert record["verification_state"] == "VERIFIED_PET_FRIENDLY"
+        assert record["same_campus_resolution"] == "res-brewdog-gender-rd"
+
+    def test_the_dataset_builder_keeps_both_campus_listings(self):
+        """The address dedup rule would otherwise delete one of the two real
+        businesses; the reviewed group is the exception that stops it."""
+        from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
+        from scripts.pettripfinder.publication_guard import distinct_entity_groups
+
+        seed = [dict(r) for r in csv.DictReader(
+            (REPO_ROOT / "launch_packages/pettripfinder/seed_businesses.csv")
+            .open(encoding="utf-8"))]
+        pair = [r for r in seed if "brewdog" in r["name"].lower()]
+        cats = [{"name": "Pet-Friendly Hotels", "slug": "pet-friendly-hotels"},
+                {"name": "Pet-Friendly Restaurants", "slug": "pet-friendly-restaurants"}]
+
+        merged = build_listing_dataset(seed_businesses=pair, categories=cats)
+        assert len(merged.dataset.listings) == 1        # the default rule collapses them
+        assert merged.rejected_duplicates
+
+        split = build_listing_dataset(seed_businesses=pair, categories=cats,
+                                      distinct_entity_groups=distinct_entity_groups())
+        assert len(split.dataset.listings) == 2
+        assert not split.rejected_duplicates
+        slugs = sorted(l.slug for l in split.dataset.listings)
+        assert slugs == ["brewdog-doghouse-columbus", "brewdog-dogtap-columbus"]
+
+    def test_an_unreviewed_same_address_pair_is_still_deduplicated(self):
+        """The exception is the named pair only -- the rule itself is unchanged."""
+        from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
+        from scripts.pettripfinder.publication_guard import distinct_entity_groups
+
+        pair = [{"name": "Some Hotel", "category": "pet-friendly-hotels",
+                 "address": "1 Shared Way", "city": "Columbus", "state": "OH",
+                 "postal_code": "43215", "source_url": "https://a.example/",
+                 "observed_at": "2026-08-06", "pet_policy": "Pets are welcome here."},
+                {"name": "Some Cafe", "category": "pet-friendly-restaurants",
+                 "address": "1 Shared Way", "city": "Columbus", "state": "OH",
+                 "postal_code": "43215", "source_url": "https://b.example/",
+                 "observed_at": "2026-08-06", "pet_policy": "Dogs welcome on the patio."}]
+        cats = [{"name": "Pet-Friendly Hotels", "slug": "pet-friendly-hotels"},
+                {"name": "Pet-Friendly Restaurants", "slug": "pet-friendly-restaurants"}]
+        result = build_listing_dataset(seed_businesses=pair, categories=cats,
+                                       distinct_entity_groups=distinct_entity_groups())
+        assert len(result.dataset.listings) == 1
+        assert result.rejected_duplicates
 
     def test_same_category_pairs_are_detectable_but_not_blocked_by_default(self):
         """Two differently named HOTEL rows at one address are a near-duplicate
@@ -398,6 +470,87 @@ class TestSameCampusDistinctEntities:
         surfaced = collision_blocks(pair[:1], published=pair[1:], resolutions=[],
                                     cross_category_only=False)
         assert [b["reason"] for b in surfaced] == [BLOCK_UNRESOLVED_COLLISION]
+
+    def test_the_published_reference_resolves_to_the_reviewed_pair(self):
+        """The reference in the package record is publishable BECAUSE it can be
+        resolved: it names a tracked resolution covering this identity at this
+        address, and nothing else."""
+        from scripts.pettripfinder.publication_guard import (
+            assert_resolution_references, load_resolutions)
+
+        record = {"name": "BrewDog DogHouse Columbus", "address": "96 Gender Rd",
+                  "postal_code": "43110", "same_campus_resolution": "res-brewdog-gender-rd"}
+        assert_resolution_references([record])                       # must not raise
+        resolution = [r for r in load_resolutions()
+                      if r["resolution_id"] == "res-brewdog-gender-rd"][0]
+        assert resolution["address_key"] == "96|gender|43110"
+        assert {normalize_name(i["canonical_name"]) for i in resolution["identities"]} == {
+            "brewdog doghouse columbus", "brewdog dogtap columbus"}
+
+    def test_a_reference_to_an_unknown_resolution_fails_closed(self):
+        from scripts.pettripfinder.publication_guard import (
+            BLOCK_REFERENCE_UNKNOWN, resolution_reference_blocks)
+
+        blocks = resolution_reference_blocks(
+            [{"name": "BrewDog DogHouse Columbus", "address": "96 Gender Rd",
+              "postal_code": "43110", "same_campus_resolution": "res-does-not-exist"}])
+        assert [b["reason"] for b in blocks] == [BLOCK_REFERENCE_UNKNOWN]
+
+    def test_a_reference_to_a_different_pair_fails_closed(self):
+        from scripts.pettripfinder.publication_guard import (
+            BLOCK_REFERENCE_WRONG_PAIR, resolution_reference_blocks)
+
+        blocks = resolution_reference_blocks(
+            [{"name": "Some Other Hotel", "address": "96 Gender Rd",
+              "postal_code": "43110", "same_campus_resolution": "res-brewdog-gender-rd"}])
+        assert [b["reason"] for b in blocks] == [BLOCK_REFERENCE_WRONG_PAIR]
+
+    def test_a_reference_pointed_at_another_address_fails_closed(self):
+        from scripts.pettripfinder.publication_guard import (
+            BLOCK_REFERENCE_WRONG_ADDRESS, resolution_reference_blocks)
+
+        blocks = resolution_reference_blocks(
+            [{"name": "BrewDog DogHouse Columbus", "address": "100 Gender Rd",
+              "postal_code": "43110", "same_campus_resolution": "res-brewdog-gender-rd"}])
+        assert [b["reason"] for b in blocks] == [BLOCK_REFERENCE_WRONG_ADDRESS]
+
+    def test_an_operational_reference_is_refused(self):
+        """The reference carries an id and nothing else -- no path, no corpus
+        location, no candidate or run id, no status word."""
+        from scripts.pettripfinder.publication_guard import (
+            BLOCK_REFERENCE_MALFORMED, resolution_reference_blocks)
+
+        for bad in ("data/worker_runs/res-brewdog-gender-rd.json",
+                    "../launch_packages/pettripfinder/identity_resolutions.json",
+                    "cand-brewdog-doghouse-columbus", "tmp-res-1", "run_2026_08_06",
+                    "res-brewdog-gender-rd pending", " res-brewdog-gender-rd"):
+            blocks = resolution_reference_blocks(
+                [{"name": "BrewDog DogHouse Columbus", "address": "96 Gender Rd",
+                  "postal_code": "43110", "same_campus_resolution": bad}])
+            assert [b["reason"] for b in blocks] == [BLOCK_REFERENCE_MALFORMED], bad
+
+    def test_a_tampered_authority_stops_the_package_read_entirely(self):
+        """Hash validation happens on load, so a rewritten resolution does not
+        get to be selectively survivable."""
+        import scripts.pettripfinder.publication_guard as PG
+
+        doc = json.loads(PG.RESOLUTIONS_PATH.read_text(encoding="utf-8"))
+        doc["resolutions"][0]["address_key"] = "100|gender|43110"
+        with pytest.raises(ExclusionContractError, match="resolution_hash"):
+            PG.validate_resolutions(doc)
+
+    def test_the_live_package_read_validates_every_reference(self):
+        """The generator and the release assembler both come through here."""
+        from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
+
+        assert len(load_published_hotel_policy_facts()) == 71
+
+    def test_records_without_a_reference_are_untouched(self):
+        from scripts.pettripfinder.publication_guard import resolution_reference_blocks
+
+        assert resolution_reference_blocks(
+            [{"name": "Hilton Columbus Downtown", "address": "401 N High St",
+              "postal_code": "43215"}]) == []
 
     def test_a_row_repeated_against_itself_is_not_a_collision(self):
         """Re-publishing an unchanged row is the normal idempotent case."""
@@ -596,5 +749,5 @@ class TestWiredBoundaries:
         text = (REPO_ROOT / "launch_packages/pettripfinder/hotel_policy_facts.json") \
             .read_text(encoding="utf-8")
         identities = EX._package_identities(text)
-        assert len(identities) == 70
+        assert len(identities) == 71
         assert_publishable(identities, check_collisions=False)

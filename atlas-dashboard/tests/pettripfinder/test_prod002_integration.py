@@ -185,6 +185,13 @@ def test_published_package_is_the_default_source(sample):
         # corpus metadata, no raw model output. The operational-internals
         # assertions below still run against them unchanged.
         "machine_review", "display_review",
+        # PTF-BREWDOG-PROMOTION-001: the id of the reviewed same-campus
+        # resolution that lets this record coexist with a different business at
+        # the same street address. Admitted on exactly the terms above -- a
+        # reviewed-decision reference, not operational metadata: no path, no
+        # candidate id, no corpus internals, and it names a record in a tracked
+        # authority a reader can look up.
+        "same_campus_resolution",
     }
     for h in pkg["hotels"]:
         assert set(h).issubset(_PUBLISHABLE), set(h) - _PUBLISHABLE

@@ -41,6 +41,7 @@ from scripts.pettripfinder.listing_dataset_builder import (
     listing_readiness,
     partition_by_renderability,
 )
+from scripts.pettripfinder.publication_guard import distinct_entity_groups
 
 _SEED_CSV = pathlib.Path(LAUNCH_PACKAGE_DIR) / "seed_businesses.csv"
 
@@ -182,11 +183,12 @@ class TestRealSeedBoundary:
             seed_businesses=package["seed_businesses"],
             categories=package["categories"],
             locations=package["locations"],
+            distinct_entity_groups=distinct_entity_groups(),
         )
         assert result.ok
         assert result.errors == ()
-        assert len(package["seed_businesses"]) == 102
-        assert len(result.dataset.listings) == 102
+        assert len(package["seed_businesses"]) == 103
+        assert len(result.dataset.listings) == 103
         assert result.excluded_pending_count == 0
 
     def test_every_exclusion_names_a_pending_hotel_and_its_reason(self, package):
@@ -194,6 +196,7 @@ class TestRealSeedBoundary:
             seed_businesses=package["seed_businesses"],
             categories=package["categories"],
             locations=package["locations"],
+            distinct_entity_groups=distinct_entity_groups(),
         )
         excluded = result.excluded_pending
         assert len(excluded) == len(_PENDING_NAMES)
@@ -211,7 +214,7 @@ class TestRealSeedBoundary:
         fail here rather than quietly disappearing from the public site."""
         hotels = [r for r in package["seed_businesses"]
                   if r.get("category") == "pet-friendly-hotels"]
-        assert len(hotels) == 75
+        assert len(hotels) == 76
         assert [r["name"] for r in hotels
                 if not str(r.get(EVIDENCE_FIELD, "")).strip()] == []
 
@@ -222,6 +225,7 @@ class TestRealSeedBoundary:
             seed_businesses=package["seed_businesses"],
             categories=package["categories"],
             locations=package["locations"],
+            distinct_entity_groups=distinct_entity_groups(),
         )
         names = {l.business_name for l in result.dataset.listings}
         assert not (names & _PENDING_NAMES)
@@ -240,6 +244,7 @@ class TestRealSeedBoundary:
             seed_businesses=package["seed_businesses"],
             categories=package["categories"],
             locations=package["locations"],
+            distinct_entity_groups=distinct_entity_groups(),
         )
         by_name = {r["name"]: r for r in package["seed_businesses"]}
         for listing in result.dataset.listings:
@@ -252,9 +257,9 @@ class TestRealSeedBoundary:
         All 33 hotel rows, pending included, stay in the one seed file."""
         with _SEED_CSV.open("r", encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
-        assert len(rows) == 102
+        assert len(rows) == 103
         hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-        assert len(hotels) == 75
+        assert len(hotels) == 76
         present = {r["name"] for r in hotels}
         assert _PENDING_NAMES <= present
         # And they are retained as real rows, not tombstones: identity intact.
@@ -279,10 +284,12 @@ class TestRealSeedBoundary:
     def test_build_is_deterministic(self, package):
         a = build_listing_dataset(seed_businesses=package["seed_businesses"],
                                   categories=package["categories"],
-                                  locations=package["locations"])
+                                  locations=package["locations"],
+                                  distinct_entity_groups=distinct_entity_groups())
         b = build_listing_dataset(seed_businesses=package["seed_businesses"],
                                   categories=package["categories"],
-                                  locations=package["locations"])
+                                  locations=package["locations"],
+                                  distinct_entity_groups=distinct_entity_groups())
         assert a.excluded_pending == b.excluded_pending
         assert ([l.listing_id for l in a.dataset.listings]
                 == [l.listing_id for l in b.dataset.listings])

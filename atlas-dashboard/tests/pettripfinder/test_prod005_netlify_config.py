@@ -42,13 +42,15 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 
-# PTF-PROMOTION-002: the release identity of the committed 70-hotel Columbus
+# PTF-BREWDOG-PROMOTION-001: the release identity of the committed 71-hotel
+# Columbus package (70 + BrewDog DogHouse, the first same-campus promotion).
+# Previously PTF-PROMOTION-002's 70-hotel
 # package. Deliberately an explicit constant, not a value read back from the
 # package -- a gate that recomputes its own expectation proves nothing. It must
 # agree with deploy/netlify/release_contract.json, and both must agree with the
 # file on disk; the three-way check below is the release contract.
-EXPECTED_PACKAGE_SHA = "f389bd6495e6ec252b7394dd3fd0b18b54d42e017c497bbd48d3d9c7311a86f5"
-EXPECTED_RECORD_COUNT = 70
+EXPECTED_PACKAGE_SHA = "b13206830ba66112071d7a7029c72221e45ef16c1e194ff6d3fff9a07ee18a71"
+EXPECTED_RECORD_COUNT = 71
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 

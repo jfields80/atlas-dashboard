@@ -42,7 +42,8 @@ from scripts.pettripfinder.site_data import (  # noqa: E402
     normalize_name,
     read_production_rows,
 )
-from scripts.pettripfinder.publication_guard import assert_publishable  # noqa: E402
+from scripts.pettripfinder.publication_guard import (  # noqa: E402
+    assert_publishable, assert_resolution_references)
 
 SCHEMA_VERSION = "1.1"
 MARKET = "columbus-oh"
@@ -242,6 +243,23 @@ def _package_identities(package_text: str) -> list:
     return rows
 
 
+def _package_references(package_text: str) -> list:
+    """Records that carry a same-campus resolution reference, addressed from the
+    seed rows so the reference can be checked against the real street identity."""
+    seed = {normalize_name(r.get("name", "")): r for r in read_production_rows()
+            if r.get("category") == "pet-friendly-hotels"}
+    rows = []
+    for record in json.loads(package_text).get("hotels", []):
+        if not record.get("same_campus_resolution"):
+            continue
+        display = seed.get(record.get("key", ""), {})
+        rows.append({"name": record.get("name") or record.get("key", ""),
+                     "address": display.get("address", ""),
+                     "postal_code": display.get("postal_code", ""),
+                     "same_campus_resolution": record["same_campus_resolution"]})
+    return rows
+
+
 def write_package(path: Path = PUBLISHED_FACTS_PATH,
                   authorized_delta: dict | None = None) -> int:
     """Write the export package, refusing any destructive replacement.
@@ -263,6 +281,11 @@ def write_package(path: Path = PUBLISHED_FACTS_PATH,
     # untouched. Addresses are taken from the seed display rows, so a rename at
     # a known street identity is caught as well as a name match.
     assert_publishable(_package_identities(text), check_collisions=False)
+    # PTF-BREWDOG-PROMOTION-001: and no record may carry a same-campus reference
+    # that does not resolve to a reviewed decision covering this identity at this
+    # address. Checked on the write side too, so a bad reference can never be
+    # written and then merely fail on the next read.
+    assert_resolution_references(_package_references(text))
 
     existing_text = path.read_text(encoding="utf-8") if path.exists() else ""
     if existing_text.strip():
