@@ -263,7 +263,7 @@ class TestVocabularyAndBlastRadius:
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
         by_key = {h["key"]: h for h in pkg["hotels"]}
-        assert len(pkg["hotels"]) == 73
+        assert len(pkg["hotels"]) == 77
 
         sonesta = by_key["sonesta simply suites columbus airport gahanna"]
         assert set(sonesta["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",

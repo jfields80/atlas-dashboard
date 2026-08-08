@@ -115,7 +115,7 @@ def test_site_data_corridor_grouping_uses_columbus(two_markets):
     verified = verified_public_hotels(rows, load_published_hotel_policy_facts())
     groups = group_by_corridor(verified)
     assert {name: len(members) for name, members in groups.items()} == {
-        "Dublin": 11, "Downtown Columbus": 10, "Polaris": 8, "OSU / University Area": 7,
+        "Dublin": 13, "Downtown Columbus": 10, "Polaris": 9, "OSU / University Area": 7,
         "Reynoldsburg / East Columbus": 6, "Airport": 6, "Easton": 5,
     }
 
@@ -162,7 +162,7 @@ def test_columbus_site_generation_succeeds_with_two_markets(two_markets, tmp_pat
     out = tmp_path_factory.mktemp("two_market_site")
     assert run(str(out)) == 0
     report = json.loads((out / "_build_report.json").read_text(encoding="utf-8"))
-    assert report["hotel_count"] == 73
+    assert report["hotel_count"] == 77
     assert not report["warnings"]
     quality = json.loads((out / "_quality_report.json").read_text(encoding="utf-8"))
     assert quality["failures"] == []
@@ -180,4 +180,4 @@ def test_columbus_assembler_succeeds_with_two_markets(two_markets, tmp_path_fact
     out = tmp_path_factory.mktemp("two_market_bundle")
     manifest = assemble("production", str(out))
     assert manifest["all_gates_pass"] is True
-    assert manifest["hotel_profile_routes"] == 73
+    assert manifest["hotel_profile_routes"] == 77

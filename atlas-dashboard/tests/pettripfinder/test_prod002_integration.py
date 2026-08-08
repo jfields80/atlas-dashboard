@@ -192,6 +192,13 @@ def test_published_package_is_the_default_source(sample):
         # candidate id, no corpus internals, and it names a record in a tracked
         # authority a reader can look up.
         "same_campus_resolution",
+        # PTF-COLUMBUS-AUTHORITY-APPLY-002: the attended browser-assisted
+        # capture a record was promoted from. Admitted on exactly the same
+        # terms as the review blocks above -- reviewed-decision provenance,
+        # not operational internals: batch name, citable URL, the three
+        # content hashes and the reviewer. No path, no candidate id, no
+        # corpus internals, and nothing a reader cannot look up.
+        "attended_capture",
     }
     for h in pkg["hotels"]:
         assert set(h).issubset(_PUBLISHABLE), set(h) - _PUBLISHABLE

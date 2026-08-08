@@ -187,8 +187,8 @@ class TestRealSeedBoundary:
         )
         assert result.ok
         assert result.errors == ()
-        assert len(package["seed_businesses"]) == 105
-        assert len(result.dataset.listings) == 105
+        assert len(package["seed_businesses"]) == 109
+        assert len(result.dataset.listings) == 109
         assert result.excluded_pending_count == 0
 
     def test_every_exclusion_names_a_pending_hotel_and_its_reason(self, package):
@@ -214,7 +214,7 @@ class TestRealSeedBoundary:
         fail here rather than quietly disappearing from the public site."""
         hotels = [r for r in package["seed_businesses"]
                   if r.get("category") == "pet-friendly-hotels"]
-        assert len(hotels) == 78
+        assert len(hotels) == 82
         assert [r["name"] for r in hotels
                 if not str(r.get(EVIDENCE_FIELD, "")).strip()] == []
 
@@ -257,9 +257,9 @@ class TestRealSeedBoundary:
         All 33 hotel rows, pending included, stay in the one seed file."""
         with _SEED_CSV.open("r", encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
-        assert len(rows) == 105
+        assert len(rows) == 109
         hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-        assert len(hotels) == 78
+        assert len(hotels) == 82
         present = {r["name"] for r in hotels}
         assert _PENDING_NAMES <= present
         # And they are retained as real rows, not tombstones: identity intact.

@@ -209,7 +209,7 @@ class TestColumbusDivergence:
     def test_preview_remains_available_and_read_only(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()
         report = build_preview()["report"]
-        assert report["old_count"] == 73
+        assert report["old_count"] == 77
         assert report["new_count"] == 38
         assert PUBLISHED_FACTS_PATH.read_bytes() == before
 
@@ -217,13 +217,13 @@ class TestColumbusDivergence:
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
         assert is_destructive(delta)
-        assert delta["existing_count"] == 73 and delta["proposed_count"] == 38
+        assert delta["existing_count"] == 77 and delta["proposed_count"] == 38
 
     def test_every_removal_identity_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["removal_count"] == 35
-        assert len(delta["removals"]) == 35
+        assert delta["removal_count"] == 39
+        assert len(delta["removals"]) == 39
         published = {h["key"] for h in json.loads(
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         assert set(delta["removals"]) <= published
@@ -254,9 +254,18 @@ class TestColumbusDivergence:
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         corpus = {h["key"] for h in build_package()["hotels"]}
         promoted_only = published - corpus
-        assert len(promoted_only) == 35
-        # Every promoted record still carries its machine-review provenance.
+        assert len(promoted_only) == 39
+        # Every promoted record still carries auditable provenance. There are
+        # now two ways in that the export corpus cannot reach, and each is
+        # recorded as what it actually was: the machine-review approvals, and
+        # the PTF-COLUMBUS-AUTHORITY-APPLY-002 records promoted from attended
+        # browser-assisted captures. Accepting either is the point -- stamping
+        # a machine_review block on a record no machine reviewed would make
+        # this assertion pass by lying about how the hotel got here.
         by_key = {h["key"]: h for h in json.loads(
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         for key in promoted_only:
-            assert by_key[key]["machine_review"]["approval_hash"].startswith("sha256:")
+            record = by_key[key]
+            provenance = (record.get("machine_review", {}).get("approval_hash")
+                          or record.get("attended_capture", {}).get("html_sha256"))
+            assert provenance and provenance.startswith("sha256:"), key
