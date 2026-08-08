@@ -24,3 +24,11 @@ deploy/**/*.toml             text eol=lf
 # unreproducible and a byte-comparison of two builds meaningless.
 deploy/netlify/headers.*     text eol=lf
 deploy/netlify/redirects     text eol=lf
+
+# PTF-POLICY-P0-001. The adversarial policy fixtures are the verified bytes of
+# the research package, and a test asserts their sha256 against the hash in
+# that package's MANIFEST. Without this line a Windows clone checks them out
+# with CRLF, the hash no longer matches, and the natural "fix" is to weaken the
+# assertion -- which would remove the only guarantee that the fixtures are the
+# package's and not someone's edit.
+tests/pettripfinder/policy/fixtures/*.json    text eol=lf
