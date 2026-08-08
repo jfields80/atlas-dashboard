@@ -459,12 +459,16 @@ def test_cleveland_fixture_bootstraps_without_generator_changes():
 
 
 def test_production_markets_dir_loads_and_is_single_market_columbus():
+    # PTF-CLEVELAND-AKRON-CANTON-008: the committed set is no longer a single
+    # market. Columbus is resolved BY NAME, exactly as the build resolves it,
+    # so registering market N+1 cannot change what this test observes. The
+    # previous revision asserted len(markets) == 1 as a record of the state at
+    # the time, noting it was not something the build depended on -- and it
+    # is that record, not the build, that this registration invalidated.
     markets = load_markets()
-    # PTF-MULTIMARKET-001: resolve the market the way the build now does --
-    # by name. The single-market assertion below records today's committed
-    # state; it is no longer something the production build depends on.
+    assert sorted(m.market_id for m in markets) == \
+        ["cleveland-akron-canton-oh", "columbus-oh"]
     market = market_by_id(markets, "columbus-oh")
-    assert len(markets) == 1
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"
     assert len(market.corridors) == 10
