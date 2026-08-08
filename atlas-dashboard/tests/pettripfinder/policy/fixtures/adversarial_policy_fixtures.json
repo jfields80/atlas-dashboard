@@ -1,0 +1,426 @@
+{
+  "schema": "ptf-policy-fixtures/1.0",
+  "note": "24 adversarial policy-capture fixtures. input_kind observation fixtures are validated by prototypes/policy_contract_check.py and must produce exactly expected.checker_verdict; worker_result fixtures validate against policy_worker_result.schema.json. expected.disposition is the documented downstream readiness/adjudication outcome (design expectation; derivation is integrated later). Money is integer minor units (cents). All hotels/quotes are synthetic.",
+  "fixtures": [
+    {
+      "id": "FXP-01", "title": "Multiple stay-length fee tiers", "category": "fee_tiers",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp01", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Staybridge Suites Sampleton", "normalized_name": "staybridge suites sampleton", "official_url": "https://www.example-brand.com/sampleton"},
+        "identity_check": {"name_on_page": "Staybridge Suites Sampleton"},
+        "source_url": "https://www.example-brand.com/sampleton/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Pet fee: $75 for stays of 1-6 nights; $150 for stays of 7 nights or more. Maximum 2 pets.", "location": "policies section", "field_refs": ["pets_allowed", "fee_tiers", "pet_count_limit"]}],
+        "extraction": {"pets_allowed": true, "pet_count_limit": 2, "fee_tiers": [{"length_min_nights": 1, "length_max_nights": 6, "amount_minor": 7500, "basis": "per_stay"}, {"length_min_nights": 7, "amount_minor": 15000, "basis": "per_stay"}]},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED_WITH_AMBIGUITY", "notes": "Tier structure is not a contradiction; routes to the fee-tier model. Holds rather than flattens if downstream schema cannot carry tiers."}
+    },
+    {
+      "id": "FXP-02", "title": "Fee plus refundable deposit", "category": "fee_plus_deposit",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp02", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Inn Downtown", "normalized_name": "sampleton inn downtown"},
+        "identity_check": {"name_on_page": "Sampleton Inn Downtown"},
+        "source_url": "https://sampletoninn.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "A $50 non-refundable pet fee per stay and a $100 refundable pet deposit are required.", "location": "policies page", "field_refs": ["pets_allowed", "pet_fee", "fee_currency", "fee_basis", "pet_deposit"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 5000, "fee_currency": "USD", "fee_basis": "per_stay", "pet_deposit": {"amount_minor": 10000, "refundable": true}},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED", "notes": "Fee and deposit are distinct fields; neither overwrites the other."}
+    },
+    {
+      "id": "FXP-03", "title": "Conflicting official sections on one site", "category": "official_conflict",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp03", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Grand Hotel", "normalized_name": "sampleton grand hotel"},
+        "identity_check": {"name_on_page": "Sampleton Grand Hotel"},
+        "source_url": "https://sampletongrand.example/faq",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Pet fee $150 per stay.", "location": "FAQ", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 15000, "fee_basis": "per_stay"},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "FLAG_MULTI_POLICY_BLOCKS", "detail": "policies page separately states $75 per stay; sibling observation fxp03b"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFLICT", "notes": "Both observations preserved; explicit-vs-explicit on one field with no axis winner blocks publication pending human adjudication."}
+    },
+    {
+      "id": "FXP-04", "title": "Brand-generic policy carrying establishing extraction", "category": "brand_generic",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp04", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Redwood Inn Sampleton", "normalized_name": "redwood inn sampleton"},
+        "identity_check": {"name_on_page": "Redwood Inn - Our Pet Promise"},
+        "source_url": "https://www.redwoodinn.example/pet-policy",
+        "source_type": "official_brand_faq", "authority_tier": "PT2",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Pets always stay free at Redwood Inn.", "location": "brand pet promise page", "field_refs": ["pets_allowed", "pet_fee"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 0},
+        "extraction_confidence": "EXACT_QUOTE", "flags": [{"code": "FLAG_BRAND_GENERIC", "detail": "brand-wide statement, no property scoping"}]
+      },
+      "expected": {"checker_verdict": "REJECT_BRAND_GENERIC_AS_PROPERTY", "disposition": "corroboration-only after strip", "notes": "M3: brand-generic never auto-populates a property record, even a friendly one."}
+    },
+    {
+      "id": "FXP-05", "title": "Service-animal-only language handled correctly", "category": "service_animal",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp05", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Court Hotel", "normalized_name": "sampleton court hotel"},
+        "identity_check": {"name_on_page": "Sampleton Court Hotel"},
+        "source_url": "https://sampletoncourt.example/accessibility",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Service animals are welcome in accordance with the ADA.", "location": "accessibility page", "field_refs": ["service_animal_exception"]}],
+        "extraction": {"pets_allowed": "not_stated", "service_animal_exception": "Service animals are welcome in accordance with the ADA."},
+        "extraction_confidence": "EXACT_QUOTE", "flags": [{"code": "FLAG_SERVICE_ANIMAL_ONLY", "detail": "no pet policy stated anywhere on official surfaces"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_NOT_FOUND", "notes": "M6: service-animal language is never a pet policy; pets_allowed stays not_stated."}
+    },
+    {
+      "id": "FXP-06", "title": "Dogs only", "category": "species",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp06", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Lodge West", "normalized_name": "sampleton lodge west"},
+        "identity_check": {"name_on_page": "Sampleton Lodge West"},
+        "source_url": "https://sampletonlodge.example/pets",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Dogs welcome (max 2). We are unable to accommodate cats.", "location": "pets page", "field_refs": ["pets_allowed", "species_allowed", "cats_allowed", "pet_count_limit"]}],
+        "extraction": {"pets_allowed": true, "species_allowed": "dogs_only", "cats_allowed": false, "pet_count_limit": 2},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED", "notes": "Explicit negative for cats is a fact, not an omission."}
+    },
+    {
+      "id": "FXP-07", "title": "Cats and dogs", "category": "species",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp07", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Suites East", "normalized_name": "sampleton suites east"},
+        "identity_check": {"name_on_page": "Sampleton Suites East"},
+        "source_url": "https://sampletonsuites.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Cats and dogs up to 50 lbs each are welcome; $20 per pet per night.", "location": "policies", "field_refs": ["pets_allowed", "species_allowed", "cats_allowed", "weight_limit", "weight_limit_operator", "pet_fee", "fee_basis", "fee_scope"]}],
+        "extraction": {"pets_allowed": true, "species_allowed": "dogs_and_cats", "cats_allowed": true, "weight_limit": 50, "weight_limit_operator": "per_pet", "pet_fee": 2000, "fee_basis": "per_night", "fee_scope": "per_pet"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED", "notes": "Fully specified record; the shape every capture aspires to."}
+    },
+    {
+      "id": "FXP-08", "title": "Per-pet vs per-room fee scope ambiguity", "category": "scope_ambiguity",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp08", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Parkway Hotel", "normalized_name": "sampleton parkway hotel"},
+        "identity_check": {"name_on_page": "Sampleton Parkway Hotel"},
+        "source_url": "https://sampletonparkway.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "$25 pet fee per night.", "location": "policies", "field_refs": ["pets_allowed", "pet_fee", "fee_basis", "fee_scope"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 2500, "fee_basis": "per_night", "fee_scope": "unknown"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": [{"code": "FLAG_AMBIGUOUS_SCOPE", "detail": "source does not say per pet or per room"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED_WITH_AMBIGUITY", "notes": "Never guess scope; publish the ambiguity honestly."}
+    },
+    {
+      "id": "FXP-09", "title": "Per-night fee with cap", "category": "fee_cap",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp09", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Extended Stay", "normalized_name": "sampleton extended stay"},
+        "identity_check": {"name_on_page": "Sampleton Extended Stay"},
+        "source_url": "https://sampletonext.example/pet-policy",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "$25 per night per pet, up to a maximum of $150 per stay.", "location": "pet policy", "field_refs": ["pets_allowed", "pet_fee", "fee_basis", "fee_scope", "fee_cap"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 2500, "fee_basis": "per_night", "fee_scope": "per_pet", "fee_cap": {"amount_minor": 15000, "per": "per_stay"}},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED", "notes": "Cap is first-class; flattening it to either number alone would misstate the price."}
+    },
+    {
+      "id": "FXP-10", "title": "Weight per pet vs combined ambiguity", "category": "weight_ambiguity",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp10", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Riverside Inn", "normalized_name": "sampleton riverside inn"},
+        "identity_check": {"name_on_page": "Sampleton Riverside Inn"},
+        "source_url": "https://sampletonriverside.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Two pets up to 80 pounds welcome.", "location": "policies", "field_refs": ["pets_allowed", "pet_count_limit", "weight_limit", "weight_limit_operator"]}],
+        "extraction": {"pets_allowed": true, "pet_count_limit": 2, "weight_limit": 80, "weight_limit_operator": "unknown"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": [{"code": "FLAG_AMBIGUOUS_BASIS", "detail": "80 lb could be per pet or combined; source does not say"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED_WITH_AMBIGUITY", "notes": "The Drury-style combined-weight wording trap; never resolve by assumption."}
+    },
+    {
+      "id": "FXP-11", "title": "No pet count stated", "category": "missing_field",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp11", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Garden Hotel", "normalized_name": "sampleton garden hotel"},
+        "identity_check": {"name_on_page": "Sampleton Garden Hotel"},
+        "source_url": "https://sampletongarden.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Pets welcome for a $40 per stay fee.", "location": "policies", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 4000, "fee_basis": "per_stay"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_CONFIRMED_WITH_AMBIGUITY", "notes": "Absent count publishes as 'not stated', never as an invented limit."}
+    },
+    {
+      "id": "FXP-12", "title": "Stale undated PDF vs newer page", "category": "stale_pdf",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp12", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Plaza Hotel", "normalized_name": "sampleton plaza hotel"},
+        "identity_check": {"name_on_page": "Sampleton Plaza Hotel Fact Sheet"},
+        "source_url": "https://sampletonplaza.example/factsheet.pdf",
+        "source_type": "official_pdf", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Pet fee $50 per stay.", "location": "fact sheet PDF, page 2", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 5000, "fee_basis": "per_stay"},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "FLAG_PDF_UNDATED", "detail": "no date anywhere in the document; current policies page states $75"}, {"code": "FLAG_CONTRADICTS_OFFICIAL", "detail": "policies page observation fxp12b states 7500 per stay, dated 2026-08"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "superseded by dated page (axis: surface_currency); PDF retained as history", "notes": "An undated PDF can flag but never supersede or block a dated page."}
+    },
+    {
+      "id": "FXP-13", "title": "Rebranded hotel - page shows the new name", "category": "rebrand",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp13", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Inn Airport", "normalized_name": "sampleton inn airport"},
+        "identity_check": {"name_on_page": "Voyager Hotel Airport"},
+        "source_url": "https://voyagerhotels.example/airport",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Pets welcome, $30 per night.", "location": "policies", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 3000, "fee_basis": "per_night"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "REJECT_WRONG_PROPERTY", "disposition": "identity layer first: POSSIBLE_REBRAND adjudication; policy re-captured only after identity resolves", "notes": "M10 cannot distinguish rebrand from wrong property mechanically - and must not try. A rebrand also voids policy assumptions (refresh trigger)."}
+    },
+    {
+      "id": "FXP-14", "title": "Dual-brand property, one page for both flags", "category": "dual_brand",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp14", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Home2 Suites and Tru Sampleton", "normalized_name": "home2 suites and tru sampleton"},
+        "identity_check": {"name_on_page": "Home2 Suites and Tru Sampleton"},
+        "source_url": "https://www.example-brand.com/home2-tru-sampleton",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Home2 Suites: pets welcome, $75 per stay. Tru: no pets permitted.", "location": "shared policies block", "field_refs": ["pets_allowed", "pet_fee", "fee_basis", "general_restrictions"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 7500, "fee_basis": "per_stay", "general_restrictions": "Applies to the Home2 flag only; Tru flag states no pets."},
+        "extraction_confidence": "EXACT_QUOTE", "flags": [{"code": "FLAG_MULTI_POLICY_BLOCKS", "detail": "two flags, two policies, one identity record"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "MANUAL_VERIFICATION_REQUIRED", "notes": "Which flag is the census identity? Same-campus-pair question routes to identity adjudication before any policy publishes."}
+    },
+    {
+      "id": "FXP-15", "title": "Redirect landed on the wrong property", "category": "wrong_property",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp15", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Inn North", "normalized_name": "sampleton inn north", "street_identity": "100 north st|43229"},
+        "identity_check": {"name_on_page": "Sampleton Inn South", "address_on_page": "900 South Ave, Sampleton"},
+        "source_url": "https://sampletoninns.example/south",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Pets welcome, $20 per night.", "location": "policies", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 2000, "fee_basis": "per_night"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "REJECT_WRONG_PROPERTY", "disposition": "capture retried against the correct property URL", "notes": "North/South sibling redirect; the identity gate exists precisely for this."}
+    },
+    {
+      "id": "FXP-16", "title": "Booking-mirror domain claiming PT1", "category": "mirror_domain",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp16", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Redwood Inn Sampleton OSU", "normalized_name": "redwood inn sampleton osu", "official_url": "https://www.redwoodinn.example/property/oh/sampleton"},
+        "identity_check": {"name_on_page": "Redwood Inn Sampleton OSU"},
+        "source_url": "https://redwoodinn-sampleton.h-rez.example/pets",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "Pets stay free!", "location": "mirror page", "field_refs": ["pets_allowed", "pet_fee"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 0},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "REJECT_WRONG_PROPERTY", "disposition": "mirror recorded as PT4 hint at most; official route or Step G establishes", "notes": "The Red Roof h-rez precedent: a third-party booking mirror is not the property speaking, whatever it renders."}
+    },
+    {
+      "id": "FXP-17", "title": "JS-hidden policy - empty shell capture", "category": "js_hydration",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp17", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Polaris Hotel", "normalized_name": "sampleton polaris hotel"},
+        "identity_check": {"name_on_page": "Sampleton Polaris Hotel"},
+        "source_url": "https://www.example-brand.com/sampleton-polaris",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [],
+        "extraction": {},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "W_FIELD_TRUNCATED", "detail": "page served 200 with client-side templating markers and no policy content; browser re-capture required"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "capture incomplete - retry via browser-assisted; NOT evidence of absence", "notes": "Empty observation is honest; shell fingerprint distinguishes UNKNOWN from missing."}
+    },
+    {
+      "id": "FXP-18", "title": "Challenge page blocks every automated step", "category": "challenge",
+      "input_kind": "worker_result",
+      "input": {
+        "assignment_id": "asg-fxp18", "worker_id": "w-demo", "contract_version": "0.1.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Crossing Hotel", "normalized_name": "sampleton crossing hotel"},
+        "ladder_transcript": [
+          {"step": "A", "outcome": "BLOCKED_CHALLENGE", "detail": "interstitial challenge on property page"},
+          {"step": "B", "outcome": "BLOCKED_CHALLENGE"},
+          {"step": "C", "outcome": "BLOCKED_CHALLENGE"},
+          {"step": "D", "outcome": "NOT_ATTEMPTED_BUDGET"},
+          {"step": "E", "outcome": "NO_OTHER_OFFICIAL_SURFACE"}
+        ],
+        "observations_count": 0,
+        "bundle_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "proposed_readiness": "SOURCE_BLOCKED",
+        "failure": "BLOCKED_ALL_SOURCES"
+      },
+      "expected": {"checker_verdict": "VALID_WORKER_RESULT", "disposition": "SOURCE_BLOCKED -> attended browser session or Step G", "notes": "No bypass; the block is the result."}
+    },
+    {
+      "id": "FXP-19", "title": "Policy absent at every official surface", "category": "policy_missing",
+      "input_kind": "worker_result",
+      "input": {
+        "assignment_id": "asg-fxp19", "worker_id": "w-demo", "contract_version": "0.1.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Motor Lodge", "normalized_name": "sampleton motor lodge"},
+        "ladder_transcript": [
+          {"step": "A", "outcome": "NO_POLICY_SECTION"},
+          {"step": "B", "outcome": "NO_POLICY_SECTION"},
+          {"step": "C", "outcome": "NO_POLICY_SECTION"},
+          {"step": "D", "outcome": "STRUCTURED_FIELDS_ABSENT"},
+          {"step": "E", "outcome": "NO_OTHER_OFFICIAL_SURFACE"}
+        ],
+        "observations_count": 3,
+        "bundle_manifest_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "proposed_readiness": "POLICY_NOT_FOUND",
+        "failure": "NO_POLICY_ANY_SURFACE"
+      },
+      "expected": {"checker_verdict": "VALID_WORKER_RESULT", "disposition": "POLICY_NOT_FOUND -> Step G eligible", "notes": "Absence ledger, never blurred with the blocked ledger."}
+    },
+    {
+      "id": "FXP-20", "title": "Unsupported species wording", "category": "species_odd",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp20", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Boutique Hotel", "normalized_name": "sampleton boutique hotel"},
+        "identity_check": {"name_on_page": "Sampleton Boutique Hotel"},
+        "source_url": "https://sampletonboutique.example/pets",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Birds, reptiles and other exotic companions considered on request.", "location": "pets page", "field_refs": ["species_allowed", "general_restrictions"]}],
+        "extraction": {"pets_allowed": "not_stated", "species_allowed": "exotic_on_request_verbatim", "general_restrictions": "Birds, reptiles and other exotic companions considered on request."},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "FLAG_UNSUPPORTED_SPECIES_WORDING", "detail": "wording outside the dogs/cats vocabulary; no dog/cat statement found"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "MANUAL_VERIFICATION_REQUIRED", "notes": "The vocabulary never stretches to fit; odd wording routes to a human."}
+    },
+    {
+      "id": "FXP-21", "title": "Ambiguous pet-friendly marketing only", "category": "marketing_only",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp21", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Downtown Hotel", "normalized_name": "sampleton downtown hotel"},
+        "identity_check": {"name_on_page": "Sampleton Downtown Hotel"},
+        "source_url": "https://sampletondowntown.example/amenities",
+        "source_type": "official_amenities_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Pet Friendly", "location": "amenities chip list", "field_refs": ["pets_allowed"]}],
+        "extraction": {"pets_allowed": true},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "FLAG_MARKETING_ONLY", "detail": "amenity chip with no terms: fee, count, species all unstated"}]
+      },
+      "expected": {"checker_verdict": "VALID", "disposition": "POLICY_PARTIAL (publication held per FD-P3)", "notes": "'Pet friendly' is not a policy; it is an invitation to keep climbing the ladder."}
+    },
+    {
+      "id": "FXP-22", "title": "Search snippet with truncated fee", "category": "snippet",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp22", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Airport Inn", "normalized_name": "sampleton airport inn"},
+        "identity_check": {"name_on_page": "Sampleton Airport Inn"},
+        "source_url": "https://search.example/results?q=sampleton+airport+inn+pet+fee",
+        "source_type": "search_snippet", "authority_tier": "PT4",
+        "observed_at": "2026-08-08", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "deterministic_fetch",
+        "evidence": [{"quote": "...pet fee of $25...", "location": "search snippet", "field_refs": ["pet_fee"]}],
+        "extraction": {"pet_fee": 2500},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "REJECT_SNIPPET_EXTRACTION", "disposition": "hint only; the full sentence was '$25 per night up to $150'", "notes": "M4: truncation invents meaning; snippets never carry extraction."}
+    },
+    {
+      "id": "FXP-23", "title": "OTA text as non-authoritative hint", "category": "ota_hint",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp23", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Garden Hotel", "normalized_name": "sampleton garden hotel"},
+        "identity_check": {"name_on_page": "Sampleton Garden Hotel"},
+        "source_url": "https://ota.example/hotel/sampleton-garden",
+        "source_type": "ota", "authority_tier": "PT4",
+        "observed_at": "2026-08-05", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "human_manual",
+        "evidence": [{"quote": "Pets allowed on request. Charges may apply: USD 60 per stay.", "location": "OTA policies block, seen incidentally", "field_refs": ["pets_allowed", "pet_fee", "fee_basis"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 6000, "fee_basis": "per_stay"},
+        "extraction_confidence": "EXACT_QUOTE",
+        "flags": [{"code": "FLAG_CONTRADICTS_OFFICIAL", "detail": "published official fee is 4000 per stay; discrepancy queues a re-verify"}]
+      },
+      "expected": {"checker_verdict": "VALID_HINT_ONLY", "disposition": "extraction stripped to hint at translation; refresh queue entry (CONTRADICTION_FLAG) created; published fact untouched", "notes": "M2: OTA can schedule work, never perform it."}
+    },
+    {
+      "id": "FXP-24", "title": "Field asserted without any evidence quote", "category": "overclaim",
+      "input_kind": "observation",
+      "input": {
+        "obs_id": "fxp24", "contract_version": "1.0.0",
+        "hotel_ref": {"market_id": "columbus-oh", "canonical_name": "Sampleton Court Hotel", "normalized_name": "sampleton court hotel"},
+        "identity_check": {"name_on_page": "Sampleton Court Hotel"},
+        "source_url": "https://sampletoncourt.example/policies",
+        "source_type": "official_property_page", "authority_tier": "PT1",
+        "observed_at": "2026-08-01", "retrieved_at": "2026-08-08T12:00:00Z",
+        "capture_method": "browser_assisted",
+        "evidence": [{"quote": "Pets welcome.", "location": "policies", "field_refs": ["pets_allowed"]}],
+        "extraction": {"pets_allowed": true, "pet_fee": 5000, "fee_basis": "per_stay"},
+        "extraction_confidence": "EXACT_QUOTE", "flags": []
+      },
+      "expected": {"checker_verdict": "REJECT_FIELD_WITHOUT_EVIDENCE", "disposition": "worker defect (MODEL_OVERCLAIM class); observation rejected, retained for diagnostics", "notes": "M9 is the mechanical form of the production exact-evidence gate: pet_fee and fee_basis have no supporting quote."}
+    }
+  ]
+}
