@@ -69,6 +69,9 @@ from scripts.pettripfinder.site_data import (            # noqa: E402
 from scripts.pettripfinder.hotel_exclusions import (   # noqa: E402
     exclusion_for, load_exclusions,
 )
+from scripts.pettripfinder.identity_routing import (   # noqa: E402
+    load_routes, queue_identity_fields, usable_routes_by_key,
+)
 from services.research_workers import vocabulary as V    # noqa: E402
 from services.research_workers.capture_automation.adapters import (  # noqa: E402
     known_brands,
@@ -224,18 +227,50 @@ def build_queue(*, batch_id: str, created_at: str = "",
                 limit: int = 0, require_retrieval_artifact: bool = True,
                 seed_csv=None, package_path=None, retrieval_root=None,
                 include_filtered_in_report: bool = False,
-                exclusions_path=None, revalidate_excluded: bool = False) -> BuildResult:
-    """Select seed hotels and build a validated ``ptf-capture-queue/1.0``.
+                exclusions_path=None, revalidate_excluded: bool = False,
+                routing_path=None, use_identity_routing: bool = True) -> BuildResult:
+    """Select hotels and build a validated ``ptf-capture-queue/1.0``.
 
     ``revalidate_excluded`` is the explicit revalidation workflow: it is the
     ONLY way an excluded identity re-enters a capture queue, and it must be
     asked for deliberately.
+
+    OFFICIAL URL RESOLUTION ORDER (PTF-IDENTITY-ROUTING-P0-001)
+
+        A. the seed row's ``website_url``, when it has one;
+        B. an active ``ptf-identity-routing/1.0`` record, when the seed has no
+           URL or the identity has no seed row at all;
+        C. otherwise the hotel is excluded with a reason, never guessed.
+
+    Seed precedence is deliberate: the seed is inventory the operator curates,
+    and routing is a discovery product. Where both speak, the curated value
+    wins.
+
+    A routing record supplies WHERE to attempt a capture and nothing else. It
+    confers no publication eligibility, no policy truth and no permission to
+    promote -- entering this queue has never meant any of those, and every
+    existing gate below still applies unchanged to a routing-sourced entry.
     """
     rows = read_seed_hotels(seed_csv)
     published = published_keys(package_path)
     exclusion_records = [] if revalidate_excluded else load_exclusions(exclusions_path)
     artifacts = retrieval_artifacts(retrieval_root)
     adapters = frozenset(known_brands())
+    # Routing follows the seed's isolation. A caller that supplies its own
+    # seed_csv is describing a closed universe -- a fixture, a rehearsal, a
+    # single-row probe -- and silently mixing the production routing authority
+    # into it would make that universe not closed, and every count computed
+    # from it wrong. Explicit routing_path always wins; production routing is
+    # implied only by the production seed.
+    if not use_identity_routing:
+        routes = []
+    elif routing_path is not None:
+        routes = load_routes(routing_path)
+    elif seed_csv is None:
+        routes = load_routes()
+    else:
+        routes = []
+    routing_by_key = usable_routes_by_key(routes)
 
     selected: List[dict] = []
     excluded: List[Excluded] = []
@@ -249,6 +284,14 @@ def build_queue(*, batch_id: str, created_at: str = "",
         hotel_id = hotel_id_for(name)
         listing_key = normalize_name(name)
         url = (row.get("website_url") or "").strip()
+        url_source = "seed" if url else ""
+        if not url:
+            # Resolution step B: a seed row that carries no URL may still be
+            # routable if discovery confirmed one for that identity.
+            route = routing_by_key.get(listing_key)
+            if route is not None:
+                url = route["official_property_url"]
+                url_source = "identity_routing"
         brand = brand_for_url(url)
 
         skip = _matches_filters(row, hotel_id, brand, markets=markets, brands=brands,
@@ -312,8 +355,10 @@ def build_queue(*, batch_id: str, created_at: str = "",
             # than inferred from whenever it happens to be loaded.
             "worker_contract_version": V.CONTRACT_VERSION,
             "retrieval_artifact": artifact,
-            "notes": "generated from %s" % (pathlib.Path(seed_csv).name if seed_csv
-                                            else PRODUCTION_CSV.name),
+            "notes": "generated from %s%s" % (
+                pathlib.Path(seed_csv).name if seed_csv else PRODUCTION_CSV.name,
+                "; official URL from identity routing"
+                if url_source == "identity_routing" else ""),
         }
 
         # The real preflight decides. No second definition of validity here.
@@ -328,6 +373,98 @@ def build_queue(*, batch_id: str, created_at: str = "",
         if limit and len(selected) >= limit:
             limit_reached = scanned < len(rows)
             break
+
+    # ----------------------------------------------------------------- #
+    # Resolution step B for identities with NO seed row at all.
+    #
+    # These are confirmed hotels that are not inventory. They are queued for
+    # capture and remain non-inventory throughout: nothing here writes a seed
+    # row, and held-inventory is derived from the seed alone, so this loop
+    # cannot move the release contract's held count.
+    # ----------------------------------------------------------------- #
+    seed_keys = {normalize_name((r.get("name") or "").strip()) for r in rows}
+    if not limit_reached:
+        for listing_key in sorted(routing_by_key):
+            if listing_key in seed_keys:
+                continue                      # the seed pass already owned it
+            route = routing_by_key[listing_key]
+            name = route["hotel_ref"]["canonical_name"]
+            hotel_id = hotel_id_for(name)
+            url = route["official_property_url"]
+            brand = brand_for_url(url)
+            fields = queue_identity_fields(route)
+
+            row_view = {"city": (route.get("identity_context") or {}).get("city", "")}
+            skip = _matches_filters(row_view, hotel_id, brand, markets=markets,
+                                    brands=brands, status=status, hotel_ids=hotel_ids,
+                                    published=published, listing_key=listing_key)
+            if skip:
+                if include_filtered_in_report:
+                    excluded.append(Excluded(hotel_id, name, skip))
+                continue
+
+            excl = exclusion_for(name, fields["address"] if fields else "",
+                                 fields["postal_code"] if fields else "",
+                                 records=exclusion_records)
+            if excl is not None:
+                excluded.append(Excluded(hotel_id, name, "excluded_identity:%s"
+                                         % excl["exclusion_state"]))
+                continue
+            if not brand:
+                excluded.append(Excluded(hotel_id, name, "brand_unrecognised:%s"
+                                         % (urlsplit(url).hostname or "no-host")))
+                continue
+            if brand not in adapters:
+                excluded.append(Excluded(hotel_id, name, "no_adapter_for_brand:%s" % brand))
+                continue
+            if url in seen_urls:
+                excluded.append(Excluded(hotel_id, name,
+                                         "official_url_not_unique:shared_with:%s"
+                                         % seen_urls[url]))
+                continue
+            if fields is None:
+                # A routing record can know the URL and still lack the address
+                # the queue contract requires. Saying so is the honest answer;
+                # inventing an address would not be.
+                excluded.append(Excluded(
+                    hotel_id, name,
+                    "routing_identity_incomplete:missing_queue_required_fields"))
+                continue
+            artifact = artifacts.get(hotel_id, "")
+            if require_retrieval_artifact and not artifact:
+                excluded.append(Excluded(hotel_id, name, "retrieval_artifact_missing"))
+                continue
+
+            raw = {
+                "hotel_id": hotel_id,
+                "listing_key": listing_key,
+                "hotel_name": name,
+                "brand": brand,
+                "official_url": url,
+                "expected_address": fields["address"],
+                "expected_city": fields["city"],
+                "expected_state": fields["state"],
+                "expected_postal_code": fields["postal_code"],
+                "expected_phone": fields["phone"],
+                "expected_property_code": _property_code(url),
+                "required_fields": list(V.POLICY_FIELDS),
+                "worker_contract_version": V.CONTRACT_VERSION,
+                "retrieval_artifact": artifact,
+                "notes": "generated from identity routing %s (not seed inventory)"
+                         % route["routing_id"],
+            }
+            entry, problems = validate_entry(raw, len(selected),
+                                             known_brands=tuple(adapters))
+            if entry is None:
+                reason = "; ".join(p.split(": ", 1)[-1] for p in problems)
+                excluded.append(Excluded(hotel_id, name, reason))
+                continue
+
+            seen_urls[url] = hotel_id
+            selected.append(raw)
+            if limit and len(selected) >= limit:
+                limit_reached = True
+                break
 
     queue = {"schema": QUEUE_SCHEMA, "batch_id": batch_id,
              "created_at": created_at, "hotels": selected}
