@@ -1,0 +1,137 @@
+{
+  "schema": "ptf-coverage-audit/1.0",
+  "market_id": "columbus-oh",
+  "as_of": "2026-08-07",
+  "note": "ADVISORY ONLY (FD-R6). Every anomaly is an instruction for a human to look, never a target count, a completeness percentage, an identity-status change, or a publication gate. Thresholds are configurable priors from the market's coverage config, uncalibrated until multi-market ground truth exists.",
+  "census_kind": "published_inventory",
+  "thresholds": {
+    "density_floor_per_10k": 0.8,
+    "density_ceiling_per_10k": 8.0,
+    "min_families": 3,
+    "single_family_ceiling": 0.4,
+    "brand_floor": 6,
+    "brand_pop_floor": 250000
+  },
+  "metrics": {
+    "active_count": 73,
+    "population": 2139000,
+    "per_10k_population": 0.3413,
+    "unzoned_count": 9,
+    "unzoned_names": [
+      "BrewDog DogHouse Columbus",
+      "Fairfield Inn & Suites Columbus New Albany",
+      "Hampton Inn & Suites Columbus-Easton Area",
+      "Hampton Inn and Suites Columbus Scioto Downs",
+      "Hilton Garden Inn Columbus Easton",
+      "Home2 Suites New Albany Columbus",
+      "Sonesta Simply Suites Columbus Airport Gahanna",
+      "TownePlace Suites Columbus Airport Gahanna",
+      "TownePlace Suites Columbus Easton Area"
+    ],
+    "source_family_tracked": false,
+    "families_contributing": [],
+    "single_family_share": null,
+    "brand_families_present": [
+      "MARRIOTT",
+      "HILTON",
+      "HYATT",
+      "IHG",
+      "WYNDHAM",
+      "RED_ROOF",
+      "EXTENDED_STAY",
+      "SONESTA",
+      "DRURY"
+    ]
+  },
+  "zones": [
+    {
+      "zone_id": "airport",
+      "name": "Airport",
+      "min_expected": 5,
+      "active_count": 6
+    },
+    {
+      "zone_id": "downtown-columbus",
+      "name": "Downtown Columbus",
+      "min_expected": 5,
+      "active_count": 10
+    },
+    {
+      "zone_id": "dublin",
+      "name": "Dublin",
+      "min_expected": 5,
+      "active_count": 11
+    },
+    {
+      "zone_id": "easton",
+      "name": "Easton",
+      "min_expected": 5,
+      "active_count": 5
+    },
+    {
+      "zone_id": "grove-city",
+      "name": "Grove City",
+      "min_expected": 5,
+      "active_count": 4
+    },
+    {
+      "zone_id": "hilliard-west-columbus",
+      "name": "Hilliard / West Columbus",
+      "min_expected": 5,
+      "active_count": 4
+    },
+    {
+      "zone_id": "osu-university-area",
+      "name": "OSU / University Area",
+      "min_expected": 5,
+      "active_count": 7
+    },
+    {
+      "zone_id": "polaris",
+      "name": "Polaris",
+      "min_expected": 5,
+      "active_count": 8
+    },
+    {
+      "zone_id": "reynoldsburg-east-columbus",
+      "name": "Reynoldsburg / East Columbus",
+      "min_expected": 5,
+      "active_count": 6
+    },
+    {
+      "zone_id": "worthington-north-columbus",
+      "name": "Worthington / North Columbus",
+      "min_expected": 5,
+      "active_count": 3
+    }
+  ],
+  "anomalies": [
+    {
+      "code": "CA_ZONE_BELOW_MIN",
+      "severity": "MEDIUM",
+      "zone_id": "grove-city",
+      "detail": "corridor 'grove-city' has 4 active properties, below its expected minimum of 5"
+    },
+    {
+      "code": "CA_ZONE_BELOW_MIN",
+      "severity": "MEDIUM",
+      "zone_id": "hilliard-west-columbus",
+      "detail": "corridor 'hilliard-west-columbus' has 4 active properties, below its expected minimum of 5"
+    },
+    {
+      "code": "CA_ZONE_BELOW_MIN",
+      "severity": "MEDIUM",
+      "zone_id": "worthington-north-columbus",
+      "detail": "corridor 'worthington-north-columbus' has 3 active properties, below its expected minimum of 5"
+    },
+    {
+      "code": "CA_DENSITY_LOW",
+      "severity": "HIGH",
+      "detail": "73 active properties over population 2139000 is 0.3413 per 10k, below the floor 0.80"
+    }
+  ],
+  "suppressed": [],
+  "data_gaps": [
+    "published inventory predates per-property source-family tracking; source-family checks are not evaluable for this market"
+  ]
+}

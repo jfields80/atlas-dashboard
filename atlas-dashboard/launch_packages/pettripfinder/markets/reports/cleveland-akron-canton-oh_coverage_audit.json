@@ -1,0 +1,171 @@
+{
+  "schema": "ptf-coverage-audit/1.0",
+  "market_id": "cleveland-akron-canton-oh",
+  "as_of": "2026-08-07",
+  "note": "ADVISORY ONLY (FD-R6). Every anomaly is an instruction for a human to look, never a target count, a completeness percentage, an identity-status change, or a publication gate. Thresholds are configurable priors from the market's coverage config, uncalibrated until multi-market ground truth exists.",
+  "census_kind": "identity_census",
+  "thresholds": {
+    "density_floor_per_10k": 0.8,
+    "density_ceiling_per_10k": 8.0,
+    "min_families": 3,
+    "single_family_ceiling": 0.4,
+    "brand_floor": 6,
+    "brand_pop_floor": 250000
+  },
+  "metrics": {
+    "active_count": 193,
+    "population": 3633000,
+    "per_10k_population": 0.5312,
+    "unzoned_count": 17,
+    "unzoned_names": [
+      "Ariel Broadway Hotel",
+      "Cambria Hotel & Suites Avon",
+      "Cottages at the Lodge",
+      "Courtyard Marriott",
+      "Emerald Necklace Inn Bed & Breakfast and Tea Room",
+      "Hampton Inn Cleveland Airport Brooklyn Oh",
+      "Hopp Inn",
+      "Lodge at New Russia Township",
+      "Punderson Manor Lodge & Conference Center",
+      "Residence Inn by Marriott Cleveland Avon At The Emerald Event Center",
+      "Skyview Lodge",
+      "The Hotel at Oberlin",
+      "The Inn at Amish Door",
+      "The Lakehouse Inn & Winery",
+      "The Rowley Inn",
+      "The Welshfield Inn",
+      "Tru by Hilton"
+    ],
+    "source_family_tracked": true,
+    "families_contributing": [
+      "CVB"
+    ],
+    "single_family_share": 1.0,
+    "brand_families_present": [
+      "MARRIOTT",
+      "HILTON",
+      "HYATT",
+      "IHG",
+      "WYNDHAM",
+      "CHOICE",
+      "BEST_WESTERN",
+      "RADISSON",
+      "RED_ROOF",
+      "EXTENDED_STAY",
+      "SONESTA",
+      "G6",
+      "DRURY"
+    ]
+  },
+  "zones": [
+    {
+      "zone_id": "akron-downtown-east",
+      "name": "Akron Downtown / East",
+      "min_expected": 5,
+      "active_count": 4
+    },
+    {
+      "zone_id": "akron-south-green",
+      "name": "Akron South / Green",
+      "min_expected": 5,
+      "active_count": 9
+    },
+    {
+      "zone_id": "canton-north-canton-cak",
+      "name": "Canton / North Canton / CAK",
+      "min_expected": 5,
+      "active_count": 21
+    },
+    {
+      "zone_id": "cleveland-airport-west",
+      "name": "Cleveland Airport / West",
+      "min_expected": 5,
+      "active_count": 27
+    },
+    {
+      "zone_id": "cleveland-east-beachwood",
+      "name": "Cleveland East / Beachwood",
+      "min_expected": 5,
+      "active_count": 26
+    },
+    {
+      "zone_id": "cuyahoga-falls-stow",
+      "name": "Cuyahoga Falls / Stow",
+      "min_expected": 5,
+      "active_count": 8
+    },
+    {
+      "zone_id": "downtown-cleveland",
+      "name": "Downtown Cleveland",
+      "min_expected": 5,
+      "active_count": 20
+    },
+    {
+      "zone_id": "fairlawn-montrose-copley",
+      "name": "Fairlawn / Montrose / Copley",
+      "min_expected": 5,
+      "active_count": 13
+    },
+    {
+      "zone_id": "independence-rockside",
+      "name": "Independence / Rockside",
+      "min_expected": 5,
+      "active_count": 13
+    },
+    {
+      "zone_id": "macedonia-twinsburg-northfield",
+      "name": "Macedonia / Twinsburg / Northfield",
+      "min_expected": 5,
+      "active_count": 8
+    },
+    {
+      "zone_id": "massillon-alliance-stark",
+      "name": "Massillon / Alliance / Stark",
+      "min_expected": 5,
+      "active_count": 6
+    },
+    {
+      "zone_id": "mentor-lake-county",
+      "name": "Mentor / Lake County",
+      "min_expected": 5,
+      "active_count": 7
+    },
+    {
+      "zone_id": "richfield-brecksville",
+      "name": "Richfield / Brecksville",
+      "min_expected": 5,
+      "active_count": 5
+    },
+    {
+      "zone_id": "streetsboro-hudson-aurora",
+      "name": "Streetsboro / Hudson / Aurora",
+      "min_expected": 5,
+      "active_count": 9
+    }
+  ],
+  "anomalies": [
+    {
+      "code": "CA_ZONE_BELOW_MIN",
+      "severity": "MEDIUM",
+      "zone_id": "akron-downtown-east",
+      "detail": "corridor 'akron-downtown-east' has 4 active properties, below its expected minimum of 5"
+    },
+    {
+      "code": "CA_DENSITY_LOW",
+      "severity": "HIGH",
+      "detail": "193 active properties over population 3633000 is 0.5312 per 10k, below the floor 0.80"
+    },
+    {
+      "code": "CA_SOURCE_FRAGILITY",
+      "severity": "HIGH",
+      "detail": "only 1 independent source family(ies) contribute to this census (['CVB'] after collapsing declared non-independent pairs); the configured minimum is 3"
+    },
+    {
+      "code": "CA_SINGLE_FAMILY_SHARE_HIGH",
+      "severity": "MEDIUM",
+      "detail": "1.0000 of active properties rest on a single source family (ceiling 0.40): a defect or retraction in one family would hit 193 of 193 properties"
+    }
+  ],
+  "suppressed": [],
+  "data_gaps": []
+}
