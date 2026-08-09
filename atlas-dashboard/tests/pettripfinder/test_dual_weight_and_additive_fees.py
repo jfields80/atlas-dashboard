@@ -209,6 +209,43 @@ class TestEveryPublishedRecordIsUnaffected:
             if not has_combined_weight(f):
                 assert "Combined weight limit" not in rows(f), h["key"]
 
+    def test_every_record_emits_exactly_one_weight_row_family(self):
+        """The row invariant, over the real authority.
+
+        A profile carries EITHER the legacy "Weight restriction" row or the
+        pair "Individual weight limit" + "Combined weight limit" -- never both
+        families, never a duplicate, and never half the pair. Two rows both
+        called "weight" with different numbers is the exact ambiguity this
+        schema exists to remove, so it is asserted rather than assumed.
+        """
+        for h in self._pkg():
+            f = h.get("facts") or {}
+            labels = [r[0] for r in _verified_details(f)[0]]
+            ind = labels.count("Individual weight limit")
+            comb = labels.count("Combined weight limit")
+            legacy = labels.count("Weight restriction")
+            assert ind <= 1 and comb <= 1 and legacy <= 1, (h["key"], labels)
+            assert not (ind and legacy), "%s carries both label families" % h["key"]
+            assert ind == comb, "%s: %d individual vs %d combined" % (h["key"], ind, comb)
+            # Never more than one weight row in total. A record that states a
+            # weight must show exactly one; a record whose table renders at all
+            # shows the dimension as "Not stated" rather than omitting it, and a
+            # record so sparse that no table renders shows none. All three are
+            # bounded by the same ceiling, and the ceiling is the point: two
+            # rows both called "weight" is the ambiguity being prevented.
+            assert (ind + legacy) <= 1, (
+                "%s emitted %d weight rows" % (h["key"], ind + legacy))
+            if (f.get("weight_limit") or "").strip() or has_combined_weight(f):
+                assert (ind + legacy) == 1, (
+                    "%s states a weight and emitted none" % h["key"])
+
+    def test_the_dual_form_is_used_by_exactly_the_records_that_state_both(self):
+        dual = {h["key"] for h in self._pkg() if has_combined_weight(h.get("facts") or {})}
+        assert dual == {"hyatt place columbus osu",
+                        "hyatt house columbus osu short north",
+                        "hyatt place columbus worthington",
+                        "hyatt place columbus dublin"}
+
 
 # --------------------------------------------------------------------------- #
 # Additive fees
