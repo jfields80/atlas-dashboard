@@ -130,6 +130,10 @@ FLAG_CODES = frozenset({
 EXTRACTION_FIELDS = frozenset({
     "pets_allowed", "species_allowed", "cats_allowed", "pet_count_limit",
     "pet_count_scope", "weight_limit", "weight_limit_operator",
+    # PTF-COLUMBUS-HYATT-002: the combined ceiling is a SECOND fact, not a
+    # different spelling of the individual one. Every Hyatt page in the
+    # manual batch states both.
+    "weight_limit_combined", "weight_limit_combined_operator",
     "weight_limit_stated_none", "pet_fee", "fee_currency", "fee_basis",
     "fee_scope", "fee_tiers", "fee_cap", "pet_deposit", "cleaning_fee",
     "breed_restrictions", "breed_restrictions_stated_none",

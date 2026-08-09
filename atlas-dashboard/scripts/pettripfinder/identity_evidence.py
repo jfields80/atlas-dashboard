@@ -74,6 +74,7 @@ POLICY_FIELD_NAMES = frozenset({
     "pets_allowed", "species_allowed", "cats_allowed", "pet_fee", "fee_basis",
     "fee_tiers", "fee_cap", "fee_conflict", "fee_withheld", "fee_scope",
     "pet_count_limit", "pet_count_scope", "weight_limit", "weight_limit_operator",
+    "weight_limit_combined", "weight_limit_combined_operator",
     "weight_limit_stated_none", "breed_restrictions", "breed_restrictions_stated_none",
     "pet_deposit", "unattended_policy", "general_restrictions", "refundability",
     "species_weight_limits", "fee_pet_schedule", "pet_room_restriction",

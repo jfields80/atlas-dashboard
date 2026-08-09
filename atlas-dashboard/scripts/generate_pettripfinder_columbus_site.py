@@ -358,6 +358,12 @@ def run(output: str, *, market: MarketConfig = None) -> int:
             "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
             "weight_limit": f.get("weight_limit", ""),
             "weight_limit_operator": f.get("weight_limit_operator", ""),
+            # PTF-COLUMBUS-HYATT-002. Without these the comparison table
+            # showed a Hyatt's 50 lb individual limit and no sign of the 75 lb
+            # combined one -- the surface where a reader is deciding between
+            # hotels is the last place to drop half a rule.
+            "weight_limit_combined": f.get("weight_limit_combined", ""),
+            "weight_limit_combined_operator": f.get("weight_limit_combined_operator", ""),
             # A stay-length ladder has no single fee; the table renders its
             # range plus a note instead of one misleading number. A capped fee
             # carries its ceiling, and a conflicted source carries neither.

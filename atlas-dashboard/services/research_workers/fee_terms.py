@@ -550,9 +550,11 @@ def downstream_fee_schema_support(policy: Optional[PetFeePolicy]) -> Tuple[bool,
 
     The supported shape is the one three published profiles already carry: a
     contiguous stay-length ladder of two or more one-time charges, starting at
-    night 1, each tier closed except the last, one unit, USD, and no asserted
-    basis (the renderer states plainly that the source gives none, so a policy
-    claiming one would be rendered as a falsehood).
+    night 1, one unit, USD, and no asserted basis (the renderer states plainly
+    that the source gives none, so a policy claiming one would be rendered as a
+    falsehood). The final tier may be open OR closed: a source that prices
+    1-30 nights and stops is describing the world, and forcing its top rung
+    open would publish a price it never gave.
     """
     if policy is None:
         return (True, [])
@@ -585,8 +587,22 @@ def downstream_fee_schema_support(policy: Optional[PetFeePolicy]) -> Tuple[bool,
         is_last = i == len(ordered) - 1
         if t.condition_max is None and not is_last:
             problems.append("downstream_open_tier_not_last")
-        if t.condition_max is not None and is_last:
-            problems.append("downstream_final_tier_not_open")
+        # PTF-COLUMBUS-HYATT-002: a CLOSED final tier is supported.
+        #
+        # This used to be refused, on the reasoning that stays beyond the top
+        # rung would be left unpriced with no way to say so. Four Hyatt pages
+        # show the other side of it: they price 1-6 and 7-30 nights and then
+        # stop -- two saying a longer stay is charged at the hotel's discretion
+        # or by arrangement, two saying nothing at all. Requiring the last rung
+        # to be open would have forced $200 to be published as the price of a
+        # sixty-night stay, which is a fabrication the source never made.
+        #
+        # Unpriced-beyond-the-top is a real state of the world, and the renderer
+        # already handles it: every rung names its own range ("stays of 7-30
+        # nights"), so nothing is claimed outside them. The protections that
+        # matter are unchanged -- a ladder must still start at night 1, and the
+        # gap and overlap checks below still refuse a hole INSIDE it, which is
+        # the case nothing can render honestly.
     for a, b in zip(ordered, ordered[1:]):
         if a.condition_max is None:
             continue                       # already reported as an open non-final tier

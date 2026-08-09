@@ -15,7 +15,7 @@ import html
 from typing import Dict, List, Optional, Tuple
 
 from scripts.pettripfinder.hotel_profile import (
-    _friendly_date, tier_fee_range, weight_display,
+    _friendly_date, combined_weight_display, tier_fee_range, weight_display,
 )
 from scripts.pettripfinder.markets import (
     ROUTE_MODE_LEGACY_UNPREFIXED,
@@ -203,6 +203,13 @@ def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
                 # "will they take my 80-pound dog?", and a comparison table is
                 # exactly where that difference decides a booking.
                 value = weight_display(r)
+                combined = combined_weight_display(r)
+                if combined:
+                    # Both limits or neither. A per-pet ceiling shown alone
+                    # reads as the only rule.
+                    cells.append('<td>%s<br><span class="ptf-tier-note">%s</span></td>'
+                                 % (_e(value), _e(combined)))
+                    continue
             if key == "verified_at":
                 # Attested hotels carry an observed_at taken from the capture,
                 # which is a full timestamp. "Verified 2026-07-29T14:28:29.492Z"

@@ -55,6 +55,10 @@ CANDIDATE_ROOTS = (
 # so their records are unchanged.
 _POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fee_tiers", "fee_cap", "fee_conflict", "fee_withheld",
                   "pet_count_limit", "weight_limit", "weight_limit_operator",
+                  # PTF-COLUMBUS-HYATT-002. A fact absent from this allowlist
+                  # reaches the record and never the page, which is how a
+                  # published combined limit would silently vanish.
+                  "weight_limit_combined", "weight_limit_combined_operator",
                   "breed_restrictions",
                   # PTF-POLICY-PRECISION-001. Three additive names, each of which
                   # records something a source SAID that the vocabulary could not

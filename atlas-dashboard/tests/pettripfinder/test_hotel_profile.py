@@ -457,7 +457,17 @@ def test_no_published_page_calls_a_weight_limit_combined_without_source_backing(
             # A record carrying weight_limit_operator == "combined" needs no
             # supporting word in the evidence text -- that is the whole point of
             # honouring the operator. The text scan remains the fallback.
+            #
+            # PTF-COLUMBUS-HYATT-002 adds a third: weight_limit_combined, which
+            # carries a combined ceiling ALONGSIDE an individual one. It is held
+            # to the same bar as the text fallback rather than trusted outright,
+            # because unlike the operator it names a number of its own -- so the
+            # source must be shown to have used a combine-word about THAT
+            # number, not merely somewhere on the page.
             assert (facts.get("weight_limit_operator") == "combined"
+                    or (facts.get("weight_limit_combined")
+                        and _source_states_combined_weight(
+                            quote, facts["weight_limit_combined"]))
                     or _source_states_combined_weight(
                         quote, facts.get("weight_limit", ""))), h["key"]
 

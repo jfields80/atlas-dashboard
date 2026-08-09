@@ -217,7 +217,11 @@ _STATED_FIELDS = ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit
                   # stated fact like any other. Its absence here meant a record
                   # carrying only that schedule was treated as sparse and
                   # rendered "Fee, pet limit, weight limit: Not stated".
-                  "fee_pet_schedule")
+                  "fee_pet_schedule",
+                  # PTF-COLUMBUS-HYATT-002: a combined-only record has stated a
+                  # weight rule, and calling it sparse would print "weight
+                  # limit: Not stated" on a page that carries one.
+                  "weight_limit_combined")
 
 
 #: Species this renderer can name, in the order a reader expects them.
@@ -377,11 +381,105 @@ def weight_display(f: Dict) -> str:
         return "Under %s" % value
     if op == "combined":
         return "%s combined" % value
+    if has_combined_weight(f):
+        # A bare "50 pounds" beside a "75 pounds" row invites the reader to
+        # wonder which applies to which. Only new-style records reach this
+        # branch, so no existing page changes.
+        return "%s per pet" % value
     return value
+
+
+# --------------------------------------------------------------------------- #
+# PTF-COLUMBUS-HYATT-002. Two weight limits at once.
+#
+# Every Hyatt page in the manual-evidence batch states BOTH "Individual pet
+# weight limit: 50 Pounds" and "Combined pets weight limit: 75 Pounds". Those
+# are different promises about different things -- one bounds each animal, the
+# other bounds the pair -- and a schema with one `weight_limit` could only
+# publish one of them. Publishing the 75 alone tells the owner of a 60 lb dog
+# they are welcome; publishing the 50 alone hides that two 40 lb dogs are also
+# refused. Neither is the page.
+#
+# The extension is additive and legacy-safe:
+#
+#   weight_limit / weight_limit_operator   the INDIVIDUAL limit, as always
+#   weight_limit_combined                  the combined limit for all pets
+#   weight_limit_combined_operator         "lt" (strict) or absent (inclusive)
+#
+# Records written before this -- including the three that express a combined
+# limit the only way that used to exist, `weight_limit_operator == "combined"`
+# -- carry neither new key and render byte-identically. That older form stays
+# supported and stays mutually exclusive with the new one: a record may not
+# say "combined" twice, and `weight_conflict_reason` refuses it.
+# --------------------------------------------------------------------------- #
+
+def has_combined_weight(f: Dict) -> bool:
+    return bool((f.get("weight_limit_combined") or "").strip())
+
+
+def combined_weight_display(f: Dict) -> str:
+    """Table form of the combined limit, or "" if the record carries none."""
+    value = (f.get("weight_limit_combined") or "").strip()
+    if not value:
+        return ""
+    op = f.get("weight_limit_combined_operator") or ""
+    lead = "Under %s" % value if op == "lt" else value
+    return "%s for all pets together" % lead
+
+
+def combined_weight_phrase(f: Dict) -> str:
+    """Sentence form: "under 75 pounds" / "75 pounds"."""
+    value = (f.get("weight_limit_combined") or "").strip()
+    if not value:
+        return ""
+    op = f.get("weight_limit_combined_operator") or ""
+    if op == "lt":
+        return "under %s" % _prose_number(value)
+    return _prose_number(value)
+
+
+def weight_conflict_reason(f: Dict) -> str:
+    """Why this record's weight fields cannot be published, or "".
+
+    Fails closed on the one combination that would be read two ways. The old
+    ``weight_limit_operator == "combined"`` form already means "this number
+    bounds the pets together", so a record carrying it AND the new combined
+    field is asserting two different combined ceilings, and there is no way to
+    guess which the page meant.
+    """
+    if not has_combined_weight(f):
+        return ""
+    if (f.get("weight_limit_operator") or "") == "combined":
+        return ("weight_limit_operator is 'combined' and weight_limit_combined "
+                "is also set: the record states two different combined limits")
+    op = f.get("weight_limit_combined_operator") or ""
+    if op not in ("", "lt", "lte"):
+        return "unsupported weight_limit_combined_operator %r" % op
+    return ""
+
+
+#: PTF-COLUMBUS-HYATT-002. A tier marked ``additive`` is charged ON TOP of the
+#: tier before it rather than instead of it.
+#:
+#: Two Hyatt pages in the manual batch read "7-30 nights + additional cleaning
+#: fee: $200 / STAY" while two others read "7-30 nights (includes cleaning
+#: fee): $200 / STAY". Same number, opposite meaning: one is a surcharge on the
+#: $100 already stated, the other is the whole price of the stay. Rendered the
+#: same way, the first understates a long stay by the entire base fee.
+#:
+#: Absent means what it has always meant -- the tier amount IS the charge for
+#: that band -- so every ladder published before this renders unchanged.
+def _is_additive(t: Dict) -> bool:
+    return bool(t.get("additive"))
 
 
 def tier_fee_range(tiers: Sequence[Dict]) -> str:
     """"$75–$125" for a ladder; a single amount if every tier charges the same.
+
+    An additive ladder is joined with "+" instead: "$100 + $200" says a longer
+    stay pays both, without this function inventing the sum. Adding them would
+    be arithmetic the source never performed, and the two Hyatt pages that
+    state an additional fee do not state a total anywhere.
 
     Shared with the comparison table so one ladder cannot be summarised two
     different ways on two pages.
@@ -389,6 +487,8 @@ def tier_fee_range(tiers: Sequence[Dict]) -> str:
     amounts = [_prose_number("$%s" % t.get("amount", "")) for t in tiers if t.get("amount")]
     if not amounts:
         return ""
+    if any(_is_additive(t) for t in tiers):
+        return " + ".join(amounts)
     lo = min(amounts, key=lambda a: float(a.lstrip("$")))
     hi = max(amounts, key=lambda a: float(a.lstrip("$")))
     return lo if lo == hi else "%s–%s" % (lo, hi)
@@ -571,6 +671,10 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
         _tier_range_phrase(first))
     for t in rest:
         prefix = "a non-refundable pet fee of " if _binds(t) else ""
+        # "an additional $200" and "$200" are the difference between a
+        # surcharge and a replacement price. The word is the source's.
+        if _is_additive(t):
+            prefix = "an additional " + prefix if prefix else "an additional "
         s += ", and %s%s%s%s applies for %s" % (
             prefix, _tier_amount(t), basis, _tier_scope_phrase(t),
             _tier_range_phrase(t))
@@ -859,6 +963,20 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             _cap_first(species), _prose_number(rule.get("value", "")),
             (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
             if count else "."))
+    elif weight and has_combined_weight(f):
+        # Both limits stated. Both are said, in that order, and the combined
+        # one is explicitly attributed to the pets together so it can never be
+        # read as a per-animal ceiling.
+        each = ("Each pet must weigh %s" % weight_phrase(f)
+                if (f.get("weight_limit_operator") or "") == "lt"
+                else "Each pet may weigh up to %s" % weight)
+        parts.append("%s, with a combined limit of %s for %s." % (
+            each, combined_weight_phrase(f),
+            _pets_phrase(count) if count else "all pets together"))
+    elif not weight and has_combined_weight(f):
+        parts.append("A combined weight limit of %s applies%s."
+                     % (combined_weight_phrase(f),
+                        " for %s" % _pets_phrase(count) if count else ""))
     elif weight and is_combined:
         parts.append("Up to %s with a combined weight limit of %s."
                      % (_pets_phrase(count), weight)
@@ -1104,9 +1222,14 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
             for key, label in (("first_pet", "first"), ("second_pet", "second"))
             if per_pet.get(key))
     elif f.get("fee_tiers"):
+        # PTF-COLUMBUS-HYATT-002: the row has to carry "additional" too. The
+        # summary and the chip both say a 7-30 night stay pays $100 AND $200,
+        # but a reader scanning only this table saw "Pet charge, 7-30 nights:
+        # $200" and would read the surcharge as the price of the band.
         charge_rows = tuple(
             ("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),
-             _tier_amount(t) + _tier_scope_phrase(t), "")
+             _tier_amount(t) + _tier_scope_phrase(t)
+             + (" additional" if _is_additive(t) else ""), "")
             for t in f["fee_tiers"])
     elif f.get("fee_conflict") or f.get("fee_withheld"):
         charge_rows = (("Pet charge", fee_withheld_notice(f), "dim"),)
@@ -1147,7 +1270,14 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
            if f.get("fee_withheld")
            else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
                f.get("fee_basis")))),
-        ("Weight restriction", *d(weight_display(f))),
+        # Relabelled only where a combined limit sits beside it: two rows both
+        # called "weight" with different numbers is exactly the ambiguity this
+        # schema exists to remove. Records without a combined limit keep the
+        # original label and are byte-identical.
+        ("Individual weight limit" if has_combined_weight(f) else "Weight restriction",
+         *d(weight_display(f))),
+        *((("Combined weight limit", combined_weight_display(f), ""),)
+          if has_combined_weight(f) else ()),
         # Emitted ONLY where the source limited one species. A dim "not
         # stated" row on every other profile would add a line to 38 live
         # pages to say nothing.

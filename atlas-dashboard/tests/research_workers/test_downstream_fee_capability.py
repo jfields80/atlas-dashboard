@@ -62,7 +62,7 @@ class TestSupportedShapes:
         2026-08-02 as the first to arrive through the worker path."""
         pkg = json.loads(_PKG.read_text(encoding="utf-8-sig"))
         tiered = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
-        assert len(tiered) == 25
+        assert len(tiered) == 29
         for h in tiered:
             terms = [term(t["amount"], t["condition_min"], t["condition_max"],
                           unit=t["boundary_unit"], currency=t["currency"],
@@ -114,6 +114,27 @@ class TestSupportedShapes:
 # H / I / J / L. Refusals.
 # --------------------------------------------------------------------------- #
 
+class TestAClosedFinalTierIsSupported:
+    """PTF-COLUMBUS-HYATT-002. Four Hyatt pages price 1-6 and 7-30 nights and
+    then stop. Refusing that shape forced the top rung open, which published
+    $200 as the price of a sixty-night stay -- a number no page states."""
+
+    def test_a_ladder_that_stops_is_supported(self):
+        supported, reasons = downstream_fee_schema_support(
+            policy(term("100.00", 1, 6), term("200.00", 7, 30)))
+        assert supported, reasons
+
+    def test_an_open_final_tier_is_still_supported(self):
+        supported, reasons = downstream_fee_schema_support(
+            policy(term("75.00", 1, 4), term("125.00", 5, None)))
+        assert supported, reasons
+
+    def test_the_reason_code_is_no_longer_emitted_for_any_shape(self):
+        for p in (policy(term("100.00", 1, 6), term("200.00", 7, 30)),
+                  policy(term("75.00", 1, 4), term("125.00", 5, None))):
+            assert "downstream_final_tier_not_open" not in downstream_fee_schema_support(p)[1]
+
+
 class TestRefusedShapes:
     def test_h_overlapping_tiers_are_blocked(self):
         supported, reasons = downstream_fee_schema_support(
@@ -133,10 +154,13 @@ class TestRefusedShapes:
         assert not supported
         assert "downstream_open_tier_not_last" in reasons
 
-    def test_a_closed_final_tier_is_blocked(self):
+    def test_a_gap_inside_the_ladder_is_still_blocked_even_when_it_is_last(self):
+        """The hole is the thing nothing can render. 1-4 then 9-12 leaves the
+        price of a six-night stay unstated INSIDE the range the record claims
+        to describe."""
         supported, reasons = downstream_fee_schema_support(
-            policy(term("75.00", 1, 4), term("125.00", 5, 9)))
-        assert not supported and "downstream_final_tier_not_open" in reasons
+            policy(term("75.00", 1, 4), term("125.00", 9, 12)))
+        assert not supported and "downstream_ladder_has_gap" in reasons
 
     def test_a_ladder_not_starting_at_one_is_blocked(self):
         supported, reasons = downstream_fee_schema_support(

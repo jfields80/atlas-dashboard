@@ -492,14 +492,14 @@ class TestScalarUnchanged:
     # a record gaining or losing one is a reviewable diff rather than a silently
     # moving number. A hotel acquiring tiers its source never stated is the
     # flattening bug in reverse, and that is what this fixture pins.
+    # PTF-COLUMBUS-HYATT-002 adds four: every Hyatt page in the manual
+    # evidence batch states a 1-6 / 7-30 night ladder. Hyatt Place OSU
+    # moves INTO this list -- its flat $100 was corrected to the ladder its
+    # own page states.
     TIERED_IDENTITIES = [
-        # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 promotion.
         "candlewood suites columbus grove city",
-        # PTF-COLUMBUS-AUTHORITY-APPLY-002 promotions; each states a
-        # stay-length ladder on its own official page.
         "doubletree by hilton columbus dublin",
         "embassy suites by hilton columbus dublin",
-        # PTF-COLUMBUS-IDENTITY-CLEANUP-001 promotion.
         "embassy suites columbus airport corporate exchange",
         "hampton inn and suites columbus downtown",
         "hampton inn and suites columbus easton area",
@@ -519,6 +519,10 @@ class TestScalarUnchanged:
         "homewood suites by hilton columbus hilliard",
         "homewood suites by hilton columbus osu oh",
         "homewood suites by hilton columbus polaris oh",
+        "hyatt house columbus osu short north",
+        "hyatt place columbus dublin",
+        "hyatt place columbus osu",
+        "hyatt place columbus worthington",
         "sonesta simply suites columbus airport gahanna",
         "sonesta simply suites dublin columbus",
         "tru by hilton columbus east broad",
@@ -530,7 +534,7 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 85
+        assert len(pkg["hotels"]) == 88
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
         assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:
@@ -573,7 +577,21 @@ class TestScalarUnchanged:
             for a, b in zip(ordered, ordered[1:]):
                 assert a["condition_max"] is not None, h["key"]
                 assert b["condition_min"] == a["condition_max"] + 1, h["key"]
-            assert ordered[-1]["condition_max"] is None, h["key"]
+            # PTF-COLUMBUS-HYATT-002: the final rung may be BOUNDED.
+            #
+            # This used to require an open-ended last tier, on the assumption
+            # that a ladder priced every stay length. Four Hyatt pages disprove
+            # it: they price 1-6 and 7-30 nights and then stop, saying either
+            # nothing at all about longer stays or "a fee will be charged at the
+            # hotel's discretion". Forcing the last rung open would publish
+            # $200 as the price of a sixty-night stay, which no page states.
+            #
+            # What must still hold is the thing this assertion was protecting:
+            # no gap and no overlap between rungs, checked above. Where the
+            # source stops, the record stops, and the rendered sentence names
+            # the range it covers.
+            last_max = ordered[-1]["condition_max"]
+            assert last_max is None or isinstance(last_max, int), h["key"]
             for t in ordered:
                 # Ranges and amounts must be usable, not merely present.
                 assert isinstance(t["condition_min"], int) and t["condition_min"] >= 1, h["key"]
