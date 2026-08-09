@@ -547,6 +547,20 @@ def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) ->
             candidate = head.split("-", 1)[0]
             if _looks_like_property_code(candidate):
                 return candidate
+        # PTF-CLEVELAND-MARKET-FACTORY-001. Marriott's older-but-live shape puts
+        # a fixed "travel" segment between /hotels/ and the property slug:
+        # /hotels/travel/clesc-cleveland-marriott-downtown-at-key-tower.
+        # Five Cleveland routes use it, including the market's flagship
+        # downtown Marriott, and every one of them yielded no code because the
+        # loop above reads "travel" as the slug and stops.
+        #
+        # Only this one interposed segment is skipped, and the code still has to
+        # satisfy _looks_like_property_code, so an arbitrary path does not
+        # suddenly start producing codes.
+        if head == "travel" and len(tail) >= 2 and "-" in tail[1]:
+            candidate = tail[1].split("-", 1)[0]
+            if _looks_like_property_code(candidate):
+                return candidate
         # ihg: .../hotels/<country>/<lang>/<city>/<code>/hoteldetail
         for j, t in enumerate(tail):
             if t == "hoteldetail" and j >= 1 and _looks_like_property_code(tail[j - 1]):

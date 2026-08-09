@@ -88,6 +88,35 @@ class TestItFailsClosed:
         ) == URL_SHAPE_SEARCH
 
 
+class TestTheTravelSegmentShape:
+    """PTF-CLEVELAND-MARKET-FACTORY-001. Marriott's older-but-live shape puts a
+    fixed "travel" segment between /hotels/ and the property slug. Five
+    Cleveland routes use it -- including the market's flagship downtown
+    Marriott -- and every one yielded no code, because the extractor read
+    "travel" as the slug and stopped."""
+
+    @pytest.mark.parametrize("url,code", [
+        ("https://www.marriott.com/hotels/travel/clesc-cleveland-marriott-downtown-at-key-tower", "clesc"),
+        ("https://www.marriott.com/hotels/travel/clely-courtyard-cleveland-elyria", "clely"),
+        ("https://www.marriott.com/hotels/travel/cleri-residence-inn-cleveland-downtown", "cleri"),
+        ("https://www.marriott.com/hotels/travel/clemb-residence-inn-cleveland-airport", "clemb"),
+        ("https://www.marriott.com/hotels/travel/clewi-the-westin-cleveland-downtown", "clewi"),
+    ])
+    def test_the_code_is_found_past_the_travel_segment(self, url, code):
+        assert extract_property_code_from_url(url) == code
+        assert classify_url_shape(url) == URL_SHAPE_PROPERTY
+
+    def test_only_that_one_segment_is_skipped(self):
+        """A second interposed segment is not walked past -- the skip is for
+        the observed shape, not a general search down the path."""
+        assert extract_property_code_from_url(
+            "https://www.marriott.com/hotels/travel/deals/clesc-something") == ""
+
+    def test_a_travel_path_with_no_slug_yields_nothing(self):
+        assert extract_property_code_from_url(
+            "https://www.marriott.com/hotels/travel/") == ""
+
+
 class TestNothingElseMoved:
     """The four shapes that already worked, unchanged."""
 
