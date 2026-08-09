@@ -92,7 +92,12 @@ class TestAdapterContract:
         Hyatt is still absent, and for a reason that has not changed --
         hyatt.com serves a Kasada interstitial our automation must not defeat.
         """
-        assert set(known_brands()) == {"marriott", "hilton", "ihg", "wyndham"}
+        # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 registered three more brands,
+        # each PROVISIONAL and selector-free, so eight confirmed Columbus
+        # identities could be attempted at all. Hyatt is deliberately not
+        # among them and the assertion below is why this test exists.
+        assert set(known_brands()) == {"marriott", "hilton", "ihg", "wyndham",
+                                       "bestwestern", "choice", "redroof"}
         assert adapter_for("hyatt") is None
 
     def test_an_unknown_brand_returns_none(self):

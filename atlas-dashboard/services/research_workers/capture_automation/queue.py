@@ -39,6 +39,24 @@ _REQUIRED_HOTEL_FIELDS = (
     "expected_address", "expected_city", "expected_state", "expected_phone",
 )
 
+#: PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001. ``expected_phone`` is the one required
+#: field the capture-time doctrine does not actually insist on, and requiring it
+#: here was refusing hotels the gate itself would have confirmed.
+#:
+#: ``identity_keys`` decides identity on TWO INDEPENDENT KEY GROUPS -- address,
+#: phone, property_identifier -- with at least one authoritative basis. Phone is
+#: one of three, not a floor. A queue entry carrying a street address, a postal
+#: code and a property code offers the gate address + property_identifier, which
+#: is the same two-group standard it applies everywhere else; this batch's own
+#: Fairfield Polaris capture reported exactly that pair.
+#:
+#: So the phone may be omitted, and ONLY when both substitutes are present. This
+#: does not touch capture-time verification: the gate still has to find and agree
+#: with two independent keys on the rendered page, and a queue entry that names
+#: fewer facts gives it less to work with, never more.
+_PHONE_SUBSTITUTE_FIELDS = ("expected_address", "expected_postal_code",
+                            "expected_property_code")
+
 # --------------------------------------------------------------------------- #
 # PTF-DISCOVERY-001 C-4 -- provisional capture state.
 #
@@ -191,8 +209,15 @@ def validate_entry(raw: dict, index: int,
 
     hotel_id = str(raw.get("hotel_id") or "").strip()
 
+    has = lambda f: bool(str(raw.get(f) or "").strip())          # noqa: E731
+    phone_substituted = not has("expected_phone") and all(
+        has(f) for f in _PHONE_SUBSTITUTE_FIELDS)
     for f in _REQUIRED_HOTEL_FIELDS:
-        if not str(raw.get(f) or "").strip():
+        if f == "expected_phone" and phone_substituted:
+            # Address + postal code + property code: two independent key groups
+            # under the capture-time doctrine, so the gate is not weakened.
+            continue
+        if not has(f):
             problems.append(_problem(index, hotel_id, "missing_field:%s" % f))
     if problems:
         return (None, problems)

@@ -11,9 +11,12 @@ from __future__ import annotations
 from typing import Dict, Optional, Tuple
 
 from .base import BaseAdapter
+from .bestwestern import BestWesternAdapter
+from .choice import ChoiceAdapter
 from .hilton import HiltonAdapter
 from .ihg import IhgAdapter
 from .marriott import MarriottAdapter
+from .redroof import RedRoofAdapter
 from .wyndham import WyndhamAdapter
 
 _REGISTRY: Dict[str, BaseAdapter] = {}
@@ -37,6 +40,21 @@ register(MarriottAdapter())
 register(HiltonAdapter())
 register(IhgAdapter())
 register(WyndhamAdapter())
+
+# PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001. Three brands that between them hold
+# eight confirmed Columbus identities and had never been attempted, because this
+# registry refused them before any navigation happened. Each adapter is
+# PROVISIONAL and narrows nothing: it declares the brand attemptable under the
+# core locator and adds no selector, because no page from any of them is in the
+# retained corpus and a selector written from memory is a guess.
+#
+# This is the measure-first half of the loop Wyndham went through: attempt,
+# observe, and only then encode what was seen. A brand that yields nothing under
+# the core reports POLICY_NOT_FOUND -- a true statement about the brand, and the
+# evidence a real adapter would be built from.
+register(RedRoofAdapter())
+register(BestWesternAdapter())
+register(ChoiceAdapter())
 
 # Deliberately NOT registered: Hyatt. hyatt.com serves a Kasada bot-defence
 # interstitial to our visible Chrome -- an 811-byte shell containing only

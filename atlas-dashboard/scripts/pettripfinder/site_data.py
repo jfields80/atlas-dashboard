@@ -68,7 +68,17 @@ _POLICY_FIELDS = ("pets_allowed", "species_allowed", "pet_fee", "fee_basis", "fe
                   # record renders unchanged.
                   "pet_count_scope",
                   "weight_limit_stated_none", "breed_restrictions_stated_none",
-                  "unattended_policy", "general_restrictions")
+                  "unattended_policy", "general_restrictions",
+                  # PTF-COLUMBUS-STRUCTURAL-UNRESOLVED-001. Three names South
+                  # Wind Motel's policy depends on and Candlewood Suites
+                  # Columbus - Grove City's own captured evidence already
+                  # populates (pet_room_restriction, reservation_requirement)
+                  # but which this allowlist previously dropped on the way
+                  # from the authority file into the render layer. Absent
+                  # means unstated, exactly as before, so every existing
+                  # record renders unchanged.
+                  "pet_room_restriction", "eligible_room_types",
+                  "reservation_requirement")
 
 
 def normalize_name(name: str) -> str:

@@ -297,11 +297,30 @@ class TestFailsClosed:
             workspace, seed_row("Columbus Airport Marriott", address=""))
         assert "expected_address" in reason
 
-    def test_missing_phone_is_refused(self, workspace):
-        """The seed really does have four hotels with no phone; they must not
-        silently become queue entries the identity gate cannot corroborate."""
+    def test_missing_phone_alone_no_longer_refuses_a_strongly_identified_row(self, workspace):
+        """PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 changed this deliberately.
+
+        The capture-time doctrine confirms an identity on TWO INDEPENDENT KEY
+        GROUPS -- address, phone, property_identifier -- so a row carrying a
+        street address, a postal code and a property-coded URL already offers
+        the gate two groups without a phone. Refusing it here was stricter than
+        the rule it was meant to enforce, and it was holding back hotels the
+        gate went on to confirm (Graduate by Hilton and Hampton Inn & Suites
+        Canal Winchester both confirmed on address + property_identifier).
+
+        The refusal that matters is tested immediately below."""
+        ws = workspace([seed_row("Columbus Airport Marriott", phone="")])
+        result = build_queue(batch_id="b", **ws)
+        assert result.counts["selected"] == 1
+        assert result.selected[0]["expected_phone"] == ""
+        assert result.selected[0]["expected_postal_code"]
+        assert result.selected[0]["expected_property_code"]
+
+    def test_missing_phone_without_a_postal_code_is_still_refused(self, workspace):
+        """The trade is address + postal + property code, or nothing. Drop any
+        one of them and the row fails closed exactly as it always did."""
         reason = self._only_exclusion(
-            workspace, seed_row("Columbus Airport Marriott", phone=""))
+            workspace, seed_row("Columbus Airport Marriott", phone="", postal=""))
         assert "expected_phone" in reason
 
     def test_missing_city_is_refused(self, workspace):

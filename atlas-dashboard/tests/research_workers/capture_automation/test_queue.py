@@ -63,7 +63,7 @@ class TestAcceptsAGoodQueue:
 class TestRefusesBadEntries:
     @pytest.mark.parametrize("field", [
         "hotel_id", "listing_key", "hotel_name", "brand", "official_url",
-        "expected_address", "expected_city", "expected_state", "expected_phone",
+        "expected_address", "expected_city", "expected_state",
     ])
     def test_missing_required_field(self, field):
         raw = dict(GOOD)
@@ -71,6 +71,26 @@ class TestRefusesBadEntries:
         entry, problems = validate_entry(raw, 0)
         assert entry is None
         assert any("missing_field:%s" % field in p for p in problems)
+
+    def test_missing_phone_is_refused_without_the_substitutes(self):
+        """PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001. expected_phone left the
+        unconditional list above, so it gets its own pair of cases. Absent the
+        substitutes it is still required, exactly as before."""
+        raw = dict(GOOD)
+        raw.pop("expected_phone")
+        raw.pop("expected_postal_code", None)
+        entry, problems = validate_entry(raw, 0)
+        assert entry is None
+        assert any("missing_field:expected_phone" in p for p in problems)
+
+    def test_missing_phone_is_accepted_with_address_postal_and_code(self):
+        """The trade the capture-time doctrine already allows: address and
+        property_identifier are two independent key groups without a phone."""
+        raw = dict(GOOD)
+        raw.pop("expected_phone")
+        raw["expected_postal_code"] = "43215"
+        entry, problems = validate_entry(raw, 0)
+        assert problems == [] and entry is not None
 
     def test_search_url_is_refused_at_load(self):
         """The defect that reached production, caught before a browser opens."""
@@ -158,6 +178,9 @@ class TestRefusesBadQueues:
         """One pass of fixes, not one run per typo."""
         bad_a = dict(GOOD, hotel_id="a")
         bad_a.pop("expected_phone")
+        # The phone alone is substitutable now, so drop a substitute too and
+        # keep this test about reporting MANY problems in one pass.
+        bad_a.pop("expected_postal_code", None)
         bad_b = dict(GOOD, hotel_id="b", official_url="http://insecure.example/x")
         with pytest.raises(QueueError) as exc:
             load_queue(write_queue(tmp_path, [bad_a, bad_b]))

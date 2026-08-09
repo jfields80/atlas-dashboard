@@ -193,13 +193,13 @@ def routes():
 
 
 def test_committed_authority_validates(routes):
-    assert len(routes) == 25
+    assert len(routes) == 22
 
 
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
-    assert len(confirmed) == 24
+    assert len(confirmed) == 21
     assert len(held) == 1
     assert held[0]["hotel_ref"]["normalized_name"] == "staybridge suites columbus worthington"
 
@@ -235,12 +235,12 @@ def test_no_committed_route_is_already_seed_inventory(routes):
 def test_routing_does_not_enter_seed_inventory():
     rows = list(csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8")))
     hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-    assert len(hotels) == 82, "seed hotel rows must be untouched by routing"
+    assert len(hotels) == 85, "seed hotel rows must be untouched by routing"
 
 
 def test_routing_does_not_change_published_count():
     pkg = json.loads((LP / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    assert len(pkg["hotels"]) == 77
+    assert len(pkg["hotels"]) == 80
 
 
 def test_routing_does_not_change_the_release_held_count():
@@ -298,7 +298,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # Was 16. PTF-COLUMBUS-AUTHORITY-APPLY-002 published 4 of those hotels, so
     # the seed now supplies their URL, and excluded 6 as VERIFIED_NO_PETS.
     # The remaining routing contribution is the 6 still awaiting capture.
-    assert len(routed.selected) - len(base.selected) == 6
+    assert len(routed.selected) - len(base.selected) == 10
 
 
 def test_previously_usable_seed_urls_remain_usable(queues):
@@ -392,4 +392,4 @@ def test_queue_entry_from_routing_carries_no_policy_fact(queues):
 
 def test_disabling_routing_restores_the_prior_queue(queues):
     base, _ = queues
-    assert len(base.selected) == 62
+    assert len(base.selected) == 68

@@ -257,17 +257,27 @@ def _source_states_combined_weight(evidence: str, weight_limit: str = "") -> boo
     pounds)" -- it states a per-pet limit of 50 AND a combined limit of 75, and
     the recorded weight_limit is the per-pet 50. Matching on the bare word would
     relabel that 50 as combined, which is the same error in a subtler form. So
-    "combined" must sit next to the number actually being published.
+    a word from the "combine" family must sit next to the number actually
+    being published.
+
+    PTF-COLUMBUS-STRUCTURAL-UNRESOLVED-001: matches the "combin-" stem, not
+    only the literal "combined" -- IHG's Candlewood Suites Columbus - Grove
+    City page reads "max combine weight of 80lbs for two pets", and the
+    un-conjugated "combine" is exactly as load-bearing as "combined" would
+    have been. This is a fallback only; a record carrying a structured
+    weight_limit_operator == "combined" value never reaches this function
+    (see _verified_summary).
     """
     text = evidence or ""
     m = re.search(r"\d+(?:\.\d+)?", weight_limit or "")
     if not m:
         return False
     number = _TRAILING_ZEROS_RE.sub(r"\1", m.group(0))
-    # The number, in either recorded form, within a short window of "combined".
+    # The number, in either recorded form, within a short window of a
+    # "combine"-family word (combine, combines, combined, combining).
     for form in {number, m.group(0)}:
         n = re.escape(form)
-        if re.search(r"combined[^.]{0,30}?%s|%s[^.]{0,30}?combined" % (n, n), text, re.I):
+        if re.search(r"combin\w*[^.]{0,30}?%s|%s[^.]{0,30}?combin\w*" % (n, n), text, re.I):
             return True
     return False
 
@@ -325,8 +335,11 @@ def weight_phrase(f: Dict) -> str:
     value = (f.get("weight_limit") or "").strip()
     if not value:
         return ""
-    if (f.get("weight_limit_operator") or "") == "lt":
+    op = f.get("weight_limit_operator") or ""
+    if op == "lt":
         return "under %s" % _prose_number(value)
+    if op == "combined":
+        return "%s combined" % _prose_number(value)
     return _prose_number(value)
 
 
@@ -354,8 +367,11 @@ def weight_display(f: Dict) -> str:
         if f.get("weight_limit_stated_none") == "true":
             return UNRESTRICTED_WEIGHT_DISPLAY
         return ""
-    if (f.get("weight_limit_operator") or "") == "lt":
+    op = f.get("weight_limit_operator") or ""
+    if op == "lt":
         return "Under %s" % value
+    if op == "combined":
+        return "%s combined" % value
     return value
 
 
@@ -804,7 +820,18 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
 
     count = f.get("pet_count_limit")
     weight = _prose_number(f.get("weight_limit", ""))
+    weight_op = f.get("weight_limit_operator") or ""
     bound = f.get("species_weight_limits") or {}
+    # weight_limit_operator == "combined" is the authoritative structured signal
+    # (PTF-POLICY-P0-001's own vocabulary, already emitted by the Drury
+    # adapter) and is trusted outright. The regex on raw evidence text is a
+    # fallback used ONLY when no structured operator was recorded at all --
+    # an explicit "lt" or "per_pet" from the source must never be second-
+    # guessed by a word that happens to appear near the number for an
+    # unrelated reason (housekeeping schedules, unrelated policy clauses).
+    is_combined = (weight_op == "combined"
+                   or (not weight_op
+                       and _source_states_combined_weight(evidence, f.get("weight_limit", ""))))
     if bound:
         # Named animal, named ceiling, and silence about the rest -- because the
         # source limited one species and said nothing about the other. "Maximum
@@ -814,7 +841,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             _cap_first(species), _prose_number(rule.get("value", "")),
             (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
             if count else "."))
-    elif weight and _source_states_combined_weight(evidence, f.get("weight_limit", "")):
+    elif weight and is_combined:
         parts.append("Up to %s with a combined weight limit of %s."
                      % (_pets_phrase(count), weight)
                      if count else "A combined weight limit of %s applies." % weight)
@@ -1105,6 +1132,21 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
            if f.get("breed_restrictions_stated_none") == "true"
            else d(f.get("breed_restrictions")))),
         ("Unattended-pet rule", *d(f.get("unattended_policy"))),
+        # Additive rows, each omitted entirely (not a dim "Not stated") when
+        # absent -- these four fields are new to the render layer and none of
+        # the 77 currently-published records populate more than one of them,
+        # so an unconditional row would print "Not stated" on every existing
+        # page for a fact no source was ever asked about. Emitting the row
+        # only when the field is present keeps every hotel that lacks it
+        # byte-identical to today's output.
+        *((("Other restrictions", f["general_restrictions"], ""),)
+          if f.get("general_restrictions") else ()),
+        *((("Pet room availability", f["pet_room_restriction"], ""),)
+          if f.get("pet_room_restriction") else ()),
+        *((("Eligible room types", f["eligible_room_types"], ""),)
+          if f.get("eligible_room_types") else ()),
+        *((("Reservation requirement", f["reservation_requirement"], ""),)
+          if f.get("reservation_requirement") else ()),
         ("Service animals", svc, ""),
     )
     return rows, "", ""

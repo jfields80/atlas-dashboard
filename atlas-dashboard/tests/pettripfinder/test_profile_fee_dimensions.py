@@ -288,7 +288,7 @@ CAP_TIER_IDENTITIES = ["candlewood suites columbus north polaris by ihg"]
 
 def test_only_the_reviewed_hotels_carry_the_new_fee_dimensions():
     hotels = json.loads(PACKAGE_FACTS.read_text(encoding="utf-8"))["hotels"]
-    assert len(hotels) == 77
+    assert len(hotels) == 80
     staged = sorted(h["key"] for h in hotels
                     if (h.get("facts") or {}).get("fee_schedule"))
     capped = sorted(h["key"] for h in hotels
@@ -419,7 +419,7 @@ def test_the_export_corpus_cannot_regress_the_production_package():
         pytest.skip("operational promotion corpus absent (gitignored)")
     # Preview stays read-only and honest about the divergence.
     assert report["additions_count"] == 0
-    assert report["old_count"] == 77
+    assert report["old_count"] == 80
     before = EX.PUBLISHED_FACTS_PATH.read_bytes()
     delta = EX.authority_delta(before.decode("utf-8"), EX.serialize(EX.build_package()))
     if not EX.is_destructive(delta):

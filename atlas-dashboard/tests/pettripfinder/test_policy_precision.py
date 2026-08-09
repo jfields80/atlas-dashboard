@@ -247,9 +247,13 @@ class TestVocabularyAndBlastRadius:
             .read_text(encoding="utf-8"))["hotels"]}
         assert normalize_name("South Wind Motel") not in seed
         assert normalize_name("South Wind Motel") not in pkg
-        for unimplemented in ("pet_room_restriction", "eligible_room_types",
-                              "reservation_requirement"):
-            assert unimplemented not in _POLICY_FIELDS
+        # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 implemented all three: they are
+        # now carried into the render layer and each emits a row only when the
+        # field is present. South Wind Motel still reaches no authority -- which
+        # is what the assertions above, not these, are protecting.
+        for implemented in ("pet_room_restriction", "eligible_room_types",
+                            "reservation_requirement"):
+            assert implemented in _POLICY_FIELDS
 
     def test_both_promoted_hotels_carry_exactly_their_approved_facts(self):
         """PTF-COLUMBUS-PROMOTION-002 replaced this file's earlier "neither hotel
@@ -263,7 +267,7 @@ class TestVocabularyAndBlastRadius:
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
         by_key = {h["key"]: h for h in pkg["hotels"]}
-        assert len(pkg["hotels"]) == 77
+        assert len(pkg["hotels"]) == 80
 
         sonesta = by_key["sonesta simply suites columbus airport gahanna"]
         assert set(sonesta["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",

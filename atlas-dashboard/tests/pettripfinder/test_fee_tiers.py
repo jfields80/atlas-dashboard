@@ -493,6 +493,8 @@ class TestScalarUnchanged:
     # moving number. A hotel acquiring tiers its source never stated is the
     # flattening bug in reverse, and that is what this fixture pins.
     TIERED_IDENTITIES = [
+        # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 promotion.
+        "candlewood suites columbus grove city",
         # PTF-COLUMBUS-AUTHORITY-APPLY-002 promotions; each states a
         # stay-length ladder on its own official page.
         "doubletree by hilton columbus dublin",
@@ -526,7 +528,7 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 77
+        assert len(pkg["hotels"]) == 80
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
         assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:

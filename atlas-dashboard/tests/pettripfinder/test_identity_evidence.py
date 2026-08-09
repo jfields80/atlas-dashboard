@@ -155,13 +155,13 @@ class TestIdentityConfirmation:
 
 class TestColumbusUnchanged:
 
-    def test_the_published_authority_still_holds_77_records(self):
+    def test_the_published_authority_still_holds_80_records(self):
         import json
         import pathlib
         root = pathlib.Path(__file__).resolve().parents[2]
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
-        assert len(pkg["hotels"]) == 77
+        assert len(pkg["hotels"]) == 80
 
     def test_no_published_record_carries_identity_evidence_provenance(self):
         """The new contract is additive. It has not touched a published record."""

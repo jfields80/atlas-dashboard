@@ -452,8 +452,14 @@ def test_no_published_page_calls_a_weight_limit_combined_without_source_backing(
         from scripts.pettripfinder.hotel_profile import _verified_summary
         summary = _verified_summary(facts, quote)
         if "combined" in summary.lower():
-            assert _source_states_combined_weight(quote, facts.get("weight_limit", "")), \
-                h["key"]
+            # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001: there are now two ways to
+            # reach a combined sentence, and the structured one is authoritative.
+            # A record carrying weight_limit_operator == "combined" needs no
+            # supporting word in the evidence text -- that is the whole point of
+            # honouring the operator. The text scan remains the fallback.
+            assert (facts.get("weight_limit_operator") == "combined"
+                    or _source_states_combined_weight(
+                        quote, facts.get("weight_limit", ""))), h["key"]
 
 
 def test_friendly_date_accepts_a_full_timestamp():

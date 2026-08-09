@@ -131,6 +131,16 @@ IDENTITY_CONTEXT_ALLOWED = frozenset({"address", "city", "state", "postal_code",
 #: The subset the capture queue cannot proceed without.
 IDENTITY_CONTEXT_REQUIRED_FOR_QUEUE = ("address", "city", "state", "phone")
 
+#: PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001. The phone is substitutable, on exactly
+#: the terms ``capture_automation.queue`` now accepts: a record offering an
+#: address AND a postal code AND a property code gives the capture-time gate the
+#: address and property_identifier key groups, which is the same two-group
+#: standard ``identity_keys`` applies everywhere. This mirror exists because a
+#: routing record is checked HERE before it is ever shaped into a queue entry,
+#: so a rule enforced only in the queue would still refuse it upstream.
+IDENTITY_CONTEXT_REQUIRED_WITHOUT_PHONE = ("address", "city", "state",
+                                           "postal_code")
+
 _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
@@ -356,8 +366,14 @@ def queue_identity_fields(record: Mapping) -> Optional[Dict[str, str]]:
     supply them. Returning None is a real answer: a routing record may know a
     URL and still lack the address the queue contract demands."""
     context = record.get("identity_context") or {}
-    if not all(str(context.get(f) or "").strip()
-               for f in IDENTITY_CONTEXT_REQUIRED_FOR_QUEUE):
+    present = lambda f: bool(str(context.get(f) or "").strip())   # noqa: E731
+    ok = all(present(f) for f in IDENTITY_CONTEXT_REQUIRED_FOR_QUEUE)
+    if not ok:
+        # A record with no phone may still qualify, but only by paying for it
+        # with a postal code AND a property code -- never by simply having less.
+        ok = (all(present(f) for f in IDENTITY_CONTEXT_REQUIRED_WITHOUT_PHONE)
+              and bool(str(record.get("property_code") or "").strip()))
+    if not ok:
         return None
     return {
         "address": context.get("address", ""), "city": context.get("city", ""),

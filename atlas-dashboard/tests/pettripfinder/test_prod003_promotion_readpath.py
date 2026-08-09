@@ -158,6 +158,6 @@ def test_committed_package_is_the_reviewed_authority():
     text = _COMMITTED_PACKAGE.read_text(encoding="utf-8")
     pkg = json.loads(text)
     assert pkg["schema_version"] == "1.1"
-    assert len(pkg["hotels"]) == 77
+    assert len(pkg["hotels"]) == 80
     assert hashlib.sha256(text.encode("utf-8")).hexdigest() == (
-        "581150b95a5f02d79bdb281d2f0a80ea462befd933fdb56c86032540482ffbbe")
+        "0169eaef2ccdc03b3ca0d66226732ee19516c01798222864517dc2ff5c9e7a1a")

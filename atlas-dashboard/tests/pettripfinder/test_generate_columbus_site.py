@@ -47,7 +47,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 77   # PTF-COLUMBUS-AUTHORITY-APPLY-002: verified-only public hotels
+    assert report["hotel_count"] == 80   # PTF-COLUMBUS-AUTHORITY-APPLY-002: verified-only public hotels
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -86,8 +86,11 @@ def test_core_pages_exist(built_site):
     # publishes on the same explicit-assignment terms as Easton. It was
     # asserted absent here while it stood at four.
     assert (built_site / "pet-friendly-hotels" / "airport" / "index.html").exists()
-    # Below-minimum corridors are configured but suppressed -- no route.
-    assert not (built_site / "pet-friendly-hotels" / "grove-city").exists()
+    # Grove City crossed minimum_published_hotels when
+    # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001 published Candlewood Suites Grove
+    # City, taking it from four members to five, so it now routes.
+    assert (built_site / "pet-friendly-hotels" / "grove-city" / "index.html").exists()
+    # Corridors still below the minimum stay suppressed -- no route.
     assert not (built_site / "pet-friendly-hotels" / "hilliard-west-columbus").exists()
     assert not (built_site / "pet-friendly-hotels" / "worthington-north-columbus").exists()
 
@@ -166,7 +169,7 @@ def test_sitemap_includes_comparison_and_corridor_pages(built_site):
     # PTF-CORRIDORS-003: Airport publishes at six members under the
     # 70-hotel authority; a still-suppressed corridor keeps the negative.
     assert "/pet-friendly-hotels/airport/" in sitemap
-    assert "/pet-friendly-hotels/grove-city/" not in sitemap
+    assert "/pet-friendly-hotels/grove-city/" in sitemap
 
 
 def test_sitemap_covers_every_indexable_route_exactly_once(built_site):
@@ -223,7 +226,7 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
     # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 78  # header + 77 verified hotels
+    assert len(rows) == 81  # header + 80 verified hotels
     # Held properties are named in FULL: "Red Roof" alone is no longer a valid
     # exclusion probe now that the Convention Center property is published
     # (PTF-INVENTORY-001), and a bare-brand check would silently pass forever.
