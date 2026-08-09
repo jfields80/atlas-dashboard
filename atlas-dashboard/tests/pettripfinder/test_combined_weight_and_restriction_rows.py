@@ -228,7 +228,12 @@ class TestPublishedRecordsDoNotDrift:
                              # pets", so the broadened stem matches it too -- but
                              # its record also carries the structured operator, so
                              # the text scan is never what decides it.
-                             "candlewood suites columbus grove city"}
+                             "candlewood suites columbus grove city",
+                             # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001. "Limit of
+                             # two pets per room with a combined weight of 80
+                             # pounds" -- the literal word, and the record
+                             # carries weight_limit_operator too.
+                             "drury plaza hotel columbus downtown"}
         actual = {h["key"] for h in self._pkg()
                   if _source_states_combined_weight(
                       h.get("evidence_quote", ""),
@@ -254,7 +259,11 @@ class TestPublishedRecordsDoNotDrift:
                               # PTF-COLUMBUS-FINAL-CLOSURE-001 promotions; both
                               # carry their check-in and service-animal wording.
                               "red roof inn columbus west hilliard",
-                              "red roof plus columbus dublin"}
+                              "red roof plus columbus dublin",
+                              # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: "Form must
+                              # be completed at check-in", from the property
+                              # details block the click revealed.
+                              "le meridien columbus the joseph"}
 
     def test_every_published_record_still_renders(self):
         for h in self._pkg():

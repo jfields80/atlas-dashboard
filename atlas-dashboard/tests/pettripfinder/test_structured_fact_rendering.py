@@ -171,7 +171,7 @@ def test_every_currently_published_hotel_still_renders():
     from pathlib import Path
     pkg = json.loads((Path(__file__).resolve().parents[2] / "launch_packages"
                       / "pettripfinder" / "hotel_policy_facts.json").read_text("utf-8"))
-    assert len(pkg["hotels"]) == 83
+    assert len(pkg["hotels"]) == 85
     for hotel in pkg["hotels"]:
         rows, _chip, _note = _verified_details(hotel.get("facts") or {})
         assert all(isinstance(value, str) for _lbl, value, _cls in rows)

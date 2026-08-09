@@ -47,7 +47,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 83   # PTF-COLUMBUS-AUTHORITY-APPLY-002: verified-only public hotels
+    assert report["hotel_count"] == 85   # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: verified-only public hotels
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -119,13 +119,15 @@ def test_held_manual_review_hotel_has_no_public_profile(built_site):
     # still exists and is exercised by the renderer's own fixture tests, but the
     # public build never emits an unverified hotel page.
     #
-    # Aloft was this test's example until PTF-CAPTURE-003F published it; Drury
-    # Plaza carries the case now, and Hyatt House is added so a single future
-    # promotion cannot empty the assertion without anyone noticing.
-    assert not (built_site / "pet-friendly-hotels" / "drury-plaza-hotel-columbus-downtown"
-                / "index.html").exists()
+    # Aloft was this test's example until PTF-CAPTURE-003F published it, then
+    # Drury Plaza until PTF-COLUMBUS-SELECTOR-CLOSEOUT-001 published that.
+    # Two are named so a single future promotion cannot empty the assertion
+    # without anyone noticing; Hyatt House is ADR-blocked and Extended Stay
+    # Dublin holds an unresolved policy contradiction, so neither is close.
     assert not (built_site / "pet-friendly-hotels" / "hyatt-house-columbus-osu-short-north"
                 / "index.html").exists()
+    assert not (built_site / "pet-friendly-hotels"
+                / "extended-stay-america-suites-columbus-dublin" / "index.html").exists()
 
 
 def test_no_production_row_ever_shows_no_pets_badge(built_site):
@@ -229,11 +231,11 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
     # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 84  # header + 83 verified hotels
+    assert len(rows) == 86  # header + 85 verified hotels
     # Held properties are named in FULL: "Red Roof" alone is no longer a valid
     # exclusion probe now that the Convention Center property is published
     # (PTF-INVENTORY-001), and a bare-brand check would silently pass forever.
-    for held in ("Drury Plaza Hotel Columbus Downtown",
+    for held in (
                  # Sonesta Simply Suites was promoted 2026-08-02 and is now
                  # published, so it is deliberately NOT an exclusion probe.
                  # PTF-PROMOTION-002: "Extended Stay" alone stopped being a
@@ -243,6 +245,8 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
                  # entries already are.
                  # PTF-COLUMBUS-FINAL-CLOSURE-001 published both Red Roofs, so
                  # they left this list and are asserted PRESENT below.
+                 # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001 published Drury Plaza
+                 # Hotel Columbus Downtown, which left it for the same reason.
                  "Extended Stay America Suites Columbus Dublin",
                  "Hyatt House Columbus OSU Short North"):
         assert held not in text

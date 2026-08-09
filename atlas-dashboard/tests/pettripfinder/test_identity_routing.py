@@ -193,13 +193,13 @@ def routes():
 
 
 def test_committed_authority_validates(routes):
-    assert len(routes) == 21
+    assert len(routes) == 20
 
 
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
-    assert len(confirmed) == 20
+    assert len(confirmed) == 19
     assert len(held) == 1
     assert held[0]["hotel_ref"]["normalized_name"] == "staybridge suites columbus worthington"
 
@@ -235,12 +235,12 @@ def test_no_committed_route_is_already_seed_inventory(routes):
 def test_routing_does_not_enter_seed_inventory():
     rows = list(csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8")))
     hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-    assert len(hotels) == 86, "seed hotel rows must be untouched by routing"
+    assert len(hotels) == 87, "seed hotel rows must be untouched by routing"
 
 
 def test_routing_does_not_change_published_count():
     pkg = json.loads((LP / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    assert len(pkg["hotels"]) == 83
+    assert len(pkg["hotels"]) == 85
 
 
 def test_routing_does_not_change_the_release_held_count():
@@ -256,7 +256,7 @@ def test_routing_does_not_change_the_release_held_count():
     verified = verified_public_hotels(hotel_seed, load_published_hotel_policy_facts())
     held = len(hotel_seed) - len(verified)
     # 5 -> 3: PTF-COLUMBUS-FINAL-CLOSURE-001 published two held seed rows.
-    assert held == contract["public_surface"]["excluded_public_profile_count"] == 3
+    assert held == contract["public_surface"]["excluded_public_profile_count"] == 2
 
 
 def test_no_publication_module_reads_the_routing_authority():
@@ -301,7 +301,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # is no longer capture-worthy -- so routing's remaining contribution is the
     # 5 hotels still genuinely awaiting a policy. The number falling as hotels
     # get ANSWERED is the queue working, not routing regressing.
-    assert len(routed.selected) - len(base.selected) == 2
+    assert len(routed.selected) - len(base.selected) == 1
 
 
 def test_previously_usable_seed_urls_remain_usable(queues):
@@ -395,4 +395,4 @@ def test_queue_entry_from_routing_carries_no_policy_fact(queues):
 
 def test_disabling_routing_restores_the_prior_queue(queues):
     base, _ = queues
-    assert len(base.selected) == 76
+    assert len(base.selected) == 77

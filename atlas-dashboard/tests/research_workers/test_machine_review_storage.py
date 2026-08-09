@@ -482,7 +482,7 @@ def test_operator_attestation_storage_is_unchanged():
 
 def test_hotel_policy_facts_is_unchanged():
     package = REPO / "launch_packages/pettripfinder/hotel_policy_facts.json"
-    assert len(json.loads(package.read_text(encoding="utf-8"))["hotels"]) == 83
+    assert len(json.loads(package.read_text(encoding="utf-8"))["hotels"]) == 85
 
 
 def test_no_deployment_path_is_invoked():

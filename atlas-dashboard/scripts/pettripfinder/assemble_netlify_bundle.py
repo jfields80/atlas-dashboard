@@ -546,8 +546,19 @@ def _run_route_gates(gates, contract, site_dir, verified_slugs, held_slugs,
     _gate(gates, "route.all_held_absent", not held_present and not unexpected,
           "held_present=%s unexpected=%s" % (held_present, unexpected))
 
-    drury_slug = contract["public_surface"]["drury_plaza_slug"]
-    _gate(gates, "route.drury_plaza_absent", not (hotels_dir / drury_slug).exists(), drury_slug)
+    # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001 retired ``route.drury_plaza_absent``.
+    #
+    # PROD-005A named Drury Plaza Hotel Columbus Downtown in the contract as a
+    # sentinel: the flagship held record, hard-coded so a leak could not be
+    # missed. It has since been captured, its policy located, its observation
+    # passed by the membrane and its row cleared by the publication guard -- so
+    # the gate now asserted that a legitimately verified hotel must not appear,
+    # and there is no way to keep such a gate truthful.
+    #
+    # Nothing is lost. ``route.all_held_absent`` above is the same rule stated
+    # generally, and it DERIVES the held set (seed hotels minus verified) rather
+    # than naming one hotel. Any record that is held is covered by it; a record
+    # that is no longer held should no longer be covered.
 
     # No reference to any held hotel on any surface. Slug-in-href is the precise
     # check; display-name matching adds coverage but skips names that overlap a

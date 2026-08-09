@@ -57,6 +57,11 @@ class BaseAdapter:
     #: Extra phrases this brand uses that the core anchor list does not carry.
     extra_anchors: Tuple[str, ...] = ()
 
+    #: Extra phrases that end this brand's policy block. Strictly narrowing:
+    #: a terminator can only shorten an excerpt, so declaring one cannot let a
+    #: brand claim more than the core would.
+    extra_terminators: Tuple[str, ...] = ()
+
     #: Selectors likely to contain the policy, best first. Used to scroll and
     #: to give the screenshot something to aim at.
     container_selectors: Tuple[str, ...] = ()
@@ -79,7 +84,9 @@ class BaseAdapter:
 
     def locate_policy(self, dom: DomSnapshot) -> Optional[PolicyLocation]:
         selector = self.container_selectors[0] if self.container_selectors else ""
-        return locate_policy(dom, extra_anchors=self.extra_anchors, selector=selector)
+        return locate_policy(dom, extra_anchors=self.extra_anchors,
+                             selector=selector,
+                             extra_terminators=self.extra_terminators)
 
     def interaction_plan(self, dom: DomSnapshot,
                          location: Optional[PolicyLocation]) -> Tuple[InteractionStep, ...]:

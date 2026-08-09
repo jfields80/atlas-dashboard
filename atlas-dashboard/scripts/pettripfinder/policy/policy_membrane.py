@@ -42,6 +42,7 @@ from __future__ import annotations
 
 import re
 import sys
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
@@ -147,7 +148,27 @@ class MembraneVerdict:
 # --------------------------------------------------------------------------- #
 
 def _tokens(name: str) -> frozenset:
+    """Comparable tokens for a hotel name, accents folded.
+
+    PTF-COLUMBUS-SELECTOR-CLOSEOUT-001. Marriott's page calls the hotel "Le
+    Méridien Columbus, The Joseph" and the record calls it "Le Meridien
+    Columbus, The Joseph". Without folding, the split on ``[^a-z0-9]+`` treats
+    the accented character as a SEPARATOR, so "méridien" arrives as two tokens,
+    "m" and "ridien". The page's set was then neither a subset nor a superset of
+    the record's and M10 rejected a capture whose identity gate had already
+    CONFIRMED it on property code and address.
+
+    Folding is the conservative direction, not the permissive one. It can only
+    equate names that differ by a diacritic -- which are the same name to any
+    reader -- while what it removes is a real hazard: a shattered "m" is a
+    one-character token free to appear inside unrelated hotels' names, and the
+    subset test is exactly where such fragments do damage. No other part of the
+    identity rule moves; a genuine name mismatch still fails, and the
+    conjunctive code-plus-address override remains the only way past it.
+    """
     text = (name or "").lower().replace("&", " and ")
+    text = "".join(c for c in unicodedata.normalize("NFKD", text)
+                   if not unicodedata.combining(c))
     return frozenset(t for t in re.split(r"[^a-z0-9]+", text) if t)
 
 

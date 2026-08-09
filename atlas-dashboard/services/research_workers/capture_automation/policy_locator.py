@@ -60,21 +60,32 @@ _NIGHTS_RE = re.compile(r"\b\d+\s*(?:n\b|nights?)\b", re.I)
 MAX_EXCERPT_CHARS = 600
 
 
-def _terminator_after(text: str, start: int) -> int:
+def _terminator_after(text: str, start: int,
+                      extra_terminators: Sequence[str] = ()) -> int:
     """First terminator at or after ``start``. Returns len(text) if none."""
     best = len(text)
-    for term in BLOCK_TERMINATORS:
+    for term in tuple(BLOCK_TERMINATORS) + tuple(extra_terminators):
         i = text.find(term, start)
         if 0 <= i < best:
             best = i
     return best
 
 
-def extract_block(text: str, start: int) -> Tuple[str, int, int]:
+def extract_block(text: str, start: int,
+                  extra_terminators: Sequence[str] = ()) -> Tuple[str, int, int]:
     """The policy block beginning at ``start``, bounded by the next terminator
-    or ``MAX_EXCERPT_CHARS``, whichever comes first."""
+    or ``MAX_EXCERPT_CHARS``, whichever comes first.
+
+    ``extra_terminators`` is an adapter's chance to say where ITS policy block
+    stops. It can only shorten an excerpt, never lengthen one, so it is a
+    narrowing in the sense ``BaseAdapter`` allows. Drury is why it exists: its
+    modal runs "Pet Policy" straight into "Payment Policy", "Guests Per Room:
+    Maximum of five (5) people" and "Rollaways are available for $15 per day",
+    and a 600-character excerpt carrying a count and a nightly dollar amount
+    that belong to other policies is an overclaim waiting to happen.
+    """
     hard_end = min(start + MAX_EXCERPT_CHARS, len(text))
-    end = min(_terminator_after(text, start + 1), hard_end)
+    end = min(_terminator_after(text, start + 1, extra_terminators), hard_end)
     return (text[start:end].strip(), start, end)
 
 
@@ -128,7 +139,8 @@ def find_anchor_hits(text: str,
 
 def locate_policy(dom: DomSnapshot,
                   *, extra_anchors: Sequence[str] = (),
-                  selector: str = "") -> Optional[PolicyLocation]:
+                  selector: str = "",
+                  extra_terminators: Sequence[str] = ()) -> Optional[PolicyLocation]:
     """Best pet-policy block in the page, or None.
 
     Candidate blocks are clustered: anchors within a few hundred characters of
@@ -157,7 +169,7 @@ def locate_policy(dom: DomSnapshot,
     for cluster in clusters:
         start = cluster[0][1]
         matched = tuple(dict.fromkeys(a for a, _ in cluster))
-        block, s, e = extract_block(text, start)
+        block, s, e = extract_block(text, start, extra_terminators)
         if not block:
             continue
         score = score_block(block, matched)

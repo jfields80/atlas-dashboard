@@ -155,13 +155,13 @@ class TestIdentityConfirmation:
 
 class TestColumbusUnchanged:
 
-    def test_the_published_authority_still_holds_83_records(self):
+    def test_the_published_authority_still_holds_85_records(self):
         import json
         import pathlib
         root = pathlib.Path(__file__).resolve().parents[2]
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
-        assert len(pkg["hotels"]) == 83
+        assert len(pkg["hotels"]) == 85
 
     def test_no_published_record_carries_identity_evidence_provenance(self):
         """The new contract is additive. It has not touched a published record."""
@@ -223,6 +223,7 @@ class TestColumbusUnchanged:
         # held out of both authorities on an unresolved policy contradiction.
         for held in ("SpringHill Suites Columbus Airport Gahanna",
                      "Residence Inn by Marriott Columbus Polaris",
-                     "Le Meridien Columbus, The Joseph", "South Wind Motel"):
+                     "Holiday Inn Express & Suites Columbus Airport",
+                     "South Wind Motel"):
             assert normalize_name(held) not in seed
             assert normalize_name(held) not in pkg

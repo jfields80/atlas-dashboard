@@ -28,8 +28,10 @@ _PKG_KEYS = {h["key"] for h in _PKG["hotels"]}
 # PTF-COLUMBUS-FINAL-CLOSURE-001: both Red Roofs left this list once their
 # URLs parsed a property code, which gave the identity gate a second key
 # group and let the attended browser reach their pet policies.
+# PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: Drury Plaza left it too. See the note
+# below -- the URL that was thought to serve a different property now redirects
+# to this one, and two attended runs confirmed the identity on it.
 _HELD = [
-    "drury-plaza-hotel-columbus-downtown",
     "extended-stay-america-suites-columbus-dublin",
     "hyatt-house-columbus-osu-short-north",
 ]
@@ -86,13 +88,16 @@ _HELD = [
 # on a re-run, so a refresh is plausible -- but the seed also carries NO PHONE
 # for this property, which is an identity gap a re-run cannot close.
 #
-# HELD -- drury-plaza-hotel-columbus-downtown. Gate-1 routed it READY and the
-# operator recorded HOLD_FOR_MANUAL_REVIEW, because the seed's official URL
-# serves a DIFFERENT Drury property: expected 88 East Nationwide Blvd /
-# 614-221-7008, served 640 Marconi Blvd / 614-221-9700. assess_identity names
-# this exact case. Drury's static retrieval is proven (three siblings publish
-# from druryhotels.com), so the blocker is discovery of the correct property
-# URL -- or a decision that the seed row itself is wrong -- not extraction.
+# RELEASED -- drury-plaza-hotel-columbus-downtown, by
+# PTF-COLUMBUS-SELECTOR-CLOSEOUT-001. The hold was correct when it was made and
+# the world moved: the seed's URL
+# (/locations/columbus-oh/drury-inn-and-suites-columbus-convention-center) no
+# longer serves 640 Marconi Blvd, it 301s to
+# /locations/columbus-oh/drury-plaza-hotel-columbus-downtown. Two independent
+# attended runs followed it there and both identity gates CONFIRMED 88 East
+# Nationwide Blvd / 614-221-7008, so the seed row now records the redirect
+# target directly. The remaining blocker was never extraction: the policy sits
+# in a shut #additional-info-modal, and one grounded click opened it.
 #
 # HELD -- extended-stay-america-suites-columbus-dublin. The only Columbus hotel
 # with NO retrieval artifact of any kind, so its access posture is unmeasured.
@@ -147,7 +152,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 83
+    assert len(verified) == 85
 
 
 # --------------------------------------------------------------------------- #
@@ -213,7 +218,7 @@ def _display_slug(key):
 
 
 def test_exactly_the_committed_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 83
+    assert len(_hotel_slugs(build)) == 85
 
 
 def test_every_profile_belongs_to_the_committed_package(build):
@@ -224,7 +229,10 @@ def test_every_profile_belongs_to_the_committed_package(build):
 def test_all_held_hotels_have_no_public_profile(build):
     slugs = set(_hotel_slugs(build))
     assert not (slugs & set(_HELD))
-    assert "drury-plaza-hotel-columbus-downtown" not in slugs
+    # Named separately so a single promotion cannot empty the assertion
+    # unnoticed. Drury Plaza held this spot until it was published; Hyatt
+    # House is ADR-blocked and is not going anywhere soon.
+    assert "hyatt-house-columbus-osu-short-north" not in slugs
 
 
 def test_excluded_hotels_absent_from_every_surface(build):
