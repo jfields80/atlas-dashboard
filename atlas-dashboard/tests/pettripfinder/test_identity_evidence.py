@@ -177,10 +177,12 @@ class TestColumbusUnchanged:
     def test_exclusions_and_resolutions_are_untouched(self):
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         from scripts.pettripfinder.publication_guard import load_resolutions
-        # 3 -> 9: PTF-COLUMBUS-AUTHORITY-APPLY-002 added six VERIFIED_NO_PETS
-        # records. They are exclusions, not publications -- which is exactly
-        # what this test is here to keep true of them.
-        assert len(load_exclusions()) == 9
+        # 3 -> 9 -> 14: PTF-COLUMBUS-AUTHORITY-APPLY-002 added six
+        # VERIFIED_NO_PETS records and PTF-NEGATIVE-EVIDENCE-P0-001 added five
+        # more once their denials could be cited. They are exclusions, not
+        # publications -- which is exactly what this test is here to keep true
+        # of them.
+        assert len(load_exclusions()) == 14
         assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd"]
 
     def test_a_blocked_columbus_hold_can_be_identity_confirmed_without_a_policy(self):

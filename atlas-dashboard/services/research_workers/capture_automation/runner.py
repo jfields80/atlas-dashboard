@@ -351,10 +351,36 @@ class CaptureRunner:
                 # display:none panel could supply.
                 absence = assess_absence(jsonld=dom.jsonld, visible_text=dom.text)
                 if absence.confirmed:
+                    absence_detail = (
+                        ("no_anchor_after_supported_expansion",)
+                        + tuple("absence_evidence:%s" % e for e in absence.evidence)
+                        + tuple("absence_quote:%s" % q for q in absence.quotes))
+                    # PTF-NEGATIVE-EVIDENCE-P0-001. A confirmed denial is a real
+                    # answer about a real page, and it now leaves the same
+                    # citable artifact a "yes" would. Without one there is
+                    # nothing to hash, and hotel_exclusions requires a
+                    # source_hash for every evidence-backed state -- so five
+                    # Columbus hotels holding affirmative denials could not be
+                    # applied while the page that said so went unsaved.
+                    #
+                    # This changes what is RETAINED, not what is DECIDED: the
+                    # outcome is still EXCEPTION / POLICY_ABSENT_CONFIRMED,
+                    # still non-authoritative, still not-for-extraction, and it
+                    # is still reachable only after identity was CONFIRMED and
+                    # assess_absence found an affirmative property-level
+                    # refusal. Silence still writes nothing.
+                    artifacts, failure = self._persist_absence_evidence(
+                        entry, dom, absence, identity, readiness,
+                        interaction_log, seen_hashes, diag)
+                    if failure is not None:
+                        # The page could not be persisted as evidence -- a bot
+                        # wall, a truncated screenshot, too little rendered
+                        # text. Report THAT, and record no denial: an
+                        # unciteable claim is worse than none.
+                        return done(EXCEPTION, failure[0],
+                                    failure[1] + absence_detail)
                     return done(EXCEPTION, POLICY_ABSENT_CONFIRMED,
-                                ("no_anchor_after_supported_expansion",)
-                                + tuple("absence_evidence:%s" % e for e in absence.evidence)
-                                + tuple("absence_quote:%s" % q for q in absence.quotes))
+                                absence_detail, artifacts=artifacts)
                 return done(EXCEPTION, "POLICY_NOT_FOUND",
                             ("no_anchor_after_supported_expansion",
                              "absence_not_confirmed:%s" % absence.explanation))
@@ -498,6 +524,80 @@ class CaptureRunner:
             # exception record, not a dead batch.
             return done(EXCEPTION, "UNEXPECTED_ERROR",
                         ("%s: %s" % (exc.__class__.__name__, exc),))
+
+    def _persist_absence_evidence(self, entry, dom, absence, identity, readiness,
+                                  interaction_log, seen_hashes, diag):
+        """Write the page a confirmed denial rests on. Returns
+        ``(artifacts, None)`` or ``(None, (reason, detail))``.
+
+        Deliberately the SAME writer and the SAME validator the positive path
+        uses. That is what makes the evidence equivalent in strength rather than
+        merely similar: a negative artifact this build accepts is one ingestion
+        would accept, and it passes the identical challenge-page, minimum-text
+        and citable-URL gates.
+
+        The one difference is geometry. There is no policy block to frame --
+        that is the whole reason this branch exists -- so no box is measured and
+        ``validate_written_capture``'s framing check simply does not apply. The
+        screenshot is still taken and still validated for integrity: it shows
+        the page as rendered at the moment the denial was read, which is what a
+        reviewer needs to see.
+        """
+        if self._config.dry_run:
+            return (None, ("BATCH_ABORTED", ("dry_run",)))
+
+        captured_at = _now_iso(self._clock)
+        png = self._session.screenshot_png()
+        diag["screenshot_png"] = png
+        if not png:
+            return (None, ("SCREENSHOT_UNAVAILABLE", ("empty_png",)))
+
+        viewport = self._session.viewport()
+        diag["viewport"] = viewport
+        payload = build_payload(
+            dom, captured_at=captured_at, requested_url=entry.official_url,
+            policy=None, policy_box=None, policy_box_after=None,
+            interaction_log=interaction_log, viewport=viewport,
+            hydration=readiness.to_dict())
+
+        stem = capture_stem(dom.final_url, captured_at)
+        try:
+            json_path, png_path, png_hash, w, h = write_capture(
+                payload, png, output_dir=self._captures_dir(), stem=stem)
+        except CaptureWriteError as exc:
+            return (None, ("CAPTURE_WRITE_FAILED", (str(exc),)))
+
+        result = validate_written_capture(
+            json_path, png_path, policy_box=None,
+            viewport_height=float(viewport[1]), seen_text_hashes=seen_hashes)
+        if not result.ok:
+            return (None, (result.reason, result.problems))
+
+        from ..operator_capture import _citable_url
+        seen_hashes[payload["text_sha256"]] = entry.hotel_id
+        return ({
+            "hotel_id": entry.hotel_id,
+            "json_path": str(json_path), "png_path": str(png_path),
+            "html_sha256": payload["html_sha256"],
+            "text_sha256": payload["text_sha256"],
+            "png_sha256": png_hash, "png_width": w, "png_height": h,
+            "citable_url": _citable_url(dom.final_url, dom.canonical_url),
+            # No policy block was found; saying so explicitly stops a reader
+            # mistaking a null for a missing measurement.
+            "policy": None, "policy_box": None,
+            "policy_box_after_screenshot": None,
+            "hydration": readiness.to_dict(),
+            "interaction_log": interaction_log,
+            "identity": identity.to_dict(),
+            # What makes this record negative evidence rather than a capture.
+            "negative_evidence": True,
+            "absence_evidence": list(absence.evidence),
+            "absence_quote": " ".join(absence.quotes).strip(),
+            "warnings": [], "evidence_complete": False,
+            "evidence_notes": ["negative_evidence_capture: the page carries an "
+                               "affirmative property-level refusal and no pet "
+                               "policy block to frame"],
+        }, None)
 
     def _captures_dir(self) -> pathlib.Path:
         return pathlib.Path(self._config.batch_dir) / "captures"

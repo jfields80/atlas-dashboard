@@ -295,10 +295,12 @@ def queues():
 def test_routing_adds_capture_ready_hotels(queues):
     base, routed = queues
     assert len(routed.selected) > len(base.selected)
-    # Was 16. PTF-COLUMBUS-AUTHORITY-APPLY-002 published 4 of those hotels, so
-    # the seed now supplies their URL, and excluded 6 as VERIFIED_NO_PETS.
-    # The remaining routing contribution is the 6 still awaiting capture.
-    assert len(routed.selected) - len(base.selected) == 10
+    # Was 16, then 10. PTF-NEGATIVE-EVIDENCE-P0-001 applied five more
+    # VERIFIED_NO_PETS exclusions, and an identity already answered by evidence
+    # is no longer capture-worthy -- so routing's remaining contribution is the
+    # 5 hotels still genuinely awaiting a policy. The number falling as hotels
+    # get ANSWERED is the queue working, not routing regressing.
+    assert len(routed.selected) - len(base.selected) == 5
 
 
 def test_previously_usable_seed_urls_remain_usable(queues):
