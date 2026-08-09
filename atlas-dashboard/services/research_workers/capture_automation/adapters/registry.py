@@ -13,6 +13,8 @@ from typing import Dict, Optional, Tuple
 from .base import BaseAdapter
 from .bestwestern import BestWesternAdapter
 from .choice import ChoiceAdapter
+from .drury import DruryAdapter
+from .extendedstay import ExtendedStayAdapter
 from .hilton import HiltonAdapter
 from .ihg import IhgAdapter
 from .marriott import MarriottAdapter
@@ -55,6 +57,11 @@ register(WyndhamAdapter())
 register(RedRoofAdapter())
 register(BestWesternAdapter())
 register(ChoiceAdapter())
+# PTF-COLUMBUS-FINAL-CLOSURE-001: two more, same provisional shape and
+# same reason -- each holds a confirmed Columbus identity that no
+# attended capture had ever been allowed to try.
+register(DruryAdapter())
+register(ExtendedStayAdapter())
 
 # Deliberately NOT registered: Hyatt. hyatt.com serves a Kasada bot-defence
 # interstitial to our visible Chrome -- an 811-byte shell containing only

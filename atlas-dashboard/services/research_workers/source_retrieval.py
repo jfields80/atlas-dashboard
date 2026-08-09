@@ -413,6 +413,11 @@ _BRAND_PATH_MARKERS = (
     "/locations", "/destinations", "/offers", "/brands",
 )
 
+#: The subset of the above that is a DIRECTORY rather than a statement. A brand
+#: says one thing at /pet-policy and lists many properties under /locations, so
+#: only these may be followed by a property slug (see classify_url_shape).
+_GEOGRAPHIC_INDEX_MARKERS = frozenset({"locations", "destinations"})
+
 
 def classify_url_shape(url: str) -> str:
     """Classify a URL as PROPERTY / SEARCH / BRAND / UNKNOWN from its shape.
@@ -431,12 +436,34 @@ def classify_url_shape(url: str) -> str:
     # A bare "?" of tracking noise is not a search; named search parameters are.
     if any(("%s=" % m) in query for m in _SEARCH_QUERY_MARKERS):
         return URL_SHAPE_SEARCH
-    if any(m in path for m in _BRAND_PATH_MARKERS):
+    segments = [s for s in path.split("/") if s]
+
+    for marker in _BRAND_PATH_MARKERS:
+        if marker not in path:
+            continue
+        # PTF-COLUMBUS-FINAL-CLOSURE-001. A geographic index marker is a brand
+        # page on its own and a directory ABOVE property pages when the path
+        # continues: Drury publishes every property at
+        # /locations/<city>/<property-slug>, and all four Columbus Drury hotels
+        # use it. Only the geographic markers get this treatment -- /pet-policy
+        # and /about-us name no property however long the path grows.
+        name = marker.strip("/")
+        if name in _GEOGRAPHIC_INDEX_MARKERS and name in segments:
+            tail = segments[segments.index(name) + 1:]
+            if len(tail) >= 2 and "-" in tail[-1] and len(tail[-1]) >= 12:
+                return URL_SHAPE_PROPERTY
         return URL_SHAPE_BRAND
+
+    # A URL carrying a recognised brand property code names one property, full
+    # stop. This is stronger than the slug heuristic below, which counted
+    # characters and so classified /property/oh/columbus/rri262 as a property
+    # page and /property/oh/dublin/rri127 as UNKNOWN -- the same brand, the same
+    # shape, told apart only by "columbus" being eight letters and "dublin" six.
+    if extract_property_code_from_url(url):
+        return URL_SHAPE_PROPERTY
 
     # A property page names one property in its path: at least two non-trivial
     # segments, the last of which is a slug rather than a bare section word.
-    segments = [s for s in path.split("/") if s]
     if len(segments) >= 2 and any("-" in s or len(s) >= 8 for s in segments[1:]):
         return URL_SHAPE_PROPERTY
     return URL_SHAPE_UNKNOWN
@@ -511,6 +538,29 @@ def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) ->
         for j, t in enumerate(tail):
             if t == "hoteldetail" and j >= 1 and _looks_like_property_code(tail[j - 1]):
                 return tail[j - 1]
+
+    # PTF-COLUMBUS-FINAL-CLOSURE-001. Two more shapes, both taken from real
+    # property URLs already in the seed rather than from a brand's docs.
+    #
+    # Neither reuses the "hotels" anchor above: Red Roof marks its property
+    # pages with /property/, and Choice puts the brand -- not the word "hotels"
+    # -- in the second-to-last segment. Both still go through
+    # _looks_like_property_code, so a slug, a city or an English word in that
+    # position yields "" exactly as before.
+
+    # red roof: /property/<state>/<city>/<code>   -> rri127
+    for i, seg in enumerate(segments):
+        if seg == "property" and len(segments) > i + 3:
+            candidate = segments[i + 3]
+            if _looks_like_property_code(candidate):
+                return candidate
+
+    # choice: /<state>/<city>/<brand>-hotels/<code>   -> oh360
+    # The brand segment varies (cambria-hotels, comfort-suites-hotels), so the
+    # suffix is what is matched, never the brand name.
+    if len(segments) >= 2 and segments[-2].endswith("-hotels"):
+        if _looks_like_property_code(segments[-1]):
+            return segments[-1]
     return ""
 
 

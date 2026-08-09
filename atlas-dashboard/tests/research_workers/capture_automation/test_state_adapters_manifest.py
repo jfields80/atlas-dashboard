@@ -97,7 +97,8 @@ class TestAdapterContract:
         # identities could be attempted at all. Hyatt is deliberately not
         # among them and the assertion below is why this test exists.
         assert set(known_brands()) == {"marriott", "hilton", "ihg", "wyndham",
-                                       "bestwestern", "choice", "redroof"}
+                                       "bestwestern", "choice", "redroof",
+                                       "drury", "extendedstay"}
         assert adapter_for("hyatt") is None
 
     def test_an_unknown_brand_returns_none(self):

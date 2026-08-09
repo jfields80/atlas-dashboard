@@ -67,7 +67,8 @@ def test_wyndham_is_registered():
 
 def test_registering_wyndham_did_not_disturb_the_other_brands():
     assert set(known_brands()) == {"hilton", "ihg", "marriott", "wyndham",
-                                   "bestwestern", "choice", "redroof"}
+                                   "bestwestern", "choice", "redroof",
+                                   "drury", "extendedstay"}
 
 
 def test_hyatt_is_still_unregistered():

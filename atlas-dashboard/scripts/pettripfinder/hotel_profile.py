@@ -212,7 +212,12 @@ class HotelProfileVM:
 #: at all. A staged schedule and a tiered ceiling are policy detail too: a record
 #: carrying one is NOT sparse, and must never be described as stating no fee.
 _STATED_FIELDS = ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit",
-                  "fee_schedule", "fee_cap_tiers")
+                  "fee_schedule", "fee_cap_tiers",
+                  # PTF-COLUMBUS-FINAL-CLOSURE-001: a per-pet fee schedule is a
+                  # stated fact like any other. Its absence here meant a record
+                  # carrying only that schedule was treated as sparse and
+                  # rendered "Fee, pet limit, weight limit: Not stated".
+                  "fee_pet_schedule")
 
 
 #: Species this renderer can name, in the order a reader expects them.
@@ -589,6 +594,19 @@ def _tiered_fee_sentence(tiers: Sequence[Dict], evidence: str = "") -> str:
 # stay window render nothing at all, which is the pre-existing outcome for a
 # hotel carrying neither field.
 # --------------------------------------------------------------------------- #
+
+def _money_amount(block) -> str:
+    """"$80" from a {amount, currency} block, matching how every other charge
+    row prints money."""
+    amount = str((block or {}).get("amount") or "").strip()
+    return _prose_number("$%s" % amount) if amount else ""
+
+
+def _per_pet_basis(block) -> str:
+    """" per stay" / " per night" -- the basis the source stated, or nothing."""
+    basis = str((block or {}).get("basis") or "").strip()
+    return (" %s" % basis) if basis else ""
+
 
 def staged_fee(f: Dict) -> Tuple[str, str]:
     """``(first night, each additional night)`` for prose, or ``("", "")``.
@@ -1069,9 +1087,22 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
     # page can carry two accounts of the same money.
     first_night, additional_night = staged_fee(f)
     tier_caps = cap_tiers(f)
+    per_pet = f.get("fee_pet_schedule") or {}
     if first_night:
         charge_rows = (("Pet charge, first night", first_night, ""),
                        ("Pet charge, each additional night", additional_night, ""))
+    elif per_pet.get("first_pet") or per_pet.get("second_pet"):
+        # PTF-COLUMBUS-FINAL-CLOSURE-001. fee_pet_schedule reached the SUMMARY
+        # ("the first pet costs $80 per stay, and a second pet costs an
+        # additional $50") and never reached this table, so Hilton Columbus
+        # Polaris has been publishing "Pet charge: Not stated by the reviewed
+        # source" directly beneath a sentence stating it. One live page is
+        # corrected by this and two more avoid inheriting the same contradiction.
+        charge_rows = tuple(
+            ("Pet charge, %s pet" % label,
+             _money_amount(per_pet[key]) + _per_pet_basis(per_pet[key]), "")
+            for key, label in (("first_pet", "first"), ("second_pet", "second"))
+            if per_pet.get(key))
     elif f.get("fee_tiers"):
         charge_rows = tuple(
             ("Pet charge, %s" % _tier_range_phrase(t).replace("stays of ", ""),

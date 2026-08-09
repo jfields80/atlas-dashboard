@@ -250,10 +250,66 @@ class TestPublishedRecordsDoNotDrift:
                               "eligible_room_types", "reservation_requirement"))}
         assert rows_added == {"sonesta columbus downtown",
                               "candlewood suites columbus grove city",
-                              "hampton inn and suites canal winchester columbus"}
+                              "hampton inn and suites canal winchester columbus",
+                              # PTF-COLUMBUS-FINAL-CLOSURE-001 promotions; both
+                              # carry their check-in and service-animal wording.
+                              "red roof inn columbus west hilliard",
+                              "red roof plus columbus dublin"}
 
     def test_every_published_record_still_renders(self):
         for h in self._pkg():
             f = h.get("facts") or {}
             _verified_summary(f, evidence=h.get("evidence_quote", ""))
             _verified_details(f)
+
+
+class TestPerPetScheduleReachesTheTable:
+    """PTF-COLUMBUS-FINAL-CLOSURE-001.
+
+    fee_pet_schedule reached the summary sentence and never the detail table, so
+    Hilton Columbus Polaris published "Pet charge: Not stated by the reviewed
+    source" directly beneath a sentence saying the first pet costs $80. One live
+    page is corrected by this; two Red Roof promotions avoid inheriting it.
+    """
+
+    def _labels(self, f):
+        rows, _, _ = _verified_details(f)
+        return {r[0]: r[1] for r in rows}
+
+    def _schedule(self, **kw):
+        base = {"pets_allowed": "true", "fee_pet_schedule": {
+            "first_pet": {"amount": "80.00", "basis": "per stay", "currency": "USD"},
+            "second_pet": {"amount": "50.00", "basis": "per stay", "currency": "USD"}}}
+        base.update(kw)
+        return base
+
+    def test_both_pet_rows_render(self):
+        cells = self._labels(self._schedule())
+        assert cells["Pet charge, first pet"] == "$80 per stay"
+        assert cells["Pet charge, second pet"] == "$50 per stay"
+
+    def test_the_misleading_not_stated_row_is_gone(self):
+        assert "Pet charge" not in self._labels(self._schedule())
+
+    def test_a_first_pet_that_is_free_still_renders(self):
+        f = self._schedule(fee_pet_schedule={
+            "first_pet": {"amount": "0.00", "basis": "per stay", "currency": "USD"},
+            "second_pet": {"amount": "15.00", "basis": "per night", "currency": "USD"}})
+        cells = self._labels(f)
+        assert cells["Pet charge, first pet"] == "$0 per stay"
+        assert cells["Pet charge, second pet"] == "$15 per night"
+
+    def test_a_staged_schedule_still_wins(self):
+        """Precedence is unchanged: exactly one account of the money speaks."""
+        f = self._schedule(fee_schedule={
+            "first_night": {"amount": "45.00", "basis": "first night", "currency": "USD"},
+            "additional_night": {"amount": "10.00", "basis": "each additional night",
+                                 "currency": "USD"}})
+        cells = self._labels(f)
+        assert "Pet charge, first night" in cells
+        assert "Pet charge, first pet" not in cells
+
+    def test_records_without_the_field_are_untouched(self):
+        cells = self._labels({"pets_allowed": "true", "pet_fee": "$50.00"})
+        assert cells["Pet charge"] == "$50.00"
+        assert "Pet charge, first pet" not in cells

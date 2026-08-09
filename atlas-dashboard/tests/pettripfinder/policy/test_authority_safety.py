@@ -115,9 +115,9 @@ def test_protected_authority_is_unchanged_by_importing_and_running_the_layer():
     assert before == after, "the policy layer moved a protected authority file"
 
 
-def test_published_columbus_count_is_still_81():
+def test_published_columbus_count_is_still_83():
     from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
-    assert len(load_published_hotel_policy_facts()) == 81
+    assert len(load_published_hotel_policy_facts()) == 83
 
 
 def test_cleveland_identities_remain_policy_not_verified():

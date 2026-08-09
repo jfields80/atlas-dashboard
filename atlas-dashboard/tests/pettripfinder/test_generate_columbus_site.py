@@ -47,7 +47,7 @@ def built_site(tmp_path_factory):
 def test_build_succeeds_and_reports_launch_ready(built_site):
     report = json.loads((built_site / "_build_report.json").read_text(encoding="utf-8"))
     assert report["launch_inventory_ready"] is True
-    assert report["hotel_count"] == 81   # PTF-COLUMBUS-AUTHORITY-APPLY-002: verified-only public hotels
+    assert report["hotel_count"] == 83   # PTF-COLUMBUS-AUTHORITY-APPLY-002: verified-only public hotels
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
@@ -91,7 +91,10 @@ def test_core_pages_exist(built_site):
     # City, taking it from four members to five, so it now routes.
     assert (built_site / "pet-friendly-hotels" / "grove-city" / "index.html").exists()
     # Corridors still below the minimum stay suppressed -- no route.
-    assert not (built_site / "pet-friendly-hotels" / "hilliard-west-columbus").exists()
+    # Hilliard crossed its minimum when PTF-COLUMBUS-FINAL-CLOSURE-001
+    # published Red Roof Inn Columbus West Hilliard.
+    assert (built_site / "pet-friendly-hotels" / "hilliard-west-columbus"
+            / "index.html").exists()
     assert not (built_site / "pet-friendly-hotels" / "worthington-north-columbus").exists()
 
 
@@ -226,7 +229,7 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
     # package hotels; no held/manual-review hotel appears.
     text = (built_site / "pet-friendly-hotels" / "policy-comparison" / "index.html").read_text(encoding="utf-8")
     rows = re.findall(r"<tr>", text)
-    assert len(rows) == 82  # header + 81 verified hotels
+    assert len(rows) == 84  # header + 83 verified hotels
     # Held properties are named in FULL: "Red Roof" alone is no longer a valid
     # exclusion probe now that the Convention Center property is published
     # (PTF-INVENTORY-001), and a bare-brand check would silently pass forever.
@@ -238,8 +241,9 @@ def test_comparison_page_lists_the_verified_hotels(built_site):
                  # -- the bare brand now matches a hotel that SHOULD appear, so
                  # the held property is named in full, exactly as the Red Roof
                  # entries already are.
+                 # PTF-COLUMBUS-FINAL-CLOSURE-001 published both Red Roofs, so
+                 # they left this list and are asserted PRESENT below.
                  "Extended Stay America Suites Columbus Dublin",
-                 "Red Roof PLUS+ Columbus Dublin", "Red Roof Inn Columbus West Hilliard",
                  "Hyatt House Columbus OSU Short North"):
         assert held not in text
     # The published hotel whose name contains the held brand must still appear.

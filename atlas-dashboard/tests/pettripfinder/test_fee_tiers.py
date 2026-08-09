@@ -530,7 +530,7 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 81
+        assert len(pkg["hotels"]) == 83
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
         assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:

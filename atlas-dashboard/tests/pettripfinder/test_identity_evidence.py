@@ -155,13 +155,13 @@ class TestIdentityConfirmation:
 
 class TestColumbusUnchanged:
 
-    def test_the_published_authority_still_holds_81_records(self):
+    def test_the_published_authority_still_holds_83_records(self):
         import json
         import pathlib
         root = pathlib.Path(__file__).resolve().parents[2]
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
-        assert len(pkg["hotels"]) == 81
+        assert len(pkg["hotels"]) == 83
 
     def test_no_published_record_carries_identity_evidence_provenance(self):
         """The new contract is additive. It has not touched a published record."""
@@ -182,7 +182,7 @@ class TestColumbusUnchanged:
         # more once their denials could be cited. They are exclusions, not
         # publications -- which is exactly what this test is here to keep true
         # of them.
-        assert len(load_exclusions()) == 15
+        assert len(load_exclusions()) == 16
         assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd"]
 
     def test_a_blocked_columbus_hold_can_be_identity_confirmed_without_a_policy(self):

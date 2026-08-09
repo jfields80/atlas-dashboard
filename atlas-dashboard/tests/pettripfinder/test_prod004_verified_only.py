@@ -25,10 +25,13 @@ from scripts.pettripfinder.site_data import (
 _REPO = Path(__file__).resolve().parents[2]
 _PKG = json.loads((_REPO / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json").read_text(encoding="utf-8"))
 _PKG_KEYS = {h["key"] for h in _PKG["hotels"]}
+# PTF-COLUMBUS-FINAL-CLOSURE-001: both Red Roofs left this list once their
+# URLs parsed a property code, which gave the identity gate a second key
+# group and let the attended browser reach their pet policies.
 _HELD = [
     "drury-plaza-hotel-columbus-downtown",
-    "extended-stay-america-suites-columbus-dublin", "red-roof-plus-columbus-dublin",
-    "red-roof-inn-columbus-west-hilliard", "hyatt-house-columbus-osu-short-north",
+    "extended-stay-america-suites-columbus-dublin",
+    "hyatt-house-columbus-osu-short-north",
 ]
 # PTF-PROMOTION: sonesta-simply-suites-dublin-columbus left this list on
 # 2026-08-02. Its only remaining Gate-1 reason was a MODEL_OVERCLAIM -- the
@@ -144,7 +147,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 81
+    assert len(verified) == 83
 
 
 # --------------------------------------------------------------------------- #
@@ -210,7 +213,7 @@ def _display_slug(key):
 
 
 def test_exactly_the_committed_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 81
+    assert len(_hotel_slugs(build)) == 83
 
 
 def test_every_profile_belongs_to_the_committed_package(build):

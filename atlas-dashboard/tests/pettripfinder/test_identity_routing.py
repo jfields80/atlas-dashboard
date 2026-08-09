@@ -240,7 +240,7 @@ def test_routing_does_not_enter_seed_inventory():
 
 def test_routing_does_not_change_published_count():
     pkg = json.loads((LP / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    assert len(pkg["hotels"]) == 81
+    assert len(pkg["hotels"]) == 83
 
 
 def test_routing_does_not_change_the_release_held_count():
@@ -255,7 +255,8 @@ def test_routing_does_not_change_the_release_held_count():
                   if r.get("category") == "pet-friendly-hotels"]
     verified = verified_public_hotels(hotel_seed, load_published_hotel_policy_facts())
     held = len(hotel_seed) - len(verified)
-    assert held == contract["public_surface"]["excluded_public_profile_count"] == 5
+    # 5 -> 3: PTF-COLUMBUS-FINAL-CLOSURE-001 published two held seed rows.
+    assert held == contract["public_surface"]["excluded_public_profile_count"] == 3
 
 
 def test_no_publication_module_reads_the_routing_authority():
@@ -300,7 +301,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # is no longer capture-worthy -- so routing's remaining contribution is the
     # 5 hotels still genuinely awaiting a policy. The number falling as hotels
     # get ANSWERED is the queue working, not routing regressing.
-    assert len(routed.selected) - len(base.selected) == 3
+    assert len(routed.selected) - len(base.selected) == 2
 
 
 def test_previously_usable_seed_urls_remain_usable(queues):
@@ -394,4 +395,4 @@ def test_queue_entry_from_routing_carries_no_policy_fact(queues):
 
 def test_disabling_routing_restores_the_prior_queue(queues):
     base, _ = queues
-    assert len(base.selected) == 69
+    assert len(base.selected) == 76
