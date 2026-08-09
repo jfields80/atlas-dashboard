@@ -486,6 +486,19 @@ def _looks_like_property_code(segment: str) -> bool:
             and s not in _NOT_A_PROPERTY_CODE)
 
 
+#: Single path segments on a brand host that are site sections, not property
+#: codes. Only consulted for the one-segment short-link shape, where a five
+#: letter section word and a five letter property code are the same shape.
+_BRAND_SHORTLINK_NON_CODES = frozenset({
+    "deals", "offers", "hotels", "brands", "about", "help", "search", "stays",
+    "rooms", "cards", "credit", "events", "meets", "group", "gifts", "media",
+    "press", "legal", "terms", "login", "join", "point", "award", "elite",
+    "china", "japan", "korea", "india", "spain", "italy", "france", "brasil",
+    "es-es", "fr-fr", "de-de", "it-it", "ja-jp", "ko-kr", "pt-br", "zh-cn",
+    "en-us", "en-gb", "shops", "store", "app", "apps", "mobile",
+})
+
+
 def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) -> str:
     """Return the property code embedded in a URL, or "" if none is present.
 
@@ -561,6 +574,34 @@ def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) ->
     if len(segments) >= 2 and segments[-2].endswith("-hotels"):
         if _looks_like_property_code(segments[-1]):
             return segments[-1]
+
+    # PTF-CLEVELAND-MARKET-FACTORY-001. Marriott's SHORT property link:
+    # marriott.com/cleac -- the whole path is the property code, and it
+    # redirects to the full /en-us/hotels/<code>-<slug>/overview/ page.
+    #
+    # Cleveland's CVB stores this form for a third of its Marriott properties,
+    # so without it five confirmed hotels carried a real official URL that
+    # classified as UNKNOWN and never reached the queue.
+    #
+    # Deliberately narrow: exactly one path segment, on a marriott.com host,
+    # that already satisfies _looks_like_property_code. A two-segment path or
+    # any other brand does not match -- /brands/towneplace-suites.mi stays a
+    # brand page, which is what it is.
+    #
+    # The catch is that a five-letter site section is shaped exactly like a
+    # five-letter property code: /deals and /cleac are indistinguishable by
+    # form alone. The extractor's contract is to fail CLOSED, so the site's own
+    # section words are excluded by name. That is a denylist, with the cost a
+    # denylist carries -- an unlisted section word would be read as a code --
+    # but the failure is bounded and visible: the capture's identity gate
+    # refuses a page whose name and address do not match, so a wrong code costs
+    # one refused capture and never a wrong hotel's policy.
+    host = (parts.hostname or "").lower()
+    if len(segments) == 1 and (host == "marriott.com"
+                               or host.endswith(".marriott.com")):
+        if (_looks_like_property_code(segments[0])
+                and segments[0] not in _BRAND_SHORTLINK_NON_CODES):
+            return segments[0]
     return ""
 
 

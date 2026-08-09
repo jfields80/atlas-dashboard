@@ -320,13 +320,15 @@ def test_routing_adds_capture_ready_hotels(queues):
     # get ANSWERED is the queue working, not routing regressing.
     #
     # PTF-CLEVELAND-MARKET-FACTORY-001: routing now carries a whole second
-    # market and the number jumps to 29. Cleveland's census is 193 CONFIRMED
+    # market and the number jumps to 39. Cleveland's census is 193 CONFIRMED
     # non-inventory hotels -- precisely the situation routing exists for -- and
     # 87 of them now hold an official URL recovered from their CVB listing.
-    # Twenty-nine of those clear every remaining queue gate.
     #
-    # Columbus's own contribution is unchanged at 1; the other 28 are Cleveland.
-    assert len(routed.selected) - len(base.selected) == 29
+    # It was 29 until Marriott's short property link (marriott.com/cleac) was
+    # taught to the URL-shape classifier; ten more Cleveland hotels had a real
+    # official URL that read as UNKNOWN. Columbus's own contribution is
+    # unchanged at 1.
+    assert len(routed.selected) - len(base.selected) == 39
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -343,7 +345,7 @@ def test_routing_carries_more_than_one_market(queues):
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
     added = [h for h in routed.selected if h["hotel_id"] not in base_ids]
-    assert len(added) == 29
+    assert len(added) == 39
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
