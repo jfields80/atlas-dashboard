@@ -88,6 +88,8 @@ def load_market_config(market_id: str, config_dir: Path = None) -> MarketConfig:
 
 _MARKET_FILENAMES = {
     "columbus-oh": "columbus_oh.json",
+    # PTF-DAYTON-MARKET-FACTORY-001: worker-proposed; Opus integrates.
+    "dayton-oh": "dayton_oh.json",
 }
 
 
