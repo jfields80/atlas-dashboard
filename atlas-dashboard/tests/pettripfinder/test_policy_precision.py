@@ -224,7 +224,7 @@ class TestVocabularyAndBlastRadius:
         # replaced Hyatt Place OSU's basisless flat $100 with the stay-length
         # ladder its own page states. The count is asserted rather than ranged
         # so a new no-basis record cannot arrive unnoticed.
-        assert len(affected) == 9
+        assert len(affected) == 8
         for h in pkg["hotels"]:
             summary = _verified_summary(dict(h["facts"]), h.get("evidence_quote") or "")
             if h["key"] in affected:

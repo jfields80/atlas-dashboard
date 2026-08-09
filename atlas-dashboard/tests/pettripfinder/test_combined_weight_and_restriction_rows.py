@@ -269,7 +269,11 @@ class TestPublishedRecordsDoNotDrift:
                               # and a discretionary 30+ night fee; Dublin
                               # states "housebroken" and a 30+ instruction.
                               "hyatt house columbus osu short north",
-                              "hyatt place columbus dublin"}
+                              "hyatt place columbus dublin",
+                              # Its own page screenshot arrived last and
+                              # states an advance-notice request plus a
+                              # discretionary 30+ night fee.
+                              "hyatt regency columbus"}
 
     def test_every_published_record_still_renders(self):
         for h in self._pkg():

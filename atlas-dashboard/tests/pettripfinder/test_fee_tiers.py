@@ -496,6 +496,10 @@ class TestScalarUnchanged:
     # evidence batch states a 1-6 / 7-30 night ladder. Hyatt Place OSU
     # moves INTO this list -- its flat $100 was corrected to the ladder its
     # own page states.
+    # PTF-COLUMBUS-HYATT-002 adds five: every Hyatt page in the manual
+    # evidence batch states a stay-length ladder. Hyatt Place OSU and
+    # Hyatt Regency both move INTO this list -- each had a flat fee that
+    # its own page contradicts with a 1-6 / 7-30 night schedule.
     TIERED_IDENTITIES = [
         "candlewood suites columbus grove city",
         "doubletree by hilton columbus dublin",
@@ -523,6 +527,7 @@ class TestScalarUnchanged:
         "hyatt place columbus dublin",
         "hyatt place columbus osu",
         "hyatt place columbus worthington",
+        "hyatt regency columbus",
         "sonesta simply suites columbus airport gahanna",
         "sonesta simply suites dublin columbus",
         "tru by hilton columbus east broad",

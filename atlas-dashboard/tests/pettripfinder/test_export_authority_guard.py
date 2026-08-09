@@ -231,8 +231,8 @@ class TestColumbusDivergence:
     def test_every_unintended_update_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["unintended_update_count"] == 11
-        assert len(delta["unintended_updates"]) == 11
+        assert delta["unintended_update_count"] == 12
+        assert len(delta["unintended_updates"]) == 12
 
     def test_the_committed_authority_survives_a_refused_write(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()

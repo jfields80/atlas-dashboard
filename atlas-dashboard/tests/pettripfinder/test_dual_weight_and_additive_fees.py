@@ -244,7 +244,11 @@ class TestEveryPublishedRecordIsUnaffected:
         assert dual == {"hyatt place columbus osu",
                         "hyatt house columbus osu short north",
                         "hyatt place columbus worthington",
-                        "hyatt place columbus dublin"}
+                        "hyatt place columbus dublin",
+                        # Corrected once its own page screenshot arrived: it had
+                        # been publishing a flat $50 with no stay condition and
+                        # no combined limit at all.
+                        "hyatt regency columbus"}
 
 
 # --------------------------------------------------------------------------- #
