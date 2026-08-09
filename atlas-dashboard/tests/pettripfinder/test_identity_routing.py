@@ -235,12 +235,12 @@ def test_no_committed_route_is_already_seed_inventory(routes):
 def test_routing_does_not_enter_seed_inventory():
     rows = list(csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8")))
     hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
-    assert len(hotels) == 87, "seed hotel rows must be untouched by routing"
+    assert len(hotels) == 89, "seed hotel rows must be untouched by routing"
 
 
 def test_routing_does_not_change_published_count():
     pkg = json.loads((LP / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    assert len(pkg["hotels"]) == 85
+    assert len(pkg["hotels"]) == 88
 
 
 def test_routing_does_not_change_the_release_held_count():
@@ -256,7 +256,7 @@ def test_routing_does_not_change_the_release_held_count():
     verified = verified_public_hotels(hotel_seed, load_published_hotel_policy_facts())
     held = len(hotel_seed) - len(verified)
     # 5 -> 3: PTF-COLUMBUS-FINAL-CLOSURE-001 published two held seed rows.
-    assert held == contract["public_surface"]["excluded_public_profile_count"] == 2
+    assert held == contract["public_surface"]["excluded_public_profile_count"] == 1
 
 
 def test_no_publication_module_reads_the_routing_authority():

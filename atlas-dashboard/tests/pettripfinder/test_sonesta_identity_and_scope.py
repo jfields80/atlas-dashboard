@@ -178,7 +178,7 @@ class TestPublishedProfilesUnaffected:
     def test_the_package_holds_38_hotels_including_sonesta(self):
         pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 85
+        assert len(pkg["hotels"]) == 88
         assert KEY in {h["key"] for h in pkg["hotels"]}
 
     def test_the_pre_existing_ladders_still_state_no_scope(self):

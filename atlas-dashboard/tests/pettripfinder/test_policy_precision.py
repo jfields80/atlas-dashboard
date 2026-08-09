@@ -220,9 +220,11 @@ class TestVocabularyAndBlastRadius:
                     if h["facts"].get("pet_fee") and not h["facts"].get("fee_basis")]
         # 9 when PTF-POLICY-PRECISION-001 measured this; 10 since
         # PTF-COLUMBUS-PROMOTION-002 published Hotel LeVeque, whose source states
-        # a $100 fee and no basis at all. The count is asserted rather than
-        # ranged so a new no-basis record cannot arrive unnoticed.
-        assert len(affected) == 10
+        # a $100 fee and no basis at all; back to 9 since PTF-COLUMBUS-HYATT-002
+        # replaced Hyatt Place OSU's basisless flat $100 with the stay-length
+        # ladder its own page states. The count is asserted rather than ranged
+        # so a new no-basis record cannot arrive unnoticed.
+        assert len(affected) == 9
         for h in pkg["hotels"]:
             summary = _verified_summary(dict(h["facts"]), h.get("evidence_quote") or "")
             if h["key"] in affected:
@@ -267,7 +269,7 @@ class TestVocabularyAndBlastRadius:
         pkg = json.loads((root / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
         by_key = {h["key"]: h for h in pkg["hotels"]}
-        assert len(pkg["hotels"]) == 85
+        assert len(pkg["hotels"]) == 88
 
         sonesta = by_key["sonesta simply suites columbus airport gahanna"]
         assert set(sonesta["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",

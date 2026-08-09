@@ -263,7 +263,13 @@ class TestPublishedRecordsDoNotDrift:
                               # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: "Form must
                               # be completed at check-in", from the property
                               # details block the click revealed.
-                              "le meridien columbus the joseph"}
+                              "le meridien columbus the joseph",
+                              # PTF-COLUMBUS-HYATT-002. Short North states
+                              # "contact the hotel ... ahead of your arrival"
+                              # and a discretionary 30+ night fee; Dublin
+                              # states "housebroken" and a 30+ instruction.
+                              "hyatt house columbus osu short north",
+                              "hyatt place columbus dublin"}
 
     def test_every_published_record_still_renders(self):
         for h in self._pkg():

@@ -209,7 +209,7 @@ class TestColumbusDivergence:
     def test_preview_remains_available_and_read_only(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()
         report = build_preview()["report"]
-        assert report["old_count"] == 85
+        assert report["old_count"] == 88
         assert report["new_count"] == 38
         assert PUBLISHED_FACTS_PATH.read_bytes() == before
 
@@ -217,13 +217,13 @@ class TestColumbusDivergence:
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
         assert is_destructive(delta)
-        assert delta["existing_count"] == 85 and delta["proposed_count"] == 38
+        assert delta["existing_count"] == 88 and delta["proposed_count"] == 38
 
     def test_every_removal_identity_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["removal_count"] == 47
-        assert len(delta["removals"]) == 47
+        assert delta["removal_count"] == 50
+        assert len(delta["removals"]) == 50
         published = {h["key"] for h in json.loads(
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         assert set(delta["removals"]) <= published
@@ -231,8 +231,8 @@ class TestColumbusDivergence:
     def test_every_unintended_update_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["unintended_update_count"] == 10
-        assert len(delta["unintended_updates"]) == 10
+        assert delta["unintended_update_count"] == 11
+        assert len(delta["unintended_updates"]) == 11
 
     def test_the_committed_authority_survives_a_refused_write(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()
@@ -254,7 +254,7 @@ class TestColumbusDivergence:
             PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))["hotels"]}
         corpus = {h["key"] for h in build_package()["hotels"]}
         promoted_only = published - corpus
-        assert len(promoted_only) == 47
+        assert len(promoted_only) == 50
         # Every promoted record still carries auditable provenance. There are
         # now two ways in that the export corpus cannot reach, and each is
         # recorded as what it actually was: the machine-review approvals, and
@@ -267,5 +267,12 @@ class TestColumbusDivergence:
         for key in promoted_only:
             record = by_key[key]
             provenance = (record.get("machine_review", {}).get("approval_hash")
-                          or record.get("attended_capture", {}).get("html_sha256"))
+                          or record.get("attended_capture", {}).get("html_sha256")
+                          # PTF-COLUMBUS-HYATT-002: a third route the export
+                          # corpus cannot reach -- operator-supplied official
+                          # page screenshots, for a brand whose bot defence
+                          # ADR-PTF-AUTOMATED-BROWSING forbids us to satisfy.
+                          # Recorded as what it was, for the same reason the
+                          # comment above gives.
+                          or record.get("manual_evidence", {}).get("policy_source_sha256"))
             assert provenance and provenance.startswith("sha256:"), key

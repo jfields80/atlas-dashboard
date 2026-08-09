@@ -31,9 +31,12 @@ _PKG_KEYS = {h["key"] for h in _PKG["hotels"]}
 # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: Drury Plaza left it too. See the note
 # below -- the URL that was thought to serve a different property now redirects
 # to this one, and two attended runs confirmed the identity on it.
+# PTF-COLUMBUS-HYATT-002: Hyatt House Short North left this list on
+# operator-supplied official-page screenshots -- the lawful route for a brand
+# whose bot defence ADR-PTF-AUTOMATED-BROWSING forbids us to satisfy.
 _HELD = [
     "extended-stay-america-suites-columbus-dublin",
-    "hyatt-house-columbus-osu-short-north",
+    "hyatt-place-columbus-polaris",
 ]
 # PTF-PROMOTION: sonesta-simply-suites-dublin-columbus left this list on
 # 2026-08-02. Its only remaining Gate-1 reason was a MODEL_OVERCLAIM -- the
@@ -152,7 +155,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 85
+    assert len(verified) == 88
 
 
 # --------------------------------------------------------------------------- #
@@ -218,7 +221,7 @@ def _display_slug(key):
 
 
 def test_exactly_the_committed_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 85
+    assert len(_hotel_slugs(build)) == 88
 
 
 def test_every_profile_belongs_to_the_committed_package(build):
@@ -232,7 +235,7 @@ def test_all_held_hotels_have_no_public_profile(build):
     # Named separately so a single promotion cannot empty the assertion
     # unnoticed. Drury Plaza held this spot until it was published; Hyatt
     # House is ADR-blocked and is not going anywhere soon.
-    assert "hyatt-house-columbus-osu-short-north" not in slugs
+    assert "extended-stay-america-suites-columbus-dublin" not in slugs
 
 
 def test_excluded_hotels_absent_from_every_surface(build):

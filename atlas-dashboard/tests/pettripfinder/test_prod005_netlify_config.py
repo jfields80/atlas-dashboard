@@ -49,8 +49,8 @@ from scripts.pettripfinder.site_data import (
 # package -- a gate that recomputes its own expectation proves nothing. It must
 # agree with deploy/netlify/release_contract.json, and both must agree with the
 # file on disk; the three-way check below is the release contract.
-EXPECTED_PACKAGE_SHA = "72f494028477b8c4a04be51b13f894ebfb2bba2b59a2e5cd5b2b8c3380da5bd9"
-EXPECTED_RECORD_COUNT = 85
+EXPECTED_PACKAGE_SHA = "336ab5658ed849cd09b3fe9e6d8bcf474b475588fffa0cfa1a22efedf7e0377c"
+EXPECTED_RECORD_COUNT = 88
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
 
@@ -405,7 +405,7 @@ class TestAssembler:
             hotels = assembled[ctx]["root"] / "site" / "pet-friendly-hotels"
             for slug in inv["excluded_hotel_slugs"]:
                 assert not (hotels / slug).exists(), slug
-            assert not (hotels / "hyatt-house-columbus-osu-short-north").exists()
+            assert not (hotels / "extended-stay-america-suites-columbus-dublin").exists()
 
     def test_no_broken_links_and_gates_all_pass(self, assembled):
         for ctx in ("preview", "production"):

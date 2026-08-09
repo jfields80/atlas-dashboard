@@ -199,6 +199,13 @@ def test_published_package_is_the_default_source(sample):
         # content hashes and the reviewer. No path, no candidate id, no
         # corpus internals, and nothing a reader cannot look up.
         "attended_capture",
+        # PTF-COLUMBUS-HYATT-002: the operator-supplied screenshot batch a
+        # record was promoted from. The manual-evidence analogue of
+        # attended_capture, admitted on identical terms -- batch name, evidence
+        # class, source organisation, the artifact filenames with their sha256s,
+        # the reviewer and the ingestion time. No filesystem path, no candidate
+        # id, and the artifact bytes themselves stay outside the package.
+        "manual_evidence",
     }
     for h in pkg["hotels"]:
         assert set(h).issubset(_PUBLISHABLE), set(h) - _PUBLISHABLE
