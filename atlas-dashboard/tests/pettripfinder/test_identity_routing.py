@@ -193,15 +193,22 @@ def routes():
 
 
 def test_committed_authority_validates(routes):
-    assert len(routes) == 20
+    # PTF-CLEVELAND-MARKET-FACTORY-001: 20 Columbus + 87 Cleveland. Routing
+    # is the mechanism for a CONFIRMED hotel that is not inventory, and
+    # Cleveland's whole census is exactly that.
+    assert len(routes) == 107
 
 
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
-    assert len(confirmed) == 19
-    assert len(held) == 1
-    assert held[0]["hotel_ref"]["normalized_name"] == "staybridge suites columbus worthington"
+    assert len(confirmed) == 105
+    assert len(held) == 2
+    # Both holds are the same shape: a URL is known, the identity the queue
+    # contract demands is not.
+    assert {h["hotel_ref"]["normalized_name"] for h in held} == {
+        "staybridge suites columbus worthington",
+        "the welshfield inn"}
 
 
 def test_every_committed_record_preserves_index_binding(routes):
@@ -214,8 +221,18 @@ def test_no_committed_route_is_on_a_third_party_domain(routes):
             not in IR.NEVER_OFFICIAL_DOMAINS
 
 
-def test_every_committed_route_is_columbus(routes):
-    assert {r["market_id"] for r in routes} == {"columbus-oh"}
+def test_every_committed_route_is_in_a_known_market(routes):
+    """Routing is per-market and always was; Cleveland is the second market to
+    use it. What must never appear is a route with no market or a market the
+    config does not define."""
+    assert {r["market_id"] for r in routes} == {
+        "columbus-oh", "cleveland-akron-canton-oh"}
+
+
+def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
+    columbus = [r for r in routes if r["market_id"] == "columbus-oh"]
+    assert len(columbus) == 20
+    assert sum(1 for r in columbus if r["status"] == IR.ROUTING_CONFIRMED) == 19
 
 
 def test_no_committed_route_is_already_seed_inventory(routes):
@@ -296,12 +313,42 @@ def queues():
 def test_routing_adds_capture_ready_hotels(queues):
     base, routed = queues
     assert len(routed.selected) > len(base.selected)
-    # Was 16, then 10. PTF-NEGATIVE-EVIDENCE-P0-001 applied five more
+    # Was 16, then 10, then 1. PTF-NEGATIVE-EVIDENCE-P0-001 applied five more
     # VERIFIED_NO_PETS exclusions, and an identity already answered by evidence
-    # is no longer capture-worthy -- so routing's remaining contribution is the
-    # 5 hotels still genuinely awaiting a policy. The number falling as hotels
+    # is no longer capture-worthy -- so routing's Columbus contribution fell to
+    # the hotels still genuinely awaiting a policy. The number falling as hotels
     # get ANSWERED is the queue working, not routing regressing.
-    assert len(routed.selected) - len(base.selected) == 1
+    #
+    # PTF-CLEVELAND-MARKET-FACTORY-001: routing now carries a whole second
+    # market and the number jumps to 29. Cleveland's census is 193 CONFIRMED
+    # non-inventory hotels -- precisely the situation routing exists for -- and
+    # 87 of them now hold an official URL recovered from their CVB listing.
+    # Twenty-nine of those clear every remaining queue gate.
+    #
+    # Columbus's own contribution is unchanged at 1; the other 28 are Cleveland.
+    assert len(routed.selected) - len(base.selected) == 29
+
+
+def test_routing_carries_more_than_one_market(queues):
+    """The guarantee that matters now routing is not Columbus-only: the second
+    market's routes are real queue rows, and the first market's contribution is
+    untouched by their arrival."""
+    from scripts.pettripfinder.identity_routing import load_routes
+    by_market = {}
+    for r in load_routes():
+        by_market.setdefault(r["market_id"], []).append(r)
+    assert len(by_market["columbus-oh"]) == 20
+    assert len(by_market["cleveland-akron-canton-oh"]) >= 80
+
+    base, routed = queues
+    base_ids = {h["hotel_id"] for h in base.selected}
+    added = [h for h in routed.selected if h["hotel_id"] not in base_ids]
+    assert len(added) == 29
+    # Every added row is capture-shaped: a brand with a registered adapter and
+    # an official URL. A row that cannot be captured is not a contribution.
+    for h in added:
+        assert h["brand"], h["hotel_id"]
+        assert h["official_url"].startswith("https://"), h["hotel_id"]
 
 
 def test_previously_usable_seed_urls_remain_usable(queues):

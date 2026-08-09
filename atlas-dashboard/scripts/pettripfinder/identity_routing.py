@@ -322,20 +322,49 @@ def validate_authority(doc: Mapping) -> List[Dict]:
             by_hotel[key] = r["routing_id"]
 
     # A property code, and a URL, may each bind exactly one identity.
-    for field, label in (("property_code", "property code"),
-                         ("official_property_url", "URL")):
-        seen: Dict[str, tuple] = {}
-        for r in validated:
-            value = (r.get(field) or "").strip()
-            if not value:
-                continue
-            key = (r["market_id"], r["hotel_ref"]["normalized_name"])
-            if value in seen and seen[value] != key:
-                raise IdentityRoutingError(
-                    "%s %r binds two different identities: %s and %s -- one "
-                    "endpoint cannot be property-specific for two properties"
-                    % (label, value, seen[value][1], key[1]))
-            seen[value] = key
+    #
+    # PTF-CLEVELAND-MARKET-FACTORY-001: a property code is unique WITHIN ITS
+    # BRAND, not across all of them. Cleveland is the first market dense enough
+    # to prove it -- IHG's Hotel Indigo Cleveland Beachwood is `clebd` at
+    # ihg.com, and Marriott's Residence Inn Cleveland Beachwood is `clebd` at
+    # marriott.com. Both extractions are correct and the two hotels are a mile
+    # apart. Comparing codes globally called that a corruption and refused the
+    # whole authority.
+    #
+    # Scoping by registrable domain is what makes the check true rather than
+    # merely strict: it still catches the case the rule exists for -- one
+    # brand's code pointed at two of that brand's properties, which is how a
+    # capture ends up proving the wrong hotel -- and it no longer invents a
+    # collision between two independent namespaces. The URL check stays global,
+    # because one URL really cannot be two properties whoever serves it.
+    code_seen: Dict[tuple, tuple] = {}
+    for r in validated:
+        code = (r.get("property_code") or "").strip().lower()
+        if not code:
+            continue
+        scope = (registrable_domain(r.get("official_property_url") or "") or "",
+                 code)
+        key = (r["market_id"], r["hotel_ref"]["normalized_name"])
+        if scope in code_seen and code_seen[scope] != key:
+            raise IdentityRoutingError(
+                "property code %r on %s binds two different identities: %s and "
+                "%s -- one endpoint cannot be property-specific for two "
+                "properties" % (code, scope[0] or "(no domain)",
+                                code_seen[scope][1], key[1]))
+        code_seen[scope] = key
+
+    url_seen: Dict[str, tuple] = {}
+    for r in validated:
+        value = (r.get("official_property_url") or "").strip()
+        if not value:
+            continue
+        key = (r["market_id"], r["hotel_ref"]["normalized_name"])
+        if value in url_seen and url_seen[value] != key:
+            raise IdentityRoutingError(
+                "URL %r binds two different identities: %s and %s -- one "
+                "endpoint cannot be property-specific for two properties"
+                % (value, url_seen[value][1], key[1]))
+        url_seen[value] = key
     return validated
 
 
