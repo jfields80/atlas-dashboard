@@ -499,6 +499,8 @@ class TestScalarUnchanged:
         # stay-length ladder on its own official page.
         "doubletree by hilton columbus dublin",
         "embassy suites by hilton columbus dublin",
+        # PTF-COLUMBUS-IDENTITY-CLEANUP-001 promotion.
+        "embassy suites columbus airport corporate exchange",
         "hampton inn and suites columbus downtown",
         "hampton inn and suites columbus easton area",
         "hampton inn and suites columbus hilliard",
@@ -528,7 +530,7 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        assert len(pkg["hotels"]) == 80
+        assert len(pkg["hotels"]) == 81
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
         assert tiered == self.TIERED_IDENTITIES
         for h in pkg["hotels"]:

@@ -50,6 +50,9 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.discovery.property_identity import (  # noqa: E402
+    street_identity,
+)
 from scripts.pettripfinder.policy.policy_observation import (  # noqa: E402
     ARCHIVE_SOURCE_TYPE,
     ESTABLISHING_TIERS,
@@ -148,6 +151,46 @@ def _tokens(name: str) -> frozenset:
     return frozenset(t for t in re.split(r"[^a-z0-9]+", text) if t)
 
 
+def _same_property_by_code_and_address(ref, check) -> bool:
+    """M10's narrow escape: a NAME mismatch alone is not a wrong property when
+    two stronger, independent keys both say otherwise.
+
+    PTF-COLUMBUS-IDENTITY-CLEANUP-001. Embassy Suites Columbus -
+    Airport/Corporate Exchange is captured cleanly, identity-CONFIRMED at
+    capture time on address + phone + property code, and rejected here because
+    its own JSON-LD calls it "Embassy Suites by Hilton Columbus" -- a generic
+    name sharing no distinguishing token with the canonical record. The obvious
+    repair, renaming the record to match, was tested and REFUSED: Columbus has
+    three Embassy Suites and the rename made the already-published Airport
+    property a token subset of this one, so a capture of THAT hotel would have
+    passed against THIS record.
+
+    So the name rule is not relaxed. Instead a mismatch may be overridden ONLY
+    by CONJUNCTIVE proof that is immune to that collision:
+
+      * the brand's own property code, present on both sides and exactly equal
+        -- cmhcees, cmhates and cmheses are three different hotels and no two
+        share a code; and
+      * the street identity, present on both sides and agreeing.
+
+    Both, or nothing. Either one alone is weaker than the name check it would
+    be overriding: a code with no address cannot prove the page is the building
+    on record, and an address with no code cannot tell two businesses at one
+    campus apart. Requiring both is what makes this narrower than M10, not
+    wider.
+    """
+    ref_code = str(ref.get("property_code") or "").strip().lower()
+    page_code = str(check.get("property_code") or "").strip().lower()
+    if not ref_code or not page_code or ref_code != page_code:
+        return False
+
+    ref_street = str(ref.get("street_identity") or "").strip()
+    page_street = str(check.get("address_on_page") or "").strip()
+    if not ref_street or not page_street:
+        return False
+    return street_identity(ref_street) == street_identity(page_street)
+
+
 def registrable_domain(url: str) -> str:
     """Last two labels of the host. Deliberately simple: this is used only to
     catch a booking-mirror claiming to be the property's own site, where the
@@ -232,11 +275,14 @@ def evaluate(observation: Mapping) -> MembraneVerdict:
     page = _tokens(check["name_on_page"])
     known = _tokens(ref["normalized_name"]) | _tokens(ref["canonical_name"])
     if not (known <= page or page <= known):
-        return MembraneVerdict(
-            REJECT_WRONG_PROPERTY, rule="M10",
-            detail="identity gate: the page identifies %r, which is neither a "
-                   "subset nor a superset of the referenced identity %r"
-                   % (check["name_on_page"], ref["canonical_name"]))
+        if not _same_property_by_code_and_address(ref, check):
+            return MembraneVerdict(
+                REJECT_WRONG_PROPERTY, rule="M10",
+                detail="identity gate: the page identifies %r, which is neither "
+                       "a subset nor a superset of the referenced identity %r, "
+                       "and no exact property-code + street-address agreement "
+                       "establishes it another way"
+                       % (check["name_on_page"], ref["canonical_name"]))
     official = ref.get("official_url", "")
     if tier == PT1_OFFICIAL_PROPERTY and official and \
             registrable_domain(official) != registrable_domain(observation["source_url"]):

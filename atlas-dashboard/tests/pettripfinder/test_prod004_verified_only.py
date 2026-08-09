@@ -144,7 +144,7 @@ def test_committed_package_matches_a_seed_display_row_for_every_record():
     hotel_rows = [r for r in read_production_rows() if r["category"] == "pet-friendly-hotels"]
     pf = {h["key"]: h for h in _PKG["hotels"]}
     verified = verified_public_hotels(hotel_rows, pf)   # must not raise
-    assert len(verified) == 80
+    assert len(verified) == 81
 
 
 # --------------------------------------------------------------------------- #
@@ -210,7 +210,7 @@ def _display_slug(key):
 
 
 def test_exactly_the_committed_public_hotel_profiles(build):
-    assert len(_hotel_slugs(build)) == 80
+    assert len(_hotel_slugs(build)) == 81
 
 
 def test_every_profile_belongs_to_the_committed_package(build):
