@@ -58,6 +58,11 @@ DEFAULT_SEED = _REPO_ROOT / "launch_packages" / "pettripfinder" / "seed_business
 DEFAULT_PILOT_ROOT = _REPO_ROOT / "data" / "worker_runs" / "pettripfinder" / "columbus_hotel_pilot"
 HOTEL_CATEGORY = "pet-friendly-hotels"
 
+#: The market this pilot belongs to. Inventory carries explicit ownership since
+#: PTF-MULTI-MARKET-INVENTORY-SCOPING-001, and a Columbus pilot must select
+#: Columbus's rows rather than every approved row in the file.
+MARKET_ID = "columbus-oh"
+
 # Readiness classes (decided BEFORE any live call; blocked assignments never run).
 READY_FOR_RESEARCH = "READY_FOR_RESEARCH"
 BLOCKED_MISSING_EVIDENCE = "BLOCKED_MISSING_EVIDENCE"
@@ -108,14 +113,24 @@ class HotelCandidate:
                 "candidate_id": self.candidate_id}
 
 
-def load_columbus_hotel_candidates(seed_path: Optional[str] = None) -> List[HotelCandidate]:
-    """Every tracked pet-friendly hotel candidate, deterministically ordered by
-    listing key. Reads ONLY the committed seed inventory -- no discovery."""
+def load_columbus_hotel_candidates(seed_path: Optional[str] = None,
+                                   market_id: str = MARKET_ID) -> List[HotelCandidate]:
+    """Every tracked pet-friendly hotel candidate for ONE market,
+    deterministically ordered by listing key. Reads ONLY the committed seed
+    inventory -- no discovery.
+
+    PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001: the seed is multi-market now. This
+    is the COLUMBUS pilot, and without the market filter it enrolled Cleveland's
+    hotels as Columbus research candidates -- 108 where the market has 89. A row
+    with no market ownership is skipped rather than assumed to be Columbus's.
+    """
     path = Path(seed_path or DEFAULT_SEED)
     rows = list(csv.DictReader(path.read_text(encoding="utf-8").splitlines()))
     out: List[HotelCandidate] = []
     for r in rows:
         if (r.get("category") or "").strip() != HOTEL_CATEGORY:
+            continue
+        if market_id and (r.get("market_id") or "").strip() != market_id:
             continue
         name = (r.get("name") or "").strip()
         source_url = (r.get("source_url") or r.get("website_url") or "").strip()

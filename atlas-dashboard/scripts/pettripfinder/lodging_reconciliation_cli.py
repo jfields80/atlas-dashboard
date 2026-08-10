@@ -54,11 +54,21 @@ _POLICY_FIELDS = ("pets_allowed", "pet_fee", "fee_basis", "pet_count_limit",
                   "unattended_policy", "general_restrictions")
 
 
-def load_production_records():
+#: This reconciliation reads the Columbus lodging-import corpus, so it selects
+#: Columbus inventory. PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001 made the seed
+#: multi-market, and without this filter Cleveland's rows were reconciled
+#: against a Columbus corpus -- projecting 108 verified hotels for a market
+#: with 89.
+MARKET_ID = "columbus-oh"
+
+
+def load_production_records(market_id: str = MARKET_ID):
     records = []
     with PRODUCTION_CSV.open(encoding="utf-8") as f:
         for i, row in enumerate(csv.DictReader(f)):
             if row.get("category") != "pet-friendly-hotels":
+                continue
+            if market_id and (row.get("market_id") or "").strip() != market_id:
                 continue
             records.append({
                 "source_id": "prod_%03d" % i,
