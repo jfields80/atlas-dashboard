@@ -73,6 +73,7 @@ from scripts.pettripfinder.markets import (
     sitemap_corridor_routes,
 )
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
+from scripts.pettripfinder.market_ownership import owned_by
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
@@ -215,6 +216,22 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     market = resolve_market(market)
     print("PetTripFinder Columbus -- AES-SITE-001 public site build")
     package = load_launch_package()
+
+    # PTF-MULTI-MARKET-INVENTORY-SCOPING-001. Market selection happens HERE,
+    # before anything else looks at inventory, and it is explicit ownership --
+    # not "every approved row", which is what this build used to select and
+    # which would have pulled a second market's hotels into this package the
+    # moment their rows landed in the seed file.
+    #
+    # It runs before corridor assignment on purpose. Corridors subdivide a
+    # market; they do not decide who belongs to it, and twelve published
+    # Columbus hotels belong to no corridor at all.
+    package = dict(package, seed_businesses=owned_by(
+        package["seed_businesses"], market.market_id,
+        context="launch-package seed inventory"))
+    print("Market scope: %s -- %d owned inventory rows" % (
+        market.market_id, len(package["seed_businesses"])))
+
     policy_facts = load_published_hotel_policy_facts()   # committed package -- the policy authority
 
     # VERIFIED-ONLY PUBLIC GENERATION (PROD-004): only hotels present in the
@@ -240,7 +257,11 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         len(bundle.file_map), materialization.bundle_hash))
 
     # --- load real production/verification data (zero network) -----------
-    all_rows = _verified_only(read_production_rows())   # verified-only hotels; parks/restaurants intact
+    # Same market scope as the base package above -- the two inventory reads
+    # must never disagree about who owns a row, or the base bundle and the
+    # enriched surfaces would publish different hotel sets.
+    all_rows = _verified_only(owned_by(read_production_rows(), market.market_id,
+                                       context="production seed inventory"))
     hotel_rows = [r for r in all_rows if r["category"] == "pet-friendly-hotels"]
     park_rows = [r for r in all_rows if r["category"] == "pet-friendly-parks"]
     restaurant_rows = [r for r in all_rows if r["category"] == "pet-friendly-restaurants"]
@@ -629,10 +650,11 @@ def run_sample(output: str, *, use_fixture_facts: bool = False,
         out_dir = _REPO_ROOT / output
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    rows = read_production_rows()
+    market = resolve_market(market)
+    rows = owned_by(read_production_rows(), market.market_id,
+                    context="production seed inventory (sample build)")
     hotel_rows = [r for r in rows if r["category"] == "pet-friendly-hotels"]
     facts_map, facts_source = _sample_facts_map(use_fixture_facts)
-    market = resolve_market(market)
     assignment = assign_hotels(market, hotel_rows)
 
     selected: List[Dict] = []
