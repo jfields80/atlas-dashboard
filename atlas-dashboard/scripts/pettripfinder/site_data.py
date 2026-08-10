@@ -199,15 +199,28 @@ def load_hotel_policy_facts() -> Dict[str, Dict]:
     return out
 
 
-def load_published_hotel_policy_facts() -> Dict[str, Dict]:
+#: PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001. Policy facts are per-market: each
+#: file states its own ``market`` and holds only that market's hotels. Columbus
+#: keeps the original path unchanged -- renaming it would rewrite the committed
+#: authority every other module and the release contract point at -- and every
+#: additional market gets a suffixed sibling.
+def published_facts_path(market_id: str = "") -> Path:
+    mid = (market_id or "").strip()
+    if not mid or mid == "columbus-oh":
+        return PUBLISHED_FACTS_PATH
+    return PUBLISHED_FACTS_PATH.with_name("hotel_policy_facts_%s.json" % mid)
+
+
+def load_published_hotel_policy_facts(market_id: str = "") -> Dict[str, Dict]:
     """The DEFAULT verified-facts source for the Columbus generator: the tracked
     launch package (PUBLISHED_FACTS_PATH), keyed by normalized name in the exact
     shape build_vm_from_production consumes. Committed, deterministic, and free
     of any operational/import dependency -- normal generation works in a clean
     checkout. Returns {} if the package is absent (e.g. before its first export)."""
-    if not PUBLISHED_FACTS_PATH.exists():
+    facts_path = published_facts_path(market_id)
+    if not facts_path.exists():
         return {}
-    data = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+    data = json.loads(facts_path.read_text(encoding="utf-8"))
 
     # PTF-BREWDOG-PROMOTION-001. A record may carry same_campus_resolution: the
     # id of the reviewed decision that lets it share a street address with a

@@ -561,6 +561,25 @@ def extract_property_code_from_url(url: str, known_codes: Sequence[str] = ()) ->
             candidate = tail[1].split("-", 1)[0]
             if _looks_like_property_code(candidate):
                 return candidate
+        # PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001. Hilton's legacy per-brand
+        # subdomains put the code at the END of the slug, uppercased, and the
+        # slug is followed by index.html:
+        #   embassysuites3.hilton.com/en/hotels/ohio/
+        #       embassy-suites-by-hilton-cleveland-rockside-CLEINES/index.html
+        # Two Cleveland routes use it. Both yielded no code, and for Embassy
+        # Suites Rockside that cost the ONLY independent property code on
+        # record -- which is what M10's conjunctive override needs to accept a
+        # page whose marketing name ("Rockside") differs from the canonical
+        # record ("Independence").
+        #
+        # Narrow on purpose: hilton.com only, a trailing index.html, and the
+        # candidate still has to satisfy _looks_like_property_code.
+        if ((parts.netloc or "").lower().endswith("hilton.com") and len(tail) >= 2
+                and tail[-1].lower() in ("index.html", "index.htm")
+                and "-" in tail[-2]):
+            candidate = tail[-2].rsplit("-", 1)[-1]
+            if _looks_like_property_code(candidate):
+                return candidate
         # ihg: .../hotels/<country>/<lang>/<city>/<code>/hoteldetail
         for j, t in enumerate(tail):
             if t == "hoteldetail" and j >= 1 and _looks_like_property_code(tail[j - 1]):
