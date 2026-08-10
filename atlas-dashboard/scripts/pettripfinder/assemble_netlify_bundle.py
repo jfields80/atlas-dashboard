@@ -304,13 +304,13 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
           len(pkg.get("hotels", [])) == pkg_spec["expected_record_count"],
           str(len(pkg.get("hotels", []))))
 
-    policy_facts = load_published_hotel_policy_facts()
+    _market = resolve_market(market)
+    policy_facts = load_published_hotel_policy_facts(_market.market_id)
     # PTF-MULTI-MARKET-INVENTORY-SCOPING-001. The release gate must reason over
     # exactly the inventory the generator published, which is this market's
     # owned rows -- not every approved row in the file. Scoping here keeps the
     # gate and the build in agreement once a second market's rows exist; before
     # that they are the same set, which is why Columbus does not move.
-    _market = resolve_market(market)
     seed_rows = owned_by(read_production_rows(), _market.market_id,
                          context="release-gate seed inventory")
     hotel_seed = [r for r in seed_rows if r.get("category") == "pet-friendly-hotels"]
