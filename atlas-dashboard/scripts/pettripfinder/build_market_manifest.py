@@ -59,7 +59,7 @@ def build_package(market_id: str, site_root: Optional[Path] = None,
     market = market_by_id(load_markets(), market_id)
     rows = owned_by(read_production_rows(), market_id, context="market manifest")
     hotel_rows = [r for r in rows if r.get("category") == "pet-friendly-hotels"]
-    verified = verified_public_hotels(hotel_rows, load_published_hotel_policy_facts())
+    verified = verified_public_hotels(hotel_rows, load_published_hotel_policy_facts(market_id))
 
     assignment = assign_hotels(market, verified, fail_closed=False)
     hotel_routes = tuple(sorted("/pet-friendly-hotels/%s/" % _slug(r["name"])
@@ -73,8 +73,11 @@ def build_package(market_id: str, site_root: Optional[Path] = None,
     # also carries OUT_OF_CURRENT_CATEGORY rows (a bed-and-breakfast and a
     # guesthouse), and counting the file's length would report 16 where the
     # market has 14 -- overstating negative evidence by two properties.
+    # Ownership must be EXPLICIT. Defaulting an unowned record to the market
+    # being asked made every Columbus exclusion count as Cleveland's too, and
+    # reported 22 verified-no-pets for a market that has 8.
     exclusions = [e for e in load_exclusions()
-                  if str(e.get("market_id") or market_id) == market_id
+                  if str(e.get("market_id") or "") == market_id
                   and e.get("exclusion_state") == "VERIFIED_NO_PETS"]
 
     # The confirmed universe lives in the market's identity census when one is

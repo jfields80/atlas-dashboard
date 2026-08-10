@@ -93,7 +93,7 @@ def _corridor_parts(vm: HotelProfileVM) -> tuple:
     """('Grove City corridor', 'Grove City Corridor', 'COLUMBUS, OH')."""
     raw = vm.corridor or ""
     area = raw.split("·")[0].strip() or raw.strip()
-    metro = raw.split("·")[1].strip() if "·" in raw else "Columbus, OH"
+    metro = raw.split("·")[1].strip() if "·" in raw else MARKET_METRO_DEFAULT
     return area, area.title(), metro.upper()
 
 
@@ -160,18 +160,53 @@ def _action_buttons(vm: HotelProfileVM, listing_id: str, *, primary_first: bool 
     return "".join(parts)
 
 
+
+# --------------------------------------------------------------------------- #
+# PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001 -- market labelling.
+#
+# This renderer hard-coded "Columbus" in the brand lockup, the footer, the
+# tagline, the <title> and the meta description. Rendered for a second market
+# that produced Cleveland hotel pages headed "PetTripFinder Columbus" and
+# describing "pet-friendly travel in Columbus" -- wrong about the one thing a
+# traveller is reading the page for.
+#
+# The labels are now per-build state with Columbus defaults, so the Columbus
+# build emits exactly the same bytes it always did.
+# --------------------------------------------------------------------------- #
+
+MARKET_LABEL = "Columbus"
+MARKET_STATE = "Ohio"
+MARKET_METRO_DEFAULT = "Columbus, OH"
+PUBLISHED_CATEGORIES = None
+
+
+def set_market_labels(*, label: str = "Columbus", state: str = "Ohio",
+                      metro_default: str = "", categories=None) -> None:
+    global MARKET_LABEL, MARKET_STATE, MARKET_METRO_DEFAULT, PUBLISHED_CATEGORIES
+    MARKET_LABEL = label or "Columbus"
+    MARKET_STATE = state or "Ohio"
+    MARKET_METRO_DEFAULT = metro_default or ("%s, OH" % MARKET_LABEL)
+    PUBLISHED_CATEGORIES = None if categories is None else tuple(categories)
+
+
+def _publishes(slug: str) -> bool:
+    return PUBLISHED_CATEGORIES is None or slug in PUBLISHED_CATEGORIES
+
+
 # --------------------------------------------------------------------------- #
 # Sections.
 # --------------------------------------------------------------------------- #
 
 def _header() -> str:
     nav = ('<a href="/pet-friendly-hotels/">Hotels</a>'
-           '<a href="/pet-friendly-parks/">Parks</a>'
-           '<a href="/pet-friendly-restaurants/">Restaurants</a>'
-           '<a href="/#trip">Trip planning</a>'
-           '<a href="/methodology/">How we verify</a>')
+           + ('<a href="/pet-friendly-parks/">Parks</a>'
+              if _publishes("pet-friendly-parks") else "")
+           + ('<a href="/pet-friendly-restaurants/">Restaurants</a>'
+              if _publishes("pet-friendly-restaurants") else "")
+           + '<a href="/#trip">Trip planning</a>'
+             '<a href="/methodology/">How we verify</a>')
     return ('<header class="hp-top"><div class="wrap">'
-            '<a class="hp-brand" href="/">%sPetTripFinder<em>Columbus</em></a>'
+            '<a class="hp-brand" href="/">%sPetTripFinder<em>' + MARKET_LABEL + '</em></a>'
             '<nav class="hp-nav" aria-label="Primary">%s</nav>'
             '<button class="hp-burger" aria-label="Open menu" aria-expanded="false">&#9776;</button>'
             '</div></header>') % (_PAW, nav)
@@ -327,10 +362,10 @@ def _sticky(vm: HotelProfileVM, listing_id: str) -> str:
 
 def _footer() -> str:
     return ('<footer class="hp-foot"><div class="wrap">'
-            '<span>&copy; 2026 PetTripFinder Columbus</span>'
+            '<span>&copy; 2026 PetTripFinder ' + MARKET_LABEL + '</span>'
             '<nav><a href="/methodology/">How we verify</a><a href="/about/">About us</a>'
             '<a href="/contact/">Contact</a><a href="/methodology/">Privacy</a></nav>'
-            '<span>Your trusted guide to pet-friendly travel in Columbus.</span>'
+            '<span>Your trusted guide to pet-friendly travel in ' + MARKET_LABEL + '.</span>'
             '</div></footer>')
 
 
@@ -359,9 +394,10 @@ def render_approved_hotel_profile(
     """Complete hotel-profile page in the founder-approved design. ``nearby``
     rows and ``related_thumbs`` are supplied by the site layer from REAL
     inventory; the renderer itself never invents a place, distance, or photo."""
-    title = "%s Pet Policy | PetTripFinder Columbus" % vm.name
+    title = "%s Pet Policy | PetTripFinder %s" % (vm.name, MARKET_LABEL)
     desc = vm.summary if vm.state == STATE_VERIFIED else (
-        "%s in Columbus, Ohio: pet policy not yet verified by PetTripFinder." % vm.name)
+        "%s in %s, %s: pet policy not yet verified by PetTripFinder."
+        % (vm.name, MARKET_LABEL, MARKET_STATE))
     body = (
         '<a class="skip skip-link" href="#main">Skip to content</a>'
         + _header()

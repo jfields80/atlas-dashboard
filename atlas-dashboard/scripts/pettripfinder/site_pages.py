@@ -30,6 +30,70 @@ from scripts.pettripfinder.structured_data import breadcrumb_ld, to_script_tag
 BASE_URL = "https://pettripfinder.com"
 SITE_NAME = "PetTripFinder"
 
+#: PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001. The nav and footer used to hard-code
+#: all three categories. A market that carries only hotels then shipped 56
+#: links to two directory pages it never built. The category list is now a
+#: parameter whose default is the original three, so Columbus renders exactly
+#: the same bytes and a hotels-only market simply lists fewer links.
+CATEGORY_LINKS = (
+    ("pet-friendly-hotels", "Pet-Friendly Hotels"),
+    ("pet-friendly-parks", "Pet-Friendly Parks"),
+    ("pet-friendly-restaurants", "Pet-Friendly Restaurants"),
+)
+
+
+def _category_items(categories=None) -> str:
+    slugs = None if categories is None else set(categories)
+    return "".join(
+        '<li><a href="/%s/">%s</a></li>' % (slug, label)
+        for slug, label in CATEGORY_LINKS
+        if slugs is None or slug in slugs)
+
+
+def _nav(categories=None) -> str:
+    return (
+        '<header><nav aria-label="Main" class="ac-nav ac-nav--header-standard ac-nav--standard">'
+        "<ul><li><a href=\"/\">PetTripFinder</a></li>"
+        "%s</ul></nav></header>" % _category_items(categories))
+
+
+def _footer(categories=None) -> str:
+    return (
+        "<footer><div class=\"ac-legal ac-legal--footer-directory ac-legal--standard\">"
+        "<p>(c) 2026 PetTripFinder. All rights reserved.</p>"
+        "<p>Some listings are sponsored placements or contain affiliate links, always clearly "
+        "labeled. Pet policies may change; confirm directly with the business before you travel.</p>"
+        "<ul><li><a href=\"/\">PetTripFinder</a></li><li><a href=\"/about/\">About PetTripFinder</a></li>"
+        "<li><a href=\"/contact/\">Contact Us</a></li><li><a href=\"/methodology/\">Our Methodology</a></li>"
+        "%s</ul></div></footer>" % _category_items(categories))
+
+
+#: The categories the current build publishes. Set once per build; ``None``
+#: keeps the historical all-three behaviour.
+PUBLISHED_CATEGORIES = None
+
+
+#: The comparison page's route for the market being built. Columbus is
+#: legacy_unprefixed so this is its historical path; a market_prefixed market
+#: puts it under the market prefix, and links must follow the file.
+COMPARISON_ROUTE = "/pet-friendly-hotels/policy-comparison/"
+
+
+def set_published_categories(categories, comparison_route: str = "") -> None:
+    global PUBLISHED_CATEGORIES, COMPARISON_ROUTE
+    PUBLISHED_CATEGORIES = None if categories is None else tuple(categories)
+    COMPARISON_ROUTE = comparison_route or "/pet-friendly-hotels/policy-comparison/"
+
+
+def is_published_category(slug: str) -> bool:
+    """A market links only to directories it actually builds."""
+    return PUBLISHED_CATEGORIES is None or slug in PUBLISHED_CATEGORIES
+
+
+def comparison_href() -> str:
+    return COMPARISON_ROUTE
+
+
 _NAV = (
     '<header><nav aria-label="Main" class="ac-nav ac-nav--header-standard ac-nav--standard">'
     "<ul><li><a href=\"/\">PetTripFinder</a></li>"
@@ -127,7 +191,8 @@ def _shell(*, title: str, meta_description: str, route: str, body: str,
         "%s</head><body class=\"ac-layout ac-layout--shell-page\">"
         "%s<main id=\"main\">%s</main>%s</body></html>"
     ) % (_e(title), html.escape(meta_description, quote=True), robots,
-         BASE_URL, route, ld_script, _NAV, body, _FOOTER)
+         BASE_URL, route, ld_script, _nav(PUBLISHED_CATEGORIES), body,
+         _footer(PUBLISHED_CATEGORIES))
 
 
 def _breadcrumb_html(crumbs: List[Tuple[str, str]]) -> str:

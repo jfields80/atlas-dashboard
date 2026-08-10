@@ -70,6 +70,7 @@ from scripts.pettripfinder.markets import (
     corridor_href_for,
     corridor_navigation,
     corridor_route,
+    market_route,
     sitemap_corridor_routes,
 )
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
@@ -80,6 +81,7 @@ from scripts.pettripfinder.site_data import (
     read_production_rows,
     verified_public_hotels,
 )
+from scripts.pettripfinder.approved_hotel_profile import set_market_labels
 from scripts.pettripfinder.hotel_profile_page import (
     build_hotel_go_pages,
     render_production_hotel_profile,
@@ -94,6 +96,7 @@ from scripts.pettripfinder.site_enrichment import (
 )
 from scripts.pettripfinder.site_pages import (
     PTF_EXTRA_CSS,
+    set_published_categories,
     build_comparison_page,
     build_corridor_page,
     build_methodology_page,
@@ -150,7 +153,36 @@ Sitemap: %s/sitemap.xml
 """ % BASE_URL
 
 
-def _run_base_chain(package: Dict) -> Tuple[object, object, object, Dict]:
+def _market_inventory_thresholds(market: MarketConfig, package: Dict) -> Dict:
+    """The launch bar for the market being built.
+
+    Columbus keeps the pilot config's bar verbatim -- 30 listings, 10 per
+    category, across hotels/parks/restaurants -- so its build is untouched.
+
+    That bar cannot be applied to every market, because it encodes a
+    three-category consumer product. Cleveland-Akron-Canton is a hotels-only
+    regional market: judged by Columbus's bar it fails for having no parks and
+    no restaurants, which is not a quality finding about its hotels.
+
+    So for any other market the bar comes from what the market itself already
+    declares -- ``minimum_published_hotels`` in its committed ptf-market
+    config, authored before any of its inventory existed -- applied to the
+    categories that market actually carries. The bar still bites: a market
+    with fewer ready listings than its own declared minimum still refuses to
+    build. What it no longer does is demand categories the market never
+    claimed to offer.
+    """
+    thresholds = package["pilot_config"]["inventory_thresholds"]
+    if market.market_id == PRODUCTION_MARKET_ID:
+        return thresholds
+    present = sorted({row.get("category") for row in package["seed_businesses"]
+                      if row.get("category")})
+    floor = int(market.minimum_published_hotels)
+    return {"minimum_total_listings": floor, "minimum_per_category": floor,
+            "required_categories": present}
+
+
+def _run_base_chain(package: Dict, thresholds: Dict = None) -> Tuple[object, object, object, Dict]:
     """The proven chain, unchanged from the pilot script -- fails loudly
     (raises) rather than silently degrading if any stage errors."""
     pilot_config = package["pilot_config"]
@@ -168,7 +200,8 @@ def _run_base_chain(package: Dict) -> Tuple[object, object, object, Dict]:
     dataset = result.dataset
 
     readiness = compute_inventory_readiness(
-        dataset, pilot_config["inventory_thresholds"], reference_date=date.today().isoformat())
+        dataset, thresholds or pilot_config["inventory_thresholds"],
+        reference_date=date.today().isoformat())
     if not readiness["launch_inventory_ready"]:
         raise SystemExit(
             "NOT LAUNCH READY: real inventory is below the approved launch threshold "
@@ -229,10 +262,36 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     package = dict(package, seed_businesses=owned_by(
         package["seed_businesses"], market.market_id,
         context="launch-package seed inventory"))
-    print("Market scope: %s -- %d owned inventory rows" % (
-        market.market_id, len(package["seed_businesses"])))
 
-    policy_facts = load_published_hotel_policy_facts()   # committed package -- the policy authority
+    # A market publishes the categories it actually carries. The category list
+    # is global, so an inventory with no parks still planned a /pet-friendly-
+    # parks/ page, and that page then failed component compilation for having
+    # zero cards -- correctly: an empty directory page is a broken promise to a
+    # reader, not a thin one. Columbus carries all three categories and is
+    # unaffected.
+    _present = {row.get("category") for row in package["seed_businesses"]}
+    package = dict(package, categories=[c for c in package["categories"]
+                                        if c.get("slug") in _present])
+    # The information architecture plans category ROUTES from the business
+    # spec's taxonomy, not from the dataset, so the taxonomy has to be scoped
+    # too or the empty routes come back at the next stage.
+    _config = dict(package["pilot_config"])
+    _config["launch_categories"] = [c for c in _config["launch_categories"]
+                                    if c.get("slug") in _present]
+    package = dict(package, pilot_config=_config)
+    set_published_categories(sorted(_present),
+                             market_route(market) + "policy-comparison/")
+    # The approved hotel-profile renderer carried "Columbus" in its brand
+    # lockup, footer, tagline, title and meta description. Unset, a Cleveland
+    # profile would announce itself as PetTripFinder Columbus.
+    set_market_labels(label=market.market_name, state=market.state_name,
+                      metro_default="%s, %s" % (market.primary_city, market.state_code),
+                      categories=sorted(_present))
+    print("Market scope: %s -- %d owned inventory rows, %d categor%s" % (
+        market.market_id, len(package["seed_businesses"]),
+        len(package["categories"]), "y" if len(package["categories"]) == 1 else "ies"))
+
+    policy_facts = load_published_hotel_policy_facts(market.market_id)   # this market's policy authority
 
     # VERIFIED-ONLY PUBLIC GENERATION (PROD-004): only hotels present in the
     # committed hotel-policy package receive public routes. Seed hotel rows absent
@@ -249,7 +308,8 @@ def run(output: str, *, market: MarketConfig = None) -> int:
                 or normalize_name(r.get("name", "")) in verified_names]
 
     package = dict(package, seed_businesses=_verified_only(package["seed_businesses"]))
-    bundle, seo_package, gate_report, readiness = _run_base_chain(package)
+    bundle, seo_package, gate_report, readiness = _run_base_chain(
+        package, _market_inventory_thresholds(market, package))
 
     materialization = SiteBundleRepository().materialize(bundle, output, build_id=None)
     out_dir = Path(materialization.destination)
@@ -394,8 +454,15 @@ def run(output: str, *, market: MarketConfig = None) -> int:
             "fee_withheld": f.get("fee_withheld") or None,
             "verified_at": entry["verified_at"] if entry else "",
         })
-    (out_dir / "pet-friendly-hotels" / "policy-comparison").mkdir(exist_ok=True)
-    (out_dir / "pet-friendly-hotels" / "policy-comparison" / "index.html").write_text(
+    # The route comes from the market (Cleveland is market_prefixed, Columbus
+    # legacy_unprefixed). Writing to a hard-coded path put the file at
+    # /pet-friendly-hotels/policy-comparison/ while every link pointed at the
+    # prefixed route -- one broken link, and in a combined production site a
+    # collision with Columbus's comparison page at the very same address.
+    _cmp_route = market_route(market) + "policy-comparison/"
+    _cmp_dir = out_dir / _cmp_route.strip("/")
+    _cmp_dir.mkdir(parents=True, exist_ok=True)
+    (_cmp_dir / "index.html").write_text(
         build_comparison_page(comparison_rows, market), encoding="utf-8", newline="\n")
 
     # --- corridor pages (published corridors only, display order) -------------
@@ -435,8 +502,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     base_sitemap_routes = [r if r != "//" else "/" for r in base_sitemap_routes]
     # Sitemap corridors respect per-corridor show_in_sitemap (a published,
     # sitemap-hidden corridor still renders but is not advertised).
-    new_routes = (["/pet-friendly-hotels/policy-comparison/"]
-                  + list(sitemap_corridor_routes(market, assignment)))
+    new_routes = ([_cmp_route] + list(sitemap_corridor_routes(market, assignment)))
     all_sitemap_routes = sorted(set(base_sitemap_routes) | set(new_routes))
     sitemap_xml = (
         '<?xml version="1.0" encoding="UTF-8"?>'
@@ -503,7 +569,19 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     (out_dir / "_build_report.json").write_text(
         json.dumps(build_report, indent=2), encoding="utf-8", newline="\n")
 
-    broken = _check_internal_links(out_dir, set(all_sitemap_routes) | {r for r, _ in go_pages.items()})
+    # PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001. A market PACKAGE owns its hotel,
+    # corridor, category and comparison routes. The home page and the editorial
+    # pages are GLOBAL: one production site has one of each, and they are
+    # contributed by the site assembly, not by whichever market happens to build
+    # last. For a non-production market they are therefore emitted for local
+    # review but excluded from the package's own surface -- the global home page
+    # is the approved Columbus design and legitimately links to directories that
+    # a hotels-only market does not build.
+    _global_pages = ("index.html", "about/index.html", "contact/index.html")
+    _package_only = market.market_id != PRODUCTION_MARKET_ID
+    broken = _check_internal_links(
+        out_dir, set(all_sitemap_routes) | {r for r, _ in go_pages.items()},
+        skip_pages=_global_pages if _package_only else ())
     (out_dir / "_broken_link_report.json").write_text(
         json.dumps({"broken_links": broken}, indent=2), encoding="utf-8", newline="\n")
 
@@ -517,7 +595,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     print("  park/restaurant profiles enriched: %d" % (len(park_rows) + len(restaurant_rows)))
     print("  /go/ pages: %d" % len(go_pages))
     print("  corridor pages: %s" % corridor_routes)
-    print("  comparison page: /pet-friendly-hotels/policy-comparison/")
+    print("  comparison page: %s" % _cmp_route)
     print("  warnings: %d" % len(warnings))
     print("  broken internal links: %d" % len(broken))
     print("  quality gate failures: %d" % len(quality_report.get("failures", [])))
@@ -525,10 +603,21 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     return 0
 
 
-def _check_internal_links(out_dir: Path, known_routes: set) -> List[str]:
+def _check_internal_links(out_dir: Path, known_routes: set,
+                          skip_pages: Tuple[str, ...] = ()) -> List[str]:
+    """Report links that resolve to no file in this output.
+
+    ``skip_pages`` names GLOBAL pages that are not part of a market package's
+    owned surface. They are skipped as SOURCES only -- a broken link on an
+    owned page is still reported no matter where it points.
+    """
     broken = []
+    skip = {s.replace("/", "\\") for s in skip_pages} | set(skip_pages)
     href_re = re.compile(r'href="(/[^"]*)"')
     for html_path in out_dir.rglob("index.html"):
+        if str(html_path.relative_to(out_dir)).replace("\\", "/") in {
+                s.replace("\\", "/") for s in skip}:
+            continue
         text = html_path.read_text(encoding="utf-8")
         for href in href_re.findall(text):
             # A URL fragment (#anchor) points WITHIN a page, not to a separate

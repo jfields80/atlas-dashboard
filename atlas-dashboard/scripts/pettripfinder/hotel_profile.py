@@ -50,6 +50,13 @@ _HOME_SVG = ('<svg class="glyph" width="34" height="34" viewBox="0 0 24 24" fill
              '<path d="M3 21V9l9-5 9 5v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>')
 
 
+def _is_published_category(slug: str) -> bool:
+    """Whether the market being built publishes this directory."""
+    from scripts.pettripfinder.site_pages import is_published_category
+
+    return is_published_category(slug)
+
+
 def _e(s: str) -> str:
     return html.escape(s or "", quote=False)
 
@@ -1619,7 +1626,14 @@ def render_hotel_profile(vm: HotelProfileVM, *, css_href: str = "hotel_profile.c
         '<header class="fh-header"><div class="wrap">'
         '<a class="fh-brand" href="/">PetTripFinder<b> · Columbus</b></a>'
         '<button class="fh-menu" aria-expanded="false" aria-controls="sitenav">Menu</button>'
-        '<nav class="fh-nav" id="sitenav" aria-label="Main"><a href="/pet-friendly-hotels/">Hotels</a><a href="/pet-friendly-parks/">Parks</a><a href="/methodology/">How we verify</a></nav>'
+        # PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001. The Parks link is emitted only
+        # when this market actually publishes a parks directory; a hotels-only
+        # market linked 19 profiles at a page that does not exist. Columbus
+        # publishes parks, so its markup is unchanged.
+        '<nav class="fh-nav" id="sitenav" aria-label="Main"><a href="/pet-friendly-hotels/">Hotels</a>'
+        + ('<a href="/pet-friendly-parks/">Parks</a>'
+           if _is_published_category("pet-friendly-parks") else "")
+        + '<a href="/methodology/">How we verify</a></nav>'
         '</div></header>'
         '<div class="wrap"><nav class="fh-crumbs" aria-label="Breadcrumb"><ol>'
         '<li><a href="%s">Columbus</a></li><li><a href="/pet-friendly-hotels/">Pet-Friendly Hotels</a></li>'

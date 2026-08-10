@@ -90,6 +90,13 @@ _NOT_STATED = "Not stated by the official source"
 # Small shared HTML builders.
 # --------------------------------------------------------------------------- #
 
+def _comparison_href() -> str:
+    """This market's policy-comparison route."""
+    from scripts.pettripfinder.site_pages import comparison_href
+
+    return comparison_href()
+
+
 def _e(text: str) -> str:
     return html.escape(text or "", quote=False)
 
@@ -390,7 +397,10 @@ def render_hotel_category_toolbar(corridor_labels: List[str]) -> str:
     )
     return (
         '<div class="ptf-toolbar">'
-        '<p><a href="/pet-friendly-hotels/policy-comparison/">Compare fees, pet limits, '
+        # The comparison page's route follows the market's route_mode, so the
+        # link has to as well, or a market_prefixed market links at a file that
+        # only a legacy_unprefixed market writes.
+        '<p><a href="' + _comparison_href() + '">Compare fees, pet limits, '
         "and restrictions across every verified hotel &rarr;</a></p>"
         '<div class="ptf-filter-group" role="group" aria-label="Filter by area">'
         '<button type="button" class="ptf-filter-btn ptf-filter-btn--active" data-ptf-filter="">All areas</button>'
