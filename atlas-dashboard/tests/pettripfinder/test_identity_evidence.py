@@ -182,7 +182,10 @@ class TestColumbusUnchanged:
         # more once their denials could be cited. They are exclusions, not
         # publications -- which is exactly what this test is here to keep true
         # of them.
-        assert len(load_exclusions()) == 16
+        # Scoped by market: the file carries Cleveland's 8 as well now, and
+        # "Columbus unchanged" means Columbus's slice is unchanged.
+        assert len([e for e in load_exclusions()
+                    if e.get("market_id") == "columbus-oh"]) == 16
         assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd"]
 
     def test_a_blocked_columbus_hold_can_be_identity_confirmed_without_a_policy(self):

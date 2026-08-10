@@ -43,6 +43,12 @@ from scripts.pettripfinder.listing_dataset_builder import (
 )
 from scripts.pettripfinder.publication_guard import distinct_entity_groups
 
+def _owned(rows, market_id):
+    """Rows a market owns. The seed is multi-market now, so a test that
+    means "Columbus's inventory" has to say so."""
+    return [r for r in rows if r.get("market_id") == market_id]
+
+
 _SEED_CSV = pathlib.Path(LAUNCH_PACKAGE_DIR) / "seed_businesses.csv"
 
 # Named here as an *expected outcome* to assert against -- never as filter input.
@@ -187,8 +193,11 @@ class TestRealSeedBoundary:
         )
         assert result.ok
         assert result.errors == ()
-        assert len(package["seed_businesses"]) == 116
-        assert len(result.dataset.listings) == 116
+        # Multi-market since Cleveland landed: the seed holds every market's
+        # rows, and the boundary applies to all of them. What must hold is that
+        # every seeded row converts and none is filtered as pending.
+        assert len(package["seed_businesses"]) == len(result.dataset.listings)
+        assert len(_owned(package["seed_businesses"], "columbus-oh")) == 116
         assert result.excluded_pending_count == 0
 
     def test_every_exclusion_names_a_pending_hotel_and_its_reason(self, package):
@@ -214,7 +223,9 @@ class TestRealSeedBoundary:
         fail here rather than quietly disappearing from the public site."""
         hotels = [r for r in package["seed_businesses"]
                   if r.get("category") == "pet-friendly-hotels"]
-        assert len(hotels) == 89
+        assert len([r for r in _owned(hotels, "columbus-oh")]) == 89
+        # Every hotel row in EVERY market must carry evidence -- a market that
+        # seeded rows without it would silently publish nothing.
         assert [r["name"] for r in hotels
                 if not str(r.get(EVIDENCE_FIELD, "")).strip()] == []
 
@@ -257,8 +268,9 @@ class TestRealSeedBoundary:
         All 33 hotel rows, pending included, stay in the one seed file."""
         with _SEED_CSV.open("r", encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
-        assert len(rows) == 116
-        hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
+        columbus = _owned(rows, "columbus-oh")
+        assert len(columbus) == 116
+        hotels = [r for r in columbus if r["category"] == "pet-friendly-hotels"]
         assert len(hotels) == 89
         present = {r["name"] for r in hotels}
         assert _PENDING_NAMES <= present

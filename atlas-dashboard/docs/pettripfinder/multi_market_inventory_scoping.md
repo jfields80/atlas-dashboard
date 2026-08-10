@@ -65,7 +65,49 @@ Manifests are written **outside** the generated site directory.
 `build_market_manifest.py` refuses `--output` inside `--site`, because a
 manifest placed in the bundle changes the bundle it describes.
 
-## Cleveland integration (after this work order)
+## Cleveland integration — DONE (PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001)
+
+Cleveland is integrated as a source package. **It is not deployed and is not
+freeze-ready.** Final state: 188 confirmed / 19 published / 8 verified-no-pets
+/ 27 resolved / 161 unresolved.
+
+What the integration needed beyond the ownership contract, all of it
+generalisation rather than duplication:
+
+* **per-market policy facts** — `hotel_policy_facts_<market_id>.json`, with
+  Columbus keeping the original path so its authority file is untouched
+* **per-market launch bar** — the pilot config's 30-listings/10-per-category
+  bar encodes a three-category consumer product; a hotels-only regional market
+  fails it for lacking parks, which is not a finding about its hotels. Non-
+  Columbus markets use their own committed `minimum_published_hotels` applied
+  to the categories they actually carry.
+* **category scoping** — a market plans routes only for categories it carries,
+  or it ships an empty directory page (which fails component compilation, and
+  should)
+* **market-aware labels and links** — the approved hotel-profile renderer
+  hard-coded "Columbus" in its brand lockup, footer, tagline, title and meta
+  description, and the nav hard-coded all three categories. Unset, Cleveland
+  pages announced themselves as *PetTripFinder Columbus*.
+* **route_mode honoured for the comparison page** — Cleveland is
+  `market_prefixed`; the page was being written to a hard-coded unprefixed
+  path while every link pointed at the prefixed one.
+* **explicit exclusion ownership** — `market_id` is now required on every
+  exclusion record. Defaulting an unowned record to the market being asked
+  counted Columbus's 14 no-pets as Cleveland's and reported 22 for a market
+  with 8.
+
+### Known limitation, not fixed here
+
+`hotel_profile` renders a FIXED sentence for any record carrying `fee_tiers`:
+"Tiered by stay length; the source does not state a per-night or per-stay
+basis." It never reads `basis_stated`/`stated_basis`. Holiday Inn Express
+Westlake's page *does* say "Per stay", and Columbus's Hyatt House OSU record
+has the same shape, so the page understates what the source states — in both
+markets, today. Correcting the renderer necessarily changes Columbus's bytes
+and therefore needs its own work order and its own zero-drift decision. The
+authority is recorded truthfully in the meantime.
+
+## Cleveland integration (original plan, retained for provenance)
 
 Cleveland's evidence is already captured and preserved; **none of it needs
 recapturing**. The proposed package lives at

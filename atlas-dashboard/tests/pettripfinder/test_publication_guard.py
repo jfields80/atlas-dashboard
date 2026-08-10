@@ -247,7 +247,12 @@ class TestGenerationDefenceInDepth:
         resolution is what lets that read succeed."""
         from scripts.generate_pettripfinder_pilot import load_launch_package
 
-        assert len(load_launch_package()["seed_businesses"]) == 116
+        rows = load_launch_package()["seed_businesses"]
+        # The shared loader reads the WHOLE seed, every market, and the guard
+        # runs over all of it -- which is the point: a cross-market address
+        # collision has to be caught here, not after a package is built.
+        assert len([r for r in rows if r.get("market_id") == "columbus-oh"]) == 116
+        assert len(rows) > 116
 
 
 # --------------------------------------------------------------------------- #

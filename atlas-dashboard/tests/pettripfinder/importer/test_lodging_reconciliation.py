@@ -218,8 +218,14 @@ def test_real_production_baseline_matches_live_csv(result):
     # is re-runnable and must always reflect current production truth.
     import csv
     from scripts.pettripfinder.lodging_reconciliation_cli import PRODUCTION_CSV
+    from scripts.pettripfinder.lodging_reconciliation_cli import MARKET_ID
     with PRODUCTION_CSV.open(encoding="utf-8") as f:
-        live = sum(1 for r in csv.DictReader(f) if r["category"] == "pet-friendly-hotels")
+        # Scoped to the market this reconciliation belongs to. The seed is
+        # multi-market, and counting every market's hotels would compare a
+        # Columbus reconciliation against Cleveland's rows too.
+        live = sum(1 for r in csv.DictReader(f)
+                   if r["category"] == "pet-friendly-hotels"
+                   and r.get("market_id") == MARKET_ID)
     assert result["report"]["production_pet_friendly"] == live
 
 

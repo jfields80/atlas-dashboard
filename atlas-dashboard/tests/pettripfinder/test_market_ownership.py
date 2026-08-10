@@ -140,7 +140,8 @@ class TestOwnershipIsNotCorridorMembership:
 @pytest.fixture(scope="module")
 def live():
     rows = read_production_rows()
-    hotels = [r for r in rows if r.get("category") == "pet-friendly-hotels"]
+    hotels = [r for r in owned_by(rows, COLUMBUS)
+              if r.get("category") == "pet-friendly-hotels"]
     verified = verified_public_hotels(hotels, load_published_hotel_policy_facts())
     market = market_by_id(load_markets(), COLUMBUS)
     return {"rows": rows, "hotels": hotels, "verified": verified, "market": market,
@@ -150,16 +151,23 @@ def live():
 class TestColumbusPreservation:
 
     def test_every_inventory_row_has_valid_ownership(self, live):
+        """Inventory is multi-market since Cleveland landed; what must hold is
+        that EVERY row states a registered owner, not that one market owns
+        them all."""
         owner = validate_ownership(live["rows"], context="live inventory")
-        assert set(owner.values()) == {COLUMBUS}
+        assert set(owner.values()) <= registered_market_ids()
+        assert COLUMBUS in set(owner.values())
 
     def test_all_88_published_hotels_belong_to_columbus(self, live):
         assert len(live["verified"]) == 88
         assert all(ownership_of(r) == COLUMBUS for r in live["verified"])
 
     def test_the_columbus_package_selects_exactly_the_owned_rows(self, live):
+        """116 Columbus rows out of a seed that now also holds Cleveland's."""
         selected = owned_by(live["rows"], COLUMBUS)
-        assert len(selected) == len(live["rows"]) == 116
+        assert len(selected) == 116
+        assert len(selected) < len(live["rows"])
+        assert all(ownership_of(r) == COLUMBUS for r in selected)
 
     def test_route_count_remains_88(self, live):
         selected = [r for r in owned_by(live["rows"], COLUMBUS)
@@ -168,13 +176,18 @@ class TestColumbusPreservation:
             selected, load_published_hotel_policy_facts())) == 88
 
     def test_the_14_verified_no_pets_retain_their_status(self):
+        """Scoped by market. The file now also carries Cleveland's 8, and
+        counting the file would report every market's negative evidence as
+        this one's."""
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         no_pets = [e for e in load_exclusions()
-                   if e.get("exclusion_state") == "VERIFIED_NO_PETS"]
+                   if e.get("market_id") == COLUMBUS
+                   and e.get("exclusion_state") == "VERIFIED_NO_PETS"]
         assert len(no_pets) == 14
-        # The file also holds 2 OUT_OF_CURRENT_CATEGORY rows; counting the file
-        # would report 16 and overstate negative evidence by two properties.
-        assert len(load_exclusions()) == 16
+        # Columbus also holds 2 OUT_OF_CURRENT_CATEGORY rows; counting its
+        # slice of the file would report 16 and overstate negative evidence.
+        assert len([e for e in load_exclusions()
+                    if e.get("market_id") == COLUMBUS]) == 16
 
     def test_the_corridor_unassigned_published_hotels_remain(self, live):
         """MEASURED = 12. The work order says 16; that figure was never

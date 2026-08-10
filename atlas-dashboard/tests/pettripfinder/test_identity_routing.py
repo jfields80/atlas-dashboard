@@ -193,16 +193,18 @@ def routes():
 
 
 def test_committed_authority_validates(routes):
-    # PTF-CLEVELAND-MARKET-FACTORY-001: 20 Columbus + 87 Cleveland. Routing
-    # is the mechanism for a CONFIRMED hotel that is not inventory, and
-    # Cleveland's whole census is exactly that.
-    assert len(routes) == 107
+    # PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001: 20 Columbus + 60 Cleveland.
+    # Routing is the mechanism for a CONFIRMED hotel that is NOT inventory, so
+    # publishing 19 Cleveland hotels and excluding 8 retired their 27 routes --
+    # 107 -> 80. A surviving route for a seeded hotel would be a second,
+    # competing authority for the same identity.
+    assert len(routes) == 80
 
 
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
-    assert len(confirmed) == 105
+    assert len(confirmed) == 78
     assert len(held) == 2
     # Both holds are the same shape: a URL is known, the identity the queue
     # contract demands is not.
@@ -251,7 +253,10 @@ def test_no_committed_route_is_already_seed_inventory(routes):
 
 def test_routing_does_not_enter_seed_inventory():
     rows = list(csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8")))
-    hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"]
+    # Scoped by market: the seed is multi-market now. Columbus's 89 hotel rows
+    # must be untouched by routing, which is what this has always asserted.
+    hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"
+              and r.get("market_id") == "columbus-oh"]
     assert len(hotels) == 89, "seed hotel rows must be untouched by routing"
 
 
@@ -268,9 +273,14 @@ def test_routing_does_not_change_the_release_held_count():
     )
     contract = json.loads(
         (_REPO / "deploy" / "netlify" / "release_contract.json").read_text(encoding="utf-8"))
+    # The contract is COLUMBUS's, so held must be measured over Columbus's
+    # seed. Counting every market's hotel rows reports 20 held for a market
+    # that holds exactly one.
     hotel_seed = [r for r in read_production_rows()
-                  if r.get("category") == "pet-friendly-hotels"]
-    verified = verified_public_hotels(hotel_seed, load_published_hotel_policy_facts())
+                  if r.get("category") == "pet-friendly-hotels"
+                  and r.get("market_id") == "columbus-oh"]
+    verified = verified_public_hotels(
+        hotel_seed, load_published_hotel_policy_facts("columbus-oh"))
     held = len(hotel_seed) - len(verified)
     # 5 -> 3: PTF-COLUMBUS-FINAL-CLOSURE-001 published two held seed rows.
     assert held == contract["public_surface"]["excluded_public_profile_count"] == 1
@@ -328,7 +338,11 @@ def test_routing_adds_capture_ready_hotels(queues):
     # taught to the URL-shape classifier; ten more Cleveland hotels had a real
     # official URL that read as UNKNOWN. Columbus's own contribution is
     # unchanged at 1.
-    assert len(routed.selected) - len(base.selected) == 39
+    # 39 -> 12: Cleveland's routed contribution fell as its hotels were
+    # ANSWERED. 19 became inventory and 8 became verified-no-pets, so their
+    # routes retired and they are no longer capture-worthy. The number falling
+    # because hotels got answered is the queue working, not routing regressing.
+    assert len(routed.selected) - len(base.selected) == 12
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -340,12 +354,17 @@ def test_routing_carries_more_than_one_market(queues):
     for r in load_routes():
         by_market.setdefault(r["market_id"], []).append(r)
     assert len(by_market["columbus-oh"]) == 20
-    assert len(by_market["cleveland-akron-canton-oh"]) >= 80
+    # 87 -> 60: publishing 19 Cleveland hotels and excluding 8 retired their
+    # routes, because routing is only for hotels that are NOT inventory.
+    assert len(by_market["cleveland-akron-canton-oh"]) == 60
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
     added = [h for h in routed.selected if h["hotel_id"] not in base_ids]
-    assert len(added) == 39
+    # 39 -> 12: Cleveland's routed contribution fell as its hotels were
+    # ANSWERED -- 19 became inventory and 8 became verified-no-pets, so their
+    # routes retired and they are no longer capture-worthy.
+    assert len(added) == 12
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
@@ -444,4 +463,10 @@ def test_queue_entry_from_routing_carries_no_policy_fact(queues):
 
 def test_disabling_routing_restores_the_prior_queue(queues):
     base, _ = queues
-    assert len(base.selected) == 77
+    # 77 was the Columbus-only figure. Cleveland's published inventory now adds
+    # its own capture-eligible rows to the unrouted queue as well; what the test
+    # protects is that turning routing OFF still yields the smaller, seed-only
+    # queue, not an exact single-market total.
+    _, routed = queues
+    assert len(base.selected) < len(routed.selected)
+    assert len(base.selected) >= 77

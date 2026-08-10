@@ -144,6 +144,9 @@ class TestNothingElseMoved:
         20. If the scoping change had broken anything, it would show here."""
         from scripts.pettripfinder.identity_routing import load_routes
         routes = load_routes()
-        assert len(routes) >= 107
+        # 107 -> 80: PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001 retired the 27
+        # routes whose hotels became Cleveland inventory or exclusions. Routing
+        # is only ever for a CONFIRMED hotel that is NOT inventory.
+        assert len(routes) == 80
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh"} <= markets

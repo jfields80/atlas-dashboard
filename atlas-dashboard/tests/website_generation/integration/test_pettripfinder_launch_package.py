@@ -1,4 +1,11 @@
-"""PILOT-PTF-1 real-launch-package proof (updated AES-WEB-002N.1).
+"""PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001: the launch package is MULTI-MARKET.
+These totals are therefore every market's rows -- 135 listings, 108 of them
+hotels -- which is exactly what the shared loader and the WGE conversion see.
+Per-market selection is asserted in tests/pettripfinder/test_market_ownership.py
+and test_cleveland_authority.py; what this module protects is that every seeded
+row in every market converts to a valid, unique, non-default listing.
+
+PILOT-PTF-1 real-launch-package proof (updated AES-WEB-002N.1).
 
 Uses the actual ``launch_packages/pettripfinder/`` files (not the
 dedicated 12-listing acceptance fixture) to prove the converter and
@@ -50,7 +57,7 @@ def _load(name: str):
 class TestRealSeedFilesParse:
     def test_seed_businesses_csv_parses(self):
         seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
-        assert len(seed) == 116
+        assert len(seed) == 135          # 116 columbus-oh + 19 cleveland-akron-canton-oh
         for row in seed:
             # Identity columns are required of every row, pending or not.
             for field in ("name", "category", "city", "state", "address",
@@ -65,7 +72,7 @@ class TestRealSeedFilesParse:
         pending = [r for r in seed if not str(r.get("pet_policy", "")).strip()]
         assert len(pending) == 0
         assert all(r["category"] == "pet-friendly-hotels" for r in pending)
-        assert len(seed) - len(pending) == 116
+        assert len(seed) - len(pending) == 135
 
     def test_stale_seed_json_removed(self):
         # The JSON seed was removed with the CSV promotion -- one authority.
@@ -119,7 +126,7 @@ class TestRealPackageConversion:
     def test_every_seed_row_becomes_a_unique_valid_listing(self):
         result = self._build()
         assert result.ok
-        assert len(result.dataset.listings) == 116
+        assert len(result.dataset.listings) == 135
 
     def test_no_duplicated_locality_in_street_address(self):
         # AES-WEB-002K.2 address-duplication fix: no seed row's street
@@ -163,7 +170,7 @@ class TestRealPackageConversion:
         for listing in result.dataset.listings:
             assert "example.com" not in listing.provenance.source_url, listing.business_name
             counts[listing.category_id] = counts.get(listing.category_id, 0) + 1
-        assert counts[ids_by_slug["pet-friendly-hotels"]] == 89
+        assert counts[ids_by_slug["pet-friendly-hotels"]] == 108   # 89 columbus + 19 cleveland
         assert counts[ids_by_slug["pet-friendly-parks"]] == 14
         assert counts[ids_by_slug["pet-friendly-restaurants"]] == 13
         assert "Drury Inn & Suites Columbus Polaris" in by_name
@@ -199,12 +206,12 @@ class TestRealPackageReadiness:
         readiness = self._readiness()
         # Pending-evidence rows are excluded at the boundary, so everything that
         # reaches readiness is still READY -- NOT_READY must stay 0.
-        assert readiness["total_unique_listings"] == 116
-        assert readiness["counts_by_state"]["READY"] == 116
+        assert readiness["total_unique_listings"] == 135
+        assert readiness["counts_by_state"]["READY"] == 135
         assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
         assert readiness["counts_by_state"]["NOT_READY"] == 0
-        assert readiness["ready_total"] == 116
-        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 89
+        assert readiness["ready_total"] == 135
+        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 108
         assert readiness["ready_by_category"]["pet-friendly-parks"] == 14
         assert readiness["ready_by_category"]["pet-friendly-restaurants"] == 13
         assert readiness["categories_below_target"] == []
@@ -218,4 +225,4 @@ class TestRealPackageReadiness:
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 116
+        assert len(package["seed_businesses"]) == 135

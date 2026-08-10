@@ -218,13 +218,20 @@ class TestClevelandCompatibilityWithoutIntegration:
     def test_that_same_row_is_selected_by_a_cleveland_package(self):
         from scripts.pettripfinder.site_data import read_production_rows
 
-        contaminated = read_production_rows() + [
+        live = read_production_rows()
+        before = len(owned_by(live, CLEVELAND))
+        contaminated = live + [
             hotel("Cleveland Beachwood Marriott", CLEVELAND, "Beachwood")]
         selected = owned_by(contaminated, CLEVELAND)
-        assert [r["name"] for r in selected] == ["Cleveland Beachwood Marriott"]
+        assert len(selected) == before + 1
+        assert "Cleveland Beachwood Marriott" in [r["name"] for r in selected]
 
-    def test_live_inventory_carries_no_cleveland_rows_today(self):
-        """Cleveland stays PROPOSED until its own work order."""
+    def test_live_inventory_now_carries_cleveland_rows(self):
+        """Superseded by PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001: Cleveland is
+        integrated as a source package. What still matters is that its rows are
+        owned and disjoint from Columbus's."""
         from scripts.pettripfinder.site_data import read_production_rows
 
-        assert owned_by(read_production_rows(), CLEVELAND) == []
+        cle = owned_by(read_production_rows(), CLEVELAND)
+        assert len(cle) == 19
+        assert all(r[MARKET_ID_FIELD] == CLEVELAND for r in cle)

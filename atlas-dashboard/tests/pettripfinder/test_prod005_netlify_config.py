@@ -162,8 +162,13 @@ class TestReleaseContract:
         excluded = contract["public_surface"]["excluded_public_profile_count"]
         pkg = json.loads((REPO_ROOT / contract["policy_package"]["path"])
                          .read_text(encoding="utf-8-sig"))
+        # The release contract is COLUMBUS's, so its split must be measured
+        # against Columbus's inventory. Counting every market's hotel rows made
+        # the contract look wrong (89 vs 108) the moment Cleveland landed, when
+        # what had actually happened is that the seed stopped being one market.
         seed_hotel_rows = sum(1 for r in read_production_rows()
-                              if r.get("category") == "pet-friendly-hotels")
+                              if r.get("category") == "pet-friendly-hotels"
+                              and r.get("market_id") == "columbus-oh")
         assert published == len(pkg["hotels"]) == EXPECTED_RECORD_COUNT
         assert published + excluded == seed_hotel_rows
         assert excluded == seed_hotel_rows - published
