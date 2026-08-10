@@ -94,26 +94,6 @@ def comparison_href() -> str:
     return COMPARISON_ROUTE
 
 
-_NAV = (
-    '<header><nav aria-label="Main" class="ac-nav ac-nav--header-standard ac-nav--standard">'
-    "<ul><li><a href=\"/\">PetTripFinder</a></li>"
-    '<li><a href="/pet-friendly-hotels/">Pet-Friendly Hotels</a></li>'
-    '<li><a href="/pet-friendly-parks/">Pet-Friendly Parks</a></li>'
-    '<li><a href="/pet-friendly-restaurants/">Pet-Friendly Restaurants</a></li>'
-    "</ul></nav></header>"
-)
-_FOOTER = (
-    "<footer><div class=\"ac-legal ac-legal--footer-directory ac-legal--standard\">"
-    "<p>(c) 2026 PetTripFinder. All rights reserved.</p>"
-    "<p>Some listings are sponsored placements or contain affiliate links, always clearly "
-    "labeled. Pet policies may change; confirm directly with the business before you travel.</p>"
-    "<ul><li><a href=\"/\">PetTripFinder</a></li><li><a href=\"/about/\">About PetTripFinder</a></li>"
-    "<li><a href=\"/contact/\">Contact Us</a></li><li><a href=\"/methodology/\">Our Methodology</a></li>"
-    "<li><a href=\"/pet-friendly-hotels/\">Pet-Friendly Hotels</a></li>"
-    "<li><a href=\"/pet-friendly-parks/\">Pet-Friendly Parks</a></li>"
-    "<li><a href=\"/pet-friendly-restaurants/\">Pet-Friendly Restaurants</a></li></ul>"
-    "</div></footer>"
-)
 
 
 def _e(text: str) -> str:
