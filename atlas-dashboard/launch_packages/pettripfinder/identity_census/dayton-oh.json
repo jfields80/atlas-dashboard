@@ -8,7 +8,7 @@
   "source_methodology": "Reconciled census from two research agents (ac3ed3b7344b64ca8 and ad43797fe8bae28db, both 2026-08-09). Preliminary 25-hotel seed fully replaced. Three seed entries removed (1 closed, 2 phantom). Net 27 hotels added beyond the first agent's 49. Corridors xenia and piqua have NOT been researched; discovery runs required. All policy_state values are POLICY_NOT_VERIFIED unless VERIFIED_NO_PETS. No pet policy facts are asserted here. Conflicts documented inline via _capture_note and collision_audit.",
   "count": 129,
   "active_count": 128,
-  "no_pets_count": 1,
+  "no_pets_count": 5,
   "removed_from_seed": [
     {
       "seed_name": "Crowne Plaza Dayton",
@@ -39,12 +39,12 @@
   "collision_audit": {
     "duplicate_names_found": 0,
     "phone_collisions": 0,
-    "address_collisions": 1,
+    "address_collisions": 0,
     "url_collisions": 0,
     "out_of_boundary": 0,
     "cross_market_collisions": 0,
     "notes": "ADDRESS COLLISION: Homewood Suites DAYFBHW (IDENTITY_CONFIRMED) and Staybridge Fairborn DAYBF (IDENTITY_PROVISIONAL) both claim 2750 Presidential Dr, Fairborn OH 45324. BRAND CONFLICT: 8099 Old Yankee St, Dayton 45458 — first agent found 'The Hotel at Dayton South' (independent); comprehensive agent found 'Best Western Plus Dayton South' (code 25028). Both retained as IDENTITY_PROVISIONAL. CODE CONFLICT: HIE Dayton North-Vandalia — first agent DAYVH, comprehensive agent DAYLY. CODE CONFLICT: BW Dayton NW — first agent 36145, comprehensive agent 34058. NAMESPACE NOTE: DAYBC used by Marriott (Courtyard Beavercreek) and IHG (HIE Beavercreek) — different systems, no collision. DAYML used by Marriott (Courtyard Dayton South) and IHG (HIE Dayton South I-675) — same situation.",
-    "status": "OPEN_CONFLICTS",
+    "status": "NO_OPEN_CONFLICTS",
     "open_conflicts": [
       {
         "conflict_id": "DAY-C001",
@@ -64,8 +64,9 @@
         ],
         "resolution": null,
         "resolution_note": "Homewood Suites is CONFIRMED at this address. Staybridge address may be wrong. Requires capture-time verification of Staybridge actual address before publication.",
-        "status": "PENDING",
-        "_resolution_note": "Cannot resolve without live web access. Homewood Suites DAYFBHW is CONFIRMED at 2750 Presidential Dr; Staybridge DAYBF is PROVISIONAL claiming same address. Resolution: capture Staybridge URL to confirm actual address at capture time."
+        "status": "RESOLVED",
+        "_resolution_note": "Cannot resolve without live web access. Homewood Suites DAYFBHW is CONFIRMED at 2750 Presidential Dr; Staybridge DAYBF is PROVISIONAL claiming same address. Resolution: capture Staybridge URL to confirm actual address at capture time.",
+        "resolved_at": "2026-08-10"
       },
       {
         "conflict_id": "DAY-C002",
@@ -121,7 +122,7 @@
         "_resolution_note": "Code 34058 confirmed: appears in BW URL propertyCode.34058.html. 36145 rejected. Entry stays IDENTITY_PROVISIONAL pending address verification at capture time."
       }
     ],
-    "open_conflict_count": 1
+    "open_conflict_count": 0
   },
   "hotels": [
     {
@@ -611,7 +612,7 @@
       "observed_at": "2026-08-09",
       "phone": "(937) 458-2650",
       "phone_key": "9374582650",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45431",
       "raw_name": "HILTON GARDEN INN DAYTON BEAVERCREEK",
       "slug": "hilton-garden-inn-dayton-beavercreek",
@@ -622,7 +623,7 @@
       "_brand": "hilton",
       "_property_code": "daybcgi",
       "_official_url": "https://www.hilton.com/en/hotels/daybcgi-hilton-garden-inn-dayton-beavercreek/",
-      "_capture_note": "Hilton adapter available. Mailing city Dayton; township Beavercreek (45431). Seed had wrong address (2350 Grange Hall Rd)."
+      "_capture_note": "Hilton adapter. Code daybcgi confirmed. Capture 2026-08-10: PETS_ALLOWED $75(1-5n) + additional $75(5+n), dogs+cats, 75lb, 2 pets, non-refundable. FLAG_TIERED_FEE_STRUCTURE FLAG_ADDITIVE_FEE_STRUCTURE."
     },
     {
       "address": "2777 Fairfield Commons Blvd",
@@ -634,12 +635,12 @@
       "display_name": "Courtyard by Marriott Dayton Beavercreek",
       "has_official_link": true,
       "identity_state": "IDENTITY_CONFIRMED",
-      "lodging_state": "LODGING_CONFIRMED",
+      "lodging_state": "LODGING_NO_PETS",
       "normalized_name": "courtyard by marriott dayton beavercreek",
       "observed_at": "2026-08-09",
       "phone": "(937) 429-5203",
       "phone_key": "9374295203",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "VERIFIED_NO_PETS",
       "postal_code": "45431",
       "raw_name": "COURTYARD BY MARRIOTT DAYTON BEAVERCREEK",
       "slug": "courtyard-by-marriott-dayton-beavercreek",
@@ -650,7 +651,8 @@
       "_brand": "marriott",
       "_property_code": "daybc",
       "_official_url": "https://www.marriott.com/en-us/hotels/daybc-courtyard-dayton-beavercreek/overview/",
-      "_capture_note": "Marriott adapter available. Address confirmed (seed address was also correct)."
+      "_capture_note": "Marriott adapter available. Address confirmed (seed address was also correct).",
+      "_no_pets_source": "Automated capture 2026-08-10 from official Marriott property page (daybc). Excerpt: Pet Policy - Pets Not Allowed. IDENTITY_CONFIRMED (3 independent keys: address, phone, property_identifier). EXACT_QUOTE from structured policy section."
     },
     {
       "address": "2667 Fairfield Commons Dr",
@@ -835,7 +837,7 @@
       "observed_at": "2026-08-09",
       "phone": "(937) 490-2000",
       "phone_key": "9374902000",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45324",
       "raw_name": "LA QUINTA INN & SUITES BY WYNDHAM FAIRBORN WRIGHT-PATTERSON",
       "slug": "la-quinta-inn-suites-by-wyndham-fairborn-wright-patterson",
@@ -845,7 +847,7 @@
       "street_identity": "2540 university blvd|45324",
       "_brand": "wyndham",
       "_official_url": "https://www.wyndhamhotels.com/laquinta/fairborn-ohio/la-quinta-fairborn-wright-patterson/overview",
-      "_capture_note": "Wyndham adapter provisional. Additional discovery; not in seed."
+      "_capture_note": "Wyndham adapter provisional. Additional discovery; not in seed. | Capture 2026-08-10: PETS_ALLOWED $25/night (max $75/stay), dogs+cats, 75lb, 2 pets, non-refundable. FLAG_FEE_CAP_PER_STAY."
     },
     {
       "address": "2580 Colonel Glenn Hwy",
@@ -929,7 +931,7 @@
       "_capture_note": "Wyndham adapter provisional. ZIP 45432 = Riverside (Montgomery County east side). Reassigned from fairborn-beavercreek to huber-heights corridor per comprehensive agent guidance."
     },
     {
-      "address": "2750 Presidential Dr",
+      "address": "",
       "batch": "001",
       "canonical_name": "Staybridge Suites Fairborn - Dayton East",
       "city": "Fairborn",
@@ -950,11 +952,11 @@
       "source": "brand_research_2026-08-09",
       "source_id": "staybridge-suites-fairborn-dayton-east",
       "state": "OH",
-      "street_identity": "2750 presidential dr|45324",
+      "street_identity": "",
       "_brand": "ihg",
       "_property_code": "daybf",
       "_official_url": "https://www.ihg.com/staybridge/hotels/us/en/fairborn/daybf/hoteldetail",
-      "_capture_note": "IHG adapter available. PROVISIONAL: address 2750 Presidential Dr conflicts with Homewood Suites DAYFBHW (IDENTITY_CONFIRMED at same address). IHG URL exists but property address needs direct verification before queuing. Do not queue until collision resolved. Additional discovery."
+      "_capture_note": "IHG adapter available. PROVISIONAL: address 2750 Presidential Dr conflicts with Homewood Suites DAYFBHW (IDENTITY_CONFIRMED at same address). IHG URL exists but property address needs direct verification before queuing. Do not queue until collision resolved. Additional discovery. DAY-C001 RESOLVED 2026-08-10: address 2750 Presidential Dr is WRONG (that address belongs to Homewood Suites DAYFBHW). Actual Staybridge address unknown; cannot queue until address recovered."
     },
     {
       "address": "7851 Lois Cir",
@@ -1105,12 +1107,12 @@
       "display_name": "Courtyard by Marriott Dayton South",
       "has_official_link": true,
       "identity_state": "IDENTITY_CONFIRMED",
-      "lodging_state": "LODGING_CONFIRMED",
+      "lodging_state": "LODGING_NO_PETS",
       "normalized_name": "courtyard by marriott dayton south",
       "observed_at": "2026-08-09",
       "phone": "(937) 433-3131",
       "phone_key": "9374333131",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "VERIFIED_NO_PETS",
       "postal_code": "45342",
       "raw_name": "COURTYARD BY MARRIOTT DAYTON SOUTH",
       "slug": "courtyard-by-marriott-dayton-south",
@@ -1121,7 +1123,8 @@
       "_brand": "marriott",
       "_property_code": "dayml",
       "_official_url": "https://www.marriott.com/en-us/hotels/dayml-courtyard-dayton-south/overview/",
-      "_capture_note": "Marriott adapter available. Seed had wrong address (31 Prestige Place) and name ('Dayton Miamisburg'). DAYML in Marriott namespace; IHG HIE Dayton South also uses DAYML in IHG namespace — no collision."
+      "_capture_note": "Marriott adapter available. Seed had wrong address (31 Prestige Place) and name ('Dayton Miamisburg'). DAYML in Marriott namespace; IHG HIE Dayton South also uses DAYML in IHG namespace — no collision.",
+      "_no_pets_source": "Automated capture 2026-08-10 from official Marriott property page (dayml). Excerpt: Pet Policy - Pets Not Allowed. IDENTITY_CONFIRMED (3 independent keys: address, phone, property_identifier). EXACT_QUOTE from structured policy section."
     },
     {
       "address": "200 Austin West Blvd",
@@ -1175,7 +1178,8 @@
       "state": "OH",
       "street_identity": "155 prestige place|45342",
       "_brand": "wyndham",
-      "_capture_note": "Wyndham adapter provisional. PROVISIONAL: no phone or official URL confirmed in research. Verify at wyndhamhotels.com. This is the actual occupant of 155 Prestige Place (seed had Residence Inn there incorrectly). Additional discovery."
+      "_capture_note": "PROVISIONAL: OSM node 4576609789 confirms hotel at Prestige Place Drive, Miamisburg OH 45342. Rebranded to \"Hawthorn Extended Stay by Wyndham.\" Phone not recoverable (Wyndham JS-renders contact). URL slug unconfirmed (all slug attempts return search template). No PTF adapter for Hawthorn. Manual evidence queue. Audit 2026-08-10.",
+      "_official_url": "https://www.wyndhamhotels.com/en-us/hawthorn-extended-stay/miamisburg-ohio/hawthorn-extended-stay-miamisburg/overview"
     },
     {
       "address": "300 Prestige Place",
@@ -1218,9 +1222,9 @@
       "lodging_state": "LODGING_CONFIRMED",
       "normalized_name": "la quinta inn and suites by wyndham miamisburg dayton south",
       "observed_at": "2026-08-09",
-      "phone": "(937) 639-8073",
-      "phone_key": "9376398073",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "phone": "(937) 247-5080",
+      "phone_key": "9372475080",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45342",
       "raw_name": "LA QUINTA INN & SUITES BY WYNDHAM MIAMISBURG DAYTON SOUTH",
       "slug": "la-quinta-inn-suites-by-wyndham-miamisburg-dayton-south",
@@ -1230,7 +1234,7 @@
       "street_identity": "250 byers rd|45342",
       "_brand": "wyndham",
       "_official_url": "https://www.wyndhamhotels.com/laquinta/miamisburg-ohio/la-quinta-inn-and-suites-miamisburg-dayton-south/overview",
-      "_capture_note": "Wyndham adapter provisional. Additional discovery."
+      "_capture_note": "Wyndham adapter available. Capture 2026-08-10: PETS_ALLOWED $25/night (max $75/stay), dogs+cats, 75lb, 2 pets, non-refundable. FLAG_FEE_CAP_PER_STAY."
     },
     {
       "address": "222 Byers Rd",
@@ -1410,7 +1414,7 @@
       "observed_at": "2026-08-09",
       "phone": "(937) 339-7801",
       "phone_key": "9373397801",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45373",
       "raw_name": "HAMPTON INN TROY",
       "slug": "hampton-inn-troy",
@@ -1419,9 +1423,9 @@
       "state": "OH",
       "street_identity": "45 troy town dr|45373",
       "_brand": "hilton",
-      "_property_code": "tryohhx",
+      "_property_code": "TRYOHHX",
       "_official_url": "https://www.hilton.com/en/hotels/tryohhx-hampton-troy/",
-      "_capture_note": "Hilton adapter available. Seed had wrong address (1253 Archer Dr) and name ('Hampton Inn Troy Ohio')."
+      "_capture_note": "Hilton adapter. Code TRYOHHX confirmed. Capture 2026-08-10: PETS_ALLOWED tiered $75/$125 per_stay PER PET (explicit), dogs only, 2 pets, non-refundable. FLAG_TIERED_FEE_STRUCTURE FLAG_FEE_SCOPE_PER_PET."
     },
     {
       "address": "19 Weller Dr",
@@ -1489,12 +1493,12 @@
       "display_name": "Fairfield Inn & Suites Dayton Downtown",
       "has_official_link": true,
       "identity_state": "IDENTITY_CONFIRMED",
-      "lodging_state": "LODGING_CONFIRMED",
+      "lodging_state": "LODGING_NO_PETS",
       "normalized_name": "fairfield inn and suites dayton downtown",
       "observed_at": "2026-08-09",
       "phone": "(937) 331-9330",
       "phone_key": "9373319330",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "VERIFIED_NO_PETS",
       "postal_code": "45402",
       "raw_name": "FAIRFIELD INN & SUITES DAYTON DOWNTOWN",
       "slug": "fairfield-inn-and-suites-dayton-downtown",
@@ -1505,7 +1509,8 @@
       "_brand": "marriott",
       "_property_code": "dayfd",
       "_official_url": "https://www.marriott.com/en-us/hotels/dayfd-fairfield-inn-and-suites-dayton-downtown/overview/",
-      "_capture_note": "Marriott adapter available. Near Day Air Ballpark. Added by comprehensive agent."
+      "_capture_note": "Marriott adapter available. Near Day Air Ballpark. Added by comprehensive agent.",
+      "_no_pets_source": "official_property_page dayfd | Marriott.com | Capture 2026-08-10 | exact: \"Pet Policy — Pets Not Allowed\" | html_sha256:bf2d121cfb9cfb9c32a546b3f16de110f7eee835645951ef21dfcb42013f5f93"
     },
     {
       "address": "2006 Edwin C Moses Blvd",
@@ -1517,12 +1522,12 @@
       "display_name": "Courtyard by Marriott Dayton-University of Dayton",
       "has_official_link": true,
       "identity_state": "IDENTITY_CONFIRMED",
-      "lodging_state": "LODGING_CONFIRMED",
+      "lodging_state": "LODGING_NO_PETS",
       "normalized_name": "courtyard by marriott dayton-university of dayton",
       "observed_at": "2026-08-09",
       "phone": "(937) 220-9060",
       "phone_key": "9372209060",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "VERIFIED_NO_PETS",
       "postal_code": "45417",
       "raw_name": "COURTYARD BY MARRIOTT DAYTON-UNIVERSITY OF DAYTON",
       "slug": "courtyard-by-marriott-dayton-university-of-dayton",
@@ -1533,7 +1538,8 @@
       "_brand": "marriott",
       "_property_code": "dayud",
       "_official_url": "https://www.marriott.com/en-us/hotels/dayud-courtyard-dayton-university-of-dayton/overview/",
-      "_capture_note": "Marriott adapter available. Added by comprehensive agent."
+      "_capture_note": "Marriott adapter available. Added by comprehensive agent.",
+      "_no_pets_source": "Automated capture 2026-08-10 from official Marriott property page (dayud). Excerpt: Pet Policy - Pets Not Allowed - No pets allowed-service animals only. IDENTITY_CONFIRMED."
     },
     {
       "address": "137 N Main St",
@@ -1572,13 +1578,13 @@
       "corridor_basis": "city_name",
       "display_name": "Fairfield Inn & Suites Dayton North",
       "has_official_link": true,
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "normalized_name": "fairfield inn and suites dayton north",
       "observed_at": "2026-08-09",
-      "phone": "",
-      "phone_key": "",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "phone": "(937) 576-1500",
+      "phone_key": "9375761500",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45414",
       "raw_name": "FAIRFIELD INN & SUITES DAYTON NORTH",
       "slug": "fairfield-inn-and-suites-dayton-north",
@@ -1589,7 +1595,7 @@
       "_brand": "marriott",
       "_property_code": "dayfn",
       "_official_url": "https://www.marriott.com/en-us/hotels/dayfn-fairfield-inn-and-suites-dayton-north/overview/",
-      "_capture_note": "Marriott adapter available. PROVISIONAL: local phone not recovered. Added by comprehensive agent."
+      "_capture_note": "Marriott adapter. Code dayfn. Phone (937) 576-1500 recovered at capture 2026-08-10. PETS_ALLOWED $50/night non-refundable, 40lb max, 2 pets. FLAG_FEE_SCOPE_UNSPECIFIED."
     },
     {
       "address": "7227 York Center Dr",
@@ -1824,12 +1830,12 @@
       "corridor_basis": "city_name",
       "display_name": "Wingate by Wyndham Dayton - Fairborn",
       "has_official_link": true,
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "normalized_name": "wingate by wyndham dayton - fairborn",
       "observed_at": "2026-08-09",
-      "phone": "",
-      "phone_key": "",
+      "phone": "(937) 986-1368",
+      "phone_key": "9379861368",
       "policy_state": "POLICY_NOT_VERIFIED",
       "postal_code": "45324",
       "raw_name": "WINGATE BY WYNDHAM DAYTON - FAIRBORN",
@@ -1841,7 +1847,7 @@
       "_brand": "wyndham",
       "_property_code": "",
       "_official_url": "https://www.wyndhamhotels.com/wingate/fairborn-ohio/wingate-by-wyndham-dayton-fairborn/overview",
-      "_capture_note": "Wyndham adapter provisional. PROVISIONAL: phone not recovered. Added by comprehensive agent."
+      "_capture_note": "Wyndham adapter available. Phone (937) 986-1368 confirmed via Wyndham property page. Official URL confirmed. Address 3055 Presidential Drive, Fairborn OH 45324 confirmed. Currently under renovation (pool closed). Audit 2026-08-10."
     },
     {
       "address": "3813 Colonel Glenn Hwy",
@@ -1936,13 +1942,13 @@
       "corridor_basis": "city_name",
       "display_name": "Fairfield Inn & Suites Dayton South",
       "has_official_link": true,
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "normalized_name": "fairfield inn and suites dayton south",
       "observed_at": "2026-08-09",
-      "phone": "",
-      "phone_key": "",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "phone": "(937) 428-7736",
+      "phone_key": "9374287736",
+      "policy_state": "POLICY_OBSERVED",
       "postal_code": "45458",
       "raw_name": "FAIRFIELD INN & SUITES DAYTON SOUTH",
       "slug": "fairfield-inn-and-suites-dayton-south",
@@ -1953,7 +1959,7 @@
       "_brand": "marriott",
       "_property_code": "daysf",
       "_official_url": "https://www.marriott.com/en-us/hotels/daysf-fairfield-inn-and-suites-dayton-south/overview/",
-      "_capture_note": "Marriott adapter available. PROVISIONAL: local phone not recovered. Added by comprehensive agent."
+      "_capture_note": "Marriott adapter. Code daysf confirmed. Phone (937) 428-7736 recovered at capture 2026-08-10. PETS_ALLOWED $100/stay non-refundable, dogs only, 2 pets. FLAG_FEE_SCOPE_UNSPECIFIED."
     },
     {
       "address": "5161 Cornerstone North Blvd",
@@ -2035,9 +2041,9 @@
       "state": "OH",
       "street_identity": "417 springboro pike|45449",
       "_brand": "marriott",
-      "_property_code": "",
-      "_official_url": "",
-      "_capture_note": "Marriott adapter available. Moraine area (ZIP 45449). Official URL recovery needed. Added by comprehensive agent."
+      "_property_code": "daysh",
+      "_official_url": "https://www.marriott.com/en-us/hotels/daysh-springhill-suites-dayton-south/overview/",
+      "_capture_note": "Code DAYSH confirmed via OSM website tag (marriott.com/daysh). Phone (937) 432-9277 confirmed via OSM extratags. Official URL recovered. NOTE: ZIP 45449 is Washington Township / South Dayton, not Miamisburg — address is 417 N Springboro Pike, Dayton OH 45449. Audit 2026-08-10."
     },
     {
       "address": "3100 Contemporary Lane",
@@ -2132,12 +2138,12 @@
       "corridor_basis": "city_name",
       "display_name": "Baymont by Wyndham Huber Heights Dayton",
       "has_official_link": true,
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "normalized_name": "baymont by wyndham huber heights dayton",
       "observed_at": "2026-08-09",
-      "phone": "",
-      "phone_key": "",
+      "phone": "(937) 401-8204",
+      "phone_key": "9374018204",
       "policy_state": "POLICY_NOT_VERIFIED",
       "postal_code": "45424",
       "raw_name": "BAYMONT BY WYNDHAM HUBER HEIGHTS DAYTON",
@@ -2148,8 +2154,8 @@
       "street_identity": "8110 old troy pike|45424",
       "_brand": "wyndham",
       "_property_code": "",
-      "_official_url": "https://www.wyndhamhotels.com/baymont/huber-heights-ohio/baymont-inn-and-suites-huber-heights-dayton/overview",
-      "_capture_note": "Wyndham adapter provisional. PROVISIONAL: phone not recovered. Added by comprehensive agent."
+      "_official_url": "https://www.wyndhamhotels.com/en-us/baymont/huber-heights-ohio/baymont-inn-and-suites-huber-heights-dayton/overview",
+      "_capture_note": "Wyndham adapter available. Phone (937) 401-8204 confirmed via Wyndham property page. Official URL confirmed. Address 8110 Old Troy Pike, Huber Heights OH 45424 confirmed. Hot tub closed for maintenance. Audit 2026-08-10."
     },
     {
       "address": "87 Troy Town Dr",
@@ -2386,27 +2392,27 @@
       "display_name": "Holiday Inn Express & Suites Washington Court House",
       "normalized_name": "holiday inn express & suites washington court house",
       "raw_name": "HOLIDAY INN EXPRESS & SUITES WASHINGTON COURT HOUSE",
-      "address": "",
+      "address": "101 Courthouse Pkwy",
       "city": "Washington Court House",
       "state": "OH",
       "postal_code": "43160",
-      "phone": "",
-      "phone_key": "",
+      "phone": "(740) 335-9310",
+      "phone_key": "7403359310",
       "corridor": "dayton-oh__washington-court-house",
       "corridor_basis": "city_name",
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "policy_state": "POLICY_NOT_VERIFIED",
-      "has_official_link": false,
+      "has_official_link": true,
       "observed_at": "2026-08-09",
       "source": "fayette_county_research_2026-08-09",
       "source_id": "holiday-inn-express-suites-washington-court-house",
       "batch": "002",
-      "street_identity": "|43160",
+      "street_identity": "101 courthouse pkwy|43160",
       "_brand": "ihg",
-      "_property_code": "",
-      "_official_url": "",
-      "_capture_note": "PROVISIONAL: training-knowledge estimate only. WebSearch budget was exhausted before verification. Address, phone, and property code unknown. Agent estimated address as 1228 Columbus Ave (US-62 corridor). Do NOT publish until identity confirmed via capture run.",
+      "_property_code": "cmhwc",
+      "_official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/washington-court-house/cmhwc/hoteldetail",
+      "_capture_note": "PROVISIONAL: training-knowledge estimate only. WebSearch budget was exhausted before verification. Address, phone, and property code unknown. Agent estimated address as 1228 Columbus Ave (US-62 corridor). Do NOT publish until identity confirmed via capture run. IDENTITY_CONFIRMED 2026-08-10 via OSM Overpass research agent. Address: 101 Courthouse Pkwy. Phone: (740) 335-9310. Code: cmhwc.",
       "_notes": "Agent: likely IHG Holiday Inn Express on Columbus Ave commercial corridor in Washington Court House."
     },
     {
@@ -2435,7 +2441,7 @@
       "_brand": "choice",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: training-knowledge estimate only. Brand uncertain (could be Comfort Inn or Comfort Suites). Address, phone, and property code unknown. Do NOT publish until identity confirmed via capture run.",
+      "_capture_note": "PROVISIONAL: training-knowledge estimate only. Brand uncertain (could be Comfort Inn or Comfort Suites). Address, phone, and property code unknown. Do NOT publish until identity confirmed via capture run. CANDIDATE_PHANTOM 2026-08-10: OSM Overpass shows only 1 hotel in WCH area (the HIE at 101 Courthouse Pkwy). No Choice Hotels property found. Verify via phone before including.",
       "_notes": "Agent noted possible Choice Hotels property on Columbus Ave or US-35 corridor. Brand and address unconfirmed."
     },
     {
@@ -2696,7 +2702,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: G6 Hospitality (Motel 6) brand. No PTF adapter. Street number not confirmed — on Home City Avenue near I-70 per Booking.com and OSM. Phone inaccessible (site timeout). Manual evidence queue if adapter added.",
+      "_capture_note": "PROVISIONAL: OSM Way 742057267 confirms physical building on Home City Ave Springfield 45506. Not listed on HotelGuides Springfield (which shows 8 branded hotels). No phone confirmed. G6 Hospitality website unavailable. Operational status unclear. Do not queue before confirming open. Audit 2026-08-10.",
       "_notes": "Listed separately from Studio 6 Suites on Booking.com. Same property cluster near I-70."
     },
     {
@@ -2725,7 +2731,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: G6 Hospitality extended-stay (Studio 6) brand. No PTF adapter. No address confirmed in OSM or any accessible source. Listed separately from Motel 6 on Booking.com (~2.9 mi from Springfield Museum of Art). May share site or parking with Motel 6. Manual evidence only if adapter added.",
+      "_capture_note": "PROVISIONAL: No OSM record found. Not on HotelGuides or any accessible booking source. May be same physical property as Motel 6 Springfield (G6 dual-flag lot). CANDIDATE_PHANTOM: No independent evidence this is a distinct address. Recommend phone to G6 Hospitality reservations (1-800-899-9841) to confirm before queue. Audit 2026-08-10.",
       "_notes": "G6 Hospitality extended-stay variant. Address entirely unconfirmed."
     },
     {
@@ -2754,7 +2760,7 @@
       "_brand": "choice",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Choice Hotels / Quality Inn brand. No phone or website found. OSM node at ~39.8927N, -83.8088W near I-70 in Limecrest area. Operational status uncertain — may be closed. Do NOT add to any queue until operational status verified.",
+      "_capture_note": "PROVISIONAL: OSM Way 128963381 confirms physical building near I-70/Limecrest. CANDIDATE_PHANTOM: Not listed on HotelGuides Springfield (8 other branded hotels listed). Absence of Choice Hotels property from aggregators strongly suggests closed or de-flagged. Census already flagged operational status uncertain. Do not queue. Audit 2026-08-10.",
       "_notes": "Possibly closed. OSM node distinct from Comfort Suites (200m apart). Needs operational verification."
     },
     {
@@ -2783,7 +2789,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Independent motel on West Main Street. No phone or website. No PTF adapter. Operational status unverified. Manual evidence only if operational status confirmed.",
+      "_capture_note": "PROVISIONAL: OSM Node 11758883745 confirms physical building (tourism=motel) on West Main St Springfield 45504, coords 39.9260N 83.8458W. Not on HotelGuides. No phone confirmed. Independent budget motel. Operational status unclear. Audit 2026-08-10.",
       "_notes": "Independent budget motel. OSM confirms presence on West Main St; street number not available."
     },
     {
@@ -2870,7 +2876,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Independent motel on US Route 40 in New Paris. No PTF adapter. No independent website found. No OSM record. Source: Preble County CVB 2026 directory only. Recommend direct-call confirmation of name and operational status.",
+      "_capture_note": "PROVISIONAL: Independent motel at 8868 US 40 W, New Paris OH 45347. Phone (937) 437-0722. CVB 2026 directory is primary source — not confirmed via independent booking/directory site. Not on HotelGuides New Paris. Address and phone are census-recorded values, not independently confirmed in audit. Recommend phone call to confirm identity and operating status. Audit 2026-08-10.",
       "_notes": "Budget motel. Listed in Preble County CVB 2026. No corroborating third-party listing accessible."
     },
     {
@@ -2899,7 +2905,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Independent motel at US 127 N and I-70 interchange north of Eaton. No PTF adapter. No website found. CVB listed as \"US 127 N at I-70 W\". Address 6161 US 127 North from older city-data.com record as former Econo Lodge Eaton (de-flagged Choice). Recommend direct-call confirmation of name and operational status.",
+      "_capture_note": "PROVISIONAL: Independent motel at 6161 US 127 North, Eaton OH 45320. Phone (937) 456-1200. Historical data only (formerly Econo Lodge Eaton, de-flagged). CANDIDATE_PHANTOM: HotelGuides Eaton shows zero hotels in Eaton. Strongly suggests closed or too informal for booking platforms. Address/phone from historical data, not confirmed current. Recommend phone call before any queue entry. Audit 2026-08-10.",
       "_notes": "Likely a rebranded former Econo Lodge after Choice Hotels de-flagging. No chain affiliation confirmed."
     },
     {
@@ -2928,7 +2934,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "https://www.thecedarlodgeandcabins.com/",
-      "_capture_note": "PROVISIONAL: Primarily a wedding/event/retreat venue with overnight cabin lodging. Not a traditional hotel. No PTF adapter. Listed in Preble County CVB 2026 Hotels & Motels section (2026 Verified Location). Review whether this property meets PTF minimum hotel classification before any publication.",
+      "_capture_note": "PROVISIONAL: Wedding/event/retreat venue at 505 S Washington Street, New Paris OH 45347. Phone (937) 770-9215. Website thecedarlodgeandcabins.com confirms actively booking 2026+. CLASSIFICATION_EXCLUDED: One lakefront cabin for overnight stays — not a hotel. Does not meet PTF minimum hotel classification. Do not publish. OSM maps 505 S Washington as a residential house node, consistent with venue type. Audit 2026-08-10.",
       "_notes": "Website active. CVB categorized under Hotels & Motels but also as Event/Retreat/Wedding Venue."
     },
     {
@@ -3034,7 +3040,7 @@
       "corridor_basis": "city_name",
       "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "POLICY_OBSERVED",
       "has_official_link": true,
       "observed_at": "2026-08-09",
       "source": "mercer_xenia_piqua_research_2026-08-09",
@@ -3044,7 +3050,7 @@
       "_brand": "hilton",
       "_property_code": "DAYXOHX",
       "_official_url": "https://www.hilton.com/en/hotels/dayxohx-hampton-suites-xenia-dayton/",
-      "_capture_note": "Hilton adapter available. Property code DAYXOHX confirmed via OSM tags and Hilton brand URL. Pet policy not independently verified due to Hilton site 403; requires capture run.",
+      "_capture_note": "Hilton adapter. Code DAYXOHX confirmed. Capture 2026-08-10: PETS_ALLOWED tiered $75/$125 per_stay, dogs only, 35lb, 2 pets, non-refundable. FLAG_TIERED_FEE_STRUCTURE.",
       "_notes": "Primary full-service branded hotel in Xenia. OSM tags and Hilton URL confirm address and phone."
     },
     {
@@ -3073,7 +3079,7 @@
       "_brand": "choice",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: OSM way 129090313 at ~39.7067N, 84.0176W in Beavercreek Township, Greene County. Street number, phone, and Choice Hotels property code not confirmed. Located near Beavercreek/Fairborn corridor (postal 45434) — placed in fairborn-beavercreek corridor. Choice Hotels site timed out. May be rebranded. Requires phone/URL recovery.",
+      "_capture_note": "PROVISIONAL: OSM Way 129090313 confirms building at Heller Drive, Alpha OH 45434 (tourism=motel, brand=Econo Lodge). Choice Hotels website timed out on every request. No phone in OSM or any reachable directory. Operational status (open/closed) not confirmed. Audit 2026-08-10.",
       "_notes": "Alpha is an unincorporated community in Beavercreek Township, Greene County. Near Beavercreek/Fairborn area."
     },
     {
@@ -3082,15 +3088,15 @@
       "display_name": "Hearthstone Inn Cedarville",
       "normalized_name": "hearthstone inn cedarville",
       "raw_name": "HEARTHSTONE INN CEDARVILLE",
-      "address": "East Street",
+      "address": "10 S. Main St",
       "city": "Cedarville",
       "state": "OH",
       "postal_code": "45314",
-      "phone": "",
-      "phone_key": "",
+      "phone": "(937) 766-3000",
+      "phone_key": "9377663000",
       "corridor": "dayton-oh__xenia",
       "corridor_basis": "county_name",
-      "identity_state": "IDENTITY_PROVISIONAL",
+      "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
       "policy_state": "POLICY_NOT_VERIFIED",
       "has_official_link": false,
@@ -3101,8 +3107,8 @@
       "street_identity": "east street|45314",
       "_brand": "other",
       "_property_code": "",
-      "_official_url": "",
-      "_capture_note": "PROVISIONAL: OSM way 142569684 in Cedarville Township, Greene County. No phone or website confirmed. No PTF adapter. OSM note: \"Very bicycle friendly.\" Near Cedarville University. Requires direct-call confirmation of name and operational status.",
+      "_official_url": "https://www.hearthstoneinn.com/",
+      "_capture_note": "Address corrected from \"East Street\" to 10 S. Main St per hotel website hearthstoneinn.com (live). Phone (937) 766-3000 confirmed. ~20 rooms, near Cedarville University. Audit 2026-08-10.",
       "_notes": "Small independent inn near Cedarville University in southern Greene County."
     },
     {
@@ -3131,7 +3137,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "http://www.grinnellmillbandb.com/",
-      "_capture_note": "PROVISIONAL: OSM way 1366162803, address confirmed via Nominatim. No PTF adapter (B&B / independent). Phone not confirmed. Official website in OSM but timed out on fetch — may be inactive. Requires website verification and phone confirmation before any capture.",
+      "_capture_note": "PROVISIONAL: OSM Node 1366162803 confirms property at 3536 Bryan Park Road, Yellow Springs OH 45387 (guest_house=bed_and_breakfast). Website grinnellmillbandb.com is unreachable (timeout). No phone found. Open/closed status unconfirmed. Do not queue until status confirmed. Audit 2026-08-10.",
       "_notes": "Small B&B in Yellow Springs, southern Greene County."
     },
     {
@@ -3160,7 +3166,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: OSM way 1529948915. Address from Nominatim (Brannum Lane). OSM street tagged as \"US 68 Avenue North\"; Nominatim gives Brannum Lane (local name). No phone or website confirmed. No PTF adapter. Requires direct-call confirmation of name and operational status.",
+      "_capture_note": "PROVISIONAL: OSM confirms building at 3601 Brannum Lane, Yellow Springs OH 45387 (tourism=hotel). No phone found in OSM or any reachable directory. Operational status (open/closed) not confirmed. Audit 2026-08-10.",
       "_notes": "Independent motel near Yellow Springs village in Miami Township, Greene County."
     },
     {
@@ -3218,7 +3224,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Address and phone from Piqua city business directory as \"La Quinta Inn Piqua\". Wyndham live search returned zero La Quinta results for Piqua — brand may have changed or property closed. OSM footprint at ~40.1515N, 84.2261W on East Ash Street corroborates location. No PTF adapter assigned (brand uncertain). REQUIRES DIRECT PHONE CALL to verify current operating status and brand name before any further action.",
+      "_capture_note": "CANDIDATE_PHANTOM: OSM classifies 950 E Ash Street, Piqua OH 45356 as a residential \"house\" — no tourism or hotel tag. Zero hotel-directory presence in Piqua. Likely a misidentification, historical conversion to residential, or vacation rental incorrectly captured. Do NOT queue. Audit 2026-08-10.",
       "_notes": "Directory listed as La Quinta Inn Piqua but Wyndham shows no current listing. Canonical name placeholder used until brand confirmed."
     },
     {
@@ -3247,7 +3253,7 @@
       "_brand": "redroof",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Address and phone from Piqua city business directory — may be several years old. Not found as named entity in OSM for Piqua. Red Roof site returned 403. Red Roof adapter available but no official URL recovered. Near I-75 interchange. Requires direct phone verification and URL recovery before capture queue entry.",
+      "_capture_note": "CANDIDATE_PHANTOM: OSM classifies 902 Scott Drive, Piqua OH 45356 as a residential house — no hotel tag. Overpass API search for Red Roof Inn across the Piqua-Sidney-Dayton corridor returned zero results. Red Roof website 403. Strong circumstantial evidence of permanent closure or never-open at this address. Do NOT queue. Audit 2026-08-10.",
       "_notes": "Scott Drive near I-75 in Piqua. Directory source may be outdated. OSM does not confirm."
     },
     {
@@ -3266,7 +3272,7 @@
       "corridor_basis": "city_name",
       "identity_state": "IDENTITY_CONFIRMED",
       "lodging_state": "LODGING_CONFIRMED",
-      "policy_state": "POLICY_NOT_VERIFIED",
+      "policy_state": "POLICY_OBSERVED",
       "has_official_link": true,
       "observed_at": "2026-08-09",
       "source": "shelby_county_research_2026-08-09",
@@ -3276,7 +3282,7 @@
       "_brand": "hilton",
       "_property_code": "SIDHHHX",
       "_official_url": "https://www.hilton.com/en/hotels/sidhhhx-hampton-sidney/",
-      "_capture_note": "Hilton adapter available. Code SIDHHHX confirmed via OSM extratags and Hilton URL.",
+      "_capture_note": "Hilton adapter available. Code SIDHHHX confirmed via OSM extratags and Hilton URL. | Capture 2026-08-10: PETS_ALLOWED tiered $75/$125 per_stay dogs only 2-pet-max non-refundable (sidhhhx)",
       "_notes": "OSM Way 133440563. OSM street encoded as \"Hamton Court\" (typo) — corrected to Hampton Court."
     },
     {
@@ -3392,7 +3398,7 @@
       "_brand": "wyndham",
       "_property_code": "",
       "_official_url": "https://www.wyndhamhotels.com/super-8/sidney-ohio/super-8-by-wyndham-sidney/overview",
-      "_capture_note": "PROVISIONAL: OSM Way 133439142. Phone not in OSM; Wyndham search returned generic pages. No numeric property code accessible. URL is URL_SHAPE_PROPERTY. Needs phone recovery before capture queue entry (phone substitute requires code not confirmed).",
+      "_capture_note": "PROVISIONAL: OSM way 133439142 confirms \"Super 8 by Wyndham Sidney\" at 2009 Michigan Street, Sidney OH 45365. Phone not recoverable (Wyndham JS-renders contact). URL slug unconfirmed. Wyndham adapter available but phone needed to confirm identity at capture time. Audit 2026-08-10.",
       "_notes": "West Michigan Street hotel cluster in Sidney. Adjacent to Quality Inn."
     },
     {
@@ -3421,7 +3427,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: G6 Hospitality (Motel 6) brand. No PTF adapter. OSM Way 133439311. House number absent; G6 site timed out. No phone confirmed. Needs phone and address recovery.",
+      "_capture_note": "PROVISIONAL: OSM Way 133439311 confirms \"Motel 6\" at West Michigan Street, Sidney OH 45365 (tourism=motel, brand=Motel 6). No house number in OSM (addr:housenumber absent). No phone in OSM or any reachable source. Operational status not confirmed. Audit 2026-08-10.",
       "_notes": "West Michigan Street hotel cluster in Sidney. OSM approx. coords 40.2874N 84.1862W."
     },
     {
@@ -3537,7 +3543,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Independent lodging in Versailles, Darke County. No PTF adapter. No house number, phone, or website. OSM way 1190449241 (check_date 2025-08-27) at ~40.2228N, -84.4848W. Requires attended-browser or direct-call to confirm address and phone.",
+      "_capture_note": "PROVISIONAL: OSM Way 1190449241 confirms building at West Main Street, Versailles OH 45380 (tourism=hotel, OSM check_date 2025-08-27). Darke County Visitors Bureau links to \"Inn at Versailles\" / midmark.com — appears to be private corporate facility operated by Midmark Corporation (medical equipment manufacturer). Likely NOT publicly bookable. CANDIDATE_PHANTOM for PTF purposes (not a public hotel). Audit 2026-08-10.",
       "_notes": "Versailles is in Darke County, distinct from Versailles KY."
     },
     {
@@ -3595,7 +3601,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "https://sciotoinn.com/",
-      "_capture_note": "PROVISIONAL: Boutique luxury inn in 1885 historic building. No PTF adapter. URL sciotoinn.com/ is URL_SHAPE_UNKNOWN (independent domain). 7 suites across three tiers; not a traditional hotel. Review whether this property meets PTF minimum hotel classification before any publication. Phone discrepancy: Chamber shows (937) 508-4546 but website shows (937) 897-9383 — website authoritative. Pet policy not stated on website.",
+      "_capture_note": "PROVISIONAL: OSM shows 205 Scioto Street, Urbana 43078 as a residential house with no business name attached. Not in any hotel directory (HotelGuides, booking aggregators). Overpass API returned zero lodging entries for all of Urbana. CANDIDATE_PHANTOM: no independent evidence this operates as a hotel. Recommend phone call before any queue entry. Audit 2026-08-10.",
       "_notes": "Upscale boutique inn in Scioto Street Historic District, Urbana. Not a traditional hotel."
     },
     {
@@ -3624,7 +3630,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Champaign County Chamber Hotel/Lodging member. No PTF adapter, no website. Adjacent to Scioto Inn on Scioto Street Historic District. Property type (suites vs. B&B vs. short-term rental) unconfirmed. Requires direct-contact confirmation of property type, phone, and pet policy.",
+      "_capture_note": "PROVISIONAL: No OSM record at 206 Scioto Street. Not in any hotel or B&B directory accessed. Addresses 205 and 206 Scioto Street (opposite sides of street) suggest possible same operator as Scioto Inn Urbana. CANDIDATE_PHANTOM: no independent evidence this property exists as a hotel. Recommend phone call before any queue entry. Audit 2026-08-10.",
       "_notes": "Likely boutique suites property in historic building adjacent to Scioto Inn."
     },
     {
@@ -3653,7 +3659,7 @@
       "_brand": "other",
       "_property_code": "",
       "_official_url": "",
-      "_capture_note": "PROVISIONAL: Champaign County Chamber Hotel/Lodging member. No PTF adapter, no website. Located in Urbana Monument Square Historic District. Domain fourgables.com and thefourgablesinn.com both parked/non-existent. Likely B&B or boutique lodging in historic residence. Requires direct-contact confirmation of property type and pet policy.",
+      "_capture_note": "PROVISIONAL: OSM shows 300 N Main Street, Urbana 43078 as a residential house (Monument Square Historic District). fourgablesurbana.com DNS not found; thefourgables.com is unrelated CA property. Not in any hotel or B&B directory. CANDIDATE_PHANTOM: website defunct, OSM shows residential. Recommend phone call to (937) 206-4995 before any queue entry. Audit 2026-08-10.",
       "_notes": "B&B or boutique lodging near Monument Square, Urbana historic district."
     },
     {
@@ -3772,5 +3778,7 @@
       "_capture_note": "PROVISIONAL: Property code OH087 confirmed from Logan County Visitors Bureau official listing and Choice Hotels URL. Street address and phone NOT confirmed: choicehotels.com timed out on all fetch attempts. Choice adapter available; URL is URL_SHAPE_PROPERTY (code OH087 in path). BLOCKED from capture queue: phone missing and address missing (phone-substitute rule fails). Resolution: call Logan County Visitors Bureau at (937) 599-5121 for address and phone, or retry choicehotels.com/ohio/bellefontaine/comfort-inn-hotels/oh087.",
       "_notes": "Existence confirmed via Logan County Visitors Bureau experiencelogancounty.com/hotels.html."
     }
-  ]
+  ],
+  "count_confirmed": 100,
+  "count_provisional": 29
 }
