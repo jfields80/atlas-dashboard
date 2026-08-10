@@ -54,6 +54,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.generate_pettripfinder_columbus_site import run as generate_site, _slug
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
+from scripts.pettripfinder.market_ownership import owned_by
 from scripts.pettripfinder.markets import MarketConfig, assign_hotels
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
@@ -304,7 +305,14 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
           str(len(pkg.get("hotels", []))))
 
     policy_facts = load_published_hotel_policy_facts()
-    seed_rows = read_production_rows()
+    # PTF-MULTI-MARKET-INVENTORY-SCOPING-001. The release gate must reason over
+    # exactly the inventory the generator published, which is this market's
+    # owned rows -- not every approved row in the file. Scoping here keeps the
+    # gate and the build in agreement once a second market's rows exist; before
+    # that they are the same set, which is why Columbus does not move.
+    _market = resolve_market(market)
+    seed_rows = owned_by(read_production_rows(), _market.market_id,
+                         context="release-gate seed inventory")
     hotel_seed = [r for r in seed_rows if r.get("category") == "pet-friendly-hotels"]
     # Fail-closed identity join (raises if a committed record has no display row).
     verified_rows = verified_public_hotels(hotel_seed, policy_facts)
@@ -316,7 +324,6 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
     # PTF-CORRIDORS-002: allowed corridor routes come from the SAME committed
     # market-config assignment the generator publishes from (config slugs,
     # published corridors only) -- the gate and the build can never disagree.
-    _market = resolve_market(market)
     _assignment = assign_hotels(_market, verified_rows)
     corridor_slugs = {_market.corridor_by_id(cid).slug for cid in _assignment.published}
 
