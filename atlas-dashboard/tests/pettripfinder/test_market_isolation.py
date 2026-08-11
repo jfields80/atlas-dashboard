@@ -233,5 +233,7 @@ class TestClevelandCompatibilityWithoutIntegration:
         from scripts.pettripfinder.site_data import read_production_rows
 
         cle = owned_by(read_production_rows(), CLEVELAND)
-        assert len(cle) == 19
+        # 19 -> 21: the two Drury properties published by
+        # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003.
+        assert len(cle) == 21
         assert all(r[MARKET_ID_FIELD] == CLEVELAND for r in cle)

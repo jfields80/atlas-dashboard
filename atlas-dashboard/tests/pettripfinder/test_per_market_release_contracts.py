@@ -64,7 +64,13 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
     COLUMBUS: (None, 88, 14, 102, None),
-    CLEVELAND: (188, 19, 8, 27, 161),
+    # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
+    # properties worker 003 established on their own domain: 19 -> 21, and
+    # unresolved 161 -> 159. The other four candidates it reviewed did NOT
+    # publish -- three are readiness POLICY_PARTIAL (marketing-only Wyndham
+    # copy) and one is a membrane M10 identity rejection -- so they stay in
+    # the unresolved 159 rather than moving the resolved figure.
+    CLEVELAND: (188, 21, 8, 29, 159),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals

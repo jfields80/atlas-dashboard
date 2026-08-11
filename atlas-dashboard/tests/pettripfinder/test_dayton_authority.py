@@ -343,7 +343,10 @@ class TestMarketIsolation:
     def test_columbus_and_cleveland_row_counts_are_untouched(self):
         rows = read_production_rows()
         assert len([r for r in rows if r.get("market_id") == COLUMBUS]) == 116
-        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 19
+        # Cleveland moved 19 -> 21 under its OWN integration
+        # (PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003); Dayton did not
+        # move it, which is what this test defends.
+        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 21
 
     def test_columbus_still_has_exactly_fourteen_no_pets(self):
         cbus = [e for e in load_exclusions()

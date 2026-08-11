@@ -204,7 +204,8 @@ def test_committed_authority_validates(routes):
     # identity-verified (address and/or phone matched against the brand's own
     # domain, or an independent first-party site) and routed; Columbus is
     # unchanged at 20.
-    assert len(routes) == 167
+    # 167 -> 165: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 retired the two Drury routes whose hotels became Cleveland inventory.
+    assert len(routes) == 165
 
 
 def test_committed_authority_split(routes):
@@ -212,7 +213,8 @@ def test_committed_authority_split(routes):
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
     # 78 -> 165: the 87 newly-recovered Cleveland routes are all
     # ROUTING_CONFIRMED; the two pre-existing Columbus holds are untouched.
-    assert len(confirmed) == 165
+    # 165 -> 163, the same two retirements.
+    assert len(confirmed) == 163
     assert len(held) == 2
     # Both holds are the same shape: a URL is known, the identity the queue
     # contract demands is not.
@@ -237,7 +239,8 @@ def test_every_committed_record_preserves_index_binding(routes):
     assert {r["binding_method"] for r in routes} == {
         IR.BINDING_BRAND_INDEX, IR.BINDING_PAGE_RENDERED}
     rendered = [r for r in routes if r["binding_method"] == IR.BINDING_PAGE_RENDERED]
-    assert len(rendered) == 10
+    # 10 -> 8: both retired Drury routes were PAGE_RENDERED.
+    assert len(rendered) == 8
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -381,7 +384,9 @@ def test_routing_adds_capture_ready_hotels(queues):
     # invisible to the queue; 74 of those 87 are for brands this registry
     # already adapts and became capture-eligible, and Columbus's own
     # contribution is unchanged.
-    assert len(routed.selected) - len(base.selected) == 86
+    # 86 -> 84: two routed hotels became inventory and no longer need a
+    # route to reach the capture queue.
+    assert len(routed.selected) - len(base.selected) == 84
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -397,7 +402,8 @@ def test_routing_carries_more_than_one_market(queues):
     # routes, because routing is only for hotels that are NOT inventory.
     # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 147
+    # 147 -> 145, the same two retirements.
+    assert len(by_market["cleveland-akron-canton-oh"]) == 145
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -411,7 +417,10 @@ def test_routing_carries_more_than_one_market(queues):
     # (Motel 6, Extended Stay America, Radisson, Sonesta ABVI, Knights Inn) --
     # are retained in identity_routing.json as real routing but are not yet
     # capture-eligible.
-    assert len(added) == 86
+    # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
+    # those 74 (the Drury pair), so their routes retired and they reach the
+    # queue as inventory rather than as routing.
+    assert len(added) == 84
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:

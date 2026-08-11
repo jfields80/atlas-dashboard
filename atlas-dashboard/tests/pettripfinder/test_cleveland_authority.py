@@ -47,9 +47,11 @@ def proposal():
 
 class TestClevelandAuthority:
 
-    def test_nineteen_hotels_are_published(self, facts):
+    def test_twenty_one_hotels_are_published(self, facts):
+        """19 from PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001, plus the two Drury
+        properties PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published."""
         assert facts["market"] == CLEVELAND
-        assert len(facts["hotels"]) == 19
+        assert len(facts["hotels"]) == 21
         assert {h["verification_state"] for h in facts["hotels"]} == {"VERIFIED_PET_FRIENDLY"}
 
     def test_eight_verified_no_pets_are_cleveland_owned(self):
@@ -93,7 +95,10 @@ class TestClevelandAuthority:
                 assert field not in hotel["facts"], (
                     "%s: %s is both withheld and published" % (hotel["name"], field))
                 assert len(reason) > 20, "a withheld field needs a real reason"
-        assert withheld_total == 21
+        # 21 from the overnight authority + 2 each for the two Drury records
+        # (service_animal_exception, which no renderer reads, and fee_scope,
+        # whose room scope is carried inside fee_basis).
+        assert withheld_total == 25
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
@@ -151,7 +156,7 @@ class TestMarketIsolation:
     def test_cleveland_inventory_is_owned_and_scoped(self):
         rows = read_production_rows()
         cle = owned_by(rows, CLEVELAND)
-        assert len(cle) == 19
+        assert len(cle) == 21
         assert all(r["category"] == "pet-friendly-hotels" for r in cle)
 
     def test_columbus_inventory_is_unchanged_at_116(self):
@@ -166,7 +171,7 @@ class TestMarketIsolation:
     def test_each_market_selects_only_its_own_facts(self):
         cbus = load_published_hotel_policy_facts(COLUMBUS)
         cle = load_published_hotel_policy_facts(CLEVELAND)
-        assert len(cbus) == 88 and len(cle) == 19
+        assert len(cbus) == 88 and len(cle) == 21
         assert set(cbus) & set(cle) == set()
 
     def test_the_columbus_join_still_yields_88(self):
@@ -175,19 +180,19 @@ class TestMarketIsolation:
         assert len(verified_public_hotels(
             rows, load_published_hotel_policy_facts(COLUMBUS))) == 88
 
-    def test_the_cleveland_join_yields_19(self):
+    def test_the_cleveland_join_yields_21(self):
         rows = [r for r in owned_by(read_production_rows(), CLEVELAND)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(CLEVELAND))) == 19
+            rows, load_published_hotel_policy_facts(CLEVELAND))) == 21
 
-    def test_reconciliation_is_188_19_8_27_161(self):
+    def test_reconciliation_is_188_21_8_29_159(self):
         from scripts.pettripfinder.build_market_manifest import build_package
 
         pkg = build_package(CLEVELAND)
-        assert pkg.reconciliation() == (188, 19, 8, 27, 161)
-        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 27
-        assert 27 + pkg.unresolved_count == 188
+        assert pkg.reconciliation() == (188, 21, 8, 29, 159)
+        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 29
+        assert 29 + pkg.unresolved_count == 188
 
     def test_columbus_reconciliation_is_untouched(self):
         from scripts.pettripfinder.build_market_manifest import build_package

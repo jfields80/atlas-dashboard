@@ -150,6 +150,8 @@ class TestNothingElseMoved:
         # 80 -> 167: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 identity-verified
         # and routed 87 more Cleveland hotels that were previously
         # NO_OFFICIAL_URL; Columbus is unchanged at 20.
-        assert len(routes) == 167
+        # 167 -> 165: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 retired
+        # the two Drury routes whose hotels became Cleveland inventory.
+        assert len(routes) == 165
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh"} <= markets
