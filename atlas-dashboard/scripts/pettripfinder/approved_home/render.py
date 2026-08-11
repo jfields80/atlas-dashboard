@@ -2,22 +2,34 @@
 
 Visual authority: ``pettripfinder-final-approved-homepage.png`` (binding).
 
-The approved final design repositions PetTripFinder as a broader Columbus
+The approved final design repositions PetTripFinder as a broader
 *pet-travel* guide rather than a hotel directory. Its mandated headline is:
 
-    "Find a Columbus trip that actually works for your pet."
+    "Find a {market} trip that actually works for your pet."
+
+PTF-MULTI-MARKET-HOMEPAGE-AWARENESS-001: that market -- and the page title,
+description, wordmark, hero photograph and its alt text, hero badge, search
+location, trip-planning copy, emergency-veterinarian query and footer label
+with it -- is CONFIGURATION, read from the ptf-market config of the market
+being built (``markets.homepage_config``). It was a literal here, and Dayton
+and Cleveland candidate builds inherited every word of Columbus's identity
+along with a photograph of the Scioto riverfront. No market-shaped literal
+remains in this module; the approved Columbus homepage is unchanged, byte for
+byte, because Columbus's identity now arrives from its own config file.
 
 Structure (per the mockup): slim wordmark header with trip-shaped navigation
 (Places to Stay / Things to Do / Eat & Drink / Emergency Pet Care / How we
-verify) -> hero whose photograph bleeds off the right edge and fades into the
-page, carrying the headline, the inline search row, five filter chips and a
-"Columbus, Ohio" overlay badge -> then a two-column body:
+verify, minus any directory this market does not build) -> hero whose
+photograph bleeds off the right edge and fades into the page -- or, for a
+market with no approved hero photograph, a deterministic non-photographic
+plate in the same frame -- carrying the headline, the inline search row, five
+filter chips and a market overlay badge -> then a two-column body:
 
   left column   qualitative trust strip -> "Start with what matters to your
                 trip" (4 quick-starts) -> "Recently verified pet-friendly
                 places" (6 compact cards) -> "Plan the rest of your
-                pet-friendly trip in Columbus" (3 cards) -> "Travel better
-                together" band
+                pet-friendly trip in {market}" (up to 3 cards) -> "Travel
+                better together" band
   right column  "Compare pet policies at a glance" (5-row table) -> "Why
                 PetTripFinder exists" -> decorative skyline
 
@@ -52,14 +64,30 @@ import re
 import shutil
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
+from urllib.parse import quote_plus
 
 from scripts.pettripfinder.hotel_profile import _friendly_date
 
 _ASSETS_DIR = Path(__file__).resolve().parent / "assets"
 
+#: Approved review photography that depicts a specific city. Everything else in
+#: ``assets/`` is place-neutral (hotel interiors, a dog, a patio) and carries
+#: the footer's temporary-imagery disclosure. A market with no approved hero of
+#: its own must not even SHIP another market's skyline in its bundle.
+_CITY_PHOTOGRAPHY = ("hero.jpg", "hero-right.jpg")
+
+
+class HomepageAssetError(ValueError):
+    """A market's homepage names a hero asset this renderer does not ship."""
+
 
 def _e(s: str) -> str:
     return html.escape(s or "", quote=False)
+
+
+def _a(s: str) -> str:
+    """Escape for an HTML attribute value (quotes included)."""
+    return html.escape(s or "", quote=True)
 
 
 def _slug(text: str) -> str:
@@ -453,6 +481,89 @@ a{color:inherit}
   .note{font-size:12.5px;max-width:470px}
 }"""
 
+# --------------------------------------------------------------------------- #
+# Market-aware supplements (PTF-MULTI-MARKET-HOMEPAGE-AWARENESS-001).
+#
+# The approved stylesheet above is the founder-approved FINAL design and is
+# emitted verbatim for every market. These supplements are APPENDED, and only
+# when the market being rendered actually needs them, so a market that needs
+# none of them (one with an approved hero photograph, a short wordmark and all
+# three directories) still emits byte-identical CSS.
+# --------------------------------------------------------------------------- #
+
+#: A market with no approved hero photograph. The plate occupies the SAME hero
+#: box as the photograph -- same geometry, same left-edge mask, same responsive
+#: collapse at 920px -- so the approved composition, spacing and typography are
+#: untouched; only the photograph is replaced, by a deterministic gradient and
+#: the page's own decorative skyline motif. It is aria-hidden: a decorative
+#: plate makes no claim about any place, and there is no alt text to be wrong.
+_NEUTRAL_HERO_CSS = r"""
+.hero-media--neutral .hero-plate{display:flex;align-items:flex-end;justify-content:center;
+  width:100%;height:100%;padding:0 0 9%;overflow:hidden;
+  background:linear-gradient(135deg,#f6f3ea 0,#eceee7 44%,#dde6de 100%);
+  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 14%);
+          mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,#000 14%)}
+.hero-media--neutral .hero-plate svg{width:76%;height:auto;fill:none;stroke:var(--ever);
+  stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:.3}
+@media(max-width:920px){
+  .hero-media--neutral .hero-plate{-webkit-mask-image:none;mask-image:none;padding-bottom:7%}
+}"""
+
+#: The approved wordmark is calibrated for a compact market label. A regional
+#: market whose navigation label names several cities would otherwise push the
+#: nowrap wordmark past a narrow viewport's edge -- measured at 390px, the
+#: footer lockup alone overflowed by 34px -- so the label (never the layout)
+#: steps down at the two narrow breakpoints. Header and footer step
+#: separately: the header lockup shares its row with the menu button, the
+#: footer one has the column to itself.
+_LONG_BRAND_CSS = r"""
+@media(max-width:720px){
+  .ph-top .brand{font-size:14px;letter-spacing:-.3px}
+  .footer .brand{font-size:16px}
+}
+@media(max-width:430px){
+  .ph-top .brand{font-size:12.5px}
+  .footer .brand{font-size:14px}
+}
+/* At the narrowest supported viewport a multi-city label cannot both stay on
+   one line and stay legible. The lockup wraps and the header grows to fit it,
+   rather than the wordmark shrinking to unreadable or the page scrolling
+   sideways. */
+@media(max-width:360px){
+  .ph-top .wrap{height:auto;min-height:54px;padding:7px 0}
+  .ph-top .brand{flex-wrap:wrap;font-size:13.5px;line-height:1.22}
+}"""
+
+#: Character budget for the wordmark label before the step-down above applies.
+#: Sized from the approved design's own longest tested label.
+_BRAND_LABEL_BUDGET = 12
+
+#: The trip grid is a three-card rhythm. A market that publishes fewer
+#: directories has fewer cards, and they fill the row rather than leaving the
+#: approved three-column track half empty. A single card becomes a banner: at
+#: full width the card's photo would otherwise set the row height from its own
+#: intrinsic size and tower over the section, so the banner keeps a narrower
+#: photo column and the card height the three-up rhythm already establishes.
+_TRIP_COLUMNS_CSS = {
+    1: """
+.trip-grid--n1{grid-template-columns:minmax(0,1fr)}
+.trip-grid--n1 .trip-card{grid-template-columns:minmax(0,26%) minmax(0,1fr);
+  grid-template-rows:132px;min-height:0}
+@media(max-width:430px){
+  .trip-grid--n1 .trip-card{grid-template-columns:minmax(0,40%) minmax(0,1fr);
+    grid-template-rows:118px}
+}""",
+    2: "\n.trip-grid--n2{grid-template-columns:repeat(2,minmax(0,1fr))}",
+}
+
+#: The glance table's "Max pets" and "Weight limit" columns are narrow (12% and
+#: 18%) and their cells do not wrap: a market whose sources never stated a pet
+#: count renders the words "Not stated" straight across the column boundary.
+#: Emitted only when a rendered cell actually needs it.
+_GLANCE_WRAP_CSS = """
+.glance--wrap td:nth-child(5),.glance--wrap td:nth-child(6){white-space:normal;line-height:1.2}"""
+
+
 _JS = ("<script>(function(){var b=document.querySelector('.menu'),"
        "l=document.querySelector('.links');if(b&&l){b.addEventListener('click',function(){"
        "var o=l.classList.toggle('pt-open');b.setAttribute('aria-expanded',String(o));});}"
@@ -604,14 +715,19 @@ def _entry_of(name: str, facts_map: Dict) -> Dict:
     return facts_map.get(normalize_name(name)) or {}
 
 
-def _short_place(name: str) -> str:
-    """Sidebar label: the real name minus a redundant standalone "Columbus".
+def _short_place(name: str, city_label: str) -> str:
+    """Sidebar label: the real name minus a redundant standalone city name.
 
-    Purely subtractive -- nothing is added, reordered or paraphrased -- and the
-    caller re-checks uniqueness across the chosen set before using the result,
-    so two same-brand properties can never collapse into one ambiguous label.
+    The city removed is the market's own (``city_label``) -- a Dayton table
+    should not be shortening the word "Columbus" out of anything. Purely
+    subtractive: nothing is added, reordered or paraphrased, and the caller
+    re-checks uniqueness across the chosen set before using the result, so two
+    same-brand properties can never collapse into one ambiguous label.
     """
-    short = re.sub(r"\s+", " ", re.sub(r"\bColumbus\b", " ", name)).strip()
+    if not (city_label or "").strip():
+        return name
+    short = re.sub(r"\s+", " ",
+                   re.sub(r"\b%s\b" % re.escape(city_label.strip()), " ", name)).strip()
     return short if len(short.split()) >= 2 else name
 
 
@@ -619,35 +735,25 @@ def _short_place(name: str) -> str:
 # Data selection (real records only; deterministic).
 # --------------------------------------------------------------------------- #
 
-# Six recently verified places, chosen for corridor variety and fact richness
-# (all fourteen stay one click away via "View all places"). Every entry is a
-# real committed-package record; missing names back-fill deterministically.
-_PREFERRED_FEATURED = (
-    "Drury Inn & Suites Columbus Grove City",
-    "Sonesta Columbus Downtown",
-    "Hyatt Regency Columbus",
-    "Drury Inn & Suites Columbus Dublin",
-    "Hyatt Place Columbus OSU",
-    "Home2 Suites by Hilton Columbus Dublin",
-)
-
-# The five glance rows: the records whose sources stated the most, across four
-# distinct brands. The last row intentionally carries "Not stated" cells --
-# that is the "Honest unknowns" promise the page makes, shown rather than told.
-_GLANCE_PICKS = (
-    "Drury Inn & Suites Columbus Grove City",
-    "Drury Inn & Suites Columbus Dublin",
-    "Hyatt Regency Columbus",
-    "Hyatt Place Columbus OSU",
-    "Sonesta Columbus Downtown",
-)
+# The featured cards and the glance rows are CURATED per market
+# (``homepage.featured_hotels`` / ``homepage.glance_hotels``): six places
+# chosen for corridor variety and fact richness, and five rows whose sources
+# stated the most across distinct brands -- with the last glance row
+# deliberately carrying "Not stated" cells, because that is the "Honest
+# unknowns" promise the page makes, shown rather than told.
+#
+# A curated name that is not in this market's published inventory is simply
+# skipped, and the remainder back-fills deterministically (fee-bearing records
+# first, then alphabetical), so a market that has curated nothing still gets a
+# stable page and no market can name another market's hotels.
 
 
-def select_featured(hotel_rows: List[Dict], facts_map: Dict, limit: int = 6) -> List[Dict]:
+def select_featured(hotel_rows: List[Dict], facts_map: Dict, limit: int = 6,
+                    preferred: Sequence[str] = ()) -> List[Dict]:
     by_name = {r["name"]: r for r in hotel_rows}
     chosen: List[Dict] = []
     used = set()
-    for pref in _PREFERRED_FEATURED:
+    for pref in preferred:
         row = by_name.get(pref)
         if row and pref not in used:
             chosen.append(row)
@@ -663,9 +769,10 @@ def select_featured(hotel_rows: List[Dict], facts_map: Dict, limit: int = 6) -> 
     return chosen[:limit]
 
 
-def select_glance(hotel_rows: List[Dict], facts_map: Dict, limit: int = 5) -> List[Dict]:
+def select_glance(hotel_rows: List[Dict], facts_map: Dict, limit: int = 5,
+                  preferred: Sequence[str] = ()) -> List[Dict]:
     by_name = {r["name"]: r for r in hotel_rows}
-    chosen = [by_name[n] for n in _GLANCE_PICKS if n in by_name][:limit]
+    chosen = [by_name[n] for n in preferred if n in by_name][:limit]
     if len(chosen) < limit:
         used = {r["name"] for r in chosen}
         pool = sorted((r for r in hotel_rows if r["name"] not in used), key=lambda r: r["name"].lower())
@@ -680,66 +787,95 @@ def select_glance(hotel_rows: List[Dict], facts_map: Dict, limit: int = 5) -> Li
 
 _EMERGENCY_ANCHOR = "#trip"
 
+HOTELS_CATEGORY = "pet-friendly-hotels"
+PARKS_CATEGORY = "pet-friendly-parks"
+RESTAURANTS_CATEGORY = "pet-friendly-restaurants"
+
+#: (label, href, caret, required category). A nav item whose category the
+#: market does not build is not rendered: a market must not link to a
+#: directory page it never generated.
 _NAV = (
-    ("Places to Stay", "/pet-friendly-hotels/", True),
-    ("Things to Do", "/pet-friendly-parks/", True),
-    ("Eat &amp; Drink", "/pet-friendly-restaurants/", True),
-    ("Emergency Pet Care", _EMERGENCY_ANCHOR, False),
-    ("How we verify", "/methodology/", False),
+    ("Places to Stay", "/pet-friendly-hotels/", True, HOTELS_CATEGORY),
+    ("Things to Do", "/pet-friendly-parks/", True, PARKS_CATEGORY),
+    ("Eat &amp; Drink", "/pet-friendly-restaurants/", True, RESTAURANTS_CATEGORY),
+    ("Emergency Pet Care", _EMERGENCY_ANCHOR, False, None),
+    ("How we verify", "/methodology/", False, None),
 )
 
 
-def _header() -> str:
+def _publishes(published: Optional[frozenset], slug: str) -> bool:
+    """``None`` keeps the historical all-categories behaviour."""
+    return published is None or slug in published
+
+
+def _header(hp, cmp_href: str, published: Optional[frozenset]) -> str:
     nav = "".join(
         '<a href="%s">%s%s</a>' % (href, label, _SVG_CARET if caret else "")
-        for label, href, caret in _NAV)
+        for label, href, caret, category in _NAV
+        if category is None or _publishes(published, category))
     return ('<header class="ph-top"><div class="wrap">'
             '<a class="brand" href="/">PetTripFinder<span class="dot">&middot;</span>'
-            '<em>Columbus</em></a>'
+            '<em>%s</em></a>'
             '<nav class="links" aria-label="Primary">%s</nav>'
             '<div class="nav-actions"><a class="saved" href="/pet-friendly-hotels/">%sSaved</a>'
-            '<a class="btn btn-primary" href="/pet-friendly-hotels/policy-comparison/">'
+            '<a class="btn btn-primary" href="%s">'
             'Compare places</a>'
             '<button class="menu" aria-label="Open menu" aria-expanded="false">&#9776;</button>'
-            '</div></div></header>') % (nav, _SVG_HEART)
+            '</div></div></header>') % (_e(hp.brand_label), nav, _SVG_HEART, _a(cmp_href))
 
 
 # Browse/navigation chips -- each is a plain link into the real comparison
-# table. No live filtering, availability or booking is implied.
+# table (the market's own route). No live filtering, availability or booking
+# is implied. ``None`` means the comparison route for the market being built.
 _CHIPS = (
-    (_SVG_CAT, "Cats accepted", "/pet-friendly-hotels/policy-comparison/"),
-    (_SVG_PAWLINE, "Two or more pets", "/pet-friendly-hotels/policy-comparison/"),
-    (_SVG_SCALE, "No stated weight limit", "/pet-friendly-hotels/policy-comparison/"),
-    (_SVG_TAG, "Lower pet charges", "/pet-friendly-hotels/policy-comparison/"),
+    (_SVG_CAT, "Cats accepted", None),
+    (_SVG_PAWLINE, "Two or more pets", None),
+    (_SVG_SCALE, "No stated weight limit", None),
+    (_SVG_TAG, "Lower pet charges", None),
     (_SVG_SHIELDCHK, "Recently verified", "/methodology/"),
 )
 
 
-def _hero() -> str:
-    chips = "".join('<a class="ph-chip" href="%s">%s%s</a>' % (href, icon, _e(label))
+def _hero_media(hp) -> str:
+    """The hero frame: the market's approved photograph, or -- when it has
+    none -- the market-neutral plate.
+
+    A photograph of one city is evidence about that city and nothing else, so
+    it is never inherited. The neutral plate is deterministic, decorative and
+    occupies exactly the same frame (see ``_NEUTRAL_HERO_CSS``)."""
+    if hp.hero_image:
+        return ('<div class="hero-media"><img src="%s" '
+                'alt="%s"></div>') % (_a(hp.hero_image), _a(hp.hero_image_alt))
+    return ('<div class="hero-media hero-media--neutral" aria-hidden="true">'
+            '<span class="hero-plate">%s</span></div>') % _SKYLINE
+
+
+def _hero(hp, cmp_href: str) -> str:
+    chips = "".join('<a class="ph-chip" href="%s">%s%s</a>'
+                    % (_a(href or cmp_href), icon, _e(label))
                     for icon, label, href in _CHIPS)
     search = (
         '<form class="ph-search" action="/pet-friendly-hotels/" method="get">'
         '<label class="ph-field">%s<input type="search" name="q" '
         'placeholder="Search places to stay, parks, patios, or corridors" '
         'aria-label="Search places to stay, parks, patios, or corridors"></label>'
-        '<span class="ph-field loc">%s<b>Columbus, OH</b>%s</span>'
+        '<span class="ph-field loc">%s<b>%s</b>%s</span>'
         '<button class="ph-go" type="submit">Search</button></form>'
-    ) % (_SVG_SEARCH, _SVG_PIN, _SVG_CARET)
+    ) % (_SVG_SEARCH, _SVG_PIN, _e(hp.search_location), _SVG_CARET)
 
     return (
         '<section class="ph-hero">'
-        '<div class="hero-media"><img src="assets/hero-right.jpg" '
-        'alt="Traveler walking a dog along the Scioto riverfront in Columbus"></div>'
+        '%s'
         '<div class="wrap hero-inner">'
-        '<h1>Find a Columbus trip<br>that <em>actually</em> works<br>for your pet.</h1>'
+        '<h1>Find a %s trip<br>that <em>actually</em> works<br>for your pet.</h1>'
         '<p class="sub">Compare pet charges, accepted species, pet limits, weight '
         'restrictions, and recently verified places before you book.</p>'
         '%s<div class="ph-chips">%s</div>'
-        '<aside class="hero-badge"><b>%sColumbus, Ohio</b>'
+        '<aside class="hero-badge"><b>%s%s</b>'
         '<p>Pet-friendly travel starts with verified facts.</p></aside>'
         '</div></section>'
-    ) % (search, chips, _SVG_PIN)
+    ) % (_hero_media(hp), _e(hp.city_label), search, chips, _SVG_PIN,
+         _e(hp.market_label))
 
 
 def _trust_strip() -> str:
@@ -762,10 +898,11 @@ _START_CARDS = (
 )
 
 
-def _start_section() -> str:
+def _start_section(cmp_href: str) -> str:
     cards = "".join(
-        '<a class="start-card" href="/pet-friendly-hotels/policy-comparison/">'
-        '<span class="ico %s">%s</span>%s%s</a>' % (tone, icon, _e(label), _SVG_CHEV)
+        '<a class="start-card" href="%s">'
+        '<span class="ico %s">%s</span>%s%s</a>'
+        % (_a(cmp_href), tone, icon, _e(label), _SVG_CHEV)
         for icon, tone, label in _START_CARDS)
     return ('<section class="section">'
             '<div class="sechead"><h2>Start with what matters to your trip</h2></div>'
@@ -790,8 +927,8 @@ def _place_card(row: Dict, facts_map: Dict, photo: str) -> str:
          _SVG_PAWLINE, limits, _SVG_CHECK, _e(verified))
 
 
-def _featured(hotel_rows: List[Dict], facts_map: Dict) -> str:
-    featured = select_featured(hotel_rows, facts_map, 6)
+def _featured(hotel_rows: List[Dict], facts_map: Dict, hp) -> str:
+    featured = select_featured(hotel_rows, facts_map, 6, hp.featured_hotels)
     photos = ["hotel1.jpg", "hotel2.jpg", "hotel3.jpg", "hotel4.jpg", "hotel5.jpg"]
     cards = "".join(_place_card(r, facts_map, photos[i % len(photos)])
                     for i, r in enumerate(featured))
@@ -806,36 +943,51 @@ def _featured(hotel_rows: List[Dict], facts_map: Dict) -> str:
 # The emergency-care card links to a plain Google Maps query deep-link -- the
 # same no-API, no-fabrication doctrine the tracked /go/ directions pages use.
 # Production carries no vet inventory, so no specific business is ever named.
-_EMERGENCY_MAPS = ("https://www.google.com/maps/search/?api=1"
-                   "&query=24+hour+emergency+veterinarian+Columbus+OH")
+# The location term is the market's own (a Dayton reader searching Columbus
+# emergency vets is the worst possible outcome of a stale label).
+_EMERGENCY_MAPS_PREFIX = ("https://www.google.com/maps/search/?api=1"
+                          "&query=24+hour+emergency+veterinarian+")
 
 
-def _trip() -> str:
-    cards = (
-        ('<a class="trip-card" href="/pet-friendly-parks/">'
-         '<img src="assets/trip1.jpg" alt="Dog playing in a Columbus park">'
-         '<span class="trip-copy"><span class="ico g">%s</span><h3>Parks &amp; trails</h3>'
-         "<p>Explore dog parks and pet-friendly outdoor spaces around Columbus.</p>"
-         '<span class="go">Explore parks &rarr;</span></span></a>') % _SVG_TREE,
+def emergency_maps_url(vet_query_location: str) -> str:
+    return _EMERGENCY_MAPS_PREFIX + quote_plus(vet_query_location)
+
+
+def _trip(hp, published: Optional[frozenset]) -> Tuple[str, int]:
+    """The trip-planning section, plus how many cards it carries (the caller
+    needs the count to size the grid)."""
+    cards = []
+    if _publishes(published, PARKS_CATEGORY):
+        cards.append(
+            ('<a class="trip-card" href="/pet-friendly-parks/">'
+             '<img src="assets/trip1.jpg" alt="Dog playing in a %s park">'
+             '<span class="trip-copy"><span class="ico g">%s</span><h3>Parks &amp; trails</h3>'
+             "<p>Explore dog parks and pet-friendly outdoor spaces around %s.</p>"
+             '<span class="go">Explore parks &rarr;</span></span></a>')
+            % (_a(hp.city_label), _SVG_TREE, _e(hp.city_label)))
+    cards.append(
         ('<a class="trip-card" href="%s" rel="noopener" target="_blank">'
          '<img src="assets/trip3.jpg" alt="Traveler comforting a pet indoors">'
          '<span class="trip-copy"><span class="ico g">%s</span><h3>Emergency pet care</h3>'
          "<p>Find 24/7 veterinary hospitals and urgent care near you.</p>"
          '<span class="go">Find emergency care &rarr;</span></span></a>')
-        % (_EMERGENCY_MAPS, _SVG_STETH),
-        ('<a class="trip-card" href="/pet-friendly-restaurants/">'
-         '<img src="assets/trip2.jpg" alt="Dog at a pet-friendly patio">'
-         '<span class="trip-copy"><span class="ico o">%s</span><h3>Pet-friendly patios</h3>'
-         "<p>Dine out with your dog at verified pet-friendly restaurants.</p>"
-         '<span class="go">Browse patios &rarr;</span></span></a>') % _SVG_FORK,
-    )
+        % (emergency_maps_url(hp.vet_query_location), _SVG_STETH))
+    if _publishes(published, RESTAURANTS_CATEGORY):
+        cards.append(
+            ('<a class="trip-card" href="/pet-friendly-restaurants/">'
+             '<img src="assets/trip2.jpg" alt="Dog at a pet-friendly patio">'
+             '<span class="trip-copy"><span class="ico o">%s</span><h3>Pet-friendly patios</h3>'
+             "<p>Dine out with your dog at verified pet-friendly restaurants.</p>"
+             '<span class="go">Browse patios &rarr;</span></span></a>') % _SVG_FORK)
+    grid_class = "trip-grid" if len(cards) == 3 else "trip-grid trip-grid--n%d" % len(cards)
     return (
         '<section id="trip" class="section">'
-        '<div class="sechead"><h2>Plan the rest of your pet-friendly trip in Columbus</h2></div>'
-        '<div class="trip-grid">%s</div></section>') % "".join(cards)
+        '<div class="sechead"><h2>Plan the rest of your pet-friendly trip in %s</h2></div>'
+        '<div class="%s">%s</div></section>'
+    ) % (_e(hp.city_label), grid_class, "".join(cards)), len(cards)
 
 
-def _band(browse_href: str) -> str:
+def _band(browse_href: str, cmp_href: str) -> str:
     # ``browse_href`` is data-driven (PTF-CORRIDORS-002 Part E): the first
     # PUBLISHED corridor from the market configuration, falling back to the
     # hotels hub when no corridor publishes -- never a hard-coded corridor.
@@ -845,18 +997,20 @@ def _band(browse_href: str) -> str:
         "<div><h3>Travel better together.</h3>"
         "<p>Reliable info. Happy pets. Better trips.</p></div>"
         '<div class="actions">'
-        '<a class="btn btn-primary" href="/pet-friendly-hotels/policy-comparison/">Compare places</a>'
+        '<a class="btn btn-primary" href="%s">Compare places</a>'
         '<a class="btn btn-outline" href="%s">Browse by area</a></div>'
         '<span class="skyline">%s</span>'
-        "</div>") % (_PAW_SOLID, _e(browse_href), _SKYLINE)
+        "</div>") % (_PAW_SOLID, _a(cmp_href), _e(browse_href), _SKYLINE)
 
 
-def _glance(hotel_rows: List[Dict], facts_map: Dict) -> str:
-    picks = select_glance(hotel_rows, facts_map, 5)
+def _glance(hotel_rows: List[Dict], facts_map: Dict, hp, cmp_href: str) -> Tuple[str, bool]:
+    """The glance table, plus whether its narrow trailing columns had to hold
+    a value too long to sit on one line (see ``_GLANCE_WRAP_CSS``)."""
+    picks = select_glance(hotel_rows, facts_map, 5, hp.glance_hotels)
 
     # Subtractive short labels only, and only when they stay unique -- otherwise
     # every row keeps its full committed name.
-    labels = [_short_place(r["name"]) for r in picks]
+    labels = [_short_place(r["name"], hp.city_label) for r in picks]
     if len(set(labels)) != len(labels):
         labels = [r["name"] for r in picks]
 
@@ -866,29 +1020,36 @@ def _glance(hotel_rows: List[Dict], facts_map: Dict) -> str:
         return '<td class="ns">Not stated</td>'
 
     rows = []
+    # The 12%-wide "Max pets" column holds a number; it cannot hold the words
+    # "Not stated" on one line, and an unwrapped cell writes straight over the
+    # column beside it.
+    needs_wrap = False
     for row, label in zip(picks, labels):
         f = _facts_of(row["name"], facts_map)
         fee = _fee(f)
+        pet_count = (f.get("pet_count_limit") or "").strip()
+        needs_wrap = needs_wrap or not pet_count
         rows.append(
             '<tr><td class="name"><a href="/pet-friendly-hotels/%s/" title="%s">%s</a></td>'
             "%s%s<td>%s</td><td>%s</td><td>%s</td></tr>"
             % (_slug(row["name"]), _e(row["name"]), _e(label),
                species_cell(f, "dog"), species_cell(f, "cat"),
                _e("Not stated" if fee == "Fee not stated" else fee),
-               _e((f.get("pet_count_limit") or "").strip() or "Not stated"),
+               _e(pet_count or "Not stated"),
                _e(_weight_lb(f) or "Not stated")))
 
     return (
         '<section id="compare" class="side-card">'
         "<h3>Compare pet policies at a glance</h3>"
-        '<table class="glance">'
+        '<table class="glance%s">' % (" glance--wrap" if needs_wrap else "") +
         '<colgroup><col style="width:27%%"><col style="width:11%%"><col style="width:11%%">'
         '<col style="width:21%%"><col style="width:12%%"><col style="width:18%%"></colgroup>'
         "<thead><tr><th>Place</th><th>Dogs</th><th>Cats</th><th>Fee</th>"
         "<th>Max pets</th><th>Weight limit</th></tr></thead><tbody>%s</tbody></table>"
-        '<a class="glance-more" href="/pet-friendly-hotels/policy-comparison/">'
+        '<a class="glance-more" href="%s">'
         "Compare all verified places %s</a></section>"
-    ) % ("".join(rows), _SVG_ARROW)
+        % ("".join(rows), _a(cmp_href), _SVG_ARROW)
+    ), needs_wrap
 
 
 def _why() -> str:
@@ -903,36 +1064,68 @@ def _why() -> str:
             '<div class="why-grid">%s</div></section>') % grid
 
 
-def _footer(corridor_nav: Sequence[Tuple[str, str]]) -> str:
+#: Footer directory links, in approved order, each with the category it needs.
+_FOOTER_DIRECTORY = (
+    ("/pet-friendly-hotels/", "Places to stay", HOTELS_CATEGORY),
+    ("/pet-friendly-parks/", "Parks &amp; trails", PARKS_CATEGORY),
+    ("/pet-friendly-restaurants/", "Eat &amp; drink", RESTAURANTS_CATEGORY),
+)
+
+
+def _footer(corridor_nav: Sequence[Tuple[str, str]], hp, cmp_href: str,
+            published: Optional[frozenset]) -> str:
     # Corridor links are data-driven (PTF-CORRIDORS-002 Part E): one link per
     # PUBLISHED, nav-visible corridor from the market configuration, in
     # configured display order. A corridor that did not publish gets no link.
     corridor_links = "".join(
         '<a href="%s">%s</a>' % (_e(route), _e(label)) for label, route in corridor_nav)
+    directory_links = "".join(
+        '<a href="%s">%s</a>' % (href, label)
+        for href, label, category in _FOOTER_DIRECTORY
+        if _publishes(published, category))
     return (
         '<footer class="footer"><div class="wrap footer-grid">'
         '<div><a class="brand" href="/">PetTripFinder<span class="dot">&middot;</span>'
-        "<em>Columbus</em></a>"
-        '<p class="note">Verified pet-travel guide for Columbus, Ohio. Temporary imagery shown for '
+        "<em>%s</em></a>"
+        '<p class="note">Verified pet-travel guide for %s. Temporary imagery shown for '
         "this review will be replaced by compliant Google Places media and approved city imagery.</p></div>"
-        '<div><h4>Directory</h4><a href="/pet-friendly-hotels/">Places to stay</a>'
-        '<a href="/pet-friendly-parks/">Parks &amp; trails</a>'
-        '<a href="/pet-friendly-restaurants/">Eat &amp; drink</a></div>'
-        '<div><h4>Planning</h4><a href="/pet-friendly-hotels/policy-comparison/">Compare policies</a>'
-        + corridor_links +
+        '<div><h4>Directory</h4>%s</div>'
+        '<div><h4>Planning</h4><a href="%s">Compare policies</a>'
+        "%s"
         '<a href="/methodology/">How verification works</a></div>'
         '<div><h4>Company</h4><a href="/about/">About</a><a href="/contact/">Contact</a>'
-        '<a href="/methodology/">Privacy</a></div></div></footer>')
+        '<a href="/methodology/">Privacy</a></div></div></footer>'
+    ) % (_e(hp.brand_label), _e(hp.market_label), directory_links, _a(cmp_href),
+         corridor_links)
 
 
 # --------------------------------------------------------------------------- #
 # Page.
 # --------------------------------------------------------------------------- #
 
+def resolve_homepage(market):
+    """The market's homepage identity, with its hero asset proven to exist.
+
+    A configured hero that this renderer does not ship would publish a broken
+    image where the approved composition expects a photograph, so it fails
+    closed rather than degrading."""
+    from scripts.pettripfinder.markets import homepage_config
+
+    hp = homepage_config(market)
+    if hp.hero_image:
+        asset = _ASSETS_DIR / Path(hp.hero_image).name
+        if not hp.hero_image.startswith("assets/") or not asset.is_file():
+            raise HomepageAssetError(
+                "market %r homepage hero_image %r is not an approved asset shipped by "
+                "this renderer (%s)" % (market.market_id, hp.hero_image, _ASSETS_DIR))
+    return hp
+
+
 def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
                 park_count: int, restaurant_count: int,
                 corridor_nav: Optional[Sequence[Tuple[str, str]]] = None,
-                market=None) -> str:
+                market=None,
+                published_categories: Optional[Sequence[str]] = None) -> str:
     """Render the approved final homepage.
 
     ``hotel_count``/``park_count``/``restaurant_count`` are accepted to keep
@@ -950,57 +1143,92 @@ def render_home(hotel_rows: List[Dict], facts_map: Dict, *, hotel_count: int,
     ``market`` (PTF-MULTIMARKET-001): the market to derive that fallback
     navigation from. Omitted, it is this build's named production market, so
     the derivation cannot change because another market was registered.
+
+    ``market`` also carries the page's IDENTITY
+    (PTF-MULTI-MARKET-HOMEPAGE-AWARENESS-001): title, description, wordmark,
+    hero headline and badge, search location, trip copy, emergency-vet query,
+    footer label and hero photograph all come from that market's committed
+    ptf-market configuration. There is no market-shaped literal left in this
+    module, so no market can inherit another's identity.
+
+    ``published_categories``: the directory categories this market actually
+    builds. ``None`` keeps the historical all-three behaviour; naming fewer
+    drops the nav, trip and footer links to directories that do not exist.
     """
+    from scripts.pettripfinder.market_context import resolve_market
+    from scripts.pettripfinder.markets import market_route
+
+    market = resolve_market(market)
     if corridor_nav is None:
-        from scripts.pettripfinder.market_context import resolve_market
         from scripts.pettripfinder.markets import assign_hotels, corridor_navigation
-        market = resolve_market(market)
         entries = corridor_navigation(market, assign_hotels(market, hotel_rows))
         corridor_nav = [(e.label, e.route) for e in entries]
     browse_href = corridor_nav[0][1] if corridor_nav else "/pet-friendly-hotels/"
+    hp = resolve_homepage(market)
+    published = None if published_categories is None else frozenset(published_categories)
+    # The comparison page follows the market's route mode -- Columbus is
+    # legacy_unprefixed, a market_prefixed market puts it under its own
+    # prefix, and every link on this page must follow the file.
+    cmp_href = market_route(market) + "policy-comparison/"
+
+    trip_section, trip_cards = _trip(hp, published)
+    glance_section, glance_wrap = _glance(hotel_rows, facts_map, hp, cmp_href)
     body = (
         '<a class="skip skip-link" href="#main">Skip to content</a>'
-        + _header()
+        + _header(hp, cmp_href, published)
         + '<main id="main">'
-        + _hero()
+        + _hero(hp, cmp_href)
         + '<div class="wrap ph-body">'
         + '<div class="col-main">'
         + _trust_strip()
-        + _start_section()
-        + _featured(hotel_rows, facts_map)
-        + _trip()
-        + _band(browse_href)
+        + _start_section(cmp_href)
+        + _featured(hotel_rows, facts_map, hp)
+        + trip_section
+        + _band(browse_href, cmp_href)
         + "</div>"
         + '<aside class="col-side" aria-label="Policy comparison and how we verify">'
-        + _glance(hotel_rows, facts_map)
+        + glance_section
         + _why()
         + ('<div class="side-skyline" aria-hidden="true">%s</div>' % _SKYLINE)
         + "</aside>"
         + "</div>"
         + "</main>"
-        + _footer(corridor_nav)
+        + _footer(corridor_nav, hp, cmp_href, published)
         + _JS
     )
+    css = HOME_CSS
+    if not hp.hero_image:
+        css += _NEUTRAL_HERO_CSS
+    if len(hp.brand_label) > _BRAND_LABEL_BUDGET:
+        css += _LONG_BRAND_CSS
+    css += _TRIP_COLUMNS_CSS.get(trip_cards, "")
+    if glance_wrap:
+        css += _GLANCE_WRAP_CSS
     return (
         '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        "<title>Pet-Friendly Travel in Columbus, Ohio | PetTripFinder</title>"
-        '<meta name="description" content="Find a Columbus trip that actually works for your pet: '
-        "compare verified pet charges, accepted species, pet limits and weight restrictions across "
-        'places to stay, parks, patios and emergency pet care.">'
+        "<title>%s</title>"
+        '<meta name="description" content="%s">'
         '<meta name="robots" content="index, follow">'
         '<link rel="canonical" href="https://pettripfinder.com/">'
         "<style>%s</style></head><body>%s</body></html>"
-    ) % (HOME_CSS, body)
+    ) % (_e(hp.title), _a(hp.meta_description), css, body)
 
 
-def copy_assets(out_dir: Path) -> int:
+def copy_assets(out_dir: Path, *, include_city_photography: bool = True) -> int:
     """Copy the approved temporary review assets into ``<out_dir>/assets/``.
-    Returns the number of files copied."""
+    Returns the number of files copied.
+
+    ``include_city_photography`` is False for a market with no approved hero
+    of its own: the city-identifiable photographs are then not even shipped in
+    that market's bundle, so there is nothing for a later change to
+    accidentally render as somewhere it is not."""
     dst = Path(out_dir) / "assets"
     dst.mkdir(parents=True, exist_ok=True)
     n = 0
     for p in sorted(_ASSETS_DIR.glob("*.jpg")):
+        if not include_city_photography and p.name in _CITY_PHOTOGRAPHY:
+            continue
         shutil.copyfile(p, dst / p.name)
         n += 1
     return n

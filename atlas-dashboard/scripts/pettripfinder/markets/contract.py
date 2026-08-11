@@ -54,6 +54,11 @@ _SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _STATE_CODE_RE = re.compile(r"^[A-Z]{2}$")
 _COUNTRY_CODE_RE = re.compile(r"^[A-Z]{2}$")
 _US_POSTAL_RE = re.compile(r"^\d{5}$")
+#: A homepage hero asset is a relative path into the renderer's OWN approved
+#: asset directory. Anything else -- an absolute path, a remote URL, a parent
+#: traversal -- is a configuration error, so a market can never point its hero
+#: at imagery this repository has not approved and does not ship.
+_HERO_ASSET_RE = re.compile(r"^assets/[A-Za-z0-9][A-Za-z0-9._-]*\.(?:jpg|jpeg|png|webp)$")
 
 
 class MarketContractError(ValueError):
@@ -89,6 +94,73 @@ class CorridorConfig:
 
 
 @dataclass(frozen=True)
+class HomepageConfig:
+    """PTF-MULTI-MARKET-HOMEPAGE-AWARENESS-001 -- the market identity the
+    approved homepage renders.
+
+    The approved homepage renderer used to carry one market's identity as
+    literals: its page title, wordmark, hero headline, search location, trip
+    copy, emergency-vet query, footer branding, hero photograph and the
+    curated hotels it puts on its cards. Every other market's build inherited
+    all of it.
+
+    These fields are that identity, and they are configuration. Every one
+    of them DERIVES from fields the market already declares (see
+    ``derive_homepage``), so registering market N+1 needs no homepage block at
+    all and can never receive another market's copy. A block is authored only
+    where a market's approved homepage says something its generic identity
+    cannot state -- founder-approved copy, or an approved photograph.
+
+    ``hero_image``/``hero_image_alt`` are empty for a market with no approved
+    hero photograph. That is a deliberate, honest state, not a missing value:
+    the renderer draws a non-photographic neutral hero rather than reusing
+    another market's city.
+    """
+
+    #: HTML <title>.
+    title: str
+    #: <meta name="description">.
+    meta_description: str
+    #: The wordmark suffix ("PetTripFinder . <brand_label>"), header and footer.
+    brand_label: str
+    #: Full market identity: hero badge and footer note.
+    market_label: str
+    #: City-scale name used in prose (hero headline, trip section, image alt).
+    city_label: str
+    #: The search row's location control.
+    search_location: str
+    #: Location term for the emergency-veterinarian Maps query.
+    vet_query_location: str
+    #: Approved hero photograph, relative to the site root ("" = none).
+    hero_image: str
+    #: Alt text for that photograph ("" when there is no photograph).
+    hero_image_alt: str
+    #: Curated "recently verified places" cards, by committed record name.
+    #: Empty means the renderer's deterministic fallback ordering decides.
+    #: Names that are not in the market's published inventory are ignored, so
+    #: this can never invent a listing.
+    featured_hotels: Tuple[str, ...] = ()
+    #: Curated rows for the "compare at a glance" table, same rules.
+    glance_hotels: Tuple[str, ...] = ()
+
+
+#: Every field a ``homepage`` block may set. An unknown key fails closed: a
+#: typo'd override would otherwise fall back to the derived value silently,
+#: and the market would publish copy nobody authored.
+HOMEPAGE_FIELDS = (
+    "title", "meta_description", "brand_label", "market_label", "city_label",
+    "search_location", "vet_query_location", "hero_image", "hero_image_alt",
+    "featured_hotels", "glance_hotels",
+)
+
+#: Fields that may be empty (see ``HomepageConfig.hero_image``).
+_HOMEPAGE_OPTIONAL_FIELDS = ("hero_image", "hero_image_alt")
+
+#: Fields carrying a list of record names rather than a single string.
+_HOMEPAGE_LIST_FIELDS = ("featured_hotels", "glance_hotels")
+
+
+@dataclass(frozen=True)
 class MarketConfig:
     market_id: str
     market_name: str
@@ -106,6 +178,10 @@ class MarketConfig:
     minimum_published_hotels: int
     route_mode: str
     corridors: Tuple[CorridorConfig, ...] = field(default_factory=tuple)
+    #: Optional so a hand-constructed MarketConfig (tests, ad-hoc tooling)
+    #: stays valid. ``homepage_config`` derives the identity when it is None,
+    #: so a caller can never read a market's homepage as another market's.
+    homepage: Optional[HomepageConfig] = None
 
     def corridor_by_id(self, corridor_id: str) -> CorridorConfig:
         for corridor in self.corridors:
@@ -207,6 +283,110 @@ def _parse_corridor(data: Dict, market_id: str, country_code: str, source: str) 
     )
 
 
+def _derive_market_label(market_name: str, state_name: str) -> str:
+    """The full display identity: the market's own name, qualified by its state
+    only when the name does not already carry it.
+
+    "Columbus" + "Ohio" -> "Columbus, Ohio"; "Dayton & West Central Ohio"
+    already says Ohio and is left alone."""
+    name = (market_name or "").strip()
+    state = (state_name or "").strip()
+    if not state or re.search(r"\b%s\b" % re.escape(state), name):
+        return name
+    return "%s, %s" % (name, state)
+
+
+def derive_homepage(*, market_name: str, navigation_label: str, primary_city: str,
+                    state_name: str, state_code: str,
+                    meta_description: str) -> HomepageConfig:
+    """The homepage identity implied by a market's own declared fields.
+
+    This is the general law, not a fallback of last resort: every registered
+    market's homepage identity is derived unless it explicitly overrides a
+    value. Nothing here can produce another market's name, so a market with no
+    ``homepage`` block gets a correct -- if plain -- homepage rather than
+    inheriting whichever market happened to be built first.
+    """
+    market_label = _derive_market_label(market_name, state_name)
+    return HomepageConfig(
+        title="Pet-Friendly Travel in %s | PetTripFinder" % market_label,
+        # The market's own committed description. Authored per market, already
+        # canonical, and never about anywhere else.
+        meta_description=meta_description,
+        # The wordmark is navigation: it takes the label the market authored
+        # for navigation, which is the compact form of its identity.
+        brand_label=navigation_label,
+        market_label=market_label,
+        city_label=primary_city,
+        search_location="%s, %s" % (primary_city, state_code),
+        vet_query_location="%s %s" % (primary_city, state_code),
+        hero_image="",
+        hero_image_alt="",
+        featured_hotels=(),
+        glance_hotels=(),
+    )
+
+
+def _parse_homepage(data: Dict, src: str, derived: HomepageConfig) -> HomepageConfig:
+    """Validate a market's ``homepage`` overrides over its derived identity."""
+    block = data.get("homepage")
+    if block is None:
+        return derived
+    if not isinstance(block, dict):
+        raise MarketContractError("%s: field 'homepage' must be a JSON object" % src)
+    # Underscore-prefixed keys are documentation, the same convention the rest
+    # of these config files already use (``_route_mode_note``, ``_boundary_note``).
+    unknown = sorted(k for k in set(block) - set(HOMEPAGE_FIELDS)
+                     if not k.startswith("_"))
+    if unknown:
+        raise MarketContractError(
+            "%s: unknown homepage field(s) %s (known: %s)"
+            % (src, unknown, list(HOMEPAGE_FIELDS)))
+    values = {}
+    for key in HOMEPAGE_FIELDS:
+        if key not in block:
+            values[key] = getattr(derived, key)
+            continue
+        if key in _HOMEPAGE_LIST_FIELDS:
+            values[key] = _string_tuple(block, key, "%s homepage" % src)
+            continue
+        value = block[key]
+        if not isinstance(value, str):
+            raise MarketContractError(
+                "%s: homepage field %r must be a string" % (src, key))
+        value = value.strip()
+        if not value and key not in _HOMEPAGE_OPTIONAL_FIELDS:
+            raise MarketContractError(
+                "%s: homepage field %r must be non-empty" % (src, key))
+        values[key] = value
+    if values["hero_image"] and not _HERO_ASSET_RE.match(values["hero_image"]):
+        raise MarketContractError(
+            "%s: homepage hero_image %r must be a relative path into the approved "
+            "asset directory (assets/<file>.jpg|jpeg|png|webp)"
+            % (src, values["hero_image"]))
+    # A hero photograph without alt text is inaccessible, and alt text without
+    # a photograph describes nothing. Neither half is publishable alone.
+    if bool(values["hero_image"]) != bool(values["hero_image_alt"]):
+        raise MarketContractError(
+            "%s: homepage hero_image and hero_image_alt must be set together "
+            "(a hero photograph is unpublishable without alt text)" % src)
+    return HomepageConfig(**values)
+
+
+def homepage_config(market: MarketConfig) -> HomepageConfig:
+    """The homepage identity of ``market``.
+
+    Configured markets carry a parsed identity; a hand-constructed
+    MarketConfig derives one here. Either way the answer comes from that
+    market's own fields."""
+    if market.homepage is not None:
+        return market.homepage
+    return derive_homepage(
+        market_name=market.market_name, navigation_label=market.navigation_label,
+        primary_city=market.primary_city, state_name=market.state_name,
+        state_code=market.state_code, meta_description=market.meta_description)
+
+
 def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
     """Validate one market document (fail closed) and return its config."""
     if not isinstance(data, dict):
@@ -257,23 +437,34 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
         seen_slugs[corridor.slug] = corridor.corridor_id
         seen_orders[corridor.display_order] = corridor.corridor_id
 
+    market_name = _require(data, "market_name", str, src)
+    state_name = _require(data, "state_name", str, src)
+    primary_city = _require(data, "primary_city", str, src)
+    meta_description = _require(data, "meta_description", str, src)
+    navigation_label = _require(data, "navigation_label", str, src)
+    homepage = _parse_homepage(data, src, derive_homepage(
+        market_name=market_name, navigation_label=navigation_label,
+        primary_city=primary_city, state_name=state_name, state_code=state_code,
+        meta_description=meta_description))
+
     return MarketConfig(
         market_id=market_id,
-        market_name=_require(data, "market_name", str, src),
+        market_name=market_name,
         market_slug=market_slug,
-        state_name=_require(data, "state_name", str, src),
+        state_name=state_name,
         state_code=state_code,
-        primary_city=_require(data, "primary_city", str, src),
+        primary_city=primary_city,
         country_code=country_code,
         title=_require(data, "title", str, src),
-        meta_description=_require(data, "meta_description", str, src),
+        meta_description=meta_description,
         introductory_copy=_require(data, "introductory_copy", str, src, allow_empty=True),
-        navigation_label=_require(data, "navigation_label", str, src),
+        navigation_label=navigation_label,
         show_in_navigation=_require(data, "show_in_navigation", bool, src),
         show_in_sitemap=_require(data, "show_in_sitemap", bool, src),
         minimum_published_hotels=minimum_published,
         route_mode=route_mode,
         corridors=corridors,
+        homepage=homepage,
     )
 
 

@@ -411,15 +411,25 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # records, the real inventory counts, and live routes; its temporary review
     # imagery is copied into the site's /assets/ (Google Places media is a
     # separate later phase). Every other page/route is unchanged.
+    #
+    # PTF-MULTI-MARKET-HOMEPAGE-AWARENESS-001: the market is passed EXPLICITLY.
+    # The renderer used to carry Columbus's identity as literals, so this page
+    # was the one surface a non-Columbus build still published as Columbus --
+    # title, wordmark, headline, search location, vet query, footer, and the
+    # Scioto riverfront photograph. It also links only to the directories this
+    # market builds, and city photography ships only where it belongs.
     from scripts.pettripfinder.approved_home import render as approved_home
+    _homepage = approved_home.resolve_homepage(market)
     (out_dir / "index.html").write_text(
         approved_home.render_home(
             hotel_rows, policy_facts, hotel_count=len(hotel_rows),
             park_count=len(park_rows), restaurant_count=len(restaurant_rows),
             corridor_nav=[(e.label, e.route)
-                          for e in corridor_navigation(market, assignment)]),
+                          for e in corridor_navigation(market, assignment)],
+            market=market, published_categories=sorted(_present)),
         encoding="utf-8", newline="\n")
-    approved_home.copy_assets(out_dir)
+    approved_home.copy_assets(
+        out_dir, include_city_photography=bool(_homepage.hero_image))
 
     # --- methodology page rewrite ------------------------------------------
     (out_dir / "methodology").mkdir(exist_ok=True)
