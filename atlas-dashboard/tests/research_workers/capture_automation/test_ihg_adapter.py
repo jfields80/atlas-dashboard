@@ -200,8 +200,35 @@ class TestIhgInteraction:
 # 4. IHG through the runner.
 # --------------------------------------------------------------------------- #
 
+#: The one test below that leaves the fixtures and asks the REAL generator what
+#: it selects depends on ``retr-<id>.json`` retrieval artifacts under
+#: ``data/worker_runs/pettripfinder/``, which is gitignored. With none on disk
+#: ``build_queue`` excludes every hotel for want of a demonstrated automated
+#: failure, selects nothing, and the assertion reads as an adapter regression
+#: when the adapter was never reached. Same precondition, same wording and same
+#: reasoning as ``tests/pettripfinder/test_build_capture_queue.py``; calling
+#: ``retrieval_artifacts()`` itself, rather than testing for the directory,
+#: keeps a real selection regression failing instead of skipping.
+_ARTIFACT_REASON = (
+    "no retrieval artifacts on disk: data/worker_runs/pettripfinder/retr-*.json "
+    "is gitignored, so build_queue() excludes every hotel for want of a "
+    "demonstrated automated failure and selects nothing. Run in a checkout that "
+    "carries data/.")
+
+
+@pytest.fixture(scope="module")
+def real_retrieval_artifacts():
+    """Skip, with the reason named, when no hotel can be selected at all."""
+    from scripts.pettripfinder.build_capture_queue import retrieval_artifacts
+
+    if not retrieval_artifacts():
+        pytest.skip(_ARTIFACT_REASON)
+
+
 class TestIhgThroughTheRunner:
     def test_a_staybridge_page_captures(self, tmp_path):
+        # Fixture-driven and self-contained: this one exercises the adapter
+        # itself and stands alone in any checkout, so it is NOT gated.
         session = FakeBrowserSession(pages_from(IHG))
         runner = CaptureRunner(session, RunnerConfig(batch_dir=tmp_path / "b"),
                                clock=_clock(), sleep=lambda s: None,
@@ -211,7 +238,8 @@ class TestIhgThroughTheRunner:
         cap = result.manifest["successful_captures"][0]
         assert "cmhtc" in cap["citable_url"]
 
-    def test_the_queue_generator_selects_the_real_staybridge(self):
+    def test_the_queue_generator_selects_the_real_staybridge(
+            self, real_retrieval_artifacts):
         from scripts.pettripfinder.build_capture_queue import build_queue
         result = build_queue(batch_id="c", brands=["ihg"])
         assert result.counts["selected"] == 1
