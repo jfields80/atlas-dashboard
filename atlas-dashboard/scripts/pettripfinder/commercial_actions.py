@@ -154,10 +154,21 @@ def go_route(listing_id: str, action: str) -> str:
     return "/go/%s/%s/" % (listing_id, action)
 
 
+#: The market an analytics dimension names when no caller supplies one.
+#:
+#: This is a DEFAULT, not the market. It stayed correct for as long as
+#: PetTripFinder had one market, and PTF-DAYTON-INTEGRATION-001 is where that
+#: stopped being true: every one of the Dayton build's 165 /go/ pages emitted
+#: ``"market": "columbus-oh"``, so an outbound click on a Dayton hotel would
+#: have been attributed to Columbus. Callers that know their market now pass
+#: it; the default is kept so the Columbus build's bytes do not move.
+DEFAULT_ANALYTICS_MARKET = "columbus-oh"
+
+
 def build_go_page(*, listing_id: str, listing_name: str, action: str,
                   destination: str, page_type: str, category: str,
                   corridor: str = "", verification_status: str = "",
-                  market: str = "columbus-oh") -> Tuple[str, str]:
+                  market: str = DEFAULT_ANALYTICS_MARKET) -> Tuple[str, str]:
     """Returns ``(route, html)`` for one static outbound redirect page.
     Refuses (raises ``ValueError``) a destination that fails the fail-closed
     safety check -- never emits an unsafe redirect. The page fires an

@@ -368,9 +368,10 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         page_html = render_production_hotel_profile(
             row, facts_entry, hotel_rows, policy_facts,
             park_rows=park_rows, restaurant_rows=restaurant_rows,
-            corridor_href=corridor_href)
+            corridor_href=corridor_href, market_id=market.market_id)
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
-        go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry))
+        go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry,
+                                             market=market.market_id))
 
     # --- park / restaurant profiles -----------------------------------------
     for rows, slug, place_type in ((park_rows, "pet-friendly-parks", "Park"),
@@ -390,7 +391,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
                 listing_id=listing_id, name=row["name"], official_url=row.get("website_url", ""),
                 phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
                 state=row.get("state", ""), category_slug=slug, corridor="",
-                verification_status="POLICY_UNVERIFIED"))
+                verification_status="POLICY_UNVERIFIED", market=market.market_id))
 
     # --- hotel category page -------------------------------------------------
     hotel_cat_path = out_dir / "pet-friendly-hotels" / "index.html"
@@ -400,7 +401,8 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     }
     hotel_cat_html = hotel_cat_path.read_text(encoding="utf-8")
     hotel_cat_html = enrich_hotel_category_page(
-        hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route)
+        hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route,
+        market=market.market_id)
     hotel_cat_path.write_text(hotel_cat_html, encoding="utf-8", newline="\n")
 
     # --- homepage (PETTRIPFINDER approved coded prototype) --------------------

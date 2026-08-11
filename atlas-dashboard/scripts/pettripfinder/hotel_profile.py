@@ -1324,7 +1324,8 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
 # Adapters.
 # --------------------------------------------------------------------------- #
 
-def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3) -> Tuple[RelatedHotel, ...]:
+def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3,
+                             market_id: str = None) -> Tuple[RelatedHotel, ...]:
     out = []
     for row in sorted(all_hotel_rows, key=lambda r: normalize_name(r["name"])):
         if normalize_name(row["name"]) == normalize_name(self_name):
@@ -1333,7 +1334,8 @@ def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3)
         fact = _related_fact(fe["facts"]) if fe else ""
         date = _friendly_date((fe["verified_at"] if fe else "") or row.get("observed_at", ""))
         out.append(RelatedHotel(
-            name=row["name"], area=_corridor_area(row.get("city", ""), row["name"]),
+            name=row["name"],
+            area=_corridor_area(row.get("city", ""), row["name"], market_id),
             fact=fact, verified_at=date,
             route="/pet-friendly-hotels/%s/" % _slug(row["name"])))
         if len(out) >= limit:
@@ -1346,7 +1348,8 @@ def _slug(text: str) -> str:
 
 
 def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
-                            all_hotel_rows, facts_map) -> HotelProfileVM:
+                            all_hotel_rows, facts_map,
+                            market_id: str = None) -> HotelProfileVM:
     """Verified pet-friendly VM from a production seed row + its READY-candidate
     facts. Rich when the candidate stated fee/species/limits; sparse when it
     stated only that pets are welcome. Never invents a field."""
@@ -1357,7 +1360,7 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
     quote = (facts_entry or {}).get("evidence_quote") if facts_entry else None
     return HotelProfileVM(
         state=STATE_VERIFIED, name=row["name"],
-        corridor=_corridor_label(row.get("city", ""), row["name"]),
+        corridor=_corridor_label(row.get("city", ""), row["name"], market_id),
         initials=_initials(row["name"]),
         address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""), row.get("state", ""), row.get("postal_code", "")),
         phone=row.get("phone", ""), official_url=row.get("website_url", ""),
@@ -1370,7 +1373,8 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
         evidence_quote=quote,
         details_rows=rows, details_plain=plain, details_note=note,
         actions_mode="book",
-        related=_related_from_production(row["name"], all_hotel_rows, facts_map),
+        related=_related_from_production(row["name"], all_hotel_rows, facts_map,
+                                         market_id=market_id),
         source_url=((facts_entry or {}).get("source_url", "") if facts_entry else ""))
 
 
@@ -1434,7 +1438,8 @@ def build_vm_from_unverified(cand: Dict, all_hotel_rows, facts_map) -> HotelProf
         related=_related_from_production(name, all_hotel_rows, facts_map))
 
 
-def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, facts_map) -> HotelProfileVM:
+def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, facts_map,
+                                        market_id: str = None) -> HotelProfileVM:
     """POLICY_UNVERIFIED VM for a real production seed row that has no verified
     facts. Identical honest wording to build_vm_from_unverified, but keeps the
     row's real identity (full address + phone + official URL) instead of the
@@ -1445,7 +1450,7 @@ def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, fac
                   ("Dogs", "Cats", "Pet charge", "Charge basis", "Max pets", "Weight limit"))
     return HotelProfileVM(
         state=STATE_UNVERIFIED, name=name,
-        corridor=_corridor_label(row.get("city", ""), name),
+        corridor=_corridor_label(row.get("city", ""), name, market_id),
         initials=_initials(name),
         address="%s, %s, %s %s" % (row.get("address", ""), row.get("city", ""),
                                    row.get("state", ""), row.get("postal_code", "")),
@@ -1463,7 +1468,8 @@ def build_vm_from_production_unverified(row: Dict[str, str], all_hotel_rows, fac
                        "confirm directly with the property before you travel with a pet."),
         prov_status="not verified",
         actions_mode="unverif",
-        related=_related_from_production(name, all_hotel_rows, facts_map))
+        related=_related_from_production(name, all_hotel_rows, facts_map,
+                                         market_id=market_id))
 
 
 _BRAND_MAP = {"druryhotels.com": "Drury Hotels", "daysinncolumbusohio.com": "Days Inn",

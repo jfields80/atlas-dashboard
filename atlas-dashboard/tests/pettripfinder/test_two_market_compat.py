@@ -57,7 +57,15 @@ def two_markets(tmp_path_factory):
     """A markets directory holding columbus-oh AND a second market, installed
     over the loader's directory for the duration of the module."""
     directory = tmp_path_factory.mktemp("two_markets")
-    shutil.copy2(REAL_MARKETS_DIR / "columbus-oh.json", directory / "columbus-oh.json")
+    # EVERY registered market is copied, not just Columbus. These tests read the
+    # REAL seed inventory, and market_ownership fail-closes on a row whose
+    # market is absent from the registry it is handed -- so a fixture registry
+    # narrower than the committed one makes the ownership guard reject real
+    # rows for a reason that has nothing to do with what is being tested. The
+    # synthetic second market is still written over its id afterwards, which is
+    # what keeps the ambiguity guard below meaningful.
+    for path in sorted(REAL_MARKETS_DIR.glob("*.json")):
+        shutil.copy2(path, directory / path.name)
     (directory / ("%s.json" % SECOND_MARKET_ID)).write_text(
         json.dumps(_second_market_doc(), indent=2), encoding="utf-8")
 
@@ -71,7 +79,11 @@ def two_markets(tmp_path_factory):
     market_reports.MARKETS_DIR = directory
     hotel_profile._MARKET_DISPLAY_CONTEXT = {}
     try:
-        assert len(load_markets()) == 2
+        # ">= 2" is the property these tests actually need: more than one
+        # market configured, so "the only one configured" cannot be guessed.
+        # Pinning the exact number recorded how many markets existed the day
+        # this was written, and dayton-oh invalidated that record, not the test.
+        assert len(load_markets()) >= 2
         yield directory
     finally:
         market_contract.MARKETS_DIR = previous_dir

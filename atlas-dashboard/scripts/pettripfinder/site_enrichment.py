@@ -38,6 +38,7 @@ from scripts.pettripfinder.commercial_actions import (
     ACTION_OFFICIAL_WEBSITE,
     ACTION_REPORT_CHANGE,
     ANALYTICS_JS,
+    DEFAULT_ANALYTICS_MARKET,
     AffiliateConfig,
     build_go_page,
     build_redirect_target,
@@ -244,6 +245,7 @@ def build_go_pages_for_listing(
     *, listing_id: str, name: str, official_url: str, phone: str, address: str,
     city: str, state: str, category_slug: str, corridor: str, verification_status: str,
     affiliate: Optional[AffiliateConfig] = None, include_booking: bool = False,
+    market: str = DEFAULT_ANALYTICS_MARKET,
 ) -> Dict[str, str]:
     """Returns ``{route: html}`` for every applicable action on one
     listing. DIRECTIONS uses a Google Maps search-by-address URL (no API
@@ -281,7 +283,7 @@ def build_go_pages_for_listing(
         route, page_html = build_go_page(
             listing_id=listing_id, listing_name=name, action=action, destination=destination,
             page_type="listing_profile", category=category_slug, corridor=corridor,
-            verification_status=verification_status)
+            verification_status=verification_status, market=market)
         pages[route.rstrip("/") + "/index.html"] = page_html
     return pages
 
@@ -424,7 +426,7 @@ _FILTER_JS = """\
         var show = !value || text.indexOf(value) !== -1 || cardMatchesCorridor(card, value);
         card.style.display = show ? '' : 'none';
       });
-      window.ptfAnalytics && window.ptfAnalytics.emit('filter_applied', {page_type: 'category', action_position: 'toolbar', market: 'columbus-oh', filter_value: value});
+      window.ptfAnalytics && window.ptfAnalytics.emit('filter_applied', {page_type: 'category', action_position: 'toolbar', market: '%(market)s', filter_value: value});
     });
   });
   function cardMatchesCorridor(card, value) {
@@ -436,7 +438,8 @@ _FILTER_JS = """\
 
 
 def enrich_hotel_category_page(html_text: str, corridor_labels: List[str],
-                               corridor_by_route: Dict[str, str]) -> str:
+                               corridor_by_route: Dict[str, str],
+                               market: str = DEFAULT_ANALYTICS_MARKET) -> str:
     _require(_RESULTS_SUMMARY_CLOSE in html_text, "missing results-summary anchor")
     out = html_text.replace(
         _RESULTS_SUMMARY_CLOSE,
@@ -461,7 +464,8 @@ def enrich_hotel_category_page(html_text: str, corridor_labels: List[str],
         _tag_corridor, out)
 
     _require(_HEAD_CLOSE in out, "missing </head> anchor")
-    script = "<script>%s\n%s</script>" % (ANALYTICS_JS, _FILTER_JS)
+    script = "<script>%s\n%s</script>" % (ANALYTICS_JS,
+                                          _FILTER_JS % {"market": market})
     out = out.replace(_MAIN_CLOSE, _MAIN_CLOSE, 1)  # no-op guard: main exists
     out = out.replace("</body>", script + "</body>", 1)
     return out

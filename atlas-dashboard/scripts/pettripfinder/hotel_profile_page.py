@@ -36,6 +36,7 @@ from scripts.pettripfinder.hotel_profile import (
 )
 from scripts.pettripfinder.site_enrichment import (
     BASE_URL,
+    DEFAULT_ANALYTICS_MARKET,
     build_go_pages_for_listing,
     inject_head,
 )
@@ -154,6 +155,7 @@ def render_production_hotel_profile(
     park_rows: Optional[List[Dict[str, str]]] = None,
     restaurant_rows: Optional[List[Dict[str, str]]] = None,
     corridor_href: Optional[str] = None,
+    market_id: Optional[str] = None,
 ) -> str:
     """A complete, SEO-integrated hotel-profile page for one production row,
     rendered by the founder-approved profile design
@@ -168,9 +170,11 @@ def render_production_hotel_profile(
             "unexpected no-pets facts on production hotel row %r; production "
             "inventory contains no no-pets hotels" % row.get("name"))
     if facts_entry:
-        vm = build_vm_from_production(row, facts_entry, hotel_rows, facts_map)
+        vm = build_vm_from_production(row, facts_entry, hotel_rows, facts_map,
+                                      market_id=market_id)
     else:
-        vm = build_vm_from_production_unverified(row, hotel_rows, facts_map)
+        vm = build_vm_from_production_unverified(row, hotel_rows, facts_map,
+                                                 market_id=market_id)
     assert vm.state != STATE_NO_PETS  # guarded above; documents the invariant
     listing_id = _slug(row["name"])
     html_text = render_approved_hotel_profile(
@@ -185,6 +189,7 @@ def render_production_hotel_profile(
 
 def build_hotel_go_pages(
     row: Dict[str, str], listing_id: str, corridor: str, facts_entry: Optional[Dict],
+    market: str = DEFAULT_ANALYTICS_MARKET,
 ) -> Dict[str, str]:
     """The /go/ interstitials the approved hotel renderer links to, including
     /go/<id>/booking/ (verified pet-friendly hotels only -- the booking CTA is
@@ -196,4 +201,5 @@ def build_hotel_go_pages(
         listing_id=listing_id, name=row["name"], official_url=row.get("website_url", ""),
         phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
         state=row.get("state", ""), category_slug=CATEGORY_SLUG, corridor=corridor,
-        verification_status=status, include_booking=include_booking)
+        verification_status=status, include_booking=include_booking,
+        market=market)
