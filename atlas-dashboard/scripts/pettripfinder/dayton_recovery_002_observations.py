@@ -290,6 +290,21 @@ def build_batch() -> List[Dict]:
                               "template did not render in the static fetch"}],
         ))
 
+    # -- Hotel Versailles -- JSON-LD negative fact + address correction ---- #
+    c = _load_capture("hotel-versailles")
+    q = '"petsAllowed": false'
+    assert _quote_in_capture(c, q), "hotel-versailles quote not found"
+    batch.append(_obs(
+        "hotel-versailles", obs_n=1,
+        source_url=c["url"], source_type="official_structured_data",
+        name_on_page="Hotel Versailles",
+        address_on_page="22 North Center Street, Versailles, OH 45380",
+        phone_on_page="937.526.3020",
+        evidence=[{"quote": q, "location": "JSON-LD LodgingBusiness schema",
+                   "field_refs": ["pets_allowed"]}],
+        extraction={"pets_allowed": "false"},
+    ))
+
     return batch
 
 

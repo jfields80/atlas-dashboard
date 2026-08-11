@@ -40,7 +40,7 @@ class TestManifestIsProposalOnly:
 
     def test_manifest_exists_and_is_scoped_to_dayton(self, manifest):
         assert manifest["market_id"] == "dayton-oh"
-        assert len(manifest["candidates"]) == 13
+        assert len(manifest["candidates"]) == 14
 
     def test_manifest_does_not_touch_published_authority(self):
         """The frozen 33/6/6/129 partition is untouched by this worker."""
@@ -76,7 +76,7 @@ class TestObservationsValidateAgainstTheFrozenContract:
                         "to regenerate locally")
         batch = json.loads(obs_path.read_text(encoding="utf-8"))
         validated = PO.validate_emission_batch(batch)
-        assert len(validated) == 13
+        assert len(validated) == 14
 
     def test_no_observation_is_rejected_by_the_membrane(self):
         obs_path = (_ROOT / "data" / "worker_runs" / "pettripfinder"
@@ -120,12 +120,19 @@ class TestCensusUpdatesAreConservative:
         assert h["identity_state"] == "IDENTITY_CONFIRMED"
         assert "_recovery_002_note" in h
 
-    def test_no_hotel_was_moved_to_verified_no_pets_by_this_worker(self, census):
-        """This worker found zero new negative facts; the count stays 7 in the
-        census (of which only 6 are Dayton-owned exclusions per the frozen
-        authority -- HIE Troy is the seventh, and it is deliberately NOT
-        re-excluded here without its own artifact)."""
-        assert census["no_pets_count"] == 7
+    def test_hotel_versailles_no_pets_finding_is_census_only(self, census):
+        """This worker found one new negative fact (Hotel Versailles, JSON-LD
+        petsAllowed:false) and recorded it in the census's lodging_state/
+        policy_state roll-up (no_pets_count 7 -> 8). It is NOT written into
+        the frozen hotel_exclusions.json authority -- that stays the
+        integrator's call, same as every accepted candidate here."""
+        assert census["no_pets_count"] == 8
+        h = next(x for x in census["hotels"] if x["slug"] == "hotel-versailles")
+        assert h["lodging_state"] == "LODGING_NO_PETS"
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+        names = {normalize_name(e["canonical_name"]) for e in load_exclusions()}
+        assert normalize_name("Hotel Versailles") not in names
 
     def test_the_census_is_still_the_full_129(self, census):
         assert census["count"] == 129 == len(census["hotels"])
