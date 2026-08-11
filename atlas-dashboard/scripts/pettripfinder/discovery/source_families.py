@@ -64,6 +64,9 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "stark_county_cvb": FAMILY_CVB,
     "destination_hudson": FAMILY_CVB,
     "fl_dbpr_lodging": FAMILY_REGISTRY,
+    # PTF-DAYTON-MARKET-FACTORY-001: VisitDayton.com CVB source family.
+    # Reserved for Dayton Convention & Visitors Bureau identity data.
+    "visit_dayton": FAMILY_CVB,
 }
 
 

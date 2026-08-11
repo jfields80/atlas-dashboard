@@ -1,0 +1,1278 @@
+{
+  "_schema": "ptf-proposed-authority/1.0",
+  "market_id": "dayton-oh",
+  "generated_at": "2026-08-10",
+  "capture_run": "dayton-capture-run-001",
+  "observations_file": "policy_observations.json",
+  "run_summary": {
+    "queue_size": 77,
+    "captured": 40,
+    "exception": 37,
+    "exception_breakdown": {
+      "IDENTITY_INCOMPLETE": 1,
+      "POLICY_ABSENT_CONFIRMED": 10,
+      "IDENTITY_FAILED": 6,
+      "POLICY_NOT_FOUND": 9,
+      "IDENTITY_UNVERIFIABLE": 6,
+      "POLICY_OFF_SCREEN": 5
+    },
+    "total_observations": 44
+  },
+  "census_summary": {
+    "total_hotels": 129,
+    "count_confirmed": 100,
+    "count_provisional": 29,
+    "policy_observed": 38,
+    "verified_no_pets": 7,
+    "policy_not_verified": 84
+  },
+  "proposed_candidates": [
+    {
+      "slug": "ac-hotel-dayton",
+      "canonical_name": "AC HOTEL DAYTON",
+      "corridor": "dayton-oh__downtown-dayton",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayac",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-ac-hotel-dayton",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_night",
+        "species": null,
+        "weight_lbs": 25,
+        "weight_operator": "per_pet",
+        "pet_count": 1,
+        "flags": [],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "courtyard-by-marriott-dayton-north",
+      "canonical_name": "COURTYARD BY MARRIOTT DAYTON NORTH",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daycn",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-courtyard-dayton-north",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 10000,
+        "fee_basis": "per_stay",
+        "species": null,
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source states 'pet fee per stay' without per_pet or per_room scope. fee_scope not populated."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "towneplace-suites-by-marriott-dayton-north",
+      "canonical_name": "TOWNEPLACE SUITES BY MARRIOTT DAYTON NORTH",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayts",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-towneplace-suites-dayton-north",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 60,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "drury-inn-suites-dayton-north",
+      "canonical_name": "DRURY INN & SUITES DAYTON NORTH",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "0109",
+      "brand": "drury",
+      "obs_id": "dayton-factory-001-drury-inn-dayton-north",
+      "authority_tier": "PT1",
+      "capture_method": "deterministic_fetch",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_night",
+        "species": "dogs_and_cats",
+        "weight_lbs": 80,
+        "weight_operator": "combined",
+        "pet_count": 2,
+        "flags": [],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "hilton-garden-inn-dayton-beavercreek",
+      "canonical_name": "HILTON GARDEN INN DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daybcgi",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hilton-garden-inn-dayton-beavercreek",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs",
+          "cats"
+        ],
+        "weight_lbs": 75,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_ADDITIVE_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 5,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 6,
+            "nights_max": null,
+            "fee_cents": 15000,
+            "fee_basis": "per_stay",
+            "notes": "additional $75 for stays over 5 nights \u00e2\u20ac\u201d cumulative ($75 + $75 = $150 total), not replacing"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "home2-suites-by-hilton-dayton-beavercreek",
+      "canonical_name": "HOME2 SUITES BY HILTON DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daybeht",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-home2-suites-dayton-beavercreek",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs",
+          "cats"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_EXCERPT_TRUNCATED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "spark-by-hilton-dayton-fairborn",
+      "canonical_name": "SPARK BY HILTON DAYTON FAIRBORN",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayfope",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-spark-by-hilton-dayton-fairborn",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "MEDIUM",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": null,
+        "species": [],
+        "weight_lbs": 75,
+        "pet_count": null,
+        "flags": [
+          "FLAG_FEE_BASIS_UNSPECIFIED",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "doubletree-by-hilton-dayton-fairborn",
+      "canonical_name": "DOUBLETREE BY HILTON DAYTON FAIRBORN",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayesdt",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-doubletree-dayton-fairborn",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": null,
+        "species": null,
+        "weight_lbs": 75,
+        "weight_operator": "per_pet",
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_FEE_BASIS_UNSPECIFIED",
+            "detail": "Source states '$75.00 Non-refundable Fee' without per_night or per_stay qualifier. Cannot infer per work order doctrine."
+          },
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source does not specify per_pet or per_room scope. fee_scope not populated."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "la-quinta-inn-suites-by-wyndham-fairborn-wright-patterson",
+      "canonical_name": "LA QUINTA INN & SUITES BY WYNDHAM FAIRBORN WRIGHT-PATTERSON",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "",
+      "brand": "wyndham",
+      "obs_id": null,
+      "authority_tier": null,
+      "capture_method": null,
+      "confidence": null,
+      "verdict": "PETS_ALLOWED",
+      "evidence": null
+    },
+    {
+      "slug": "hampton-inn-by-hilton-dayton-south",
+      "canonical_name": "HAMPTON INN BY HILTON DAYTON SOUTH",
+      "corridor": "dayton-oh__kettering-centerville",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayshhx",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-dayton-south",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": null,
+        "fee_basis": "per_stay",
+        "species": "dogs_and_cats",
+        "weight_lbs": 75,
+        "weight_operator": "per_pet",
+        "pet_count": 2,
+        "flags": [
+          {
+            "code": "FLAG_TIERED_FEE_STRUCTURE",
+            "detail": "Fee is $75 (1-4 night stay) or $125 (5+ night stay). Both non-refundable per-stay. Full tier in general_restrictions."
+          },
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source does not specify per_pet or per_room scope. fee_scope not populated."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "residence-inn-by-marriott-dayton-miamisburg",
+      "canonical_name": "RESIDENCE INN BY MARRIOTT DAYTON MIAMISBURG",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daymi",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-residence-inn-dayton-miamisburg",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 50,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "home2-suites-by-hilton-dayton-south",
+      "canonical_name": "HOME2 SUITES BY HILTON DAYTON SOUTH",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daysmht",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-home2-suites-dayton-south",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 75,
+        "pet_count": null,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "la-quinta-inn-suites-by-wyndham-miamisburg-dayton-south",
+      "canonical_name": "LA QUINTA INN & SUITES BY WYNDHAM MIAMISBURG DAYTON SOUTH",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "",
+      "brand": "wyndham",
+      "obs_id": null,
+      "authority_tier": null,
+      "capture_method": null,
+      "confidence": null,
+      "verdict": "PETS_ALLOWED",
+      "evidence": null
+    },
+    {
+      "slug": "staybridge-suites-miamisburg",
+      "canonical_name": "STAYBRIDGE SUITES MIAMISBURG",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daymb",
+      "brand": "ihg",
+      "obs_id": "dayton-factory-001-staybridge-suites-miamisburg",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": null,
+        "pet_count": null,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_PER_PET",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 6,
+            "fee_cents": 5000,
+            "fee_basis": "per_stay",
+            "notes": "per pet explicit"
+          },
+          {
+            "nights_min": 7,
+            "nights_max": null,
+            "fee_cents": 15000,
+            "fee_basis": "per_stay",
+            "notes": "per pet explicit"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "hampton-inn-dayton-huber-heights",
+      "canonical_name": "HAMPTON INN DAYTON/HUBER HEIGHTS",
+      "corridor": "dayton-oh__huber-heights",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayhhhx",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-dayton-huber-heights",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": null,
+        "fee_basis": "per_stay",
+        "species": "dogs_and_cats",
+        "weight_lbs": 75,
+        "weight_operator": "per_pet",
+        "pet_count": 2,
+        "flags": [
+          {
+            "code": "FLAG_TIERED_FEE_STRUCTURE",
+            "detail": "Fee is $75 (1-4 night stay) or $125 (5+ night stay). Both non-refundable per-stay. Full tier in general_restrictions."
+          },
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source does not specify per_pet or per_room scope. fee_scope not populated."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "hampton-inn-troy",
+      "canonical_name": "HAMPTON INN TROY",
+      "corridor": "dayton-oh__troy-tipp-city",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "TRYOHHX",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-troy",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_PER_PET"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay",
+            "fee_scope": "per_pet"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay",
+            "fee_scope": "per_pet"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "fairfield-inn-and-suites-dayton-north",
+      "canonical_name": "FAIRFIELD INN & SUITES DAYTON NORTH",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayfn",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-fairfield-inn-dayton-north",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_night",
+        "species": null,
+        "weight_lbs": 40,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "residence-inn-by-marriott-dayton-vandalia",
+      "canonical_name": "RESIDENCE INN BY MARRIOTT DAYTON VANDALIA",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayri",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-residence-inn-dayton-vandalia",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 15000,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 50,
+        "pet_count": 1,
+        "flags": [
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "springhill-suites-by-marriott-dayton-vandalia",
+      "canonical_name": "SPRINGHILL SUITES BY MARRIOTT DAYTON VANDALIA",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_PROVISIONAL",
+      "property_code": "daysn",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-springhill-suites-dayton-vandalia",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "MEDIUM",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 75,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED",
+          "FLAG_CONTRADICTORY_FEE_DATA"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "hampton-inn-and-suites-dayton-vandalia",
+      "canonical_name": "HAMPTON INN & SUITES DAYTON-VANDALIA",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayvnhx",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-suites-dayton-vandalia",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": null,
+        "fee_basis": "per_stay",
+        "species": "dogs_and_cats",
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": 2,
+        "flags": [
+          {
+            "code": "FLAG_TIERED_FEE_STRUCTURE",
+            "detail": "Fee is $50 (1-4 night stay) or $75 (5+ night stay). Both non-refundable per-stay. Full tier in general_restrictions."
+          },
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source does not specify per_pet or per_room scope. fee_scope not populated."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "home2-suites-by-hilton-dayton-vandalia",
+      "canonical_name": "HOME2 SUITES BY HILTON DAYTON VANDALIA",
+      "corridor": "dayton-oh__airport-vandalia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daydvht",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-home2-suites-dayton-vandalia",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs",
+          "cats"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 5000,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "towneplace-suites-by-marriott-dayton-beavercreek",
+      "canonical_name": "TOWNEPLACE SUITES BY MARRIOTT DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daybt",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-towneplace-suites-dayton-beavercreek",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "MEDIUM",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 2000,
+        "fee_basis": "per_night",
+        "species": [],
+        "weight_lbs": 75,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_BASIS_UNSPECIFIED",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "residence-inn-by-marriott-dayton-beavercreek",
+      "canonical_name": "RESIDENCE INN BY MARRIOTT DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayrb",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-residence-inn-dayton-beavercreek",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 10000,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs",
+          "cats"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "tru-by-hilton-beavercreek-dayton",
+      "canonical_name": "TRU BY HILTON BEAVERCREEK DAYTON",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daybvru",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-tru-by-hilton-beavercreek-dayton",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 5000,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs",
+          "cats"
+        ],
+        "weight_lbs": 75,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 5000,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "fairfield-inn-and-suites-dayton-south",
+      "canonical_name": "FAIRFIELD INN & SUITES DAYTON SOUTH",
+      "corridor": "dayton-oh__kettering-centerville",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daysf",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-fairfield-inn-dayton-south",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 10000,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "holiday-inn-express-and-suites-dayton-centerville",
+      "canonical_name": "HOLIDAY INN EXPRESS & SUITES DAYTON-CENTERVILLE",
+      "corridor": "dayton-oh__kettering-centerville",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "cpkoh",
+      "brand": "ihg",
+      "obs_id": "dayton-factory-001-holiday-inn-express-dayton-centerville",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 10000,
+        "fee_basis": null,
+        "species": "dogs_only",
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_FEE_BASIS_UNSPECIFIED",
+            "detail": "Source states '100 dollar DOG PET FEE' without per_night or per_stay qualifier. Cannot infer per work order doctrine."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "homewood-suites-by-hilton-south-dayton-miamisburg",
+      "canonical_name": "HOMEWOOD SUITES BY HILTON SOUTH DAYTON MIAMISBURG",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "daysohw",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-homewood-suites-south-dayton-miamisburg",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": 80,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "residence-inn-by-marriott-dayton-troy",
+      "canonical_name": "RESIDENCE INN BY MARRIOTT DAYTON TROY",
+      "corridor": "dayton-oh__troy-tipp-city",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayty",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-residence-inn-dayton-troy",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 10000,
+        "fee_basis": "per_stay",
+        "species": [],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_SPECIES_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": null
+      }
+    },
+    {
+      "slug": "springhill-suites-troy-dayton",
+      "canonical_name": "SPRINGHILL SUITES TROY DAYTON",
+      "corridor": "dayton-oh__troy-tipp-city",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "dayth",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-springhill-suites-troy-dayton",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs"
+        ],
+        "weight_lbs": 50,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED",
+          "FLAG_CONTRADICTORY_FEE_DATA"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 7,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 8,
+            "nights_max": 14,
+            "fee_cents": 15000,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 15,
+            "nights_max": null,
+            "fee_cents": 25000,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "americas-best-value-inn-suites-st-marys",
+      "canonical_name": "AMERICAS BEST VALUE INN & SUITES ST. MARYS",
+      "corridor": "dayton-oh__wapakoneta",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "",
+      "brand": "other",
+      "obs_id": null,
+      "authority_tier": null,
+      "capture_method": null,
+      "confidence": null,
+      "verdict": "PETS_ALLOWED",
+      "evidence": null
+    },
+    {
+      "slug": "hampton-inn-springfield",
+      "canonical_name": "HAMPTON INN SPRINGFIELD",
+      "corridor": "dayton-oh__springfield",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "SGHOHHX",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-springfield",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": null,
+        "fee_basis": "per_stay",
+        "species": "dogs_and_cats",
+        "weight_lbs": 75,
+        "weight_operator": "per_pet",
+        "pet_count": 2,
+        "flags": [
+          {
+            "code": "FLAG_TIERED_FEE_STRUCTURE",
+            "detail": "Fee is $75 (1-4n) or $125 (5+n). Both non-refundable per-stay."
+          },
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source does not specify per_pet or per_room scope."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "courtyard-by-marriott-springfield-downtown",
+      "canonical_name": "COURTYARD BY MARRIOTT SPRINGFIELD DOWNTOWN",
+      "corridor": "dayton-oh__springfield",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "DAYCS",
+      "brand": "marriott",
+      "obs_id": "dayton-factory-001-courtyard-springfield-downtown",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": null,
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": 3,
+        "flags": [
+          {
+            "code": "FLAG_FEE_SCOPE_UNSPECIFIED",
+            "detail": "Source states pet fee per stay without specifying per_pet or per_room scope."
+          }
+        ],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "americas-best-value-inn-celina",
+      "canonical_name": "AMERICAS BEST VALUE INN CELINA",
+      "corridor": "dayton-oh__celina",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "",
+      "brand": "other",
+      "obs_id": "dayton-factory-001-americas-best-value-inn-celina",
+      "authority_tier": "PT1",
+      "capture_method": "human_manual",
+      "confidence": "PARAPHRASE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 1000,
+        "fee_basis": "per_night",
+        "species": null,
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_REQUIRES_VERIFICATION",
+            "detail": "Policy text was summarized by a research agent, not captured as a literal HTML substring. An attended or deterministic fetch verification run is required before this observation can be cited as EXACT_QUOTE authority."
+          },
+          {
+            "code": "FLAG_SPECIES_UNSPECIFIED",
+            "detail": "The source states 'pets allowed' without specifying species. Per work order doctrine, cannot infer species from 'pets' alone. species_allowed not populated."
+          },
+          {
+            "code": "FLAG_NO_ADAPTER",
+            "detail": "No PTF capture adapter for Sonesta/Americas Best Value Inn brand. Manual evidence only."
+          }
+        ],
+        "excerpt_type": "PARAPHRASE"
+      }
+    },
+    {
+      "slug": "hampton-inn-suites-xenia-dayton",
+      "canonical_name": "HAMPTON INN & SUITES XENIA DAYTON",
+      "corridor": "dayton-oh__xenia",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "DAYXOHX",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-suites-xenia-dayton",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs"
+        ],
+        "weight_lbs": 35,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "hampton-inn-suites-sidney",
+      "canonical_name": "HAMPTON INN & SUITES SIDNEY",
+      "corridor": "dayton-oh__sidney",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "SIDHHHX",
+      "brand": "hilton",
+      "obs_id": "dayton-factory-001-hampton-inn-suites-sidney",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "HIGH",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 7500,
+        "fee_basis": "per_stay",
+        "species": [
+          "dogs"
+        ],
+        "weight_lbs": null,
+        "pet_count": 2,
+        "flags": [
+          "FLAG_TIERED_FEE_STRUCTURE",
+          "FLAG_FEE_SCOPE_UNSPECIFIED"
+        ],
+        "excerpt_type": "EXACT_QUOTE",
+        "tiered_fees": [
+          {
+            "nights_min": 1,
+            "nights_max": 4,
+            "fee_cents": 7500,
+            "fee_basis": "per_stay"
+          },
+          {
+            "nights_min": 5,
+            "nights_max": null,
+            "fee_cents": 12500,
+            "fee_basis": "per_stay"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "days-inn-by-wyndham-sidney",
+      "canonical_name": "DAYS INN BY WYNDHAM SIDNEY",
+      "corridor": "dayton-oh__sidney",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "",
+      "brand": "wyndham",
+      "obs_id": "dayton-factory-001-days-inn-sidney",
+      "authority_tier": "PT1",
+      "capture_method": "automated_browser",
+      "confidence": "EXACT_QUOTE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 1500,
+        "fee_basis": "per_night",
+        "species": "dogs_and_cats",
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": 2,
+        "flags": [],
+        "excerpt_type": "EXACT_QUOTE"
+      }
+    },
+    {
+      "slug": "cobblestone-hotel-suites-bellefontaine",
+      "canonical_name": "COBBLESTONE HOTEL & SUITES BELLEFONTAINE",
+      "corridor": "dayton-oh__bellefontaine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "47214",
+      "brand": "other",
+      "obs_id": "dayton-factory-001-cobblestone-bellefontaine",
+      "authority_tier": "PT2",
+      "capture_method": "human_manual",
+      "confidence": "PARAPHRASE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 2500,
+        "fee_basis": "per_night",
+        "species": "dogs_only",
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_REQUIRES_VERIFICATION",
+            "detail": "Policy text was summarized by a research agent, not captured as a literal HTML substring. An attended or deterministic fetch verification run is required before this observation can be cited as EXACT_QUOTE authority."
+          },
+          {
+            "code": "FLAG_NO_ADAPTER",
+            "detail": "No PTF capture adapter for Cobblestone Hotels brand (Synxis chain 7721). Manual evidence only."
+          }
+        ],
+        "excerpt_type": "PARAPHRASE"
+      }
+    },
+    {
+      "slug": "cobblestone-hotel-suites-indian-lake-russells-point",
+      "canonical_name": "COBBLESTONE HOTEL & SUITES INDIAN LAKE RUSSELLS POINT",
+      "corridor": "dayton-oh__bellefontaine",
+      "identity_state": "IDENTITY_CONFIRMED",
+      "property_code": "46080",
+      "brand": "other",
+      "obs_id": "dayton-factory-001-cobblestone-indian-lake-russells-point",
+      "authority_tier": "PT2",
+      "capture_method": "human_manual",
+      "confidence": "PARAPHRASE",
+      "verdict": "PETS_ALLOWED",
+      "evidence": {
+        "pet_fee_cents": 2500,
+        "fee_basis": "per_night",
+        "species": "dogs_only",
+        "weight_lbs": null,
+        "weight_operator": null,
+        "pet_count": null,
+        "flags": [
+          {
+            "code": "FLAG_REQUIRES_VERIFICATION",
+            "detail": "Policy text was summarized by a research agent, not captured as a literal HTML substring. An attended or deterministic fetch verification run is required before this observation can be cited as EXACT_QUOTE authority."
+          },
+          {
+            "code": "FLAG_NO_ADAPTER",
+            "detail": "No PTF capture adapter for Cobblestone Hotels brand (Synxis chain 7721). Manual evidence only."
+          }
+        ],
+        "excerpt_type": "PARAPHRASE"
+      }
+    }
+  ],
+  "excluded_no_pets": [
+    {
+      "slug": "marriott-at-the-university-of-dayton",
+      "canonical_name": "MARRIOTT AT THE UNIVERSITY OF DAYTON",
+      "corridor": "dayton-oh__downtown-dayton",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "courtyard-by-marriott-dayton-beavercreek",
+      "canonical_name": "COURTYARD BY MARRIOTT DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "springhill-suites-by-marriott-dayton-beavercreek",
+      "canonical_name": "SPRINGHILL SUITES BY MARRIOTT DAYTON BEAVERCREEK",
+      "corridor": "dayton-oh__fairborn-beavercreek",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "courtyard-by-marriott-dayton-south",
+      "canonical_name": "COURTYARD BY MARRIOTT DAYTON SOUTH",
+      "corridor": "dayton-oh__miamisburg-moraine",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "holiday-inn-express-suites-troy",
+      "canonical_name": "HOLIDAY INN EXPRESS & SUITES TROY",
+      "corridor": "dayton-oh__troy-tipp-city",
+      "brand": "ihg",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "fairfield-inn-and-suites-dayton-downtown",
+      "canonical_name": "FAIRFIELD INN & SUITES DAYTON DOWNTOWN",
+      "corridor": "dayton-oh__downtown-dayton",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    },
+    {
+      "slug": "courtyard-by-marriott-dayton-university-of-dayton",
+      "canonical_name": "COURTYARD BY MARRIOTT DAYTON-UNIVERSITY OF DAYTON",
+      "corridor": "dayton-oh__downtown-dayton",
+      "brand": "marriott",
+      "verdict": "VERIFIED_NO_PETS"
+    }
+  ],
+  "_notes": [
+    "proposed_candidates: hotels with PETS_ALLOWED policy evidence from PT1 official property pages.",
+    "Flags on evidence records indicate uncertainty that must be resolved before publication.",
+    "FLAG_SPECIES_UNSPECIFIED: species not stated \u00e2\u20ac\u201d cannot claim dogs+cats without verification.",
+    "FLAG_FEE_SCOPE_UNSPECIFIED: fee scope (per_pet vs per_room) not stated.",
+    "FLAG_FEE_BASIS_UNSPECIFIED: fee basis (per_night vs per_stay) not stated.",
+    "FLAG_TIERED_FEE_STRUCTURE: fee varies by length of stay.",
+    "FLAG_CONTRADICTORY_FEE_DATA: page shows two inconsistent fee amounts.",
+    "FLAG_REQUIRES_VERIFICATION: policy was paraphrased, not quoted (needs attended capture).",
+    "PARAPHRASE observations (obs 2-5, Americas Best Value + Cobblestone) require attended or deterministic verification before publication."
+  ]
+}
