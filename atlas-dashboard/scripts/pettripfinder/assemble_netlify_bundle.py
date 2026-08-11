@@ -1,10 +1,26 @@
 """PETTRIPFINDER-PROD-005A -- deterministic local Netlify bundle assembler.
 
-Assembles the deployable PetTripFinder Columbus static bundle for a Netlify
+Assembles one market's deployable PetTripFinder static bundle for a Netlify
 manual (prebuilt) deploy. It REUSES the committed production generator
 (``scripts.generate_pettripfinder_columbus_site.run``) -- no page-generation
 logic is duplicated here -- then injects the tracked Netlify control files
-(``site/_headers`` + ``site/_redirects``) and runs the release-gate contract.
+(``site/_headers`` + ``site/_redirects``) and runs that market's release-gate
+contract.
+
+PTF-PER-MARKET-RELEASE-CONTRACTS-001: the contract is per market. This module
+used to read one committed ``deploy/netlify/release_contract.json`` whose
+numbers were Columbus's, so assembling Cleveland compared nineteen verified
+hotels against Columbus's eighty-eight and failed closed on a figure that was
+never about Cleveland. The contract for the market being assembled is now loaded
+from ``deploy/netlify/release_contracts/<market_id>.json`` and is additionally
+gated against that market's OWN derived authority; see
+``scripts/pettripfinder/release_contracts.py`` for why both halves are required.
+
+A passing contract is a STRUCTURAL statement -- the package is internally
+consistent and safe to publish as a static bundle. It is not a deployment
+authorization and it does not claim the market is complete; the contract's
+``deployment_authorization`` block says so and is copied into the deployment
+manifest.
 
 Local-only and fail-closed:
 
@@ -22,6 +38,7 @@ Interface::
 
     python scripts/pettripfinder/assemble_netlify_bundle.py \\
         --context {preview|production} \\
+        --market <market_id> \\
         --output data/deployment_staging/pettripfinder/prod005a_<context>
 
 Output root contents (all deployable files live under ``site/``; the reports
@@ -55,7 +72,18 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.generate_pettripfinder_columbus_site import run as generate_site, _slug
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
 from scripts.pettripfinder.market_ownership import owned_by
-from scripts.pettripfinder.markets import MarketConfig, assign_hotels
+from scripts.pettripfinder.markets import (
+    ROUTE_MODE_LEGACY_UNPREFIXED,
+    MarketConfig,
+    assign_hotels,
+)
+from scripts.pettripfinder.release_contracts import (
+    RELEASE_CONTRACTS_DIR,
+    contract_disagreements,
+    contract_path,
+    derive_authority,
+    load_contract,
+)
 from scripts.pettripfinder.site_data import (
     load_published_hotel_policy_facts,
     normalize_name,
@@ -65,7 +93,11 @@ from scripts.pettripfinder.site_data import (
 
 REPO_ROOT = _REPO_ROOT
 DEPLOY_NETLIFY_DIR = REPO_ROOT / "deploy" / "netlify"
-RELEASE_CONTRACT_PATH = DEPLOY_NETLIFY_DIR / "release_contract.json"
+#: Columbus's contract path, kept as a module constant for the callers that only
+#: ever ask about this repository's production market. Every other caller uses
+#: ``release_contract_path(market_id)`` -- the constant is DERIVED from the named
+#: production market, never a default that another market could silently inherit.
+RELEASE_CONTRACT_PATH = contract_path(PRODUCTION_MARKET_ID)
 HEADERS_PRODUCTION_PATH = DEPLOY_NETLIFY_DIR / "headers.production"
 HEADERS_PREVIEW_PATH = DEPLOY_NETLIFY_DIR / "headers.preview"
 REDIRECTS_PATH = DEPLOY_NETLIFY_DIR / "redirects"
@@ -143,8 +175,20 @@ def parse_redirects_file(text: str) -> List[Tuple[str, str, str]]:
     return rules
 
 
-def load_release_contract() -> Dict:
-    return json.loads(RELEASE_CONTRACT_PATH.read_text(encoding="utf-8"))
+def release_contract_path(market_id: str) -> Path:
+    """The committed release-contract path for ``market_id``."""
+    return contract_path(market_id)
+
+
+def load_release_contract(market_id: str = PRODUCTION_MARKET_ID) -> Dict:
+    """One market's committed release contract (fail closed).
+
+    The market is EXPLICIT and defaults only to this repository's named
+    production market. It is never "whichever contract happens to be there":
+    a single shared contract is exactly what made a Cleveland assembly gate
+    itself on Columbus's inventory size.
+    """
+    return load_contract(market_id)
 
 
 # --------------------------------------------------------------------------- #
@@ -277,11 +321,34 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
         raise AssembleError("context must be one of %s, got %r" % (VALID_CONTEXTS, context))
 
     out_root = validate_output_path(output)
-    contract = contract if contract is not None else load_release_contract()
+    # The market is resolved BEFORE the contract, because the market is what
+    # selects the contract. Reversing that order is how one market's numbers
+    # came to gate another market's build.
+    _market = resolve_market(market)
+    contract = contract if contract is not None else load_release_contract(_market.market_id)
 
     gates: "OrderedDict[str, Dict]" = OrderedDict()
 
     # ---- Phase 1: pre-generation authority + identity gates (fail early) ----
+    # A contract may never stand in for another market's. This is checked before
+    # anything is read THROUGH the contract, so a mismatched document cannot
+    # first point the package gates at the wrong authority file.
+    if not _gate(gates, "authority.contract_is_for_this_market",
+                 contract.get("market_id") == _market.market_id,
+                 "contract=%r market=%r" % (contract.get("market_id"), _market.market_id)):
+        raise AssembleError(
+            "release contract is for market %r but the assembly is for %r"
+            % (contract.get("market_id"), _market.market_id))
+
+    # The reviewed contract must agree with what this market's own committed
+    # authority derives -- census, policy package, exclusion registry, seed
+    # inventory, corridor routes, and any reconciliation manifest it commits.
+    # A contract that merely parses proves nothing; a derivation that checks
+    # only itself proves nothing either.
+    disagreements = contract_disagreements(contract, derive_authority(_market.market_id))
+    _gate(gates, "authority.reconciliation_matches_market_authority",
+          not disagreements, "; ".join(disagreements[:6]))
+
     pkg_spec = contract["policy_package"]
     pkg_path = REPO_ROOT / pkg_spec["path"]
     if not _gate(gates, "authority.package_exists", pkg_path.exists(),
@@ -295,7 +362,11 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
     _gate(gates, "authority.package_sha256",
           pkg_sha == pkg_spec["expected_sha256"], pkg_sha)
     pkg = json.loads(pkg_bytes.decode("utf-8-sig"))
-    _gate(gates, "authority.package_schema_1_1",
+    # The expected schema version lives in the contract, never in the gate NAME.
+    # It was ``authority.package_schema_1_1``, which would have been a false
+    # statement for Dayton's schema-1.0 package -- the same defect the hotel
+    # count already had when the gate was called ``..._14``.
+    _gate(gates, "authority.package_schema_version",
           str(pkg.get("schema_version")) == str(pkg_spec["expected_schema_version"]),
           str(pkg.get("schema_version")))
     # The expected count lives in the contract, never in the gate NAME -- baking
@@ -304,7 +375,6 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
           len(pkg.get("hotels", [])) == pkg_spec["expected_record_count"],
           str(len(pkg.get("hotels", []))))
 
-    _market = resolve_market(market)
     policy_facts = load_published_hotel_policy_facts(_market.market_id)
     # PTF-MULTI-MARKET-INVENTORY-SCOPING-001. The release gate must reason over
     # exactly the inventory the generator published, which is this market's
@@ -365,7 +435,13 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
         # previously said "_14"). The gate is just as strict -- the build must
         # match the contract exactly -- but an approved inventory change is now
         # a data edit in one place instead of a code edit plus a rename.
-        expected_hotels = int(load_release_contract()["policy_package"]["expected_record_count"])
+        #
+        # PTF-PER-MARKET-RELEASE-CONTRACTS-001: read from the contract IN USE,
+        # not by re-loading from disk. Re-loading fetched Columbus's document
+        # regardless of which market was being assembled, so this gate compared
+        # Cleveland's nineteen generated profiles against Columbus's 88 and was
+        # the last failure standing in the way of a second market's bundle.
+        expected_hotels = int(contract["policy_package"]["expected_record_count"])
         _gate(gates, "content.build_report_hotel_count_matches_contract",
               build_report.get("hotel_count") == expected_hotels
               and not build_report.get("warnings"),
@@ -403,7 +479,7 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
         (site_dir / "_redirects").write_bytes(redirects_bytes)
 
         _run_publish_gates(gates, contract, context, site_dir, headers_bytes, redirects_bytes)
-        _run_route_gates(gates, contract, site_dir, verified_slugs, held_slugs,
+        _run_route_gates(gates, contract, _market, site_dir, verified_slugs, held_slugs,
                          corridor_slugs, held_names, verified_names)
         _run_tech_gates(gates, contract, site_dir, held_slugs)
 
@@ -420,6 +496,8 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
 
         manifest = OrderedDict([
             ("product", contract["product"]),
+            ("market_id", _market.market_id),
+            ("contract_id", contract["contract_id"]),
             ("context", context),
             ("base_url", contract["canonical"]["base_url"]),
             ("publishable_root", "site/"),
@@ -436,7 +514,13 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
             ("bundle_sha256", bundle_sha),
             ("all_gates_pass", all_pass),
             ("wrote_public_or_remote", False),
-            ("release_name", _release_name(_git_head(), pkg_sha, bundle_sha)),
+            ("release_name", _release_name(contract, _git_head(), pkg_sha, bundle_sha)),
+            # The reconciliation travels WITH the bundle, so nobody reading the
+            # manifest has to go looking for how much of the market is still
+            # unanswered, and the authorization caveat cannot be separated from
+            # the artifact it qualifies.
+            ("reconciliation", OrderedDict(contract["reconciliation"])),
+            ("release_authorization", OrderedDict(contract["deployment_authorization"])),
         ])
         route_inventory = OrderedDict([
             ("context", context),
@@ -482,9 +566,17 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
             shutil.rmtree(work, ignore_errors=True)
 
 
-def _release_name(commit: str, pkg_sha: str, bundle_sha: str) -> str:
-    return "prod-005-columbus-%s-%s-%s" % (
-        (commit or "nogit")[:7], pkg_sha[:8], bundle_sha[:8])
+def _release_name(contract: Dict, commit: str, pkg_sha: str, bundle_sha: str) -> str:
+    """``<prefix>-<commit7>-<pkg8>-<bundle8>``.
+
+    The prefix is declared per contract rather than hard-coded, so each market
+    names its own releases. Columbus's prefix is deliberately still
+    ``prod-005-columbus``: its live releases are identified by that string, and
+    renaming them to match a new convention would break the trail back to what
+    is actually deployed.
+    """
+    return "%s-%s-%s-%s" % (contract["release_name_prefix"],
+                            (commit or "nogit")[:7], pkg_sha[:8], bundle_sha[:8])
 
 
 def _run_publish_gates(gates, contract, context, site_dir, headers_bytes, redirects_bytes):
@@ -532,20 +624,33 @@ def _run_publish_gates(gates, contract, context, site_dir, headers_bytes, redire
           "context=%s X-Robots-Tag=%r" % (context, root_headers.get("X-Robots-Tag")))
 
 
-def _run_route_gates(gates, contract, site_dir, verified_slugs, held_slugs,
+def _run_route_gates(gates, contract, market, site_dir, verified_slugs, held_slugs,
                      corridor_slugs, held_names, verified_names):
     hotels_dir = site_dir / "pet-friendly-hotels"
     profile_dirs = {d.name for d in hotels_dir.iterdir()
                     if d.is_dir() and (d / "index.html").exists()}
     present_profiles = sorted(profile_dirs & verified_slugs)
+    # Which directory names under the category root are legitimately NOT a hotel
+    # profile depends on the market's route mode, so it is derived from the
+    # market rather than listed. A market_prefixed market nests its hub,
+    # corridor, and comparison pages under its own slug; a legacy_unprefixed
+    # market (Columbus) puts corridors and the comparison page at this level.
     allowed_nonprofile = {"policy-comparison"} | corridor_slugs
+    if market.route_mode != ROUTE_MODE_LEGACY_UNPREFIXED:
+        allowed_nonprofile.add(market.market_slug)
     unexpected = sorted(profile_dirs - verified_slugs - allowed_nonprofile)
 
-    _gate(gates, "route.exactly_14_hotel_profiles",
+    # The gate names carry no count. ``route.exactly_14_hotel_profiles`` and
+    # ``route.all_14_committed_present`` were already false for Columbus at 88,
+    # and naming a number in an id shared by three markets guarantees at least
+    # two of them are lying about what the gate checks.
+    _gate(gates, "route.profile_count_matches_contract",
           len(present_profiles) == contract["public_surface"]["public_hotel_profile_count"]
           and not unexpected,
-          "profiles=%d unexpected=%s" % (len(present_profiles), unexpected))
-    _gate(gates, "route.all_14_committed_present",
+          "profiles=%d expected=%d unexpected=%s"
+          % (len(present_profiles),
+             contract["public_surface"]["public_hotel_profile_count"], unexpected))
+    _gate(gates, "route.all_committed_profiles_present",
           set(present_profiles) == verified_slugs,
           str(sorted(verified_slugs - set(present_profiles))))
 
@@ -670,7 +775,9 @@ def build_arg_parser() -> argparse.ArgumentParser:
                         "outside the repo)")
     p.add_argument("--market", default=PRODUCTION_MARKET_ID,
                    help="market_id to assemble (PTF-MULTIMARKET-001: explicit, never "
-                        "inferred from how many markets are configured)")
+                        "inferred from how many markets are configured). Its release "
+                        "contract is read from %s/<market_id>.json"
+                        % RELEASE_CONTRACTS_DIR.relative_to(REPO_ROOT).as_posix())
     return p
 
 
@@ -682,7 +789,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     except AssembleError as exc:
         print("ASSEMBLY FAILED (fail-closed): %s" % exc, file=sys.stderr)
         return 2
-    print("Netlify bundle assembled (context=%s)" % manifest["context"])
+    recon = manifest["reconciliation"]
+    fmt = lambda v: "n/a" if v is None else str(v)
+    print("Netlify bundle assembled (market=%s context=%s)"
+          % (manifest["market_id"], manifest["context"]))
+    print("  release contract:     %s" % manifest["contract_id"])
     print("  output root:          %s" % Path(args.output))
     print("  publishable root:     site/")
     print("  hotel profile routes: %s" % manifest["hotel_profile_routes"])
@@ -692,6 +803,15 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("  bundle sha256:        %s" % manifest["bundle_sha256"])
     print("  release name:         %s" % manifest["release_name"])
     print("  all gates pass:       %s" % manifest["all_gates_pass"])
+    print("  reconciliation:       %s confirmed / %s published / %s no-pets / "
+          "%s resolved / %s unresolved"
+          % (fmt(recon["confirmed_identities"]), recon["published_pet_friendly"],
+             recon["verified_no_pets"], recon["resolved"], fmt(recon["unresolved"])))
+    # Printed on success, every time. A green build is the moment somebody is
+    # most likely to read "all gates pass" as "ship it".
+    print("  NOT a deployment authorization: passing gates mean the package is")
+    print("  structurally deployable. They do not authorize a deploy and do not")
+    print("  claim this market's identity universe is resolved.")
     return 0
 
 

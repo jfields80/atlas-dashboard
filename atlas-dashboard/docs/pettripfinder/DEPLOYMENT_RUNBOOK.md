@@ -8,8 +8,17 @@ human approval gate; no earlier approval carries forward.
 
 Authorities:
 - Sprint plan: `docs/pettripfinder/PETTRIPFINDER-PROD-005-NETLIFY-HOSTING-SPRINT.md`
-- Release gates: `deploy/netlify/release_contract.json`
+- Release gates: `deploy/netlify/release_contracts/<market_id>.json` — **one
+  contract per market** (PTF-PER-MARKET-RELEASE-CONTRACTS-001). The former
+  single `deploy/netlify/release_contract.json` was Columbus-calibrated and has
+  been removed; see §1.6.
 - Credentials (names only): `docs/pettripfinder/CREDENTIALS_CONTRACT.md`
+
+> **Stale figures.** The record counts, package hash, file counts, and held-hotel
+> figures quoted in §0, §1.4, §6 and §7 below are PROD-005A-era (Columbus at 14
+> published hotels). They are **not** the current authority. The current expected
+> figures for every market live in that market's release contract and are printed
+> by `python -m scripts.pettripfinder.release_contracts`.
 
 ---
 
@@ -33,6 +42,7 @@ Authorities:
 ```sh
 python scripts/pettripfinder/assemble_netlify_bundle.py \
   --context preview \
+  --market columbus-oh \
   --output data/deployment_staging/pettripfinder/prod005a_preview
 ```
 
@@ -41,8 +51,13 @@ python scripts/pettripfinder/assemble_netlify_bundle.py \
 ```sh
 python scripts/pettripfinder/assemble_netlify_bundle.py \
   --context production \
+  --market columbus-oh \
   --output data/deployment_staging/pettripfinder/prod005a_production
 ```
+
+`--market` is explicit and selects the release contract. It defaults to
+`columbus-oh` (this repository's named production market) so existing invocations
+keep their meaning; state it anyway, because the market is what the bundle *is*.
 
 Both outputs are under the gitignored `data/` tree. The assembler makes **no**
 network request, reads **no** credential, and never writes outside the requested
@@ -83,10 +98,41 @@ Expected counts: **207 files** under `site/` (200 HTML + `styles.css`,
 ### 1.5 Release-gate review
 
 `validation_report.json` records every gate in
-`deploy/netlify/release_contract.json` → `minimum_release_gates`. Confirm
-`all_gates_pass: true`, `minimum_gates_missing: []`, `failing_gates: {}`. Record
-`deployment_manifest.json → bundle_sha256` as the release identity. The CLI
-`--dir` value is the **binding** publish source; only `site/` is ever uploaded.
+`deploy/netlify/release_contracts/<market_id>.json` → `minimum_release_gates`.
+Confirm `all_gates_pass: true`, `minimum_gates_missing: []`,
+`failing_gates: {}`. Record `deployment_manifest.json → bundle_sha256` as the
+release identity. The CLI `--dir` value is the **binding** publish source; only
+`site/` is ever uploaded.
+
+### 1.6 Per-market release contracts
+
+Each market owns a complete, self-contained contract under
+`deploy/netlify/release_contracts/`. There is no base file and no inheritance:
+one market's edit cannot move another market's expectations, and an assembly is
+refused outright if the contract's `market_id` is not the market being built.
+
+Every contract is additionally gated against its own committed authority — the
+market's identity census, policy package, exclusion registry, seed inventory,
+corridor routes, and any reconciliation manifest it commits. Verify all of them
+without building anything:
+
+```sh
+python -m scripts.pettripfinder.release_contracts
+```
+
+Current markets and their contracts:
+
+| Market | Contract | Published | Confirmed / unresolved |
+|---|---|---|---|
+| `columbus-oh` | `release_contracts/columbus-oh.json` | 88 | no census committed |
+| `cleveland-akron-canton-oh` | `release_contracts/cleveland-akron-canton-oh.json` | 19 | 188 / 161 |
+| `dayton-oh` | `release_contracts/dayton-oh.json` | 33 | 129 / 90 |
+
+**What a passing contract means.** It is a *structural* statement: that market's
+package is internally consistent and safe to publish as a static bundle. It is
+**not** a deployment authorization and it does **not** claim the market is
+complete — Cleveland and Dayton pass with 161 and 90 identities still
+unresolved. Every deploy in §§3–5 still needs its own separate approval gate.
 
 ---
 

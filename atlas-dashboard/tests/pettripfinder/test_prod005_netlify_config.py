@@ -47,8 +47,14 @@ from scripts.pettripfinder.site_data import (
 # Previously PTF-PROMOTION-002's 70-hotel
 # package. Deliberately an explicit constant, not a value read back from the
 # package -- a gate that recomputes its own expectation proves nothing. It must
-# agree with deploy/netlify/release_contract.json, and both must agree with the
-# file on disk; the three-way check below is the release contract.
+# agree with deploy/netlify/release_contracts/columbus-oh.json, and both must
+# agree with the file on disk; the three-way check below is the release contract.
+#
+# PTF-PER-MARKET-RELEASE-CONTRACTS-001: everything in this module is about
+# COLUMBUS. ``load_release_contract()`` now takes a market id and defaults to
+# this repository's named production market, so the calls below still describe
+# Columbus; the per-market system itself is covered in
+# tests/pettripfinder/test_per_market_release_contracts.py.
 EXPECTED_PACKAGE_SHA = "340a09b847129d19708e6d3710225c0bab0e9345746f8047cf3068f580bdebc4"
 EXPECTED_RECORD_COUNT = 88
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
@@ -111,7 +117,8 @@ class TestNetlifyToml:
 class TestReleaseContract:
     def test_contract_parses(self):
         contract = load_release_contract()
-        assert contract["product"] == "pettripfinder-columbus"
+        assert contract["market_id"] == "columbus-oh"
+        assert contract["product"] == "pettripfinder-columbus-oh"
         assert contract["canonical"]["base_url"] == "https://pettripfinder.com"
 
     def test_package_path_exists(self):

@@ -301,8 +301,12 @@ def test_routing_does_not_change_the_release_held_count():
         load_published_hotel_policy_facts, read_production_rows,
         verified_public_hotels,
     )
+    # PTF-PER-MARKET-RELEASE-CONTRACTS-001: the release contract is per market,
+    # so this assertion names the market it is about instead of reading "the"
+    # contract and hoping it is Columbus's.
     contract = json.loads(
-        (_REPO / "deploy" / "netlify" / "release_contract.json").read_text(encoding="utf-8"))
+        (_REPO / "deploy" / "netlify" / "release_contracts" / "columbus-oh.json")
+        .read_text(encoding="utf-8"))
     # The contract is COLUMBUS's, so held must be measured over Columbus's
     # seed. Counting every market's hotel rows reports 20 held for a market
     # that holds exactly one.
