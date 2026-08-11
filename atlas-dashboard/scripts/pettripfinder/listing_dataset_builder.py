@@ -396,10 +396,45 @@ def _resolve_location(
     return locations_by_key.get((_normalize_key(city), _normalize_key(state)))
 
 
-def _build_description(pet_policy: str, amenities: Sequence[str]) -> str:
+#: Mirror of ``engines.website_generation.constants.seo.META_DESCRIPTION_MIN_LENGTH``.
+#: Duplicated rather than imported for the same layering reason as ``slugify``
+#: above: this module imports ``contracts/`` only, never a sibling engine
+#: subpackage, and ``constants/`` is a sibling. The duplicate is pinned to the
+#: engine's value by ``tests/pettripfinder/test_listing_dataset_builder.py::
+#: TestShortPolicyDescriptionsMeetTheMetaFloor``, so the two cannot drift apart
+#: silently.
+META_DESCRIPTION_MIN_LENGTH = 50
+
+
+def _build_description(pet_policy: str, amenities: Sequence[str],
+                       business_name: str = "", city: str = "",
+                       state: str = "") -> str:
     """Deterministic, factual-only description text (mission §1.H: "do not
     invent qualitative claims") -- a plain restatement of the pet policy and
-    amenity list a source record already supplied, nothing more."""
+    amenity list a source record already supplied, nothing more.
+
+    IDENTITY FLOOR (PTF-DAYTON-CANDIDATE-PROMOTION-001)
+    ---------------------------------------------------
+    This text is the SOURCE the SEO engine measures its meta-description floor
+    against (``seo_validators.meta_length_violation``, on the intro rather than
+    on the truncated output). Some properties state their whole pet policy in
+    two or three words -- "Pets Allowed", "Pet Friendly: Dog Friendly" -- which
+    yields a 25-character meta description and fails that floor, blocking the
+    build for a property whose evidence is perfectly good.
+
+    Padding with adjectives would be inventing qualitative claims, so instead
+    the listing's own identity is appended: the business name and its city and
+    state, all of which are already committed facts on the record. This fires
+    ONLY when the policy-derived text is below the floor, so every listing that
+    already cleared it -- every Columbus and Cleveland listing -- keeps its
+    existing description byte-for-byte, which the release contract's package
+    hash and the Columbus bundle digest both depend on.
+
+    It raises the floor; it does not guarantee clearing it. A listing with no
+    name and no locality still returns the short text and still fails the SEO
+    gate, which is the right outcome: a description nobody can write from the
+    committed facts should stop the build, not be padded until it passes.
+    """
     parts: List[str] = []
     pet_policy = (pet_policy or "").strip()
     if pet_policy:
@@ -407,7 +442,15 @@ def _build_description(pet_policy: str, amenities: Sequence[str]) -> str:
     cleaned_amenities = [a.strip() for a in amenities if str(a).strip()]
     if cleaned_amenities:
         parts.append("Amenities: %s." % ", ".join(cleaned_amenities))
-    return " ".join(parts)
+    text = " ".join(parts)
+
+    if text and len(text) < META_DESCRIPTION_MIN_LENGTH:
+        locality = ", ".join(p for p in ((city or "").strip(), (state or "").strip()) if p)
+        identity = " ".join(p for p in ((business_name or "").strip(),
+                                        ("in %s" % locality) if locality else "") if p)
+        if identity:
+            text = "%s. %s" % (identity, text)
+    return text
 
 
 def build_categories(raw_categories: Sequence[Mapping[str, Any]]) -> Tuple[ListingCategory, ...]:
@@ -638,7 +681,11 @@ def build_listing_dataset(
             cta = ListingCTA(label=_CTA_LABEL, target_route=cta_url)
 
         amenities = raw.get("amenities") or ()
-        description = _build_description(str(raw.get("pet_policy", "")), amenities)
+        description = _build_description(
+            str(raw.get("pet_policy", "")), amenities,
+            business_name=name,
+            city=str(raw.get("city", "") or ""),
+            state=str(raw.get("state", "") or ""))
 
         listings.append(
             ListingRecord(

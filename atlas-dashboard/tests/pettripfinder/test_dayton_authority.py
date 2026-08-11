@@ -33,8 +33,14 @@ _ROOT = Path(__file__).resolve().parents[2]
 #: The counts this integration adjudicated, as a partition of the 129-hotel
 #: census. They are asserted as a set so a silent drift in any one of them
 #: fails rather than being absorbed by another bucket.
-ACCEPTED = 33
-NO_PETS = 6
+#:
+#: PTF-DAYTON-CANDIDATE-PROMOTION-001 moved 33 -> 44 and 6 -> 7 by promoting the
+#: reviewed dayton-recovery-002 candidates: eleven pet-friendly identities and
+#: Hotel Versailles's affirmative no-pets refusal. Two of the fourteen proposed
+#: candidates were NOT promoted (both Wyndham marketing-blurb records, readiness
+#: POLICY_PARTIAL) and remain proposals.
+ACCEPTED = 44
+NO_PETS = 7
 HELD = 6
 CENSUS = 129
 
@@ -175,12 +181,39 @@ class TestPerPetScopeDoesNotSpread:
 class TestNegativeFactsNeedArtifactsToo:
 
     def test_every_dayton_exclusion_quotes_an_affirmative_refusal(self):
+        """A refusal must be the property's own words, in one of the two shapes
+        a property actually states one.
+
+        PTF-DAYTON-CANDIDATE-PROMOTION-001: this used to accept only the PROSE
+        shape ("no pets" / "not allowed"). Hotel Versailles refuses in the
+        STRUCTURED shape instead -- ``"petsAllowed": false`` on the ``@type:
+        Hotel`` node of its own JSON-LD, with no visible pet text anywhere on
+        the page. That shape was already accepted authority in this repository
+        (two Columbus Best Western exclusions applied by
+        PTF-NEGATIVE-EVIDENCE-P0-001 carry exactly it), so the narrower Dayton
+        check was wrong about the standard, not about Versailles. Broadening it
+        is the honest fix; paraphrasing a prose refusal onto a page that states
+        none would have been inventing evidence to satisfy a lexical test.
+        """
         for e in load_exclusions():
             if e.get("market_id") != DAYTON:
                 continue
-            quote = e["evidence_quote"].lower()
-            assert "not allowed" in quote or "no pets" in quote, e["canonical_name"]
+            quote = " ".join(e["evidence_quote"].split()).lower()
+            prose = "not allowed" in quote or "no pets" in quote
+            structured = re.search(r'"?petsallowed"?\s*:\s*false', quote) is not None
+            assert prose or structured, e["canonical_name"]
             assert e["source_hash"], e["canonical_name"]
+
+    def test_no_dayton_exclusion_rests_on_silence(self):
+        """The distinction the exclusion authority exists to hold: an unanswered
+        capture is not a refusal. Every Dayton no-pets record must name a source
+        and carry a hash of the artifact the quote came from."""
+        for e in load_exclusions():
+            if e.get("market_id") != DAYTON:
+                continue
+            assert e["source_url"], e["canonical_name"]
+            assert len(e["source_hash"]) >= 64, e["canonical_name"]
+            assert e["exclusion_state"] == "VERIFIED_NO_PETS", e["canonical_name"]
 
     def test_hie_troy_is_not_excluded(self):
         """The worker counted it VERIFIED_NO_PETS on a research-agent assertion
@@ -194,6 +227,90 @@ class TestNegativeFactsNeedArtifactsToo:
                if normalize_name(h["canonical_name"])
                == normalize_name("Holiday Inn Express & Suites Troy")]
         assert len(hit) == 1, "the property is retained, not deleted"
+
+
+class TestThePromotedRecoveryCandidates:
+    """PTF-DAYTON-CANDIDATE-PROMOTION-001. What review changed about the
+    fourteen proposed candidates, pinned to the records so it cannot drift."""
+
+    def test_the_two_marketing_only_candidates_are_not_published(self, facts):
+        """Both carry a real first-party affirmation, and both are POLICY_PARTIAL
+        -- marketing language without a stated policy. POLICY_PARTIAL is not in
+        readiness.PUBLISHABLE_STATES, so neither publishes."""
+        from scripts.pettripfinder.policy import readiness as RD
+
+        keys = {h["key"] for h in facts["hotels"]}
+        for name in ("Baymont by Wyndham Dayton North",
+                     "Wingate by Wyndham Dayton North"):
+            assert normalize_name(name) not in keys, name
+        assert "POLICY_PARTIAL" not in RD.PUBLISHABLE_STATES
+
+    def test_extended_stay_publishes_no_fee_and_no_weight(self, facts):
+        """The fee is a tiered CLEANING fee ($25/day for six nights, then
+        $15/day); the size limit is dimensional (36 inches), not weight."""
+        esa = [h for h in facts["hotels"] if h["key"].startswith("extended stay america")]
+        assert len(esa) == 3
+        for h in esa:
+            assert "pet_fee" not in h["facts"], h["name"]
+            assert "weight_limit" not in h["facts"], h["name"]
+            assert h["facts"]["pet_count_limit"] == "2"
+            assert h["facts"]["pet_count_scope"] == "room"
+
+    def test_extended_stay_general_restrictions_is_one_contiguous_sentence(self, facts):
+        """It used to be fee_sentence + " " + size_sentence -- two verbatim spans
+        ~9,000 characters apart in the capture, joined into a value that is a
+        span of no page. The published value must be inside the policy block,
+        which is what the page actually said, contiguously."""
+        for h in facts["hotels"]:
+            if not h["key"].startswith("extended stay america"):
+                continue
+            gr = " ".join(h["facts"]["general_restrictions"].split())
+            assert "36 inches" in gr and "cleaning fee" not in gr, h["name"]
+            assert gr in " ".join(h["evidence_quote"].split()), h["name"]
+
+    def test_celina_withholds_a_fee_its_own_page_contradicts(self, facts):
+        """The description says to call the hotel for fees; the Policies section
+        states a flat $10 per pet per night. Picking one resolves a contradiction
+        the property has not resolved."""
+        h = next(x for x in facts["hotels"]
+                 if x["key"] == normalize_name("Americas Best Value Inn Celina"))
+        assert "pet_fee" not in h["facts"] and "pet_fee" in h["withheld_fields"]
+        assert "10" not in json.dumps(h["facts"])
+
+    def test_only_the_cobblestone_properties_claim_a_species(self, facts):
+        """"Dog Friendly" in as many words is a species. "pets" never is."""
+        promoted = {"cobblestone hotel and suites bellefontaine",
+                    "cobblestone hotel and suites eaton",
+                    "cobblestone hotel and suites urbana",
+                    "cobblestone hotel and suites indian lake russells point"}
+        for h in facts["hotels"]:
+            if h["key"] in promoted:
+                assert h["facts"]["species_allowed"] == "dogs", h["name"]
+
+    def test_urbana_does_not_inherit_its_siblings_fee(self, facts):
+        """Three Cobblestone pages state "$25/dog per night" in the policies
+        block; Urbana's leaves that slot empty. Silence is not a price."""
+        h = next(x for x in facts["hotels"]
+                 if x["key"] == "cobblestone hotel and suites urbana")
+        assert "pet_fee" not in h["facts"]
+        assert "25" not in json.dumps(h["facts"])
+        priced = [x for x in facts["hotels"]
+                  if x["key"].startswith("cobblestone") and "pet_fee" in x["facts"]]
+        assert len(priced) == 3
+        for x in priced:
+            assert x["facts"]["pet_fee"] == "$25.00"
+
+    def test_hotel_versailles_is_excluded_not_published(self, facts):
+        """The one negative finding in the batch. It must be in the exclusion
+        registry and absent from the published package -- the two states this
+        authority exists to keep apart."""
+        key = normalize_name("Hotel Versailles")
+        assert key not in {h["key"] for h in facts["hotels"]}
+        rec = next(e for e in load_exclusions()
+                   if normalize_name(e["canonical_name"]) == key)
+        assert rec["market_id"] == DAYTON
+        assert rec["exclusion_state"] == "VERIFIED_NO_PETS"
+        assert rec["evidence_quote"] == '"petsAllowed": false'
 
 
 class TestTheCensusPartitions:

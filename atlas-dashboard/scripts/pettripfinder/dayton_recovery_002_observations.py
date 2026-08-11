@@ -29,6 +29,7 @@ from scripts.pettripfinder.policy import policy_membrane as MB   # noqa: E402
 from scripts.pettripfinder.policy import policy_observation as PO  # noqa: E402
 from scripts.pettripfinder.policy import readiness as RD          # noqa: E402
 from scripts.pettripfinder import dayton_recovery_002_closeout as CO  # noqa: E402
+from scripts.pettripfinder.site_data import normalize_name           # noqa: E402
 
 MARKET = "dayton-oh"
 RUN_ID = "dayton-recovery-002"
@@ -43,6 +44,25 @@ OUT_OBSERVATIONS = (_REPO_ROOT / "data" / "worker_runs" / "pettripfinder"
 
 def _norm(text: str) -> str:
     return " ".join((text or "").split())
+
+
+def _resolved_names() -> set:
+    """Normalized names this market has since ANSWERED, either way.
+
+    Published pet-friendly and verified-no-pets are both answers; a candidate
+    that reached either one is no longer a proposal. Read from the committed
+    authority files so this cannot disagree with what actually shipped.
+    """
+    from scripts.pettripfinder.hotel_exclusions import load_exclusions
+    from scripts.pettripfinder.site_data import published_facts_path
+
+    resolved = {normalize_name(e["canonical_name"]) for e in load_exclusions()
+                if e.get("market_id") == MARKET}
+    facts_path = published_facts_path(MARKET)
+    if facts_path.exists():
+        doc = json.loads(facts_path.read_text(encoding="utf-8"))
+        resolved |= {h["key"] for h in doc.get("hotels", [])}
+    return resolved
 
 
 def _load_capture(slug: str) -> Dict:
@@ -242,14 +262,23 @@ def build_batch() -> List[Dict]:
     # an ellipsis, producing an evidence quote that is NOT a substring of the
     # capture while still declaring extraction_confidence EXACT_QUOTE -- and a
     # general_restrictions string that duplicated "six ( six (6)" and
-    # paraphrased the approval clause. The sentence is contiguous in all three
-    # captures, so nothing had to be stitched; it is now quoted whole.
+    # paraphrased the approval clause. Each sentence below is contiguous in all
+    # three captures and is quoted whole.
     q_fee = ("Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, "
              "for the first six (6) nights, per pet. Each day thereafter there "
              "is a pet cleaning fee not to exceed a $15.00 per day plus tax, "
              "per pet.")
     q_size = ("Height and length restrictions apply-- pets can be no longer "
               "than 36 inches and no taller than 36 inches.")
+    # PTF-DAYTON-CANDIDATE-PROMOTION-001. general_restrictions used to be
+    # ``q_fee + " " + q_size``. Both halves are verbatim, but they are NOT
+    # adjacent: q_fee comes from the property's fees list and q_size from the
+    # Pet Policy narrative, ~9,000 characters apart in every one of the three
+    # captures. Joining them produced a value that is not a span of any page --
+    # the same "quote that is not a quote" defect the ellipsis fix addressed,
+    # just without the ellipsis to make it visible. general_restrictions now
+    # carries ONE contiguous sentence. The fee ladder is not published as a
+    # fact at all (see the withheld reason in integrate_dayton_recovery_002).
     for slug, name, addr, phone in esa:
         c = _load_capture(slug)
         assert _quote_in_capture(c, q_max), "%s max-pets quote not found" % slug
@@ -271,15 +300,13 @@ def build_batch() -> List[Dict]:
             # rate): $25/day for the first 6 nights, then $15/day/pet
             # thereafter, cap governed by stay length. That shape has no
             # single (basis, amount) pair in this contract's vocabulary, so
-            # it is preserved verbatim in general_restrictions and pet_fee /
-            # fee_tiers are withheld rather than collapsed into one number.
-            # Every character below is a verbatim span of the capture; the
-            # property-manager-approval clause is dropped rather than
-            # paraphrased, because its only faithful form carries an HTML
-            # entity from the source page.
+            # pet_fee / fee_tiers are withheld rather than collapsed into one
+            # number. general_restrictions carries the size limit, which is a
+            # single contiguous sentence on the page; the fee ladder is
+            # evidence here but is published as no fact.
             extraction={"pets_allowed": "true", "pet_count_limit": 2,
                         "pet_count_scope": "room",
-                        "general_restrictions": q_fee + " " + q_size},
+                        "general_restrictions": q_size},
         ))
 
     # -- Baymont / Wingate Dayton North -- marketing-blurb affirmation ----- #
@@ -295,7 +322,12 @@ def build_batch() -> List[Dict]:
         batch.append(_obs(
             slug, obs_n=1, source_url=c["url"], source_type="official_property_page",
             name_on_page=name,
-            evidence=[{"quote": q, "location": "local-area marketing copy",
+            # PTF-DAYTON-CANDIDATE-PROMOTION-001: this was labelled "local-area
+            # marketing copy", which is where the NEXT section of these pages
+            # starts ("What's Next Door" / "Local Hotspots"). The sentence is in
+            # the property's own description of its own rooms and services, so
+            # the label understated the evidence it describes.
+            evidence=[{"quote": q, "location": "property description copy",
                        "field_refs": ["pets_allowed"]}],
             extraction={"pets_allowed": "true"},
             flags=[{"code": "FLAG_MARKETING_ONLY",
@@ -349,18 +381,37 @@ def main() -> int:
         }
         candidates.append(row)
 
+    # PTF-DAYTON-CANDIDATE-PROMOTION-001. ``candidates`` is this run's proposal
+    # and stays as it was written -- it is the record of what the worker put
+    # forward. What changes over time is how many of those proposals are still
+    # only proposals, so that is DERIVED from committed authority rather than
+    # restated: a candidate that has since been published or excluded is
+    # resolved and drops out. The release contract's reconciliation cross-check
+    # sums this list with ``remaining_unresolved`` to reach the market's
+    # unresolved count, so a promotion that forgot to update the contract shows
+    # up there as a partition that no longer covers the total.
+    resolved = _resolved_names()
+    still_proposed = [row for row in candidates
+                      if normalize_name(row["canonical_name"]) not in resolved]
+
     manifest = {
         "_schema": "ptf-dayton-recovery-002-proposed-authority/1.0",
         "market_id": MARKET,
         "generated_at": AS_OF,
         "run_id": RUN_ID,
         "base_authority_commit": "de2e467",
-        "note": ("Proposed candidates only. Does NOT modify "
-                 "hotel_policy_facts_dayton-oh.json, seed_businesses.csv, or "
-                 "hotel_exclusions.json -- those stay frozen at the "
-                 "PTF-DAYTON-INTEGRATION-ADJUDICATION-001 authority "
-                 "(33 published / 6 no-pets / 6 held / 129 census) pending "
-                 "explicit integration review."),
+        "candidates_still_proposed": still_proposed,
+        "note": ("This module PROPOSES; it never writes publication authority. "
+                 "It does not modify hotel_policy_facts_dayton-oh.json, "
+                 "seed_businesses.csv or hotel_exclusions.json -- writing those "
+                 "is an integration act, performed separately and under review "
+                 "by scripts/pettripfinder/integrate_dayton_recovery_002.py. "
+                 "PTF-DAYTON-CANDIDATE-PROMOTION-001 has since reviewed the "
+                 "fourteen candidates below and adjudicated twelve of them: "
+                 "eleven published and one (Hotel Versailles) written to the "
+                 "exclusion registry, taking Dayton to 44 published / 7 "
+                 "verified-no-pets / 78 unresolved / 129 census. The two that "
+                 "remain proposals are listed in candidates_still_proposed."),
         "candidates": candidates,
         "remaining_unresolved": CO.build_report(),
     }

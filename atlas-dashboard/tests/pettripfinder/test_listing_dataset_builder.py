@@ -293,3 +293,65 @@ class TestAddressDuplicationFix:
         address = result.dataset.listings[0].address
         assert address.city == "Columbus"
         assert address.state == "OH"
+
+
+class TestShortPolicyDescriptionsMeetTheMetaFloor:
+    """PTF-DAYTON-CANDIDATE-PROMOTION-001.
+
+    Some properties state their entire pet policy in two or three words --
+    "Pets Allowed", "Pet Friendly: Dog Friendly". The description built from
+    that text is the SOURCE the SEO engine measures its meta-description floor
+    against, so a 25-character policy blocked the whole Dayton build for two
+    properties whose evidence was perfectly good.
+    """
+
+    def test_the_local_floor_matches_the_engine_constant(self):
+        """The builder may not import a sibling engine subpackage, so it keeps a
+        documented duplicate of the floor. Pin the two together here."""
+        from engines.website_generation.constants.seo import META_DESCRIPTION_MIN_LENGTH
+        from scripts.pettripfinder.listing_dataset_builder import (
+            META_DESCRIPTION_MIN_LENGTH as LOCAL,
+        )
+        assert LOCAL == META_DESCRIPTION_MIN_LENGTH
+
+    def test_a_two_word_policy_is_extended_with_the_listings_identity(self):
+        from engines.website_generation.constants.seo import META_DESCRIPTION_MIN_LENGTH
+
+        result = build_listing_dataset(
+            seed_businesses=[_biz(name="The Hotel at Dayton South",
+                                  city="Columbus", state="OH",
+                                  pet_policy="Pets Allowed")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        description = result.dataset.listings[0].description
+        assert len(description) >= META_DESCRIPTION_MIN_LENGTH
+        # Identity is prepended from facts already on the record -- never an
+        # invented qualitative claim (mission SS1.H).
+        assert description.startswith("The Hotel at Dayton South in Columbus, OH.")
+        assert "Pet policy: Pets Allowed." in description
+
+    def test_a_policy_that_already_clears_the_floor_is_untouched(self):
+        """The guard fires only below the floor. Every listing that already
+        cleared it keeps its description byte-for-byte, which is what holds the
+        committed package hashes and the Columbus bundle digest stable."""
+        policy = ("Pet Policy: Pets are welcome for a fee of $25 per pet per "
+                  "night, with no weight restriction.")
+        result = build_listing_dataset(
+            seed_businesses=[_biz(name="Acme Inn", pet_policy=policy)],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        assert result.dataset.listings[0].description == "Pet policy: %s." % policy
+
+    def test_a_listing_with_no_policy_is_still_excluded_entirely(self):
+        """No policy text is the renderability boundary's "pending attestation"
+        signal, and it must stay that way: the identity floor above may never
+        manufacture a description that carries a silent listing into the site.
+        The boundary is stricter than the floor -- such a listing is dropped
+        before a description is ever a question."""
+        result = build_listing_dataset(
+            seed_businesses=[_biz(name="Acme Inn", pet_policy="")],
+            categories=_CATEGORIES, locations=_LOCATIONS,
+        )
+        assert result.dataset.listings == ()
+        assert result.excluded_pending == (
+            "Acme Inn [Hotels]: PENDING_EVIDENCE=missing_evidence",)

@@ -42,10 +42,43 @@ class TestManifestIsProposalOnly:
         assert manifest["market_id"] == "dayton-oh"
         assert len(manifest["candidates"]) == 14
 
-    def test_manifest_does_not_touch_published_authority(self):
-        """The frozen 33/6/6/129 partition is untouched by this worker."""
+    def test_every_candidate_is_adjudicated_into_exactly_one_outcome(self, manifest):
+        """PTF-DAYTON-CANDIDATE-PROMOTION-001 reviewed all fourteen proposals.
+
+        The worker proposed; this is what integration decided. Eleven publish,
+        one is an exclusion, and two stay proposals because readiness.derive
+        puts them in POLICY_PARTIAL. A candidate in two buckets, or in none, is
+        the failure this asserts against."""
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
-        assert len(facts["hotels"]) == 33
+        published = {h["key"] for h in facts["hotels"]}
+        excluded = {normalize_name(e["canonical_name"]) for e in load_exclusions()
+                    if e.get("market_id") == "dayton-oh"}
+
+        outcomes = {"published": set(), "excluded": set(), "still_proposed": set()}
+        for row in manifest["candidates"]:
+            key = normalize_name(row["canonical_name"])
+            hits = [b for b, s in (("published", published), ("excluded", excluded))
+                    if key in s]
+            assert len(hits) <= 1, (row["slug"], hits)
+            outcomes[hits[0] if hits else "still_proposed"].add(row["slug"])
+
+        assert len(outcomes["published"]) == 11
+        assert outcomes["excluded"] == {"hotel-versailles"}
+        assert outcomes["still_proposed"] == {"baymont-by-wyndham-dayton-north",
+                                              "wingate-by-wyndham-dayton-north"}
+        assert len(facts["hotels"]) == 44
+
+    def test_the_two_unpromoted_candidates_are_not_publishable(self, manifest):
+        """They are held back by the readiness engine, not by opinion."""
+        from scripts.pettripfinder.policy import readiness as RD
+
+        held = {"baymont-by-wyndham-dayton-north", "wingate-by-wyndham-dayton-north"}
+        for row in manifest["candidates"]:
+            if row["slug"] in held:
+                assert row["state"] not in RD.PUBLISHABLE_STATES, row["slug"]
 
     def test_every_candidate_slug_is_in_the_census(self, manifest, census):
         slugs = {h["slug"] for h in census["hotels"]}
@@ -79,12 +112,28 @@ class TestManifestIsProposalOnly:
 
         assert len(published_slugs | excluded_slugs | candidate_slugs | remaining_slugs) == 129
 
-    def test_no_candidate_duplicates_a_published_hotel(self, manifest):
+    def test_no_candidate_publishes_twice(self, manifest):
+        """Promotion appends; it must never duplicate an identity already in the
+        package, and no identity may hold two records."""
+        from scripts.pettripfinder.site_data import normalize_name
+
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
-        published_keys = {h["key"] for h in facts["hotels"]}
+        keys = [h["key"] for h in facts["hotels"]]
+        assert len(keys) == len(set(keys)), "a hotel key is published twice"
+        names = [h["name"] for h in facts["hotels"]]
+        assert len(names) == len(set(names))
         for row in manifest["candidates"]:
-            from scripts.pettripfinder.site_data import normalize_name
-            assert normalize_name(row["canonical_name"]) not in published_keys
+            assert keys.count(normalize_name(row["canonical_name"])) <= 1, row["slug"]
+
+    def test_no_published_hotel_is_also_excluded(self):
+        """The distinction the two authorities exist to hold apart."""
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+
+        facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+        published = {h["key"] for h in facts["hotels"]}
+        excluded = {normalize_name(e["canonical_name"]) for e in load_exclusions()}
+        assert not (published & excluded), sorted(published & excluded)
 
 
 class TestObservationsValidateAgainstTheFrozenContract:
@@ -162,19 +211,42 @@ class TestCensusUpdatesAreConservative:
         assert h["identity_state"] == "IDENTITY_CONFIRMED"
         assert "_recovery_002_note" in h
 
-    def test_hotel_versailles_no_pets_finding_is_census_only(self, census):
-        """This worker found one new negative fact (Hotel Versailles, JSON-LD
-        petsAllowed:false) and recorded it in the census's lodging_state/
-        policy_state roll-up (no_pets_count 7 -> 8). It is NOT written into
-        the frozen hotel_exclusions.json authority -- that stays the
-        integrator's call, same as every accepted candidate here."""
+    def test_hotel_versailles_no_pets_finding_is_now_committed_authority(self, census):
+        """The worker recorded this negative fact in the census only and left
+        the exclusion registry to the integrator. PTF-DAYTON-CANDIDATE-PROMOTION-001
+        made that call: the evidence is a hash-verified JSON-LD refusal on the
+        property's own Hotel node, so it is now committed authority."""
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+
         assert census["no_pets_count"] == 8
         h = next(x for x in census["hotels"] if x["slug"] == "hotel-versailles")
         assert h["lodging_state"] == "LODGING_NO_PETS"
+
+        rec = next((e for e in load_exclusions()
+                    if normalize_name(e["canonical_name"]) == normalize_name("Hotel Versailles")),
+                   None)
+        assert rec is not None, "the adjudicated refusal is not in the registry"
+        assert rec["market_id"] == "dayton-oh"
+        assert rec["source_hash"] == (
+            "3819c19720bac29d04068f6f398fc0d27dab96b124c3be088b2177af26ab5813")
+
+    def test_the_census_no_pets_count_still_exceeds_the_registry_by_one(self):
+        """The census marks eight properties no-pets; the registry holds seven.
+
+        The gap is Holiday Inn Express & Suites Troy, which the worker counted
+        VERIFIED_NO_PETS on a research-agent assertion with no quote, capture or
+        hash. Silence about evidence is not evidence, so it stays out of the
+        registry -- and the gap is asserted here so it stays a known, explained
+        one rather than quietly closing."""
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         from scripts.pettripfinder.site_data import normalize_name
-        names = {normalize_name(e["canonical_name"]) for e in load_exclusions()}
-        assert normalize_name("Hotel Versailles") not in names
+
+        registry = {normalize_name(e["canonical_name"]) for e in load_exclusions()
+                    if e.get("market_id") == "dayton-oh"
+                    and e["exclusion_state"] == "VERIFIED_NO_PETS"}
+        assert len(registry) == 7
+        assert normalize_name("Holiday Inn Express & Suites Troy") not in registry
 
     def test_the_census_is_still_the_full_129(self, census):
         assert census["count"] == 129 == len(census["hotels"])
@@ -198,10 +270,21 @@ class TestCensusUpdatesAreConservative:
         assert census["active_count"] + census["no_pets_count"] == 129
 
     def test_the_129_partition_is_mutually_exclusive_and_exhaustive(self, manifest, census):
-        """The worker reported 33 + 6 + 14 + 75 = 128 and category counts that
-        summed to 76. The census settles it: the unresolved remainder is 76, not
-        75, so the true partition is 33 published + 6 verified-no-pets + 14
-        proposed candidates + 76 still-unresolved = 129, with no overlaps."""
+        """Every one of the 129 Dayton identities sits in exactly one state.
+
+        PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated the fourteen proposals,
+        so the partition is now:
+
+            44 published pet-friendly
+           + 7 verified no-pets
+           + 2 still proposed (readiness POLICY_PARTIAL)
+          + 76 unresolved
+          ---
+           129
+
+        Mutual exclusivity is the point: a property that is both published and
+        excluded, or that falls out of every bucket, is exactly the drift this
+        reconciliation exists to catch."""
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         from scripts.pettripfinder.site_data import normalize_name
 
@@ -212,12 +295,15 @@ class TestCensusUpdatesAreConservative:
                    if e.get("market_id") == "dayton-oh"
                    and e.get("exclusion_state") == "VERIFIED_NO_PETS"
                    and normalize_name(e["canonical_name"]) in by_norm}
-        candidates = {r["slug"] for r in manifest["candidates"]}
         remaining = {r["slug"] for r in manifest["remaining_unresolved"]}
+        # Whatever the manifest proposed that review did not adopt is still a
+        # proposal -- derived, not restated, so it cannot disagree with reality.
+        proposed = ({r["slug"] for r in manifest["candidates"]}
+                    - published - no_pets - remaining)
 
-        assert (len(published), len(no_pets)) == (33, 6)
-        assert (len(candidates), len(remaining)) == (14, 76)
-        buckets = (published, no_pets, candidates, remaining)
+        assert (len(published), len(no_pets)) == (44, 7)
+        assert (len(proposed), len(remaining)) == (2, 76)
+        buckets = (published, no_pets, proposed, remaining)
         for i, a in enumerate(buckets):
             for b in buckets[i + 1:]:
                 assert not (a & b), sorted(a & b)

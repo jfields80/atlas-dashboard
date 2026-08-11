@@ -65,7 +65,12 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
 EXPECTED_RECONCILIATION = {
     COLUMBUS: (None, 88, 14, 102, None),
     CLEVELAND: (188, 19, 8, 27, 161),
-    DAYTON: (129, 33, 6, 39, 90),
+    # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
+    # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
+    # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
+    # were not promoted -- readiness POLICY_PARTIAL -- so they stay unresolved,
+    # which is why unresolved falls to 78 and not to 76.
+    DAYTON: (129, 44, 7, 51, 78),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -161,15 +166,20 @@ class TestContractAgreesWithItsOwnAuthority:
         assert recon["unresolved"] == unresolved
 
     def test_verified_no_pets_is_scoped_to_the_market_that_owns_it(self):
-        """8 for Cleveland, 6 for Dayton, 14 for Columbus -- never the sum.
+        """8 for Cleveland, 7 for Dayton, 14 for Columbus -- never the sum.
 
         Counting the exclusion registry's length reported 22 verified-no-pets
         for a market that has 8, and counting every state in it reported 16 for
         a market that has 14 (two Columbus rows are a category ruling, not
         negative pet evidence).
+
+        Dayton is 7 as of PTF-DAYTON-CANDIDATE-PROMOTION-001, which adjudicated
+        Hotel Versailles into the registry. The market-scoping property is what
+        this defends, so the number moving with a market's own authority is
+        correct; the number moving because another market grew would not be.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 6}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 7}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
