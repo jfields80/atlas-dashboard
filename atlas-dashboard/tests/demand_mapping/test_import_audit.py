@@ -23,11 +23,15 @@ _STDLIB: Set[str] = set(getattr(sys, "stdlib_module_names", ())) | {
 
 # Modules forbidden anywhere inside the deterministic core (§3.3): no
 # Flask, no network, no AI clients, no UUIDs, no randomness, no clock,
-# no logging side channels.
+# no logging side channels. Phase B (review finding F-05, authorized
+# test-only strengthening) adds the filesystem modules per §4.2's
+# no-filesystem rule; ``io`` is deliberately not banned blindly — its
+# in-memory classes are pure — but no engine module imports it today.
 _FORBIDDEN: Set[str] = {
     "flask", "requests", "urllib", "urllib3", "http", "httpx", "socket",
     "anthropic", "openai", "uuid", "random", "secrets", "time",
     "datetime", "logging",
+    "os", "pathlib", "shutil", "tempfile", "glob",
 }
 
 _ALLOWED_THIRD_PARTY: Set[str] = {"pydantic"}

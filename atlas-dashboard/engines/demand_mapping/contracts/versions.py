@@ -35,8 +35,16 @@ from engines.demand_mapping.contracts.opportunities import (
     PageOpportunitySet,
 )
 from engines.demand_mapping.contracts.provenance import TaggedValue
+from engines.demand_mapping.contracts.records import (
+    FieldValue,
+    GenericEntityRecord,
+    GenericInventorySnapshot,
+)
 
-CONTRACTS_VERSION: str = "1.0.0"
+# 1.1.0 — Phase B additive minor: generic inventory record kinds
+# (FieldValue, GenericEntityRecord, GenericInventorySnapshot) join the
+# registry. No existing schema changed (§19.1: additive = minor).
+CONTRACTS_VERSION: str = "1.1.0"
 EVIDENCE_MODEL_VERSION: str = "1.0.0"
 
 SCHEMA_VERSIONS: Dict[str, str] = {
@@ -48,6 +56,16 @@ SCHEMA_VERSIONS: Dict[str, str] = {
     "GateResult": "1.0.0",
     "PageOpportunity": "1.0.0",
     "PageOpportunitySet": "1.0.0",
+    "FieldValue": "1.0.0",
+    "GenericEntityRecord": "1.0.0",
+    "GenericInventorySnapshot": "1.0.0",
+}
+
+# Engine versions (§4.5): bumped whenever output could differ for
+# identical input. Recorded on every output artifact that the engine
+# produces (DimensionProfileSet carries it via the producing run).
+ENGINE_VERSIONS: Dict[str, str] = {
+    "inventory_profiler": "1.0.0",
 }
 
 _SCHEMA_REGISTRY: Dict[Tuple[str, str], Type[BaseModel]] = {}
@@ -116,4 +134,15 @@ register_schema(
     "PageOpportunitySet",
     SCHEMA_VERSIONS["PageOpportunitySet"],
     PageOpportunitySet,
+)
+register_schema("FieldValue", SCHEMA_VERSIONS["FieldValue"], FieldValue)
+register_schema(
+    "GenericEntityRecord",
+    SCHEMA_VERSIONS["GenericEntityRecord"],
+    GenericEntityRecord,
+)
+register_schema(
+    "GenericInventorySnapshot",
+    SCHEMA_VERSIONS["GenericInventorySnapshot"],
+    GenericInventorySnapshot,
 )

@@ -19,12 +19,14 @@ _SEMVER_KINDS = (
     "TaggedValue", "EvidenceObservation", "EvidenceSnapshot",
     "DimensionProfile", "DimensionProfileSet", "GateResult",
     "PageOpportunity", "PageOpportunitySet",
+    # Phase B additive minor (contracts 1.1.0):
+    "FieldValue", "GenericEntityRecord", "GenericInventorySnapshot",
 )
 
 
 class TestVersionAxes:
     def test_package_versions_declared(self):
-        assert CONTRACTS_VERSION == "1.0.0"
+        assert CONTRACTS_VERSION == "1.1.0"
         assert EVIDENCE_MODEL_VERSION == "1.0.0"
 
     def test_every_contract_kind_has_a_schema_version(self):

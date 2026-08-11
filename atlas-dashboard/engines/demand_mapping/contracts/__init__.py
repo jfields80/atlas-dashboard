@@ -73,8 +73,18 @@ from engines.demand_mapping.contracts.opportunities import (
     validate_page_opportunity,
     validate_page_opportunity_set,
 )
+from engines.demand_mapping.contracts.records import (
+    FieldValue,
+    GenericEntityRecord,
+    GenericInventorySnapshot,
+    compute_inventory_snapshot_id,
+    validate_entity_record,
+    validate_field_value,
+    validate_inventory_snapshot,
+)
 from engines.demand_mapping.contracts.versions import (
     CONTRACTS_VERSION,
+    ENGINE_VERSIONS,
     EVIDENCE_MODEL_VERSION,
     SCHEMA_VERSIONS,
     register_schema,
@@ -146,8 +156,17 @@ __all__ = [
     "compute_opportunity_set_id",
     "validate_page_opportunity",
     "validate_page_opportunity_set",
+    # records
+    "FieldValue",
+    "GenericEntityRecord",
+    "GenericInventorySnapshot",
+    "compute_inventory_snapshot_id",
+    "validate_entity_record",
+    "validate_field_value",
+    "validate_inventory_snapshot",
     # versions
     "CONTRACTS_VERSION",
+    "ENGINE_VERSIONS",
     "EVIDENCE_MODEL_VERSION",
     "SCHEMA_VERSIONS",
     "register_schema",
