@@ -113,15 +113,47 @@ _LLMS_TXT_TEMPLATE = """\
 PetTripFinder verifies pet policies directly from each business's own
 official website. See /methodology/ for the full verification standard.
 
-- Verified pet-friendly hotels: /pet-friendly-hotels/
-- Hotel pet-policy comparison: /pet-friendly-hotels/policy-comparison/
-- Pet-friendly parks: /pet-friendly-parks/
-- Pet-friendly restaurants: /pet-friendly-restaurants/
-- Verification methodology: /methodology/
+%(links)s
 
 This file is informational only; it does not guarantee inclusion in any
 AI system's output.
 """
+
+#: (label, route) for every section llms.txt may advertise, in emission order.
+#: The comparison entry carries no fixed route: its path depends on the
+#: market's route_mode, so the builder supplies the one it actually wrote.
+#:
+#: PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: these used to be hard-coded
+#: into the template, which meant every market published Columbus's route list
+#: whether or not it had those pages. Dayton advertised /pet-friendly-parks/
+#: and /pet-friendly-restaurants/ (it publishes neither) and pointed at
+#: /pet-friendly-hotels/policy-comparison/ when its comparison page is really
+#: at /pet-friendly-hotels/dayton-oh/policy-comparison/ -- three dead links on
+#: the one file whose entire audience is machines. The internal-link checker
+#: never caught it because it reads HTML, and llms.txt is text.
+#:
+#: The list is now filtered against the routes the build actually produced, so
+#: it is correct for any market by construction rather than by naming one.
+_LLMS_SECTIONS = (
+    ("Verified pet-friendly hotels", "/pet-friendly-hotels/"),
+    ("Hotel pet-policy comparison", None),
+    ("Pet-friendly parks", "/pet-friendly-parks/"),
+    ("Pet-friendly restaurants", "/pet-friendly-restaurants/"),
+    ("Verification methodology", "/methodology/"),
+)
+
+
+def _llms_txt(market_name: str, published_routes, comparison_route: str) -> str:
+    """llms.txt naming only routes this build really wrote."""
+    available = set(published_routes) | {comparison_route}
+    lines = []
+    for label, route in _LLMS_SECTIONS:
+        target = comparison_route if route is None else route
+        if target in available:
+            lines.append("- %s: %s" % (label, target))
+    return _LLMS_TXT_TEMPLATE % {"market_name": market_name,
+                                 "links": "\n".join(lines)}
+
 
 _ROBOTS_TXT = """\
 User-agent: *
@@ -525,7 +557,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     (out_dir / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
     (out_dir / "robots.txt").write_text(_ROBOTS_TXT, encoding="utf-8", newline="\n")
     (out_dir / "llms.txt").write_text(
-        _LLMS_TXT_TEMPLATE % {"market_name": market.market_name},
+        _llms_txt(market.market_name, all_sitemap_routes, _cmp_route),
         encoding="utf-8", newline="\n")
 
     # --- CSS + skip link (Task 15/17): applied uniformly to every page, ---

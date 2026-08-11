@@ -131,9 +131,28 @@ class TestObservationsValidateAgainstTheFrozenContract:
             page = cache[slug]
             for item in obs["evidence"]:
                 quote = " ".join(item["quote"].split())
-                if "..." in quote:
-                    continue  # a stitched two-part quote; each half is checked below
+                # PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: this loop used to
+                # `continue` on any quote containing "...", on the stated grounds
+                # that it was "a stitched two-part quote; each half is checked
+                # below" -- but no such check existed below, and the exemption
+                # covered exactly the three Extended Stay America records whose
+                # stitched quote was not a substring of its own capture. A test
+                # that names a defect class and then exempts the only records
+                # exhibiting it is worse than no test. The exemption is removed;
+                # every quote must stand on its own.
                 assert quote in page, (obs["obs_id"], item["quote"])
+
+    def test_no_evidence_quote_is_an_elided_stitch(self):
+        """An ellipsis inside a quote means text was dropped from the middle,
+        which `extraction_confidence: EXACT_QUOTE` does not permit."""
+        obs_path = (_ROOT / "data" / "worker_runs" / "pettripfinder"
+                    / "dayton-recovery-002" / "observations.json")
+        if not obs_path.exists():
+            pytest.skip("data/ is gitignored; run dayton_recovery_002_observations "
+                        "to regenerate locally")
+        for obs in json.loads(obs_path.read_text(encoding="utf-8")):
+            for item in obs["evidence"]:
+                assert "..." not in item["quote"], (obs["obs_id"], item["quote"])
 
 
 class TestCensusUpdatesAreConservative:
@@ -159,3 +178,48 @@ class TestCensusUpdatesAreConservative:
 
     def test_the_census_is_still_the_full_129(self, census):
         assert census["count"] == 129 == len(census["hotels"])
+
+    def test_census_rollup_counts_match_the_records_they_summarize(self, census):
+        """PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: the worker advanced two
+        records to IDENTITY_CONFIRMED but left count_confirmed/count_provisional
+        at their old 100/29. A roll-up that disagrees with the rows it counts is
+        the failure mode the manifest doctrine exists to prevent -- it looks like
+        verification while being stale -- so every declared count is pinned to
+        the records here."""
+        from collections import Counter
+
+        ids = Counter(h["identity_state"] for h in census["hotels"])
+        lodging = Counter(h["lodging_state"] for h in census["hotels"])
+        assert census["count_confirmed"] == ids["IDENTITY_CONFIRMED"] == 102
+        assert census["count_provisional"] == ids["IDENTITY_PROVISIONAL"] == 27
+        assert census["count_confirmed"] + census["count_provisional"] == 129
+        assert census["active_count"] == lodging["LODGING_CONFIRMED"] == 121
+        assert census["no_pets_count"] == lodging["LODGING_NO_PETS"] == 8
+        assert census["active_count"] + census["no_pets_count"] == 129
+
+    def test_the_129_partition_is_mutually_exclusive_and_exhaustive(self, manifest, census):
+        """The worker reported 33 + 6 + 14 + 75 = 128 and category counts that
+        summed to 76. The census settles it: the unresolved remainder is 76, not
+        75, so the true partition is 33 published + 6 verified-no-pets + 14
+        proposed candidates + 76 still-unresolved = 129, with no overlaps."""
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+
+        by_norm = {normalize_name(h["canonical_name"]): h["slug"] for h in census["hotels"]}
+        facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+        published = {by_norm[h["key"]] for h in facts["hotels"] if h["key"] in by_norm}
+        no_pets = {by_norm[normalize_name(e["canonical_name"])] for e in load_exclusions()
+                   if e.get("market_id") == "dayton-oh"
+                   and e.get("exclusion_state") == "VERIFIED_NO_PETS"
+                   and normalize_name(e["canonical_name"]) in by_norm}
+        candidates = {r["slug"] for r in manifest["candidates"]}
+        remaining = {r["slug"] for r in manifest["remaining_unresolved"]}
+
+        assert (len(published), len(no_pets)) == (33, 6)
+        assert (len(candidates), len(remaining)) == (14, 76)
+        buckets = (published, no_pets, candidates, remaining)
+        for i, a in enumerate(buckets):
+            for b in buckets[i + 1:]:
+                assert not (a & b), sorted(a & b)
+        assert sum(len(b) for b in buckets) == 129
+        assert set().union(*buckets) == {h["slug"] for h in census["hotels"]}

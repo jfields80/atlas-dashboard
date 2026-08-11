@@ -10,7 +10,7 @@ import re
 
 import pytest
 
-from scripts.generate_pettripfinder_columbus_site import run
+from scripts.generate_pettripfinder_columbus_site import _llms_txt, run
 from scripts.pettripfinder.market_context import production_market
 from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 
@@ -51,6 +51,46 @@ def test_build_succeeds_and_reports_launch_ready(built_site):
     assert report["park_count"] == 14
     assert report["restaurant_count"] == 13
     assert not report["warnings"]
+
+
+class TestLlmsTxtNamesOnlyRoutesThatExist:
+    """PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001. llms.txt used to hard-code
+    Columbus's five routes for every market, so Dayton and Cleveland shipped a
+    machine-readable index pointing at pages they do not publish. The internal
+    link checker reads HTML and never saw it."""
+
+    def test_a_full_market_advertises_every_section(self):
+        routes = ["/pet-friendly-hotels/", "/pet-friendly-parks/",
+                  "/pet-friendly-restaurants/", "/methodology/"]
+        out = _llms_txt("Columbus", routes, "/pet-friendly-hotels/policy-comparison/")
+        assert "- Pet-friendly parks: /pet-friendly-parks/" in out
+        assert "- Pet-friendly restaurants: /pet-friendly-restaurants/" in out
+        assert ("- Hotel pet-policy comparison: "
+                "/pet-friendly-hotels/policy-comparison/") in out
+
+    def test_a_hotels_only_market_advertises_no_parks_or_restaurants(self):
+        out = _llms_txt("Dayton & West Central Ohio",
+                        ["/pet-friendly-hotels/", "/methodology/"],
+                        "/pet-friendly-hotels/dayton-oh/policy-comparison/")
+        assert "/pet-friendly-parks/" not in out
+        assert "/pet-friendly-restaurants/" not in out
+        assert "# PetTripFinder Dayton & West Central Ohio" in out
+
+    def test_the_comparison_route_follows_the_markets_route_mode(self):
+        """A market-prefixed comparison page must not be advertised at the
+        market-less Columbus path."""
+        cmp_route = "/pet-friendly-hotels/cleveland-akron-canton/policy-comparison/"
+        out = _llms_txt("Cleveland", ["/pet-friendly-hotels/", "/methodology/"], cmp_route)
+        assert cmp_route in out
+        assert "- Hotel pet-policy comparison: /pet-friendly-hotels/policy-comparison/" not in out
+
+    def test_every_advertised_route_is_one_the_build_wrote(self, built_site):
+        """End-to-end: parse the real file and require each path to exist."""
+        text = (built_site / "llms.txt").read_text(encoding="utf-8")
+        advertised = re.findall(r"^- .+?: (/\S*)$", text, flags=re.M)
+        assert advertised
+        for route in advertised:
+            assert (built_site / route.strip("/") / "index.html").is_file(), route
 
 
 def test_quality_report_clean(built_site):

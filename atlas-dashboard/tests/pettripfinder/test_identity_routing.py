@@ -222,17 +222,29 @@ def test_committed_authority_split(routes):
 
 
 def test_every_committed_record_preserves_index_binding(routes):
-    # PTF-CLEVELAND-URL-RECOVERY-WORKER-002: unlike the Columbus batch this
-    # test originally described, most of the 87 newly-recovered Cleveland
-    # routes were bound directly from a rendered brand.com/hilton.com/
-    # marriott.com/etc. property page (PAGE_RENDERED) rather than a
-    # brand-domain index page -- the brands did not refuse the request this
-    # time. A handful of chain properties (La Quinta, Days Inn, Super 8,
-    # Baymont, Knights Inn, Motel 6, Extended Stay America, Suburban Studios,
-    # America's Best Value Inn) still bind via BRAND_INDEX_BINDING, so both
-    # methods are legitimately present now.
+    # PTF-CLEVELAND-URL-RECOVERY-WORKER-002 landed 72 of its 87 new Cleveland
+    # routes as PAGE_RENDERED, on the claim that the brands "did not refuse the
+    # request this time". PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001 re-probed
+    # all 72 with a browser UA and could not reproduce that: 55 answered 403 and
+    # 7 (Choice/Cambria) never answered at all. Those 62 were corrected back to
+    # BRAND_INDEX_BINDING, which is what their own binding_sources describe --
+    # property codes and index content, not a served property page.
+    #
+    # The 10 that really did serve us their page are kept as PAGE_RENDERED: the
+    # eight independent first-party B&B/motel sites and the two Drury
+    # properties. Both methods are therefore legitimately present, but the split
+    # is now evidence-backed rather than asserted.
     assert {r["binding_method"] for r in routes} == {
         IR.BINDING_BRAND_INDEX, IR.BINDING_PAGE_RENDERED}
+    rendered = [r for r in routes if r["binding_method"] == IR.BINDING_PAGE_RENDERED]
+    assert len(rendered) == 10
+    # A brand that bot-walls us can never be the source of a rendered-page
+    # binding. This is the assertion that would have caught the original batch.
+    walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
+              "bestwestern.com", "radissonhotels.com", "redroof.com",
+              "extendedstayamerica.com"}
+    for r in rendered:
+        assert IR.registrable_domain(r["official_property_url"]) not in walled
 
 
 def test_no_committed_route_is_on_a_third_party_domain(routes):

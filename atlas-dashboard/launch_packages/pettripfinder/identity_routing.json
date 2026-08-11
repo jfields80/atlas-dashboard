@@ -2,7 +2,7 @@
  "schema": "ptf-identity-routing/1.0",
  "contract": "ptf-identity-routing/1.0",
  "note": "Official property endpoints for CONFIRMED hotel identities that are not publication inventory. A record here says WHERE a property speaks for itself. It is not publication, not policy, and not a second identity system: nothing in the publication path reads this file, and the join key remains hotel_ref.normalized_name + market_id. Adding a record here cannot create a hotel profile, a route, a sitemap entry, or a held-inventory count -- held inventory is derived from seed_businesses.csv alone. identity_context exists solely so the capture queue can satisfy its own required fields without a seed row, and is read by nothing that publishes.",
- "binding_method_note": "Every record below is BRAND_INDEX_BINDING, not PAGE_RENDERED: the brand refused automated requests, so identity was bound through brand-domain index content, property codes read from discovered links, and explicit same-brand disambiguation. That label is never upgraded merely because a record became authoritative.",
+ "binding_method_note": "binding_method is per-record and categorical, never a confidence score and never upgraded merely because a record became authoritative. Most records are BRAND_INDEX_BINDING: the brand refused automated requests, so identity was bound through brand-domain index content, property codes read from discovered links, and explicit same-brand disambiguation. A record is PAGE_RENDERED only where the property's own page actually served its content to us on re-probe -- in this authority that is the independent first-party B&B/motel sites and Drury.",
  "source_batches": [
   "columbus-official-url-recovery-001",
   "columbus-official-url-apply-001",
@@ -2848,7 +2848,7 @@
    "official_domain": "marriott.com",
    "property_code": "clemt",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page clemt-residence-inn-cleveland-mentor"
    ],
@@ -2868,7 +2868,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-inn-at-brandywine-falls",
@@ -2950,7 +2950,7 @@
    "official_domain": "marriott.com",
    "property_code": "cleaa",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cleaa-aloft-cleveland-airport"
    ],
@@ -2970,7 +2970,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-north-olmsted-cleveland-airport",
@@ -2985,7 +2985,7 @@
    "official_domain": "hilton.com",
    "property_code": "cleomhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cleomhx-hampton-north-olmsted-cleveland-airport"
    ],
@@ -3005,7 +3005,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hilton-garden-inn-cleveland-twinsburg",
@@ -3020,7 +3020,7 @@
    "official_domain": "hilton.com",
    "property_code": "clethgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clethgi-hilton-garden-inn-cleveland-twinsburg"
    ],
@@ -3040,7 +3040,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-courtyard-by-marriott-willoughby",
@@ -3055,7 +3055,7 @@
    "official_domain": "marriott.com",
    "property_code": "clewb",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page clewb-courtyard-cleveland-willoughby"
    ],
@@ -3075,7 +3075,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-doubletree-by-hilton-tudor-arms-hotel",
@@ -3090,7 +3090,7 @@
    "official_domain": "hilton.com",
    "property_code": "cleucdt",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cleucdt-the-tudor-arms-hotel-cleveland"
    ],
@@ -3110,7 +3110,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-aloft-cleveland-downtown",
@@ -3125,7 +3125,7 @@
    "official_domain": "marriott.com",
    "property_code": "cleal",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cleal-aloft-cleveland-downtown"
    ],
@@ -3145,7 +3145,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-drury-plaza-hotel",
@@ -3194,7 +3194,7 @@
    "official_domain": "hilton.com",
    "property_code": "cledthx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cledthx-hampton-cleveland-downtown"
    ],
@@ -3213,7 +3213,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hilton-cleveland-downtown",
@@ -3228,7 +3228,7 @@
    "official_domain": "hilton.com",
    "property_code": "cledohh",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cledohh-hilton-cleveland-downtown"
    ],
@@ -3248,7 +3248,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hilton-garden-inn-downtown-cleveland",
@@ -3263,7 +3263,7 @@
    "official_domain": "hilton.com",
    "property_code": "clegwgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clegwgi-hilton-garden-inn-cleveland-downtown"
    ],
@@ -3283,7 +3283,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-aloft-beachwood",
@@ -3298,7 +3298,7 @@
    "official_domain": "marriott.com",
    "property_code": "clebe",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page clebe-aloft-cleveland-beachwood"
    ],
@@ -3318,7 +3318,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-drury-inn-and-suites-beachwood",
@@ -3367,7 +3367,7 @@
    "official_domain": "hilton.com",
    "property_code": "clebwhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clebwhx-hampton-suites-cleveland-beachwood"
    ],
@@ -3387,7 +3387,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-homewood-suites-by-hilton-cleveland-beachwood",
@@ -3402,7 +3402,7 @@
    "official_domain": "hilton.com",
    "property_code": "clebdhw",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clebdhw-homewood-suites-cleveland-beachwood"
    ],
@@ -3422,7 +3422,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-marriott-cleveland-east",
@@ -3437,7 +3437,7 @@
    "official_domain": "marriott.com",
    "property_code": "cleem",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cleem-cleveland-marriott-east"
    ],
@@ -3456,7 +3456,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": "Official page title is 'Cleveland Marriott East' (word order swapped from census canonical_name); address and phone are an exact match, so this is the same property."
+   "notes": "Official page title is 'Cleveland Marriott East' (word order swapped from census canonical_name); address and phone are an exact match, so this is the same property. PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-and-suites-cleveland-airport",
@@ -3471,7 +3471,7 @@
    "official_domain": "hilton.com",
    "property_code": "clemhhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clemhhx-hampton-suites-cleveland-airport-middleburg-heights"
    ],
@@ -3490,7 +3490,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-courtyard-by-marriott-independence",
@@ -3505,7 +3505,7 @@
    "official_domain": "marriott.com",
    "property_code": "cleci",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cleci-courtyard-cleveland-independence"
    ],
@@ -3525,7 +3525,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-and-suites-cleveland-independence",
@@ -3540,7 +3540,7 @@
    "official_domain": "hilton.com",
    "property_code": "cleiphx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cleiphx-hampton-suites-cleveland-independence"
    ],
@@ -3560,7 +3560,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-la-quinta-inn-cleveland-independence",
@@ -3611,7 +3611,7 @@
    "official_domain": "hilton.com",
    "property_code": "cleahgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cleahgi-hilton-garden-inn-cleveland-airport"
    ],
@@ -3631,7 +3631,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-la-quinta-inn-and-suites-cleveland-airport-north",
@@ -3682,7 +3682,7 @@
    "official_domain": "hilton.com",
    "property_code": "clehwhw",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clehwhw-homewood-suites-cleveland-solon"
    ],
@@ -3701,7 +3701,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hilton-garden-inn-cleveland-east-mayfield-village",
@@ -3716,7 +3716,7 @@
    "official_domain": "hilton.com",
    "property_code": "cleemgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cleemgi-hilton-garden-inn-cleveland-east-mayfield-village"
    ],
@@ -3735,7 +3735,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-cleveland-airport-brooklyn-oh",
@@ -3750,7 +3750,7 @@
    "official_domain": "hilton.com",
    "property_code": "clecchx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clecchx-hampton-cleveland-airport-tiedeman-rd"
    ],
@@ -3770,7 +3770,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": "Official page name is 'Hampton Inn Cleveland Airport-Tiedeman Rd'; address and phone are an exact match to the census row, so this is the same property despite the road-name variant."
+   "notes": "Official page name is 'Hampton Inn Cleveland Airport-Tiedeman Rd'; address and phone are an exact match to the census row, so this is the same property despite the road-name variant. PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-doubletree-by-hilton-cleveland-westlake",
@@ -3785,7 +3785,7 @@
    "official_domain": "hilton.com",
    "property_code": "clecrdt",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page clecrdt-doubletree-cleveland-westlake"
    ],
@@ -3805,7 +3805,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-westlake",
@@ -3820,7 +3820,7 @@
    "official_domain": "hilton.com",
    "property_code": "cledrhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cledrhx-hampton-cleveland-westlake"
    ],
@@ -3840,7 +3840,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-walden-country-inn-and-stables",
@@ -3889,7 +3889,7 @@
    "official_domain": "marriott.com",
    "property_code": "caksi",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page caksi-sheraton-suites-akron-cuyahoga-falls"
    ],
@@ -3908,7 +3908,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-courtyard-by-marriott-akron-stow",
@@ -3923,7 +3923,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakcy",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakcy-courtyard-akron-stow"
    ],
@@ -3943,7 +3943,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-economy-inn",
@@ -3992,7 +3992,7 @@
    "official_domain": "hilton.com",
    "property_code": "stoohhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page stoohhx-hampton-stow"
    ],
@@ -4012,7 +4012,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-home2-suites-by-hilton-stow-akron",
@@ -4027,7 +4027,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakstht",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakstht-home2-suites-stow-akron"
    ],
@@ -4046,7 +4046,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-staybridge-suites-akron-stow-cuyahoga-falls",
@@ -4061,7 +4061,7 @@
    "official_domain": "ihg.com",
    "property_code": "stwoh",
    "brand": "IHG",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "ihg.com property page staybridge stwoh"
    ],
@@ -4081,7 +4081,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-comfort-inn-and-suites-streetsboro",
@@ -4096,7 +4096,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh322",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh322"
    ],
@@ -4116,7 +4116,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-comfort-inn-cleveland-south-richfield",
@@ -4131,7 +4131,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh854",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh854"
    ],
@@ -4151,7 +4151,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-days-inn-richfield",
@@ -4304,7 +4304,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakemgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakemgi-hilton-garden-inn-akron"
    ],
@@ -4324,7 +4324,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-blu-tique-akron-a-tribute-portfolio-hotel",
@@ -4339,7 +4339,7 @@
    "official_domain": "marriott.com",
    "property_code": "caktx",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page caktx-blu-tique-akron-a-tribute-portfolio-hotel"
    ],
@@ -4359,7 +4359,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-courtyard-by-marriott-akron-downtown",
@@ -4374,7 +4374,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakdt",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakdt-courtyard-akron-downtown"
    ],
@@ -4393,7 +4393,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": "Property page phone (330-252-9229) is one digit off the census phone (330-252-9228); address is an exact match."
+   "notes": "Property page phone (330-252-9229) is one digit off the census phone (330-252-9228); address is an exact match. PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-comfort-inn-akron-south",
@@ -4408,7 +4408,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh851",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh851"
    ],
@@ -4427,7 +4427,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-extended-stay-america-select-suites-akron-south",
@@ -4475,7 +4475,7 @@
    "official_domain": "hilton.com",
    "property_code": "caksohx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page caksohx-hampton-akron-south"
    ],
@@ -4495,7 +4495,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-residence-inn-by-marriott-akron-south-green",
@@ -4510,7 +4510,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakri",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakri-residence-inn-akron-south-green"
    ],
@@ -4530,7 +4530,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-the-o-neil-house-bed-and-breakfast",
@@ -4613,7 +4613,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh541",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh541"
    ],
@@ -4632,7 +4632,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-extended-stay-america-hotel-akron-copley-east",
@@ -4647,7 +4647,7 @@
    "official_domain": "extendedstayamerica.com",
    "property_code": "",
    "brand": "EXTENDED_STAY_AMERICA",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "extendedstayamerica.com property page hotels/oh/akron/copley-east confirms 185 Montrose West Ave"
    ],
@@ -4666,7 +4666,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-radisson-hotel-akron-fairlawn",
@@ -4681,7 +4681,7 @@
    "official_domain": "radissonhotels.com",
    "property_code": "",
    "brand": "RADISSON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "radissonhotels.com property page hotels/radisson-akron"
    ],
@@ -4701,7 +4701,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-super-8-by-wyndham-copley-akron",
@@ -4742,7 +4742,7 @@
    "schema_version": "1.0.0",
    "hotel_ref": {
     "market_id": "cleveland-akron-canton-oh",
-    "canonical_name": "America’s Best Value Inn — Alliance",
+    "canonical_name": "America\u2019s Best Value Inn \u2014 Alliance",
     "normalized_name": "america s best value inn alliance"
    },
    "market_id": "cleveland-akron-canton-oh",
@@ -4810,7 +4810,7 @@
    "schema_version": "1.0.0",
    "hotel_ref": {
     "market_id": "cleveland-akron-canton-oh",
-    "canonical_name": "Hampton Inn & Suites — Alliance",
+    "canonical_name": "Hampton Inn & Suites \u2014 Alliance",
     "normalized_name": "hampton inn and suites alliance"
    },
    "market_id": "cleveland-akron-canton-oh",
@@ -4818,7 +4818,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakalhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakalhx-hampton-suites-alliance"
    ],
@@ -4838,7 +4838,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-holiday-inn-express-and-suites-alliance",
@@ -4853,7 +4853,7 @@
    "official_domain": "ihg.com",
    "property_code": "llioh",
    "brand": "IHG",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "ihg.com property page holidayinnexpress llioh"
    ],
@@ -4873,7 +4873,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-massillon",
@@ -4888,7 +4888,7 @@
    "official_domain": "hilton.com",
    "property_code": "mslohhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page mslohhx-hampton-massillon"
    ],
@@ -4907,7 +4907,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-palmantiers-motel",
@@ -4956,7 +4956,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh344",
    "brand": "CAMBRIA",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh344"
    ],
@@ -4976,7 +4976,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-super-8-by-wyndham-akron-south-green-uniontown",
@@ -5016,7 +5016,7 @@
    "schema_version": "1.0.0",
    "hotel_ref": {
     "market_id": "cleveland-akron-canton-oh",
-    "canonical_name": "Fairfield Inn & Suites – Canton South",
+    "canonical_name": "Fairfield Inn & Suites \u2013 Canton South",
     "normalized_name": "fairfield inn and suites canton south"
    },
    "market_id": "cleveland-akron-canton-oh",
@@ -5024,7 +5024,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakfc",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakfc-fairfield-inn-and-suites-canton-south"
    ],
@@ -5044,7 +5044,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-comfort-inn-canton",
@@ -5059,7 +5059,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh440",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh440"
    ],
@@ -5079,7 +5079,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-fairfield-inn-and-suites-canton",
@@ -5094,7 +5094,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakcn",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakcn-fairfield-inn-and-suites-canton"
    ],
@@ -5114,7 +5114,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-and-suites-by-hilton-canton",
@@ -5129,7 +5129,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakbmhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakbmhx-hampton-suites-canton"
    ],
@@ -5149,7 +5149,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-home2-suites-by-hilton-canton",
@@ -5164,7 +5164,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakncht",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakncht-home2-suites-canton"
    ],
@@ -5184,7 +5184,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-residence-inn-by-marriott-canton",
@@ -5199,7 +5199,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakct",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakct-residence-inn-canton"
    ],
@@ -5219,7 +5219,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-staybridge-suites-canton",
@@ -5234,7 +5234,7 @@
    "official_domain": "ihg.com",
    "property_code": "caker",
    "brand": "IHG",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "ihg.com property page staybridge caker"
    ],
@@ -5254,7 +5254,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-quality-inn-hall-of-fame",
@@ -5269,7 +5269,7 @@
    "official_domain": "choicehotels.com",
    "property_code": "oh584",
    "brand": "CHOICE",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "choicehotels.com property page oh584 confirms 3970 Convenience Circle NW, Canton OH 44718"
    ],
@@ -5289,7 +5289,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": "Property page lists phone (234) 214-5084, which differs from the census phone (330) 956-5056; address and zip are an exact match."
+   "notes": "Property page lists phone (234) 214-5084, which differs from the census phone (330) 956-5056; address and zip are an exact match. PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns no response (timeout) to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-best-western-plus-north-canton-inn-and-suites",
@@ -5304,7 +5304,7 @@
    "official_domain": "bestwestern.com",
    "property_code": "36102",
    "brand": "BEST_WESTERN",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "bestwestern.com canonical property URL, propertyCode 36102, confirms 6889 Sunset Strip Ave NW, North Canton OH"
    ],
@@ -5323,7 +5323,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-courtyard-by-marriott-canton",
@@ -5338,7 +5338,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakcc",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakcc-courtyard-canton"
    ],
@@ -5358,7 +5358,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hilton-garden-inn-akron-canton-airport",
@@ -5373,7 +5373,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakapgi",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakapgi-hilton-garden-inn-akron-canton-airport"
    ],
@@ -5392,7 +5392,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-microtel-inn-and-suites-north-canton",
@@ -5441,7 +5441,7 @@
    "official_domain": "redroof.com",
    "property_code": "rri019",
    "brand": "RED_ROOF",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "redroof.com property page rri019 confirms 5353 Inn Circle Ct NW, North Canton OH 44720"
    ],
@@ -5461,7 +5461,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-springhill-suites-canton",
@@ -5476,7 +5476,7 @@
    "official_domain": "marriott.com",
    "property_code": "caksh",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page caksh-springhill-suites-canton"
    ],
@@ -5496,7 +5496,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-knights-inn-cleveland-macedonia",
@@ -5582,7 +5582,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakmt",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakmt-courtyard-akron-fairlawn"
    ],
@@ -5602,7 +5602,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-doubletree-by-hilton-akron-fairlawn",
@@ -5617,7 +5617,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakdtdt",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakdtdt-doubletree-akron-fairlawn"
    ],
@@ -5636,7 +5636,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-hampton-inn-akron-fairlawn",
@@ -5651,7 +5651,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakohhx",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakohhx-hampton-akron-fairlawn"
    ],
@@ -5671,7 +5671,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-holiday-inn-express-akron-nw-fairlawn",
@@ -5686,7 +5686,7 @@
    "official_domain": "ihg.com",
    "property_code": "cakfl",
    "brand": "IHG",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "ihg.com property page holidayinnexpress cakfl"
    ],
@@ -5706,7 +5706,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-homewood-suites-by-hilton-akron-fairlawn",
@@ -5721,7 +5721,7 @@
    "official_domain": "hilton.com",
    "property_code": "cakfahw",
    "brand": "HILTON",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "hilton.com property page cakfahw-homewood-suites-akron-fairlawn-oh"
    ],
@@ -5740,7 +5740,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-residence-inn-by-marriott-akron-fairlawn",
@@ -5755,7 +5755,7 @@
    "official_domain": "marriott.com",
    "property_code": "cakfl",
    "brand": "MARRIOTT",
-   "binding_method": "PAGE_RENDERED",
+   "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
     "marriott.com property page cakfl-residence-inn-akron-fairlawn"
    ],
@@ -5775,7 +5775,7 @@
    "observed_at": "2026-08-11",
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
-   "notes": ""
+   "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-the-ohio-motel",

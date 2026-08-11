@@ -237,22 +237,34 @@ def build_batch() -> List[Dict]:
          "6688 Miller Ln., 45414", "+1.937.898.9221"),
     ]
     q_max = "A maximum of two pets are allowed in each suite."
-    q_fee1 = ("Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, "
-              "for the first six (")
-    q_fee2 = "cleaning fee not to exceed a $15.00 per day plus tax, per pet."
+    # PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001. This batch originally split
+    # the fee sentence at "for the first six (" and re-joined the halves with
+    # an ellipsis, producing an evidence quote that is NOT a substring of the
+    # capture while still declaring extraction_confidence EXACT_QUOTE -- and a
+    # general_restrictions string that duplicated "six ( six (6)" and
+    # paraphrased the approval clause. The sentence is contiguous in all three
+    # captures, so nothing had to be stitched; it is now quoted whole.
+    q_fee = ("Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, "
+             "for the first six (6) nights, per pet. Each day thereafter there "
+             "is a pet cleaning fee not to exceed a $15.00 per day plus tax, "
+             "per pet.")
+    q_size = ("Height and length restrictions apply-- pets can be no longer "
+              "than 36 inches and no taller than 36 inches.")
     for slug, name, addr, phone in esa:
         c = _load_capture(slug)
         assert _quote_in_capture(c, q_max), "%s max-pets quote not found" % slug
-        assert _quote_in_capture(c, q_fee1), "%s fee1 quote not found" % slug
-        assert _quote_in_capture(c, q_fee2), "%s fee2 quote not found" % slug
+        assert _quote_in_capture(c, q_fee), "%s fee quote not found" % slug
+        assert _quote_in_capture(c, q_size), "%s size quote not found" % slug
         batch.append(_obs(
             slug, obs_n=1, source_url=c["url"], source_type="official_structured_data",
             name_on_page=name, address_on_page=addr, phone_on_page=phone,
             evidence=[
                 {"quote": q_max, "location": "Pet Policy section",
                  "field_refs": ["pets_allowed", "pet_count_limit", "pet_count_scope"]},
-                {"quote": _norm(q_fee1) + " ... " + q_fee2,
+                {"quote": q_fee,
                  "location": "Pet Policy section (cleaning-fee ladder)",
+                 "field_refs": ["general_restrictions"]},
+                {"quote": q_size, "location": "Pet Policy section (size limits)",
                  "field_refs": ["general_restrictions"]},
             ],
             # The fee is a tiered non-refundable CLEANING fee (not a nightly
@@ -261,12 +273,13 @@ def build_batch() -> List[Dict]:
             # single (basis, amount) pair in this contract's vocabulary, so
             # it is preserved verbatim in general_restrictions and pet_fee /
             # fee_tiers are withheld rather than collapsed into one number.
+            # Every character below is a verbatim span of the capture; the
+            # property-manager-approval clause is dropped rather than
+            # paraphrased, because its only faithful form carries an HTML
+            # entity from the source page.
             extraction={"pets_allowed": "true", "pet_count_limit": 2,
                         "pet_count_scope": "room",
-                        "general_restrictions": _norm(q_fee1) + " six (6) nights, per pet; "
-                        + q_fee2 + " Height and length restrictions apply "
-                        "(no taller than 36 inches); larger or additional "
-                        "pets require property manager's approval."},
+                        "general_restrictions": q_fee + " " + q_size},
         ))
 
     # -- Baymont / Wingate Dayton North -- marketing-blurb affirmation ----- #

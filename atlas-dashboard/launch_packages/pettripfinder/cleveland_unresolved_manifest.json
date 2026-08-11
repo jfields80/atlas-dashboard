@@ -1,6 +1,6 @@
 {
  "schema": "ptf-cleveland-unresolved/1.0",
- "as_of": "2026-08-10",
+ "as_of": "2026-08-11",
  "market_id": "cleveland-akron-canton-oh",
  "confirmed_identities": 188,
  "resolved": 27,
@@ -11,11 +11,13 @@
   "ADAPTER_GAP_INDEPENDENT": 42,
   "ADR_ACCESS_BLOCKED": 5,
   "IDENTITY_SOURCE_RECOVERY": 7,
-  "NO_OFFICIAL_URL": 102,
+  "NO_OFFICIAL_URL": 15,
+  "ROUTED_AWAITING_CAPTURE": 74,
+  "ROUTED_NO_BRAND_ADAPTER": 13,
   "SELECTOR_OR_SURFACE_GAP": 4,
   "URL_SHAPE_NOT_PROPERTY": 1
  },
- "rule": "a failed capture is never negative evidence; every row here is UNKNOWN, not no-pets.",
+ "rule": "a failed capture is never negative evidence; every row here is UNKNOWN, not no-pets. Routing a hotel does not answer it -- a ROUTED_* row has an official URL and an identity binding, and still no observed pet policy.",
  "items": [
   {
    "normalized_name": "cambria hotel and suites avon",
@@ -23,10 +25,10 @@
    "city": "Avon",
    "postal_code": "44011",
    "phone": "",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/avon/cambria-hotels/oh598",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -71,10 +73,10 @@
    "city": "Macedonia",
    "postal_code": "44056",
    "phone": "(330) 467-1981",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -95,10 +97,10 @@
    "city": "Mentor",
    "postal_code": "44060",
    "phone": "440.223.1392",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/clemt-residence-inn-cleveland-mentor/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -107,10 +109,10 @@
    "city": "Mentor",
    "postal_code": "44060",
    "phone": "440.946.0749",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -131,10 +133,10 @@
    "city": "Northfield",
    "postal_code": "44067",
    "phone": "(330) 467-1812",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.theinnatbrandywinefalls.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -143,10 +145,10 @@
    "city": "Northfield",
    "postal_code": "44067",
    "phone": "(330) 468-2909",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.shadyoaksfarmbnb.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -167,10 +169,10 @@
    "city": "North Olmsted",
    "postal_code": "44070",
    "phone": "440.772.4300",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -179,10 +181,10 @@
    "city": "North Olmsted",
    "postal_code": "44070",
    "phone": "440.617.6306",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cleomhx-hampton-north-olmsted-cleveland-airport/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -215,10 +217,10 @@
    "city": "Twinsburg",
    "postal_code": "44087",
    "phone": "330.405.4488",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clethgi-hilton-garden-inn-cleveland-twinsburg/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -251,10 +253,10 @@
    "city": "Willoughby",
    "postal_code": "44094",
    "phone": "440.530.1100",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/clewb-courtyard-cleveland-willoughby/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -287,10 +289,10 @@
    "city": "Cleveland",
    "postal_code": "44106",
    "phone": "216.455.1260",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cleucdt-the-tudor-arms-hotel-cleveland/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -419,10 +421,10 @@
    "city": "Cleveland",
    "postal_code": "44113",
    "phone": "216.400.6469",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cleal-aloft-cleveland-downtown/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -467,10 +469,10 @@
    "city": "Cleveland",
    "postal_code": "44114",
    "phone": "216.357.3100",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-plaza-hotel-cleveland-downtown",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -491,10 +493,10 @@
    "city": "Cleveland",
    "postal_code": "44114",
    "phone": "216.241.6600",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cledthx-hampton-cleveland-downtown/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -503,10 +505,10 @@
    "city": "Cleveland",
    "postal_code": "44114",
    "phone": "216.413.5000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cledohh-hilton-cleveland-downtown/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -551,10 +553,10 @@
    "city": "Cleveland",
    "postal_code": "44115",
    "phone": "216.658.6400",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clegwgi-hilton-garden-inn-cleveland-downtown/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -599,10 +601,10 @@
    "city": "Beachwood",
    "postal_code": "44122",
    "phone": "216.595.0900",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -611,10 +613,10 @@
    "city": "Orange Village",
    "postal_code": "44122",
    "phone": "216.292.9980",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-inn-and-suites-cleveland-beachwood",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -623,10 +625,10 @@
    "city": "Beachwood",
    "postal_code": "44122",
    "phone": "216.831.3735",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clebwhx-hampton-suites-cleveland-beachwood/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -635,10 +637,10 @@
    "city": "Beachwood",
    "postal_code": "44122",
    "phone": "216.464.9600",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clebdhw-homewood-suites-cleveland-beachwood/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -647,10 +649,10 @@
    "city": "Warrensville Heights",
    "postal_code": "44122",
    "phone": "216.378.9191",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cleem-cleveland-marriott-east/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -719,10 +721,10 @@
    "city": "Middleburg Heights",
    "postal_code": "44130",
    "phone": "440.234.0206",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clemhhx-hampton-suites-cleveland-airport-middleburg-heights/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -767,10 +769,10 @@
    "city": "Independence",
    "postal_code": "44131",
    "phone": "216.901.9988",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cleci-courtyard-cleveland-independence/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -791,10 +793,10 @@
    "city": "Independence",
    "postal_code": "44131",
    "phone": "216.520.2020",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cleiphx-hampton-suites-cleveland-independence/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -839,10 +841,10 @@
    "city": "Independence",
    "postal_code": "44131",
    "phone": "216.447.1133",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -863,10 +865,10 @@
    "city": "Cleveland",
    "postal_code": "44135",
    "phone": "216.898.1898",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cleahgi-hilton-garden-inn-cleveland-airport/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -875,10 +877,10 @@
    "city": "Cleveland",
    "postal_code": "44135",
    "phone": "216.251.8500",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -899,10 +901,10 @@
    "city": "Solon",
    "postal_code": "44139",
    "phone": "440.519.9500",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clehwhw-homewood-suites-cleveland-solon/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -959,10 +961,10 @@
    "city": "Mayfield Village",
    "postal_code": "44143",
    "phone": "440.646.1777",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cleemgi-hilton-garden-inn-cleveland-east-mayfield-village/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -983,10 +985,10 @@
    "city": "Brooklyn",
    "postal_code": "44144",
    "phone": "216.929.8400",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clecchx-hampton-cleveland-airport-tiedeman-rd/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -995,10 +997,10 @@
    "city": "Westlake",
    "postal_code": "44145",
    "phone": "440.871.6000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/clecrdt-doubletree-cleveland-westlake/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1007,10 +1009,10 @@
    "city": "Westlake",
    "postal_code": "44145",
    "phone": "440.892.0333",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cledrhx-hampton-cleveland-westlake/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1079,10 +1081,10 @@
    "city": "Aurora",
    "postal_code": "44202",
    "phone": "(330) 562-5508",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.yourwalden.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1115,10 +1117,10 @@
    "city": "Cuyahoga Falls",
    "postal_code": "44221",
    "phone": "(330) 929-3000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1139,10 +1141,10 @@
    "city": "Stow",
    "postal_code": "44224",
    "phone": "(330) 945-9722",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakcy-courtyard-akron-stow/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1151,10 +1153,10 @@
    "city": "Cuyahoga Falls",
    "postal_code": "44224",
    "phone": "(330) 929-8200",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.economyinnohio.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1163,10 +1165,10 @@
    "city": "Stow",
    "postal_code": "44224",
    "phone": "(330) 945-4160",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/stoohhx-hampton-stow/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1175,10 +1177,10 @@
    "city": "Stow",
    "postal_code": "44224",
    "phone": "(330) 835-6400",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakstht-home2-suites-stow-akron/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1187,10 +1189,10 @@
    "city": "Stow",
    "postal_code": "44224",
    "phone": "(330) 945-4180",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.ihg.com/staybridge/hotels/us/en/stow/stwoh/hoteldetail",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1235,10 +1237,10 @@
    "city": "Streetsboro",
    "postal_code": "44241",
    "phone": "330.422.6446",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/streetsboro/comfort-inn-hotels/oh322",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1259,10 +1261,10 @@
    "city": "Richfield",
    "postal_code": "44286",
    "phone": "(330) 659-6662",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/richfield/comfort-inn-hotels/oh854",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1271,10 +1273,10 @@
    "city": "Richfield",
    "postal_code": "44286",
    "phone": "330.659.6151",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/richfield-ohio/days-inn-and-suites-richfield/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1283,10 +1285,10 @@
    "city": "Richfield",
    "postal_code": "44286",
    "phone": "(330) 293-3647",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1295,10 +1297,10 @@
    "city": "Richfield",
    "postal_code": "44286",
    "phone": "(330) 659-6888",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1307,10 +1309,10 @@
    "city": "Richfield",
    "postal_code": "44286",
    "phone": "(330) 659-7108",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.terrypoint.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1331,10 +1333,10 @@
    "city": "Akron",
    "postal_code": "44305",
    "phone": "(330) 733-2900",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakemgi-hilton-garden-inn-akron/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1343,10 +1345,10 @@
    "city": "Akron",
    "postal_code": "44308",
    "phone": "(330) 983-4905",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/caktx-blu-tique-akron-a-tribute-portfolio-hotel/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1355,10 +1357,10 @@
    "city": "Akron",
    "postal_code": "44308",
    "phone": "(330) 252-9228",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1367,10 +1369,10 @@
    "city": "Green",
    "postal_code": "44312",
    "phone": "(330) 245-0041",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/akron/comfort-inn-hotels/oh851",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1379,10 +1381,10 @@
    "city": "Akron",
    "postal_code": "44312",
    "phone": "(330) 245-0600",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1391,10 +1393,10 @@
    "city": "Akron",
    "postal_code": "44312",
    "phone": "(330) 644-6579",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/caksohx-hampton-akron-south/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1415,10 +1417,10 @@
    "city": "Akron",
    "postal_code": "44312",
    "phone": "(330) 644-2111",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1427,10 +1429,10 @@
    "city": "Akron",
    "postal_code": "44313",
    "phone": "(330) 867-2650",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://oneilhouse.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1451,10 +1453,10 @@
    "city": "Copley Township",
    "postal_code": "44321",
    "phone": "(330) 576-5723",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1463,10 +1465,10 @@
    "city": "Copley Township",
    "postal_code": "44321",
    "phone": "(330) 666-8887",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1475,10 +1477,10 @@
    "city": "Akron",
    "postal_code": "44321",
    "phone": "(330) 668-9818",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.extendedstayamerica.com/hotels/oh/akron/copley-east",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1487,10 +1489,10 @@
    "city": "Akron",
    "postal_code": "44321",
    "phone": "(330) 666-9300",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.radissonhotels.com/en-us/hotels/radisson-akron",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1499,10 +1501,10 @@
    "city": "Akron",
    "postal_code": "44321",
    "phone": "(330) 835-6584",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1511,10 +1513,10 @@
    "city": "Montrose-Ghent",
    "postal_code": "44333",
    "phone": "(330) 668-9090",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakmt-courtyard-akron-fairlawn/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1523,10 +1525,10 @@
    "city": "Akron",
    "postal_code": "44333",
    "phone": "(330) 867-5000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakdtdt-doubletree-akron-fairlawn/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1535,10 +1537,10 @@
    "city": "Akron",
    "postal_code": "44333",
    "phone": "(330) 666-7361",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakohhx-hampton-akron-fairlawn/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1547,10 +1549,10 @@
    "city": "Akron",
    "postal_code": "44333",
    "phone": "(330) 869-9000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/akron/cakfl/hoteldetail",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1559,10 +1561,10 @@
    "city": "Akron",
    "postal_code": "44333",
    "phone": "(330) 664-6000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakfahw-homewood-suites-akron-fairlawn-oh/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1571,10 +1573,10 @@
    "city": "Fairlawn",
    "postal_code": "44333",
    "phone": "(330) 664-7800",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1583,22 +1585,22 @@
    "city": "Bath",
    "postal_code": "44333",
    "phone": "(330) 659-9999",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.theohiomotel.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
    "normalized_name": "america s best value inn alliance",
-   "canonical_name": "America’s Best Value Inn — Alliance",
+   "canonical_name": "America\u2019s Best Value Inn \u2014 Alliance",
    "city": "Alliance",
    "postal_code": "44601",
    "phone": "(330) 821-5688",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.sonesta.com/americas-best-value-inn/oh/alliance/americas-best-value-inn-alliance",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1607,22 +1609,22 @@
    "city": "Alliance",
    "postal_code": "44601",
    "phone": "(330) 821-5555",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
    "normalized_name": "hampton inn and suites alliance",
-   "canonical_name": "Hampton Inn & Suites — Alliance",
+   "canonical_name": "Hampton Inn & Suites \u2014 Alliance",
    "city": "Alliance",
    "postal_code": "44601",
    "phone": "(330) 680-4052",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakalhx-hampton-suites-alliance/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1631,10 +1633,10 @@
    "city": "Alliance",
    "postal_code": "44601",
    "phone": "(330) 821-6700",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/alliance/llioh/hoteldetail",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1655,10 +1657,10 @@
    "city": "Massillon",
    "postal_code": "44647",
    "phone": "(330) 834-1144",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/mslohhx-hampton-massillon/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1667,10 +1669,10 @@
    "city": "Minerva",
    "postal_code": "44657",
    "phone": "(330) 868-6000",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.palmantiers.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1679,10 +1681,10 @@
    "city": "Uniontown",
    "postal_code": "44685",
    "phone": "(330) 899-1990",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/uniontown/cambria-hotels/oh344",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1691,10 +1693,10 @@
    "city": "Uniontown",
    "postal_code": "44685",
    "phone": "(330) 776-5350",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1723,14 +1725,14 @@
   },
   {
    "normalized_name": "fairfield inn and suites canton south",
-   "canonical_name": "Fairfield Inn & Suites — Canton South",
+   "canonical_name": "Fairfield Inn & Suites \u2014 Canton South",
    "city": "Canton",
    "postal_code": "44706",
    "phone": "(330) 484-0300",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakfc-fairfield-inn-and-suites-canton-south/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1739,10 +1741,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 492-1331",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1751,10 +1753,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 493-7373",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakcn-fairfield-inn-and-suites-canton/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1763,10 +1765,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 491-4335",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakbmhx-hampton-suites-canton/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1775,10 +1777,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 491-9714",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakncht-home2-suites-canton/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1787,10 +1789,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 493-0004",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1799,10 +1801,10 @@
    "city": "Canton",
    "postal_code": "44709",
    "phone": "(330) 966-6620",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.ihg.com/staybridge/hotels/us/en/canton/caker/hoteldetail",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1835,10 +1837,10 @@
    "city": "Canton",
    "postal_code": "44718",
    "phone": "(330) 956-5056",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.choicehotels.com/ohio/canton/quality-inn-hotels/oh584",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1859,10 +1861,10 @@
    "city": "North Canton",
    "postal_code": "44720",
    "phone": "(330) 497-8799",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36102.html",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1871,10 +1873,10 @@
    "city": "Canton",
    "postal_code": "44720",
    "phone": "(330) 494-6494",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1895,10 +1897,10 @@
    "city": "N. Canton",
    "postal_code": "44720",
    "phone": "(330) 966-4907",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.hilton.com/en/hotels/cakapgi-hilton-garden-inn-akron-canton-airport/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1919,10 +1921,10 @@
    "city": "North Canton",
    "postal_code": "44720",
    "phone": "(330) 966-7551",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.wyndhamhotels.com/microtel/north-canton-ohio/microtel-inn-and-suites-north-canton/overview",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1931,10 +1933,10 @@
    "city": "North Canton",
    "postal_code": "44720",
    "phone": "(330) 499-1970",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.redroof.com/property/oh/canton/rri019",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -1943,11 +1945,12 @@
    "city": "North Canton",
    "postal_code": "44720",
    "phone": "(330) 433-0101",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "official_url": "https://www.marriott.com/en-us/hotels/caksh-springhill-suites-canton/overview/",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
    "can_remain_unresolved_safely": true
   }
- ]
+ ],
+ "reviewed_non_lodging_candidates": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001 reviewed Villa Croatia at the American-Croatian Lodge, Hopp Inn, and Harbor Inn for a possible non-lodging reclassification. All three are correctly absent from identity_routing.json and stay NO_OFFICIAL_URL: this repository holds no evidence artifact that any of them is a non-lodging venue, and the classification vocabulary here describes URL and adapter reachability, not lodging status. Reclassifying on suspicion would be inventing negative evidence, which the rule above forbids. Reclassification requires a capture, not an inference."
 }
