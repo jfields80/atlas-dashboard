@@ -198,13 +198,21 @@ def test_committed_authority_validates(routes):
     # publishing 19 Cleveland hotels and excluding 8 retired their 27 routes --
     # 107 -> 80. A surviving route for a seeded hotel would be a second,
     # competing authority for the same identity.
-    assert len(routes) == 80
+    #
+    # PTF-CLEVELAND-URL-RECOVERY-WORKER-002: 80 -> 167. 87 of the 102 hotels
+    # classified NO_OFFICIAL_URL in cleveland_unresolved_manifest.json were
+    # identity-verified (address and/or phone matched against the brand's own
+    # domain, or an independent first-party site) and routed; Columbus is
+    # unchanged at 20.
+    assert len(routes) == 167
 
 
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
-    assert len(confirmed) == 78
+    # 78 -> 165: the 87 newly-recovered Cleveland routes are all
+    # ROUTING_CONFIRMED; the two pre-existing Columbus holds are untouched.
+    assert len(confirmed) == 165
     assert len(held) == 2
     # Both holds are the same shape: a URL is known, the identity the queue
     # contract demands is not.
@@ -214,7 +222,17 @@ def test_committed_authority_split(routes):
 
 
 def test_every_committed_record_preserves_index_binding(routes):
-    assert {r["binding_method"] for r in routes} == {IR.BINDING_BRAND_INDEX}
+    # PTF-CLEVELAND-URL-RECOVERY-WORKER-002: unlike the Columbus batch this
+    # test originally described, most of the 87 newly-recovered Cleveland
+    # routes were bound directly from a rendered brand.com/hilton.com/
+    # marriott.com/etc. property page (PAGE_RENDERED) rather than a
+    # brand-domain index page -- the brands did not refuse the request this
+    # time. A handful of chain properties (La Quinta, Days Inn, Super 8,
+    # Baymont, Knights Inn, Motel 6, Extended Stay America, Suburban Studios,
+    # America's Best Value Inn) still bind via BRAND_INDEX_BINDING, so both
+    # methods are legitimately present now.
+    assert {r["binding_method"] for r in routes} == {
+        IR.BINDING_BRAND_INDEX, IR.BINDING_PAGE_RENDERED}
 
 
 def test_no_committed_route_is_on_a_third_party_domain(routes):
@@ -342,7 +360,12 @@ def test_routing_adds_capture_ready_hotels(queues):
     # ANSWERED. 19 became inventory and 8 became verified-no-pets, so their
     # routes retired and they are no longer capture-worthy. The number falling
     # because hotels got answered is the queue working, not routing regressing.
-    assert len(routed.selected) - len(base.selected) == 12
+    # 12 -> 86: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered 87 more
+    # official URLs for hotels that were previously NO_OFFICIAL_URL and so
+    # invisible to the queue; 74 of those 87 are for brands this registry
+    # already adapts and became capture-eligible, and Columbus's own
+    # contribution is unchanged.
+    assert len(routed.selected) - len(base.selected) == 86
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -356,7 +379,9 @@ def test_routing_carries_more_than_one_market(queues):
     assert len(by_market["columbus-oh"]) == 20
     # 87 -> 60: publishing 19 Cleveland hotels and excluding 8 retired their
     # routes, because routing is only for hotels that are NOT inventory.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 60
+    # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
+    # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
+    assert len(by_market["cleveland-akron-canton-oh"]) == 147
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -364,7 +389,13 @@ def test_routing_carries_more_than_one_market(queues):
     # 39 -> 12: Cleveland's routed contribution fell as its hotels were
     # ANSWERED -- 19 became inventory and 8 became verified-no-pets, so their
     # routes retired and they are no longer capture-worthy.
-    assert len(added) == 12
+    # 12 -> 86: 74 of the 87 newly-recovered routes are capture-shaped
+    # (registered brand adapter + https official URL); the other 13 -- mostly
+    # independent B&Bs/motels and brands this registry does not adapt
+    # (Motel 6, Extended Stay America, Radisson, Sonesta ABVI, Knights Inn) --
+    # are retained in identity_routing.json as real routing but are not yet
+    # capture-eligible.
+    assert len(added) == 86
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
