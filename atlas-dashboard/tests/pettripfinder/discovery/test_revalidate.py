@@ -32,6 +32,47 @@ from scripts.pettripfinder.importer.models import FetchResult
 
 EFFECTIVE = "2026-08-03"
 
+#: The revalidation runner reads its candidate corpus from
+#: ``data/discovery/columbus_wave1_lodging/``, which is GITIGNORED. In a fresh
+#: ``git worktree`` that directory does not exist, ``run_revalidation`` finds no
+#: eligible candidate, and every assertion about what the run DID becomes a
+#: statement about an empty run: the loud ones fail ("assert [] == page.calls"),
+#: and the quiet ones -- "identity_pass == 0", "anomalies == []" -- pass while
+#: proving nothing. Both readings are dishonest, and the failing form has
+#: already cost one integration a wrong diagnosis: worker 003 reported these as
+#: pre-existing product failures when they are an absent-input artifact that
+#: reproduces at every commit.
+#:
+#: So the corpus is a declared precondition. The check below is deliberately the
+#: SAME expression ``run_revalidation`` uses to build its eligible set, not a
+#: looser proxy: if it counts one candidate the runner has work to do, so a
+#: genuine regression can never be skipped away.
+_CORPUS_REASON = (
+    "the revalidation candidate corpus is absent: "
+    "data/discovery/columbus_wave1_lodging/{hotel,motel}/candidates/ and "
+    "resolution/resolved_candidates.json are gitignored, so these runner tests "
+    "have no input to exercise. Run in a checkout that carries data/.")
+
+
+def _eligible_candidate_count() -> int:
+    from scripts.pettripfinder.discovery.provider_zero import (
+        load_candidates, load_resolutions,
+    )
+
+    resolutions = load_resolutions()
+    return sum(
+        1 for candidate in load_candidates()
+        if resolutions.get(candidate.candidate_id, {}).get("resolution_outcome")
+        in C.RESOLUTION_ELIGIBLE_FOR_BATCH
+        and resolutions.get(candidate.candidate_id, {}).get("resolved_url"))
+
+
+@pytest.fixture(scope="module")
+def real_candidate_corpus():
+    """Skip, with the reason named, when the runner has no candidates to read."""
+    if _eligible_candidate_count() == 0:
+        pytest.skip(_CORPUS_REASON)
+
 LDJSON = b"""<html><head><title>H</title>
 <script type="application/ld+json">
 {"@type":"Hotel","name":"Columbus Airport Marriott","telephone":"614-475-7551",
@@ -218,6 +259,7 @@ def _run(robots_text=None, robots_ok=True, page=None, **kw):
         pacer=RV.DomainPacer(min_seconds=0, sleep_fn=lambda s: None), **kw)
 
 
+@pytest.mark.usefixtures("real_candidate_corpus")
 class TestRobotsFailClosed:
     def test_a_disallow_blocks_the_page_fetch_entirely(self):
         page = _Page()
@@ -255,6 +297,7 @@ class TestRobotsFailClosed:
         assert rep.still_blocked > 0
 
 
+@pytest.mark.usefixtures("real_candidate_corpus")
 class TestRunnerAccounting:
     def test_the_run_never_exceeds_the_total_cap(self):
         rep = _run(robots_text="User-agent: *\nDisallow:",

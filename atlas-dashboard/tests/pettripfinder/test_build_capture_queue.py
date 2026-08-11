@@ -543,13 +543,39 @@ def _patch_defaults(monkeypatch, ws):
 # 6. Against the REAL seed -- read-only.
 # --------------------------------------------------------------------------- #
 
+#: ``build_queue`` excludes any hotel with no ``retr-<id>.json`` retrieval
+#: artifact, and those artifacts live under ``data/worker_runs/pettripfinder/``,
+#: which is GITIGNORED. In a fresh ``git worktree`` there are none, so every
+#: hotel is excluded and ``selected`` is 0 -- which makes "at least 10 were
+#: selected" fail loudly and "every selection carries a property code" pass
+#: over an empty list. Neither says anything about the generator.
+#:
+#: The precondition below tests exactly what the generator consults, so a real
+#: regression that empties the queue for any OTHER reason still fails.
+_ARTIFACT_REASON = (
+    "no retrieval artifacts on disk: data/worker_runs/pettripfinder/retr-*.json "
+    "is gitignored, so build_queue() excludes every hotel for want of a "
+    "demonstrated automated failure and selects nothing. Run in a checkout that "
+    "carries data/.")
+
+
+@pytest.fixture(scope="module")
+def real_retrieval_artifacts():
+    """Skip, with the reason named, when no hotel can be selected at all."""
+    if not retrieval_artifacts():
+        pytest.skip(_ARTIFACT_REASON)
+
+
 class TestAgainstTheRealSeed:
     def test_the_real_seed_is_readable(self):
+        # The seed CSV is COMMITTED, so this one stands on its own in any
+        # checkout and must not be gated on the gitignored artifacts.
         rows = read_seed_hotels()
         assert len(rows) >= 40
         assert all(r["category"] == "pet-friendly-hotels" for r in rows)
 
-    def test_the_real_seed_yields_a_valid_queue(self, tmp_path):
+    def test_the_real_seed_yields_a_valid_queue(self, tmp_path,
+                                                real_retrieval_artifacts):
         result = build_queue(batch_id="real-seed-check",
                              brands=["marriott", "hilton"])
         assert result.counts["selected"] >= 10
@@ -557,8 +583,13 @@ class TestAgainstTheRealSeed:
         out.write_text(json.dumps(result.queue), encoding="utf-8")
         assert len(load_queue(out, known_brands=known_brands())) == result.counts["selected"]
 
-    def test_every_real_selection_has_a_property_code_in_its_url(self):
-        for entry in build_queue(batch_id="c", brands=["marriott", "hilton"]).selected:
+    def test_every_real_selection_has_a_property_code_in_its_url(
+            self, real_retrieval_artifacts):
+        selected = build_queue(batch_id="c", brands=["marriott", "hilton"]).selected
+        # Guard the vacuous reading: an empty selection would satisfy the loop
+        # below without ever testing it.
+        assert selected
+        for entry in selected:
             assert entry["expected_property_code"]
             assert entry["expected_property_code"] in entry["official_url"]
 
