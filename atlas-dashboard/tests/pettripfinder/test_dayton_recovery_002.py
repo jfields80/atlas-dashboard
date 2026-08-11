@@ -56,6 +56,29 @@ class TestManifestIsProposalOnly:
         for row in manifest["candidates"]:
             assert row["source_urls"], row["slug"]
 
+    def test_remaining_unresolved_plus_candidates_reconciles_the_full_census(self, manifest):
+        """33 published + 6 no-pets excluded + 14 new candidates + everything
+        still unresolved must equal exactly the 129-hotel census, with no
+        property double-counted and none dropped silently."""
+        from scripts.pettripfinder.hotel_exclusions import load_exclusions
+        from scripts.pettripfinder.site_data import normalize_name
+
+        candidate_slugs = {row["slug"] for row in manifest["candidates"]}
+        remaining_slugs = {row["slug"] for row in manifest["remaining_unresolved"]}
+        assert not (candidate_slugs & remaining_slugs), "a slug is in both buckets"
+
+        facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
+        published_keys = {h["key"] for h in facts["hotels"]}
+        census = json.loads(CENSUS_PATH.read_text(encoding="utf-8"))
+        by_norm = {normalize_name(h["canonical_name"]): h["slug"] for h in census["hotels"]}
+        published_slugs = {by_norm[k] for k in published_keys if k in by_norm}
+
+        excluded = [e for e in load_exclusions() if e.get("market_id") == "dayton-oh"]
+        excluded_slugs = {by_norm[normalize_name(e["canonical_name"])]
+                          for e in excluded if normalize_name(e["canonical_name"]) in by_norm}
+
+        assert len(published_slugs | excluded_slugs | candidate_slugs | remaining_slugs) == 129
+
     def test_no_candidate_duplicates_a_published_hotel(self, manifest):
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
         published_keys = {h["key"] for h in facts["hotels"]}

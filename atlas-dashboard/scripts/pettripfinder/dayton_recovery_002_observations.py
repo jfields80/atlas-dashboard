@@ -28,6 +28,7 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.policy import policy_membrane as MB   # noqa: E402
 from scripts.pettripfinder.policy import policy_observation as PO  # noqa: E402
 from scripts.pettripfinder.policy import readiness as RD          # noqa: E402
+from scripts.pettripfinder import dayton_recovery_002_closeout as CO  # noqa: E402
 
 MARKET = "dayton-oh"
 RUN_ID = "dayton-recovery-002"
@@ -348,6 +349,7 @@ def main() -> int:
                  "(33 published / 6 no-pets / 6 held / 129 census) pending "
                  "explicit integration review."),
         "candidates": candidates,
+        "remaining_unresolved": CO.build_report(),
     }
     OUT_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     OUT_MANIFEST.write_bytes(json.dumps(manifest, indent=2).encode("utf-8"))
