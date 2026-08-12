@@ -1,6 +1,6 @@
 {
  "schema": "ptf-cleveland-unresolved/1.0",
- "as_of": "2026-08-11",
+ "as_of": "2026-08-12",
  "market_id": "cleveland-akron-canton-oh",
  "confirmed_identities": 188,
  "resolved": 29,
@@ -823,10 +823,10 @@
    "city": "Middleburg Heights",
    "postal_code": "44130",
    "phone": "440.234.6688",
-   "official_url": "https://www.sonesta.com/sonesta-es-suites/oh/middleburg-heights/sonesta-es-suites-cleveland-airport",
+   "official_url": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport",
    "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "no_adapter_for_brand:sonesta",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "why_unresolved": "no_adapter_for_brand:sonesta. The official URL was corrected at PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001 after Sonesta rebranded this property from ES Suites to Simply Suites; the census identity is unchanged and the pet policy is still unobserved.",
+   "next_action": "Independent property with no chain adapter. Open the corrected Simply Suites URL and screenshot the pet policy plus the page area showing name/address.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -2360,5 +2360,16 @@
    }
   }
  ],
- "reviewed_non_lodging_candidates": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001 reviewed Villa Croatia at the American-Croatian Lodge, Hopp Inn, and Harbor Inn for a possible non-lodging reclassification. All three are correctly absent from identity_routing.json and stay NO_OFFICIAL_URL: this repository holds no evidence artifact that any of them is a non-lodging venue, and the classification vocabulary here describes URL and adapter reachability, not lodging status. Reclassifying on suspicion would be inventing negative evidence, which the rule above forbids. Reclassification requires a capture, not an inference."
+ "reviewed_non_lodging_candidates": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001 reviewed Villa Croatia at the American-Croatian Lodge, Hopp Inn, and Harbor Inn for a possible non-lodging reclassification. All three are correctly absent from identity_routing.json and stay NO_OFFICIAL_URL: this repository holds no evidence artifact that any of them is a non-lodging venue, and the classification vocabulary here describes URL and adapter reachability, not lodging status. Reclassifying on suspicion would be inventing negative evidence, which the rule above forbids. Reclassification requires a capture, not an inference.",
+ "corrections": [
+  {
+   "work_order": "PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-002",
+   "as_of": "2026-08-12",
+   "normalized_name": "sonesta es suites cleveland airport",
+   "field": "official_url",
+   "before": "https://www.sonesta.com/sonesta-es-suites/oh/middleburg-heights/sonesta-es-suites-cleveland-airport",
+   "after": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport",
+   "why": "PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001 (6f9ba1d) corrected this property's route in identity_routing.json after Sonesta's ES Suites -> Simply Suites rebrand, but the correction never reached this manifest, so the reconciliation of record and routing authority disagreed on one URL and this next action pointed at a superseded path. No count changes: the identity is unresolved before and after."
+  }
+ ]
 }
