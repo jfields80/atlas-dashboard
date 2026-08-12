@@ -1,0 +1,29 @@
+{
+  "schema": "ptf-cincinnati-dayton-boundary-review/1.0",
+  "worker_run": "PTF-CINCINNATI-MARKET-FACTORY-001",
+  "worker_branch": "worker/ptf-cincinnati-market-001",
+  "generated_at": "2026-08-12",
+  "method": "Cross-checked every Cincinnati-census identity in the middletown-monroe corridor (cincinnati-oh__middletown-monroe: Middletown, Monroe, Franklin, OH) plus the lebanon-warren-county corridor against the FULL committed Dayton census (launch_packages/pettripfinder/identity_census/dayton-oh.json, 129 records) and the Dayton market registry (launch_packages/pettripfinder/markets/dayton-oh.json, 18 corridors) by normalized name, normalized/exact address, phone_key, official_url, and brand property code. Grep also run across Dayton's proposed-authority and recovery-002 census files for the same city names.",
+  "dayton_committed_authority_snapshot": {
+    "path": "launch_packages/pettripfinder/identity_census/dayton-oh.json",
+    "count": 129,
+    "boundary_note_on_file": "Dayton's own _boundary_note (dayton_oh.json discovery config) states: 'Warren County (Springboro, Cincinnati market) is south of the min_lat boundary' and explicitly excludes it. Dayton's registered corridors (18) do not include Middletown, Monroe, Franklin, or Lebanon -- see dayton-oh.json market registry corridor list (downtown-dayton, airport-vandalia, fairborn-beavercreek, kettering-centerville, miamisburg-moraine, huber-heights, troy-tipp-city, xenia, piqua, springfield, urbana, eaton, greenville, sidney, bellefontaine, wapakoneta, celina, washington-court-house)."
+  },
+  "conflicts_found": [],
+  "properties_reviewed": [
+    {"canonical_name": "Hampton Inn Middletown", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No name, address, phone, or URL match anywhere in the Dayton census. Middletown is not in Dayton's registered corridor list."},
+    {"canonical_name": "Quality Inn & Suites Middletown", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Holiday Inn Express Franklin", "city": "Franklin", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census. Franklin OH (Warren County) is south of Dayton's own stated min_lat boundary."},
+    {"canonical_name": "Tru by Hilton Monroe", "city": "Monroe", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census. Monroe is not in Dayton's registered corridor list."},
+    {"canonical_name": "Fairfield Inn Middletown Monroe", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Comfort Inn & Suites Middletown - Franklin", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Rodeway Inn Middletown", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Indigo Pass", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Ranch Inn Motel", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Riverfront Motel", "city": "Middletown", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census."},
+    {"canonical_name": "Drury Inn & Suites Middletown Franklin", "city": "Franklin", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census. NOTE: Dayton's committed census DOES hold a different, non-colliding property named 'Drury Inn & Suites Dayton North' (6616 Miller Ln, Dayton OH 45414) -- different address, different city, not the same identity as this Franklin OH property. No collision."},
+    {"canonical_name": "Hampton Inn & Suites Springboro", "city": "Springboro", "state": "OH", "dayton_match": "NONE", "recommended_owner": "cincinnati-oh", "reason": "No match in Dayton census. Springboro is the town Dayton's own discovery-config boundary note names as the reason Warren County is excluded from Dayton's bounding box ('Warren County (Springboro, Cincinnati market) is south of the min_lat boundary') -- Dayton's own committed documentation already assigns Springboro to Cincinnati."}
+  ],
+  "recommendation_summary": "0 of 11 Middletown/Monroe/Franklin/Springboro-area identities collide with Dayton's committed authority. Dayton's own boundary documentation (dayton_oh.json _boundary_note and _disclosure) already places Warren County, including Springboro, outside its scope. Recommendation: assign the entire cincinnati-oh__middletown-monroe and cincinnati-oh__lebanon-warren-county corridors to Cincinnati authority. No existing Dayton identity requires moving, deleting, or renaming. This is a WORKER RECOMMENDATION ONLY -- the later Opus integrator adjudicates the actual market transfer/assignment per the operator's instruction; nothing in this file or in market_id ownership has been changed for any Dayton-owned row.",
+  "action_taken": "NONE -- no Dayton identity was moved, deleted, or renamed. All 11 reviewed identities were admitted directly into cincinnati-oh authority (market_id not yet stamped on rows; census-level only, per PTF-MULTI-MARKET-INVENTORY-SCOPING-001 the market_id stamp happens at inventory/build time, not census time)."
+}

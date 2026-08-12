@@ -469,9 +469,13 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # (worker/ptf-dayton-market-001 branch). Columbus resolution by name is
     # unchanged -- adding dayton-oh cannot affect what PRODUCTION_MARKET_ID
     # resolves to.
+    # PTF-CINCINNATI-MARKET-FACTORY-001: cincinnati-oh added as worker-proposed
+    # market (worker/ptf-cincinnati-market-001 branch). Columbus resolution by
+    # name is unchanged -- adding cincinnati-oh cannot affect what
+    # PRODUCTION_MARKET_ID resolves to.
     markets = load_markets()
     assert sorted(m.market_id for m in markets) == \
-        ["cleveland-akron-canton-oh", "columbus-oh", "dayton-oh"]
+        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

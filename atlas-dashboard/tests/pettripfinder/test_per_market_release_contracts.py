@@ -56,7 +56,23 @@ from scripts.pettripfinder.release_contracts import (
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
+# PTF-CINCINNATI-MARKET-FACTORY-001: cincinnati-oh added as worker-proposed
+# market (worker/ptf-cincinnati-market-001 branch). Columbus/Cleveland/Dayton
+# resolution is unchanged -- adding cincinnati-oh cannot affect what any other
+# market's own contract or authority derives.
+CINCINNATI = "cincinnati-oh"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+
+#: Markets with reviewed, published inventory (>= the site generator's own
+#: minimum_total_listings floor). Cincinnati's first-pass census adjudicated
+#: zero identities into hotel_policy_facts this worker run -- every major
+#: brand official site 403'd the automated fetch tool -- so a full site
+#: generation run for it would need to be over zero listings, which the
+#: generator's own content floor correctly refuses. Contract/identity-level
+#: checks (MARKETS, above) still cover Cincinnati; only the full-assembly
+#: class below is scoped to markets that can actually produce a deployable
+#: site today. Once Cincinnati has >= 5 published hotels, add it here.
+ASSEMBLABLE_MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -77,6 +93,12 @@ EXPECTED_RECONCILIATION = {
     # were not promoted -- readiness POLICY_PARTIAL -- so they stay unresolved,
     # which is why unresolved falls to 78 and not to 76.
     DAYTON: (129, 44, 7, 51, 78),
+    # PTF-CINCINNATI-MARKET-FACTORY-001 first-pass census: 121 confirmed
+    # identities, zero adjudicated into hotel_policy_facts or hotel_exclusions
+    # this worker run (every major brand official site 403'd the worker's
+    # automated fetch tool; the one independent-site PETS_ALLOWED observation
+    # obtained stays UNADJUDICATED pending fee confirmation).
+    CINCINNATI: (121, 0, 0, 0, 121),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -185,7 +207,7 @@ class TestContractAgreesWithItsOwnAuthority:
         correct; the number moving because another market grew would not be.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 7}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 7, CINCINNATI: 0}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -448,7 +470,7 @@ class TestAssemblerRefusesAForeignContract:
 @pytest.fixture(scope="module")
 def market_bundles(tmp_path_factory):
     out = {}
-    for mid in MARKETS:
+    for mid in ASSEMBLABLE_MARKETS:
         root = tmp_path_factory.mktemp("bundle_%s" % mid.replace("-", "_"))
         out[mid] = {"root": Path(root),
                     "manifest": assemble("production", str(root),
@@ -457,7 +479,7 @@ def market_bundles(tmp_path_factory):
 
 
 class TestEveryMarketAssembles:
-    @pytest.mark.parametrize("market_id", MARKETS)
+    @pytest.mark.parametrize("market_id", ASSEMBLABLE_MARKETS)
     def test_all_gates_pass(self, market_bundles, market_id):
         report = json.loads((market_bundles[market_id]["root"]
                              / "validation_report.json").read_text(encoding="utf-8"))
@@ -467,14 +489,14 @@ class TestEveryMarketAssembles:
         assert report["gates"]["content.zero_broken_links"]["pass"] is True
         assert report["gates"]["content.quality_report_clean"]["pass"] is True
 
-    @pytest.mark.parametrize("market_id", MARKETS)
+    @pytest.mark.parametrize("market_id", ASSEMBLABLE_MARKETS)
     def test_route_count_is_this_markets_own(self, market_bundles, market_id):
         manifest = market_bundles[market_id]["manifest"]
         assert manifest["market_id"] == market_id
         assert manifest["hotel_profile_routes"] == \
             EXPECTED_RECONCILIATION[market_id][1]
 
-    @pytest.mark.parametrize("market_id", MARKETS)
+    @pytest.mark.parametrize("market_id", ASSEMBLABLE_MARKETS)
     def test_manifest_carries_the_reconciliation_and_the_caveat(
             self, market_bundles, market_id):
         manifest = market_bundles[market_id]["manifest"]
@@ -487,9 +509,9 @@ class TestEveryMarketAssembles:
         assert set(RECONCILIATION_FIELDS) <= set(manifest["reconciliation"])
 
     def test_bundles_are_distinct_per_market(self, market_bundles):
-        hashes = {market_bundles[mid]["manifest"]["bundle_sha256"] for mid in MARKETS}
-        names = {market_bundles[mid]["manifest"]["release_name"] for mid in MARKETS}
-        assert len(hashes) == len(names) == len(MARKETS)
+        hashes = {market_bundles[mid]["manifest"]["bundle_sha256"] for mid in ASSEMBLABLE_MARKETS}
+        names = {market_bundles[mid]["manifest"]["release_name"] for mid in ASSEMBLABLE_MARKETS}
+        assert len(hashes) == len(names) == len(ASSEMBLABLE_MARKETS)
 
     def test_columbus_release_name_prefix_is_preserved(self, market_bundles):
         """Columbus's live releases are identified by this prefix; a per-market
@@ -497,7 +519,7 @@ class TestEveryMarketAssembles:
         assert market_bundles[COLUMBUS]["manifest"]["release_name"].startswith(
             "prod-005-columbus-")
 
-    @pytest.mark.parametrize("market_id", MARKETS)
+    @pytest.mark.parametrize("market_id", ASSEMBLABLE_MARKETS)
     def test_no_contract_restates_an_identity_allow_list(
             self, market_bundles, market_id):
         """The package is the identity authority; a contract that duplicated the
