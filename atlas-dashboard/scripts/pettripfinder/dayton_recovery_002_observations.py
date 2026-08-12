@@ -394,6 +394,17 @@ def main() -> int:
     still_proposed = [row for row in candidates
                       if normalize_name(row["canonical_name"]) not in resolved]
 
+    # PTF-DAYTON-WORK-BROWSER-INTEGRATION-001. ``remaining_unresolved`` needs
+    # the SAME subtraction, and for the same reason. This run categorised four
+    # properties ACCESS_BLOCKED on a static 403 -- three Best Westerns and one
+    # Extended Stay America -- while an attended capture of each either already
+    # sat on disk or was one first-party GET away. Once a later work order
+    # publishes or excludes one of them, leaving it in this list makes the list
+    # claim a property is unresolved that authority says is answered, and the
+    # release contract's length_sum cross-check double-counts it.
+    still_unresolved = [row for row in CO.build_report()
+                        if normalize_name(row["canonical_name"]) not in resolved]
+
     manifest = {
         "_schema": "ptf-dayton-recovery-002-proposed-authority/1.0",
         "market_id": MARKET,
@@ -411,9 +422,16 @@ def main() -> int:
                  "eleven published and one (Hotel Versailles) written to the "
                  "exclusion registry, taking Dayton to 44 published / 7 "
                  "verified-no-pets / 78 unresolved / 129 census. The two that "
-                 "remain proposals are listed in candidates_still_proposed."),
+                 "remain proposals are listed in candidates_still_proposed. "
+                 "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 then took the market "
+                 "to 47 / 8 / 74 by publishing three properties and excluding "
+                 "one, all four of them read from hash-verified captures and "
+                 "all four categorised ACCESS_BLOCKED by this run's static "
+                 "fetches; they drop out of remaining_unresolved below, which "
+                 "is DERIVED from committed authority for the same reason "
+                 "candidates_still_proposed is."),
         "candidates": candidates,
-        "remaining_unresolved": CO.build_report(),
+        "remaining_unresolved": still_unresolved,
     }
     OUT_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     OUT_MANIFEST.write_bytes(json.dumps(manifest, indent=2).encode("utf-8"))

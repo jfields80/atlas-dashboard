@@ -8,7 +8,7 @@
   "deployment_authorization": {
     "grants_deployment": false,
     "asserts_market_complete": false,
-    "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 78 of this market's 129 confirmed identities are still unresolved."
+    "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 74 of this market's 129 confirmed identities are still unresolved."
   },
   "canonical": {
     "base_url": "https://pettripfinder.com",
@@ -20,20 +20,20 @@
     "path": "launch_packages/pettripfinder/identity_census/dayton-oh.json",
     "schema": "ptf-identity-census/1.0",
     "expected_count": 129,
-    "note": "The census carries a per-record policy_state annotation from the field survey, and it marks eight properties VERIFIED_NO_PETS. That annotation is an observation, not authority: PTF-DAYTON-INTEGRATION-ADJUDICATION-001 adjudicated six of them into the committed exclusion registry, and PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated a seventh (Hotel Versailles, whose hash-verified JSON-LD states petsAllowed:false on its own Hotel node). The eighth (Holiday Inn Express & Suites Troy) was counted no-pets by a research agent with no quote, capture or hash behind it, so it stays UNADJUDICATED and therefore UNRESOLVED -- silence about evidence is not evidence. The reconciliation below counts the registry's seven, because the registry is what suppresses a route."
+    "note": "The census carries a per-record policy_state annotation from the field survey, and it marks eight properties VERIFIED_NO_PETS. That annotation is an observation, not authority: PTF-DAYTON-INTEGRATION-ADJUDICATION-001 adjudicated six of them into the committed exclusion registry, and PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated a seventh (Hotel Versailles, whose hash-verified JSON-LD states petsAllowed:false on its own Hotel node). The eighth (Holiday Inn Express & Suites Troy) was counted no-pets by a research agent with no quote, capture or hash behind it, so it stays UNADJUDICATED and therefore UNRESOLVED -- silence about evidence is not evidence. PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 then added an eighth REGISTRY record the census does not mark at all: Best Western Celina, whose hash-verified capture states \"Pets are not accepted.\" in its visible PET POLICY block. So the census set and the registry set now both hold eight and are NOT the same eight, and the reconciliation below counts the registry's, because the registry is what suppresses a route."
   },
   "reconciliation": {
     "confirmed_identities": 129,
-    "published_pet_friendly": 44,
-    "verified_no_pets": 7,
-    "resolved": 51,
-    "unresolved": 78,
+    "published_pet_friendly": 47,
+    "verified_no_pets": 8,
+    "resolved": 55,
+    "unresolved": 74,
     "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. unresolved is UNKNOWN, never negative evidence: a failed capture answers nothing."
   },
   "reconciliation_cross_checks": [
     {
       "path": "launch_packages/pettripfinder/identity_census/dayton-recovery-002-proposed-authority.json",
-      "note": "PTF-DAYTON-RECOVERY-WORKER-002 categorised every remaining unresolved identity into two disjoint groups: candidates it proposed for promotion, and identities it could not resolve. PTF-DAYTON-CANDIDATE-PROMOTION-001 then adjudicated those candidates, so the unresolved remainder is no longer 'candidates + remaining_unresolved' -- twelve of the fourteen were answered (eleven published, one excluded). The sum is now taken over candidates_still_proposed, which the manifest DERIVES by subtracting whatever has since reached the published package or the exclusion registry. A promotion that updated the authority but not this contract shows up here as a partition that no longer covers the total.",
+      "note": "PTF-DAYTON-RECOVERY-WORKER-002 categorised every remaining unresolved identity into two disjoint groups: candidates it proposed for promotion, and identities it could not resolve. PTF-DAYTON-CANDIDATE-PROMOTION-001 then adjudicated those candidates, so the unresolved remainder is no longer 'candidates + remaining_unresolved' -- twelve of the fourteen were answered (eleven published, one excluded). The sum is now taken over candidates_still_proposed AND remaining_unresolved, both of which the manifest DERIVES by subtracting whatever has since reached the published package or the exclusion registry. PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 extended that subtraction to remaining_unresolved, which it had to: the four properties it answered were all sitting in that list as ACCESS_BLOCKED, and leaving them there would have double-counted them here. A promotion that updated the authority but not this contract shows up as a partition that no longer covers the total.",
       "key_map": {},
       "length_sum": {
         "unresolved": [
@@ -45,22 +45,22 @@
   ],
   "policy_package": {
     "path": "launch_packages/pettripfinder/hotel_policy_facts_dayton-oh.json",
-    "expected_sha256": "dcff2fd113d6469e5d33c18f5106adb415518d0248fbc98b2e180fd2dd2016b6",
+    "expected_sha256": "7ecaed726da7735070cc6791f6bfbfdd12a9bf88cbd966c0d64fba3f88fe719c",
     "expected_schema_version": "1.0",
-    "expected_record_count": 44,
+    "expected_record_count": 47,
     "identity_authority": true,
     "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package. The package is schema 1.0, not Columbus's 1.1 -- the version is a per-market fact, which is why the gate reads it from this contract rather than from a gate name."
   },
   "public_surface": {
-    "seed_hotel_rows": 44,
-    "public_hotel_profile_count": 44,
+    "seed_hotel_rows": 47,
+    "public_hotel_profile_count": 47,
     "excluded_public_profile_count": 0,
     "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
   },
   "routes": {
     "market_slug": "dayton-oh",
     "route_mode": "market_prefixed",
-    "hotel_route_count": 44,
+    "hotel_route_count": 47,
     "published_corridor_route_count": 11,
     "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/dayton-oh/. Seven of its eighteen configured corridors are below their publication minimum and claim no route; the eleven that publish grew from five when PTF-DAYTON-CANDIDATE-PROMOTION-001 added inventory in the outlying corridors (Urbana, Eaton, Sidney, Bellefontaine, Wapakoneta, Celina), each of which crossed its minimum as a result."
   },

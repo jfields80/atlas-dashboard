@@ -7,9 +7,10 @@
   "columbus-official-url-recovery-001",
   "columbus-official-url-apply-001",
   "ptf-cleveland-url-recovery-002-batch1",
-  "cleveland-work-browser-pass-001"
+  "cleveland-work-browser-pass-001",
+  "dayton-work-browser-001"
  ],
- "count": 165,
+ "count": 174,
  "routes": [
   {
    "routing_id": "route-columbus-oh-best-western-canal-winchester-inn-columbus-south-east",
@@ -5745,6 +5746,310 @@
    "verified_at": "2026-08-11",
    "status": "ROUTING_CONFIRMED",
    "notes": ""
+  },
+  {
+   "routing_id": "route-dayton-oh-golden-inn-new-paris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Golden Inn New Paris",
+    "normalized_name": "golden inn new paris",
+    "street_identity": "8868 us 40 w|45347"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://thegoldeninn.com/",
+   "official_domain": "thegoldeninn.com",
+   "brand": "INDEPENDENT",
+   "binding_method": "PAGE_RENDERED",
+   "binding_sources": [
+    "https://thegoldeninn.com/ fetched 2026-08-12 during PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 (plain HTTPS GET; no challenge solved, no bot defence circumvented) html_sha256=sha256:ead0a162db238300dd7dce2b2a42030243294a785a9b8bbc06ea961a8e40b326"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_CONFIRMED",
+   "identity_signals_matched": [
+    "page_telephone=937-437-0722",
+    "page_locality=New Paris",
+    "page_title=The Golden Inn"
+   ],
+   "property_identity_check": "PASS",
+   "identity_context": {
+    "address": "8868 US 40 W",
+    "city": "New Paris",
+    "state": "OH",
+    "postal_code": "45347",
+    "phone": "(937) 437-0722"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Verified first-party: the proposed URL answers a plain GET and the page carries the census telephone 937-437-0722 and the city New Paris under the property's own title \"The Golden Inn\". Phone plus locality read from the destination itself. The census identity is still IDENTITY_PROVISIONAL, which is why the route binds and no policy publishes. Next action: Confirm the census identity for Golden Inn New Paris (street 8868 US 40 W and postal code 45347 appear nowhere on the property's page); the pet fee it states may publish only after identity is confirmed."
+  },
+  {
+   "routing_id": "route-dayton-oh-comfort-suites-springfield-i-70",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Comfort Suites Springfield I-70",
+    "normalized_name": "comfort suites springfield i 70",
+    "street_identity": "121 raydo circle|45506"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/springfield/comfort-suites-hotels/oh189",
+   "official_domain": "choicehotels.com",
+   "brand": "INDEPENDENT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "121 Raydo Circle",
+    "city": "Springfield",
+    "state": "OH",
+    "postal_code": "45506",
+    "phone": "(937) 322-0707"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: The transcription reports name, street 121 Raydo Circle and ZIP 45506 agreeing with the census, which would be two independent keys -- but the destination could not be read here: choicehotels.com returns no response at all (read timeout at 25s and again at 60s), the same silent-timeout pattern every Choice fetch in this repository reproduces. No key could be verified against the page. Next action: Attended capture of the proposed choicehotels.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-holiday-inn-express-suites-greenville",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Holiday Inn Express & Suites Greenville",
+    "normalized_name": "holiday inn express and suites greenville",
+    "street_identity": "1195 russ road|45331"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenville/gvekb/hoteldetail",
+   "official_domain": "ihg.com",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "1195 Russ Road",
+    "city": "Greenville",
+    "state": "OH",
+    "postal_code": "45331"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 1195 Russ Road and ZIP 45331 agreeing; ihg.com returned HTTP 403 to a direct fetch, so nothing was read from the destination. Next action: Attended capture of the proposed ihg.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-quality-inn-greenville",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Quality Inn Greenville",
+    "normalized_name": "quality inn greenville",
+    "street_identity": "1190 russ road|45331"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/greenville/quality-inn-hotels/oh019",
+   "official_domain": "choicehotels.com",
+   "brand": "INDEPENDENT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "1190 Russ Road",
+    "city": "Greenville",
+    "state": "OH",
+    "postal_code": "45331"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 1190 Russ Road and ZIP 45331 agreeing; choicehotels.com timed out with no response. Next action: Attended capture of the proposed choicehotels.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-quality-inn-sidney",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Quality Inn Sidney",
+    "normalized_name": "quality inn sidney",
+    "street_identity": "1959 michigan street|45365"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/sidney/quality-inn-hotels/oh079",
+   "official_domain": "choicehotels.com",
+   "brand": "INDEPENDENT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "1959 Michigan Street",
+    "city": "Sidney",
+    "state": "OH",
+    "postal_code": "45365"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 1959 Michigan Street and ZIP 45365 agreeing; choicehotels.com timed out with no response. The census identity is also still IDENTITY_PROVISIONAL. Next action: Attended capture of the proposed choicehotels.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-red-roof-inn-dayton-fairborn-nutter-center",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Red Roof Inn Dayton - Fairborn/Nutter Center",
+    "normalized_name": "red roof inn dayton fairborn nutter center",
+    "street_identity": "2580 colonel glenn hwy|45324"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/fairborn/rri205",
+   "official_domain": "redroof.com",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "2580 Colonel Glenn Hwy",
+    "city": "Fairborn",
+    "state": "OH",
+    "postal_code": "45324",
+    "phone": "(937) 426-6116"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 2580 Colonel Glenn Hwy and ZIP 45324 agreeing; redroof.com returned HTTP 403 to a direct fetch. Next action: Attended capture of the proposed redroof.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-red-roof-inn-dayton-north-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Red Roof Inn Dayton North Airport",
+    "normalized_name": "red roof inn dayton north airport",
+    "street_identity": "7370 miller ln|45414"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/dayton/rri023",
+   "official_domain": "redroof.com",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "7370 Miller Ln",
+    "city": "Dayton",
+    "state": "OH",
+    "postal_code": "45414",
+    "phone": "(937) 898-1054"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 7370 Miller Ln and ZIP 45414 agreeing; redroof.com returned HTTP 403 to a direct fetch. Next action: Attended capture of the proposed redroof.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-red-roof-inn-dayton-south-miamisburg",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Red Roof Inn Dayton South - Miamisburg",
+    "normalized_name": "red roof inn dayton south miamisburg",
+    "street_identity": "222 byers rd|45342"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/miamisburg/rri006",
+   "official_domain": "redroof.com",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "222 Byers Rd",
+    "city": "Miamisburg",
+    "state": "OH",
+    "postal_code": "45342",
+    "phone": "(937) 866-0705"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 222 Byers Rd and ZIP 45342 agreeing; redroof.com returned HTTP 403 to a direct fetch. Next action: Attended capture of the proposed redroof.com URL; the route is recorded HELD until one identity key is read from the page itself."
+  },
+  {
+   "routing_id": "route-dayton-oh-red-roof-inn-springfield",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "dayton-oh",
+    "canonical_name": "Red Roof Inn Springfield",
+    "normalized_name": "red roof inn springfield",
+    "street_identity": "155 west leffel lane|45505"
+   },
+   "market_id": "dayton-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/springfield/rri607",
+   "official_domain": "redroof.com",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "ChatGPT Work browser review work-browser-pass-001 (operator transcription; the destination could not be read by this work order) -- reported name, street and postal code agreement with the census"
+   ],
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
+   "status": "ROUTING_HELD",
+   "identity_signals_matched": [
+    "visibly agreeing property name",
+    "street address",
+    "ZIP"
+   ],
+   "identity_context": {
+    "address": "155 West Leffel Lane",
+    "city": "Springfield",
+    "state": "OH",
+    "postal_code": "45505",
+    "phone": "(937) 325-5356"
+   },
+   "notes": "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: Transcription reports name, street 155 West Leffel Lane and ZIP 45505 agreeing; redroof.com returned HTTP 403 to a direct fetch. Next action: Attended capture of the proposed redroof.com URL; the route is recorded HELD until one identity key is read from the page itself."
   }
  ]
 }

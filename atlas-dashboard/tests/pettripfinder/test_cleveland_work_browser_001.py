@@ -333,8 +333,20 @@ class TestRoutingAdjudication:
         assert any("jsonld_telephone" in s for s in signals)
 
     def test_routing_did_not_grow_or_shrink(self):
+        """This pass CORRECTED one record in place; it added and retired none.
+
+        Scoped to the two markets that existed when it ran, because that is what
+        it can honestly claim. PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 has since
+        opened Dayton routing and taken the file to 174 -- asserting the global
+        total here would make this test fail for something the Cleveland pass
+        did not do."""
         routing = _json(ROUTING_PATH)
-        assert routing["count"] == len(routing["routes"]) == 165
+        assert routing["count"] == len(routing["routes"])
+        by_market = {}
+        for record in routing["routes"]:
+            by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
+        assert by_market["cleveland-akron-canton-oh"] == 145
+        assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
         """The collision audit, as a standing assertion rather than a one-off

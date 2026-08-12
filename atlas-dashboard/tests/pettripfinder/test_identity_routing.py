@@ -205,7 +205,17 @@ def test_committed_authority_validates(routes):
     # domain, or an independent first-party site) and routed; Columbus is
     # unchanged at 20.
     # 167 -> 165: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 retired the two Drury routes whose hotels became Cleveland inventory.
-    assert len(routes) == 165
+    #
+    # 165 -> 174: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 is the first work to
+    # route Dayton at all. Fourteen first-time bindings were proposed by the
+    # ChatGPT Work browser pass for census rows that carry no _official_url;
+    # nine were written (one CONFIRMED on a first-party fetch, eight HELD), four
+    # were rejected, and the fourteenth -- Extended Stay America Select Suites
+    # Dayton - Miamisburg -- is deliberately absent because that identity became
+    # seed inventory in the same work order. See
+    # test_no_committed_route_is_already_seed_inventory below, which is the rule
+    # that absence obeys.
+    assert len(routes) == 174
 
 
 def test_committed_authority_split(routes):
@@ -214,13 +224,27 @@ def test_committed_authority_split(routes):
     # 78 -> 165: the 87 newly-recovered Cleveland routes are all
     # ROUTING_CONFIRMED; the two pre-existing Columbus holds are untouched.
     # 165 -> 163, the same two retirements.
-    assert len(confirmed) == 163
-    assert len(held) == 2
-    # Both holds are the same shape: a URL is known, the identity the queue
-    # contract demands is not.
+    #
+    # PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 adds one CONFIRMED and eight HELD.
+    # The eight Dayton holds are a THIRD shape, and naming it is the point: the
+    # operator's browser reported name, street and postal-code agreement, and
+    # this work order could not read one identity key from the destination
+    # itself -- choicehotels.com answered nothing at 25s and again at 60s,
+    # ihg.com and redroof.com answered 403. A route bound on a transcription
+    # alone is retained and visible, and it is not a work instruction.
+    assert len(confirmed) == 164
+    assert len(held) == 10
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "staybridge suites columbus worthington",
-        "the welshfield inn"}
+        "the welshfield inn",
+        "comfort suites springfield i 70",
+        "holiday inn express and suites greenville",
+        "quality inn greenville",
+        "quality inn sidney",
+        "red roof inn dayton fairborn nutter center",
+        "red roof inn dayton north airport",
+        "red roof inn dayton south miamisburg",
+        "red roof inn springfield"}
 
 
 def test_every_committed_record_preserves_index_binding(routes):
@@ -251,7 +275,14 @@ def test_every_committed_record_preserves_index_binding(routes):
         IR.BINDING_BRAND_INDEX, IR.BINDING_PAGE_RENDERED}
     rendered = [r for r in routes if r["binding_method"] == IR.BINDING_PAGE_RENDERED]
     # 10 -> 8: both retired Drury routes were PAGE_RENDERED. 8 -> 9: Sonesta.
-    assert len(rendered) == 9
+    #
+    # 9 -> 10: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 adds Golden Inn New
+    # Paris, an independent property whose own site answered a plain GET and
+    # served the census telephone and locality. Its eight Dayton siblings in
+    # the same batch are BRAND_INDEX_BINDING for exactly the reason this test
+    # exists: Choice, IHG and Red Roof refused this work order too, so nothing
+    # they serve may be called a rendered page.
+    assert len(rendered) == 10
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -269,10 +300,11 @@ def test_no_committed_route_is_on_a_third_party_domain(routes):
 
 def test_every_committed_route_is_in_a_known_market(routes):
     """Routing is per-market and always was; Cleveland is the second market to
-    use it. What must never appear is a route with no market or a market the
-    config does not define."""
+    use it and Dayton, under PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, the third.
+    What must never appear is a route with no market or a market the config does
+    not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):

@@ -74,9 +74,16 @@ EXPECTED_RECONCILIATION = {
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
-    # were not promoted -- readiness POLICY_PARTIAL -- so they stay unresolved,
-    # which is why unresolved falls to 78 and not to 76.
-    DAYTON: (129, 44, 7, 51, 78),
+    # were not promoted -- readiness POLICY_PARTIAL -- so they stayed unresolved,
+    # which is why unresolved fell to 78 and not to 76.
+    #
+    # PTF-DAYTON-WORK-BROWSER-INTEGRATION-001: 44 -> 47 and 7 -> 8. The ChatGPT
+    # Work browser pass published nothing itself -- it carries no artifact of
+    # any page -- but it pointed at four hash-verified captures: two Best
+    # Westerns and one Extended Stay America whose visible pet policy publishes,
+    # and Best Western Celina's "Pets are not accepted." All four had been
+    # written off as brand-platform ACCESS_BLOCKED by a static fetch.
+    DAYTON: (129, 47, 8, 55, 74),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -172,20 +179,22 @@ class TestContractAgreesWithItsOwnAuthority:
         assert recon["unresolved"] == unresolved
 
     def test_verified_no_pets_is_scoped_to_the_market_that_owns_it(self):
-        """8 for Cleveland, 7 for Dayton, 14 for Columbus -- never the sum.
+        """8 for Cleveland, 8 for Dayton, 14 for Columbus -- never the sum.
 
         Counting the exclusion registry's length reported 22 verified-no-pets
         for a market that has 8, and counting every state in it reported 16 for
         a market that has 14 (two Columbus rows are a category ruling, not
         negative pet evidence).
 
-        Dayton is 7 as of PTF-DAYTON-CANDIDATE-PROMOTION-001, which adjudicated
-        Hotel Versailles into the registry. The market-scoping property is what
-        this defends, so the number moving with a market's own authority is
-        correct; the number moving because another market grew would not be.
+        Dayton is 8 as of PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, which added
+        Best Western Celina to the seven PTF-DAYTON-CANDIDATE-PROMOTION-001 left.
+        The market-scoping property is what this defends, so the number moving
+        with a market's own authority is correct; the number moving because
+        another market grew would not be -- and Columbus and Cleveland are
+        unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 7}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 8}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

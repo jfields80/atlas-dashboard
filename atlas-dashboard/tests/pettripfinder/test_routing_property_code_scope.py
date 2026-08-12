@@ -152,6 +152,11 @@ class TestNothingElseMoved:
         # NO_OFFICIAL_URL; Columbus is unchanged at 20.
         # 167 -> 165: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 retired
         # the two Drury routes whose hotels became Cleveland inventory.
-        assert len(routes) == 165
+        # 165 -> 174: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 opened Dayton
+        # routing with nine first-time bindings, one CONFIRMED and eight HELD.
+        # Dayton is the first market to add a Choice/IHG/Red Roof route since
+        # the codes were scoped by registrable domain, which is exactly the
+        # case this file exists for.
+        assert len(routes) == 174
         markets = {r["market_id"] for r in routes}
-        assert {"columbus-oh", "cleveland-akron-canton-oh"} <= markets
+        assert {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"} <= markets

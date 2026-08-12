@@ -69,7 +69,11 @@ class TestManifestIsProposalOnly:
         assert outcomes["excluded"] == {"hotel-versailles"}
         assert outcomes["still_proposed"] == {"baymont-by-wyndham-dayton-north",
                                               "wingate-by-wyndham-dayton-north"}
-        assert len(facts["hotels"]) == 44
+        # 44 -> 47: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 published three more
+        # identities from hash-verified captures. None of them is one of these
+        # fourteen candidates, which is why the three assertions above are
+        # unchanged -- this one counts the whole package, not this batch.
+        assert len(facts["hotels"]) == 47
 
     def test_the_two_unpromoted_candidates_are_not_publishable(self, manifest):
         """They are held back by the readiness engine, not by opinion."""
@@ -231,22 +235,35 @@ class TestCensusUpdatesAreConservative:
         assert rec["source_hash"] == (
             "3819c19720bac29d04068f6f398fc0d27dab96b124c3be088b2177af26ab5813")
 
-    def test_the_census_no_pets_count_still_exceeds_the_registry_by_one(self):
-        """The census marks eight properties no-pets; the registry holds seven.
+    def test_the_census_no_pets_set_and_the_registry_are_not_the_same_set(self, census):
+        """Both hold eight, and they are not the same eight. That is the point.
 
-        The gap is Holiday Inn Express & Suites Troy, which the worker counted
-        VERIFIED_NO_PETS on a research-agent assertion with no quote, capture or
-        hash. Silence about evidence is not evidence, so it stays out of the
-        registry -- and the gap is asserted here so it stays a known, explained
-        one rather than quietly closing."""
+        The census's eighth is Holiday Inn Express & Suites Troy, which the
+        worker counted VERIFIED_NO_PETS on a research-agent assertion with no
+        quote, capture or hash. Silence about evidence is not evidence, so it
+        has never entered the registry and still has not.
+
+        The registry's eighth is Best Western Celina, added by
+        PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 on a hash-verified capture whose
+        visible PET POLICY block reads "Pets are not accepted." The census has
+        not caught up -- it still carries that row LODGING_CONFIRMED, because a
+        census is a record of a discovery pass and this integrator does not
+        rewrite one. Asserting the divergence in both directions is what keeps
+        the equal counts from reading as agreement."""
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         from scripts.pettripfinder.site_data import normalize_name
 
         registry = {normalize_name(e["canonical_name"]) for e in load_exclusions()
                     if e.get("market_id") == "dayton-oh"
                     and e["exclusion_state"] == "VERIFIED_NO_PETS"}
-        assert len(registry) == 7
-        assert normalize_name("Holiday Inn Express & Suites Troy") not in registry
+        census_no_pets = {normalize_name(h["canonical_name"]) for h in census["hotels"]
+                          if h["lodging_state"] == "LODGING_NO_PETS"}
+        assert len(registry) == 8
+        assert len(census_no_pets) == 8
+        assert registry != census_no_pets
+        assert census_no_pets - registry == {
+            normalize_name("Holiday Inn Express & Suites Troy")}
+        assert registry - census_no_pets == {normalize_name("Best Western Celina")}
 
     def test_the_census_is_still_the_full_129(self, census):
         assert census["count"] == 129 == len(census["hotels"])
@@ -272,15 +289,22 @@ class TestCensusUpdatesAreConservative:
     def test_the_129_partition_is_mutually_exclusive_and_exhaustive(self, manifest, census):
         """Every one of the 129 Dayton identities sits in exactly one state.
 
-        PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated the fourteen proposals,
-        so the partition is now:
+        PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated the fourteen proposals
+        and PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 then answered four more of
+        the unresolved (three published, one excluded), so the partition is now:
 
-            44 published pet-friendly
-           + 7 verified no-pets
+            47 published pet-friendly
+           + 8 verified no-pets
            + 2 still proposed (readiness POLICY_PARTIAL)
-          + 76 unresolved
+          + 72 unresolved
           ---
            129
+
+        ``remaining_unresolved`` shrank 76 -> 72 because the manifest DERIVES it
+        by subtracting whatever has since reached the published package or the
+        exclusion registry, the same way ``candidates_still_proposed`` has
+        always been derived. Without that, the four answered properties would sit
+        in two buckets at once and this assertion is what would catch it.
 
         Mutual exclusivity is the point: a property that is both published and
         excluded, or that falls out of every bucket, is exactly the drift this
@@ -301,8 +325,8 @@ class TestCensusUpdatesAreConservative:
         proposed = ({r["slug"] for r in manifest["candidates"]}
                     - published - no_pets - remaining)
 
-        assert (len(published), len(no_pets)) == (44, 7)
-        assert (len(proposed), len(remaining)) == (2, 76)
+        assert (len(published), len(no_pets)) == (47, 8)
+        assert (len(proposed), len(remaining)) == (2, 72)
         buckets = (published, no_pets, proposed, remaining)
         for i, a in enumerate(buckets):
             for b in buckets[i + 1:]:

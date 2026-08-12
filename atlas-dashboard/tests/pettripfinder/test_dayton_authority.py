@@ -39,8 +39,16 @@ _ROOT = Path(__file__).resolve().parents[2]
 #: Hotel Versailles's affirmative no-pets refusal. Two of the fourteen proposed
 #: candidates were NOT promoted (both Wyndham marketing-blurb records, readiness
 #: POLICY_PARTIAL) and remain proposals.
-ACCEPTED = 44
-NO_PETS = 7
+#:
+#: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 moved 44 -> 47 and 7 -> 8. Nothing in
+#: that work order publishes from the ChatGPT Work browser transcription, which
+#: carries no artifact of any page. What it did was point at four hash-verified
+#: captures this repository already held or fetched first-party while verifying
+#: a routing proposal: two Best Westerns that dayton_recovery_002_closeout had
+#: written off as "bestwestern.com 403" while an attended capture of each sat on
+#: disk, a fourth Extended Stay America, and Best Western Celina's refusal.
+ACCEPTED = 47
+NO_PETS = 8
 HELD = 6
 CENSUS = 129
 
@@ -194,12 +202,24 @@ class TestNegativeFactsNeedArtifactsToo:
         check was wrong about the standard, not about Versailles. Broadening it
         is the honest fix; paraphrasing a prose refusal onto a page that states
         none would have been inventing evidence to satisfy a lexical test.
+
+        PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 widens the PROSE arm once more,
+        for the same reason and not a new one. Best Western Celina's page says
+        "Pets are not accepted." in the same PET POLICY slot where its four
+        sibling captures state a nightly pet rate. That is as affirmative a
+        refusal as a page can make; the old pattern simply did not list the verb
+        the property used. Note that this record deliberately does NOT cite the
+        structured arm even though its JSON-LD also reads false: that flag reads
+        false on every Best Western page captured here, including four that
+        charge for dogs, so it is brand boilerplate. See
+        ``scripts.pettripfinder.integrate_dayton_work_browser_001.
+        best_western_pets_allowed_survey``.
         """
         for e in load_exclusions():
             if e.get("market_id") != DAYTON:
                 continue
             quote = " ".join(e["evidence_quote"].split()).lower()
-            prose = "not allowed" in quote or "no pets" in quote
+            prose = re.search(r"no pets|not (allowed|permitted|accepted)", quote) is not None
             structured = re.search(r'"?petsallowed"?\s*:\s*false', quote) is not None
             assert prose or structured, e["canonical_name"]
             assert e["source_hash"], e["canonical_name"]
@@ -249,7 +269,11 @@ class TestThePromotedRecoveryCandidates:
         """The fee is a tiered CLEANING fee ($25/day for six nights, then
         $15/day); the size limit is dimensional (36 inches), not weight."""
         esa = [h for h in facts["hotels"] if h["key"].startswith("extended stay america")]
-        assert len(esa) == 3
+        # 3 -> 4: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 added Select Suites
+        # Dayton - Miamisburg, whose page serves the identical Pet Policy block.
+        # It is held to the identical standard, which is the point of asserting
+        # over the whole family rather than over a list of three names.
+        assert len(esa) == 4
         for h in esa:
             assert "pet_fee" not in h["facts"], h["name"]
             assert "weight_limit" not in h["facts"], h["name"]
