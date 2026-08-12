@@ -6,7 +6,8 @@
  "source_batches": [
   "columbus-official-url-recovery-001",
   "columbus-official-url-apply-001",
-  "ptf-cleveland-url-recovery-002-batch1"
+  "ptf-cleveland-url-recovery-002-batch1",
+  "cleveland-work-browser-pass-001"
  ],
  "count": 165,
  "routes": [
@@ -2263,18 +2264,20 @@
     "normalized_name": "sonesta es suites cleveland airport"
    },
    "market_id": "cleveland-akron-canton-oh",
-   "official_property_url": "https://www.sonesta.com/sonesta-es-suites/oh/middleburg-heights/sonesta-es-suites-cleveland-airport",
+   "official_property_url": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport",
    "official_domain": "sonesta.com",
    "property_code": "",
    "brand": "",
-   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_method": "PAGE_RENDERED",
    "binding_sources": [
-    "https://www.thisiscleveland.com/locations/sonesta-es-suites-cleveland-airport (CVB 'View Website' anchor, fetched 2026-08-09)"
+    "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport (fetched 2026-08-12 during PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001; the recorded ES Suites URL 301-redirects here) html_sha256=sha256:47c4b170c23462f3345977df5021c66fe2841d4e4c4c81b477e2d7fadd5314a1"
    ],
    "identity_signals_matched": [
-    "cvb_listing_for_this_property",
-    "street=17525 Rosbough Blvd.",
-    "zip=44130"
+    "redirect=recorded ES Suites URL 301s to this Simply Suites URL",
+    "jsonld_streetAddress=17525 Rosbough Drive",
+    "jsonld_postalCode=44130",
+    "jsonld_telephone=(440) 234-6688",
+    "jsonld_name=Sonesta Simply Suites Cleveland Airport"
    ],
    "identity_context": {
     "address": "17525 Rosbough Blvd.",
@@ -2283,10 +2286,10 @@
     "postal_code": "44130",
     "phone": "440.234.6688"
    },
-   "observed_at": "2026-08-09",
-   "verified_at": "2026-08-09",
+   "observed_at": "2026-08-12",
+   "verified_at": "2026-08-12",
    "status": "ROUTING_CONFIRMED",
-   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look."
+   "notes": "PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001: Sonesta rebranded this property from ES Suites to Simply Suites and the ES Suites path on record is superseded. Accepted on first-party proof read from the destination itself -- the redirect plus the page's own JSON-LD name, street address, postal code and telephone -- not on the operator transcription that proposed it. Identity remains the census's; the URL supplies only where to look, and no pet fact is carried or implied."
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-sonesta-es-suites-cleveland-westlake",

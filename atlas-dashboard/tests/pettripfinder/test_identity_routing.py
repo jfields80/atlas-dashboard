@@ -236,11 +236,22 @@ def test_every_committed_record_preserves_index_binding(routes):
     # eight independent first-party B&B/motel sites and the two Drury
     # properties. Both methods are therefore legitimately present, but the split
     # is now evidence-backed rather than asserted.
+    #
+    # PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001 adds the ninth. Sonesta ES
+    # Suites Cleveland Airport was corrected to the Simply Suites path after the
+    # rebrand, and the binding was NOT taken from the operator transcription
+    # that proposed it: the recorded URL was fetched directly, returned 200,
+    # 301-redirected to the replacement, and served JSON-LD carrying the
+    # property's own name, street address, postal code and telephone. That is a
+    # page the property served us, which is what PAGE_RENDERED means. Its
+    # binding_sources carries the html_sha256 of what came back, and sonesta.com
+    # is not a bot-walled brand -- so it passes the rule below rather than
+    # needing an exception from it.
     assert {r["binding_method"] for r in routes} == {
         IR.BINDING_BRAND_INDEX, IR.BINDING_PAGE_RENDERED}
     rendered = [r for r in routes if r["binding_method"] == IR.BINDING_PAGE_RENDERED]
-    # 10 -> 8: both retired Drury routes were PAGE_RENDERED.
-    assert len(rendered) == 8
+    # 10 -> 8: both retired Drury routes were PAGE_RENDERED. 8 -> 9: Sonesta.
+    assert len(rendered) == 9
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
