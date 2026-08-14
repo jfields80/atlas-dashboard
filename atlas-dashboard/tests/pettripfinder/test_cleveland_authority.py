@@ -195,10 +195,23 @@ class TestMarketIsolation:
         assert 29 + pkg.unresolved_count == 188
 
     def test_columbus_reconciliation_is_untouched(self):
+        """Cleveland's work must not move Columbus's numbers.
+
+        The unresolved figure now comes from Columbus's committed partition,
+        which COUNTS eight blocked identities, rather than from
+        `confirmed - published - no_pets`. That subtraction returned 12 here
+        because it treats every non-terminal identity as unresolved, including
+        the two OUT_OF_CURRENT_CATEGORY rulings -- and it answered 12 for a
+        supplied universe of 114 whatever the real membership was, which is
+        exactly the blindness Phase C removed.
+
+        What this test is really defending is unchanged: Cleveland's authority
+        does not reach into Columbus's.
+        """
         from scripts.pettripfinder.build_market_manifest import build_package
 
         assert build_package(
-            COLUMBUS, confirmed_identity_count=114).reconciliation() == (114, 88, 14, 102, 12)
+            COLUMBUS, confirmed_identity_count=114).reconciliation() == (114, 88, 14, 102, 8)
 
 
 class TestEveryProposalIsAccountedFor:

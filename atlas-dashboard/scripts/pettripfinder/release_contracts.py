@@ -171,6 +171,23 @@ class DerivedAuthority:
         ])
 
 
+def _out_of_category_count(market_id: str) -> int:
+    """Identities this market ruled out of the current category.
+
+    A category ruling is a terminal disposition, not negative pet evidence, and
+    it is deliberately kept apart from ``verified_no_pets``: counting the two
+    together would claim a bed-and-breakfast had refused pets when it has said
+    nothing about them.
+    """
+    # Imported here rather than at module scope: this module is imported by the
+    # assembler, and hotel_exclusions pulls in the wider inventory layer.
+    from scripts.pettripfinder.hotel_exclusions import load_exclusions
+
+    return sum(1 for e in load_exclusions()
+               if str(e.get("market_id") or "") == market_id
+               and e.get("exclusion_state") == "OUT_OF_CURRENT_CATEGORY")
+
+
 def derive_authority(market_id: str) -> DerivedAuthority:
     """Compute ``market_id``'s release facts from its own committed authority."""
     # Imported here rather than at module import time: the assembler imports
@@ -216,7 +233,15 @@ def derive_authority(market_id: str) -> DerivedAuthority:
         excluded_public_profiles=len(seed_hotels) - published,
         confirmed_identities=package.confirmed_identity_count,
         verified_no_pets=package.verified_no_pets_count,
-        resolved=published + package.verified_no_pets_count,
+        # PTF-CENSUS-PARTITION-NORMALIZATION-001. Resolved means TERMINALLY
+        # DISPOSED, which is three states and not two: a bed-and-breakfast
+        # ruled out of the current category is as settled as a hotel that
+        # refuses pets, and counting only the latter left Columbus's two
+        # category exits looking like open questions. That in turn made
+        # confirmed - resolved disagree with the partition's own unresolved
+        # count by exactly those two.
+        resolved=(published + package.verified_no_pets_count
+                  + _out_of_category_count(market_id)),
         unresolved=package.unresolved_count,
         hotel_route_count=len(package.hotel_routes),
         corridor_route_count=len(package.corridor_routes),
@@ -362,10 +387,19 @@ def contract_disagreements(contract: Dict, derived: DerivedAuthority) -> List[st
             "reconciliation: published_pet_friendly, verified_no_pets and "
             "resolved must all be stated as integers (got %r / %r / %r)"
             % (published, no_pets, resolved))
-    elif resolved != published + no_pets:
-        problems.append(
-            "reconciliation.resolved (%d) != published_pet_friendly + "
-            "verified_no_pets (%d + %d)" % (resolved, published, no_pets))
+    else:
+        # PTF-CENSUS-PARTITION-NORMALIZATION-001. Terminal disposition is three
+        # states, not two. This check read `published + no_pets` and so treated
+        # a category ruling as an open question -- which is also why it is
+        # stated as a separate addend rather than folded into no_pets: a
+        # bed-and-breakfast we do not cover has not refused pets, it has said
+        # nothing about them, and the two must never be summed into one number.
+        out_of_category = stated_recon.get("out_of_current_category", 0) or 0
+        if resolved != published + no_pets + out_of_category:
+            problems.append(
+                "reconciliation.resolved (%d) != published_pet_friendly + "
+                "verified_no_pets + out_of_current_category (%d + %d + %d)"
+                % (resolved, published, no_pets, out_of_category))
 
     # confirmed and unresolved are the pair a market without a census cannot
     # state. They travel together: one alone would be an arithmetic claim with

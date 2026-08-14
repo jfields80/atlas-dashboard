@@ -310,20 +310,25 @@ class TestCommittedAuthority:
             self._routes(), self._census_keys("dayton-oh"), market_id="dayton-oh")
         assert violations == ()
 
-    def test_cleveland_has_exactly_two_known_violations(self):
-        """Both are non-lodging identities holding accommodation routes.
+    def test_cleveland_violations_are_now_repaired(self):
+        """Phase A pinned two; PTF-CENSUS-PARTITION-NORMALIZATION-001 fixed them.
 
-        Pinned rather than tolerated: they are resolved in Phase C by retiring
-        the routes and recording the identities as OUT_OF_CURRENT_CATEGORY, and
-        this test is what will notice when that happens.
+        A restaurant and a cross-category inn held accommodation routes to
+        identities Cleveland's hotel census does not contain. They were
+        resolved by RETIRING the routes -- not by admitting two non-hotels to a
+        hotel census, which would have made the membership rule defeat its own
+        purpose.
         """
         violations = partition.routing_subset_violations(
             self._routes(), self._census_keys("cleveland-akron-canton-oh"),
             market_id="cleveland-akron-canton-oh")
-        assert len(violations) == 2
-        detail = " ".join(i.detail for i in violations)
-        assert "Eastland Inn Restaurant" in detail
-        assert "The Welshfield Inn" in detail
+        assert violations == ()
+
+        retired = {r["hotel_ref"]["canonical_name"] for r in self._routes()
+                   if r["status"] == enums.ROUTING_RETIRED}
+        assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn"}
+        # The census was NOT expanded to 190 to house them.
+        assert len(self._census_keys("cleveland-akron-canton-oh")) == 188
 
     def test_dayton_census_geography_defects_are_pinned(self):
         """Eleven unreproducible corridor claims and eight axis violations.
@@ -336,8 +341,12 @@ class TestCommittedAuthority:
         if not path.is_file():
             pytest.skip("Dayton census is not committed")
         issues = census.validate(json.loads(path.read_text(encoding="utf-8-sig")))
+        # The eleven unreproducible county-name corridor claims survive: Phase D
+        # owns geography, and repairing them here would hide what it must see.
         assert sum(1 for i in issues if i.code == "BASIS_NOT_IMPLEMENTED") == 11
-        assert sum(1 for i in issues if i.code == "AXIS_VIOLATION") == 8
+        # The eight axis violations do NOT survive. Phase C moved the no-pets
+        # fact out of the lodging axis, where it never belonged.
+        assert sum(1 for i in issues if i.code == "AXIS_VIOLATION") == 0
 
     def test_cleveland_partition_covers_its_census(self):
         path = PACKAGE_DIR / "cleveland_final_partition_002.json"

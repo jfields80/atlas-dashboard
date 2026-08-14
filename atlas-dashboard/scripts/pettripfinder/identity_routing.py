@@ -79,11 +79,18 @@ ROUTING_CONFIRMED = "ROUTING_CONFIRMED"   #: identity-bound; the queue may use i
 ROUTING_HELD = "ROUTING_HELD"             #: binding too weak to act on
 ROUTING_CONFLICT = "ROUTING_CONFLICT"     #: two records disagree; a human decides
 ROUTING_STALE = "ROUTING_STALE"           #: past its revalidation horizon
+#: PTF-CENSUS-PARTITION-NORMALIZATION-001. The binding should never have been
+#: made -- a route to an identity this market's census does not contain -- and
+#: is withdrawn. Terminal, and distinct from HELD (which is undecided) and from
+#: deletion (which would erase how the URL was bound in the first place).
+ROUTING_RETIRED = "ROUTING_RETIRED"
 
-ROUTING_STATUSES = (ROUTING_CONFIRMED, ROUTING_HELD, ROUTING_CONFLICT, ROUTING_STALE)
+ROUTING_STATUSES = (ROUTING_CONFIRMED, ROUTING_HELD, ROUTING_CONFLICT,
+                    ROUTING_STALE, ROUTING_RETIRED)
 
-#: The ONLY status the capture queue may act on. A held, conflicted or stale
-#: record is retained and visible -- it is simply not a work instruction.
+#: The ONLY status the capture queue may act on. A held, conflicted, stale or
+#: retired record is retained and visible -- it is simply not a work
+#: instruction.
 USABLE_STATUSES = frozenset({ROUTING_CONFIRMED})
 
 #: How identity was bound to the URL. Categorical, and never upgraded merely
@@ -113,11 +120,27 @@ REQUIRED_FIELDS = ("routing_id", "schema_version", "hotel_ref", "market_id",
                    "verified_at", "status")
 OPTIONAL_FIELDS = ("property_code", "identity_context", "identity_signals_matched",
                    "property_identity_check", "revalidation_cadence_days",
-                   "canonical_destination", "notes")
+                   "canonical_destination", "notes",
+                   # PTF-CENSUS-PARTITION-NORMALIZATION-001.
+                   #
+                   # ``category`` scopes the routing-subset-of-census
+                   # invariant: it holds for accommodation routes, and a future
+                   # dining or veterinary route belongs to a different census
+                   # rather than to an exception clause.
+                   #
+                   # The retirement fields exist because a route that should
+                   # never have been bound is RETIRED, never deleted. Cleveland
+                   # held accommodation routes for a restaurant and an inn that
+                   # its hotel census deliberately excludes; retiring them
+                   # keeps the URL and the binding evidence on record while
+                   # ending the claim.
+                   "category", "retired_at", "retired_reason", "retired_by")
 ALLOWED_FIELDS = frozenset(REQUIRED_FIELDS) | frozenset(OPTIONAL_FIELDS)
 
 HOTEL_REF_REQUIRED = ("market_id", "canonical_name", "normalized_name")
-HOTEL_REF_OPTIONAL = ("street_identity",)
+#: ``identity_key`` is the canonical join key (ptf_identity_key/1.0). Optional
+#: rather than required so a record written before Phase C still validates.
+HOTEL_REF_OPTIONAL = ("street_identity", "identity_key")
 HOTEL_REF_ALLOWED = frozenset(HOTEL_REF_REQUIRED) | frozenset(HOTEL_REF_OPTIONAL)
 
 #: The queue's own contract requires a non-empty address/city/state/phone
@@ -414,6 +437,7 @@ def queue_identity_fields(record: Mapping) -> Optional[Dict[str, str]]:
 __all__ = [
     "SCHEMA", "CONTRACT_VERSION", "ROUTING_PATH", "IdentityRoutingError",
     "ROUTING_CONFIRMED", "ROUTING_HELD", "ROUTING_CONFLICT", "ROUTING_STALE",
+    "ROUTING_RETIRED",
     "ROUTING_STATUSES", "USABLE_STATUSES",
     "BINDING_PAGE_RENDERED", "BINDING_BRAND_INDEX", "BINDING_METHODS",
     "NEVER_OFFICIAL_DOMAINS", "REQUIRED_FIELDS", "OPTIONAL_FIELDS",

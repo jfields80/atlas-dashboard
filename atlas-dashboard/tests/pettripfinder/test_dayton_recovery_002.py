@@ -223,9 +223,14 @@ class TestCensusUpdatesAreConservative:
         from scripts.pettripfinder.hotel_exclusions import load_exclusions
         from scripts.pettripfinder.site_data import normalize_name
 
-        assert census["no_pets_count"] == 8
+        # PTF-CENSUS-PARTITION-NORMALIZATION-001 moved the no-pets fact off
+        # the LODGING axis, where it was never a statement about the property's
+        # category, and onto the POLICY axis where it belongs. The finding
+        # itself is unchanged and still committed authority.
+        assert census["no_pets_count"] == 7
         h = next(x for x in census["hotels"] if x["slug"] == "hotel-versailles")
-        assert h["lodging_state"] == "LODGING_NO_PETS"
+        assert h["lodging_state"] == "LODGING_CONFIRMED"
+        assert h["policy_state"] == "VERIFIED_NO_PETS"
 
         rec = next((e for e in load_exclusions()
                     if normalize_name(e["canonical_name"]) == normalize_name("Hotel Versailles")),
@@ -257,13 +262,28 @@ class TestCensusUpdatesAreConservative:
                     if e.get("market_id") == "dayton-oh"
                     and e["exclusion_state"] == "VERIFIED_NO_PETS"}
         census_no_pets = {normalize_name(h["canonical_name"]) for h in census["hotels"]
-                          if h["lodging_state"] == "LODGING_NO_PETS"}
+                          if h["policy_state"] == "VERIFIED_NO_PETS"}
+        # The asymmetry is still real, and it has NARROWED in the honest
+        # direction. Holiday Inn Express & Suites Troy claimed a captured
+        # refusal that no exclusion record holds, and the later Work-browser
+        # pass recorded the opposite -- the page rendered and stated no pet
+        # policy at all. Phase C withdrew that unsupported claim rather than
+        # inventing evidence for it, so the census now under-claims relative to
+        # the registry instead of disagreeing with it in both directions.
         assert len(registry) == 8
-        assert len(census_no_pets) == 8
+        assert len(census_no_pets) == 7
         assert registry != census_no_pets
-        assert census_no_pets - registry == {
-            normalize_name("Holiday Inn Express & Suites Troy")}
+        assert census_no_pets - registry == set()
         assert registry - census_no_pets == {normalize_name("Best Western Celina")}
+        # And the partition -- which owns disposition -- places Troy as
+        # unresolved, which is what "unadjudicated" has always meant.
+        partition = json.loads(
+            (_ROOT / "launch_packages" / "pettripfinder"
+             / "dayton_final_partition_001.json").read_text(encoding="utf-8"))
+        troy = next(i for i in partition["items"]
+                    if i["slug"] == "holiday-inn-express-suites-troy")
+        assert troy["final_state"] == "AWAITING_POLICY_OBSERVATION"
+        assert troy["resolved"] is False
 
     def test_the_census_is_still_the_full_129(self, census):
         assert census["count"] == 129 == len(census["hotels"])
@@ -279,12 +299,16 @@ class TestCensusUpdatesAreConservative:
 
         ids = Counter(h["identity_state"] for h in census["hotels"])
         lodging = Counter(h["lodging_state"] for h in census["hotels"])
+        policy = Counter(h["policy_state"] for h in census["hotels"])
         assert census["count_confirmed"] == ids["IDENTITY_CONFIRMED"] == 102
         assert census["count_provisional"] == ids["IDENTITY_PROVISIONAL"] == 27
         assert census["count_confirmed"] + census["count_provisional"] == 129
-        assert census["active_count"] == lodging["LODGING_CONFIRMED"] == 121
-        assert census["no_pets_count"] == lodging["LODGING_NO_PETS"] == 8
-        assert census["active_count"] + census["no_pets_count"] == 129
+        # Every identity is lodging: the eight rows that read LODGING_NO_PETS
+        # were stating a POLICY fact in the category axis, and Phase C moved it.
+        # The roll-ups follow the rows, which is the whole point of pinning them.
+        assert census["active_count"] == lodging["LODGING_CONFIRMED"] == 129
+        assert lodging["LODGING_NO_PETS"] == 0
+        assert census["no_pets_count"] == policy["VERIFIED_NO_PETS"] == 7
 
     def test_the_129_partition_is_mutually_exclusive_and_exhaustive(self, manifest, census):
         """Every one of the 129 Dayton identities sits in exactly one state.

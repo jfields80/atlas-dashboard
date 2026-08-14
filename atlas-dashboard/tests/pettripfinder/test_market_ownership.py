@@ -229,10 +229,22 @@ class TestColumbusPreservation:
         selected = {normalize_name(r["name"]) for r in owned_by(live["rows"], COLUMBUS)}
         assert selected & cleveland == set()
 
-    def test_reconciliation_remains_114_88_14_102_12(self):
+    def test_reconciliation_remains_114_88_14_102_8(self):
+        """Adding a market must not move Columbus's numbers.
+
+        The unresolved figure changed from 12 to 8, and not because Columbus
+        changed: PTF-CENSUS-PARTITION-NORMALIZATION-001 stopped deriving it as
+        `confirmed - published - no_pets`. That subtraction counted the two
+        OUT_OF_CURRENT_CATEGORY rulings as open questions, and it returned the
+        same answer whatever the real membership was. The count now comes from
+        the committed partition, which enumerates the eight.
+
+        What this test defends is unchanged and still holds: no other market's
+        work reaches into Columbus's reconciliation.
+        """
         from scripts.pettripfinder.build_market_manifest import build_package
         pkg = build_package(COLUMBUS, confirmed_identity_count=114)
-        assert pkg.reconciliation() == (114, 88, 14, 102, 12)
+        assert pkg.reconciliation() == (114, 88, 14, 102, 8)
         assert len(pkg.hotel_routes) == 88
         assert len(pkg.corridor_routes) == 9
         assert len(pkg.corridor_unassigned_hotels) == 12
