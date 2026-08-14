@@ -365,6 +365,68 @@ def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
 # Corridor pages (Task 7; market-aware since PTF-CORRIDORS-002).
 # --------------------------------------------------------------------------- #
 
+def build_market_hub_page(market: "MarketConfig", assignment,
+                          hotel_rows: List[Dict], *,
+                          comparison_route: str = "") -> str:
+    """The landing page for a market-prefixed market.
+
+    PTF-MULTI-MARKET-ASSEMBLER-001. Cleveland and Dayton published corridor
+    pages and a comparison page beneath a parent that returned 404 -- their own
+    breadcrumbs pointed at it. This is that parent, and it is the node every
+    page under the market slug hangs from.
+
+    Geographically honest by construction: the scope line names every state the
+    market spans, so a tri-state market cannot present itself as one state's.
+    Columbus does not get one -- in legacy mode its market route IS the global
+    category root, which the assembler owns.
+    """
+    route = market_route(market)
+    published = list(assignment.published_corridors())
+
+    scope = ", ".join(market.states)
+    corridor_cards = "".join(
+        '<article class="ac-listing ac-listing--card-standard">'
+        '<h2><a href="%s">%s</a></h2><p class="ac-listing ac-listing--area">'
+        '%d verified %s</p></article>'
+        % (corridor_route(market, c), _e(c.name),
+           len(assignment.members_of(c.corridor_id)),
+           "hotel" if len(assignment.members_of(c.corridor_id)) == 1 else "hotels")
+        for c in sorted(published, key=lambda c: (c.display_order, c.slug)))
+
+    hotel_items = "".join(
+        '<li><a href="%s">%s</a> <span class="ptf-muted">%s, %s</span></li>'
+        % (r["route"], _e(r["name"]), _e(r.get("city", "")), _e(r.get("state", "")))
+        for r in sorted(hotel_rows, key=lambda r: normalize_name(r["name"])))
+
+    intro = (
+        "<h1>Verified Pet-Friendly Hotels in %s</h1>"
+        "<p>%d verified pet-friendly hotels across %s. Every pet policy on this "
+        "site is read from the hotel's own official website and quoted directly "
+        "&mdash; never estimated. "
+        '<a href="/methodology/">Read our verification methodology</a>.</p>'
+    ) % (_e(market.market_name), len(hotel_rows), _e(scope))
+
+    if comparison_route:
+        intro += ('<p><a href="%s">Compare every hotel\'s pet policy side by side</a>.</p>'
+                  % comparison_route)
+
+    body = _breadcrumb_html([("PetTripFinder", "/"),
+                             ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
+                             (market.market_name, "")]) + intro
+    if corridor_cards:
+        body += ("<h2>Areas</h2><div class=\"ptf-card-grid\">%s</div>"
+                 % corridor_cards)
+    body += "<h2>All verified hotels</h2><ul class=\"ptf-hub-list\">%s</ul>" % hotel_items
+
+    ld = [breadcrumb_ld(BASE_URL, [("PetTripFinder", "/"),
+                                   ("Pet-Friendly Hotels", "/pet-friendly-hotels/"),
+                                   (market.market_name, route)])]
+    return _shell(
+        title=market.title,
+        meta_description=market.meta_description,
+        route=route, body=body, ld_objects=ld)
+
+
 def build_corridor_page(corridor: "CorridorConfig", market: "MarketConfig",
                         hotel_rows: List[Dict]) -> str:
     """One corridor page from its ptf-market config entry. Title and meta

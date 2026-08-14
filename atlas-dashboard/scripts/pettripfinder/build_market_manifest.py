@@ -33,7 +33,7 @@ from scripts.pettripfinder.market_package import (                           # n
     MarketPackage, hash_owned_files, write_manifest,
 )
 from scripts.pettripfinder.markets import (                                  # noqa: E402
-    assign_hotels, corridor_route, load_markets, market_by_id,
+    assign_hotels, corridor_route, hotel_route, load_markets, market_by_id,
 )
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, normalize_name, read_production_rows,
@@ -91,8 +91,13 @@ def build_package(market_id: str, site_root: Optional[Path] = None,
     verified = verified_public_hotels(hotel_rows, load_published_hotel_policy_facts(market_id))
 
     assignment = assign_hotels(market, verified, fail_closed=False)
-    hotel_routes = tuple(sorted("/pet-friendly-hotels/%s/" % _slug(r["name"])
-                                for r in verified))
+    # PTF-MULTI-MARKET-ASSEMBLER-001 (Defect I). This hardcoded the unprefixed
+    # path while the line below already used the route helper for corridors --
+    # so a market-prefixed market declared hotel routes it does not write, and
+    # the collision detector that consumes this manifest was fed the wrong
+    # namespace. The manifest must declare the routes the builder ACTUALLY
+    # writes, which is what the helper knows.
+    hotel_routes = tuple(sorted(hotel_route(market, r["name"]) for r in verified))
     corridor_routes = tuple(sorted(
         corridor_route(market, market.corridor_by_id(cid))
         for cid in assignment.published))

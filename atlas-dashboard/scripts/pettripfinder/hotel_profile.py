@@ -1702,6 +1702,13 @@ def _verified_details(f: Dict[str, str],
 
 def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3,
                              market_id: str = None) -> Tuple[RelatedHotel, ...]:
+    # PTF-MULTI-MARKET-ASSEMBLER-001. The related-hotel route was slugged here
+    # directly, which is only correct for a legacy_unprefixed market. Every
+    # Dayton and Cleveland profile therefore carried three links into a
+    # namespace that market does not publish. The market's own route helper is
+    # the single authority on where a hotel page lives, so ask it.
+    from scripts.pettripfinder.markets import hotel_route
+    market, _ = _market_display_context(market_id)
     out = []
     for row in sorted(all_hotel_rows, key=lambda r: normalize_name(r["name"])):
         if normalize_name(row["name"]) == normalize_name(self_name):
@@ -1713,7 +1720,7 @@ def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3,
             name=row["name"],
             area=_corridor_area(row.get("city", ""), row["name"], market_id),
             fact=fact, verified_at=date,
-            route="/pet-friendly-hotels/%s/" % _slug(row["name"])))
+            route=hotel_route(market, row["name"])))
         if len(out) >= limit:
             break
     return tuple(out)

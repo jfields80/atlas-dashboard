@@ -70,9 +70,12 @@ from scripts.pettripfinder.markets import (
     corridor_href_for,
     corridor_navigation,
     corridor_route,
+    hotel_route,
     market_route,
     sitemap_corridor_routes,
 )
+from scripts.pettripfinder.commercial_actions import set_go_market_prefix
+from scripts.pettripfinder.markets.contract import ROUTE_MODE_LEGACY_UNPREFIXED
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
 from scripts.pettripfinder.market_ownership import owned_by
 from scripts.pettripfinder.site_data import (
@@ -105,6 +108,7 @@ from scripts.pettripfinder.site_pages import (
     set_published_categories,
     build_comparison_page,
     build_corridor_page,
+    build_market_hub_page,
     build_methodology_page,
 )
 
@@ -325,6 +329,12 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     set_market_labels(label=market.market_name, state=market.state_name,
                       metro_default="%s, %s" % (market.primary_city, market.state_code),
                       categories=sorted(_present))
+    # PTF-MULTI-MARKET-ASSEMBLER-001 (Phase E section 18). Scope this build's
+    # /go/ namespace. Columbus passes "" and its interstitial routes do not
+    # move; a prefixed market writes /go/{market_slug}/{slug}/{action}/ so two
+    # markets holding the same hotel slug cannot claim one route.
+    set_go_market_prefix("" if market.route_mode == ROUTE_MODE_LEGACY_UNPREFIXED
+                         else market.market_slug)
     print("Market scope: %s -- %d owned inventory rows, %d categor%s" % (
         market.market_id, len(package["seed_businesses"]),
         len(package["categories"]), "y" if len(package["categories"]) == 1 else "ies"))
@@ -393,8 +403,16 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # renderer's Columbus links resolve to the real hub.
     for row in hotel_rows:
         listing_id = _listing_id(row["name"])
-        profile_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
-        if not profile_path.exists():
+        # PTF-MULTI-MARKET-ASSEMBLER-001. The base chain materialises every
+        # profile at the unprefixed path. For a market-prefixed market that is
+        # a STAGING location, not the published route: the approved page is
+        # written at the market's canonical route and the placeholder removed,
+        # so Cleveland and Dayton profiles live under their market slug and
+        # cannot collide with Columbus's unprefixed namespace.
+        staged_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
+        route = hotel_route(market, row["name"])
+        profile_path = out_dir / route.strip("/") / "index.html"
+        if not staged_path.exists():
             warnings.append("missing hotel profile file for %s" % row["name"])
             continue
         facts_entry = policy_facts.get(normalize_name(row["name"]))
@@ -407,7 +425,17 @@ def run(output: str, *, market: MarketConfig = None) -> int:
             row, facts_entry, hotel_rows, policy_facts,
             park_rows=park_rows, restaurant_rows=restaurant_rows,
             corridor_href=corridor_href, market_id=market.market_id)
+        profile_path.parent.mkdir(parents=True, exist_ok=True)
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
+        if profile_path != staged_path:
+            # The staging placeholder is not a published route and must not
+            # survive into the bundle: leaving it would put a Cleveland hotel
+            # in Columbus's unprefixed namespace.
+            staged_path.unlink()
+            try:
+                staged_path.parent.rmdir()
+            except OSError:                       # pragma: no cover - non-empty
+                pass
         go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry,
                                              market=market.market_id))
 
@@ -434,10 +462,26 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # --- hotel category page -------------------------------------------------
     hotel_cat_path = out_dir / "pet-friendly-hotels" / "index.html"
     corridor_by_route = {
-        "/pet-friendly-hotels/%s/" % _listing_id(r["name"]): corridor
+        hotel_route(market, r["name"]): corridor
         for corridor, members in corridor_groups.items() for r in members
     }
     hotel_cat_html = hotel_cat_path.read_text(encoding="utf-8")
+    # PTF-MULTI-MARKET-ASSEMBLER-001. The base chain lays every listing out at
+    # the unprefixed staging path, so a market-prefixed market's category page
+    # linked 47 hotels into a namespace it does not publish. It also broke the
+    # corridor filter silently: `corridor_by_route` above is keyed by canonical
+    # route, so NO card matched and the toolbar filtered nothing.
+    #
+    # The rewrite is an exact per-hotel href substitution built from the same
+    # route helper the files were written with -- not a pattern sweep -- so it
+    # cannot touch a route this market does not own, and it is a no-op for
+    # Columbus, where staged and canonical routes are identical.
+    for row in hotel_rows:
+        staged = "/pet-friendly-hotels/%s/" % _listing_id(row["name"])
+        canonical = hotel_route(market, row["name"])
+        if staged != canonical:
+            hotel_cat_html = hotel_cat_html.replace(
+                'href="%s"' % staged, 'href="%s"' % canonical)
     hotel_cat_html = enrich_hotel_category_page(
         hotel_cat_html, sorted(corridor_groups.keys()), corridor_by_route,
         market=market.market_id)
@@ -488,7 +532,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         # explicit species refusal is on record.
         view = canonical_view.build(entry) if entry else None
         comparison_rows.append({
-            "name": row["name"], "route": "/pet-friendly-hotels/%s/" % listing_id,
+            "name": row["name"], "route": hotel_route(market, row["name"]),
             "area": "%s, %s" % (row.get("city", ""), row.get("state", "")),
             "species_allowed": f.get("species_allowed", ""), "pet_fee": f.get("pet_fee", ""),
             # The basis cell carries the scope with it, so "$15" beside "per
@@ -534,7 +578,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
                                key=lambda c: (c.display_order, c.slug)):
         members = assignment.members_of(corridor_cfg.corridor_id)
         corridor_hotel_rows = [
-            {"name": r["name"], "route": "/pet-friendly-hotels/%s/" % _listing_id(r["name"]),
+            {"name": r["name"], "route": hotel_route(market, r["name"]),
              "city": r.get("city", "")}
             for r in members
         ]
@@ -544,6 +588,26 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         page_dir.mkdir(parents=True, exist_ok=True)
         (page_dir / "index.html").write_text(page_html, encoding="utf-8", newline="\n")
         corridor_routes.append(route)
+
+    # --- market hub (market-prefixed markets only) --------------------------
+    # PTF-MULTI-MARKET-ASSEMBLER-001. Cleveland and Dayton published corridor
+    # pages and a comparison page nested under a parent that did not exist:
+    # /pet-friendly-hotels/dayton-oh/ was a 404 while everything beneath it
+    # rendered. Columbus needs none -- in legacy mode its market route IS the
+    # global category root, which the assembler owns.
+    hub_route = ""
+    if market.route_mode != ROUTE_MODE_LEGACY_UNPREFIXED:
+        hub_route = market_route(market)
+        hub_dir = out_dir / hub_route.strip("/")
+        hub_dir.mkdir(parents=True, exist_ok=True)
+        (hub_dir / "index.html").write_text(
+            build_market_hub_page(
+                market, assignment,
+                [{"name": r["name"], "route": hotel_route(market, r["name"]),
+                  "city": r.get("city", ""), "state": r.get("state", "")}
+                 for r in hotel_rows],
+                comparison_route=_cmp_route),
+            encoding="utf-8", newline="\n")
 
     # --- /go/ redirect pages ----------------------------------------------
     for route, page_html in go_pages.items():
@@ -559,10 +623,19 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # already maps "index.html" to "/". Only *.../index.html content pages
     # qualify, so assets, robots/sitemap themselves and the separately written
     # /go/ interstitials stay out.
-    indexable_routes = [r for r in bundle.file_map
-                        if r == "index.html" or r.endswith("/index.html")]
-    base_sitemap_routes = ["/" + r.rsplit("index.html", 1)[0] for r in indexable_routes]
-    base_sitemap_routes = [r if r != "//" else "/" for r in base_sitemap_routes]
+    # PTF-MULTI-MARKET-ASSEMBLER-001. The bundle file map records where the
+    # BASE chain staged each page, which for a market-prefixed market is not
+    # where the page was published. Reading it directly advertised every
+    # Cleveland and Dayton hotel at an unprefixed URL that no longer exists.
+    # Walk what is actually on disk instead: the sitemap must describe the
+    # site, not the staging.
+    base_sitemap_routes = []
+    for path in sorted(out_dir.rglob("index.html")):
+        route = "/" + path.parent.relative_to(out_dir).as_posix().strip(".") + "/"
+        route = re.sub(r"/{2,}", "/", route)
+        if route.startswith("/go/"):
+            continue
+        base_sitemap_routes.append(route)
     # Sitemap corridors respect per-corridor show_in_sitemap (a published,
     # sitemap-hidden corridor still renders but is not advertised).
     new_routes = ([_cmp_route] + list(sitemap_corridor_routes(market, assignment)))
@@ -820,11 +893,15 @@ def run_sample(output: str, *, use_fixture_facts: bool = False,
         facts_entry = facts_map.get(normalize_name(row["name"]))
         corridor_ids = assignment.corridor_of.get(normalize_name(row["name"]), ())
         corridor = market.corridor_by_id(corridor_ids[0]).name if corridor_ids else ""
-        page_html = render_production_hotel_profile(row, facts_entry, hotel_rows, facts_map)
-        profile_path = out_dir / "pet-friendly-hotels" / listing_id / "index.html"
+        page_html = render_production_hotel_profile(
+            row, facts_entry, hotel_rows, facts_map, market_id=market.market_id)
+        # PTF-MULTI-MARKET-ASSEMBLER-001. The docstring promises "the real
+        # hotel routes"; this built the unprefixed one, so a sample review of a
+        # market-prefixed market showed reviewers a URL production never serves.
+        route = hotel_route(market, row["name"])
+        profile_path = out_dir / route.strip("/") / "index.html"
         profile_path.parent.mkdir(parents=True, exist_ok=True)
         profile_path.write_text(page_html, encoding="utf-8", newline="\n")
-        route = "/pet-friendly-hotels/%s/" % listing_id
         hotel_routes.append(route)
         for gr, gh in build_hotel_go_pages(row, listing_id, corridor, facts_entry).items():
             go_pages[gr] = gh

@@ -28,7 +28,11 @@ import re
 from typing import Dict, List, Optional
 
 from scripts.pettripfinder.approved_hotel_profile import render_approved_hotel_profile
-from scripts.pettripfinder.commercial_actions import ACTION_OFFICIAL_WEBSITE, go_route
+from scripts.pettripfinder.commercial_actions import (
+    ACTION_DIRECTIONS,
+    ACTION_OFFICIAL_WEBSITE,
+    go_route,
+)
 from scripts.pettripfinder.hotel_profile import (
     STATE_NO_PETS,
     build_vm_from_production,
@@ -67,10 +71,34 @@ def verification_status_for(facts_entry: Optional[Dict]) -> str:
     return "VERIFIED_PET_FRIENDLY"
 
 
-def _head_metadata(row: Dict[str, str], listing_id: str, facts_entry: Optional[Dict]) -> str:
+def _head_metadata(row: Dict[str, str], listing_id: str, facts_entry: Optional[Dict],
+                   market_id: Optional[str] = None) -> str:
     """Canonical self-link + breadcrumb and LodgingBusiness JSON-LD, matching
-    the base pipeline's self-canonical (origin + route) and the visible page."""
-    route = "/%s/%s/" % (CATEGORY_SLUG, listing_id)
+    the base pipeline's self-canonical (origin + route) and the visible page.
+
+    PTF-MULTI-MARKET-ASSEMBLER-001. The route was assembled from the listing id
+    alone, which is only the published route for a legacy_unprefixed market.
+    Every Dayton and Cleveland profile therefore declared a canonical URL --
+    and a breadcrumb trail -- pointing at a page the site does not serve, which
+    is the single worst thing a page can say about itself to a crawler. The
+    market's own route helper decides where the page lives, and the breadcrumb
+    follows the same shape: a prefixed profile sits under its market hub
+    (Phase E section 23), a Columbus legacy profile keeps its existing
+    three-level trail unchanged.
+    """
+    trail = [("PetTripFinder", "/"), (CATEGORY_LABEL, "/%s/" % CATEGORY_SLUG)]
+    if market_id:
+        from scripts.pettripfinder.markets import (
+            hotel_route, load_markets, market_by_id, market_route,
+        )
+        from scripts.pettripfinder.markets.contract import ROUTE_MODE_LEGACY_UNPREFIXED
+        market = market_by_id(load_markets(), market_id)
+        route = hotel_route(market, row["name"])
+        if market.route_mode != ROUTE_MODE_LEGACY_UNPREFIXED:
+            trail.append((market.market_name, market_route(market)))
+    else:
+        route = "/%s/%s/" % (CATEGORY_SLUG, listing_id)
+    trail.append((row["name"], route))
     canonical = '<link rel="canonical" href="%s%s">' % (BASE_URL, route)
 
     pets_allowed: Optional[bool] = None
@@ -82,11 +110,7 @@ def _head_metadata(row: Dict[str, str], listing_id: str, facts_entry: Optional[D
         amenity_features = [v for k, v in facts_entry["facts"].items() if k == "species_allowed"] or None
 
     ld_objects = [
-        breadcrumb_ld(BASE_URL, [
-            ("PetTripFinder", "/"),
-            (CATEGORY_LABEL, "/%s/" % CATEGORY_SLUG),
-            (row["name"], route),
-        ]),
+        breadcrumb_ld(BASE_URL, trail),
         lodging_business_ld(
             base_url=BASE_URL, route=route, name=row["name"],
             street=row.get("address", ""), city=row.get("city", ""), state=row.get("state", ""),
@@ -139,7 +163,9 @@ def _nearby_from_inventory(
         out.append({
             "kind": "park", "name": park["name"], "desc": _place_desc(park),
             "meta": "%s, %s" % (park.get("city", ""), park.get("state", "")),
-            "href": "/go/%s/directions/" % pid, "btn": "Get directions"})
+            # PTF-MULTI-MARKET-ASSEMBLER-001: the helper, so this link lands
+            # in the same /go/ namespace the interstitial is written into.
+            "href": go_route(pid, ACTION_DIRECTIONS), "btn": "Get directions"})
     for rest in ranked(restaurant_rows)[:1]:
         out.append({
             "kind": "restaurant", "name": rest["name"], "desc": _place_desc(rest),
@@ -184,7 +210,8 @@ def render_production_hotel_profile(
         corridor_href=corridor_href,
         related_thumbs={rel.route: _media_for(rel.route.rstrip("/").rsplit("/", 1)[-1])
                         for rel in vm.related})
-    return inject_head(html_text, _head_metadata(row, listing_id, facts_entry))
+    return inject_head(html_text, _head_metadata(row, listing_id, facts_entry,
+                                                 market_id=market_id))
 
 
 def build_hotel_go_pages(

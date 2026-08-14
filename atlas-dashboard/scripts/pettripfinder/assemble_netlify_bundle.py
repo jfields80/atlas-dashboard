@@ -76,6 +76,7 @@ from scripts.pettripfinder.markets import (
     ROUTE_MODE_LEGACY_UNPREFIXED,
     MarketConfig,
     assign_hotels,
+    market_route,
 )
 from scripts.pettripfinder.release_contracts import (
     RELEASE_CONTRACTS_DIR,
@@ -626,9 +627,17 @@ def _run_publish_gates(gates, contract, context, site_dir, headers_bytes, redire
 
 def _run_route_gates(gates, contract, market, site_dir, verified_slugs, held_slugs,
                      corridor_slugs, held_names, verified_names):
-    hotels_dir = site_dir / "pet-friendly-hotels"
-    profile_dirs = {d.name for d in hotels_dir.iterdir()
-                    if d.is_dir() and (d / "index.html").exists()}
+    # PTF-MULTI-MARKET-ASSEMBLER-001. A hotel profile lives at
+    # ``market_route(market) + slug + "/"`` in BOTH route modes -- the category
+    # root for Columbus, the market's own slug directory for a prefixed market
+    # -- so the directory to enumerate is derived from the market instead of
+    # assumed to be the category root. Reading the category root directly found
+    # exactly one entry for Cleveland (its market slug) and reported that a
+    # 21-hotel market had published none of them.
+    hotel_root = site_dir / market_route(market).strip("/")
+    profile_dirs = ({d.name for d in hotel_root.iterdir()
+                     if d.is_dir() and (d / "index.html").exists()}
+                    if hotel_root.is_dir() else set())
     present_profiles = sorted(profile_dirs & verified_slugs)
     # Which directory names under the category root are legitimately NOT a hotel
     # profile depends on the market's route mode, so it is derived from the
@@ -679,12 +688,20 @@ def _run_route_gates(gates, contract, market, site_dir, verified_slugs, held_slu
         hn for hn in held_names
         if not any(hn in vn or vn in hn for vn in verified_names)
     ]
+    # PTF-MULTI-MARKET-ASSEMBLER-001. These two patterns were the legacy routes
+    # spelled out, so for a prefixed market the gate searched a namespace that
+    # market does not publish and could not have found a leak if one existed --
+    # it failed OPEN, which is the one direction a leak gate must never fail.
+    # Both prefixes now come from the market that is actually being released.
+    profile_prefix = market_route(market)
+    go_prefix = ("/go/" if market.route_mode == ROUTE_MODE_LEGACY_UNPREFIXED
+                 else "/go/%s/" % market.market_slug)
     refs: Dict[str, List[str]] = {}
     for p in site_dir.rglob("*.html"):
         text = p.read_text(encoding="utf-8")
         rel = p.relative_to(site_dir).as_posix()
         for hs in held_slugs:
-            if ("/pet-friendly-hotels/%s/" % hs) in text or ("/go/%s/" % hs) in text:
+            if ("%s%s/" % (profile_prefix, hs)) in text or ("%s%s/" % (go_prefix, hs)) in text:
                 refs.setdefault(rel, []).append(hs)
         for hn in safe_held_names:
             if hn in text:
