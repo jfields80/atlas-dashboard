@@ -57,7 +57,23 @@ COLUMBUS_HOME_SHA256 = "9da6c83a3a0e6b98f67f0b81a7fd0c122412d8359611f993408fe2b8
 COLUMBUS_HOME_BYTES = 42218
 
 #: The frozen Columbus production bundle (PTF-COLUMBUS-FREEZE-DEPLOY-001).
-COLUMBUS_BUNDLE_SHA256 = "404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4"
+#:
+#: Re-pinned by PTF-RENDERER-FIDELITY-001. Phase B deliberately changes what
+#: the pages SAY -- that is its entire purpose -- so byte-identity is not the
+#: right test for it, and this constant moves for the first time since the
+#: freeze. What still holds, and is asserted alongside it, is that every gate
+#: passes and the bundle carries the same 88 hotel profiles.
+#:
+#: The change was reviewed as a public diff over all 156 committed records: 61
+#: records changed, 146 field-level differences, 0 unexpected. Of Columbus's 54
+#: differences, the substantive ones are the scope disclosure on records that
+#: state an amount without saying who it attaches to (§9), and the withheld
+#: treatment on the six conflict/withheld records that previously rendered
+#: through the dim silence class (§6).
+#:
+#: Previous value, at PTF-COLUMBUS-FREEZE-DEPLOY-001 through Phase A:
+#:     404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4
+COLUMBUS_BUNDLE_SHA256 = "f52b5f569d1aefce270f3f1c07cb395debe98241a6c8e849f47dee89eac334f3"
 
 #: Words that belong to the Columbus market and to no other.
 COLUMBUS_TERMS = ("Columbus", "Scioto", "Dublin", "Polaris", "Easton", "Grove City",

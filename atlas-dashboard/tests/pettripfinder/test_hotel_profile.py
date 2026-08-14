@@ -9,6 +9,7 @@ import re
 import pytest
 
 from scripts.pettripfinder.hotel_profile import (
+
     STATE_NO_PETS,
     STATE_UNVERIFIED,
     STATE_VERIFIED,
@@ -16,6 +17,14 @@ from scripts.pettripfinder.hotel_profile import (
     build_fixture_vms,
     render_hotel_profile,
 )
+
+
+#: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
+#: recurrence but never says who the charge attaches to, the profile says so
+#: rather than letting "$50 per night" read as a complete answer to a guest
+#: bringing two animals. Omitted where exactly one pet is allowed, because
+#: per-pet and per-room are then the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
 
 STATES = ("rich", "sparse", "no-photo", "no-pets", "unverified")
 
@@ -386,8 +395,8 @@ def test_per_pet_weight_is_never_called_combined():
     from scripts.pettripfinder.hotel_profile import _verified_summary
     summary = _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
     assert "combined" not in summary.lower()
-    assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night. "
-                       "Maximum pet weight is 40 pounds, with up to 2 pets permitted "
+    assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
+                                              "Maximum pet weight is 40 pounds, with up to 2 pets permitted "
                        "per room.")
 
 
@@ -423,7 +432,7 @@ def test_nonrefundable_only_when_the_source_states_it():
     assert "non-refundable" in _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
     plain = _verified_summary(ALOFT_FACTS, "Pets welcome. Pet fee $50.00 per night.")
     assert "non-refundable" not in plain
-    assert "A $50 fee applies per night." in plain
+    assert "A $50 fee applies per night%s." % DISCLOSURE in plain
 
 
 def test_structured_fields_are_preserved_exactly():

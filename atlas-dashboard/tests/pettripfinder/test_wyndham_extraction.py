@@ -22,6 +22,13 @@ from scripts.pettripfinder.prose_facts import (
     extract_fee_cap, extract_fee_with_basis, extract_species,
 )
 
+
+#: PTF-RENDERER-FIDELITY-001 §9. An amount and a recurrence with no stated
+#: scope is only half a rule; the profile says so rather than letting it read
+#: as a complete answer. Omitted at a one-pet limit, where per-pet and
+#: per-room are the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
+
 WEST_HILLIARD = (
     "Pet & Service Animal Policy Service Animals - ADA-defined service animals "
     "are welcome free of charge. Dogs Allowed - 2 dogs max. 75lbs or less per "
@@ -243,7 +250,7 @@ def test_a_plain_per_night_fee_is_unaffected():
                            "fee_basis": "per night", "pet_count_limit": "2",
                            "weight_limit": "50.0 pounds",
                            "fee_cap": {"amount": "150.00", "currency": "USD"}}, "")
-    assert "A $50 fee applies per night, up to a maximum of $150." in s
+    assert "A $50 fee applies per night, up to a maximum of $150" in s
 
 
 def test_the_structured_basis_is_untouched_by_the_wording_choice():

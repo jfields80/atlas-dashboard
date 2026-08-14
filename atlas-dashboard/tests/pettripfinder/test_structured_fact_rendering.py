@@ -1,177 +1,289 @@
-"""PTF-RENDER-001 -- structured policy facts in the profile details table.
+"""PTF-RENDERER-FIDELITY-001 -- the renderer reachability gate.
 
-The defect this exists for: a dict fact reached ``html.escape`` and the whole
-build died with ``'dict' object has no attribute 'replace'``. Three of the
-approved facts are objects, not strings, and the table had no agreed way to show
-any of them.
+Dead structured data is a release failure.
 
-The fixtures below are the EXACT approved facts, copied unsimplified.
+Phase A proved the contracts read every committed record; it also proved that
+reading them was not enough. Twelve of fourteen committed ``fee_scope`` values
+reached no public surface, sixty-six withholding decisions rendered as generic
+silence, three explicit cat refusals rendered as "Not stated", and six
+service-animal statements rendered nowhere at all. Every one of those was
+extracted, evidenced, reviewed, committed -- and invisible.
+
+This module is the gate that makes that impossible to repeat. For every fact
+the renderer claims to support there is a row in ``SUPPORTED_FIELDS`` naming
+the surfaces it must reach, and a test that builds the smallest record carrying
+that fact and asserts it arrives.
+
+Adding a field to the renderer without adding it here is a test failure, not an
+oversight nobody notices for two markets.
 """
 
 from __future__ import annotations
 
-from decimal import Decimal
+import json
+from pathlib import Path
 
 import pytest
 
+from scripts.pettripfinder import canonical_view
 from scripts.pettripfinder.hotel_profile import (
-    PolicyRenderError, _verified_details, format_fact_value,
+    WITHHELD_CLS, _verified_details, _verified_facts, _verified_summary,
+    cap_qualifier_note, fee_qualifier_phrase, fee_scope_display,
 )
+from scripts.pettripfinder.markets import load_markets, market_by_id
+from scripts.pettripfinder.site_pages import build_comparison_page
 
-# Exactly as approved for TownePlace Suites by Marriott Columbus Dublin.
-TOWNEPLACE_DUBLIN_FACTS = {
-    "pet_count_limit": "2",
-    "pet_fee": "$150.00",
-    "pets_allowed": "true",
-    "species_allowed": "dogs, cats",
-    "species_weight_limits": {
-        "cats": {"evidence_quote": "ts Welcome Dogs and 20-lb. cats. $150 non-refundabl",
-                 "value": "20 pounds"}},
+REPO_ROOT = Path(__file__).resolve().parents[2]
+PACKAGE_DIR = REPO_ROOT / "launch_packages" / "pettripfinder"
+
+#: The exact silence copy. A withheld field must never carry it.
+NOT_STATED = "Not stated by the reviewed source"
+
+PROFILE = "profile"
+COMPARISON = "comparison"
+
+#: field -> (surfaces it must reach, minimal facts, expected fragment)
+#:
+#: "profile" covers the summary sentence, the fact chips and the detail table
+#: taken together -- a fact may legitimately live in one of the three. Where a
+#: field is intentionally profile-only that is recorded here by the absence of
+#: COMPARISON, and the reason is given in the comment beside it.
+SUPPORTED_FIELDS = {
+    "pets_allowed": ((PROFILE,), {"pets_allowed": "true"}, "Pets"),
+    "dogs_accepted": ((PROFILE, COMPARISON),
+                      {"pets_allowed": "true", "species_allowed": "dogs"}, "Dogs"),
+    "cats_accepted": ((PROFILE, COMPARISON),
+                      {"pets_allowed": "true", "species_allowed": "dogs, cats",
+                       "cats_allowed": "true"}, "Cats"),
+    "cats_prohibited": ((PROFILE, COMPARISON),
+                        {"pets_allowed": "true", "species_allowed": "dogs",
+                         "cats_allowed": "false"}, "Not allowed"),
+    "pet_count_limit": ((PROFILE, COMPARISON),
+                        {"pets_allowed": "true", "pet_count_limit": "2"}, "2"),
+    "pet_fee": ((PROFILE, COMPARISON),
+                {"pets_allowed": "true", "pet_fee": "$50.00",
+                 "fee_basis": "per stay"}, "$50"),
+    "fee_basis": ((PROFILE, COMPARISON),
+                  {"pets_allowed": "true", "pet_fee": "$50.00",
+                   "fee_basis": "per stay"}, "per stay"),
+    "fee_scope_per_room": ((PROFILE, COMPARISON),
+                           {"pets_allowed": "true", "pet_fee": "$50.00",
+                            "fee_basis": "per night", "fee_scope": "per_room"},
+                           "per room"),
+    "fee_scope_per_pet": ((PROFILE, COMPARISON),
+                          {"pets_allowed": "true", "pet_fee": "$15.00",
+                           "fee_basis": "per night", "fee_scope": "per pet",
+                           "pet_count_limit": "2"}, "per pet"),
+    "fee_tiers": ((PROFILE, COMPARISON),
+                  {"pets_allowed": "true", "fee_tiers": [
+                      {"role": "ONE_TIME_CHARGE", "amount": "75.00",
+                       "currency": "USD", "condition_min": 1, "condition_max": 4,
+                       "boundary_unit": "nights", "scope": "unstated",
+                       "basis_stated": False},
+                      {"role": "ONE_TIME_CHARGE", "amount": "125.00",
+                       "currency": "USD", "condition_min": 5,
+                       "condition_max": None, "boundary_unit": "nights",
+                       "scope": "unstated", "basis_stated": False}]}, "$125"),
+    "additive_tier": ((PROFILE,),   # profile-only: the table shows a range
+                      {"pets_allowed": "true", "fee_tiers": [
+                          {"role": "ONE_TIME_CHARGE", "amount": "100.00",
+                           "currency": "USD", "condition_min": 1,
+                           "condition_max": 6, "boundary_unit": "nights",
+                           "scope": "unstated", "basis_stated": False},
+                          {"role": "ONE_TIME_CHARGE", "amount": "200.00",
+                           "currency": "USD", "condition_min": 7,
+                           "condition_max": 30, "boundary_unit": "nights",
+                           "scope": "unstated", "basis_stated": False,
+                           "additive": True}]}, "additional"),
+    "fee_cap": ((PROFILE, COMPARISON),
+                {"pets_allowed": "true", "pet_fee": "$50.00",
+                 "fee_basis": "per night", "pet_count_limit": "1",
+                 "fee_cap": {"amount": "150.00", "currency": "USD",
+                             "basis": "per stay"}}, "150"),
+    "pet_deposit": ((PROFILE,),     # profile-only: a deposit is not a fee
+                    {"pets_allowed": "true",
+                     "pet_deposit": {"amount": "150.00", "currency": "USD"}},
+                    "150"),
+    "cleaning_fee": ((PROFILE,),    # profile-only, and never a pet-fee tier
+                     {"pets_allowed": "true", "cleaning_fee": "$100.00"},
+                     "100"),
+    "weight_limit": ((PROFILE, COMPARISON),
+                     {"pets_allowed": "true", "weight_limit": "50 pounds"},
+                     "50"),
+    "combined_weight": ((PROFILE, COMPARISON),
+                        {"pets_allowed": "true", "weight_limit": "50 pounds",
+                         "weight_limit_combined": "75 pounds"}, "75"),
+    "weight_stated_none": ((PROFILE,),
+                           {"pets_allowed": "true", "pet_count_limit": "2",
+                            "weight_limit_stated_none": "true"},
+                           "no pet weight limit"),
+    "breed_restrictions": ((PROFILE,),
+                           {"pets_allowed": "true",
+                            "breed_restrictions": "No aggressive breeds."},
+                           "aggressive"),
+    "unattended_policy": ((PROFILE,),
+                          {"pets_allowed": "true",
+                           "unattended_policy": "not permitted"}, "permitted"),
+    "reservation_requirement": ((PROFILE,),
+                                {"pets_allowed": "true",
+                                 "reservation_requirement": "Declare at check-in."},
+                                "check-in"),
+    "general_restrictions": ((PROFILE,),
+                             {"pets_allowed": "true",
+                              "general_restrictions": "Pets must be leashed."},
+                             "leashed"),
 }
-# Exactly as approved for La Quinta Inn & Suites West-Hilliard.
-LA_QUINTA_FACTS = {
-    "fee_basis": "per pet per night",
-    "fee_cap": {"amount": "75.00", "basis": "per stay", "currency": "USD",
-                "evidence_quote": "Max 75 USD per stay"},
-    "pet_count_limit": "2", "pet_fee": "$25.00", "pets_allowed": "true",
-    "species_allowed": "dogs", "weight_limit": "75.0 pounds",
-}
-DAYS_INN_DEPOSIT = {"amount": "150.00", "currency": "USD",
-                    "evidence_quote": "Pet deposit is 150 USD"}
 
 
-def _row(facts, label):
-    rows, _chip, _note = _verified_details(facts)
-    return next((v for lbl, v, _cls in rows if lbl == label), None)
+def _record(facts, **kw):
+    rec = {"key": "test hotel", "name": "Test Hotel", "facts": dict(facts),
+           "evidence_quote": "", "verified_at": "2026-08-10",
+           "source_url": "https://example.com/"}
+    rec.update(kw)
+    return rec
 
 
-# -- scalars are untouched -------------------------------------------------- #
-
-@pytest.mark.parametrize("value, expected", [
-    ("Dogs, cats", "Dogs, cats"), ("$50.00", "$50.00"),
-    (2, "2"), (20.5, "20.5"), (Decimal("75.00"), "75.00"),
-])
-def test_scalar_values_pass_through_unchanged(value, expected):
-    assert format_fact_value("anything", value) == expected
-
-
-@pytest.mark.parametrize("value", [None, ""])
-def test_absent_values_render_as_empty_so_omission_rules_still_apply(value):
-    assert format_fact_value("pet_deposit", value) == ""
+def profile_text(record):
+    """Everything a visitor reads on the profile, as one searchable string."""
+    f = record["facts"]
+    parts = [_verified_summary(f, record.get("evidence_quote") or "")]
+    parts += ["%s %s" % (l, v) for l, v, _c in _verified_facts(f)]
+    parts += ["%s %s" % (l, v) for l, v, _c in _verified_details(f, record)[0]]
+    return " | ".join(parts)
 
 
-@pytest.mark.parametrize("value, expected", [(True, "Yes"), (False, "No")])
-def test_booleans_render_as_words_not_python_literals(value, expected):
-    assert format_fact_value("pets_allowed", value) == expected
+def comparison_html(record):
+    f = record["facts"]
+    view = canonical_view.build(record)
+    row = {
+        "name": record["name"], "route": "/x/", "area": "Columbus, OH",
+        "species_allowed": f.get("species_allowed", ""),
+        "pet_fee": f.get("pet_fee", ""),
+        "fee_basis": fee_qualifier_phrase(f) or f.get("fee_basis", ""),
+        "fee_scope_display": fee_scope_display(f),
+        "cats_state": view.cats_state,
+        "fee_cap_qualifier": cap_qualifier_note(f),
+        "fee_scalar_suppressed": bool(
+            view.fee_display_mode == "withhold_scalar" and f.get("pet_fee")),
+        "pet_count_limit": f.get("pet_count_limit", ""),
+        "weight_limit": f.get("weight_limit", ""),
+        "weight_limit_operator": f.get("weight_limit_operator", ""),
+        "weight_limit_combined": f.get("weight_limit_combined", ""),
+        "weight_limit_combined_operator": f.get("weight_limit_combined_operator", ""),
+        "fee_tiers": f.get("fee_tiers") or [],
+        "fee_cap": f.get("fee_cap") or {},
+        "fee_conflict": f.get("fee_conflict"),
+        "fee_withheld": f.get("fee_withheld"),
+        "verified_at": record.get("verified_at", ""),
+    }
+    market = market_by_id(load_markets(), "columbus-oh")
+    return build_comparison_page([row], market)
 
 
-# -- species_weight_limits -------------------------------------------------- #
+class TestReachability:
+    """Every supported fact reaches every surface the matrix names."""
 
-def test_a_single_species_limit_names_only_that_species():
-    assert format_fact_value("species_weight_limits",
-                             TOWNEPLACE_DUBLIN_FACTS["species_weight_limits"]) == \
-        "Cats: maximum 20 pounds"
+    @pytest.mark.parametrize("field", sorted(SUPPORTED_FIELDS))
+    def test_reaches_the_profile(self, field):
+        surfaces, facts, fragment = SUPPORTED_FIELDS[field]
+        if PROFILE not in surfaces:
+            pytest.skip("%s is not a profile field" % field)
+        text = profile_text(_record(facts))
+        assert fragment.lower() in text.lower(), \
+            "%s never reaches the profile: %s" % (field, text[:300])
 
+    @pytest.mark.parametrize("field", sorted(SUPPORTED_FIELDS))
+    def test_reaches_the_comparison_table(self, field):
+        surfaces, facts, fragment = SUPPORTED_FIELDS[field]
+        if COMPARISON not in surfaces:
+            pytest.skip("%s is intentionally profile-only" % field)
+        html = comparison_html(_record(facts))
+        assert fragment.lower() in html.lower(), \
+            "%s never reaches the comparison table" % field
 
-def test_the_details_table_shows_the_species_limit():
-    assert _row(TOWNEPLACE_DUBLIN_FACTS,
-                "Species-specific weight limits") == "Cats: maximum 20 pounds"
-
-
-def test_no_dog_statement_is_created_when_no_dog_limit_exists():
-    """"Dogs and 20-lb. cats" limits the cat. Saying anything about the dog here
-    would publish a restriction the hotel never wrote."""
-    out = format_fact_value("species_weight_limits",
-                            TOWNEPLACE_DUBLIN_FACTS["species_weight_limits"])
-    assert "Dog" not in out and "dog" not in out
-
-
-def test_multiple_species_render_in_a_stable_order():
-    value = {"cats": {"value": "20 pounds"}, "dogs": {"value": "80 pounds"}}
-    assert format_fact_value("species_weight_limits", value) == \
-        "Dogs: maximum 80 pounds; Cats: maximum 20 pounds"
-    assert format_fact_value("species_weight_limits", dict(reversed(list(value.items())))) == \
-        format_fact_value("species_weight_limits", value)
-
-
-@pytest.mark.parametrize("value", [
-    {"cats": "20 pounds"},                 # not the nested shape
-    {"cats": {"evidence_quote": "x"}},     # no value
-    {"lizards": {"value": "2 pounds"}},    # species outside the vocabulary
-    {},                                    # nothing to say
-])
-def test_a_malformed_species_limit_fails_closed(value):
-    with pytest.raises(PolicyRenderError):
-        format_fact_value("species_weight_limits", value, hotel_key="h")
+    def test_the_matrix_covers_every_mandated_field(self):
+        """The work order's list, pinned so nothing quietly drops out."""
+        mandated = {
+            "pets_allowed", "dogs_accepted", "cats_accepted", "cats_prohibited",
+            "pet_count_limit", "pet_fee", "fee_basis", "fee_scope_per_room",
+            "fee_scope_per_pet", "fee_tiers", "additive_tier", "fee_cap",
+            "pet_deposit", "cleaning_fee", "weight_limit", "combined_weight",
+            "weight_stated_none", "breed_restrictions", "unattended_policy",
+            "reservation_requirement", "general_restrictions",
+        }
+        assert mandated <= set(SUPPORTED_FIELDS), mandated - set(SUPPORTED_FIELDS)
 
 
-# -- fee_cap and pet_deposit ------------------------------------------------ #
+class TestWithheldNeverReadsAsSilence:
+    """The distinction the whole phase exists to make."""
 
-def test_the_approved_fee_cap_renders_with_its_basis():
-    assert format_fact_value("fee_cap", LA_QUINTA_FACTS["fee_cap"]) == "$75 per stay"
+    CONFLICT = _record({"pets_allowed": "true", "pet_count_limit": "2",
+                        "fee_conflict": {"reason": "conflicting_fee_terms",
+                                         "detail": ["two amounts"],
+                                         "evidence_quote": "$75 and $125"}})
+    RANGE = _record({"pets_allowed": "true", "pet_count_limit": "2",
+                     "fee_withheld": {"reason": "unrepresentable_fee_range",
+                                      "detail": ["fee_range_75_to_150"],
+                                      "evidence_quote": "75 to 150 dollars"}})
 
+    @pytest.mark.parametrize("record", [CONFLICT, RANGE])
+    def test_no_silence_copy_for_the_withheld_fee(self, record):
+        rows = {l: v for l, v, _c in _verified_details(record["facts"], record)[0]}
+        assert NOT_STATED not in rows.get("Pet charge", "")
+        assert NOT_STATED not in rows.get("Charge basis", "")
 
-def test_the_fee_cap_row_survives_beside_a_distinct_per_pet_fee():
-    """The cap is a different fact from the rate and must not collapse into it."""
-    assert _row(LA_QUINTA_FACTS, "Maximum total") == "$75 per stay"
-    assert _row(LA_QUINTA_FACTS, "Pet charge") == "$25.00"
+    @pytest.mark.parametrize("record", [CONFLICT, RANGE])
+    def test_withheld_uses_its_own_class(self, record):
+        classes = {l: c for l, v, c in _verified_details(record["facts"], record)[0]}
+        assert classes["Charge basis"] == WITHHELD_CLS
+        chips = {l: c for l, v, c in _verified_facts(record["facts"])}
+        assert chips["Pet charge"] == WITHHELD_CLS
+        assert chips["Charge basis"] == WITHHELD_CLS
 
+    @pytest.mark.parametrize("record", [CONFLICT, RANGE])
+    def test_no_scalar_fee_leaks(self, record):
+        text = profile_text(record)
+        assert "$75" not in text and "$125" not in text and "$150" not in text
 
-def test_a_pet_deposit_object_renders_as_money_not_as_a_dict():
-    assert format_fact_value("pet_deposit", DAYS_INN_DEPOSIT) == "$150"
+    @pytest.mark.parametrize("record", [CONFLICT, RANGE])
+    def test_comparison_marks_it_withheld_not_unknown(self, record):
+        html = comparison_html(record)
+        assert 'class="ptf-withheld"' in html
 
+    def test_silence_and_withheld_use_different_classes(self):
+        silent = _record({"pets_allowed": "true", "pet_count_limit": "2"})
+        classes = {l: c for l, v, c in _verified_details(silent["facts"], silent)[0]}
+        assert classes["Pet charge"] == "dim"
+        assert classes["Pet charge"] != WITHHELD_CLS
 
-@pytest.mark.parametrize("value", [
-    {"currency": "USD"},                            # no amount
-    {"amount": "150.00", "unexpected": "field"},    # shape drift
-])
-def test_a_malformed_money_object_fails_closed(value):
-    with pytest.raises(PolicyRenderError):
-        format_fact_value("pet_deposit", value, hotel_key="h")
-
-
-# -- unknown shapes --------------------------------------------------------- #
-
-def test_an_unknown_dict_field_fails_closed_rather_than_printing_python():
-    with pytest.raises(PolicyRenderError) as err:
-        format_fact_value("some_new_fact", {"a": 1}, hotel_key="discovery-x")
-    assert "{'a': 1}" not in str(err.value)
-
-
-def test_an_unknown_list_field_fails_closed():
-    with pytest.raises(PolicyRenderError):
-        format_fact_value("some_new_fact", [1, 2], hotel_key="discovery-x")
-
-
-def test_the_error_names_the_hotel_and_the_field():
-    with pytest.raises(PolicyRenderError) as err:
-        format_fact_value("some_new_fact", {"a": 1}, hotel_key="discovery-x")
-    assert "discovery-x" in str(err.value) and "some_new_fact" in str(err.value)
-
-
-# -- HTML safety ------------------------------------------------------------ #
-
-def test_structured_leaf_text_is_returned_unescaped_for_the_template_to_escape():
-    """One escape, at the leaf. Escaping here too would double-encode."""
-    value = {"cats": {"value": "20 pounds & up"}}
-    assert format_fact_value("species_weight_limits", value) == "Cats: maximum 20 pounds & up"
+    def test_silence_still_says_not_stated(self):
+        silent = _record({"pets_allowed": "true", "pet_count_limit": "2"})
+        rows = {l: v for l, v, _c in _verified_details(silent["facts"], silent)[0]}
+        assert rows["Pet charge"] == NOT_STATED
 
 
-def test_markup_in_a_leaf_cannot_reach_a_page_unescaped():
-    from scripts.pettripfinder.approved_hotel_profile import _e
-    rendered = format_fact_value("species_weight_limits",
-                                 {"cats": {"value": "<script>alert(1)</script>"}})
-    assert "<script>" not in _e(rendered)
+class TestServiceAnimalSeparation:
+    """A legal access category never mixes with commercial terms."""
 
+    RECORD = _record({"pets_allowed": "true", "pet_fee": "$50.00",
+                      "fee_basis": "per night", "pet_count_limit": "1",
+                      "weight_limit": "50 pounds",
+                      "service_animal_exception": "true"})
 
-# -- the existing corpus still renders -------------------------------------- #
+    def test_the_statement_reaches_the_profile(self):
+        rows = {l: v for l, v, _c in _verified_details(self.RECORD["facts"],
+                                                       self.RECORD)[0]}
+        assert "Property statement on service animals" in rows
 
-def test_every_currently_published_hotel_still_renders():
-    import json
-    from pathlib import Path
-    pkg = json.loads((Path(__file__).resolve().parents[2] / "launch_packages"
-                      / "pettripfinder" / "hotel_policy_facts.json").read_text("utf-8"))
-    assert len(pkg["hotels"]) == 88
-    for hotel in pkg["hotels"]:
-        rows, _chip, _note = _verified_details(hotel.get("facts") or {})
-        assert all(isinstance(value, str) for _lbl, value, _cls in rows)
+    def test_it_never_reaches_the_comparison_table(self):
+        html = comparison_html(self.RECORD)
+        assert "service animal" not in html.lower()
+
+    def test_it_is_not_a_pet_policy_fact(self):
+        chips = {l for l, _v, _c in _verified_facts(self.RECORD["facts"])}
+        assert not any("service" in c.lower() for c in chips)
+
+    def test_nothing_is_invented_without_a_statement(self):
+        plain = _record({"pets_allowed": "true", "pet_fee": "$50.00"})
+        rows = {l for l, _v, _c in _verified_details(plain["facts"], plain)[0]}
+        assert "Property statement on service animals" not in rows

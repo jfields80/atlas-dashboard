@@ -82,6 +82,12 @@ from scripts.pettripfinder.site_data import (
     verified_public_hotels,
 )
 from scripts.pettripfinder.approved_hotel_profile import set_market_labels
+from scripts.pettripfinder import canonical_view
+from scripts.pettripfinder.hotel_profile import (
+    cap_qualifier_note,
+    fee_qualifier_phrase,
+    fee_scope_display,
+)
 from scripts.pettripfinder.hotel_profile_page import (
     build_hotel_go_pages,
     render_production_hotel_profile,
@@ -476,11 +482,24 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         if entry and entry["facts"].get("pets_allowed") == "false":
             continue   # comparison page is pet-FRIENDLY policies only
         f = entry["facts"] if entry else {}
+        # PTF-RENDERER-FIDELITY-001. The canonical view answers the questions
+        # the legacy facts dict cannot: what scope this fee actually has,
+        # whether a single printed amount is the whole story, and whether an
+        # explicit species refusal is on record.
+        view = canonical_view.build(entry) if entry else None
         comparison_rows.append({
             "name": row["name"], "route": "/pet-friendly-hotels/%s/" % listing_id,
             "area": "%s, %s" % (row.get("city", ""), row.get("state", "")),
             "species_allowed": f.get("species_allowed", ""), "pet_fee": f.get("pet_fee", ""),
-            "fee_basis": f.get("fee_basis", ""), "pet_count_limit": f.get("pet_count_limit", ""),
+            # The basis cell carries the scope with it, so "$15" beside "per
+            # night" can no longer read as the price for however many pets.
+            "fee_basis": fee_qualifier_phrase(f) or f.get("fee_basis", ""),
+            "fee_scope_display": fee_scope_display(f),
+            "cats_state": view.cats_state if view else "",
+            "fee_cap_qualifier": cap_qualifier_note(f),
+            "fee_scalar_suppressed": bool(
+                view and view.fee_display_mode == "withhold_scalar" and f.get("pet_fee")),
+            "pet_count_limit": f.get("pet_count_limit", ""),
             "weight_limit": f.get("weight_limit", ""),
             "weight_limit_operator": f.get("weight_limit_operator", ""),
             # PTF-COLUMBUS-HYATT-002. Without these the comparison table

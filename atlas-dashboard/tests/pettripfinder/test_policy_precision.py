@@ -28,6 +28,15 @@ from scripts.pettripfinder.hotel_profile import (
 )
 from scripts.pettripfinder.site_data import _POLICY_FIELDS
 
+
+#: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
+#: recurrence but never says who the charge attaches to, the profile says so
+#: rather than letting "$50 per night" read as a complete answer to a guest
+#: bringing two animals. Omitted where exactly one pet is allowed, because
+#: per-pet and per-room are then the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
+
+
 SONESTA_TIERS = [
     {"amount": "75.00", "basis": "one_time", "basis_stated": False, "boundary_unit": "nights",
      "condition_min": 1, "condition_max": 7, "condition_type": "stay_length_range",
@@ -148,7 +157,7 @@ class TestFeeBasisAmbiguity:
     def test_a_stated_basis_renders_exactly_as_before(self):
         stated = {"pets_allowed": "true", "pet_fee": "$75.00", "fee_basis": "per stay"}
         summary = _verified_summary(stated, "")
-        assert "A $75 fee applies per stay." in summary
+        assert "A $75 fee applies per stay%s." % DISCLOSURE in summary
         assert "not specified" not in summary
 
     def test_the_caveat_survives_a_cap_without_swallowing_it(self):

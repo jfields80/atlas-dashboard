@@ -123,6 +123,14 @@ PTF_EXTRA_CSS = """
 .ptf-policy-table th,.ptf-policy-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--color-border-default)}
 .ptf-policy-table th{background:var(--color-surface-featured);font-weight:600;width:44%}
 .ptf-unknown{color:var(--color-text-muted);font-style:italic}
+/* PTF-RENDERER-FIDELITY-001. Silence and withholding are opposite claims and
+   must not look alike: "Not stated" means the source did not address the field,
+   while a withheld cell means it DID and what it said could not be published
+   accurately. Upright rather than italic, and carrying its own weight, so the
+   two are distinguishable at a glance and not only by their words. */
+.ptf-withheld{color:var(--color-text);font-style:normal;font-weight:600;
+  border-bottom:1px dotted var(--color-text-muted)}
+.ptf-no{color:var(--color-text);font-weight:600}
 .ptf-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 .ptf-nearby{margin:var(--spacing-section-small) 0}
 .ptf-nearby h2{font:var(--typography-heading-3)}
@@ -187,16 +195,39 @@ def _breadcrumb_html(crumbs: List[Tuple[str, str]]) -> str:
 # Policy comparison page (Task 6).
 # --------------------------------------------------------------------------- #
 
+#: PTF-RENDERER-FIDELITY-001 adds four columns to the eight that shipped.
+#: Each closes a way this table could mislead someone mid-decision:
+#:
+#:   Fee scope        "$50" means different money per room and per pet, and the
+#:                    table showed neither.
+#:   Fee cap          a capped nightly rate is a different product from an
+#:                    uncapped one.
+#:   Combined weight  two-dog travellers were excluded by a rule they could not
+#:                    see.
+#:   Cats             an explicit refusal rendered identically to silence.
 _COMPARISON_COLUMNS = (
     ("name", "Hotel"),
     ("area", "Area"),
     ("species_allowed", "Pets accepted"),
+    ("cats", "Cats"),
     ("pet_fee", "Fee"),
     ("fee_basis", "Fee basis"),
+    ("fee_scope", "Fee scope"),
+    ("fee_cap", "Fee cap"),
     ("pet_count_limit", "Max pets"),
     ("weight_limit", "Weight limit"),
+    ("combined_weight", "Combined weight"),
     ("verified_at", "Verified"),
 )
+
+#: Silence and withholding never share a treatment. The first says the source
+#: did not address the field; the second says it did, and what it said could
+#: not be published accurately.
+_UNKNOWN_CELL = '<span class="ptf-unknown">Not stated</span>'
+
+
+def _withheld_cell(label: str) -> str:
+    return '<span class="ptf-withheld">%s</span>' % _e(label)
 
 
 def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
@@ -216,16 +247,26 @@ def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
                 cells.append('<th scope="row"><a href="%s">%s</a></th>' % (r["route"], _e(r["name"])))
                 continue
             tiers = r.get("fee_tiers") or []
-            if (r.get("fee_conflict") or r.get("fee_withheld"))                     and key in ("pet_fee", "fee_basis"):
+            if (r.get("fee_conflict") or r.get("fee_withheld"))                     and key in ("pet_fee", "fee_basis", "fee_scope"):
                 # Neither an amount nor a basis. The two reasons read
                 # differently because they are different facts: one source
                 # contradicts itself, the other simply says more than a single
-                # figure can carry.
+                # figure can carry. Both are WITHHELD, not silent, and now say
+                # so in a treatment a reader can tell apart from "Not stated".
                 label = ("Conflicting source terms" if r.get("fee_conflict")
                          else "Range by stay length")
-                cells.append('<td><span class="ptf-unknown">%s</span></td>' % label
-                             if key == "pet_fee"
-                             else '<td><span class="ptf-unknown">See policy</span></td>')
+                cells.append("<td>%s</td>" % _withheld_cell(
+                    label if key == "pet_fee" else "See policy"))
+                continue
+            if key == "pet_fee" and r.get("fee_scalar_suppressed"):
+                # PTF-RENDERER-FIDELITY-001. The record publishes one amount
+                # while its own wording names a larger one that never reached a
+                # structured field -- Staybridge Suites Miamisburg states $50
+                # where the policy text says $50 per pet for one to six nights
+                # and $150 for seven or more. Printing $50 here is not a
+                # rounding error, it is a different product, so the cell says
+                # what is certain and sends the reader to the full wording.
+                cells.append("<td>%s</td>" % _withheld_cell("See policy wording"))
                 continue
             if key == "pet_fee" and (r.get("fee_cap") or {}).get("amount") and r.get("pet_fee"):
                 cells.append("<td>%s<br><span class=\"ptf-tier-note\">max $%s</span></td>"
@@ -242,19 +283,51 @@ def build_comparison_page(rows: List[Dict], market: "MarketConfig") -> str:
                 # The source states an amount and a stay range, never a basis.
                 cells.append('<td><span class="ptf-unknown">Not stated</span></td>')
                 continue
+            if key == "cats":
+                # An explicit refusal is a fact. Rendering it as "Not stated"
+                # sends someone travelling with a cat to a hotel that will turn
+                # them away.
+                state = r.get("cats_state") or ""
+                if state == "prohibited":
+                    cells.append('<td><span class="ptf-no">Not allowed</span></td>')
+                elif state == "accepted":
+                    cells.append("<td>Accepted</td>")
+                else:
+                    cells.append("<td>%s</td>" % _UNKNOWN_CELL)
+                continue
+            if key == "fee_scope":
+                # "$50" is different money per room and per pet, and this table
+                # showed neither for any of the fourteen records that state it.
+                scope = r.get("fee_scope_display") or ""
+                cells.append("<td>%s</td>" % (_e(scope) if scope else _UNKNOWN_CELL))
+                continue
+            if key == "fee_cap":
+                cap = r.get("fee_cap") or {}
+                amount = cap.get("amount")
+                if not amount:
+                    cells.append("<td>%s</td>" % _UNKNOWN_CELL)
+                    continue
+                # A ceiling whose scope the source never gave must not read as
+                # though it covers every animal in the room.
+                qualifier = r.get("fee_cap_qualifier") or ""
+                cell = "$%s" % _e(str(amount).rstrip("0").rstrip("."))
+                if qualifier:
+                    cell += '<br><span class="ptf-tier-note">%s</span>' % _e(qualifier)
+                cells.append("<td>%s</td>" % cell)
+                continue
+            if key == "combined_weight":
+                combined = combined_weight_display(r)
+                cells.append("<td>%s</td>" % (_e(combined) if combined else _UNKNOWN_CELL))
+                continue
             value = (r.get(key) or "").strip()
             if key == "weight_limit":
                 # "Under 80 pounds" and "80 pounds" are different answers to
                 # "will they take my 80-pound dog?", and a comparison table is
                 # exactly where that difference decides a booking.
+                # The combined limit now has a column of its own, so this cell
+                # states the individual rule alone rather than stacking two
+                # different constraints in one box.
                 value = weight_display(r)
-                combined = combined_weight_display(r)
-                if combined:
-                    # Both limits or neither. A per-pet ceiling shown alone
-                    # reads as the only rule.
-                    cells.append('<td>%s<br><span class="ptf-tier-note">%s</span></td>'
-                                 % (_e(value), _e(combined)))
-                    continue
             if key == "verified_at":
                 # Attested hotels carry an observed_at taken from the capture,
                 # which is a full timestamp. "Verified 2026-07-29T14:28:29.492Z"

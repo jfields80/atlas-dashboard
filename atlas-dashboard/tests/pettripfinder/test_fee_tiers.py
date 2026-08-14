@@ -29,6 +29,13 @@ from services.research_workers.fee_terms import (
     basis_is_stated, parse_fee_tiers, tier_facts,
 )
 
+
+#: PTF-RENDERER-FIDELITY-001 §9. An amount and a recurrence with no stated
+#: scope is only half a rule; the profile says so rather than letting it read
+#: as a complete answer. Omitted at a one-pet limit, where per-pet and
+#: per-room are the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
+
 # Verbatim from the real captures -- one chain, two notations.
 HAMPTON = "$75(1-4n)$125(5+n)2pet Max dog/cat only"
 NEW_ALBANY_PAYLOAD = "$50(1-4n),$75(5+n) 2petsMax,dog/cat only"
@@ -448,8 +455,8 @@ class TestCappedFeePublishesBothNumbers:
         facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
         assert _verified_summary(facts, RESIDENCE_EASTON) == (
             "Pets are welcome. A $50 non-refundable fee applies per night, up to a "
-            "maximum of $150. Maximum pet weight is 50 pounds, with up to 2 pets "
-            "permitted per room.")
+            "maximum of $150%s. Maximum pet weight is 50 pounds, with up to 2 pets "
+            "permitted per room." % DISCLOSURE)
 
     def test_chip_and_detail_row_show_the_ceiling(self):
         facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
@@ -477,16 +484,16 @@ class TestScalarUnchanged:
         quote = ("Pet Policy Pets Welcome Non-Refundable Pet Fee Per Night: $50.00 "
                  "Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2")
         assert _verified_summary(self.SCALAR, quote) == (
-            "Pets are welcome. A $50 non-refundable fee applies per night. "
-            "Maximum pet weight is 40 pounds, with up to 2 pets permitted per room.")
+            "Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
+                        "Maximum pet weight is 40 pounds, with up to 2 pets permitted per room.")
 
     def test_scalar_chips_and_rows_unchanged(self):
         chips = dict((l, v) for l, v, _c in _verified_facts(self.SCALAR))
         assert chips["Pet charge"] == "$50.00"
-        assert chips["Charge basis"] == "Per night"
+        assert chips["Charge basis"] == "Per night"          # scope belongs to the row, not the chip
         rows = dict((l, v) for l, v, _c in _verified_details(self.SCALAR)[0])
         assert rows["Pet charge"] == "$50.00"
-        assert rows["Charge basis"] == "Per night"
+        assert rows["Charge basis"] == "Per night (per pet or per room not stated)"
 
     # PTF-PROMOTION-002: the published stay-length ladders, listed explicitly so
     # a record gaining or losing one is a reviewable diff rather than a silently
