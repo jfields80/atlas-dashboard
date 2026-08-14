@@ -29,11 +29,13 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.site_data import normalize_name
 
-SCHEMA_VERSION = "ptf-market/1.0"
+#: PTF-GEOGRAPHY-NORMALIZATION-001 adds primary_state_code, states[], a
+#: required route_mode, and per-corridor state for state-aware matching.
+SCHEMA_VERSION = "ptf-market/1.1"
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MARKETS_DIR = REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
@@ -91,6 +93,13 @@ class CorridorConfig:
     #: Short area label for hotel-profile chips ("Downtown", "West Hilliard").
     #: Defaults to ``name``; presentation only, never used for assignment.
     display_area: str
+    #: PTF-GEOGRAPHY-NORMALIZATION-001. The state this corridor lies in, so
+    #: city matching can be state-aware. Defaults to the market's primary state,
+    #: which is correct for every single-state market and wrong for exactly the
+    #: case that needs it: Cincinnati's Covington-Newport is in Kentucky and
+    #: Lawrenceburg-Aurora in Indiana, and a bare city name would have matched
+    #: "Dayton, KY" to a Dayton, OH corridor.
+    state_code: str = ""
 
 
 @dataclass(frozen=True)
@@ -166,7 +175,18 @@ class MarketConfig:
     market_name: str
     market_slug: str
     state_name: str
+    #: PTF-GEOGRAPHY-NORMALIZATION-001. Retained as an ALIAS of
+    #: ``primary_state_code``, because title generation, meta descriptions and
+    #: JSON-LD across three live markets read it. It is the market's primary
+    #: state and never a claim about where every property sits.
     state_code: str
+    #: The market's primary state, and every state it actually spans -- primary
+    #: first. A market is not one state because its id ends in one: Cincinnati
+    #: holds 96 Ohio, 16 Kentucky and 9 Indiana identities, and declaring it
+    #: "OH" made every Kentucky property inherit an Ohio identity it does not
+    #: have.
+    primary_state_code: str
+    states: Tuple[str, ...]
     primary_city: str
     country_code: str
     title: str
@@ -228,7 +248,31 @@ def _string_tuple(data: Dict, key: str, source: str) -> Tuple[str, ...]:
     return tuple(out)
 
 
-def _parse_corridor(data: Dict, market_id: str, country_code: str, source: str) -> CorridorConfig:
+def _corridor_state(data: Dict, src: str, default_state: str,
+                    market_states: Sequence[str]) -> str:
+    """The state a corridor lies in, defaulting to the market's primary.
+
+    Only a multi-state market ever needs to state it, and when it does the
+    value must be one the market actually spans -- a Kentucky corridor inside a
+    market that declares only Ohio is a contradiction, not a special case.
+    """
+    code = str(data.get("state_code") or default_state or "").strip()
+    if not code:
+        return ""
+    if not _STATE_CODE_RE.match(code):
+        raise MarketContractError(
+            "%s: corridor state_code must be two uppercase letters" % src)
+    if market_states and code not in market_states:
+        raise MarketContractError(
+            "%s: corridor state %r is not among its market's states %s"
+            % (src, code, list(market_states)))
+    return code
+
+
+
+def _parse_corridor(data: Dict, market_id: str, country_code: str, source: str,
+                    *, default_state: str = "",
+                    market_states: Sequence[str] = ()) -> CorridorConfig:
     corridor_id = _require(data, "corridor_id", str, source)
     src = "%s corridor %r" % (source, corridor_id)
     cm = _require(data, "market_id", str, src)
@@ -280,6 +324,7 @@ def _parse_corridor(data: Dict, market_id: str, country_code: str, source: str) 
         allow_multi_corridor=_require(data, "allow_multi_corridor", bool, src),
         display_order=_require(data, "display_order", int, src),
         display_area=display_area.strip(),
+        state_code=_corridor_state(data, src, default_state, market_states),
     )
 
 
@@ -387,6 +432,36 @@ def homepage_config(market: MarketConfig) -> HomepageConfig:
         state_code=market.state_code, meta_description=market.meta_description)
 
 
+def _reject_duplicate_postal_codes(corridors: Sequence["CorridorConfig"],
+                                   src: str) -> None:
+    """A ZIP in two corridors is a CONFIG error, caught at load.
+
+    PTF-GEOGRAPHY-NORMALIZATION-001. Cincinnati registered 45044 to both
+    West Chester-Liberty Township and Middletown-Monroe with
+    ``allow_multi_corridor: false`` on each. Nothing noticed until a hotel with
+    that ZIP happened to be assigned, and then the failure looked like a
+    problem with the hotel rather than with the registry.
+
+    Ambiguity that is knowable from the config alone is rejected from the
+    config alone -- once, loudly, rather than once per property.
+    """
+    owners: Dict[str, List["CorridorConfig"]] = {}
+    for corridor in corridors:
+        for code in corridor.included_postal_codes:
+            owners.setdefault(code, []).append(corridor)
+    for code, matched in sorted(owners.items()):
+        if len(matched) < 2:
+            continue
+        if all(c.allow_multi_corridor for c in matched):
+            continue
+        raise MarketContractError(
+            "%s: postal code %s is registered to %s, and multi-corridor "
+            "membership is not authorised on all of them. Either register the "
+            "ZIP to one corridor, or set allow_multi_corridor on every corridor "
+            "that claims it."
+            % (src, code, [c.corridor_id for c in matched]))
+
+
 def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
     """Validate one market document (fail closed) and return its config."""
     if not isinstance(data, dict):
@@ -403,10 +478,37 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
     state_code = _require(data, "state_code", str, src)
     if not _STATE_CODE_RE.match(state_code):
         raise MarketContractError("%s: state_code must be two uppercase letters" % src)
+    # PTF-GEOGRAPHY-NORMALIZATION-001. primary_state_code and states[] are
+    # required at 1.1. state_code stays as the primary's alias so every existing
+    # reader keeps working, and the two must agree -- a market whose alias
+    # disagreed with its primary would be two answers to one question.
+    primary_state_code = _require(data, "primary_state_code", str, src)
+    if not _STATE_CODE_RE.match(primary_state_code):
+        raise MarketContractError(
+            "%s: primary_state_code must be two uppercase letters" % src)
+    if primary_state_code != state_code:
+        raise MarketContractError(
+            "%s: state_code %r must be the alias of primary_state_code %r"
+            % (src, state_code, primary_state_code))
+    states = tuple(_string_tuple(data, "states", src))
+    if not states:
+        raise MarketContractError("%s: states must list at least the primary state" % src)
+    for code in states:
+        if not _STATE_CODE_RE.match(code):
+            raise MarketContractError(
+                "%s: state %r must be two uppercase letters" % (src, code))
+    if states[0] != primary_state_code:
+        raise MarketContractError(
+            "%s: states must begin with the primary state %r, got %r"
+            % (src, primary_state_code, states[0]))
+    if len(set(states)) != len(states):
+        raise MarketContractError("%s: states contains a duplicate" % src)
     country_code = _require(data, "country_code", str, src)
     if not _COUNTRY_CODE_RE.match(country_code):
         raise MarketContractError("%s: country_code must be two uppercase letters" % src)
-    route_mode = data.get("route_mode", ROUTE_MODE_MARKET_PREFIXED)
+    # Required at 1.1 rather than defaulted: Cincinnati's config omitted it
+    # entirely and silently inherited a route mode nobody chose for it.
+    route_mode = _require(data, "route_mode", str, src)
     if route_mode not in _ROUTE_MODES:
         raise MarketContractError("%s: route_mode must be one of %s" % (src, list(_ROUTE_MODES)))
     minimum_published = _require(data, "minimum_published_hotels", int, src)
@@ -415,7 +517,10 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
 
     corridors_raw = _require(data, "corridors", list, src)
     corridors = tuple(
-        _parse_corridor(c, market_id, country_code, src) for c in corridors_raw)
+        _parse_corridor(c, market_id, country_code, src,
+                        default_state=primary_state_code, market_states=states)
+        for c in corridors_raw)
+    _reject_duplicate_postal_codes(corridors, src)
     seen_ids: Dict[str, str] = {}
     seen_slugs: Dict[str, str] = {}
     seen_orders: Dict[int, str] = {}
@@ -453,6 +558,8 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
         market_slug=market_slug,
         state_name=state_name,
         state_code=state_code,
+        primary_state_code=primary_state_code,
+        states=states,
         primary_city=primary_city,
         country_code=country_code,
         title=_require(data, "title", str, src),

@@ -260,7 +260,7 @@ def load_published_hotel_policy_facts(market_id: str = "") -> Dict[str, Dict]:
 # Corridor grouping (PTF-CORRIDORS-002). The address-token classifier this
 # module used to carry is retired: assignment now lives in the shared
 # market/corridor configuration layer (``scripts/pettripfinder/markets``),
-# driven by the committed ptf-market/1.0 config under
+# driven by the committed ptf-market/1.1 config under
 # ``launch_packages/pettripfinder/markets/``. That layer is the ONE
 # assignment authority for routes, sitemap, navigation, and display labels;
 # this wrapper keeps the historical (hotel_rows) -> {corridor name: rows}

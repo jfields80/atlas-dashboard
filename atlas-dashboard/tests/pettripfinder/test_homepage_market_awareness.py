@@ -317,12 +317,15 @@ class TestEmergencyVeterinarianQuery:
 # --------------------------------------------------------------------------- #
 
 FUTURE_MARKET = {
-    "schema": "ptf-market/1.0",
+    "schema": "ptf-market/1.1",
     "market_id": "toledo-oh",
     "market_name": "Toledo",
     "market_slug": "toledo-oh",
     "state_name": "Ohio",
     "state_code": "OH",
+    "primary_state_code": "OH",
+    "states": ["OH"],
+    "route_mode": "market_prefixed",
     "primary_city": "Toledo",
     "country_code": "US",
     "title": "Pet-Friendly Hotels in Toledo, Ohio | PetTripFinder",

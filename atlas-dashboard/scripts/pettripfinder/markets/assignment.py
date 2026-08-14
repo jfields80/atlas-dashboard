@@ -7,10 +7,30 @@ tags, and /go/ metadata all derive from the result produced here.
 Assignment order (each hotel independently, first matching tier wins):
 
     1. explicit exclusion   (removes the hotel from that corridor entirely)
-    2. explicit assignment  (``explicit_hotel_ids``, normalized-name keys)
-    3. exact city match     (case-insensitive, whitespace-trimmed)
-    4. exact five-digit ZIP match
+    2. explicit assignment  (``explicit_hotel_ids``)
+    3. exact five-digit ZIP match
+    4. exact (city, state) match  (case-insensitive city, exact state)
     5. unassigned           (published normally, reported -- never dropped)
+
+PTF-GEOGRAPHY-NORMALIZATION-001 changed two things about that order.
+
+POSTAL CODE NOW OUTRANKS CITY. A ZIP is a smaller unit than a mailing city,
+and mailing cities routinely span corridors while ZIPs rarely do. Four
+Cincinnati properties in ZIP 45255 carry the mailing city "Cincinnati" and sit
+about fifteen miles east in Eastgate; under city-first they resolved to
+Downtown Cincinnati, which is not where a traveller would find them. Someone
+had already noticed and hand-placed them -- and then labelled the placement
+``postal_code``, because the honest basis was not available to them.
+
+CITY MATCHING IS STATE-AWARE. Matching a bare city string means Dayton,
+Kentucky matches a Dayton, Ohio corridor. That has never fired only because no
+market spanned two states; Cincinnati spans three.
+
+Every assignment records the basis that ACTUALLY fired and the value that fired
+it, and a validator proves the claim: a ZIP basis requires that ZIP in the
+corridor's registry, a city_state basis requires that exact pair, an explicit
+basis requires the identity key in the list. No human judgement may be labelled
+``postal_code``.
 
 Rules enforced:
 
@@ -32,9 +52,19 @@ from typing import Dict, List, Mapping, Sequence, Tuple
 from scripts.pettripfinder.markets.contract import CorridorConfig, MarketConfig
 from scripts.pettripfinder.site_data import normalize_name
 
+#: The canonical basis vocabulary. These are the values a census row records,
+#: so they are the contract's names rather than the tier's internal ones.
 TIER_EXPLICIT = "explicit"
-TIER_CITY = "city"
-TIER_ZIP = "zip"
+TIER_ZIP = "postal_code"
+TIER_CITY = "city_state"
+TIER_UNASSIGNED = "unassigned"
+
+#: Legacy basis spellings found in committed censuses, and what they became.
+#: ``county_name`` is NOT here: no county tier exists, so a row claiming it was
+#: unreproducible by construction and had to be resolved against evidence
+#: rather than translated.
+LEGACY_BASES = {"city_name": TIER_CITY, "postal_code": TIER_ZIP,
+                "explicit": TIER_EXPLICIT, "unassigned": TIER_UNASSIGNED}
 
 SUPPRESS_EMPTY = "empty"
 SUPPRESS_BELOW_MINIMUM = "below_minimum"
@@ -53,8 +83,12 @@ class CorridorAssignment:
     members: Mapping[str, Tuple[Dict, ...]]
     #: normalized hotel key -> corridor_ids it belongs to (config order)
     corridor_of: Mapping[str, Tuple[str, ...]]
-    #: normalized hotel key -> tier that assigned it (explicit|city|zip)
+    #: normalized hotel key -> tier that assigned it
     tier_of: Mapping[str, str]
+    #: normalized hotel key -> (basis, the exact value that fired it). This is
+    #: what a census row records, and what the validator proves against the
+    #: registry -- a basis nobody can check is a basis that will be wrong.
+    basis_of: Mapping[str, Tuple[str, str]]
     #: corridor_id -> normalized keys explicitly assigned
     explicit_members: Mapping[str, Tuple[str, ...]]
     #: corridor_id -> normalized keys of rows in the input that were excluded
@@ -80,23 +114,42 @@ def _row_city(row: Dict) -> str:
     return (row.get("city", "") or "").strip().lower()
 
 
+def _row_state(row: Dict) -> str:
+    return (row.get("state", "") or "").strip().upper()
+
+
 def _row_zip(row: Dict) -> str:
     return (row.get("postal_code", "") or "").strip()[:5]
 
 
 def _match_tier(corridors: Sequence[CorridorConfig], key: str, city: str,
-                zip5: str) -> Tuple[str, List[CorridorConfig]]:
+                state: str, zip5: str) -> Tuple[str, str, List[CorridorConfig]]:
+    """The first tier that matches, the value that fired it, and its corridors."""
     explicit = [c for c in corridors if key in c.explicit_hotel_ids]
     if explicit:
-        return TIER_EXPLICIT, explicit
-    by_city = [c for c in corridors
-               if city and city in tuple(x.lower() for x in c.included_cities)]
-    if by_city:
-        return TIER_CITY, by_city
+        return TIER_EXPLICIT, key, explicit
     by_zip = [c for c in corridors if zip5 and zip5 in c.included_postal_codes]
     if by_zip:
-        return TIER_ZIP, by_zip
-    return "", []
+        return TIER_ZIP, zip5, by_zip
+    by_city = [c for c in corridors
+               if city and city in tuple(x.lower() for x in c.included_cities)
+               # A corridor with no declared state belongs to a single-state
+               # market and matches within it; one that declares a state must
+               # agree with the property's own.
+               and (not c.state_code or not state or c.state_code == state)]
+    if by_city:
+        return TIER_CITY, "%s, %s" % (city, state) if state else city, by_city
+    return "", "", []
+
+
+def assignment_basis(assignment: "CorridorAssignment", key: str) -> Tuple[str, str]:
+    """``(basis, value)`` for one hotel: what fired, and what fired it.
+
+    ``(unassigned, "")`` where nothing matched -- which is a legitimate result,
+    not a failure. A hotel with no corridor still publishes; it simply does not
+    appear on a corridor page until its geography is strong enough to place it.
+    """
+    return assignment.basis_of.get(key, (TIER_UNASSIGNED, ""))
 
 
 def assign_hotels(market: MarketConfig, hotel_rows: Sequence[Dict], *,
@@ -108,6 +161,7 @@ def assign_hotels(market: MarketConfig, hotel_rows: Sequence[Dict], *,
     members: Dict[str, List[Dict]] = {c.corridor_id: [] for c in market.corridors}
     corridor_of: Dict[str, Tuple[str, ...]] = {}
     tier_of: Dict[str, str] = {}
+    basis_of: Dict[str, Tuple[str, str]] = {}
     explicit_members: Dict[str, List[str]] = {c.corridor_id: [] for c in market.corridors}
     excluded_members: Dict[str, List[str]] = {c.corridor_id: [] for c in market.corridors}
     unassigned: List[Dict] = []
@@ -127,7 +181,8 @@ def assign_hotels(market: MarketConfig, hotel_rows: Sequence[Dict], *,
             if key in corridor.excluded_hotel_ids:
                 excluded_members[corridor.corridor_id].append(key)
         eligible = [c for c in market.corridors if key not in c.excluded_hotel_ids]
-        tier, matched = _match_tier(eligible, key, _row_city(row), _row_zip(row))
+        tier, value, matched = _match_tier(
+            eligible, key, _row_city(row), _row_state(row), _row_zip(row))
         if not matched:
             unassigned.append(row)
             continue
@@ -141,6 +196,7 @@ def assign_hotels(market: MarketConfig, hotel_rows: Sequence[Dict], *,
             continue
         corridor_of[key] = tuple(c.corridor_id for c in matched)
         tier_of[key] = tier
+        basis_of[key] = (tier, value)
         for corridor in matched:
             members[corridor.corridor_id].append(row)
             if tier == TIER_EXPLICIT:
@@ -173,6 +229,7 @@ def assign_hotels(market: MarketConfig, hotel_rows: Sequence[Dict], *,
         members={cid: tuple(rows) for cid, rows in members.items()},
         corridor_of=dict(corridor_of),
         tier_of=dict(tier_of),
+        basis_of=dict(basis_of),
         explicit_members={cid: tuple(keys) for cid, keys in explicit_members.items()},
         excluded_members={cid: tuple(keys) for cid, keys in excluded_members.items()},
         unassigned=tuple(unassigned),

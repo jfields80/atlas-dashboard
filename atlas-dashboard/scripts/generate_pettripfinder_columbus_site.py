@@ -614,7 +614,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         "restaurant_count": len(restaurant_rows),
         "hotels_with_structured_facts": len(policy_facts),
         "market_id": market.market_id,
-        "market_schema": "ptf-market/1.0",
+        "market_schema": "ptf-market/1.1",
         "corridors_built": sorted(corridor_groups.keys()),
         # PTF-CORRIDORS-002 honesty surface: what did NOT publish, and which
         # published hotels belong to no corridor (they keep their routes).

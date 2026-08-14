@@ -123,10 +123,34 @@ class TestContractRegistry:
         """
         assert not (REPO_ROOT / "deploy" / "netlify" / "release_contract.json").exists()
 
-    def test_every_configured_market_has_a_contract(self):
+    def test_every_market_with_verified_inventory_has_a_contract(self):
+        """A release contract describes a release, so a market must have
+        something to release before it needs one.
+
+        PTF-GEOGRAPHY-NORMALIZATION-001 registered cincinnati-oh, which holds a
+        121-identity census and a partition in which every identity is
+        unresolved. It publishes nothing, commits no policy package, and
+        therefore has no verified inventory for a contract to describe --
+        ``derive_authority`` refuses outright rather than inventing an empty
+        one. That is the honest-zero state the freeze anticipated, not a gap.
+
+        The invariant that matters is unchanged: every market that CAN release
+        has a contract, and no contract exists for a market that is not
+        configured.
+        """
         configured = {m.market_id for m in load_markets()}
-        assert configured == set(MARKETS)
-        assert set(available_market_ids()) == configured
+        releasable = {m for m in configured
+                      if (REPO_ROOT / "launch_packages" / "pettripfinder"
+                          / ("hotel_policy_facts_%s.json" % m)).exists()
+                      or m == COLUMBUS}
+        assert releasable == set(MARKETS)
+        assert set(available_market_ids()) == releasable
+        assert set(available_market_ids()) <= configured
+
+    def test_a_market_with_no_inventory_is_honestly_contractless(self):
+        configured = {m.market_id for m in load_markets()}
+        assert "cincinnati-oh" in configured
+        assert "cincinnati-oh" not in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:

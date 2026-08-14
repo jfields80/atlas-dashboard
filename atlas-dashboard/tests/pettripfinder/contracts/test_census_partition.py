@@ -341,9 +341,12 @@ class TestCommittedAuthority:
         if not path.is_file():
             pytest.skip("Dayton census is not committed")
         issues = census.validate(json.loads(path.read_text(encoding="utf-8-sig")))
-        # The eleven unreproducible county-name corridor claims survive: Phase D
-        # owns geography, and repairing them here would hide what it must see.
-        assert sum(1 for i in issues if i.code == "BASIS_NOT_IMPLEMENTED") == 11
+        # PTF-GEOGRAPHY-NORMALIZATION-001 resolved all eleven. Every one was
+        # already reproducible by its ZIP -- Celina 45822, Eaton 45320, New
+        # Paris 45347, Cedarville 45314, Yellow Springs 45387 -- so only the
+        # LABEL was impossible, and no county tier had to be invented to keep a
+        # placement that the postal registry already supported.
+        assert sum(1 for i in issues if i.code == "BASIS_NOT_IMPLEMENTED") == 0
         # The eight axis violations do NOT survive. Phase C moved the no-pets
         # fact out of the lodging axis, where it never belonged.
         assert sum(1 for i in issues if i.code == "AXIS_VIOLATION") == 0
