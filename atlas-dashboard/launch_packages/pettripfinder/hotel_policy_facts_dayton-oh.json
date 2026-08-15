@@ -1712,8 +1712,10 @@
           "currency": "USD"
         },
         "species": {
-          "dogs": "accepted"
-        }
+          "dogs": "accepted",
+          "cats": "prohibited"
+        },
+        "pet_count_limit": 2
       },
       "evidence": [
         {
@@ -1747,6 +1749,20 @@
           "value": "true",
           "evidence_ref": "ev:cb9711318da1b80d",
           "artifact_class": "POINTER_TO_EVIDENCE"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 pets allowed",
+          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/centerville/cpkoh/hoteldetail",
+          "artifact_class": "POINTER_TO_EVIDENCE",
+          "evidence_ref": "ev:8e0ab36a9081268f"
+        },
+        {
+          "field": "species",
+          "quote": "Cats are not allowed",
+          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/centerville/cpkoh/hoteldetail",
+          "artifact_class": "POINTER_TO_EVIDENCE",
+          "evidence_ref": "ev:9b6cbf11ccf21b93"
         }
       ],
       "evidence_count": 4,
@@ -1759,9 +1775,17 @@
       "approval": {
         "decision": "APPROVED_AFTER_CURRENT_REVIEW",
         "operator": "jfields80",
-        "approval_date": "2026-08-10",
-        "record_hash": "sha256:db47361046fed9a9225287826201f3b6ace81fd839682cab2978fb4624d459d1",
-        "evidence_hash": "sha256:f993de23eee8f5d0f761bf519a5984b151b10f3e3227b3d562bed3ee8bc63157"
+        "approval_date": "2026-08-15",
+        "supersedes": {
+          "approval_date": "2026-08-10",
+          "decision": "APPROVED",
+          "operator": "jfields80"
+        },
+        "caveats": [
+          "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A Class-B attestation, 2026-08-15. The corrected record was presented in full -- the changed canonical fields, the exact committed quote behind each change, whether the public page moved, and this record_hash -- and approved against THIS hash. The approval superseded below was given for the record before those corrections; it is preserved verbatim as audit history and does not bind this record."
+        ],
+        "record_hash": "sha256:8c4031f0d7701558b454ff67502a53553b93b1478ce39fcf83c7a898cf8c7ad7",
+        "evidence_hash": "sha256:c97eb2bb8279e3a505b48c16ef31370f9e6c7ac77696e9fcad4638d2009bec5f"
       },
       "worker_model_id": "",
       "worker_prompt_version": "",

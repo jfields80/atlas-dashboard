@@ -106,6 +106,23 @@ _STRUCTURED_MARKERS = ("Property statement on service animals",
                        "Pet charge, 1", "Pet charge, 7", "for up to 2 pets",
                        "up to a maximum of")
 #: Pure spelling: the same fact written differently.
+#: The exact sentences the renderer prints for a field the source never
+#: addressed. A removal drawn from one of these is a silence being replaced.
+SILENCE_COPY = ("Not stated by the reviewed source", "Not stated")
+
+#: The rows a SPARSE profile shows in place of facts. A record that stops being
+#: sparse loses all three, and their disappearance is the same event as the
+#: silence copy's: the page now states something where it previously stated
+#: nothing. Listed explicitly, from ``hotel_profile._verified_details``, rather
+#: than inferred -- a classifier that guesses which removals are safe is how a
+#: fact leaves a page unnoticed.
+SPARSE_PRESENTATION = ("Pets welcome (species not specified)",
+                       "Fee, pet limit, weight limit",
+                       "Breed / unattended rules",
+                       "“Not stated” means the reviewed source did not address the "
+                       "field — not that the answer is no. Confirm specifics with the "
+                       "property before booking.")
+
 _FORMAT_PAIRS = ((" and", ","), (".0", ""), ("0.", ""), ("lb", "pounds"),
                  (" per stay", ""), ("per stay ", ""))
 
@@ -125,6 +142,33 @@ REVIEWED_RENDER_EXCEPTIONS: Dict[str, Tuple[str, str]] = {
         "canonical 1.2 is less expressive than the legacy record, and it is "
         "recorded as a schema-amendment candidate rather than resolved by "
         "picking a number."),
+    "Courtyard Columbus Easton": (
+        "INTENDED_WITHHOLDING_CLARIFICATION",
+        "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A batch 1. The fee "
+        "stays withheld; what changed is the sentence. The generic copy said "
+        "only that the source conflicts, which is true of every contradiction "
+        "in the corpus. The page now names the conflict a guest can actually "
+        "put to the hotel -- the same $50 is stated once per night and once "
+        "per stay."),
+    "Sheraton Suites Columbus Worthington": (
+        "INTENDED_WITHHOLDING_CLARIFICATION",
+        "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A batch 5 and A2. Two "
+        "changes, both directed. The fee sentence now names the per-pet versus "
+        "per-stay conflict, which is invisible for one animal and $75 apart for "
+        "two. And the weight limit is WITHHELD rather than resolved: the page "
+        "sets 50 lb but disagrees with itself about whether a pet weighing "
+        "exactly 50 lb qualifies, and choosing the permissive reading would "
+        "publish an answer the property never gave."),
+    "Sonesta Columbus Downtown": (
+        "INTENDED_ACCURACY_IMPROVEMENT",
+        "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A evidence sweep. Two "
+        "rows leave the page, both because the property never wrote them. "
+        "\"Breed restrictions: No breed restrictions\" appears nowhere in the "
+        "captured page and reverts to silence. \"Other restrictions: Guests must "
+        "be 21 years of age or older to check into the hotel\" is a general "
+        "check-in rule; this was the only record in 156 publishing it as a pet "
+        "restriction, and it remains visible in the verbatim quote where its "
+        "three sibling Wyndham records keep it."),
 }
 
 
@@ -156,7 +200,26 @@ def classify_render_diff(before: str, after: str, name: str = "") -> str:
     for x, y in edits:
         if x.strip() and not y.strip() and len(x.strip()) > 12:
             if not any(x.strip().startswith(p[0].strip() or p[0]) for p in _FORMAT_PAIRS):
-                return ACCURACY if "Not stated" in removed else UNEXPECTED_SEMANTIC
+                # A removal that takes the SILENCE copy off the page is an
+                # accuracy improvement by definition: the record now states
+                # something where it previously said nothing.
+                #
+                # Tested by asking whether the removed text is PART OF the
+                # silence sentence, not by searching for the sentence inside
+                # the removal. The differ splits mid-word when the replacement
+                # is shorter -- "Not stated by the reviewed source" becoming
+                # "Dogs" leaves the fragment "tated by the reviewed source",
+                # which contains no searchable landmark of its own.
+                # Punctuation is trimmed from both ends before the containment
+                # test. The differ splits wherever the two strings stop
+                # agreeing, which routinely puts a leading ". " or a trailing
+                # half-word on the fragment -- "in copy" then fails on text
+                # that plainly IS part of the copy, and a wholly additive
+                # change reads as a fact leaving the page.
+                fragment = x.strip().strip(".,;:—-“”\"' ")
+                silence = any(fragment and fragment in copy
+                              for copy in SILENCE_COPY + SPARSE_PRESENTATION)
+                return ACCURACY if silence else UNEXPECTED_SEMANTIC
     if any(a_ in added or b_ in removed for a_, b_ in _FORMAT_PAIRS):
         return MECHANICAL_FORMAT
     return ACCURACY

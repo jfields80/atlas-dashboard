@@ -78,6 +78,16 @@ class WithheldField:
     evidence_refs: Tuple[str, ...]
     withheld_at: str = ""
     withheld_by: str = ""
+    #: PTF-POLICY-SCHEMA-MIGRATION-001A. The sentence THIS decision shows a
+    #: reader, where the generic one for its reason code would be too vague to
+    #: act on. "The hotel's own page states conflicting terms" is true of every
+    #: contradiction; it does not tell a guest that the conflict is between a
+    #: nightly rate and a per-stay rate, which is the part they can ask about.
+    public_copy: str = ""
+    #: The same decision's wording for a table CELL, where a sentence will not
+    #: fit. "Range by stay" is right for a $75-$150 spread and wrong for a fee
+    #: charged every three nights; one short label cannot serve both.
+    public_label: str = ""
 
     @property
     def blocks_record(self) -> bool:
@@ -90,19 +100,25 @@ class WithheldField:
         return self.reason_code in enums.RECORD_BLOCKING_REASONS
 
     @property
-    def public_copy(self) -> str:
-        return PUBLIC_COPY.get(self.reason_code, "")
+    def reader_copy(self) -> str:
+        """This decision's own sentence, or the generic one for its code."""
+        return self.public_copy or PUBLIC_COPY.get(self.reason_code, "")
 
 
 def withheld(path: str, reason_code: str, reason: str,
              evidence_refs: Sequence[str], *, withheld_at: str = "",
-             withheld_by: str = "") -> Dict[str, Any]:
+             withheld_by: str = "", public_copy: str = "",
+             public_label: str = "") -> Dict[str, Any]:
     """Build a canonical withheld-field entry."""
     entry: Dict[str, Any] = {
         "reason_code": reason_code,
         "reason": reason,
         "evidence_refs": list(evidence_refs),
     }
+    if public_copy:
+        entry["public_copy"] = public_copy
+    if public_label:
+        entry["public_label"] = public_label
     if withheld_at:
         entry["withheld_at"] = withheld_at
     if withheld_by:
@@ -128,6 +144,8 @@ def parse(withheld_fields: Mapping) -> Tuple[WithheldField, ...]:
                 evidence_refs=tuple(str(r) for r in refs),
                 withheld_at=str(entry.get("withheld_at") or ""),
                 withheld_by=str(entry.get("withheld_by") or ""),
+                public_copy=str(entry.get("public_copy") or ""),
+                public_label=str(entry.get("public_label") or ""),
             ))
         else:
             # The legacy flat-prose shape. Recorded with an empty reason code

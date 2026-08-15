@@ -263,7 +263,7 @@ def test_a_flat_fee_page_is_unchanged():
     summary = _verified_summary(FLAT_FEE)
     assert summary == ("Dogs and cats are accepted. A $100 fee applies per stay%s. "
                        "Maximum pet weight is 75 pounds, with up to 2 pets "
-                       "permitted per room." % DISCLOSURE)
+                       "permitted." % DISCLOSURE)
     assert _chips(FLAT_FEE)["Pet charge"] == "$100.00"
     assert _rows(FLAT_FEE)["Pet charge"] == "$100.00"
 
@@ -521,14 +521,14 @@ def test_an_explicit_no_weight_limit_is_stated_not_shown_as_unknown():
 def test_a_single_pet_allowance_reads_in_the_singular():
     facts, evidence, _b = _extract(REYNOLDSBURG)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "One pet is permitted per room" in summary
+    assert "One pet is permitted" in summary
     assert "1 pets" not in summary
 
 
 def test_a_multi_pet_allowance_still_reads_in_the_plural():
     facts, evidence, _b = _extract(LA_QUINTA)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "up to 2 pets permitted per room" in summary
+    assert "up to 2 pets permitted" in summary
     assert "2 pet " not in summary
 
 
@@ -751,7 +751,7 @@ def test_a_room_scoped_fee_says_so_to_the_reader():
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert summary == (
         "Birds, fish, dogs, and cats are accepted. A $100 non-refundable fee "
-        "applies per room per stay. Up to 2 pets are permitted per room.")
+        "applies per room per stay. Up to 2 pets are permitted.")
 
 
 def test_a_count_qualifier_is_not_read_as_a_fee_scope():
@@ -791,10 +791,19 @@ def test_a_fee_stated_to_cover_a_number_of_pets_is_room_scoped():
 
 
 def test_an_unscoped_fee_stays_unscoped():
+    """A source that scopes nothing must produce a page that scopes nothing.
+
+    This assertion used to read ``assert "per room" in summary`` -- and it
+    passed for the wrong reason. This fixture states no fee scope AND no pet
+    count scope; the "per room" it was finding came from the renderer's own
+    default, which invented a unit for the pet count. The test was pinning the
+    defect it was named after preventing.
+    """
     facts, evidence, _b = _extract(SCIOTO)
-    assert "fee_scope" not in facts
+    assert "fee_scope" not in facts and "pet_count_scope" not in facts
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "per room" in summary
+    assert "per room" not in summary and "per pet" not in summary
+    assert "up to 2 pets permitted." in summary
 
 
 def test_the_room_scoped_verb_does_not_leak_into_other_profiles():
@@ -809,13 +818,13 @@ def test_the_room_scoped_verb_does_not_leak_into_other_profiles():
     facts, evidence, _b = _extract(block)
     assert "fee_scope" not in facts
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert summary.endswith("Up to 2 pets permitted per room.")
+    assert summary.endswith("Up to 2 pets permitted.")
 
 
 def test_the_room_scoped_path_carries_its_verb():
     facts, evidence, _b = _extract(TOWNEPLACE_OSU)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert summary.endswith("Up to 2 pets are permitted per room.")
+    assert summary.endswith("Up to 2 pets are permitted.")
 
 
 # --------------------------------------------------------------------------- #
@@ -889,7 +898,7 @@ def test_the_summary_never_implies_dogs_share_the_cat_limit():
     # cat-only weight limit is never extended to dogs -- is unchanged.
     assert summary == ("Dogs and cats are accepted. A $150 non-refundable pet fee is "
                        "stated; the fee basis is not specified. Cats must weigh 20 "
-                       "pounds or less, with up to 2 pets permitted per room.")
+                       "pounds or less, with up to 2 pets permitted.")
     assert "Maximum pet weight" not in summary
 
 

@@ -254,7 +254,9 @@ class TestE_ColumbusExplicitNoWeightLimit:
                 if r["facts"].get("weight_limit_stated_none") is True]
 
     def test_the_cohort_exists(self):
-        assert len(self.cohort()) == 2
+        # Two at migration; three since PTF-POLICY-SCHEMA-MIGRATION-001A read
+        # "with no breed or weight restrictions" off a page it had skipped.
+        assert len(self.cohort()) == 3
 
     def test_it_never_reads_as_not_stated(self):
         for record in self.cohort():
@@ -322,7 +324,9 @@ class TestG_CatProhibition:
         return out
 
     def test_the_cohort_exists(self):
-        assert len(self.records()) == 3
+        # Three at migration; five since the evidence reconciliation carried
+        # across two more properties that refuse cats in their own words.
+        assert len(self.records()) == 5
 
     def test_the_chip_says_not_allowed(self):
         for record in self.records():

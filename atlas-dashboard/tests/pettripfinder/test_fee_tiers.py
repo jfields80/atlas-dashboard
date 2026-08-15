@@ -324,7 +324,7 @@ class TestRendering:
         assert summary == (
             "Pets are welcome. A non-refundable pet fee of $75 applies for stays of "
             "1–4 nights, and $125 applies for stays of 5 nights or more. "
-            "Maximum pet weight is 75 pounds, with up to 2 pets permitted per room.")
+            "Maximum pet weight is 75 pounds, with up to 2 pets permitted.")
 
 
 # --------------------------------------------------------------------------- #
@@ -456,7 +456,7 @@ class TestCappedFeePublishesBothNumbers:
         assert _verified_summary(facts, RESIDENCE_EASTON) == (
             "Pets are welcome. A $50 non-refundable fee applies per night, up to a "
             "maximum of $150%s. Maximum pet weight is 50 pounds, with up to 2 pets "
-            "permitted per room." % DISCLOSURE)
+            "permitted." % DISCLOSURE)
 
     def test_chip_and_detail_row_show_the_ceiling(self):
         facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
@@ -485,7 +485,7 @@ class TestScalarUnchanged:
                  "Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2")
         assert _verified_summary(self.SCALAR, quote) == (
             "Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
-                        "Maximum pet weight is 40 pounds, with up to 2 pets permitted per room.")
+                        "Maximum pet weight is 40 pounds, with up to 2 pets permitted.")
 
     def test_scalar_chips_and_rows_unchanged(self):
         chips = dict((l, v) for l, v, _c in _verified_facts(self.SCALAR))

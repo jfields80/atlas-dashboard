@@ -397,6 +397,13 @@
           "value": "room",
           "evidence_ref": "ev:d495a158af6be40f",
           "artifact_class": "POINTER_TO_EVIDENCE"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "excludes Service Animals",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleno-courtyard-cleveland-airport-north/overview/",
+          "artifact_class": "POINTER_TO_EVIDENCE",
+          "evidence_ref": "ev:35d3b41bfe0a0ae6"
         }
       ],
       "evidence_count": 7,
@@ -409,9 +416,17 @@
       "approval": {
         "decision": "APPROVED_AFTER_CURRENT_REVIEW",
         "operator": "jfields80",
-        "approval_date": "2026-08-10",
-        "record_hash": "sha256:f3b017fe2f393df7381a9dd80f89fdb498e3a842c9db477701fdc9140d131781",
-        "evidence_hash": "sha256:3ab4d6ae0b8fbbf50e0ea767f2b9eb44e018cec4ba9b471ecbf13c8d9952ca8f"
+        "approval_date": "2026-08-15",
+        "supersedes": {
+          "approval_date": "2026-08-10",
+          "decision": "APPROVED",
+          "operator": "jfields80"
+        },
+        "caveats": [
+          "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A Class-B attestation, 2026-08-15. The corrected record was presented in full -- the changed canonical fields, the exact committed quote behind each change, whether the public page moved, and this record_hash -- and approved against THIS hash. The approval superseded below was given for the record before those corrections; it is preserved verbatim as audit history and does not bind this record."
+        ],
+        "record_hash": "sha256:e6d0c94470219d3da15e571cb75c1bbcca83ba81f1de9433cd79792b10667299",
+        "evidence_hash": "sha256:6820a0c741bf02219ae1a5d2af276a9255cbd8e6ffe4050327d8939467438021"
       },
       "worker_model_id": "",
       "worker_prompt_version": "",
@@ -421,7 +436,11 @@
       "schema_version": "1.2",
       "identity_key": "courtyard by marriott airport north",
       "market_id": "cleveland-akron-canton-oh",
-      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT"
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "embassy suites beachwood",
@@ -922,16 +941,17 @@
           "basis": "per_stay"
         },
         "weight_limit": {
-          "value": 75.0,
+          "value": 75,
           "unit": "lb",
-          "operator": "lte",
+          "operator": "lt",
           "scope": "per_pet"
         },
         "pet_count_limit": 2,
         "pet_count_scope": "room",
         "species": {
           "dogs": "accepted"
-        }
+        },
+        "reservation_requirement": "a signed pet policy agreement required"
       },
       "evidence": [
         {
@@ -989,6 +1009,13 @@
           "value": "room",
           "evidence_ref": "ev:efc1e4183851755b",
           "artifact_class": "POINTER_TO_EVIDENCE"
+        },
+        {
+          "field": "reservation_requirement",
+          "quote": "a signed pet policy agreement required",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/beachwood/clebd/hoteldetail",
+          "artifact_class": "POINTER_TO_EVIDENCE",
+          "evidence_ref": "ev:c4eebedc6c06f321"
         }
       ],
       "evidence_count": 7,
@@ -1001,9 +1028,17 @@
       "approval": {
         "decision": "APPROVED_AFTER_CURRENT_REVIEW",
         "operator": "jfields80",
-        "approval_date": "2026-08-10",
-        "record_hash": "sha256:b3b79468c4bbbb919c516dbdee6f3f9fe8dcdd07aee4f924d3ffe94162fbd1ec",
-        "evidence_hash": "sha256:c7aed9700aa054b65911cc6905b8b690d01d572994cb84460911090467d0d92d"
+        "approval_date": "2026-08-15",
+        "supersedes": {
+          "approval_date": "2026-08-10",
+          "decision": "APPROVED",
+          "operator": "jfields80"
+        },
+        "caveats": [
+          "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A Class-B attestation, 2026-08-15. The corrected record was presented in full -- the changed canonical fields, the exact committed quote behind each change, whether the public page moved, and this record_hash -- and approved against THIS hash. The approval superseded below was given for the record before those corrections; it is preserved verbatim as audit history and does not bind this record."
+        ],
+        "record_hash": "sha256:ca10ba378265b7a2a53041d229fedbd34dbad0c93399d89f2346603fd87ea019",
+        "evidence_hash": "sha256:e7c850a983ba671b5ae470c611ef243e6f4c1ab093e3af7e332e52ed28040d85"
       },
       "withheld_fields": {
         "pet_deposit": {
@@ -1013,6 +1048,7 @@
             "ev:1f164aac5b880cbd",
             "ev:37c0868365de3139",
             "ev:a020474b39f6b379",
+            "ev:c4eebedc6c06f321",
             "ev:c6ec33e784cf8469",
             "ev:efc1e4183851755b",
             "ev:f40b27b7faca6a90",
@@ -1108,6 +1144,13 @@
           "value": "not permitted",
           "evidence_ref": "ev:d4f8c2660a6656c4",
           "artifact_class": "POINTER_TO_EVIDENCE"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "not applicable to service animals",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/cleveland/clehr/hoteldetail",
+          "artifact_class": "POINTER_TO_EVIDENCE",
+          "evidence_ref": "ev:b880783c97507f6b"
         }
       ],
       "evidence_count": 7,
@@ -1120,9 +1163,17 @@
       "approval": {
         "decision": "APPROVED_AFTER_CURRENT_REVIEW",
         "operator": "jfields80",
-        "approval_date": "2026-08-10",
-        "record_hash": "sha256:090ace0af61eb741f4ca4176f3640d680572b9972d0fcb62f97aa3dbcd2377b3",
-        "evidence_hash": "sha256:f2a0d27b6ced43b4dd989b440e481aa1abbc258fb5b9e43bde661f30cd632b3b"
+        "approval_date": "2026-08-15",
+        "supersedes": {
+          "approval_date": "2026-08-10",
+          "decision": "APPROVED",
+          "operator": "jfields80"
+        },
+        "caveats": [
+          "Founder decision, PTF-POLICY-SCHEMA-MIGRATION-001A Class-B attestation, 2026-08-15. The corrected record was presented in full -- the changed canonical fields, the exact committed quote behind each change, whether the public page moved, and this record_hash -- and approved against THIS hash. The approval superseded below was given for the record before those corrections; it is preserved verbatim as audit history and does not bind this record."
+        ],
+        "record_hash": "sha256:07e20643721f92a28339ebe365a60bf66bee170ea643b512b2c38eb6d018c80e",
+        "evidence_hash": "sha256:008778031b6d51939c367a8075012a8168c884df69c704327f2d5b250b582ab1"
       },
       "withheld_fields": {
         "fee_basis": {
@@ -1133,6 +1184,7 @@
             "ev:29392c43e7bb254d",
             "ev:2b51945bfaf3f170",
             "ev:4fe4242ecf8bec97",
+            "ev:b880783c97507f6b",
             "ev:d4f8c2660a6656c4",
             "ev:e5b6777eabb0bd7f",
             "ev:fca6b351c58377a5"
@@ -1147,7 +1199,11 @@
       "schema_version": "1.2",
       "identity_key": "hotel indigo cleveland downtown",
       "market_id": "cleveland-akron-canton-oh",
-      "computation_class": "CONDITIONALLY_SAFE"
+      "computation_class": "CONDITIONALLY_SAFE",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "residence inn by marriott cleveland avon at the emerald event center",

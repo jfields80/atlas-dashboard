@@ -403,8 +403,8 @@ def test_per_pet_weight_is_never_called_combined():
     summary = _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
     assert "combined" not in summary.lower()
     assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
-                                              "Maximum pet weight is 40 pounds, with up to 2 pets permitted "
-                       "per room.")
+                                              "Maximum pet weight is 40 pounds, with up to 2 pets "
+                       "permitted.")
 
 
 def test_combined_is_used_only_when_the_source_says_so():

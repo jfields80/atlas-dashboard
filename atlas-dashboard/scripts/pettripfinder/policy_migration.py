@@ -95,6 +95,10 @@ OWNED_RECORD_KEYS = ("schema_version", "identity_key", "market_id", "facts",
 #: exception section 27 requires.
 LEGACY_ARTIFACT_CLASS = enums.POINTER_TO_EVIDENCE
 
+#: Who this migration is, when it signs something. Never a person's name.
+AGENT_IDENTITY = "claude-opus-5 (PTF-POLICY-SCHEMA-MIGRATION-001A, agent)"
+RECONCILIATION_DATE = "2026-08-14"
+
 MIGRATED_MECHANICALLY = "MIGRATED_MECHANICALLY"
 MIGRATED_WITH_REVIEW = "MIGRATED_WITH_REVIEW"
 MIGRATED_WITH_WITHHOLDING = "MIGRATED_WITH_WITHHOLDING"
@@ -210,6 +214,7 @@ class RecordMigration:
         self.approval_change = ""
         self.computation_class = ""
         self.unowned_fields_kept: List[str] = []
+        self.reconciled: List[str] = []
         self.unresolved: List[str] = []
         self.record: Dict[str, Any] = {}
 
@@ -237,6 +242,7 @@ class RecordMigration:
             ("evidence_refs_added", self.evidence_refs_added),
             ("approval_change", self.approval_change),
             ("computation_class", self.computation_class),
+            ("evidence_reconciled", sorted(self.reconciled)),
             ("unowned_fields_kept", sorted(self.unowned_fields_kept)),
             ("unresolved", sorted(self.unresolved)),
             ("status", self.status),
@@ -302,8 +308,22 @@ def _migrate_withheld(record: Mapping, read: Mapping, decisions: Mapping,
     for path, entry in sorted((read.get("withheld_fields") or {}).items()):
         if isinstance(entry, Mapping) and entry.get("reason_code"):
             # Already canonical (Columbus's fee_conflict/fee_withheld arrive
-            # this way from the reader). It still needs its evidence linked.
+            # this way from the reader). It still needs its evidence linked --
+            # and, where a reviewer has written one, a real sentence in place of
+            # the legacy machine token. `conflicting_fee_basis_per_pet_vs_fee_
+            # basis_per_stay` satisfies the contract's "reason is present" check
+            # while telling the next reviewer nothing they can act on.
             new = dict(entry)
+            override = (per_record.get("withheld_override") or {}).get(path) or {}
+            if override.get("reason"):
+                new["legacy_reason_token"] = new["reason"]
+                new["reason"] = override["reason"]
+                out.reviewed.append("withheld_fields.%s reason rewritten from a "
+                                    "machine token" % path)
+            if override.get("public_copy"):
+                new["public_copy"] = override["public_copy"]
+            if override.get("public_label"):
+                new["public_label"] = override["public_label"]
             if not new.get("evidence_refs"):
                 new["evidence_refs"] = _refs_for_path(path, evidence_entries)
             result[path] = new
@@ -340,7 +360,9 @@ def _migrate_withheld(record: Mapping, read: Mapping, decisions: Mapping,
         target = rule.get("path") or path
         result[target] = withholding.withheld(
             target, reason_code, rule.get("reason") or prose,
-            _refs_for_path(target, evidence_entries))
+            _refs_for_path(target, evidence_entries),
+            public_copy=rule.get("public_copy", ""),
+            public_label=rule.get("public_label", ""))
         out.withheld.append(target)
 
     # A withholding the legacy record never recorded, added under review. The
@@ -356,7 +378,9 @@ def _migrate_withheld(record: Mapping, read: Mapping, decisions: Mapping,
             continue
         result[path] = withholding.withheld(
             path, reason_code, rule.get("reason") or "",
-            _refs_for_path(path, evidence_entries))
+            _refs_for_path(path, evidence_entries),
+            public_copy=rule.get("public_copy", ""),
+            public_label=rule.get("public_label", ""))
         out.withheld.append(path)
         out.reviewed.append("withheld_fields.%s added under review" % path)
     return result
@@ -514,6 +538,7 @@ def migrate_record(record: Mapping, *, market_id: str, decisions: Mapping,
     if "service_animal_statement" in per_record:
         statement = copy.deepcopy(per_record["service_animal_statement"])
         out.reviewed.append("service_animal_statement from review")
+    statement = _apply_reconciliation(record, per_record, facts, statement, entries, out)
 
     # A fact this migration CREATED under review needs its own pointer to the
     # sentence that establishes it -- otherwise the corpus contains a published
@@ -563,12 +588,202 @@ def migrate_record(record: Mapping, *, market_id: str, decisions: Mapping,
 #: Canonical fact names whose evidence was captured under a legacy field name.
 #: The evidence text is never rewritten, so the alias is how a canonical fact
 #: finds the quote it came from.
+#:
+#: PTF-POLICY-SCHEMA-MIGRATION-001A class 1. One canonical fact can be spelled
+#: several ways across writers -- ``species`` was captured as ``species_allowed``
+#: by one worker generation and as the pair ``dogs_accepted``/``cats_accepted``
+#: by another -- so the alias is one-to-MANY. Ten published facts read as
+#: unevidenced purely because the coverage check compared field names rather
+#: than following the alias, and the quotes were committed all along.
+#:
+#: Extended again by the 129-entry audit. A legacy writer filed evidence under
+#: the SUB-FIELD it spoke to -- ``fee_basis``, ``fee_scope``, ``fee_currency``
+#: are all quotes about ``pet_fee``; ``weight_limit_operator`` is a quote about
+#: ``weight_limit`` -- so 107 entries named nothing the canonical schema
+#: answers to, and read as orphans from the evidence side. The alias resolver
+#: is the right place to fix that: the preserved quote text is never rewritten
+#: (section 41), so the only thing that can change is what resolves TO it.
 EVIDENCE_FIELD_ALIASES = {
-    "species": "species_allowed",
-    "combined_weight_limit": "weight_limit_combined",
-    "other_charges": "cleaning_fee",
-    "dimension_constraints": "general_restrictions",
+    "species": ("species_allowed", "dogs_accepted", "cats_accepted",
+                "cats_allowed", "dogs_allowed"),
+    # A combined ceiling was routinely captured under the per-pet field name,
+    # because the legacy schema had only one weight slot and overloaded its
+    # operator with the word "combined". The quote is the same sentence; only
+    # the field it now belongs to has moved.
+    "combined_weight_limit": ("weight_limit_combined",
+                              "weight_limit_combined_operator",
+                              "weight_limit", "weight_limit_operator"),
+    "weight_limit": ("weight_limit_operator",),
+    "other_charges": ("cleaning_fee", "pet_deposit"),
+    "dimension_constraints": ("general_restrictions",),
+    "pet_count_limit": ("maximum_pets",),
+    "unattended_policy": ("unattended_pet_rule",),
+    "service_animal_statement": ("service_animal_exception", "service_animal_note"),
+    "pet_fee": ("fee_basis", "fee_scope", "fee_currency"),
+    "fee_tiers": ("fee_basis", "fee_scope", "fee_currency", "fee_schedule"),
+    # A cap that belongs to ONE rung of a per-pet schedule was captured as a
+    # record-level fee_cap. Red Roof's "$105 per pet per stay" is the second
+    # pet's ceiling; the first pet stays free.
+    "fee_pet_schedule": ("fee_basis", "fee_scope", "fee_currency", "fee_schedule",
+                         "fee_cap"),
+    "fee_cap": ("fee_cap_tiers",),
 }
+
+
+def evidence_aliases_for(field: str) -> Tuple[str, ...]:
+    """Every field name under which ``field``'s evidence may have been filed.
+
+    The canonical name is always first, so a caller testing membership need not
+    know whether a given fact has any aliases at all.
+
+    This answers the COVERAGE question -- is there any committed quote that
+    speaks to this fact -- and it is deliberately wide: a quote filed under
+    ``fee_basis`` is a quote about ``pet_fee``. It is the wrong question to ask
+    before AUTHORING a pointer; see ``SAME_FACT_ALIASES``.
+    """
+    return (field,) + tuple(EVIDENCE_FIELD_ALIASES.get(field, ()))
+
+
+#: The narrow map, for deciding whether a fact a reviewer just established
+#: ALREADY has a pointer of its own.
+#:
+#: Coverage and authoring are different questions and conflating them costs
+#: evidence. A record carrying a ``fee_basis`` quote is covered for ``pet_fee``
+#: -- but when a review establishes ``pet_fee`` itself, that reviewed fact
+#: still deserves a pointer under its own name. Using the wide map here
+#: suppressed six such pointers, which moved six record hashes, two of them
+#: already founder-approved.
+SAME_FACT_ALIASES = {
+    "species": ("species_allowed", "dogs_accepted", "cats_accepted",
+                "cats_allowed", "dogs_allowed"),
+    "combined_weight_limit": ("weight_limit_combined",),
+    "other_charges": ("cleaning_fee",),
+    "dimension_constraints": ("general_restrictions",),
+    "pet_count_limit": ("maximum_pets",),
+    "unattended_policy": ("unattended_pet_rule",),
+    "service_animal_statement": ("service_animal_exception", "service_animal_note"),
+}
+
+
+def same_fact_aliases_for(field: str) -> Tuple[str, ...]:
+    return (field,) + tuple(SAME_FACT_ALIASES.get(field, ()))
+
+
+def _apply_reconciliation(record: Mapping, per_record: Mapping, facts: Dict[str, Any],
+                         statement: Dict[str, Any], entries: List[Dict[str, Any]],
+                         out: RecordMigration) -> Dict[str, Any]:
+    """Carry across a fact the record's own evidence states and the migration missed.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. The field-by-field migration read the
+    LEGACY STRUCTURE and nothing else, so where a property wrote a fact into its
+    policy sentence but the legacy record had no slot for it, the fact was lost
+    a second time. Forty-one records lost fifty facts that way -- twenty-five
+    pet-count scopes sitting in a row LABEL ("Maximum Number of Pets in Room"),
+    eleven service-animal statements, six signed-form requirements, four species
+    positions including two outright refusals.
+
+    Every entry is quote-backed and committed. The quote must appear verbatim in
+    this record's own captured page text or the fact is refused, so a
+    reconciliation can never introduce something the property did not write.
+    """
+    page = " ".join(str(record.get("evidence_quote") or "").split())
+
+    # A pointer that adds NO fact -- it names the sentence behind one the record
+    # already publishes. Five records reached 1.2 with an empty evidence array
+    # while publishing facts, and a published fact no evidence entry names is
+    # exactly what every evidence gate in this system exists to prevent. This
+    # changes nothing about what the hotel is said to allow; it records where
+    # each claim came from.
+    for item in per_record.get("evidence_pointers") or ():
+        field, quote = item["field"], item["quote"]
+        if " ".join(str(quote).split()) not in page:
+            out.unresolved.append(
+                "evidence_pointer %s cites %r, which is not in this record's "
+                "captured page text" % (field, quote))
+            continue
+        if field not in facts and field != "pets_allowed":
+            out.unresolved.append(
+                "evidence_pointer names %s, which this record does not publish" % field)
+            continue
+        entry = {"field": field, "quote": quote,
+                 "source_url": record.get("source_url") or "",
+                 "artifact_class": LEGACY_ARTIFACT_CLASS}
+        entry["evidence_ref"] = evidence_ref_for(entry)
+        if entry["evidence_ref"] not in {e.get("evidence_ref") for e in entries}:
+            entries.append(entry)
+            out.evidence_refs_added += 1
+        out.reconciled.append("evidence pointer for %s" % field)
+
+    # PTF-POLICY-SCHEMA-MIGRATION-001A class 5. A citation the LEGACY record
+    # carried inside a fee tier, which the 1.2 tier conversion discarded. It is
+    # restored verbatim, with the provenance the legacy writer recorded -- and
+    # it is NOT contiguous in this record's stored page capture, because the
+    # tier citation and the page capture are two different reads of the same
+    # property URL.
+    #
+    # The contiguity guard is not waived, it is RECORDED as unmet:
+    # ``contiguity_verified: false`` travels with the entry so no later reader
+    # can mistake this for a quote checked against the capture. The class stays
+    # POINTER_TO_EVIDENCE. Nothing here is upgraded, no artifact hash or capture
+    # timestamp is invented; the record is queued for a first-party recapture.
+    for item in per_record.get("legacy_evidence_pointers") or ():
+        field = item["field"]
+        if field not in facts and field != "pets_allowed":
+            out.unresolved.append(
+                "legacy_evidence_pointer names %s, which this record does not "
+                "publish" % field)
+            continue
+        entry = {"field": field, "quote": item["quote"],
+                 "source_url": item.get("source_url") or record.get("source_url") or "",
+                 "artifact_class": LEGACY_ARTIFACT_CLASS,
+                 "contiguity_verified": False,
+                 "provenance_note": item["provenance_note"]}
+        if item.get("source_type"):
+            entry["source_type"] = item["source_type"]
+        entry["evidence_ref"] = evidence_ref_for(entry)
+        if entry["evidence_ref"] not in {e.get("evidence_ref") for e in entries}:
+            entries.append(entry)
+            out.evidence_refs_added += 1
+        out.reconciled.append("legacy evidence pointer for %s" % field)
+
+    for item in per_record.get("evidence_reconciliation") or ():
+        field, value, quote = item["field"], item["value"], item["quote"]
+        if " ".join(str(quote).split()) not in page:
+            out.unresolved.append(
+                "evidence_reconciliation %s cites %r, which is not in this "
+                "record's captured page text" % (field, quote))
+            continue
+
+        if field == "species":
+            merged = dict(facts.get("species") or {})
+            merged.update(value)
+            facts["species"] = merged
+        elif field == "service_animal_statement":
+            statement = dict(value)
+        elif "." in field:
+            # A qualifier ON a structure -- pet_fee.scope, pet_fee.scope_pet_
+            # allowance. Set inside the object rather than replacing it, so a
+            # reconciliation adds to a fee it never rewrites.
+            parent, leaf = field.split(".", 1)
+            container = facts.get(parent)
+            if not isinstance(container, dict):
+                out.unresolved.append(
+                    "evidence_reconciliation %s has no %s object to qualify"
+                    % (field, parent))
+                continue
+            container[leaf] = value
+        else:
+            facts[field] = value
+
+        entry = {"field": field, "quote": quote,
+                 "source_url": record.get("source_url") or "",
+                 "artifact_class": LEGACY_ARTIFACT_CLASS}
+        entry["evidence_ref"] = evidence_ref_for(entry)
+        if entry["evidence_ref"] not in {e.get("evidence_ref") for e in entries}:
+            entries.append(entry)
+            out.evidence_refs_added += 1
+        out.reconciled.append("%s = %s" % (field, json.dumps(value, ensure_ascii=False)))
+    return statement
 
 
 def _add_reviewed_evidence(record: Mapping, per_record: Mapping,
@@ -583,7 +798,7 @@ def _add_reviewed_evidence(record: Mapping, per_record: Mapping,
     for key in sorted(per_record.get("facts") or {}):
         if facts.get(key) is None:
             continue
-        if key in named or EVIDENCE_FIELD_ALIASES.get(key) in named:
+        if named.intersection(same_fact_aliases_for(key)):
             continue
         if " ".join(quote.split()) not in page:
             out.unresolved.append(
@@ -613,9 +828,132 @@ def _migrate_approval(record: Mapping, per_record: Mapping, new: Mapping,
     legacy = record.get("approval")
     decided = per_record.get("approval")
 
+    # PTF-POLICY-SCHEMA-MIGRATION-001A. An approval binds a RECORD, through its
+    # record_hash. Adding a fact changes that hash, so an approval given for the
+    # earlier record no longer binds this one -- and recomputing the hash under
+    # the earlier operator's name and date would silently convert their signature
+    # into a signature on something they never saw. That is the same defect this
+    # work order opened to fix, one level deeper.
+    #
+    # So a reconciled record's approval is downgraded, truthfully, to the state
+    # the enum already has for it: machine-reviewed, awaiting an operator. The
+    # prior approval is preserved verbatim as provenance rather than deleted,
+    # because what it attested to really did happen -- just to a different
+    # record.
+    #
+    # The trigger is the HASH, not a list of decision keys. A key list has to be
+    # extended every time a new kind of correction is invented, and the one that
+    # gets forgotten is the one that silently carries an operator's signature
+    # onto a record they never saw. Where the prior approval recorded what it
+    # signed, the question is answerable outright: does that hash still describe
+    # this record? Legacy approvals predating 1.2 recorded no hash, so for those
+    # the decision keys remain the only available signal.
+    signed_now = {k: v for k, v in new.items() if k != "approval"}
+    hash_now, evidence_now = record_hash(signed_now), evidence_hash(entries)
+    prior_hash = str((legacy or {}).get("record_hash") or "")
+    prior_evidence = str((legacy or {}).get("evidence_hash") or "")
+    hash_broken = bool(prior_hash) and prior_hash != hash_now
+    evidence_broken = bool(prior_evidence) and prior_evidence != evidence_now
+
+    # A decision the FOUNDER gave, recorded verbatim in the decisions file, is
+    # not a migration-authored attribution and must not be withdrawn as one.
+    # The flag is explicit rather than inferred from the decision string,
+    # because the whole defect this work order opened to fix was a block that
+    # LOOKED like a founder decision.
+    founder_attested = bool(per_record.get("founder_attested"))
+    authored_here = bool(decided) and not founder_attested
+    # A withdrawal recorded in the decisions file. It is committed, not derived,
+    # because the derived form is not stable: the migration re-reads the legacy
+    # approval from the pre-1.2 baseline on every run, so once a corrected
+    # record's hash matches the file again the comparison finds no movement and
+    # the human signature rides back onto a record they never re-attested.
+    withdrawn = bool(per_record.get("approval_withdrawn")) and not founder_attested
+    # ``founder_attested`` guards every invalidation trigger, reconciliation
+    # included. A reconciled fact invalidates an approval given BEFORE it; once
+    # the founder has reviewed the corrected record and signed that record's
+    # own hash, the correction is the thing they approved, and withdrawing it
+    # again would leave a corpus no attestation could ever clear.
+    reconciled_since_approval = (bool(per_record.get("evidence_reconciliation"))
+                                 and not founder_attested)
+    if (reconciled_since_approval or authored_here or withdrawn
+            or ((hash_broken or evidence_broken) and not founder_attested)):
+        reconciled = len(per_record.get("evidence_reconciliation") or ())
+        caveats = []
+        if reconciled:
+            caveats.append(
+                "PTF-POLICY-SCHEMA-MIGRATION-001A added %d source-backed fact(s) to this "
+                "record from its own committed evidence. Any earlier approval was given "
+                "for the record BEFORE those facts and no longer binds it." % reconciled)
+        if hash_broken:
+            caveats.append(
+                "The record_hash this approval was given against (%s) does not describe "
+                "the corrected record (%s). The approval is reported invalid rather than "
+                "re-signed." % (prior_hash[7:23], hash_now[7:23]))
+        if evidence_broken and not hash_broken:
+            caveats.append(
+                "The evidence set changed after this approval was given "
+                "(evidence_hash %s -> %s). The facts are unchanged; what supports them "
+                "is not." % (prior_evidence[7:23], evidence_now[7:23]))
+        if withdrawn:
+            caveats.append(
+                "APPROVAL_INVALIDATED_BY_MIGRATION. This record was corrected after the "
+                "operator named under 'supersedes' approved it, so their approval no longer "
+                "describes it. It is reported invalid rather than re-signed under their name "
+                "and date, and only a founder decision recorded in the decisions file can "
+                "clear this state.")
+        approval = {
+            "decision": enums.MACHINE_REVIEWED_PENDING_OPERATOR,
+            "operator": AGENT_IDENTITY,
+            "approval_date": RECONCILIATION_DATE,
+        }
+        # Two very different things can sit behind a record here, and calling
+        # both "superseded" would launder one into the other.
+        #
+        #   supersedes              a real approval, given by a real operator to
+        #                           an earlier version of this record. It
+        #                           happened; it simply no longer binds.
+        #   invalidated_attribution an approval block PTF-POLICY-SCHEMA-
+        #                           MIGRATION-001 wrote under an operator's name
+        #                           for a review that operator never performed.
+        #                           It never bound anything, and preserving it as
+        #                           provenance would restate the claim it is the
+        #                           defect of.
+        if authored_here:
+            approval["invalidated_attribution"] = copy.deepcopy(dict(decided))
+            caveats.append(
+                "The block under 'invalidated_attribution' was written by the migration "
+                "under an operator's name for a review that operator did not perform. It "
+                "is retained as the record of that defect, not as an approval.")
+        elif legacy and (legacy.get("decision") or "").strip():
+            approval["supersedes"] = copy.deepcopy(dict(legacy))
+        approval["caveats"] = caveats
+        if reconciled or hash_broken or withdrawn:
+            cause = "APPROVAL_INVALIDATED_BY_MIGRATION"
+        elif evidence_broken:
+            cause = "APPROVAL_INVALIDATED_BY_EVIDENCE_CHANGE"
+        else:
+            cause = "ATTRIBUTION_WITHDRAWN"
+        out.approval_change = "%s -> %s" % (
+            cause, enums.MACHINE_REVIEWED_PENDING_OPERATOR)
+        approval["record_hash"] = hash_now
+        approval["evidence_hash"] = evidence_now
+        return approval
+
     if decided:
         approval = copy.deepcopy(dict(decided))
         out.approval_change = "recorded %s" % approval.get("decision")
+        # A founder approval names the hash it was given against. If the record
+        # has moved since, the signature describes something else and the
+        # migration STOPS rather than re-binding it to whatever is there now --
+        # which is the whole failure this work order exists to prevent, stated
+        # as an assertion the pipeline can make on every run.
+        promised = str(per_record.get("approved_record_hash") or "")
+        if promised and promised != hash_now:
+            out.unresolved.append(
+                "approval was given against record_hash %s, which does not describe this "
+                "record (%s). Re-present it; do not re-bind the signature."
+                % (promised[7:23], hash_now[7:23]))
+            return dict(approval)
     elif isinstance(legacy, Mapping) and (legacy.get("decision") or "").strip():
         mapped = enums.LEGACY_APPROVAL_DECISIONS.get(legacy["decision"])
         if mapped is None:
@@ -647,13 +985,100 @@ def _migrate_approval(record: Mapping, per_record: Mapping, new: Mapping,
 # Package migration.
 # --------------------------------------------------------------------------- #
 
-def migrate_package(document: Mapping, market_id: str, decisions: Mapping
+def withdraw_stale_approvals(results: Sequence[RecordMigration],
+                             prior: Optional[Mapping],
+                             decisions: Mapping, market_id: str) -> None:
+    """Downgrade any approval the corrected record no longer answers to.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. When the migration is re-derived from the
+    pre-1.2 baseline, the record it reads carries the LEGACY approval, which
+    recorded no hash -- so ``_migrate_approval`` has nothing to compare and an
+    approval given for the uncorrected record rides through onto the corrected
+    one. The comparison it needs is against what is on disk NOW.
+
+    Nothing is re-signed here and no date is moved. An approval whose hash no
+    longer describes the record is replaced by the state that is true of it --
+    machine-reviewed, awaiting an operator -- and the prior approval is kept
+    verbatim under ``supersedes`` so the attestation that really happened is
+    not erased, only unbound.
+
+    A withdrawal is STICKY. The hash comparison alone is not enough, because
+    every run re-derives from the pre-1.2 baseline and re-reads the legacy
+    approval there: on the run after a correction lands, the record's hash
+    already matches what is on disk, the comparison finds no movement, and the
+    legacy signature rides back on. Eight of thirty-two withdrawn approvals
+    resurrected exactly that way before this rule existed -- a founder's name
+    reappearing on a record they had not re-attested, which is the defect this
+    whole work order was opened to fix, arriving by a different door.
+
+    So an approval already withdrawn stays withdrawn, with its hashes rebound to
+    the current record. Only a founder decision recorded in the decisions file
+    (``founder_attested``) clears it.
+    """
+    if not prior:
+        return
+    by_key = {r.get("identity_key"): r for r in prior.get("hotels") or ()}
+    for result in results:
+        record = result.record
+        approval = record.get("approval")
+        was = by_key.get(result.identity_key, {}).get("approval") or {}
+        if not isinstance(approval, Mapping) or not was.get("record_hash"):
+            continue
+        if (decisions.get("records") or {}).get(
+                record_key(market_id, result.identity_key), {}).get("founder_attested"):
+            continue
+        if approval.get("decision") == enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+            continue
+        already_withdrawn = (
+            was.get("decision") == enums.MACHINE_REVIEWED_PENDING_OPERATOR
+            and bool(was.get("supersedes")))
+        if already_withdrawn:
+            # Carry the existing withdrawal forward verbatim, rebinding only the
+            # hashes. The superseded block is the ORIGINAL attestation, never
+            # this run's re-derivation of it.
+            record["approval"] = dict(copy.deepcopy(dict(was)),
+                                      record_hash=approval["record_hash"],
+                                      evidence_hash=approval["evidence_hash"])
+            result.approval_change = "APPROVAL_REMAINS_WITHDRAWN"
+            continue
+        record_moved = was.get("record_hash") != approval.get("record_hash")
+        evidence_moved = was.get("evidence_hash") != approval.get("evidence_hash")
+        if not (record_moved or evidence_moved):
+            continue
+        caveat = (
+            "The record_hash this approval was given against (%s) does not describe the "
+            "corrected record (%s)." % (str(was["record_hash"])[7:23],
+                                        str(approval["record_hash"])[7:23])
+            if record_moved else
+            "The facts are unchanged, but the evidence set behind them is not "
+            "(evidence_hash %s -> %s)." % (str(was.get("evidence_hash"))[7:23],
+                                           str(approval.get("evidence_hash"))[7:23]))
+        record["approval"] = {
+            "decision": enums.MACHINE_REVIEWED_PENDING_OPERATOR,
+            "operator": AGENT_IDENTITY,
+            "approval_date": RECONCILIATION_DATE,
+            "supersedes": copy.deepcopy(dict(was)),
+            "caveats": [
+                "APPROVAL_INVALIDATED_BY_MIGRATION. " + caveat + " It is reported invalid "
+                "rather than re-signed under the earlier operator's name and date."],
+            "record_hash": approval["record_hash"],
+            "evidence_hash": approval["evidence_hash"],
+        }
+        result.approval_change = "%s -> %s" % (
+            "APPROVAL_INVALIDATED_BY_MIGRATION" if record_moved
+            else "APPROVAL_INVALIDATED_BY_EVIDENCE_CHANGE",
+            enums.MACHINE_REVIEWED_PENDING_OPERATOR)
+
+
+def migrate_package(document: Mapping, market_id: str, decisions: Mapping,
+                    prior: Optional[Mapping] = None
                     ) -> Tuple[Dict[str, Any], List[RecordMigration]]:
     """Migrate a whole ``hotel_policy_facts`` document. Patch semantics."""
     package_schema = str(document.get("schema_version") or "")
     results = [migrate_record(r, market_id=market_id, decisions=decisions,
                               package_schema=package_schema)
                for r in document.get("hotels") or ()]
+    withdraw_stale_approvals(results, prior, decisions, market_id)
     new = copy.deepcopy(dict(document))
     new["schema_version"] = enums.POLICY_SCHEMA_VERSION
     new["market_id"] = market_id
@@ -695,9 +1120,24 @@ def write_package(document: Mapping, market_id: str) -> Path:
     return path
 
 
-def load_package(market_id: str) -> Dict[str, Any]:
-    path = PACKAGE_DIR / POLICY_PACKAGES[market_id]
-    return json.loads(path.read_text(encoding="utf-8-sig"))
+def load_package(market_id: str, baseline_ref: str = "") -> Dict[str, Any]:
+    """The package to migrate.
+
+    Without a ref this is the working tree, and a re-run over already-canonical
+    authority is a no-op -- which is what idempotence means. With a ref it is
+    the package as it stood at that commit, which is how a migration is
+    RE-DERIVED after its decisions change: the input is always the legacy
+    authority, never the migration's own previous output.
+    """
+    if not baseline_ref:
+        path = PACKAGE_DIR / POLICY_PACKAGES[market_id]
+        return json.loads(path.read_text(encoding="utf-8-sig"))
+    import subprocess
+    blob = subprocess.run(
+        ["git", "show", "%s:atlas-dashboard/launch_packages/pettripfinder/%s"
+         % (baseline_ref, POLICY_PACKAGES[market_id])],
+        cwd=str(_REPO_ROOT), capture_output=True, check=True).stdout
+    return json.loads(blob.decode("utf-8-sig"))
 
 
 # --------------------------------------------------------------------------- #
@@ -705,10 +1145,14 @@ def load_package(market_id: str) -> Dict[str, Any]:
 # --------------------------------------------------------------------------- #
 
 def run(market_id: str, *, write: bool = False,
-        decisions: Optional[Mapping] = None) -> Tuple[Dict[str, Any], List[RecordMigration]]:
+        decisions: Optional[Mapping] = None,
+        baseline_ref: str = "") -> Tuple[Dict[str, Any], List[RecordMigration]]:
     decisions = decisions if decisions is not None else load_decisions()
-    document = load_package(market_id)
-    migrated, results = migrate_package(document, market_id, decisions)
+    document = load_package(market_id, baseline_ref)
+    # Re-deriving from the baseline reads the LEGACY approvals; the approvals
+    # that must actually be answered to are the ones on disk now.
+    prior = load_package(market_id) if baseline_ref else None
+    migrated, results = migrate_package(document, market_id, decisions, prior)
     problems = validate_migrated(migrated)
 
     blocked = [r for r in results if r.status == BLOCKED]
@@ -747,12 +1191,15 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--market", action="append", dest="markets",
                         help="market id (repeatable); default all three")
     parser.add_argument("--write", action="store_true")
+    parser.add_argument("--baseline-ref", default="",
+                        help="re-derive from the legacy authority at this git ref")
     args = parser.parse_args(argv)
 
     markets = args.markets or list(POLICY_PACKAGES)
     decisions = load_decisions()
     for market_id in markets:
-        run(market_id, write=args.write, decisions=decisions)
+        run(market_id, write=args.write, decisions=decisions,
+            baseline_ref=args.baseline_ref)
     return 0
 
 

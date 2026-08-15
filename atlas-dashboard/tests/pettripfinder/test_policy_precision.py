@@ -83,20 +83,38 @@ class TestCountScope:
         assert "per suite" in summary
         assert "per room" not in summary
 
-    def test_an_absent_scope_still_says_per_room(self):
+    def test_an_absent_scope_states_the_count_without_inventing_a_unit(self):
+        """PTF-POLICY-SCHEMA-MIGRATION-001A, founder decision.
+
+        This used to assert the opposite -- that an absent scope still read
+        "per room" -- and the assertion was the defect. Two-thirds of the corpus
+        states a pet count and no unit; publishing "2 per room" for all of them
+        told every one of those readers something the property never said, and
+        the guest booking a two-room suite is exactly the one it misleads.
+        """
         summary = _verified_summary({"pets_allowed": "true", "pet_count_limit": "2"}, "")
+        assert "Up to 2 pets permitted." in summary
+        assert "per room" not in summary
+
+    def test_a_stated_room_scope_still_says_per_room(self):
+        """The fix removes a fabrication; it does not remove a stated fact."""
+        summary = _verified_summary({"pets_allowed": "true", "pet_count_limit": "2",
+                                     "pet_count_scope": "room"}, "")
         assert "Up to 2 pets permitted per room." in summary
 
-    def test_an_explicit_room_scope_reads_identically_to_an_absent_one(self):
+    def test_a_stated_scope_and_an_absent_one_no_longer_read_alike(self):
         base = {"pets_allowed": "true", "pet_count_limit": "2"}
-        assert _verified_summary(dict(base, pet_count_scope="room"), "") == \
+        assert _verified_summary(dict(base, pet_count_scope="room"), "") != \
             _verified_summary(base, "")
 
-    def test_an_unknown_scope_falls_back_to_room_rather_than_echoing_it(self):
-        """A junk value must never reach a consumer sentence."""
+    def test_an_unknown_scope_is_silence_rather_than_a_fallback(self):
+        """A junk value must never reach a consumer sentence -- and the safe
+        place to land is silence, not "room". Falling back to a real unit turns
+        unparseable data into a promise."""
         summary = _verified_summary(
             {"pets_allowed": "true", "pet_count_limit": "2", "pet_count_scope": "villa"}, "")
-        assert "per room" in summary and "villa" not in summary
+        assert "villa" not in summary and "per room" not in summary
+        assert "Up to 2 pets permitted." in summary
 
     def test_the_verb_agrees_with_the_count(self):
         one = _verified_summary({"pets_allowed": "true", "pet_count_limit": "1",
@@ -152,9 +170,17 @@ class TestExplicitlyUnrestricted:
 class TestFeeBasisAmbiguity:
 
     def test_leveque_renders_the_required_sentence(self):
+        # The renderer states the scope the FACTS carry, not the one a reader
+        # can see in the quote. This fixture's quote says "Maximum 2 Pets Per
+        # Room" while its facts carry no pet_count_scope -- so the page no
+        # longer says "per room", correctly, and the gap is in the capture.
+        # Six live records have the same shape; they are reported as an
+        # evidence-reconciliation candidate rather than patched at the renderer,
+        # because inventing the scope back at render time is the defect this
+        # change removed.
         assert _verified_summary(LEVEQUE_FACTS, LEVEQUE_QUOTE) == (
             "Pets are welcome. A $100 non-refundable pet fee is stated; the fee basis is not "
-            "specified. Maximum pet weight is 80 pounds, with up to 2 pets permitted per room.")
+            "specified. Maximum pet weight is 80 pounds, with up to 2 pets permitted.")
 
     def test_leveque_never_claims_a_basis(self):
         summary = _verified_summary(LEVEQUE_FACTS, LEVEQUE_QUOTE).lower()

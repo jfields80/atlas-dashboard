@@ -55,7 +55,7 @@ from scripts.pettripfinder.site_data import (
 # this repository's named production market, so the calls below still describe
 # Columbus; the per-market system itself is covered in
 # tests/pettripfinder/test_per_market_release_contracts.py.
-EXPECTED_PACKAGE_SHA = "512caa5d12ccde90550c03a8783d81ddc13c2e8958fa39674909f4b200a678ae"
+EXPECTED_PACKAGE_SHA = "d06681b291fdfa15b2f7a0dd62585b94966dfe205f3c9c6a658577c7cf1a9ee7"
 EXPECTED_RECORD_COUNT = 88
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 

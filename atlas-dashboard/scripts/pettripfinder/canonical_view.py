@@ -349,6 +349,10 @@ class CanonicalView:
         withheld field means the opposite -- the hotel spoke, and what it said
         could not be published accurately.
         """
+        entry = self.withheld.get(path) or {}
+        own = str(entry.get("public_copy") or "")
+        if own:
+            return own
         code = self.withheld_reason_code(path)
         return withholding.PUBLIC_COPY.get(code) or WITHHELD_GENERIC_COPY
 
@@ -778,11 +782,25 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
     # marker is derived from the reason: a contradiction reads differently to a
     # fact the schema cannot carry, and rendering either as silence would tell a
     # reader the hotel never stated a price.
+    # Every withholding decision, keyed by path, so a table CELL can tell a
+    # withheld field from a silent one. Without this the compact chip printed
+    # "Not stated" over a field the hotel HAD addressed -- which is the precise
+    # confusion Phase B was built to end, reappearing one layer down.
+    decisions = entry.get("withheld_fields") or {}
+    if decisions:
+        out["_withheld"] = {
+            path: {"reason_code": d.get("reason_code") or "",
+                   "public_label": d.get("public_label") or "",
+                   "public_copy": d.get("public_copy") or ""}
+            for path, d in decisions.items() if isinstance(d, Mapping)}
+
     fee_decision = (entry.get("withheld_fields") or {}).get("pet_fee")
     if isinstance(fee_decision, Mapping):
         code = str(fee_decision.get("reason_code") or "")
         marker = {"reason": fee_decision.get("reason") or "",
-                  "reason_code": code}
+                  "reason_code": code,
+                  "public_copy": fee_decision.get("public_copy") or "",
+                  "public_label": fee_decision.get("public_label") or ""}
         if code == enums.SOURCE_CONTRADICTORY:
             out["fee_conflict"] = marker
         elif code:

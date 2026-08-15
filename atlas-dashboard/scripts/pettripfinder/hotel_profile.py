@@ -486,12 +486,57 @@ FEE_RANGE_NOTICE = ("Official source gives a pet-fee range that depends on "
                     "policy wording or confirm with the hotel.")
 
 
+def withheld_cell(f: Dict, path: str) -> Optional[Tuple[str, str]]:
+    """``(text, css)`` for a table cell whose field was deliberately withheld.
+
+    ``None`` -- not ``("", "")`` -- when the field carries no decision. An
+    empty tuple is TRUTHY, so returning one made every ``withheld_cell(...) or
+    fallback`` take the withheld branch and blanked the cell on all 156
+    records. Caught by the rendered-diff gate, which is what it is for.
+    """
+    decision = (f.get("_withheld") or {}).get(path)
+    if not decision:
+        return None
+    label = (decision.get("public_label")
+             or canonical_view.WITHHELD_SHORT_LABELS.get(decision.get("reason_code", ""))
+             or canonical_view.WITHHELD_GENERIC_LABEL)
+    return (label, WITHHELD_CLS)
+
+
+def _withheld_chip_label(f: Dict) -> str:
+    """The comparison chip for a withheld fee.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A: a reviewed decision may name its own
+    label. "Range by stay" fits a $75-$150 spread and misdescribes a fee
+    charged every three nights, which is one amount on a repeating cycle.
+    """
+    for key, generic in (("fee_conflict", "Source conflict"),
+                         ("fee_withheld", "Range by stay")):
+        marker = f.get(key)
+        if not marker:
+            continue
+        own = marker.get("public_label") if isinstance(marker, dict) else ""
+        return own or generic
+    return ""
+
+
 def fee_withheld_notice(f: Dict) -> str:
-    """The right sentence for whichever reason the fee was withheld, or ""."""
-    if f.get("fee_conflict"):
-        return FEE_CONFLICT_NOTICE
-    if f.get("fee_withheld"):
-        return FEE_RANGE_NOTICE
+    """The right sentence for whichever reason the fee was withheld, or "".
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. A reviewed withholding may carry its own
+    sentence, and where it does the reader gets that instead of the generic
+    one. "Official source contains conflicting pet-fee terms" is true of every
+    contradiction in the corpus; it does not tell a guest that the conflict is
+    between a nightly rate and a per-stay rate, which is the part they can put
+    to the hotel.
+    """
+    for key, generic in (("fee_conflict", FEE_CONFLICT_NOTICE),
+                         ("fee_withheld", FEE_RANGE_NOTICE)):
+        marker = f.get(key)
+        if not marker:
+            continue
+        own = marker.get("public_copy") if isinstance(marker, dict) else ""
+        return own or generic
     return ""
 
 
@@ -1000,15 +1045,36 @@ def _pets_phrase(count) -> str:
 #: PTF-POLICY-PRECISION-001. The unit a pet count applies to. "Up to two pets
 #: are permitted per suite" is what an all-suite property states, and calling it
 #: a room changes the promise for a guest booking a multi-room suite. Only the
-#: two units a source has actually stated are accepted; anything else -- and
-#: absence, which is every existing record -- keeps the established "room"
-#: wording, so no published profile changes.
+#: two units a source has actually stated are accepted.
 _COUNT_SCOPES = ("room", "suite")
 
 
-def _count_scope(f: Dict) -> str:
+def _count_scope(f: Dict) -> Optional[str]:
+    """The unit the source stated the count in, or None if it stated none.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. This used to return "room" for absence as
+    well as for a stated room scope, so a property that wrote only "2 pets max"
+    was published as "2 per room" -- a scope it never gave. Two-thirds of the
+    corpus states a count without a unit, so the fabrication was the common
+    case, not the edge one.
+
+    It also made the authority untestable from the page: three records carrying
+    an unsupported ``pet_count_scope: room`` were removed from the authority and
+    their pages did not move, because the renderer put the same word back. The
+    default is gone; absence now renders as absence.
+    """
     scope = str(f.get("pet_count_scope") or "").strip().lower()
-    return scope if scope in _COUNT_SCOPES else "room"
+    return scope if scope in _COUNT_SCOPES else None
+
+
+def _per_count_scope(f: Dict) -> str:
+    """" per room" / " per suite" where the source stated one, else "".
+
+    Returned with its leading space so a caller can append it to a sentence
+    that has to read correctly with or without it.
+    """
+    scope = _count_scope(f)
+    return " per %s" % scope if scope else ""
 
 
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
@@ -1188,7 +1254,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         species, rule = sorted(bound.items())[0]
         parts.append("%s must weigh %s or less%s" % (
             _cap_first(species), _prose_number(rule.get("value", "")),
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif weight and has_combined_weight(f):
         # Both limits stated. Both are said, in that order, and the combined
@@ -1213,12 +1279,12 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         # turns the 80-pound dog away, and "maximum ... is 80 pounds" does not.
         parts.append("Pets must weigh %s%s" % (
             weight_phrase(f),
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif weight:
         parts.append("Maximum pet weight is %s%s" % (
             weight,
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif count:
         # A source that says "No weight limit per pet" has stated a FACT, not
@@ -1229,10 +1295,10 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # This branch was written for the one-pet case and read "2 pets is
             # permitted" the first time a multi-pet property stated it.
             phrase = _cap_first(_pets_phrase(count).replace("1 pet", "One pet"))
-            parts.append("%s %s permitted per %s, with no pet weight limit "
+            parts.append("%s %s permitted%s, with no pet weight limit "
                          "stated by the hotel."
                          % (phrase, "is" if phrase.startswith("One pet") else "are",
-                            _count_scope(f)))
+                            _per_count_scope(f)))
         elif f.get("fee_scope") == "per_room":
             # A room-scoped fee has just told the reader the charge covers the
             # room; the allowance sentence that follows it carries its verb so
@@ -1241,11 +1307,11 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # stands unchanged -- this is a wording choice for one path, not a
             # licence to reword every profile that states a count.
             phrase = _pets_phrase(count)
-            parts.append("Up to %s %s permitted per %s."
+            parts.append("Up to %s %s permitted%s."
                          % (phrase, "is" if phrase.startswith("1 pet") else "are",
-                            _count_scope(f)))
+                            _per_count_scope(f)))
         else:
-            parts.append("Up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            parts.append("Up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
     elif f.get("weight_limit_stated_none") == "true":
         parts.append("The hotel states no pet weight limit.")
 
@@ -1307,11 +1373,10 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         # hotel never mentioned from one whose own page contradicts itself.
         return head + (
             ("Pet charge", "See policy wording", WITHHELD_CLS),
-            ("Charge basis",
-             "Source conflict" if f.get("fee_conflict") else "Range by stay",
-             WITHHELD_CLS),
+            ("Charge basis", _withheld_chip_label(f), WITHHELD_CLS),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
@@ -1320,7 +1385,8 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", tier_fee_range(tiers), ""),
             ("Charge basis", "Tiered by stay length", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     # A staged fee has no single charge, so the chip names both stages rather
     # than the first night's price standing in for the stay.
@@ -1330,7 +1396,8 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", "%s first night, then %s" % (first_night, additional_night), ""),
             ("Charge basis", "Staged by night", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
@@ -1350,7 +1417,8 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         ("Charge basis", *((_cap_first(qualifier), "sm") if qualifier
                            else ("Not stated", "dim"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
-        ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
+        ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
     ) + _breed_chip(f)
 
 
@@ -1488,9 +1556,16 @@ def withheld_rows(record: Optional[Dict]) -> Tuple[Tuple[str, str, str], ...]:
         return ()
     view = canonical_view.build(record)
     facts = record.get("facts") or {}
-    # The legacy fee-specific branch already renders its own withheld rows;
-    # emitting ours as well would state the same withholding twice.
-    legacy_fee_withheld = bool(facts.get("fee_conflict") or facts.get("fee_withheld"))
+    # The fee-specific branch above already renders its own withheld rows;
+    # emitting ours as well states the same withholding twice.
+    #
+    # PTF-POLICY-SCHEMA-MIGRATION-001A: read this from the DISPLAY projection,
+    # not the canonical facts. 1.2 replaced the two legacy markers with a
+    # reason-coded decision, so `facts.get("fee_conflict")` became permanently
+    # False and every conflicted record printed its sentence twice -- once as
+    # "Charge basis" and again as "Pet charge".
+    shown = canonical_view.display_facts(record)
+    legacy_fee_withheld = bool(shown.get("fee_conflict") or shown.get("fee_withheld"))
     out = []
     seen = set()
     for path, label in _WITHHELD_ROW_LABELS:
@@ -1630,8 +1705,8 @@ def _verified_details(f: Dict[str, str],
         # The detail table has to name the same unit the summary does. It said
         # "per room" for every record, so an all-suite property read "2 pets are
         # permitted per suite" in the sentence and "2 per room" in the table on
-        # the same page. Absent scope still renders "per room", unchanged.
-        ("Maximum pets", *(lambda v: ("%s per %s" % (v, _count_scope(f)), "")
+        # the same page. Where the source stated no unit, neither does the row.
+        ("Maximum pets", *(lambda v: ("%s%s" % (v, _per_count_scope(f)), "")
                            if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
         *charge_rows,
         *maximum_rows,
@@ -1640,12 +1715,16 @@ def _verified_details(f: Dict[str, str],
             "per-stay basis.", "") if f.get("fee_tiers")
            else ("Staged: the first night is charged at a different rate from "
                  "each additional night.", "") if first_night
-           else ("Withheld: the official source states conflicting terms.",
+           # PTF-POLICY-SCHEMA-MIGRATION-001A. When a fee is withheld the row
+           # above already carries the full explanation, so this one carries
+           # the short form. Printing the same sentence twice in one table
+           # reads as a rendering fault, not as emphasis -- and the generic
+           # text it replaced was wrong on at least one record: a fee charged
+           # "every 3 nights" is not a range, and calling it one sent a reader
+           # looking for two numbers that do not exist.
+           else ("Withheld: %s." % _withheld_chip_label(f).rstrip("."),
                  WITHHELD_CLS)
-           if f.get("fee_conflict")
-           else ("Withheld: the official source gives a range that depends on "
-                 "the stay.", WITHHELD_CLS)
-           if f.get("fee_withheld")
+           if f.get("fee_conflict") or f.get("fee_withheld")
            # PTF-RENDERER-FIDELITY-001. Scope travels with the basis, and where
            # the source gave an amount and a recurrence but never said who it
            # attaches to, the row says that rather than showing half a rule as

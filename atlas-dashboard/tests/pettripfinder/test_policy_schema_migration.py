@@ -29,8 +29,9 @@ from scripts.pettripfinder.contracts.fee_computation import classify
 from scripts.pettripfinder.contracts.identity_key import is_canonical_key
 from scripts.pettripfinder.contracts.review_queue import POLICY_PACKAGES
 from scripts.pettripfinder.policy_migration import (
-    BLOCKED, PACKAGE_DIR, evidence_hash, evidence_ref_for, load_decisions,
-    load_package, migrate_package, record_hash, validate_migrated,
+    BLOCKED, PACKAGE_DIR, evidence_aliases_for, evidence_hash, evidence_ref_for,
+    load_decisions, load_package, migrate_package, record_hash,
+    same_fact_aliases_for, validate_migrated,
 )
 
 MARKETS = tuple(POLICY_PACKAGES)
@@ -215,7 +216,9 @@ def test_silence_restatements_were_dropped_not_recoded():
     """
     total = sum(len(r.get("withheld_fields") or {})
                 for m in MARKETS for r in load_package(m)["hotels"])
-    assert total == 37
+    # 37 after the migration; 38 since PTF-POLICY-SCHEMA-MIGRATION-001A withheld
+    # Sheraton Worthington's weight, whose page disputes its own boundary.
+    assert total == 38
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -297,9 +300,15 @@ def test_stored_computation_class_equals_recomputation(records):
 # Non-destructive migration (section 40).
 # --------------------------------------------------------------------------- #
 
+#: The authority as it stood BEFORE any of this migration ran. Pinned to the
+#: commit rather than to HEAD: once the migration is committed, HEAD holds its
+#: own output, and a test comparing the migration to itself proves nothing.
+PRE_MIGRATION_REF = "2d885d1"
+
+
 def _package_at_head(market):
     path = "atlas-dashboard/launch_packages/pettripfinder/%s" % POLICY_PACKAGES[market]
-    blob = subprocess.run(["git", "show", "HEAD:%s" % path],
+    blob = subprocess.run(["git", "show", "%s:%s" % (PRE_MIGRATION_REF, path)],
                           cwd=str(PACKAGE_DIR.parents[1]), capture_output=True,
                           check=True).stdout
     return json.loads(blob.decode("utf-8-sig"))
@@ -336,14 +345,30 @@ def test_source_quotes_were_never_altered(packages):
             assert record.get("source_url") == before.get("source_url")
             old_quotes = [e.get("quote") for e in before.get("evidence") or ()]
             new_quotes = [e.get("quote") for e in record.get("evidence") or ()]
-            # Every original quote survives verbatim. The migration may ADD a
-            # pointer to a sentence a reviewer read -- that is how a fact taken
-            # under review stays traceable -- but only to text that is already
-            # in this record's captured page, checked below.
-            assert new_quotes[:len(old_quotes)] == old_quotes, record["key"]
+            # Every original quote survives verbatim. The migration may ADD
+            # pointers -- to a sentence a reviewer read, or to one the evidence
+            # reconciliation carried across -- but only to text already in this
+            # record's captured page, checked below. Membership rather than
+            # prefix: an added pointer may land anywhere in the array, and where
+            # it lands is not a fact about the hotel.
+            assert set(old_quotes) <= set(new_quotes), record["key"]
             page = " ".join((record.get("evidence_quote") or "").split())
-            for quote in new_quotes[len(old_quotes):]:
+            # An added pointer must cite this record's own captured page --
+            # UNLESS it declares that it does not. A citation recovered from a
+            # legacy fee tier comes from a different read of the same property
+            # URL, so it can never satisfy contiguity; the honest handling is to
+            # record contiguity_verified=false on the entry rather than to
+            # weaken the check for every entry. The flag is what makes the
+            # exemption auditable: grep it and every such entry is listed.
+            exempt = {e.get("quote") for e in record.get("evidence") or ()
+                      if e.get("contiguity_verified") is False}
+            for quote in set(new_quotes) - set(old_quotes) - exempt:
                 assert " ".join(quote.split()) in page, record["key"]
+            for entry in record.get("evidence") or ():
+                if entry.get("contiguity_verified") is False:
+                    # Never dressed up as more than it is.
+                    assert entry.get("artifact_class") == enums.POINTER_TO_EVIDENCE
+                    assert entry.get("provenance_note"), record["key"]
 
 
 def test_migration_is_idempotent(packages):
@@ -423,9 +448,11 @@ def test_combined_weight_never_becomes_a_per_pet_allowance(market, key):
 
 
 def test_explicit_no_weight_limit_stays_an_affirmative_fact():
+    # Two at migration; three since PTF-POLICY-SCHEMA-MIGRATION-001A read
+    # "with no breed or weight restrictions" off Sonesta Dublin's own page.
     stated = [r for m in MARKETS for r in load_package(m)["hotels"]
               if (r["facts"].get("weight_limit_stated_none") is True)]
-    assert len(stated) == 2
+    assert len(stated) == 3
     for record in stated:
         assert "weight_limit" not in record["facts"]
 
@@ -458,7 +485,9 @@ def test_generic_pets_never_became_dogs_plus_cats():
 def test_service_animal_statements_left_the_pet_policy_facts():
     statements = [(m, r) for m in MARKETS for r in load_package(m)["hotels"]
                   if r.get("service_animal_statement")]
-    assert len(statements) == 10
+    # Ten carried a legacy flag; eleven more state it in their own policy
+    # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A.
+    assert len(statements) == 21
     for market, record in statements:
         assert "service_animal_exception" not in record["facts"]
         statement = record["service_animal_statement"]
@@ -580,3 +609,226 @@ def test_legacy_evidence_is_declared_pointer_not_publication_grade(records):
         for entry in record["evidence"]:
             assert entry["artifact_class"] == enums.POINTER_TO_EVIDENCE
             assert "artifact_sha256" not in entry
+
+
+# --------------------------------------------------------------------------- #
+# Evidence completeness (PTF-POLICY-SCHEMA-MIGRATION-001A founder sweep).
+# --------------------------------------------------------------------------- #
+
+#: Records the founder held because their only committed evidence text is
+#: house-written or normalized prose rather than the property's own wording.
+#: A published fact here is expected to be UNPOINTED: pointing at that prose
+#: would make the record look better evidenced without being so.
+HOUSE_PROSE_HELD = {
+    "days inn by wyndham grove city columbus south",
+    "drury inn and suites columbus grove city",
+    "la quinta inn by wyndham columbus i 70e reynoldsburg",
+    "sonesta columbus downtown",
+    "the plaza hotel columbus at capitol square",
+}
+
+
+def test_every_published_fact_is_named_by_an_evidence_entry(records):
+    """The corpus-wide coverage the founder sweep closed.
+
+    Thirty-eight published facts were named by no evidence entry: ten because
+    the quote was filed under a different field name, thirteen because the
+    pointer was simply absent, and the rest because the fact or its provenance
+    did not hold up. What remains unpointed is only the held cohort, and that
+    is deliberate.
+    """
+    unpointed = []
+    for market, record in records:
+        named = {str(e.get("field")) for e in record["evidence"]}
+        for field in record["facts"]:
+            if not named.intersection(evidence_aliases_for(field)):
+                unpointed.append((record["key"], field))
+    assert {key for key, _ in unpointed} == HOUSE_PROSE_HELD, sorted(unpointed)
+
+
+def test_the_held_cohort_carries_a_founder_hold_not_an_approval(records):
+    for market, record in records:
+        if record["key"] not in HOUSE_PROSE_HELD:
+            continue
+        approval = record["approval"]
+        assert approval["decision"] == enums.HELD_FOR_REVIEW, record["key"]
+        assert approval["decision"] not in enums.PUBLISHING_DECISIONS
+        assert approval["operator"] == "jfields80", record["key"]
+
+
+def test_species_evidence_resolves_under_either_legacy_spelling():
+    """One canonical fact, several legacy field names, one alias lookup.
+
+    ``species`` was captured as ``species_allowed`` by one worker generation
+    and as the pair ``dogs_accepted``/``cats_accepted`` by another. A one-to-one
+    alias saw only the first, which is why seven records read as publishing a
+    species nobody had evidenced.
+    """
+    assert set(evidence_aliases_for("species")) == {
+        "species", "species_allowed", "dogs_accepted", "cats_accepted",
+        "cats_allowed", "dogs_allowed"}
+    # Coverage and authoring ask different questions of the same table. A quote
+    # filed under "fee_basis" COVERS pet_fee; it does not relieve a reviewed
+    # pet_fee of its own pointer. Conflating them suppressed six pointers and
+    # moved six record hashes, two of them already founder-approved.
+    assert "fee_basis" in evidence_aliases_for("pet_fee")
+    assert "fee_basis" not in same_fact_aliases_for("pet_fee")
+    record = _record("columbus-oh", "drury inn and suites columbus dublin")
+    named = {e["field"] for e in record["evidence"]}
+    assert named.intersection(evidence_aliases_for("species"))
+    assert "species" not in named          # the alias is doing the work
+
+
+def test_an_unstated_pet_count_scope_is_absent_rather_than_assumed():
+    """Founder decision, class FACT_NOT_SUPPORTED.
+
+    Three records published ``pet_count_scope: room`` from sources that state a
+    maximum pet count and no scope at all. The renderer happens to print "per
+    room" when the field is absent, so removing it changes no page -- which is
+    exactly why it had to be removed deliberately. A display default is not
+    authority.
+    """
+    for key in ("embassy suites columbus airport corporate exchange",
+                "graduate by hilton columbus",
+                "hampton inn and suites canal winchester columbus"):
+        record = _record("columbus-oh", key)
+        assert "pet_count_scope" not in record["facts"], key
+        assert record["facts"]["pet_count_limit"] == 2, key
+
+
+def test_a_recovered_legacy_citation_declares_its_unverified_contiguity():
+    """Founder decision, class OTHER: option A with governance modification.
+
+    The legacy record carried this citation inside each fee tier, with its own
+    source_url and source_type; the 1.2 tier conversion dropped it, leaving two
+    published prices with no citation anywhere in the record. It is restored as
+    what it is -- a pointer whose quote comes from a different read of the same
+    property URL than the stored page capture -- and not upgraded to look like
+    a verified one.
+    """
+    record = _record("columbus-oh", "sonesta simply suites dublin columbus")
+    entries = [e for e in record["evidence"] if e["field"] == "fee_tiers"]
+    assert len(entries) == 1
+    entry = entries[0]
+    assert entry["contiguity_verified"] is False
+    assert entry["artifact_class"] == enums.POINTER_TO_EVIDENCE
+    assert entry["source_type"] == "OFFICIAL_PROPERTY"
+    assert "artifact_sha256" not in entry and "captured_at" not in entry
+    assert " ".join(entry["quote"].split()) not in " ".join(
+        record["evidence_quote"].split())
+
+
+def test_an_approval_never_survives_the_record_it_signed(records):
+    """Every stored approval binds the record it actually sits on.
+
+    This is the whole governance claim of the phase, stated as arithmetic: if a
+    correction moved the record, the signature that predates it must be gone,
+    not recomputed under the earlier operator's name.
+    """
+    for market, record in records:
+        approval = record["approval"]
+        signed = {k: v for k, v in record.items() if k != "approval"}
+        assert approval["record_hash"] == record_hash(signed), record["key"]
+        assert approval["evidence_hash"] == evidence_hash(record["evidence"])
+        if approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+            continue
+        # An approval that stands was given by a person, under their own name.
+        assert approval["operator"] and "claude" not in approval["operator"].lower()
+
+
+
+
+
+# --------------------------------------------------------------------------- #
+# Founder attestation (PTF-POLICY-SCHEMA-MIGRATION-001A closeout).
+# --------------------------------------------------------------------------- #
+
+def test_every_approval_names_a_person_and_binds_the_record_it_signed(records):
+    """The governance claim of the phase, stated as arithmetic.
+
+    An approval binds a record through its hash. If the record moved, the hash
+    moved, and a signature that still sat on it would be a signature on
+    something the operator never saw.
+    """
+    decisions = load_decisions()["records"]
+    attested = 0
+    for market, record in records:
+        approval = record["approval"]
+        signed = {k: v for k, v in record.items() if k != "approval"}
+        assert approval["record_hash"] == record_hash(signed), record["key"]
+        assert approval["evidence_hash"] == evidence_hash(record["evidence"])
+        assert "claude" not in (approval["operator"] or "").lower(), record["key"]
+        entry = decisions.get("%s|%s" % (market, record["identity_key"]), {})
+        promised = entry.get("approved_record_hash")
+        if not promised:
+            continue
+        # The hash recorded beside the founder's decision is the one they were
+        # shown. Asserting it here is what makes "approved against THIS hash" a
+        # checkable claim rather than a note in a report.
+        attested += 1
+        assert promised == approval["record_hash"], record["key"]
+        assert entry["founder_attested"] is True
+    assert attested == 53
+
+
+def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
+    """A superseded attestation is unbound, never erased or rewritten.
+
+    Thirty-two records carried a human approval that stopped describing them
+    once the record was corrected; twenty-one carried a block the migration had
+    written under an operator's name for a review they never performed. Both
+    are kept, under names that say which is which.
+    """
+    superseded = attributed = 0
+    for market, record in records:
+        approval = record["approval"]
+        if approval.get("supersedes"):
+            superseded += 1
+            prior = approval["supersedes"]
+            assert prior.get("operator") and "claude" not in prior["operator"].lower()
+            # The legacy block carries no hash -- which is the point. There is
+            # nothing in it that could bind a 1.2 record.
+            assert "record_hash" not in prior, record["key"]
+        if approval.get("invalidated_attribution"):
+            attributed += 1
+            assert approval["invalidated_attribution"]["decision"] == \
+                enums.LEGACY_BASELINE_REVIEWED
+    assert (superseded, attributed) == (32, 21)
+
+
+def test_a_withdrawal_is_sticky_until_a_founder_clears_it():
+    """Strip the attestations and every corrected record falls back to withdrawn.
+
+    The migration re-derives from the pre-1.2 baseline on every run, where it
+    reads the LEGACY approval afresh. A withdrawal decided by comparing hashes
+    is therefore not stable: once a corrected record's hash matches the file
+    again, the comparison finds no movement and the human's name rides back on.
+    Eight of thirty-two came back exactly that way. The withdrawal is committed
+    instead, and only ``founder_attested`` clears it -- which is what this
+    removes, to prove the fallback is the withdrawn state and not the approved
+    one.
+    """
+    decisions = copy.deepcopy(load_decisions())
+    withdrawn = set()
+    for key, entry in (decisions.get("records") or {}).items():
+        if not entry.get("approval_withdrawn"):
+            continue
+        # The marker stays; only the founder's clearance is removed.
+        entry.pop("founder_attested", None)
+        entry.pop("approval", None)
+        entry.pop("approved_record_hash", None)
+        withdrawn.add(key)
+    assert len(withdrawn) == 32
+    seen = set()
+    for market in MARKETS:
+        migrated, _ = migrate_package(_package_at_head(market), market, decisions,
+                                      prior=load_package(market))
+        for record in migrated["hotels"]:
+            key = "%s|%s" % (market, record["identity_key"])
+            if key not in withdrawn:
+                continue
+            seen.add(key)
+            approval = record["approval"]
+            assert approval["decision"] not in enums.PUBLISHING_DECISIONS, key
+            assert approval["supersedes"]["operator"]
+    assert seen == withdrawn
