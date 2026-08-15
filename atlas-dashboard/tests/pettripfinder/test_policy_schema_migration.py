@@ -600,15 +600,27 @@ def test_legacy_evidence_is_declared_pointer_not_publication_grade(records):
     """The explicit, testable compatibility exception section 27 requires.
 
     Publication-grade evidence needs an artifact hash, an artifact kind and a
-    capture timestamp. The committed corpus has none of the three, so calling
-    these entries publication grade would be fabrication -- and dropping the
-    records instead would unpublish 156 hotels over a metadata gap. They are
-    declared for what they are, and completing them is Phase G's work.
+    capture timestamp. The migration found the committed corpus with none of
+    the three, so calling those entries publication grade would have been
+    fabrication -- and dropping the records instead would have unpublished 156
+    hotels over a metadata gap. They were declared for what they are, and
+    completing them was named as later work.
+
+    PTF-CLEVELAND-LIGHT-RECERTIFICATION-001 Pass 1 completed Cleveland's slice
+    by re-deriving every recorded capture hash from the worker-tree bytes
+    (cleveland_artifact_verification_001.json), so the invariant is now the
+    honest general form: an entry is a pointer, or it is publication grade and
+    carries EVERYTHING publication grade requires. Nothing in between.
     """
     for market, record in records:
         for entry in record["evidence"]:
-            assert entry["artifact_class"] == enums.POINTER_TO_EVIDENCE
-            assert "artifact_sha256" not in entry
+            if entry["artifact_class"] == enums.POINTER_TO_EVIDENCE:
+                assert "artifact_sha256" not in entry
+            else:
+                assert entry["artifact_class"] == enums.PUBLICATION_GRADE_EVIDENCE
+                for required in evidence_contract.PUBLICATION_GRADE_REQUIRED:
+                    assert entry.get(required), (market, record["identity_key"],
+                                                 entry["field"], required)
 
 
 # --------------------------------------------------------------------------- #
@@ -757,17 +769,31 @@ def test_every_approval_names_a_person_and_binds_the_record_it_signed(records):
         signed = {k: v for k, v in record.items() if k != "approval"}
         assert approval["record_hash"] == record_hash(signed), record["key"]
         assert approval["evidence_hash"] == evidence_hash(record["evidence"])
-        assert "claude" not in (approval["operator"] or "").lower(), record["key"]
+        if approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+            # A pending-operator state is NOT an approval, and naming a person
+            # on it would fabricate one. PTF-CLEVELAND-LIGHT-RECERTIFICATION-001
+            # Pass 1 put Cleveland's nineteen artifact-upgraded records here.
+            assert "jfields80" not in (approval["operator"] or ""), record["key"]
+        else:
+            assert "claude" not in (approval["operator"] or "").lower(), \
+                record["key"]
         entry = decisions.get("%s|%s" % (market, record["identity_key"]), {})
         promised = entry.get("approved_record_hash")
         if not promised:
             continue
         # The hash recorded beside the founder's decision is the one they were
         # shown. Asserting it here is what makes "approved against THIS hash" a
-        # checkable claim rather than a note in a report.
+        # checkable claim rather than a note in a report. Where a later pass
+        # moved the record (Cleveland Pass 1's artifact bindings), the founder's
+        # signature must survive VERBATIM under supersedes, still naming the
+        # hash they saw -- and the binding block must say it awaits them.
         attested += 1
-        assert promised == approval["record_hash"], record["key"]
         assert entry["founder_attested"] is True
+        if promised != approval["record_hash"]:
+            assert approval["decision"] == \
+                enums.MACHINE_REVIEWED_PENDING_OPERATOR, record["key"]
+            assert approval["supersedes"]["record_hash"] == promised, \
+                record["key"]
     assert attested == 53
 
 
@@ -778,6 +804,13 @@ def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
     once the record was corrected; twenty-one carried a block the migration had
     written under an operator's name for a review they never performed. Both
     are kept, under names that say which is which.
+
+    PTF-CLEVELAND-LIGHT-RECERTIFICATION-001 Pass 1 added sixteen more: the
+    Cleveland approvals unbound when entry-level artifact bindings moved
+    record_hash (Cleveland's three Class-B records already counted among the
+    thirty-two and keep their attestation nested one level deeper). A prior
+    from that era DOES record the hash it bound -- and the proof it was
+    superseded rather than copied is that its hash no longer binds this record.
     """
     superseded = attributed = 0
     for market, record in records:
@@ -786,14 +819,17 @@ def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
             superseded += 1
             prior = approval["supersedes"]
             assert prior.get("operator") and "claude" not in prior["operator"].lower()
-            # The legacy block carries no hash -- which is the point. There is
-            # nothing in it that could bind a 1.2 record.
-            assert "record_hash" not in prior, record["key"]
+            if "record_hash" in prior:
+                # A 1.2-era approval superseded later: unbound, never rebound.
+                assert prior["record_hash"] != approval["record_hash"], \
+                    record["key"]
+            # A pre-1.2 legacy block carries no hash -- which is the point.
+            # There is nothing in it that could bind a 1.2 record.
         if approval.get("invalidated_attribution"):
             attributed += 1
             assert approval["invalidated_attribution"]["decision"] == \
                 enums.LEGACY_BASELINE_REVIEWED
-    assert (superseded, attributed) == (32, 21)
+    assert (superseded, attributed) == (48, 21)
 
 
 def test_a_withdrawal_is_sticky_until_a_founder_clears_it():
