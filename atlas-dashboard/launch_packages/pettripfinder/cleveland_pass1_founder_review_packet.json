@@ -3,8 +3,8 @@
   "work_order": "PTF-CLEVELAND-LIGHT-RECERTIFICATION-001",
   "as_of": "2026-08-15",
   "prepared_by": "claude-fable-5 (PTF-CLEVELAND-LIGHT-RECERTIFICATION-001, agent)",
-  "status": "AWAITING_FOUNDER_DECISION",
-  "rule": "Nothing in this packet is applied. Each entry is a decision the founder must take by reading the record's own committed and artifact-verified evidence. Every quote below was re-asserted contiguous in the captured page text whose hashes were re-derived from the worker-tree bytes in cleveland_artifact_verification_001.json. Hashes named are the CURRENT (post-Pass-1) values, so an approval given against them has an exact target. No approval is written here and none is attributed to any operator.",
+  "status": "FOUNDER_DECIDED",
+  "rule": "Prepared 2026-08-15 for founder decision; every quote was re-asserted contiguous in the captured page text whose hashes were re-derived from the worker-tree bytes in cleveland_artifact_verification_001.json. The founder ruled on every item the same day (see founder_decision per record); the two APPROVE_CHANGE items were applied by cleveland_pass1_governance_closeout.py against recomputed final hashes, and every KEEP_AS_IS item left its record untouched. Hashes named per record are the values the founder was shown (post-Pass-1, pre-closeout).",
   "context": "Pass 1 already moved all 19 verified records to MACHINE_REVIEWED_PENDING_OPERATOR (artifact bindings changed record_hash; prior approvals preserved verbatim under supersedes). Approving items 1-3 therefore adds no additional invalidation cost: the same founder re-attestation packet covers both the Pass-1 bindings and any of these changes that are approved.",
   "records": [
     {
@@ -23,7 +23,9 @@
       "expected_hash_movement": "record_hash and evidence_hash both move (new fact + new evidence entry)",
       "public_rendering_changes": true,
       "rendering_note": "the profile's restrictions row currently reads 'Not stated by the reviewed source' and would carry the leash rule",
-      "recommendation": "APPROVE_CHANGE"
+      "recommendation": "APPROVE_CHANGE",
+      "founder_decision": "APPROVE_CHANGE",
+      "outcome": "APPLIED_IN_CLOSEOUT"
     },
     {
       "item": 2,
@@ -41,7 +43,9 @@
       "expected_hash_movement": "record_hash and evidence_hash both move (new fact + new evidence entry)",
       "public_rendering_changes": true,
       "rendering_note": "a traveler who arrives without vaccination records is turned away; this is the highest-value addition in the packet",
-      "recommendation": "APPROVE_CHANGE"
+      "recommendation": "APPROVE_CHANGE",
+      "founder_decision": "APPROVE_CHANGE",
+      "outcome": "APPLIED_IN_CLOSEOUT"
     },
     {
       "item": 3,
@@ -61,7 +65,10 @@
       "rendering_note": "would add the 'Property statement on service animals' block",
       "confidence": "LOW_CONFIDENCE",
       "recommendation": "KEEP_AS_IS",
-      "why": "The committed house rule (integrate_cleveland_authority.py) deliberately reads this phrase as a species finding: service-animal access is a legal category, and a five-word species line is thin ground for a property 'statement'. Every other Cleveland service_animal_statement rests on an explicit sentence. Founder may overrule; do not apply without that decision."
+      "why": "The committed house rule (integrate_cleveland_authority.py) deliberately reads this phrase as a species finding: service-animal access is a legal category, and a five-word species line is thin ground for a property 'statement'. Every other Cleveland service_animal_statement rests on an explicit sentence. Founder may overrule; do not apply without that decision.",
+      "founder_decision": "KEEP_AS_IS",
+      "founder_decision_reason": "The phrase is not sufficiently clear to establish a standalone service-animal policy statement beyond the current species/context interpretation.",
+      "outcome": "NO_AUTHORITY_CHANGE"
     },
     {
       "item": 4,
@@ -79,7 +86,10 @@
       "expected_hash_movement": "none if kept; both move if the scope is restructured",
       "public_rendering_changes": false,
       "scope_finding": "READING_CONVENTION -- 'Limit 40 pounds' never says per dog; per_pet is the plain reading of a singular cap stated inside a dog-permission sentence, and sources that mean a combined limit say so in words (Drury: 'combined weight of 80 pounds')",
-      "recommendation": "KEEP_AS_IS"
+      "recommendation": "KEEP_AS_IS",
+      "founder_decision": "KEEP_AS_IS",
+      "founder_decision_reason": "weight_limit.scope=per_pet is an interpretation convention rather than explicitly quoted wording; kept, not restructured to combined.",
+      "outcome": "NO_AUTHORITY_CHANGE"
     },
     {
       "item": 5,
@@ -97,7 +107,10 @@
       "expected_hash_movement": "none if kept; both move if the scope is restructured",
       "public_rendering_changes": false,
       "scope_finding": "READING_CONVENTION -- IHG's structured 'Pet weight limit' widget field is a per-animal label by construction, but the same widget mislabels this record's fee basis, which Phase F withheld as contradictory; the widget's word is weaker here than anywhere else",
-      "recommendation": "KEEP_AS_IS"
+      "recommendation": "KEEP_AS_IS",
+      "founder_decision": "KEEP_AS_IS",
+      "founder_decision_reason": "scope is convention-supported rather than explicitly stated; no combined ceiling is inferred.",
+      "outcome": "NO_AUTHORITY_CHANGE"
     },
     {
       "item": 6,
@@ -115,7 +128,10 @@
       "expected_hash_movement": "none if kept; both move if the scope is restructured",
       "public_rendering_changes": false,
       "scope_finding": "READING_CONVENTION -- Hilton's amenity block states one cap with no scope words; per_pet is the plain reading beside '2 pets max'",
-      "recommendation": "KEEP_AS_IS"
+      "recommendation": "KEEP_AS_IS",
+      "founder_decision": "KEEP_AS_IS",
+      "founder_decision_reason": "scope is convention-supported rather than explicitly stated; no combined ceiling is inferred.",
+      "outcome": "NO_AUTHORITY_CHANGE"
     },
     {
       "item": 7,
@@ -133,8 +149,23 @@
       "expected_hash_movement": "none if kept; both move if the scope is restructured",
       "public_rendering_changes": false,
       "scope_finding": "READING_CONVENTION -- the property's own prose sentence states one cap and a separate room count; per_pet is the plain reading and no source words contradict it",
-      "recommendation": "KEEP_AS_IS"
+      "recommendation": "KEEP_AS_IS",
+      "founder_decision": "KEEP_AS_IS",
+      "founder_decision_reason": "scope is convention-supported rather than explicitly stated; no combined ceiling is inferred.",
+      "outcome": "NO_AUTHORITY_CHANGE"
     }
   ],
-  "shared_note_items_4_to_7": "The overclaim risk runs one way: if a page truly meant a combined limit, the published per-pet reading would understate the restriction for multi-pet stays. Phase F reviewed all four and left them per-pet; the wording that means combined has always said so in this corpus. If the founder wants certainty instead of convention, the remedy is HOLD_FOR_FRESH_CAPTURE of the policy surface with the question in mind -- not silent restructuring."
+  "shared_note_items_4_to_7": "The overclaim risk runs one way: if a page truly meant a combined limit, the published per-pet reading would understate the restriction for multi-pet stays. Phase F reviewed all four and left them per-pet; the wording that means combined has always said so in this corpus. If the founder wants certainty instead of convention, the remedy is HOLD_FOR_FRESH_CAPTURE of the policy surface with the question in mind -- not silent restructuring.",
+  "decided_at": "2026-08-15",
+  "decided_by": "jfields80",
+  "census_hygiene": {
+    "classification": "CENSUS_HYGIENE_REVIEW_REQUIRED",
+    "identity_key": "residence inn cleveland airport middleburg heights",
+    "field": "phone",
+    "census_value": "440.637.5856",
+    "proposed_value": "440.638.5856",
+    "first_party_evidence": "The property's own JSON-LD, read off the rendered page by the verified capture (artifact sha256:1c531a3a... per cleveland_artifact_verification_001.json), states +14406385856. Identity remains bound through street number 19149, ZIP 44130, the property name, and Marriott property code clemb in the final URL.",
+    "status": "PROPOSED_NOT_APPLIED",
+    "why_not_applied": "No identity/census contract authorises a mechanical phone correction; census corrections travel through their own reviewed work order. Not a policy-recertification blocker."
+  }
 }

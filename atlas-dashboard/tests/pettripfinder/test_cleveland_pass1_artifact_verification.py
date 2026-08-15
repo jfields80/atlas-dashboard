@@ -83,33 +83,70 @@ def test_upgrade_did_not_touch_quotes_or_evidence_set(facts):
             assert " ".join(entry["quote"].split()) in hay
 
 
-def test_approvals_downgraded_never_resigned(facts):
+def test_approvals_founder_bound_after_closeout(facts):
+    """Pass 1 downgraded the 19 upgraded records to pending-operator rather
+    than re-signing them; the governance closeout then recorded the founder's
+    re-attestation against the FINAL hashes. What must remain true forever:
+    every approval binds the record it signs, the founder's name sits only on
+    decisions the founder gave, and the prior approval each one replaced is
+    preserved verbatim -- unbound, never rewritten."""
     for hotel in facts["hotels"]:
         approval = hotel["approval"]
         assert approval["record_hash"] == record_hash(hotel)
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
+        assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
+        assert approval["operator"] == "jfields80"
         if hotel["identity_key"] in DRURY_KEYS:
-            # Untouched records keep their operator approval untouched.
-            assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
-            assert approval["operator"] == "jfields80"
+            # Untouched by Pass 1: the 2026-08-11 approval, not a closeout one.
+            assert approval["approval_date"] == "2026-08-11"
             continue
-        assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert "jfields80" not in approval["operator"]
+        assert approval["approval_date"] == "2026-08-15"
+        assert any("governance closeout" in c for c in approval["caveats"])
         prior = approval["supersedes"]
         assert prior["operator"] == "jfields80"
         assert prior["decision"] in (enums.APPROVED_AFTER_CURRENT_REVIEW,
                                      "APPROVED")
-        # The evidence SET did not move; only the record (bindings) did.
-        if prior.get("evidence_hash"):
-            assert prior["evidence_hash"] == approval["evidence_hash"]
+        # The replaced approval stays verbatim and provably unbound.
         if prior.get("record_hash"):
             assert prior["record_hash"] != approval["record_hash"]
-        assert any("re-attestation" in c.lower()
-                   for c in approval.get("caveats", []))
+
+
+def test_closeout_applied_exactly_the_two_approved_additions(facts):
+    additions = {
+        "the westin": "Leashed or caged in public areas, fee applies",
+        "hotel indigo cleveland beachwood":
+            "Required vaccination records showing up to date rabies, "
+            "distemper, parvovirus and bordetella",
+    }
+    for hotel in facts["hotels"]:
+        stated = hotel["facts"].get("general_restrictions")
+        expected = additions.get(hotel["identity_key"])
+        assert stated == expected, hotel["identity_key"]
+        if not expected:
+            continue
+        entry = [e for e in hotel["evidence"]
+                 if e["field"] == "general_restrictions"]
+        assert len(entry) == 1 and entry[0]["quote"] == expected
+        assert entry[0]["artifact_class"] == enums.PUBLICATION_GRADE_EVIDENCE
+        assert entry[0]["artifact_sha256"] == hotel["worker_result_hash"]
+    # KEEP_AS_IS x5: Key Tower gained no service_animal_statement, and the
+    # four convention-scoped weight limits are still per_pet, unrestructured.
+    by_key = {h["identity_key"]: h for h in facts["hotels"]}
+    assert "service_animal_statement" not in \
+        by_key["cleveland marriott downtown at key tower"]
+    for key in ("comfort inn mayfield heights cleveland east",
+                "holiday inn express and suites",
+                "home2 suites by hilton cleveland beachwood",
+                "hotel indigo cleveland downtown"):
+        weight = by_key[key]["facts"]["weight_limit"]
+        assert weight["scope"] == "per_pet"
+        assert "combined_weight_limit" not in by_key[key]["facts"]
 
 
 def test_release_contract_pins_the_upgraded_package(report):
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
-    assert report["facts_sha256_after_apply"] == actual
+    # The Pass-1 sha is history; the closeout stamped the pin it left behind.
+    assert report["facts_sha256_after_closeout"] == actual
+    assert report["facts_sha256_after_apply"] != actual
