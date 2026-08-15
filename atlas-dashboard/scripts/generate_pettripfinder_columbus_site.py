@@ -525,7 +525,7 @@ def run(output: str, *, market: MarketConfig = None) -> int:
         listing_id = _listing_id(row["name"])
         if entry and entry["facts"].get("pets_allowed") == "false":
             continue   # comparison page is pet-FRIENDLY policies only
-        f = entry["facts"] if entry else {}
+        f = canonical_view.display_facts(entry) if entry else {}
         # PTF-RENDERER-FIDELITY-001. The canonical view answers the questions
         # the legacy facts dict cannot: what scope this fee actually has,
         # whether a single printed amount is the whole story, and whether an

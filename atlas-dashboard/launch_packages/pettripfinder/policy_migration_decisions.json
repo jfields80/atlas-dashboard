@@ -1,0 +1,1334 @@
+{
+  "schema": "ptf-policy-migration-decisions/1.0",
+  "work_order": "PTF-POLICY-SCHEMA-MIGRATION-001",
+  "reviewed_by": "jfields80",
+  "reviewed_at": "2026-08-14",
+  "note": "Every entry below is a decision taken by reading the record's own committed evidence quote. Withholding prose is keyed by the EXACT legacy sentence, never by keyword, so one decision covers every record that carries that sentence and the migration report names them all. A sentence that merely restates that the page said nothing is dropped: silence is the absence of a field, not a decision to withhold one.",
+  "species": {
+    "dogs": {
+      "dogs": "accepted"
+    },
+    "dogs, cats": {
+      "dogs": "accepted",
+      "cats": "accepted"
+    },
+    "dogs and cats": {
+      "dogs": "accepted",
+      "cats": "accepted"
+    },
+    "cats and dogs": {
+      "dogs": "accepted",
+      "cats": "accepted"
+    },
+    "birds, fish, dogs, cats": {
+      "birds": "accepted",
+      "cats": "accepted",
+      "dogs": "accepted",
+      "fish": "accepted"
+    }
+  },
+  "withheld_prose": {
+    "species_allowed|the page names no species": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The page named no species. Absence already says that; an entry here would tell a reader the hotel refused to answer."
+    },
+    "species_allowed|the page names no species, and \"pets\" alone is not dogs+cats": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Generic 'pets' yields an empty species map. That is silence about WHICH species, not a withholding decision."
+    },
+    "species_allowed|the page says \"pets\" and names no species; \"pets\" alone is not dogs+cats": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Same finding as above in a second spelling."
+    },
+    "cats_allowed|dogs are named; cats are not, and absence is not a refusal to publish either way": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The sentence says so itself. Cats are simply absent from the species map."
+    },
+    "cats_allowed|the page says dogs only, which is a species statement, not a cat refusal to publish": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Handled by the species map: dogs accepted. Whether 'dogs only' also prohibits cats is decided per record from that record's own wording, never from this generic sentence."
+    },
+    "weight_limit|no weight is stated on this property's page": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "No weight was stated. Absence is the accurate representation."
+    },
+    "weight_limit|the page states no weight limit": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The page does not state one. This is NOT the affirmative 'no weight limit applies', which lives in weight_limit_stated_none and is preserved separately."
+    },
+    "weight_limit|the page states no weight restriction": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "As above."
+    },
+    "weight_limit|the page states no size or weight restriction of any kind": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "As above."
+    },
+    "weight_limit_combined|the page states a per-dog maximum, never a combined one": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The per-pet maximum is published in weight_limit. Nothing was said about a combined limit, so it is absent."
+    },
+    "pet_count_limit|the page states no pet count": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Silence about the count."
+    },
+    "pet_count_limit|the page carries no \"Other pet information\" row at all": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The row that would have carried a count is not present."
+    },
+    "pet_count_limit|\"some designated pet-friendly rooms\" limits WHICH rooms accept pets, not how many pets a room accepts": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The sentence answers a different question. No count was stated."
+    },
+    "pet_count_scope|\"in a limited number of rooms\" limits WHICH rooms accept dogs, not how many dogs a room accepts; no per-room or per-stay scope is stated": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "As above: the page constrains room inventory, not pet count scope."
+    },
+    "pet_fee|the page affirms pet-friendly rooms exist and states no fee": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "No fee was stated."
+    },
+    "pet_fee|the property lists \"Pets Allowed\" as a room amenity and states no fee, no species and no restriction anywhere on the page": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "An amenity flag with no terms. Every term is simply absent."
+    },
+    "pet_fee|this property's policies block states \"Dog Friendly\" with no rate following it, where its sibling Cobblestone properties state one": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "No rate on this property's page. What a sibling property states is not evidence about this one."
+    },
+    "fee_basis|the page states the amount but never its basis": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The amount publishes; the basis is absent because the page has none."
+    },
+    "fee_basis|the page states an amount with no per-night or per-stay qualifier": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "As above. Absence, not a decision."
+    },
+    "fee_scope|the page states an amount without saying whether it is charged per pet or per room": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Silence about scope. Under 1.2 an absent scope is exactly this, and the computation classifier already refuses to multiply a scope-less fee."
+    },
+    "fee_scope|the page states a rate per day and never says whether it is charged per pet or per room; the two-dog allowance does not settle it": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Silence about scope, stated explicitly by the reviewer at the time."
+    },
+    "fee_scope|the fee's room scope is already carried inside fee_basis ('per room per night'); asserting it twice lets the two drift": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 separates basis from scope, so the compound legacy string decomposes to basis=per_night and scope=per_room with no duplication. The withholding existed only because 1.1 had one slot for two facts."
+    },
+    "fee_scope|the nightly rate covers \"up to 2 pets\", which is neither a per-pet nor a per-room statement in the vocabulary we publish": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 has scope_pet_allowance for exactly this: a room-scoped charge covering up to N pets. The record now states what the page states."
+    },
+    "weight_limit_operator|the page scopes the weight \"per pet\", and the published operator vocabulary is {lt, lte, combined}; a non-member renders nothing": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 removes the overload: scope is its own field on weight_limit, and the operator vocabulary is {lt, lte}. A per-pet maximum is weight_limit.scope=per_pet with operator lte."
+    },
+    "weight_limit_operator|the page scopes the weight \"per pet per room\"; the published operator vocabulary is {lt, lte, combined} and a non-member renders nothing": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "As above."
+    },
+    "service_animal_exception|the page states service animals are free of charge, but no renderer reads this field, so publishing it would record a fact the site cannot state": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 has service_animal_statement and the Phase B renderer displays it in its own section, separated from the pet-policy facts. The reason for withholding no longer exists; the property's statement is published where it belongs."
+    },
+    "service_animal_exception|the captured policy block states no service-animal terms": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Nothing was stated, so no statement is recorded."
+    },
+    "pet_deposit|the page states a nightly rate and says nothing about a deposit or about whether the rate is refundable": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "Silence about a deposit."
+    },
+    "pet_deposit|the $100 deposit on this page is a general incidentals deposit charged to every guest, not a pet deposit": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "The charge is real but is not a pet charge, so it is not a pet-policy fact at all. No pet deposit was stated."
+    },
+    "weight_limit|\"small pets\" is a qualifier, not a measurement; the page states no pound or dimension limit": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property restricts pets by size but expresses it only as \"small pets\", which is not a measurement this schema can carry without inventing a number.",
+      "note": "Not silence: a size restriction WAS stated. It cannot be quantified from the source."
+    },
+    "weight_limit|the property restricts pets by DIMENSION (no longer and no taller than 36 inches), which is not a weight limit; converting inches to pounds would be invention": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property states a dimension restriction, not a weight one. No weight can be derived from it, and the two are not interchangeable.",
+      "note": "1.2 does carry dimension_constraints, but the axis mapping of \"no longer and no taller than 36 inches\" is a per-record reading and is recorded per record where taken. The WEIGHT field remains withheld either way, because no weight was stated."
+    },
+    "cats_allowed|the page says other pet types \"may be allowed upon the hotel's approval prior to arrival\" -- a conditional the property has not resolved": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page neither accepts nor refuses cats: other pet types \"may be allowed upon the hotel's approval prior to arrival\", which is a decision the property defers to itself.",
+      "note": "The conditional is about unnamed 'other pet types', so it cannot be recorded as a cats-specific conditional without naming a species the page never named."
+    },
+    "species_allowed|the page renders \"dog/only\", which is neither \"dogs only\" nor \"dog/cat only\" and is not completed by us": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property's own text reads \"dog/only\", which does not resolve to a species list without supplying a word the page does not contain."
+    },
+    "species_allowed|the page's own text truncates at \"dog/cat on\" and the missing word is not supplied by us": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property's own text truncates mid-phrase. Completing it would be our sentence, not the hotel's."
+    },
+    "pet_fee|the property's prose states a stay-length ladder and 'Per stay'; IHG's widget labels the same $75 'per night'. The ladder is published; the contradicted flat per-night reading is not.": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The property's prose states a stay-length ladder charged per stay; the same page's booking widget labels the same $75 as a nightly rate. The two cannot both be true, so the flat fee is not published.",
+      "note": "The ladder itself IS published as fee_tiers, so the guest sees the property's own sentence."
+    },
+    "fee_basis|the prose states no basis, and IHG's widget ('per night') is contradicted by its own prose on two sibling properties in this same batch": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page's prose states no basis while its booking widget asserts one that the same widget contradicts elsewhere in the same capture batch."
+    },
+    "fee_basis|the same two rows state both bases at once": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page states two mutually exclusive bases for one amount."
+    },
+    "fee_basis|withheld with the fee it would describe": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The basis is withheld together with the fee it qualifies; publishing a basis for an unpublished amount would describe a number the reader cannot see."
+    },
+    "cleaning_fee|a second '$5.00 Per Night' line appears with no stated relationship to the per-stay fee": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "A second nightly amount appears beside the per-stay fee with no stated relationship between them. Publishing it as additive would assert a total the page never states."
+    },
+    "cleaning_fee|a second '$5.00 Per Night' line appears with no stated relationship to the per-stay fee; publishing it as additive would assert a total the page never states": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "A second nightly amount appears beside the per-stay fee with no stated relationship between them. Publishing it as additive would assert a total the page never states."
+    },
+    "cleaning_fee|the $250 sanitation charge is conditional ('if required'), so publishing it as a fee would assert a cost most guests will not pay": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property states the sanitation charge applies only \"if required\", and does not state what triggers it. Publishing it as a fee would assert a cost most guests will not pay."
+    },
+    "pet_deposit|the widget shows a $100 'damage deposit' that duplicates the $100 fee the prose describes; publishing both would double the cost": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The booking widget shows a $100 damage deposit alongside the $100 non-refundable fee the prose describes. They are the same hundred dollars under two labels, and publishing both would double the stated cost."
+    },
+    "fee_tiers|'$50 for one pet $75' is a per-COUNT step, not a stay-length ladder, and the fee_tiers schema models stay-length bands": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page reads \"$50 for one pet $75\" with no statement of what the second amount buys, so it cannot be read as either a two-pet total or a per-pet addition.",
+      "note": "1.2 CAN model a pet-count ladder (condition_type pet_count_range). What blocks publication here is the source's wording, not the schema, so the reason code moves from schema to source."
+    },
+    "fee_tiers|the bands are 1-6 and 7+ nights, which is not the 1-4/5+ shape any published ladder in this repository carries; the second band's price is not stated": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The second band's price is not stated, so the ladder has a rung with no number on it."
+    },
+    "fee_tiers|the first band renders without its currency marker on a line the page itself truncates": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page truncates the line carrying the first band, leaving its amount without a currency marker."
+    },
+    "fee_tiers|the ladder is published as the property's own sentence, not as a priced ladder, while the $125 field contradicts it": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The property's sentence and its own $125 field disagree about the ladder, so no priced ladder is published."
+    },
+    "fee_tiers|the page renders the first band's boundary as \"19--4 night stay\"; a ladder built on a garbled boundary would publish a band the property never set": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page renders the first band's boundary as \"19--4 night stay\", which is not a range."
+    },
+    "fee_tiers|the page says \"additional\", which is an add-on and not a replacement band; publishing a ladder here would assert a $150 replacement price the page never states": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page describes the second amount as \"additional\" without stating what it is added to, so neither an additive charge nor a replacement band can be written from it.",
+      "note": "1.2 has ADDITIONAL_CHARGE as a tier role, but the page does not state the base the addition applies to, so the ladder still cannot be built."
+    },
+    "pet_fee|the page lists a $100.00 per-stay fee and a $20.00 per-night fee as separate rows; they are not two spellings of one number": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page lists a per-stay amount and a per-night amount as separate rows without saying which is the pet fee or whether both apply."
+    },
+    "pet_fee|the page shows \"Non-Refundable Pet Fee Per Stay: $125.00\" beside a $75/$150/$250 stay-length ladder that contains no $125 rung": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page states a flat $125 per-stay fee beside a stay-length ladder whose rungs are $75, $150 and $250. No reading satisfies both."
+    },
+    "pet_fee|the property states two irreconcilable things on one page: its description says to call the hotel directly for fees, while its policy block states a rate": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The property's description tells guests to call for fees while its policy block states a rate. The page does not settle which governs."
+    },
+    "pet_fee|the page states a tiered non-refundable CLEANING fee -- up to $25/day for the first six (6) nights per pet, then up to $150 per pet thereafter -- and \"up to\" is a ceiling, not a price": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property states its charge as \"up to\" an amount, which is a ceiling rather than a price. No amount a guest will actually be charged can be published from it."
+    },
+    "pet_deposit|the $125.00 \"Deposit\" field contradicts the property's own sentence and is not published as either a fee or a deposit": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page's \"Deposit\" field and the property's own sentence state different things about the same charge."
+    },
+    "pet_deposit|the $125.00 \"Deposit\" field disagrees with the property's own fee sentence and is not published": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page's \"Deposit\" field disagrees with the property's own fee sentence."
+    },
+    "pet_deposit|the page labels the charge a deposit and then says \"Fee is nonrefundable\"; it is published as a fee, never as a refundable deposit": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page's heading calls the charge a deposit and its body says the fee is non-refundable. The body governs, so the amount is published as a non-refundable fee and no deposit is recorded.",
+      "note": "This is the frozen rule in section 16: refundability must be explicit, and a heading containing \"Deposit\" never establishes it."
+    },
+    "fee_tiers|the page says \"additional\", which is an add-on and not a replacement band; publishing a ladder here would assert a $150 total the page never states": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page describes the second amount as \"additional\" without stating what it is added to, so neither an additive charge nor a replacement band can be written from it."
+    },
+    "fee_tiers|the page renders the first band's boundary as \"19--4 night stay\"; a ladder built on a garbled boundary would publish a band nobody can read": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page renders the first band's boundary as \"19--4 night stay\", which is not a range."
+    },
+    "weight_limit_operator|the page scopes the weight \"per pet\", and the published operator vocabulary is {lt, lte, combined}; a non-member renders as nothing, so the plain limit is published and the scoping is withheld": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 removes the overload: scope is its own field on weight_limit and the operator vocabulary is {lt, lte}. The per-pet scoping is now published rather than withheld."
+    },
+    "pet_fee|the page shows \"Non-Refundable Pet Fee Per Stay: $125.00\" beside a $75/$150/$250 stay-length ladder that contains no $125 band; the conflict is preserved rather than resolved by us": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The page states a flat $125 per-stay fee beside a stay-length ladder whose bands are $75, $150 and $250. No reading satisfies both."
+    },
+    "fee_tiers|the bands are 1-6 and 7+ nights, which is not the 1-4/5+ shape any published ladder in this repository carries; the sentence is published verbatim instead": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "1.2 tiers carry arbitrary night boundaries, so the 1-6 / 7+ ladder the property states is publishable exactly as written. The legacy withholding existed because the older shape only modelled a 1-4 / 5+ ladder. The ladder is now published from this record's own sentence, which also remains verbatim in general_restrictions."
+    },
+    "pet_fee|the page lists a $100.00 per-stay fee and a $20.00 per-night fee as separate rows; they are not two spellings of one number unless the stay is exactly five nights, and we do not pick one": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page lists a per-stay amount and a per-night amount as separate rows without saying which is the pet fee or whether both apply."
+    },
+    "weight_limit_operator|the page scopes the weight \"per pet per room\"; the published operator vocabulary is {lt, lte, combined} and a non-member renders as nothing, so the plain limit is published alone": {
+      "disposition": "RESOLVED_BY_SCHEMA",
+      "note": "As above; the per-pet scoping is published on weight_limit."
+    },
+    "pet_fee|the property states two irreconcilable things on one page: its description says to call the hotel directly for fees, while its Policies section states a flat $10 per pet per night. Picking either one would resolve a contradiction the property has not resolved": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_CONTRADICTORY",
+      "reason": "The property's description tells guests to call the hotel for fees while its Policies section states a flat rate. The page does not settle which governs."
+    },
+    "pet_fee|this property's policies block states \"Dog Friendly\" with no rate following it, where its sibling Cobblestone properties state \"$25/dog per night\" in the same slot. Silence is not a price, and a sibling's fee is not this property's fee": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "No rate appears on this property's page. What a sibling property states is not evidence about this one, so the fee is simply absent."
+    },
+    "pet_fee|the page states a tiered non-refundable CLEANING fee -- up to $25/day for the first six (6) nights per pet, then up to $15/day per pet thereafter -- which has no single (basis, amount) pair in this schema; publishing either band alone would misstate the price of any stay of a different length": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it."
+    },
+    "weight_limit|the property restricts pets by DIMENSION (no longer and no taller than 36 inches), which is not a weight limit; converting one to the other would invent a number the page does not state": {
+      "disposition": "SOURCE_SILENCE",
+      "note": "No weight was stated, so the weight field is absent. The restriction the property DID state is dimensional and is now published as dimension_constraints, and the property's own sentence remains in general_restrictions."
+    },
+    "cats_allowed|the page says other pet types \"may be allowed upon the hotel's approval prior to arrival\" -- a conditional the property has not resolved, and a permission granted on approval is not a permission": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The page neither accepts nor refuses cats: other pet types \"may be allowed upon the hotel's approval prior to arrival\", which defers the decision to the property and names no species."
+    },
+    "pet_fee|the page states a tiered non-refundable CLEANING fee -- up to $25/day for the first six (6) nights per pet, then up to $15/day per pet thereafter -- which has no single (basis, amount) pair in this schema; publishing either band alone would misstate the price of any stay of a different length. Identical treatment to the three sibling Extended Stay America records promoted by PTF-DAYTON-CANDIDATE-PROMOTION-001": {
+      "disposition": "TRUE_WITHHOLDING",
+      "reason_code": "SOURCE_AMBIGUOUS",
+      "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it."
+    }
+  },
+  "records": {
+    "cleveland-akron-canton-oh|drury inn and suites beachwood": {
+      "quote": "Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_room",
+          "tax_relationship": "plus_tax"
+        },
+        "combined_weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte"
+        },
+        "weight_limit": null
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The legacy record carried 80 pounds in weight_limit with the operator overloaded to 'combined'. The quote says the 80 pounds applies to two pets together, so it is a combined limit and there is no per-pet maximum on this page. 'plus tax' and 'per room' are both the property's own words."
+    },
+    "cleveland-akron-canton-oh|drury plaza hotel": {
+      "quote": "Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_room",
+          "tax_relationship": "plus_tax"
+        },
+        "combined_weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte"
+        },
+        "weight_limit": null
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "Identical page wording to its Beachwood sibling; decided from this record's own capture."
+    },
+    "cleveland-akron-canton-oh|comfort inn mayfield heights cleveland east": {
+      "quote": "We only allow dogs, 25.00 USD per night. Limit 40 pounds and only 2 per room. Service animals are permitted, without charge.",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The property states service animals are permitted without charge, in its own words."
+    },
+    "cleveland-akron-canton-oh|wyndham independence": {
+      "quote": "Pets Allowed - 2 pets max. Dogs only. 40lbs or less per pet. / Fees - 75USD per stay for 1 or 2 dogs per room. / Pet Sanitation Fee 250USD if required.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_room",
+          "scope_pet_allowance": 2
+        }
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "not_addressed"
+      },
+      "note": "\"75USD per stay for 1 or 2 dogs per room\" is a room-scoped charge covering up to two pets, which 1.2 records as scope_pet_allowance. The service-animal line reads \"ADA-defined service animals welcome\" and says nothing about charges, so charges_stated is not_addressed -- the property is not made to say it waives a fee it never mentioned."
+    },
+    "cleveland-akron-canton-oh|courtyard by marriott airport north": {
+      "quote": "Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals",
+      "facts": {
+        "other_charges": [
+          {
+            "kind": "cleaning_fee",
+            "amount_cents": 10000,
+            "currency": "USD",
+            "basis": "per_stay",
+            "refundable": false
+          }
+        ]
+      },
+      "note": "The property calls it a nonrefundable clean fee in the same sentence, so refundability is explicit and is not inferred from the word 'fee'."
+    },
+    "cleveland-akron-canton-oh|embassy suites beachwood": {
+      "quote": "Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "note": "A guest pays $75 or $125 according to stay length, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "cleveland-akron-canton-oh|embassy suites rockside independence": {
+      "quote": "Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "note": "As above, from this record's own capture. Roles derive from the committed additive flags."
+    },
+    "cleveland-akron-canton-oh|hampton inn and suites streetsboro": {
+      "quote": "Other pet information $75(1-4n)$125(5+n) 2petsMax,dog/cat only",
+      "note": "The same ladder in the compressed spelling this property's page uses. Roles derive from the committed additive flags."
+    },
+    "cleveland-akron-canton-oh|holiday inn express and suites": {
+      "quote": "75.00 for 1 to 4 nights. 125 for 5 or more nights. Per stay,up to 2 pets max.",
+      "note": "The property states the ladder and says 'Per stay', so each band is a replacement price on a per-stay basis. The flat per-night reading its widget shows is withheld as contradictory. Roles derive from the committed additive flags."
+    },
+    "cleveland-akron-canton-oh|tru by hilton": {
+      "quote": "Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+      "note": "Stay-length bands; one applies. Roles derive from the committed additive flags."
+    },
+    "cleveland-akron-canton-oh|residence inn by marriott independence": {
+      "quote": "Dogs Only, No Cats",
+      "species": {
+        "dogs": "accepted",
+        "cats": "prohibited"
+      },
+      "note": "The property refuses cats in its own words, so this is an explicit prohibition rather than the absence of a mention."
+    },
+    "cleveland-akron-canton-oh|residence inn cleveland beachwood": {
+      "quote": "Dogs only; no cats allowed",
+      "species": {
+        "dogs": "accepted",
+        "cats": "prohibited"
+      },
+      "note": "As above, this property's own wording."
+    },
+    "dayton-oh|hampton inn and suites dayton vandalia": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn by hilton dayton south": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn dayton huber heights": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn springfield": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn and suites sidney": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn and suites xenia dayton": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|hampton inn troy": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|home2 suites by hilton dayton south": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|home2 suites by hilton dayton vandalia": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|tru by hilton beavercreek dayton": {
+      "quote": "Other pet information: a 1-4 night band and a 5+ night band, each with its own amount.",
+      "note": "A stay-length ladder: the guest pays the band that matches the stay, never both. Each band replaces the other. Roles derive from the committed additive flags."
+    },
+    "dayton-oh|extended stay america suites dayton fairborn": {
+      "quote": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+      "facts": {
+        "dimension_constraints": [
+          {
+            "axis": "length",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          },
+          {
+            "axis": "height",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          }
+        ]
+      },
+      "note": "The property states both axes explicitly and in inches. 1.2 carries dimension constraints as their own structure, so the restriction is recorded as stated instead of being lost because it is not a weight."
+    },
+    "dayton-oh|extended stay america suites dayton south": {
+      "quote": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+      "facts": {
+        "dimension_constraints": [
+          {
+            "axis": "length",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          },
+          {
+            "axis": "height",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          }
+        ]
+      },
+      "note": "The property states both axes explicitly and in inches. 1.2 carries dimension constraints as their own structure, so the restriction is recorded as stated instead of being lost because it is not a weight."
+    },
+    "dayton-oh|extended stay america suites dayton north": {
+      "quote": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+      "facts": {
+        "dimension_constraints": [
+          {
+            "axis": "length",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          },
+          {
+            "axis": "height",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          }
+        ]
+      },
+      "note": "The property states both axes explicitly and in inches. 1.2 carries dimension constraints as their own structure, so the restriction is recorded as stated instead of being lost because it is not a weight."
+    },
+    "dayton-oh|extended stay america select suites dayton miamisburg": {
+      "quote": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+      "facts": {
+        "dimension_constraints": [
+          {
+            "axis": "length",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          },
+          {
+            "axis": "height",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          }
+        ]
+      },
+      "note": "The property states both axes explicitly and in inches. 1.2 carries dimension constraints as their own structure, so the restriction is recorded as stated instead of being lost because it is not a weight."
+    },
+    "dayton-oh|la quinta inn and suites by wyndham fairborn wright patterson": {
+      "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 2500,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_room",
+          "scope_pet_allowance": 2
+        },
+        "fee_cap": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "\"25 USD nightly for up to 2 pets\" is a room-scoped nightly charge covering up to two pets. The cap states its OWN basis -- per stay -- and states no scope of its own, so none is written: a cap never inherits the scope of the fee it bounds."
+    },
+    "dayton-oh|la quinta inn and suites by wyndham miamisburg dayton south": {
+      "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 2500,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_room",
+          "scope_pet_allowance": 2
+        },
+        "fee_cap": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "\"25 USD nightly for up to 2 pets\" is a room-scoped nightly charge covering up to two pets. The cap states its OWN basis -- per stay -- and states no scope of its own, so none is written: a cap never inherits the scope of the fee it bounds."
+    },
+    "dayton-oh|drury inn and suites dayton north": {
+      "quote": "Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_room",
+          "tax_relationship": "plus_tax"
+        },
+        "combined_weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte"
+        }
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The legacy record carried 'combined' in the combined-operator slot, which is the same overload in the second field. The property states a maximum, so the operator is lte. 'plus tax' is the property's own wording."
+    },
+    "dayton-oh|holiday inn express and suites dayton centerville": {
+      "quote": "There is a 100 dollar DOG PET FEE, excluding an ADA compliant Service Dog. ... Cats are not allowed.",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The property excludes ADA service dogs from its pet fee in the same sentence that states the fee, which is a statement that no charge applies to them."
+    },
+    "dayton-oh|staybridge suites miamisburg": {
+      "quote": "Fee is nonrefundable. Guests will be charged 50 per pet for one to six night stays and 150 per pet for seven plus nights.",
+      "facts": {
+        "fee_tiers": [
+          {
+            "amount_cents": 5000,
+            "currency": "USD",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 6,
+            "scope": "per_pet",
+            "basis_stated": false,
+            "role": "REPLACEMENT_PRICE"
+          },
+          {
+            "amount_cents": 15000,
+            "currency": "USD",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 7,
+            "scope": "per_pet",
+            "basis_stated": false,
+            "role": "REPLACEMENT_PRICE"
+          }
+        ]
+      },
+      "note": "The property states the ladder in one unambiguous sentence, per pet, with both bands priced. 1.2 carries arbitrary night boundaries, so the 1-6 / 7+ shape is publishable exactly as written; the legacy withholding existed only because the older structure modelled a different band shape. The sentence itself remains verbatim in general_restrictions, so the reader still sees the property's own words."
+    },
+    "columbus-oh|candlewood suites columbus grove city": {
+      "quote": "Pets are welcome at Candlewood Suites Columbus - Grove City. Limited number of pet rooms. 2 pets per room, with max combine weight of 80lbs for two pets. Dogs and cats only. Nonrefundable fee 50 USD for 1 to 14 nights, 100 USD for 15 plus nights. Valid CC on file at FD Pet damage deposit: 50 USD",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|doubletree by hilton columbus dublin": {
+      "quote": "Pets allowed\n\nYes",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|embassy suites by hilton columbus dublin": {
+      "quote": "Pets allowed\n\nYes",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|embassy suites columbus airport corporate exchange": {
+      "quote": "Pets\n\nSmoking\n\nWiFi\n\nPets allowed\n\nYes\n\nDeposit\n\nYes. $75.00 Non-refundable Fee\n\nOther pet information\n\n1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hampton inn and suites columbus downtown": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information $75(1-4n)$125(5+n)2pet Max dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hampton inn and suites columbus easton area": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75 for 1-4 nights, $125 for 5+ nights. Two Pet maximum. Cats and dogs only.",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hampton inn and suites columbus hilliard": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information $75(1-4n)$125(5+n)2pet Max dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hampton inn and suites columbus polaris": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Large Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hampton inn columbus airport": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information $75(1-4n)$125(5+n)2pet Max dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|hilton garden inn columbus airport": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information $75(1-4n)$125(5+n)2pet Max dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|hilton garden inn columbus grove city": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Medium Other pet information 1-4 nights $75.00 per stay or 5+ nights $100 per stay",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hilton garden inn columbus polaris": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 50 lbs Max size Medium Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hilton garden inn columbus university area": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information $75(1-4n)$125(5+n)2pet Max dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|home2 suites by hilton columbus airport east broad": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information 1-4 days $75.00, 5 plus days $125.00",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|home2 suites by hilton columbus downtown": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information 1-4n $75, 5+ $125, 2 pets max dog/cat",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|home2 suites by hilton columbus dublin": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information 1-4 Nights $75.00 // 5+ Nights $125.00",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|home2 suites by hilton reynoldsburg columbus east": {
+      "quote": "Pets Smoking Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information Pets allowed, $75 (1-4n), $125 (5+n). 2 pets maximum, dog/cat only. Emotional Support Pets do not count as Service Pet.",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|home2 suites new albany columbus": {
+      "quote": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only A fee of up to 250 USD will be assessed for smoking in a non-smoking room. Please ask the",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|homewood suites by hilton columbus dublin": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|homewood suites by hilton columbus hilliard": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|homewood suites by hilton columbus osu oh": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|homewood suites by hilton columbus polaris oh": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Other pet information $75(1-4nt), $125(5+n) 2 pets Max, dog/cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hyatt house columbus osu short north": {
+      "quote": "We Are Pet Friendly. Hyatt House Columbus / OSU Short - North welcomes your dogs. Please contact the hotel for more information about our pet policy ahead of your arrival. For those staying 30+ nights, a fee will be charged at the hotel's discretion. Pet Fees: 1 - 6 nights: $75 / STAY. 7 - 30 nights",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hyatt place columbus dublin": {
+      "quote": "Pets Are Welcome. We welcome your housebroken dogs to Hyatt Place Columbus/Dublin. For stays of 30 nights or more: Please contact the hotel at +1 614 799 1913. (2) dogs are allowed per room weighing less than 50 lbs. each. We welcome guests with disabilities traveling with their service animals. Ser",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hyatt place columbus osu": {
+      "quote": "Pets Are Welcome. Hyatt Place Columbus / OSU welcomes dogs! Pet Fees: Non-refundable pet fee: 1-6 nights : $100 / STAY. 7-30 nights + additional cleaning fee: $200 / STAY. Weight Limits: Individual pet weight limit: 50 Pounds. Combined pets weight limit: 75 Pounds. Maximum number of pets is 2.",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hyatt place columbus worthington": {
+      "quote": "Pets Are Welcome. We welcome your pets to join you at Hyatt Place Columbus/Worthington. Pet Fees: 1-6 nights (nonrefundable): $100 / STAY. 7-30 nights + additional cleaning fee: $200 / STAY. Weight Limits: Individual pet weight limit: 50 Pounds. Combined pets weight limit: 75 Pounds. Maximum number ",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|hyatt regency columbus": {
+      "quote": "We Are Pet Friendly. Your pets are welcome at Hyatt Regency Columbus. Just let the hotel know about your dog's arrival in advance. For those staying 30+ nights, a fee will be charged at the hotel's discretion. We welcome guests with disabilities traveling with their service animals. Service animals ",
+      "note": "The property writes the second band as \"(additional fee)\", so it is charged ON TOP of the first rather than replacing it. Its sibling Hyatt properties write \"(includes cleaning fee)\" instead, which is a replacement price -- the two spellings are three words apart and mean opposite things. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|sonesta simply suites columbus airport gahanna": {
+      "quote": "Sonesta Simply Suites Columbus Airport Gahanna is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite.",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|sonesta simply suites dublin columbus": {
+      "quote": "pet-friendly and welcomes well-mannered pets cats are not permitted. Up to two pets are permitted per suite. with no breed or weight restrictions.",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|tru by hilton columbus east broad": {
+      "quote": "Pets Smoking WiFi Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 50 lbs Max size Medium Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+      "note": "A stay-length ladder: the guest pays the band matching the stay, never both. Roles derive from the committed additive flags."
+    },
+    "columbus-oh|aloft columbus university district": {
+      "quote": "2 pets 50lbs max per room w/non refundable fee contact for details max $150/stay",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 15000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "note": "The property states the cap's own basis (\"/stay\"). It states no scope for the cap, so none is written: a cap never inherits the scope of the fee it bounds.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|la quinta columbus west hilliard": {
+      "quote": "Fees - 25 USD per pet per night. Max 75 USD per stay.",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "note": "Cap basis stated (\"per stay\"); no cap scope stated.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|la quinta inn and suites by wyndham columbus grove city": {
+      "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "note": "Cap basis stated; no cap scope stated."
+    },
+    "columbus-oh|la quinta inn by wyndham columbus dublin": {
+      "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "note": "The legacy cap carried no basis although the property's sentence says \"per stay\"; it is recovered from that sentence.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|renaissance columbus downtown hotel": {
+      "quote": "Pet fee of $50 per night. Maximum of $150 per stay for two (2) pets.",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 15000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "applies_to_pet_count": 2,
+          "qualifier_stated": true
+        }
+      },
+      "note": "The property states the cap's basis AND the pet count it covers (\"for two (2) pets\"). The legacy structure carried the pet count as free text in applies_to, where nothing could read it."
+    },
+    "columbus-oh|residence inn columbus easton": {
+      "quote": "There is $50 dollar per night up to $150 fee",
+      "facts": {
+        "fee_cap": {
+          "amount_cents": 15000,
+          "currency": "USD",
+          "qualifier_stated": false
+        }
+      },
+      "note": "\"up to $150\" states an amount and nothing else -- no basis, no scope, no pet count. qualifier_stated stays false, and the computation classifier treats the cap as unusable rather than assuming per stay.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|towneplace suites columbus airport gahanna": {
+      "quote": "Pets allowed with USD 100 non-refundable fee per stay plus tax",
+      "facts": {
+        "pet_fee": {
+          "amount_cents": 10000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "tax_relationship": "plus_tax"
+        }
+      },
+      "note": "\"plus tax\" is the property's own wording and 1.2 carries it, so a reader is told the quoted figure is not the final one.",
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|fairfield inn and suites columbus osu": {
+      "quote": "$45 Non-Refundable Pet Fee Every 3 Nights",
+      "note": "The property states a fee on a three-night cycle. 1.2's bases are per night, per day and per stay, none of which is a three-night cycle, so the amount is withheld rather than restated on a basis the property never used.",
+      "add_withheld": {
+        "pet_fee": {
+          "disposition": "TRUE_WITHHOLDING",
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property charges \"$45 Non-Refundable Pet Fee Every 3 Nights\". The published fee vocabulary carries per-night, per-day and per-stay bases; a three-night cycle is none of them, and restating the amount on any of them would misprice most stays."
+        }
+      },
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|red roof inn columbus west hilliard": {
+      "quote": "One, well-behaved domestic pet (cat or dog) Stays Free! Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay.",
+      "facts": {
+        "fee_pet_schedule": {
+          "entries": [
+            {
+              "pet_ordinal": 1,
+              "amount_cents": 0,
+              "currency": "USD",
+              "additive": false,
+              "basis": "per_stay"
+            },
+            {
+              "pet_ordinal": 2,
+              "amount_cents": 1500,
+              "currency": "USD",
+              "basis": "per_night",
+              "scope": "per_pet",
+              "additive": true,
+              "cap": {
+                "amount_cents": 10500,
+                "currency": "USD",
+                "basis": "per_stay",
+                "scope": "per_pet",
+                "applies_to_pet_ordinal": 2,
+                "trigger_max_nights": 7,
+                "qualifier_stated": true
+              }
+            }
+          ]
+        },
+        "fee_cap": null
+      },
+      "note": "The cap belongs to the SECOND pet, not to the property. \"$105 per pet per stay\" follows \"Second pet $15/night, not to exceed 7 nights\" in one sentence about the second pet, and the first pet stays free -- so a record-level cap would show a $105 ceiling against an animal that is never charged. It is written on the ordinal-2 rung with its own per-pet scope, per-stay basis, seven-night trigger and ordinal, exactly as the property states them. The second rung is additive: the free first pet is not replaced by it."
+    },
+    "columbus-oh|red roof plus columbus dublin": {
+      "quote": "One, well-behaved domestic pet (cat or dog) Stays Free! Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay.",
+      "facts": {
+        "fee_pet_schedule": {
+          "entries": [
+            {
+              "pet_ordinal": 1,
+              "amount_cents": 0,
+              "currency": "USD",
+              "additive": false,
+              "basis": "per_stay"
+            },
+            {
+              "pet_ordinal": 2,
+              "amount_cents": 1500,
+              "currency": "USD",
+              "basis": "per_night",
+              "scope": "per_pet",
+              "additive": true,
+              "cap": {
+                "amount_cents": 10500,
+                "currency": "USD",
+                "basis": "per_stay",
+                "scope": "per_pet",
+                "applies_to_pet_ordinal": 2,
+                "trigger_max_nights": 7,
+                "qualifier_stated": true
+              }
+            }
+          ]
+        },
+        "fee_cap": null
+      },
+      "note": "The cap belongs to the SECOND pet, not to the property. \"$105 per pet per stay\" follows \"Second pet $15/night, not to exceed 7 nights\" in one sentence about the second pet, and the first pet stays free -- so a record-level cap would show a $105 ceiling against an animal that is never charged. It is written on the ordinal-2 rung with its own per-pet scope, per-stay basis, seven-night trigger and ordinal, exactly as the property states them. The second rung is additive: the free first pet is not replaced by it."
+    },
+    "columbus-oh|hilton columbus polaris": {
+      "quote": "Max 2 cat(s) or 2 dog(s), Fee $80 for first pet and $50 for second pet per stay.",
+      "facts": {
+        "fee_pet_schedule": {
+          "entries": [
+            {
+              "pet_ordinal": 1,
+              "amount_cents": 8000,
+              "currency": "USD",
+              "basis": "per_stay",
+              "additive": false
+            },
+            {
+              "pet_ordinal": 2,
+              "amount_cents": 5000,
+              "currency": "USD",
+              "basis": "per_stay",
+              "additive": true
+            }
+          ]
+        }
+      },
+      "note": "\"$80 for first pet and $50 for second pet\" charges both: a guest with two pets pays $130. The second rung is additive."
+    },
+    "columbus-oh|hawthorn extended stay by wyndham columbus west": {
+      "quote": "non-refundable fee of 45 USD for the 1st night and 10 USD for each additional night to a maximum of 180USD per stay.",
+      "facts": {
+        "fee_tiers": [
+          {
+            "amount_cents": 4500,
+            "currency": "USD",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 1,
+            "basis_stated": false,
+            "role": "REPLACEMENT_PRICE"
+          },
+          {
+            "amount_cents": 1000,
+            "currency": "USD",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 2,
+            "basis_stated": false,
+            "role": "INCREMENTAL_UNIT_PRICE"
+          }
+        ],
+        "fee_cap": {
+          "amount_cents": 18000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "qualifier_stated": true
+        }
+      },
+      "tier_roles": [
+        "REPLACEMENT_PRICE",
+        "INCREMENTAL_UNIT_PRICE"
+      ],
+      "note": "The legacy record carried this in fee_schedule, a key no reader consumed -- so the whole staged charge would have been dropped by a migration that only read what the compatibility reader knows. 1.2 states it exactly: the first night is a replacement price, each additional night is an INCREMENTAL_UNIT_PRICE, and the $180 per-stay maximum is the cap."
+    },
+    "columbus-oh|candlewood suites columbus north polaris by ihg": {
+      "quote": "Nonrefundable pet fee of 25 dollars per night with a maximum of 75 dollars for stays 1 to 6 nights and 150 dollars for 7 or more nights.",
+      "add_withheld": {
+        "fee_cap": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property caps the charge at $75 for stays of 1-6 nights and at $150 for stays of 7 or more. Schema 1.2 carries one cap per record, so a ceiling that changes with stay length cannot be stated without publishing one of the two figures as though it applied to every stay."
+        }
+      },
+      "note": "The only place in the corpus where canonical 1.2 is LESS expressive than the legacy record: the legacy fee_cap_tiers list held both ceilings. The nightly fee itself still publishes, and the property's own sentence remains in the record's evidence quote. Recorded as a schema-expressiveness finding for a later amendment rather than resolved by guessing."
+    },
+    "columbus-oh|aloft columbus easton": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|columbus airport marriott": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|courtyard columbus easton": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|courtyard columbus worthington": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|days inn by wyndham grove city columbus south": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|drury inn and suites columbus grove city": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|fairfield inn and suites columbus new albany": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|hilton columbus at easton": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|home2 suites by hilton columbus easton": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|la quinta inn by wyndham columbus i 70e reynoldsburg": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|residence inn columbus airport": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|residence inn columbus osu": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|sheraton suites columbus worthington": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|sonesta columbus downtown": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|staybridge suites columbus dublin": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|the plaza hotel columbus at capitol square": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|towneplace suites columbus easton area": {
+      "approval": {
+        "decision": "LEGACY_BASELINE_REVIEWED",
+        "operator": "jfields80",
+        "approval_date": "2026-08-14",
+        "caveats": [
+          "Reviewed under PTF-POLICY-SCHEMA-MIGRATION-001: the canonical migrated record, its linked evidence and its rendered public meaning were read together and found consistent with the property's own committed quote. This records a review performed on 2026-08-14; it does not assert that an approval was given earlier."
+        ]
+      }
+    },
+    "columbus-oh|days inn by wyndham columbus airport": {
+      "quote": "Fees - 50USD per stay. Pet Sanitation Fee 50USD if required./Other Information - Pet deposit is 150 USD.",
+      "add_withheld": {
+        "pet_deposit": {
+          "reason_code": "SOURCE_AMBIGUOUS",
+          "reason": "The property states \"Pet deposit is 150 USD\" and never states whether it is refundable. A deposit that is returned and one that is not are different charges, and the word \"deposit\" alone does not establish which this is."
+        }
+      },
+      "note": "The legacy record inferred refundability from the field NAME and the page rendered \"a separate refundable pet deposit of $150\" -- a promise the property never made. Under 1.2 refundability must be explicit, so the amount is withheld with its reason instead of being published with an invented guarantee."
+    },
+    "columbus-oh|drury inn and suites columbus dublin": {
+      "quote": "limit two pets per room with a combined weight of 80 pounds service animals free of charge",
+      "facts": {
+        "combined_weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte"
+        },
+        "weight_limit": null
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The 80 pounds is the two pets TOGETHER -- the property's own sentence says \"combined weight of 80 pounds\". The legacy record stored it in weight_limit with no operator, and the renderer recovered the word \"combined\" by reading the evidence text at render time. Writing it as a per-pet maximum would publish an 80-pound allowance per animal that the property never granted, so it moves to combined_weight_limit where the field name carries the scope. The same sentence states service animals are free of charge."
+    },
+    "columbus-oh|drury inn and suites columbus polaris": {
+      "quote": "limit two pets per room combined weight of 80 pounds service animals free of charge",
+      "facts": {
+        "combined_weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte"
+        },
+        "weight_limit": null
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "note": "The 80 pounds is the two pets TOGETHER -- the property's own sentence says \"combined weight of 80 pounds\". The legacy record stored it in weight_limit with no operator, and the renderer recovered the word \"combined\" by reading the evidence text at render time. Writing it as a per-pet maximum would publish an 80-pound allowance per animal that the property never granted, so it moves to combined_weight_limit where the field name carries the scope. The same sentence states service animals are free of charge."
+    }
+  }
+}

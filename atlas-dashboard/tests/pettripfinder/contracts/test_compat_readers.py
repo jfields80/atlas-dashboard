@@ -318,20 +318,27 @@ class TestCommittedCorpus:
                    if (r["facts"].get("pet_fee") or {}).get("scope") == "per_pet"]
         assert len(per_pet) == 8
 
-    def test_columbus_approval_gap_is_exactly_twenty_six(self):
-        """21 blank decisions plus 5 records with no approval block."""
+    def test_the_columbus_approval_gap_is_closed(self):
+        """It was 26 -- 21 blank decisions plus 5 records with no approval
+        block at all. PTF-POLICY-SCHEMA-MIGRATION-001 closed it by REVIEWING
+        each record and recording LEGACY_BASELINE_REVIEWED with the date the
+        review actually happened. This asserts the gap stays closed: a record
+        arriving without a decision would reopen it."""
         _, review = read_package(load("columbus-oh"))
         missing = [r for r in review if r.code == "NO_APPROVAL_DECISION"]
-        assert len(missing) == 26
+        assert missing == []
 
-    def test_combined_operator_overload_count(self):
-        """Columbus 3 + Cleveland 2 records carry a scope in the operator slot."""
+    def test_the_combined_operator_overload_is_gone(self):
+        """Five records carried a SCOPE in the operator slot -- the word
+        "combined" where {lt, lte} belongs. 1.2 gives a combined limit its own
+        field, so the overload cannot be expressed any more, and no committed
+        record still uses it."""
         total = 0
         for market_id in PACKAGES:
             _, review = read_package(load(market_id))
             total += sum(1 for r in review
                          if r.code == "COMBINED_IN_OPERATOR_SLOT")
-        assert total == 5
+        assert total == 0
 
     def test_review_queue_is_never_silently_empty(self):
         """A reader that reported nothing would mean it had guessed."""

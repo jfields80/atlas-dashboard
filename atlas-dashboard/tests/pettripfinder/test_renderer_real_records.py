@@ -46,8 +46,18 @@ def find(market_id, fragment):
     pytest.skip("no committed record matching %r" % fragment)
 
 
+def shown(record):
+    """Display values, exactly as the production renderer obtains them.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001: authority is canonical 1.2 now, and every
+    render path goes through the projection. A test reading record["facts"]
+    straight would be exercising a path production does not have.
+    """
+    return canonical_view.display_facts(record)
+
+
 def profile_text(record):
-    f = record["facts"]
+    f = shown(record)
     parts = [_verified_summary(f, record.get("evidence_quote") or "")]
     parts += ["%s %s" % (l, v) for l, v, _c in _verified_facts(f)]
     parts += ["%s %s" % (l, v) for l, v, _c in _verified_details(f, record)[0]]
@@ -98,11 +108,13 @@ class TestA_ColumbusFailsClosed:
     """The six conflict/withheld records must not gain a definitive fee."""
 
     def cohort(self):
+        # 1.2 replaced the two fee-specific legacy markers with one
+        # reason-coded withholding decision.
         return [r for r in load("columbus-oh")
-                if r["facts"].get("fee_conflict") or r["facts"].get("fee_withheld")]
+                if "pet_fee" in (r.get("withheld_fields") or {})]
 
     def test_the_cohort_is_the_expected_size(self):
-        assert len(self.cohort()) == 6
+        assert len(self.cohort()) == 7
 
     def test_no_record_publishes_a_scalar_fee(self):
         for record in self.cohort():
@@ -118,7 +130,7 @@ class TestA_ColumbusFailsClosed:
     def test_each_says_withheld_rather_than_not_stated(self):
         for record in self.cohort():
             rows = {l: (v, c) for l, v, c in
-                    _verified_details(record["facts"], record)[0]}
+                    _verified_details(shown(record), record)[0]}
             value, cls = rows["Charge basis"]
             assert cls == WITHHELD_CLS, record["key"]
             assert "Not stated by the reviewed source" not in value, record["key"]
@@ -127,34 +139,39 @@ class TestA_ColumbusFailsClosed:
         """The whole cohort still shows no amount anywhere on the page."""
         for record in self.cohort():
             text = profile_text(record)
-            quote = record["facts"].get("fee_conflict") or record["facts"]["fee_withheld"]
+            reason = record["withheld_fields"]["pet_fee"]["reason"]
             for amount in ("$75", "$125", "$150", "$80"):
-                if amount in str(quote.get("evidence_quote", "")):
+                if amount in reason:
                     assert amount not in text, "%s leaked %s" % (record["key"], amount)
 
 
 class TestB_DaytonPerPetCohort:
-    """Ten Dayton fee-scope values reached no public surface at all."""
+    """Dayton fee-scope values that reached no public surface at all.
+
+    Ten at Phase B; twelve now, because Phase F recovered the scope of two
+    La Quinta records from the property's own "for up to 2 pets" wording.
+    """
 
     def cohort(self):
-        return [r for r in load("dayton-oh") if r["facts"].get("fee_scope")]
+        return [r for r in load("dayton-oh")
+                if (r["facts"].get("pet_fee") or {}).get("scope")]
 
     def test_every_scope_is_canonical(self):
         for record in self.cohort():
-            assert canonical_fee_scope(record["facts"]) in (
+            assert canonical_fee_scope(shown(record)) in (
                 enums.SCOPE_PER_ROOM, enums.SCOPE_PER_PET), record["key"]
 
-    def test_the_cohort_is_ten_records(self):
-        assert len(self.cohort()) == 10
+    def test_the_cohort_is_twelve_records(self):
+        assert len(self.cohort()) == 12
 
     def test_per_pet_is_visible_on_every_per_pet_record(self):
         per_pet = [r for r in self.cohort()
-                   if canonical_fee_scope(r["facts"]) == enums.SCOPE_PER_PET]
+                   if canonical_fee_scope(shown(r)) == enums.SCOPE_PER_PET]
         assert len(per_pet) == 8
         for record in per_pet:
             # A property with no fee amount has nothing to scope; every one
             # that states an amount must show who it attaches to.
-            if not record["facts"].get("pet_fee"):
+            if not shown(record).get("pet_fee"):
                 continue
             assert "per pet" in profile_text(record).lower(), record["key"]
 
@@ -167,18 +184,18 @@ class TestC_DaysInnSidney:
 
     def test_the_summary_states_per_pet(self):
         record = self.record()
-        summary = _verified_summary(record["facts"],
+        summary = _verified_summary(shown(record),
                                     record.get("evidence_quote") or "")
         assert "per pet per night" in summary
         assert "$15" in summary
 
     def test_the_chip_states_per_pet(self):
-        chips = {l: v for l, v, _c in _verified_facts(self.record()["facts"])}
+        chips = {l: v for l, v, _c in _verified_facts(shown(self.record()))}
         assert "per pet" in chips["Charge basis"].lower()
 
     def test_the_detail_row_states_per_pet(self):
         rows = {l: v for l, v, _c in
-                _verified_details(self.record()["facts"], self.record())[0]}
+                _verified_details(shown(self.record()), self.record())[0]}
         assert "per pet" in rows["Charge basis"].lower()
 
     def test_two_pets_are_priced_per_animal_not_per_room(self):
@@ -207,22 +224,26 @@ class TestD_StaybridgeMiamisburg:
         restrictions = self.record()["facts"]["general_restrictions"]
         assert "150" in restrictions and "50 per pet" in restrictions
 
-    def test_the_canonical_view_refuses_the_scalar(self):
-        view = canonical_view.build(self.record())
-        assert view.computation_class == enums.CONDITIONALLY_SAFE
-        assert view.has_undeclared_second_amount is True
-        assert view.fee_display_mode == "withhold_scalar"
+    def test_the_ladder_the_property_stated_is_now_published(self):
+        """Phase B could only WARN that $50 was not the whole charge, because
+        the legacy structure had nowhere to put a 1-6 / 7+ ladder. 1.2 does, so
+        the reader is given the property's actual prices instead of a caution
+        about the one they were shown."""
+        tiers = self.record()["facts"]["fee_tiers"]
+        assert [(t["amount_cents"], t["condition_min"], t.get("condition_max"))
+                for t in tiers] == [(5000, 1, 6), (15000, 7, None)]
+        assert all(t["scope"] == enums.SCOPE_PER_PET for t in tiers)
 
-    def test_the_comparison_no_longer_shows_fifty_as_the_fee(self):
+    def test_the_comparison_never_shows_fifty_alone_as_the_fee(self):
+        """The defect this record exists to guard: $50 standing as THE fee."""
         html = comparison_html(self.record())
-        assert "See policy wording" in html
-        # The bare scalar must not stand as the fee cell.
         assert ">$50.00<" not in html
-        assert "$50.00" not in html
+        assert "$50–$150" in html or "$50" not in html
 
     def test_the_scope_is_still_shown(self):
         """Suppressing the amount must not suppress what IS known."""
-        assert canonical_fee_scope(self.record()["facts"]) == enums.SCOPE_PER_PET
+        assert canonical_fee_scope(shown(self.record())) == enums.SCOPE_PER_PET
+        assert "per pet" in profile_text(self.record()).lower()
 
 
 class TestE_ColumbusExplicitNoWeightLimit:
@@ -230,7 +251,7 @@ class TestE_ColumbusExplicitNoWeightLimit:
 
     def cohort(self):
         return [r for r in load("columbus-oh")
-                if r["facts"].get("weight_limit_stated_none") == "true"]
+                if r["facts"].get("weight_limit_stated_none") is True]
 
     def test_the_cohort_exists(self):
         assert len(self.cohort()) == 2
@@ -242,9 +263,9 @@ class TestE_ColumbusExplicitNoWeightLimit:
 
     def test_the_weight_cell_is_not_the_silence_string(self):
         for record in self.cohort():
-            assert weight_display(record["facts"]) != ""
+            assert weight_display(shown(record)) != ""
             rows = {l: (v, c) for l, v, c in
-                    _verified_details(record["facts"], record)[0]}
+                    _verified_details(shown(record), record)[0]}
             value, cls = rows["Weight restriction"]
             assert cls != "dim", record["key"]
 
@@ -253,14 +274,20 @@ class TestF_CombinedWeightNeverBecomesIndividual:
     """Drury's combined limit must not be read as a per-animal ceiling."""
 
     def records(self):
+        # The overload cohort, canonically: a combined limit standing ALONE.
+        # Under 1.1 these carried the value in weight_limit with the operator
+        # slot overloaded to "combined"; 1.2 gives the fact its own field, and
+        # Phase F moved two more Drury records here that the legacy shape had
+        # recorded as per-pet maxima their pages never granted.
         out = []
-        for market in ("cleveland-akron-canton-oh", "columbus-oh"):
+        for market in PACKAGES:
             out += [r for r in load(market)
-                    if r["facts"].get("weight_limit_operator") == "combined"]
+                    if r["facts"].get("combined_weight_limit")
+                    and not r["facts"].get("weight_limit")]
         return out
 
     def test_the_cohort_exists(self):
-        assert len(self.records()) == 5
+        assert len(self.records()) == 8
 
     def test_canonical_moves_the_value_to_the_combined_field(self):
         for record in self.records():
@@ -291,7 +318,7 @@ class TestG_CatProhibition:
         out = []
         for market in PACKAGES:
             out += [r for r in load(market)
-                    if r["facts"].get("cats_allowed") == "false"]
+                    if (r["facts"].get("species") or {}).get("cats") == "prohibited"]
         return out
 
     def test_the_cohort_exists(self):
@@ -299,19 +326,19 @@ class TestG_CatProhibition:
 
     def test_the_chip_says_not_allowed(self):
         for record in self.records():
-            chips = {l: v for l, v, _c in _verified_facts(record["facts"])}
+            chips = {l: v for l, v, _c in _verified_facts(shown(record))}
             assert chips["Cats"] == "Not allowed", record["key"]
 
     def test_the_detail_table_states_the_refusal(self):
         for record in self.records():
             rows = {l: v for l, v, _c in
-                    _verified_details(record["facts"], record)[0]}
+                    _verified_details(shown(record), record)[0]}
             assert "Cats" in rows, record["key"]
             assert "Not accepted" in rows["Cats"], record["key"]
 
     def test_it_is_never_the_silence_string(self):
         for record in self.records():
-            chips = {l: v for l, v, _c in _verified_facts(record["facts"])}
+            chips = {l: v for l, v, _c in _verified_facts(shown(record))}
             assert chips["Cats"] != "Not stated", record["key"]
 
 
@@ -326,7 +353,7 @@ class TestNoRecordBecameLessInformative:
     def test_every_record_with_a_fee_still_addresses_it(self):
         for market in PACKAGES:
             for record in load(market):
-                if not record["facts"].get("pet_fee"):
+                if not shown(record).get("pet_fee"):
                     continue
                 text = profile_text(record)
                 view = canonical_view.build(record)
@@ -337,8 +364,8 @@ class TestNoRecordBecameLessInformative:
                             or "withheld" in text.lower()
                             or "conflicting" in text.lower()), record["key"]
                 else:
-                    assert record["facts"]["pet_fee"].rstrip("0").rstrip(".") \
-                        in text or "$" in text, record["key"]
+                    amount = shown(record)["pet_fee"].rstrip("0").rstrip(".")
+                    assert amount in text or "$" in text, record["key"]
 
     def test_no_page_carries_a_raw_enum(self):
         """No internal vocabulary leaks to a reader."""

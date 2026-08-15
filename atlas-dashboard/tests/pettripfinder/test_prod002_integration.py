@@ -172,6 +172,15 @@ def test_published_package_is_the_default_source(sample):
     # operational internals (candidate_id/candidate_path, corpus metadata, raw
     # model output, credentials, or runtime worker paths).
     _PUBLISHABLE = {
+        # PTF-POLICY-SCHEMA-MIGRATION-001 canonical envelope. None of the four
+        # is operational: they say which schema the record speaks, which
+        # identity and market it belongs to, and what its facts support being
+        # computed -- all derivable, none of it internal.
+        "schema_version", "identity_key", "market_id", "computation_class",
+        # The reason-coded withholding decisions themselves. They are the
+        # public statement that a field was held back deliberately, and
+        # the renderer needs them to say so rather than "Not stated".
+        "withheld_fields", "service_animal_statement",
         "key", "name", "verification_state", "facts", "evidence_quote",
         "verified_at", "source_url", "source_type", "evidence_count",
         # schema 1.1 additive provenance (worker-promoted records only):

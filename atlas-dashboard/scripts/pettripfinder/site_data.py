@@ -18,6 +18,7 @@ module docstring in ``site_enrichment.py`` for the doctrine this follows).
 
 from __future__ import annotations
 
+import copy
 import csv
 import json
 import re
@@ -243,16 +244,29 @@ def load_published_hotel_policy_facts(market_id: str = "") -> Dict[str, Dict]:
     if referenced:
         assert_resolution_references(referenced)
 
+    # PTF-POLICY-SCHEMA-MIGRATION-001. This projection used to stop at the
+    # facts, which meant the renderer never saw a single one of the corpus's
+    # withholding decisions -- Phase B built the machinery to display them and
+    # it could not fire, because the data was dropped one layer below it. The
+    # schema version travels too, so ``canonical_view`` can tell a migrated
+    # record from a legacy one instead of inferring it from shape.
+    package_schema = str(data.get("schema_version") or "")
     out: Dict[str, Dict] = {}
     for h in data.get("hotels", []):
-        out[h["key"]] = {
+        entry = {
             "facts": dict(h.get("facts", {})),
+            "schema_version": str(h.get("schema_version") or package_schema),
             "verified_at": h.get("verified_at", ""),
             "evidence_count": h.get("evidence_count", 0),
             "source_relationship": h.get("source_type", ""),
             "source_url": h.get("source_url", ""),
             "evidence_quote": h.get("evidence_quote") or None,
         }
+        for key in ("withheld_fields", "service_animal_statement",
+                    "computation_class"):
+            if h.get(key):
+                entry[key] = copy.deepcopy(h[key])
+        out[h["key"]] = entry
     return out
 
 

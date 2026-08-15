@@ -395,6 +395,15 @@ class CanonicalView:
         yield no species at all rather than dogs+cats -- but a prose value that
         explicitly names cats is an affirmative mention and is honoured.
         """
+        # PTF-POLICY-SCHEMA-MIGRATION-001. A migrated record carries the
+        # decision as structure, and the structure is authoritative: the prose
+        # readings below exist only for records still in the legacy shape.
+        # Reading prose first would have quietly dropped both Residence Inn
+        # cats prohibitions the moment their records became canonical, because
+        # 1.2 has no `cats_allowed` key for the fallback to find.
+        canonical = (self.facts.get("species") or {}).get("cats")
+        if canonical:
+            return canonical
         explicit = self.legacy_facts.get("cats_allowed")
         if explicit == "false" or explicit is False:
             return enums.SPECIES_PROHIBITED
@@ -406,6 +415,9 @@ class CanonicalView:
 
     @property
     def dogs_state(self) -> str:
+        canonical = (self.facts.get("species") or {}).get("dogs")
+        if canonical:
+            return canonical
         if "dog" in str(self.legacy_facts.get("species_allowed") or "").lower():
             return enums.SPECIES_ACCEPTED
         return ""
@@ -425,6 +437,33 @@ def build(facts_entry: Optional[Mapping], *, market_id: str = "") -> CanonicalVi
     """
     entry = facts_entry or {}
     legacy_facts = entry.get("facts") or {}
+
+    # PTF-POLICY-SCHEMA-MIGRATION-001. A record that is ALREADY canonical is
+    # read directly. Running the compatibility reader over 1.2 would be worse
+    # than pointless: it parses `"$50.00"` as money, and a migrated record
+    # holds an object there, so every canonical fee would silently vanish.
+    # The version is read from the record rather than sniffed from its shape,
+    # because a guess about which schema a record speaks is exactly the kind of
+    # inference this phase exists to remove.
+    if str(entry.get("schema_version") or "") == enums.POLICY_SCHEMA_VERSION:
+        canonical = entry.get("facts") or {}
+        withheld = entry.get("withheld_fields") or {}
+        for_classification = dict(canonical)
+        withheld_fee_paths = tuple(p for p in withheld
+                                   if p == "pet_fee" or p.startswith("pet_fee."))
+        if withheld_fee_paths:
+            for_classification["_withheld_fee_paths"] = withheld_fee_paths
+        classification = classify(for_classification)
+        return CanonicalView(
+            facts=canonical,
+            legacy_facts=canonical,
+            withheld=withheld,
+            computation_class=classification.computation_class,
+            computation_reason=classification.reason,
+            service_animal=entry.get("service_animal_statement") or {},
+            review_codes=frozenset(),
+        )
+
     result = read_record(entry, market_id=market_id)
     canonical = result.record.get("facts") or {}
 
@@ -492,3 +531,261 @@ def weight_display(limit: Mapping) -> str:
     if limit.get("operator") == enums.OP_LT:
         return "Under %s %s" % (number, unit)
     return "%s %s" % (number, unit)
+
+
+# --------------------------------------------------------------------------
+# canonical -> display projection
+# --------------------------------------------------------------------------
+
+#: PTF-POLICY-SCHEMA-MIGRATION-001.
+#:
+#: Phase F moves the AUTHORITY to 1.2. The Phase B renderer, however, reads
+#: display values in eighty-four places -- ``f.get("weight_limit")`` expecting
+#: ``"50 pounds"``, ``f.get("fee_basis")`` expecting ``"per night"`` -- and its
+#: wording was tuned record by record against the corpus. Rewriting all eighty-
+#: four to read typed structures would put the phase's whole semantic-
+#: preservation proof on a renderer rewrite, which is the one change most
+#: likely to move a sentence a reader sees.
+#:
+#: So the projection lives HERE, in one function, and it runs one way only:
+#: canonical structures in, display strings out. Nothing legacy is parsed --
+#: that is the direction Phase F removes -- and the proof obligation becomes
+#: mechanical instead of editorial: for every record whose migration was purely
+#: mechanical, ``display_facts(migrated) == the original committed facts``.
+#: Where they differ, a reviewed decision says why, and the migration report
+#: names it.
+
+def _display_money(node: Mapping) -> str:
+    cents = node.get("amount_cents")
+    if not isinstance(cents, int):
+        return ""
+    return "$%d.%02d" % divmod(int(cents), 100)
+
+
+def _display_weight(node: Mapping) -> str:
+    value = node.get("value")
+    if value is None:
+        return ""
+    unit = str(node.get("unit") or enums.UNIT_LB)
+    number = ("%d" % value) if float(value) == int(value) else ("%s" % value)
+    word = "pounds" if unit == enums.UNIT_LB else unit
+    return "%s %s" % (number, word)
+
+
+def _display_tier(tier: Mapping) -> Dict[str, Any]:
+    out: Dict[str, Any] = {
+        "amount": _display_money(tier).lstrip("$"),
+        "currency": str(tier.get("currency") or "USD"),
+        "condition_type": tier.get("condition_type"),
+        "boundary_unit": tier.get("boundary_unit"),
+        "role": tier.get("role"),
+        "basis_stated": bool(tier.get("basis_stated")),
+    }
+    for key in ("condition_min", "condition_max"):
+        if tier.get(key) is not None:
+            out[key] = tier[key]
+    if tier.get("scope"):
+        out["scope"] = SCOPE_WORDS.get(tier["scope"], tier["scope"])
+    if tier.get("basis"):
+        out["stated_basis"] = BASIS_WORDS.get(tier["basis"], tier["basis"])
+    # The renderer distinguishes a surcharge from a replacement price by a
+    # boolean; 1.2 states the same fact as a role. "$100 + $200" and "$100–$200"
+    # are the difference between a long stay costing $300 and costing $200.
+    if tier.get("role") == enums.ROLE_ADDITIONAL_CHARGE:
+        out["additive"] = True
+    return out
+
+
+def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
+    """The display-value view of one policy record.
+
+    A legacy record is returned untouched -- it already IS display values, and
+    copying it keeps every existing page byte-identical. A canonical record is
+    projected into the same vocabulary, so the renderer sees one shape whatever
+    schema the authority speaks.
+    """
+    entry = entry or {}
+    facts = entry.get("facts") or {}
+    if str(entry.get("schema_version") or "") != enums.POLICY_SCHEMA_VERSION:
+        return dict(facts)
+
+    out: Dict[str, Any] = {}
+
+    if isinstance(facts.get("pets_allowed"), bool):
+        out["pets_allowed"] = "true" if facts["pets_allowed"] else "false"
+
+    fee = facts.get("pet_fee")
+    if isinstance(fee, Mapping):
+        amount = _display_money(fee)
+        if amount:
+            out["pet_fee"] = amount
+        allowance = fee.get("scope_pet_allowance")
+        if fee.get("basis"):
+            basis = BASIS_WORDS.get(fee["basis"], fee["basis"])
+            # "$25 per night for up to 2 pets" is the property's whole sentence,
+            # and the count is the half a guest with two dogs needs. 1.2 keeps
+            # it as scope_pet_allowance; the renderer reads it from the basis
+            # phrase, so it is put back where the renderer looks rather than
+            # dropped on the way to the page.
+            if allowance:
+                basis = "%s for up to %d pets" % (basis, allowance)
+            out["fee_basis"] = basis
+        if fee.get("scope"):
+            out["fee_scope"] = SCOPE_WORDS.get(fee["scope"], fee["scope"])
+
+    tiers = facts.get("fee_tiers")
+    if isinstance(tiers, Sequence) and not isinstance(tiers, (str, bytes)):
+        out["fee_tiers"] = [_display_tier(t) for t in tiers if isinstance(t, Mapping)]
+
+    # A cap that belongs to ONE rung of a pet schedule. 1.2 puts it where it
+    # belongs -- Red Roof's $105 ceiling is the second pet's, and the first pet
+    # is free -- while the renderer knows only a record-level ceiling. Projected
+    # so the number still reaches the page; the rung it belongs to is stated in
+    # the schedule beside it.
+    cap = facts.get("fee_cap")
+    if not isinstance(cap, Mapping):
+        for rung in (facts.get("fee_pet_schedule") or {}).get("entries") or ():
+            if isinstance(rung, Mapping) and isinstance(rung.get("cap"), Mapping):
+                cap = rung["cap"]
+                break
+    if isinstance(cap, Mapping):
+        node: Dict[str, Any] = {"amount": _display_money(cap).lstrip("$"),
+                                "currency": str(cap.get("currency") or "USD")}
+        if cap.get("basis"):
+            node["basis"] = BASIS_WORDS.get(cap["basis"], cap["basis"])
+        if cap.get("scope"):
+            node["scope"] = SCOPE_WORDS.get(cap["scope"], cap["scope"])
+        # The pet count a ceiling covers. Legacy caps carried it as free text in
+        # `applies_to`, where only a human could read it; 1.2 carries the number.
+        # Without this the Renaissance page stopped saying its $150 ceiling is
+        # "for two (2) pets", which is the only thing that makes the ceiling
+        # mean anything to a guest bringing two.
+        count = cap.get("applies_to_pet_count")
+        if count:
+            node["applies_to"] = "for %d pet%s" % (count, "" if count == 1 else "s")
+        ordinal = cap.get("applies_to_pet_ordinal")
+        if ordinal:
+            node["applies_to"] = "for the %s pet" % {1: "first", 2: "second"}.get(
+                ordinal, "%d" % ordinal)
+        if cap.get("trigger_max_nights"):
+            nights = "up to %d nights" % cap["trigger_max_nights"]
+            existing = node.get("applies_to")
+            node["applies_to"] = "%s, %s" % (existing, nights) if existing else nights
+        out["fee_cap"] = node
+
+    # "$45 the first night, $10 each additional night" -- an incremental unit
+    # price, which the renderer reads from the legacy staged-fee shape.
+    if isinstance(tiers, Sequence) and not isinstance(tiers, (str, bytes)):
+        base = next((t for t in tiers if isinstance(t, Mapping)
+                     and t.get("role") == enums.ROLE_REPLACEMENT_PRICE
+                     and t.get("condition_max") == 1), None)
+        unit = next((t for t in tiers if isinstance(t, Mapping)
+                     and t.get("role") == enums.ROLE_INCREMENTAL_UNIT_PRICE), None)
+        if base and unit:
+            out.pop("fee_tiers", None)
+            out["fee_schedule"] = {
+                "first_night": {"amount": _display_money(base).lstrip("$")},
+                "additional_night": {"amount": _display_money(unit).lstrip("$")}}
+
+    schedule = facts.get("fee_pet_schedule")
+    if isinstance(schedule, Mapping):
+        legacy: Dict[str, Any] = {}
+        for rung in schedule.get("entries") or ():
+            if not isinstance(rung, Mapping):
+                continue
+            key = {1: "first_pet", 2: "second_pet"}.get(rung.get("pet_ordinal"))
+            if not key:
+                continue
+            item: Dict[str, Any] = {"amount": _display_money(rung).lstrip("$")}
+            if rung.get("basis"):
+                item["basis"] = BASIS_WORDS.get(rung["basis"], rung["basis"])
+            legacy[key] = item
+        if legacy:
+            out["fee_pet_schedule"] = legacy
+
+    weight = facts.get("weight_limit")
+    if isinstance(weight, Mapping):
+        shown = _display_weight(weight)
+        if shown:
+            out["weight_limit"] = shown
+        if weight.get("operator"):
+            out["weight_limit_operator"] = weight["operator"]
+
+    combined = facts.get("combined_weight_limit")
+    if isinstance(combined, Mapping):
+        shown = _display_weight(combined)
+        if shown:
+            out["weight_limit_combined"] = shown
+        if combined.get("operator"):
+            out["weight_limit_combined_operator"] = combined["operator"]
+
+    limits = facts.get("species_weight_limits")
+    if isinstance(limits, Mapping):
+        out["species_weight_limits"] = {
+            name: {"value": _display_weight(rule),
+                   "operator": rule.get("operator")}
+            for name, rule in sorted(limits.items()) if isinstance(rule, Mapping)}
+
+    # Species prose, rebuilt from the state map. The renderer prints this
+    # string, so dropping it turned "Dogs and cats accepted" into the generic
+    # "Pets welcome" on every migrated record -- a real loss of what the
+    # property said. Only ACCEPTED species are listed: a prohibition is carried
+    # by the map and rendered by its own row, and listing a refused species
+    # here would read as acceptance.
+    species = facts.get("species")
+    if isinstance(species, Mapping):
+        accepted = [name for name, state in species.items()
+                    if state == enums.SPECIES_ACCEPTED]
+        # dogs, then cats, then anything else alphabetically -- the corpus's own
+        # dominant ordering, so the commonest spellings survive unchanged.
+        rank = {"dogs": 0, "cats": 1}
+        ordered = sorted(accepted, key=lambda n: (rank.get(n, 2), n))
+        if ordered:
+            out["species_allowed"] = ", ".join(ordered)
+        if species.get("cats") == enums.SPECIES_PROHIBITED:
+            out["cats_allowed"] = "false"
+        elif species.get("cats") == enums.SPECIES_ACCEPTED:
+            out["cats_allowed"] = "true"
+
+    # Other charges the legacy renderer displays under their own names. Only
+    # the shapes it already knows are projected; anything else stays canonical
+    # and is simply not shown by a renderer that never showed it.
+    for charge in facts.get("other_charges") or ():
+        if not isinstance(charge, Mapping):
+            continue
+        if charge.get("kind") == enums.CHARGE_CLEANING_FEE:
+            amount = _display_money(charge)
+            if amount:
+                out["cleaning_fee"] = amount
+
+    for key in ("weight_limit_stated_none", "breed_restrictions_stated_none"):
+        if isinstance(facts.get(key), bool):
+            out[key] = "true" if facts[key] else "false"
+
+    if isinstance(facts.get("pet_count_limit"), int):
+        out["pet_count_limit"] = str(facts["pet_count_limit"])
+    if facts.get("pet_count_scope"):
+        out["pet_count_scope"] = facts["pet_count_scope"]
+
+    for key in ("breed_restrictions", "unattended_policy",
+                "reservation_requirement", "pet_room_restriction",
+                "general_restrictions", "age_restriction"):
+        if facts.get(key):
+            out[key] = facts[key]
+
+    # A withheld fee is not a missing fee, and the renderer says so through two
+    # legacy markers. 1.2 replaced both with one reason-coded decision, so the
+    # marker is derived from the reason: a contradiction reads differently to a
+    # fact the schema cannot carry, and rendering either as silence would tell a
+    # reader the hotel never stated a price.
+    fee_decision = (entry.get("withheld_fields") or {}).get("pet_fee")
+    if isinstance(fee_decision, Mapping):
+        code = str(fee_decision.get("reason_code") or "")
+        marker = {"reason": fee_decision.get("reason") or "",
+                  "reason_code": code}
+        if code == enums.SOURCE_CONTRADICTORY:
+            out["fee_conflict"] = marker
+        elif code:
+            out["fee_withheld"] = marker
+
+    return out

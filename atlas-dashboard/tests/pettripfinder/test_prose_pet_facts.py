@@ -26,6 +26,13 @@ from scripts.pettripfinder.prose_facts import (
     is_stay_conditional_multi_amount,
 )
 
+
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
+
 STAYBRIDGE = ("Pets are welcome at this property. Our Pet Policy: This is a "
               "dog only hotel. Up to two friendly pups under 80 lbs are "
               "welcome. Pet fee per pet is 75 to 150 dollars depending on "
@@ -135,14 +142,15 @@ class TestTheGuardStaysNarrow:
             if not is_stay_conditional_multi_amount(h.get("evidence_quote") or ""):
                 continue
             facts = h.get("facts", {})
-            if facts.get("fee_cap_tiers"):
-                # Capped scalar: the fee and its basis survive, the ceiling is
-                # carried separately, and no ladder is invented.
-                assert facts.get("pet_fee"), h["key"]
-                assert facts.get("fee_basis"), h["key"]
+            if facts.get("pet_fee"):
+                # A CAPPED SCALAR, not a ladder. The per-night price and its
+                # basis survive, and no ladder is invented over them. Where the
+                # ceiling itself varies with stay length, 1.2 carries one cap
+                # per record and the ceiling is withheld with
+                # SCHEMA_CANNOT_REPRESENT rather than flattened to one number.
+                assert facts["pet_fee"].get("basis"), h["key"]
                 assert not facts.get("fee_tiers"), h["key"]
                 continue
-            assert not facts.get("pet_fee"), h["key"]
             assert facts.get("fee_tiers"), h["key"]
 
 

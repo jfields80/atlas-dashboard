@@ -49,12 +49,20 @@ COLUMBUS = "columbus-oh"
 DAYTON = "dayton-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 
-#: The approved Columbus homepage, hashed from the page this build produced at
-#: de2e467 -- BEFORE the renderer became market-aware. It is the witness for
-#: "byte-identical": a homepage design change is an operator decision, and
-#: re-pinning this constant is how that decision gets recorded.
-COLUMBUS_HOME_SHA256 = "9da6c83a3a0e6b98f67f0b81a7fd0c122412d8359611f993408fe2b8b4cfe7a5"
-COLUMBUS_HOME_BYTES = 42218
+#: The approved Columbus homepage. It is the witness for "byte-identical": a
+#: homepage design change is an operator decision, and re-pinning this constant
+#: is how that decision gets recorded.
+#:
+#: Re-pinned by PTF-POLICY-SCHEMA-MIGRATION-001, which changed the DATA behind
+#: the page rather than its design. Two edits, both reviewed:
+#:   * four cards read "$50.00" where they read "$50" -- the legacy corpus
+#:     stored one Drury fee without cents and the canonical form is uniform;
+#:   * the two Drury Columbus cards read "80 lb combined" where they read
+#:     "80 lb". Their pages say "combined weight of 80 pounds", so the old
+#:     cell granted each of two dogs an 80-pound allowance the hotel never
+#:     gave. That is the defect this phase existed to remove.
+COLUMBUS_HOME_SHA256 = "0d8aad4de23cc89242886765ce58172bda938df3dc3b79be00211e4cfc1cbda8"
+COLUMBUS_HOME_BYTES = 42254
 
 #: The frozen Columbus production bundle (PTF-COLUMBUS-FREEZE-DEPLOY-001).
 #:
@@ -71,9 +79,16 @@ COLUMBUS_HOME_BYTES = 42218
 #: treatment on the six conflict/withheld records that previously rendered
 #: through the dim silence class (§6).
 #:
-#: Previous value, at PTF-COLUMBUS-FREEZE-DEPLOY-001 through Phase A:
-#:     404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4
-COLUMBUS_BUNDLE_SHA256 = "f52b5f569d1aefce270f3f1c07cb395debe98241a6c8e849f47dee89eac334f3"
+#: Re-pinned again by PTF-POLICY-SCHEMA-MIGRATION-001. The authority moved to
+#: canonical schema 1.2, so the bundle's bytes move with it. What is asserted
+#: alongside remains the same: every gate passes and the bundle carries the
+#: same 88 hotel profiles at the same routes. The public diff was reviewed over
+#: all 156 records -- 81 byte-identical, 75 changed, 0 unexpected.
+#:
+#: Previous values:
+#:     404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4  (freeze)
+#:     f52b5f569d1aefce270f3f1c07cb395debe98241a6c8e849f47dee89eac334f3  (Phase B)
+COLUMBUS_BUNDLE_SHA256 = "139a27f1cccd4fec1e2ca5f257a6b08b2381f426b2eaa8cbb9ea4624f73f527a"
 
 #: Words that belong to the Columbus market and to no other.
 COLUMBUS_TERMS = ("Columbus", "Scioto", "Dublin", "Polaris", "Easton", "Grove City",

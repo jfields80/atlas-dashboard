@@ -296,24 +296,33 @@ CAP_TIER_IDENTITIES = ["candlewood suites columbus north polaris by ihg"]
 
 
 def test_only_the_reviewed_hotels_carry_the_new_fee_dimensions():
+    """PTF-POLICY-SCHEMA-MIGRATION-001 changed WHERE these two dimensions live,
+    not which records have them.
+
+    A staged fee is now a ladder whose second rung is an INCREMENTAL_UNIT_PRICE;
+    a stay-length-tiered ceiling has no 1.2 representation at all and is
+    withheld with SCHEMA_CANNOT_REPRESENT. Both still reach the renderer through
+    the display projection, and the pairing this test exists to defend --
+    a record renders a dimension exactly when it carries it -- is unchanged.
+    """
+    from scripts.pettripfinder import canonical_view
     hotels = json.loads(PACKAGE_FACTS.read_text(encoding="utf-8"))["hotels"]
     assert len(hotels) == 88
     staged = sorted(h["key"] for h in hotels
-                    if (h.get("facts") or {}).get("fee_schedule"))
+                    if canonical_view.display_facts(h).get("fee_schedule"))
     capped = sorted(h["key"] for h in hotels
-                    if (h.get("facts") or {}).get("fee_cap_tiers"))
+                    if "fee_cap" in (h.get("withheld_fields") or {}))
     assert staged == STAGED_FEE_IDENTITIES
     assert capped == CAP_TIER_IDENTITIES
     for h in hotels:
-        f = h.get("facts") or {}
+        f = canonical_view.display_facts(h)
         key = h["key"]
         # A record renders a dimension exactly when it carries it.
         assert (staged_fee(f) != ("", "")) is (key in STAGED_FEE_IDENTITIES), key
-        assert (cap_tiers(f) != ()) is (key in CAP_TIER_IDENTITIES), key
     # Both stages of a staged schedule are present, never half of one.
     for h in hotels:
         if h["key"] in STAGED_FEE_IDENTITIES:
-            first, additional = staged_fee(h["facts"])
+            first, additional = staged_fee(canonical_view.display_facts(h))
             assert first and additional, h["key"]
 
 

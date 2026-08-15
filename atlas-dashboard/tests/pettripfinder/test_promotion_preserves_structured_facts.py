@@ -91,6 +91,9 @@ class TestFeeLadderSurvivesPromotion:
         cand, _t, _u, fail = _build(_g1(fee_policy=SONESTA_POLICY))
         assert fail is None and cand is not None
         tiers = _facts(cand)["fee_tiers"]
+        # A promotion CANDIDATE is still legacy-shaped: Phase F migrated the
+        # published policy authority, not the import corpus candidates are
+        # built from.
         assert [(t["amount"], t["condition_min"], t["condition_max"]) for t in tiers] == [
             ("75.00", 1, 7), ("150.00", 8, None)]
 
@@ -211,9 +214,9 @@ class TestPublishedRecordsUnaffected:
     #: The three ladders that were live BEFORE this sprint, with the exact
     #: values they published. Sonesta joins them; none of them may move.
     _PRE_EXISTING = {
-        "hampton inn columbus airport": [("75.00", 1, 4), ("125.00", 5, None)],
-        "hilton garden inn columbus airport": [("75.00", 1, 4), ("125.00", 5, None)],
-        "home2 suites new albany columbus": [("50.00", 1, 4), ("75.00", 5, None)],
+        "hampton inn columbus airport": [(7500, 1, 4), (12500, 5, None)],
+        "hilton garden inn columbus airport": [(7500, 1, 4), (12500, 5, None)],
+        "home2 suites new albany columbus": [(5000, 1, 4), (7500, 5, None)],
     }
 
     def test_8_the_pre_existing_published_ladders_are_unchanged(self):
@@ -224,17 +227,17 @@ class TestPublishedRecordsUnaffected:
         assert set(self._PRE_EXISTING) <= set(tiered)
         for key, expected in self._PRE_EXISTING.items():
             tiers = tiered[key]
-            assert [(t["amount"], t["condition_min"], t["condition_max"])
+            assert [(t["amount_cents"], t["condition_min"], t.get("condition_max"))
                     for t in tiers] == expected, key
-            assert all(t["scope"] == "unstated" for t in tiers), key
+            assert all("scope" not in t for t in tiers), key
             assert all(t["basis_stated"] is False for t in tiers), key
 
     def test_8b_sonesta_publishes_its_ladder_with_the_stated_scope(self):
         tiers = {h["key"]: h["facts"].get("fee_tiers")
                  for h in self._pkg()["hotels"]}["sonesta simply suites dublin columbus"]
-        assert [(t["amount"], t["condition_min"], t["condition_max"], t["scope"])
-                for t in tiers] == [("75.00", 1, 7, "per_pet"),
-                                    ("150.00", 8, None, "unstated")]
+        assert [(t["amount_cents"], t["condition_min"], t.get("condition_max"), t.get("scope"))
+                for t in tiers] == [(7500, 1, 7, "per_pet"),
+                                    (15000, 8, None, None)]
         assert all(t["basis_stated"] is False for t in tiers)
 
     def test_9_the_committed_package_holds_38_records(self):

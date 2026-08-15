@@ -29,6 +29,13 @@ from scripts.pettripfinder.hotel_profile import (
 from scripts.pettripfinder.site_data import _POLICY_FIELDS
 
 
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
+
+
 #: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
 #: recurrence but never says who the charge attaches to, the profile says so
 #: rather than letting "$50 per night" read as a complete answer to a guest
@@ -225,8 +232,11 @@ class TestVocabularyAndBlastRadius:
                          .read_text(encoding="utf-8"))
         rows = {normalize_name(r["name"]): r for r in read_production_rows()
                 if r["category"] == "pet-friendly-hotels"}
+        # 1.2 keeps the basis INSIDE the fee, so "states an amount but no
+        # recurrence" is one field's shape rather than two fields' presence.
         affected = [h["key"] for h in pkg["hotels"]
-                    if h["facts"].get("pet_fee") and not h["facts"].get("fee_basis")]
+                    if h["facts"].get("pet_fee")
+                    and not h["facts"]["pet_fee"].get("basis")]
         # 9 when PTF-POLICY-PRECISION-001 measured this; 10 since
         # PTF-COLUMBUS-PROMOTION-002 published Hotel LeVeque, whose source states
         # a $100 fee and no basis at all; back to 9 since PTF-COLUMBUS-HYATT-002
@@ -235,7 +245,7 @@ class TestVocabularyAndBlastRadius:
         # so a new no-basis record cannot arrive unnoticed.
         assert len(affected) == 8
         for h in pkg["hotels"]:
-            summary = _verified_summary(dict(h["facts"]), h.get("evidence_quote") or "")
+            summary = _verified_summary(_shown(h), h.get("evidence_quote") or "")
             if h["key"] in affected:
                 assert "the fee basis is not specified" in summary, h["key"]
             else:
@@ -285,13 +295,17 @@ class TestVocabularyAndBlastRadius:
                                          "weight_limit_stated_none",
                                          "breed_restrictions_stated_none", "fee_tiers"}
         assert sonesta["facts"]["pet_count_scope"] == "suite"
-        assert [t["amount"] for t in sonesta["facts"]["fee_tiers"]] == ["75.00", "150.00"]
+        assert [t["amount_cents"] for t in sonesta["facts"]["fee_tiers"]] == [7500, 15000]
 
         leveque = by_key["hotel leveque autograph collection"]
-        assert set(leveque["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",
-                                         "pet_fee", "weight_limit", "weight_limit_operator"}
-        assert "fee_basis" not in leveque["facts"]
+        # The weight operator is no longer a sibling field: 1.2 carries it, and
+        # the scope it used to be overloaded with, inside weight_limit.
+        assert set(leveque["facts"]) == {"pets_allowed", "pet_count_limit",
+                                         "pet_count_scope", "pet_fee",
+                                         "weight_limit"}
+        assert "basis" not in leveque["facts"]["pet_fee"]
+        assert leveque["facts"]["weight_limit"]["operator"] in ("lt", "lte")
 
         for record in (sonesta, leveque):
-            for never in ("species_allowed", "pet_deposit", "breed_restrictions"):
+            for never in ("species", "pet_deposit", "breed_restrictions"):
                 assert never not in record["facts"], (record["key"], never)

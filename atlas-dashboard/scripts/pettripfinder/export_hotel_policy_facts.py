@@ -300,6 +300,24 @@ def write_package(path: Path = PUBLISHED_FACTS_PATH,
                 # Nothing is written and nothing partial is left behind: the
                 # refusal happens before the file is opened at all.
                 raise AuthorityRegressionError(delta)
+    # PTF-POLICY-SCHEMA-MIGRATION-001. This exporter still writes the legacy
+    # shape, and the committed authority is canonical 1.2. Writing anyway would
+    # revert, in one command, every typed money value, every reason-coded
+    # withholding and every hash-bound approval the migration established -- an
+    # "export" that undoes a migration, reported by the authority guard only
+    # afterwards. It fails closed until the exporter itself is canonicalised.
+    if path.exists():
+        current = json.loads(path.read_text(encoding="utf-8-sig")).get("schema_version")
+        outgoing = json.loads(text).get("schema_version")
+        if str(current) == "1.2" and str(outgoing) != "1.2":
+            raise AuthorityRegressionError({
+                "refusal": "schema downgrade",
+                "detail": "%s holds schema %s; this exporter emits %s. Writing "
+                          "would revert the canonical migration."
+                          % (path.name, current, outgoing),
+                "removals": [], "unintended_updates": [],
+                "duplicate_identities": [],
+            })
     path.write_text(text, encoding="utf-8", newline="\n")
     print("wrote %s (%d hotels)" % (path, len(json.loads(text)["hotels"])))
     return 0

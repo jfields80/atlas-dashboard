@@ -231,8 +231,14 @@ class TestColumbusDivergence:
     def test_every_unintended_update_is_reported(self):
         delta = authority_delta(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
                                 serialize(build_package()))
-        assert delta["unintended_update_count"] == 12
-        assert len(delta["unintended_updates"]) == 12
+        # Every published record diverges now, and that is the correct reading:
+        # PTF-POLICY-SCHEMA-MIGRATION-001 moved the committed authority to
+        # canonical 1.2 while this exporter still emits 1.1, so no record it
+        # would write matches the one that is committed. The guard's job is to
+        # SEE that, which it does -- and the writer refuses outright rather than
+        # reverting the migration (test_apply_refuses_a_schema_downgrade).
+        assert delta["unintended_update_count"] == 38
+        assert len(delta["unintended_updates"]) == 38
 
     def test_the_committed_authority_survives_a_refused_write(self):
         before = PUBLISHED_FACTS_PATH.read_bytes()
@@ -276,3 +282,28 @@ class TestColumbusDivergence:
                           # comment above gives.
                           or record.get("manual_evidence", {}).get("policy_source_sha256"))
             assert provenance and provenance.startswith("sha256:"), key
+
+
+@_SKIP
+class TestTheExporterCannotRevertTheMigration:
+    """PTF-POLICY-SCHEMA-MIGRATION-001.
+
+    The exporter writes schema 1.1. The committed authority is 1.2. One
+    ``apply`` would have silently undone the whole migration -- typed money
+    back to display strings, reason-coded withholdings back to prose,
+    hash-bound approvals back to blank decisions -- and the authority guard
+    would have reported it only afterwards.
+    """
+
+    def test_apply_refuses_a_schema_downgrade(self, tmp_path):
+        from scripts.pettripfinder.export_hotel_policy_facts import (
+            AuthorityRegressionError, write_package,
+        )
+        target = tmp_path / "hotel_policy_facts.json"
+        target.write_text(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"),
+                          encoding="utf-8", newline="\n")
+        before = target.read_bytes()
+        with pytest.raises(AuthorityRegressionError):
+            write_package(path=target)
+        assert target.read_bytes() == before, "the refusal must write nothing"
+

@@ -62,11 +62,26 @@ class TestSupportedShapes:
         2026-08-02 as the first to arrive through the worker path."""
         pkg = json.loads(_PKG.read_text(encoding="utf-8-sig"))
         tiered = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers")]
-        assert len(tiered) == 30
+        # 31 since PTF-POLICY-SCHEMA-MIGRATION-001: Hawthorn's "45 the first
+        # night, 10 each additional" lived in a legacy key no reader consumed,
+        # and 1.2 states it as a ladder whose second rung is an incremental
+        # unit price.
+        assert len(tiered) == 31
         for h in tiered:
-            terms = [term(t["amount"], t["condition_min"], t["condition_max"],
+            # 1.2 money is integer cents; the capability check reads the amount
+            # a downstream consumer would be handed.
+            # Two vocabularies meet here and Phase F did not merge them: the
+            # policy schema names a tier's role REPLACEMENT_PRICE /
+            # ADDITIONAL_CHARGE / INCREMENTAL_UNIT_PRICE, while this worker
+            # layer has only ONE_TIME_CHARGE. A band whose price replaces the
+            # others IS a one-time charge for that band, so it maps cleanly;
+            # unifying the two vocabularies is a separate change and is not
+            # made here on the way past.
+            terms = [term("%d.%02d" % divmod(t["amount_cents"], 100),
+                          t["condition_min"], t.get("condition_max"),
                           unit=t["boundary_unit"], currency=t["currency"],
-                          role=t["role"], condition=t["condition_type"])
+                          role=V.FEE_ROLE_ONE_TIME_CHARGE,
+                          condition=t["condition_type"])
                      for t in h["facts"]["fee_tiers"]]
             supported, reasons = downstream_fee_schema_support(policy(*terms))
             assert supported, (h["key"], reasons)

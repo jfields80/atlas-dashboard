@@ -81,35 +81,48 @@ class TestClevelandAuthority:
         for hotel in facts["hotels"]:
             evidence = {e["field"]: e["quote"] for e in hotel["evidence"]}
             page = " ".join(hotel["evidence_quote"].split()).lower()
+            # Evidence entries keep the field names they were captured under;
+            # a canonical fact is traced through the legacy name it came from.
+            aliases = {"species": "species_allowed",
+                       "combined_weight_limit": "weight_limit",
+                       "other_charges": "cleaning_fee",
+                       "dimension_constraints": "general_restrictions"}
             for field in hotel["facts"]:
-                assert field in evidence, "%s: %s has no evidence" % (hotel["name"], field)
-                assert " ".join(evidence[field].split()).lower() in page, (
+                source_field = aliases.get(field, field)
+                assert source_field in evidence,                     "%s: %s has no evidence" % (hotel["name"], field)
+                assert " ".join(evidence[source_field].split()).lower() in page, (
                     "%s: %s quote is not in the captured page text"
                     % (hotel["name"], field))
 
     def test_withheld_fields_are_recorded_and_absent_from_facts(self, facts):
         withheld_total = 0
         for hotel in facts["hotels"]:
-            for field, reason in hotel["withheld_fields"].items():
+            for field, decision in (hotel.get("withheld_fields") or {}).items():
                 withheld_total += 1
                 assert field not in hotel["facts"], (
                     "%s: %s is both withheld and published" % (hotel["name"], field))
-                assert len(reason) > 20, "a withheld field needs a real reason"
-        # 21 from the overnight authority + 2 each for the two Drury records
-        # (service_animal_exception, which no renderer reads, and fee_scope,
-        # whose room scope is carried inside fee_basis).
-        assert withheld_total == 25
+                # 1.2 replaced bare prose with a reason CODE plus the sentence.
+                assert decision["reason_code"], hotel["name"]
+                assert len(decision["reason"]) > 20, "a withheld field needs a real reason"
+        # Was 25. PTF-POLICY-SCHEMA-MIGRATION-001 removed the entries that
+        # merely restated that the page said nothing -- silence is the ABSENCE
+        # of a field -- and retired the two Drury entries that 1.2 can now
+        # state outright: the fee's room scope has its own field, and the
+        # property's service-animal sentence has its own structure.
+        assert withheld_total == 7
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
             f = hotel["facts"]
             if "pet_fee" in f:
-                assert re.fullmatch(r"\$\d+\.\d{2}", f["pet_fee"]), hotel["name"]
+                assert isinstance(f["pet_fee"]["amount_cents"], int), hotel["name"]
+                assert f["pet_fee"]["currency"] == "USD", hotel["name"]
             if "weight_limit" in f:
-                assert f["weight_limit"].endswith(" pounds"), hotel["name"]
-            # {lt, lte, combined} is the closed operator set; "per pet" is not a
-            # member and rendered as nothing at all when it was briefly used.
-            assert f.get("weight_limit_operator") in (None, "lt", "lte", "combined")
+                assert f["weight_limit"]["unit"] in ("lb", "kg"), hotel["name"]
+                # 1.2 closed the operator set to {lt, lte}; the scope that was
+                # smuggled through this slot is now its own field.
+                assert f["weight_limit"]["operator"] in ("lt", "lte"), hotel["name"]
+                assert f["weight_limit"]["scope"] == "per_pet", hotel["name"]
 
 
 class TestTheServiceAnimalNearMiss:
@@ -121,8 +134,8 @@ class TestTheServiceAnimalNearMiss:
         hotel = next(h for h in facts["hotels"]
                      if h["key"] == "cleveland marriott downtown at key tower")
         assert hotel["verification_state"] == "VERIFIED_PET_FRIENDLY"
-        assert hotel["facts"]["pets_allowed"] == "true"
-        assert hotel["facts"]["species_allowed"] == "dogs"
+        assert hotel["facts"]["pets_allowed"] is True
+        assert hotel["facts"]["species"] == {"dogs": "accepted"}
         assert "service animals only" in hotel["evidence_quote"].lower()
 
     def test_it_is_not_in_the_exclusion_authority(self):

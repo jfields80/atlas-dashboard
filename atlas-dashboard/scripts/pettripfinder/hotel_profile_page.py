@@ -27,6 +27,7 @@ from __future__ import annotations
 import re
 from typing import Dict, List, Optional
 
+from scripts.pettripfinder import canonical_view
 from scripts.pettripfinder.approved_hotel_profile import render_approved_hotel_profile
 from scripts.pettripfinder.commercial_actions import (
     ACTION_DIRECTIONS,
@@ -104,10 +105,15 @@ def _head_metadata(row: Dict[str, str], listing_id: str, facts_entry: Optional[D
     pets_allowed: Optional[bool] = None
     amenity_features: Optional[List[str]] = None
     if facts_entry:
-        pa = facts_entry["facts"].get("pets_allowed")
+        # PTF-POLICY-SCHEMA-MIGRATION-001. Read display values rather than the
+        # raw record: a migrated record stores pets_allowed as a real boolean,
+        # and the string comparison below silently dropped petsAllowed from the
+        # JSON-LD of every canonical record.
+        entry_facts = canonical_view.display_facts(facts_entry)
+        pa = entry_facts.get("pets_allowed")
         if pa in ("true", "false"):
             pets_allowed = (pa == "true")
-        amenity_features = [v for k, v in facts_entry["facts"].items() if k == "species_allowed"] or None
+        amenity_features = [v for k, v in entry_facts.items() if k == "species_allowed"] or None
 
     ld_objects = [
         breadcrumb_ld(BASE_URL, trail),

@@ -525,7 +525,7 @@ UNRESTRICTED_WEIGHT_DISPLAY = "No restriction stated by the property"
 UNRESTRICTED_BREED_DISPLAY = "None stated by the property"
 
 
-def weight_display(f: Dict) -> str:
+def weight_display(f: Dict, *, combined_fallback: bool = False) -> str:
     """Table/chip form of the same limit: "Under 80.0 pounds", or "" if absent.
 
     Keeps the exact recorded value -- structured cells never round, only the
@@ -540,6 +540,15 @@ def weight_display(f: Dict) -> str:
     if not value:
         if f.get("weight_limit_stated_none") == "true":
             return UNRESTRICTED_WEIGHT_DISPLAY
+        # PTF-POLICY-SCHEMA-MIGRATION-001. A property may state ONLY a combined
+        # limit -- Drury's two pages say "a combined weight of 80 pounds" and
+        # never a per-pet maximum. Under the legacy shape that value sat in
+        # weight_limit with the operator overloaded to "combined", so this cell
+        # found it; 1.2 moves it to its own field, and without this branch the
+        # summary cell told a reader the hotel stated no weight limit at all.
+        # That is the opposite of what the page says.
+        if combined_fallback and combined_weight_display(f):
+            return "%s combined" % (f.get("weight_limit_combined") or "").strip()
         return ""
     op = f.get("weight_limit_operator") or ""
     if op == "lt":
@@ -1302,7 +1311,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
              "Source conflict" if f.get("fee_conflict") else "Range by stay",
              WITHHELD_CLS),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
         ) + _breed_chip(f)
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
@@ -1311,7 +1320,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", tier_fee_range(tiers), ""),
             ("Charge basis", "Tiered by stay length", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
         ) + _breed_chip(f)
     # A staged fee has no single charge, so the chip names both stages rather
     # than the first night's price standing in for the stay.
@@ -1321,7 +1330,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", "%s first night, then %s" % (first_night, additional_night), ""),
             ("Charge basis", "Staged by night", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
         ) + _breed_chip(f)
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
@@ -1341,7 +1350,7 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         ("Charge basis", *((_cap_first(qualifier), "sm") if qualifier
                            else ("Not stated", "dim"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
-        ("Weight limit", *cell(weight_display(f))),
+        ("Weight limit", *cell(weight_display(f, combined_fallback=True))),
     ) + _breed_chip(f)
 
 
@@ -1516,8 +1525,22 @@ def service_animal_rows(record: Optional[Dict]) -> Tuple[Tuple[str, str, str], .
     view = canonical_view.build(record)
     if not view.has_service_animal_statement:
         return ()
-    return (("Property statement on service animals",
-             "The property states that service animals are welcome.", ""),)
+    # PTF-POLICY-SCHEMA-MIGRATION-001. The legacy field was a bare boolean, so
+    # this row could only say "welcome" whatever the property had written.
+    # Migrated records carry what the property said about CHARGES, and several
+    # say it plainly -- Drury's two pages read "Service animals are free of
+    # charge" -- so the row now reports that instead of rounding it off. A
+    # record whose source did not address charges keeps the original sentence:
+    # silence about a fee is not a statement that none applies.
+    charges = str(view.service_animal.get("charges_stated") or "")
+    if charges == enums.SERVICE_ANIMAL_NO_CHARGE:
+        copy = "The property states that service animals are welcome at no charge."
+    elif charges == enums.SERVICE_ANIMAL_CHARGE_STATED:
+        copy = ("The property states that service animals are welcome and that a "
+                "charge applies.")
+    else:
+        copy = "The property states that service animals are welcome."
+    return (("Property statement on service animals", copy, ""),)
 
 
 def _verified_details(f: Dict[str, str],
@@ -1693,6 +1716,16 @@ def _verified_details(f: Dict[str, str],
         *service_animal_rows(record),
         ("Service animals", svc, ""),
     )
+    # PTF-POLICY-SCHEMA-MIGRATION-001. A withheld row and a "Not stated" row
+    # under the SAME label are a page contradicting itself: Days Inn showed
+    # "Refundable deposit -- Not stated by the reviewed source" immediately
+    # above "Refundable deposit -- The hotel's wording is unclear on this."
+    # Before Phase F no record could reach this state, because no withholding
+    # carried a reason code. The withheld row wins: it is the more specific and
+    # the more truthful of the two.
+    withheld_labels = {label for label, _, _ in withheld_rows(record)}
+    rows = tuple(row for row in rows
+                 if not (row[0] in withheld_labels and row[2] == "dim"))
     return rows, "", ""
 
 
@@ -1714,7 +1747,7 @@ def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3,
         if normalize_name(row["name"]) == normalize_name(self_name):
             continue
         fe = facts_map.get(normalize_name(row["name"]))
-        fact = _related_fact(fe["facts"]) if fe else ""
+        fact = _related_fact(canonical_view.display_facts(fe)) if fe else ""
         date = _friendly_date((fe["verified_at"] if fe else "") or row.get("observed_at", ""))
         out.append(RelatedHotel(
             name=row["name"],
@@ -1736,7 +1769,10 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
     """Verified pet-friendly VM from a production seed row + its READY-candidate
     facts. Rich when the candidate stated fee/species/limits; sparse when it
     stated only that pets are welcome. Never invents a field."""
-    f = (facts_entry or {}).get("facts", {}) if facts_entry else {}
+    # PTF-POLICY-SCHEMA-MIGRATION-001. Display values, whichever schema the
+    # authority speaks. A legacy record passes through untouched; a migrated
+    # one is projected from its canonical structures.
+    f = canonical_view.display_facts(facts_entry)
     date = _friendly_date((facts_entry or {}).get("verified_at", "") or row.get("observed_at", ""))
     # The record, not just its facts: withholding decisions and the property's
     # service-animal statement live at record level and the detail table could
