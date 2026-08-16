@@ -849,8 +849,13 @@ def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
     # 48 after the Pass-1 closeout; +2 when Pass 2 bound the Drury records'
     # byte-retained recaptures and unbound their 2026-08-11 approvals; +1
     # when the founder's Pass-3 ceiling!=price remediation re-attested ESA
-    # Select Suites Akron South and unbound its 2026-08-15 approval.
-    assert (superseded, attributed) == (51, 21)
+    # Select Suites Akron South and unbound its 2026-08-15 approval; +46 when
+    # PTF-DAYTON-RECERTIFICATION-001 Pass A bound all 47 Dayton records to
+    # their page artifacts, moving every record_hash. Dayton contributed one
+    # of the 51 already (Holiday Inn Express Dayton Centerville, corrected by
+    # PTF-POLICY-SCHEMA-MIGRATION-001A), so it now contributes 47.
+    # By market: Columbus 28, Cleveland 22, Dayton 47.
+    assert (superseded, attributed) == (97, 21)
 
 
 def test_a_withdrawal_is_sticky_until_a_founder_clears_it():
