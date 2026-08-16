@@ -76,7 +76,15 @@ EXPECTED_RECONCILIATION = {
     # publish -- three are readiness POLICY_PARTIAL (marketing-only Wyndham
     # copy) and one is a membrane M10 identity rejection -- so they stay in
     # the unresolved 159 rather than moving the resolved figure.
-    CLEVELAND: (188, 21, 8, 29, 159),
+    # PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 applied the founder's 45
+    # rulings on the 49-row attended-capture packet: twenty artifact-backed
+    # publications (21 -> 41) and twenty-three first-party refusals
+    # (8 -> 31 verified-no-pets), so resolved was 72 and unresolved 116.
+    # PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 then applied the founder's
+    # 44 rulings on the 68-row driveable-queue packet: forty artifact-backed
+    # publications (41 -> 81) and four first-party refusals (31 -> 35), so
+    # resolved is 116 and unresolved 72.
+    CLEVELAND: (188, 81, 35, 116, 72),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -209,7 +217,7 @@ class TestContractAgreesWithItsOwnAuthority:
         assert recon["unresolved"] == unresolved
 
     def test_verified_no_pets_is_scoped_to_the_market_that_owns_it(self):
-        """8 for Cleveland, 8 for Dayton, 14 for Columbus -- never the sum.
+        """31 for Cleveland, 8 for Dayton, 14 for Columbus -- never the sum.
 
         Counting the exclusion registry's length reported 22 verified-no-pets
         for a market that has 8, and counting every state in it reported 16 for
@@ -224,7 +232,7 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 8}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

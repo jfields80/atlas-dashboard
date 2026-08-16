@@ -289,7 +289,7 @@ class TestF_CombinedWeightNeverBecomesIndividual:
         return out
 
     def test_the_cohort_exists(self):
-        assert len(self.records()) == 8
+        assert len(self.records()) == 9  # +Hampton Tiedeman (Pass 3)
 
     def test_canonical_moves_the_value_to_the_combined_field(self):
         for record in self.records():
@@ -325,8 +325,9 @@ class TestG_CatProhibition:
 
     def test_the_cohort_exists(self):
         # Three at migration; five since the evidence reconciliation carried
-        # across two more properties that refuse cats in their own words.
-        assert len(self.records()) == 5
+        # across two more properties that refuse cats in their own words; six
+        # since Pass 2 published Aloft Beachwood ("Dogs only- no cats...").
+        assert len(self.records()) == 7  # +Super 8 Uniontown (Pass 3)
 
     def test_the_chip_says_not_allowed(self):
         for record in self.records():

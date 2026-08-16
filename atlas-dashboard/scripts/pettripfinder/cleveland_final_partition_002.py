@@ -416,10 +416,16 @@ def _write_json(path: Path, doc: Mapping) -> None:
         handle.write(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
 
 
-def _sonesta_url_from_routing(routes) -> str:
+def _sonesta_url_from_routing(routes, facts_hotels=None) -> str:
     for record in routes:
         if record["hotel_ref"]["normalized_name"] == SONESTA_KEY:
             return record["official_property_url"]
+    # A published identity may not hold a routing record (the standing
+    # invariant), so once Sonesta publishes, its URL authority is the
+    # published record itself -- the same URL the retired route carried.
+    for hotel in facts_hotels or []:
+        if hotel.get("identity_key") == SONESTA_KEY:
+            return hotel["source_url"]
     raise PartitionError("no routing record for %r" % SONESTA_KEY)
 
 
@@ -645,7 +651,8 @@ def build_partition() -> Dict:
             "missing=%s extra=%s" % (sorted(derived_unresolved - set(unres)),
                                      sorted(set(unres) - derived_unresolved)))
 
-    sonesta_routed = _sonesta_url_from_routing(market_routes)
+    sonesta_routed = _sonesta_url_from_routing(market_routes,
+                                               facts.get("hotels"))
     url_drift = sorted(
         [{"normalized_name": key,
           "unresolved_manifest": (item.get("official_url") or "").strip(),
