@@ -321,4 +321,4 @@ This is not integration authorization.
 
 Package commit: `62fafdc3291b7f8bbd6cfeaeb9327cd022f4126a`
 
-Pushed on `grok/ptf-indianapolis-revalidation-001`. Not merged. The tip SHA after this handoff update is the branch HEAD.
+Committed on `grok/ptf-indianapolis-revalidation-001`. Not merged. Not deployed. Branch tip after this handoff update: `5c983c47736a92b04c23ce9f69818d04796dcd5b`.
