@@ -234,3 +234,72 @@ class TestIdentityRoutingRepair:
         assert rec.unresolved == 129
         assert _partition()["final_state_counts"][enums.AWAITING_POLICY_OBSERVATION] == 91
         assert _partition()["final_state_counts"][enums.AWAITING_CENSUS_REVIEW] == 6
+
+
+class TestPass1Capture:
+    BATCH = [
+        "21c museum hotel louisville",
+        "bellwether hotel",
+        "econo lodge downtown",
+        "galt house hotel",
+        "hotel genevieve",
+        "hotel louisville downtown",
+        "the brown hotel",
+    ]
+
+    def _results(self):
+        return json.loads((
+            PKG / "markets" / "reports" / "louisville_pass1_capture_results.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def test_batch_is_exactly_the_seven_independents(self):
+        doc = self._results()
+        keys = [r["identity_key"] for r in doc["rows"]]
+        assert doc["batch_total"] == len(keys) == 7
+        assert keys == self.BATCH
+        assert doc["authority_changed"] is False
+
+    def test_outcomes_and_founder_packet(self):
+        doc = self._results()
+        by = {r["identity_key"]: r["outcome"] for r in doc["rows"]}
+        assert by["21c museum hotel louisville"] == "AFFIRMATIVE_PARTIAL"
+        assert by["bellwether hotel"] == "AFFIRMATIVE_STRUCTURED"
+        assert by["econo lodge downtown"] == "NEGATIVE"
+        assert by["galt house hotel"] == "AFFIRMATIVE_STRUCTURED"
+        assert by["hotel genevieve"] == "ACCESS_BLOCKED"
+        assert by["hotel louisville downtown"] == "NEGATIVE"
+        assert by["the brown hotel"] == "NEGATIVE"
+        assert doc["positive_candidates"] == 3
+        assert doc["negative_candidates"] == 3
+        assert doc["publication_grade_artifacts"] == 6
+        packet = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert packet["founder_approvals_written"] is False
+        assert packet["decision_count"] == 6
+
+    def test_quotes_are_contiguous_in_gitignored_artifacts(self):
+        import hashlib
+        art = REPO / "data" / "operator_evidence" / "louisville-pass1-capture-001"
+        doc = self._results()
+        for row in doc["rows"]:
+            if not row["artifact_sha256"]:
+                continue
+            path = art / row["artifact_relpath"]
+            payload = path.read_bytes()
+            assert hashlib.sha256(payload).hexdigest() == row["artifact_sha256"]
+            html = payload.decode("utf-8", "replace")
+            if row["identity_key"] == "hotel louisville downtown":
+                assert "No, only service animals are welcome at the property." in html
+            else:
+                for quote in row["quotes"]:
+                    assert quote in html, row["identity_key"]
+
+    def test_policy_authority_unchanged(self):
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129

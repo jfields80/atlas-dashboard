@@ -1,0 +1,184 @@
+{
+  "schema": "ptf-louisville-pass1-founder-review-packet/1.0",
+  "work_order": "PTF-LOUISVILLE-ATTENDED-CAPTURE-PASS1-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-16",
+  "note": "Founder review packet only. Does not approve, publish, or change hotel_policy_facts. Six rows need a founder decision; Hotel Genevieve is ACCESS_BLOCKED with no proposed facts.",
+  "founder_approvals_written": false,
+  "decision_count": 6,
+  "rows": [
+    {
+      "decision_id": "LVL-P1-001",
+      "hotel": "21c Museum Hotel Louisville",
+      "identity_key": "21c museum hotel louisville",
+      "url": "https://www.21cmuseumhotels.com/louisville/",
+      "final_url": "https://21cmuseumhotels.com/louisville/faq/",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Pets are always welcome at 21c. The pet fee is $40 and a pet waiver form must be completed and signed at check-in."
+      ],
+      "artifact_sha256": "078fbfd16cd489e1fc3c2ab67f9f12b4feda21f3103001778b3db811b03cebd0",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true
+      },
+      "withheld_fields": {
+        "species": "SOURCE_AMBIGUOUS: page says pets, not dogs or cats",
+        "pet_fee.basis": "SOURCE_AMBIGUOUS: $40 stated without stay/night basis",
+        "pet_fee.scope": "SOURCE_AMBIGUOUS: $40 stated without per-pet/per-room scope"
+      },
+      "ambiguity_or_contradiction": "Waiver required at check-in. Fee amount $40 is stated but not structured.",
+      "recommended_founder_decision": "HOLD_PARTIAL_AFFIRMATIVE",
+      "outcome": "AFFIRMATIVE_PARTIAL"
+    },
+    {
+      "decision_id": "LVL-P1-002",
+      "hotel": "Bellwether Hotel",
+      "identity_key": "bellwether hotel",
+      "url": "https://www.thebellwetherhotel.com/",
+      "final_url": "https://www.thebellwetherhotel.com/faqs",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "The Bellwether Hotel allows dogs only with the following restrictions: Dogs are only allowed in first floor rooms. We allow up to two dogs to stay as long as their combined weight is not over 50 pounds, or one dog not over 50 pounds. A $35 pet fee will be required at time of booking."
+      ],
+      "artifact_sha256": "f22f9436153498c752fa5ec655e97deab0551835568d5ad917a3ccbc5af8667d",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog"
+        ],
+        "pet_count_limit": 2,
+        "combined_weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "scope": "combined"
+        },
+        "pet_room_restriction": "Dogs are only allowed in first floor rooms.",
+        "unattended_policy": "Pets must not be left unattended in room, or anywhere else on hotel property unless crated.",
+        "reservation_requirement": "Please notify us at time of booking if a dog will be staying."
+      },
+      "withheld_fields": {
+        "pet_fee.basis": "SOURCE_AMBIGUOUS: $35 required at booking; payment timing is not fee basis",
+        "pet_fee.scope": "SOURCE_AMBIGUOUS: $35 pet fee does not say per pet or per stay"
+      },
+      "ambiguity_or_contradiction": "ESA not permitted. $200 cleaning if pet evidence in second-floor rooms is a conditional other charge, not a general restriction.",
+      "recommended_founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED"
+    },
+    {
+      "decision_id": "LVL-P1-003",
+      "hotel": "Econo Lodge Downtown",
+      "identity_key": "econo lodge downtown",
+      "url": "http://www.econodowntown.com/",
+      "final_url": "http://www.econodowntown.com/louisville-ky-hotel-amenities.html",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "No Pets Allowed"
+      ],
+      "artifact_sha256": "5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Amenities list states No Pets Allowed.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE"
+    },
+    {
+      "decision_id": "LVL-P1-004",
+      "hotel": "Galt House Hotel",
+      "identity_key": "galt house hotel",
+      "url": "https://www.galthouse.com/",
+      "final_url": "https://galthouse.com/hotel-faq/",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "The hotel allows up to two dogs (45 lbs or less) per room for a fee of $50 per dog. You must request to have your room cleaned and accompany your dog while the room is being cleaned."
+      ],
+      "artifact_sha256": "4998d9e65d934ff0898376dd07086a1652d68f42b7018507ca4197b0de5af355",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog"
+        ],
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "weight_limit": {
+          "value": 45,
+          "unit": "lb",
+          "scope": "per_pet",
+          "operator": "lte"
+        },
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_pet"
+        },
+        "unattended_policy": "You must request to have your room cleaned and accompany your dog while the room is being cleaned."
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Rooms page also states Cost for stay: $50 (DOGS ONLY). Fee treated as per stay per dog.",
+      "recommended_founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED"
+    },
+    {
+      "decision_id": "LVL-P1-005",
+      "hotel": "Hotel Genevieve",
+      "identity_key": "hotel genevieve",
+      "url": "https://www.bunkhousehotels.com/hotel-genevieve",
+      "final_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sdfkk-hotel-genevieve",
+      "identity_binding": "NOT_BOUND",
+      "exact_quotes": [],
+      "artifact_sha256": "",
+      "source_grade": "",
+      "proposed_schema_1_2_facts": {},
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "bunkhousehotels.com/hotel-genevieve now redirects to Hyatt JDV sdfkk. Automated HTTPS GET received 403 on Bunkhouse and Hyatt E6020 on the policies page. No publication-grade artifact retained. Third-party summaries were not used.",
+      "recommended_founder_decision": "HOLD_ACCESS_BLOCKED",
+      "outcome": "ACCESS_BLOCKED"
+    },
+    {
+      "decision_id": "LVL-P1-006",
+      "hotel": "Hotel Louisville Downtown",
+      "identity_key": "hotel louisville downtown",
+      "url": "http://www.hotellouisville.org",
+      "final_url": "https://www.hotellouisville.org/rooms",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Is Hotel Louisville pet-friendly? No, only service animals are welcome at the property."
+      ],
+      "artifact_sha256": "6328503c741d0223c6ac8eed72fcd2da06215d210563e0813b10fcbeec8c3436",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "FAQ is on the public Hotel Louisville rooms page, not a mission-campus page. Service animals only. Not inferred from Wayside campus use. Hospital Hospitality House remains a separate non-census identity.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE"
+    },
+    {
+      "decision_id": "LVL-P1-007",
+      "hotel": "The Brown Hotel",
+      "identity_key": "the brown hotel",
+      "url": "https://www.brownhotel.com/",
+      "final_url": "https://www.brownhotel.com/frequently-asked-questions",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Pets not allowed (service animals are welcome, and are exempt from fees)."
+      ],
+      "artifact_sha256": "aed7d22e45f3583960e00eec849c3608fe404abd0201ae5332aef7426ff3bd1e",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Explicit Pets not allowed. Service-animal access is not pet-friendly.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE"
+    }
+  ]
+}
