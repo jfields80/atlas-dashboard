@@ -1,0 +1,466 @@
+{
+  "schema": "ptf-indianapolis-pass2-founder-review-packet/1.0",
+  "work_order": "PTF-INDIANAPOLIS-ATTENDED-CAPTURE-PASS2-001",
+  "as_of": "2026-08-16",
+  "prepared_by": "grok-4.6 (PTF-INDIANAPOLIS-ATTENDED-CAPTURE-PASS2-001, agent)",
+  "status": "FOUNDER_REVIEW_REQUIRED",
+  "rule": "Nothing here is published. Approving a negative writes an exclusion later. Approving a positive writes schema 1.2 facts later. Identity-uncertain rows stay unresolved.",
+  "positive_candidates": [
+    {
+      "decision_id": "INDY-P2-007",
+      "queue_id": "INDY-P2-007",
+      "hotel": "Holiday Inn Express Plainfield",
+      "identity_key": "holiday inn express plainfield",
+      "corridor": "indianapolis-in__plainfield",
+      "brand": "ihg",
+      "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+      "runner_reason": "CAPTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Capture proceeded with identity_evidence_incomplete warning."
+      },
+      "artifact_file": "www-ihg-com-holidayinnexpress-hotels-us-en-plainfield-indsw-hoteldetail-2026-08-16T23-40-10-365Z.json",
+      "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:db757296db075816c05083082c1af0698267e83195bfc59e33a8d6fa369313cc",
+      "screenshot_sha256": "sha256:82013404120bfb9bcaa16fa48b46b5bc55c4f11d338b0045de01ef2a0863cb31",
+      "captured_at": "2026-08-16T23:40:10.365Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Official IHG pet widget is property-specific. Fee scope and pet-count scope are not stated and are withheld."
+      ],
+      "exact_quotes": [
+        "Pets are welcome at Holiday Inn Express Indianapolis Airport.",
+        "Dogs permitted with a nominal nonrefundable fee each night.",
+        "Pet fee per night: 25 USD",
+        "Pet weight limit: No weight limit per pet",
+        "2 pets allowed",
+        "Pets allowed: Only dogs allowed"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": true,
+          "quote": "Pets are welcome at Holiday Inn Express Indianapolis Airport.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "species",
+          "value": {
+            "dogs": "allowed"
+          },
+          "quote": "Pets allowed: Only dogs allowed",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "pet_fee",
+          "value": {
+            "amount_cents": 2500,
+            "currency": "USD",
+            "basis": "per_night"
+          },
+          "quote": "Pet fee per night: 25 USD",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "weight_limit_stated_none",
+          "value": true,
+          "quote": "Pet weight limit: No weight limit per pet",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "pet_count_limit",
+          "value": 2,
+          "quote": "2 pets allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [
+        {
+          "field": "pet_fee.scope",
+          "reason": "SOURCE_SILENT",
+          "note": "per night is stated; per_pet vs per_room is not."
+        },
+        {
+          "field": "pet_count_scope",
+          "reason": "SOURCE_SILENT",
+          "note": "2 pets allowed does not say per room or per stay."
+        }
+      ],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+    },
+    {
+      "decision_id": "INDY-P2-010",
+      "queue_id": "INDY-P2-010",
+      "hotel": "Le Meridien Indianapolis",
+      "identity_key": "le meridien indianapolis",
+      "corridor": "indianapolis-in__downtown",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+      "runner_reason": "CAPTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Capture proceeded with identity_evidence_incomplete warning."
+      },
+      "artifact_file": "www-marriott-com-en-us-hotels-indmd-le-meridien-indianapolis-overview-2026-08-16T23-50-11-789Z.json",
+      "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:5b9707a8ad4dccefa83d6fa72ca1003da296b85e4ac444a7a5784d1906f72824",
+      "screenshot_sha256": "sha256:949562524b6048763f6980b8759dfd27fe8bc658d43319dc9ed50d229ae9f09b",
+      "captured_at": "2026-08-16T23:50:11.789Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Official Marriott Pet Policy: Pets Welcome, no pet fee, 40 lb maximum with no stated scope. Generic pets is not dogs+cats."
+      ],
+      "exact_quotes": [
+        "Pets Welcome",
+        "Pets are welcome. No pet fee.",
+        "Maximum Pet Weight: 40.0lbs"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": true,
+          "quote": "Pets are welcome. No pet fee.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "weight_limit",
+          "value": {
+            "value": 40.0,
+            "unit": "lb",
+            "operator": "lte"
+          },
+          "quote": "Maximum Pet Weight: 40.0lbs",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [
+        {
+          "field": "weight_limit.scope",
+          "reason": "SOURCE_SILENT",
+          "note": "40.0lbs is stated without per-pet or combined."
+        },
+        {
+          "field": "species",
+          "reason": "SOURCE_SILENT",
+          "note": "Generic pets is not dogs+cats."
+        }
+      ],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+    }
+  ],
+  "negative_candidates": [
+    {
+      "decision_id": "INDY-P2-003",
+      "queue_id": "INDY-P2-003",
+      "hotel": "Courtyard by Marriott Indianapolis Castleton",
+      "identity_key": "courtyard by marriott indianapolis castleton",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
+      "runner_reason": "CAPTURED",
+      "outcome": "NEGATIVE",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Capture proceeded after address + URL property code indcs."
+      },
+      "artifact_file": "www-marriott-com-en-us-hotels-indcs-courtyard-indianapolis-castleton-overview-2026-08-16T23-36-05-052Z.json",
+      "artifact_sha256": "sha256:b11b710af01cdbb6d4784319f6a9dd31dacd66d0d25934c728b2b7fdc7d0ad36",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:2871aa5f74f475db3133c50346a8859625d8a0200b203a24440fe59907268392",
+      "screenshot_sha256": "sha256:3509147773a035d52ae24f6c02ee5cf0e4ca3ba0f6abaaf374753db658815f50",
+      "captured_at": "2026-08-16T23:36:05.052Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Official Marriott Pet Policy block states Pets Not Allowed. Service animals only is a legal access category, not a guest-pet permission."
+      ],
+      "exact_quotes": [
+        "Pets Not Allowed",
+        "Service animals only"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "Pets Not Allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "contradiction_notes": [
+        "Service animals only sits beside the refusal and is not read as a pet permission."
+      ],
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
+    },
+    {
+      "decision_id": "INDY-P2-004",
+      "queue_id": "INDY-P2-004",
+      "hotel": "Crowne Plaza Indianapolis Downtown Union Station",
+      "identity_key": "crowne plaza indianapolis downtown union station",
+      "corridor": "indianapolis-in__downtown",
+      "brand": "ihg",
+      "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
+      "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
+      "runner_reason": "POLICY_ABSENT_CONFIRMED",
+      "outcome": "NEGATIVE",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Identity CONFIRMED on address + property identifier inddt."
+      },
+      "artifact_file": "www-ihg-com-crowneplaza-hotels-us-en-indianapolis-inddt-hoteldetail-2026-08-16T23-34-26-159Z.json",
+      "artifact_sha256": "sha256:04a917429e58067512df65a39b783edfdeb7115c9b9412c72d450d849bdb53b0",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:fe16dbf33d84a65cda4e2845cf4efc4b98308ad99a67a3fa2c27abf5f5a0053e",
+      "screenshot_sha256": "sha256:b28a4ae6080b7a61ee651bae112650a5b03dcb56324e5a2b9d8c14bef2331ff6",
+      "captured_at": "2026-08-16T23:34:26.159Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Property-specific IHG FAQ refusal. Independent of Crowne Plaza Airport. No service-animal sentence."
+      ],
+      "exact_quotes": [
+        "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn."
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
+    },
+    {
+      "decision_id": "INDY-P2-006",
+      "queue_id": "INDY-P2-006",
+      "hotel": "Fairfield Inn & Suites Indianapolis Airport",
+      "identity_key": "fairfield inn and suites indianapolis airport",
+      "corridor": "indianapolis-in__airport",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/hotels/travel/indfa-fairfield-inn-and-suites-indianapolis-airport/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indfa-fairfield-inn-and-suites-indianapolis-airport/overview/",
+      "runner_reason": "CAPTURED",
+      "outcome": "NEGATIVE",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Capture proceeded with identity_evidence_incomplete warning."
+      },
+      "artifact_file": "www-marriott-com-en-us-hotels-indfa-fairfield-inn-and-suites-indianapolis-airpor-2026-08-16T23-45-47-536Z.json",
+      "artifact_sha256": "sha256:1a703848d019546e7ed5d1e74e0d5537e8f6c136a0c4995fc7f9252d2916ed27",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:604a256c06bd74c6fd120e13f498775ccb7fd6f3a0a83186816c14c298b82992",
+      "screenshot_sha256": "sha256:29acb8c85a9a86b9b6bae61ed169090e2711203533ffa503d508fb7b661350db",
+      "captured_at": "2026-08-16T23:45:47.536Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Official Marriott Pet Policy block states Pets Not Allowed. A non-refundable $100 cleaning fee sits in the same block and is withheld as ambiguous."
+      ],
+      "exact_quotes": [
+        "Pets Not Allowed",
+        "Non Refundable Cleaning Fee of $100.00 due at check-in."
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "Pets Not Allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [
+        {
+          "field": "other_charges.cleaning_fee",
+          "reason": "SOURCE_AMBIGUOUS",
+          "quote": "Non Refundable Cleaning Fee of $100.00 due at check-in.",
+          "note": "Appears in the Pet Policy block beside a no-pets statement; not bound as a pet charge."
+        }
+      ],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
+    },
+    {
+      "decision_id": "INDY-P2-009",
+      "queue_id": "INDY-P2-009",
+      "hotel": "JW Marriott Indianapolis",
+      "identity_key": "jw marriott indianapolis",
+      "corridor": "indianapolis-in__downtown",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+      "runner_reason": "CAPTURED",
+      "outcome": "NEGATIVE",
+      "identity_binding": {
+        "bound": true,
+        "notes": "Capture proceeded with identity_evidence_incomplete warning."
+      },
+      "artifact_file": "www-marriott-com-en-us-hotels-indjw-jw-marriott-indianapolis-overview-2026-08-16T23-48-15-887Z.json",
+      "artifact_sha256": "sha256:2eabcbe4f504d9ad50167262366df63e3198f76a41aa12f727b446ecc3272ba9",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:6d86ea285f2bb5cc3060030746f713dc966aad4e51047841dbc799cefee87a31",
+      "screenshot_sha256": "sha256:cd76cd865903e8dd88872ecc602e10630b4d3613f0daab690ce6a036a6f5f14e",
+      "captured_at": "2026-08-16T23:48:15.887Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Official Marriott Pet Policy block states Pets Not Allowed. FAQ lists the question with no answer; the policy block is the evidence."
+      ],
+      "exact_quotes": [
+        "Pets Not Allowed"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "Pets Not Allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
+    }
+  ],
+  "identity_uncertain": [
+    {
+      "decision_id": "INDY-P2-001",
+      "queue_id": "INDY-P2-001",
+      "hotel": "Comfort Inn Indianapolis Airport Plainfield",
+      "identity_key": "comfort inn indianapolis airport plainfield",
+      "corridor": "indianapolis-in__plainfield",
+      "brand": "choice",
+      "requested_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+      "final_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+      "runner_reason": "IDENTITY_UNVERIFIABLE",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "identity_binding": {
+        "bound": false
+      },
+      "artifact_file": null,
+      "artifact_sha256": null,
+      "artifact_kind": null,
+      "text_sha256": null,
+      "screenshot_sha256": null,
+      "captured_at": null,
+      "capture_method": "attended_browser_attempt",
+      "source_grade": null,
+      "notes": [
+        "Choice page produced no identity-bearing snapshot in 21.0s (hydration timeout). Not a refusal."
+      ],
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
+    },
+    {
+      "decision_id": "INDY-P2-002",
+      "queue_id": "INDY-P2-002",
+      "hotel": "Courtyard by Marriott Indianapolis Airport",
+      "identity_key": "courtyard by marriott indianapolis airport",
+      "corridor": "indianapolis-in__airport",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/hotels/travel/indca-courtyard-indianapolis-airport/",
+      "final_url": "https://www.marriott.com/hotels/travel/indca-courtyard-indianapolis-airport/",
+      "runner_reason": "IDENTITY_FAILED",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "identity_binding": {
+        "bound": false
+      },
+      "artifact_file": null,
+      "artifact_sha256": null,
+      "artifact_kind": null,
+      "text_sha256": null,
+      "screenshot_sha256": null,
+      "captured_at": null,
+      "capture_method": "attended_browser_attempt",
+      "source_grade": null,
+      "notes": [
+        "Name, city, phone and URL property identifier matched, but the capture-time gate still returned IDENTITY_FAILED. No policy extracted. Sibling Marriott policy not inherited."
+      ],
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
+    },
+    {
+      "decision_id": "INDY-P2-005",
+      "queue_id": "INDY-P2-005",
+      "hotel": "Delta Hotels by Marriott Indianapolis Airport",
+      "identity_key": "delta hotels by marriott indianapolis airport",
+      "corridor": "indianapolis-in__airport",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/en-us/hotels/indde-delta-hotels-indianapolis-airport/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indde-delta-hotels-indianapolis-airport/overview/",
+      "runner_reason": "IDENTITY_FAILED",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "identity_binding": {
+        "bound": false
+      },
+      "artifact_file": null,
+      "artifact_sha256": null,
+      "artifact_kind": null,
+      "text_sha256": null,
+      "screenshot_sha256": null,
+      "captured_at": null,
+      "capture_method": "attended_browser_attempt",
+      "source_grade": null,
+      "notes": [
+        "Name, city, phone and URL property identifier matched; gate still IDENTITY_FAILED. No policy extracted. Sibling Marriott policy not inherited."
+      ],
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
+    },
+    {
+      "decision_id": "INDY-P2-008",
+      "queue_id": "INDY-P2-008",
+      "hotel": "Holiday Inn Indianapolis Airport",
+      "identity_key": "holiday inn indianapolis airport",
+      "corridor": "indianapolis-in__airport",
+      "brand": "ihg",
+      "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
+      "runner_reason": "IDENTITY_UNVERIFIABLE",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "identity_binding": {
+        "bound": false
+      },
+      "artifact_file": null,
+      "artifact_sha256": null,
+      "artifact_kind": null,
+      "text_sha256": null,
+      "screenshot_sha256": null,
+      "captured_at": null,
+      "capture_method": "attended_browser_attempt",
+      "source_grade": null,
+      "notes": [
+        "IHG page produced no identity-bearing snapshot in 20.9s (hydration timeout). Not a refusal. Crowne Airport refusal not inherited."
+      ],
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
+    }
+  ],
+  "founder_decisions_required": 10,
+  "authority_changed": false
+}
