@@ -359,8 +359,9 @@ class TestRoutingAdjudication:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         # 145 when this pass closed; 102 after Pass 2 retired the routes
         # of the 43 founder-decided identities; 58 after Pass 3
-        # retired 44 more.
-        assert by_market["cleveland-akron-canton-oh"] == 58
+        # retired 44 more; 61 after PTF-CLEVELAND-ROUTING-REPAIR-001
+        # created three.
+        assert by_market["cleveland-akron-canton-oh"] == 61
         assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
@@ -426,7 +427,7 @@ class TestOtherMarketsUntouched:
         for record in routes:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         assert by_market["columbus-oh"] == 20
-        assert by_market["cleveland-akron-canton-oh"] == 58  # after Pass-3 retirements
+        assert by_market["cleveland-akron-canton-oh"] == 61  # after routing-repair creations
 
 
 # --------------------------------------------------------------------------- #

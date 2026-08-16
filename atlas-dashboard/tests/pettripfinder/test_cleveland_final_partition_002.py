@@ -207,19 +207,34 @@ class TestExactlyOneNextAction:
                         else "cleveland_unresolved_manifest")
             assert item["next_action_source"] == expected, item["normalized_name"]
 
-    def test_exactly_one_action_is_authored_by_this_work_order(self, committed):
-        """The exception, and the reason it has to exist: 001 wrote a POLICY
-        action for Hyatt Place Westlake because it adjudicated the row's policy
-        and never saw its routing proposal. Carrying that forward would point a
-        routing-blocked identity at a capture of a bot-walled brand."""
-        authored = [i for i in committed["items"]
-                    if i["next_action_source"] == AUTHORED_HERE]
-        assert len(authored) == 1
-        item = authored[0]
-        assert item["slug"] == "hyatt-place-cleveland-westlake-crocker-park"
+    def test_the_authored_actions_are_exactly_the_override_table(self, committed):
+        """001's carried actions stay verbatim except where a later work order
+        made them wrong: Hyatt Place Westlake (001 wrote a policy action and
+        never saw its routing proposal) and the nineteen rows whose carried
+        actions describe recovering URLs PTF-CLEVELAND-ROUTING-REPAIR-001 has
+        already recovered (or, for Best Western Plus North Canton, a capture
+        the refused route cannot support)."""
+        authored = {i["slug"]: i for i in committed["items"]
+                    if i["next_action_source"] == AUTHORED_HERE}
+        assert len(authored) == 20
+        item = authored["hyatt-place-cleveland-westlake-crocker-park"]
         assert item["final_state"] == AWAITING_ROUTING_REVIEW
         assert "screenshot" in item["next_action"].lower()
         assert "must not be automated" in item["next_action"]
+        bw = authored["best-western-plus-north-canton-inn-suites"]
+        assert bw["final_state"] == AWAITING_ROUTING_REPLACEMENT
+        assert "Re-probe" in bw["next_action"]
+        # Every other authored action points a repaired route at the capture
+        # it now supports, never at URL recovery. (La Quinta Airport North
+        # keeps its artifact blocker: the policy was transcribed and still
+        # needs a hash-bound capture from the re-verified route.)
+        for slug, row in authored.items():
+            if slug in ("hyatt-place-cleveland-westlake-crocker-park",
+                        "best-western-plus-north-canton-inn-suites"):
+                continue
+            assert row["final_state"] in (
+                AWAITING_POLICY_OBSERVATION, AWAITING_POLICY_ARTIFACT), slug
+            assert row["next_action"].startswith("Open https://"), slug
 
     def test_the_authored_action_replaced_a_mismatched_one(self, committed):
         """Proof the exception is load-bearing rather than decorative: the
@@ -410,9 +425,10 @@ class TestTheSixteenthRoutingProposal:
         routes = [r for r in _json(ROUTING_PATH)["routes"]
                   if r.get("market_id") == MARKET]
         # 145 at the 2026-08-12 partition; 102 after Pass 2 retired the
-        # routes of the 43 decided identities; 58 after Pass 3 retired the
-        # routes of its 44.
-        assert len(routes) == 58
+        # routes of the 43 decided identities; 58 after Pass 3 retired
+        # 44; 61 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for the three
+        # official URLs it found.
+        assert len(routes) == 61
 
 
 class TestTheCrosswalkIsAuditable:
@@ -460,15 +476,18 @@ class TestTheCrosswalkIsAuditable:
             "EVIDENCE_CANDIDATE_AWAITING_ACCEPTED_ARTIFACT",
             "SELECTOR_OR_SURFACE_GAP", "IDENTITY_ONLY"}
         # 001 filed four rows as ACCESS_BLOCKED; only one of them has no lawful
-        # automated path -- the other three are waiting on a routing URL.
+        # automated path -- the other three waited on a routing URL until
+        # PTF-CLEVELAND-ROUTING-REPAIR-001 bound working property pages for them.
         blocked = crosswalk["ACCESS_BLOCKED"]
         assert blocked["rows"] == 4
         assert blocked["final_states"] == {ACCESS_BLOCKED: 1,
-                                          AWAITING_ROUTING_REPLACEMENT: 3}
+                                          AWAITING_POLICY_OBSERVATION: 3}
 
     def test_a_per_slug_override_always_carries_its_reason(self, committed):
         overridden = [i for i in committed["items"] if i["state_override_reason"]]
-        assert len(overridden) == 12
+        # 12 until PTF-CLEVELAND-ROUTING-REPAIR-001 recorded its 7 repaired-route moves
+        # (and Best Western Plus North Canton moving the other way).
+        assert len(overridden) == 19
         assert all(len(i["state_override_reason"]) > 40 for i in overridden)
 
     def test_the_blocker_distribution_is_what_the_evidence_supports(self, committed):
@@ -478,13 +497,15 @@ class TestTheCrosswalkIsAuditable:
         # more artifact rows and 11 observation rows (Economy Inn stays:
         # its site is policy-silent; the 2 remaining Hyatt artifact rows
         # are ADR-forbidden and wait for the operator-manual session).
-        assert counts[AWAITING_POLICY_ARTIFACT] == 7
-        assert counts[AWAITING_POLICY_OBSERVATION] == 19
+        # PTF-CLEVELAND-ROUTING-REPAIR-001 then repaired the routing lane: 43 identities
+        # now await a policy observation on an identity-bound page.
+        assert counts[AWAITING_POLICY_ARTIFACT] == 6
+        assert counts[AWAITING_POLICY_OBSERVATION] == 43
         assert counts[AWAITING_ATTENDED_CAPTURE] == 1
-        assert counts[AWAITING_ROUTING_REPLACEMENT] == 13
+        assert counts[AWAITING_ROUTING_REPLACEMENT] == 1
         assert counts[AWAITING_ROUTING_REVIEW] == 1
-        assert counts[AWAITING_OFFICIAL_URL] == 15
-        assert counts[AWAITING_PROPERTY_LEVEL_URL] == 8
+        assert counts[AWAITING_OFFICIAL_URL] == 12
+        assert counts[AWAITING_PROPERTY_LEVEL_URL] == 0
         assert counts[AWAITING_CONTRADICTION_RESOLUTION] == 3
         assert counts[AWAITING_CENSUS_REVIEW] == 3
         assert counts[ACCESS_BLOCKED] == 2
@@ -504,8 +525,11 @@ class TestTheCrosswalkIsAuditable:
         assert len(never) == 24
         assert committed["reconciliation"][
             "never_reviewed_by_any_browser_pass"] == 24
+        # PTF-CLEVELAND-ROUTING-REPAIR-001 bound property pages for the eight brand-level
+        # rows and three of the missing-URL rows, so those eleven now
+        # await a policy observation.
         assert {i["final_state"] for i in never} == {
-            AWAITING_OFFICIAL_URL, AWAITING_PROPERTY_LEVEL_URL, ACCESS_BLOCKED}
+            AWAITING_OFFICIAL_URL, AWAITING_POLICY_OBSERVATION, ACCESS_BLOCKED}
 
     def test_a_contradiction_is_preserved_and_never_smoothed(self, committed):
         """Courtyard Akron Stow is classified HTTP_404 by the input while
