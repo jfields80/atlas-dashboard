@@ -23,7 +23,7 @@
 ## 4. Starting and ending HEAD
 
 Starting HEAD: `fea73de1ec699289cf04b88fd7069cf23fa4d735`  
-Ending HEAD: `06255ddc6064799ceb94a94849d423fa536c0072`
+Package commit: `62fafdc3291b7f8bbd6cfeaeb9327cd022f4126a`
 
 Required baseline confirmed before any write.
 
@@ -319,6 +319,6 @@ This is not integration authorization.
 
 ## 42. Commit SHA
 
-`06255ddc6064799ceb94a94849d423fa536c0072`
+Package commit: `62fafdc3291b7f8bbd6cfeaeb9327cd022f4126a`
 
-Pushed to `grok/ptf-indianapolis-revalidation-001`. Not merged.
+Pushed on `grok/ptf-indianapolis-revalidation-001`. Not merged. The tip SHA after this handoff update is the branch HEAD.
