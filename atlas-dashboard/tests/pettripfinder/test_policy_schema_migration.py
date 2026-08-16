@@ -35,7 +35,9 @@ from scripts.pettripfinder.policy_migration import (
 )
 
 MARKETS = tuple(POLICY_PACKAGES)
-EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 21,
+# Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
+# published the founder-approved attended-capture candidates.
+EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 41,
                       "dayton-oh": 47}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
@@ -84,7 +86,7 @@ def test_every_record_declares_schema_1_2(records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 156
+    assert sum(counts.values()) == 176
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -217,8 +219,11 @@ def test_silence_restatements_were_dropped_not_recoded():
     total = sum(len(r.get("withheld_fields") or {})
                 for m in MARKETS for r in load_package(m)["hotels"])
     # 37 after the migration; 38 since PTF-POLICY-SCHEMA-MIGRATION-001A withheld
-    # Sheraton Worthington's weight, whose page disputes its own boundary.
-    assert total == 38
+    # Sheraton Worthington's weight, whose page disputes its own boundary;
+    # 40 since the Pass-2 founder decisions withheld Residence Inn Mentor's
+    # unexplained $5/night second amount and the ESA Akron South nights-7+
+    # ceiling the schema cannot carry.
+    assert total == 40
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -328,6 +333,10 @@ def test_migration_kept_every_field_it_does_not_own(packages):
     for market in MARKETS:
         was = {r["key"]: r for r in _package_at_head(market)["hotels"]}
         for record in packages[market]["hotels"]:
+            if record["key"] not in was:
+                # Published after the migration (Pass-2 founder decisions);
+                # there is no pre-1.2 baseline for it to preserve.
+                continue
             before = was[record["key"]]
             for name, value in before.items():
                 if name in owned or name == "facts":
@@ -340,6 +349,8 @@ def test_source_quotes_were_never_altered(packages):
     for market in MARKETS:
         was = {r["key"]: r for r in _package_at_head(market)["hotels"]}
         for record in packages[market]["hotels"]:
+            if record["key"] not in was:
+                continue  # post-migration publication; no baseline quotes
             before = was[record["key"]]
             assert record.get("evidence_quote") == before.get("evidence_quote")
             assert record.get("source_url") == before.get("source_url")
@@ -486,8 +497,9 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     statements = [(m, r) for m in MARKETS for r in load_package(m)["hotels"]
                   if r.get("service_animal_statement")]
     # Ten carried a legacy flag; eleven more state it in their own policy
-    # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A.
-    assert len(statements) == 21
+    # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A;
+    # seven more arrived with the Pass-2 founder-approved publications.
+    assert len(statements) == 28
     for market, record in statements:
         assert "service_animal_exception" not in record["facts"]
         statement = record["service_animal_statement"]

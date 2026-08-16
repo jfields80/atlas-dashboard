@@ -42,14 +42,19 @@ def report():
 
 
 def test_report_covers_all_published_records(facts, report):
+    """The Pass-1 report described the 21 records published at the time; the
+    Pass-2 founder decisions added twenty more, each carried instead by
+    cleveland_pass2_capture_results.json."""
     assert report["schema"] == "ptf-cleveland-artifact-verification/1.0"
-    assert report["records_checked"] == len(facts["hotels"]) == 21
+    assert report["records_checked"] == 21
+    assert len(facts["hotels"]) == 41
     assert report["classification_counts"] == {
         "ARTIFACT_VERIFIED_COMPLETE": 19,
         "ARTIFACT_PARTIAL": 2,
     }
+    published = {h["identity_key"] for h in facts["hotels"]}
     by_key = {row["identity_key"]: row for row in report["records"]}
-    assert set(by_key) == {h["identity_key"] for h in facts["hotels"]}
+    assert set(by_key) <= published
     for key in DRURY_KEYS:
         assert by_key[key]["classification"] == "ARTIFACT_PARTIAL"
 
@@ -70,8 +75,11 @@ def test_verified_records_are_publication_grade(facts):
                 assert entry["capture_method"] == "attended_browser"
                 assert entry["artifact_sha256"] != hotel["worker_result_hash"]
             else:
-                assert entry["capture_method"] == "browser_assisted"
-                # The binding names the SAME page the result hash names.
+                # Pass-1-era records were browser_assisted captures; the
+                # Pass-2 founder-approved records are attended captures.
+                # Either way the binding names the page the result hash names.
+                assert entry["capture_method"] in ("browser_assisted",
+                                                   "attended_browser")
                 assert entry["artifact_sha256"] == hotel["worker_result_hash"]
             assert entry["source_grade"] == enums.GRADE_PT1_FIRST_PARTY
         assert not evidence_contract.validate(hotel)
@@ -98,23 +106,25 @@ def test_approvals_founder_bound_after_closeout(facts):
         approval = hotel["approval"]
         assert approval["record_hash"] == record_hash(hotel)
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
+        assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
+        assert approval["operator"] == "jfields80"
+        assert approval["approval_date"] == "2026-08-15"
         if hotel["identity_key"] in DRURY_KEYS:
-            # Pass 2 bound the byte-retained recapture, so record_hash moved
-            # and the 2026-08-11 founder approval is preserved verbatim under
-            # supersedes, awaiting re-attestation. Never re-signed.
-            assert approval["decision"] ==                 enums.MACHINE_REVIEWED_PENDING_OPERATOR
-            assert "jfields80" not in approval["operator"]
+            # Re-attested by PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 against
+            # the verified current hash; the 2026-08-11 approval is preserved
+            # verbatim and provably unbound.
             prior = approval["supersedes"]
             assert prior["operator"] == "jfields80"
             assert prior["approval_date"] == "2026-08-11"
             assert prior["record_hash"] != approval["record_hash"]
             assert prior["evidence_hash"] == approval["evidence_hash"]
             continue
-        assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
-        assert approval["operator"] == "jfields80"
-        assert approval["approval_date"] == "2026-08-15"
+        prior = approval.get("supersedes")
+        if prior is None:
+            # First publication (Pass-2 founder decision): nothing replaced.
+            assert any("Founder decision" in c for c in approval["caveats"])
+            continue
         assert any("governance closeout" in c for c in approval["caveats"])
-        prior = approval["supersedes"]
         assert prior["operator"] == "jfields80"
         assert prior["decision"] in (enums.APPROVED_AFTER_CURRENT_REVIEW,
                                      "APPROVED")
@@ -130,7 +140,13 @@ def test_closeout_applied_exactly_the_two_approved_additions(facts):
             "Required vaccination records showing up to date rabies, "
             "distemper, parvovirus and bordetella",
     }
+    # The equality check is scoped to the 21 Pass-1-era records: the Pass-2
+    # publications carry their own founder-approved general_restrictions.
+    pass1_era = {row["identity_key"] for row in json.loads(
+        REPORT_PATH.read_text(encoding="utf-8"))["records"]}
     for hotel in facts["hotels"]:
+        if hotel["identity_key"] not in pass1_era:
+            continue
         stated = hotel["facts"].get("general_restrictions")
         expected = additions.get(hotel["identity_key"])
         assert stated == expected, hotel["identity_key"]
@@ -161,6 +177,7 @@ def test_release_contract_pins_the_upgraded_package(report):
     assert contract["policy_package"]["expected_sha256"] == actual
     # The Pass-1 sha is history; the closeout stamped the pin it left behind.
     # Earlier shas are history; the latest pass stamps the pin it leaves.
-    assert report["facts_sha256_after_pass2"] == actual
+    assert report["facts_sha256_after_pass2_decisions"] == actual
+    assert report["facts_sha256_after_pass2"] != actual
     assert report["facts_sha256_after_closeout"] != actual
     assert report["facts_sha256_after_apply"] != actual

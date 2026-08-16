@@ -3032,8 +3032,8 @@
       "verification_date": "2026-08-11",
       "verified_at": "2026-08-11",
       "approval": {
-        "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-fable-5 (PTF-CLEVELAND-LIGHT-RECERTIFICATION-001-PASS2, agent)",
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
         "approval_date": "2026-08-15",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -3043,7 +3043,7 @@
           "evidence_hash": "sha256:35e10975dffb1d7524997fd93ed1b2323f4863d9c50c591034448be8f3982fdd"
         },
         "caveats": [
-          "PTF-CLEVELAND-LIGHT-RECERTIFICATION-001-PASS2. Publication-grade bindings were added citing the byte-retained attended capture (E48-drury-inn-and-suites-beachwood.json, html sha256:5893179e4a6787fc...); every published quote was re-asserted contiguous in that capture -- the page now carries its pet policy in its embedded data payload rather than as always-rendered text, and the quotes verify against the retained HTML. Facts, quotes and the evidence set are unchanged (evidence_hash identical); record_hash moved with the bindings, so the founder approval preserved verbatim under 'supersedes' no longer binds and re-attestation against the hashes below is required. worker_result_hash keeps naming the 2026-08-11 deterministic fetch as historical provenance."
+          "Founder decision D-01 (PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001), 2026-08-15. Re-attested against THIS record_hash after the full current hash was verified equal to the committed packet delta. Basis accepted: facts, quotes and evidence_hash unchanged; the byte-retained publication-grade artifact (sha256:5893179e4a6787fc) verified; the prior 2026-08-11 approval is preserved verbatim under 'supersedes'. The transient pending-operator state lives in git history (bb9e6fa), not in this chain."
         ],
         "record_hash": "sha256:3cf4e636080736edcba378a3a403bf5ebdc52c2cbbca0f7c82d4ad2965f4dcb7",
         "evidence_hash": "sha256:35e10975dffb1d7524997fd93ed1b2323f4863d9c50c591034448be8f3982fdd"
@@ -3212,8 +3212,8 @@
       "verification_date": "2026-08-11",
       "verified_at": "2026-08-11",
       "approval": {
-        "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-fable-5 (PTF-CLEVELAND-LIGHT-RECERTIFICATION-001-PASS2, agent)",
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
         "approval_date": "2026-08-15",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -3223,7 +3223,7 @@
           "evidence_hash": "sha256:8dcce54c20d1f49db6c8abf775e469f698bbe2ee05a01f45536988cd409df0e5"
         },
         "caveats": [
-          "PTF-CLEVELAND-LIGHT-RECERTIFICATION-001-PASS2. Publication-grade bindings were added citing the byte-retained attended capture (E49-drury-plaza-hotel-cleveland-downtown.json, html sha256:56958c8ca9be667e...); every published quote was re-asserted contiguous in that capture -- the page now carries its pet policy in its embedded data payload rather than as always-rendered text, and the quotes verify against the retained HTML. Facts, quotes and the evidence set are unchanged (evidence_hash identical); record_hash moved with the bindings, so the founder approval preserved verbatim under 'supersedes' no longer binds and re-attestation against the hashes below is required. worker_result_hash keeps naming the 2026-08-11 deterministic fetch as historical provenance."
+          "Founder decision D-02 (PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001), 2026-08-15. Re-attested against THIS record_hash after the full current hash was verified equal to the committed packet delta. Basis accepted: facts, quotes and evidence_hash unchanged; the byte-retained publication-grade artifact (sha256:56958c8ca9be667e) verified; the prior 2026-08-11 approval is preserved verbatim under 'supersedes'. The transient pending-operator state lives in git history (bb9e6fa), not in this chain."
         ],
         "record_hash": "sha256:bcb34844f2f087c4938f694222e2e7f4ada3f47b2a53b5f7d5b78236d4977a1c",
         "evidence_hash": "sha256:8dcce54c20d1f49db6c8abf775e469f698bbe2ee05a01f45536988cd409df0e5"
@@ -3240,6 +3240,2289 @@
       "service_animal_statement": {
         "stated": true,
         "charges_stated": "no_charge"
+      }
+    },
+    {
+      "key": "comfort inn alliance",
+      "name": "Comfort Inn Alliance",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_pet"
+        },
+        "weight_limit": {
+          "value": 40,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Allowed: Yes",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "true",
+          "evidence_ref": "ev:17b50058c4560997",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Pet charge is 50 USD per night per pet",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "{\"amount_cents\": 5000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+          "evidence_ref": "ev:16d372bf58af5095",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "A maximum of 40 pounds per pet",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40}",
+          "evidence_ref": "ev:0a9d3dfa7a4cf571",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "a maximum of 2 pets per room",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "2",
+          "evidence_ref": "ev:41baceaa734b0af8",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "a maximum of 2 pets per room",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "room",
+          "evidence_ref": "ev:c39806f7b7ef10c3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service animals are permitted, without charge.",
+          "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+          "value": "{\"charges_stated\": \"no_charge\", \"stated\": true}",
+          "evidence_ref": "ev:622d49a3a02dd2c1",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:14:07.877Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 6,
+      "evidence_quote": "Pets Allowed: Yes General: Pets are allowed. Pet charge is 50 USD per night per pet. A maximum of 40 pounds per pet and a maximum of 2 pets per room.. Service animals are permitted, without charge.",
+      "source_url": "https://www.choicehotels.com/ohio/alliance/comfort-inn-hotels/oh082",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:a831929b2adad716ade4b70f66dd246c6d6b65df6ad4fa8650f5c99e2f4e7fae",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "comfort inn alliance",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A01, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:a831929b2adad716); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:5854390be1536c96e6b137d966ea23f811ffcd1cd25fab347369c2bb6218c722",
+        "evidence_hash": "sha256:d9033156a6b4d7d3ae1d7d71e3e69bba6f7fd58fcfee7be173cc86ebe57dd883"
+      }
+    },
+    {
+      "key": "comfort inn canton",
+      "name": "Comfort Inn Canton",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 2500,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_pet"
+        },
+        "other_charges": [
+          {
+            "amount_cents": 10000,
+            "currency": "USD",
+            "kind": "refundable_deposit",
+            "refundable": true
+          }
+        ],
+        "weight_limit": {
+          "value": 30,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room",
+        "general_restrictions": "A 200.00 USD penalty for pets that are not declared and properly registered upon arrival at check in."
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Allowed: Yes",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "true",
+          "evidence_ref": "ev:fd3778524d97c302",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "25.00 USD Per Pet per night",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+          "evidence_ref": "ev:f4a443fe9b38c8c6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "other_charges",
+          "quote": "100.00 USD refundable deposit required",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "[{\"amount_cents\": 10000, \"currency\": \"USD\", \"kind\": \"refundable_deposit\", \"refundable\": true}]",
+          "evidence_ref": "ev:47b754ff6265b378",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "A maximum of 30 pounds per Pet",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 30}",
+          "evidence_ref": "ev:c182f22e0e271c58",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 Pets per room",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "2",
+          "evidence_ref": "ev:d73af130e642b585",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "2 Pets per room",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "room",
+          "evidence_ref": "ev:efe4f91941de9b87",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service animals are permitted, without charge.",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "{\"charges_stated\": \"no_charge\", \"stated\": true}",
+          "evidence_ref": "ev:e35e03944f23ae75",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "general_restrictions",
+          "quote": "A 200.00 USD penalty for pets that are not declared and properly registered upon arrival at check in.",
+          "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+          "value": "A 200.00 USD penalty for pets that are not declared and properly registered upon arrival at check in.",
+          "evidence_ref": "ev:1ebaf7208bc6ccd1",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:15:20.859Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 8,
+      "evidence_quote": "Pets Allowed: Yes General: Pets are Allowed. 25.00 USD Per Pet per night. 100.00 USD refundable deposit required. A maximum of 30 pounds per Pet and 2 Pets per room.. Service animals are permitted, without charge. […] A 200.00 USD penalty for pets that are not declared and properly registered upon arrival at check in.",
+      "source_url": "https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:6aa76c5f47f88d1f9b1647410c7dadbd441d5adcd6373322c991310cc203c198",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "comfort inn canton",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A02, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:6aa76c5f47f88d1f); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:d0e701d4503617696819d69fbef54016a878564215100d1dba26c58dc701fabc",
+        "evidence_hash": "sha256:8e969d0defe72e63622860779ccc51f969e9cc8e38189c38bfc1debd139c7177"
+      }
+    },
+    {
+      "key": "econo lodge akron copley northwest",
+      "name": "Econo Lodge Akron Copley Northwest",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 1000,
+          "currency": "USD",
+          "basis": "per_night"
+        },
+        "weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        }
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Allowed: Yes",
+          "source_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+          "value": "true",
+          "evidence_ref": "ev:94811a94f3c48755",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:34d8ae62a662b3d335b7f2a22224ef7d619dee72dc1f7b642b854d98549372c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:16:01.876Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "There is a 10 USD charge per night",
+          "source_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+          "value": "{\"amount_cents\": 1000, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+          "evidence_ref": "ev:b86ba8520e082896",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:34d8ae62a662b3d335b7f2a22224ef7d619dee72dc1f7b642b854d98549372c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:16:01.876Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "pets must be 50 lbs or less",
+          "source_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 50}",
+          "evidence_ref": "ev:0e5eee3ba029f8aa",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:34d8ae62a662b3d335b7f2a22224ef7d619dee72dc1f7b642b854d98549372c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:16:01.876Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service animals are permitted, without charge.",
+          "source_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+          "value": "{\"charges_stated\": \"no_charge\", \"stated\": true}",
+          "evidence_ref": "ev:7efc23fbbe597b1c",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:34d8ae62a662b3d335b7f2a22224ef7d619dee72dc1f7b642b854d98549372c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:16:01.876Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 4,
+      "evidence_quote": "Pets Allowed: Yes General: We are a pet friendly property. There is a 10 USD charge per night and pets must be 50 lbs or less.. Service animals are permitted, without charge.",
+      "source_url": "https://www.choicehotels.com/ohio/akron/econo-lodge-hotels/oh541",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:34d8ae62a662b3d335b7f2a22224ef7d619dee72dc1f7b642b854d98549372c9",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "econo lodge akron copley northwest",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A03, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:34d8ae62a662b3d3); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: keep the 50 lb limit per-pet ('pets must be 50 lbs or less' accepted as applying to each pet); do not invent a fee scope."
+        ],
+        "record_hash": "sha256:bb75a28c69fd20bab2dabac29d259f063a4c2ea35d70bfee76b493da0bad4c48",
+        "evidence_hash": "sha256:2c13cf4730d3c9f07869aa5d89c623c514aad23518504793e18e5c04f825b7f5"
+      }
+    },
+    {
+      "key": "courtyard by marriott akron downtown",
+      "name": "Courtyard by Marriott Akron Downtown",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted"
+        },
+        "weight_limit": {
+          "value": 40,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+          "value": "true",
+          "evidence_ref": "ev:ece4890d680b7292",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:21:54.790Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs only.",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+          "value": "{\"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:b6175f4587e484fc",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:21:54.790Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 40.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40}",
+          "evidence_ref": "ev:9c202a19ed1a0747",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:21:54.790Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Max of 2 dogs per room.",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+          "value": "2",
+          "evidence_ref": "ev:0614d8f93e0e3bd3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:21:54.790Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Max of 2 dogs per room.",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+          "value": "room",
+          "evidence_ref": "ev:cb6ff8f6efb1e93f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:21:54.790Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pet Policy Pets Welcome Pet Fee applies. Dogs only. Max of 2 dogs per room. Must be under 40 lbs Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2 […] Yes, pets are welcome at Courtyard by Marriott Akron Downtown. Up to 2 pets are allowed per room. Each pet may weigh up to 40.0 lbs.",
+      "source_url": "https://www.marriott.com/en-us/hotels/cakdt-courtyard-akron-downtown/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:dc22f1dafc5d8b5631cd6728cf2592fbb5711789f5ece7f1a02f560270705aa1",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "courtyard by marriott akron downtown",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A06, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:dc22f1dafc5d8b56); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: weight 40 lb lte per_pet -- the property's structured FAQ ('Each pet may weigh up to 40.0 lbs.') resolves the prose boundary as inclusive. Fee stays absent: 'Pet Fee applies' states no amount."
+        ],
+        "record_hash": "sha256:e128090846e081417e7f133ab7fb4bd9a99c46e1fa1d75fc33148e0ea44b1de9",
+        "evidence_hash": "sha256:1cc4b97dd1f3b4826a555577b1d526f037c6dc31aee2f0e2d8ae8236bbd40150"
+      }
+    },
+    {
+      "key": "residence inn by marriott akron south green",
+      "name": "Residence Inn by Marriott Akron South/Green",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 10000,
+          "currency": "USD",
+          "basis": "per_stay"
+        },
+        "weight_limit": {
+          "value": 25,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+          "value": "true",
+          "evidence_ref": "ev:f269f05fe493dcf4",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:22:46.851Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+          "value": "{\"amount_cents\": 10000, \"basis\": \"per_stay\", \"currency\": \"USD\"}",
+          "evidence_ref": "ev:78885f9ffe6ccdd9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:22:46.851Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 25.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 25}",
+          "evidence_ref": "ev:e3814d0a860801d3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:22:46.851Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+          "value": "2",
+          "evidence_ref": "ev:e9c68e6551e17e83",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:22:46.851Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+          "value": "room",
+          "evidence_ref": "ev:32d5472fadb7ef3d",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:22:46.851Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pet Policy Pets Welcome Pets 25 pounds or less allowed with USD 100 non-refundable deposit Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2 […] Up to 2 pets are allowed per room. Each pet may weigh up to 25.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+      "source_url": "https://www.marriott.com/en-us/hotels/cakri-residence-inn-akron-south-green/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:b0638dbbe7f7c338fec9259048f829000b73fd77fc5de3549f6a01bcd1f064b0",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "residence inn by marriott akron south green",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A07, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:b0638dbbe7f7c338); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: the $100/stay non-refundable fee stands; no separate refundable deposit is created."
+        ],
+        "record_hash": "sha256:094c5435cff0641f2619973a92493db49c566b58e5110d49499c6ecbed34e7df",
+        "evidence_hash": "sha256:dc5cd4b6c3221a38bb3ba688e1f29785ddfcf01ebd9ce89ed2883d40479d435c"
+      }
+    },
+    {
+      "key": "aloft beachwood",
+      "name": "Aloft Beachwood",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "prohibited"
+        },
+        "weight_limit": {
+          "value": 60,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+          "value": "true",
+          "evidence_ref": "ev:c2677d717f48586b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:23:27.827Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs only- no cats, no birds, no reptiles.",
+          "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+          "value": "{\"cats\": \"prohibited\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:ffc4ecd43aad2df4",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:23:27.827Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 60.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 60}",
+          "evidence_ref": "ev:3a14bcd98d9443c4",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:23:27.827Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+          "value": "2",
+          "evidence_ref": "ev:224fcf46986d1cba",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:23:27.827Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+          "value": "room",
+          "evidence_ref": "ev:95102cb5a75772e2",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:23:27.827Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pet Policy Pets Welcome Dogs only- no cats, no birds, no reptiles. Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2 […] Each pet may weigh up to 60.0 lbs.",
+      "source_url": "https://www.marriott.com/en-us/hotels/clebe-aloft-cleveland-beachwood/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:38c852c8a84046cd65451cf4b5013de66c9d9da5dbcac77887e60b0465a2842a",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "aloft beachwood",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A08, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:38c852c8a84046cd); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:b38f4a969b9db09fff6d8b7137390b990740cc836ca7a5dc1168ca949c20128e",
+        "evidence_hash": "sha256:c4244908f7d90958fe459e0310977de0e83c9826825fa7e6b92cdf03d062493b"
+      }
+    },
+    {
+      "key": "courtyard by marriott canton",
+      "name": "Courtyard by Marriott Canton",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 7500,
+          "currency": "USD"
+        },
+        "unattended_policy": "pets can not be left unattended",
+        "pet_room_restriction": "not allowed in public areas",
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "true",
+          "evidence_ref": "ev:8108b335560742b9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "75.00 pet fee",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "{\"amount_cents\": 7500, \"currency\": \"USD\"}",
+          "evidence_ref": "ev:fcbe89a9421eddff",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "unattended_policy",
+          "quote": "pets can not be left unattended",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "pets can not be left unattended",
+          "evidence_ref": "ev:f01af76cf36283e6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_room_restriction",
+          "quote": "not allowed in public areas",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "not allowed in public areas",
+          "evidence_ref": "ev:abc455b029214ed6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "2",
+          "evidence_ref": "ev:f1cd4143af52c2a9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+          "value": "room",
+          "evidence_ref": "ev:0c7ee742de1c042e",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:07.818Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 6,
+      "evidence_quote": "Pet Policy Pets Welcome 75.00 pet fee, pets can not be left unattended-not allowed in public areas Maximum Number of Pets in Room: 2",
+      "source_url": "https://www.marriott.com/en-us/hotels/cakcc-courtyard-canton/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:344b9a9d1ea08ec9187712240155f5b9dd19eddc5217b4c9dc693c320b7a44b1",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "courtyard by marriott canton",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "CONDITIONALLY_SAFE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A09, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:344b9a9d1ea08ec9); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: publish the $75 amount only; fee basis and scope are not invented."
+        ],
+        "record_hash": "sha256:b817ec7ed9522ea1f9a46db6133769851d6ab1d03c4b6dd96400ddfe4a74e721",
+        "evidence_hash": "sha256:317d9871c034f7ff9a4d18ac2d170d646c475d604850f224a2a5e08029ea5b57"
+      }
+    },
+    {
+      "key": "residence inn by marriott canton",
+      "name": "Residence Inn by Marriott Canton",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted"
+        },
+        "pet_fee": {
+          "amount_cents": 7500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_room"
+        },
+        "weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "true",
+          "evidence_ref": "ev:e1c3c0d8b79aded0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs are allowed",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "{\"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:0b9d2a70179eb7ad",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "non-refundable fee of USD 75 per room per stay",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "{\"amount_cents\": 7500, \"basis\": \"per_stay\", \"currency\": \"USD\", \"scope\": \"per_room\"}",
+          "evidence_ref": "ev:668aa4d10e47edff",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 50.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 50}",
+          "evidence_ref": "ev:efc05dd3ce291b82",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "2",
+          "evidence_ref": "ev:9e0e11018d271eb9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+          "value": "room",
+          "evidence_ref": "ev:567b59c5f444acca",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:24:47.887Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 6,
+      "evidence_quote": "Pet Policy Pets Welcome Dogs are allowed with a non-refundable fee of USD 75 per room per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2 […] Each pet may weigh up to 50.0 lbs.",
+      "source_url": "https://www.marriott.com/en-us/hotels/cakct-residence-inn-canton/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:84e15b695c2097811acaabfbf37b5ab3b69c04555a98a6bc907f214d4b90601d",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "residence inn by marriott canton",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A10, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:84e15b695c209781); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:082687de90f80ccb521b8aad9deac51eca5ef1489f21ba8664799971831ab3d6",
+        "evidence_hash": "sha256:115ef9cda0d356c9bc446c3b7a660a877b25227088ddd24d344d229a8de9f921"
+      }
+    },
+    {
+      "key": "aloft cleveland downtown",
+      "name": "Aloft Cleveland Downtown",
+      "facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleal-aloft-cleveland-downtown/overview/",
+          "value": "true",
+          "evidence_ref": "ev:a40d5817361d5d1e",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:9436df1f2005893f4b79ab27386d5ee4a43cf60574d56eaca9c32360cbe22a00",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:25:27.797Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleal-aloft-cleveland-downtown/overview/",
+          "value": "2",
+          "evidence_ref": "ev:286373669d2baac2",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:9436df1f2005893f4b79ab27386d5ee4a43cf60574d56eaca9c32360cbe22a00",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:25:27.797Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleal-aloft-cleveland-downtown/overview/",
+          "value": "room",
+          "evidence_ref": "ev:d4b2d9616d2b2992",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:9436df1f2005893f4b79ab27386d5ee4a43cf60574d56eaca9c32360cbe22a00",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:25:27.797Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 3,
+      "evidence_quote": "Pet Policy Pets Welcome We do not require a deposit Maximum Number of Pets in Room: 2",
+      "source_url": "https://www.marriott.com/en-us/hotels/cleal-aloft-cleveland-downtown/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:9436df1f2005893f4b79ab27386d5ee4a43cf60574d56eaca9c32360cbe22a00",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "aloft cleveland downtown",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A11, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:9436df1f2005893f); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: partial record approved; the explicit no-deposit statement remains a note because Schema 1.2 has no stated-none deposit representation."
+        ],
+        "record_hash": "sha256:1302d47e5f2181bde9e97400ede5199e085729ba66cb9c90180cf9aa483bd87a",
+        "evidence_hash": "sha256:8dda595d2e0d8cfe2694ff9527b550908b17f4b835783f3c45d66232c65d5d33"
+      }
+    },
+    {
+      "key": "sheraton suites akron cuyahoga falls",
+      "name": "Sheraton Suites Akron Cuyahoga Falls",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_room"
+        },
+        "weight_limit": {
+          "value": 40,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room",
+        "reservation_requirement": "signed waiver"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "true",
+          "evidence_ref": "ev:e9e5726bcd369811",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "USD 50 fee per room per stay",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "{\"amount_cents\": 5000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"scope\": \"per_room\"}",
+          "evidence_ref": "ev:c6a7297a12d24809",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 40.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40}",
+          "evidence_ref": "ev:5f03ba29ff40f350",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "2",
+          "evidence_ref": "ev:0ec8b6604a177b08",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "room",
+          "evidence_ref": "ev:f7b5d233734edff6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "reservation_requirement",
+          "quote": "signed waiver",
+          "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+          "value": "signed waiver",
+          "evidence_ref": "ev:2507546d12266d53",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:08.895Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 6,
+      "evidence_quote": "Pet Policy Pets Welcome 2 pets 40 lbs max per room with USD 50 fee per room per stay and signed waiver Non-Refundable Pet Fee Per Stay: $50.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2 […] Each pet may weigh up to 40.0 lbs.",
+      "source_url": "https://www.marriott.com/en-us/hotels/caksi-sheraton-suites-akron-cuyahoga-falls/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:02b2210b73a51e518f23de50f67348bc7d80970ec07077806e167d77bb2eb97d",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "sheraton suites akron cuyahoga falls",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A12, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:02b2210b73a51e51); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: FAQ-supported 40 lb lte per-pet interpretation."
+        ],
+        "record_hash": "sha256:49290b8f5f706cb04d598b36c7f19d865fcf0ba31d57662cb0a33c35d738255b",
+        "evidence_hash": "sha256:a072a760faea8806bc58155469043f36bbf353d31a4b1e3654740b51d8a449a3"
+      }
+    },
+    {
+      "key": "residence inn by marriott akron fairlawn",
+      "name": "Residence Inn by Marriott Akron Fairlawn",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 10000,
+          "currency": "USD",
+          "basis": "per_stay"
+        },
+        "general_restrictions": "Additional fees may apply based on length of stay. Contact hotel for details.",
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+          "value": "true",
+          "evidence_ref": "ev:5c66048d7dc1288c",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:48.904Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+          "value": "{\"amount_cents\": 10000, \"basis\": \"per_stay\", \"currency\": \"USD\"}",
+          "evidence_ref": "ev:4e32805dfec1b20f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:48.904Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "general_restrictions",
+          "quote": "Additional fees may apply based on length of stay. Contact hotel for details.",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+          "value": "Additional fees may apply based on length of stay. Contact hotel for details.",
+          "evidence_ref": "ev:2e17bd8ea3f1a7a5",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:48.904Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+          "value": "2",
+          "evidence_ref": "ev:728108c79965ad9b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:48.904Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+          "value": "room",
+          "evidence_ref": "ev:43ca697276445934",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:26:48.904Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pet Policy Pets Welcome Additional fees may apply based on length of stay. Contact hotel for details. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+      "source_url": "https://www.marriott.com/en-us/hotels/cakfl-residence-inn-akron-fairlawn/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:e81454924844dbf7a709d29e3d64a98aac470741aefe345e3336822a05eade8c",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "residence inn by marriott akron fairlawn",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A13, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:e81454924844dbf7); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:4937c0576902f465819a86cabd313dd28e0f57759ad4cc638ccb47e6be761794",
+        "evidence_hash": "sha256:bbb6cf0416ba71ec2ba577906f2cd6b85db8b7eac2b241c70e16bffdce067f45"
+      }
+    },
+    {
+      "key": "residence inn mentor",
+      "name": "Residence Inn - Mentor",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 10000,
+          "currency": "USD",
+          "basis": "per_stay"
+        }
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/clemt-residence-inn-cleveland-mentor/overview/",
+          "value": "true",
+          "evidence_ref": "ev:616fb2b367dbf475",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a12710833eb2e54b1bb37fbf152647014d43ae0ead91d0be5901bfa7101ea3b9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:27:29.816Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/clemt-residence-inn-cleveland-mentor/overview/",
+          "value": "{\"amount_cents\": 10000, \"basis\": \"per_stay\", \"currency\": \"USD\"}",
+          "evidence_ref": "ev:6b82cfaf651553f9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a12710833eb2e54b1bb37fbf152647014d43ae0ead91d0be5901bfa7101ea3b9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:27:29.816Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Non-Refundable Pet Fee Per Night: $5.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/clemt-residence-inn-cleveland-mentor/overview/",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:d3d226420fa3464c",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:a12710833eb2e54b1bb37fbf152647014d43ae0ead91d0be5901bfa7101ea3b9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:27:29.816Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 3,
+      "evidence_quote": "Pet Policy Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $5.00",
+      "source_url": "https://www.marriott.com/en-us/hotels/clemt-residence-inn-cleveland-mentor/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:a12710833eb2e54b1bb37fbf152647014d43ae0ead91d0be5901bfa7101ea3b9",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "residence inn mentor",
+      "market_id": "cleveland-akron-canton-oh",
+      "withheld_fields": {
+        "cleaning_fee": {
+          "reason_code": "SOURCE_AMBIGUOUS",
+          "reason": "A second nightly amount appears beside the per-stay fee with no stated relationship between them. Publishing it as additive would assert a total the page never states.",
+          "evidence_refs": [
+            "ev:d3d226420fa3464c"
+          ]
+        }
+      },
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A14, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:a12710833eb2e54b); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: keep the $100/stay fee and the cleaning_fee withholding; no relationship is inferred between the per-stay fee and the unexplained $5/night amount."
+        ],
+        "record_hash": "sha256:19d717610b487bdc4fcee3d95d485c924fdeab959f364dcd4ff6b62cc64b1cbd",
+        "evidence_hash": "sha256:c68681f95eea04f99a118878074b499d5ddfd75200d7a5c10588ae2ee9794e12"
+      }
+    },
+    {
+      "key": "aloft cleveland airport",
+      "name": "Aloft Cleveland Airport",
+      "facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 40,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+          "value": "true",
+          "evidence_ref": "ev:7be52fc957a8c8c6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e71c11d21fd6032ee46bfc080447a88efb96bd9cbd2bf7c1c1300771312981d2",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:28:10.808Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Each pet may weigh up to 40.0 lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40}",
+          "evidence_ref": "ev:b49bb7a5b67e1e15",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e71c11d21fd6032ee46bfc080447a88efb96bd9cbd2bf7c1c1300771312981d2",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:28:10.808Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+          "value": "2",
+          "evidence_ref": "ev:01ba16d5a42a1dab",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e71c11d21fd6032ee46bfc080447a88efb96bd9cbd2bf7c1c1300771312981d2",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:28:10.808Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+          "value": "room",
+          "evidence_ref": "ev:14bef8bad8359ac7",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e71c11d21fd6032ee46bfc080447a88efb96bd9cbd2bf7c1c1300771312981d2",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:28:10.808Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 4,
+      "evidence_quote": "Pet Policy Pets Welcome 2 pets per room Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2 […] Each pet may weigh up to 40.0 lbs.",
+      "source_url": "https://www.marriott.com/en-us/hotels/cleaa-aloft-cleveland-airport/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:e71c11d21fd6032ee46bfc080447a88efb96bd9cbd2bf7c1c1300771312981d2",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "aloft cleveland airport",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A15, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:e71c11d21fd6032e); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:a1c11ac443e372ea3c6c4e41a09fe837de64fb852ce04437b41b01f0e29f1b40",
+        "evidence_hash": "sha256:9ba73028948c6024842cb6c1752d537a222b0abe486d59dcc5be14014ca64fdd"
+      }
+    },
+    {
+      "key": "red roof inn north canton",
+      "name": "Red Roof Inn North Canton",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "accepted"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room",
+        "fee_pet_schedule": {
+          "entries": [
+            {
+              "pet_ordinal": 1,
+              "amount_cents": 0,
+              "currency": "USD",
+              "additive": false,
+              "basis": "per_stay"
+            },
+            {
+              "pet_ordinal": 2,
+              "amount_cents": 1500,
+              "currency": "USD",
+              "basis": "per_night",
+              "scope": "per_pet",
+              "additive": true,
+              "cap": {
+                "amount_cents": 10500,
+                "currency": "USD",
+                "basis": "per_stay",
+                "scope": "per_pet",
+                "applies_to_pet_ordinal": 2,
+                "trigger_max_nights": 7,
+                "qualifier_stated": true
+              }
+            }
+          ]
+        },
+        "weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "reservation_requirement": "Pets must be declared at check-in."
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "One, well-behaved domestic pet (cat or dog) Stays Free!",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "true",
+          "evidence_ref": "ev:35c8f0ad83153b7f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "domestic pet (cat or dog)",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:6c5812fa7702ae64",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Up to 2 pets allowed per room.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "2",
+          "evidence_ref": "ev:67db85c944fe9cf6",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Up to 2 pets allowed per room.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "room",
+          "evidence_ref": "ev:6caac0f5af2398c0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "fee_pet_schedule",
+          "quote": "Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "{\"entries\": [{\"additive\": false, \"amount_cents\": 0, \"basis\": \"per_stay\", \"currency\": \"USD\", \"pet_ordinal\": 1}, {\"additive\": true, \"amount_cents\": 1500, \"basis\": \"per_night\", \"cap\": {\"amount_cents\": 10500, \"applies_to_pet_ordinal\": 2, \"basis\": \"per_stay\", \"currency\": \"USD\", \"qualifier_stated\": true, \"scope\": \"per_pet\", \"trigger_max_nights\": 7}, \"currency\": \"USD\", \"pet_ordinal\": 2, \"scope\": \"per_pet\"}]}",
+          "evidence_ref": "ev:ccbb352c8aba3ce9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Pet not to exceed 80 pounds.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 80}",
+          "evidence_ref": "ev:f4175b8e1ebe1380",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "reservation_requirement",
+          "quote": "Pets must be declared at check-in.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "Pets must be declared at check-in.",
+          "evidence_ref": "ev:c5abcd45309b5042",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service and emotional support animals are always welcome.",
+          "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+          "value": "{\"charges_stated\": \"no_charge\", \"stated\": true}",
+          "evidence_ref": "ev:119ebce3633184ae",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:29:12.595Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 8,
+      "evidence_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+      "source_url": "https://www.redroof.com/property/oh/canton/rri019",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:2dc31e0dd78c197d38fa64d3ae0d4f50487e74619a7995532d199e20cfee455e",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "red roof inn north canton",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A16, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:2dc31e0dd78c197d); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: the already-approved Red Roof structure -- first pet $0, second pet $15/night capped $105 per pet per stay with trigger_max_nights 7; the cap belongs to the second pet, never the property."
+        ],
+        "record_hash": "sha256:09735c6f1f8f9bdaff2525ecae6c2db46a6ed37707c112814f0dc92a1cc914dc",
+        "evidence_hash": "sha256:4d6bd67b7a05a746bbb973a8941dfb12b770013f7568791b81ac51d2dd615cf0"
+      }
+    },
+    {
+      "key": "america s best value inn alliance",
+      "name": "America’s Best Value Inn — Alliance",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 1000,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_pet"
+        }
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets are welcome for a charge of $10 per pet per night",
+          "source_url": "https://www.sonesta.com/americas-best-value-inn/oh/alliance/americas-best-value-inn-alliance",
+          "value": "true",
+          "evidence_ref": "ev:6daccb0e2a4970d1",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:8a5301f314fc4b40a473a83150f4aefd82fa34b8500d3cd0f719b7b1df1bd90f",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:30:06.838Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "a charge of $10 per pet per night",
+          "source_url": "https://www.sonesta.com/americas-best-value-inn/oh/alliance/americas-best-value-inn-alliance",
+          "value": "{\"amount_cents\": 1000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+          "evidence_ref": "ev:efeda07316978e90",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:8a5301f314fc4b40a473a83150f4aefd82fa34b8500d3cd0f719b7b1df1bd90f",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:30:06.838Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 2,
+      "evidence_quote": "Policies: Pets are welcome for a charge of $10 per pet per night",
+      "source_url": "https://www.sonesta.com/americas-best-value-inn/oh/alliance/americas-best-value-inn-alliance",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:8a5301f314fc4b40a473a83150f4aefd82fa34b8500d3cd0f719b7b1df1bd90f",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "america s best value inn alliance",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-A17, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:8a5301f314fc4b40); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:ab1fc962fab673242cfe502400ddf93fd5e038a024fbe653892637770790bb38",
+        "evidence_hash": "sha256:e10a143c5e32facb22c9e2238e924bdee42cd63822cb49d29af319d58f9cc839"
+      }
+    },
+    {
+      "key": "extended stay america select suites akron south",
+      "name": "Extended Stay America Select Suites Akron South",
+      "facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "suite",
+        "general_restrictions": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+        "dimension_constraints": [
+          {
+            "axis": "length",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          },
+          {
+            "axis": "height",
+            "value": 36,
+            "unit": "in",
+            "operator": "lte"
+          }
+        ],
+        "fee_tiers": [
+          {
+            "amount_cents": 2500,
+            "currency": "USD",
+            "tax_relationship": "plus_tax",
+            "basis": "per_night",
+            "scope": "per_pet",
+            "basis_stated": true,
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "condition_min": 1,
+            "condition_max": 6,
+            "boundary_unit": "nights"
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "A maximum of two pets are allowed in each suite.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "true",
+          "evidence_ref": "ev:7040da09837a425d",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "A maximum of two pets are allowed in each suite.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "2",
+          "evidence_ref": "ev:80bd6973b35e67ce",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "A maximum of two pets are allowed in each suite.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "suite",
+          "evidence_ref": "ev:3f60c6ba903fdc75",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "general_restrictions",
+          "quote": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches.",
+          "evidence_ref": "ev:96e0338b0d10d26d",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "dimension_constraints",
+          "quote": "pets can be no longer than 36 inches and no taller than 36 inches",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "[{\"axis\": \"length\", \"operator\": \"lte\", \"unit\": \"in\", \"value\": 36}, {\"axis\": \"height\", \"operator\": \"lte\", \"unit\": \"in\", \"value\": 36}]",
+          "evidence_ref": "ev:60a4ccf23f07ed10",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "fee_tiers",
+          "quote": "up to a $25 (+ tax) per day non-refundable cleaning fee for the first six (6) nights, per pet",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "[{\"amount_cents\": 2500, \"basis\": \"per_night\", \"basis_stated\": true, \"boundary_unit\": \"nights\", \"condition_max\": 6, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\", \"scope\": \"per_pet\", \"tax_relationship\": \"plus_tax\"}]",
+          "evidence_ref": "ev:cadbdf864d83b1f3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed $15 non-refundable fee (+tax) per day, per pet",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:b614d067052ac70a",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:39:44.764Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 7,
+      "evidence_quote": "A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches. Larger animals or more than two pets requires property manager’s approval. Please contact the property for questions. There will be up to a $25 (+ tax) per day non-refundable cleaning fee for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed $15 non-refundable fee (+tax) per day, per pet.",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/akron/south",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:24878fa3543e9feb2f0506612b8e825d8fd27f5fcd00a853b5858551f8a070e1",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "extended stay america select suites akron south",
+      "market_id": "cleveland-akron-canton-oh",
+      "withheld_fields": {
+        "cleaning_fee": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "After the sixth night the property states its per-day, per-pet charge only as a ceiling ('not to exceed $15'). Schema 1.2 fee tiers carry exact prices and no ceiling qualifier, so publishing a $15 rung would assert a charge the page does not state. The exact sentence is retained in the evidence array.",
+          "evidence_refs": [
+            "ev:b614d067052ac70a"
+          ]
+        }
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-C02, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:24878fa3543e9feb); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: pet_count_scope is 'suite'; dimensions are structured 36in length / 36in height; nights 1-6 are $25 + tax per day per pet; the nights-7+ 'not to exceed $15' rung is a ceiling Schema 1.2 tiers cannot carry, so it is WITHHELD as SCHEMA_CANNOT_REPRESENT with the exact source sentence retained."
+        ],
+        "record_hash": "sha256:cefd7ee539b88a96a753c666beceacadeff2a9ff39ae234d35ae9f7b9bf70914",
+        "evidence_hash": "sha256:5f073e88ff5cb74ca6c588f54f50eaeb9e765ac1f2cb04459afb6ac81775dd92"
+      }
+    },
+    {
+      "key": "motel 6 richfield",
+      "name": "Motel 6 Richfield",
+      "facts": {
+        "pets_allowed": true
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Allowed",
+          "source_url": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+          "value": "true",
+          "evidence_ref": "ev:53f177e86d40e161",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:54c027122538144cf59db6543fbcb02a41fed4ebf9efe9e0fc19037a7b72e94f",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:46:54.063Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 1,
+      "evidence_quote": "Amenities Pets Allowed […] Pets Stay Free",
+      "source_url": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:54c027122538144cf59db6543fbcb02a41fed4ebf9efe9e0fc19037a7b72e94f",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "motel 6 richfield",
+      "market_id": "cleveland-akron-canton-oh",
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-C09, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:54c027122538144c); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: APPROVE_PROPERTY_LEVEL_ONLY -- only pets_allowed=true from the property page's own wording; the brand policy page's fee-free statement and 2-pet limit stay brand-level supplementary evidence and are not promoted."
+        ],
+        "record_hash": "sha256:eee04fea8249077a24415732be5892bc6d833142ddf49b31e917b620c3976241",
+        "evidence_hash": "sha256:e2c79a335b1d0f69e455e3fe3bfb12de6445921e066ee4fa50bc8a85bf03d4da"
+      }
+    },
+    {
+      "key": "super 8 by wyndham copley akron",
+      "name": "Super 8 by Wyndham Copley Akron",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted"
+        },
+        "pet_count_limit": 2,
+        "pet_fee": {
+          "amount_cents": 2500,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_pet"
+        }
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Allowed - Dogs only - 2 Dogs max.",
+          "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+          "value": "true",
+          "evidence_ref": "ev:fa0a343b3e44cd0a",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:47:57.404Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs only",
+          "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+          "value": "{\"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:bcb021b3e62e1724",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:47:57.404Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 Dogs max.",
+          "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+          "value": "2",
+          "evidence_ref": "ev:5342fda023d3a0bc",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:47:57.404Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-refundable 25USD per pet per night.",
+          "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+          "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+          "evidence_ref": "ev:63661d170937fd8c",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:47:57.404Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service Animals - ADA-defined service animals welcome.",
+          "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+          "value": "{\"charges_stated\": \"not_addressed\", \"stated\": true}",
+          "evidence_ref": "ev:cc071a2420496dbd",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:47:57.404Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "PET & SERVICE ANIMAL POLICY Service Animals - ADA-defined service animals welcome. / Pets Allowed - Dogs only - 2 Dogs max. / Fees - Non-refundable 25USD per pet per night. /Contact hotel for additional details and availability.",
+      "source_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:0bbfe1d4752cbf2d211aed7165cec88b88722f9b13115e6a991cbc9864175457",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "super 8 by wyndham copley akron",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "not_addressed"
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-C10, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:0bbfe1d4752cbf2d); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:156b22fcace4baaaa19ddb75e59a9e89046269de509d27a462069a4634910f51",
+        "evidence_hash": "sha256:a68120bde04d7b910a2fb2546233beb62571ffdb81ae028234d6fe9df44999b9"
+      }
+    },
+    {
+      "key": "baymont by wyndham copley akron",
+      "name": "Baymont by Wyndham Copley Akron",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted"
+        },
+        "pet_count_limit": 2,
+        "pet_fee": {
+          "amount_cents": 2500,
+          "currency": "USD",
+          "basis": "per_night",
+          "scope": "per_pet"
+        }
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Dogs Allowed - 2 pets max. Dogs only.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+          "value": "true",
+          "evidence_ref": "ev:845da0a9dc1790ec",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:48:43.954Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs only.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+          "value": "{\"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:16dbbe4dd88e6679",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:48:43.954Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 pets max.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+          "value": "2",
+          "evidence_ref": "ev:584c27ff8421dc3c",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:48:43.954Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "25USD per pet per night.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+          "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+          "evidence_ref": "ev:236b45dec86421d9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:48:43.954Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service Animals - ADA-defined service animals welcome.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+          "value": "{\"charges_stated\": \"not_addressed\", \"stated\": true}",
+          "evidence_ref": "ev:907ce0d50c0bf597",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:48:43.954Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "PET & SERVICE ANIMAL POLICY Service Animals - ADA-defined service animals welcome. / Dogs Allowed - 2 pets max. Dogs only. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:e7d459cb602ec4f310027a997e0acad8e946fe3d6c05ceaac0d09844b87b65c9",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "baymont by wyndham copley akron",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "not_addressed"
+      },
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-C11, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:e7d459cb602ec4f3); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json."
+        ],
+        "record_hash": "sha256:3a786b27a08a674b03aec1fb42ff16fd86d457dafae8d5935342e4216691c3a2",
+        "evidence_hash": "sha256:9be2e16de33f9543318fe2d89a6bf8fe0e1317f13db556be97f0d00bb5b3b746"
+      }
+    },
+    {
+      "key": "days inn lakewood",
+      "name": "Days Inn Lakewood",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 1000,
+          "currency": "USD",
+          "basis": "per_night"
+        },
+        "breed_restrictions": "Local city ordinance forbids pit bulls."
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets are allowed at a 10 USD per day charge.",
+          "source_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+          "value": "true",
+          "evidence_ref": "ev:923abf75654a8004",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:55a23af94a3d60e79440c050b61383304da91282773e9cdf57e4224f36416004",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:49:28.806Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Pets are allowed at a 10 USD per day charge.",
+          "source_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+          "value": "{\"amount_cents\": 1000, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+          "evidence_ref": "ev:3c7cabcca3d57eb9",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:55a23af94a3d60e79440c050b61383304da91282773e9cdf57e4224f36416004",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:49:28.806Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "breed_restrictions",
+          "quote": "Local city ordinance forbids pit bulls.",
+          "source_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+          "value": "Local city ordinance forbids pit bulls.",
+          "evidence_ref": "ev:9616e120c52126c8",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:55a23af94a3d60e79440c050b61383304da91282773e9cdf57e4224f36416004",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:49:28.806Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+          "value": "{\"charges_stated\": \"not_addressed\", \"stated\": true}",
+          "evidence_ref": "ev:620409d941498f9e",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:55a23af94a3d60e79440c050b61383304da91282773e9cdf57e4224f36416004",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-16T01:49:28.806Z",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 4,
+      "evidence_quote": "PET & SERVICE ANIMAL POLICY Pets are allowed at a 10 USD per day charge. There is no deposit required. Local city ordinance forbids pit bulls. ADA defined service animals are also welcome at this hotel.",
+      "source_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-15",
+      "verified_at": "2026-08-15",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:55a23af94a3d60e79440c050b61383304da91282773e9cdf57e4224f36416004",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "days inn lakewood",
+      "market_id": "cleveland-akron-canton-oh",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "not_addressed"
+      },
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-15",
+        "caveats": [
+          "Founder decision P-C12, PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, approved against THIS record_hash. Facts were constructed only from quotes verified contiguous in the hash-bound attended capture (sha256:55a23af94a3d60e7); identity was bound on the page's own address/ZIP/phone signals recorded in cleveland_pass2_capture_results.json.",
+          "Founder: the pit-bull restriction is kept exactly as sourced and not broadened."
+        ],
+        "record_hash": "sha256:b22704d198049a29655caa1adf25d4d67e32274635925aa3c11ed6a6a8fe9a9a",
+        "evidence_hash": "sha256:5c3395220b04287807a4ebac96d7595ace33003bdd73c316b1e4bb7c891c158d"
       }
     }
   ],

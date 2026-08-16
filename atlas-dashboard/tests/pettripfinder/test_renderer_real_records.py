@@ -325,8 +325,9 @@ class TestG_CatProhibition:
 
     def test_the_cohort_exists(self):
         # Three at migration; five since the evidence reconciliation carried
-        # across two more properties that refuse cats in their own words.
-        assert len(self.records()) == 5
+        # across two more properties that refuse cats in their own words; six
+        # since Pass 2 published Aloft Beachwood ("Dogs only- no cats...").
+        assert len(self.records()) == 6
 
     def test_the_chip_says_not_allowed(self):
         for record in self.records():

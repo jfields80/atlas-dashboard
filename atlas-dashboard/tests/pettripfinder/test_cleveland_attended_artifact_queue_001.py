@@ -33,7 +33,13 @@ from scripts.pettripfinder import integrate_cleveland_work_browser_001 as WB
 
 #: What the work order stated as expected. Pinned so a drift is a failure with a
 #: number in it rather than a silently different package.
-EXPECTED_SIZES = {"A": 17, "B": 15, "C": 14, "D": 1}
+#:
+#: 17/15/14/1 when the queue was generated; after Pass 2 executed 44 of the 47
+#: rows and PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 published/excluded 43 of
+#: them, what remains queueable is the two ADR-blocked Hyatt policy targets,
+#: Economy Inn (site policy-silent, still awaiting a policy surface) and the
+#: Hyatt Westlake routing review.
+EXPECTED_SIZES = {"A": 2, "B": 0, "C": 1, "D": 1}
 
 
 def _json(path: Path):
@@ -68,7 +74,10 @@ def built(tmp_path_factory):
 
 def test_queue_membership_is_a_partition_of_four_final_states(partition):
     classes = [Q.queue_class_of(item) for item in partition["items"]]
-    assert set(c for c in classes if c) == set(Q.QUEUE_ORDER)
+    # A queue class with zero remaining members (B, once every transcribed
+    # refusal became an artifact-backed exclusion) legitimately disappears.
+    expected_present = {k for k, n in EXPECTED_SIZES.items() if n}
+    assert set(c for c in classes if c) == expected_present
     for item in partition["items"]:
         klass = Q.queue_class_of(item)
         if klass:

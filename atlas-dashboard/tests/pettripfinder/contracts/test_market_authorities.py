@@ -47,8 +47,10 @@ PARTITION_FILES = {
 EXPECTED = {
     COLUMBUS: {"census": 112, "published": 88, "no_pets": 14,
                "out_of_category": 2, "unresolved": 8},
-    CLEVELAND: {"census": 188, "published": 21, "no_pets": 8,
-                "out_of_category": 0, "unresolved": 159},
+    # 21/8/159 until PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 applied the
+    # founder's rulings on the attended-capture packet.
+    CLEVELAND: {"census": 188, "published": 41, "no_pets": 31,
+                "out_of_category": 0, "unresolved": 116},
     DAYTON: {"census": 129, "published": 47, "no_pets": 8,
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,

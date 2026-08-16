@@ -235,5 +235,5 @@ class TestClevelandCompatibilityWithoutIntegration:
         cle = owned_by(read_production_rows(), CLEVELAND)
         # 19 -> 21: the two Drury properties published by
         # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003.
-        assert len(cle) == 21
+        assert len(cle) == 41  # after PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
         assert all(r[MARKET_ID_FIELD] == CLEVELAND for r in cle)

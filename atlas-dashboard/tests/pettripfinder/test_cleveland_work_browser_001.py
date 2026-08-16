@@ -38,6 +38,8 @@ LEDGER_PATH = (_ROOT / "launch_packages" / "pettripfinder"
                / "cleveland_work_browser_pass_001.json")
 CENSUS_PATH = (_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
                / "cleveland-akron-canton-oh.json")
+P2_PACKET_PATH = (_ROOT / "launch_packages" / "pettripfinder"
+                  / "cleveland_pass2_founder_review_packet.json")
 ROUTING_PATH = (_ROOT / "launch_packages" / "pettripfinder" / "identity_routing.json")
 CLEVELAND_FACTS_PATH = (_ROOT / "launch_packages" / "pettripfinder"
                         / "hotel_policy_facts_cleveland-akron-canton-oh.json")
@@ -139,20 +141,30 @@ class TestNothingPublished:
     def test_the_ledger_totals_equal_the_authorities_they_describe(self, ledger):
         """A stated total that no longer matches its source is worse than none."""
         totals = ledger["market_totals"]
-        assert totals["published_pet_friendly_after"] == len(
+        # The ledger's "after" figures describe the authorities as pass 001
+        # left them. PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 later published
+        # twenty and excluded twenty-three by founder decision, so the live
+        # authorities equal the stated totals plus exactly those deltas.
+        packet = _json(P2_PACKET_PATH)
+        assert totals["published_pet_friendly_after"]             + len(packet["positive_candidates"]) == len(
             _json(CLEVELAND_FACTS_PATH)["hotels"])
         exclusions = _json(EXCLUSIONS_PATH)
         records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
-        assert totals["verified_no_pets_after"] == len(
+        assert totals["verified_no_pets_after"]             + len(packet["negative_candidates"]) == len(
             [r for r in records if r.get("market_id") == WB.MARKET])
         assert totals["confirmed_identities"] == _json(CENSUS_PATH)["count"]
 
     def test_no_reviewed_slug_entered_the_cleveland_policy_facts(self, ledger):
-        """The strongest form: none of the 135 acquired a policy record."""
+        """None of the 135 acquired a policy record from the TRANSCRIPTION.
+        The rows published since got there through the Pass-2 hash-bound
+        attended captures, each named in the committed founder packet."""
         published = {h["key"] for h in _json(CLEVELAND_FACTS_PATH)["hotels"]}
+        packet = _json(P2_PACKET_PATH)
+        decided = {c["hotel_id"] for c in packet["positive_candidates"]}
         for item in ledger["items"]:
             if not item["published_before"]:
-                assert item["normalized_name"] not in published, item["slug"]
+                assert (item["normalized_name"] not in published
+                        or item["normalized_name"] in decided), item["slug"]
 
     def test_no_reviewed_slug_entered_the_exclusion_authority(self, ledger):
         """Sixteen properties transcribed a refusal. A refusal is guarded at the
@@ -162,7 +174,9 @@ class TestNothingPublished:
         records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
         excluded = {r["normalized_name"] for r in records}
         reviewed = {i["normalized_name"] for i in ledger["items"]}
-        assert not (reviewed & excluded) - {
+        packet = _json(P2_PACKET_PATH)
+        decided = {c["hotel_id"] for c in packet["negative_candidates"]}
+        assert not (reviewed & excluded) - decided - {
             r["normalized_name"] for r in records
             if r.get("observed_at", "") < WB.AS_OF}
 
@@ -345,7 +359,9 @@ class TestRoutingAdjudication:
         by_market = {}
         for record in routing["routes"]:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
-        assert by_market["cleveland-akron-canton-oh"] == 145
+        # 145 when this pass closed; 102 after Pass 2 retired the routes
+        # of the 43 founder-decided identities.
+        assert by_market["cleveland-akron-canton-oh"] == 102
         assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
@@ -408,7 +424,7 @@ class TestOtherMarketsUntouched:
         for record in routes:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         assert by_market["columbus-oh"] == 20
-        assert by_market["cleveland-akron-canton-oh"] == 145
+        assert by_market["cleveland-akron-canton-oh"] == 102  # after Pass-2 retirements
 
 
 # --------------------------------------------------------------------------- #
@@ -476,8 +492,21 @@ class TestReconciliationIsDerivedNotTrusted:
 class TestLedgerReDerives:
 
     def test_building_again_reproduces_the_committed_ledger(self, ledger):
-        """Deterministic: same package in, same ledger out."""
-        assert json.loads(WB.serialize(WB.build())) == ledger
+        """Deterministic: same package in, same ledger out.
+
+        The live-derived fields (per-item published_after and the market
+        totals' *_after figures) legitimately moved when the Pass-2 founder
+        decisions published and excluded reviewed identities; the committed
+        ledger keeps the values pass 001 stated. Everything the PACKAGE
+        determines must still reproduce byte-for-byte."""
+        def _frozen(doc):
+            doc = json.loads(json.dumps(doc))
+            doc.pop("market_totals", None)
+            for item in doc.get("items", []):
+                item.pop("published_before", None)
+                item.pop("published_after", None)
+            return doc
+        assert _frozen(json.loads(WB.serialize(WB.build()))) == _frozen(ledger)
 
     def test_the_build_is_pure_with_respect_to_authority(self):
         before = ROUTING_PATH.read_bytes(), CLEVELAND_FACTS_PATH.read_bytes()

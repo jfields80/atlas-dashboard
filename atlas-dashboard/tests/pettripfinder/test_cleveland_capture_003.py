@@ -60,9 +60,11 @@ class TestTargetSetIsDerivedNotAssumed:
         they are merely queued."""
         routed = [i for i in unresolved_manifest["items"]
                  if i["classification"] == "ROUTED_AWAITING_CAPTURE"]
-        assert len(routed) == 72
+        # 72 when capture-003 ran; 41 after the Pass-2 founder decisions
+        # consumed thirty-one routed targets.
+        assert len(routed) == 41
         names = [i["normalized_name"] for i in routed]
-        assert len(set(names)) == 72
+        assert len(set(names)) == 41  # 72 before the Pass-2 decisions
         for item in routed:
             attempt = item["capture_attempt"]
             assert attempt["run_id"] == "cleveland-policy-capture-003"
@@ -86,7 +88,8 @@ class TestManifestIsProposalOnly:
         candidate is absent from it by decision, not by omission.
         """
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
-        assert len(facts["hotels"]) == 21
+        # 21 when capture-003 closed; 41 after the Pass-2 publications.
+        assert len(facts["hotels"]) == 41
         published = {h["key"] for h in facts["hotels"]}
         assert {"drury plaza hotel", "drury inn and suites beachwood"} <= published
         held = {"la quinta inn cleveland independence",
