@@ -85,29 +85,42 @@ class TestDaytonAuthority:
         for hotel in facts["hotels"]:
             evidence = {e["field"]: e["quote"] for e in hotel["evidence"]}
             page = " ".join(hotel["evidence_quote"].split()).lower()
+            # PTF-POLICY-SCHEMA-MIGRATION-001: evidence entries keep the field
+            # names they were captured under -- their text is never rewritten --
+            # so a canonical fact is checked against the legacy name it came
+            # from. The protection is unchanged: every published fact must be
+            # traceable to a quote that appears in the captured page.
+            aliases = {"species": "species_allowed",
+                       "combined_weight_limit": "weight_limit_combined",
+                       "dimension_constraints": "general_restrictions"}
             for field in hotel["facts"]:
-                assert field in evidence, "%s: %s has no evidence" % (hotel["name"], field)
-                assert " ".join(evidence[field].split()).lower() in page, (
+                source_field = aliases.get(field, field)
+                assert source_field in evidence,                     "%s: %s has no evidence" % (hotel["name"], field)
+                assert " ".join(evidence[source_field].split()).lower() in page, (
                     "%s: %s quote is not in the captured page text"
                     % (hotel["name"], field))
 
     def test_withheld_fields_are_recorded_and_absent_from_facts(self, facts):
         for hotel in facts["hotels"]:
-            for field, reason in hotel["withheld_fields"].items():
+            for field, decision in (hotel.get("withheld_fields") or {}).items():
                 assert field not in hotel["facts"], (
                     "%s: %s is both withheld and published" % (hotel["name"], field))
-                assert len(reason) > 20, "a withheld field needs a real reason"
+                # 1.2 replaced bare prose with a reason CODE plus the sentence.
+                assert decision["reason_code"], hotel["name"]
+                assert len(decision["reason"]) > 20, "a withheld field needs a real reason"
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
             f = hotel["facts"]
             if "pet_fee" in f:
-                assert re.fullmatch(r"\$\d+\.\d{2}", f["pet_fee"]), hotel["name"]
+                assert isinstance(f["pet_fee"]["amount_cents"], int), hotel["name"]
+                assert f["pet_fee"]["currency"] == "USD", hotel["name"]
             if "weight_limit" in f:
-                assert f["weight_limit"].endswith(" pounds"), hotel["name"]
-            # {lt, lte, combined} is the closed operator set. "per pet" is not a
-            # member and renders as nothing at all, so it is withheld instead.
-            assert f.get("weight_limit_operator") in (None, "lt", "lte", "combined")
+                assert f["weight_limit"]["unit"] in ("lb", "kg"), hotel["name"]
+                # 1.2 removed the overload: {lt, lte} only, and the scope that
+                # used to be smuggled into this slot is its own field.
+                assert f["weight_limit"]["operator"] in ("lt", "lte"), hotel["name"]
+                assert f["weight_limit"]["scope"] == "per_pet", hotel["name"]
 
     def test_a_fee_cap_is_a_structure_not_a_display_string(self, facts):
         """A cap that arrives as "$75.00 per stay" reaches the detail renderer
@@ -117,9 +130,11 @@ class TestDaytonAuthority:
         for hotel in caps:
             cap = hotel["facts"]["fee_cap"]
             assert isinstance(cap, dict), hotel["name"]
-            assert cap["amount"] == "75.00" and cap["basis"] == "per stay"
+            assert cap["amount_cents"] == 7500 and cap["basis"] == "per_stay"
+            # A cap states its OWN qualifiers or says it has none.
+            assert cap["qualifier_stated"] is True, hotel["name"]
             # the ceiling is NOT the rate
-            assert hotel["facts"]["pet_fee"] == "$25.00"
+            assert hotel["facts"]["pet_fee"]["amount_cents"] == 2500
 
 
 class TestContradictionsArePreservedNotResolved:
@@ -131,22 +146,25 @@ class TestContradictionsArePreservedNotResolved:
         assert "pet_fee" not in h["facts"] and "fee_tiers" not in h["facts"]
         assert "pet_fee" in h["withheld_fields"]
         # what IS supported still publishes
-        assert h["facts"]["species_allowed"] == "dogs"
-        assert h["facts"]["weight_limit"] == "50 pounds"
+        # "Dogs only, no cats" is a refusal, and 1.2 records it as one
+        # rather than leaving cats merely unmentioned.
+        assert h["facts"]["species"] == {"dogs": "accepted",
+                                         "cats": "prohibited"}
+        assert h["facts"]["weight_limit"]["value"] == 50
 
     def test_towneplace_beavercreek_publishes_no_fee(self, facts):
         """"$100.00 per stay" and "$20.00 per night" are listed as separate
         rows; they coincide only for a five-night stay."""
         h = next(x for x in facts["hotels"]
                  if x["key"] == "towneplace suites by marriott dayton beavercreek")
-        assert "pet_fee" not in h["facts"] and "fee_basis" not in h["facts"]
-        assert h["facts"]["weight_limit"] == "75 pounds"
+        assert "pet_fee" not in h["facts"]
+        assert h["facts"]["weight_limit"]["value"] == 75
 
     def test_hilton_garden_inn_beavercreek_computes_no_additive_total(self, facts):
         """"$75(1-5 nights) additional $75(5+ night)" is an add-on. The worker
         recorded a $150 second band; no total is asserted here."""
         h = next(x for x in facts["hotels"] if x["key"] == "hilton garden inn dayton beavercreek")
-        assert h["facts"]["pet_fee"] == "$75.00"
+        assert h["facts"]["pet_fee"]["amount_cents"] == 7500
         assert "fee_tiers" not in h["facts"]
         assert "150" not in json.dumps(h["facts"])
         assert "additional" in h["facts"]["general_restrictions"]
@@ -171,7 +189,7 @@ class TestPerPetScopeDoesNotSpread:
 
     def test_hampton_troy_states_per_pet(self, facts):
         h = next(x for x in facts["hotels"] if x["key"] == "hampton inn troy")
-        assert h["facts"]["fee_scope"] == "per pet"
+        assert h["facts"]["pet_fee"]["scope"] == "per_pet"
         assert "per pet" in h["evidence_quote"]
 
     def test_no_other_hampton_claims_a_fee_scope(self, facts):
@@ -182,8 +200,10 @@ class TestPerPetScopeDoesNotSpread:
                   if "hampton" in h["key"] and h["key"] != "hampton inn troy"]
         assert len(others) >= 5
         for h in others:
-            assert "fee_scope" not in h["facts"], h["name"]
-            assert "fee_scope" in h["withheld_fields"], h["name"]
+            # Absent, not withheld: these pages say nothing about scope, and
+            # Phase F removed the 110 entries that merely restated a silence.
+            assert not (h["facts"].get("pet_fee") or {}).get("scope"), h["name"]
+            assert "fee_scope" not in (h.get("withheld_fields") or {}), h["name"]
 
 
 class TestNegativeFactsNeedArtifactsToo:
@@ -277,7 +297,7 @@ class TestThePromotedRecoveryCandidates:
         for h in esa:
             assert "pet_fee" not in h["facts"], h["name"]
             assert "weight_limit" not in h["facts"], h["name"]
-            assert h["facts"]["pet_count_limit"] == "2"
+            assert h["facts"]["pet_count_limit"] == 2
             assert h["facts"]["pet_count_scope"] == "room"
 
     def test_extended_stay_general_restrictions_is_one_contiguous_sentence(self, facts):
@@ -309,7 +329,7 @@ class TestThePromotedRecoveryCandidates:
                     "cobblestone hotel and suites indian lake russells point"}
         for h in facts["hotels"]:
             if h["key"] in promoted:
-                assert h["facts"]["species_allowed"] == "dogs", h["name"]
+                assert h["facts"]["species"] == {"dogs": "accepted"}, h["name"]
 
     def test_urbana_does_not_inherit_its_siblings_fee(self, facts):
         """Three Cobblestone pages state "$25/dog per night" in the policies
@@ -322,7 +342,7 @@ class TestThePromotedRecoveryCandidates:
                   if x["key"].startswith("cobblestone") and "pet_fee" in x["facts"]]
         assert len(priced) == 3
         for x in priced:
-            assert x["facts"]["pet_fee"] == "$25.00"
+            assert x["facts"]["pet_fee"]["amount_cents"] == 2500
 
     def test_hotel_versailles_is_excluded_not_published(self, facts):
         """The one negative finding in the batch. It must be in the exclusion

@@ -9,6 +9,7 @@ import re
 import pytest
 
 from scripts.pettripfinder.hotel_profile import (
+
     STATE_NO_PETS,
     STATE_UNVERIFIED,
     STATE_VERIFIED,
@@ -16,6 +17,14 @@ from scripts.pettripfinder.hotel_profile import (
     build_fixture_vms,
     render_hotel_profile,
 )
+
+
+#: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
+#: recurrence but never says who the charge attaches to, the profile says so
+#: rather than letting "$50 per night" read as a complete answer to a guest
+#: bringing two animals. Omitted where exactly one pet is allowed, because
+#: per-pet and per-room are then the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
 
 STATES = ("rich", "sparse", "no-photo", "no-pets", "unverified")
 
@@ -272,6 +281,13 @@ def test_render_is_deterministic(vms):
 from scripts.pettripfinder.hotel_profile import _corridor_area, _corridor_label  # noqa: E402
 
 
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
+
+
 def test_authoritative_corridor_labels(vms):
     # PTF-CORRIDORS-002 Part D: labels come from the SAME market-config
     # assignment that drives routes -- not a second address-token taxonomy.
@@ -386,9 +402,9 @@ def test_per_pet_weight_is_never_called_combined():
     from scripts.pettripfinder.hotel_profile import _verified_summary
     summary = _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
     assert "combined" not in summary.lower()
-    assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night. "
-                       "Maximum pet weight is 40 pounds, with up to 2 pets permitted "
-                       "per room.")
+    assert summary == ("Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
+                                              "Maximum pet weight is 40 pounds, with up to 2 pets "
+                       "permitted.")
 
 
 def test_combined_is_used_only_when_the_source_says_so():
@@ -423,7 +439,7 @@ def test_nonrefundable_only_when_the_source_states_it():
     assert "non-refundable" in _verified_summary(ALOFT_FACTS, ALOFT_QUOTE)
     plain = _verified_summary(ALOFT_FACTS, "Pets welcome. Pet fee $50.00 per night.")
     assert "non-refundable" not in plain
-    assert "A $50 fee applies per night." in plain
+    assert "A $50 fee applies per night%s." % DISCLOSURE in plain
 
 
 def test_structured_fields_are_preserved_exactly():
@@ -450,7 +466,7 @@ def test_no_published_page_calls_a_weight_limit_combined_without_source_backing(
         facts = h.get("facts", {})
         quote = h.get("evidence_quote", "") or ""
         from scripts.pettripfinder.hotel_profile import _verified_summary
-        summary = _verified_summary(facts, quote)
+        summary = _verified_summary(_shown(h), quote)
         if "combined" in summary.lower():
             # PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001: there are now two ways to
             # reach a combined sentence, and the structured one is authoritative.
@@ -464,12 +480,20 @@ def test_no_published_page_calls_a_weight_limit_combined_without_source_backing(
             # because unlike the operator it names a number of its own -- so the
             # source must be shown to have used a combine-word about THAT
             # number, not merely somewhere on the page.
-            assert (facts.get("weight_limit_operator") == "combined"
-                    or (facts.get("weight_limit_combined")
+            # PTF-POLICY-SCHEMA-MIGRATION-001 adds the authoritative form:
+            # combined_weight_limit is its OWN field, so a record carrying one
+            # needs no supporting word in the evidence text -- the structure IS
+            # the statement, which is exactly what the field was added for. The
+            # text scan and the display-shaped fallbacks remain for records
+            # that have not been canonicalised.
+            shown = _shown(h)
+            assert (facts.get("combined_weight_limit")
+                    or shown.get("weight_limit_operator") == "combined"
+                    or (shown.get("weight_limit_combined")
                         and _source_states_combined_weight(
-                            quote, facts["weight_limit_combined"]))
+                            quote, shown["weight_limit_combined"]))
                     or _source_states_combined_weight(
-                        quote, facts.get("weight_limit", ""))), h["key"]
+                        quote, shown.get("weight_limit", ""))), h["key"]
 
 
 def test_friendly_date_accepts_a_full_timestamp():

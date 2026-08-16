@@ -32,6 +32,8 @@ from pathlib import Path
 from decimal import Decimal
 from typing import Dict, List, Optional, Sequence, Tuple
 
+from scripts.pettripfinder import canonical_view
+from scripts.pettripfinder.contracts import compat_readers, enums
 from scripts.pettripfinder.site_data import (
     normalize_name,
     read_production_rows,
@@ -45,6 +47,16 @@ STATE_UNVERIFIED = "POLICY_UNVERIFIED"
 
 _MEDIA_CAP = 'Property photo unavailable. <a href="/methodology/#photos">How we handle photos</a>'
 _NOT_STATED = "Not stated by the reviewed source"
+
+#: PTF-RENDERER-FIDELITY-001. Silence and withholding are OPPOSITE claims about
+#: a hotel and must never share a treatment. "Not stated" says the source did
+#: not address the field; a withheld field means the source DID, and what it
+#: said could not be published accurately. Sixty-six committed withholding
+#: decisions rendered through the silence path until now, telling readers a
+#: hotel had said nothing about a fee it had in fact contradicted itself about.
+#: One semantic class across every surface, distinct from the dim class that
+#: silence uses on the profile and from ``ptf-unknown`` on the comparison table.
+WITHHELD_CLS = "ptf-withheld"
 _HOME_SVG = ('<svg class="glyph" width="34" height="34" viewBox="0 0 24 24" fill="none" '
              'stroke="#f6f1e7" stroke-width="1.4" aria-hidden="true">'
              '<path d="M3 21V9l9-5 9 5v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>')
@@ -228,7 +240,37 @@ _STATED_FIELDS = ("species_allowed", "pet_fee", "pet_count_limit", "weight_limit
                   # PTF-COLUMBUS-HYATT-002: a combined-only record has stated a
                   # weight rule, and calling it sparse would print "weight
                   # limit: Not stated" on a page that carries one.
-                  "weight_limit_combined")
+                  "weight_limit_combined",
+                  # PTF-RENDERER-FIDELITY-001. A stated deposit or cleaning fee
+                  # is money the guest will be asked for, which is policy
+                  # detail by any reading. No committed record changes verdict
+                  # -- both properties carrying one state other facts too --
+                  # but a record that stated only a deposit would have had it
+                  # dropped.
+                  "pet_deposit", "cleaning_fee")
+
+#: PTF-RENDERER-FIDELITY-001. Prose the property stated about its pet policy
+#: that is not one of the structured facts above. A record carrying only these
+#: is still SPARSE -- eight dim "Not stated" rows would be noise on a page that
+#: has almost nothing -- but its own words must still reach the reader.
+#:
+#: Americas Best Value Inn Celina states "Small pets are allowed with manager's
+#: approval. Please call hotel directly for fees and restrictions" and rendered
+#: "the reviewed official source did not state the species, fee, pet limit, or
+#: weight limit": a page that speaks, described as one that says nothing.
+_RESTRICTION_FIELDS = ("breed_restrictions", "unattended_policy",
+                       "reservation_requirement", "general_restrictions",
+                       "pet_room_restriction")
+
+#: The label each restriction carries, matching the rich detail table so a
+#: reader moving between two profiles sees one vocabulary.
+_RESTRICTION_LABELS = {
+    "breed_restrictions": "Breed restrictions",
+    "unattended_policy": "Unattended-pet rule",
+    "reservation_requirement": "Reservation requirement",
+    "general_restrictions": "Other restrictions",
+    "pet_room_restriction": "Pet room availability",
+}
 
 
 #: Species this renderer can name, in the order a reader expects them.
@@ -311,6 +353,122 @@ def _prose_number(text: str) -> str:
     return _TRAILING_ZEROS_RE.sub(r"\1", text or "")
 
 
+def canonical_fee_scope(f: Dict) -> str:
+    """The canonical fee scope of a legacy facts dict, or "".
+
+    PTF-RENDERER-FIDELITY-001. Four spellings of this field reached the corpus
+    and this renderer recognised exactly one of them, so twelve of fourteen
+    committed values -- every per-pet fee in Dayton among them -- reached no
+    public surface at all. A guest bringing two dogs to a $15-per-pet property
+    read $15.
+
+    The translation table is the frozen one from the contracts package; nothing
+    is re-derived here.
+    """
+    explicit = enums.LEGACY_FEE_SCOPES.get(
+        str(f.get("fee_scope") or "").strip().lower(), "")
+    if explicit:
+        return explicit
+    # Seven records state the scope INSIDE the basis string -- "per room per
+    # night", "per stay per pet". Reading only the dedicated field would call
+    # those unscoped and print a disclosure about a fact the source did give.
+    # The decomposition table is Phase A's; nothing is re-derived here.
+    _, from_basis, _, _ = compat_readers.decompose_fee_basis(f.get("fee_basis"))
+    return from_basis or ""
+
+
+def fee_qualifier_phrase(f: Dict) -> str:
+    """``per pet per night`` / ``per room per stay`` / ``per night`` / "".
+
+    Scope leads where it is carried in its own field, because scope is the half
+    a reader needs when more than one animal is coming and the half that used
+    to be dropped.
+
+    Where the legacy basis string already carries the scope it is returned
+    verbatim: "per night for up to 2 pets" is the source's own wording and
+    rebuilding it as "per room per night for up to 2 pets" would say the same
+    thing twice while changing a page nobody asked us to change.
+    """
+    basis = str(f.get("fee_basis") or "").strip().lower()
+    explicit = enums.LEGACY_FEE_SCOPES.get(
+        str(f.get("fee_scope") or "").strip().lower(), "")
+    if not explicit:
+        return basis
+    word = canonical_view.SCOPE_WORDS[explicit]
+    if not basis:
+        return word
+    if word in basis:
+        return basis
+    return "%s %s" % (word, basis)
+
+
+def fee_scope_display(f: Dict) -> str:
+    """Comparison-table cell for fee scope: ``Per pet`` / ``Per room`` / ""."""
+    scope = canonical_fee_scope(f)
+    return _cap_first(canonical_view.SCOPE_WORDS[scope]) if scope else ""
+
+
+def cap_qualifier_note(f: Dict) -> str:
+    """What a fee cap's ceiling is qualified by, for the comparison table.
+
+    PTF-RENDERER-FIDELITY-001 §11. A cap NEVER inherits scope from the fee it
+    caps. "Maximum $150" with no stated scope might cap the room or cap each
+    animal, and for two pets those are $150 and $300 -- so where the source did
+    not say, the cell says that rather than letting the ceiling look universal.
+    """
+    cap = f.get("fee_cap") or {}
+    if not cap.get("amount"):
+        return ""
+    parts = []
+    if cap.get("basis"):
+        parts.append(str(cap["basis"]).lower())
+    if cap.get("applies_to"):
+        parts.append(str(cap["applies_to"]))
+    # Legacy caps carry no structured scope at all; Phase A raises every one of
+    # them for review rather than guessing, and until that review lands the
+    # honest display is to name the gap.
+    if not cap.get("scope"):
+        parts.append("scope not stated")
+    return "; ".join(parts)
+
+
+def second_amount_note(f: Dict) -> str:
+    """A sentence for a record whose own wording names a larger, unstructured fee.
+
+    PTF-RENDERER-FIDELITY-001 §8. Staybridge Suites Miamisburg publishes a $50
+    scalar while its restriction text says $50 per pet for one to six nights
+    and $150 per pet for seven or more. The comparison table suppresses the
+    scalar outright; the profile, which shows the restriction text in full,
+    keeps the figure but must not let it stand as the whole answer.
+
+    Returns "" unless the canonical view proves a second relevant amount.
+    """
+    view = canonical_view.build({"facts": f})
+    if view.fee_display_mode != "withhold_scalar" or not view.fee:
+        return ""
+    return ("The hotel's published wording states a further amount for longer "
+            "stays; the figure above is not the whole charge.")
+
+
+def _cats_state(f: Dict) -> str:
+    """``accepted`` | ``prohibited`` | ``""`` for a legacy facts dict.
+
+    ``cats_allowed`` is a committed boolean and mechanically safe to read; a
+    prose species list that names cats is an affirmative mention. A page that
+    says only "pets welcome" yields NEITHER -- generic pets never becomes
+    dogs+cats, which is the discipline two markets recorded by hand and the
+    renderer then discarded.
+    """
+    explicit = f.get("cats_allowed")
+    if explicit in ("false", False):
+        return enums.SPECIES_PROHIBITED
+    if explicit in ("true", True):
+        return enums.SPECIES_ACCEPTED
+    if "cat" in str(f.get("species_allowed") or "").lower():
+        return enums.SPECIES_ACCEPTED
+    return ""
+
+
 # Shown wherever a fee is withheld because the official source contradicts
 # itself. Neutral by design: it reports the state of the source, blames no one,
 # and points the reader at the recorded wording and the hotel.
@@ -328,12 +486,57 @@ FEE_RANGE_NOTICE = ("Official source gives a pet-fee range that depends on "
                     "policy wording or confirm with the hotel.")
 
 
+def withheld_cell(f: Dict, path: str) -> Optional[Tuple[str, str]]:
+    """``(text, css)`` for a table cell whose field was deliberately withheld.
+
+    ``None`` -- not ``("", "")`` -- when the field carries no decision. An
+    empty tuple is TRUTHY, so returning one made every ``withheld_cell(...) or
+    fallback`` take the withheld branch and blanked the cell on all 156
+    records. Caught by the rendered-diff gate, which is what it is for.
+    """
+    decision = (f.get("_withheld") or {}).get(path)
+    if not decision:
+        return None
+    label = (decision.get("public_label")
+             or canonical_view.WITHHELD_SHORT_LABELS.get(decision.get("reason_code", ""))
+             or canonical_view.WITHHELD_GENERIC_LABEL)
+    return (label, WITHHELD_CLS)
+
+
+def _withheld_chip_label(f: Dict) -> str:
+    """The comparison chip for a withheld fee.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A: a reviewed decision may name its own
+    label. "Range by stay" fits a $75-$150 spread and misdescribes a fee
+    charged every three nights, which is one amount on a repeating cycle.
+    """
+    for key, generic in (("fee_conflict", "Source conflict"),
+                         ("fee_withheld", "Range by stay")):
+        marker = f.get(key)
+        if not marker:
+            continue
+        own = marker.get("public_label") if isinstance(marker, dict) else ""
+        return own or generic
+    return ""
+
+
 def fee_withheld_notice(f: Dict) -> str:
-    """The right sentence for whichever reason the fee was withheld, or ""."""
-    if f.get("fee_conflict"):
-        return FEE_CONFLICT_NOTICE
-    if f.get("fee_withheld"):
-        return FEE_RANGE_NOTICE
+    """The right sentence for whichever reason the fee was withheld, or "".
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. A reviewed withholding may carry its own
+    sentence, and where it does the reader gets that instead of the generic
+    one. "Official source contains conflicting pet-fee terms" is true of every
+    contradiction in the corpus; it does not tell a guest that the conflict is
+    between a nightly rate and a per-stay rate, which is the part they can put
+    to the hotel.
+    """
+    for key, generic in (("fee_conflict", FEE_CONFLICT_NOTICE),
+                         ("fee_withheld", FEE_RANGE_NOTICE)):
+        marker = f.get(key)
+        if not marker:
+            continue
+        own = marker.get("public_copy") if isinstance(marker, dict) else ""
+        return own or generic
     return ""
 
 
@@ -367,7 +570,7 @@ UNRESTRICTED_WEIGHT_DISPLAY = "No restriction stated by the property"
 UNRESTRICTED_BREED_DISPLAY = "None stated by the property"
 
 
-def weight_display(f: Dict) -> str:
+def weight_display(f: Dict, *, combined_fallback: bool = False) -> str:
     """Table/chip form of the same limit: "Under 80.0 pounds", or "" if absent.
 
     Keeps the exact recorded value -- structured cells never round, only the
@@ -382,6 +585,15 @@ def weight_display(f: Dict) -> str:
     if not value:
         if f.get("weight_limit_stated_none") == "true":
             return UNRESTRICTED_WEIGHT_DISPLAY
+        # PTF-POLICY-SCHEMA-MIGRATION-001. A property may state ONLY a combined
+        # limit -- Drury's two pages say "a combined weight of 80 pounds" and
+        # never a per-pet maximum. Under the legacy shape that value sat in
+        # weight_limit with the operator overloaded to "combined", so this cell
+        # found it; 1.2 moves it to its own field, and without this branch the
+        # summary cell told a reader the hotel stated no weight limit at all.
+        # That is the opposite of what the page says.
+        if combined_fallback and combined_weight_display(f):
+            return "%s combined" % (f.get("weight_limit_combined") or "").strip()
         return ""
     op = f.get("weight_limit_operator") or ""
     if op == "lt":
@@ -521,10 +733,19 @@ def _tier_scope_phrase(t: Dict) -> str:
 
     A per-pet charge and a per-room charge are the same number and different
     policies: a second dog doubles one and not the other. Shown only where the
-    source states it -- a tier whose scope is unstated says nothing, exactly as
-    before, so no existing profile changes.
+    source states it -- a tier whose scope is unstated says nothing.
+
+    PTF-RENDERER-FIDELITY-001. This compared against ``per_pet`` alone, and the
+    corpus spells tier scope BOTH ways: ``'per_pet'`` once and ``'per pet'``
+    twice. Hampton Inn Troy's ladder is per pet in both its tiers and rendered
+    as though it were per room, so a two-dog stay read at half its price. The
+    canonical translation is Phase A's, not a second table.
     """
-    return " per pet" if t.get("scope") == "per_pet" else ""
+    scope = enums.LEGACY_FEE_SCOPES.get(
+        str(t.get("scope") or "").strip().lower(), "")
+    if not scope:
+        return ""
+    return " %s" % canonical_view.SCOPE_WORDS[scope]
 
 
 def _tier_basis_phrase(tiers) -> str:
@@ -824,15 +1045,36 @@ def _pets_phrase(count) -> str:
 #: PTF-POLICY-PRECISION-001. The unit a pet count applies to. "Up to two pets
 #: are permitted per suite" is what an all-suite property states, and calling it
 #: a room changes the promise for a guest booking a multi-room suite. Only the
-#: two units a source has actually stated are accepted; anything else -- and
-#: absence, which is every existing record -- keeps the established "room"
-#: wording, so no published profile changes.
+#: two units a source has actually stated are accepted.
 _COUNT_SCOPES = ("room", "suite")
 
 
-def _count_scope(f: Dict) -> str:
+def _count_scope(f: Dict) -> Optional[str]:
+    """The unit the source stated the count in, or None if it stated none.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001A. This used to return "room" for absence as
+    well as for a stated room scope, so a property that wrote only "2 pets max"
+    was published as "2 per room" -- a scope it never gave. Two-thirds of the
+    corpus states a count without a unit, so the fabrication was the common
+    case, not the edge one.
+
+    It also made the authority untestable from the page: three records carrying
+    an unsupported ``pet_count_scope: room`` were removed from the authority and
+    their pages did not move, because the renderer put the same word back. The
+    default is gone; absence now renders as absence.
+    """
     scope = str(f.get("pet_count_scope") or "").strip().lower()
-    return scope if scope in _COUNT_SCOPES else "room"
+    return scope if scope in _COUNT_SCOPES else None
+
+
+def _per_count_scope(f: Dict) -> str:
+    """" per room" / " per suite" where the source stated one, else "".
+
+    Returned with its leading space so a caller can append it to a sentence
+    that has to read correctly with or without it.
+    """
+    scope = _count_scope(f)
+    return " per %s" % scope if scope else ""
 
 
 def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
@@ -857,6 +1099,18 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         parts.append(fee_withheld_notice(f))
     if tiers:
         parts.append(_tiered_fee_sentence(tiers, evidence))
+        # PTF-RENDERER-FIDELITY-001 §10. A ladder still has a scope, and a
+        # per-pet ladder doubles for a second animal. Hampton Inn Troy states
+        # $75/$125 PER PET and the ladder sentence alone never said so, so a
+        # two-dog stay read as half its price. Said only where the record's own
+        # scope field states it, and only where the tiers do not already carry
+        # their own.
+        tier_scope = canonical_fee_scope(f)
+        if tier_scope and not any(t.get("scope") in ("per_room", "per_pet",
+                                                     "per pet", "per room")
+                                  for t in tiers):
+            parts.append("Those amounts are charged %s."
+                         % canonical_view.SCOPE_WORDS[tier_scope])
     # A staged schedule speaks for the whole fee, so no scalar may be shown
     # beside it -- two fee sentences on one page is the duplication guard, and
     # the scalar would be the first night's price wearing the stay's name.
@@ -875,6 +1129,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         cap = f.get("fee_cap") or {}
         pending_cap_sentence = ""
         basis_unspecified = False
+        scope_unstated = False
         room_nightly = _ROOM_NIGHTLY_BASIS_RE.match((basis or "").strip().lower())
         if room_nightly:
             # A nightly rate that covers a number of pets rather than charging
@@ -894,16 +1149,31 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # says so instead of letting "a $100 fee applies" read as a complete
             # answer -- and it still infers nothing: per stay, per night and per
             # pet all stay unsaid, because the source did not say them.
-            if basis:
-                s = "A %s%s fee applies %s" % (_prose_number(fee), nonref, basis.lower())
+            # PTF-RENDERER-FIDELITY-001. Scope and basis are said together, in
+            # that order, because they answer one question between them: what
+            # does this cost me, for how long, and for how many animals. A
+            # room-scoped fee is one charge however many pets arrive; a
+            # per-pet fee doubles for two. Saying only the basis left a guest
+            # with two dogs to guess which, and the guess is the price of the
+            # trip.
+            qualifier = fee_qualifier_phrase(f)
+            scope = canonical_fee_scope(f)
+            if qualifier:
+                s = "A %s%s fee applies %s" % (_prose_number(fee), nonref, qualifier)
             else:
                 s = "A %s%s pet fee is stated" % (_prose_number(fee), nonref)
                 basis_unspecified = True
-            # A room-scoped fee is one charge however many animals arrive. Said
-            # plainly and only where the source said it -- a guest bringing two
-            # pets otherwise has to guess whether to double the figure.
-            if f.get("fee_scope") == "per_room":
-                s += " for the room"
+            if not scope and basis and str(f.get("pet_count_limit") or "") != "1":
+                # The amount and its recurrence are known, the scope is not.
+                # Saying so stops "$50 per night" reading as a complete answer
+                # to a guest bringing two animals.
+                #
+                # Not said where the property allows exactly one pet: at one
+                # animal, per-pet and per-room are the same arithmetic, so the
+                # ambiguity cannot change any answer and the sentence would be
+                # noise on a page that is already correct. This is the
+                # computation contract's own case E, applied to prose.
+                scope_unstated = True
             if cap.get("amount") and not tier_caps:
                 # The ceiling belongs in the same sentence as the rate it caps
                 # -- a reader who sees "$50 per night" and stops has the wrong
@@ -923,8 +1193,24 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
                     s += ", up to a maximum of %s%s" % (
                         _prose_number("$%s" % cap["amount"]),
                         (" %s" % cap["basis"].lower()) if cap.get("basis") else "")
-        parts.append(s + ("; the fee basis is not specified." if basis_unspecified
-                          else "."))
+        if basis_unspecified:
+            tail = "; the fee basis is not specified."
+        elif scope_unstated:
+            # PTF-RENDERER-FIDELITY-001. The source gave an amount and a
+            # recurrence and never said who it attaches to. A reader bringing
+            # two animals cannot tell whether to double it, so the sentence
+            # says that rather than letting the figure look complete.
+            tail = ("; the source does not say whether this is charged per pet "
+                    "or per room.")
+        else:
+            tail = "."
+        parts.append(s + tail)
+        # §8. Where the record's own wording carries a larger amount that never
+        # reached a structured field, the figure above is not the whole charge
+        # and the page says so rather than letting it look complete.
+        second = second_amount_note(f)
+        if second:
+            parts.append(second)
         if pending_cap_sentence:
             parts.append(pending_cap_sentence)
 
@@ -968,7 +1254,7 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         species, rule = sorted(bound.items())[0]
         parts.append("%s must weigh %s or less%s" % (
             _cap_first(species), _prose_number(rule.get("value", "")),
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif weight and has_combined_weight(f):
         # Both limits stated. Both are said, in that order, and the combined
@@ -993,12 +1279,12 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
         # turns the 80-pound dog away, and "maximum ... is 80 pounds" does not.
         parts.append("Pets must weigh %s%s" % (
             weight_phrase(f),
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif weight:
         parts.append("Maximum pet weight is %s%s" % (
             weight,
-            (", with up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            (", with up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
             if count else "."))
     elif count:
         # A source that says "No weight limit per pet" has stated a FACT, not
@@ -1009,10 +1295,10 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # This branch was written for the one-pet case and read "2 pets is
             # permitted" the first time a multi-pet property stated it.
             phrase = _cap_first(_pets_phrase(count).replace("1 pet", "One pet"))
-            parts.append("%s %s permitted per %s, with no pet weight limit "
+            parts.append("%s %s permitted%s, with no pet weight limit "
                          "stated by the hotel."
                          % (phrase, "is" if phrase.startswith("One pet") else "are",
-                            _count_scope(f)))
+                            _per_count_scope(f)))
         elif f.get("fee_scope") == "per_room":
             # A room-scoped fee has just told the reader the charge covers the
             # room; the allowance sentence that follows it carries its verb so
@@ -1021,11 +1307,11 @@ def _verified_summary(f: Dict[str, str], evidence: str = "") -> str:
             # stands unchanged -- this is a wording choice for one path, not a
             # licence to reword every profile that states a count.
             phrase = _pets_phrase(count)
-            parts.append("Up to %s %s permitted per %s."
+            parts.append("Up to %s %s permitted%s."
                          % (phrase, "is" if phrase.startswith("1 pet") else "are",
-                            _count_scope(f)))
+                            _per_count_scope(f)))
         else:
-            parts.append("Up to %s permitted per %s." % (_pets_phrase(count), _count_scope(f)))
+            parts.append("Up to %s permitted%s." % (_pets_phrase(count), _per_count_scope(f)))
     elif f.get("weight_limit_stated_none") == "true":
         parts.append("The hotel states no pet weight limit.")
 
@@ -1064,18 +1350,33 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
         # itself plus an explicit "Not stated" species, not a fabricated "Dogs".
         head = (("Pet policy", "Pets welcome", "yes"), ("Species", "Not stated", "dim"))
     else:
+        # PTF-RENDERER-FIDELITY-001. An explicit refusal is a FACT, and three
+        # committed records carry one. Rendering "cats: not stated" for a
+        # property whose own page says cats are not accepted tells a reader the
+        # hotel was silent when it was clear, and sends someone travelling with
+        # a cat to a hotel that will turn them away.
+        cats_state = _cats_state(f)
+        if cats_state == enums.SPECIES_PROHIBITED:
+            cats_cell = ("Not allowed", "stop")
+        elif cats_state == enums.SPECIES_ACCEPTED:
+            cats_cell = ("Accepted", "yes")
+        else:
+            cats_cell = ("Not stated", "dim")
         head = (
             ("Dogs", *(("Accepted", "yes") if "dog" in sp else ("Not stated", "dim"))),
-            ("Cats", *(("Accepted", "yes") if "cat" in sp else ("Not stated", "dim"))),
+            ("Cats", *cats_cell),
         )
     tiers = f.get("fee_tiers") or []
     if f.get("fee_conflict") or f.get("fee_withheld"):
+        # PTF-RENDERER-FIDELITY-001. Withheld, not silent -- these chips carry
+        # the withheld class so a reader (and a stylesheet) can tell a fee the
+        # hotel never mentioned from one whose own page contradicts itself.
         return head + (
-            ("Pet charge", "See policy wording", "dim"),
-            ("Charge basis",
-             "Source conflict" if f.get("fee_conflict") else "Range by stay", "dim"),
+            ("Pet charge", "See policy wording", WITHHELD_CLS),
+            ("Charge basis", _withheld_chip_label(f), WITHHELD_CLS),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     if tiers:
         # A ladder has no single charge and no stated basis, so the chips say
@@ -1084,7 +1385,8 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", tier_fee_range(tiers), ""),
             ("Charge basis", "Tiered by stay length", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     # A staged fee has no single charge, so the chip names both stages rather
     # than the first night's price standing in for the stay.
@@ -1094,7 +1396,8 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
             ("Pet charge", "%s first night, then %s" % (first_night, additional_night), ""),
             ("Charge basis", "Staged by night", "sm"),
             ("Max pets", *cell(f.get("pet_count_limit"))),
-            ("Weight limit", *cell(weight_display(f))),
+            ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
         ) + _breed_chip(f)
     cap = (f.get("fee_cap") or {}).get("amount")
     charge = f.get("pet_fee")
@@ -1104,11 +1407,18 @@ def _verified_facts(f: Dict[str, str]) -> Tuple[Tuple[str, str, str], ...]:
     # stated in full in the summary and the detail table.
     if charge and cap and not cap_tiers(f):
         charge = "%s (max %s)" % (charge, _prose_number("$%s" % cap))
+    # PTF-RENDERER-FIDELITY-001. The basis chip carries the SCOPE too. "Per
+    # night" beside a $15 charge is a different promise from "Per pet per
+    # night", and eight Dayton properties charge the second while the chip said
+    # the first.
+    qualifier = fee_qualifier_phrase(f)
     return head + (
         ("Pet charge", *cell(charge)),
-        ("Charge basis", *(lambda v: (_cap_first(v), "sm") if v else ("Not stated", "dim"))(f.get("fee_basis"))),
+        ("Charge basis", *((_cap_first(qualifier), "sm") if qualifier
+                           else ("Not stated", "dim"))),
         ("Max pets", *cell(f.get("pet_count_limit"))),
-        ("Weight limit", *cell(weight_display(f))),
+        ("Weight limit", *(withheld_cell(f, "weight_limit")
+                              or cell(weight_display(f, combined_fallback=True)))),
     ) + _breed_chip(f)
 
 
@@ -1191,14 +1501,138 @@ def format_fact_value(field: str, value, *, hotel_key: str = "") -> str:
                             % (hotel_key, field, type(value).__name__))
 
 
-def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
+#: Fields a reader looks for on a profile, in the order the detail table lists
+#: them, mapped to the label a withheld row carries. Only these produce a
+#: withheld row: a decision recorded against a field the profile never shows
+#: would add a line about something the page does not otherwise discuss.
+_WITHHELD_ROW_LABELS = (
+    ("pet_fee", "Pet charge"),
+    ("pet_fee.scope", "Pet charge"),
+    ("fee_basis", "Charge basis"),
+    ("fee_scope", "Charge basis"),
+    ("fee_tiers", "Pet charge"),
+    ("pet_deposit", "Refundable deposit"),
+    ("cleaning_fee", "Cleaning fee"),
+    ("species_allowed", "Accepted species"),
+    ("cats_allowed", "Cats"),
+    ("weight_limit", "Weight restriction"),
+    ("weight_limit_combined", "Combined weight limit"),
+    ("weight_limit_operator", "Weight restriction"),
+    ("pet_count_limit", "Maximum pets"),
+    ("pet_count_scope", "Maximum pets"),
+)
+
+
+def withheld_rows(record: Optional[Dict]) -> Tuple[Tuple[str, str, str], ...]:
+    """Detail rows for every field this record deliberately does not publish.
+
+    PTF-RENDERER-FIDELITY-001. ``withheld_fields`` was written by six
+    integration scripts and read by none, so Cleveland's twenty and Dayton's
+    forty-six withholding decisions reached the public as the generic dim "Not
+    stated by the reviewed source" -- telling a reader the hotel was silent
+    about a fee whose own page contradicts itself.
+
+    Rows are emitted only for fields the profile otherwise discusses, only when
+    the field is genuinely absent from the published facts, and never with the
+    silence copy.
+
+    A REASON CODE IS REQUIRED
+    -------------------------
+    Sixty-six of the committed entries are flat prose with no reason code, and
+    they are not all the same kind of thing. Cleveland Marriott's reads "dogs
+    are named; cats are not, and absence is not a refusal to publish either
+    way" -- that is SILENCE, and telling a reader the hotel's wording could not
+    be summarised would be a worse falsehood than the "Not stated" it replaces.
+    Dayton's "the page states no pet count" is silence too.
+
+    Classifying them means reading the sentence, which is Phase F review work
+    and cannot be guessed here. So an entry without a reason code renders
+    exactly as it does today -- as silence -- and only decisions carrying a
+    machine-readable reason are surfaced as withheld. The distinction is fully
+    implemented; what limits its reach is the data, and that limit is reported
+    rather than papered over.
+    """
+    if not record:
+        return ()
+    view = canonical_view.build(record)
+    facts = record.get("facts") or {}
+    # The fee-specific branch above already renders its own withheld rows;
+    # emitting ours as well states the same withholding twice.
+    #
+    # PTF-POLICY-SCHEMA-MIGRATION-001A: read this from the DISPLAY projection,
+    # not the canonical facts. 1.2 replaced the two legacy markers with a
+    # reason-coded decision, so `facts.get("fee_conflict")` became permanently
+    # False and every conflicted record printed its sentence twice -- once as
+    # "Charge basis" and again as "Pet charge".
+    shown = canonical_view.display_facts(record)
+    legacy_fee_withheld = bool(shown.get("fee_conflict") or shown.get("fee_withheld"))
+    out = []
+    seen = set()
+    for path, label in _WITHHELD_ROW_LABELS:
+        if path not in view.withheld or label in seen:
+            continue
+        if not view.withheld_reason_code(path):
+            continue
+        if legacy_fee_withheld and label in ("Pet charge", "Charge basis"):
+            continue
+        # A field that IS published is not withheld, whatever the map says.
+        root = path.split(".", 1)[0]
+        if root in facts and "." not in path:
+            continue
+        out.append((label, view.withheld_copy(path), WITHHELD_CLS))
+        seen.add(label)
+    return tuple(out)
+
+
+def service_animal_rows(record: Optional[Dict]) -> Tuple[Tuple[str, str, str], ...]:
+    """The property's own service-animal statement, if it made one.
+
+    Kept apart from the pet-policy rows on purpose: a service animal is a legal
+    access category, not a commercial term, and a weight limit sitting beside
+    it invites a reader to apply one to the other. Six committed records carry
+    a statement that has never reached a page.
+
+    Nothing is invented. Where the compatibility view cannot recover a
+    source-backed statement, no row appears.
+    """
+    if not record:
+        return ()
+    view = canonical_view.build(record)
+    if not view.has_service_animal_statement:
+        return ()
+    # PTF-POLICY-SCHEMA-MIGRATION-001. The legacy field was a bare boolean, so
+    # this row could only say "welcome" whatever the property had written.
+    # Migrated records carry what the property said about CHARGES, and several
+    # say it plainly -- Drury's two pages read "Service animals are free of
+    # charge" -- so the row now reports that instead of rounding it off. A
+    # record whose source did not address charges keeps the original sentence:
+    # silence about a fee is not a statement that none applies.
+    charges = str(view.service_animal.get("charges_stated") or "")
+    if charges == enums.SERVICE_ANIMAL_NO_CHARGE:
+        copy = "The property states that service animals are welcome at no charge."
+    elif charges == enums.SERVICE_ANIMAL_CHARGE_STATED:
+        copy = ("The property states that service animals are welcome and that a "
+                "charge applies.")
+    else:
+        copy = "The property states that service animals are welcome."
+    return (("Property statement on service animals", copy, ""),)
+
+
+def _verified_details(f: Dict[str, str],
+                      record: Optional[Dict] = None) -> Tuple[Tuple, str, str]:
     sparse = not any(f.get(k) for k in _STATED_FIELDS)
     svc = "A separate legal access category — not treated as a pet-policy exception."
     if sparse:
+        # Any prose the property DID state, kept in its own row rather than
+        # collapsed into "Breed / unattended rules: Not stated" beneath it.
+        stated = tuple((_RESTRICTION_LABELS[k], f[k], "")
+                       for k in _RESTRICTION_FIELDS if f.get(k))
         rows = (
             ("Accepted species", "Pets welcome (species not specified)", ""),
             ("Fee, pet limit, weight limit", _NOT_STATED, "dim"),
-            ("Breed / unattended rules", _NOT_STATED, "dim"),
+        ) + (stated or (("Breed / unattended rules", _NOT_STATED, "dim"),)) + (
+            *withheld_rows(record),
+            *service_animal_rows(record),
             ("Service animals", svc, ""),
         )
         note = ("“Not stated” means the reviewed source did not address the field — not that "
@@ -1255,13 +1689,24 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
     else:
         maximum_rows = ()
 
-    rows = (
+    # PTF-RENDERER-FIDELITY-001. A stated refusal gets its own row. Three
+    # committed records say cats are not accepted, and folding that into the
+    # accepted-species sentence (or omitting it) let a traveller with a cat
+    # read a hotel that will turn them away as merely unspecific.
+    cats_state = _cats_state(f)
+    species_rows = (
         ("Accepted species", *(lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(f.get("species_allowed"))),
+    )
+    if cats_state == enums.SPECIES_PROHIBITED:
+        species_rows += (("Cats", "Not accepted by the property", "stop"),)
+
+    rows = (
+        *species_rows,
         # The detail table has to name the same unit the summary does. It said
         # "per room" for every record, so an all-suite property read "2 pets are
         # permitted per suite" in the sentence and "2 per room" in the table on
-        # the same page. Absent scope still renders "per room", unchanged.
-        ("Maximum pets", *(lambda v: ("%s per %s" % (v, _count_scope(f)), "")
+        # the same page. Where the source stated no unit, neither does the row.
+        ("Maximum pets", *(lambda v: ("%s%s" % (v, _per_count_scope(f)), "")
                            if v else (_NOT_STATED, "dim"))(f.get("pet_count_limit"))),
         *charge_rows,
         *maximum_rows,
@@ -1270,13 +1715,31 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
             "per-stay basis.", "") if f.get("fee_tiers")
            else ("Staged: the first night is charged at a different rate from "
                  "each additional night.", "") if first_night
-           else ("Withheld: the official source states conflicting terms.", "dim")
-           if f.get("fee_conflict")
-           else ("Withheld: the official source gives a range that depends on "
-                 "the stay.", "dim")
-           if f.get("fee_withheld")
-           else (lambda v: (_cap_first(v), "") if v else (_NOT_STATED, "dim"))(
-               f.get("fee_basis")))),
+           # PTF-POLICY-SCHEMA-MIGRATION-001A. When a fee is withheld the row
+           # above already carries the full explanation, so this one carries
+           # the short form. Printing the same sentence twice in one table
+           # reads as a rendering fault, not as emphasis -- and the generic
+           # text it replaced was wrong on at least one record: a fee charged
+           # "every 3 nights" is not a range, and calling it one sent a reader
+           # looking for two numbers that do not exist.
+           else ("Withheld: %s." % _withheld_chip_label(f).rstrip("."),
+                 WITHHELD_CLS)
+           if f.get("fee_conflict") or f.get("fee_withheld")
+           # PTF-RENDERER-FIDELITY-001. Scope travels with the basis, and where
+           # the source gave an amount and a recurrence but never said who it
+           # attaches to, the row says that rather than showing half a rule as
+           # though it were the whole one.
+           else (_cap_first(fee_qualifier_phrase(f)), "")
+           if fee_qualifier_phrase(f) and canonical_fee_scope(f)
+           # Compact in a table cell; the summary sentence above states the
+           # same gap in full. Suppressed at a one-pet limit, where per-pet and
+           # per-room are the same arithmetic.
+           else (_cap_first(fee_qualifier_phrase(f))
+                 + " (per pet or per room not stated)", "")
+           if fee_qualifier_phrase(f) and str(f.get("pet_count_limit") or "") != "1"
+           else (_cap_first(fee_qualifier_phrase(f)), "")
+           if fee_qualifier_phrase(f)
+           else (_NOT_STATED, "dim"))),
         # Relabelled only where a combined limit sits beside it: two rows both
         # called "weight" with different numbers is exactly the ambiguity this
         # schema exists to remove. Records without a combined limit keep the
@@ -1295,6 +1758,14 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
         ("Refundable deposit",
          *d(format_fact_value("pet_deposit", f.get("pet_deposit"),
                               hotel_key=f.get("_hotel_key", "")))),
+        # PTF-RENDERER-FIDELITY-001 §18. A cleaning fee is a SEPARATE charge,
+        # never a pet-fee tier and never summed into a displayed total. One
+        # committed record carries one and it reached no surface at all.
+        # Refundability is not asserted: the legacy shape is a bare amount, and
+        # inferring it from a heading is how "Deposit Yes. $75 Non-refundable
+        # Fee" becomes a refundable deposit.
+        *((("Cleaning fee", _prose_number(str(f["cleaning_fee"])), ""),)
+          if f.get("cleaning_fee") else ()),
         ("Breed restrictions",
          *((UNRESTRICTED_BREED_DISPLAY, "")
            if f.get("breed_restrictions_stated_none") == "true"
@@ -1315,8 +1786,25 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
           if f.get("eligible_room_types") else ()),
         *((("Reservation requirement", f["reservation_requirement"], ""),)
           if f.get("reservation_requirement") else ()),
+        # Deliberately withheld facts, then the property's own service-animal
+        # statement, then the site's standing legal line. The order matters: a
+        # withholding decision belongs beside the policy it concerns, and the
+        # legal category stays last and separate so nothing above it reads as
+        # applying to a service animal.
+        *withheld_rows(record),
+        *service_animal_rows(record),
         ("Service animals", svc, ""),
     )
+    # PTF-POLICY-SCHEMA-MIGRATION-001. A withheld row and a "Not stated" row
+    # under the SAME label are a page contradicting itself: Days Inn showed
+    # "Refundable deposit -- Not stated by the reviewed source" immediately
+    # above "Refundable deposit -- The hotel's wording is unclear on this."
+    # Before Phase F no record could reach this state, because no withholding
+    # carried a reason code. The withheld row wins: it is the more specific and
+    # the more truthful of the two.
+    withheld_labels = {label for label, _, _ in withheld_rows(record)}
+    rows = tuple(row for row in rows
+                 if not (row[0] in withheld_labels and row[2] == "dim"))
     return rows, "", ""
 
 
@@ -1326,18 +1814,25 @@ def _verified_details(f: Dict[str, str]) -> Tuple[Tuple, str, str]:
 
 def _related_from_production(self_name: str, all_hotel_rows, facts_map, limit=3,
                              market_id: str = None) -> Tuple[RelatedHotel, ...]:
+    # PTF-MULTI-MARKET-ASSEMBLER-001. The related-hotel route was slugged here
+    # directly, which is only correct for a legacy_unprefixed market. Every
+    # Dayton and Cleveland profile therefore carried three links into a
+    # namespace that market does not publish. The market's own route helper is
+    # the single authority on where a hotel page lives, so ask it.
+    from scripts.pettripfinder.markets import hotel_route
+    market, _ = _market_display_context(market_id)
     out = []
     for row in sorted(all_hotel_rows, key=lambda r: normalize_name(r["name"])):
         if normalize_name(row["name"]) == normalize_name(self_name):
             continue
         fe = facts_map.get(normalize_name(row["name"]))
-        fact = _related_fact(fe["facts"]) if fe else ""
+        fact = _related_fact(canonical_view.display_facts(fe)) if fe else ""
         date = _friendly_date((fe["verified_at"] if fe else "") or row.get("observed_at", ""))
         out.append(RelatedHotel(
             name=row["name"],
             area=_corridor_area(row.get("city", ""), row["name"], market_id),
             fact=fact, verified_at=date,
-            route="/pet-friendly-hotels/%s/" % _slug(row["name"])))
+            route=hotel_route(market, row["name"])))
         if len(out) >= limit:
             break
     return tuple(out)
@@ -1353,9 +1848,15 @@ def build_vm_from_production(row: Dict[str, str], facts_entry: Optional[Dict],
     """Verified pet-friendly VM from a production seed row + its READY-candidate
     facts. Rich when the candidate stated fee/species/limits; sparse when it
     stated only that pets are welcome. Never invents a field."""
-    f = (facts_entry or {}).get("facts", {}) if facts_entry else {}
+    # PTF-POLICY-SCHEMA-MIGRATION-001. Display values, whichever schema the
+    # authority speaks. A legacy record passes through untouched; a migrated
+    # one is projected from its canonical structures.
+    f = canonical_view.display_facts(facts_entry)
     date = _friendly_date((facts_entry or {}).get("verified_at", "") or row.get("observed_at", ""))
-    rows, plain, note = _verified_details(f)
+    # The record, not just its facts: withholding decisions and the property's
+    # service-animal statement live at record level and the detail table could
+    # not see them before.
+    rows, plain, note = _verified_details(f, facts_entry)
     # exact wording, carried on the fixture facts entry (committed, reproducible)
     quote = (facts_entry or {}).get("evidence_quote") if facts_entry else None
     return HotelProfileVM(

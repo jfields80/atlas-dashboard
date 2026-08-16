@@ -175,7 +175,7 @@ class TestFullSummary:
             "Dogs and cats are accepted. A pet fee of $75 applies for stays of "
             "1–4 nights, and a non-refundable pet fee of $125 applies for "
             "stays of 5 nights or more. Maximum pet weight is 50 pounds, with "
-            "up to 2 pets permitted per room.")
+            "up to 2 pets permitted.")
 
     def test_lower_tier_summary(self):
         facts = {"pets_allowed": "true", "species_allowed": "dogs, cats",
@@ -185,4 +185,4 @@ class TestFullSummary:
             "Dogs and cats are accepted. A non-refundable pet fee of $75 applies "
             "for stays of 1–4 nights, and $125 applies for stays of 5 nights "
             "or more. Maximum pet weight is 75 pounds, with up to 2 pets "
-            "permitted per room.")
+            "permitted.")

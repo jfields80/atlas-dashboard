@@ -146,11 +146,49 @@ def _validate_destination(url: str) -> bool:
     return parts.scheme in ("http", "https") and bool(parts.hostname)
 
 
+#: PTF-MULTI-MARKET-ASSEMBLER-001 (Phase E section 18). The /go/ namespace is
+#: flat, so two markets holding a hotel with the same slug -- "hampton-inn-troy"
+#: is not an unusual name -- would claim the same interstitial route, and the
+#: combined bundle would resolve it by whichever fragment copied last. The
+#: frozen strategy scopes prefixed markets:
+#:
+#:     Columbus legacy   /go/{hotel_slug}/{action}/
+#:     prefixed markets  /go/{market_slug}/{hotel_slug}/{action}/
+#:
+#: The prefix is build state rather than a parameter because /go/ hrefs are
+#: emitted from a dozen places inside the approved renderers, and threading a
+#: market through markup builders that have no other reason to know about one
+#: is how a renderer acquires a second identity. This follows the established
+#: idiom in this layer (``set_market_labels``, ``set_published_categories``):
+#: one explicit call per build, at the top, from the builder that owns it.
+_GO_MARKET_PREFIX = ""
+
+
+def set_go_market_prefix(prefix: str = "") -> None:
+    """Scope every subsequent /go/ route under ``prefix`` (a market slug).
+
+    Pass ``""`` for a legacy_unprefixed market, which keeps Columbus's live
+    interstitial routes byte-identical.
+    """
+    global _GO_MARKET_PREFIX
+    prefix = (prefix or "").strip("/")
+    if prefix and not _SAFE_ID_RE.match(prefix):
+        raise ValueError("unsafe market prefix for /go/ route: %r" % prefix)
+    _GO_MARKET_PREFIX = prefix
+
+
+def go_market_prefix() -> str:
+    """The prefix currently in force (``""`` when unscoped)."""
+    return _GO_MARKET_PREFIX
+
+
 def go_route(listing_id: str, action: str) -> str:
     if not _SAFE_ID_RE.match(listing_id):
         raise ValueError("unsafe listing_id for /go/ route: %r" % listing_id)
     if action not in ACTION_TYPES:
         raise ValueError("unknown action type: %r" % action)
+    if _GO_MARKET_PREFIX:
+        return "/go/%s/%s/%s/" % (_GO_MARKET_PREFIX, listing_id, action)
     return "/go/%s/%s/" % (listing_id, action)
 
 

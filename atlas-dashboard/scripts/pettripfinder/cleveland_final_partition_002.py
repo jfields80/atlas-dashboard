@@ -101,6 +101,9 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.contracts.identity_key import (            # noqa: E402
+    ptf_identity_key,
+)
 from scripts.pettripfinder.identity_routing import registrable_domain   # noqa: E402
 from scripts.pettripfinder.site_data import normalize_name              # noqa: E402
 
@@ -109,7 +112,7 @@ WORK_ORDER = "PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-002"
 RUN_ID = "cleveland-final-partition-002"
 AS_OF = "2026-08-12"
 REVIEWER = "jfields80"
-SCHEMA = "ptf-market-final-partition/1.0"
+SCHEMA = "ptf-market-final-partition/1.1"
 
 _LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 CENSUS_PATH = _LP / "identity_census" / ("%s.json" % MARKET)
@@ -560,6 +563,11 @@ def build_partition() -> Dict:
             raise PartitionError("%s is unresolved with no next action" % key)
 
         item = OrderedDict((
+            # PTF-CENSUS-PARTITION-NORMALIZATION-001. The canonical join key
+            # leads, because membership against a census is now a set
+            # operation rather than a comparison between two normalisers that
+            # spell "&" and "I-70" differently.
+            ("identity_key", ptf_identity_key(hotel["canonical_name"])),
             ("normalized_name", key),
             ("canonical_name", hotel["canonical_name"]),
             ("slug", hotel["slug"]),
@@ -578,6 +586,11 @@ def build_partition() -> Dict:
             ("policy_wording_shape", (wb_item or {}).get("policy_wording_shape", "")),
             ("unresolved_manifest_classification",
              (un_item or {}).get("classification", "")),
+            # Which work order set this state, and when it was last reviewed.
+            # An unresolved identity that nobody can attribute is a queue item
+            # with no owner.
+            ("determined_by", "" if state in TERMINAL_STATES else WORK_ORDER),
+            ("updated_at", AS_OF),
         ))
         items.append(item)
 

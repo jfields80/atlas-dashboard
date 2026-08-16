@@ -33,7 +33,7 @@ from scripts.pettripfinder.market_package import (                           # n
     MarketPackage, hash_owned_files, write_manifest,
 )
 from scripts.pettripfinder.markets import (                                  # noqa: E402
-    assign_hotels, corridor_route, load_markets, market_by_id,
+    assign_hotels, corridor_route, hotel_route, load_markets, market_by_id,
 )
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, normalize_name, read_production_rows,
@@ -54,6 +54,35 @@ def _authority_commit() -> str:
         return "unknown"
 
 
+#: Where each market's committed final partition lives.
+_PARTITION_FILES = {
+    "columbus-oh": "columbus_final_partition_001.json",
+    "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
+    "dayton-oh": "dayton_final_partition_001.json",
+    "cincinnati-oh": "cincinnati_final_partition_001.json",
+}
+
+
+def _partition_unresolved(market_id: str) -> Optional[int]:
+    """Unresolved identities, COUNTED from the market's partition.
+
+    Returns ``None`` when the market commits no partition, so a market that has
+    not been normalised yet falls back to the old derivation rather than
+    silently reporting zero.
+    """
+    name = _PARTITION_FILES.get(market_id)
+    if not name:
+        return None
+    path = _REPO_ROOT / "launch_packages" / "pettripfinder" / name
+    if not path.is_file():
+        return None
+    document = json.loads(path.read_text(encoding="utf-8-sig"))
+    counts = document.get("final_state_counts") or {}
+    terminal = {"PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS",
+                "OUT_OF_CURRENT_CATEGORY"}
+    return sum(n for state, n in counts.items() if state not in terminal)
+
+
 def build_package(market_id: str, site_root: Optional[Path] = None,
                   *, confirmed_identity_count: Optional[int] = None) -> MarketPackage:
     market = market_by_id(load_markets(), market_id)
@@ -62,8 +91,13 @@ def build_package(market_id: str, site_root: Optional[Path] = None,
     verified = verified_public_hotels(hotel_rows, load_published_hotel_policy_facts(market_id))
 
     assignment = assign_hotels(market, verified, fail_closed=False)
-    hotel_routes = tuple(sorted("/pet-friendly-hotels/%s/" % _slug(r["name"])
-                                for r in verified))
+    # PTF-MULTI-MARKET-ASSEMBLER-001 (Defect I). This hardcoded the unprefixed
+    # path while the line below already used the route helper for corridors --
+    # so a market-prefixed market declared hotel routes it does not write, and
+    # the collision detector that consumes this manifest was fed the wrong
+    # namespace. The manifest must declare the routes the builder ACTUALLY
+    # writes, which is what the helper knows.
+    hotel_routes = tuple(sorted(hotel_route(market, r["name"]) for r in verified))
     corridor_routes = tuple(sorted(
         corridor_route(market, market.corridor_by_id(cid))
         for cid in assignment.published))
@@ -93,7 +127,21 @@ def build_package(market_id: str, site_root: Optional[Path] = None,
 
     published = len(verified)
     no_pets = len(exclusions)
-    unresolved = None if confirmed is None else max(0, confirmed - published - no_pets)
+
+    # PTF-CENSUS-PARTITION-NORMALIZATION-001. Where the market commits a final
+    # partition, IT is the authority on how many identities are unresolved, and
+    # the number is obtained by COUNTING blocked rows rather than by
+    # subtracting the resolved ones from the universe.
+    #
+    # The subtraction below is not merely less direct, it is wrong: it assumes
+    # every non-published, non-no-pets identity is unresolved, and Columbus has
+    # two OUT_OF_CURRENT_CATEGORY rows -- a bed-and-breakfast and a guesthouse
+    # -- which are neither. It reported 10 unresolved for a market with 8.
+    # Worse, subtraction is right for every WRONG membership: swap an identity
+    # for one outside the census and the total does not move.
+    unresolved = _partition_unresolved(market_id)
+    if unresolved is None and confirmed is not None:
+        unresolved = max(0, confirmed - published - no_pets)
 
     file_hashes = {}
     if site_root is not None:

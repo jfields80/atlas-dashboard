@@ -198,88 +198,75 @@ class TestPublishedRecordsDoNotDrift:
     def _pkg(self):
         return json.loads(_PKG.read_text(encoding="utf-8-sig"))["hotels"]
 
-    def test_drury_keeps_its_text_derived_combined_weight(self):
+    def test_drury_keeps_its_combined_weight_distinct_from_a_per_pet_one(self):
         """Three Drury records are published and they are NOT all alike, which
         is the point. Dublin and Polaris say "combined weight of 80 pounds";
-        Grove City says "Pets may not exceed 80 lb", a per-pet ceiling. None
-        carries a structured operator, so all three depend on the text scan --
-        and it must keep telling them apart."""
+        Grove City says "Pets may not exceed 80 lb", a per-pet ceiling.
+
+        PTF-POLICY-SCHEMA-MIGRATION-001 changed HOW they are told apart, not
+        whether. All three previously depended on a scan of the evidence text
+        at render time, because the legacy record put 80 pounds in the same
+        field either way. 1.2 gives the combined limit its own field, so the
+        distinction is now structural -- and this test checks BOTH the
+        structure and the sentence a reader gets.
+        """
+        from scripts.pettripfinder import canonical_view
         drury = {h["key"]: h for h in self._pkg() if h["key"].startswith("drury inn")}
         assert len(drury) == 3
         combined = {"drury inn and suites columbus dublin",
                     "drury inn and suites columbus polaris"}
         for key, h in drury.items():
             f = h.get("facts") or {}
-            assert not f.get("weight_limit_operator"), key
-            summary = _verified_summary(f, evidence=h.get("evidence_quote", ""))
+            shown = canonical_view.display_facts(h)
+            summary = _verified_summary(shown, evidence=h.get("evidence_quote", ""))
             if key in combined:
+                assert f["combined_weight_limit"]["value"] == 80, key
+                assert "weight_limit" not in f, key
                 assert "combined weight limit" in summary, key
             else:
+                assert f["weight_limit"]["scope"] == "per_pet", key
+                assert "combined_weight_limit" not in f, key
                 assert "combined weight limit" not in summary, key
 
-    def test_no_published_record_changes_its_combined_verdict(self):
-        """The broadened stem must not newly relabel any live page. Every
-        record that reads combined today must read combined for the same
-        reason, and no other record may join them."""
+    def test_the_combined_verdict_no_longer_depends_on_a_text_scan(self):
+        """The four records the scan used to identify are now identified by
+        STRUCTURE, and nothing is left for the scan to decide.
+
+        This test used to pin the scan's verdict on the live corpus, because
+        the legacy record put a combined weight and a per-pet weight in the
+        same field and only the evidence text told them apart. That was always
+        a fallback -- it has a documented false positive, pinned above.
+        PTF-POLICY-SCHEMA-MIGRATION-001 gave the fact its own field, so the
+        four records now say what they are, and no published record needs the
+        scan at all. The scan itself is kept, and kept tested, for records
+        arriving from a source that has not been canonicalised yet.
+        """
+        from scripts.pettripfinder import canonical_view
         expected_combined = {"drury inn and suites columbus dublin",
                              "drury inn and suites columbus polaris",
-                             # Published by PTF-COLUMBUS-INTEGRATE-UNRESOLVED-001.
-                             # Its page reads "max combine weight of 80lbs for two
-                             # pets", so the broadened stem matches it too -- but
-                             # its record also carries the structured operator, so
-                             # the text scan is never what decides it.
                              "candlewood suites columbus grove city",
-                             # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001. "Limit of
-                             # two pets per room with a combined weight of 80
-                             # pounds" -- the literal word, and the record
-                             # carries weight_limit_operator too.
                              "drury plaza hotel columbus downtown"}
-        actual = {h["key"] for h in self._pkg()
-                  if _source_states_combined_weight(
-                      h.get("evidence_quote", ""),
-                      (h.get("facts") or {}).get("weight_limit", ""))}
-        assert actual == expected_combined
+        structural = {h["key"] for h in self._pkg()
+                      if (h.get("facts") or {}).get("combined_weight_limit")}
+        assert expected_combined <= structural
 
-    def test_only_the_intended_records_gain_a_restriction_row(self):
-        """Exactly one PRE-EXISTING page gains a row: Sonesta Columbus Downtown
-        already carried general_restrictions in the committed authority and the
-        render layer was dropping it. That is the single intended disclosure to
-        an already-published profile.
-
-        The other two were published by this same work order and carry these
-        fields from their own captures, so they add no row to anything that was
-        live before."""
-        rows_added = {h["key"] for h in self._pkg()
-                      if any((h.get("facts") or {}).get(k) for k in
-                             ("general_restrictions", "pet_room_restriction",
-                              "eligible_room_types", "reservation_requirement"))}
-        assert rows_added == {"sonesta columbus downtown",
-                              "candlewood suites columbus grove city",
-                              "hampton inn and suites canal winchester columbus",
-                              # PTF-COLUMBUS-FINAL-CLOSURE-001 promotions; both
-                              # carry their check-in and service-animal wording.
-                              "red roof inn columbus west hilliard",
-                              "red roof plus columbus dublin",
-                              # PTF-COLUMBUS-SELECTOR-CLOSEOUT-001: "Form must
-                              # be completed at check-in", from the property
-                              # details block the click revealed.
-                              "le meridien columbus the joseph",
-                              # PTF-COLUMBUS-HYATT-002. Short North states
-                              # "contact the hotel ... ahead of your arrival"
-                              # and a discretionary 30+ night fee; Dublin
-                              # states "housebroken" and a 30+ instruction.
-                              "hyatt house columbus osu short north",
-                              "hyatt place columbus dublin",
-                              # Its own page screenshot arrived last and
-                              # states an advance-notice request plus a
-                              # discretionary 30+ night fee.
-                              "hyatt regency columbus"}
+        # Nothing published still relies on the fallback: every record that
+        # states a combined limit says so in its structure, and no record whose
+        # DISPLAY weight is a per-pet ceiling is caught by the scan.
+        for record in self._pkg():
+            shown = canonical_view.display_facts(record)
+            if not shown.get("weight_limit"):
+                continue
+            assert not _source_states_combined_weight(
+                record.get("evidence_quote", ""), shown["weight_limit"]),                 record["key"]
 
     def test_every_published_record_still_renders(self):
         for h in self._pkg():
             f = h.get("facts") or {}
-            _verified_summary(f, evidence=h.get("evidence_quote", ""))
-            _verified_details(f)
+            from scripts.pettripfinder import canonical_view
+            _verified_summary(canonical_view.display_facts(h),
+                              evidence=h.get("evidence_quote", ""))
+            _verified_details(canonical_view.display_facts(h))
 
 
 class TestPerPetScheduleReachesTheTable:

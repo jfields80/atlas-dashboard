@@ -28,6 +28,22 @@ from scripts.pettripfinder.hotel_profile import (
 )
 from scripts.pettripfinder.site_data import _POLICY_FIELDS
 
+
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
+
+
+#: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
+#: recurrence but never says who the charge attaches to, the profile says so
+#: rather than letting "$50 per night" read as a complete answer to a guest
+#: bringing two animals. Omitted where exactly one pet is allowed, because
+#: per-pet and per-room are then the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
+
+
 SONESTA_TIERS = [
     {"amount": "75.00", "basis": "one_time", "basis_stated": False, "boundary_unit": "nights",
      "condition_min": 1, "condition_max": 7, "condition_type": "stay_length_range",
@@ -67,20 +83,38 @@ class TestCountScope:
         assert "per suite" in summary
         assert "per room" not in summary
 
-    def test_an_absent_scope_still_says_per_room(self):
+    def test_an_absent_scope_states_the_count_without_inventing_a_unit(self):
+        """PTF-POLICY-SCHEMA-MIGRATION-001A, founder decision.
+
+        This used to assert the opposite -- that an absent scope still read
+        "per room" -- and the assertion was the defect. Two-thirds of the corpus
+        states a pet count and no unit; publishing "2 per room" for all of them
+        told every one of those readers something the property never said, and
+        the guest booking a two-room suite is exactly the one it misleads.
+        """
         summary = _verified_summary({"pets_allowed": "true", "pet_count_limit": "2"}, "")
+        assert "Up to 2 pets permitted." in summary
+        assert "per room" not in summary
+
+    def test_a_stated_room_scope_still_says_per_room(self):
+        """The fix removes a fabrication; it does not remove a stated fact."""
+        summary = _verified_summary({"pets_allowed": "true", "pet_count_limit": "2",
+                                     "pet_count_scope": "room"}, "")
         assert "Up to 2 pets permitted per room." in summary
 
-    def test_an_explicit_room_scope_reads_identically_to_an_absent_one(self):
+    def test_a_stated_scope_and_an_absent_one_no_longer_read_alike(self):
         base = {"pets_allowed": "true", "pet_count_limit": "2"}
-        assert _verified_summary(dict(base, pet_count_scope="room"), "") == \
+        assert _verified_summary(dict(base, pet_count_scope="room"), "") != \
             _verified_summary(base, "")
 
-    def test_an_unknown_scope_falls_back_to_room_rather_than_echoing_it(self):
-        """A junk value must never reach a consumer sentence."""
+    def test_an_unknown_scope_is_silence_rather_than_a_fallback(self):
+        """A junk value must never reach a consumer sentence -- and the safe
+        place to land is silence, not "room". Falling back to a real unit turns
+        unparseable data into a promise."""
         summary = _verified_summary(
             {"pets_allowed": "true", "pet_count_limit": "2", "pet_count_scope": "villa"}, "")
-        assert "per room" in summary and "villa" not in summary
+        assert "villa" not in summary and "per room" not in summary
+        assert "Up to 2 pets permitted." in summary
 
     def test_the_verb_agrees_with_the_count(self):
         one = _verified_summary({"pets_allowed": "true", "pet_count_limit": "1",
@@ -136,9 +170,17 @@ class TestExplicitlyUnrestricted:
 class TestFeeBasisAmbiguity:
 
     def test_leveque_renders_the_required_sentence(self):
+        # The renderer states the scope the FACTS carry, not the one a reader
+        # can see in the quote. This fixture's quote says "Maximum 2 Pets Per
+        # Room" while its facts carry no pet_count_scope -- so the page no
+        # longer says "per room", correctly, and the gap is in the capture.
+        # Six live records have the same shape; they are reported as an
+        # evidence-reconciliation candidate rather than patched at the renderer,
+        # because inventing the scope back at render time is the defect this
+        # change removed.
         assert _verified_summary(LEVEQUE_FACTS, LEVEQUE_QUOTE) == (
             "Pets are welcome. A $100 non-refundable pet fee is stated; the fee basis is not "
-            "specified. Maximum pet weight is 80 pounds, with up to 2 pets permitted per room.")
+            "specified. Maximum pet weight is 80 pounds, with up to 2 pets permitted.")
 
     def test_leveque_never_claims_a_basis(self):
         summary = _verified_summary(LEVEQUE_FACTS, LEVEQUE_QUOTE).lower()
@@ -148,7 +190,7 @@ class TestFeeBasisAmbiguity:
     def test_a_stated_basis_renders_exactly_as_before(self):
         stated = {"pets_allowed": "true", "pet_fee": "$75.00", "fee_basis": "per stay"}
         summary = _verified_summary(stated, "")
-        assert "A $75 fee applies per stay." in summary
+        assert "A $75 fee applies per stay%s." % DISCLOSURE in summary
         assert "not specified" not in summary
 
     def test_the_caveat_survives_a_cap_without_swallowing_it(self):
@@ -216,8 +258,11 @@ class TestVocabularyAndBlastRadius:
                          .read_text(encoding="utf-8"))
         rows = {normalize_name(r["name"]): r for r in read_production_rows()
                 if r["category"] == "pet-friendly-hotels"}
+        # 1.2 keeps the basis INSIDE the fee, so "states an amount but no
+        # recurrence" is one field's shape rather than two fields' presence.
         affected = [h["key"] for h in pkg["hotels"]
-                    if h["facts"].get("pet_fee") and not h["facts"].get("fee_basis")]
+                    if h["facts"].get("pet_fee")
+                    and not h["facts"]["pet_fee"].get("basis")]
         # 9 when PTF-POLICY-PRECISION-001 measured this; 10 since
         # PTF-COLUMBUS-PROMOTION-002 published Hotel LeVeque, whose source states
         # a $100 fee and no basis at all; back to 9 since PTF-COLUMBUS-HYATT-002
@@ -226,7 +271,7 @@ class TestVocabularyAndBlastRadius:
         # so a new no-basis record cannot arrive unnoticed.
         assert len(affected) == 8
         for h in pkg["hotels"]:
-            summary = _verified_summary(dict(h["facts"]), h.get("evidence_quote") or "")
+            summary = _verified_summary(_shown(h), h.get("evidence_quote") or "")
             if h["key"] in affected:
                 assert "the fee basis is not specified" in summary, h["key"]
             else:
@@ -276,13 +321,17 @@ class TestVocabularyAndBlastRadius:
                                          "weight_limit_stated_none",
                                          "breed_restrictions_stated_none", "fee_tiers"}
         assert sonesta["facts"]["pet_count_scope"] == "suite"
-        assert [t["amount"] for t in sonesta["facts"]["fee_tiers"]] == ["75.00", "150.00"]
+        assert [t["amount_cents"] for t in sonesta["facts"]["fee_tiers"]] == [7500, 15000]
 
         leveque = by_key["hotel leveque autograph collection"]
-        assert set(leveque["facts"]) == {"pets_allowed", "pet_count_limit", "pet_count_scope",
-                                         "pet_fee", "weight_limit", "weight_limit_operator"}
-        assert "fee_basis" not in leveque["facts"]
+        # The weight operator is no longer a sibling field: 1.2 carries it, and
+        # the scope it used to be overloaded with, inside weight_limit.
+        assert set(leveque["facts"]) == {"pets_allowed", "pet_count_limit",
+                                         "pet_count_scope", "pet_fee",
+                                         "weight_limit"}
+        assert "basis" not in leveque["facts"]["pet_fee"]
+        assert leveque["facts"]["weight_limit"]["operator"] in ("lt", "lte")
 
         for record in (sonesta, leveque):
-            for never in ("species_allowed", "pet_deposit", "breed_restrictions"):
+            for never in ("species", "pet_deposit", "breed_restrictions"):
                 assert never not in record["facts"], (record["key"], never)

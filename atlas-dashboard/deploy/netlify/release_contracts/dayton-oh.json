@@ -18,9 +18,9 @@
   },
   "identity_census": {
     "path": "launch_packages/pettripfinder/identity_census/dayton-oh.json",
-    "schema": "ptf-identity-census/1.0",
+    "schema": "ptf-market-identity-census/1.1",
     "expected_count": 129,
-    "note": "The census carries a per-record policy_state annotation from the field survey, and it marks eight properties VERIFIED_NO_PETS. That annotation is an observation, not authority: PTF-DAYTON-INTEGRATION-ADJUDICATION-001 adjudicated six of them into the committed exclusion registry, and PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated a seventh (Hotel Versailles, whose hash-verified JSON-LD states petsAllowed:false on its own Hotel node). The eighth (Holiday Inn Express & Suites Troy) was counted no-pets by a research agent with no quote, capture or hash behind it, so it stays UNADJUDICATED and therefore UNRESOLVED -- silence about evidence is not evidence. PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 then added an eighth REGISTRY record the census does not mark at all: Best Western Celina, whose hash-verified capture states \"Pets are not accepted.\" in its visible PET POLICY block. So the census set and the registry set now both hold eight and are NOT the same eight, and the reconciliation below counts the registry's, because the registry is what suppresses a route."
+    "note": "The census carries a per-record policy_state annotation from the field survey, and it marks eight properties VERIFIED_NO_PETS. That annotation is an observation, not authority: PTF-DAYTON-INTEGRATION-ADJUDICATION-001 adjudicated six of them into the committed exclusion registry, and PTF-DAYTON-CANDIDATE-PROMOTION-001 adjudicated a seventh (Hotel Versailles, whose hash-verified JSON-LD states petsAllowed:false on its own Hotel node). The eighth (Holiday Inn Express & Suites Troy) was counted no-pets by a research agent with no quote, capture or hash behind it, so it stays UNADJUDICATED and therefore UNRESOLVED -- silence about evidence is not evidence. PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 then added an eighth REGISTRY record the census does not mark at all: Best Western Celina, whose hash-verified capture states \"Pets are not accepted.\" in its visible PET POLICY block. So the census set and the registry set now both hold eight and are NOT the same eight, and the reconciliation below counts the registry's, because the registry is what suppresses a route. PTF-CENSUS-PARTITION-NORMALIZATION-001 upgraded this census to 1.1 (canonical identity keys, explicit per-row market ownership) without changing its membership, and committed a final partition which is now the authority on disposition."
   },
   "reconciliation": {
     "confirmed_identities": 129,
@@ -45,11 +45,12 @@
   ],
   "policy_package": {
     "path": "launch_packages/pettripfinder/hotel_policy_facts_dayton-oh.json",
-    "expected_sha256": "7ecaed726da7735070cc6791f6bfbfdd12a9bf88cbd966c0d64fba3f88fe719c",
-    "expected_schema_version": "1.0",
+    "expected_sha256": "863bb9f90112e1231f6dccf8930904b567a3c470121b2526d1c991a86ac4a19b",
+    "expected_schema_version": "1.2",
     "expected_record_count": 47,
     "identity_authority": true,
-    "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package. The package is schema 1.0, not Columbus's 1.1 -- the version is a per-market fact, which is why the gate reads it from this contract rather than from a gate name."
+    "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package. The package is schema 1.0, not Columbus's 1.1 -- the version is a per-market fact, which is why the gate reads it from this contract rather than from a gate name.",
+    "schema_note": "Schema 1.2 as of PTF-POLICY-SCHEMA-MIGRATION-001. The record count, census and partition figures are unchanged: the migration changed how each record is written, never which records exist."
   },
   "public_surface": {
     "seed_hotel_rows": 47,
@@ -61,8 +62,9 @@
     "market_slug": "dayton-oh",
     "route_mode": "market_prefixed",
     "hotel_route_count": 47,
-    "published_corridor_route_count": 11,
-    "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/dayton-oh/. Seven of its eighteen configured corridors are below their publication minimum and claim no route; the eleven that publish grew from five when PTF-DAYTON-CANDIDATE-PROMOTION-001 added inventory in the outlying corridors (Urbana, Eaton, Sidney, Bellefontaine, Wapakoneta, Celina), each of which crossed its minimum as a result."
+    "published_corridor_route_count": 12,
+    "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/dayton-oh/. Seven of its eighteen configured corridors are below their publication minimum and claim no route; the eleven that publish grew from five when PTF-DAYTON-CANDIDATE-PROMOTION-001 added inventory in the outlying corridors (Urbana, Eaton, Sidney, Bellefontaine, Wapakoneta, Celina), each of which crossed its minimum as a result.",
+    "_geography_note": "PTF-GEOGRAPHY-NORMALIZATION-001 raised this from 11 to 12. Nothing was added to the market: ZIP 45414 was registered to Airport-Vandalia, where all seventeen census rows carrying it already sat, and the eight published hotels that had been corridor-unassigned are now placed. The corridor crossed its publication minimum as a result. The number is recomputed from the deterministic assignment rather than preserved."
   },
   "minimum_release_gates": [
     "authority.contract_is_for_this_market",

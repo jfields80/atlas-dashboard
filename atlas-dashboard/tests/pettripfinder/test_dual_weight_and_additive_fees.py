@@ -35,6 +35,13 @@ from scripts.pettripfinder.hotel_profile import (
     weight_conflict_reason, weight_display,
 )
 
+
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
+
 _REPO = pathlib.Path(__file__).resolve().parents[2]
 
 
@@ -201,11 +208,11 @@ class TestEveryPublishedRecordIsUnaffected:
 
     def test_no_published_record_reports_a_weight_conflict(self):
         for h in self._pkg():
-            assert weight_conflict_reason(h.get("facts") or {}) == "", h["key"]
+            assert weight_conflict_reason(_shown(h)) == "", h["key"]
 
     def test_no_published_record_silently_gains_a_combined_row(self):
         for h in self._pkg():
-            f = h.get("facts") or {}
+            f = _shown(h)
             if not has_combined_weight(f):
                 assert "Combined weight limit" not in rows(f), h["key"]
 
@@ -219,7 +226,7 @@ class TestEveryPublishedRecordIsUnaffected:
         schema exists to remove, so it is asserted rather than assumed.
         """
         for h in self._pkg():
-            f = h.get("facts") or {}
+            f = _shown(h)
             labels = [r[0] for r in _verified_details(f)[0]]
             ind = labels.count("Individual weight limit")
             comb = labels.count("Combined weight limit")
@@ -240,7 +247,13 @@ class TestEveryPublishedRecordIsUnaffected:
                     "%s states a weight and emitted none" % h["key"])
 
     def test_the_dual_form_is_used_by_exactly_the_records_that_state_both(self):
-        dual = {h["key"] for h in self._pkg() if has_combined_weight(h.get("facts") or {})}
+        # The DUAL form: an individual ceiling AND a combined one on the same
+        # record. 1.2 separated the two fields, so a record stating only a
+        # combined limit -- five Drury pages and two others -- no longer looks
+        # like a dual record just because a combined value is present. The
+        # selector says what the test name always meant.
+        dual = {h["key"] for h in self._pkg()
+                if has_combined_weight(_shown(h)) and _shown(h).get("weight_limit")}
         assert dual == {"hyatt place columbus osu",
                         "hyatt house columbus osu short north",
                         "hyatt place columbus worthington",

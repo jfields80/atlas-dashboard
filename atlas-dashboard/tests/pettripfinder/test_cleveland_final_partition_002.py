@@ -84,7 +84,12 @@ class TestTheCommittedLedgerIsWhatTheCodeProduces:
 
     def test_it_declares_its_market_and_schema(self, committed):
         assert committed["market_id"] == MARKET
-        assert committed["schema"] == "ptf-market-final-partition/1.0"
+        # PTF-CENSUS-PARTITION-NORMALIZATION-001 upgraded the schema to 1.1.
+        # The upgrade is strictly ADDITIVE -- every item gained a canonical
+        # identity_key and its determined_by/updated_at provenance, and this
+        # document's evidence determination, crosswalk, authority-agreement and
+        # collision-audit blocks are untouched. Membership did not move.
+        assert committed["schema"] == "ptf-market-final-partition/1.1"
 
 
 class TestItIsActuallyAPartition:

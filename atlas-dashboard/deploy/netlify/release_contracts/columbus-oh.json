@@ -16,24 +16,31 @@
     "robots_sitemap_host": "pettripfinder.com",
     "sitemap_host": "pettripfinder.com"
   },
-  "identity_census": null,
+  "identity_census": {
+    "path": "launch_packages/pettripfinder/identity_census/columbus-oh.json",
+    "schema": "ptf-market-identity-census/1.1",
+    "expected_count": 112,
+    "note": "Created by PTF-CENSUS-PARTITION-NORMALIZATION-001. Columbus had no committed census: its universe of 112 lived only in a work-order report, so this contract could state neither a confirmed count nor an unresolved one. The census reconstructs those 112 identities from committed authority alone -- 89 seed inventory rows this market owns, 16 exclusion registry rows, and 7 routing records for identities in neither, three sets that do not overlap -- and every row records which of them it came from."
+  },
   "identity_census_note": "Columbus commits no identity-census file: its confirmed universe was established in work-order reports, not in a versioned census document. The reconciliation below therefore states confirmed_identities and unresolved as null. Absent is a fact; zero would be a claim, and a gate would happily compare against it.",
   "reconciliation": {
-    "confirmed_identities": null,
+    "confirmed_identities": 112,
     "published_pet_friendly": 88,
     "verified_no_pets": 14,
-    "resolved": 102,
-    "unresolved": null,
-    "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. The registry also holds two OUT_OF_CURRENT_CATEGORY rows for Columbus, which are a category ruling and not negative pet evidence."
+    "out_of_current_category": 2,
+    "resolved": 104,
+    "unresolved": 8,
+    "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. The registry also holds two OUT_OF_CURRENT_CATEGORY rows for Columbus, which are a category ruling and not negative pet evidence. unresolved is now COUNTED from columbus_final_partition_001.json rather than derived by subtraction. The difference is not cosmetic: subtracting published and no-pets from the universe gave 10, because it treated the two OUT_OF_CURRENT_CATEGORY rows as unresolved when they are a category ruling. The eight are one held seed row awaiting a policy artifact, six routed identities awaiting a policy observation, and one awaiting routing review. resolved counts all three TERMINAL dispositions -- published, verified no-pets, and the two category exits -- because a category ruling settles an identity just as finally as a refusal does."
   },
   "reconciliation_cross_checks": [],
   "policy_package": {
     "path": "launch_packages/pettripfinder/hotel_policy_facts.json",
-    "expected_sha256": "340a09b847129d19708e6d3710225c0bab0e9345746f8047cf3068f580bdebc4",
-    "expected_schema_version": "1.1",
+    "expected_sha256": "d06681b291fdfa15b2f7a0dd62585b94966dfe205f3c9c6a658577c7cf1a9ee7",
+    "expected_schema_version": "1.2",
     "expected_record_count": 88,
     "identity_authority": true,
-    "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package."
+    "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package.",
+    "schema_note": "Schema 1.2 as of PTF-POLICY-SCHEMA-MIGRATION-001. The record count, census and partition figures are unchanged: the migration changed how each record is written, never which records exist."
   },
   "public_surface": {
     "seed_hotel_rows": 89,

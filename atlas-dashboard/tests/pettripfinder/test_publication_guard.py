@@ -413,7 +413,8 @@ class TestSameCampusDistinctEntities:
         pkg = json.loads((REPO_ROOT / "launch_packages/pettripfinder/hotel_policy_facts.json")
                          .read_text(encoding="utf-8"))
         record = [h for h in pkg["hotels"] if h["key"] == "brewdog doghouse columbus"][0]
-        assert record["facts"] == {"pets_allowed": "true", "species_allowed": "dogs"}
+        assert record["facts"] == {"pets_allowed": True,
+                               "species": {"dogs": "accepted"}}
         assert record["verification_state"] == "VERIFIED_PET_FRIENDLY"
         assert record["same_campus_resolution"] == "res-brewdog-gender-rd"
 

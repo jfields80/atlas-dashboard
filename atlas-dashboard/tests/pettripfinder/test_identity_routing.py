@@ -221,6 +221,7 @@ def test_committed_authority_validates(routes):
 def test_committed_authority_split(routes):
     confirmed = [r for r in routes if r["status"] == IR.ROUTING_CONFIRMED]
     held = [r for r in routes if r["status"] == IR.ROUTING_HELD]
+    retired = [r for r in routes if r["status"] == IR.ROUTING_RETIRED]
     # 78 -> 165: the 87 newly-recovered Cleveland routes are all
     # ROUTING_CONFIRMED; the two pre-existing Columbus holds are untouched.
     # 165 -> 163, the same two retirements.
@@ -232,11 +233,21 @@ def test_committed_authority_split(routes):
     # itself -- choicehotels.com answered nothing at 25s and again at 60s,
     # ihg.com and redroof.com answered 403. A route bound on a transcription
     # alone is retained and visible, and it is not a work instruction.
-    assert len(confirmed) == 164
-    assert len(held) == 10
+    #
+    # PTF-CENSUS-PARTITION-NORMALIZATION-001 then RETIRED two Cleveland
+    # records -- Eastland Inn Restaurant (CONFIRMED) and The Welshfield Inn
+    # (HELD) -- because both bind accommodation routes to identities that
+    # Cleveland's 188-hotel census deliberately does not contain: a restaurant
+    # and a cross-category inn. The invariant they broke is fixed by
+    # withdrawing the routes, not by admitting non-hotels to a hotel census.
+    # So one leaves each bucket: 164 -> 163 confirmed, 10 -> 9 held.
+    assert len(confirmed) == 163
+    assert len(held) == 9
+    assert len(retired) == 2
+    assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
+        "eastland inn restaurant", "the welshfield inn"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "staybridge suites columbus worthington",
-        "the welshfield inn",
         "comfort suites springfield i 70",
         "holiday inn express and suites greenville",
         "quality inn greenville",

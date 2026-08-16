@@ -55,7 +55,7 @@ from scripts.pettripfinder.site_data import (
 # this repository's named production market, so the calls below still describe
 # Columbus; the per-market system itself is covered in
 # tests/pettripfinder/test_per_market_release_contracts.py.
-EXPECTED_PACKAGE_SHA = "340a09b847129d19708e6d3710225c0bab0e9345746f8047cf3068f580bdebc4"
+EXPECTED_PACKAGE_SHA = "d06681b291fdfa15b2f7a0dd62585b94966dfe205f3c9c6a658577c7cf1a9ee7"
 EXPECTED_RECORD_COUNT = 88
 DEPLOY_DIR = REPO_ROOT / "deploy" / "netlify"
 
@@ -131,7 +131,7 @@ class TestReleaseContract:
         pkg_path = REPO_ROOT / spec["path"]
         assert _sha256(pkg_path) == spec["expected_sha256"] == EXPECTED_PACKAGE_SHA
         pkg = json.loads(pkg_path.read_text(encoding="utf-8-sig"))
-        assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.1"
+        assert str(pkg["schema_version"]) == spec["expected_schema_version"] == "1.2"
         assert len(pkg["hotels"]) == spec["expected_record_count"] == EXPECTED_RECORD_COUNT
 
     def test_package_identity_survives_a_checkout_rewriting_line_endings(self):

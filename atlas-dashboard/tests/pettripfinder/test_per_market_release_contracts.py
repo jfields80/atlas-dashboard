@@ -63,7 +63,13 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
-    COLUMBUS: (None, 88, 14, 102, None),
+    # PTF-CENSUS-PARTITION-NORMALIZATION-001 gave Columbus the census it never
+    # had: 112 identities reconstructed from committed authority alone. Its
+    # confirmed and unresolved figures were `None` because nothing could
+    # state them; now the partition counts 8 unresolved, and `resolved` is
+    # 104 rather than 102 because it includes the two OUT_OF_CURRENT_CATEGORY
+    # rulings -- a category exit settles an identity as finally as a refusal.
+    COLUMBUS: (112, 88, 14, 104, 8),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
@@ -117,10 +123,34 @@ class TestContractRegistry:
         """
         assert not (REPO_ROOT / "deploy" / "netlify" / "release_contract.json").exists()
 
-    def test_every_configured_market_has_a_contract(self):
+    def test_every_market_with_verified_inventory_has_a_contract(self):
+        """A release contract describes a release, so a market must have
+        something to release before it needs one.
+
+        PTF-GEOGRAPHY-NORMALIZATION-001 registered cincinnati-oh, which holds a
+        121-identity census and a partition in which every identity is
+        unresolved. It publishes nothing, commits no policy package, and
+        therefore has no verified inventory for a contract to describe --
+        ``derive_authority`` refuses outright rather than inventing an empty
+        one. That is the honest-zero state the freeze anticipated, not a gap.
+
+        The invariant that matters is unchanged: every market that CAN release
+        has a contract, and no contract exists for a market that is not
+        configured.
+        """
         configured = {m.market_id for m in load_markets()}
-        assert configured == set(MARKETS)
-        assert set(available_market_ids()) == configured
+        releasable = {m for m in configured
+                      if (REPO_ROOT / "launch_packages" / "pettripfinder"
+                          / ("hotel_policy_facts_%s.json" % m)).exists()
+                      or m == COLUMBUS}
+        assert releasable == set(MARKETS)
+        assert set(available_market_ids()) == releasable
+        assert set(available_market_ids()) <= configured
+
+    def test_a_market_with_no_inventory_is_honestly_contractless(self):
+        configured = {m.market_id for m in load_markets()}
+        assert "cincinnati-oh" in configured
+        assert "cincinnati-oh" not in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -200,13 +230,29 @@ class TestContractAgreesWithItsOwnAuthority:
             .read_text(encoding="utf-8-sig"))["exclusions"]
         assert len(registry) > sum(by_market.values())
 
-    def test_unresolved_is_never_inferred_as_zero_when_no_census_exists(self):
-        """Columbus commits no census; the contract says so rather than 0."""
+    def test_columbus_now_states_the_universe_it_could_not_before(self):
+        """The absent-is-a-fact rule did its job, and is no longer needed here.
+
+        Columbus stated `None` for as long as nothing could establish its
+        universe -- absent being a fact and zero a claim. Phase C reconstructed
+        the 112 identities from committed authority, so the honest answer is no
+        longer silence. What must NOT happen is a market inferring 0; that
+        invariant is exercised by the market below, which still has no census.
+        """
         contract = load_contract(COLUMBUS)
-        assert contract["identity_census"] is None
-        assert contract["identity_census_note"]
-        assert contract["reconciliation"]["confirmed_identities"] is None
-        assert contract["reconciliation"]["unresolved"] is None
+        assert contract["identity_census"]["expected_count"] == 112
+        assert contract["reconciliation"]["confirmed_identities"] == 112
+        assert contract["reconciliation"]["unresolved"] == 8
+
+    def test_a_market_without_a_census_still_refuses_to_infer_zero(self):
+        """The rule itself, exercised on a synthetic market."""
+        contract = load_contract(COLUMBUS)
+        contract = dict(contract, identity_census=None)
+        contract["reconciliation"] = dict(contract["reconciliation"],
+                                          confirmed_identities=None,
+                                          unresolved=None)
+        problems = contract_disagreements(contract, derive_authority(COLUMBUS))
+        assert any("identity_census" in p or "confirmed" in p for p in problems)
 
     @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
@@ -247,7 +293,8 @@ class TestReconciliationArithmeticIsChecked:
         nor an unresolved count with no universe to subtract it from."""
         contract = load_contract(COLUMBUS)
         contract["reconciliation"] = dict(contract["reconciliation"],
-                                          confirmed_identities=102)
+                                          confirmed_identities=102,
+                                          unresolved=None)
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("together" in p or "identity_census" in p for p in problems)
 

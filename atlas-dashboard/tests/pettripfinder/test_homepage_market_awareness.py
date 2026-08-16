@@ -49,15 +49,77 @@ COLUMBUS = "columbus-oh"
 DAYTON = "dayton-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 
-#: The approved Columbus homepage, hashed from the page this build produced at
-#: de2e467 -- BEFORE the renderer became market-aware. It is the witness for
-#: "byte-identical": a homepage design change is an operator decision, and
-#: re-pinning this constant is how that decision gets recorded.
-COLUMBUS_HOME_SHA256 = "9da6c83a3a0e6b98f67f0b81a7fd0c122412d8359611f993408fe2b8b4cfe7a5"
-COLUMBUS_HOME_BYTES = 42218
+#: The approved Columbus homepage. It is the witness for "byte-identical": a
+#: homepage design change is an operator decision, and re-pinning this constant
+#: is how that decision gets recorded.
+#:
+#: Re-pinned by PTF-POLICY-SCHEMA-MIGRATION-001, which changed the DATA behind
+#: the page rather than its design. Two edits, both reviewed:
+#:   * four cards read "$50.00" where they read "$50" -- the legacy corpus
+#:     stored one Drury fee without cents and the canonical form is uniform;
+#:   * the two Drury Columbus cards read "80 lb combined" where they read
+#:     "80 lb". Their pages say "combined weight of 80 pounds", so the old
+#:     cell granted each of two dogs an 80-pound allowance the hotel never
+#:     gave. That is the defect this phase existed to remove.
+COLUMBUS_HOME_SHA256 = "0d8aad4de23cc89242886765ce58172bda938df3dc3b79be00211e4cfc1cbda8"
+COLUMBUS_HOME_BYTES = 42254
 
 #: The frozen Columbus production bundle (PTF-COLUMBUS-FREEZE-DEPLOY-001).
-COLUMBUS_BUNDLE_SHA256 = "404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4"
+#:
+#: Re-pinned by PTF-RENDERER-FIDELITY-001. Phase B deliberately changes what
+#: the pages SAY -- that is its entire purpose -- so byte-identity is not the
+#: right test for it, and this constant moves for the first time since the
+#: freeze. What still holds, and is asserted alongside it, is that every gate
+#: passes and the bundle carries the same 88 hotel profiles.
+#:
+#: The change was reviewed as a public diff over all 156 committed records: 61
+#: records changed, 146 field-level differences, 0 unexpected. Of Columbus's 54
+#: differences, the substantive ones are the scope disclosure on records that
+#: state an amount without saying who it attaches to (§9), and the withheld
+#: treatment on the six conflict/withheld records that previously rendered
+#: through the dim silence class (§6).
+#:
+#: Re-pinned again by PTF-POLICY-SCHEMA-MIGRATION-001. The authority moved to
+#: canonical schema 1.2, so the bundle's bytes move with it. What is asserted
+#: alongside remains the same: every gate passes and the bundle carries the
+#: same 88 hotel profiles at the same routes. The public diff was reviewed over
+#: all 156 records -- 81 byte-identical, 75 changed, 0 unexpected.
+#:
+#: Previous values:
+#:     404c4ff58a085e102e061701fbe3db52fa6952c1cbe3d7657409c04e274818c4  (freeze)
+#:     f52b5f569d1aefce270f3f1c07cb395debe98241a6c8e849f47dee89eac334f3  (Phase B)
+#:     139a27f1cccd4fec1e2ca5f257a6b08b2381f426b2eaa8cbb9ea4624f73f527a  (Phase F)
+#:     833d608192e9c6405e956b6287a7b3f841b759dc9eab2742fcad6233fa5a2085  (001A, 51 facts)
+#:     4eb0fba2b2065f51b9d3c84ca0ce12ba7bc0eae146e4faf3ab863881b512e351  (001A, evidence sweep)
+#:     ac3b2ab1aedc5c35ebf963f67716f4fd968655ae69b9651f50221cc21559e43c  (001A, count-scope renderer fix)
+#:     99e5eb886c6a5b7958566b080d15b6c35d7b77b2d445ec28c0fb17fdd9102777  (001A, held-record corrections)
+#:
+#: Re-pinned once more by the PTF-POLICY-SCHEMA-MIGRATION-001A evidence
+#: completeness sweep. Thirty-eight published facts were named by no evidence
+#: entry; the founder's decisions closed twenty-six of them (ten by alias, "
+#: thirteen by adding the missing pointer, two by splitting a stitched quote,
+#: one by restoring a citation the tier conversion dropped) and removed three
+#: pet_count_scope values no source stated. Two rows leave the Sonesta Downtown
+#: page, both because the property never wrote them. The rendered diff over all
+#: 156 records was reviewed: 74 identical, 38 format-only, 23 withholding
+#: clarifications, 18 structured additions, 2 accuracy improvements, 0
+#: unexpected.
+#:
+#: Re-pinned by the PTF-POLICY-SCHEMA-MIGRATION-001A renderer correction.
+#: ``_count_scope`` returned "room" for an ABSENT scope as well as a stated
+#: one, so 57 records -- every one of them silent on the unit -- published "2
+#: per room" for a scope no source gave. Absence now renders as absence. No
+#: record whose source states room or suite moved. Rendered diff over 155
+#: profiles: 69 identical, 43 format-only, 23 withholding clarifications, 17
+#: structured additions, 3 accuracy improvements, 0 unexpected.
+#:
+#: Re-pinned by the PTF-POLICY-SCHEMA-MIGRATION-001A Batch-B correction. Two
+#: Red Roof records carried "Service and emotional support animals are always
+#: welcome" in general_restrictions AND in the canonical service-animal block,
+#: so the page showed a legal access category under "Other restrictions" as
+#: though it were a house rule. The duplicate row is gone; both sentences keep
+#: their own contiguous evidence pointer under the field that states them.
+COLUMBUS_BUNDLE_SHA256 = "e853ec0ab5d5a6b27b49d38d24a4cdac136fa67d92ff3f1c533dbb3f39c36a4e"
 
 #: Words that belong to the Columbus market and to no other.
 COLUMBUS_TERMS = ("Columbus", "Scioto", "Dublin", "Polaris", "Easton", "Grove City",
@@ -301,12 +363,15 @@ class TestEmergencyVeterinarianQuery:
 # --------------------------------------------------------------------------- #
 
 FUTURE_MARKET = {
-    "schema": "ptf-market/1.0",
+    "schema": "ptf-market/1.1",
     "market_id": "toledo-oh",
     "market_name": "Toledo",
     "market_slug": "toledo-oh",
     "state_name": "Ohio",
     "state_code": "OH",
+    "primary_state_code": "OH",
+    "states": ["OH"],
+    "route_mode": "market_prefixed",
     "primary_city": "Toledo",
     "country_code": "US",
     "title": "Pet-Friendly Hotels in Toledo, Ohio | PetTripFinder",

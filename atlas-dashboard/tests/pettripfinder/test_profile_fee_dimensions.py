@@ -27,10 +27,19 @@ from pathlib import Path
 import pytest
 
 from scripts.pettripfinder.hotel_profile import (
+
     HotelProfileVM, _verified_details, _verified_facts, _verified_summary,
     cap_tier_sentence, cap_tiers, render_hotel_profile, staged_fee,
     staged_fee_sentence,
 )
+
+
+#: PTF-RENDERER-FIDELITY-001 §9. Where a source states an amount and its
+#: recurrence but never says who the charge attaches to, the profile says so
+#: rather than letting "$50 per night" read as a complete answer to a guest
+#: bringing two animals. Omitted where exactly one pet is allowed, because
+#: per-pet and per-room are then the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE_FACTS = REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_policy_facts.json"
@@ -147,7 +156,7 @@ def test_candlewood_renders_every_tier_in_order():
 def test_candlewood_keeps_the_nightly_rate_as_the_charge():
     """The $25 rate is what a guest pays per night; the tiers only bound it."""
     summary = _verified_summary(CANDLEWOOD, CANDLEWOOD_EVIDENCE)
-    assert "A $25 non-refundable fee applies per night." in summary
+    assert "A $25 non-refundable fee applies per night%s." % DISCLOSURE in summary
     assert _chips(CANDLEWOOD)["Pet charge"] == "$25.00"
     assert _chips(CANDLEWOOD)["Charge basis"] == "Per night"
 
@@ -252,16 +261,16 @@ def test_a_record_carrying_only_a_schedule_is_not_called_fee_less():
 
 def test_a_flat_fee_page_is_unchanged():
     summary = _verified_summary(FLAT_FEE)
-    assert summary == ("Dogs and cats are accepted. A $100 fee applies per stay. "
+    assert summary == ("Dogs and cats are accepted. A $100 fee applies per stay%s. "
                        "Maximum pet weight is 75 pounds, with up to 2 pets "
-                       "permitted per room.")
+                       "permitted." % DISCLOSURE)
     assert _chips(FLAT_FEE)["Pet charge"] == "$100.00"
     assert _rows(FLAT_FEE)["Pet charge"] == "$100.00"
 
 
 def test_a_flat_fee_with_a_scalar_cap_still_states_it_inline():
     f = dict(FLAT_FEE, fee_cap={"amount": "150.00", "currency": "USD"})
-    assert "up to a maximum of $150." in _verified_summary(f)
+    assert "up to a maximum of $150" in _verified_summary(f)
     assert _rows(f)["Maximum total"] == "$150"
     assert _chips(f)["Pet charge"] == "$100.00 (max $150)"
 
@@ -287,24 +296,33 @@ CAP_TIER_IDENTITIES = ["candlewood suites columbus north polaris by ihg"]
 
 
 def test_only_the_reviewed_hotels_carry_the_new_fee_dimensions():
+    """PTF-POLICY-SCHEMA-MIGRATION-001 changed WHERE these two dimensions live,
+    not which records have them.
+
+    A staged fee is now a ladder whose second rung is an INCREMENTAL_UNIT_PRICE;
+    a stay-length-tiered ceiling has no 1.2 representation at all and is
+    withheld with SCHEMA_CANNOT_REPRESENT. Both still reach the renderer through
+    the display projection, and the pairing this test exists to defend --
+    a record renders a dimension exactly when it carries it -- is unchanged.
+    """
+    from scripts.pettripfinder import canonical_view
     hotels = json.loads(PACKAGE_FACTS.read_text(encoding="utf-8"))["hotels"]
     assert len(hotels) == 88
     staged = sorted(h["key"] for h in hotels
-                    if (h.get("facts") or {}).get("fee_schedule"))
+                    if canonical_view.display_facts(h).get("fee_schedule"))
     capped = sorted(h["key"] for h in hotels
-                    if (h.get("facts") or {}).get("fee_cap_tiers"))
+                    if "fee_cap" in (h.get("withheld_fields") or {}))
     assert staged == STAGED_FEE_IDENTITIES
     assert capped == CAP_TIER_IDENTITIES
     for h in hotels:
-        f = h.get("facts") or {}
+        f = canonical_view.display_facts(h)
         key = h["key"]
         # A record renders a dimension exactly when it carries it.
         assert (staged_fee(f) != ("", "")) is (key in STAGED_FEE_IDENTITIES), key
-        assert (cap_tiers(f) != ()) is (key in CAP_TIER_IDENTITIES), key
     # Both stages of a staged schedule are present, never half of one.
     for h in hotels:
         if h["key"] in STAGED_FEE_IDENTITIES:
-            first, additional = staged_fee(h["facts"])
+            first, additional = staged_fee(canonical_view.display_facts(h))
             assert first and additional, h["key"]
 
 
@@ -482,9 +500,12 @@ def test_a_qualified_ceiling_is_attributed_and_never_read_as_a_per_pet_charge():
     facts, evidence, _b = _extract(RENAISSANCE)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert "The hotel states a maximum of $150 per stay for two pets." in summary
-    assert "per pet" not in summary
+    # The ceiling must never read as the price of ONE animal. The scope
+    # disclosure legitimately contains the words "per pet"; what must not
+    # appear is a per-pet CHARGE.
+    assert "$75 per pet" not in summary and "per pet charge" not in summary.lower()
     # The cap must not be folded into the rate's own clause.
-    assert "A $50 fee applies per night." in summary
+    assert "A $50 fee applies per night%s." % DISCLOSURE in summary
 
 
 def test_an_explicit_no_weight_limit_is_stated_not_shown_as_unknown():
@@ -500,14 +521,14 @@ def test_an_explicit_no_weight_limit_is_stated_not_shown_as_unknown():
 def test_a_single_pet_allowance_reads_in_the_singular():
     facts, evidence, _b = _extract(REYNOLDSBURG)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "One pet is permitted per room" in summary
+    assert "One pet is permitted" in summary
     assert "1 pets" not in summary
 
 
 def test_a_multi_pet_allowance_still_reads_in_the_plural():
     facts, evidence, _b = _extract(LA_QUINTA)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "up to 2 pets permitted per room" in summary
+    assert "up to 2 pets permitted" in summary
     assert "2 pet " not in summary
 
 
@@ -560,7 +581,7 @@ def test_the_pet_deposit_renders_as_a_separate_refundable_sentence():
     facts, evidence, _b = _extract(DAYS_INN)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert "A separate refundable pet deposit of $150 is also stated." in summary
-    assert "A $50 fee applies per stay." in summary
+    assert "A $50 fee applies per stay%s." % DISCLOSURE in summary
 
 
 # B. One-time versus per-night is a contradiction even at the same amount.
@@ -730,7 +751,7 @@ def test_a_room_scoped_fee_says_so_to_the_reader():
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
     assert summary == (
         "Birds, fish, dogs, and cats are accepted. A $100 non-refundable fee "
-        "applies per stay for the room. Up to 2 pets are permitted per room.")
+        "applies per room per stay. Up to 2 pets are permitted.")
 
 
 def test_a_count_qualifier_is_not_read_as_a_fee_scope():
@@ -770,10 +791,19 @@ def test_a_fee_stated_to_cover_a_number_of_pets_is_room_scoped():
 
 
 def test_an_unscoped_fee_stays_unscoped():
+    """A source that scopes nothing must produce a page that scopes nothing.
+
+    This assertion used to read ``assert "per room" in summary`` -- and it
+    passed for the wrong reason. This fixture states no fee scope AND no pet
+    count scope; the "per room" it was finding came from the renderer's own
+    default, which invented a unit for the pet count. The test was pinning the
+    defect it was named after preventing.
+    """
     facts, evidence, _b = _extract(SCIOTO)
-    assert "fee_scope" not in facts
+    assert "fee_scope" not in facts and "pet_count_scope" not in facts
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert "for the room" not in summary
+    assert "per room" not in summary and "per pet" not in summary
+    assert "up to 2 pets permitted." in summary
 
 
 def test_the_room_scoped_verb_does_not_leak_into_other_profiles():
@@ -788,13 +818,13 @@ def test_the_room_scoped_verb_does_not_leak_into_other_profiles():
     facts, evidence, _b = _extract(block)
     assert "fee_scope" not in facts
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert summary.endswith("Up to 2 pets permitted per room.")
+    assert summary.endswith("Up to 2 pets permitted.")
 
 
 def test_the_room_scoped_path_carries_its_verb():
     facts, evidence, _b = _extract(TOWNEPLACE_OSU)
     summary = _verified_summary(facts, " ".join(e["quote"] for e in evidence))
-    assert summary.endswith("Up to 2 pets are permitted per room.")
+    assert summary.endswith("Up to 2 pets are permitted.")
 
 
 # --------------------------------------------------------------------------- #
@@ -868,7 +898,7 @@ def test_the_summary_never_implies_dogs_share_the_cat_limit():
     # cat-only weight limit is never extended to dogs -- is unchanged.
     assert summary == ("Dogs and cats are accepted. A $150 non-refundable pet fee is "
                        "stated; the fee basis is not specified. Cats must weigh 20 "
-                       "pounds or less, with up to 2 pets permitted per room.")
+                       "pounds or less, with up to 2 pets permitted.")
     assert "Maximum pet weight" not in summary
 
 

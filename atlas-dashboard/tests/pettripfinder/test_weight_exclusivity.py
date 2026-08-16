@@ -146,9 +146,14 @@ def test_structured_display_helpers_agree_with_each_other():
 
 def test_inclusive_hotels_read_exactly_as_before():
     summary = _verified_summary(INCLUSIVE_FACTS, INCLUSIVE_QUOTE)
+    # PTF-RENDERER-FIDELITY-001 §9 adds the scope disclosure: this fixture
+    # states an amount and a recurrence but never who the charge attaches to,
+    # and two pets are allowed. The WEIGHT wording -- what this test exists to
+    # pin -- is unchanged.
     assert summary == ("Pets are welcome. A $50 non-refundable fee applies per "
-                       "night. Maximum pet weight is 40 pounds, with up to 2 "
-                       "pets permitted per room.")
+                       "night; the source does not say whether this is charged "
+                       "per pet or per room. Maximum pet weight is 40 pounds, "
+                       "with up to 2 pets permitted.")
     chips = dict((label, value) for label, value, _ in
                  _verified_facts(INCLUSIVE_FACTS))
     assert chips["Weight limit"] == "40.0 pounds"

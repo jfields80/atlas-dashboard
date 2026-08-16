@@ -72,12 +72,16 @@ def corridor_doc(market_id, slug, name=None, *, cities=(), zips=(), explicit=(),
 def market_doc(market_id="riverton-wa", *, slug=None, corridors=(), route_mode=None,
                minimum_published=1):
     doc = {
-        "schema": "ptf-market/1.0",
+        "schema": "ptf-market/1.1",
         "market_id": market_id,
         "market_name": market_id.split("-")[0].title(),
         "market_slug": slug or market_id,
         "state_name": "Washington",
         "state_code": "WA",
+        # PTF-GEOGRAPHY-NORMALIZATION-001: 1.1 requires the market to state
+        # which states it spans and to choose its route mode explicitly.
+        "primary_state_code": "WA",
+        "states": ["WA"],
         "primary_city": market_id.split("-")[0].title(),
         "country_code": "US",
         "title": "Pet-Friendly Hotels | PetTripFinder",
@@ -89,8 +93,10 @@ def market_doc(market_id="riverton-wa", *, slug=None, corridors=(), route_mode=N
         "minimum_published_hotels": minimum_published,
         "corridors": list(corridors),
     }
-    if route_mode is not None:
-        doc["route_mode"] = route_mode
+    # 1.1 requires an explicit route mode: Cincinnati's config omitted it and
+    # silently inherited one nobody chose. The fixture states the default so
+    # every other test still exercises the failure it was written for.
+    doc["route_mode"] = route_mode if route_mode is not None else "market_prefixed"
     return doc
 
 
@@ -121,7 +127,9 @@ def test_duplicate_market_slug_fails_closed(tmp_path):
     # Gate 5: market slugs are globally unique.
     a = market_doc("riverton-wa", slug="riverton")
     b = market_doc("riverton-or", slug="riverton")
+    # state_code is the alias of primary_state_code at 1.1, so both move.
     b["state_name"], b["state_code"] = "Oregon", "OR"
+    b["primary_state_code"], b["states"] = "OR", ["OR"]
     (tmp_path / "a.json").write_text(json.dumps(a), encoding="utf-8")
     (tmp_path / "b.json").write_text(json.dumps(b), encoding="utf-8")
     with pytest.raises(MarketContractError, match="duplicate market_slug"):
@@ -218,26 +226,60 @@ def test_explicit_exclusion_overrides_every_inclusion_method():
     assert [r["name"] for r in a2.unassigned] == ["Banned Hotel"]
 
 
-def test_city_match_beats_zip_match():
+def test_zip_match_beats_city_match():
+    """PTF-GEOGRAPHY-NORMALIZATION-001 reversed these two tiers.
+
+    A ZIP is a smaller unit than a mailing city, and mailing cities routinely
+    span corridors while ZIPs rarely do. Four Cincinnati properties carrying
+    the mailing city "Cincinnati" sit fifteen miles east in Eastgate; under the
+    old order they resolved to Downtown Cincinnati.
+    """
     market = parse_market(market_doc(corridors=[
         corridor_doc("riverton-wa", "suburb", cities=["Suburbia"], order=1),
         corridor_doc("riverton-wa", "eastside", zips=["98101"], order=2),
     ]))
     a = assign_hotels(market, [hotel("H", city="Suburbia", postal_code="98101")])
-    assert a.corridor_of["h"] == ("riverton-wa__suburb",)
-    assert a.tier_of["h"] == "city"
+    assert a.corridor_of["h"] == ("riverton-wa__eastside",)
+    assert a.tier_of["h"] == "postal_code"
+    assert a.basis_of["h"] == ("postal_code", "98101")
 
 
-def test_ambiguous_multi_corridor_match_fails_closed():
-    # Gate 10: two corridors claim zip 98101 and neither allows multi.
+def test_city_is_still_consulted_when_the_zip_resolves_nothing():
     market = parse_market(market_doc(corridors=[
-        corridor_doc("riverton-wa", "a", zips=["98101"], order=1),
-        corridor_doc("riverton-wa", "b", zips=["98101"], order=2),
+        corridor_doc("riverton-wa", "suburb", cities=["Suburbia"], order=1),
+        corridor_doc("riverton-wa", "eastside", zips=["98101"], order=2),
+    ]))
+    a = assign_hotels(market, [hotel("H", city="Suburbia", postal_code="99999")])
+    assert a.corridor_of["h"] == ("riverton-wa__suburb",)
+    assert a.tier_of["h"] == "city_state"
+
+
+def test_a_duplicate_zip_is_now_rejected_by_the_CONFIG_not_by_a_hotel():
+    """PTF-GEOGRAPHY-NORMALIZATION-001 moved this failure earlier.
+
+    Two corridors claiming one ZIP with neither authorising sharing is knowable
+    from the configuration alone, so it is rejected from the configuration
+    alone -- once, loudly. Cincinnati carried exactly this defect for 45044 and
+    nothing noticed until a hotel with that ZIP happened to be assigned, at
+    which point the failure looked like a problem with the hotel.
+    """
+    with pytest.raises(MarketContractError, match="98101"):
+        parse_market(market_doc(corridors=[
+            corridor_doc("riverton-wa", "a", zips=["98101"], order=1),
+            corridor_doc("riverton-wa", "b", zips=["98101"], order=2),
+        ]))
+
+
+def test_ambiguous_city_match_still_fails_closed_at_assignment():
+    """Cities may legitimately repeat across corridors, so ambiguity there is
+    still resolved per hotel rather than rejected outright."""
+    market = parse_market(market_doc(corridors=[
+        corridor_doc("riverton-wa", "a", cities=["Shared"], order=1),
+        corridor_doc("riverton-wa", "b", cities=["Shared"], order=2),
     ]))
     with pytest.raises(MarketAssignmentError, match="ambiguous"):
-        assign_hotels(market, [hotel("H", postal_code="98101")])
-    # Report mode records the conflict and leaves the hotel unassigned.
-    a = assign_hotels(market, [hotel("H", postal_code="98101")], fail_closed=False)
+        assign_hotels(market, [hotel("H", city="Shared")])
+    a = assign_hotels(market, [hotel("H", city="Shared")], fail_closed=False)
     assert a.conflicts and a.conflicts[0]["hotel"] == "h"
     assert [r["name"] for r in a.unassigned] == ["H"]
 
@@ -470,8 +512,11 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # unchanged -- adding dayton-oh cannot affect what PRODUCTION_MARKET_ID
     # resolves to.
     markets = load_markets()
+    # PTF-GEOGRAPHY-NORMALIZATION-001: cincinnati-oh registered with the
+    # tri-state contract. Columbus still resolves BY NAME, which is exactly
+    # why this test resolves by name rather than by count.
     assert sorted(m.market_id for m in markets) == \
-        ["cleveland-akron-canton-oh", "columbus-oh", "dayton-oh"]
+        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

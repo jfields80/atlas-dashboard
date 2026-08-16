@@ -2,7 +2,7 @@
 
 The single shared authority for market and corridor semantics across the
 PetTripFinder build chain (PTF-CORRIDORS-002). Markets and corridors are
-DATA (versioned ``ptf-market/1.0`` JSON under
+DATA (versioned ``ptf-market/1.1`` JSON under
 ``launch_packages/pettripfinder/markets/``); this package supplies the
 deterministic, market-agnostic machinery:
 

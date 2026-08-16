@@ -31,6 +31,12 @@ from services.research_workers.fee_terms import (
     basis_is_stated, downstream_fee_schema_support, parse_fee_tiers, tier_facts,
 )
 
+
+def _shown(record):
+    """Display values, as the production renderer obtains them."""
+    from scripts.pettripfinder import canonical_view
+    return canonical_view.display_facts(record)
+
 _REPO = pathlib.Path(__file__).resolve().parents[2]
 KEY = "sonesta simply suites dublin columbus"
 OFFICIAL_URL = ("https://www.sonesta.com/sonesta-simply-suites/oh/dublin/"
@@ -198,13 +204,15 @@ class TestPublishedProfilesUnaffected:
             if key == KEY:
                 continue
             for t in tiers:
-                assert t["scope"] == V.FEE_SCOPE_UNSTATED, key
+                # 1.2 records an unstated scope as ABSENCE; there is no
+                # "unstated" sentinel to smuggle into a published field.
+                assert "scope" not in t, key
 
     def test_sonesta_publishes_the_scope_its_source_states(self):
         pkg = json.loads((_REPO / "launch_packages" / "pettripfinder" /
                           "hotel_policy_facts.json").read_text(encoding="utf-8-sig"))
         tiers = [h for h in pkg["hotels"] if h["key"] == KEY][0]["facts"]["fee_tiers"]
-        assert [t["scope"] for t in tiers] == [V.FEE_SCOPE_PER_PET, V.FEE_SCOPE_UNSTATED]
+        assert [t.get("scope") for t in tiers] == [V.FEE_SCOPE_PER_PET, None]
 
     def test_the_published_tier_sentences_are_unchanged(self):
         from scripts.pettripfinder.hotel_profile import _tiered_fee_sentence
@@ -223,5 +231,8 @@ class TestPublishedProfilesUnaffected:
         }
         for h in pkg["hotels"]:
             if h["key"] in expected:
+                # The sentence builder takes DISPLAY tiers, which is what the
+                # renderer hands it; canonical tiers carry integer cents.
                 assert _tiered_fee_sentence(
-                    h["facts"]["fee_tiers"], h.get("evidence_quote") or "") == expected[h["key"]]
+                    _shown(h)["fee_tiers"],
+                    h.get("evidence_quote") or "") == expected[h["key"]]

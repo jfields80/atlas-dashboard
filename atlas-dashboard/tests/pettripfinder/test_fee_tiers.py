@@ -29,6 +29,13 @@ from services.research_workers.fee_terms import (
     basis_is_stated, parse_fee_tiers, tier_facts,
 )
 
+
+#: PTF-RENDERER-FIDELITY-001 §9. An amount and a recurrence with no stated
+#: scope is only half a rule; the profile says so rather than letting it read
+#: as a complete answer. Omitted at a one-pet limit, where per-pet and
+#: per-room are the same arithmetic.
+DISCLOSURE = "; the source does not say whether this is charged per pet or per room"
+
 # Verbatim from the real captures -- one chain, two notations.
 HAMPTON = "$75(1-4n)$125(5+n)2pet Max dog/cat only"
 NEW_ALBANY_PAYLOAD = "$50(1-4n),$75(5+n) 2petsMax,dog/cat only"
@@ -317,7 +324,7 @@ class TestRendering:
         assert summary == (
             "Pets are welcome. A non-refundable pet fee of $75 applies for stays of "
             "1–4 nights, and $125 applies for stays of 5 nights or more. "
-            "Maximum pet weight is 75 pounds, with up to 2 pets permitted per room.")
+            "Maximum pet weight is 75 pounds, with up to 2 pets permitted.")
 
 
 # --------------------------------------------------------------------------- #
@@ -448,8 +455,8 @@ class TestCappedFeePublishesBothNumbers:
         facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
         assert _verified_summary(facts, RESIDENCE_EASTON) == (
             "Pets are welcome. A $50 non-refundable fee applies per night, up to a "
-            "maximum of $150. Maximum pet weight is 50 pounds, with up to 2 pets "
-            "permitted per room.")
+            "maximum of $150%s. Maximum pet weight is 50 pounds, with up to 2 pets "
+            "permitted." % DISCLOSURE)
 
     def test_chip_and_detail_row_show_the_ceiling(self):
         facts = dict(build_candidate(_attestation([]), RESIDENCE_EASTON)["pet_facts"])
@@ -477,16 +484,16 @@ class TestScalarUnchanged:
         quote = ("Pet Policy Pets Welcome Non-Refundable Pet Fee Per Night: $50.00 "
                  "Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2")
         assert _verified_summary(self.SCALAR, quote) == (
-            "Pets are welcome. A $50 non-refundable fee applies per night. "
-            "Maximum pet weight is 40 pounds, with up to 2 pets permitted per room.")
+            "Pets are welcome. A $50 non-refundable fee applies per night%s. " % DISCLOSURE +
+                        "Maximum pet weight is 40 pounds, with up to 2 pets permitted.")
 
     def test_scalar_chips_and_rows_unchanged(self):
         chips = dict((l, v) for l, v, _c in _verified_facts(self.SCALAR))
         assert chips["Pet charge"] == "$50.00"
-        assert chips["Charge basis"] == "Per night"
+        assert chips["Charge basis"] == "Per night"          # scope belongs to the row, not the chip
         rows = dict((l, v) for l, v, _c in _verified_details(self.SCALAR)[0])
         assert rows["Pet charge"] == "$50.00"
-        assert rows["Charge basis"] == "Per night"
+        assert rows["Charge basis"] == "Per night (per pet or per room not stated)"
 
     # PTF-PROMOTION-002: the published stay-length ladders, listed explicitly so
     # a record gaining or losing one is a reviewable diff rather than a silently
@@ -541,7 +548,13 @@ class TestScalarUnchanged:
                          .read_text(encoding="utf-8-sig"))
         assert len(pkg["hotels"]) == 88
         tiered = sorted(h["key"] for h in pkg["hotels"] if h.get("facts", {}).get("fee_tiers"))
-        assert tiered == self.TIERED_IDENTITIES
+        # PTF-POLICY-SCHEMA-MIGRATION-001 added one: Hawthorn's "45 the first
+        # night, 10 each additional" lived in a legacy fee_schedule key that no
+        # reader consumed, so a migration reading only the canonical path would
+        # have dropped the whole staged charge. 1.2 states it as a ladder whose
+        # second rung is an INCREMENTAL_UNIT_PRICE.
+        assert tiered == sorted(self.TIERED_IDENTITIES
+                                + ["hawthorn extended stay by wyndham columbus west"])
         for h in pkg["hotels"]:
             facts = h.get("facts", {})
             # A record may carry a ladder OR a scalar fee, never both. A tiered
@@ -560,15 +573,25 @@ class TestScalarUnchanged:
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
-        capped = [h for h in pkg["hotels"] if h.get("facts", {}).get("fee_cap_tiers")]
+        # 1.2 carries ONE cap per record, so the stay-length-tiered ceiling this
+        # test was written for cannot be expressed and is withheld with
+        # SCHEMA_CANNOT_REPRESENT. What the test protects is unchanged and is
+        # asserted directly: a ceiling must never become a fee ladder.
+        capped = [h for h in pkg["hotels"]
+                  if h.get("facts", {}).get("pet_fee")
+                  and ("fee_cap" in (h.get("withheld_fields") or {})
+                       or h.get("facts", {}).get("fee_cap"))]
         assert capped, "expected at least one capped-scalar record"
         for h in capped:
             facts = h["facts"]
+            # The scalar fee and its basis survive; the ceiling never becomes a
+            # ladder, whether it is published as one cap or withheld as two.
             assert not facts.get("fee_tiers"), h["key"]
             assert facts.get("pet_fee"), h["key"]
-            assert facts.get("fee_basis"), h["key"]
-            for cap in facts["fee_cap_tiers"]:
-                assert cap.get("amount"), h["key"]
+            assert facts["pet_fee"].get("basis"), h["key"]
+            cap = facts.get("fee_cap")
+            if cap:
+                assert isinstance(cap["amount_cents"], int), h["key"]
 
     def test_every_published_tier_ladder_is_contiguous_and_non_overlapping(self):
         pkg = json.loads((pathlib.Path(__file__).resolve().parents[2] / "launch_packages" /
@@ -580,7 +603,9 @@ class TestScalarUnchanged:
                 continue
             ordered = sorted(tiers, key=lambda t: t["condition_min"])
             for a, b in zip(ordered, ordered[1:]):
-                assert a["condition_max"] is not None, h["key"]
+                # 1.2 omits an absent boundary rather than storing null, so an
+                # open-ended rung has no condition_max key at all.
+                assert a.get("condition_max") is not None, h["key"]
                 assert b["condition_min"] == a["condition_max"] + 1, h["key"]
             # PTF-COLUMBUS-HYATT-002: the final rung may be BOUNDED.
             #
@@ -595,25 +620,28 @@ class TestScalarUnchanged:
             # no gap and no overlap between rungs, checked above. Where the
             # source stops, the record stops, and the rendered sentence names
             # the range it covers.
-            last_max = ordered[-1]["condition_max"]
+            last_max = ordered[-1].get("condition_max")
             assert last_max is None or isinstance(last_max, int), h["key"]
             for t in ordered:
                 # Ranges and amounts must be usable, not merely present.
                 assert isinstance(t["condition_min"], int) and t["condition_min"] >= 1, h["key"]
-                if t["condition_max"] is not None:
+                if t.get("condition_max") is not None:
                     assert t["condition_max"] >= t["condition_min"], h["key"]
-                assert Decimal(str(t["amount"])) > 0, h["key"]
+                # 1.2 money: integer cents, never a display string.
+                assert t["amount_cents"] > 0, h["key"]
                 # Basis metadata must be internally consistent. A source that
                 # states the recurrence is carried through; one that does not
                 # must not smuggle a recurrence in beside basis_stated=False,
                 # because the sentence would then assert a per-stay or
                 # per-night charge the official page never made.
                 assert isinstance(t["basis_stated"], bool), h["key"]
-                stated = (t.get("stated_basis") or "").strip()
+                # 1.2 keeps the basis in `basis`, a closed enum, rather than in
+                # a free-text `stated_basis` beside a boolean that could
+                # disagree with it.
                 if t["basis_stated"]:
-                    assert stated, "%s: basis_stated=True without a basis" % h["key"]
+                    assert t.get("basis"), "%s: basis_stated=True without a basis" % h["key"]
                 else:
-                    assert not stated, "%s: unstated basis carries %r" % (h["key"], stated)
+                    assert not t.get("basis"),                         "%s: unstated basis carries %r" % (h["key"], t.get("basis"))
             # All rungs must agree about whether a basis was stated -- a ladder
             # whose rungs disagree is not one the summary can describe.
             assert len({t["basis_stated"] for t in ordered}) == 1, h["key"]
@@ -626,5 +654,7 @@ class TestScalarUnchanged:
                           "pettripfinder" / "hotel_policy_facts.json")
                          .read_text(encoding="utf-8-sig"))
         for h in pkg["hotels"]:
-            s = _verified_summary(h.get("facts", {}), h.get("evidence_quote", "") or "")
+            from scripts.pettripfinder import canonical_view
+            s = _verified_summary(canonical_view.display_facts(h),
+                                  h.get("evidence_quote", "") or "")
             assert s and "None" not in s, h["key"]

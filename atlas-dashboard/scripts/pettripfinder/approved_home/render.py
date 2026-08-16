@@ -697,7 +697,19 @@ def _pets(f: Dict[str, str]) -> str:
 def _weight_lb(f: Dict[str, str]) -> str:
     w = (f.get("weight_limit") or "").strip()
     if not w:
-        return ""
+        # PTF-POLICY-SCHEMA-MIGRATION-001. A property may state ONLY a limit for
+        # the pets together -- Drury's pages say "combined weight of 80 pounds"
+        # and never a per-animal maximum. Under the legacy shape that value sat
+        # in weight_limit and this cell found it; 1.2 moves it to its own field,
+        # and without this the homepage told a reader the hotel stated no weight
+        # limit at all, which is the opposite of what the page says.
+        combined = (f.get("weight_limit_combined") or "").strip()
+        if not combined:
+            return ""
+        match = re.search(r"(\d+)", combined)
+        if match and re.search(r"(lb|pound)", combined, re.I):
+            return "%s lb combined" % match.group(1)
+        return combined
     m = re.search(r"(\d+)", w)
     if m and re.search(r"(lb|pound)", w, re.I):
         return "%s lb" % m.group(1)
@@ -705,9 +717,17 @@ def _weight_lb(f: Dict[str, str]) -> str:
 
 
 def _facts_of(name: str, facts_map: Dict) -> Dict[str, str]:
+    """Display values for one hotel, whichever schema its record speaks.
+
+    PTF-POLICY-SCHEMA-MIGRATION-001. This read the record's facts straight,
+    which stopped working the moment authority became canonical: a migrated
+    record holds ``{"amount_cents": 5000}`` where this page expects
+    ``"$50.00"``. The projection is the same one the profile renderer uses, so
+    the homepage and the profile can never describe one fee two ways.
+    """
+    from scripts.pettripfinder import canonical_view
     from scripts.pettripfinder.site_data import normalize_name
-    entry = facts_map.get(normalize_name(name))
-    return (entry or {}).get("facts", {}) if entry else {}
+    return canonical_view.display_facts(facts_map.get(normalize_name(name)))
 
 
 def _entry_of(name: str, facts_map: Dict) -> Dict:
@@ -911,8 +931,9 @@ def _start_section(cmp_href: str) -> str:
 
 def _place_card(row: Dict, facts_map: Dict, photo: str) -> str:
     name = row["name"]
+    from scripts.pettripfinder import canonical_view
     entry = _entry_of(name, facts_map)
-    f = entry.get("facts", {})
+    f = canonical_view.display_facts(entry)
     verified = _friendly_date(entry.get("verified_at", "") or row.get("observed_at", ""))
     weight = _weight_lb(f)
     limits = _pets(f) + (" &middot; %s" % _e(weight) if weight else "")
