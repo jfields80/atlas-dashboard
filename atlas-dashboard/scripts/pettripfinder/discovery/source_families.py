@@ -67,6 +67,17 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # PTF-DAYTON-MARKET-FACTORY-001: VisitDayton.com CVB source family.
     # Reserved for Dayton Convention & Visitors Bureau identity data.
     "visit_dayton": FAMILY_CVB,
+    # PTF-PITTSBURGH-MARKET-REVALIDATION-001: official tourism, destination
+    # partners, and already-registered utility sources.
+    "visit_pittsburgh": FAMILY_CVB,
+    "cultural_trust": FAMILY_CVB,
+    "paacc": FAMILY_DIRECTORY,
+    "east_liberty_chamber": FAMILY_DIRECTORY,
+    "gpha": FAMILY_DIRECTORY,
+    "parks_conservancy": FAMILY_DIRECTORY,
+    "city_parks": FAMILY_REGISTRY,
+    "avets": FAMILY_CHAIN,
+    "veg_pittsburgh": FAMILY_CHAIN,
 }
 
 
