@@ -70,19 +70,25 @@ def test_partition_reconciles_by_set():
                               market_id=MARKET)
     assert rec.agrees
     assert rec.published == 0
-    assert rec.verified_no_pets == 0
+    assert rec.verified_no_pets == 1
     assert rec.out_of_category == 0
-    assert rec.unresolved == 153
+    assert rec.unresolved == 152
     assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved \
         == rec.census_count
     assert partition.validate(part) == ()
 
 
-def test_every_policy_state_is_not_verified():
+def test_every_policy_state_is_not_verified_except_one_refusal():
+    refused = []
     for row in _json(CENSUS_PATH)["hotels"]:
-        assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
         assert row["market_id"] == MARKET
         assert row["state"] == "IN"
+        if row["identity_key"] == "crowne plaza indianapolis airport":
+            assert row["policy_state"] == enums.VERIFIED_NO_PETS
+            refused.append(row["identity_key"])
+        else:
+            assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
+    assert refused == ["crowne plaza indianapolis airport"]
 
 
 def test_no_identity_shared_with_committed_markets():
@@ -155,8 +161,9 @@ def test_queue_equals_unresolved_partition():
     with rollup.open(encoding="utf-8", newline="") as fh:
         rows = list(csv.DictReader(fh))
     keys = [r["identity_key"] for r in rows]
-    assert len(keys) == len(set(keys)) == len(unresolved) == 153
-    assert set(keys) == unresolved == set(census_by_key)
+    assert len(keys) == len(set(keys)) == len(unresolved) == 152
+    assert set(keys) == unresolved
+    assert unresolved == set(census_by_key) - {"crowne plaza indianapolis airport"}
     for row in rows:
         key = row["identity_key"]
         assert key in census_by_key
@@ -190,7 +197,10 @@ def test_no_production_authority_was_created():
     exclusions = json.loads((PACKAGE / "hotel_exclusions.json").read_text(
         encoding="utf-8-sig"))
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
-    assert not [e for e in records if e.get("market_id") == MARKET]
+    indy_ex = [e for e in records if e.get("market_id") == MARKET]
+    assert [e["exclusion_id"] for e in indy_ex] == [
+        "indy-crowne-plaza-indianapolis-airport"]
+    assert indy_ex[0]["exclusion_state"] == enums.VERIFIED_NO_PETS
     release = ROOT / "deploy" / "netlify" / "release_contracts" / "indianapolis-in.json"
     assert not release.exists()
 
@@ -231,3 +241,21 @@ def test_identity_state_counts_are_preserved():
         "IDENTITY_PROVISIONAL": 86,
         "IDENTITY_UNRESOLVED": 3,
     }
+
+
+def test_pass1_identity_repair_bound_url_property_codes():
+    by_key = {r["identity_key"]: r for r in _json(CENSUS_PATH)["hotels"]}
+    expected = {
+        "comfort inn indianapolis airport plainfield": "in082",
+        "comfort suites indianapolis airport": "in293",
+        "courtyard by marriott indianapolis airport": "indca",
+        "courtyard by marriott indianapolis castleton": "indcs",
+        "crowne plaza indianapolis airport": "indap",
+        "crowne plaza indianapolis downtown union station": "inddt",
+        "delta hotels by marriott indianapolis airport": "indde",
+        "embassy suites by hilton indianapolis downtown": "indwses",
+    }
+    for key, code in expected.items():
+        assert by_key[key]["property_code"] == code
+    assert by_key["baymont by wyndham plainfield indianapolis airport area"]["property_code"] == ""
+    assert by_key["best western plus indianapolis northwest"]["property_code"] == ""

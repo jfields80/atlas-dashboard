@@ -55,8 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
-    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 0,
-                   "out_of_category": 0, "unresolved": 153},
+    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 1,
+                   "out_of_category": 0, "unresolved": 152},
 }
 
 
@@ -295,15 +295,22 @@ class TestTerminalDispositionsMatchAuthority:
         assert not (states & set(enums.TERMINAL_STATES))
         assert len(doc["items"]) == 121
 
-    def test_indianapolis_publishes_nothing_and_refuses_nothing(self):
-        """The revalidated factory is an honest zero, like Cincinnati."""
+    def test_indianapolis_publishes_nothing_and_has_one_verified_refusal(self):
+        """Pass 1 applied one VERIFIED_NO_PETS; the market still publishes zero."""
         doc = partition_doc(INDIANAPOLIS)
         states = {i["final_state"] for i in doc["items"]}
-        assert not (states & set(enums.TERMINAL_STATES))
+        assert states & set(enums.TERMINAL_STATES) == {enums.VERIFIED_NO_PETS}
         assert len(doc["items"]) == 153
+        refused = [i for i in doc["items"]
+                   if i["final_state"] == enums.VERIFIED_NO_PETS]
+        assert [i["identity_key"] for i in refused] == [
+            "crowne plaza indianapolis airport"]
         census = census_doc(INDIANAPOLIS)
-        assert all(r["policy_state"] == enums.POLICY_NOT_VERIFIED
-                   for r in census["hotels"])
+        by_key = {r["identity_key"]: r["policy_state"] for r in census["hotels"]}
+        assert by_key["crowne plaza indianapolis airport"] == enums.VERIFIED_NO_PETS
+        assert all(state == enums.POLICY_NOT_VERIFIED
+                   for key, state in by_key.items()
+                   if key != "crowne plaza indianapolis airport")
 
 
 # --------------------------------------------------------------------------

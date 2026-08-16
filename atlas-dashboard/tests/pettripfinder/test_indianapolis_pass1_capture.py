@@ -24,7 +24,7 @@ def test_packets_exist_and_cover_exactly_ten():
     assert results["rows_total"] == 10
     assert len(results["results"]) == 10
     assert results["market_id"] == MARKET
-    assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
+    assert packet["status"] == "FOUNDER_DECIDED_NEGATIVE_APPLIED"
     assert packet["authority_changed"] is False
 
 
@@ -47,7 +47,9 @@ def test_no_indianapolis_authority_was_written():
     assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
     exclusions = _json(PACKAGE / "hotel_exclusions.json")
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
-    assert not [e for e in records if e.get("market_id") == MARKET]
+    indy = [e for e in records if e.get("market_id") == MARKET]
+    assert [e["exclusion_id"] for e in indy] == [
+        "indy-crowne-plaza-indianapolis-airport"]
 
 
 def test_negative_candidate_is_crowne_airport_with_contiguous_quote():
@@ -73,6 +75,9 @@ def test_negative_candidate_is_crowne_airport_with_contiguous_quote():
     assert packet["negative_candidates"][0]["decision_id"] == "INDY-P1-007"
     assert packet["negative_candidates"][0]["recommended_founder_decision"] == (
         "APPROVE_VERIFIED_NO_PETS")
+    assert packet["negative_candidates"][0]["founder_decision"] == (
+        "APPROVE_VERIFIED_NO_PETS")
+    assert packet["negative_candidates"][0]["outcome"] == "APPLIED_VERIFIED_NO_PETS"
 
 
 def test_every_row_has_a_founder_recommendation_and_no_approval():
@@ -83,5 +88,5 @@ def test_every_row_has_a_founder_recommendation_and_no_approval():
         assert "founder_decision" not in row
         assert row["identity_key"] == ptf_identity_key(row["hotel"])
     assert packet.get("founder_decision") is None
-    blob = json.dumps(packet)
-    assert '"founder_decision"' not in blob
+    negative = packet["negative_candidates"][0]
+    assert negative["founder_decision"] == "APPROVE_VERIFIED_NO_PETS"
