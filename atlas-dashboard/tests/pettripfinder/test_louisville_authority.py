@@ -107,8 +107,6 @@ class TestCensusAndPartition:
         assert item["next_action"].startswith("Capture the property's pet-policy")
         names = {h["canonical_name"] for h in _census()["hotels"]}
         assert "Hospital Hospitality House of Louisville" not in names
-        assert _partition()["final_state_counts"].get(
-            enums.AWAITING_CENSUS_REVIEW, 0) == 0
 
 
 class TestIsolation:
@@ -197,3 +195,42 @@ class TestDiscoveryAndQueue:
         assert keys == report["identity_keys"]
         assert all(r["hotel ID"] == r["identity_key"] for r in rows)
         assert all(r["review_status"] == "NOT_STARTED" for r in rows)
+
+
+class TestIdentityRoutingRepair:
+    def test_desk_pass_covers_exactly_the_110(self):
+        repair = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_identity_routing_repair_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        keys = [r["identity_key"] for r in repair["rows"]]
+        assert repair["desk_total"] == len(keys) == 110
+        assert len(set(keys)) == 110
+        assert repair["desk_class_counts"] == {
+            "IDENTITY_REVIEW": 65,
+            "PROPERTY_LEVEL_URL_RECOVERY": 42,
+            "ROUTING_REPLACEMENT": 3,
+        }
+        assert "gotolouisville.com/directory" not in json.dumps([
+            r["official_url"] for r in repair["rows"] if r["capture_ready"]
+        ])
+
+    def test_capture_ready_queue_002_is_bound_and_unpublished(self):
+        ready = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_capture_ready_queue_002.json"
+        ).read_text(encoding="utf-8-sig"))
+        keys = [r["identity_key"] for r in ready["items"]]
+        assert ready["count"] == len(keys) == 91
+        assert ready["prior_ready"] == 19
+        assert ready["newly_ready"] == 72
+        assert len(set(keys)) == 91
+        assert all(r["official_url"] for r in ready["items"])
+        assert all("gotolouisville.com/directory" not in r["official_url"]
+                   for r in ready["items"])
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.unresolved == 129
+        assert _partition()["final_state_counts"][enums.AWAITING_POLICY_OBSERVATION] == 91
+        assert _partition()["final_state_counts"][enums.AWAITING_CENSUS_REVIEW] == 6
