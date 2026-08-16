@@ -72,10 +72,20 @@ CANDIDATES = [
        url="https://www.marriott.com/en-us/hotels/pitcy-courtyard-pittsburgh-downtown/overview/",
        url_shape="property", source="cultural_trust", ident="IDENTITY_CONFIRMED",
        lodging="LODGING_CONFIRMED"),
-    _c(name="Distrikt Hotel Pittsburgh", address="453 Boulevard of the Allies",
+    _c(name="Joinery Hotel Pittsburgh", address="453 Boulevard of the Allies",
        city="Pittsburgh", postal="15219", phone="412-339-1870",
-       url="https://www.distrikthotelpittsburgh.com", url_shape="property",
-       source="cultural_trust", ident="IDENTITY_CONFIRMED", lodging="LODGING_CONFIRMED"),
+       url="https://www.joineryhotel.com", url_shape="property",
+       source="cultural_trust", ident="IDENTITY_CONFIRMED", lodging="LODGING_CONFIRMED",
+       former="Distrikt Hotel Pittsburgh",
+       notes="PGH-P1-D003 founder-approved rename/conversion "
+             "(PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001): the queued "
+             "distrikthotelpittsburgh.com URL 301s to joineryhotel.com, whose "
+             "first-party pages render the identical street address (453 "
+             "Boulevard of the Allies) and phone (412-339-1870). Brand "
+             "affiliation: Curio Collection by Hilton. The Joinery pet policy "
+             "observed during Pass 1 under the old identity is provenance "
+             "only; it must be recaptured under this identity before any "
+             "publication."),
     _c(name="DoubleTree by Hilton Hotel & Suites Pittsburgh Downtown",
        address="One Bigelow Square", city="Pittsburgh", postal="15219",
        phone="412-281-5800",
@@ -840,7 +850,48 @@ def _street_identity(address: str, postal: str) -> str:
     return "%s|%s" % (street, (postal or "")[:5]) if street else ""
 
 
+#: Founder-decision application date (PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001).
+DECISION_DATE = "2026-08-16"
+APPLICATION_WORK_ORDER = "PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001"
+FACTS_PATH = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
+EXCLUSIONS_PATH = PACKAGE / "hotel_exclusions.json"
+
+_AUTHORITY_CACHE = None
+
+
+def _decided_states():
+    """identity_key -> terminal state, read from committed policy authority.
+
+    The facts package holds published records; the exclusion REGISTRY (never a
+    census annotation) is the no-pets authority. Both are optional: before the
+    Pass 1 application landed, neither said anything about Pittsburgh and every
+    row stayed with its blocker state.
+    """
+    global _AUTHORITY_CACHE
+    if _AUTHORITY_CACHE is not None:
+        return _AUTHORITY_CACHE
+    decided = {}
+    if FACTS_PATH.is_file():
+        doc = json.loads(FACTS_PATH.read_text(encoding="utf-8-sig"))
+        for hotel in doc.get("hotels", []):
+            if hotel.get("market_id") == MARKET and hotel.get("approval"):
+                decided[hotel["identity_key"]] = enums.PUBLISHED_PET_FRIENDLY
+    if EXCLUSIONS_PATH.is_file():
+        doc = json.loads(EXCLUSIONS_PATH.read_text(encoding="utf-8-sig"))
+        for entry in doc.get("exclusions", []):
+            if entry.get("market_id") == MARKET \
+                    and entry.get("exclusion_state") == "VERIFIED_NO_PETS":
+                decided[entry["normalized_name"]] = enums.VERIFIED_NO_PETS
+    _AUTHORITY_CACHE = decided
+    return decided
+
+
 def _blocker_for(row: dict) -> str:
+    decided = _decided_states()
+    state = decided.get(row["identity_key"]) \
+        or decided.get(row.get("normalized_name") or "")
+    if state:
+        return state
     if row["lodging_state"] == enums.NOT_LODGING:
         return enums.OUT_OF_CURRENT_CATEGORY
     if row.get("disposition") == "closed" or row["lodging_state"] == enums.LODGING_NEEDS_REVIEW:
@@ -952,7 +1003,7 @@ def build() -> dict:
         ("identity_contract", "ptf-identity-evidence/1.0"),
         ("work_order", WORK_ORDER),
         ("captured_at", AS_OF),
-        ("note", "fea73de revalidation of the 2d885d1 PTF-PITTSBURGH-MARKET-BUILD-001 factory. Source work order %s. policy_state is POLICY_NOT_VERIFIED on every row. No hotel-policy authority is published. Closed and out-of-category identities remain in the census; they are not written to hotel_exclusions.json." % SOURCE_WORK_ORDER),
+        ("note", "fea73de revalidation of the 2d885d1 PTF-PITTSBURGH-MARKET-BUILD-001 factory. Source work order %s. policy_state is the legacy-frozen POLICY_NOT_VERIFIED on every row; the final partition and the policy/exclusion authorities are the publication truth (Pass 1 founder decisions applied by %s). Closed and out-of-category identities remain in the census; the exclusion REGISTRY additionally carries their OUT_OF_CURRENT_CATEGORY rulings and the founder's VERIFIED_NO_PETS decisions (the Columbus mechanic: a category exit settles an identity as finally as a refusal)." % (SOURCE_WORK_ORDER, APPLICATION_WORK_ORDER)),
         ("source_authorities", [
             "https://trustarts.org/pct_home/visit/hotels",
             "https://www.paacc.com/list/category/hotels-motels-38",
@@ -991,10 +1042,13 @@ def build() -> dict:
     if issues:
         raise SystemExit("census invalid: %s" % [(i.path, i.code, i.detail) for i in issues])
 
+    decided = _decided_states()
     items = []
     for row in hotels:
         state = _blocker_for(row)
         terminal = state in enums.TERMINAL_STATES
+        founder_decided = row["identity_key"] in decided \
+            or row["normalized_name"] in decided
         items.append(OrderedDict((
             ("identity_key", row["identity_key"]),
             ("canonical_name", row["canonical_name"]),
@@ -1006,10 +1060,13 @@ def build() -> dict:
             ("resolved", terminal),
             ("next_action", "" if terminal else next_action_for(state)),
             ("next_action_source", "" if terminal else "identity_census/pittsburgh-pa.json"),
-            ("determined_by", WORK_ORDER),
-            ("updated_at", AS_OF),
+            ("determined_by", APPLICATION_WORK_ORDER if founder_decided else WORK_ORDER),
+            ("updated_at", DECISION_DATE if founder_decided else AS_OF),
             ("official_url", row["official_url"]),
-            ("state_override_reason", ""),
+            ("state_override_reason",
+             ("%s: founder decision applied from the Pass 1 packet; evidence "
+              "is the hash-bound attended capture." % APPLICATION_WORK_ORDER)
+             if founder_decided else ""),
         )))
     items.sort(key=lambda r: r["identity_key"])
     counts = {}
@@ -1021,7 +1078,7 @@ def build() -> dict:
         ("work_order", WORK_ORDER),
         ("market_id", MARKET),
         ("as_of", AS_OF),
-        ("note", "Every Pittsburgh identity is unresolved or out of current category. No committed evidence establishes PUBLISHED_PET_FRIENDLY or VERIFIED_NO_PETS. Silence is not a refusal."),
+        ("note", "Final states derive from committed authority: PUBLISHED_PET_FRIENDLY from approved records in hotel_policy_facts_pittsburgh-pa.json, VERIFIED_NO_PETS from the hotel_exclusions.json registry (Pass 1 founder decisions, %s). Every other identity is unresolved or out of current category. Silence is not a refusal." % APPLICATION_WORK_ORDER),
         ("source_authorities", ["identity_census/pittsburgh-pa.json"]),
         ("count", len(items)),
         ("final_state_counts", counts),

@@ -1,8 +1,11 @@
 """PTF-PITTSBURGH-MARKET-REVALIDATION-001 -- Pittsburgh factory gates.
 
-Pinned to the measured first-pass universe from PTF-PITTSBURGH-MARKET-BUILD-001.
-policy_state is POLICY_NOT_VERIFIED on every row. No hotel-policy authority
-is published.
+Pinned to the measured first-pass universe from PTF-PITTSBURGH-MARKET-BUILD-001,
+updated by PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001: 17 founder-approved
+published records, 2 VERIFIED_NO_PETS registry exclusions, and the D003
+Distrikt -> Joinery identity rename. The census policy_state column stays
+legacy-frozen at POLICY_NOT_VERIFIED (the Cleveland precedent); the partition
+and the policy/exclusion authorities are the publication truth.
 """
 
 from __future__ import annotations
@@ -27,11 +30,11 @@ MARKET = "pittsburgh-pa"
 
 EXPECTED = {
     "census": 96,
-    "published": 0,
-    "no_pets": 0,
+    "published": 17,
+    "no_pets": 2,
     "out_of_category": 3,
-    "unresolved": 93,
-    "queue": 93,
+    "unresolved": 74,
+    "queue": 74,
 }
 
 
@@ -172,9 +175,68 @@ class TestRoutingAndAuthorityIsolation:
         routing = _load(PACKAGE / "identity_routing.json")
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes") or [])
 
-    def test_no_pittsburgh_policy_authority_or_release_contract(self):
-        assert not (PACKAGE / "hotel_policy_facts_pittsburgh-pa.json").exists()
-        assert MARKET not in set(available_market_ids())
+    def test_policy_authority_is_founder_bound_and_no_release_contract(self):
+        from scripts.pettripfinder.policy_migration import (
+            evidence_hash, record_hash)
+        facts = _load(PACKAGE / "hotel_policy_facts_pittsburgh-pa.json")
+        assert facts["market_id"] == MARKET
+        assert len(facts["hotels"]) == EXPECTED["published"]
+        keys = census.identity_keys(census_doc())
+        for hotel in facts["hotels"]:
+            assert hotel["identity_key"] in keys
+            approval = hotel["approval"]
+            assert approval["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"
+            assert approval["operator"] == "jfields80"
+            assert approval["record_hash"] == record_hash(hotel)
+            assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
+            for entry in hotel["evidence"]:
+                assert entry["artifact_class"] == "PUBLICATION_GRADE_EVIDENCE"
+                assert entry["artifact_sha256"].startswith("sha256:")
+        # The release contract exists because the market now has verified
+        # inventory (the registry invariant) -- and it grants NO deployment.
+        assert MARKET in set(available_market_ids())
+        from scripts.pettripfinder.release_contracts import (
+            load_contract, verify_contract)
+        contract = load_contract(MARKET)
+        assert contract["deployment_authorization"]["grants_deployment"] is False
+        assert verify_contract(MARKET) == []
+
+    def test_verified_no_pets_lives_in_the_exclusion_registry(self):
+        doc = _load(PACKAGE / "hotel_exclusions.json")
+        rows = [e for e in doc["exclusions"] if e.get("market_id") == MARKET]
+        no_pets = [e for e in rows
+                   if e["exclusion_state"] == "VERIFIED_NO_PETS"]
+        category = [e for e in rows
+                    if e["exclusion_state"] == "OUT_OF_CURRENT_CATEGORY"]
+        assert len(no_pets) == EXPECTED["no_pets"]
+        assert len(category) == EXPECTED["out_of_category"]
+        assert len(rows) == len(no_pets) + len(category)
+        assert {e["normalized_name"] for e in no_pets} == {
+            "cambria hotel pittsburgh downtown",
+            "courtyard by marriott pittsburgh downtown"}
+        assert {e["normalized_name"] for e in category} == {
+            "inn on negley", "choderwood", "the maverick by kasa"}
+        for entry in rows:
+            assert entry["evidence_quote"].strip()
+            assert entry["source_hash"].startswith("sha256:")
+            assert entry["reviewer_id"] == "jfields80"
+
+    def test_joinery_rename_applied_and_unresolved(self):
+        rows = {r["identity_key"]: r for r in census_doc()["hotels"]}
+        assert "distrikt hotel pittsburgh" not in rows
+        joinery = rows["joinery hotel pittsburgh"]
+        assert joinery["former_name"] == "Distrikt Hotel Pittsburgh"
+        assert joinery["address"] == "453 Boulevard of the Allies"
+        assert joinery["phone"] == "412-339-1870"
+        assert joinery["official_url"] == "https://www.joineryhotel.com"
+        item = {i["identity_key"]: i for i in partition_doc()["items"]}[
+            "joinery hotel pittsburgh"]
+        assert item["final_state"] == "AWAITING_POLICY_OBSERVATION"
+        assert item["resolved"] is False
+        queued = {q["identity_key"] for q in queue_doc()["items"]}
+        assert "joinery hotel pittsburgh" in queued
+
+    def test_market_isolation_from_ohio(self):
         configured = {m.market_id for m in load_markets()}
         assert MARKET in configured
         ohio = {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
@@ -210,11 +272,10 @@ class TestRevalidation:
         assert census_doc()["base_commit"] == (
             "fea73de1ec699289cf04b88fd7069cf23fa4d735")
 
-    def test_assembler_eligibility_is_honest_zero(self):
+    def test_assembler_eligibility_is_honest_and_hidden(self):
         market = market_by_id(load_markets(), MARKET)
         row = market_eligibility(market)
-        assert row["published_count"] == 0
-        assert row["assemblable"] is False
+        assert row["published_count"] == EXPECTED["published"]
         assert market.show_in_navigation is False
         assert market.show_in_sitemap is False
         for corridor in market.corridors:
