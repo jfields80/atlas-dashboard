@@ -36,13 +36,16 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+INDIANAPOLIS = "indianapolis-in"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, INDIANAPOLIS)
 
 EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
-                   CINCINNATI: ["OH", "KY", "IN"]}
+                   CINCINNATI: ["OH", "KY", "IN"], INDIANAPOLIS: ["IN"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
-                       DAYTON: "market_prefixed", CINCINNATI: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 121}
+                       DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
+                       INDIANAPOLIS: "market_prefixed"}
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 121,
+                 INDIANAPOLIS: 153}
 
 
 def census(market_id):

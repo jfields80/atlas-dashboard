@@ -35,6 +35,21 @@ def test_bounds_contains_market_center():
     assert m.bounds.contains(m.center_lat, m.center_lng)
 
 
+def test_indianapolis_config_loads():
+    m = load_market_config("indianapolis-in")
+    assert m.market_id == "indianapolis-in"
+    assert m.state == "IN"
+    required = {
+        "Indianapolis", "Speedway", "Carmel", "Fishers", "Noblesville",
+        "Westfield", "Plainfield", "Avon", "Brownsburg", "Greenwood",
+    }
+    assert required.issubset(set(m.included_municipalities))
+    assert len(m.cells) > 1
+    for cell in m.cells:
+        assert cell.radius_meters <= 10_000
+    assert m.bounds.contains(m.center_lat, m.center_lng)
+
+
 def test_unknown_market_raises():
     with pytest.raises(KeyError):
         load_market_config("nonexistent-market")

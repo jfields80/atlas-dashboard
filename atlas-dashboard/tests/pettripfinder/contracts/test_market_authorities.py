@@ -32,14 +32,16 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+INDIANAPOLIS = "indianapolis-in"
 
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, INDIANAPOLIS)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
     CLEVELAND: "cleveland_final_partition_002.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
+    INDIANAPOLIS: "indianapolis_final_partition_001.json",
 }
 
 #: What each market holds. Pinned so a change to an authority shows up here
@@ -53,6 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
+    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 0,
+                   "out_of_category": 0, "unresolved": 153},
 }
 
 
@@ -290,6 +294,16 @@ class TestTerminalDispositionsMatchAuthority:
         states = {i["final_state"] for i in doc["items"]}
         assert not (states & set(enums.TERMINAL_STATES))
         assert len(doc["items"]) == 121
+
+    def test_indianapolis_publishes_nothing_and_refuses_nothing(self):
+        """The revalidated factory is an honest zero, like Cincinnati."""
+        doc = partition_doc(INDIANAPOLIS)
+        states = {i["final_state"] for i in doc["items"]}
+        assert not (states & set(enums.TERMINAL_STATES))
+        assert len(doc["items"]) == 153
+        census = census_doc(INDIANAPOLIS)
+        assert all(r["policy_state"] == enums.POLICY_NOT_VERIFIED
+                   for r in census["hotels"])
 
 
 # --------------------------------------------------------------------------

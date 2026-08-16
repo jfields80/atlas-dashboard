@@ -151,6 +151,8 @@ class TestContractRegistry:
         configured = {m.market_id for m in load_markets()}
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" not in set(available_market_ids())
+        assert "indianapolis-in" in configured
+        assert "indianapolis-in" not in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
