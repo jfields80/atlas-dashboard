@@ -239,13 +239,15 @@ PER_SLUG_STATE: Dict[str, Tuple[str, str]] = {
     # reason_code ROUTED_URL_RESOLVES_TO_A_DIFFERENT_BUSINESS: two need a new
     # URL, one needs the census to decide whether it is lodging at all.
     "embassy-suites-by-hilton-akron-canton-airport": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "The record routes to the on-site bar (luggageroomspeakeasy.com); the "
-        "next action is to replace it with the Hilton property page."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the on-site-bar URL with Hilton's caknaes property "
+        "page, identity-bound on the census street, ZIP and phone; the pet "
+        "policy is still unobserved."),
     "the-bertram-inn-at-glenmoor": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "Both the recorded /Spa path and the rejected proposal point at the "
-        "spa; the lodging page on glenmoorcc.com still has to be found."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 found the lodging page (glenmoorcc.com/Hotel), identity-bound "
+        "on street, ZIP, phone and the Bertram name; the pet policy is "
+        "still unobserved."),
     "the-rowley-inn": (
         AWAITING_CENSUS_REVIEW,
         "The page presents a restaurant and bar. Whether this is lodging "
@@ -254,24 +256,32 @@ PER_SLUG_STATE: Dict[str, Tuple[str, str]] = {
     # reason_code ROUTING_CORRECTION_REJECTED_NO_VALID_REPLACEMENT: the
     # proposal failed, so the blocker is whatever the RECORDED route leaves.
     "crowne-plaza-cleveland-airport": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "crowneplazacle.com returns 502; a working IHG endpoint is needed."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the dead vanity domain with IHG's clemh property page, "
+        "identity-bound on street, ZIP and phone; the pet policy is still "
+        "unobserved."),
     "days-inn-richfield": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "The proposal was a brand search page; the property page must be "
-        "re-resolved from the Wyndham locator."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001: the property left Wyndham and now operates as Quality Inn & "
+        "Suites Richfield (choicehotels.com oh330, bound on the census "
+        "street and ZIP). Census rename pending a founder decision; the "
+        "pet policy is still unobserved."),
     "highlander-inn": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "highlanderinncle.com returns 502; either a working endpoint or an "
-        "honest NO_OFFICIAL_URL record is needed."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 found the property's new domain highlanderinnhotel.com, "
+        "identity-bound on street, ZIP and phone; the pet policy is still "
+        "unobserved."),
     "sonesta-es-suites-cleveland-westlake": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "The proposal was Sonesta's Westlake CITY page; the property page for "
-        "30100 Clemens Rd still has to be resolved."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 resolved the Simply Suites rebrand path for 30100 Clemens Rd, "
+        "identity-bound on street, ZIP and phone (same ES->Simply rebrand "
+        "the founder ruled census-hygiene-only at Cleveland Airport); the "
+        "pet policy is still unobserved."),
     "springhill-suites-solon": (
-        AWAITING_ROUTING_REPLACEMENT,
-        "The springhillsolon.com vanity domain is dead; the Marriott property "
-        "page replaces it."),
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the dead vanity domain with Marriott's clesh property "
+        "page, identity-bound on street, ZIP and phone; the pet policy is "
+        "still unobserved."),
     "economy-inn": (
         AWAITING_ATTENDED_CAPTURE,
         "No routing action -- the '#/' proposal was the same resource. The "
@@ -287,6 +297,50 @@ PER_SLUG_STATE: Dict[str, Tuple[str, str]] = {
         "The address matches but the phone and brand do not: Studio 6 appears "
         "to have rebranded to Suburban Studios, so the census identity is "
         "stale and must be refreshed before any capture is trusted."),
+    # PTF-CLEVELAND-ROUTING-REPAIR-001: six more repaired routes whose reason codes would otherwise keep
+    # deriving a routing blocker that no longer exists, and one row whose
+    # brand endpoint refuses to serve its property page at all.
+    "comfort-suites-hartville": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the restaurant URL (hartvillekitchen.com) with "
+        "choicehotels.com's oh596 property page, identity-bound on street, "
+        "ZIP and phone; the pet policy is still unobserved."),
+    "cottages-at-the-lodge": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 re-probed the URL on record: it serves (title 'Cottages - The "
+        "Lodge at Geneva-on-the-Lake') and carries the census street, ZIP "
+        "and phone. The 404 verdict was stale; the pet policy is still "
+        "unobserved."),
+    "doubletree-by-hilton-cleveland-westlake": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001: hilton.com/clecrdt is a genuine 404 -- the property converted "
+        "to Wyndham Garden Westlake, whose page binds on the census street, "
+        "ZIP and phone. Census rename pending a founder decision; the pet "
+        "policy is still unobserved."),
+    "extended-stay-america-premier-suites": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the wrong-hotel URL (a Hyatt Place page) with ESA's "
+        "own Independence property page, identity-bound on street, ZIP and "
+        "phone; the pet policy is still unobserved."),
+    "intercontinental-suites-hotel-cleveland": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001: the recorded vanity 301-redirects to the property's own "
+        "icsuitescleveland.com, which renders attended and binds on street, "
+        "ZIP and phone; the pet policy is still unobserved."),
+    "the-lakehouse-inn-winery": (
+        AWAITING_POLICY_OBSERVATION,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 re-probed the URL on record: it serves (title 'The Lakehouse "
+        "Inn') and carries the census street, ZIP and phone. The dead-URL "
+        "verdict was stale; the pet policy is still unobserved."),
+    "best-western-plus-north-canton-inn-suites": (
+        AWAITING_ROUTING_REPLACEMENT,
+        "PTF-CLEVELAND-ROUTING-REPAIR-001: both the hotel-rooms.36148 URL and the canonical property-page "
+        "URL redirect to bestwestern.com's search page, so the brand "
+        "endpoint refuses to serve this property page. Closure is NOT "
+        "inferred -- the Canton CVB lists the property as operating -- but "
+        "the transcribed policy cannot be re-anchored until a serving "
+        "route exists, so routing comes first. The route is HELD with the "
+        "candidate URL retained."),
     # The sixteenth routing proposal, unadjudicated until this work order. Its
     # policy transcription was read from the PROPOSED hyatt.com page, not from
     # the URL on record, so the transcription is not attached to a verified
@@ -320,8 +374,9 @@ CROSSWALK_WHY: Dict[str, str] = {
         "refused to render -- including when that surface was a PROPOSED "
         "destination rather than the property's own route. Comfort Suites "
         "Hartville, InterContinental Suites Cleveland and Extended Stay America "
-        "Premier Suites are all waiting on a routing replacement; their own "
-        "next actions say 'recover the property URL' and 're-propose'. "
+        "Premier Suites waited on a routing replacement until "
+        "PTF-CLEVELAND-ROUTING-REPAIR-001 bound working property pages for "
+        "all three, which leaves them awaiting a policy observation. "
         "ACCESS_BLOCKED here keeps only identities with no lawful automated "
         "path to the property's own page at all.",
     "MANUAL_VERIFICATION_REQUIRED":
@@ -338,7 +393,11 @@ CROSSWALK_WHY: Dict[str, str] = {
         "Hyatt Place Cleveland/Westlake/Crocker Park carries the sixteenth, "
         "unadjudicated routing proposal, and its transcription was read from "
         "the proposed page rather than from the route on record -- so routing "
-        "is the question that comes first for it.",
+        "is the question that comes first for it. Best Western Plus North "
+        "Canton splits the same way as of "
+        "PTF-CLEVELAND-ROUTING-REPAIR-001: bestwestern.com refuses to serve "
+        "its property page, so its transcribed policy has no route to be "
+        "re-anchored against until routing is repaired.",
     "IDENTITY_ONLY":
         "A page that rendered and stated no pet policy is waiting on an "
         "observation, not on an artifact. UNKNOWN, never a refusal.",
@@ -363,6 +422,48 @@ CROSSWALK_WHY: Dict[str, str] = {
 #: action forward would leave a routing-blocked identity pointed at a capture it
 #: cannot lawfully make.
 PER_SLUG_NEXT_ACTION: Dict[str, str] = {
+    # PTF-CLEVELAND-ROUTING-REPAIR-001: the carried actions for these rows
+    # describe recovering URLs this work order has already recovered (or,
+    # for Best Western, a capture the refused route cannot support), so
+    # each gets the action its repaired route actually needs.
+    'cambria-hotel-suites-avon':
+        "Open https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. The property now operates as Wyndham Avon; a census rename is pending a founder decision.",
+    'holiday-inn-canton':
+        "Open https://www.ihg.com/holidayinn/hotels/us/en/canton/cakbv/hoteldetail in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'radisson-hotel-akron-fairlawn':
+        "Open https://www.choicehotels.com/ohio/akron/radisson-hotels/oh557 in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'the-inn-at-amish-door':
+        "Open https://amishdoor.com/the-inn-at-amish-door/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'la-quinta-inn-suites-cleveland-airport-north':
+        "Open https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. This URL transiently redirected to the DIFFERENT Airport West property during Pass 3; the address check is mandatory.",
+    'best-western-plus-north-canton-inn-suites':
+        'Re-probe the Best Western property page (propertyCode.36148) in an operator or attended session; bestwestern.com currently redirects it to a search page and no capture is possible until the route serves.',
+    'comfort-suites-hartville':
+        "Open https://www.choicehotels.com/ohio/hartville/comfort-suites-hotels/oh596 in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'cottages-at-the-lodge':
+        "Open https://www.thelodgeatgeneva.com/stay/lodging/cottage-rooms/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'crowne-plaza-cleveland-airport':
+        "Open https://www.ihg.com/crowneplaza/hotels/us/en/middleburg-heights/clemh/hoteldetail in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'days-inn-richfield':
+        "Open https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330 in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. The property now operates as Quality Inn & Suites Richfield; a census rename is pending a founder decision.",
+    'doubletree-by-hilton-cleveland-westlake':
+        "Open https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. The property now operates as Wyndham Garden Westlake; a census rename is pending a founder decision.",
+    'embassy-suites-by-hilton-akron-canton-airport':
+        "Open https://www.hilton.com/en/hotels/caknaes-embassy-suites-akron-canton-airport/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'extended-stay-america-premier-suites':
+        "Open https://www.extendedstayamerica.com/hotels/oh/cleveland/independence in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'highlander-inn':
+        "Open https://highlanderinnhotel.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'intercontinental-suites-hotel-cleveland':
+        "Open https://www.icsuitescleveland.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'sonesta-es-suites-cleveland-westlake':
+        "Open https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'springhill-suites-solon':
+        "Open https://www.marriott.com/en-us/hotels/clesh-springhill-suites-cleveland-solon/overview/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'the-bertram-inn-at-glenmoor':
+        "Open https://glenmoorcc.com/Hotel in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+    'the-lakehouse-inn-winery':
+        "Open https://thelakehouseinn.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
     "hyatt-place-cleveland-westlake-crocker-park":
         "Supply an operator screenshot of the proposed Hyatt brand page "
         "(clezc) showing the property name, street address and phone, so the "
@@ -382,6 +483,11 @@ MANIFEST_CLASSIFICATION_TO_STATE: Dict[str, str] = {
     "ADAPTER_GAP_INDEPENDENT": AWAITING_POLICY_OBSERVATION,
     "ROUTED_AWAITING_CAPTURE": AWAITING_POLICY_OBSERVATION,
     "ROUTED_NO_BRAND_ADAPTER": AWAITING_POLICY_OBSERVATION,
+    # PTF-CLEVELAND-ROUTING-REPAIR-001: a working property page bound by
+    # that repair; distinct from ROUTED_AWAITING_CAPTURE so capture-003's
+    # recorded attempt outcomes keep describing exactly the rows that run
+    # swept.
+    "ROUTING_REPAIRED_AWAITING_CAPTURE": AWAITING_POLICY_OBSERVATION,
     "SELECTOR_OR_SURFACE_GAP": AWAITING_ATTENDED_CAPTURE,
 }
 
