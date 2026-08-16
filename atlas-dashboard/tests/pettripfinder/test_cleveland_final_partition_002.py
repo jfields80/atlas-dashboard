@@ -115,9 +115,10 @@ class TestItIsActuallyAPartition:
         counts = committed["final_state_counts"]
         assert sum(counts.values()) == 188
         # 29/159 at the 2026-08-12 partition; 72/116 after the Pass-2
-        # founder decisions (PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001).
-        assert sum(counts[s] for s in TERMINAL_STATES) == 72
-        assert sum(counts[s] for s in UNRESOLVED_STATES) == 116
+        # founder decisions; 116/72 after the Pass-3 founder decisions
+        # (PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001).
+        assert sum(counts[s] for s in TERMINAL_STATES) == 116
+        assert sum(counts[s] for s in UNRESOLVED_STATES) == 72
 
     def test_the_reconciliation_matches_the_market_authority(self, committed):
         from scripts.pettripfinder.build_market_manifest import build_package
@@ -125,8 +126,8 @@ class TestItIsActuallyAPartition:
         rec = committed["reconciliation"]
         assert (rec["confirmed_identities"], rec["published_pet_friendly"],
                 rec["verified_no_pets"], rec["resolved"],
-                rec["unresolved"]) == (188, 41, 31, 72, 116)
-        assert build_package(MARKET).reconciliation() == (188, 41, 31, 72, 116)
+                rec["unresolved"]) == (188, 81, 35, 116, 72)
+        assert build_package(MARKET).reconciliation() == (188, 81, 35, 116, 72)
 
     def test_published_and_excluded_states_match_the_publication_authority(
             self, committed):
@@ -155,7 +156,7 @@ class TestItIsActuallyAPartition:
                            if not i["resolved"]}
         assert unresolved_here == {i["normalized_name"]
                                    for i in _json(UNRESOLVED_PATH)["items"]}
-        assert len(unresolved_here) == 116
+        assert len(unresolved_here) == 72
 
 
 class TestExactlyOneNextAction:
@@ -237,11 +238,15 @@ class TestNothingPublishedFromATranscription:
     def test_no_work_browser_row_reached_a_terminal_state(self, committed):
         """The package is a transcription with no artifact of any source
         surface, and NOTHING was ever published from it. The reviewed rows
-        that are terminal today got there through the Pass-2 attended
-        captures -- hash-bound page artifacts adjudicated by founder decision
-        -- and every such row is named in the committed Pass-2 packet."""
+        that are terminal today got there through the Pass-2 and Pass-3
+        attended captures -- hash-bound page artifacts adjudicated by founder
+        decision -- and every such row is named in a committed packet."""
         packet = _json(Q_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["positive_candidates"]} |                   {c["hotel_id"] for c in packet["negative_candidates"]}
+        pass3 = _json(Q_PACKET_PATH.parent
+                      / "cleveland_pass3_founder_review_packet.json")
+        decided |= {c["identity_key"] for c in pass3["positive_candidates"]}
+        decided |= {c["identity_key"] for c in pass3["negative_candidates"]}
         reviewed = [i for i in committed["items"]
                     if i["reviewed_in_work_browser_pass_001"]]
         assert len(reviewed) == 135
@@ -301,18 +306,24 @@ class TestTheAuthoritiesAgree:
         assert drift == []
 
     def test_the_sonesta_correction_reached_both_files(self):
+        """The 6f9ba1d correction did its job: the corrected Simply Suites
+        route is where the Pass-3 attended capture read the policy that
+        published this identity. Published identities hold no routes and
+        leave the unresolved manifest, so the URL authority is now the
+        published record itself -- still the corrected path."""
+        key = "sonesta es suites cleveland airport"
         routes = {r["hotel_ref"]["normalized_name"]: r
                   for r in _json(ROUTING_PATH)["routes"]
                   if r.get("market_id") == MARKET}
-        key = "sonesta es suites cleveland airport"
-        routed = routes[key]["official_property_url"]
-        assert "sonesta-simply-suites" in routed
-        item = next(i for i in _json(UNRESOLVED_PATH)["items"]
-                    if i["normalized_name"] == key)
-        assert item["official_url"] == routed
-        # The rebrand corrected a URL, not an identity or a state.
-        assert item["canonical_name"] == "Sonesta ES Suites Cleveland Airport"
-        assert item["classification"] == "ADAPTER_GAP_INDEPENDENT"
+        assert key not in routes
+        assert not any(i["normalized_name"] == key
+                       for i in _json(UNRESOLVED_PATH)["items"])
+        from scripts.pettripfinder.site_data import published_facts_path
+        record = next(h for h in _json(published_facts_path(MARKET))["hotels"]
+                      if h["identity_key"] == key)
+        assert "sonesta-simply-suites" in record["source_url"]
+        # The rebrand corrected a URL, not an identity.
+        assert record["name"] == "Sonesta ES Suites Cleveland Airport"
 
     def test_the_partition_url_is_the_routing_url(self, committed):
         """One place to read where a property's page is."""
@@ -327,8 +338,8 @@ class TestTheAuthoritiesAgree:
         doc = _json(UNRESOLVED_PATH)
         assert (doc["confirmed_identities"], doc["resolved"],
                 doc["published_pet_friendly"], doc["verified_no_pets"],
-                doc["unresolved"]) == (188, 72, 41, 31, 116)
-        assert len(doc["items"]) == 116
+                doc["unresolved"]) == (188, 116, 81, 35, 72)
+        assert len(doc["items"]) == 72
 
 
 class TestCollisionAudits:
@@ -399,8 +410,9 @@ class TestTheSixteenthRoutingProposal:
         routes = [r for r in _json(ROUTING_PATH)["routes"]
                   if r.get("market_id") == MARKET]
         # 145 at the 2026-08-12 partition; 102 after Pass 2 retired the
-        # routes of the 43 decided identities.
-        assert len(routes) == 102
+        # routes of the 43 decided identities; 58 after Pass 3 retired the
+        # routes of its 44.
+        assert len(routes) == 58
 
 
 class TestTheCrosswalkIsAuditable:
@@ -441,11 +453,12 @@ class TestTheCrosswalkIsAuditable:
     def test_the_four_known_divergences_are_present(self, committed):
         crosswalk = committed["crosswalk_from_pass_001_outcomes"]
         # SELECTOR_OR_SURFACE_GAP began splitting when Pass 2 published
-        # Motel 6 Richfield out of that bucket.
+        # Motel 6 Richfield out of that bucket; IDENTITY_ONLY began
+        # splitting when Pass 3 published and excluded identities out of it.
         assert {o for o, r in crosswalk.items() if r["splits"]} == {
             "ACCESS_BLOCKED", "MANUAL_VERIFICATION_REQUIRED", "OTHER_UNRESOLVED",
             "EVIDENCE_CANDIDATE_AWAITING_ACCEPTED_ARTIFACT",
-            "SELECTOR_OR_SURFACE_GAP"}
+            "SELECTOR_OR_SURFACE_GAP", "IDENTITY_ONLY"}
         # 001 filed four rows as ACCESS_BLOCKED; only one of them has no lawful
         # automated path -- the other three are waiting on a routing URL.
         blocked = crosswalk["ACCESS_BLOCKED"]
@@ -460,11 +473,13 @@ class TestTheCrosswalkIsAuditable:
 
     def test_the_blocker_distribution_is_what_the_evidence_supports(self, committed):
         counts = committed["final_state_counts"]
-        # The 2026-08-12 distribution was 70/30/14; the Pass-2 founder
-        # decisions consumed 30 artifact-awaiting rows and 13 attended rows
-        # (Economy Inn stays: its site is policy-silent).
-        assert counts[AWAITING_POLICY_ARTIFACT] == 40
-        assert counts[AWAITING_POLICY_OBSERVATION] == 30
+        # The 2026-08-12 distribution was 70/30/14; Pass 2 consumed 30
+        # artifact-awaiting rows and 13 attended rows; Pass 3 consumed 33
+        # more artifact rows and 11 observation rows (Economy Inn stays:
+        # its site is policy-silent; the 2 remaining Hyatt artifact rows
+        # are ADR-forbidden and wait for the operator-manual session).
+        assert counts[AWAITING_POLICY_ARTIFACT] == 7
+        assert counts[AWAITING_POLICY_OBSERVATION] == 19
         assert counts[AWAITING_ATTENDED_CAPTURE] == 1
         assert counts[AWAITING_ROUTING_REPLACEMENT] == 13
         assert counts[AWAITING_ROUTING_REVIEW] == 1

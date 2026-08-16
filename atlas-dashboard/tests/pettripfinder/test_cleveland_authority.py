@@ -51,16 +51,18 @@ class TestClevelandAuthority:
         """19 from PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001, plus the two Drury
         properties PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published."""
         assert facts["market"] == CLEVELAND
-        # 21 before the Pass-2 founder decisions published twenty more.
-        assert len(facts["hotels"]) == 41
+        # 21 before the Pass-2 founder decisions published twenty more;
+        # 41 before the Pass-3 founder decisions published forty more.
+        assert len(facts["hotels"]) == 81
         assert {h["verification_state"] for h in facts["hotels"]} == {"VERIFIED_PET_FRIENDLY"}
 
     def test_eight_verified_no_pets_are_cleveland_owned(self):
         cle = [e for e in load_exclusions()
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        # 8 before Pass 2; 23 first-party refusals joined them.
-        assert len(cle) == 31
+        # 8 before Pass 2; 23 first-party refusals joined them; Pass 3
+        # added 4 more (incl. DoubleTree Canton Downtown's own page).
+        assert len(cle) == 35
 
     def test_every_exclusion_states_its_market(self):
         """Implicit ownership defaulted Columbus's 14 exclusions into whichever
@@ -115,8 +117,11 @@ class TestClevelandAuthority:
         # of a field -- and retired the two Drury entries that 1.2 can now
         # state outright: the fee's room scope has its own field, and the
         # property's service-animal sentence has its own structure.
-        # 7 before Pass 2; Residence Inn Mentor and ESA Akron South added two.
-        assert withheld_total == 9
+        # 7 before Pass 2; Residence Inn Mentor and ESA Akron South added
+        # two; the Pass-3 founder decisions added 15 (no-limit and
+        # stated-none disclosures, ceilings, garbled tiers and same-page
+        # contradictions) and the ESA ceiling!=price remediation one more.
+        assert withheld_total == 25
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
@@ -176,7 +181,7 @@ class TestMarketIsolation:
     def test_cleveland_inventory_is_owned_and_scoped(self):
         rows = read_production_rows()
         cle = owned_by(rows, CLEVELAND)
-        assert len(cle) == 41
+        assert len(cle) == 81
         assert all(r["category"] == "pet-friendly-hotels" for r in cle)
 
     def test_columbus_inventory_is_unchanged_at_116(self):
@@ -191,7 +196,7 @@ class TestMarketIsolation:
     def test_each_market_selects_only_its_own_facts(self):
         cbus = load_published_hotel_policy_facts(COLUMBUS)
         cle = load_published_hotel_policy_facts(CLEVELAND)
-        assert len(cbus) == 88 and len(cle) == 41
+        assert len(cbus) == 88 and len(cle) == 81
         assert set(cbus) & set(cle) == set()
 
     def test_the_columbus_join_still_yields_88(self):
@@ -204,15 +209,15 @@ class TestMarketIsolation:
         rows = [r for r in owned_by(read_production_rows(), CLEVELAND)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(CLEVELAND))) == 41
+            rows, load_published_hotel_policy_facts(CLEVELAND))) == 81
 
     def test_reconciliation_is_188_21_8_29_159(self):
         from scripts.pettripfinder.build_market_manifest import build_package
 
         pkg = build_package(CLEVELAND)
-        assert pkg.reconciliation() == (188, 41, 31, 72, 116)
-        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 72
-        assert 72 + pkg.unresolved_count == 188
+        assert pkg.reconciliation() == (188, 81, 35, 116, 72)
+        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 116
+        assert 116 + pkg.unresolved_count == 188
 
     def test_columbus_reconciliation_is_untouched(self):
         """Cleveland's work must not move Columbus's numbers.

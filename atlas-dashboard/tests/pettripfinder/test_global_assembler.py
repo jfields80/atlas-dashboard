@@ -323,12 +323,13 @@ def test_navigation_visibility_is_not_an_assembly_condition(markets):
 
 def test_current_ohio_inventory_is_156_published_profiles(markets):
     """Section 28's target at the time, DERIVED -- not a constant in the code.
-    176 since PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 published twenty more
-    Cleveland hotels."""
+    176 since the Pass-2 founder decisions; 216 since
+    PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
+    hotels."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 41, DAYTON: 47}
-    assert sum(counts.values()) == 176
+    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47}
+    assert sum(counts.values()) == 216
 
 
 # --------------------------------------------------------------------------- #

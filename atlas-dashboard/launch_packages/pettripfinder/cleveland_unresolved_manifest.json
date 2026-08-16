@@ -1,19 +1,19 @@
 {
   "schema": "ptf-cleveland-unresolved/1.0",
-  "as_of": "2026-08-15",
+  "as_of": "2026-08-16",
   "market_id": "cleveland-akron-canton-oh",
   "confirmed_identities": 188,
-  "resolved": 72,
-  "published_pet_friendly": 41,
-  "verified_no_pets": 31,
-  "unresolved": 116,
+  "resolved": 116,
+  "published_pet_friendly": 81,
+  "verified_no_pets": 35,
+  "unresolved": 72,
   "classification_counts": {
-    "ADAPTER_GAP_INDEPENDENT": 38,
+    "ADAPTER_GAP_INDEPENDENT": 29,
     "ADR_ACCESS_BLOCKED": 5,
     "IDENTITY_SOURCE_RECOVERY": 7,
     "NO_OFFICIAL_URL": 15,
-    "ROUTED_AWAITING_CAPTURE": 41,
-    "ROUTED_NO_BRAND_ADAPTER": 9,
+    "ROUTED_AWAITING_CAPTURE": 10,
+    "ROUTED_NO_BRAND_ADAPTER": 5,
     "URL_SHAPE_NOT_PROPERTY": 1
   },
   "rule": "a failed capture is never negative evidence; every row here is UNKNOWN, not no-pets. Routing a hotel does not answer it -- a ROUTED_* row has an official URL and an identity binding, and still no observed pet policy.",
@@ -73,18 +73,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "knights inn cleveland macedonia",
-      "canonical_name": "Knights Inn Cleveland/Macedonia",
-      "city": "Macedonia",
-      "postal_code": "44056",
-      "phone": "(330) 467-1981",
-      "official_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
-      "classification": "ROUTED_NO_BRAND_ADAPTER",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-      "can_remain_unresolved_safely": true
-    },
-    {
       "normalized_name": "studio 6 extended stay hotel mentor",
       "canonical_name": "Studio 6 Extended Stay Hotel Mentor",
       "city": "Mentor",
@@ -103,36 +91,12 @@
       }
     },
     {
-      "normalized_name": "punderson manor lodge and conference center",
-      "canonical_name": "Punderson Manor Lodge & Conference Center",
-      "city": "Newbury",
-      "postal_code": "44065",
-      "phone": "440.564.9144",
-      "official_url": "https://www.pundersonmanor.com",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.pundersonmanor.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
       "normalized_name": "inn at brandywine falls",
       "canonical_name": "Inn at Brandywine Falls",
       "city": "Northfield",
       "postal_code": "44067",
       "phone": "(330) 467-1812",
       "official_url": "https://www.theinnatbrandywinefalls.com/",
-      "classification": "ROUTED_NO_BRAND_ADAPTER",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
-      "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "shady oaks farm bed and breakfast",
-      "canonical_name": "Shady Oaks Farm Bed and Breakfast",
-      "city": "Northfield",
-      "postal_code": "44067",
-      "phone": "(330) 468-2909",
-      "official_url": "https://www.shadyoaksfarmbnb.com/",
       "classification": "ROUTED_NO_BRAND_ADAPTER",
       "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
       "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
@@ -151,36 +115,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "hampton inn north olmsted cleveland airport",
-      "canonical_name": "Hampton Inn North Olmsted Cleveland Airport",
-      "city": "North Olmsted",
-      "postal_code": "44070",
-      "phone": "440.617.6306",
-      "official_url": "https://www.hilton.com/en/hotels/cleomhx-hampton-north-olmsted-cleveland-airport/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "the hotel at oberlin",
-      "canonical_name": "The Hotel at Oberlin",
-      "city": "Oberlin",
-      "postal_code": "44074",
-      "phone": "440.775.7001",
-      "official_url": "https://thehotelatoberlin.com/",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:thehotelatoberlin.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
       "normalized_name": "comfort suites twinsburg",
       "canonical_name": "Comfort Suites Twinsburg",
       "city": "Cleveland",
@@ -191,24 +125,6 @@
       "why_unresolved": "IDENTITY_FAILED",
       "next_action": "Recover an independent identity key (phone or property code) from an authoritative source, then re-queue.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hilton garden inn cleveland twinsburg",
-      "canonical_name": "Hilton Garden Inn Cleveland Twinsburg",
-      "city": "Twinsburg",
-      "postal_code": "44087",
-      "phone": "330.405.4488",
-      "official_url": "https://www.hilton.com/en/hotels/clethgi-hilton-garden-inn-cleveland-twinsburg/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "twinsburg country inn",
@@ -409,54 +325,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "fidelity hotel",
-      "canonical_name": "Fidelity Hotel",
-      "city": "Cleveland",
-      "postal_code": "44114",
-      "phone": "440.568.3200",
-      "official_url": "https://www.fidelityhotels.com/cleveland/",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.fidelityhotels.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hampton inn cleveland downtown",
-      "canonical_name": "Hampton Inn Cleveland Downtown",
-      "city": "Cleveland",
-      "postal_code": "44114",
-      "phone": "216.241.6600",
-      "official_url": "https://www.hilton.com/en/hotels/cledthx-hampton-cleveland-downtown/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "hilton cleveland downtown",
-      "canonical_name": "Hilton Cleveland Downtown",
-      "city": "Cleveland",
-      "postal_code": "44114",
-      "phone": "216.413.5000",
-      "official_url": "https://www.hilton.com/en/hotels/cledohh-hilton-cleveland-downtown/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "hyatt regency",
       "canonical_name": "Hyatt Regency",
       "city": "Cleveland",
@@ -466,36 +334,6 @@
       "classification": "ADR_ACCESS_BLOCKED",
       "why_unresolved": "no_adapter_for_brand:hyatt",
       "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hilton garden inn downtown cleveland",
-      "canonical_name": "Hilton Garden Inn Downtown Cleveland",
-      "city": "Cleveland",
-      "postal_code": "44115",
-      "phone": "216.658.6400",
-      "official_url": "https://www.hilton.com/en/hotels/clegwgi-hilton-garden-inn-cleveland-downtown/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "kimpton schofield hotel",
-      "canonical_name": "Kimpton Schofield Hotel",
-      "city": "Cleveland",
-      "postal_code": "44115",
-      "phone": "216.357.3250",
-      "official_url": "https://www.theschofieldhotel.com",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.theschofieldhotel.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
       "can_remain_unresolved_safely": true
     },
     {
@@ -511,54 +349,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "roost cleveland apartment hotel",
-      "canonical_name": "Roost Cleveland - Apartment Hotel",
-      "city": "Cleveland",
-      "postal_code": "44115",
-      "phone": "216.877.0500",
-      "official_url": "https://www.myroost.com/Cleveland",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.myroost.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hampton inn and suites beachwood",
-      "canonical_name": "Hampton Inn & Suites Beachwood",
-      "city": "Beachwood",
-      "postal_code": "44122",
-      "phone": "216.831.3735",
-      "official_url": "https://www.hilton.com/en/hotels/clebwhx-hampton-suites-cleveland-beachwood/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "homewood suites by hilton cleveland beachwood",
-      "canonical_name": "Homewood Suites by Hilton Cleveland-Beachwood",
-      "city": "Beachwood",
-      "postal_code": "44122",
-      "phone": "216.464.9600",
-      "official_url": "https://www.hilton.com/en/hotels/clebdhw-homewood-suites-cleveland-beachwood/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "hyatt place cleveland lyndhurst legacy village",
       "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
       "city": "Lyndhurst",
@@ -568,30 +358,6 @@
       "classification": "ADR_ACCESS_BLOCKED",
       "why_unresolved": "no_adapter_for_brand:hyatt",
       "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "staybridge suites mayfield heights",
-      "canonical_name": "Staybridge Suites Mayfield Heights",
-      "city": "Mayfield Heights",
-      "postal_code": "44124",
-      "phone": "440.442.9200",
-      "official_url": "https://www.staybridgesuites.com/clevelandeast",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.staybridgesuites.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "emerald necklace inn bed and breakfast and tea room",
-      "canonical_name": "Emerald Necklace Inn Bed & Breakfast and Tea Room",
-      "city": "Cleveland",
-      "postal_code": "44126",
-      "phone": "440.333.9100",
-      "official_url": "https://www.emeraldnecklaceinn.com",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.emeraldnecklaceinn.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
       "can_remain_unresolved_safely": true
     },
     {
@@ -619,24 +385,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "hampton inn and suites cleveland airport",
-      "canonical_name": "Hampton Inn & Suites Cleveland Airport",
-      "city": "Middleburg Heights",
-      "postal_code": "44130",
-      "phone": "440.234.0206",
-      "official_url": "https://www.hilton.com/en/hotels/clemhhx-hampton-suites-cleveland-airport-middleburg-heights/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "red roof inn middleburg heights",
       "canonical_name": "Red Roof Inn Middleburg Heights",
       "city": "Middleburg Heights",
@@ -646,18 +394,6 @@
       "classification": "IDENTITY_SOURCE_RECOVERY",
       "why_unresolved": "IDENTITY_FAILED",
       "next_action": "Recover an independent identity key (phone or property code) from an authoritative source, then re-queue.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "sonesta es suites cleveland airport",
-      "canonical_name": "Sonesta ES Suites Cleveland Airport",
-      "city": "Middleburg Heights",
-      "postal_code": "44130",
-      "phone": "440.234.6688",
-      "official_url": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "no_adapter_for_brand:sonesta. The official URL was corrected at PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001 after Sonesta rebranded this property from ES Suites to Simply Suites; the census identity is unchanged and the pet policy is still unobserved.",
-      "next_action": "Independent property with no chain adapter. Open the corrected Simply Suites URL and screenshot the pet policy plus the page area showing name/address.",
       "can_remain_unresolved_safely": true
     },
     {
@@ -671,24 +407,6 @@
       "why_unresolved": "no_adapter_for_brand:hyatt",
       "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hampton inn and suites cleveland independence",
-      "canonical_name": "Hampton Inn & Suites Cleveland Independence",
-      "city": "Independence",
-      "postal_code": "44131",
-      "phone": "216.520.2020",
-      "official_url": "https://www.hilton.com/en/hotels/cleiphx-hampton-suites-cleveland-independence/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "holiday inn cleveland south independence",
@@ -727,24 +445,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "la quinta inn cleveland independence",
-      "canonical_name": "La Quinta Inn Cleveland Independence",
-      "city": "Independence",
-      "postal_code": "44131",
-      "phone": "216.447.1133",
-      "official_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "POLICY_EVIDENCE_HELD_POLICY_PARTIAL",
-        "detail": "marketing-only: the page affirms 'our pet-friendly hotel' and states no fee, species, weight or count anywhere in the fetched surface",
-        "next_action": "attended capture of wyndhamhotels.com's client-side Pet & Service Animal Policy accordion, or an operator phone call to the property"
-      }
-    },
-    {
       "normalized_name": "red roof inn independence",
       "canonical_name": "Red Roof Inn Independence",
       "city": "Independence",
@@ -755,24 +455,6 @@
       "why_unresolved": "IDENTITY_FAILED",
       "next_action": "Recover an independent identity key (phone or property code) from an authoritative source, then re-queue.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hilton garden inn cleveland airport",
-      "canonical_name": "Hilton Garden Inn Cleveland Airport",
-      "city": "Cleveland",
-      "postal_code": "44135",
-      "phone": "216.898.1898",
-      "official_url": "https://www.hilton.com/en/hotels/cleahgi-hilton-garden-inn-cleveland-airport/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "la quinta inn and suites cleveland airport north",
@@ -803,24 +485,6 @@
       "why_unresolved": "brand_unrecognised:www.woodspring.com",
       "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "homewood suites by hilton",
-      "canonical_name": "Homewood Suites by Hilton",
-      "city": "Solon",
-      "postal_code": "44139",
-      "phone": "440.519.9500",
-      "official_url": "https://www.hilton.com/en/hotels/clehwhw-homewood-suites-cleveland-solon/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "springhill suites solon",
@@ -859,66 +523,12 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "hilton garden inn cleveland east mayfield village",
-      "canonical_name": "Hilton Garden Inn Cleveland East Mayfield Village",
-      "city": "Mayfield Village",
-      "postal_code": "44143",
-      "phone": "440.646.1777",
-      "official_url": "https://www.hilton.com/en/hotels/cleemgi-hilton-garden-inn-cleveland-east-mayfield-village/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "hampton inn cleveland airport brooklyn oh",
-      "canonical_name": "Hampton Inn Cleveland Airport Brooklyn Oh",
-      "city": "Brooklyn",
-      "postal_code": "44144",
-      "phone": "216.929.8400",
-      "official_url": "https://www.hilton.com/en/hotels/clecchx-hampton-cleveland-airport-tiedeman-rd/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "doubletree by hilton cleveland westlake",
       "canonical_name": "DoubleTree by Hilton Cleveland-Westlake",
       "city": "Westlake",
       "postal_code": "44145",
       "phone": "440.871.6000",
       "official_url": "https://www.hilton.com/en/hotels/clecrdt-doubletree-cleveland-westlake/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "hampton inn westlake",
-      "canonical_name": "Hampton Inn Westlake",
-      "city": "Westlake",
-      "postal_code": "44145",
-      "phone": "440.892.0333",
-      "official_url": "https://www.hilton.com/en/hotels/cledrhx-hampton-cleveland-westlake/",
       "classification": "ROUTED_AWAITING_CAPTURE",
       "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
       "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
@@ -1069,60 +679,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "hampton inn stow",
-      "canonical_name": "Hampton Inn Stow",
-      "city": "Stow",
-      "postal_code": "44224",
-      "phone": "(330) 945-4160",
-      "official_url": "https://www.hilton.com/en/hotels/stoohhx-hampton-stow/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "home2 suites by hilton stow akron",
-      "canonical_name": "Home2 Suites by Hilton Stow Akron",
-      "city": "Stow",
-      "postal_code": "44224",
-      "phone": "(330) 835-6400",
-      "official_url": "https://www.hilton.com/en/hotels/cakstht-home2-suites-stow-akron/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "staybridge suites akron stow cuyahoga falls",
-      "canonical_name": "Staybridge Suites Akron Stow Cuyahoga Falls",
-      "city": "Stow",
-      "postal_code": "44224",
-      "phone": "(330) 945-4180",
-      "official_url": "https://www.ihg.com/staybridge/hotels/us/en/stow/stwoh/hoteldetail",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.ihg.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "budget inn",
       "canonical_name": "Budget Inn",
       "city": "Hudson",
@@ -1189,36 +745,6 @@
       }
     },
     {
-      "normalized_name": "super 8 by wyndham richfield cleveland",
-      "canonical_name": "Super 8 by Wyndham Richfield/Cleveland",
-      "city": "Richfield",
-      "postal_code": "44286",
-      "phone": "(330) 659-6888",
-      "official_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "POLICY_EVIDENCE_HELD_POLICY_PARTIAL",
-        "detail": "marketing-only: the page affirms 'our pet-friendly, non-smoking hotel' and states no fee, species, weight or count. Identity holds on name and street address, which agree exactly; the page's own phone (+1-330-344-9040) disagrees with the CVB census phone ((330) 659-6888) and that contradiction is preserved, not resolved",
-        "next_action": "attended capture of the Pet Policy accordion; separately, reconcile the two telephone numbers against a third identity-grade source"
-      }
-    },
-    {
-      "normalized_name": "terry point motel",
-      "canonical_name": "Terry Point Motel",
-      "city": "Richfield",
-      "postal_code": "44286",
-      "phone": "(330) 659-7108",
-      "official_url": "https://www.terrypoint.com/",
-      "classification": "ROUTED_NO_BRAND_ADAPTER",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
-      "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-      "can_remain_unresolved_safely": true
-    },
-    {
       "normalized_name": "courtesy inn",
       "canonical_name": "Courtesy Inn",
       "city": "Akron",
@@ -1229,42 +755,6 @@
       "why_unresolved": "no official URL was recoverable from the CVB listing",
       "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hilton garden inn akron",
-      "canonical_name": "Hilton Garden Inn Akron",
-      "city": "Akron",
-      "postal_code": "44305",
-      "phone": "(330) 733-2900",
-      "official_url": "https://www.hilton.com/en/hotels/cakemgi-hilton-garden-inn-akron/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "hampton inn akron south",
-      "canonical_name": "Hampton Inn Akron/South",
-      "city": "Akron",
-      "postal_code": "44312",
-      "phone": "(330) 644-6579",
-      "official_url": "https://www.hilton.com/en/hotels/caksohx-hampton-akron-south/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "quality inn arlington",
@@ -1291,24 +781,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "extended stay america hotel akron copley east",
-      "canonical_name": "Extended Stay America Hotel Akron/Copley East",
-      "city": "Akron",
-      "postal_code": "44321",
-      "phone": "(330) 668-9818",
-      "official_url": "https://www.extendedstayamerica.com/hotels/oh/akron/copley-east",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.extendedstayamerica.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "radisson hotel akron fairlawn",
       "canonical_name": "Radisson Hotel Akron/Fairlawn",
       "city": "Akron",
@@ -1319,90 +791,6 @@
       "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
       "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "doubletree by hilton akron fairlawn",
-      "canonical_name": "Doubletree by Hilton Akron/ Fairlawn",
-      "city": "Akron",
-      "postal_code": "44333",
-      "phone": "(330) 867-5000",
-      "official_url": "https://www.hilton.com/en/hotels/cakdtdt-doubletree-akron-fairlawn/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "hampton inn akron fairlawn",
-      "canonical_name": "Hampton Inn Akron Fairlawn",
-      "city": "Akron",
-      "postal_code": "44333",
-      "phone": "(330) 666-7361",
-      "official_url": "https://www.hilton.com/en/hotels/cakohhx-hampton-akron-fairlawn/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "homewood suites by hilton akron fairlawn",
-      "canonical_name": "Homewood Suites by Hilton Akron/Fairlawn",
-      "city": "Akron",
-      "postal_code": "44333",
-      "phone": "(330) 664-6000",
-      "official_url": "https://www.hilton.com/en/hotels/cakfahw-homewood-suites-akron-fairlawn-oh/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "the ohio motel",
-      "canonical_name": "The Ohio Motel",
-      "city": "Bath",
-      "postal_code": "44333",
-      "phone": "(330) 659-9999",
-      "official_url": "https://www.theohiomotel.com/",
-      "classification": "ROUTED_NO_BRAND_ADAPTER",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
-      "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hampton inn and suites alliance",
-      "canonical_name": "Hampton Inn & Suites — Alliance",
-      "city": "Alliance",
-      "postal_code": "44601",
-      "phone": "(330) 680-4052",
-      "official_url": "https://www.hilton.com/en/hotels/cakalhx-hampton-suites-alliance/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "comfort suites hartville",
@@ -1417,24 +805,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "hampton inn massillon",
-      "canonical_name": "Hampton Inn Massillon",
-      "city": "Massillon",
-      "postal_code": "44647",
-      "phone": "(330) 834-1144",
-      "official_url": "https://www.hilton.com/en/hotels/mslohhx-hampton-massillon/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
       "normalized_name": "palmantiers motel",
       "canonical_name": "Palmantiers Motel",
       "city": "Minerva",
@@ -1447,24 +817,6 @@
       "can_remain_unresolved_safely": true
     },
     {
-      "normalized_name": "super 8 by wyndham akron south green uniontown",
-      "canonical_name": "Super 8 by Wyndham Akron South/Green/Uniontown",
-      "city": "Uniontown",
-      "postal_code": "44685",
-      "phone": "(330) 776-5350",
-      "official_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "IDENTITY_TOKEN_MISMATCH",
-        "detail": "page identity (JSON-LD) reads 'Super 8 by Wyndham Akron S/Green/Uniontown OH' -- the brand's own abbreviation of 'South' to 'S' fails the membrane's M10 name-token subset check even though street address (1605 Corporate Woods Pkwy/Parkway, 44685) and phone ((330) 776-5350 / +1-330-776-5350) both match the census exactly",
-        "next_action": "a human confirms the abbreviation is the same property (or a property-code override is recovered), then the retained rejected observation in observations.json is re-admitted -- no new capture is needed"
-      }
-    },
-    {
       "normalized_name": "the inn at amish door",
       "canonical_name": "The Inn at Amish Door",
       "city": "Wilmot",
@@ -1475,72 +827,6 @@
       "why_unresolved": "brand_unrecognised:www.milanaballroom.com",
       "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
       "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "doubletree by hilton canton downtown",
-      "canonical_name": "DoubleTree by Hilton Canton Downtown",
-      "city": "Canton",
-      "postal_code": "44702",
-      "phone": "(330) 471-8000",
-      "official_url": "https://www.330barandgrill.com/",
-      "classification": "ADAPTER_GAP_INDEPENDENT",
-      "why_unresolved": "brand_unrecognised:www.330barandgrill.com",
-      "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-      "can_remain_unresolved_safely": true
-    },
-    {
-      "normalized_name": "hampton inn and suites by hilton canton",
-      "canonical_name": "Hampton Inn & Suites By Hilton Canton",
-      "city": "Canton",
-      "postal_code": "44709",
-      "phone": "(330) 491-4335",
-      "official_url": "https://www.hilton.com/en/hotels/cakbmhx-hampton-suites-canton/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "home2 suites by hilton canton",
-      "canonical_name": "Home2 Suites by Hilton Canton",
-      "city": "Canton",
-      "postal_code": "44709",
-      "phone": "(330) 491-9714",
-      "official_url": "https://www.hilton.com/en/hotels/cakncht-home2-suites-canton/",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
-    },
-    {
-      "normalized_name": "staybridge suites canton",
-      "canonical_name": "Staybridge Suites Canton",
-      "city": "Canton",
-      "postal_code": "44709",
-      "phone": "(330) 966-6620",
-      "official_url": "https://www.ihg.com/staybridge/hotels/us/en/canton/caker/hoteldetail",
-      "classification": "ROUTED_AWAITING_CAPTURE",
-      "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-      "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-      "can_remain_unresolved_safely": true,
-      "capture_attempt": {
-        "run_id": "cleveland-policy-capture-003",
-        "outcome": "ACCESS_BLOCKED",
-        "detail": "www.ihg.com HTTP 403 Forbidden (directly attempted)",
-        "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-      }
     },
     {
       "normalized_name": "holiday inn canton",
@@ -1669,5 +955,6 @@
       "why": "PTF-CLEVELAND-WORK-BROWSER-INTEGRATION-001 (6f9ba1d) corrected this property's route in identity_routing.json after Sonesta's ES Suites -> Simply Suites rebrand, but the correction never reached this manifest, so the reconciliation of record and routing authority disagreed on one URL and this next action pointed at a superseded path. No count changes: the identity is unresolved before and after."
     }
   ],
-  "pass2_update": "PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 removed 43 rows (20 published, 23 verified no-pets) after the attended capture pass; every removal is traceable in cleveland_pass2_capture_results.json."
+  "pass2_update": "PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 removed 43 rows (20 published, 23 verified no-pets) after the attended capture pass; every removal is traceable in cleveland_pass2_capture_results.json.",
+  "pass3_update": "PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 removed 44 rows (40 published, 4 verified no-pets) after the Pass-3 attended capture pass; every removal is traceable in cleveland_pass3_capture_results.json."
 }

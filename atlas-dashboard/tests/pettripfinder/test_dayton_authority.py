@@ -390,7 +390,7 @@ class TestMarketIsolation:
         # Cleveland moved 19 -> 21 under its OWN integration
         # (PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003); Dayton did not
         # move it, which is what this test defends.
-        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 41  # after PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
+        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 81  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
 
     def test_columbus_still_has_exactly_fourteen_no_pets(self):
         cbus = [e for e in load_exclusions()
@@ -402,7 +402,7 @@ class TestMarketIsolation:
         cle = [e for e in load_exclusions()
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cle) == 31  # after PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
+        assert len(cle) == 35  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
 
     def test_no_dayton_hotel_appears_in_another_market_authority(self, facts):
         day_keys = {h["key"] for h in facts["hotels"]}

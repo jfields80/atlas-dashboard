@@ -79,8 +79,12 @@ EXPECTED_RECONCILIATION = {
     # PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 applied the founder's 45
     # rulings on the 49-row attended-capture packet: twenty artifact-backed
     # publications (21 -> 41) and twenty-three first-party refusals
-    # (8 -> 31 verified-no-pets), so resolved is 72 and unresolved 116.
-    CLEVELAND: (188, 41, 31, 72, 116),
+    # (8 -> 31 verified-no-pets), so resolved was 72 and unresolved 116.
+    # PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 then applied the founder's
+    # 44 rulings on the 68-row driveable-queue packet: forty artifact-backed
+    # publications (41 -> 81) and four first-party refusals (31 -> 35), so
+    # resolved is 116 and unresolved 72.
+    CLEVELAND: (188, 81, 35, 116, 72),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -228,7 +232,7 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 31, DAYTON: 8}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

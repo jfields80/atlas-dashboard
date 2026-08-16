@@ -61,10 +61,11 @@ class TestTargetSetIsDerivedNotAssumed:
         routed = [i for i in unresolved_manifest["items"]
                  if i["classification"] == "ROUTED_AWAITING_CAPTURE"]
         # 72 when capture-003 ran; 41 after the Pass-2 founder decisions
-        # consumed thirty-one routed targets.
-        assert len(routed) == 41
+        # consumed thirty-one routed targets; 10 after the Pass-3 founder
+        # decisions consumed thirty-one more.
+        assert len(routed) == 10
         names = [i["normalized_name"] for i in routed]
-        assert len(set(names)) == 41  # 72 before the Pass-2 decisions
+        assert len(set(names)) == 10  # 72 before the Pass-2 decisions
         for item in routed:
             attempt = item["capture_attempt"]
             assert attempt["run_id"] == "cleveland-policy-capture-003"
@@ -88,15 +89,20 @@ class TestManifestIsProposalOnly:
         candidate is absent from it by decision, not by omission.
         """
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
-        # 21 when capture-003 closed; 41 after the Pass-2 publications.
-        assert len(facts["hotels"]) == 41
+        # 21 when capture-003 closed; 41 after the Pass-2 publications;
+        # 81 after the Pass-3 publications.
+        assert len(facts["hotels"]) == 81
         published = {h["key"] for h in facts["hotels"]}
         assert {"drury plaza hotel", "drury inn and suites beachwood"} <= published
-        held = {"la quinta inn cleveland independence",
-                "la quinta inn and suites cleveland airport north",
+        # Three of the four candidates this manifest could not publish were
+        # later published by the Pass-3 FOUNDER DECISIONS -- from fresh
+        # hash-bound attended captures, never from this manifest. The fourth
+        # stays held: its queued URL serves a different La Quinta (Airport
+        # West), an identity mismatch the Pass-3 ledger records.
+        assert "la quinta inn and suites cleveland airport north" not in published
+        assert {"la quinta inn cleveland independence",
                 "super 8 by wyndham richfield cleveland",
-                "super 8 by wyndham akron south green uniontown"}
-        assert held & published == set()
+                "super 8 by wyndham akron south green uniontown"} <= published
 
     def test_every_candidate_slug_is_in_the_census(self, manifest, census):
         slugs = {h["slug"] for h in census["hotels"]}

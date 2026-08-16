@@ -47,7 +47,7 @@ def test_report_covers_all_published_records(facts, report):
     cleveland_pass2_capture_results.json."""
     assert report["schema"] == "ptf-cleveland-artifact-verification/1.0"
     assert report["records_checked"] == 21
-    assert len(facts["hotels"]) == 41
+    assert len(facts["hotels"]) == 81
     assert report["classification_counts"] == {
         "ARTIFACT_VERIFIED_COMPLETE": 19,
         "ARTIFACT_PARTIAL": 2,
@@ -108,7 +108,9 @@ def test_approvals_founder_bound_after_closeout(facts):
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
         assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
         assert approval["operator"] == "jfields80"
-        assert approval["approval_date"] == "2026-08-15"
+        # 2026-08-15: Pass-1 closeout + Pass-2 decisions; 2026-08-16:
+        # Pass-3 decisions and the ESA ceiling!=price remediation.
+        assert approval["approval_date"] in ("2026-08-15", "2026-08-16")
         if hotel["identity_key"] in DRURY_KEYS:
             # Re-attested by PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 against
             # the verified current hash; the 2026-08-11 approval is preserved
@@ -121,10 +123,14 @@ def test_approvals_founder_bound_after_closeout(facts):
             continue
         prior = approval.get("supersedes")
         if prior is None:
-            # First publication (Pass-2 founder decision): nothing replaced.
+            # First publication (Pass-2/Pass-3 founder decision): nothing
+            # replaced.
             assert any("Founder decision" in c for c in approval["caveats"])
             continue
-        assert any("governance closeout" in c for c in approval["caveats"])
+        # A superseding approval is either the Pass-1 governance closeout
+        # re-attestation or the founder's Pass-3 ESA remediation.
+        assert any("governance closeout" in c or "Founder remediation" in c
+                   for c in approval["caveats"])
         assert prior["operator"] == "jfields80"
         assert prior["decision"] in (enums.APPROVED_AFTER_CURRENT_REVIEW,
                                      "APPROVED")
@@ -175,9 +181,9 @@ def test_release_contract_pins_the_upgraded_package(report):
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
-    # The Pass-1 sha is history; the closeout stamped the pin it left behind.
     # Earlier shas are history; the latest pass stamps the pin it leaves.
-    assert report["facts_sha256_after_pass2_decisions"] == actual
+    assert report["facts_sha256_after_pass3_decisions"] == actual
+    assert report["facts_sha256_after_pass2_decisions"] != actual
     assert report["facts_sha256_after_pass2"] != actual
     assert report["facts_sha256_after_closeout"] != actual
     assert report["facts_sha256_after_apply"] != actual

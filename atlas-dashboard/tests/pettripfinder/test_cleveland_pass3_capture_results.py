@@ -161,15 +161,50 @@ def test_speed_benchmark_recorded(ledger):
     assert bench["captures_per_hour"] > 0
 
 
-def test_pass3_changed_no_authority(ledger, packet):
-    """Pass 3 is packets-only: the facts package still matches the release
-    contract pin, no approval is written, and no candidate attributes a
-    decision to any person."""
+def test_founder_decisions_recorded_and_contract_pinned(ledger, packet):
+    """The capture pass wrote packets only; the decision application then
+    recorded the founder's ruling on every candidate, applied all 44, and
+    re-pinned the release contract to the facts package it produced."""
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
-    assert packet["status"] == "AWAITING_FOUNDER_DECISION"
-    blob = json.dumps(packet)
-    assert "jfields80" not in blob
+    assert packet["status"] == "FOUNDER_DECIDED_AND_APPLIED"
+    assert packet["decided_by"] == "jfields80"
+    assert packet["decided_at"] == "2026-08-16"
     for cand in packet["positive_candidates"]:
-        assert "approval" not in cand
+        assert cand["founder_decision"] in ("APPROVE", "APPROVE_WITH_CHANGE")
+        assert cand["outcome"] == "PUBLISHED"
+        assert cand["decision_id"].startswith("D")
+    for cand in packet["negative_candidates"]:
+        assert cand["founder_decision"] == "APPROVE_VERIFIED_NO_PETS"
+        assert cand["outcome"] == "EXCLUDED_VERIFIED_NO_PETS"
+    remediation = packet["esa_existing_record_remediation"]
+    assert remediation["authorized"] is True and remediation["applied"] is True
+    assert remediation["record_hash_before"] != remediation["record_hash_after"]
+
+
+def test_every_applied_decision_landed_in_the_authorities(packet):
+    """Every PUBLISHED candidate is a facts record whose approval cites its
+    decision id; every EXCLUDED candidate is a VERIFIED_NO_PETS exclusion."""
+    facts = json.loads(FACTS_PATH.read_text(encoding="utf-8"))
+    by_key = {h["identity_key"]: h for h in facts["hotels"]}
+    for cand in packet["positive_candidates"]:
+        record = by_key[cand["identity_key"]]
+        approval = record["approval"]
+        assert approval["operator"] == "jfields80"
+        assert approval["approval_date"] == "2026-08-16"
+        assert any(cand["decision_id"] + "," in c or
+                   cand["decision_id"] + " " in c
+                   for c in approval["caveats"]), cand["decision_id"]
+        # The record's worker_result_hash names the same artifact the
+        # founder was shown.
+        assert record["worker_result_hash"] == cand["artifact_sha256"]
+    exclusions = json.loads(
+        (LP / "hotel_exclusions.json").read_text(encoding="utf-8"))
+    by_norm = {e["normalized_name"]: e for e in exclusions["exclusions"]}
+    for cand in packet["negative_candidates"]:
+        record = by_norm[cand["identity_key"]]
+        assert record["exclusion_state"] == "VERIFIED_NO_PETS"
+        assert record["source_hash"] == cand["artifact_sha256"]
+        assert record["evidence_quote"] == cand["refusal_quote"]
+        assert record["reviewer_id"] == "jfields80"

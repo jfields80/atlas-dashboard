@@ -146,11 +146,13 @@ class TestNothingPublished:
         # twenty and excluded twenty-three by founder decision, so the live
         # authorities equal the stated totals plus exactly those deltas.
         packet = _json(P2_PACKET_PATH)
-        assert totals["published_pet_friendly_after"]             + len(packet["positive_candidates"]) == len(
+        pass3 = _json(P2_PACKET_PATH.parent
+                      / "cleveland_pass3_founder_review_packet.json")
+        assert totals["published_pet_friendly_after"]             + len(packet["positive_candidates"]) + len(pass3["positive_candidates"]) == len(
             _json(CLEVELAND_FACTS_PATH)["hotels"])
         exclusions = _json(EXCLUSIONS_PATH)
         records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
-        assert totals["verified_no_pets_after"]             + len(packet["negative_candidates"]) == len(
+        assert totals["verified_no_pets_after"]             + len(packet["negative_candidates"]) + len(pass3["negative_candidates"]) == len(
             [r for r in records if r.get("market_id") == WB.MARKET])
         assert totals["confirmed_identities"] == _json(CENSUS_PATH)["count"]
 
@@ -161,6 +163,9 @@ class TestNothingPublished:
         published = {h["key"] for h in _json(CLEVELAND_FACTS_PATH)["hotels"]}
         packet = _json(P2_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["positive_candidates"]}
+        pass3 = _json(P2_PACKET_PATH.parent
+                      / "cleveland_pass3_founder_review_packet.json")
+        decided |= {c["identity_key"] for c in pass3["positive_candidates"]}
         for item in ledger["items"]:
             if not item["published_before"]:
                 assert (item["normalized_name"] not in published
@@ -176,6 +181,9 @@ class TestNothingPublished:
         reviewed = {i["normalized_name"] for i in ledger["items"]}
         packet = _json(P2_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["negative_candidates"]}
+        pass3 = _json(P2_PACKET_PATH.parent
+                      / "cleveland_pass3_founder_review_packet.json")
+        decided |= {c["identity_key"] for c in pass3["negative_candidates"]}
         assert not (reviewed & excluded) - decided - {
             r["normalized_name"] for r in records
             if r.get("observed_at", "") < WB.AS_OF}
@@ -322,29 +330,19 @@ class TestRoutingAdjudication:
             assert len(record["reason"]) > 40, record["slug"]
             assert record["next_action"].strip(), record["slug"]
 
-    def test_the_accepted_route_is_written_and_still_contract_valid(self):
+    def test_the_accepted_route_finished_its_job_and_was_retired(self):
+        """The accepted correction (Sonesta ES -> Simply Suites) is exactly
+        where the Pass-3 attended capture read the policy that published
+        this identity. Published identities hold no routes, so the record
+        was retired on publication and the corrected URL now lives on the
+        published record itself."""
         routing = _json(ROUTING_PATH)
-        matches = [r for r in routing["routes"]
-                   if r["routing_id"] == WB.ACCEPTED_ROUTE_ID]
-        assert len(matches) == 1
-        record = matches[0]
-        assert record["official_property_url"] == WB.ACCEPTED_ROUTE_URL
-        assert record["binding_method"] == BINDING_PAGE_RENDERED
-        assert record["status"] == ROUTING_CONFIRMED
-        validate_record(record)
-
-    def test_the_accepted_route_records_first_party_proof_not_the_transcription(self):
-        """The proposal came from the operator's browser; the acceptance did
-        not. binding_sources names the destination fetched directly and the
-        hash of what came back."""
-        record = [r for r in _json(ROUTING_PATH)["routes"]
-                  if r["routing_id"] == WB.ACCEPTED_ROUTE_ID][0]
-        joined = " ".join(record["binding_sources"])
-        assert WB.ACCEPTED_ROUTE_HTML_SHA256 in joined
-        assert "301-redirects" in joined
-        signals = record["identity_signals_matched"]
-        assert any("jsonld_streetAddress" in s for s in signals)
-        assert any("jsonld_telephone" in s for s in signals)
+        assert not any(r["routing_id"] == WB.ACCEPTED_ROUTE_ID
+                       for r in routing["routes"])
+        record = next(h for h in _json(CLEVELAND_FACTS_PATH)["hotels"]
+                      if h["identity_key"]
+                      == "sonesta es suites cleveland airport")
+        assert record["source_url"] == WB.ACCEPTED_ROUTE_URL
 
     def test_routing_did_not_grow_or_shrink(self):
         """This pass CORRECTED one record in place; it added and retired none.
@@ -360,8 +358,9 @@ class TestRoutingAdjudication:
         for record in routing["routes"]:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         # 145 when this pass closed; 102 after Pass 2 retired the routes
-        # of the 43 founder-decided identities.
-        assert by_market["cleveland-akron-canton-oh"] == 102
+        # of the 43 founder-decided identities; 58 after Pass 3
+        # retired 44 more.
+        assert by_market["cleveland-akron-canton-oh"] == 58
         assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
@@ -396,14 +395,17 @@ class TestRoutingAdjudication:
 
     def test_routing_carries_no_pet_fact(self):
         """Routing says where a property speaks, never what it said. The
-        contract enforces this on field NAMES; this checks the accepted record's
-        free text has not smuggled a policy in as prose."""
-        record = [r for r in _json(ROUTING_PATH)["routes"]
-                  if r["routing_id"] == WB.ACCEPTED_ROUTE_ID][0]
-        blob = json.dumps(record).lower()
-        for token in ("pet fee", "pets allowed", "weight limit", "per night",
-                      "$"):
-            assert token not in blob, token
+        contract enforces this on field NAMES; this checks no surviving
+        Cleveland record's free text has smuggled a policy in as prose.
+        (The accepted record itself was retired when its identity
+        published.)"""
+        for record in _json(ROUTING_PATH)["routes"]:
+            if record.get("market_id") != "cleveland-akron-canton-oh":
+                continue
+            blob = json.dumps(record).lower()
+            for token in ("pet fee", "pets allowed", "weight limit",
+                          "per night"):
+                assert token not in blob, (record["routing_id"], token)
 
 
 class TestOtherMarketsUntouched:
@@ -424,7 +426,7 @@ class TestOtherMarketsUntouched:
         for record in routes:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         assert by_market["columbus-oh"] == 20
-        assert by_market["cleveland-akron-canton-oh"] == 102  # after Pass-2 retirements
+        assert by_market["cleveland-akron-canton-oh"] == 58  # after Pass-3 retirements
 
 
 # --------------------------------------------------------------------------- #
