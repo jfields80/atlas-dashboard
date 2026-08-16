@@ -77,6 +77,7 @@ LEDGER_PATH = PKG / "cincinnati_candidate_ledger_001.json"
 PARTITION_PATH = PKG / "cincinnati_final_partition_001.json"
 QUEUE_PATH = PKG / "markets" / "reports" / "cincinnati-oh_founder_review_queue.json"
 BOUNDARY_PATH = PKG / "identity_census" / "cincinnati-dayton-boundary-review.json"
+URL_TARGETS_PATH = PKG / "markets" / "reports" / "cincinnati-oh_url_recovery_targets.json"
 
 #: Every other market whose census could collide with Cincinnati's.
 NEIGHBOUR_MARKETS: Tuple[str, ...] = ("dayton-oh", "columbus-oh",
@@ -921,7 +922,34 @@ def build(write: bool = True) -> Dict:
 
     boundary = boundary_review(identities)
 
+    # PTF-CINCINNATI-URL-ROUTING-RECOVERY-001 target list. Prepared, never
+    # executed here: this file names the rows that work order will act on and
+    # nothing in this module fetches, routes or captures anything.
+    targets = [r for r in queue_rows if r["blocker"] == enums.AWAITING_OFFICIAL_URL]
+    url_targets = {
+        "schema": "ptf-market-url-recovery-targets/1.0",
+        "prepared_for": "PTF-CINCINNATI-URL-ROUTING-RECOVERY-001",
+        "prepared_by": WORK_ORDER,
+        "market_id": MARKET_ID,
+        "as_of": AS_OF,
+        "note": ("Every identity whose only blocker is a missing official URL. "
+                 "Identity-review rows are deliberately absent: a URL bound to "
+                 "an unresolved identity is a route to a property we cannot "
+                 "name. No policy work is implied or authorised by this file."),
+        "count": len(targets),
+        "by_corridor": dict(sorted(
+            collections.Counter(r["corridor"] for r in targets).items())),
+        "by_state": dict(sorted(
+            collections.Counter(r["state"] for r in targets).items())),
+        "rows": [{"identity_key": r["identity_key"], "hotel": r["hotel"],
+                  "city": r["city"], "state": r["state"],
+                  "postal_code": r["postal_code"], "corridor": r["corridor"],
+                  "current_url": r["official_url"], "url_grade": r["url_grade"],
+                  "recovery_status": "NOT_STARTED"} for r in targets],
+    }
+
     if write:
+        write_json(URL_TARGETS_PATH, url_targets)
         write_json(CENSUS_PATH, census_doc)
         write_json(PARTITION_PATH, partition_doc)
         write_json(BOUNDARY_PATH, boundary)
