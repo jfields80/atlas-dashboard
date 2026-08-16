@@ -646,15 +646,15 @@
     },
     "pet_count_limit": 2
    },
-   "withheld_fields": [
-    "fee basis",
-    "fee scope",
-    "weight_limit"
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder rule applied: fee basis, fee scope, and weight limit are unstated and therefore absent, not withheld."
    ],
-   "contradiction_or_ambiguity_notes": [],
    "proposed_rendering_summary": "Dogs and cats, 2 max. $50 non-refundable fee (basis/scope not stated). No weight limit stated.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D012",
@@ -735,16 +735,17 @@
     ],
     "pet_count_limit": 2
    },
-   "withheld_fields": [
-    "tier scope (per room vs per pet: '/stay' states basis only)",
-    "'Max size Small' conflicts with 75 lb max weight -- size note withheld"
-   ],
+   "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [
-    "Tier basis IS stated here ('/stay'), unlike the Green Tree DoubleTree wording."
+    "Tier basis IS stated here ('/stay'), unlike the Green Tree DoubleTree wording.",
+    "Founder decision: '/stay' is an explicit basis statement, so both tiers carry basis per_stay with basis_stated=true; tier scope is unstated and therefore absent.",
+    "Founder decision: the ambiguous 'Max size Small' label (against a 75 lb max weight) is NOT published as a canonical fact; preserved here as provenance only."
    ],
    "proposed_rendering_summary": "Dogs and cats, 2 max, 75 lb. $75/stay (1-4 nights), $125/stay (5+ nights), non-refundable.",
    "recommended_founder_decision": "APPROVE_PUBLISH",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D013",
@@ -822,15 +823,16 @@
     ],
     "pet_count_limit": 2
    },
-   "withheld_fields": [
-    "tier basis and scope (shorthand '$75(1-4n)' states neither)"
-   ],
+   "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [
-    "'dogs only' here versus 'dog/cat' at the sibling Hampton -- property-specific wording respected."
+    "'dogs only' here versus 'dog/cat' at the sibling Hampton -- property-specific wording respected.",
+    "Founder decision: dogs accepted, cats not claimed; the '$75(1-4n) $125(5+n)' shorthand states neither basis nor scope, so both remain absent (basis_stated=false on each tier)."
    ],
    "proposed_rendering_summary": "Dogs only, 2 max, 75 lb. $75 (1-4 nights), $125 (5+ nights), non-refundable.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D014",
@@ -860,22 +862,34 @@
     {
      "quote": "No deposit or cleaning fees charged",
      "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "It’s a dog’s (or cat’s, or feathery or scaly family member’s) life in Pittsburgh.",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
     }
    ],
    "proposed_schema_1_2_facts": {
     "pets_allowed": true,
-    "weight_limit_stated_none": true
+    "weight_limit_stated_none": true,
+    "species": {
+     "dogs": "SPECIES_ACCEPTED",
+     "cats": "SPECIES_ACCEPTED"
+    }
    },
    "withheld_fields": [
-    "pet_fee: the page states no deposit or cleaning fees; it does not state a $0 pet fee in words -- fee amount withheld rather than inferred",
-    "species: prose welcomes dogs, cats, 'feathery or scaly' family members; enum species left to founder"
+    "pet_count_limit: SCHEMA_CANNOT_REPRESENT -- the page states 'No limit on number of pets allowed' and the schema requires a positive integer with no explicit no-limit state.",
+    "no-deposit/no-cleaning-fee disclosure: SCHEMA_CANNOT_REPRESENT -- the page states 'No deposit or cleaning fees charged' and other_charges records only charges that exist; no canonical stated-none representation exists."
    ],
    "contradiction_or_ambiguity_notes": [
-    "Kimpton chain pattern; the property page itself carries the no-limit statements."
+    "Kimpton chain pattern; the property page itself carries the no-limit statements.",
+    "Founder decision: pet_fee is NOT inferred as $0; the page does not state that pets themselves are fee-free, so pet_fee is absent.",
+    "Founder decision on species: dogs and cats are explicitly named in the captured prose (quote added), so species.dogs and species.cats publish individually; no broader species set is inferred from generic welcoming language ('feathery or scaly' does not publish)."
    ],
-   "proposed_rendering_summary": "No size/weight limit, no pet-count limit, no deposit or cleaning fees (per property page).",
+   "proposed_rendering_summary": "Dogs and cats. No size/weight limit; no pet-count limit and no deposit/cleaning fees per property page (schema-unrepresentable disclosures preserved). No pet fee stated.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D015",
@@ -928,7 +942,7 @@
     "weight_limit": {
      "value": 25,
      "unit": "lb",
-     "operator": "per_pet_max_ceiling_conditional"
+     "operator": "per_pet_max"
     },
     "other_charges": [
      {
@@ -943,21 +957,23 @@
     "pet_count_limit": 1,
     "pet_count_scope": "per_room",
     "general_restrictions": [
+     "Weight limit exception: larger dogs must have prior approval by a hotel manager",
      "Pet must be crated when housekeeping/engineering enters or when unsupervised",
      "Pets not permitted in dining outlets",
      "Two or more animals require contacting the hotel directly"
     ]
    },
-   "withheld_fields": [
-    "'not to exceed 25 pounds' carries an explicit manager-approval exception for larger dogs -- ceiling is conditional, flagged for founder wording"
-   ],
+   "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [
     "Charge is worded as a cleaning fee, not a pet fee; recorded under other_charges with kind cleaning_fee.",
-    "Service-animal exemption stated (guide dogs: no weight limit or fee)."
+    "Service-animal exemption stated (guide dogs: no weight limit or fee).",
+    "Founder decision: all facts explicitly source-supported; the manager-approval exception for larger dogs is preserved as a general restriction qualifying the 25 lb weight limit, not as a withholding."
    ],
    "proposed_rendering_summary": "Dogs and cats, 1 per room, 25 lb (larger dogs by manager approval). $125 non-refundable cleaning fee per stay per room.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D016",
@@ -1000,15 +1016,15 @@
     "pet_count_limit": 2,
     "pet_count_scope": "per_room"
    },
-   "withheld_fields": [
-    "species",
-    "weight_limit",
-    "pet_fee.refundable"
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder rule applied: species, weight, and refundability remain absent because unstated."
    ],
-   "contradiction_or_ambiguity_notes": [],
    "proposed_rendering_summary": "Pets welcome. $75 per pet per stay. Max 2 pets per room.",
    "recommended_founder_decision": "APPROVE_PUBLISH",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D017",
@@ -1051,17 +1067,16 @@
     "pet_count_limit": 2,
     "pet_count_scope": "per_room"
    },
-   "withheld_fields": [
-    "fee scope (per pet vs per room unstated)",
-    "species",
-    "weight_limit"
-   ],
+   "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [
-    "Same building as the retired 'Renaissance Pittsburgh Hotel' census duplicate; Atterbury is the canonical identity."
+    "Same building as the retired 'Renaissance Pittsburgh Hotel' census duplicate; Atterbury is the canonical identity.",
+    "Founder rule applied: fee scope, species, and weight remain absent where unstated."
    ],
    "proposed_rendering_summary": "Pets welcome. $50 non-refundable per stay. Max 2 pets in room.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D018",
@@ -1100,17 +1115,16 @@
     "pet_count_limit": 2,
     "pet_count_scope": "per_room"
    },
-   "withheld_fields": [
-    "fee basis (per stay implied by prose but not stated)",
-    "fee scope",
-    "species"
-   ],
+   "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [
-    "Overview prose section 'BRING FIDO'; no structured Pet Policy row rendered in HOTEL INFORMATION."
+    "Overview prose section 'BRING FIDO'; no structured Pet Policy row rendered in HOTEL INFORMATION.",
+    "Founder rule applied: fee basis, fee scope, and species remain absent because unstated."
    ],
    "proposed_rendering_summary": "Pets to 75 lb, 2 per room. $100 non-refundable pet fee (basis not stated).",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D019",
@@ -1167,15 +1181,18 @@
     ]
    },
    "withheld_fields": [
-    "pet_fee: $50 amount agreed but basis CONTRADICTS on the same surface (prose 'per stay' vs structured 'Per Night') -- withheld pending founder decision"
+    "pet_fee: SOURCE_CONTRADICTORY -- the same property page states '$50 per stay' (prose) and 'Non-Refundable Pet Fee Per Night: $50.00' (structured); per founder decision neither is chosen, averaged, or related. Both quotes preserved."
    ],
    "contradiction_or_ambiguity_notes": [
     "Dogs ONLY wording excludes cats.",
-    "Same-surface basis contradiction, both quotes retained."
+    "Same-surface basis contradiction, both quotes retained.",
+    "Founder decision: non-fee facts (pets_allowed, dogs accepted, 50 lb per pet, 1 pet per room, unattended prohibition) publish; the fee structure stays withheld."
    ],
    "proposed_rendering_summary": "Dogs only, under 50 lbs, 1 per room, never unattended. $50 fee -- basis contradicted on source; withheld.",
    "recommended_founder_decision": "FOUNDER_RESOLVE_CONTRADICTION",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   },
   {
    "decision_id": "PGH-P1-D020",
@@ -1225,14 +1242,15 @@
      "Pets not permitted in public spaces (restaurants, function space, recreation space)"
     ]
    },
-   "withheld_fields": [
-    "pet_fee.basis (per stay vs per night unstated)",
-    "pet_count_limit"
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder rule applied: fee basis and pet count remain absent because unstated."
    ],
-   "contradiction_or_ambiguity_notes": [],
    "proposed_rendering_summary": "Domesticated dogs or cats, 50 lb max. $60 nonrefundable per pet (basis not stated). Not permitted in public spaces.",
    "recommended_founder_decision": "APPROVE_PUBLISH_WITH_WITHHOLDINGS",
-   "founder_decision": "PENDING"
+   "founder_decision": "APPROVE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16"
   }
  ],
  "batch_a_decisions": {
@@ -1259,5 +1277,28 @@
    "HOLD": []
   },
   "authority_applied": false
+ },
+ "batch_b_decisions": {
+  "recorded_at": "2026-08-16",
+  "source": "Founder instruction: PITTSBURGH PASS 1 - BATCH B FOUNDER DECISIONS (PTF-PITTSBURGH-PASS1-FOUNDER-DECISION-REVIEW-001), issued in chat by the founder on 2026-08-16",
+  "totals": {
+   "APPROVE": [
+    "PGH-P1-D011",
+    "PGH-P1-D012",
+    "PGH-P1-D013",
+    "PGH-P1-D015",
+    "PGH-P1-D016",
+    "PGH-P1-D017",
+    "PGH-P1-D018",
+    "PGH-P1-D020"
+   ],
+   "APPROVE_WITH_CHANGE": [
+    "PGH-P1-D014",
+    "PGH-P1-D019"
+   ],
+   "HOLD": []
+  },
+  "authority_applied": false,
+  "next_step": "PASS1_DECISION_APPLICATION (single deterministic work order: rename first, 15 positive publications, 2 VERIFIED_NO_PETS exclusions, mechanical rebuilds, final-hash approvals, semantic-render diff, tests, commit/push; no merge, no deploy)"
  }
 }
