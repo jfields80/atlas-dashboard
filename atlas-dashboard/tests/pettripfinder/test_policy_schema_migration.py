@@ -829,7 +829,9 @@ def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
             attributed += 1
             assert approval["invalidated_attribution"]["decision"] == \
                 enums.LEGACY_BASELINE_REVIEWED
-    assert (superseded, attributed) == (48, 21)
+    # 48 after the Pass-1 closeout; +2 when Pass 2 bound the Drury records'
+    # byte-retained recaptures and unbound their 2026-08-11 approvals.
+    assert (superseded, attributed) == (50, 21)
 
 
 def test_a_withdrawal_is_sticky_until_a_founder_clears_it():
