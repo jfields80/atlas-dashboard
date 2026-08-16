@@ -153,6 +153,20 @@ def test_packet_prepares_three_hyatt_manual_instructions(packet):
         assert entry["targets"] and entry["instructions"]
 
 
+def test_routing_lane_keeps_all_seven_observations(packet):
+    """Founder D44: the DoubleTree Canton Downtown routing correction (the
+    queued URL is the hotel's restaurant's site) is preserved as its own
+    routing-lane entry and never collapsed into the no-pets transition --
+    even though the row's OUTCOME is NEGATIVE, not IDENTITY_UNCERTAIN."""
+    obs = packet["routing_review_observations"]
+    assert [o["queue_id"] for o in obs] == [
+        "CLE-P3-002", "CLE-P3-004", "CLE-P3-007", "CLE-P3-019",
+        "CLE-P3-028", "CLE-P3-031", "CLE-P3-061"]
+    dt = next(o for o in obs if o["queue_id"] == "CLE-P3-004")
+    assert dt["queued_url"] == "https://www.330barandgrill.com/"
+    assert "cakcodt" in dt["observed"]
+
+
 def test_speed_benchmark_recorded(ledger):
     bench = ledger["speed_benchmark"]
     assert bench["available"] is True

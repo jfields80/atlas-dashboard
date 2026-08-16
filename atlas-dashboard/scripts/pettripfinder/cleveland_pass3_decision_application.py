@@ -896,7 +896,11 @@ def run(data_root: Path, apply: bool) -> Dict:
         partition = build_partition()
         counts = Counter(i["final_state"] for i in partition["items"])
         resolved = sum(counts[s] for s in terminal)
-        write_lf(PARTITION_PATH, partition)
+        # The partition file's canonical format is the BUILDER's (indent=1,
+        # LF): using its own writer keeps a later `--apply` re-run
+        # byte-identical to what this application committed.
+        from scripts.pettripfinder.cleveland_final_partition_002 import             _write_json as _write_partition
+        _write_partition(PARTITION_PATH, partition)
 
         if counts["PUBLISHED_PET_FRIENDLY"] != len(
                 [h for h in facts_doc["hotels"]]):

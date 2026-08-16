@@ -129,6 +129,11 @@ ROWS["CLE-P3-004"] = {
     "artifact": "P3-004b-doubletree-canton-downtown-hilton.json",
     "supplementary_artifact": "P3-004-doubletree-canton-downtown.json",
     "outcome": "NEGATIVE", "candidate": False,
+    # The refusal and the routing defect are SEPARATE findings (founder
+    # D44): the no-pets ruling consumes the refusal, and this flag keeps
+    # the queued-URL correction in the routing lane's structured list,
+    # which otherwise only harvests CAPTURE_FAILED/IDENTITY_UNCERTAIN rows.
+    "routing_observation": True,
     "refusal_quote": "Pets not allowed",
     "notes": ["the queued official URL is https://www.330barandgrill.com/ "
               "-- captured as the supplementary artifact, it is the "
@@ -1529,7 +1534,8 @@ def run(data_root: Path, apply: bool) -> Dict:
                 ]))
         else:
             row["artifact_file"] = None
-        if outcome in ("CAPTURE_FAILED", "IDENTITY_UNCERTAIN"):
+        if outcome in ("CAPTURE_FAILED", "IDENTITY_UNCERTAIN") \
+                or spec.get("routing_observation"):
             routing_observations.append(OrderedDict([
                 ("queue_id", qid),
                 ("identity_key", queue_row["identity_key"]),
