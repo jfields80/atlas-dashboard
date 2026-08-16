@@ -7,6 +7,7 @@ import pytest
 from scripts.pettripfinder.discovery.source_families import (
     CONCRETE_SOURCE_FAMILY,
     FAMILY_CVB,
+    FAMILY_DIRECTORY,
     FAMILY_GDS,
     FAMILY_OTA,
     FAMILY_REGISTRY,
@@ -33,6 +34,12 @@ class TestTaxonomy:
 
     def test_dbpr_is_registry(self):
         assert family_of("fl_dbpr_lodging") == FAMILY_REGISTRY
+
+    def test_louisville_destination_sources_are_mapped(self):
+        assert family_of("goto_louisville") == FAMILY_CVB
+        assert family_of("soin_tourism") == FAMILY_CVB
+        assert family_of("flylouisville") == FAMILY_DIRECTORY
+        assert family_of("louisville_downtown_partnership") == FAMILY_DIRECTORY
 
     def test_unmapped_source_is_an_answer_not_an_error(self):
         assert family_of("some_future_source") == ""

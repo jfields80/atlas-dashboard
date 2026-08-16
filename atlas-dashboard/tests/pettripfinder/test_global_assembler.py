@@ -43,6 +43,7 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+LOUISVILLE = "louisville-ky"
 
 FULL_BUILD = os.environ.get("PTF_ASSEMBLER_FULL_BUILD") == "1"
 needs_build = pytest.mark.skipif(
@@ -311,6 +312,21 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
+    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+
+
+def test_louisville_is_registered_below_threshold_and_not_assembled(markets):
+    row = market_eligibility(market_by_id(markets, LOUISVILLE))
+    assert row["published_count"] == 0
+    assert row["conditions"]["census_present"] is True
+    assert row["conditions"]["meets_minimum_published"] is False
+    assert row["assemblable"] is False
+
+
+def test_louisville_does_not_fail_the_global_selection(markets):
+    chosen, rows = select_markets(markets)
+    assert LOUISVILLE not in [m.market_id for m in chosen]
+    assert LOUISVILLE in [r["market_id"] for r in rows]
     assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
 
 

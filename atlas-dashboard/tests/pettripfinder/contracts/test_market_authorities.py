@@ -32,14 +32,16 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+LOUISVILLE = "louisville-ky"
 
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, LOUISVILLE)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
     CLEVELAND: "cleveland_final_partition_002.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
+    LOUISVILLE: "louisville_final_partition_001.json",
 }
 
 #: What each market holds. Pinned so a change to an authority shows up here
@@ -53,6 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
+    LOUISVILLE: {"census": 130, "published": 0, "no_pets": 0,
+                 "out_of_category": 1, "unresolved": 129},
 }
 
 

@@ -516,7 +516,8 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # tri-state contract. Columbus still resolves BY NAME, which is exactly
     # why this test resolves by name rather than by count.
     assert sorted(m.market_id for m in markets) == \
-        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh"]
+        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
+         "louisville-ky"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

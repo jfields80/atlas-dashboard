@@ -90,6 +90,8 @@ _MARKET_FILENAMES = {
     "columbus-oh": "columbus_oh.json",
     # PTF-DAYTON-MARKET-FACTORY-001: worker-proposed; Opus integrates.
     "dayton-oh": "dayton_oh.json",
+    # PTF-LOUISVILLE-MARKET-BUILD-001: reusable KY/IN visitor-market seed.
+    "louisville-ky": "louisville_ky.json",
 }
 
 

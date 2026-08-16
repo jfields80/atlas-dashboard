@@ -130,6 +130,7 @@ def _partition_path(market_id: str) -> Optional[Path]:
         "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
         "dayton-oh": "dayton_final_partition_001.json",
         "cincinnati-oh": "cincinnati_final_partition_001.json",
+        "louisville-ky": "louisville_final_partition_001.json",
     }
     name = table.get(market_id)
     path = PACKAGE_DIR / name if name else None

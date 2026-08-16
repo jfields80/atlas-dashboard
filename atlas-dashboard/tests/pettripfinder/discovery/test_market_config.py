@@ -45,3 +45,16 @@ def test_cell_lookup_by_id():
     first = m.cells[0]
     assert m.cell_by_id(first.cell_id) == first
     assert m.cell_by_id("not-a-real-cell") is None
+
+
+def test_louisville_config_loads():
+    m = load_market_config("louisville-ky")
+    assert m.market_id == "louisville-ky"
+    assert m.state == "KY"
+    assert m.bounds.contains(m.center_lat, m.center_lng)
+    required = {"Louisville", "Jeffersonville", "Clarksville", "New Albany",
+                "Sellersburg", "Middletown"}
+    assert required.issubset(set(m.included_municipalities))
+    assert len(m.cells) > 1
+    for cell in m.cells:
+        assert cell.radius_meters <= 10_000

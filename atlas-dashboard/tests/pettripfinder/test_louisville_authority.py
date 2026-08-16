@@ -1,0 +1,199 @@
+"""PTF-LOUISVILLE-MARKET-BUILD-001 -- unpublished KY/IN factory isolation."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from scripts.pettripfinder.assemble_production_site import (
+    market_eligibility, select_markets,
+)
+from scripts.pettripfinder.build_louisville_founder_review_queue import write_queue
+from scripts.pettripfinder.contracts import census, enums, partition
+from scripts.pettripfinder.contracts.identity_key import (
+    is_canonical_key, ptf_identity_key,
+)
+from scripts.pettripfinder.discovery.market_config import load_market_config
+from scripts.pettripfinder.discovery.source_families import FAMILY_CVB, family_of
+from scripts.pettripfinder.markets import homepage_config, load_markets, market_by_id
+from scripts.pettripfinder.normalize_census_geography import recompute
+from scripts.pettripfinder.release_contracts import available_market_ids
+
+REPO = Path(__file__).resolve().parents[2]
+PKG = REPO / "launch_packages" / "pettripfinder"
+MARKET = "louisville-ky"
+CENSUS = 130
+
+
+def _census():
+    return json.loads((PKG / "identity_census" / "louisville-ky.json").read_text(
+        encoding="utf-8-sig"))
+
+
+def _partition():
+    return json.loads((PKG / "louisville_final_partition_001.json").read_text(
+        encoding="utf-8-sig"))
+
+
+class TestMarketIdentity:
+    def test_registry_identity(self):
+        market = market_by_id(load_markets(), MARKET)
+        assert market.market_id == MARKET
+        assert market.market_slug == MARKET
+        assert market.market_name == "Louisville, Kentucky"
+        assert market.primary_city == "Louisville"
+        assert market.primary_state_code == "KY"
+        assert list(market.states) == ["KY", "IN"]
+        assert market.route_mode == "market_prefixed"
+        assert market.show_in_navigation is False
+        assert market.show_in_sitemap is False
+        assert market.minimum_published_hotels == 5
+
+    def test_homepage_is_derived_without_a_hero(self):
+        hp = homepage_config(market_by_id(load_markets(), MARKET))
+        assert hp.hero_image == ""
+        assert hp.search_location == "Louisville, KY"
+        assert hp.city_label == "Louisville"
+        assert "Columbus" not in hp.title
+
+
+class TestCensusAndPartition:
+    def test_schema_and_policy_silence(self):
+        doc = _census()
+        assert doc["schema"] == enums.CENSUS_SCHEMA
+        assert doc["count"] == len(doc["hotels"]) == CENSUS
+        for row in doc["hotels"]:
+            assert row["market_id"] == MARKET
+            assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
+            assert row["state"] in {"KY", "IN"}
+            assert is_canonical_key(row["identity_key"])
+            assert row["identity_key"] == ptf_identity_key(row["canonical_name"])
+            assert row["corridor"] not in (None, "")
+
+    def test_membership_and_zero_publication(self):
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.agrees
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.out_of_category == 1
+        assert rec.unresolved == 129
+        assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved == CENSUS
+        assert partition.validate(_partition()) == ()
+        assert census.validate(_census(), market_states=["KY", "IN"]) == ()
+
+    def test_unresolved_rows_have_one_action(self):
+        for item in _partition()["items"]:
+            if item["final_state"] in enums.TERMINAL_STATES:
+                assert item["next_action"] == ""
+                assert item["resolved"] is True
+                continue
+            assert item["next_action"].strip()
+            assert item["next_action_source"]
+            assert item["determined_by"]
+
+    def test_hotel_louisville_downtown_include_in_census(self):
+        hotel = next(h for h in _census()["hotels"]
+                     if h["identity_key"] == "hotel louisville downtown")
+        item = next(i for i in _partition()["items"]
+                    if i["identity_key"] == "hotel louisville downtown")
+        assert hotel["lodging_state"] == enums.LODGING_CONFIRMED
+        assert hotel["identity_state"] == enums.IDENTITY_CONFIRMED
+        assert hotel["policy_state"] == enums.POLICY_NOT_VERIFIED
+        assert "Wayside Christian Mission" in hotel["notes"]
+        assert "15 hotel rooms + 2 suites" in hotel["notes"]
+        assert item["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+        assert item["resolved"] is False
+        assert item["next_action"].startswith("Capture the property's pet-policy")
+        names = {h["canonical_name"] for h in _census()["hotels"]}
+        assert "Hospital Hospitality House of Louisville" not in names
+        assert _partition()["final_state_counts"].get(
+            enums.AWAITING_CENSUS_REVIEW, 0) == 0
+
+
+class TestIsolation:
+    def test_no_cross_market_identity(self):
+        ours = census.identity_keys(_census())
+        for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
+                      "cincinnati-oh"):
+            foreign = census.identity_keys(json.loads(
+                (PKG / "identity_census" / ("%s.json" % other)).read_text(
+                    encoding="utf-8-sig")))
+            assert ours & foreign == set(), other
+
+    def test_no_cincinnati_zip_or_nky_city(self):
+        forbidden_zips = {
+            "41011", "41014", "41015", "41016", "41017", "41018", "41042",
+            "41048", "41051", "41071", "41072", "41073", "41075", "41091",
+            "41094", "41035", "41040", "41097", "41002", "41004", "41095",
+            "47001", "47025", "47040", "47012",
+        }
+        forbidden_cities = {
+            ("Covington", "KY"), ("Newport", "KY"), ("Florence", "KY"),
+            ("Lawrenceburg", "IN"), ("Aurora", "IN"), ("Rising Sun", "IN"),
+            ("Brookville", "IN"), ("Greendale", "IN"),
+        }
+        for row in _census()["hotels"]:
+            assert row["postal_code"][:5] not in forbidden_zips, row["canonical_name"]
+            assert (row["city"], row["state"]) not in forbidden_cities
+
+    def test_not_in_policy_routing_seed_or_contracts(self):
+        for name in ("hotel_policy_facts.json",
+                     "hotel_policy_facts_cleveland-akron-canton-oh.json",
+                     "hotel_policy_facts_dayton-oh.json"):
+            blob = (PKG / name).read_text(encoding="utf-8")
+            assert "louisville-ky" not in blob
+        exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
+            encoding="utf-8-sig"))
+        assert not any(e.get("market_id") == MARKET
+                       for e in exclusions.get("exclusions", ()))
+        routing = json.loads((PKG / "identity_routing.json").read_text(
+            encoding="utf-8-sig"))
+        assert not any(r.get("market_id") == MARKET for r in routing.get("routes", ()))
+        seed = (PKG / "seed_businesses.csv").read_text(encoding="utf-8")
+        assert "louisville-ky" not in seed
+        assert not (REPO / "deploy" / "netlify" / "release_contracts"
+                    / "louisville-ky.json").exists()
+        assert MARKET not in set(available_market_ids())
+        assert not (PKG / "markets" / "coverage" / "louisville-ky.json").exists()
+
+
+class TestAssignmentAndAssembler:
+    def test_recompute_is_zero_diff(self):
+        _, changes = recompute(MARKET)
+        assert changes == []
+
+    def test_honest_zero_is_not_assembled(self):
+        market = market_by_id(load_markets(), MARKET)
+        row = market_eligibility(market)
+        assert row["published_count"] == 0
+        assert row["assemblable"] is False
+        chosen, rows = select_markets()
+        assert MARKET not in [m.market_id for m in chosen]
+        assert MARKET in [r["market_id"] for r in rows]
+
+
+class TestDiscoveryAndQueue:
+    def test_discovery_config_loads(self):
+        m = load_market_config(MARKET)
+        assert m.market_id == MARKET
+        assert family_of("goto_louisville") == FAMILY_CVB
+        assert family_of("soin_tourism") == FAMILY_CVB
+
+    def test_queue_identity_set_equals_unresolved_partition(self, tmp_path):
+        report = write_queue(tmp_path)
+        unresolved = {i["identity_key"] for i in _partition()["items"]
+                      if i["final_state"] not in enums.TERMINAL_STATES}
+        assert set(report["identity_keys"]) == unresolved
+        assert report["duplicates"] == 0
+        assert report["omissions"] == 0
+        assert report["row_count"] == len(unresolved) == 129
+        assert report["review_status"] == "NOT_STARTED"
+        import csv
+        with (tmp_path / "work-browser-pass-001-review.csv").open(
+                encoding="utf-8", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        keys = [r["identity_key"] for r in rows]
+        assert keys == report["identity_keys"]
+        assert all(r["hotel ID"] == r["identity_key"] for r in rows)
+        assert all(r["review_status"] == "NOT_STARTED" for r in rows)
