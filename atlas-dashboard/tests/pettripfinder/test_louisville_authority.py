@@ -301,7 +301,9 @@ class TestPass1Capture:
             / "louisville_pass1_founder_review_packet.json"
         ).read_text(encoding="utf-8-sig"))
         assert packet["founder_approvals_written"] is True
+        assert packet["founder_decisions_recorded"] is True
         assert packet["decision_count"] == 6
+        assert packet["recorded_decision_count"] == 6
 
     def test_quotes_are_contiguous_in_gitignored_artifacts(self):
         import hashlib
@@ -405,3 +407,114 @@ class TestPass1FounderDecisions:
             "sha256:5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579"
         )
         assert "Service-animal access is not pet-friendly" in econo["notes"]
+
+
+class TestPass1DecisionsRecordedNotApplied:
+    def _packet(self):
+        return json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def test_six_founder_decisions_are_recorded_verbatim(self):
+        packet = self._packet()
+        recorded = packet["founder_decisions"]
+        assert [d["decision_id"] for d in recorded] == [
+            "D001", "D002", "D003", "D004", "D005", "D006"
+        ]
+        assert packet["recorded_summary"] == {
+            "decisions_recorded": 6,
+            "approvals_positive": 2,
+            "verified_no_pets": 3,
+            "holds": 1,
+            "no_decision_blocked_rows": 1,
+        }
+        by_id = {d["decision_id"]: d for d in recorded}
+        assert by_id["D001"]["decision"] == "HOLD_PARTIAL_AFFIRMATIVE"
+        assert by_id["D002"]["decision"] == "APPROVE_AFFIRMATIVE_STRUCTURED"
+        assert by_id["D003"]["decision"] == "APPROVE_VERIFIED_NO_PETS"
+        assert by_id["D004"]["decision"] == "APPROVE_AFFIRMATIVE_STRUCTURED"
+        assert by_id["D004"]["identity_key"] == "galt house hotel"
+        assert by_id["D005"]["decision"] == "APPROVE_VERIFIED_NO_PETS"
+        assert by_id["D005"]["identity_key"] == "hotel louisville downtown"
+        assert by_id["D006"]["decision"] == "APPROVE_VERIFIED_NO_PETS"
+        assert by_id["D006"]["identity_key"] == "the brown hotel"
+        assert "SOURCE SILENCE = ABSENCE" in by_id["D004"]["verbatim"]
+        assert "Hospital Hospitality House" in by_id["D005"]["verbatim"]
+        assert packet["publish"] is False
+
+    def test_d004_d005_d006_are_not_applied_to_authority(self):
+        packet = self._packet()
+        assert packet["authority_applied_for"] == ["D001", "D002", "D003"]
+        assert packet["authority_not_applied_for"] == ["D004", "D005", "D006"]
+        applied = {d["decision_id"]: d["authority_applied"]
+                   for d in packet["founder_decisions"]}
+        assert applied == {
+            "D001": True, "D002": True, "D003": True,
+            "D004": False, "D005": False, "D006": False,
+        }
+        items = {i["identity_key"]: i for i in _partition()["items"]}
+        for key in ("galt house hotel", "hotel louisville downtown",
+                    "the brown hotel"):
+            assert items[key]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+            assert items[key]["resolved"] is False
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 1
+        assert rec.verified_no_pets == 1
+        assert rec.unresolved == 127
+        approved = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_approved_policy_records.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert [h["identity_key"] for h in approved["hotels"]] == ["bellwether hotel"]
+        exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
+            encoding="utf-8-sig"))
+        louisville = [e["normalized_name"] for e in exclusions["exclusions"]
+                      if e.get("market_id") == MARKET]
+        assert louisville == ["econo lodge downtown"]
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
+
+    def test_hotel_genevieve_has_no_founder_policy_decision(self):
+        packet = self._packet()
+        blocked = packet["no_founder_policy_decision"]
+        assert len(blocked) == 1
+        genevieve = blocked[0]
+        assert genevieve["identity_key"] == "hotel genevieve"
+        assert genevieve["founder_policy_decision"] == "NONE"
+        assert genevieve["decision_id"] is None
+        assert genevieve["recommended_next_state"] == "AWAITING_ATTENDED_CAPTURE"
+        assert genevieve["lane"] == "HYATT_MANUAL"
+        row = next(r for r in packet["rows"]
+                   if r["identity_key"] == "hotel genevieve")
+        assert row["founder_decision"] == "NO_FOUNDER_POLICY_DECISION"
+        assert row["founder_decision_id"] is None
+        items = {i["identity_key"]: i for i in _partition()["items"]}
+        assert items["hotel genevieve"]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+        assert items["hotel genevieve"]["resolved"] is False
+
+    def test_next_batch_is_prepared_and_not_executed(self):
+        batch = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_capture_batch_prepared.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert batch["executed"] is False
+        keys = [r["identity_key"] for r in batch["items"]]
+        assert keys == [
+            "omni louisville hotel",
+            "drury inn and suites louisville",
+            "drury inn and suites louisville north",
+            "best western greentree inn",
+            "radisson hotel louisville north",
+        ]
+        for row in batch["items"]:
+            assert row["executed"] is False
+            assert row["official_url"]
+            assert row["identity_binding"]
+            host = row["official_url"].split("/")[2]
+            assert host not in {
+                "www.hilton.com", "www.hyatt.com", "www.marriott.com"
+            }
+        east = batch["items"][1]
+        assert east["identity_binding"] == "URL_BOUND_IDENTITY_CORRECTION_OPEN"
+        assert east["official_url"].endswith("drury-inn-and-suites-louisville-east")
