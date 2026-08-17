@@ -70,22 +70,22 @@ def test_founder_packet_is_review_only_and_matches_the_publication_grade_set():
     manifest = load(REPORTS / "pittsburgh_pass4_claude_capture_manifest.json")
     review_keys = {row["identity_key"] for row in packet["entries"]}
     grade_keys = {row["identity_key"] for row in report["items"] if row["publication_grade"]}
-    assert packet["status"] == "BATCH_A_DECISIONS_RECORDED_BATCH_B_PENDING"
+    assert packet["status"] == "ALL_FOUNDER_DECISIONS_RECORDED_APPLICATION_PREP_PENDING"
     assert packet["count"] == len(packet["entries"]) == len(grade_keys) == 10
     assert review_keys == grade_keys
-    recorded = packet["entries"][:5]
-    pending = packet["entries"][5:]
+    recorded = packet["entries"]
     assert [row["capture_id"] for row in recorded] == [
-        "PGH-P4-C001", "PGH-P4-C002", "PGH-P4-C003", "PGH-P4-C004", "PGH-P4-C005"]
+        "PGH-P4-C001", "PGH-P4-C002", "PGH-P4-C003", "PGH-P4-C004", "PGH-P4-C005",
+        "PGH-P4-C006", "PGH-P4-C007", "PGH-P4-C008", "PGH-P4-C009", "PGH-P4-C011"]
     assert [row["founder_decision"] for row in recorded] == [
         "APPROVE_VERIFIED_NO_PETS", "APPROVE_VERIFIED_NO_PETS",
         "APPROVE_PARTIAL_PUBLICATION", "APPROVE_WITH_CHANGE",
-        "APPROVE_PUBLISH_STRUCTURED"]
+        "APPROVE_PUBLISH_STRUCTURED", "APPROVE_PUBLISH_STRUCTURED",
+        "APPROVE_WITH_CHANGE", "APPROVE_WITH_CHANGE", "APPROVE_WITH_CHANGE",
+        "APPROVE_WITH_CHANGE"]
     assert all(row["authority_application_status"] == "NOT_APPLIED" for row in recorded)
     assert all(row["founder_review_required"] is False for row in recorded)
-    assert all("founder_decision" not in row and row["founder_review_required"] is True
-               for row in pending)
-    assert packet["decisions_recorded"] == 5
+    assert packet["decisions_recorded"] == 10
     assert packet["decisions_applied"] == 0
     assert manifest["count"] == 12
     assert [row["identity_key"] for row in manifest["artifacts"]] == [row["identity_key"] for row in report["items"]]

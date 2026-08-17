@@ -4,10 +4,10 @@
  "market_id": "pittsburgh-pa",
  "as_of": "2026-08-17",
  "count": 10,
- "status": "BATCH_A_DECISIONS_RECORDED_BATCH_B_PENDING",
- "decisions_recorded": 5,
+ "status": "ALL_FOUNDER_DECISIONS_RECORDED_APPLICATION_PREP_PENDING",
+ "decisions_recorded": 10,
  "decisions_applied": 0,
- "note": "Batch A founder decisions are recorded below for later application only. No live approvals, publications, exclusions, or authority changes have been written; Batch B remains pending founder review.",
+ "note": "All ten founder decisions are recorded below for later application only. No live approvals, publications, exclusions, or authority changes have been written; application preparation is non-executing.",
  "entries": [
   {
    "capture_id": "PGH-P4-C001",
@@ -185,6 +185,8 @@
    "proposed_schema_1_2_facts": {
     "pets_allowed": true,
     "pet_count_limit": 2,
+    "weight_limit_stated_none": true,
+    "breed_restrictions_stated_none": true,
     "fee_tiers": [
      {
       "amount_cents": 7500,
@@ -357,7 +359,23 @@
    },
    "withheld_fields": [],
    "contradiction_or_ambiguity_notes": [],
-   "founder_review_required": true
+   "founder_review_required": false,
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-17",
+   "founder_decision_source": "Founder instruction: PTF-PITTSBURGH-PASS4-FOUNDER-DECISIONS, Batch B",
+   "authority_application_status": "NOT_APPLIED",
+   "application_instruction": {
+    "target": "published_pet_friendly",
+    "approved_facts": [
+     "pets_allowed=true",
+     "pet_fee=$75 per_stay per_pet non_refundable",
+     "pet_count_limit=2 per room",
+     "weight_limit<=75 lb per pet"
+    ],
+    "prohibitions": [
+     "Keep species, reservation requirement, and service-animal terms absent."
+    ]
+   }
   },
   {
    "capture_id": "PGH-P4-C007",
@@ -434,7 +452,6 @@
      {
       "amount_cents": 7500,
       "currency": "USD",
-      "basis": "per_stay",
       "stay_nights": {
        "min": 1,
        "max": 6
@@ -443,7 +460,6 @@
      {
       "amount_cents": 27500,
       "currency": "USD",
-      "basis": "per_stay",
       "stay_nights": {
        "min": 7,
        "max": 30
@@ -451,11 +467,34 @@
      }
     ]
    },
-   "withheld_fields": [],
+   "withheld_fields": [
+    {
+     "field": "fee_basis",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    }
+   ],
    "contradiction_or_ambiguity_notes": [
     "The $275 tier says it includes a cleaning fee; no separate cleaning-fee amount was invented."
    ],
-   "founder_review_required": true
+   "founder_review_required": false,
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-17",
+   "founder_decision_source": "Founder instruction: PTF-PITTSBURGH-PASS4-FOUNDER-DECISIONS, Batch B",
+   "authority_application_status": "NOT_APPLIED",
+   "application_instruction": {
+    "target": "published_pet_friendly",
+    "approved_facts": [
+     "pets_allowed=true",
+     "pet_count_limit=2",
+     "individual weight_limit<=25 lb",
+     "combined weight_limit<=50 lb",
+     "$75 for stays 1-6 nights and $275 for stays 7-30 nights, with fee basis absent"
+    ],
+    "prohibitions": [
+     "Do not split the included cleaning fee into a separate synthetic charge.",
+     "Keep species, refundability, fee scope, pet-count scope, and fee basis absent."
+    ]
+   }
   },
   {
    "capture_id": "PGH-P4-C008",
@@ -542,7 +581,28 @@
    "contradiction_or_ambiguity_notes": [
     "The seven-to-thirty-night line combines a $200 stay charge with an unspecified ‘additional cleaning fee’; no monetary schedule was synthesized."
    ],
-   "founder_review_required": true
+   "founder_review_required": false,
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-17",
+   "founder_decision_source": "Founder instruction: PTF-PITTSBURGH-PASS4-FOUNDER-DECISIONS, Batch B",
+   "authority_application_status": "NOT_APPLIED",
+   "application_instruction": {
+    "target": "published_pet_friendly",
+    "approved_facts": [
+     "pets_allowed=true",
+     "species=dogs only",
+     "pet_count_limit=2",
+     "individual weight_limit<=50 lb",
+     "combined weight_limit<=75 lb",
+     "advance notice only if the canonical field directly represents 'Please call ahead'"
+    ],
+    "withheld": [
+     "pet_fee=SOURCE_AMBIGUOUS"
+    ],
+    "prohibitions": [
+     "Do not choose fee basis, merge or synthesize a cleaning charge, infer refundability, or infer fee scope."
+    ]
+   }
   },
   {
    "capture_id": "PGH-P4-C009",
@@ -607,11 +667,24 @@
     "species": {
      "dogs": "accepted"
     },
-    "pet_fee": {
-     "amount_cents": 7500,
-     "currency": "USD",
-     "basis": "per_stay"
-    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "stay_nights": {
+       "min": 1,
+       "max": 6
+      }
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "stay_nights": {
+       "min": 7,
+       "max": 30
+      }
+     }
+    ],
     "other_charges": [
      {
       "kind": "cleaning_fee",
@@ -638,11 +711,35 @@
     ],
     "reservation_notice": "Please call us at +1 412 321 3000 prior to your arrival to let us know you’ll be bringing your dog(s), which must be housebroken."
    },
-   "withheld_fields": [],
-   "contradiction_or_ambiguity_notes": [
-    "Refundability is absent for both the pet fee and the cleaning fee."
+   "withheld_fields": [
+    {
+     "field": "fee_basis",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    }
    ],
-   "founder_review_required": true
+   "contradiction_or_ambiguity_notes": [
+    "Refundability is absent for both the tiered fee and the cleaning fee. A stay-length tier is not a fee basis."
+   ],
+   "founder_review_required": false,
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-17",
+   "founder_decision_source": "Founder instruction: PTF-PITTSBURGH-PASS4-FOUNDER-DECISIONS, Batch B",
+   "authority_application_status": "NOT_APPLIED",
+   "application_instruction": {
+    "target": "published_pet_friendly",
+    "approved_facts": [
+     "pets_allowed=true",
+     "species=dogs only",
+     "pet_count_limit=2",
+     "individual weight_limit<=50 lb",
+     "combined weight_limit<=75 lb",
+     "$75 tiers for stays 1-6 and 7-30 nights, with fee basis absent",
+     "$100 conditional cleaning charge for the 7-30-night tier"
+    ],
+    "prohibitions": [
+     "Do not infer refundability, fee scope, fee basis, or a reservation requirement."
+    ]
+   }
   },
   {
    "capture_id": "PGH-P4-C011",
@@ -691,7 +788,24 @@
    "contradiction_or_ambiguity_notes": [
     "The exact property FAQ simultaneously says a $50 pet fee applies, says it is per night, and answers ‘No’ to whether there are pet fees or weight restrictions. The monetary field is withheld rather than reconciled."
    ],
-   "founder_review_required": true
+   "founder_review_required": false,
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-17",
+   "founder_decision_source": "Founder instruction: PTF-PITTSBURGH-PASS4-FOUNDER-DECISIONS, Batch B",
+   "authority_application_status": "NOT_APPLIED",
+   "application_instruction": {
+    "target": "published_pet_friendly",
+    "approved_facts": [
+     "pets_allowed=true",
+     "pet_count_limit=2"
+    ],
+    "withheld": [
+     "pet_fee=SOURCE_CONTRADICTORY"
+    ],
+    "prohibitions": [
+     "Do not select a $50 fee structure, infer no weight limit, infer species, or infer service-animal terms."
+    ]
+   }
   }
  ]
 }

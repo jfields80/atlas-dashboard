@@ -164,6 +164,8 @@
    "proposed_schema_1_2_facts": {
     "pets_allowed": true,
     "pet_count_limit": 2,
+    "weight_limit_stated_none": true,
+    "breed_restrictions_stated_none": true,
     "fee_tiers": [
      {
       "amount_cents": 7500,
@@ -380,7 +382,6 @@
      {
       "amount_cents": 7500,
       "currency": "USD",
-      "basis": "per_stay",
       "stay_nights": {
        "min": 1,
        "max": 6
@@ -389,15 +390,19 @@
      {
       "amount_cents": 27500,
       "currency": "USD",
-      "basis": "per_stay",
       "stay_nights": {
        "min": 7,
        "max": 30
       }
      }
     ]
-   },
-   "withheld_fields": [],
+    },
+    "withheld_fields": [
+     {
+      "field": "fee_basis",
+      "reason_code": "SOURCE_AMBIGUOUS"
+     }
+    ],
    "contradiction_or_ambiguity_notes": [
     "The $275 tier says it includes a cleaning fee; no separate cleaning-fee amount was invented."
    ],
@@ -553,11 +558,24 @@
     "species": {
      "dogs": "accepted"
     },
-    "pet_fee": {
-     "amount_cents": 7500,
-     "currency": "USD",
-     "basis": "per_stay"
-    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "stay_nights": {
+       "min": 1,
+       "max": 6
+      }
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "stay_nights": {
+       "min": 7,
+       "max": 30
+      }
+     }
+    ],
     "other_charges": [
      {
       "kind": "cleaning_fee",
@@ -583,8 +601,13 @@
      }
     ],
     "reservation_notice": "Please call us at +1 412 321 3000 prior to your arrival to let us know you’ll be bringing your dog(s), which must be housebroken."
-   },
-   "withheld_fields": [],
+    },
+    "withheld_fields": [
+     {
+      "field": "fee_basis",
+      "reason_code": "SOURCE_AMBIGUOUS"
+     }
+    ],
    "contradiction_or_ambiguity_notes": [
     "Refundability is absent for both the pet fee and the cleaning fee."
    ],
