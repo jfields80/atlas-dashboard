@@ -131,8 +131,11 @@ def main() -> int:
         "AFFIRMATIVE_STRUCTURED", "CAPTURED", "APPROVE_PUBLISH_STRUCTURED",
         "Official Marriott Pet Policy on the Residence Inn Airport property page. "
         "Street 5224 West Southern Avenue is not Fairfield at 5220. Marriott path "
-        "code indap is not IHG Crowne Airport. Fee due-at-check-in is payment "
-        "timing, not a reservation requirement.",
+        "code indap is not IHG Crowne Airport. Prose and structured fee both "
+        "state $100 nonrefundable; they do not disagree, so the fee is kept. "
+        "Due-at-check-in is payment timing, not a reservation requirement. "
+        "JSON-LD petsAllowed is a fee sentence, not a boolean, and is unused. "
+        "No service-animal sentence. No other Residence Inn policy inherited.",
         quotes=[
             "Pets Welcome",
             "Nonrefundable pet fee of $100.00 due at check-in.",
@@ -230,6 +233,18 @@ def main() -> int:
         ("rows_with_publication_grade_artifact", 1),
         ("hilton_rows_driven", 0),
         ("founder_decisions_applied", False),
+        ("extraction_doctrine", OrderedDict((
+            ("rule", "SOURCE SILENCE = ABSENCE. CEILING != PRICE."),
+            ("never_infer", [
+                "dogs + cats",
+                "fee basis",
+                "fee scope",
+                "refundability",
+                "combined weight as per-pet",
+                "reservation requirement from payment timing",
+                "exact price from ceiling wording",
+            ]),
+        ))),
         ("authority_freeze", OrderedDict((
             ("capture_only", True),
             ("published_pet_friendly", 0),
@@ -280,6 +295,8 @@ def main() -> int:
         ("founder_decisions_required", 2),
         ("authority_changed", False),
         ("hilton_remaining", 6),
+        ("hilton_next_batch",
+         "indianapolis_hilton_fresh_session_001.json"),
     ))
     (LP / "indianapolis_pass3a_capture_results.json").write_text(
         json.dumps(results, indent=2) + "\n", encoding="utf-8")

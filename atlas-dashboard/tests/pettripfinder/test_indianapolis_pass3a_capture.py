@@ -84,3 +84,34 @@ def test_pass3a_authority_untouched():
         "crowne plaza indianapolis airport"]
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "founder_decisions_applied"] is False
+    assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
+        "status"] == "RECORDED_NOT_APPLIED"
+
+
+def test_residence_inn_quotes_are_contiguous_and_artifact_complete():
+    row = next(r for r in _json(RESULTS)["results"]
+               if r["identity_key"] == "residence inn by marriott indianapolis airport")
+    for field in ("artifact_sha256", "artifact_kind", "captured_at",
+                  "capture_method", "source_grade"):
+        assert row[field]
+    assert row["identity_binding"]["bound"] is True
+    for quote in row["exact_quotes"]:
+        assert quote
+    for fact in row["proposed_schema_1_2_facts"]:
+        assert fact["quote_contiguous_in_artifact"] is True
+        assert fact["quote"] in row["exact_quotes"]
+    assert "CEILING != PRICE" in _json(RESULTS)["extraction_doctrine"]["rule"]
+
+
+def test_hilton_fresh_session_prepared_not_executed():
+    hilton = _json(PACKAGE / "indianapolis_hilton_fresh_session_001.json")
+    assert hilton["work_order"] == "PTF-INDIANAPOLIS-HILTON-FRESH-SESSION-001"
+    assert hilton["executed"] is False
+    assert hilton["require_fresh_browser_session"] is True
+    assert hilton["no_prior_hilton_page_load"] is True
+    assert len(hilton["hotels"]) == 6
+    assert all(h["brand"] == "hilton" for h in hilton["hotels"])
+    assert _json(PACKET)["hilton_next_batch"] == (
+        "indianapolis_hilton_fresh_session_001.json")
+    driven = {r["identity_key"] for r in _json(RESULTS)["results"]}
+    assert driven.isdisjoint({h["hotel_id"] for h in hilton["hotels"]})
