@@ -225,7 +225,7 @@ def test_live_production_authority_is_complete_and_holds_stay_non_public():
     assert MARKET in available_market_ids()
     routing = json.loads((PACKAGE / "identity_routing.json").read_text(
         encoding="utf-8-sig"))
-    assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
+    assert len([r for r in routing["routes"] if r.get("market_id") == MARKET]) == 3
     seed = (PACKAGE / "seed_businesses.csv").read_text(encoding="utf-8")
     assert seed.count(",indianapolis-in") == 8
     exclusions = json.loads((PACKAGE / "hotel_exclusions.json").read_text(

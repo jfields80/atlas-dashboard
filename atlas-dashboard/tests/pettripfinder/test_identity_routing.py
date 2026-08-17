@@ -378,7 +378,8 @@ def test_every_committed_route_is_in_a_known_market(routes):
     What must never appear is a route with no market or a market the config does
     not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh",
+        "indianapolis-in"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
