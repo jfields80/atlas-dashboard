@@ -787,3 +787,70 @@ class TestPass3Capture:
         ).read_text(encoding="utf-8-sig"))
         assert p1["authority_applied"] is False
         assert p2["authority_applied"] is False
+
+
+class TestBrandSurfaceRepair001:
+    def test_twelve_pass3_rows_reclassified_once(self):
+        repair = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_brand_surface_repair_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        p3 = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass3_capture_results.json"
+        ).read_text(encoding="utf-8-sig"))
+        keys = [r["identity_key"] for r in repair["rows"]]
+        assert len(keys) == len(set(keys)) == 12
+        assert keys == [r["identity_key"] for r in p3["rows"]]
+        assert repair["retained_policy_not_found"] == 1
+        assert repair["attended_policy_surface"] == 5
+        assert repair["attended_required"] == 6
+        assert repair["generic_capture_rerun"] is False
+        assert repair["authority_changed"] is False
+        by = {r["identity_key"]: r for r in repair["rows"]}
+        assert by["myriad hotel"]["reclassified_outcome"] == "POLICY_NOT_FOUND"
+        assert by["myriad hotel"]["retain_policy_not_found"] is True
+        for key in (
+            "baymont by wyndham louisville airport south",
+            "hawthorn suites by wyndham louisville east",
+            "travelodge by wyndham sellersburg louisville north",
+            "super 8 by wyndham louisville airport",
+            "la quinta inn and suites by wyndham louisville northeast old henry",
+        ):
+            assert by[key]["reclassified_outcome"] == "ATTENDED_POLICY_SURFACE"
+            assert by[key]["materially_different_path_exists"] is True
+        lq = by["la quinta inn and suites by wyndham louisville northeast old henry"]
+        assert "old-henry" in lq["final_url"]
+        assert "Alliant" not in lq["identity_check"]
+        for key in (
+            "holiday inn express and suites jeffersonville",
+            "staybridge suites louisville east",
+            "candlewood suites louisville airport",
+            "red roof inn louisville expo airport",
+            "red roof inn louisville hurstbourne",
+            "studio 6 louisville airport expo center",
+        ):
+            assert by[key]["reclassified_outcome"] == "ATTENDED_REQUIRED"
+
+    def test_manual_queue_excludes_myriad_and_is_not_executed(self):
+        queue = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_manual_capture_queue_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert queue["executed"] is False
+        assert queue["count"] == len(queue["items"]) == 11
+        keys = [r["identity_key"] for r in queue["items"]]
+        assert "myriad hotel" not in keys
+        assert queue["excluded_from_queue"] == ["myriad hotel"]
+        for row in queue["items"]:
+            assert row["exact_property_url"]
+            assert row["browser_path"]
+            assert row["expected_policy_surface"]
+            assert row["identity_check"]
+            assert row["artifact_requirement"]
+            assert row["rate_limit_session_caution"]
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
