@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import pytest
 
+from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder.identity_routing import (
     IdentityRoutingError, ROUTING_CONFIRMED, validate_authority,
 )
@@ -166,6 +167,12 @@ class TestNothingElseMoved:
         # 300 -> 277: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
         # Cleveland routing placeholders whose identities each reached a
         # final publication or exclusion; scoping is unaffected.
-        assert len(routes) == 277  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
+        # PTF-MARKET-AUTHORITY-SHARDING-001: derived from the per-market shards
+        # rather than pinned. What this test defends is that the committed
+        # authority LOADS -- i.e. that domain-scoped property codes survive real
+        # multi-brand density -- and that claim is about the records, not about
+        # how many markets have contributed them.
+        assert len(routes) == sum(len(MA.load_market_routes(m))
+                                  for m in MA.sharded_market_ids())
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"} <= markets
