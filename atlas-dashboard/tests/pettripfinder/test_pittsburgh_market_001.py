@@ -6,7 +6,8 @@ VERIFIED_NO_PETS, the D003 Distrikt -> Joinery identity rename) and then
 PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 (9 more publications, 2 more
 VERIFIED_NO_PETS, and two AWAITING_CENSUS_REVIEW workflow findings for
 Courtyard Pittsburgh Shadyside and Shadyside Inn Suites -- findings, never
-policy or closure decisions). The census policy_state column stays
+policy or closure decisions), then PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A
+(3 more publications and 2 more VERIFIED_NO_PETS). The census policy_state column stays
 legacy-frozen at POLICY_NOT_VERIFIED (the Cleveland precedent); the partition
 and the policy/exclusion authorities are the publication truth.
 """
@@ -33,11 +34,11 @@ MARKET = "pittsburgh-pa"
 
 EXPECTED = {
     "census": 96,
-    "published": 26,
-    "no_pets": 4,
+    "published": 29,
+    "no_pets": 6,
     "out_of_category": 3,
-    "unresolved": 63,
-    "queue": 63,
+    "unresolved": 58,
+    "queue": 58,
 }
 
 
@@ -218,7 +219,9 @@ class TestRoutingAndAuthorityIsolation:
             "cambria hotel pittsburgh downtown",
             "courtyard by marriott pittsburgh downtown",
             "doubletree by hilton pittsburgh airport",
-            "fairfield inn and suites pittsburgh neville island"}
+            "fairfield inn and suites pittsburgh neville island",
+            "springhill suites pittsburgh bakery square",
+            "springhill suites pittsburgh north shore"}
         assert {e["normalized_name"] for e in category} == {
             "inn on negley", "choderwood", "the maverick by kasa"}
         for entry in rows:

@@ -112,7 +112,10 @@ EXPECTED_RECONCILIATION = {
     # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
     # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
     # is COUNTED from the committed final partition (63).
-    PITTSBURGH: (96, 26, 4, 33, 63),
+    # PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A then applied three
+    # publications and two explicit property-level refusals; Sunnyledge stayed
+    # unresolved, so resolved is 29 + 6 + 3 and unresolved is 58.
+    PITTSBURGH: (96, 29, 6, 38, 58),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
 
@@ -264,7 +267,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 6, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

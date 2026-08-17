@@ -67,8 +67,8 @@ EXPECTED = {
     # short-term rentals and guesthouses the directories list beside hotels.
     CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
                  "out_of_category": 6, "unresolved": 250},
-    PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
-                 "out_of_category": 3, "unresolved": 63},
+    PITTSBURGH: {"census": 96, "published": 29, "no_pets": 6,
+                 "out_of_category": 3, "unresolved": 58},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
