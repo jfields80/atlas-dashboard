@@ -225,7 +225,20 @@ def test_live_production_authority_is_complete_and_holds_stay_non_public():
     assert MARKET in available_market_ids()
     routing = json.loads((PACKAGE / "identity_routing.json").read_text(
         encoding="utf-8-sig"))
-    assert len([r for r in routing["routes"] if r.get("market_id") == MARKET]) == 3
+    indy_routes = [r for r in routing["routes"] if r.get("market_id") == MARKET]
+    assert len(indy_routes) == 10
+    assert {r["hotel_ref"]["identity_key"] for r in indy_routes} == {
+        "bottleworks hotel",
+        "candlewood suites indianapolis medical district",
+        "conrad indianapolis",
+        "courtyard by marriott indianapolis at the capitol",
+        "courtyard by marriott indianapolis downtown",
+        "hilton garden inn indianapolis downtown",
+        "hilton indianapolis hotel and suites",
+        "holiday inn express and suites indianapolis north carmel",
+        "holiday inn express indianapolis downtown",
+        "holiday inn indianapolis downtown",
+    }
     seed = (PACKAGE / "seed_businesses.csv").read_text(encoding="utf-8")
     assert seed.count(",indianapolis-in") == 8
     exclusions = json.loads((PACKAGE / "hotel_exclusions.json").read_text(

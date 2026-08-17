@@ -164,14 +164,14 @@ class TestNothingMovedBetweenMarkets:
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:
             expected = baseline["per_market_totals"][market_id]
-            expected_routing = expected["routing"] + (3 if market_id == "indianapolis-in" else 0)
+            expected_routing = expected["routing"] + (10 if market_id == "indianapolis-in" else 0)
             assert len(MA.load_market_routes(market_id)) == expected_routing, market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
 
     def test_global_totals_match_the_pre_split_baseline(self, baseline):
         totals = baseline["global_totals"]
-        assert len(IR.load_routes()) == totals["routing"] + 3
+        assert len(IR.load_routes()) == totals["routing"] + 10
         assert len(HE.load_exclusions()) == totals["exclusions"]
         assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
 
