@@ -100,6 +100,8 @@ _MARKET_FILENAMES = {
     "pittsburgh-pa": "pittsburgh_pa.json",
     # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001.
     "detroit-ann-arbor-mi": "detroit_ann_arbor_mi.json",
+    # PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001.
+    "grand-rapids-holland-mi": "grand_rapids_holland_mi.json",
 }
 
 

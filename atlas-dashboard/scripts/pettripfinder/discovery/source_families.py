@@ -98,6 +98,15 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "vibe_showplace": FAMILY_DIRECTORY,
     "chain_locator": FAMILY_CHAIN,
     "chain_aggregate": FAMILY_CHAIN,
+    # PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001: official destination
+    # organizations only.  Each is CVB provenance; no policy claim is implied.
+    "experience_gr_kentwood": FAMILY_CVB,
+    "experience_gr_directory": FAMILY_CVB,
+    "holland_cvb": FAMILY_CVB,
+    "visit_grand_haven": FAMILY_CVB,
+    "visit_muskegon": FAMILY_CVB,
+    "saugatuck_douglas_cvb": FAMILY_CVB,
+    "visit_south_haven": FAMILY_CVB,
 }
 
 
