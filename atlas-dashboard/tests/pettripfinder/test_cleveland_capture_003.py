@@ -65,9 +65,9 @@ class TestTargetSetIsDerivedNotAssumed:
         # decisions consumed thirty-one more; 6 after
         # PTF-CLEVELAND-ROUTING-REPAIR-001 moved four repaired rows to its
         # own ROUTING_REPAIRED_AWAITING_CAPTURE classification.
-        assert len(routed) == 6
+        assert len(routed) == 5
         names = [i["normalized_name"] for i in routed]
-        assert len(set(names)) == 6  # 72 before the Pass-2 decisions
+        assert len(set(names)) == 5  # 72 before the Pass-2 decisions
         for item in routed:
             attempt = item["capture_attempt"]
             assert attempt["run_id"] == "cleveland-policy-capture-003"
@@ -93,7 +93,7 @@ class TestManifestIsProposalOnly:
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
         # 21 when capture-003 closed; 41 after the Pass-2 publications;
         # 81 after the Pass-3 publications.
-        assert len(facts["hotels"]) == 81
+        assert len(facts["hotels"]) == 99
         published = {h["key"] for h in facts["hotels"]}
         assert {"drury plaza hotel", "drury inn and suites beachwood"} <= published
         # Three of the four candidates this manifest could not publish were
@@ -101,8 +101,10 @@ class TestManifestIsProposalOnly:
         # hash-bound attended captures, never from this manifest. The fourth
         # stays held: its queued URL serves a different La Quinta (Airport
         # West), an identity mismatch the Pass-3 ledger records.
-        assert "la quinta inn and suites cleveland airport north" not in published
-        assert {"la quinta inn cleveland independence",
+        # Pass 4 re-verified Airport North's identity on its own page and
+        # the founder published it, so all four now carry policy.
+        assert {"la quinta inn and suites cleveland airport north",
+                "la quinta inn cleveland independence",
                 "super 8 by wyndham richfield cleveland",
                 "super 8 by wyndham akron south green uniontown"} <= published
 

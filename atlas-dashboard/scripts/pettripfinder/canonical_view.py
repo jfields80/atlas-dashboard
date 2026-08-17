@@ -319,6 +319,23 @@ class CanonicalView:
         fee = self.fee
         if fee is None or self.tiers or self.pet_schedule_entries:
             return False
+        # A WITHHELD ladder counts. If the record decided it cannot publish
+        # fee_tiers -- because the source contradicts itself, truncates a band,
+        # or gives only a ceiling -- then a scalar standing beside that decision
+        # is at best the first rung, and printing it as the fee tells a
+        # five-night guest the four-night price.
+        #
+        # This used to rest on the PROSE naming a larger amount, which was an
+        # accident waiting to break: Home2 Suites Dayton Beavercreek kept its
+        # "not the whole charge" caveat only because the withheld ladder had
+        # ALSO leaked into its restriction text, so cleaning up the leak would
+        # have taken the caveat with it. Three further records -- Home2
+        # Beachwood, Hilton Garden Inn Beavercreek, Homewood Miamisburg -- had
+        # no leak to rely on and were already printing a first rung as the fee.
+        if any(path in self.withheld for path in
+               ("fee_tiers", "fee_schedule", "fee_pet_schedule",
+                "fee_cap_tiers")):
+            return True
         if self.states_tax_on_fee:
             return False
         structured = {Decimal(fee.cents) / 100}

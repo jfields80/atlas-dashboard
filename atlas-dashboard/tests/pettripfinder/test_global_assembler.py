@@ -43,6 +43,7 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+INDIANAPOLIS = "indianapolis-in"
 
 FULL_BUILD = os.environ.get("PTF_ASSEMBLER_FULL_BUILD") == "1"
 needs_build = pytest.mark.skipif(
@@ -311,12 +312,26 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
-    # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001: Pittsburgh now commits a
-    # policy package, a partition and 17 published seed hotels, so it is
-    # structurally assemblable -- while staying hidden from navigation and the
-    # sitemap and carrying a contract that grants no deployment.
+    # Pittsburgh is currently assemblable but remains hidden from navigation;
+    # Indianapolis is independently eligible after its founder-approved release.
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa"])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
+
+
+def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
+    row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
+    assert row["published_count"] == 8
+    assert row["conditions"]["census_present"] is True
+    assert row["conditions"]["meets_minimum_published"] is True
+    assert row["assemblable"] is True
+
+
+def test_indianapolis_is_in_the_global_selection(markets):
+    chosen, rows = select_markets(markets)
+    assert INDIANAPOLIS in [m.market_id for m in chosen]
+    assert INDIANAPOLIS in [r["market_id"] for r in rows]
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -326,17 +341,21 @@ def test_navigation_visibility_is_not_an_assembly_condition(markets):
         assert "show_in_navigation" not in row["conditions"]
 
 
-def test_current_ohio_inventory_is_156_published_profiles(markets):
+def test_current_live_inventory_preserves_all_assemblable_market_profiles(markets):
     """Section 28's target at the time, DERIVED -- not a constant in the code.
     176 since the Pass-2 founder decisions; 216 since
     PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
     hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
-    the first seventeen Pittsburgh hotels."""
+    the first seventeen Pittsburgh hotels; 242 since
+    PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
+    after Indianapolis published its eight founder-approved records; 268 since
+    PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
+    Cleveland hotels (81 -> 99)."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
-                      "pittsburgh-pa": 17}
-    assert sum(counts.values()) == 233
+    assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8}
+    assert sum(counts.values()) == 268
 
 
 # --------------------------------------------------------------------------- #

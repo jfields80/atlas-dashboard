@@ -62,6 +62,7 @@ _PARTITION_FILES = {
     "cincinnati-oh": "cincinnati_final_partition_001.json",
     # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001.
     "pittsburgh-pa": "pittsburgh_final_partition_001.json",
+    "indianapolis-in": "indianapolis_final_partition_001.json",
 }
 
 

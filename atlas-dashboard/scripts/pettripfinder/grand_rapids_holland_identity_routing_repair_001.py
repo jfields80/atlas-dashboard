@@ -12,7 +12,8 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from scripts.pettripfinder.build_grand_rapids_holland_market_001 import PROPERTY_URLS
-from scripts.pettripfinder.identity_routing import ROUTING_CONFIRMED, validate_authority
+from scripts.pettripfinder import market_authority as MA
+from scripts.pettripfinder.identity_routing import ROUTING_CONFIRMED
 
 MARKET = "grand-rapids-holland-mi"
 AS_OF = "2026-08-17"
@@ -21,7 +22,6 @@ PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 REPORTS = PACKAGE / "markets" / "reports"
 CENSUS_PATH = PACKAGE / "identity_census" / (MARKET + ".json")
 PARTITION_PATH = PACKAGE / "grand_rapids_holland_final_partition_001.json"
-ROUTING_PATH = PACKAGE / "identity_routing.json"
 POSTCLOSURE_REVIEW_PATH = PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json"
 
 # PTF-GRAND-RAPIDS-HOLLAND-ROUTING-REPAIR-CONTINUATION-001.  Current official
@@ -93,34 +93,28 @@ RECOVERED_URLS = {
     "Holiday Inn Express & Suites Grand Rapids South - Wyoming": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wyoming-mi/grrym/hoteldetail",
     "Holiday Inn Grand Rapids South": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/byomi/hoteldetail",
     "Super 8 by Wyndham Grand Rapids": "https://www.wyndhamhotels.com/super-8/wyoming-michigan/super-8-grand-rapids-wyoming/overview",
+    # PTF-GRAND-RAPIDS-HOLLAND-CENSUS-REVIEW-002 â€” current property names
+    # and address binding, without any policy-page inspection.
+    "Baymont by Wyndham Holland": "https://www.wyndhamhotels.com/baymont/holland-michigan/baymont-inn-and-suites-holland/overview",
+    "Baymont by Wyndham Grand Rapids Airport": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-airport/overview",
+    "Days Inn & Suites by Wyndham Grand Rapids Near Downtown": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
+    "Quality Inn Grand Rapids South-Byron Center": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312",
+    "TownePlace Suites by Marriott Grand Rapids Wyoming": "https://www.marriott.com/en-us/hotels/grrtw-towneplace-suites-grand-rapids-wyoming/overview/",
 }
 
 # Exact official source evidence may require a closed-census identity review.
 # Do not bind a route to a materially different current name until that review
 # is authorized; address continuity alone is not a silent census correction.
-CENSUS_REVIEW = {
-    "TownePlace Suites Grand Rapids South": (
-        "Current Marriott property identity at the same 5880 Clyde Park Ave SW address is "
-        "TownePlace Suites by Marriott Grand Rapids Wyoming; preserve the closed census name "
-        "and require census review before routing."
-    ),
-    "Quality Inn Grand Rapids South": (
-        "Current Choice property identity at the same 7625 Caterpillar Ct SW address is "
-        "Quality Inn Grand Rapids South-Byron Center; preserve the closed census name and "
-        "require census review before routing."
-    ),
-    "Baymont Inn & Suites by Wyndham Holland": (
-        "Current Wyndham property identity at the same 680 E 24th St address is Baymont by "
-        "Wyndham Holland; preserve the closed census name and require census review before routing."
-    ),
-    "Baymont Inn & Suites Grand Rapids Southeast": (
-        "Current Wyndham property identity at the same 2873 Kraft Ave SE address is Baymont by "
-        "Wyndham Grand Rapids Airport; preserve the closed census name and require census review before routing."
-    ),
-    "Days Inn & Suites by Wyndham Grand Rapids Near Downtown": (
-        "Current Wyndham property page uses 255A 28th St SW, Grand Rapids 49548, while the closed "
-        "census has 255 28th St SW, Grand Rapids 49509; require census review before routing."
-    ),
+CENSUS_REVIEW = {}
+
+# The post-closure review is historical evidence. Four of the five names it
+# recorded were subsequently accepted as narrow in-place census corrections.
+# Preserve its 35/17 continuation split while comparing it to current keys.
+HISTORICAL_IDENTITY_KEY_RENAMES = {
+    "baymont inn and suites by wyndham holland": "baymont by wyndham holland",
+    "baymont inn and suites grand rapids southeast": "baymont by wyndham grand rapids airport",
+    "quality inn grand rapids south": "quality inn grand rapids south byron center",
+    "towneplace suites grand rapids south": "towneplace suites by marriott grand rapids wyoming",
 }
 
 
@@ -183,7 +177,8 @@ def main() -> None:
         raise SystemExit("a property URL points outside the fixed active census")
     postclosure_review = _load(POSTCLOSURE_REVIEW_PATH)
     clean_structured_keys = {
-        item["identity_key"] for item in postclosure_review["items"]
+        HISTORICAL_IDENTITY_KEY_RENAMES.get(item["identity_key"], item["identity_key"])
+        for item in postclosure_review["items"]
         if item["proposed_disposition"] == "ROUTING_RECOVERY_CLEAN"
     }
     independent_final_keys = {
@@ -277,9 +272,8 @@ def main() -> None:
                "identity_review": 0, "census_review": len(census_review), "routing_unresolved": 0, "rows": rows}
     _dump(REPORTS / (MARKET + "_routing_results_001.json"), results)
 
-    existing = _load(ROUTING_PATH)
-    old_routes = [route for route in existing["routes"] if route["market_id"] != MARKET]
-    routes = list(old_routes)
+    existing = MA.load_market_routing_document(MARKET)
+    routes = []
     for item in confirmed:
         census_row = next(row for row in active if row["identity_key"] == item["identity_key"])
         context = {field: census_row.get(field, "") for field in ("address", "city", "state", "postal_code", "phone")}
@@ -297,14 +291,12 @@ def main() -> None:
             "status": ROUTING_CONFIRMED, "category": "accommodation",
             "notes": "Routing-only binding; no pet-policy content was observed.",
         })
-    validated = validate_authority({"schema": existing["schema"], "routes": routes})
-    routed_doc = dict(existing)
-    routed_doc["routes"] = validated
-    routed_doc["count"] = len(validated)
-    routed_doc["source_batches"] = existing.get("source_batches", [])
-    if "grand-rapids-holland-identity-routing-repair-001" not in routed_doc["source_batches"]:
-        routed_doc["source_batches"].append("grand-rapids-holland-identity-routing-repair-001")
-    _dump(ROUTING_PATH, routed_doc)
+    source_batches = list(existing.get("source_batches", []))
+    if "grand-rapids-holland-identity-routing-repair-001" not in source_batches:
+        source_batches.append("grand-rapids-holland-identity-routing-repair-001")
+    routed_doc = MA.build_routing_shard(MARKET, routes, source_batches)
+    MA.routing_shard_path(MARKET).write_text(MA.render_json(routed_doc), encoding="utf-8")
+    MA.write_generated_artifacts()
 
     partition = _load(PARTITION_PATH)
     route_keys = {row["identity_key"] for row in confirmed}

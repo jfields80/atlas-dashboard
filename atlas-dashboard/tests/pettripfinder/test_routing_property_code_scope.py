@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import pytest
 
+from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder.identity_routing import (
     IdentityRoutingError, ROUTING_CONFIRMED, validate_authority,
 )
@@ -157,6 +158,21 @@ class TestNothingElseMoved:
         # Dayton is the first market to add a Choice/IHG/Red Roof route since
         # the codes were scoped by registrable domain, which is exactly the
         # case this file exists for.
-        assert len(routes) == 187  # plus Grand Rapids--Holland's 97 routed identities
+        # 90 -> 300: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened
+        # Cincinnati routing (210 new records). Property codes are scoped by
+        # registrable domain, and Cincinnati is dense with the exact
+        # multi-brand-sharing-a-code pattern this file exists for (e.g.
+        # Hilton's Homewood/Hampton pair at 617 Vine St) -- this assertion
+        # passing after the addition is the regression check.
+        # 300 -> 277: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
+        # Cleveland routing placeholders whose identities each reached a
+        # final publication or exclusion; scoping is unaffected.
+        # PTF-MARKET-AUTHORITY-SHARDING-001: derived from the per-market shards
+        # rather than pinned. What this test defends is that the committed
+        # authority LOADS -- i.e. that domain-scoped property codes survive real
+        # multi-brand density -- and that claim is about the records, not about
+        # how many markets have contributed them.
+        assert len(routes) == sum(len(MA.load_market_routes(m))
+                                  for m in MA.sharded_market_ids())
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"} <= markets

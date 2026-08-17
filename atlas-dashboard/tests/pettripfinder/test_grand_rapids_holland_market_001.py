@@ -188,16 +188,16 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert (progress["route_confirmed"] + progress["url_recovery"] +
             progress["identity_review"] + progress["census_review"] +
             progress["routing_unresolved"]) == 119
-    assert progress["route_confirmed"] == 97
+    assert progress["route_confirmed"] == 102
     assert progress["url_recovery"] == 17
-    assert progress["census_review"] == 5
-    routing = _load(PACKAGE / "identity_routing.json")
-    routes = [row for row in routing["routes"] if row["market_id"] == MARKET]
-    assert len(routes) == 97
+    assert progress["census_review"] == 0
+    routing = _load(PACKAGE / "markets" / "authority" / MARKET / "identity_routing.json")
+    routes = routing["routes"]
+    assert len(routes) == 102
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)
     queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
-    assert queue["count"] == len(queue["items"]) == 97
+    assert queue["count"] == len(queue["items"]) == 102
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
     review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
     assert review["census_count"] == 120
@@ -233,15 +233,29 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     }
     continuation = progress["continuation_003"]
     assert continuation["structured_recovery_batch"] == 35
-    assert continuation["structured_routes_added"] == 30
-    assert continuation["structured_census_review"] == 5
+    assert continuation["structured_routes_added"] == 35
+    assert continuation["structured_census_review"] == 0
     assert continuation["structured_remaining"] == 0
     assert continuation["independent_final_recovery_deferred"] == 17
     assert continuation["reconciliation"] == {
         "active_lodging": 119,
-        "route_confirmed": 97,
+        "route_confirmed": 102,
         "clean_structured_remaining": 0,
-        "census_review": 5,
+        "census_review": 0,
         "independent_final_recovery": 17,
     }
     assert all(row["census_action"] == "NO_CHANGE" for row in review["items"])
+
+    census_review = _load(PACKAGE / "grand_rapids_holland_census_review_002.json")
+    assert census_review["census_before"] == census_review["census_after"] == 120
+    assert census_review["summary"] == {
+        "NO_CENSUS_CHANGE": 0,
+        "RENAME_IN_PLACE": 4,
+        "ADDRESS_CORRECTION": 1,
+        "BRAND_CONVERSION_IN_PLACE": 0,
+        "CLOSED_OR_CONVERTED": 0,
+        "CONFIRMED_DUPLICATE": 0,
+        "IDENTITY_UNRESOLVED": 0,
+        "FOUNDER_IDENTITY_REVIEW": 0,
+    }
+    assert all(not row["policy_observed"] for row in census_review["items"])

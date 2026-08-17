@@ -520,7 +520,7 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # Columbus resolution by name is unchanged.
     assert sorted(m.market_id for m in markets) == \
         ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
-         "dayton-oh", "detroit-ann-arbor-mi", "grand-rapids-holland-mi",
+         "dayton-oh", "detroit-ann-arbor-mi", "grand-rapids-holland-mi", "indianapolis-in",
          "pittsburgh-pa"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
