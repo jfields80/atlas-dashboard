@@ -1,0 +1,62 @@
+{
+  "schema": "ptf-indianapolis-pass1-founder-decision/1.0",
+  "work_order": "PTF-INDIANAPOLIS-PASS1-FOUNDER-DECISION-001",
+  "as_of": "2026-08-16",
+  "market_id": "indianapolis-in",
+  "status": "NEGATIVE_APPLIED_IDENTITY_REPAIR_PIVOT",
+  "rule": "Apply the one Pass-1 negative. Do not recapture the remaining nine. Repair identity keys so a later capture can meet the two-independent-key gate. Do not publish Indianapolis hotels. Do not infer policy.",
+  "negative_decision": {
+    "decision_id": "INDY-P1-007",
+    "identity_key": "crowne plaza indianapolis airport",
+    "hotel": "Crowne Plaza Indianapolis Airport",
+    "decision": "APPROVE_VERIFIED_NO_PETS",
+    "exclusion_id": "indy-crowne-plaza-indianapolis-airport",
+    "artifact_sha256": "sha256:6989b22e8245344daea388c95be981df31472dc70da869ec73301677e3f2807a",
+    "evidence_quote": "No, pets are not allowed at Crowne Plaza Indianapolis-Airport.",
+    "authority_written": "hotel_exclusions.json only",
+    "policy_package_written": false,
+    "published": false
+  },
+  "after_counts": {
+    "census": 153,
+    "published": 0,
+    "verified_no_pets": 1,
+    "out_of_category": 0,
+    "unresolved": 152
+  },
+  "identity_repair": {
+    "pivot": "Stop policy capture on the remaining Pass-1 rows until identity can be confirmed with two independent keys.",
+    "url_property_codes_bound": [
+      {"identity_key": "comfort inn indianapolis airport plainfield", "property_code": "in082"},
+      {"identity_key": "comfort suites indianapolis airport", "property_code": "in293"},
+      {"identity_key": "courtyard by marriott indianapolis airport", "property_code": "indca"},
+      {"identity_key": "courtyard by marriott indianapolis castleton", "property_code": "indcs"},
+      {"identity_key": "crowne plaza indianapolis downtown union station", "property_code": "inddt"},
+      {"identity_key": "delta hotels by marriott indianapolis airport", "property_code": "indde"},
+      {"identity_key": "embassy suites by hilton indianapolis downtown", "property_code": "indwses"}
+    ],
+    "still_missing_second_key": [
+      {
+        "identity_key": "baymont by wyndham plainfield indianapolis airport area",
+        "blocker": "Official URL has no path-segment property code. Next repair is official-phone or address match confirmation, not policy recapture."
+      },
+      {
+        "identity_key": "best western plus indianapolis northwest",
+        "blocker": "Official URL propertyCode.15116 is not a path segment the capture gate accepts. Census has no phone. Next repair is official-phone recovery."
+      }
+    ],
+    "do_not_recapture_yet": [
+      "comfort suites indianapolis airport -- census phone disagreed with the page; founder must review the phone before another capture",
+      "embassy suites by hilton indianapolis downtown -- ACCESS_BLOCKED / empty Hilton shell; needs operator-manual screenshot, not another automated drive"
+    ]
+  },
+  "not_done": [
+    "No Indianapolis policy package",
+    "No seed rows",
+    "No routing authority",
+    "No release contract",
+    "No merge",
+    "No deploy",
+    "No browser recapture"
+  ]
+}

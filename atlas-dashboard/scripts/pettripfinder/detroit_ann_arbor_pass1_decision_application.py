@@ -43,6 +43,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder import canonical_view                              # noqa: E402
 from scripts.pettripfinder import hotel_exclusions as EX                      # noqa: E402
+from scripts.pettripfinder import market_authority as MA                      # noqa: E402
 from scripts.pettripfinder.contracts import enums                             # noqa: E402
 from scripts.pettripfinder.contracts import evidence as evidence_contract     # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema                     # noqa: E402
@@ -62,7 +63,13 @@ FOUNDER = "jfields80"
 
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 FACTS_PATH = LP / ("hotel_policy_facts_%s.json" % MARKET)
-EXCLUSIONS_PATH = LP / "hotel_exclusions.json"
+# PTF-ACTIVE-BRANCH-SHARD-MIGRATION-001. This market's exclusions live in its
+# OWN authority shard, never in the shared global file. The global
+# launch_packages/pettripfinder/hotel_exclusions.json is a GENERATED
+# compatibility artifact assembled from every market's shard, so writing it
+# here would both conflict with every other market's branch and be overwritten
+# by the next assembly.
+EXCLUSIONS_SHARD_PATH = MA.exclusions_shard_path(MARKET)
 CENSUS_PATH = LP / "identity_census" / ("%s.json" % MARKET)
 PARTITION_PATH = LP / "detroit_ann_arbor_final_partition_001.json"
 PACKET_PATH = LP / "detroit_ann_arbor_pass1_founder_review_packet.json"
@@ -510,7 +517,9 @@ def rebuild_census_and_partition() -> Dict:
 
     market = market_by_id(load_markets(), MARKET)
     facts_doc = load_json(FACTS_PATH) if FACTS_PATH.is_file() else None
-    exclusions_doc = load_json(EXCLUSIONS_PATH)
+    # This market's shard, not the generated global. The loop below filters by
+    # market_id anyway, so the shard is exactly the rows it was ever reading.
+    exclusions_doc = MA.build_exclusions_shard(MARKET, MA.load_market_exclusions(MARKET))
     packet_doc = load_json(PACKET_PATH)
     pass1_address = {
         c["identity_key"]: c
@@ -791,8 +800,12 @@ def run(apply: bool) -> Dict:
         ("market_id", MARKET), ("hotels", published),
     ])
 
-    exclusions_doc = load_json(EXCLUSIONS_PATH)
-    existing_norm = {e["normalized_name"] for e in exclusions_doc["exclusions"]}
+    # Only THIS market's exclusions. The cross-market duplicate check has not
+    # been lost -- it moved to where it belongs: the assembler revalidates the
+    # union of every shard, so an identity excluded by two markets still fails
+    # closed, and it now fails in the place that can see both.
+    existing_exclusions = MA.load_market_exclusions(MARKET)
+    existing_norm = {e["normalized_name"] for e in existing_exclusions}
     new_exclusions: List[Dict] = []
     for did, spec in NEGATIVES.items():
         entry = entries[did]
@@ -804,7 +817,8 @@ def run(apply: bool) -> Dict:
         if record["normalized_name"] in existing_norm:
             raise SystemExit("STOP %s: already excluded" % did)
         new_exclusions.append(record)
-    exclusions_doc["exclusions"] = exclusions_doc["exclusions"] + new_exclusions
+    exclusions_doc = MA.build_exclusions_shard(
+        MARKET, existing_exclusions + new_exclusions)
     EX.validate(exclusions_doc)
 
     delta_entry = entries["DTW-P1-06"]
@@ -829,7 +843,12 @@ def run(apply: bool) -> Dict:
     if apply:
         payload = write_lf(FACTS_PATH, facts_doc)
         summary["facts_sha256"] = hashlib.sha256(payload).hexdigest()
-        write_lf(EXCLUSIONS_PATH, exclusions_doc)
+        EXCLUSIONS_SHARD_PATH.write_bytes(
+            MA.render_json(exclusions_doc).encode("utf-8"))
+        # Regenerate the global compatibility artifacts from ALL shards. This
+        # is also the union revalidation: a collision with another market's
+        # authority raises here rather than being committed.
+        MA.write_generated_artifacts()
         write_lf(RENDER_REPORT_PATH, render_report)
 
         rebuilt = rebuild_census_and_partition()
@@ -864,8 +883,7 @@ def run(apply: bool) -> Dict:
                 raise SystemExit("STOP %s: approval does not bind the final record_hash" % hotel["identity_key"])
             if approval.get("evidence_hash") != evidence_hash(hotel["evidence"]):
                 raise SystemExit("STOP %s: approval does not bind the final evidence_hash" % hotel["identity_key"])
-        written_excl = load_json(EXCLUSIONS_PATH)
-        for entry in written_excl["exclusions"]:
+        for entry in MA.load_market_exclusions(MARKET):
             if entry.get("market_id") != MARKET or entry.get("exclusion_state") != "VERIFIED_NO_PETS":
                 continue
             if entry.get("reviewer_id") != FOUNDER:

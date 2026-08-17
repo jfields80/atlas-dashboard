@@ -366,6 +366,40 @@ class TestEvidence:
             "evidence": [{"evidence_ref": "ev-1", "field": "pet_fee"}]})
         assert missing == ()
 
+    def test_a_fact_cited_under_its_legacy_evidence_name_is_covered(self):
+        """Schema 1.2 renamed fact keys without renaming their evidence field.
+
+        ``facts.species`` is authored from a ``species_allowed`` entry, so
+        matching names literally accused 43 records across two markets of
+        publishing an unevidenced fact whose citation was in the same record.
+        """
+        missing = evidence.unevidenced_facts({
+            "facts": {"species": {"dogs": "accepted"}},
+            "evidence": [{"evidence_ref": "ev-1", "field": "species_allowed"}]})
+        assert missing == ()
+
+    def test_an_alias_never_excuses_an_unrelated_fact(self):
+        """The check still fires on what it exists to catch."""
+        missing = evidence.unevidenced_facts({
+            "facts": {"species": {"dogs": "accepted"}, "weight_limit": {}},
+            "evidence": [{"evidence_ref": "ev-1", "field": "cats_allowed"}]})
+        assert missing == ("weight_limit",)
+
+    def test_coverage_names_always_includes_the_field_itself(self):
+        """An alias is a SECOND acceptable name, never a replacement -- a market
+        that authors a direct pointer must keep being credited for it."""
+        for field, aliases in evidence.FACT_EVIDENCE_ALIASES.items():
+            names = evidence.coverage_names(field)
+            assert names[0] == field
+            assert set(aliases) < set(names)
+        assert evidence.coverage_names("pet_fee") == ("pet_fee",)
+
+    def test_every_alias_target_is_a_distinct_name(self):
+        """An alias pointing at the fact's own name would be a silent no-op."""
+        for field, aliases in evidence.FACT_EVIDENCE_ALIASES.items():
+            assert field not in aliases, field
+            assert len(set(aliases)) == len(aliases), field
+
 
 class TestContiguousQuote:
     """A stitched quote is a forgery."""

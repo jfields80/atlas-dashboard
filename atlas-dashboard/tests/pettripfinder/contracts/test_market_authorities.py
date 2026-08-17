@@ -33,14 +33,21 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+PITTSBURGH = "pittsburgh-pa"
+DETROIT = "detroit-ann-arbor-mi"
+INDIANAPOLIS = "indianapolis-in"
 
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
+           INDIANAPOLIS)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
     CLEVELAND: "cleveland_final_partition_002.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
+    PITTSBURGH: "pittsburgh_final_partition_001.json",
+    DETROIT: "detroit_ann_arbor_final_partition_001.json",
+    INDIANAPOLIS: "indianapolis_final_partition_001.json",
 }
 
 #: What each market holds. Pinned so a change to an authority shows up here
@@ -49,10 +56,11 @@ EXPECTED = {
     COLUMBUS: {"census": 112, "published": 88, "no_pets": 14,
                "out_of_category": 2, "unresolved": 8},
     # 21/8/159 until PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 (41/31/116),
-    # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 applied the founder's
-    # rulings on the driveable-queue packet: 81 published, 35 no-pets.
-    CLEVELAND: {"census": 188, "published": 81, "no_pets": 35,
-                "out_of_category": 0, "unresolved": 72},
+    # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 (81/35/72), then
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 applied the founder's
+    # rulings on the routing-repaired queue: 99 published, 40 no-pets.
+    CLEVELAND: {"census": 188, "published": 99, "no_pets": 40,
+                "out_of_category": 0, "unresolved": 49},
     DAYTON: {"census": 129, "published": 47, "no_pets": 8,
              "out_of_category": 0, "unresolved": 74},
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
@@ -60,6 +68,19 @@ EXPECTED = {
     # short-term rentals and guesthouses the directories list beside hotels.
     CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
                  "out_of_category": 6, "unresolved": 250},
+    PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
+                 "out_of_category": 3, "unresolved": 63},
+    # 143/0/0/1/142 was the market-factory state main recorded. Since then:
+    # PTF-DETROIT-ANN-ARBOR-PASS1/PASS2-DECISION-APPLICATION-001 applied the
+    # founder's rulings on the DTW/Romulus and Pontiac/Novi evidence (7
+    # published, 7 verified-no-pets), and
+    # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002 raised the census 142 -> 161
+    # after re-reading the market's own chamber and CVB sources -- Dearborn
+    # alone was missing six real hotels.
+    DETROIT: {"census": 161, "published": 7, "no_pets": 7,
+              "out_of_category": 1, "unresolved": 146},
+    INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
+                   "out_of_category": 0, "unresolved": 141},
 }
 
 
@@ -91,6 +112,8 @@ POLICY_FILES = {
     COLUMBUS: "hotel_policy_facts.json",
     CLEVELAND: "hotel_policy_facts_cleveland-akron-canton-oh.json",
     DAYTON: "hotel_policy_facts_dayton-oh.json",
+    PITTSBURGH: "hotel_policy_facts_pittsburgh-pa.json",
+    INDIANAPOLIS: "hotel_policy_facts_indianapolis-in.json",
 }
 
 
@@ -262,14 +285,14 @@ class TestNextActionInvariant:
 
 class TestTerminalDispositionsMatchAuthority:
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
     def test_published_set_matches_the_policy_package(self, market_id):
         published = published_keys(POLICY_FILES[market_id])
         in_partition = {i["identity_key"] for i in partition_doc(market_id)["items"]
                         if i["final_state"] == enums.PUBLISHED_PET_FRIENDLY}
         assert in_partition == published
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
     def test_terminal_sets_match_the_exclusion_registry(self, market_id):
         exclusions = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
         for state in (enums.VERIFIED_NO_PETS, enums.OUT_OF_CURRENT_CATEGORY):
@@ -305,6 +328,42 @@ class TestTerminalDispositionsMatchAuthority:
         assert states[enums.VERIFIED_NO_PETS] == 0
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
+
+    def test_indianapolis_publishes_eight_and_has_four_verified_refusals(self):
+        """Live application reconciles the approved positives and negative evidence."""
+        no_pets = {
+            "crowne plaza indianapolis airport",
+            "courtyard by marriott indianapolis castleton",
+            "crowne plaza indianapolis downtown union station",
+            "fairfield inn and suites indianapolis airport",
+        }
+        confirmed = {
+            "holiday inn express plainfield",
+            "le meridien indianapolis",
+            "residence inn by marriott indianapolis airport",
+            "hampton inn and suites indianapolis airport",
+            "hampton inn and suites indianapolis keystone",
+            "hampton inn and suites indianapolis west speedway",
+            "hampton inn indianapolis northeast castleton",
+            "hilton garden inn indianapolis airport",
+        }
+        doc = partition_doc(INDIANAPOLIS)
+        states = {i["final_state"] for i in doc["items"]}
+        assert states & set(enums.TERMINAL_STATES) == {
+            enums.PUBLISHED_PET_FRIENDLY, enums.VERIFIED_NO_PETS}
+        assert len(doc["items"]) == 153
+        refused = [i for i in doc["items"]
+                   if i["final_state"] == enums.VERIFIED_NO_PETS]
+        assert {i["identity_key"] for i in refused} == no_pets
+        census = census_doc(INDIANAPOLIS)
+        by_key = {r["identity_key"]: r["policy_state"] for r in census["hotels"]}
+        assert {key for key, state in by_key.items()
+                if state == enums.VERIFIED_NO_PETS} == no_pets
+        assert {key for key, state in by_key.items()
+                if state == enums.POLICY_CONFIRMED} == confirmed
+        assert all(state == enums.POLICY_NOT_VERIFIED
+                   for key, state in by_key.items()
+                   if key not in no_pets and key not in confirmed)
 
 
 # --------------------------------------------------------------------------

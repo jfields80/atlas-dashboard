@@ -38,6 +38,7 @@ from scripts.pettripfinder.assemble_netlify_bundle import (
     load_release_contract,
 )
 from scripts.pettripfinder.market_context import resolve_market
+from scripts.pettripfinder.site_data import read_production_rows
 from scripts.pettripfinder.markets import load_markets
 from scripts.pettripfinder.release_contracts import (
     CONTRACT_SCHEMA,
@@ -56,8 +57,9 @@ from scripts.pettripfinder.release_contracts import (
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
+INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -85,7 +87,10 @@ EXPECTED_RECONCILIATION = {
     # 44 rulings on the 68-row driveable-queue packet: forty artifact-backed
     # publications (41 -> 81) and four first-party refusals (31 -> 35), so
     # resolved is 116 and unresolved 72.
-    CLEVELAND: (188, 81, 35, 116, 72),
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then applied 23 rulings:
+    # 18 publications (81 -> 99, incl. two authorized renames) and 5
+    # refusals (35 -> 40), so resolved is 139 and unresolved 49.
+    CLEVELAND: (188, 99, 40, 139, 49),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -107,7 +112,12 @@ EXPECTED_RECONCILIATION = {
     # NOT_LODGING rulings are projected into the registry as
     # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
     # COUNTED from the committed final partition.
-    PITTSBURGH: (96, 17, 2, 22, 74),
+    # PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 added 9 more publications
+    # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
+    # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
+    # is COUNTED from the committed final partition (63).
+    PITTSBURGH: (96, 26, 4, 33, 63),
+    INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -152,28 +162,50 @@ class TestContractRegistry:
         ``derive_authority`` refuses outright rather than inventing an empty
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
+        Indianapolis now has eight founder-approved live records and therefore
+        has its own release contract. Cincinnati remains the intentional
+        contractless zero-inventory market.
+
         PTF-DETROIT-ANN-ARBOR-PASS1-DECISION-APPLICATION-001 committed a real
-        6-hotel ``hotel_policy_facts_detroit-ann-arbor-mi.json`` -- a genuine
+        7-hotel ``hotel_policy_facts_detroit-ann-arbor-mi.json`` -- a genuine
         policy package -- but the market has never been through an inventory/
-        seeding pass, so none of its hotels exist as rows in the shared
-        production seed CSV that ``derive_authority`` joins against.
-        ``derive_authority("detroit-ann-arbor-mi")`` therefore fails closed
-        with a ValueError (verified-only hotel join failed) rather than
-        silently deriving a contract from zero seed rows. Authoring a contract
-        by hand here -- rather than deriving it -- is exactly the drift this
-        module exists to prevent, so the market stays honestly contractless
-        until its own inventory-seeding work order runs.
+        seeding pass, so none of its hotels exist as rows in the production seed
+        that ``derive_authority`` joins against.
+        ``derive_authority("detroit-ann-arbor-mi")`` therefore fails closed with
+        a ValueError (verified-only hotel join failed) rather than silently
+        deriving a contract from zero seed rows. Authoring a contract by hand
+        here -- rather than deriving it -- is exactly the drift this module
+        exists to prevent, so the market stays honestly contractless until its
+        own inventory-seeding work order runs.
+
+        Detroit is excluded by the RULE that describes it -- a market with no
+        seed rows has nothing to release -- rather than by name. Naming it would
+        have to be un-named by hand the day it is seeded, which is precisely the
+        kind of edit that goes missing.
 
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
         configured.
         """
         configured = {m.market_id for m in load_markets()}
-        releasable = {m for m in configured
-                      if (REPO_ROOT / "launch_packages" / "pettripfinder"
-                          / ("hotel_policy_facts_%s.json" % m)).exists()
-                      or m == COLUMBUS}
-        releasable -= {"detroit-ann-arbor-mi"}
+        seeded = {row.get("market_id") for row in read_production_rows()}
+        releasable = set()
+        for mid in configured:
+            if mid == COLUMBUS:
+                releasable.add(mid)
+                continue
+            path = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                    / ("hotel_policy_facts_%s.json" % mid))
+            if not path.is_file():
+                continue
+            doc = json.loads(path.read_text(encoding="utf-8-sig"))
+            if doc.get("published") is False:
+                continue
+            if mid not in seeded:
+                # Policy authority without inventory. There is nothing to
+                # release, and derive_authority says so by raising.
+                continue
+            releasable.add(mid)
         assert releasable == set(MARKETS)
         assert set(available_market_ids()) == releasable
         assert set(available_market_ids()) <= configured
@@ -182,9 +214,11 @@ class TestContractRegistry:
         configured = {m.market_id for m in load_markets()}
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" not in set(available_market_ids())
+        assert "indianapolis-in" in configured
+        assert "indianapolis-in" in set(available_market_ids())
 
     def test_a_market_with_policy_authority_but_no_seed_rows_is_honestly_contractless(self):
-        """Detroit-Ann Arbor has real policy facts (6 published hotels) but has
+        """Detroit-Ann Arbor has real policy facts (7 published hotels) but has
         never been seeded into the shared production CSV, so it fails closed
         rather than deriving a contract from a join against zero rows."""
         configured = {m.market_id for m in load_markets()}
@@ -268,8 +302,8 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8,
-                             PITTSBURGH: 2}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
+                             PITTSBURGH: 4, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -299,7 +333,7 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]

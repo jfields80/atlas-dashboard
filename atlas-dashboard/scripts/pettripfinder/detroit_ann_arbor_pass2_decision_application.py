@@ -33,6 +33,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder import canonical_view                              # noqa: E402
 from scripts.pettripfinder import hotel_exclusions as EX                      # noqa: E402
+from scripts.pettripfinder import market_authority as MA                      # noqa: E402
 from scripts.pettripfinder.contracts import census as CENSUS                  # noqa: E402
 from scripts.pettripfinder.contracts import enums                             # noqa: E402
 from scripts.pettripfinder.contracts import evidence as evidence_contract     # noqa: E402
@@ -54,7 +55,13 @@ FOUNDER = "jfields80"
 
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 FACTS_PATH = LP / ("hotel_policy_facts_%s.json" % MARKET)
-EXCLUSIONS_PATH = LP / "hotel_exclusions.json"
+# PTF-ACTIVE-BRANCH-SHARD-MIGRATION-001. This market's exclusions live in its
+# OWN authority shard, never in the shared global file. The global
+# launch_packages/pettripfinder/hotel_exclusions.json is a GENERATED
+# compatibility artifact assembled from every market's shard, so writing it
+# here would both conflict with every other market's branch and be overwritten
+# by the next assembly.
+EXCLUSIONS_SHARD_PATH = MA.exclusions_shard_path(MARKET)
 CENSUS_PATH = LP / "identity_census" / ("%s.json" % MARKET)
 PARTITION_PATH = LP / "detroit_ann_arbor_final_partition_001.json"
 PACKET_PATH = LP / "detroit_ann_arbor_capture_pass2_founder_review_packet.json"
@@ -423,8 +430,9 @@ def run(apply: bool) -> Dict:
     facts_doc = OrderedDict(existing_facts_doc)
     facts_doc["hotels"] = list(existing_facts_doc["hotels"]) + published
 
-    exclusions_doc = load_json(EXCLUSIONS_PATH)
-    existing_norm = {e["normalized_name"] for e in exclusions_doc["exclusions"]}
+    # Only THIS market's exclusions; the union check runs in the assembler.
+    existing_exclusions = MA.load_market_exclusions(MARKET)
+    existing_norm = {e["normalized_name"] for e in existing_exclusions}
     new_exclusions: List[Dict] = []
     for did, spec in NEGATIVES.items():
         entry = entries[did]
@@ -433,8 +441,8 @@ def run(apply: bool) -> Dict:
         if record["normalized_name"] in existing_norm:
             raise SystemExit("STOP %s: %r already excluded" % (did, record["normalized_name"]))
         new_exclusions.append(record)
-    exclusions_doc = OrderedDict(exclusions_doc)
-    exclusions_doc["exclusions"] = list(exclusions_doc["exclusions"]) + new_exclusions
+    exclusions_doc = MA.build_exclusions_shard(
+        MARKET, list(existing_exclusions) + new_exclusions)
 
     EX.validate(exclusions_doc)  # raises ExclusionContractError on failure
 
@@ -483,7 +491,11 @@ def run(apply: bool) -> Dict:
     packet["decisions_recorded_at"] = DECISION_DATE
 
     write_lf(FACTS_PATH, facts_doc)
-    write_lf(EXCLUSIONS_PATH, exclusions_doc)
+    EXCLUSIONS_SHARD_PATH.write_bytes(
+        MA.render_json(exclusions_doc).encode("utf-8"))
+    # Regenerate the global compatibility artifacts from ALL shards; this is
+    # also where a cross-market collision fails closed.
+    MA.write_generated_artifacts()
     write_lf(RENDER_REPORT_PATH, render_report)
     write_lf(CENSUS_PATH, rebuilt["census_doc"])
     write_lf(PARTITION_PATH, rebuilt["partition_doc"])
@@ -507,8 +519,7 @@ def run(apply: bool) -> Dict:
         if approval["operator"] != FOUNDER:
             raise SystemExit("STOP: approval operator mismatch for %s" % hotel["identity_key"])
 
-    verify_exclusions = load_json(EXCLUSIONS_PATH)
-    for e in verify_exclusions["exclusions"]:
+    for e in MA.load_market_exclusions(MARKET):
         if e.get("market_id") != MARKET:
             continue
         if e.get("reviewer_id") and e["reviewer_id"] != FOUNDER:
