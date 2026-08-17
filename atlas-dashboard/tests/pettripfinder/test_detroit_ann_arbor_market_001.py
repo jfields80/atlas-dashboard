@@ -12,7 +12,11 @@ renamed in place to Skyline Hotel Detroit Airport, SureStay Collection by BW
 AWAITING_POLICY_OBSERVATION; Hawthorn Suites by Wyndham Southfield Detroit
 was retired from the active census via the 'closed' disposition (never a
 VERIFIED_NO_PETS exclusion), dropping the canonical census from 143 to 142.
-130 identities remain unresolved.
+As of PTF-DETROIT-ANN-ARBOR-PASS2-DECISION-APPLICATION-001, the 3
+routing-repaired DTW-area properties captured in Pass 2 were founder-decided:
+Hotel Indigo Detroit Downtown published (pet_fee and weight_limit withheld),
+Courtyard Detroit Pontiac Bloomfield and DoubleTree by Hilton Detroit Novi
+both VERIFIED_NO_PETS. 127 identities remain unresolved.
 """
 
 from __future__ import annotations
@@ -36,11 +40,11 @@ MARKET = "detroit-ann-arbor-mi"
 EXPECTED = {
     "candidates": 152,
     "census": 142,
-    "published": 6,
-    "no_pets": 5,
+    "published": 7,
+    "no_pets": 7,
     "out_of_category": 1,
-    "unresolved": 130,
-    "queue": 130,
+    "unresolved": 127,
+    "queue": 127,
     "boundary_excluded": 9,
     "duplicates": 0,
 }

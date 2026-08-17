@@ -2,10 +2,15 @@
 
 Validates the real Claude attended-browser capture of the 3 routing-repaired
 DTW-area properties: exact 3-row batch completeness, artifact hash binding,
-quote contiguity, identity binding, and that this capture-only pass left
-every authority file untouched. It deliberately never reads the gitignored
-worker tree -- artifact bytes are hashed once at capture time and the
-committed sha256 is what these tests check against.
+quote contiguity, and identity binding. It deliberately never reads the
+gitignored worker tree -- artifact bytes are hashed once at capture time and
+the committed sha256 is what these tests check against.
+
+As of PTF-DETROIT-ANN-ARBOR-PASS2-DECISION-APPLICATION-001, the founder's 3
+decisions for this batch are recorded AND applied (published=7,
+verified_no_pets=7) -- decision-recording and authority-application always
+land in the same commit, so there is no committed state with decisions
+recorded but authority unapplied to test for.
 """
 
 from __future__ import annotations
@@ -68,19 +73,35 @@ class TestBatchCompleteness:
         assert len(candidates) == 3
         assert [c["decision_id"] for c in candidates] == EXPECTED_IDS
 
-    def test_no_founder_decision_recorded_yet(self, packet):
+    def test_founder_decisions_are_recorded_and_attributed(self, packet):
+        expected = {
+            "DTW-P2-01": "APPROVE_VERIFIED_NO_PETS",
+            "DTW-P2-02": "APPROVE_VERIFIED_NO_PETS",
+            "DTW-P2-03": "APPROVE_WITH_CHANGE",
+        }
         for c in packet["candidates"]:
-            assert "founder_decision" not in c
+            assert c["founder_decision"] == expected[c["decision_id"]]
+            assert c["founder_decision_recorded_by"] == "jfields80"
+            assert c["founder_decision_recorded_at"]
+        assert packet["status"] == "FOUNDER_DECIDED_AND_APPLIED"
+        assert packet["decisions_recorded"] is True
 
     def test_identity_keys_match_the_repaired_routing_batch(self, packet):
         for c in packet["candidates"]:
             assert c["identity_key"] == EXPECTED_KEYS[c["decision_id"]]
 
-    def test_every_row_has_exactly_one_valid_outcome(self, packet, results):
-        for c in packet["candidates"]:
-            assert c["outcome"] in OUTCOMES
+    def test_every_result_row_has_exactly_one_valid_capture_outcome(self, results):
         for r in results["results"]:
             assert r["outcome"] in OUTCOMES
+
+    def test_every_packet_row_has_the_post_application_outcome(self, packet):
+        expected = {
+            "DTW-P2-01": "EXCLUDED_VERIFIED_NO_PETS",
+            "DTW-P2-02": "EXCLUDED_VERIFIED_NO_PETS",
+            "DTW-P2-03": "PUBLISHED",
+        }
+        for c in packet["candidates"]:
+            assert c["outcome"] == expected[c["decision_id"]]
 
 
 class TestArtifactBinding:
@@ -127,7 +148,6 @@ class TestQuoteContiguity:
     def test_no_pets_rows_have_no_proposed_facts_or_withholds(self, packet):
         for did in ("DTW-P2-01", "DTW-P2-02"):
             row = next(c for c in packet["candidates"] if c["decision_id"] == did)
-            assert row["outcome"] == "VERIFIED_NO_PETS_CANDIDATE"
             assert row["proposed_schema_1_2_facts"] == []
             assert row["withheld_fields"] == []
 
@@ -155,23 +175,47 @@ class TestFeeContradictionHandled:
         assert "pet_fee" not in proposed_fields
 
 
-class TestAuthorityUnchanged:
-    def test_no_policy_authority_or_exclusion_gained_a_new_detroit_row(self):
+class TestAuthorityApplied:
+    def test_policy_authority_and_exclusions_gained_exactly_the_decided_rows(self):
         facts = _load(FACTS_PATH)
-        assert len(facts["hotels"]) == 6
+        assert len(facts["hotels"]) == 7
+        assert any(h["identity_key"] == "hotel indigo detroit downtown"
+                  for h in facts["hotels"])
         exclusions = _load(EXCLUSIONS_PATH)
         rows = [e for e in exclusions["exclusions"] if e.get("market_id") == MARKET]
-        assert len(rows) == 5
+        assert len(rows) == 7
+        excluded_keys = {e["normalized_name"] for e in rows}
+        assert "courtyard detroit pontiac bloomfield" in excluded_keys
+        assert "doubletree by hilton detroit novi" in excluded_keys
 
-    def test_census_and_partition_counts_unchanged_by_capture(self):
+    def test_hotel_indigo_approval_is_attributed_to_the_founder(self):
+        facts = _load(FACTS_PATH)
+        hotel = next(h for h in facts["hotels"]
+                    if h["identity_key"] == "hotel indigo detroit downtown")
+        assert hotel["approval"]["operator"] == "jfields80"
+        assert hotel["approval"]["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"
+        assert set(hotel["withheld_fields"].keys()) == {"pet_fee", "weight_limit"}
+
+    def test_the_two_exclusions_are_attributed_to_the_founder(self):
+        exclusions = _load(EXCLUSIONS_PATH)
+        for e in exclusions["exclusions"]:
+            if e["normalized_name"] in ("courtyard detroit pontiac bloomfield",
+                                        "doubletree by hilton detroit novi"):
+                assert e["reviewer_id"] == "jfields80"
+
+    def test_census_count_unchanged_partition_terminal_counts_updated(self):
         census = _load(CENSUS_PATH)
         assert census["count"] == 142
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
-        assert counts["PUBLISHED_PET_FRIENDLY"] == 6
-        assert counts["VERIFIED_NO_PETS"] == 5
+        assert counts["PUBLISHED_PET_FRIENDLY"] == 7
+        assert counts["VERIFIED_NO_PETS"] == 7
 
-    def test_the_three_captured_rows_are_still_awaiting_policy_observation(self):
+    def test_the_three_captured_rows_reached_their_decided_terminal_state(self):
         partition = {i["identity_key"]: i for i in _load(PARTITION_PATH)["items"]}
-        for key in EXPECTED_KEYS.values():
-            assert partition[key]["final_state"] == "AWAITING_POLICY_OBSERVATION"
+        assert partition["courtyard detroit pontiac bloomfield"]["final_state"] == \
+            "VERIFIED_NO_PETS"
+        assert partition["doubletree by hilton detroit novi"]["final_state"] == \
+            "VERIFIED_NO_PETS"
+        assert partition["hotel indigo detroit downtown"]["final_state"] == \
+            "PUBLISHED_PET_FRIENDLY"

@@ -1,837 +1,1005 @@
 {
- "market": "Detroit-Ann Arbor, Michigan",
- "schema_version": "1.2",
- "market_id": "detroit-ann-arbor-mi",
- "hotels": [
-  {
-   "key": "baymont by wyndham detroit airport romulus",
-   "name": "Baymont by Wyndham Detroit Airport Romulus",
-   "facts": {
-    "pets_allowed": true,
-    "weight_limit": {
-     "value": 50,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "fee_tiers": [
-     {
-      "amount_cents": 2500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 1,
-      "condition_max": 1,
-      "basis_stated": true
-     },
-     {
-      "amount_cents": 1000,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 2,
-      "basis_stated": true
-     }
-    ],
-    "pet_count_limit": 2
-   },
-   "evidence": [
+  "market": "Detroit-Ann Arbor, Michigan",
+  "schema_version": "1.2",
+  "market_id": "detroit-ann-arbor-mi",
+  "hotels": [
     {
-     "field": "pets_allowed",
-     "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-     "value": "true",
-     "evidence_ref": "ev:4912c1f766fb1d81",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
+      "key": "baymont by wyndham detroit airport romulus",
+      "name": "Baymont by Wyndham Detroit Airport Romulus",
+      "facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "fee_tiers": [
+          {
+            "amount_cents": 2500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 1,
+            "basis_stated": true
+          },
+          {
+            "amount_cents": 1000,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 2,
+            "basis_stated": true
+          }
+        ],
+        "pet_count_limit": 2
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+          "value": "true",
+          "evidence_ref": "ev:4912c1f766fb1d81",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 50}",
+          "evidence_ref": "ev:0c019632839efd5f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "fee_tiers",
+          "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+          "value": "[{\"amount_cents\": 2500, \"basis_stated\": true, \"boundary_unit\": \"nights\", \"condition_max\": 1, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 1000, \"basis_stated\": true, \"boundary_unit\": \"nights\", \"condition_min\": 2, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
+          "evidence_ref": "ev:b529924519bb944b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+          "value": "2",
+          "evidence_ref": "ev:7ad8d4fd592ee829",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "ADA defined service animals are also welcome at this hotel.",
+          "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+          "value": "{\"charges_stated\": \"not_addressed\", \"stated\": true}",
+          "evidence_ref": "ev:6b5757c909b5c0fa",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel. […] ADA defined service animals are also welcome at this hotel.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "baymont by wyndham detroit airport romulus",
+      "market_id": "detroit-ann-arbor-mi",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "not_addressed"
+      },
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-01 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:674314fe2c9f2c99), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: fee scope (per room vs per pet) is not established by the source and is left absent, never inferred. The property's separate $100.00 USD security deposit appears under 'General Information', not inside the Pet & Service Animal Policy block, and is NOT attributed to pet policy."
+        ],
+        "record_hash": "sha256:287b90f7b3a64133d6205e55017aa7ea3993994b93d2cab551c8a3d77f895b4d",
+        "evidence_hash": "sha256:c4233424c1673453d7c62252c97bd3f86900603b397a3a73d481495004b1e45f"
+      }
     },
     {
-     "field": "weight_limit",
-     "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 50}",
-     "evidence_ref": "ev:0c019632839efd5f",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
+      "key": "the westin detroit metropolitan airport",
+      "name": "The Westin Detroit Metropolitan Airport",
+      "facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "room",
+        "weight_limit": {
+          "value": 40.0,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "pet_fee": {
+          "amount_cents": 15000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "refundable": false
+        },
+        "general_restrictions": "Pet waiver must be signed at check-in."
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets Welcome",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "true",
+          "evidence_ref": "ev:9e1661996ff6017d",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "2",
+          "evidence_ref": "ev:e268d7679bb06399",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "room",
+          "evidence_ref": "ev:d49bef46b3015d3d",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Maximum Pet Weight: 40.0lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
+          "evidence_ref": "ev:3159adffcac2272f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $150.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "{\"amount_cents\": 15000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"refundable\": false}",
+          "evidence_ref": "ev:4a13cb0f3f940526",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "general_restrictions",
+          "quote": "Pet waiver must be signed at check-in.",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+          "value": "Pet waiver must be signed at check-in.",
+          "evidence_ref": "ev:456bd42f9e3220bc",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 6,
+      "evidence_quote": "Pets Welcome […] Maximum Number of Pets in Room: 2 […] Maximum Pet Weight: 40.0lbs […] Non-Refundable Pet Fee Per Stay: $150.00 […] Pet waiver must be signed at check-in.",
+      "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "the westin detroit metropolitan airport",
+      "market_id": "detroit-ann-arbor-mi",
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-07 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:dfe5c34ffd108c83), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: 'Pet waiver must be signed at check-in' is a check-in-time requirement, not a pre-booking/reservation requirement -- represented as a general restriction rather than translated into reservation_requirement, since the source does not say anything must happen before arrival."
+        ],
+        "record_hash": "sha256:d329a61cb0b7ed47bbdcddbffeaad3f0707db960f34b0927375cdef878f964cb",
+        "evidence_hash": "sha256:d4a8d278206e39988b9ca4817b7de08c6e164cc88a9bce39519631ed1413b221"
+      }
     },
     {
-     "field": "fee_tiers",
-     "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-     "value": "[{\"amount_cents\": 2500, \"basis_stated\": true, \"boundary_unit\": \"nights\", \"condition_max\": 1, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 1000, \"basis_stated\": true, \"boundary_unit\": \"nights\", \"condition_min\": 2, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
-     "evidence_ref": "ev:b529924519bb944b",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
+      "key": "towneplace suites by marriott detroit belleville",
+      "name": "TownePlace Suites by Marriott Detroit Belleville",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "prohibited"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "general_restrictions": "Must register pets at check-in."
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "true",
+          "evidence_ref": "ev:a417fde1b86fac84",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "species",
+          "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "{\"cats\": \"prohibited\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:6d1a153c4eda0543",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "2",
+          "evidence_ref": "ev:7f776874e71f3885",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "room",
+          "evidence_ref": "ev:b6583118004cbecf",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Maximum Pet Weight: 100.0lbs",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 100.0}",
+          "evidence_ref": "ev:274cca70f0d29048",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "general_restrictions",
+          "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "Must register pets at check-in.",
+          "evidence_ref": "ev:3715b2cd949f1c39",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:067d2c38447aebdc",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:f5bc723e7a3e8777",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 8,
+      "evidence_quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet […] Maximum Number of Pets in Room: 2 […] Maximum Pet Weight: 100.0lbs […] Non-Refundable Pet Fee Per Stay: $100.00",
+      "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "towneplace suites by marriott detroit belleville",
+      "market_id": "detroit-ann-arbor-mi",
+      "withheld_fields": {
+        "pet_fee": {
+          "reason_code": "SOURCE_CONTRADICTORY",
+          "reason": "The property's own page states the fee two incompatible ways: the free-text line reads '$100 fee per pet' (implying up to $200 for 2 dogs), while the structured field directly below reads 'Non-Refundable Pet Fee Per Stay: $100.00' (implying one flat $100 regardless of pet count). Per the founder decision, neither reading is chosen, averaged, or related, and no amount is published under any interpretation -- the schema cannot truthfully represent $100 without implying one of the two disputed scopes.",
+          "evidence_refs": [
+            "ev:067d2c38447aebdc",
+            "ev:f5bc723e7a3e8777"
+          ]
+        }
+      },
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-08 (APPROVE_WITH_CHANGE), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:e1d650226b2b0f91), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: dogs-only and the 2-dog/100 lb limits are unambiguous and publish; the monetary amount is withheld entirely rather than guessed at either scope."
+        ],
+        "record_hash": "sha256:3e9ac29bbfde80ae0759432ba07bd5f014406a53aacc74317049640169873ec4",
+        "evidence_hash": "sha256:664cd895a09893cd190c4f44e7c9f6e5c7fb34ce0efc2a1694c732935756183e"
+      }
     },
     {
-     "field": "pet_count_limit",
-     "quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-     "value": "2",
-     "evidence_ref": "ev:7ad8d4fd592ee829",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
+      "key": "embassy suites by hilton detroit metro airport",
+      "name": "Embassy Suites by Hilton Detroit Metro Airport",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "accepted"
+        },
+        "weight_limit": {
+          "value": 75,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "fee_tiers": [
+          {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 4,
+            "basis_stated": false
+          },
+          {
+            "amount_cents": 12500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 5,
+            "basis_stated": false
+          }
+        ],
+        "pet_count_limit": 2
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets allowed: Yes",
+          "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+          "value": "true",
+          "evidence_ref": "ev:2368edb0017803fe",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "species",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+          "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:a2bf98e38adee5cc",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Max weight: 75 lbs",
+          "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
+          "evidence_ref": "ev:4eb5b0a36845edaf",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "fee_tiers",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+          "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
+          "evidence_ref": "ev:2d2e8b68575450fb",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+          "value": "2",
+          "evidence_ref": "ev:25f372a0d990874b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
+      "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "embassy suites by hilton detroit metro airport",
+      "market_id": "detroit-ann-arbor-mi",
+      "computation_class": "CONDITIONALLY_SAFE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-09 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:7eb8fcbee44ea36b), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
+        ],
+        "record_hash": "sha256:75fe4bf687a1df17127037e6221e479b0ebb67cc85fd006493e1e6e1e31bc194",
+        "evidence_hash": "sha256:a132fcf63b032088759f2fc87a396885c79a41552df7a8786e8a1c15bb56aeab"
+      }
     },
     {
-     "field": "service_animal_statement",
-     "quote": "ADA defined service animals are also welcome at this hotel.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-     "value": "{\"charges_stated\": \"not_addressed\", \"stated\": true}",
-     "evidence_ref": "ev:6b5757c909b5c0fa",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
+      "key": "hampton inn and suites detroit airport romulus",
+      "name": "Hampton Inn & Suites Detroit Airport Romulus",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "accepted"
+        },
+        "weight_limit": {
+          "value": 75,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "fee_tiers": [
+          {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 4,
+            "basis_stated": false
+          },
+          {
+            "amount_cents": 12500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 5,
+            "basis_stated": false
+          }
+        ],
+        "pet_count_limit": 2
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets allowed: Yes",
+          "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+          "value": "true",
+          "evidence_ref": "ev:f9c3d77f7efb9a67",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "species",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+          "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:d43ffe4c390e01b8",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Max weight: 75 lbs",
+          "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
+          "evidence_ref": "ev:50b1f3dc1940086e",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "fee_tiers",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+          "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
+          "evidence_ref": "ev:cb210408f4271bc7",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+          "value": "2",
+          "evidence_ref": "ev:b38f1750d7e2aae3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
+      "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "hampton inn and suites detroit airport romulus",
+      "market_id": "detroit-ann-arbor-mi",
+      "computation_class": "CONDITIONALLY_SAFE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-10 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:818797e960fa3ccd), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
+        ],
+        "record_hash": "sha256:62f3fb2597ea40beebe0a553a3718e072d565bc9dd569325e75a2467e2927209",
+        "evidence_hash": "sha256:46b0dcefe25339cdc25195b23c08f59bd734e8ebab9114fec09eb5de9588e7c8"
+      }
+    },
+    {
+      "key": "hilton garden inn detroit metro airport",
+      "name": "Hilton Garden Inn Detroit Metro Airport",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "accepted"
+        },
+        "weight_limit": {
+          "value": 75,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "fee_tiers": [
+          {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 1,
+            "condition_max": 4,
+            "basis_stated": false
+          },
+          {
+            "amount_cents": 12500,
+            "currency": "USD",
+            "role": "REPLACEMENT_PRICE",
+            "condition_type": "stay_length_range",
+            "boundary_unit": "nights",
+            "condition_min": 5,
+            "basis_stated": false
+          }
+        ],
+        "pet_count_limit": 2
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets allowed: Yes",
+          "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+          "value": "true",
+          "evidence_ref": "ev:49769de2365f634b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "species",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+          "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:e6cd91221add36f5",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Max weight: 75 lbs",
+          "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+          "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
+          "evidence_ref": "ev:483073db68d3c7e0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "fee_tiers",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+          "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
+          "evidence_ref": "ev:3d63a7ea0ecf7b25",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+          "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+          "value": "2",
+          "evidence_ref": "ev:d8cc0150c2d613cf",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 5,
+      "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
+      "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "hilton garden inn detroit metro airport",
+      "market_id": "detroit-ann-arbor-mi",
+      "computation_class": "CONDITIONALLY_SAFE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P1-11 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:d3381c3af92b1e41), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
+        ],
+        "record_hash": "sha256:74ff37910b0cd8b14403983b9e2e5daa4579dd1dfee5036ad7ae0faa8eb569ad",
+        "evidence_hash": "sha256:5e782b26cc78a6f2abb51019db582ee3e6c86b7cd94ab8984c27b8fb992597da"
+      }
+    },
+    {
+      "key": "hotel indigo detroit downtown",
+      "name": "Hotel Indigo Detroit Downtown",
+      "facts": {
+        "pets_allowed": true,
+        "species": {
+          "dogs": "accepted",
+          "cats": "accepted"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "room"
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Pets are welcome at Hotel Indigo Detroit Downtown.",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "true",
+          "evidence_ref": "ev:c6d41f46a0e0013a",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "species",
+          "quote": "Pets allowed: Only dogs and cats allowed",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+          "evidence_ref": "ev:f4a92aeff6d0a6af",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "2 pets allowed",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "2",
+          "evidence_ref": "ev:ec36e5bae2d8b30b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_count_scope",
+          "quote": "There is a one time 100.00 dollar non refundable fee per pet per stay with a maximum of two pets per room.",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "room",
+          "evidence_ref": "ev:8460a44255ef7b03",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_statement",
+          "quote": "Service animals welcome at no additional fee.",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "{\"charges_stated\": \"no_charge\", \"stated\": true}",
+          "evidence_ref": "ev:1afc7354193d1d3a",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "There is a one time 100.00 dollar non refundable fee per pet per stay with a maximum of two pets per room.",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:645a455aae18e7bb",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Pet fee per night: 100 USD",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:df0ad5248c10ec6f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "weight_limit",
+          "quote": "Pet weight limit: 50",
+          "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+          "value": "WITHHELD",
+          "evidence_ref": "ev:f7226c98c9692ebf",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+          "artifact_kind": "operator_screenshot",
+          "captured_at": "2026-08-17",
+          "capture_method": "attended_browser",
+          "source_grade": "PT1_FIRST_PARTY"
+        }
+      ],
+      "evidence_count": 8,
+      "evidence_quote": "Pets are welcome at Hotel Indigo Detroit Downtown. […] Pets allowed: Only dogs and cats allowed […] 2 pets allowed […] There is a one time 100.00 dollar non refundable fee per pet per stay with a maximum of two pets per room. […] Service animals welcome at no additional fee. […] Pet fee per night: 100 USD […] Pet weight limit: 50",
+      "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "sha256:e94b4bb95c64032ade124bf0cd0a7de965caa73028180b2612f1cf8c000683a5",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "hotel indigo detroit downtown",
+      "market_id": "detroit-ann-arbor-mi",
+      "withheld_fields": {
+        "pet_fee": {
+          "reason_code": "SOURCE_CONTRADICTORY",
+          "reason": "The property's own page states the $100 fee two conflicting ways in the same pet-policy surface: prose describes it as a one-time fee 'per pet per stay', while a structured field on the identical page states 'Pet fee per night: 100 USD'. Same dollar amount, directly conflicting basis -- withheld rather than choosing either reading.",
+          "evidence_refs": [
+            "ev:645a455aae18e7bb",
+            "ev:df0ad5248c10ec6f"
+          ]
+        },
+        "weight_limit": {
+          "reason_code": "SOURCE_AMBIGUOUS",
+          "reason": "The structured field states 'Pet weight limit: 50' with no unit anywhere on the page (not lbs, not kg). A weight limit without a stated unit is not a usable fact -- withheld rather than assuming pounds.",
+          "evidence_refs": [
+            "ev:f7226c98c9692ebf"
+          ]
+        }
+      },
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      },
+      "computation_class": "NOT_COMPUTABLE",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-17",
+        "caveats": [
+          "Founder decision DTW-P2-03 (APPROVE_WITH_CHANGE), recorded verbatim in detroit_ann_arbor_capture_pass2_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface (IHG FAQ accordion, expanded via attended click) at capture time and are bound to the operator screenshot artifact (sha256:e94b4bb95c64032a). Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
+          "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
+          "Founder: publish the unambiguous species/count/service-animal facts; withhold pet_fee (contradictory basis) and weight_limit (no unit) entirely rather than guess at either."
+        ],
+        "record_hash": "sha256:95d879eb9e526af949b05d6c82773a32f6405ea96df0ae3ed95bdfed78be6bdd",
+        "evidence_hash": "sha256:bb833e098f3100cd490313e001a048d55a8982c944898ce43be0561da8e3c8e8"
+      }
     }
-   ],
-   "evidence_count": 5,
-   "evidence_quote": "2 Pets are allowed with a maximum weight of 50 lbs at a non-refundable charge of 25 USD for the first night and 10 USD for each additional night. ADA defined service animals are also welcome at this hotel. […] ADA defined service animals are also welcome at this hotel.",
-   "source_url": "https://www.wyndhamhotels.com/baymont/romulus-michigan/baymont-inn-and-suites-detroit-airport-romulus/overview",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:674314fe2c9f2c990ae8c6a9ec43d233deaa96836e6143191c9d446e2b8b55a7",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "baymont by wyndham detroit airport romulus",
-   "market_id": "detroit-ann-arbor-mi",
-   "service_animal_statement": {
-    "stated": true,
-    "charges_stated": "not_addressed"
-   },
-   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-01 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:674314fe2c9f2c99), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: fee scope (per room vs per pet) is not established by the source and is left absent, never inferred. The property's separate $100.00 USD security deposit appears under 'General Information', not inside the Pet & Service Animal Policy block, and is NOT attributed to pet policy."
-    ],
-    "record_hash": "sha256:287b90f7b3a64133d6205e55017aa7ea3993994b93d2cab551c8a3d77f895b4d",
-    "evidence_hash": "sha256:c4233424c1673453d7c62252c97bd3f86900603b397a3a73d481495004b1e45f"
-   }
-  },
-  {
-   "key": "the westin detroit metropolitan airport",
-   "name": "The Westin Detroit Metropolitan Airport",
-   "facts": {
-    "pets_allowed": true,
-    "pet_count_limit": 2,
-    "pet_count_scope": "room",
-    "weight_limit": {
-     "value": 40.0,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "pet_fee": {
-     "amount_cents": 15000,
-     "currency": "USD",
-     "basis": "per_stay",
-     "refundable": false
-    },
-    "general_restrictions": "Pet waiver must be signed at check-in."
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Pets Welcome",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "true",
-     "evidence_ref": "ev:9e1661996ff6017d",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_limit",
-     "quote": "Maximum Number of Pets in Room: 2",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "2",
-     "evidence_ref": "ev:e268d7679bb06399",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_scope",
-     "quote": "Maximum Number of Pets in Room: 2",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "room",
-     "evidence_ref": "ev:d49bef46b3015d3d",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "weight_limit",
-     "quote": "Maximum Pet Weight: 40.0lbs",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
-     "evidence_ref": "ev:3159adffcac2272f",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_fee",
-     "quote": "Non-Refundable Pet Fee Per Stay: $150.00",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "{\"amount_cents\": 15000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"refundable\": false}",
-     "evidence_ref": "ev:4a13cb0f3f940526",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "general_restrictions",
-     "quote": "Pet waiver must be signed at check-in.",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-     "value": "Pet waiver must be signed at check-in.",
-     "evidence_ref": "ev:456bd42f9e3220bc",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    }
-   ],
-   "evidence_count": 6,
-   "evidence_quote": "Pets Welcome […] Maximum Number of Pets in Room: 2 […] Maximum Pet Weight: 40.0lbs […] Non-Refundable Pet Fee Per Stay: $150.00 […] Pet waiver must be signed at check-in.",
-   "source_url": "https://www.marriott.com/en-us/hotels/dtwma-the-westin-detroit-metropolitan-airport/overview/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:dfe5c34ffd108c83b744fd83d0530d4445ea8d165b7999bada76a15b487f15cc",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "the westin detroit metropolitan airport",
-   "market_id": "detroit-ann-arbor-mi",
-   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-07 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:dfe5c34ffd108c83), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: 'Pet waiver must be signed at check-in' is a check-in-time requirement, not a pre-booking/reservation requirement -- represented as a general restriction rather than translated into reservation_requirement, since the source does not say anything must happen before arrival."
-    ],
-    "record_hash": "sha256:d329a61cb0b7ed47bbdcddbffeaad3f0707db960f34b0927375cdef878f964cb",
-    "evidence_hash": "sha256:d4a8d278206e39988b9ca4817b7de08c6e164cc88a9bce39519631ed1413b221"
-   }
-  },
-  {
-   "key": "towneplace suites by marriott detroit belleville",
-   "name": "TownePlace Suites by Marriott Detroit Belleville",
-   "facts": {
-    "pets_allowed": true,
-    "species": {
-     "dogs": "accepted",
-     "cats": "prohibited"
-    },
-    "pet_count_limit": 2,
-    "pet_count_scope": "room",
-    "weight_limit": {
-     "value": 100.0,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "general_restrictions": "Must register pets at check-in."
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "true",
-     "evidence_ref": "ev:a417fde1b86fac84",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "species",
-     "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "{\"cats\": \"prohibited\", \"dogs\": \"accepted\"}",
-     "evidence_ref": "ev:6d1a153c4eda0543",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_limit",
-     "quote": "Maximum Number of Pets in Room: 2",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "2",
-     "evidence_ref": "ev:7f776874e71f3885",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_scope",
-     "quote": "Maximum Number of Pets in Room: 2",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "room",
-     "evidence_ref": "ev:b6583118004cbecf",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "weight_limit",
-     "quote": "Maximum Pet Weight: 100.0lbs",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 100.0}",
-     "evidence_ref": "ev:274cca70f0d29048",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "general_restrictions",
-     "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "Must register pets at check-in.",
-     "evidence_ref": "ev:3715b2cd949f1c39",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_fee",
-     "quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "WITHHELD",
-     "evidence_ref": "ev:067d2c38447aebdc",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_fee",
-     "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
-     "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-     "value": "WITHHELD",
-     "evidence_ref": "ev:f5bc723e7a3e8777",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    }
-   ],
-   "evidence_count": 8,
-   "evidence_quote": "Dogs allowed only, up to 2 dogs, must register at check-in, $100 fee per pet […] Maximum Number of Pets in Room: 2 […] Maximum Pet Weight: 100.0lbs […] Non-Refundable Pet Fee Per Stay: $100.00",
-   "source_url": "https://www.marriott.com/en-us/hotels/dtwbl-towneplace-suites-detroit-belleville/overview/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:e1d650226b2b0f91dd0ad635c181c5d4fe0a3558579e7065378fe4662a3444ea",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "towneplace suites by marriott detroit belleville",
-   "market_id": "detroit-ann-arbor-mi",
-   "withheld_fields": {
-    "pet_fee": {
-     "reason_code": "SOURCE_CONTRADICTORY",
-     "reason": "The property's own page states the fee two incompatible ways: the free-text line reads '$100 fee per pet' (implying up to $200 for 2 dogs), while the structured field directly below reads 'Non-Refundable Pet Fee Per Stay: $100.00' (implying one flat $100 regardless of pet count). Per the founder decision, neither reading is chosen, averaged, or related, and no amount is published under any interpretation -- the schema cannot truthfully represent $100 without implying one of the two disputed scopes.",
-     "evidence_refs": [
-      "ev:067d2c38447aebdc",
-      "ev:f5bc723e7a3e8777"
-     ]
-    }
-   },
-   "computation_class": "NOT_COMPUTABLE",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-08 (APPROVE_WITH_CHANGE), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:e1d650226b2b0f91), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': True, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: dogs-only and the 2-dog/100 lb limits are unambiguous and publish; the monetary amount is withheld entirely rather than guessed at either scope."
-    ],
-    "record_hash": "sha256:3e9ac29bbfde80ae0759432ba07bd5f014406a53aacc74317049640169873ec4",
-    "evidence_hash": "sha256:664cd895a09893cd190c4f44e7c9f6e5c7fb34ce0efc2a1694c732935756183e"
-   }
-  },
-  {
-   "key": "embassy suites by hilton detroit metro airport",
-   "name": "Embassy Suites by Hilton Detroit Metro Airport",
-   "facts": {
-    "pets_allowed": true,
-    "species": {
-     "dogs": "accepted",
-     "cats": "accepted"
-    },
-    "weight_limit": {
-     "value": 75,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "fee_tiers": [
-     {
-      "amount_cents": 7500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 1,
-      "condition_max": 4,
-      "basis_stated": false
-     },
-     {
-      "amount_cents": 12500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 5,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Pets allowed: Yes",
-     "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-     "value": "true",
-     "evidence_ref": "ev:2368edb0017803fe",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "species",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-     "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
-     "evidence_ref": "ev:a2bf98e38adee5cc",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "weight_limit",
-     "quote": "Max weight: 75 lbs",
-     "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
-     "evidence_ref": "ev:4eb5b0a36845edaf",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "fee_tiers",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-     "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
-     "evidence_ref": "ev:2d2e8b68575450fb",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_limit",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-     "value": "2",
-     "evidence_ref": "ev:25f372a0d990874b",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    }
-   ],
-   "evidence_count": 5,
-   "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
-   "source_url": "https://www.hilton.com/en/hotels/dethses-embassy-suites-detroit-metro-airport/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:7eb8fcbee44ea36b5d27ac001d6f5d95181de4b9696d7bbbedee9f48e8d12d5e",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "embassy suites by hilton detroit metro airport",
-   "market_id": "detroit-ann-arbor-mi",
-   "computation_class": "CONDITIONALLY_SAFE",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-09 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:7eb8fcbee44ea36b), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
-    ],
-    "record_hash": "sha256:75fe4bf687a1df17127037e6221e479b0ebb67cc85fd006493e1e6e1e31bc194",
-    "evidence_hash": "sha256:a132fcf63b032088759f2fc87a396885c79a41552df7a8786e8a1c15bb56aeab"
-   }
-  },
-  {
-   "key": "hampton inn and suites detroit airport romulus",
-   "name": "Hampton Inn & Suites Detroit Airport Romulus",
-   "facts": {
-    "pets_allowed": true,
-    "species": {
-     "dogs": "accepted",
-     "cats": "accepted"
-    },
-    "weight_limit": {
-     "value": 75,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "fee_tiers": [
-     {
-      "amount_cents": 7500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 1,
-      "condition_max": 4,
-      "basis_stated": false
-     },
-     {
-      "amount_cents": 12500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 5,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Pets allowed: Yes",
-     "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-     "value": "true",
-     "evidence_ref": "ev:f9c3d77f7efb9a67",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "species",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-     "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
-     "evidence_ref": "ev:d43ffe4c390e01b8",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "weight_limit",
-     "quote": "Max weight: 75 lbs",
-     "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
-     "evidence_ref": "ev:50b1f3dc1940086e",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "fee_tiers",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-     "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
-     "evidence_ref": "ev:cb210408f4271bc7",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_limit",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-     "value": "2",
-     "evidence_ref": "ev:b38f1750d7e2aae3",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    }
-   ],
-   "evidence_count": 5,
-   "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
-   "source_url": "https://www.hilton.com/en/hotels/dttrmhx-hampton-suites-detroit-airport-romulus/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:818797e960fa3ccdcb513fe633fa85e4bb2a1b3cf7426e99172987f00f2e9f83",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "hampton inn and suites detroit airport romulus",
-   "market_id": "detroit-ann-arbor-mi",
-   "computation_class": "CONDITIONALLY_SAFE",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-10 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:818797e960fa3ccd), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
-    ],
-    "record_hash": "sha256:62f3fb2597ea40beebe0a553a3718e072d565bc9dd569325e75a2467e2927209",
-    "evidence_hash": "sha256:46b0dcefe25339cdc25195b23c08f59bd734e8ebab9114fec09eb5de9588e7c8"
-   }
-  },
-  {
-   "key": "hilton garden inn detroit metro airport",
-   "name": "Hilton Garden Inn Detroit Metro Airport",
-   "facts": {
-    "pets_allowed": true,
-    "species": {
-     "dogs": "accepted",
-     "cats": "accepted"
-    },
-    "weight_limit": {
-     "value": 75,
-     "unit": "lb",
-     "operator": "lte",
-     "scope": "per_pet"
-    },
-    "fee_tiers": [
-     {
-      "amount_cents": 7500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 1,
-      "condition_max": 4,
-      "basis_stated": false
-     },
-     {
-      "amount_cents": 12500,
-      "currency": "USD",
-      "role": "REPLACEMENT_PRICE",
-      "condition_type": "stay_length_range",
-      "boundary_unit": "nights",
-      "condition_min": 5,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Pets allowed: Yes",
-     "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-     "value": "true",
-     "evidence_ref": "ev:49769de2365f634b",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "species",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-     "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
-     "evidence_ref": "ev:e6cd91221add36f5",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "weight_limit",
-     "quote": "Max weight: 75 lbs",
-     "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75}",
-     "evidence_ref": "ev:483073db68d3c7e0",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "fee_tiers",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-     "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_max\": 4, \"condition_min\": 1, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}, {\"amount_cents\": 12500, \"basis_stated\": false, \"boundary_unit\": \"nights\", \"condition_min\": 5, \"condition_type\": \"stay_length_range\", \"currency\": \"USD\", \"role\": \"REPLACEMENT_PRICE\"}]",
-     "evidence_ref": "ev:3d63a7ea0ecf7b25",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "pet_count_limit",
-     "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-     "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-     "value": "2",
-     "evidence_ref": "ev:d8cc0150c2d613cf",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-     "artifact_kind": "operator_screenshot",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_browser",
-     "source_grade": "PT2_BRAND"
-    }
-   ],
-   "evidence_count": 5,
-   "evidence_quote": "Pets allowed: Yes […] 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only […] Max weight: 75 lbs",
-   "source_url": "https://www.hilton.com/en/hotels/detmagi-hilton-garden-inn-detroit-metro-airport/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:d3381c3af92b1e419e2022ba86501e073ddc1eea27214b40fd9d13802e6efcc8",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.2",
-   "identity_key": "hilton garden inn detroit metro airport",
-   "market_id": "detroit-ann-arbor-mi",
-   "computation_class": "CONDITIONALLY_SAFE",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision DTW-P1-11 (APPROVE_AFFIRMATIVE_STRUCTURED), recorded verbatim in detroit_ann_arbor_pass1_founder_review_packet.json and approved against THIS final record_hash. Quotes were transcribed from the property's own rendered policy surface at capture time and are bound to the operator screenshot artifact (sha256:d3381c3af92b1e41), whose policy surface and identity signals are visible in one frame. Identity binding: OrderedDict({'name': True, 'street': True, 'zip': True, 'phone': False, 'bound': True}).",
-     "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
-     "Founder: independently observed on this property's own first-party page, not inherited from a sibling Hilton property. This brand's own page renders the non-refundable fee under a 'Deposit' heading; per the schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded -- the self-contradictory label is flagged for awareness only."
-    ],
-    "record_hash": "sha256:74ff37910b0cd8b14403983b9e2e5daa4579dd1dfee5036ad7ae0faa8eb569ad",
-    "evidence_hash": "sha256:5e782b26cc78a6f2abb51019db582ee3e6c86b7cd94ab8984c27b8fb992597da"
-   }
-  }
- ]
+  ]
 }
