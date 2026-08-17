@@ -254,18 +254,26 @@ def build(write: bool = True) -> Dict:
              "durable state and re-verified where the brand allowed, then committed"},
         ],
         "last_completed_lane": "bestwestern",
-        "resume_point": {
-            "next_lane": "choice",
-            "note": ("Choice serves a 2 KB shell to same-origin fetch and tarpits a "
-                     "fetch carrying navigation headers, so its property pages must "
-                     "be opened by real navigation, one per property. Its own "
-                     "propertysitemap.xml.gz (9,259 properties, gzip-decodable in "
-                     "page via DecompressionStream) yields 57 tri-state candidates; "
-                     "that shortlist is the input, not a search engine."),
-            "lanes_outstanding": ["choice", "wyndham", "ihg", "esa", "sonesta",
-                                  "independent"],
-            "deferred_to_001b": ["marriott", "hilton (32 unbound)", "hyatt", "g6"],
-        },
+        "resume_point": (
+            {
+                "next_lane": sorted(by_brand_rem, key=lambda b: -by_brand_rem[b])[0],
+                "note": ("Derived from counts_by_brand: any lane with remaining > 0 "
+                         "is outstanding. See per-brand mechanics notes in the "
+                         "cincinnati-url-routing-recovery-001 memory for scraping "
+                         "technique per brand (Choice needs real navigation and its "
+                         "own propertysitemap.xml.gz; Hilton/Marriott/IHG need a "
+                         "warmed session; independents have no sitemap)."),
+                "lanes_outstanding": sorted(by_brand_rem),
+                "deferred_to_001b": sorted(by_brand_rem),
+            }
+            if remaining else
+            {
+                "next_lane": None,
+                "note": "All 223 targets adjudicated -- nothing outstanding.",
+                "lanes_outstanding": [],
+                "deferred_to_001b": [],
+            }
+        ),
         "adjudicated": sorted(adjudicated.values(), key=lambda r: r["identity_key"]),
         "remaining": sorted(remaining, key=lambda r: r["identity_key"]),
     }

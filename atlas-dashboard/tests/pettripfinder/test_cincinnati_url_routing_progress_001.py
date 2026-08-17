@@ -21,6 +21,7 @@ EVIDENCE = PKG / "markets" / "reports" / "cincinnati-oh_routing_evidence_001a.js
 TARGETS = PKG / "markets" / "reports" / "cincinnati-oh_url_recovery_targets.json"
 CENSUS = PKG / "identity_census" / "cincinnati-oh.json"
 PARTITION = PKG / "cincinnati_final_partition_001.json"
+RESULTS = PKG / "markets" / "reports" / "cincinnati_url_routing_recovery_001_results.json"
 
 QUEUE_TOTAL = 223
 
@@ -93,6 +94,11 @@ class TestEvidence:
             url = row["final_url"]
             if not url:
                 continue
+            if row["source_relationship"] == "EXACT_PROPERTY_FIRST_PARTY":
+                # A dedicated single-property domain has no multi-property
+                # homepage to be mistaken for -- the whole domain is the
+                # binding, so the shallow-path heuristic does not apply.
+                continue
             path = re.sub(r"^https?://[^/]+", "", url).strip("/")
             assert path, "%s bound a bare brand homepage" % row["identity_key"]
             assert len(path.split("/")) >= 2 or row["property_code"], row["identity_key"]
@@ -119,26 +125,56 @@ class TestScope:
         touched = {r["identity_key"] for r in progress["adjudicated"]}
         assert not (touched & blocked)
 
-    def test_the_pass_does_not_claim_the_whole_queue(self, progress):
-        assert progress["remaining_count"] > 0
-        assert progress["resume_point"]["lanes_outstanding"]
+    def test_the_pass_does_not_misstate_its_own_completeness(self, progress):
+        # A partial pass must own up to what is still outstanding; a
+        # genuinely complete pass (all 223 adjudicated) must not claim
+        # phantom remaining work either -- both are the same "don't lie
+        # about scope" invariant, just at opposite ends of the queue.
+        if progress["remaining_count"] > 0:
+            assert progress["resume_point"]["lanes_outstanding"]
+        else:
+            assert progress["adjudicated_count"] == progress["original_queue_total"]
+            assert not progress["resume_point"]["lanes_outstanding"]
 
     def test_out_of_scope_lanes_are_named_not_silently_dropped(self, progress):
+        if progress["remaining_count"] == 0:
+            pytest.skip("all lanes complete -- nothing is out of scope to name")
         deferred = " ".join(progress["resume_point"]["deferred_to_001b"]).lower()
         for lane in ("marriott", "hilton", "hyatt", "g6"):
             assert lane in deferred
 
 
 class TestAuthorityUntouched:
-    """The checkpoint must not have moved any authority file."""
+    """The CHECKPOINT (this module) must never move authority itself -- that
+    stays true at every remaining_count. Once PTF-CINCINNATI-URL-ROUTING-
+    RECOVERY-001C's separate finalize step has legitimately run (the
+    explicitly-authorized "REBUILD ROUTING/PARTITION" step, once and only
+    once remaining_count == 0), the partition is EXPECTED to have moved --
+    that is finalization doing its job, not the checkpoint leaking into
+    authority. Same distinction as TestScope.test_the_pass_does_not_misstate_
+    its_own_completeness."""
 
-    def test_partition_still_shows_every_target_awaiting_a_url(self, targets):
+    def test_partition_state_matches_finalization_status(self, targets, progress):
         states = {i["identity_key"]: i["final_state"]
                   for i in _load(PARTITION)["items"]}
+        if progress["remaining_count"] > 0:
+            for row in targets["rows"]:
+                assert states[row["identity_key"]] == "AWAITING_OFFICIAL_URL"
+            return
+        # Finalized: every routed identity moved to AWAITING_POLICY_OBSERVATION;
+        # every ROUTING_UNRESOLVED/no-URL identity stays AWAITING_OFFICIAL_URL.
+        routed = {r["identity_key"] for r in _load(RESULTS)["rows"]
+                 if r["included_in_routing_authority"]}
         for row in targets["rows"]:
-            assert states[row["identity_key"]] == "AWAITING_OFFICIAL_URL"
+            key = row["identity_key"]
+            expected = "AWAITING_POLICY_OBSERVATION" if key in routed \
+                else "AWAITING_OFFICIAL_URL"
+            assert states[key] == expected, key
 
     def test_census_carries_no_new_official_url(self):
+        # Routing authority is a SEPARATE file from the census; finalization
+        # writes identity_routing.json, never identity_census/cincinnati-oh.json's
+        # own official_url field. That stays true regardless of completion.
         census = _load(CENSUS)["hotels"]
         with_url = [h for h in census if (h.get("official_url") or "").strip()]
-        assert len(with_url) == 12, "the checkpoint must not write official_url"
+        assert len(with_url) == 12, "routing authority must not write the census's official_url"

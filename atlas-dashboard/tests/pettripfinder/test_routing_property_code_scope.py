@@ -157,6 +157,12 @@ class TestNothingElseMoved:
         # Dayton is the first market to add a Choice/IHG/Red Roof route since
         # the codes were scoped by registrable domain, which is exactly the
         # case this file exists for.
-        assert len(routes) == 90  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+        # 90 -> 300: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened
+        # Cincinnati routing (210 new records). Property codes are scoped by
+        # registrable domain, and Cincinnati is dense with the exact
+        # multi-brand-sharing-a-code pattern this file exists for (e.g.
+        # Hilton's Homewood/Hampton pair at 617 Vine St) -- this assertion
+        # passing after the addition is the regression check.
+        assert len(routes) == 300
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"} <= markets
