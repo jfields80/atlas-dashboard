@@ -62,12 +62,57 @@ DECIDED_AT = "2026-08-16"
 FOUNDER = "jfields80"
 
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
+COHORT_REPORT_PATH = LP / "dayton_artifact_cohort_verification.json"
 FACTS_PATH = LP / ("hotel_policy_facts_%s.json" % MARKET)
 PACKET_PATH = LP / "dayton_passB_founder_review_packet.json"
 LEDGER_PATH = LP / "dayton_passB_founder_decisions.json"
 
 APPROVE = "APPROVE_CORRECTED_RECORD"
 HOLD = "HOLD"
+APPROVE_COHORT = "APPROVE_ARTIFACT_BINDING_ONLY_REATTESTATION"
+
+#: The founder's block decision on the 34-record artifact-only cohort, and the
+#: exact grounds they gave for it. The grounds are recorded because the block
+#: form is conditional on them: this is an approval of a PROVEN homogeneous
+#: cohort, not a general licence to batch.
+COHORT_DECISION: Dict = OrderedDict([
+    ("decision", APPROVE_COHORT),
+    ("decided_by", FOUNDER),
+    ("decided_at", DECIDED_AT),
+    ("decision_order", "DAYTON -- ARTIFACT-ONLY COHORT FOUNDER ATTESTATION"),
+    ("approved_on_the_basis_that_the_verifier_proves", (
+        "facts unchanged",
+        "quotes unchanged",
+        "source_url / field / value wording unchanged",
+        "evidence_hash unchanged",
+        "withheld_fields unchanged",
+        "service_animal_statement unchanged",
+        "evidence set unchanged",
+        "no policy correction hidden inside the cohort",
+        "only publication-grade artifact metadata / artifact binding moved "
+        "record_hash",
+        "every final target record_hash is explicitly enumerated and "
+        "re-verified live",
+    )),
+    ("governance", (
+        "GOV-01 applies: these records DO require founder re-attestation "
+        "because their final record_hash / evidentiary binding changed.",
+        "One founder cohort decision is sufficient ONLY because the verifier "
+        "proves this is a homogeneous artifact-binding-only cohort with zero "
+        "policy movement.",
+        "This is NOT permission to use block approval for mixed or partially "
+        "verified cohorts.",
+        "If any record fails the artifact-only verifier at application time, "
+        "STOP for that record. Do not silently include it in this cohort.",
+    )),
+    ("scope", (
+        "Approve exactly the 34 records classified ARTIFACT_BINDING_ONLY.",
+        "Do NOT include any of the 13 separately reviewed policy-correction "
+        "records in this cohort.",
+        "34 cohort + 13 policy = 47 total, with 0 overlap and 0 omission.",
+    )),
+    ("applied_to_authority", False),
+])
 
 #: The founder's decisions, exactly as given, batch by batch. Nothing here is
 #: derived. The ledger is rebuilt from this table on every run, so a batch
@@ -276,6 +321,72 @@ def _bind(decision_id: str, ruling: str, batch: str, row: Dict,
     ])
 
 
+def _cohort_decision(decided_rows: List[Dict], by_key: Dict) -> Dict:
+    """The founder's block decision, bound to the verified cohort.
+
+    Recorded only against records the committed verifier classified
+    ARTIFACT_BINDING_ONLY, and only while their enumerated hashes still equal
+    the live record. The founder made the block form conditional on that proof,
+    so a cohort that no longer verifies is not the cohort they approved.
+    """
+    report = load_json(COHORT_REPORT_PATH)
+    decided = {row["identity_key"] for row in decided_rows}
+
+    rows: List[Dict] = []
+    for row in report["records"]:
+        key = row["identity_key"]
+        if row["verdict"] != "ARTIFACT_BINDING_ONLY":
+            raise AssertionError(
+                "%s is in the cohort report as %s; the founder approved only "
+                "ARTIFACT_BINDING_ONLY records" % (key, row["verdict"]))
+        if key in decided:
+            raise AssertionError(
+                "%s is in BOTH the cohort and a policy decision; the founder "
+                "required zero overlap" % key)
+        record = by_key[key]
+        approval = record["approval"]
+        live_record = record_hash(record)
+        live_evidence = evidence_hash(record["evidence"])
+        if not row["final_record_hash_to_attest"] == live_record == \
+                approval["record_hash"]:
+            raise AssertionError(
+                "%s: record_hash moved since the cohort was verified and "
+                "approved (enumerated %s, live %s)"
+                % (key, row["final_record_hash_to_attest"][:23],
+                   live_record[:23]))
+        if not row["evidence_hash"] == live_evidence == \
+                approval["evidence_hash"]:
+            raise AssertionError(
+                "%s: evidence_hash moved since the cohort was approved" % key)
+        rows.append(OrderedDict([
+            ("identity_key", key),
+            ("hotel", row["hotel"]),
+            ("record_hash_before_work_order",
+             row["record_hash_before_work_order"]),
+            ("final_record_hash_to_attest", live_record),
+            ("final_evidence_hash", live_evidence),
+            ("evidence_hash_unchanged_since_founder_approval",
+             row["evidence_hash_unchanged"]),
+            ("applied_to_authority", False),
+            ("authority_state_now", approval["decision"]),
+        ]))
+
+    if len(rows) + len(decided) != len(by_key):
+        raise AssertionError(
+            "cohort %d + decisions %d != %d published records; the founder "
+            "required zero omission"
+            % (len(rows), len(decided), len(by_key)))
+
+    decision = OrderedDict(COHORT_DECISION)
+    decision["verifier_report"] = COHORT_REPORT_PATH.name
+    decision["verifier_baseline_ref"] = report["baseline_ref"]
+    decision["cohort_size"] = len(rows)
+    decision["policy_corrections_hidden_in_the_cohort"] = \
+        report["policy_corrections_hidden_in_the_cohort"]
+    decision["records"] = rows
+    return decision
+
+
 def build() -> Dict:
     packet = load_json(PACKET_PATH)
     facts = load_json(FACTS_PATH)
@@ -316,7 +427,13 @@ def build() -> Dict:
     outstanding = OrderedDict(
         (PACKET_BATCH_KEYS[batch], packet["batches"][PACKET_BATCH_KEYS[batch]])
         for batch in PACKET_BATCH_KEYS if batch not in DECISIONS)
-    outstanding["artifact_binding_only_cohort"] =         packet["artifact_binding_only_reattestation"]["cohort_size"]
+
+    # The cohort is a decision now, not an outstanding item; it stays listed as
+    # outstanding only while the founder has not ruled on it.
+    cohort = _cohort_decision(rows, by_key)
+    if not cohort["records"]:
+        outstanding["artifact_binding_only_cohort"] = \
+            packet["artifact_binding_only_reattestation"]["cohort_size"]
 
     return OrderedDict([
         ("schema", "ptf-dayton-passB-founder-decisions/1.1"),
@@ -350,6 +467,7 @@ def build() -> Dict:
         ])),
         ("counts_by_batch", per_batch),
         ("still_outstanding", outstanding),
+        ("artifact_only_cohort_decision", cohort),
         ("governance_rulings", [OrderedDict(g) for g in GOVERNANCE_RULINGS]),
         ("follow_ups", [OrderedDict(f) for f in FOLLOW_UPS]),
         ("decisions", rows),
@@ -378,8 +496,17 @@ def main() -> int:
         print("  %-8s %-1s %-42s %s" % (row["decision_id"], row["batch"],
                                         row["hotel"][:42],
                                         row["founder_decision"]))
+    cohort = ledger["artifact_only_cohort_decision"]
+    print("artifact-only cohort : %s (%d records, %d applied)"
+          % (cohort["decision"], cohort["cohort_size"],
+             sum(1 for r in cohort["records"] if r["applied_to_authority"])))
+    print("total founder actions: %d policy + %d cohort = %d"
+          % (len(ledger["decisions"]), cohort["cohort_size"],
+             len(ledger["decisions"]) + cohort["cohort_size"]))
     for key, value in ledger["still_outstanding"].items():
         print("  outstanding %-32s %s" % (key, value))
+    if not ledger["still_outstanding"]:
+        print("  nothing outstanding: every published record has a decision")
     if args.apply:
         LEDGER_PATH.write_bytes(
             (json.dumps(ledger, indent=2, ensure_ascii=False) + "\n")

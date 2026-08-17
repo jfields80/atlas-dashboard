@@ -221,14 +221,50 @@ def test_87_94_was_not_recorded_as_a_charge(ledger, by_key):
     assert any("87.94" in e["quote"] for e in courtyard["evidence"])
 
 
-def test_what_is_still_outstanding_reconciles_to_the_market(ledger):
-    outstanding = ledger["still_outstanding"]
-    # Every policy batch is decided; only the artifact-only block remains.
-    assert set(outstanding) == {"artifact_binding_only_cohort"}
-    assert outstanding["artifact_binding_only_cohort"] == 34
+def test_nothing_is_outstanding_and_the_market_reconciles(ledger):
+    """Every published record now has a founder decision recorded against it.
+
+    The cohort left ``still_outstanding`` when the founder ruled on it, which
+    is the point: the field lists what is un-decided, so an empty one is the
+    claim that nothing is.
+    """
+    assert ledger["still_outstanding"] == {}
+    cohort = ledger["artifact_only_cohort_decision"]
+    assert cohort["decision"] == "APPROVE_ARTIFACT_BINDING_ONLY_REATTESTATION"
+    assert cohort["cohort_size"] == 34
     # 13 policy decisions + 34 artifact-only = the whole market.
-    assert (len(ledger["decisions"])
-            + outstanding["artifact_binding_only_cohort"]) == 47
+    assert len(ledger["decisions"]) + cohort["cohort_size"] == 47
+    assert cohort["applied_to_authority"] is False
+    assert all(r["applied_to_authority"] is False for r in cohort["records"])
+
+
+def test_the_cohort_decision_records_the_grounds_it_rests_on(ledger):
+    """The founder made the BLOCK form conditional on the verifier's proof, so
+    the grounds are part of the decision rather than context around it."""
+    cohort = ledger["artifact_only_cohort_decision"]
+    grounds = cohort["approved_on_the_basis_that_the_verifier_proves"]
+    for required in ("facts unchanged", "quotes unchanged",
+                     "evidence_hash unchanged", "withheld_fields unchanged",
+                     "service_animal_statement unchanged",
+                     "evidence set unchanged"):
+        assert any(required in g for g in grounds), required
+    assert any("no policy correction hidden" in g for g in grounds)
+    governance = " ".join(cohort["governance"])
+    assert "GOV-01 applies" in governance
+    assert "NOT permission to use block approval for mixed" in governance
+    assert "STOP for that record" in governance
+    assert cohort["policy_corrections_hidden_in_the_cohort"] == 0
+    assert cohort["verifier_baseline_ref"] == "d14cdc4"
+
+
+def test_no_cohort_record_is_also_a_policy_decision(ledger):
+    """Zero overlap and zero omission, exactly as the founder scoped it."""
+    cohort = {r["identity_key"] for r in
+              ledger["artifact_only_cohort_decision"]["records"]}
+    policy = {r["identity_key"] for r in ledger["decisions"]}
+    assert len(cohort) == 34 and len(policy) == 13
+    assert cohort & policy == set()
+    assert len(cohort | policy) == 47
 
 
 def test_the_governance_ruling_was_recorded(ledger):
