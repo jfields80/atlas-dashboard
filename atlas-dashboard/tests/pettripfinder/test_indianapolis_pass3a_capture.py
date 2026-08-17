@@ -103,10 +103,9 @@ def test_residence_inn_quotes_are_contiguous_and_artifact_complete():
     assert "CEILING != PRICE" in _json(RESULTS)["extraction_doctrine"]["rule"]
 
 
-def test_hilton_fresh_session_prepared_not_executed():
+def test_hilton_fresh_session_queue_is_hilton_only():
     hilton = _json(PACKAGE / "indianapolis_hilton_fresh_session_001.json")
     assert hilton["work_order"] == "PTF-INDIANAPOLIS-HILTON-FRESH-SESSION-001"
-    assert hilton["executed"] is False
     assert hilton["require_fresh_browser_session"] is True
     assert hilton["no_prior_hilton_page_load"] is True
     assert len(hilton["hotels"]) == 6

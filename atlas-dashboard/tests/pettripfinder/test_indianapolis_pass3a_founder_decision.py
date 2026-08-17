@@ -20,8 +20,10 @@ def test_residence_inn_decision_recorded_not_applied():
     assert rec["status"] == "RECORDED_NOT_APPLIED"
     assert rec["founder_decisions_applied"] is False
     assert rec["authority_changed"] is False
-    assert rec["counts"]["policy_decisions_recorded"] == 1
+    assert rec["counts"]["policy_decisions_recorded"] == 2
     assert rec["counts"]["positive_approved"] == 1
+    assert rec["counts"]["identity_holds"] == 1
+    assert rec["counts"]["undecided"] == 0
     assert rec["counts"]["decisions_applied"] == 0
     row = rec["positive_decisions"][0]
     assert row["decision_id"] == "INDY-P3A-001"
@@ -39,7 +41,14 @@ def test_residence_inn_decision_recorded_not_applied():
     assert "species" in row["do_not_invent"]
     assert "service-animal statement" in row["do_not_invent"]
     assert row["payment_timing"]["not"] == "reservation_requirement"
-    assert rec["undecided"][0]["decision_id"] == "INDY-P3A-002"
+    assert "Fairfield at 5220" in row["note"]
+    hold = rec["identity_holds"][0]
+    assert hold["decision_id"] == "INDY-P3A-002"
+    assert hold["decision"] == "HOLD_IDENTITY_UNCERTAIN"
+    assert hold["lane"] == "identity-repair"
+    assert hold["applied"] is False
+    assert "street" in hold["next_action"].lower()
+    assert rec["undecided"] == []
     assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
@@ -47,4 +56,4 @@ def test_residence_inn_decision_recorded_not_applied():
         "crowne plaza indianapolis airport"]
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "status"] == "RECORDED_NOT_APPLIED"
-    assert _json(HILTON)["executed"] is False
+    assert _json(HILTON)["executed"] is True

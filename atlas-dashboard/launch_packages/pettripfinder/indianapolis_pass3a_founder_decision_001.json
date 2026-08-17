@@ -8,7 +8,7 @@
     "indianapolis_pass3a_founder_review_packet.json"
   ],
   "status": "RECORDED_NOT_APPLIED",
-  "rule": "Record the Pass 3A Residence Inn decision only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing. Staybridge has no founder decision in this record. Do not execute the Hilton fresh-session queue.",
+  "rule": "Record both Pass 3A founder decisions only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing.",
   "founder_decisions_applied": false,
   "authority_changed": false,
   "published": false,
@@ -48,33 +48,36 @@
       "do_not_confuse_with": [
         "fairfield inn and suites indianapolis airport",
         "crowne plaza indianapolis airport"
-      ]
+      ],
+      "note": "Do not confuse this property with Fairfield at 5220 West Southern Avenue."
     }
   ],
   "negative_decisions": [],
-  "undecided": [
+  "identity_holds": [
     {
       "decision_id": "INDY-P3A-002",
       "identity_key": "staybridge suites indianapolis airport plainfield",
       "hotel": "Staybridge Suites Indianapolis Airport Plainfield",
-      "pass3a_outcome": "IDENTITY_UNCERTAIN",
-      "note": "No founder decision was supplied in this record. Policy remains unused."
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "applied": false,
+      "note": "Phone matched but street did not. Do not infer identity from phone alone. Do not bind or publish observed policy.",
+      "next_action": "Resolve census address 6291 Cambridge Way against the current official IHG Staybridge property page, property code indpf, phone 317-839-2700, and the rendered street. Policy stays unused until the street agrees."
     }
   ],
+  "undecided": [],
   "counts": {
-    "policy_decisions_recorded": 1,
+    "policy_decisions_recorded": 2,
     "positive_approved": 1,
     "verified_no_pets_approved": 0,
-    "identity_holds": 0,
-    "undecided": 1,
+    "identity_holds": 1,
+    "undecided": 0,
     "decisions_applied": 0
   },
   "not_done": [
     "No Indianapolis policy package",
     "No hotel_exclusions append",
     "No live founder approval records",
-    "No Staybridge decision",
-    "No Hilton fresh-session capture",
     "No merge",
     "No deploy"
   ]
