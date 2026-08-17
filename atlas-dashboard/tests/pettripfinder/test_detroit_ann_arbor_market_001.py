@@ -214,11 +214,36 @@ class TestQueueAndSources:
 
 class TestRoutingAndDuplicateLedger:
     def test_routing_assessments_are_not_confirmed_authority(self):
+        # The informal pre-routing assessments file stays an assessment, even
+        # after PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004 gave the market
+        # its first real routing authority: the two are different files with
+        # different jobs, and the assessment file must never claim to BE
+        # confirmed authority just because real authority now also exists.
         for item in routing_doc()["items"]:
             assert item["assessment_status"] == "ASSESSMENT_ONLY"
             assert item["not_routing_authority"] is True
+
+    def test_market_has_real_routing_authority_and_it_is_well_formed(self):
+        # PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004: the market's FIRST real
+        # routing authority, written to its shard only. Every record must
+        # validate under the shared contract and reference an identity this
+        # market's own census actually contains.
+        from scripts.pettripfinder import identity_routing as IR
+        from scripts.pettripfinder import market_authority as MA
+        routes = MA.load_market_routes(MARKET)
+        assert routes
+        for r in routes:
+            assert r["market_id"] == MARKET
+            assert r["status"] == IR.ROUTING_CONFIRMED
+        keys = {r["identity_key"] for r in census_doc()["hotels"]}
+        for r in routes:
+            ref_key = r["hotel_ref"].get("identity_key")
+            assert ref_key and ref_key in keys
+        # The global assembled file carries the same records for this market.
         routing = _load(PACKAGE / "identity_routing.json")
-        assert not any(r.get("market_id") == MARKET for r in routing.get("routes") or [])
+        global_for_market = [r for r in routing.get("routes") or []
+                             if r.get("market_id") == MARKET]
+        assert len(global_for_market) == len(routes)
 
     def test_pass1_policy_authority_exists_and_no_release_contract_yet(self):
         # PASS1-DECISION-APPLICATION-001 created real Schema 1.2 authority

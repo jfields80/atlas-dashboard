@@ -374,11 +374,13 @@ def test_no_committed_route_is_on_a_third_party_domain(routes):
 
 def test_every_committed_route_is_in_a_known_market(routes):
     """Routing is per-market and always was; Cleveland is the second market to
-    use it and Dayton, under PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, the third.
+    use it, Dayton the third under PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, and
+    Detroit-Ann Arbor the fifth under PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004.
     What must never appear is a route with no market or a market the config does
     not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh",
+        "detroit-ann-arbor-mi"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
