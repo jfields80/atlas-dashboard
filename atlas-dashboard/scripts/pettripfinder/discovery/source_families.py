@@ -89,6 +89,15 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "city_parks": FAMILY_REGISTRY,
     "avets": FAMILY_CHAIN,
     "veg_pittsburgh": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: official tourism, destination
+    # partners, chamber directories, and brand-locator discovery.
+    "visit_detroit": FAMILY_CVB,
+    "destination_ann_arbor": FAMILY_CVB,
+    "dearborn_chamber": FAMILY_DIRECTORY,
+    "auburn_hills_chamber": FAMILY_DIRECTORY,
+    "vibe_showplace": FAMILY_DIRECTORY,
+    "chain_locator": FAMILY_CHAIN,
+    "chain_aggregate": FAMILY_CHAIN,
 }
 
 
