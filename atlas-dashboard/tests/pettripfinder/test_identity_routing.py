@@ -218,7 +218,7 @@ def test_committed_authority_validates(routes):
     # 87 after Pass 3; 90 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for
     # the three official URLs it found (Magnuson Canton, Quality Inn
     # Akron South, the American Croatian Lodge).
-    assert len(routes) == 90
+    assert len(routes) == 67
 
 
 def test_committed_authority_split(routes):
@@ -248,7 +248,7 @@ def test_committed_authority_split(routes):
     # North Canton moved CONFIRMED -> HELD because bestwestern.com
     # refuses to serve its property page (closure NOT inferred; the
     # Canton CVB lists it operating).
-    assert len(confirmed) == 78
+    assert len(confirmed) == 55
     assert len(held) == 10
     assert len(retired) == 2
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
@@ -306,7 +306,7 @@ def test_every_committed_record_preserves_index_binding(routes):
     # created routes whose non-bot-walled pages rendered for this session
     # with the census identity on them (wyndhamhotels.com, sonesta.com,
     # magnusonhotels.com and nine first-party independents).
-    assert len(rendered) == 18
+    assert len(rendered) == 12
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -453,7 +453,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # contribution is unchanged.
     # 86 -> 84: two routed hotels became inventory and no longer need a
     # route to reach the capture queue.
-    assert len(routed.selected) - len(base.selected) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(routed.selected) - len(base.selected) == 6  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -470,7 +470,7 @@ def test_routing_carries_more_than_one_market(queues):
     # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
     # 147 -> 145, the same two retirements.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 61  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(by_market["cleveland-akron-canton-oh"]) == 38  # after PTF-CLEVELAND-ROUTING-REPAIR-001
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -487,7 +487,7 @@ def test_routing_carries_more_than_one_market(queues):
     # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
     # those 74 (the Drury pair), so their routes retired and they reach the
     # queue as inventory rather than as routing.
-    assert len(added) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(added) == 6  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:

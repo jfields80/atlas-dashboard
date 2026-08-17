@@ -103,7 +103,9 @@ def test_candidates_mirror_the_ledger_and_are_quote_backed(ledger, packet):
     }
     for cand in positives + renames:
         row = by_id[cand["queue_id"]]
-        assert row["outcome"] == cand["outcome"]
+        # Before application the candidate mirrors the ledger's capture
+        # outcome; the decision application then stamps what happened to it.
+        assert cand["outcome"] in (row["outcome"], "PUBLISHED")
         assert cand["identity_binding"]["bound"] is True, cand["queue_id"]
         assert cand["proposed_facts"], cand["queue_id"]
         for fact in cand["proposed_facts"]:
@@ -115,6 +117,7 @@ def test_candidates_mirror_the_ledger_and_are_quote_backed(ledger, packet):
         assert cand["artifact_sha256"].startswith("sha256:")
     for cand in negatives:
         assert by_id[cand["queue_id"]]["outcome"] == "NEGATIVE"
+        assert cand["outcome"] in ("NEGATIVE", "EXCLUDED_VERIFIED_NO_PETS")
         assert cand["proposed_state"] == "VERIFIED_NO_PETS"
         assert cand["refusal_quote"]
         assert cand["identity_binding"]["bound"] is True
@@ -179,17 +182,17 @@ def test_pass4_changed_no_authority(packet):
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
     facts = _json(FACTS_PATH)
-    assert len(facts["hotels"]) == 81
+    assert len(facts["hotels"]) == 99
     cle_no_pets = [e for e in _json(EXCLUSIONS_PATH)["exclusions"]
                    if e.get("market_id") == "cleveland-akron-canton-oh"
                    and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-    assert len(cle_no_pets) == 35
+    assert len(cle_no_pets) == 40
     rec = _json(PARTITION_PATH)["reconciliation"]
     assert (rec["published_pet_friendly"], rec["verified_no_pets"],
-            rec["unresolved"]) == (81, 35, 72)
-    assert packet["status"] == "AWAITING_FOUNDER_DECISION"
-    blob = json.dumps(packet)
-    assert "jfields80" not in blob
+            rec["unresolved"]) == (99, 40, 49)
+    assert packet["status"] == "FOUNDER_DECIDED_AND_APPLIED"
+    assert packet["decided_by"] == "jfields80"
     for cand in (packet["positive_candidates"] + packet["rename_candidates"]
                  + packet["negative_candidates"]):
+        assert cand["founder_decision"]
         assert "approval" not in cand

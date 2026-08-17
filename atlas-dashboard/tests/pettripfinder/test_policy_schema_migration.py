@@ -37,7 +37,7 @@ from scripts.pettripfinder.policy_migration import (
 MARKETS = tuple(POLICY_PACKAGES)
 # Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
 # published the founder-approved attended-capture candidates.
-EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 81,
+EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 99,
                       "dayton-oh": 47}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
@@ -86,7 +86,7 @@ def test_every_record_declares_schema_1_2(records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 216
+    assert sum(counts.values()) == 234
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -226,7 +226,7 @@ def test_silence_restatements_were_dropped_not_recoded():
     # withheld fifteen more (no-limit and stated-none disclosures, ceilings,
     # garbled Staybridge tiers, and the Hilton Cleveland Downtown fee
     # contradiction) and the ESA ceiling!=price remediation one more.
-    assert total == 56
+    assert total == 63
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -504,7 +504,7 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     # seven more arrived with the Pass-2 founder-approved publications and
     # three more with the Pass-3 publications (La Quinta Independence and
     # the two Super 8s).
-    assert len(statements) == 31
+    assert len(statements) == 40
     for market, record in statements:
         assert "service_animal_exception" not in record["facts"]
         statement = record["service_animal_statement"]

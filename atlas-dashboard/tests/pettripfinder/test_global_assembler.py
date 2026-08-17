@@ -334,9 +334,9 @@ def test_current_ohio_inventory_is_156_published_profiles(markets):
     the first seventeen Pittsburgh hotels."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
+    assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
                       "pittsburgh-pa": 17}
-    assert sum(counts.values()) == 233
+    assert sum(counts.values()) == 251
 
 
 # --------------------------------------------------------------------------- #

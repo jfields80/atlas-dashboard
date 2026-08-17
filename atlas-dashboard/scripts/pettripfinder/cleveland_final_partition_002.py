@@ -260,7 +260,7 @@ PER_SLUG_STATE: Dict[str, Tuple[str, str]] = {
         "PTF-CLEVELAND-ROUTING-REPAIR-001 replaced the dead vanity domain with IHG's clemh property page, "
         "identity-bound on street, ZIP and phone; the pet policy is still "
         "unobserved."),
-    "days-inn-richfield": (
+    "quality-inn-suites-richfield": (
         AWAITING_POLICY_OBSERVATION,
         "PTF-CLEVELAND-ROUTING-REPAIR-001: the property left Wyndham and now operates as Quality Inn & "
         "Suites Richfield (choicehotels.com oh330, bound on the census "
@@ -311,7 +311,7 @@ PER_SLUG_STATE: Dict[str, Tuple[str, str]] = {
         "Lodge at Geneva-on-the-Lake') and carries the census street, ZIP "
         "and phone. The 404 verdict was stale; the pet policy is still "
         "unobserved."),
-    "doubletree-by-hilton-cleveland-westlake": (
+    "wyndham-garden-westlake": (
         AWAITING_POLICY_OBSERVATION,
         "PTF-CLEVELAND-ROUTING-REPAIR-001: hilton.com/clecrdt is a genuine 404 -- the property converted "
         "to Wyndham Garden Westlake, whose page binds on the census street, "
@@ -444,9 +444,9 @@ PER_SLUG_NEXT_ACTION: Dict[str, str] = {
         "Open https://www.thelodgeatgeneva.com/stay/lodging/cottage-rooms/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
     'crowne-plaza-cleveland-airport':
         "Open https://www.ihg.com/crowneplaza/hotels/us/en/middleburg-heights/clemh/hoteldetail in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-    'days-inn-richfield':
+    'quality-inn-suites-richfield':
         "Open https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330 in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. The property now operates as Quality Inn & Suites Richfield; a census rename is pending a founder decision.",
-    'doubletree-by-hilton-cleveland-westlake':
+    'wyndham-garden-westlake':
         "Open https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface. The property now operates as Wyndham Garden Westlake; a census rename is pending a founder decision.",
     'embassy-suites-by-hilton-akron-canton-airport':
         "Open https://www.hilton.com/en/hotels/caknaes-embassy-suites-akron-canton-airport/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
@@ -489,6 +489,18 @@ MANIFEST_CLASSIFICATION_TO_STATE: Dict[str, str] = {
     # swept.
     "ROUTING_REPAIRED_AWAITING_CAPTURE": AWAITING_POLICY_OBSERVATION,
     "SELECTOR_OR_SURFACE_GAP": AWAITING_ATTENDED_CAPTURE,
+}
+
+#: Identities the founder renamed after this market's historical ledgers were
+#: written, as retired_key -> current_key. Those ledgers are transcripts of
+#: what a pass reviewed on a given day; they are never rewritten, so the join
+#: aliases the retired key instead. Authorized by
+#: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 (founder decisions P4R-01 and
+#: P4R-02); Sonesta Westlake is deliberately absent -- that rebrand was ruled
+#: census hygiene, not a rename.
+IDENTITY_RENAMES: Dict[str, str] = {
+    "days inn richfield": "quality inn and suites richfield",
+    "doubletree by hilton cleveland westlake": "wyndham garden westlake",
 }
 
 #: The one routing correction 6f9ba1d applied that never reached the unresolved
@@ -607,7 +619,14 @@ def build_partition() -> Dict:
     market_routes = [r for r in routing_doc["routes"] if r.get("market_id") == MARKET]
     routes = {r["hotel_ref"]["normalized_name"]: r for r in market_routes}
     unres = {i["normalized_name"]: i for i in unresolved["items"]}
-    wb = {i["normalized_name"]: i for i in work_browser["items"]}
+    # A historical ledger names each property as it stood when the pass ran.
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 renamed two identities on
+    # founder authorization, so the 2026-08-12 transcript still carries their
+    # retired keys. Rewriting that transcript would falsify what the pass
+    # actually reviewed, so the retired key is ALIASED to the current one for
+    # the join and the record stays as written.
+    wb = {IDENTITY_RENAMES.get(i["normalized_name"], i["normalized_name"]): i
+          for i in work_browser["items"]}
 
     for label, keys in (("published", published), ("verified no-pets", no_pets),
                         ("unresolved manifest", set(unres)),
@@ -706,14 +725,19 @@ def build_partition() -> Dict:
         ))
         items.append(item)
 
-    if sorted(used_state_overrides) != sorted(PER_SLUG_STATE):
-        raise PartitionError(
-            "per-slug state override(s) matched nothing: %s"
-            % sorted(set(PER_SLUG_STATE) - set(used_state_overrides)))
-    if sorted(used_action_overrides) != sorted(PER_SLUG_NEXT_ACTION):
-        raise PartitionError(
-            "per-slug next-action override(s) matched nothing: %s"
-            % sorted(set(PER_SLUG_NEXT_ACTION) - set(used_action_overrides)))
+    # An override that names no real slug is a typo, and a typo becomes a
+    # wrong final state silently -- so every override must still name a slug
+    # this census contains. It need NOT be consumed: once founder decisions
+    # publish or exclude an identity, its blocker override is SPENT, and the
+    # terminal state read from the publication authority is what governs.
+    census_slugs = {h["slug"] for h in census["hotels"]}
+    for table, label in ((PER_SLUG_STATE, "state"),
+                         (PER_SLUG_NEXT_ACTION, "next-action")):
+        unknown = sorted(set(table) - census_slugs)
+        if unknown:
+            raise PartitionError(
+                "per-slug %s override(s) name no census slug: %s"
+                % (label, unknown))
 
     counts: Dict[str, int] = OrderedDict((s, 0) for s in FINAL_STATES)
     for item in items:

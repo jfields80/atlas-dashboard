@@ -49,10 +49,11 @@ EXPECTED = {
     COLUMBUS: {"census": 112, "published": 88, "no_pets": 14,
                "out_of_category": 2, "unresolved": 8},
     # 21/8/159 until PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 (41/31/116),
-    # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 applied the founder's
-    # rulings on the driveable-queue packet: 81 published, 35 no-pets.
-    CLEVELAND: {"census": 188, "published": 81, "no_pets": 35,
-                "out_of_category": 0, "unresolved": 72},
+    # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 (81/35/72), then
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 applied the founder's
+    # rulings on the routing-repaired queue: 99 published, 40 no-pets.
+    CLEVELAND: {"census": 188, "published": 99, "no_pets": 40,
+                "out_of_category": 0, "unresolved": 49},
     DAYTON: {"census": 129, "published": 47, "no_pets": 8,
              "out_of_category": 0, "unresolved": 74},
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
