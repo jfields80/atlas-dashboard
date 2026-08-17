@@ -455,12 +455,15 @@ class TestPass1DecisionsRecordedNotApplied:
         assert items["hotel genevieve"]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
         assert items["hotel genevieve"]["resolved"] is False
 
-    def test_next_batch_is_prepared_and_not_executed(self):
+    def test_next_batch_was_the_five_independents(self):
         batch = json.loads((
             PKG / "markets" / "reports"
             / "louisville_pass2_capture_batch_prepared.json"
         ).read_text(encoding="utf-8-sig"))
-        assert batch["executed"] is False
+        assert batch["executed"] is True
+        assert batch["executed_work_order"] == (
+            "PTF-LOUISVILLE-ATTENDED-CAPTURE-PASS2-001"
+        )
         keys = [r["identity_key"] for r in batch["items"]]
         assert keys == [
             "omni louisville hotel",
@@ -480,3 +483,107 @@ class TestPass1DecisionsRecordedNotApplied:
         east = batch["items"][1]
         assert east["identity_binding"] == "URL_BOUND_IDENTITY_CORRECTION_OPEN"
         assert east["official_url"].endswith("drury-inn-and-suites-louisville-east")
+
+
+class TestPass2Capture:
+    BATCH = [
+        "omni louisville hotel",
+        "drury inn and suites louisville",
+        "drury inn and suites louisville north",
+        "best western greentree inn",
+        "radisson hotel louisville north",
+    ]
+
+    def _results(self):
+        return json.loads((
+            PKG / "markets" / "reports" / "louisville_pass2_capture_results.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def test_batch_is_exactly_the_five_prepared_independents(self):
+        doc = self._results()
+        keys = [r["identity_key"] for r in doc["rows"]]
+        assert doc["batch_total"] == len(keys) == 5
+        assert keys == self.BATCH
+        assert doc["authority_changed"] is False
+        for key in self.BATCH:
+            host = next(r["queued_url"] for r in doc["rows"]
+                        if r["identity_key"] == key).split("/")[2]
+            assert host not in {
+                "www.hilton.com", "www.hyatt.com", "www.marriott.com"
+            }
+
+    def test_outcomes_and_founder_packet(self):
+        doc = self._results()
+        by = {r["identity_key"]: r["outcome"] for r in doc["rows"]}
+        assert by["omni louisville hotel"] == "AFFIRMATIVE_STRUCTURED"
+        assert by["drury inn and suites louisville"] == (
+            "POLICY_CAPTURED_PENDING_IDENTITY_CORRECTION"
+        )
+        assert by["drury inn and suites louisville north"] == (
+            "AFFIRMATIVE_STRUCTURED"
+        )
+        assert by["best western greentree inn"] == "ACCESS_BLOCKED"
+        assert by["radisson hotel louisville north"] == "ACCESS_BLOCKED"
+        assert doc["positive_candidates"] == 2
+        assert doc["negative_candidates"] == 0
+        assert doc["identity_correction_candidates"] == 1
+        assert doc["publication_grade_artifacts"] == 3
+        assert doc["founder_decisions_required"] == 3
+        packet = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert packet["founder_approvals_written"] is False
+        assert packet["decision_count"] == 3
+
+    def test_identity_binding_and_drury_east_correction(self):
+        by = {r["identity_key"]: r for r in self._results()["rows"]}
+        assert by["omni louisville hotel"]["identity_binding"] == "BOUND"
+        assert "Omni Louisville Hotel" in by["omni louisville hotel"]["identity_signals"]
+        assert by["drury inn and suites louisville north"]["identity_binding"] == "BOUND"
+        east = by["drury inn and suites louisville"]
+        assert east["identity_binding"] == "URL_BOUND_IDENTITY_CORRECTION_OPEN"
+        corr = east["identity_correction"]
+        assert corr["census_canonical_name"] == "Drury Inn and Suites Louisville"
+        assert corr["observed_official_name"] == (
+            "Drury Inn & Suites Louisville East"
+        )
+        assert corr["census_address"] == corr["observed_address"] == (
+            "9501 Blairwood Road"
+        )
+        assert "East" in corr["discrepancy"]
+        assert "do not silently rename" in corr["proposed_identity_correction"].lower()
+        assert by["best western greentree inn"]["identity_binding"] == "NOT_BOUND"
+        assert by["radisson hotel louisville north"]["identity_binding"] == "NOT_BOUND"
+
+    def test_quotes_are_contiguous_in_gitignored_artifacts(self):
+        import hashlib
+        art = REPO / "data" / "operator_evidence" / "louisville-pass2-capture-001"
+        for row in self._results()["rows"]:
+            if not row["artifact_sha256"]:
+                continue
+            path = art / row["artifact_relpath"]
+            payload = path.read_bytes()
+            assert hashlib.sha256(payload).hexdigest() == row["artifact_sha256"]
+            html = payload.decode("utf-8", "replace")
+            for quote in row["quotes"]:
+                assert quote in html, row["identity_key"]
+
+    def test_authority_unchanged(self):
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
+        packet = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert packet["founder_approvals_written"] is False
+        decisions = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_founder_decisions.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert decisions["authority_applied"] is False
+        assert all(d["applied"] is False for d in decisions["decisions"])
