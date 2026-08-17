@@ -302,6 +302,9 @@ class TestPass1Capture:
         ).read_text(encoding="utf-8-sig"))
         assert packet["founder_approvals_written"] is True
         assert packet["founder_decisions_recorded"] is True
+        assert packet["authority_applied"] is False
+        assert packet["merged"] is False
+        assert packet["deployed"] is False
         assert packet["decision_count"] == 6
         assert packet["recorded_decision_count"] == 6
 
@@ -338,9 +341,22 @@ class TestPass1FounderDecisions:
             / "louisville_pass1_founder_decisions.json"
         ).read_text(encoding="utf-8-sig"))
         assert [d["decision_id"] for d in decisions["decisions"]] == [
-            "D001", "D002", "D003"
+            "D001", "D002", "D003", "D004", "D005", "D006"
         ]
-        assert decisions["d004_galt_house"] == "NOT_DECIDED"
+        assert decisions["authority_applied"] is False
+        assert decisions["merged"] is False
+        assert decisions["deployed"] is False
+        assert decisions["d004_galt_house"] == "RECORDED_NOT_APPLIED"
+        by_id = {d["decision_id"]: d for d in decisions["decisions"]}
+        assert by_id["D001"]["applied"] is True
+        assert by_id["D002"]["applied"] is True
+        assert by_id["D003"]["applied"] is True
+        assert by_id["D004"]["applied"] is False
+        assert by_id["D005"]["applied"] is False
+        assert by_id["D006"]["applied"] is False
+        assert by_id["D004"]["identity_key"] == "galt house hotel"
+        assert by_id["D005"]["identity_key"] == "hotel louisville downtown"
+        assert by_id["D006"]["identity_key"] == "the brown hotel"
         d001 = decisions["decisions"][0]
         assert d001["identity_key"] == "21c museum hotel louisville"
         assert d001["decision"] == "HOLD_PARTIAL_AFFIRMATIVE"
@@ -422,6 +438,9 @@ class TestPass1DecisionsRecordedNotApplied:
         assert [d["decision_id"] for d in recorded] == [
             "D001", "D002", "D003", "D004", "D005", "D006"
         ]
+        assert packet["authority_applied"] is False
+        assert packet["merged"] is False
+        assert packet["deployed"] is False
         assert packet["recorded_summary"] == {
             "decisions_recorded": 6,
             "approvals_positive": 2,
