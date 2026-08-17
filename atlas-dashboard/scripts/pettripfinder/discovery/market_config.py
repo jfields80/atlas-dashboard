@@ -98,6 +98,8 @@ _MARKET_FILENAMES = {
     "cincinnati-oh": "cincinnati_oh.json",
     # PTF-PITTSBURGH-MARKET-REVALIDATION-001.
     "pittsburgh-pa": "pittsburgh_pa.json",
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001.
+    "detroit-ann-arbor-mi": "detroit_ann_arbor_mi.json",
 }
 
 
