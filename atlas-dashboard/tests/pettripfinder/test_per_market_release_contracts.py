@@ -58,7 +58,8 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
+LOUISVILLE = "louisville-ky"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, LOUISVILLE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -117,6 +118,12 @@ EXPECTED_RECONCILIATION = {
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
+    # PTF-LOUISVILLE-FOUNDING-AUTHORITY-APPLICATION-001A published fourteen
+    # founder-approved records and recorded four property-specific refusals.
+    # The long-standing Inn at Woodhaven NOT_LODGING census disposition is
+    # mechanically projected into the exclusion registry, so terminally
+    # resolved is 14 + 4 + 1 and the remaining 111 are still unresolved.
+    LOUISVILLE: (130, 14, 4, 19, 111),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -193,6 +200,8 @@ class TestContractRegistry:
         assert "cincinnati-oh" not in set(available_market_ids())
         assert "indianapolis-in" in configured
         assert "indianapolis-in" in set(available_market_ids())
+        assert LOUISVILLE in configured
+        assert LOUISVILLE in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -267,7 +276,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, LOUISVILLE: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -297,7 +306,7 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, LOUISVILLE))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]

@@ -10,7 +10,10 @@ Authorized:
 
 D004 Galt House Hotel has no authorized decision text and is not applied.
 
-    python -m scripts.pettripfinder.apply_louisville_pass1_founder_decisions
+FROZEN HISTORICAL ONE-SHOT. This pre-sharding replay is deliberately disabled:
+PTF-LOUISVILLE-FOUNDING-AUTHORITY-APPLICATION-001A superseded it with the
+complete, market-sharded founder-approved authority application. Its retained
+body is provenance only and must never be re-enabled to mutate current state.
 """
 from __future__ import annotations
 
@@ -23,7 +26,7 @@ from scripts.pettripfinder.contracts import census, enums, partition
 from scripts.pettripfinder.contracts import evidence as evidence_contract
 from scripts.pettripfinder.contracts import policy_schema
 from scripts.pettripfinder.hotel_exclusions import (
-    EXCLUSIONS_PATH, approval_hash, record_hash as exclusion_record_hash,
+    approval_hash, record_hash as exclusion_record_hash,
     validate as validate_exclusions,
 )
 from scripts.pettripfinder.policy_migration import (
@@ -89,7 +92,7 @@ def _set_terminal(item, state, reason):
     item["state_override_reason"] = reason
 
 
-def main() -> None:
+def _historical_pre_sharding_main() -> None:
     census_doc = json.loads(CENSUS_PATH.read_text(encoding="utf-8-sig"))
     part_doc = json.loads(PARTITION_PATH.read_text(encoding="utf-8-sig"))
     results = json.loads(RESULTS_PATH.read_text(encoding="utf-8-sig"))
@@ -355,6 +358,13 @@ def main() -> None:
     print("published", rec.published, "no_pets", rec.verified_no_pets,
           "unresolved", rec.unresolved)
     print("counts", dict(part_doc["final_state_counts"]))
+
+
+def main() -> None:
+    raise SystemExit(
+        "FROZEN_HISTORICAL_ONE_SHOT: use "
+        "apply_louisville_founding_authority_001a.py and market-local shards; "
+        "this pre-sharding replay is retained only as provenance.")
 
 
 if __name__ == "__main__":

@@ -148,16 +148,24 @@ class TestIsolation:
             assert "louisville-ky" not in blob
         exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
             encoding="utf-8-sig"))
-        assert sum(e.get("market_id") == MARKET
-                   for e in exclusions.get("exclusions", ())) == CURRENT_NO_PETS
+        louisville_exclusions = [e for e in exclusions.get("exclusions", ())
+                                 if e.get("market_id") == MARKET]
+        assert sum(e.get("exclusion_state") == enums.VERIFIED_NO_PETS
+                   for e in louisville_exclusions) == CURRENT_NO_PETS
+        assert sum(e.get("exclusion_state") == enums.OUT_OF_CURRENT_CATEGORY
+                   for e in louisville_exclusions) == 1
         routing = json.loads((PKG / "identity_routing.json").read_text(
             encoding="utf-8-sig"))
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes", ()))
         seed = (PKG / "seed_businesses.csv").read_text(encoding="utf-8")
         assert seed.count(",louisville-ky\n") == CURRENT_PUBLISHED
-        assert not (REPO / "deploy" / "netlify" / "release_contracts"
-                    / "louisville-ky.json").exists()
-        assert MARKET not in set(available_market_ids())
+        contract_path = (REPO / "deploy" / "netlify" / "release_contracts"
+                         / "louisville-ky.json")
+        assert contract_path.is_file()
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        assert contract["market_id"] == MARKET
+        assert contract["deployment_authorization"]["grants_deployment"] is False
+        assert MARKET in set(available_market_ids())
         assert not (PKG / "markets" / "coverage" / "louisville-ky.json").exists()
         assert (PKG / "hotel_policy_facts_louisville-ky.json").exists()
 
@@ -432,9 +440,12 @@ class TestPass1DecisionsRecordedNotApplied:
                     / "louisville_pass1_approved_policy_records.json").exists()
         exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
             encoding="utf-8-sig"))
-        louisville = [e["normalized_name"] for e in exclusions["exclusions"]
+        louisville = [e for e in exclusions["exclusions"]
                       if e.get("market_id") == MARKET]
-        assert len(louisville) == CURRENT_NO_PETS
+        assert sum(e["exclusion_state"] == enums.VERIFIED_NO_PETS
+                   for e in louisville) == CURRENT_NO_PETS
+        assert sum(e["exclusion_state"] == enums.OUT_OF_CURRENT_CATEGORY
+                   for e in louisville) == 1
         assert (PKG / "hotel_policy_facts_louisville-ky.json").exists()
 
     def test_hotel_genevieve_has_no_founder_policy_decision(self):

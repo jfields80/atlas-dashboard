@@ -38,6 +38,28 @@ from scripts.pettripfinder import market_authority as MA          # noqa: E402
 BASELINE_PATH = (MA.LAUNCH_PACKAGE / "markets" / "reports"
                  / "ptf_market_authority_sharding_001_baseline.json")
 
+# The sharding baseline is intentionally frozen at the split.  Markets that
+# legitimately gained authority afterwards are recorded here as explicit,
+# reviewed deltas rather than rewriting history to make present-day totals
+# look like pre-split totals.  Louisville was registered and received its
+# founder-approved 14/4 authority after that baseline; its single category
+# exit is projected into the exclusion registry by integration hardening.
+POST_BASELINE_MARKET_DELTAS = {
+    "louisville-ky": {"routing": 0, "exclusions": 5, "seed": 14},
+}
+
+
+def _current_expected_market_totals(baseline):
+    """Recorded baseline plus explicitly reviewed same-market growth."""
+    totals = {mid: dict(counts)
+              for mid, counts in baseline["per_market_totals"].items()}
+    for market_id, delta in POST_BASELINE_MARKET_DELTAS.items():
+        current = totals.setdefault(market_id,
+                                    {"routing": 0, "exclusions": 0, "seed": 0})
+        for field, value in delta.items():
+            current[field] += value
+    return totals
+
 
 @pytest.fixture(scope="module")
 def baseline():
@@ -157,25 +179,36 @@ class TestAssemblyIsDeterministic:
 
 
 class TestNothingMovedBetweenMarkets:
-    """SS10. The baseline manifest was written before the split; every number in
-    it must still hold, market by market. This is what makes "no per-market
-    authority movement" a checked fact rather than a claim."""
+    """SS10. Frozen pre-split totals plus reviewed later market growth.
+
+    The frozen baseline proves sharding did not move the authority it split.
+    ``POST_BASELINE_MARKET_DELTAS`` proves later, legitimate same-market growth
+    is explicit rather than silently changing another market's shard.
+    """
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
+        expected_totals = _current_expected_market_totals(baseline)
+        assert set(market_ids) == set(expected_totals)
         for market_id in market_ids:
-            expected = baseline["per_market_totals"][market_id]
+            expected = expected_totals[market_id]
             assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
 
     def test_global_totals_match_the_pre_split_baseline(self, baseline):
-        totals = baseline["global_totals"]
+        totals = {field: baseline["global_totals"][field]
+                  for field in ("routing", "exclusions", "seed_rows")}
+        for delta in POST_BASELINE_MARKET_DELTAS.values():
+            totals["routing"] += delta["routing"]
+            totals["exclusions"] += delta["exclusions"]
+            totals["seed_rows"] += delta["seed"]
         assert len(IR.load_routes()) == totals["routing"]
         assert len(HE.load_exclusions()) == totals["exclusions"]
         assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
 
     def test_the_registered_market_set_is_unchanged(self, baseline):
-        assert list(MA.registered_market_ids()) == baseline["registered_market_ids"]
+        assert list(MA.registered_market_ids()) == sorted(
+            set(baseline["registered_market_ids"]) | set(POST_BASELINE_MARKET_DELTAS))
 
 
 # --------------------------------------------------------------------------- #

@@ -6,7 +6,9 @@ Required baseline for PTF-LOUISVILLE-ATTENDED-CAPTURE-PASS2-001:
     verified no-pets = 0
     unresolved = 129
 
-    python -m scripts.pettripfinder.unapply_louisville_pass1_authority
+FROZEN HISTORICAL ONE-SHOT. This pre-sharding rollback is deliberately
+disabled: it would erase later founder-approved authority. Its retained body
+is provenance only and must never be re-enabled against current state.
 """
 from __future__ import annotations
 
@@ -17,7 +19,6 @@ from pathlib import Path
 from scripts.pettripfinder.census_partition_builder import write_json
 from scripts.pettripfinder.contracts import census, enums, partition
 from scripts.pettripfinder.contracts.partition import STATE_MEANINGS
-from scripts.pettripfinder.hotel_exclusions import EXCLUSIONS_PATH
 
 REPO = Path(__file__).resolve().parents[2]
 PKG = REPO / "launch_packages" / "pettripfinder"
@@ -46,7 +47,7 @@ def _restore_item(item: dict) -> None:
     item["state_override_reason"] = ""
 
 
-def main() -> None:
+def _historical_pre_sharding_main() -> None:
     census_doc = json.loads(CENSUS_PATH.read_text(encoding="utf-8-sig"))
     part_doc = json.loads(PARTITION_PATH.read_text(encoding="utf-8-sig"))
     items = {i["identity_key"]: i for i in part_doc["items"]}
@@ -144,6 +145,12 @@ def main() -> None:
     print("published", rec.published, "no_pets", rec.verified_no_pets,
           "unresolved", rec.unresolved)
     print("counts", dict(part_doc["final_state_counts"]))
+
+
+def main() -> None:
+    raise SystemExit(
+        "FROZEN_HISTORICAL_ONE_SHOT: this pre-sharding rollback cannot be "
+        "run after Louisville founding authority; retained only as provenance.")
 
 
 if __name__ == "__main__":
