@@ -199,4 +199,32 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert queue["count"] == len(queue["items"]) == 67
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
     review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
-    assert review["count"] == 0
+    assert review["census_count"] == 120
+    assert review["active_lodging_count"] == 119
+    assert review["current_routed_count"] == len(routes) == 67
+    assert review["count"] == len(review["items"]) == 52
+    assert review["reconciliation"] == {
+        "property_level_url_recovery": 52,
+        "structured_brand": 35,
+        "independent_local": 17,
+        "structured_brand_lanes": {
+            "CHOICE": 5, "ESA": 2, "G6": 1, "HILTON": 9, "IHG": 3,
+            "MARRIOTT": 4, "RADISSON": 5, "RED_ROOF": 1, "WOODSPRING": 1,
+            "WYNDHAM": 4,
+        },
+    }
+    assert review["review_partitions"] == {
+        "ROUTING_RECOVERY_CLEAN": 35,
+        "FOUNDER_IDENTITY_REVIEW": 0,
+        "CLOSED_CONVERSION_REVIEW": 0,
+        "ROUTING_UNRESOLVED": 0,
+        "INDEPENDENT_FINAL_RECOVERY": 17,
+    }
+    assert review["routing_continuation_plan"]["next_batch_count"] == 35
+    recovery_keys = {
+        row["identity_key"] for row in _load(
+            PACKAGE / "markets" / "reports" / (MARKET + "_routing_results_001.json")
+        )["rows"] if row["verdict"] == "PROPERTY_LEVEL_URL_RECOVERY"
+    }
+    assert {row["identity_key"] for row in review["items"]} == recovery_keys
+    assert all(row["census_action"] == "NO_CHANGE" for row in review["items"])

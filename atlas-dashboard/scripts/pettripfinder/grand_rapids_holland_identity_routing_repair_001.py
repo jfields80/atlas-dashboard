@@ -217,10 +217,8 @@ def main() -> None:
              "items": queue_rows,
              "note": "Routing-only queue. No policy content was captured or assessed."}
     _dump(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json", queue)
-    _dump(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json", {
-        "schema": "ptf-postclosure-census-review/1.0", "market_id": MARKET,
-        "work_order": progress["work_order"], "count": 0, "items": [],
-        "note": "No routing observation supplied a closure, conversion, rebrand, or new-hotel claim."})
+    # The post-closure review has its own read-only writer.  Do not overwrite
+    # its durable per-row findings when this routing-authority writer is rerun.
 
 
 if __name__ == "__main__":
