@@ -4,7 +4,7 @@
   "market_id": "louisville-ky",
   "as_of": "2026-08-16",
   "operator": "jfields80",
-  "note": "Only D001 has been authorized. No other Pass 1 row has a founder decision.",
+  "note": "Authorized decisions only: D001, D002, D003. D004 was received without a decision and was not applied.",
   "decisions": [
     {
       "decision_id": "D001",
@@ -13,6 +13,7 @@
       "hotel": "21c Museum Hotel Louisville",
       "decision": "HOLD_PARTIAL_AFFIRMATIVE",
       "publish": false,
+      "queue": true,
       "preserved": {
         "artifact_sha256": "078fbfd16cd489e1fc3c2ab67f9f12b4feda21f3103001778b3db811b03cebd0",
         "artifact_relpath": "raw/21c-museum-hotel-louisville__faq-chrome.html",
@@ -33,14 +34,51 @@
           "species": "SOURCE_AMBIGUOUS: page says pets, not dogs or cats",
           "pet_fee.basis": "SOURCE_AMBIGUOUS: $40 stated without stay/night basis",
           "pet_fee.scope": "SOURCE_AMBIGUOUS: $40 stated without per-pet/per-room scope"
-        }
+        },
+        "next_action": "Re-read the 21c Louisville FAQ and capture explicit pet-fee basis (per stay / per night) and fee scope (per pet / per room). Species remains withheld until the page names dogs or cats. Do not publish the partial record."
       },
+      "applied": true
+    },
+    {
+      "decision_id": "D002",
+      "packet_id": "LVL-P1-002",
+      "identity_key": "bellwether hotel",
+      "hotel": "Bellwether Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "publish": true,
+      "approved_fact_keys": [
+        "pets_allowed",
+        "species",
+        "pet_count_limit",
+        "combined_weight_limit",
+        "pet_room_restriction",
+        "unattended_policy",
+        "reservation_requirement"
+      ],
+      "withheld": [
+        "pet_fee.basis",
+        "pet_fee.scope",
+        "refundability"
+      ],
+      "artifact_sha256": "f22f9436153498c752fa5ec655e97deab0551835568d5ad917a3ccbc5af8667d",
+      "applied": true
+    },
+    {
+      "decision_id": "D003",
+      "packet_id": "LVL-P1-003",
+      "identity_key": "econo lodge downtown",
+      "hotel": "Econo Lodge Downtown",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "publish": false,
+      "artifact_sha256": "5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579",
+      "evidence_quote": "No Pets Allowed",
       "applied": true
     }
   ],
-  "published": 0,
-  "verified_no_pets": 0,
-  "unresolved": 129,
+  "published": 1,
+  "verified_no_pets": 1,
+  "unresolved": 127,
   "site_assembled": false,
-  "release_contract_written": false
+  "release_contract_written": false,
+  "d004_galt_house": "NOT_DECIDED"
 }

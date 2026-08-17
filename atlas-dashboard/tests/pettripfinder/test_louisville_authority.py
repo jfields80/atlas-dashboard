@@ -62,22 +62,31 @@ class TestCensusAndPartition:
         doc = _census()
         assert doc["schema"] == enums.CENSUS_SCHEMA
         assert doc["count"] == len(doc["hotels"]) == CENSUS
+        policy_by_key = {row["identity_key"]: row["policy_state"]
+                         for row in doc["hotels"]}
+        assert policy_by_key["bellwether hotel"] == enums.POLICY_CONFIRMED
+        assert policy_by_key["econo lodge downtown"] == enums.VERIFIED_NO_PETS
         for row in doc["hotels"]:
             assert row["market_id"] == MARKET
-            assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
+            if row["identity_key"] == "bellwether hotel":
+                assert row["policy_state"] == enums.POLICY_CONFIRMED
+            elif row["identity_key"] == "econo lodge downtown":
+                assert row["policy_state"] == enums.VERIFIED_NO_PETS
+            else:
+                assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
             assert row["state"] in {"KY", "IN"}
             assert is_canonical_key(row["identity_key"])
             assert row["identity_key"] == ptf_identity_key(row["canonical_name"])
             assert row["corridor"] not in (None, "")
 
-    def test_membership_and_zero_publication(self):
+    def test_membership_and_partition_counts(self):
         rec = partition.reconcile(census.identity_keys(_census()), _partition(),
                                   market_id=MARKET)
         assert rec.agrees
-        assert rec.published == 0
-        assert rec.verified_no_pets == 0
+        assert rec.published == 1
+        assert rec.verified_no_pets == 1
         assert rec.out_of_category == 1
-        assert rec.unresolved == 129
+        assert rec.unresolved == 127
         assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved == CENSUS
         assert partition.validate(_partition()) == ()
         assert census.validate(_census(), market_states=["KY", "IN"]) == ()
@@ -143,8 +152,18 @@ class TestIsolation:
             assert "louisville-ky" not in blob
         exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
             encoding="utf-8-sig"))
-        assert not any(e.get("market_id") == MARKET
-                       for e in exclusions.get("exclusions", ()))
+        louisville_exclusions = [
+            e for e in exclusions.get("exclusions", ())
+            if e.get("market_id") == MARKET
+        ]
+        assert [e["normalized_name"] for e in louisville_exclusions] == [
+            "econo lodge downtown"
+        ]
+        assert louisville_exclusions[0]["exclusion_state"] == enums.VERIFIED_NO_PETS
+        assert louisville_exclusions[0]["evidence_quote"] == "No Pets Allowed"
+        assert louisville_exclusions[0]["source_hash"] == (
+            "sha256:5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579"
+        )
         routing = json.loads((PKG / "identity_routing.json").read_text(
             encoding="utf-8-sig"))
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes", ()))
@@ -154,6 +173,7 @@ class TestIsolation:
                     / "louisville-ky.json").exists()
         assert MARKET not in set(available_market_ids())
         assert not (PKG / "markets" / "coverage" / "louisville-ky.json").exists()
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
 
 
 class TestAssignmentAndAssembler:
@@ -185,7 +205,10 @@ class TestDiscoveryAndQueue:
         assert set(report["identity_keys"]) == unresolved
         assert report["duplicates"] == 0
         assert report["omissions"] == 0
-        assert report["row_count"] == len(unresolved) == 129
+        assert report["row_count"] == len(unresolved) == 127
+        assert "21c museum hotel louisville" in unresolved
+        assert "bellwether hotel" not in unresolved
+        assert "econo lodge downtown" not in unresolved
         assert report["review_status"] == "NOT_STARTED"
         import csv
         with (tmp_path / "work-browser-pass-001-review.csv").open(
@@ -230,9 +253,10 @@ class TestIdentityRoutingRepair:
                    for r in ready["items"])
         rec = partition.reconcile(census.identity_keys(_census()), _partition(),
                                   market_id=MARKET)
-        assert rec.published == 0
-        assert rec.unresolved == 129
-        assert _partition()["final_state_counts"][enums.AWAITING_POLICY_OBSERVATION] == 91
+        assert rec.published == 1
+        assert rec.verified_no_pets == 1
+        assert rec.unresolved == 127
+        assert _partition()["final_state_counts"][enums.AWAITING_POLICY_OBSERVATION] == 89
         assert _partition()["final_state_counts"][enums.AWAITING_CENSUS_REVIEW] == 6
 
 
@@ -276,7 +300,7 @@ class TestPass1Capture:
             PKG / "markets" / "reports"
             / "louisville_pass1_founder_review_packet.json"
         ).read_text(encoding="utf-8-sig"))
-        assert packet["founder_approvals_written"] is False
+        assert packet["founder_approvals_written"] is True
         assert packet["decision_count"] == 6
 
     def test_quotes_are_contiguous_in_gitignored_artifacts(self):
@@ -296,41 +320,88 @@ class TestPass1Capture:
                 for quote in row["quotes"]:
                     assert quote in html, row["identity_key"]
 
-    def test_policy_authority_unchanged(self):
+    def test_production_policy_file_absent(self):
         assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
         rec = partition.reconcile(census.identity_keys(_census()), _partition(),
                                   market_id=MARKET)
-        assert rec.published == 0
-        assert rec.verified_no_pets == 0
-        assert rec.unresolved == 129
+        assert rec.published == 1
+        assert rec.verified_no_pets == 1
+        assert rec.unresolved == 127
 
 
 class TestPass1FounderDecisions:
-    def test_only_d001_is_authorized(self):
+    def test_d001_d002_d003_are_authorized_d004_is_not(self):
         decisions = json.loads((
             PKG / "markets" / "reports"
             / "louisville_pass1_founder_decisions.json"
         ).read_text(encoding="utf-8-sig"))
-        assert [d["decision_id"] for d in decisions["decisions"]] == ["D001"]
+        assert [d["decision_id"] for d in decisions["decisions"]] == [
+            "D001", "D002", "D003"
+        ]
+        assert decisions["d004_galt_house"] == "NOT_DECIDED"
         d001 = decisions["decisions"][0]
         assert d001["identity_key"] == "21c museum hotel louisville"
         assert d001["decision"] == "HOLD_PARTIAL_AFFIRMATIVE"
         assert d001["publish"] is False
+        assert d001["queue"] is True
         preserved = d001["preserved"]
         assert preserved["identity_binding"] == "BOUND"
         assert preserved["artifact_sha256"]
         assert preserved["exact_quotes"]
         assert preserved["captured_partial_facts"]["pets_allowed"] is True
+        assert "fee basis" in preserved["next_action"]
+        assert "fee scope" in preserved["next_action"]
         items = {i["identity_key"]: i for i in _partition()["items"]}
-        assert items["21c museum hotel louisville"]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
-        assert items["21c museum hotel louisville"]["resolved"] is False
-        assert "HOLD_PARTIAL_AFFIRMATIVE" in items["21c museum hotel louisville"]["state_override_reason"]
-        for key in ("bellwether hotel", "galt house hotel", "econo lodge downtown",
-                    "hotel louisville downtown", "the brown hotel", "hotel genevieve"):
+        held = items["21c museum hotel louisville"]
+        assert held["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+        assert held["resolved"] is False
+        assert "HOLD_PARTIAL_AFFIRMATIVE" in held["state_override_reason"]
+        assert "fee basis" in held["next_action"]
+        assert "fee scope" in held["next_action"]
+        assert items["bellwether hotel"]["final_state"] == enums.PUBLISHED_PET_FRIENDLY
+        assert items["bellwether hotel"]["resolved"] is True
+        assert items["econo lodge downtown"]["final_state"] == enums.VERIFIED_NO_PETS
+        assert items["econo lodge downtown"]["resolved"] is True
+        for key in ("galt house hotel", "hotel louisville downtown",
+                    "the brown hotel", "hotel genevieve"):
             assert items[key]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
             assert items[key]["resolved"] is False
-        assert decisions["published"] == 0
-        assert decisions["verified_no_pets"] == 0
+        assert decisions["published"] == 1
+        assert decisions["verified_no_pets"] == 1
+        assert decisions["unresolved"] == 127
+        assert decisions["site_assembled"] is False
+        assert decisions["release_contract_written"] is False
         assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
-        assert not (PKG / "markets" / "reports"
-                    / "louisville_pass1_approved_policy_records.json").exists()
+
+    def test_d002_approves_only_source_supported_bellwether_facts(self):
+        approved = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_approved_policy_records.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert [h["identity_key"] for h in approved["hotels"]] == ["bellwether hotel"]
+        facts = approved["hotels"][0]["facts"]
+        assert facts["pets_allowed"] is True
+        assert facts["species"] == {"dogs": enums.SPECIES_ACCEPTED}
+        assert facts["pet_count_limit"] == 2
+        assert facts["combined_weight_limit"] == {
+            "value": 50, "unit": "lb", "operator": enums.OP_LTE
+        }
+        assert "pet_fee" not in facts
+        assert "cats" not in facts["species"]
+        withheld = approved["hotels"][0]["withheld_fields"]
+        assert "pet_fee" in withheld
+        assert approved["hotels"][0]["founder_decision_id"] == "D002"
+
+    def test_d003_binds_econo_exclusion_to_captured_artifact(self):
+        exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
+            encoding="utf-8-sig"))
+        econo = next(e for e in exclusions["exclusions"]
+                     if e["normalized_name"] == "econo lodge downtown")
+        assert econo["market_id"] == MARKET
+        assert econo["exclusion_state"] == enums.VERIFIED_NO_PETS
+        assert econo["evidence_quote"] == "No Pets Allowed"
+        assert econo["source_url"].endswith("louisville-ky-hotel-amenities.html")
+        assert econo["source_hash"] == (
+            "sha256:5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579"
+        )
+        assert "Service-animal access is not pet-friendly" in econo["notes"]
