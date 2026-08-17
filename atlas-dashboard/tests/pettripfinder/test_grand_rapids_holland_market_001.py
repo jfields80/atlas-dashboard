@@ -299,3 +299,21 @@ def test_grand_rapids_claude_capture_pass1_is_complete_and_capture_only():
         assert not validate_facts(facts)
     assert packet["approval_status"] == "NOT_REQUESTED"
     assert len(packet["decisions"]) == 24
+
+
+def test_grand_rapids_pass1_evidence_grade_reconciliation_is_narrow():
+    report = _load(PACKAGE / "grand_rapids_holland_capture_pass1_evidence_grade_reconciliation_001.json")
+    recapture = _load(PACKAGE / "grand_rapids_holland_capture_pass1_recapture_queue_001.json")
+
+    assert report["capture_total"] == 25
+    assert report["actionable_candidates"] == 24
+    assert report["publication_grade_before"] == report["publication_grade_after"] == 0
+    assert report["classification_counts"] == {
+        "ARTIFACT_INSUFFICIENT": 24,
+        "POLICY_NOT_FOUND": 1,
+    }
+    assert report["mechanical_defect_fixed"] is False
+    assert report["authority_changed"] is False
+    assert len(report["rows"]) == 25
+    assert recapture["count"] == len(recapture["items"]) == 24
+    assert all(item["review_status"] == "NOT_STARTED" for item in recapture["items"])
