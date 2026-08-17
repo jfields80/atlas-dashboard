@@ -122,7 +122,12 @@ def test_no_identity_shared_with_committed_markets():
             continue
         if "proposed" in path.name:
             continue
-        foreign = {r["identity_key"] for r in _json(path)["hotels"]
+        document = _json(path)
+        # Current main also carries review/quarantine sidecars in this
+        # directory; only a census document has hotel identities to compare.
+        if "hotels" not in document:
+            continue
+        foreign = {r["identity_key"] for r in document["hotels"]
                    if r.get("identity_key")}
         assert indy.isdisjoint(foreign), "%s: %s" % (
             path.name, sorted(indy & foreign)[:8])

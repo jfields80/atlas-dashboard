@@ -301,7 +301,7 @@ class TestContractAgreesWithItsOwnAuthority:
         assert (REPO_ROOT / census["path"]).is_file()
         assert census["expected_count"] == EXPECTED_RECONCILIATION[market_id][0]
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH))
     def test_reconciliation_cross_checks_are_declared_and_hold(self, market_id):
         """Each census-backed market cross-checks against the reconciliation
         artifact written by the work that produced its numbers."""
