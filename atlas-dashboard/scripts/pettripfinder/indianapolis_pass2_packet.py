@@ -507,6 +507,44 @@ def main() -> int:
                 if "refundable" in value and "refund" not in refund_hay:
                     raise SystemExit("refundability inferred without an explicit quote: %s"
                                      % row["identity_key"])
+            for fact in row["proposed_schema_1_2_facts"]:
+                field = fact.get("field")
+                quote = (fact.get("quote") or "").lower()
+                value = fact.get("value") or {}
+                if field == "weight_limit" and isinstance(value, dict):
+                    scope = value.get("scope")
+                    if scope == "per_pet" and "per pet" not in quote:
+                        raise SystemExit("combined weight inferred as per-pet: %s"
+                                         % row["identity_key"])
+                if field == "reservation_requirement" and any(
+                        token in quote for token in (
+                            "due at check-in", "due at checkout", "due upon arrival",
+                            "paid at check-in")):
+                    raise SystemExit("reservation requirement inferred from payment timing: %s"
+                                     % row["identity_key"])
+                if field in ("pet_fee", "other_charges") and (
+                        "up to" in quote or "not to exceed" in quote):
+                    raise SystemExit("exact price taken from up-to/not-to-exceed wording: %s"
+                                     % row["identity_key"])
+                if field == "general_restrictions" and "$" in (fact.get("quote") or ""):
+                    raise SystemExit("conditional money parked in general_restrictions: %s"
+                                     % row["identity_key"])
+            if row["outcome"] == "NEGATIVE":
+                refusal = next((f for f in row["proposed_schema_1_2_facts"]
+                                if f.get("field") == "pets_allowed" and f.get("value") is False),
+                               None)
+                if refusal is None:
+                    raise SystemExit("negative row missing pets_allowed false: %s"
+                                     % row["identity_key"])
+                q = (refusal.get("quote") or "").lower()
+                if "not allowed" not in q and "no, pets are not allowed" not in q:
+                    raise SystemExit("negative row lacks explicit refusal wording: %s"
+                                     % row["identity_key"])
+            for withheld in row.get("withheld_fields") or ():
+                if withheld.get("field") == "general_restrictions" and "$" in (
+                        withheld.get("quote") or ""):
+                    raise SystemExit("conditional money withheld as general_restrictions: %s"
+                                     % row["identity_key"])
         else:
             if row["proposed_schema_1_2_facts"] or row["exact_quotes"]:
                 raise SystemExit("policy used on an unbound row: %s" % row["identity_key"])
@@ -592,6 +630,25 @@ def main() -> int:
                 "fee basis",
                 "fee scope",
                 "refundability",
+                "combined weight as per-pet",
+                "reservation requirement from payment timing",
+                "exact price from up to or not to exceed",
+            ]),
+            ("conditional_money",
+             "Conditional monetary charges belong in other_charges or "
+             "withheld_fields, never general_restrictions."),
+        ))),
+        ("negative_standard", OrderedDict((
+            ("rule",
+             "A no-pets candidate requires explicit first-party refusal wording."),
+            ("accepted_examples", [
+                "Pets Not Allowed",
+                "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
+            ]),
+            ("not_sufficient", [
+                "service animals only",
+                "silence",
+                "sibling-property refusal",
             ]),
         ))),
         ("outcome_counts", counts),
@@ -630,6 +687,7 @@ def main() -> int:
         ("policy_authority", results["policy_authority"]),
         ("artifact_standard", results["artifact_standard"]),
         ("extraction_doctrine", results["extraction_doctrine"]),
+        ("negative_standard", results["negative_standard"]),
         ("rule",
          "Nothing here is published. Founder decisions are not applied in this "
          "packet. Approving a negative would write an exclusion later. Approving "

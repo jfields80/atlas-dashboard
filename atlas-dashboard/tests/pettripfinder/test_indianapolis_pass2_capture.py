@@ -215,3 +215,54 @@ def test_extraction_does_not_infer_species_or_fee_basis():
                 by["fairfield inn and suites indianapolis airport"]):
         fields = {f["field"] for f in row["proposed_schema_1_2_facts"]}
         assert fields == {"pets_allowed"}
+
+
+def test_weight_fee_and_reservation_are_not_inferred():
+    results = _json(RESULTS)
+    never = results["extraction_doctrine"]["never_infer"]
+    assert "combined weight as per-pet" in never
+    assert "reservation requirement from payment timing" in never
+    assert "exact price from up to or not to exceed" in never
+    assert "other_charges" in results["extraction_doctrine"]["conditional_money"]
+    assert "never general_restrictions" in results["extraction_doctrine"]["conditional_money"]
+    by = {r["identity_key"]: r for r in results["results"]}
+    mer_weight = next(f for f in by["le meridien indianapolis"]["proposed_schema_1_2_facts"]
+                      if f["field"] == "weight_limit")
+    assert "scope" not in mer_weight["value"]
+    hie = by["holiday inn express plainfield"]
+    assert not any(f["field"] == "reservation_requirement"
+                   for f in hie["proposed_schema_1_2_facts"])
+    fairfield = by["fairfield inn and suites indianapolis airport"]
+    assert not any(f["field"] == "reservation_requirement"
+                   for f in fairfield["proposed_schema_1_2_facts"])
+    assert not any(f["field"] == "general_restrictions"
+                   for f in fairfield["proposed_schema_1_2_facts"])
+    assert any(w["field"] == "other_charges.cleaning_fee"
+               and w["reason"] == "SOURCE_AMBIGUOUS"
+               for w in fairfield["withheld_fields"])
+    for row in results["results"]:
+        for fact in row["proposed_schema_1_2_facts"]:
+            quote = (fact.get("quote") or "").lower()
+            if fact["field"] in ("pet_fee", "other_charges"):
+                assert "up to" not in quote
+                assert "not to exceed" not in quote
+            assert fact["field"] != "general_restrictions"
+
+
+def test_negatives_require_explicit_first_party_refusal():
+    results = _json(RESULTS)
+    assert "explicit first-party refusal" in results["negative_standard"]["rule"]
+    negatives = [r for r in results["results"] if r["outcome"] == "NEGATIVE"]
+    assert len(negatives) == 3
+    for row in negatives:
+        refusal = next(f for f in row["proposed_schema_1_2_facts"]
+                       if f["field"] == "pets_allowed")
+        assert refusal["value"] is False
+        assert "not allowed" in refusal["quote"].lower()
+        assert row["policy_source"]["first_party"] is True
+        assert refusal["quote"] in row["exact_quotes"]
+    castleton = next(r for r in negatives
+                     if r["identity_key"] == "courtyard by marriott indianapolis castleton")
+    assert castleton["proposed_schema_1_2_facts"][0]["quote"] == "Pets Not Allowed"
+    assert "Service animals only" not in {
+        f["quote"] for f in castleton["proposed_schema_1_2_facts"]}
