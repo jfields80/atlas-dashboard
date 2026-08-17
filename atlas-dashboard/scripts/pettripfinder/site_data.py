@@ -222,6 +222,9 @@ def load_published_hotel_policy_facts(market_id: str = "") -> Dict[str, Dict]:
     if not facts_path.exists():
         return {}
     data = json.loads(facts_path.read_text(encoding="utf-8"))
+    # Unpublished market packages are recorded authority, not live inventory.
+    if data.get("published") is False:
+        return {}
 
     # PTF-BREWDOG-PROMOTION-001. A record may carry same_campus_resolution: the
     # id of the reviewed decision that lets it share a street address with a

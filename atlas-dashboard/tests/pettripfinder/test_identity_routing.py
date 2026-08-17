@@ -15,6 +15,7 @@ from pathlib import Path
 import pytest
 
 from scripts.pettripfinder import identity_routing as IR
+from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder.build_capture_queue import build_queue
 from scripts.pettripfinder.site_data import normalize_name
 
@@ -221,8 +222,24 @@ def test_committed_authority_validates(routes):
     # 90 -> 300: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened Cincinnati
     # routing for the first time, all 210 CONFIRMED (223 targets adjudicated,
     # 12 ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
-    # excluded). Columbus, Cleveland and Dayton are unchanged.
-    assert len(routes) == 300
+    # excluded). Columbus and Dayton are unchanged.
+    # 300 -> 277: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
+    # Cleveland routing placeholders as their identities each reached a
+    # final publication or exclusion disposition (18 publications, incl. two
+    # renames, and 5 verified-no-pets); a published or excluded identity no
+    # longer needs a routing-only record.
+    #
+    # PTF-MARKET-AUTHORITY-SHARDING-001 stopped pinning the number. The routing
+    # authority is now assembled from one shard per market, so the total is an
+    # arithmetic consequence of seven independent files -- and pinning a
+    # consequence meant every market's branch had to edit this line, which is
+    # the shared-file contention sharding exists to remove. What is actually
+    # under test is that the global authority is the union of the shards and
+    # nothing else: no record invented in assembly, none dropped. The per-market
+    # counts, which ARE exact truths owned by one market each, stay pinned in
+    # test_routing_carries_more_than_one_market below.
+    assert len(routes) == sum(len(MA.load_market_routes(m))
+                              for m in MA.sharded_market_ids())
 
 
 def test_committed_authority_split(routes):
@@ -256,9 +273,20 @@ def test_committed_authority_split(routes):
     # target that reached routing authority carried a verified URL with
     # street/ZIP/phone-where-available binding; nothing was written HELD).
     # held and retired are untouched by Cincinnati.
-    assert len(confirmed) == 288
-    assert len(held) == 10
-    assert len(retired) == 2
+    # 288 -> 265: all 23 of Cleveland Pass 4's retirements were themselves
+    # ROUTING_CONFIRMED routes (every disposed identity had a confirmed
+    # binding before it published or excluded); held and retired stay 10/2.
+    #
+    # PTF-MARKET-AUTHORITY-SHARDING-001: derived per status from the shards for
+    # the reason given on the total above. The identity assertions immediately
+    # below are what actually hold the line -- WHICH records are held and
+    # retired is the substance, and naming them survives a market being added.
+    for status, bucket in ((IR.ROUTING_CONFIRMED, confirmed),
+                           (IR.ROUTING_HELD, held),
+                           (IR.ROUTING_RETIRED, retired)):
+        expected = sum(1 for m in MA.sharded_market_ids()
+                       for r in MA.load_market_routes(m) if r["status"] == status)
+        assert len(bucket) == expected, status
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
         "eastland inn restaurant", "the welshfield inn"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
@@ -319,7 +347,16 @@ def test_every_committed_record_preserves_index_binding(routes):
     # identity (21c Museum, Golden Lamb, Great Wolf Lodge, Motel Beechmont,
     # REST, Symphony Hotel & Restaurant, The Elms, The Summit Hotel,
     # Wildwood Inn and others), none on a bot-walled brand domain.
-    assert len(rendered) == 36
+    # 36 -> 30: six of Cleveland Pass 4's 23 retired routes were themselves
+    # PAGE_RENDERED (their identities published or excluded, so the
+    # rendered-page routing placeholder that got them there is retired too).
+    # PTF-MARKET-AUTHORITY-SHARDING-001: derived from the shards, same reason as
+    # the totals above. The assertion that carries the weight is the next one --
+    # a bot-walled brand can never be the source of a rendered-page binding --
+    # and it is a property of every record, not of how many there are.
+    assert len(rendered) == sum(
+        1 for m in MA.sharded_market_ids() for r in MA.load_market_routes(m)
+        if r["binding_method"] == IR.BINDING_PAGE_RENDERED)
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -437,7 +474,35 @@ def queues():
     return base, routed
 
 
-def test_routing_adds_capture_ready_hotels(queues):
+@pytest.fixture(scope="module")
+def routing_delta_from_shards(tmp_path_factory):
+    """The capture-queue contribution routing SHOULD make, derived by asking
+    each market's shard alone and adding the answers up.
+
+    PTF-MARKET-AUTHORITY-SHARDING-001. This replaces a pinned global figure,
+    and it is a stronger claim than the number it replaces: if the whole
+    authority contributes exactly what the markets contribute separately, then
+    no market's routes suppressed or duplicated another market's queue rows.
+    A pinned total could not distinguish those cases; it could only be
+    re-derived after the fact and re-typed.
+    """
+    base = build_queue(batch_id="t-base-per-market",
+                       require_retrieval_artifact=False,
+                       use_identity_routing=False)
+    root = tmp_path_factory.mktemp("per-market-routing")
+    total = 0
+    for market_id in MA.sharded_market_ids():
+        document = MA.build_routing_shard(market_id, MA.load_market_routes(market_id))
+        path = root / ("%s.json" % market_id)
+        path.write_text(MA.render_json(document), encoding="utf-8")
+        alone = build_queue(batch_id="t-%s" % market_id,
+                            require_retrieval_artifact=False,
+                            routing_path=path)
+        total += len(alone.selected) - len(base.selected)
+    return total
+
+
+def test_routing_adds_capture_ready_hotels(queues, routing_delta_from_shards):
     base, routed = queues
     assert len(routed.selected) > len(base.selected)
     # Was 16, then 10, then 1. PTF-NEGATIVE-EVIDENCE-P0-001 applied five more
@@ -475,10 +540,17 @@ def test_routing_adds_capture_ready_hotels(queues):
     # diffing). The other 68 (the 40 independents plus lanes this registry
     # does not adapt) are retained in identity_routing.json as real routing
     # but are not yet capture-eligible.
-    assert len(routed.selected) - len(base.selected) == 168
+    # 168 -> 148: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
+    # Cleveland routing placeholders as their identities published or were
+    # excluded; a route that no longer exists cannot add a queue row, and
+    # this rerun of the queue against the merged routing authority is the
+    # derivation for the new delta.
+    # PTF-MARKET-AUTHORITY-SHARDING-001: derived from the per-market shards
+    # rather than pinned. See the routing_delta_from_shards fixture.
+    assert len(routed.selected) - len(base.selected) == routing_delta_from_shards
 
 
-def test_routing_carries_more_than_one_market(queues):
+def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards):
     """The guarantee that matters now routing is not Columbus-only: the second
     market's routes are real queue rows, and the first market's contribution is
     untouched by their arrival."""
@@ -492,7 +564,11 @@ def test_routing_carries_more_than_one_market(queues):
     # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
     # 147 -> 145, the same two retirements.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 61  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    # 38 after PTF-CLEVELAND-ROUTING-REPAIR-001; unchanged at 38 through
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001, whose 23 retirements
+    # came entirely from the pre-repair 61 placeholders those decisions
+    # settled -- the repair-created routes were not among them.
+    assert len(by_market["cleveland-akron-canton-oh"]) == 38
     assert len(by_market["dayton-oh"]) == 9
     # First-time Cincinnati routing: 223 targets adjudicated, 210 routed (12
     # ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
@@ -517,7 +593,12 @@ def test_routing_carries_more_than_one_market(queues):
     # 26 -> 168: Cincinnati's first routing pass contributes 142 capture-shaped
     # rows (see test_routing_adds_capture_ready_hotels for the per-brand
     # split); Cleveland and Columbus are unchanged.
-    assert len(added) == 168
+    # 168 -> 148: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001's 23 route
+    # retirements remove their contribution to the capture-ready set; the
+    # exact new figure is the rerun against the merged routing authority,
+    # same derivation as test_routing_adds_capture_ready_hotels above.
+    # PTF-MARKET-AUTHORITY-SHARDING-001: derived, same fixture, same reason.
+    assert len(added) == routing_delta_from_shards
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:

@@ -41,6 +41,7 @@ from scripts.generate_pettripfinder_pilot import (
     load_launch_package,
     read_seed_businesses_csv,
 )
+from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
 from scripts.pettripfinder.publication_guard import distinct_entity_groups
 
@@ -54,6 +55,35 @@ def _load(name: str):
         return json.load(f)
 
 
+# PTF-MARKET-AUTHORITY-SHARDING-001. The seed is assembled from one shard per
+# market, so its totals are an arithmetic consequence of N independent files.
+# Pinning a consequence meant every market's branch had to retype these numbers
+# in a file that has nothing to do with that market -- which is the shared-file
+# contention sharding removes. The numbers are therefore DERIVED from the
+# shards, and what remains under test is the property that actually matters
+# here: every seeded row in every market converts to a valid, unique,
+# non-default listing, and none is lost or invented on the way.
+#
+# Per-market exact truths stay pinned where they belong, in
+# tests/pettripfinder/test_market_ownership.py and the per-market authority
+# suites.
+
+def _seed_rows_from_shards():
+    return [row for market_id in MA.sharded_market_ids()
+            for row in MA.load_market_seed_rows(market_id)]
+
+
+def _expected_seed_total():
+    return len(_seed_rows_from_shards())
+
+
+def _expected_by_category():
+    counts = {}
+    for row in _seed_rows_from_shards():
+        counts[row["category"]] = counts.get(row["category"], 0) + 1
+    return counts
+
+
 class TestRealSeedFilesParse:
     def test_seed_businesses_csv_parses(self):
         seed = read_seed_businesses_csv(_LAUNCH_PACKAGE_DIR / "seed_businesses.csv")
@@ -64,11 +94,12 @@ class TestRealSeedFilesParse:
         # Westerns and a fourth Extended Stay America, each read from a
         # hash-verified capture). Cleveland grew 19 -> 21 in
         # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003, which published the
-        # two Drury properties worker 003 established; 21 -> 41 -> 81 in the
-        # Pass-2/Pass-3 founder decisions; Pittsburgh's first 17 landed in
-        # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001, then 17 -> 26 in
-        # PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001.
-        assert len(seed) == 270
+        # two Drury properties worker 003 established; 21 -> 41 -> 81 -> 99 in
+        # the Pass-2/Pass-3/Pass-4 founder decisions; Pittsburgh's first 17
+        # landed in PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001, then 17 ->
+        # 26 in PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001, plus eight
+        # founder-approved Indianapolis records.
+        assert len(seed) == _expected_seed_total()
         for row in seed:
             # Identity columns are required of every row, pending or not.
             for field in ("name", "category", "city", "state", "address",
@@ -83,7 +114,7 @@ class TestRealSeedFilesParse:
         pending = [r for r in seed if not str(r.get("pet_policy", "")).strip()]
         assert len(pending) == 0
         assert all(r["category"] == "pet-friendly-hotels" for r in pending)
-        assert len(seed) - len(pending) == 270
+        assert len(seed) - len(pending) == _expected_seed_total()
 
     def test_stale_seed_json_removed(self):
         # The JSON seed was removed with the CSV promotion -- one authority.
@@ -137,7 +168,7 @@ class TestRealPackageConversion:
     def test_every_seed_row_becomes_a_unique_valid_listing(self):
         result = self._build()
         assert result.ok
-        assert len(result.dataset.listings) == 270
+        assert len(result.dataset.listings) == _expected_seed_total()
 
     def test_no_duplicated_locality_in_street_address(self):
         # AES-WEB-002K.2 address-duplication fix: no seed row's street
@@ -181,10 +212,13 @@ class TestRealPackageConversion:
         for listing in result.dataset.listings:
             assert "example.com" not in listing.provenance.source_url, listing.business_name
             counts[listing.category_id] = counts.get(listing.category_id, 0) + 1
-        # 89 columbus + 81 cleveland + 47 dayton + 26 pittsburgh
-        assert counts[ids_by_slug["pet-friendly-hotels"]] == 243
-        assert counts[ids_by_slug["pet-friendly-parks"]] == 14
-        assert counts[ids_by_slug["pet-friendly-restaurants"]] == 13
+        # Per-category totals, summed from the market shards. The historical
+        # breakdown (89 columbus + 99 cleveland + 47 dayton + 26 pittsburgh +
+        # 8 indianapolis hotels) is now read off the shards instead of retyped.
+        expected = _expected_by_category()
+        assert counts[ids_by_slug["pet-friendly-hotels"]] == expected["pet-friendly-hotels"]
+        assert counts[ids_by_slug["pet-friendly-parks"]] == expected["pet-friendly-parks"]
+        assert counts[ids_by_slug["pet-friendly-restaurants"]] == expected["pet-friendly-restaurants"]
         assert "Drury Inn & Suites Columbus Polaris" in by_name
         assert "Scioto Audubon Metro Park" in by_name
         assert "Land-Grant Brewing Company" in by_name
@@ -218,14 +252,16 @@ class TestRealPackageReadiness:
         readiness = self._readiness()
         # Pending-evidence rows are excluded at the boundary, so everything that
         # reaches readiness is still READY -- NOT_READY must stay 0.
-        assert readiness["total_unique_listings"] == 270
-        assert readiness["counts_by_state"]["READY"] == 270
+        expected = _expected_by_category()
+        total = _expected_seed_total()
+        assert readiness["total_unique_listings"] == total
+        assert readiness["counts_by_state"]["READY"] == total
         assert readiness["counts_by_state"]["READY_WITH_WARNINGS"] == 0
         assert readiness["counts_by_state"]["NOT_READY"] == 0
-        assert readiness["ready_total"] == 270
-        assert readiness["ready_by_category"]["pet-friendly-hotels"] == 243
-        assert readiness["ready_by_category"]["pet-friendly-parks"] == 14
-        assert readiness["ready_by_category"]["pet-friendly-restaurants"] == 13
+        assert readiness["ready_total"] == total
+        assert readiness["ready_by_category"]["pet-friendly-hotels"] == expected["pet-friendly-hotels"]
+        assert readiness["ready_by_category"]["pet-friendly-parks"] == expected["pet-friendly-parks"]
+        assert readiness["ready_by_category"]["pet-friendly-restaurants"] == expected["pet-friendly-restaurants"]
         assert readiness["categories_below_target"] == []
         for assessment in readiness["assessments"]:
             if assessment.category_slug == "pet-friendly-hotels":
@@ -237,4 +273,4 @@ class TestRealPackageReadiness:
     def test_load_launch_package_helper_matches_direct_reads(self):
         package = load_launch_package()
         assert package["blueprint"]["project_profile"]["project_name"] == "PetTripFinder"
-        assert len(package["seed_businesses"]) == 270
+        assert len(package["seed_businesses"]) == _expected_seed_total()

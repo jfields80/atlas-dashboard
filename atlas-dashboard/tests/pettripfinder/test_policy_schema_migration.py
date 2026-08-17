@@ -37,7 +37,7 @@ from scripts.pettripfinder.policy_migration import (
 MARKETS = tuple(POLICY_PACKAGES)
 # Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
 # published the founder-approved attended-capture candidates.
-EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 81,
+EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 99,
                       "dayton-oh": 47}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
@@ -86,7 +86,7 @@ def test_every_record_declares_schema_1_2(records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 216
+    assert sum(counts.values()) == 234
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -231,8 +231,14 @@ def test_silence_restatements_were_dropped_not_recoded():
     # the charge a cleaning fee and give only ceilings for it, so a reader
     # looking for a cleaning fee is now answered instead of told nothing --
     # the same SCHEMA_CANNOT_REPRESENT treatment Cleveland's ESA records got
-    # under founder decision D09.
-    assert total == 60
+    # under founder decision D09; 67 since PTF-CLEVELAND-PASS4-DECISION-
+    # APPLICATION-001 added 7 more withholdings across the 18 newly
+    # published Cleveland records: Crowne Plaza's unitless weight and
+    # ambiguous deposit (2 fields), Embassy Suites' malformed fee tier, ESA
+    # Premier Suites' cleaning-fee ceilings, Red Roof Westlake's non-pet
+    # deposit, Wyndham Garden Westlake's discretionary sanitation charge,
+    # and Sonesta Westlake's unstated-refundability deposit.
+    assert total == 67
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -541,12 +547,16 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A;
     # seven more arrived with the Pass-2 founder-approved publications and
     # three more with the Pass-3 publications (La Quinta Independence and
-    # the two Super 8s); five more when PTF-DAYTON-RECERTIFICATION-001 Pass B
-    # recorded statements their pages made and their records did not -- Days
-    # Inn Sidney's "ADA-defined service animals are welcome free of charge" and
-    # the four Extended Stay America records' "Service animals will be exempt
-    # from this charge."
-    assert len(statements) == 36
+    # the two Super 8s); PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then
+    # published eighteen more Cleveland records, several of which carry
+    # their own service-animal statement (by market: Columbus 11, Dayton 4,
+    # Cleveland through Pass 4 25 -- 40 total before Dayton Pass B). Five
+    # more when PTF-DAYTON-RECERTIFICATION-001 Pass B recorded statements
+    # their pages made and their records did not -- Days Inn Sidney's
+    # "ADA-defined service animals are welcome free of charge" and the four
+    # Extended Stay America records' "Service animals will be exempt from
+    # this charge" (Dayton 4 -> 9).
+    assert len(statements) == 45
     # A legal access category never shares a namespace with commercial terms.
     for _market, record in statements:
         assert "service_animal_statement" not in record["facts"]
