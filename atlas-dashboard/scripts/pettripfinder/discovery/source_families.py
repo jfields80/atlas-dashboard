@@ -107,6 +107,21 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "visit_muskegon": FAMILY_CVB,
     "saugatuck_douglas_cvb": FAMILY_CVB,
     "visit_south_haven": FAMILY_CVB,
+    # PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-001: first-party brand
+    # inventories and the official airport shuttle roster used only for
+    # identity discovery/reconciliation, never policy authority.
+    "hilton_locator": FAMILY_CHAIN,
+    "marriott_locator": FAMILY_CHAIN,
+    "ihg_locator": FAMILY_CHAIN,
+    "choice_locator": FAMILY_CHAIN,
+    "hyatt_locator": FAMILY_CHAIN,
+    "wyndham_locator": FAMILY_CHAIN,
+    "sonesta_locator": FAMILY_CHAIN,
+    "best_western_locator": FAMILY_CHAIN,
+    "red_roof_locator": FAMILY_CHAIN,
+    "extended_stay_america_locator": FAMILY_CHAIN,
+    "motel6_studio6_locator": FAMILY_CHAIN,
+    "grr_airport": FAMILY_DIRECTORY,
 }
 
 

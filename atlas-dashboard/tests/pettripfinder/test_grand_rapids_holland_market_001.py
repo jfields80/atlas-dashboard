@@ -30,11 +30,13 @@ def partition_doc():
 def test_candidate_reconciliation_has_no_unexplained_disappearance():
     ledger = _load(PACKAGE / "grand_rapids_holland_candidate_ledger_001.json")
     counts = ledger["counts"]
-    assert ledger["raw_listings"] == len(ledger["items"]) == 37
+    assert ledger["raw_listings"] == len(ledger["items"]) == 82
     assert counts == {
-        "BOUNDARY_EXCLUDED": 4,
+        "ADD_TO_CENSUS": 24,
+        "BOUNDARY_EXCLUDED": 6,
         "CANONICAL_CENSUS": 31,
         "CATEGORY_EXCLUDED": 1,
+        "IDENTITY_UNRESOLVED": 19,
         "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR": 1,
     }
     assert sum(counts.values()) == ledger["raw_listings"]
@@ -45,7 +47,7 @@ def test_census_is_independent_and_contract_valid():
     doc = census_doc()
     assert doc["schema"] == "ptf-market-identity-census/1.1"
     assert doc["market_id"] == MARKET
-    assert doc["count"] == len(doc["hotels"]) == 32
+    assert doc["count"] == len(doc["hotels"]) == 56
     assert census.validate(doc, market_states=["MI"]) == ()
     for row in doc["hotels"]:
         assert row["market_id"] == MARKET
@@ -60,7 +62,7 @@ def test_partition_is_honest_zero_policy_authority():
     assert reconciliation.published == 0
     assert reconciliation.verified_no_pets == 0
     assert reconciliation.out_of_category == 1
-    assert reconciliation.unresolved == 31
+    assert reconciliation.unresolved == 55
     assert partition.validate(doc) == ()
 
 
@@ -70,22 +72,23 @@ def test_corridors_classify_the_existing_census_not_the_reverse():
              "state": row["state"], "postal_code": row["postal_code"]}
             for row in census_doc()["hotels"] if row["lodging_state"] == "LODGING_CONFIRMED"]
     assignment = assign_hotels(market, rows, fail_closed=True)
-    assert len(assignment.corridor_of) == 31
+    assert len(assignment.corridor_of) == 55
     assert assignment.unassigned == ()
     assert set(assignment.published) == {
         MARKET + "__downtown-grand-rapids",
         MARKET + "__grr-airport-kentwood",
         MARKET + "__holland-zeeland",
-    }
-    assert {item["corridor_id"] for item in assignment.suppressed} == {
         MARKET + "__walker-northwest-grand-rapids",
         MARKET + "__wyoming-grandville",
+    }
+    assert {item["corridor_id"] for item in assignment.suppressed} == {
+        MARKET + "__east-grand-rapids-ada",
     }
 
 
 def test_sources_and_discovery_cells_are_registered():
     registry = _load(PACKAGE / "markets" / "reports" / (MARKET + "_source_registry.json"))
-    assert len(registry["sources"]) == 7
+    assert len(registry["sources"]) == 19
     assert all(source["completeness"] == "PARTIAL" for source in registry["sources"])
     assert all(family_of(source["source_id"]) == source["family"] for source in registry["sources"])
     market = market_by_id(load_markets(), MARKET)
@@ -96,14 +99,26 @@ def test_sources_and_discovery_cells_are_registered():
 
 def test_boundary_and_routing_reports_are_conservative():
     boundary = _load(PACKAGE / "grand_rapids_holland_boundary_review_001.json")
-    assert len(boundary["items"]) == 4
+    assert len(boundary["items"]) == 6
     assert set(boundary["area_findings"]) == {"Grand Haven", "Muskegon", "Saugatuck / Douglas", "South Haven"}
     assert boundary["explicitly_excluded_areas"] == ["Lansing / East Lansing", "Traverse City / Northwest Michigan", "Kalamazoo / Battle Creek"]
     routing = _load(PACKAGE / "markets" / "reports" / (MARKET + "_routing_readiness.json"))
-    assert routing["summary"] == {"property_level_urls": 0, "missing_urls": 31, "routing_ready": 0, "evidence_ready_estimate": 0, "manual_or_bot_wall": 0}
+    assert routing["summary"] == {"property_level_urls": 12, "missing_urls": 43, "routing_ready": 12, "evidence_ready_estimate": 0, "manual_or_bot_wall": 0}
     assert all(item["assessment_status"] == "ASSESSMENT_ONLY" for item in routing["items"])
     capture = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_001.json")
-    assert capture["count"] == 0 and capture["items"] == []
+    assert capture["count"] == 12
+    assert all(item["routing_ready"] for item in capture["items"])
+
+
+def test_completeness_pass_is_additive_and_retains_every_new_lead():
+    ledger = _load(PACKAGE / "grand_rapids_holland_completeness_candidate_ledger_001.json")
+    assert ledger["raw_listings"] == len(ledger["items"]) == 45
+    assert ledger["counts"] == {
+        "ADD_TO_CENSUS": 24,
+        "BOUNDARY_EXCLUDED": 2,
+        "IDENTITY_UNRESOLVED": 19,
+    }
+    assert sum(ledger["counts"].values()) == ledger["raw_listings"]
 
 
 def test_market_has_no_collision_or_policy_authority():
