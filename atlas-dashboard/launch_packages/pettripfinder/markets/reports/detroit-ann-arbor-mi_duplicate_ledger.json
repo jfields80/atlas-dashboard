@@ -1,13 +1,13 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
   "counts": {
-    "canonical": 142,
+    "canonical": 161,
     "duplicate": 0,
-    "boundary_excluded": 9,
-    "closed": 1,
+    "boundary_excluded": 11,
+    "closed": 2,
     "category_excluded_in_census": 1
   },
   "items": [
@@ -90,6 +90,30 @@
       "duplicate_of": "",
       "notes": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001: founder-approved APPROVE_CLOSED_OR_CONVERTED_OUT_OF_ACTIVE_CENSUS. Wyndham's own live inventory search near the committed address (26700 Central Park Blvd, Southfield, MI) returns zero Wyndham-branded properties within 7+ miles. Convergent OTA evidence shows a post-Wyndham independent rebrand ('Springwood Suites') at the same address that is itself marked closed, with no independent first-party website ever found for it. Revalidated a second time immediately before this mutation; no newer active hotel identity was found at the address. Not a pet-policy decision -- no exclusion was created.",
       "source": "chain_aggregate"
+    },
+    {
+      "identity_key": "towneplace suites by marriott detroit commerce",
+      "canonical_name": "TownePlace Suites by Marriott Detroit Commerce",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Marriott property, ~4.4 mi from Farmington Hills. 'Commerce Township' is not in farmington-hills' included_cities (['Farmington Hills', 'West Bloomfield']). Adding it would silently widen the corridor's geographic definition -- a founder decision, not this script's to make.",
+      "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "baymont by wyndham ferndale royal oak",
+      "canonical_name": "Baymont by Wyndham Ferndale/Royal Oak",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Wyndham property, adjacent to Royal Oak. 'Ferndale' is not in birmingham-royal-oak-rochester's included_cities. Same treatment as Commerce Township -- flagged, not silently added or silently dropped.",
+      "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham troy",
+      "canonical_name": "Hawthorn Suites by Wyndham Troy",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Yelp-confirmed CLOSED (updated December 2025). A different property from the already-retired Hawthorn Suites by Wyndham Southfield Detroit -- distinct address, distinct city. Never canonical in this census; retired straight to the 'closed' disposition rather than added and then immediately closed.",
+      "source": "chain_locator_002"
     }
   ]
 }

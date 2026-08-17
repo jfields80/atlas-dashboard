@@ -16,7 +16,15 @@ As of PTF-DETROIT-ANN-ARBOR-PASS2-DECISION-APPLICATION-001, the 3
 routing-repaired DTW-area properties captured in Pass 2 were founder-decided:
 Hotel Indigo Detroit Downtown published (pet_fee and weight_limit withheld),
 Courtyard Detroit Pontiac Bloomfield and DoubleTree by Hilton Detroit Novi
-both VERIFIED_NO_PETS. 127 identities remain unresolved.
+both VERIFIED_NO_PETS. As of
+PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002, an additive completeness
+audit found 19 real, distinct hotels materially missing from the census
+(Dearborn +6, Livonia +4, Ann Arbor +3, Royal Oak +2, Southfield +2,
+DTW/Romulus +1, Troy +1), raising the census from 142 to 161; 2 more
+(Commerce Township, Ferndale) are flagged boundary-review rather than
+silently added (their cities aren't in any corridor's included_cities);
+1 more (Hawthorn Suites by Wyndham Troy) was found already closed and
+retired straight to the ledger. 146 identities remain unresolved.
 """
 
 from __future__ import annotations
@@ -39,13 +47,13 @@ MARKET = "detroit-ann-arbor-mi"
 
 EXPECTED = {
     "candidates": 152,
-    "census": 142,
+    "census": 161,
     "published": 7,
     "no_pets": 7,
     "out_of_category": 1,
-    "unresolved": 127,
-    "queue": 127,
-    "boundary_excluded": 9,
+    "unresolved": 146,
+    "queue": 146,
+    "boundary_excluded": 11,
     "duplicates": 0,
 }
 

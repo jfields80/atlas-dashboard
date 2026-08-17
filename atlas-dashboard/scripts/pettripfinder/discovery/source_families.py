@@ -98,6 +98,9 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "vibe_showplace": FAMILY_DIRECTORY,
     "chain_locator": FAMILY_CHAIN,
     "chain_aggregate": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: brand-locator discovery
+    # sweep confirming real property-level pages before adding a candidate.
+    "chain_locator_002": FAMILY_CHAIN,
 }
 
 

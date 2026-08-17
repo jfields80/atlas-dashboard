@@ -204,8 +204,14 @@ class TestAuthorityApplied:
                 assert e["reviewer_id"] == "jfields80"
 
     def test_census_count_unchanged_partition_terminal_counts_updated(self):
+        # The absolute census count is NOT this test's invariant -- a later
+        # additive pass (e.g. PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002)
+        # can legitimately grow it; test_detroit_ann_arbor_market_001.py
+        # owns that number. What THIS pass must not have done is drop any
+        # of the 3 identities it decided.
         census = _load(CENSUS_PATH)
-        assert census["count"] == 142
+        census_keys = {r["identity_key"] for r in census["hotels"]}
+        assert set(EXPECTED_KEYS.values()) <= census_keys
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
         assert counts["PUBLISHED_PET_FRIENDLY"] == 7
