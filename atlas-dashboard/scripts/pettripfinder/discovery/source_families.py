@@ -119,6 +119,10 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: brand-locator discovery
     # sweep confirming real property-level pages before adding a candidate.
     "chain_locator_002": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: attended-browser sweep
+    # of each brand's own location-search page (Hilton/IHG/Choice/Wyndham)
+    # for the 5 remaining Pass 002 blockers.
+    "chain_locator_003": FAMILY_CHAIN,
 }
 
 

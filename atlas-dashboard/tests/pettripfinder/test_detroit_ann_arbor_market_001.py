@@ -24,7 +24,17 @@ DTW/Romulus +1, Troy +1), raising the census from 142 to 161; 2 more
 (Commerce Township, Ferndale) are flagged boundary-review rather than
 silently added (their cities aren't in any corridor's included_cities);
 1 more (Hawthorn Suites by Wyndham Troy) was found already closed and
-retired straight to the ledger. 146 identities remain unresolved.
+retired straight to the ledger. As of
+PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003, a brand-by-brand sweep
+(Hilton/IHG/Choice/Wyndham own location pages, WebSearch exhausted) closed
+all 5 remaining blockers: 22 more real hotels added (161 -> 183), 6 more
+boundary-review flags (Commerce Township, Clawson, Canton, Madison
+Heights, Allen Park, Rochester Hills), and 2 existing rows corrected on
+convergent first-party re-verification -- "Best Western Premier Detroit
+Southfield Hotel" renamed in place to "Radisson Hotel Southfield-Detroit"
+(same address/phone, converted brand, former_name preserved) and
+"Staybridge Suites Detroit North - Royal Oak"'s address fixed to match
+its own IHG property page. 168 identities remain unresolved.
 """
 
 from __future__ import annotations
@@ -47,13 +57,13 @@ MARKET = "detroit-ann-arbor-mi"
 
 EXPECTED = {
     "candidates": 152,
-    "census": 161,
+    "census": 183,
     "published": 7,
     "no_pets": 7,
     "out_of_category": 1,
-    "unresolved": 146,
-    "queue": 146,
-    "boundary_excluded": 11,
+    "unresolved": 168,
+    "queue": 168,
+    "boundary_excluded": 17,
     "duplicates": 0,
 }
 

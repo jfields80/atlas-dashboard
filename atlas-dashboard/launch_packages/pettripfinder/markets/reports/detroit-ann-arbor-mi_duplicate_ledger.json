@@ -1,14 +1,15 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
   "counts": {
-    "canonical": 161,
+    "canonical": 183,
     "duplicate": 0,
-    "boundary_excluded": 11,
+    "boundary_excluded": 17,
     "closed": 2,
-    "category_excluded_in_census": 1
+    "category_excluded_in_census": 1,
+    "corrected": 2
   },
   "items": [
     {
@@ -114,6 +115,70 @@
       "duplicate_of": "",
       "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Yelp-confirmed CLOSED (updated December 2025). A different property from the already-retired Hawthorn Suites by Wyndham Southfield Detroit -- distinct address, distinct city. Never canonical in this census; retired straight to the 'closed' disposition rather than added and then immediately closed.",
       "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "hampton inn commerce novi",
+      "canonical_name": "Hampton Inn Commerce Novi",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Real Hilton property, 5.23 mi from Farmington Hills. 'Commerce Township' is not registered on any corridor (same issue as TownePlace Suites Detroit Commerce, flagged in Pass 002).",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort inn detroit troy",
+      "canonical_name": "Comfort Inn Detroit - Troy",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Choice-brand hotel named for Troy but physically in Clawson, MI, which is not in troy-auburn-hills' included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort suites canton detroit",
+      "canonical_name": "Comfort Suites Canton - Detroit",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Canton, MI is adjacent to Plymouth/Livonia but is not itself in livonia-plymouth-northville's included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "rodeway inn madison heights detroit",
+      "canonical_name": "Rodeway Inn Madison Heights - Detroit",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Madison Heights is not in any corridor's included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort inn and suites allen park dearborn",
+      "canonical_name": "Comfort Inn & Suites Allen Park - Dearborn",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Same city as the already-known Best Western Greenfield Inn boundary flag from Phase 1 (Allen Park, not Dearborn).",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "days inn and suites by wyndham rochester hills mi",
+      "canonical_name": "Days Inn & Suites by Wyndham Rochester Hills MI",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: 'Rochester Hills' is a distinct municipality from 'Rochester', which IS registered on birmingham-royal-oak-rochester. Not assumed to be the same string.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "radisson hotel southfield detroit",
+      "canonical_name": "Radisson Hotel Southfield-Detroit",
+      "disposition": "corrected",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: bestwestern.com's own property code (23171) now returns 'The hotel you searched for is no longer available'; choicehotels.com's own live property page for 'Radisson Hotel Southfield-Detroit' shows the IDENTICAL street address as the Best Western Premier record this market committed in Pass 002, with a real, distinct phone number. Same building, converted brand -- renamed in place, former_name preserved, same mechanism as Delta Hotels -> Skyline Hotel in Pass 2.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "staybridge suites detroit north royal oak",
+      "canonical_name": "Staybridge Suites Detroit North - Royal Oak",
+      "disposition": "corrected",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: The address recorded in Pass 002 (5150 Coolidge Hwy) does not match this property's own live IHG page (property code dtwro, unchanged) -- the real address is 5125 Meijer Drive. Not a rename: same identity_key, same canonical_name, address/phone corrected to match the property's own page.",
+      "source": "chain_locator_003"
     }
   ]
 }
