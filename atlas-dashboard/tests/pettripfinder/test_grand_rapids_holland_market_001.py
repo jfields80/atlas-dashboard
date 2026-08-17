@@ -317,3 +317,19 @@ def test_grand_rapids_pass1_evidence_grade_reconciliation_is_narrow():
     assert len(report["rows"]) == 25
     assert recapture["count"] == len(recapture["items"]) == 24
     assert all(item["review_status"] == "NOT_STARTED" for item in recapture["items"])
+
+
+def test_grand_rapids_publication_evidence_recapture_preserves_the_bar():
+    report = _load(PACKAGE / "grand_rapids_holland_pass1_publication_evidence_recapture_001.json")
+    progress = _load(PACKAGE / "grand_rapids_holland_pass1_publication_evidence_recapture_001_progress.json")
+
+    assert report["recapture_total"] == report["recaptured"] == len(report["rows"]) == 24
+    assert report["publication_grade"] == 0
+    assert report["capture_failed"] == report["artifact_insufficient_remaining"] == 24
+    assert report["screenshot_artifacts"] == report["other_accepted_rendered_artifacts"] == 0
+    assert report["authority_changed"] is False
+    assert report["founder_review_ready"] is False
+    assert all(row["terminal_outcome"] == "CAPTURE_FAILED" and
+               not row["quote_contiguous_in_attempted_html"]
+               for row in report["rows"])
+    assert progress["processed"] == 24 and progress["remaining"] == 0
