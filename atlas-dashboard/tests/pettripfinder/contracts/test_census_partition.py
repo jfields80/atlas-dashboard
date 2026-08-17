@@ -326,7 +326,31 @@ class TestCommittedAuthority:
 
         retired = {r["hotel_ref"]["canonical_name"] for r in self._routes()
                    if r["status"] == enums.ROUTING_RETIRED}
-        assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn"}
+        # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired 26 more --
+        # Cincinnati's own founder-decided identities, now seed inventory or
+        # a verified-no-pets exclusion instead of a live route.
+        assert retired == {
+            "Eastland Inn Restaurant", "The Welshfield Inn",
+            "BEST WESTERN PLUS Hannaford Inn & Suites",
+            "Baymont by Wyndham Lawrenceburg", "Baymont by Wyndham Monroe",
+            "Best Western Clermont", "Best Western Inn Florence",
+            "Best Western Plus Whitewater Inn",
+            "Best Western Premier Mariemont Inn", "Butler Inn",
+            "Days Inn & Suites by Wyndham Cincinnati North",
+            "Days Inn Batavia", "Days Inn Cincinnati East",
+            "DoubleTree by Hilton Lawrenceburg",
+            "Doubletree by Hilton Cincinnati Airport",
+            "Extended Stay America Florence Meijer Drive",
+            "Extended Stay America Florence Turfway Road",
+            "Extended Stay America Suites - Cincinnati - Covington",
+            "HomeTowne Studios Florence Cincinnati Airport",
+            "Motel 6 Florence - Commerce Dr.", "Motel 6 Sharonville",
+            "Motel 6 Walton/Richwood",
+            "Red Roof Inn Cincinnati East - Eastgate",
+            "Red Roof Inn Cincinnati North - Mason", "Red Roof Inn Greendale",
+            "Red Roof Inn Richwood",
+            "Sonesta ES Suites Cincinnati-Sharonville East",
+            "Sonesta ES Suites Cincinnati-Sharonville West"}
         # The census was NOT expanded to 190 to house them.
         assert len(self._census_keys("cleveland-akron-canton-oh")) == 188
 

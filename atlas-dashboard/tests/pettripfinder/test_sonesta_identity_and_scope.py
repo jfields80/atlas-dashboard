@@ -76,12 +76,20 @@ class TestSourceIdentity:
         assert r["source_type"] == "OFFICIAL_PROPERTY"
 
     def test_no_legacy_es_suites_url_remains_in_any_tracked_artifact(self):
-        """The alias must not survive anywhere a citation could be read from."""
+        """THIS property's alias must not survive anywhere a citation could be
+        read from. Scoped to the Dublin property's own legacy URL, not the
+        bare 'sonesta-es-suites' substring: that substring is also the
+        correct, current URL family for Sonesta ES Suites properties that
+        never rebranded, e.g. Cincinnati's two Sharonville locations
+        (PTF-CINCINNATI-CAPTURE-PASS1-001 captured them live, still under
+        that path, with matching address/phone/policy content). A bare
+        substring ban would misfire on every property that legitimately
+        still uses the brand name it was never asked to leave."""
         for rel in ("launch_packages/pettripfinder/seed_businesses.csv",
                     "launch_packages/pettripfinder/hotel_policy_facts.json",
                     "launch_packages/pettripfinder/hotel_worker_approvals.json"):
             text = (_REPO / rel).read_text(encoding="utf-8-sig")
-            assert "sonesta-es-suites" not in text, rel
+            assert LEGACY_ES_URL not in text, rel
 
     def test_the_separate_sonesta_property_is_untouched(self):
         """Sonesta Columbus Downtown is a different hotel on a different URL

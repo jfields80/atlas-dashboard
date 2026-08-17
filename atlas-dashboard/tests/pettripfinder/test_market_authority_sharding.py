@@ -161,18 +161,31 @@ class TestNothingMovedBetweenMarkets:
     it must still hold, market by market. This is what makes "no per-market
     authority movement" a checked fact rather than a claim."""
 
+    # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 legitimately grew
+    # Cincinnati's shard after the sharding baseline was captured: 20 seed
+    # rows and 6 exclusions, from the founder's Pass 1 decisions. Routing is
+    # unchanged (210) -- retiring a route is a status flip, not a count
+    # change. That is same-market growth, not cross-market movement, so it
+    # is named here explicitly rather than silently baked into the frozen
+    # baseline file, which stays a true historical snapshot of the sharding
+    # moment itself.
+    _CINCINNATI_POST_BASELINE_DELTA = {"routing": 0, "exclusions": 6, "seed": 20}
+
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:
-            expected = baseline["per_market_totals"][market_id]
+            expected = dict(baseline["per_market_totals"][market_id])
+            if market_id == "cincinnati-oh":
+                for key, delta in self._CINCINNATI_POST_BASELINE_DELTA.items():
+                    expected[key] += delta
             assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
 
     def test_global_totals_match_the_pre_split_baseline(self, baseline):
         totals = baseline["global_totals"]
-        assert len(IR.load_routes()) == totals["routing"]
-        assert len(HE.load_exclusions()) == totals["exclusions"]
-        assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
+        assert len(IR.load_routes()) == totals["routing"] + self._CINCINNATI_POST_BASELINE_DELTA["routing"]
+        assert len(HE.load_exclusions()) == totals["exclusions"] + self._CINCINNATI_POST_BASELINE_DELTA["exclusions"]
+        assert len(MA.assemble_seed_rows()) == totals["seed_rows"] + self._CINCINNATI_POST_BASELINE_DELTA["seed"]
 
     def test_the_registered_market_set_is_unchanged(self, baseline):
         assert list(MA.registered_market_ids()) == baseline["registered_market_ids"]

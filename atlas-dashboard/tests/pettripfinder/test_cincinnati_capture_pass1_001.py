@@ -169,24 +169,42 @@ class TestFounderPacket:
 
 
 class TestAuthorityFreeze:
+    """This CAPTURE pass (PTF-CINCINNATI-CAPTURE-PASS1-001) itself changed no
+    authority -- that stayed true the whole time this pass ran. A LATER,
+    separate work order, PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001,
+    applied the founder's 26 ready decisions afterward; these tests now
+    describe that later, current state rather than the capture pass's own
+    narrower moment, the same distinction test_cincinnati_url_routing_
+    progress_001.py draws between a checkpoint and its later finalization."""
 
-    def test_partition_has_no_published_or_no_pets_state(self):
+    def test_partition_totals_256_with_26_resolved(self):
         partition = _load(PARTITION_PATH)
-        states = set(partition["final_state_counts"])
-        assert not any("PUBLISHED" in s or "NO_PETS" in s for s in states)
+        counts = partition["final_state_counts"]
+        assert sum(counts.values()) == 256
+        assert counts.get("PUBLISHED_PET_FRIENDLY") == 20
+        assert counts.get("VERIFIED_NO_PETS") == 6
 
-    def test_partition_still_totals_256(self):
-        partition = _load(PARTITION_PATH)
-        assert sum(partition["final_state_counts"].values()) == 256
-
-    def test_routing_authority_untouched_by_this_pass(self):
-        # Same total as PTF-CINCINNATI-ROUTING-INTEGRATION-001 left it --
-        # capture is research, not a routing action.
+    def test_routing_authority_reflects_the_26_retirements(self):
+        # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired the 26
+        # decided identities' routes (they are now seed inventory or a
+        # founder-approved exclusion, so a live route would coexist with
+        # either). Cincinnati's own 210-route count is unchanged -- retirement
+        # is a status flip, not a deletion. The global total is derived from
+        # every market's shard (PTF-MARKET-AUTHORITY-SHARDING-001) rather than
+        # pinned here, since it moves for reasons that have nothing to do
+        # with Cincinnati.
         routing = _load(ROUTING_PATH)
-        assert routing["count"] == len(routing["routes"]) == 300
+        assert routing["count"] == len(routing["routes"])
+        cincinnati = [r for r in routing["routes"] if r["market_id"] == "cincinnati-oh"]
+        assert len(cincinnati) == 210
+        retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
+        assert len(retired) == 26
 
-    def test_no_hotel_policy_facts_file_exists_for_cincinnati(self):
+    def test_hotel_policy_facts_file_exists_with_twenty_records(self):
         facts_path = LP / "hotel_policy_facts_cincinnati-oh.json"
-        assert not facts_path.exists(), (
-            "a policy-facts file for Cincinnati exists -- this capture pass must never "
-            "write publication authority")
+        assert facts_path.exists()
+        facts = _load(facts_path)
+        assert len(facts["hotels"]) == 20
+        for hotel in facts["hotels"]:
+            assert hotel["approval"]["operator"] == "jfields80"
+            assert hotel["approval"]["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"

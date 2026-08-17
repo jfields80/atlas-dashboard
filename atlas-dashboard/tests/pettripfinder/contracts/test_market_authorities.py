@@ -66,8 +66,10 @@ EXPECTED = {
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
     # census from independent discovery. The six out-of-category rows are the
     # short-term rentals and guesthouses the directories list beside hotels.
-    CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
-                 "out_of_category": 6, "unresolved": 250},
+    # 0/0/250 until PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 applied the
+    # founder's 26 ready Capture Pass 1 decisions (20 published, 6 no-pets).
+    CINCINNATI: {"census": 256, "published": 20, "no_pets": 6,
+                 "out_of_category": 6, "unresolved": 224},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -105,6 +107,7 @@ POLICY_FILES = {
     COLUMBUS: "hotel_policy_facts.json",
     CLEVELAND: "hotel_policy_facts_cleveland-akron-canton-oh.json",
     DAYTON: "hotel_policy_facts_dayton-oh.json",
+    CINCINNATI: "hotel_policy_facts_cincinnati-oh.json",
     PITTSBURGH: "hotel_policy_facts_pittsburgh-pa.json",
     INDIANAPOLIS: "hotel_policy_facts_indianapolis-in.json",
 }
@@ -307,18 +310,16 @@ class TestTerminalDispositionsMatchAuthority:
         assert rec.out_of_category == 2
         assert rec.verified_no_pets + rec.out_of_category == 16
 
-    def test_cincinnati_publishes_nothing_and_refuses_nothing(self):
-        """Silence is not a refusal, and no evidence is not a publication.
-
-        Out-of-category IS a terminal state and Cincinnati now carries six of
-        them -- guesthouses and short-term rentals its directories list beside
-        hotels. That is a category ruling, not a pet-policy finding, so the two
-        states this test actually guards are the other two.
+    def test_cincinnati_publishes_twenty_and_has_six_verified_refusals(self):
+        """PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 applied the founder's
+        26 ready Capture Pass 1 decisions. Out-of-category stays 6 -- the
+        guesthouses and short-term rentals its directories list beside
+        hotels, a category ruling untouched by this application.
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 0
-        assert states[enums.VERIFIED_NO_PETS] == 0
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 20
+        assert states[enums.VERIFIED_NO_PETS] == 6
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
 
@@ -433,10 +434,34 @@ class TestRoutingSubsetOfCensus:
             assert route["category"] in enums.ROUTING_CATEGORIES
 
     def test_the_two_cleveland_orphans_are_retired_not_deleted(self):
-        """History survives: the URL and its binding evidence stay on record."""
+        """History survives: the URL and its binding evidence stay on record.
+
+        PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired 26 more --
+        Cincinnati's own founder-decided identities, now seed inventory or a
+        verified-no-pets exclusion instead of a live route."""
         retired = {r["hotel_ref"]["identity_key"]: r for r in routes()
                    if r["status"] == enums.ROUTING_RETIRED}
-        assert set(retired) == {"eastland inn restaurant", "the welshfield inn"}
+        assert set(retired) == {
+            "eastland inn restaurant", "the welshfield inn",
+            "baymont by wyndham lawrenceburg", "baymont by wyndham monroe",
+            "best western clermont", "best western inn florence",
+            "best western plus hannaford inn and suites",
+            "best western plus whitewater inn",
+            "best western premier mariemont inn", "butler inn",
+            "days inn and suites by wyndham cincinnati north",
+            "days inn batavia", "days inn cincinnati east",
+            "doubletree by hilton cincinnati airport",
+            "doubletree by hilton lawrenceburg",
+            "extended stay america florence meijer drive",
+            "extended stay america florence turfway road",
+            "extended stay america suites cincinnati covington",
+            "hometowne studios florence cincinnati airport",
+            "motel 6 florence commerce dr", "motel 6 sharonville",
+            "motel 6 walton richwood", "red roof inn cincinnati east eastgate",
+            "red roof inn cincinnati north mason", "red roof inn greendale",
+            "red roof inn richwood",
+            "sonesta es suites cincinnati sharonville east",
+            "sonesta es suites cincinnati sharonville west"}
         for route in retired.values():
             assert route["retired_at"] and route["retired_reason"]
             assert route["official_property_url"]

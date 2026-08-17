@@ -287,8 +287,37 @@ def test_committed_authority_split(routes):
         expected = sum(1 for m in MA.sharded_market_ids()
                        for r in MA.load_market_routes(m) if r["status"] == status)
         assert len(bucket) == expected, status
+    # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retires 26: the 20
+    # published + 6 VERIFIED_NO_PETS identities from the founder's Pass 1
+    # decisions, so routing no longer coexists with either.
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
-        "eastland inn restaurant", "the welshfield inn"}
+        "eastland inn restaurant", "the welshfield inn",
+        "baymont by wyndham lawrenceburg",
+        "baymont by wyndham monroe",
+        "best western clermont",
+        "best western inn florence",
+        "best western plus hannaford inn and suites",
+        "best western plus whitewater inn",
+        "best western premier mariemont inn",
+        "butler inn",
+        "days inn and suites by wyndham cincinnati north",
+        "days inn batavia",
+        "days inn cincinnati east",
+        "doubletree by hilton cincinnati airport",
+        "doubletree by hilton lawrenceburg",
+        "extended stay america florence meijer drive",
+        "extended stay america florence turfway road",
+        "extended stay america suites cincinnati covington",
+        "hometowne studios florence cincinnati airport",
+        "motel 6 florence commerce dr",
+        "motel 6 sharonville",
+        "motel 6 walton richwood",
+        "red roof inn cincinnati east eastgate",
+        "red roof inn cincinnati north mason",
+        "red roof inn greendale",
+        "red roof inn richwood",
+        "sonesta es suites cincinnati sharonville east",
+        "sonesta es suites cincinnati sharonville west"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "best western plus north canton inn and suites",
         "staybridge suites columbus worthington",
@@ -388,10 +417,19 @@ def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
 
 
 def test_no_committed_route_is_already_seed_inventory(routes):
+    """An ACTIVE route never overlaps seed inventory -- routing is only for a
+    hotel that is NOT YET inventory. A RETIRED route is the opposite case:
+    retiring it is exactly what happens when an identity becomes seed
+    inventory (published) or a founder-approved exclusion, so retired routes
+    are expected to overlap seed and are excluded from this check (see
+    PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001, which retires 26 routes
+    in the same pass that adds their identities to seed)."""
     seed = {normalize_name(r["name"]) for r in
             csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8"))
             if r["category"] == "pet-friendly-hotels"}
     for r in routes:
+        if r["status"] == IR.ROUTING_RETIRED:
+            continue
         assert r["hotel_ref"]["normalized_name"] not in seed, (
             "%s is seed inventory; the seed remains the source of truth for it"
             % r["hotel_ref"]["normalized_name"])
@@ -661,11 +699,21 @@ def test_routing_fills_in_when_the_seed_url_is_absent(tmp_path):
 
 
 def test_a_held_route_is_never_used(routes, queues):
-    _, routed = queues
+    """A held/retired route contributes nothing to the queue THROUGH ROUTING.
+
+    That is a narrower claim than "never appears in the queue at all": once
+    an identity is published, it is genuinely selected via seed inventory
+    (a wholly separate, legitimate path), and its now-retired route
+    legitimately coexists with that -- retiring the route is what stops it
+    from being a SECOND, competing path to the same queue row, not a claim
+    that the identity vanishes from the queue altogether.
+    """
+    base, routed = queues
     held = [r for r in routes if r["status"] != IR.ROUTING_CONFIRMED]
-    queued = {h["listing_key"] for h in routed.selected}
+    base_keys = {h["listing_key"] for h in base.selected}
+    routing_only = {h["listing_key"] for h in routed.selected} - base_keys
     for r in held:
-        assert r["hotel_ref"]["normalized_name"] not in queued
+        assert r["hotel_ref"]["normalized_name"] not in routing_only
 
 
 def test_a_weak_binding_is_not_confirmed(routes):

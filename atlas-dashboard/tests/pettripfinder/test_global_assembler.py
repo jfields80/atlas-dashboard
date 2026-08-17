@@ -300,22 +300,29 @@ def test_related_hotel_cards_use_the_market_route(markets):
 # Market selection and honest zero (sections 25, 27).
 # --------------------------------------------------------------------------- #
 
-def test_cincinnati_is_registered_below_threshold_and_not_assembled(markets):
+def test_cincinnati_is_registered_above_threshold_and_assembled(markets):
+    """PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 published 20 hotels,
+    crossing the market's own minimum_published_hotels (5) -- Cincinnati is
+    now mechanically assemblable by this eligibility logic, the same way
+    Indianapolis became eligible after its own founder-approved release.
+    This is a data-truth fact this test asserts; it is not a deploy trigger
+    and no deploy step ran here or anywhere in this application."""
     row = market_eligibility(market_by_id(markets, CINCINNATI))
-    assert row["published_count"] == 0
+    assert row["published_count"] == 20
     assert row["conditions"]["census_present"] is True
-    assert row["conditions"]["meets_minimum_published"] is False
-    assert row["assemblable"] is False
+    assert row["conditions"]["meets_minimum_published"] is True
+    assert row["assemblable"] is True
 
 
-def test_cincinnati_does_not_fail_the_global_selection(markets):
+def test_cincinnati_is_in_the_global_selection(markets):
     chosen, rows = select_markets(markets)
-    assert CINCINNATI not in [m.market_id for m in chosen]
+    assert CINCINNATI in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
     # Pittsburgh is currently assemblable but remains hidden from navigation;
-    # Indianapolis is independently eligible after its founder-approved release.
+    # Indianapolis and Cincinnati are independently eligible after their own
+    # founder-approved releases.
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS, CINCINNATI])
 
 
 def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
@@ -331,7 +338,7 @@ def test_indianapolis_is_in_the_global_selection(markets):
     assert INDIANAPOLIS in [m.market_id for m in chosen]
     assert INDIANAPOLIS in [r["market_id"] for r in rows]
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS, CINCINNATI])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -350,12 +357,14 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
     after Indianapolis published its eight founder-approved records; 268 since
     PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
-    Cleveland hotels (81 -> 99)."""
+    Cleveland hotels (81 -> 99); 288 since
+    PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 published Cincinnati's
+    first twenty."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26, INDIANAPOLIS: 8}
-    assert sum(counts.values()) == 268
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8, CINCINNATI: 20}
+    assert sum(counts.values()) == 288
 
 
 # --------------------------------------------------------------------------- #
