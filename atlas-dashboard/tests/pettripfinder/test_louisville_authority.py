@@ -862,3 +862,34 @@ class TestBrandSurfaceRepair001:
         assert rec.published == 0
         assert rec.verified_no_pets == 0
         assert rec.unresolved == 129
+
+
+class TestRoutingVsEvidenceReady:
+    def test_remaining_queue_is_routing_ready_not_evidence_ready(self):
+        doc = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_routing_vs_evidence_ready_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert doc["global_contract_changed"] is False
+        assert doc["manual_queue_executed"] is False
+        assert doc["remaining_legacy_ready"] == 67
+        assert doc["evidence_ready_remaining"] == 0
+        assert doc["routing_ready_remaining"] == 59
+        assert doc["routing_ready_identity_hold"] == 8
+        assert (doc["routing_ready_remaining"]
+                + doc["routing_ready_identity_hold"]
+                == doc["remaining_legacy_ready"])
+        keys = [r["identity_key"] for r in doc["items"]]
+        assert len(keys) == len(set(keys)) == 67
+        assert all(r["legacy_capture_ready"] is True for r in doc["items"])
+        assert all(r["readiness"] != "EVIDENCE_READY" for r in doc["items"])
+        queue = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_manual_capture_queue_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert queue["executed"] is False
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
