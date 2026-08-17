@@ -23,6 +23,7 @@ REPORTS = PACKAGE / "markets" / "reports"
 CENSUS_PATH = PACKAGE / "identity_census" / (MARKET + ".json")
 PARTITION_PATH = PACKAGE / "grand_rapids_holland_final_partition_001.json"
 POSTCLOSURE_REVIEW_PATH = PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json"
+INDEPENDENT_FINAL_PATH = PACKAGE / "grand_rapids_holland_independent_routing_final_001.json"
 
 # PTF-GRAND-RAPIDS-HOLLAND-ROUTING-REPAIR-CONTINUATION-001.  Current official
 # locator/property-page results.  Each URL was accepted only where the exact
@@ -187,45 +188,58 @@ def main() -> None:
     }
     if len(clean_structured_keys) != 35 or len(independent_final_keys) != 17:
         raise SystemExit("post-closure routing review no longer supplies the fixed 35/17 split")
+    independent_final = _load(INDEPENDENT_FINAL_PATH)
+    independent_decisions = {item["identity_key"]: item for item in independent_final["items"]}
+    if set(independent_decisions) != independent_final_keys:
+        raise SystemExit("independent final decisions do not cover exactly the fixed 17 rows")
 
     rows = []
     for row in active:
         name = row["canonical_name"]
-        url = RECOVERED_URLS.get(name, PROPERTY_URLS.get(name, ""))
+        independent_decision = independent_decisions.get(row["identity_key"])
+        url = (independent_decision["official_url"] if independent_decision and
+               independent_decision["outcome"] == "PROPERTY_LEVEL_ROUTE_CONFIRMED" else
+               RECOVERED_URLS.get(name, PROPERTY_URLS.get(name, "")))
         brand_lane = lane(name)
         needs_census_review = name in CENSUS_REVIEW
         confirmed = bool(url) and not needs_census_review
+        routing_unresolved = bool(independent_decision and
+                                  independent_decision["outcome"] == "ROUTING_UNRESOLVED")
         code = property_code(url, brand_lane) if url else ""
         rows.append({
             "identity_key": row["identity_key"], "canonical_name": name,
             "corridor": row["corridor"], "brand_lane": brand_lane,
             "verdict": ("CENSUS_REVIEW" if needs_census_review else
+                        "ROUTING_UNRESOLVED" if routing_unresolved else
                         "PROPERTY_LEVEL_ROUTE_CONFIRMED" if confirmed else "PROPERTY_LEVEL_URL_RECOVERY"),
             "official_url": url if confirmed else "", "property_code": code if confirmed else "",
             "binding_signals": (["canonical_name", "street_address", "postal_code"] if confirmed else []),
             "source_relationship": "EXACT_PROPERTY_FIRST_PARTY" if confirmed else "",
             "reason": (CENSUS_REVIEW[name] if needs_census_review else
+                       independent_decision["reason"] if independent_decision else
                        "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
                        if confirmed else "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."),
         })
     rows.sort(key=lambda item: item["identity_key"])
     confirmed = [row for row in rows if row["official_url"]]
-    recovery = [row for row in rows if not row["official_url"]]
+    recovery = [row for row in rows if row["verdict"] == "PROPERTY_LEVEL_URL_RECOVERY"]
     census_review = [row for row in rows if row["verdict"] == "CENSUS_REVIEW"]
-    recovery = [row for row in recovery if row["verdict"] == "PROPERTY_LEVEL_URL_RECOVERY"]
-    assert len(rows) == len(active) == len(confirmed) + len(recovery) + len(census_review)
+    routing_unresolved_rows = [row for row in rows if row["verdict"] == "ROUTING_UNRESOLVED"]
+    assert len(rows) == len(active) == (len(confirmed) + len(recovery) +
+                                        len(census_review) + len(routing_unresolved_rows))
     confirmed_keys = {row["identity_key"] for row in confirmed}
     census_review_keys = {row["identity_key"] for row in census_review}
     clean_remaining_keys = clean_structured_keys - confirmed_keys - census_review_keys
-    if clean_remaining_keys or (confirmed_keys | census_review_keys) & independent_final_keys:
-        raise SystemExit("continuation-003 touched the independent lane or left a clean structured row unadjudicated")
+    if clean_remaining_keys:
+        raise SystemExit("continuation-003 left a clean structured row unadjudicated")
 
     progress = {
         "schema": "ptf-market-identity-routing-progress/1.0", "market_id": MARKET,
         "work_order": "PTF-GRAND-RAPIDS-HOLLAND-IDENTITY-ROUTING-REPAIR-001", "as_of": AS_OF,
         "total_universe": 119, "processed": 119,
         "route_confirmed": len(confirmed), "url_recovery": len(recovery),
-        "identity_review": 0, "census_review": len(census_review), "routing_unresolved": 0,
+        "identity_review": 0, "census_review": len(census_review),
+        "routing_unresolved": len(routing_unresolved_rows),
         "remaining": 0,
         "checkpoints": [
             {"lane": label, "processed": count, "route_confirmed": sum(1 for row in confirmed if row["brand_lane"] == label),
@@ -233,7 +247,7 @@ def main() -> None:
              "census_review": sum(1 for row in census_review if row["brand_lane"] == label)}
             for label, count in sorted(collections.Counter(row["brand_lane"] for row in rows).items())
         ],
-        "note": "This durable first routing checkpoint adjudicates every fixed-census row. URL-recovery rows remain un-routed; no URL was inferred from a generic brand page or a search snippet.",
+        "note": "This durable routing checkpoint adjudicates every fixed-census row. No URL was inferred from a generic brand page or a search snippet.",
     }
     continuation_rows = [row for row in rows if row["identity_key"] in clean_structured_keys]
     progress["continuation_003"] = {
@@ -243,13 +257,16 @@ def main() -> None:
         "structured_census_review": len(census_review_keys & clean_structured_keys),
         "structured_routing_unresolved": 0,
         "structured_remaining": len(clean_remaining_keys),
-        "independent_final_recovery_deferred": len(independent_final_keys),
+        "independent_final_recovery_deferred": 0,
+        "independent_final_routed": len(confirmed_keys & independent_final_keys),
+        "independent_final_unresolved": len({row["identity_key"] for row in routing_unresolved_rows} & independent_final_keys),
         "reconciliation": {
             "active_lodging": 119,
-            "route_confirmed": len(confirmed),
-            "clean_structured_remaining": len(clean_remaining_keys),
-            "census_review": len(census_review),
-            "independent_final_recovery": len(independent_final_keys),
+            "structured_route_confirmed": len(confirmed_keys & clean_structured_keys),
+            "structured_remaining": len(clean_remaining_keys),
+            "structured_census_review": len(census_review_keys & clean_structured_keys),
+            "independent_final_routed": len(confirmed_keys & independent_final_keys),
+            "independent_final_unresolved": len({row["identity_key"] for row in routing_unresolved_rows} & independent_final_keys),
         },
         "per_brand": {
             label: {
@@ -261,15 +278,16 @@ def main() -> None:
         },
     }
     reconciliation = progress["continuation_003"]["reconciliation"]
-    if (reconciliation["route_confirmed"] + reconciliation["clean_structured_remaining"] +
-            reconciliation["census_review"] + reconciliation["independent_final_recovery"] !=
-            reconciliation["active_lodging"]):
-        raise SystemExit("continuation-003 reconciliation failed")
+    if (reconciliation["structured_route_confirmed"] + reconciliation["structured_remaining"] +
+            reconciliation["structured_census_review"] != 35 or
+            reconciliation["independent_final_routed"] + reconciliation["independent_final_unresolved"] != 17):
+        raise SystemExit("routing continuation reconciliation failed")
     _dump(PACKAGE / "grand_rapids_holland_identity_routing_repair_001_progress.json", progress)
     results = {"schema": "ptf-market-routing-results/1.0", "market_id": MARKET,
                "work_order": progress["work_order"], "as_of": AS_OF, "total": 119,
                "routing_confirmed": len(confirmed), "url_recovery": len(recovery),
-               "identity_review": 0, "census_review": len(census_review), "routing_unresolved": 0, "rows": rows}
+               "identity_review": 0, "census_review": len(census_review),
+               "routing_unresolved": len(routing_unresolved_rows), "rows": rows}
     _dump(REPORTS / (MARKET + "_routing_results_001.json"), results)
 
     existing = MA.load_market_routing_document(MARKET)

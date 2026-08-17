@@ -188,16 +188,17 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert (progress["route_confirmed"] + progress["url_recovery"] +
             progress["identity_review"] + progress["census_review"] +
             progress["routing_unresolved"]) == 119
-    assert progress["route_confirmed"] == 102
-    assert progress["url_recovery"] == 17
+    assert progress["route_confirmed"] == 110
+    assert progress["url_recovery"] == 0
     assert progress["census_review"] == 0
+    assert progress["routing_unresolved"] == 9
     routing = _load(PACKAGE / "markets" / "authority" / MARKET / "identity_routing.json")
     routes = routing["routes"]
-    assert len(routes) == 102
+    assert len(routes) == 110
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)
     queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
-    assert queue["count"] == len(queue["items"]) == 102
+    assert queue["count"] == len(queue["items"]) == 110
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
     review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
     assert review["census_count"] == 120
@@ -222,27 +223,32 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
         "INDEPENDENT_FINAL_RECOVERY": 17,
     }
     assert review["routing_continuation_plan"]["next_batch_count"] == 35
-    recovery_keys = {
+    unresolved_keys = {
         row["identity_key"] for row in _load(
             PACKAGE / "markets" / "reports" / (MARKET + "_routing_results_001.json")
-        )["rows"] if row["verdict"] == "PROPERTY_LEVEL_URL_RECOVERY"
+        )["rows"] if row["verdict"] == "ROUTING_UNRESOLVED"
     }
-    assert recovery_keys == {
-        row["identity_key"] for row in review["items"]
-        if row["proposed_disposition"] == "INDEPENDENT_FINAL_RECOVERY"
-    }
+    independent_final = _load(PACKAGE / "grand_rapids_holland_independent_routing_final_001.json")
+    assert len(independent_final["items"]) == 17
+    assert unresolved_keys == {row["identity_key"] for row in independent_final["items"]
+                              if row["outcome"] == "ROUTING_UNRESOLVED"}
+    assert sum(row["outcome"] == "PROPERTY_LEVEL_ROUTE_CONFIRMED"
+               for row in independent_final["items"]) == 8
     continuation = progress["continuation_003"]
     assert continuation["structured_recovery_batch"] == 35
     assert continuation["structured_routes_added"] == 35
     assert continuation["structured_census_review"] == 0
     assert continuation["structured_remaining"] == 0
-    assert continuation["independent_final_recovery_deferred"] == 17
+    assert continuation["independent_final_recovery_deferred"] == 0
+    assert continuation["independent_final_routed"] == 8
+    assert continuation["independent_final_unresolved"] == 9
     assert continuation["reconciliation"] == {
         "active_lodging": 119,
-        "route_confirmed": 102,
-        "clean_structured_remaining": 0,
-        "census_review": 0,
-        "independent_final_recovery": 17,
+        "structured_route_confirmed": 35,
+        "structured_remaining": 0,
+        "structured_census_review": 0,
+        "independent_final_routed": 8,
+        "independent_final_unresolved": 9,
     }
     assert all(row["census_action"] == "NO_CHANGE" for row in review["items"])
 
@@ -259,3 +265,8 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
         "FOUNDER_IDENTITY_REVIEW": 0,
     }
     assert all(not row["policy_observed"] for row in census_review["items"])
+
+    capture_batch = _load(PACKAGE / "grand_rapids_holland_claude_capture_batch_001.json")
+    assert capture_batch["count"] == len(capture_batch["items"]) == 25
+    assert all(row["capture_mode"] == "FRESH_SESSION_REQUIRED" and
+               row["review_status"] == "NOT_STARTED" for row in capture_batch["items"])
