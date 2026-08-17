@@ -270,3 +270,32 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert capture_batch["count"] == len(capture_batch["items"]) == 25
     assert all(row["capture_mode"] == "FRESH_SESSION_REQUIRED" and
                row["review_status"] == "NOT_STARTED" for row in capture_batch["items"])
+
+
+def test_grand_rapids_claude_capture_pass1_is_complete_and_capture_only():
+    from scripts.pettripfinder.contracts.policy_schema import validate_facts
+    capture = _load(PACKAGE / "grand_rapids_holland_capture_pass1_001.json")
+    packet = _load(PACKAGE / "grand_rapids_holland_capture_pass1_founder_review_packet.json")
+    index = _load(PACKAGE / "grand_rapids_holland_capture_pass1_artifact_index.json")
+
+    rows = capture["terminal_rows"]
+    assert capture["queue_total"] == capture["processed"] == len(rows) == 25
+    assert capture["remaining"] == 0
+    assert {row["terminal_outcome"] for row in rows} <= {
+        "PUBLICATION_CANDIDATE", "VERIFIED_NO_PETS_CANDIDATE",
+        "POLICY_NOT_FOUND", "ACCESS_BLOCKED", "IDENTITY_UNCERTAIN",
+        "CAPTURE_FAILED", "SOURCE_AMBIGUOUS",
+    }
+    assert [row["queue_position"] for row in rows] == list(range(1, 26))
+    assert all(row["artifact_sha256"].startswith("sha256:") and
+               row["exact_contiguous_quote"] and
+               row["artifact_class"] == "TRANSCRIPTION_ONLY"
+               for row in rows)
+    assert len(index["artifacts"]) == 25
+    assert all(item["quote_contiguous"] for item in index["artifacts"])
+    for row in rows:
+        facts = {entry["field"]: entry["value"]
+                 for entry in row["proposed_schema_1_2_facts"]}
+        assert not validate_facts(facts)
+    assert packet["approval_status"] == "NOT_REQUESTED"
+    assert len(packet["decisions"]) == 24
