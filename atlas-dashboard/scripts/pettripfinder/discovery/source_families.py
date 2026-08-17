@@ -67,6 +67,17 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # PTF-DAYTON-MARKET-FACTORY-001: VisitDayton.com CVB source family.
     # Reserved for Dayton Convention & Visitors Bureau identity data.
     "visit_dayton": FAMILY_CVB,
+    # PTF-CINCINNATI-CENSUS-RECONCILIATION-001: the six destination-marketing
+    # directories that produced the Cincinnati tri-state census. All six are
+    # CVB, so none of them independently confirms another -- which is exactly
+    # why meet_nky corroborating visit_cincy is recorded as corroboration and
+    # never counted as a second voice.
+    "visit_cincy": FAMILY_CVB,
+    "meet_nky": FAMILY_CVB,
+    "travel_butler_county": FAMILY_CVB,
+    "warren_county_cvb": FAMILY_CVB,
+    "discover_clermont": FAMILY_CVB,
+    "visit_southeast_indiana": FAMILY_CVB,
     # PTF-PITTSBURGH-MARKET-REVALIDATION-001: official tourism, destination
     # partners, and already-registered utility sources.
     "visit_pittsburgh": FAMILY_CVB,
