@@ -1,10 +1,12 @@
 """PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001 -- Phase 1 factory gates.
 
 Pinned to the measured independent-discovery universe: 152 candidates, 143
-canonical identities, 9 boundary exclusions, 0 duplicates. No policy
-authority exists for this market yet, so published=0 and verified_no_pets=0
-by construction; every canonical identity is either OUT_OF_CURRENT_CATEGORY
-(1 row) or an unresolved blocker (142 rows).
+canonical identities, 9 boundary exclusions, 0 duplicates. As of
+PTF-DETROIT-ANN-ARBOR-PASS1-DECISION-APPLICATION-001, the DTW/Romulus pilot
+capture pass has recorded real founder decisions: 6 PUBLISHED_PET_FRIENDLY,
+5 VERIFIED_NO_PETS, 1 OUT_OF_CURRENT_CATEGORY, and 131 still unresolved
+(including Delta Hotels by Marriott Detroit Metro Airport, held at
+AWAITING_ROUTING_REPLACEMENT pending PASS2 routing repair).
 """
 
 from __future__ import annotations
@@ -28,11 +30,11 @@ MARKET = "detroit-ann-arbor-mi"
 EXPECTED = {
     "candidates": 152,
     "census": 143,
-    "published": 0,
-    "no_pets": 0,
+    "published": 6,
+    "no_pets": 5,
     "out_of_category": 1,
-    "unresolved": 142,
-    "queue": 142,
+    "unresolved": 131,
+    "queue": 131,
     "boundary_excluded": 9,
     "duplicates": 0,
 }
@@ -98,8 +100,8 @@ class TestPartition:
         rec = partition.reconcile(
             census.identity_keys(census_doc()), partition_doc(), market_id=MARKET)
         assert rec.agrees
-        assert rec.published == EXPECTED["published"] == 0
-        assert rec.verified_no_pets == EXPECTED["no_pets"] == 0
+        assert rec.published == EXPECTED["published"]
+        assert rec.verified_no_pets == EXPECTED["no_pets"]
         assert rec.out_of_category == EXPECTED["out_of_category"]
         assert rec.unresolved == EXPECTED["unresolved"]
         assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved == rec.census_count
@@ -190,12 +192,23 @@ class TestRoutingAndDuplicateLedger:
         routing = _load(PACKAGE / "identity_routing.json")
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes") or [])
 
-    def test_no_policy_authority_or_release_contract_exists_yet(self):
+    def test_pass1_policy_authority_exists_and_no_release_contract_yet(self):
+        # PASS1-DECISION-APPLICATION-001 created real Schema 1.2 authority
+        # for the DTW/Romulus pilot (6 published + 5 excluded), but the
+        # market has not been assembled/deployed, so no release contract
+        # exists for it yet.
         facts_path = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
-        assert not facts_path.is_file()
+        assert facts_path.is_file()
+        facts = _load(facts_path)
+        assert len(facts["hotels"]) == EXPECTED["published"]
+        for hotel in facts["hotels"]:
+            assert hotel["market_id"] == MARKET
+            assert hotel["approval"]["operator"] == "jfields80"
         exclusions = _load(PACKAGE / "hotel_exclusions.json")
         rows = [e for e in exclusions["exclusions"] if e.get("market_id") == MARKET]
-        assert rows == []
+        assert len(rows) == EXPECTED["no_pets"]
+        for row in rows:
+            assert row["reviewer_id"] == "jfields80"
         from scripts.pettripfinder.release_contracts import available_market_ids
         assert MARKET not in set(available_market_ids())
 

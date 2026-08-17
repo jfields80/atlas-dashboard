@@ -152,6 +152,18 @@ class TestContractRegistry:
         ``derive_authority`` refuses outright rather than inventing an empty
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
+        PTF-DETROIT-ANN-ARBOR-PASS1-DECISION-APPLICATION-001 committed a real
+        6-hotel ``hotel_policy_facts_detroit-ann-arbor-mi.json`` -- a genuine
+        policy package -- but the market has never been through an inventory/
+        seeding pass, so none of its hotels exist as rows in the shared
+        production seed CSV that ``derive_authority`` joins against.
+        ``derive_authority("detroit-ann-arbor-mi")`` therefore fails closed
+        with a ValueError (verified-only hotel join failed) rather than
+        silently deriving a contract from zero seed rows. Authoring a contract
+        by hand here -- rather than deriving it -- is exactly the drift this
+        module exists to prevent, so the market stays honestly contractless
+        until its own inventory-seeding work order runs.
+
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
         configured.
@@ -161,6 +173,7 @@ class TestContractRegistry:
                       if (REPO_ROOT / "launch_packages" / "pettripfinder"
                           / ("hotel_policy_facts_%s.json" % m)).exists()
                       or m == COLUMBUS}
+        releasable -= {"detroit-ann-arbor-mi"}
         assert releasable == set(MARKETS)
         assert set(available_market_ids()) == releasable
         assert set(available_market_ids()) <= configured
@@ -169,6 +182,19 @@ class TestContractRegistry:
         configured = {m.market_id for m in load_markets()}
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" not in set(available_market_ids())
+
+    def test_a_market_with_policy_authority_but_no_seed_rows_is_honestly_contractless(self):
+        """Detroit-Ann Arbor has real policy facts (6 published hotels) but has
+        never been seeded into the shared production CSV, so it fails closed
+        rather than deriving a contract from a join against zero rows."""
+        configured = {m.market_id for m in load_markets()}
+        assert "detroit-ann-arbor-mi" in configured
+        facts_path = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                      / "hotel_policy_facts_detroit-ann-arbor-mi.json")
+        assert facts_path.exists()
+        assert "detroit-ann-arbor-mi" not in set(available_market_ids())
+        with pytest.raises(ValueError):
+            derive_authority("detroit-ann-arbor-mi")
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
