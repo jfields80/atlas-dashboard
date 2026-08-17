@@ -340,10 +340,17 @@ def _check_other_charges(node: Any, out: List[Issue]) -> None:
         _check_enum(charge, "kind", enums.OTHER_CHARGE_KINDS, charge_path, out,
                     required=True)
         _check_enum(charge, "basis", enums.FEE_BASES, charge_path, out)
-        # Mandatory and never inferred from `kind`. Hilton renders "Deposit
-        # Yes. $75 Non-refundable Fee" -- a heading that says deposit over a
-        # body that says the opposite, and only the body is true.
-        _check_bool(charge, "refundable", charge_path, out, required=True)
+        # Refundability is never inferred from `kind`. It is optional because
+        # a contingent charge can be explicitly stated while the source says
+        # nothing about whether it is refundable. Absence means unknown; a
+        # present value still has to be a boolean.
+        _check_bool(charge, "refundable", charge_path, out, required=False)
+        _check_bool(charge, "conditional", charge_path, out, required=False)
+        if charge.get("conditional") is True:
+            trigger = charge.get("trigger")
+            if not isinstance(trigger, str) or not trigger.strip():
+                out.append(Issue(charge_path + ".trigger", "MISSING_REQUIRED",
+                                 "a conditional charge needs its source-stated trigger"))
 
 
 # --------------------------------------------------------------------------

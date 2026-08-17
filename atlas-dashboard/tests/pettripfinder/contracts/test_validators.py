@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import pytest
 
+from scripts.pettripfinder import canonical_view
 from scripts.pettripfinder.contracts import enums, evidence, withholding
 from scripts.pettripfinder.contracts import policy_schema as ps
 from scripts.pettripfinder.contracts.policy_schema import money, quantity
+from scripts.pettripfinder.hotel_profile import _verified_details
 
 
 def codes(issues):
@@ -184,11 +186,27 @@ class TestTiers:
 
 class TestOtherCharges:
 
-    def test_refundable_is_mandatory_and_never_inferred(self):
-        """"Deposit Yes. $75 Non-refundable Fee" -- the heading lies."""
+    def test_absent_refundability_is_unknown_not_inferred(self):
+        """A stated contingent charge may be silent on refundability."""
+        assert ps.validate_facts({"other_charges": [dict(
+            money(7500), kind="cleaning_fee", conditional=True,
+            trigger="A $75 cleaning fee may apply if the room needs extra cleaning.")]}) == ()
+
+    def test_conditional_charge_requires_its_stated_trigger(self):
         issues = ps.validate_facts({"other_charges": [dict(
-            money(7500), kind="refundable_deposit")]})
+            money(7500), kind="cleaning_fee", conditional=True)]})
         assert "MISSING_REQUIRED" in codes(issues)
+
+    def test_conditional_cleaning_charge_renders_its_exact_trigger(self):
+        trigger = "A $75 cleaning fee may apply if the room needs extra cleaning."
+        record = {"schema_version": "1.2", "facts": {"pets_allowed": True,
+                  "other_charges": [dict(money(7500), kind="cleaning_fee",
+                                           conditional=True, trigger=trigger)]}}
+        shown = canonical_view.display_facts(record)
+        assert shown["cleaning_fee_condition"] == trigger
+        details = _verified_details(shown, record)[0]
+        assert ("Conditional cleaning charge", trigger, "") in details
+        assert not any(row[0] == "Cleaning fee" for row in details)
 
     def test_explicit_refundability_accepted(self):
         assert ps.validate_facts({"other_charges": [
@@ -345,6 +363,21 @@ class TestEvidence:
             "source_grade": "PT3_THIRD_PARTY", "artifact_sha256": "a",
             "artifact_kind": "rendered_html", "captured_at": "2026-08-10"}, 0)
         assert "NOT_FIRST_PARTY" in codes(issues)
+
+    def test_capture_metadata_aliases_are_first_party_and_hash_stable(self):
+        entry = {
+            "artifact_class": "PUBLICATION_GRADE_EVIDENCE", "evidence_ref": "ev-1",
+            "field": "pet_fee", "quote": "Pets Welcome", "source_url": "https://example.test",
+            "source_grade": "OFFICIAL_PROPERTY", "artifact_sha256": "sha256:abc",
+            "artifact_kind": "official_page_rendered_text", "captured_at": "2026-08-17",
+            "capture_method": "official_page_retrieval",
+        }
+        before = dict(entry)
+        assert evidence.validate_entry(entry, 0) == ()
+        assert entry == before
+        parsed = evidence.parse([entry])[0]
+        assert parsed.source_grade == enums.GRADE_PT1_FIRST_PARTY
+        assert parsed.artifact_kind == enums.ARTIFACT_RENDERED_HTML
 
     def test_record_with_only_a_transcription_cannot_publish(self):
         blockers = evidence.publication_blockers({

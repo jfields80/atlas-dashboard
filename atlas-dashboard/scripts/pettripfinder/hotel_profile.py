@@ -1771,8 +1771,10 @@ def _verified_details(f: Dict[str, str],
         # Refundability is not asserted: the legacy shape is a bare amount, and
         # inferring it from a heading is how "Deposit Yes. $75 Non-refundable
         # Fee" becomes a refundable deposit.
+        *((("Conditional cleaning charge", f["cleaning_fee_condition"], ""),)
+          if f.get("cleaning_fee_condition") else ()),
         *((("Cleaning fee", _prose_number(str(f["cleaning_fee"])), ""),)
-          if f.get("cleaning_fee") else ()),
+          if f.get("cleaning_fee") and not f.get("cleaning_fee_condition") else ()),
         ("Breed restrictions",
          *((UNRESTRICTED_BREED_DISPLAY, "")
            if f.get("breed_restrictions_stated_none") == "true"

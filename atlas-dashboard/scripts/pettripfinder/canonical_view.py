@@ -778,6 +778,8 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
             amount = _display_money(charge)
             if amount:
                 out["cleaning_fee"] = amount
+            if charge.get("conditional") is True and charge.get("trigger"):
+                out["cleaning_fee_condition"] = str(charge["trigger"])
 
     for key in ("weight_limit_stated_none", "breed_restrictions_stated_none"):
         if isinstance(facts.get(key), bool):

@@ -97,6 +97,27 @@ FACT_EVIDENCE_ALIASES: Dict[str, Tuple[str, ...]] = {
     "other_charges": ("cleaning_fee", "pet_deposit"),
 }
 
+# Capture packets predate the narrower Schema 1.2 evidence vocabulary in two
+# places. These are reader-side aliases, not a migration: the raw values stay
+# in the record, so its evidence_ref, evidence_hash, and retained artifact are
+# unchanged. The aliases are intentionally one-way and exact.
+ARTIFACT_KIND_ALIASES: Dict[str, str] = {
+    "official_page_rendered_text": enums.ARTIFACT_RENDERED_HTML,
+}
+SOURCE_GRADE_ALIASES: Dict[str, str] = {
+    "OFFICIAL_PROPERTY": enums.GRADE_PT1_FIRST_PARTY,
+}
+
+
+def canonical_artifact_kind(value: str) -> str:
+    """Return the contract meaning of a stored artifact-kind spelling."""
+    return ARTIFACT_KIND_ALIASES.get(value, value)
+
+
+def canonical_source_grade(value: str) -> str:
+    """Return the contract meaning of a stored source-grade spelling."""
+    return SOURCE_GRADE_ALIASES.get(value, value)
+
 
 def coverage_names(field: str) -> Tuple[str, ...]:
     """Every evidence-field name that counts as citing ``field``.
@@ -168,10 +189,10 @@ def parse(entries: Sequence[Mapping]) -> Tuple[EvidenceEntry, ...]:
             field=str(entry.get("field") or ""),
             quote=str(entry.get("quote") or ""),
             source_url=str(entry.get("source_url") or ""),
-            source_grade=str(entry.get("source_grade") or ""),
+            source_grade=canonical_source_grade(str(entry.get("source_grade") or "")),
             artifact_class=str(entry.get("artifact_class") or ""),
             artifact_sha256=str(entry.get("artifact_sha256") or ""),
-            artifact_kind=str(entry.get("artifact_kind") or ""),
+            artifact_kind=canonical_artifact_kind(str(entry.get("artifact_kind") or "")),
             captured_at=str(entry.get("captured_at") or ""),
             capture_method=str(entry.get("capture_method") or ""),
             value=entry.get("value"),
@@ -212,15 +233,19 @@ def validate_entry(entry: Mapping, index: int) -> Tuple[Issue, ...]:
                          "%r not in %s" % (cls, list(enums.ARTIFACT_CLASSES))))
         return tuple(out)
 
-    grade = entry.get("source_grade")
-    if grade is not None and not enums.is_member(grade, enums.SOURCE_GRADES):
+    raw_grade = str(entry.get("source_grade") or "")
+    grade = canonical_source_grade(raw_grade)
+    if raw_grade and not enums.is_member(grade, enums.SOURCE_GRADES):
         out.append(Issue(path + ".source_grade", "BAD_ENUM",
-                         "%r not in %s" % (grade, list(enums.SOURCE_GRADES))))
+                         "%r not in %s or approved aliases" %
+                         (raw_grade, list(enums.SOURCE_GRADES))))
 
-    kind = entry.get("artifact_kind")
-    if kind and not enums.is_member(kind, enums.ARTIFACT_KINDS):
+    raw_kind = str(entry.get("artifact_kind") or "")
+    kind = canonical_artifact_kind(raw_kind)
+    if raw_kind and not enums.is_member(kind, enums.ARTIFACT_KINDS):
         out.append(Issue(path + ".artifact_kind", "BAD_ENUM",
-                         "%r not in %s" % (kind, list(enums.ARTIFACT_KINDS))))
+                         "%r not in %s or approved aliases" %
+                         (raw_kind, list(enums.ARTIFACT_KINDS))))
 
     if cls != enums.PUBLICATION_GRADE_EVIDENCE:
         return tuple(out)

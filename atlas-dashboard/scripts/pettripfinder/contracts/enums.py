@@ -79,9 +79,9 @@ BOUNDARY_PETS = "pets"
 TIER_BOUNDARY_UNITS: Tuple[str, ...] = (BOUNDARY_NIGHTS, BOUNDARY_PETS)
 
 #: Charges that are not the pet fee itself. ``refundable`` is a separate
-#: mandatory boolean on every entry and is NEVER inferred from this kind --
-#: Hilton renders "Deposit Yes. $75 Non-refundable Fee", where the heading and
-#: the body disagree and only the body is true.
+#: optional boolean and is NEVER inferred from this kind -- absence means the
+#: source did not state it. Hilton renders "Deposit Yes. $75 Non-refundable
+#: Fee", where the heading and the body disagree and only the body is true.
 CHARGE_REFUNDABLE_DEPOSIT = "refundable_deposit"
 CHARGE_NON_REFUNDABLE_FEE = "non_refundable_fee"
 CHARGE_CLEANING_FEE = "cleaning_fee"

@@ -129,7 +129,9 @@ def main():
         EVIDENCE.mkdir(parents=True, exist_ok=True)
         for row in ROWS:
             if row["quotes"]:
-                (EVIDENCE / ("ptf-pgh-p3-r%02d.txt" % row["row_number"])).write_text(_payload(row), encoding="utf-8")
+                # Hashes are computed over LF bytes; avoid Windows newline
+                # translation changing the retained artifact after hashing.
+                (EVIDENCE / ("ptf-pgh-p3-r%02d.txt" % row["row_number"])).write_bytes(_payload(row).encode("utf-8"))
         OUT.mkdir(parents=True, exist_ok=True)
         (OUT / "pittsburgh_pass3_capture_results.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
         (OUT / "pittsburgh_pass3_founder_review_packet.json").write_text(json.dumps(packet, indent=2) + "\n", encoding="utf-8")
