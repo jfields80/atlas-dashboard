@@ -1,0 +1,27 @@
+{
+  "schema": "ptf-cincinnati-quarantine/1.0",
+  "worker_run": "PTF-CINCINNATI-MARKET-FACTORY-001",
+  "generated_at": "2026-08-12",
+  "note": "Non-lodging, phantom, or category-ambiguous entries surfaced during discovery and deliberately excluded from identity_census/cincinnati-oh.json rather than silently dropped.",
+  "count": 3,
+  "entries": [
+    {
+      "name": "Rising Star Casino Resort (North Star Tower)",
+      "reason": "DUPLICATE_BUILDING_SAME_OPERATOR",
+      "notes": "Search sources describe 'North Star Tower' as a second hotel tower opened December 2013 at the same Rising Star Casino Resort property in Rising Sun, IN. Treated as ONE identity (Rising Star Casino Resort, already in the census as IDENTITY_UNRESOLVED) rather than two, pending capture-time confirmation of whether the tower has an independent booking/policy page.",
+      "next_action": "At capture time, confirm via the official site whether North Star Tower has a distinct booking/pet-policy page; if so, split into a second census row with its own identity evidence."
+    },
+    {
+      "name": "Hillcrest Motel by OYO Aurora Near Lawrenceburg",
+      "reason": "DUPLICATE_OF_EXISTING_IDENTITY",
+      "notes": "Same property as the Dearborn County CVB's 'Hillcrest Motel' (7535 US Highway 50, Aurora, IN 47001) surfaced under an OYO-franchise listing name in general search. Not entered as a second census row.",
+      "next_action": "None -- already represented once in the census under the CVB's canonical name."
+    },
+    {
+      "name": "Various Georgetown/Brown County B&Bs (Bailey House, Lee House Inn, French Quarter Inn, Murphin Ridge Inn, Parkview Country Inn, Hearthstone Inn & Suites)",
+      "reason": "IDENTITY_REVIEW_BUCKET",
+      "notes": "General search surfaced these names for the Brown County / Ripley area with no independently-verified street address, phone, or confirmation that each is a hotel/motel/inn rather than a bed & breakfast (a category PetTripFinder has previously ruled OUT_OF_CURRENT_CATEGORY for Columbus -- see hotel_exclusions.json 50-lincoln-short-north / timbrook-guesthouse). Not entered as census rows because neither the lodging category nor a usable address could be confirmed this run.",
+      "next_action": "A dedicated Brown County discovery pass is required: confirm each name's category (hotel/motel vs B&B/guesthouse) and recover an address before any of them enters the census."
+    }
+  ]
+}

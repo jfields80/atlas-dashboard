@@ -74,6 +74,37 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "festival_country_indiana": FAMILY_CVB,
     "indianapolis_airport": FAMILY_CVB,
     "downtown_indy_inc": FAMILY_CVB,
+    # PTF-CINCINNATI-CENSUS-RECONCILIATION-001: the six destination-marketing
+    # directories that produced the Cincinnati tri-state census. All six are
+    # CVB, so none of them independently confirms another -- which is exactly
+    # why meet_nky corroborating visit_cincy is recorded as corroboration and
+    # never counted as a second voice.
+    "visit_cincy": FAMILY_CVB,
+    "meet_nky": FAMILY_CVB,
+    "travel_butler_county": FAMILY_CVB,
+    "warren_county_cvb": FAMILY_CVB,
+    "discover_clermont": FAMILY_CVB,
+    "visit_southeast_indiana": FAMILY_CVB,
+    # PTF-PITTSBURGH-MARKET-REVALIDATION-001: official tourism, destination
+    # partners, and already-registered utility sources.
+    "visit_pittsburgh": FAMILY_CVB,
+    "cultural_trust": FAMILY_CVB,
+    "paacc": FAMILY_DIRECTORY,
+    "east_liberty_chamber": FAMILY_DIRECTORY,
+    "gpha": FAMILY_DIRECTORY,
+    "parks_conservancy": FAMILY_DIRECTORY,
+    "city_parks": FAMILY_REGISTRY,
+    "avets": FAMILY_CHAIN,
+    "veg_pittsburgh": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: official tourism, destination
+    # partners, chamber directories, and brand-locator discovery.
+    "visit_detroit": FAMILY_CVB,
+    "destination_ann_arbor": FAMILY_CVB,
+    "dearborn_chamber": FAMILY_DIRECTORY,
+    "auburn_hills_chamber": FAMILY_DIRECTORY,
+    "vibe_showplace": FAMILY_DIRECTORY,
+    "chain_locator": FAMILY_CHAIN,
+    "chain_aggregate": FAMILY_CHAIN,
 }
 
 

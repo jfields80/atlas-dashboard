@@ -51,14 +51,18 @@ class TestClevelandAuthority:
         """19 from PTF-CLEVELAND-OVERNIGHT-AUTHORITY-001, plus the two Drury
         properties PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published."""
         assert facts["market"] == CLEVELAND
-        assert len(facts["hotels"]) == 21
+        # 21 before the Pass-2 founder decisions published twenty more;
+        # 41 before the Pass-3 founder decisions published forty more.
+        assert len(facts["hotels"]) == 81
         assert {h["verification_state"] for h in facts["hotels"]} == {"VERIFIED_PET_FRIENDLY"}
 
     def test_eight_verified_no_pets_are_cleveland_owned(self):
         cle = [e for e in load_exclusions()
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cle) == 8
+        # 8 before Pass 2; 23 first-party refusals joined them; Pass 3
+        # added 4 more (incl. DoubleTree Canton Downtown's own page).
+        assert len(cle) == 35
 
     def test_every_exclusion_states_its_market(self):
         """Implicit ownership defaulted Columbus's 14 exclusions into whichever
@@ -83,13 +87,17 @@ class TestClevelandAuthority:
             page = " ".join(hotel["evidence_quote"].split()).lower()
             # Evidence entries keep the field names they were captured under;
             # a canonical fact is traced through the legacy name it came from.
-            aliases = {"species": "species_allowed",
-                       "combined_weight_limit": "weight_limit",
-                       "other_charges": "cleaning_fee",
-                       "dimension_constraints": "general_restrictions"}
+            # Evidence captured before Schema 1.2 keeps its legacy label;
+            # records published under 1.2 (the Pass-2 founder decisions)
+            # label evidence with the canonical field name directly.
+            aliases = {"species": ("species_allowed",),
+                       "combined_weight_limit": ("weight_limit",),
+                       "other_charges": ("cleaning_fee", "pet_deposit"),
+                       "dimension_constraints": ("general_restrictions",)}
             for field in hotel["facts"]:
-                source_field = aliases.get(field, field)
-                assert source_field in evidence,                     "%s: %s has no evidence" % (hotel["name"], field)
+                names = (field,) + aliases.get(field, ())
+                source_field = next((n for n in names if n in evidence), None)
+                assert source_field,                     "%s: %s has no evidence" % (hotel["name"], field)
                 assert " ".join(evidence[source_field].split()).lower() in page, (
                     "%s: %s quote is not in the captured page text"
                     % (hotel["name"], field))
@@ -109,7 +117,11 @@ class TestClevelandAuthority:
         # of a field -- and retired the two Drury entries that 1.2 can now
         # state outright: the fee's room scope has its own field, and the
         # property's service-animal sentence has its own structure.
-        assert withheld_total == 7
+        # 7 before Pass 2; Residence Inn Mentor and ESA Akron South added
+        # two; the Pass-3 founder decisions added 15 (no-limit and
+        # stated-none disclosures, ceilings, garbled tiers and same-page
+        # contradictions) and the ESA ceiling!=price remediation one more.
+        assert withheld_total == 25
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
@@ -169,7 +181,7 @@ class TestMarketIsolation:
     def test_cleveland_inventory_is_owned_and_scoped(self):
         rows = read_production_rows()
         cle = owned_by(rows, CLEVELAND)
-        assert len(cle) == 21
+        assert len(cle) == 81
         assert all(r["category"] == "pet-friendly-hotels" for r in cle)
 
     def test_columbus_inventory_is_unchanged_at_116(self):
@@ -184,7 +196,7 @@ class TestMarketIsolation:
     def test_each_market_selects_only_its_own_facts(self):
         cbus = load_published_hotel_policy_facts(COLUMBUS)
         cle = load_published_hotel_policy_facts(CLEVELAND)
-        assert len(cbus) == 88 and len(cle) == 21
+        assert len(cbus) == 88 and len(cle) == 81
         assert set(cbus) & set(cle) == set()
 
     def test_the_columbus_join_still_yields_88(self):
@@ -197,15 +209,15 @@ class TestMarketIsolation:
         rows = [r for r in owned_by(read_production_rows(), CLEVELAND)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(CLEVELAND))) == 21
+            rows, load_published_hotel_policy_facts(CLEVELAND))) == 81
 
     def test_reconciliation_is_188_21_8_29_159(self):
         from scripts.pettripfinder.build_market_manifest import build_package
 
         pkg = build_package(CLEVELAND)
-        assert pkg.reconciliation() == (188, 21, 8, 29, 159)
-        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 29
-        assert 29 + pkg.unresolved_count == 188
+        assert pkg.reconciliation() == (188, 81, 35, 116, 72)
+        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 116
+        assert 116 + pkg.unresolved_count == 188
 
     def test_columbus_reconciliation_is_untouched(self):
         """Cleveland's work must not move Columbus's numbers.

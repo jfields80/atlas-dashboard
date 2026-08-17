@@ -312,7 +312,10 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON, INDIANAPOLIS])
+    # Pittsburgh is currently assemblable but remains hidden from navigation;
+    # Indianapolis is independently eligible after its founder-approved release.
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
 
 
 def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
@@ -327,7 +330,8 @@ def test_indianapolis_is_in_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert INDIANAPOLIS in [m.market_id for m in chosen]
     assert INDIANAPOLIS in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON, INDIANAPOLIS])
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -337,12 +341,19 @@ def test_navigation_visibility_is_not_an_assembly_condition(markets):
         assert "show_in_navigation" not in row["conditions"]
 
 
-def test_current_live_inventory_includes_indianapolis_profiles(markets):
-    """Section 28's current target, DERIVED -- not a constant in the code."""
+def test_current_live_inventory_preserves_all_assemblable_market_profiles(markets):
+    """Section 28's target at the time, DERIVED -- not a constant in the code.
+    176 since the Pass-2 founder decisions; 216 since
+    PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
+    hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
+    the first seventeen Pittsburgh hotels; 242 since
+    PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
+    after Indianapolis published its eight founder-approved records."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 21, DAYTON: 47, INDIANAPOLIS: 8}
-    assert sum(counts.values()) == 164
+    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8}
+    assert sum(counts.values()) == 250
 
 
 # --------------------------------------------------------------------------- #
@@ -389,7 +400,7 @@ def test_combined_bundle_assembles_with_every_gate_passing(short_out):
     assert manifest["global_shadowing_count"] == 0
     assert manifest["canonical_violations"] == 0
     assert manifest["deployment_authorized"] is False
-    assert sum(len(f["hotel_routes"]) for f in manifest["fragments"].values()) == 156
+    assert sum(len(f["hotel_routes"]) for f in manifest["fragments"].values()) == 176  # after Pass-2 decisions
 
 
 @needs_build

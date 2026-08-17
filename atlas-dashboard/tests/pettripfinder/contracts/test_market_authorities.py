@@ -14,6 +14,7 @@ subtraction cannot.
 
 from __future__ import annotations
 
+import collections
 import json
 from pathlib import Path
 
@@ -32,15 +33,20 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+PITTSBURGH = "pittsburgh-pa"
+DETROIT = "detroit-ann-arbor-mi"
 INDIANAPOLIS = "indianapolis-in"
 
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, INDIANAPOLIS)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
+           INDIANAPOLIS)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
     CLEVELAND: "cleveland_final_partition_002.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
+    PITTSBURGH: "pittsburgh_final_partition_001.json",
+    DETROIT: "detroit_ann_arbor_final_partition_001.json",
     INDIANAPOLIS: "indianapolis_final_partition_001.json",
 }
 
@@ -49,12 +55,22 @@ PARTITION_FILES = {
 EXPECTED = {
     COLUMBUS: {"census": 112, "published": 88, "no_pets": 14,
                "out_of_category": 2, "unresolved": 8},
-    CLEVELAND: {"census": 188, "published": 21, "no_pets": 8,
-                "out_of_category": 0, "unresolved": 159},
+    # 21/8/159 until PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 (41/31/116),
+    # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 applied the founder's
+    # rulings on the driveable-queue packet: 81 published, 35 no-pets.
+    CLEVELAND: {"census": 188, "published": 81, "no_pets": 35,
+                "out_of_category": 0, "unresolved": 72},
     DAYTON: {"census": 129, "published": 47, "no_pets": 8,
              "out_of_category": 0, "unresolved": 74},
-    CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
-                 "out_of_category": 0, "unresolved": 121},
+    # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
+    # census from independent discovery. The six out-of-category rows are the
+    # short-term rentals and guesthouses the directories list beside hotels.
+    CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
+                 "out_of_category": 6, "unresolved": 250},
+    PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
+                 "out_of_category": 3, "unresolved": 63},
+    DETROIT: {"census": 143, "published": 0, "no_pets": 0,
+              "out_of_category": 1, "unresolved": 142},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
@@ -88,6 +104,7 @@ POLICY_FILES = {
     COLUMBUS: "hotel_policy_facts.json",
     CLEVELAND: "hotel_policy_facts_cleveland-akron-canton-oh.json",
     DAYTON: "hotel_policy_facts_dayton-oh.json",
+    PITTSBURGH: "hotel_policy_facts_pittsburgh-pa.json",
     INDIANAPOLIS: "hotel_policy_facts_indianapolis-in.json",
 }
 
@@ -290,11 +307,19 @@ class TestTerminalDispositionsMatchAuthority:
         assert rec.verified_no_pets + rec.out_of_category == 16
 
     def test_cincinnati_publishes_nothing_and_refuses_nothing(self):
-        """Silence is not a refusal, and no evidence is not a publication."""
+        """Silence is not a refusal, and no evidence is not a publication.
+
+        Out-of-category IS a terminal state and Cincinnati now carries six of
+        them -- guesthouses and short-term rentals its directories list beside
+        hotels. That is a category ruling, not a pet-policy finding, so the two
+        states this test actually guards are the other two.
+        """
         doc = partition_doc(CINCINNATI)
-        states = {i["final_state"] for i in doc["items"]}
-        assert not (states & set(enums.TERMINAL_STATES))
-        assert len(doc["items"]) == 121
+        states = collections.Counter(i["final_state"] for i in doc["items"])
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 0
+        assert states[enums.VERIFIED_NO_PETS] == 0
+        assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
+        assert len(doc["items"]) == 256
 
     def test_indianapolis_publishes_eight_and_has_four_verified_refusals(self):
         """Live application reconciles the approved positives and negative evidence."""

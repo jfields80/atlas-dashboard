@@ -362,5 +362,5 @@ class TestCommittedAuthority:
         assert rec.missing_from_partition == ()
         assert rec.missing_from_census == ()
         assert rec.duplicated_in_partition == ()
-        assert (rec.published, rec.verified_no_pets) == (21, 8)
-        assert rec.resolved == 29 and rec.unresolved == 159
+        assert (rec.published, rec.verified_no_pets) == (81, 35)  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
+        assert rec.resolved == 116 and rec.unresolved == 72  # after Pass-3 decisions

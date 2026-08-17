@@ -92,6 +92,16 @@ _MARKET_FILENAMES = {
     "dayton-oh": "dayton_oh.json",
     # PTF-INDIANAPOLIS-MARKET-REVALIDATION-001.
     "indianapolis-in": "indianapolis_in.json",
+    # PTF-CINCINNATI-CENSUS-RECONCILIATION-001 ported the tri-state config off
+    # worker/ptf-cincinnati-market-001 and registered it here. Without this
+    # entry the file existed but no caller could ever load it, which is how a
+    # market ends up with a census built from its own corridor registry instead
+    # of from discovery.
+    "cincinnati-oh": "cincinnati_oh.json",
+    # PTF-PITTSBURGH-MARKET-REVALIDATION-001.
+    "pittsburgh-pa": "pittsburgh_pa.json",
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001.
+    "detroit-ann-arbor-mi": "detroit_ann_arbor_mi.json",
 }
 
 
