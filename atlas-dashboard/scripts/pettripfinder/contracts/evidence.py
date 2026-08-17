@@ -25,6 +25,25 @@ An ACCESS_BLOCKED verdict is itself evidence-bearing and must be probed rather
 than assumed: a fabricated property code returns the same 403 as a real one, so
 a refusal proves nothing about the property. The blocker records the FETCH
 OUTCOME, never a conclusion about the hotel.
+
+Founder ruling GOV-01 -- a citation is part of the record
+---------------------------------------------------------
+Given during PTF-DAYTON-RECERTIFICATION-001 Pass B Batch C, 2026-08-16, and
+standing for every market that follows unless this contract is explicitly
+changed:
+
+    A citation-only / evidence-pointer repair DOES require founder
+    re-attestation when it changes the final record_hash or evidence binding.
+
+    The public facts may be unchanged, but the record's evidentiary basis has
+    changed. Founder attestation must bind the final supported record, not
+    merely the visible facts.
+
+So "no fact moved and the page looks identical" is never on its own a reason to
+skip attestation. Adding a pointer changes what a record claims to rest on, and
+that is precisely what an attestation covers. First applied to the two Dayton
+La Quinta records, whose published per_room fee scope had no ``fee_scope``
+citation of its own.
 """
 
 from __future__ import annotations
@@ -48,6 +67,47 @@ PUBLICATION_GRADE_REQUIRED: Tuple[str, ...] = (
     "artifact_kind",    # rendered page, operator screenshot, or PDF
     "captured_at",
 )
+
+#: Canonical fact key -> the evidence field names that may cite it.
+#:
+#: Schema 1.2 renamed several FACT keys without renaming the EVIDENCE field that
+#: supports them, so a fact whose citation sits in the same record under the old
+#: name read as uncited. The corpus proves this is a vocabulary seam and not
+#: missing evidence: across Dayton and Cleveland together, every fact reported
+#: uncited resolves through this map and none is cited under neither name.
+#:
+#: An alias is a SECOND acceptable name, never a replacement. A field always
+#: cites itself -- ``coverage_names`` includes the canonical key -- so a market
+#: that authors a direct pointer keeps it, and one that carries only the legacy
+#: name is no longer accused of publishing an unevidenced fact.
+#:
+#: What this deliberately does NOT do is rewrite anything. Renaming a committed
+#: evidence field would move ``evidence_ref``, and therefore ``evidence_hash``,
+#: and therefore every approval bound to it, across three markets -- to fix a
+#: reader. So the reader learns the alias and the records are left alone.
+FACT_EVIDENCE_ALIASES: Dict[str, Tuple[str, ...]] = {
+    # A species map is authored from the prose list and the cats boolean.
+    "species": ("species_allowed", "cats_allowed"),
+    # A combined limit and its operator are two entries for one constraint.
+    "combined_weight_limit": ("weight_limit_combined",
+                              "weight_limit_combined_operator"),
+    # Height/length constraints are read out of the restriction sentence.
+    "dimension_constraints": ("general_restrictions",),
+    # A named charge is cited by the charge it names.
+    "other_charges": ("cleaning_fee", "pet_deposit"),
+}
+
+
+def coverage_names(field: str) -> Tuple[str, ...]:
+    """Every evidence-field name that counts as citing ``field``.
+
+        >>> coverage_names("species")
+        ('species', 'species_allowed', 'cats_allowed')
+        >>> coverage_names("pet_fee")
+        ('pet_fee',)
+    """
+    return (field,) + FACT_EVIDENCE_ALIASES.get(field, ())
+
 
 #: Capability -> the artifact classes that hold it.
 CAPABILITY_MATRIX: Dict[str, FrozenSet[str]] = {
@@ -209,6 +269,13 @@ def unevidenced_facts(record: Mapping) -> Tuple[str, ...]:
     A published fact with no evidence is unverifiable by definition. Fields
     marked as derived in ``derived_fields`` are exempt, because a derivation is
     a declared computation rather than a claim about a source.
+
+    A fact is cited by its own name OR by any of its ``FACT_EVIDENCE_ALIASES``;
+    matching field names literally reported 43 records across two markets as
+    publishing an unevidenced fact when the citation was sitting in the same
+    record under the name schema 1.2 renamed away from. What this does not
+    soften is the actual question: a fact cited under neither its own name nor
+    an approved alias is still reported, which is the whole point of the check.
     """
     facts = record.get("facts") or {}
     if not isinstance(facts, Mapping):
@@ -217,7 +284,8 @@ def unevidenced_facts(record: Mapping) -> Tuple[str, ...]:
     declared = set(record.get("derived_fields") or ())
     return tuple(sorted(
         field for field in facts
-        if field not in cited and field not in declared))
+        if field not in declared
+        and not cited.intersection(coverage_names(field))))
 
 
 def publication_blockers(record: Mapping) -> Tuple[str, ...]:

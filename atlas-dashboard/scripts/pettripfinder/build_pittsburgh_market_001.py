@@ -296,7 +296,11 @@ CANDIDATES = [
        city="Pittsburgh", postal="15224", phone="412-683-3113",
        url="https://www.marriott.com/hotels/travel/pitok-courtyard-pittsburgh-shadyside/",
        url_shape="property", source="east_liberty_chamber", ident="IDENTITY_CONFIRMED",
-       lodging="LODGING_CONFIRMED"),
+       lodging="NEEDS_REVIEW",
+       notes="PGH-P2 founder finding (PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001): "
+             "the queued Marriott URL 404s and the property is absent from Marriott's "
+             "own current search inventory near its own address. No pet-policy or "
+             "closure determination made; census review required."),
     _c(name="Hilton Garden Inn Pittsburgh University Place", address="3454 Forbes Avenue",
        city="Pittsburgh", postal="15213", phone="412-683-2040",
        url="https://www.hilton.com/en/hotels/pitucgi-hilton-garden-inn-pittsburgh-university-place/",
@@ -309,7 +313,12 @@ CANDIDATES = [
     _c(name="Shadyside Inn Suites", address="5405 Fifth Avenue", city="Pittsburgh",
        postal="15232", phone="412-441-4444", url="https://shadysideinn.com",
        url_shape="property", source="east_liberty_chamber", ident="IDENTITY_CONFIRMED",
-       lodging="LODGING_CONFIRMED"),
+       lodging="NEEDS_REVIEW",
+       notes="PGH-P2 founder finding (PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001): "
+             "the first-party site now presents only a farewell/history page, not an "
+             "operating booking site. Probable CLOSED_OR_CONVERTED -- a review "
+             "recommendation, not a final census disposition. Identity retained "
+             "pending a separate census-review determination."),
     _c(name="Sunnyledge Boutique Hotel", address="5124 Fifth Avenue", city="Pittsburgh",
        postal="15232", phone="412-683-5014", url="https://sunnyledge.com",
        url_shape="property", source="east_liberty_chamber", ident="IDENTITY_CONFIRMED",
