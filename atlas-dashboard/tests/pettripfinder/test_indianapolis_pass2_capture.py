@@ -36,13 +36,13 @@ def test_outcome_counts_sum_to_ten_and_authority_untouched():
     counts = _json(RESULTS)["outcome_counts"]
     assert sum(counts.values()) == 10
     assert counts["AFFIRMATIVE_STRUCTURED"] == 2
-    assert counts["NEGATIVE"] == 4
-    assert counts["IDENTITY_UNCERTAIN"] == 4
+    assert counts["NEGATIVE"] == 3
+    assert counts["IDENTITY_UNCERTAIN"] == 5
     packet = _json(PACKET)
     assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
     assert packet["authority_changed"] is False
     assert len(packet["positive_candidates"]) == 2
-    assert len(packet["negative_candidates"]) == 4
+    assert len(packet["negative_candidates"]) == 3
     assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
 
 
@@ -95,16 +95,22 @@ def test_strict_identity_gate_before_any_policy():
         assert intended["postal_code"]
         if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
             assert bind["bound"] is True
+            assert bind["clean_bind"] is True
             assert required <= set(bind["independent_non_url_keys"])
             rendered = bind["rendered"]
             assert rendered["street"]
             assert rendered["postal_code"] == intended["postal_code"]
             assert rendered["source"] == "jsonld"
             assert row["proposed_schema_1_2_facts"]
+            src = row["policy_source"]
+            assert src["first_party"] is True
+            assert src["sibling_or_brand_generic"] is False
         else:
             assert bind["bound"] is False
+            assert bind.get("clean_bind") is False
             assert row["proposed_schema_1_2_facts"] == []
             assert row["exact_quotes"] == []
+            assert row["policy_source"] is None
 
 
 def test_url_code_is_not_treated_as_a_second_key():
@@ -120,11 +126,31 @@ def test_url_code_is_not_treated_as_a_second_key():
     assert "404 Experience" in hi["notes"][0]
     assert hi["identity_binding"]["rendered"]["page_name"] == "404 Experience"
     jw = by["jw marriott indianapolis"]
-    assert jw["outcome"] == "NEGATIVE"
-    assert "10 S West Street" in jw["identity_binding"]["rendered"]["street"]
-    assert "URL/ZIP-only bind discarded" in jw["identity_binding"]["notes"]
+    assert jw["outcome"] == "IDENTITY_UNCERTAIN"
+    assert jw["recommended_founder_decision"] == "HOLD_RETRY_IDENTITY"
+    assert jw["proposed_schema_1_2_facts"] == []
+    assert jw["exact_quotes"] == []
+    assert jw["identity_binding"]["clean_bind"] is False
+    assert "did not bind cleanly" in jw["notes"][0]
     hie = by["holiday inn express plainfield"]
     assert hie["identity_binding"]["rendered"]["page_name"] == (
         "Holiday Inn Express Indianapolis Airport")
     assert hie["identity_binding"]["rendered"]["street"] == "6296 Cambridge Way"
     assert hie["identity_binding"]["rendered"]["phone"] == "1-317-8399000"
+
+
+def test_retained_policy_is_first_party_property_specific():
+    results = _json(RESULTS)
+    assert "OTA text" in results["policy_authority"]["rejected"]
+    assert "sibling-property policy" in results["policy_authority"]["rejected"]
+    crowne = next(r for r in results["results"]
+                  if r["identity_key"] == "crowne plaza indianapolis downtown union station")
+    assert crowne["policy_source"]["kind"] == "property_specific_first_party_faq"
+    assert "Airport" not in crowne["exact_quotes"][0]
+    hie = next(r for r in results["results"]
+               if r["identity_key"] == "holiday inn express plainfield")
+    assert "not Holiday Inn Indianapolis Airport" in hie["identity_binding"]["notes"]
+    for row in results["results"]:
+        if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
+            assert row["source_grade"] == "PT1_FIRST_PARTY"
+            assert row["artifact_sha256"].startswith("sha256:")

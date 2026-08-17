@@ -7,10 +7,24 @@
   "founder_decisions_applied": false,
   "identity_gate": {
     "name": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
-    "rule": "PROPERTY URL ALONE IS NOT IDENTITY BINDING. A policy observation is retained only when JSON-LD (or equivalent structured metadata) renders a matching street and an independent non-conflicting phone. A canonical-URL or requested-URL property code is never a bind.",
+    "rule": "PROPERTY URL ALONE IS NOT IDENTITY BINDING. If a page does not bind cleanly, the outcome is IDENTITY_UNCERTAIN and its policy is unused. A policy observation is retained only when JSON-LD renders a matching street and an independent non-conflicting phone, and the quote is from that property's first-party page or property-specific FAQ. A canonical-URL property code is never a bind.",
     "rescored_from": "indianapolis-attended-capture-002 journal + capture JSON-LD"
   },
-  "rule": "Nothing here is published. Founder decisions are not applied in this packet. Approving a negative would write an exclusion later. Approving a positive would write schema 1.2 facts later. Identity-uncertain rows stay unresolved. A row whose only second key was a URL property code was not allowed to keep a policy observation.",
+  "policy_authority": {
+    "accepted": [
+      "exact property first-party website",
+      "official brand property page",
+      "property-specific first-party FAQ/policy surface"
+    ],
+    "rejected": [
+      "OTA text",
+      "search snippets as authority",
+      "neighboring hotel policy",
+      "generic brand policy",
+      "sibling-property policy"
+    ]
+  },
+  "rule": "Nothing here is published. Founder decisions are not applied in this packet. Approving a negative would write an exclusion later. Approving a positive would write schema 1.2 facts later. Identity-uncertain rows stay unresolved and their policy is unused. A page that does not bind cleanly cannot contribute a policy observation.",
   "positive_candidates": [
     {
       "decision_id": "INDY-P2-007",
@@ -25,6 +39,7 @@
       "outcome": "AFFIRMATIVE_STRUCTURED",
       "identity_binding": {
         "bound": true,
+        "clean_bind": true,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Holiday Inn Express Plainfield",
@@ -54,6 +69,12 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Phone digits 3178399000 match census 317-839-9000. Page name differs (Indianapolis Airport vs Plainfield) but this is the same IHG property at 6296 Cambridge Way, not Holiday Inn Indianapolis Airport at 8555 Stansted Drive. Body-text code indsw is extra, not required."
+      },
+      "policy_source": {
+        "kind": "property_specific_first_party_faq",
+        "surface": "IHG Holiday Inn Express Plainfield / Indianapolis Airport FAQ on the official property page at 6296 Cambridge Way",
+        "first_party": true,
+        "sibling_or_brand_generic": false
       },
       "artifact_file": "www-ihg-com-holidayinnexpress-hotels-us-en-plainfield-indsw-hoteldetail-2026-08-16T23-40-10-365Z.json",
       "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
@@ -140,6 +161,7 @@
       "outcome": "AFFIRMATIVE_STRUCTURED",
       "identity_binding": {
         "bound": true,
+        "clean_bind": true,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Le Meridien Indianapolis",
@@ -169,6 +191,12 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Page phone +1 317-737-1600 has no census phone to conflict with. Runner second key was canonical-URL indmd and was discarded."
+      },
+      "policy_source": {
+        "kind": "official_brand_property_page",
+        "surface": "Marriott Le Meridien Indianapolis overview Pet Policy block on the official property page",
+        "first_party": true,
+        "sibling_or_brand_generic": false
       },
       "artifact_file": "www-marriott-com-en-us-hotels-indmd-le-meridien-indianapolis-overview-2026-08-16T23-50-11-789Z.json",
       "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
@@ -234,6 +262,7 @@
       "outcome": "NEGATIVE",
       "identity_binding": {
         "bound": true,
+        "clean_bind": true,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Courtyard by Marriott Indianapolis Castleton",
@@ -263,6 +292,12 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Page phone +1 317-576-9559 has no census phone to conflict with. Runner second key was canonical-URL indcs and was discarded."
+      },
+      "policy_source": {
+        "kind": "official_brand_property_page",
+        "surface": "Marriott Castleton overview Pet Policy block on the official property page",
+        "first_party": true,
+        "sibling_or_brand_generic": false
       },
       "artifact_file": "www-marriott-com-en-us-hotels-indcs-courtyard-indianapolis-castleton-overview-2026-08-16T23-36-05-052Z.json",
       "artifact_sha256": "sha256:b11b710af01cdbb6d4784319f6a9dd31dacd66d0d25934c728b2b7fdc7d0ad36",
@@ -306,6 +341,7 @@
       "outcome": "NEGATIVE",
       "identity_binding": {
         "bound": true,
+        "clean_bind": true,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Crowne Plaza Indianapolis Downtown Union Station",
@@ -335,6 +371,12 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "123 West Louisiana St. matches 123 West Louisiana Street. City/ZIP match. Page phone +1 317-631-2221 has no census phone to conflict with. Quote names Dwtn-Union Stn, not Airport. Runner second key was canonical-URL inddt and was discarded."
+      },
+      "policy_source": {
+        "kind": "property_specific_first_party_faq",
+        "surface": "IHG Crowne Plaza Downtown Union Station FAQ on the official property page",
+        "first_party": true,
+        "sibling_or_brand_generic": false
       },
       "artifact_file": "www-ihg-com-crowneplaza-hotels-us-en-indianapolis-inddt-hoteldetail-2026-08-16T23-34-26-159Z.json",
       "artifact_sha256": "sha256:04a917429e58067512df65a39b783edfdeb7115c9b9412c72d450d849bdb53b0",
@@ -375,6 +417,7 @@
       "outcome": "NEGATIVE",
       "identity_binding": {
         "bound": true,
+        "clean_bind": true,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Fairfield Inn & Suites Indianapolis Airport",
@@ -404,6 +447,12 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Phone digits 3172441600 match census 317-244-1600. Brand-line insert in the page name is not a different hotel. URL code discarded as a bind."
+      },
+      "policy_source": {
+        "kind": "official_brand_property_page",
+        "surface": "Marriott Fairfield Airport overview Pet Policy block on the official property page",
+        "first_party": true,
+        "sibling_or_brand_generic": false
       },
       "artifact_file": "www-marriott-com-en-us-hotels-indfa-fairfield-inn-and-suites-indianapolis-airpor-2026-08-16T23-45-47-536Z.json",
       "artifact_sha256": "sha256:1a703848d019546e7ed5d1e74e0d5537e8f6c136a0c4995fc7f9252d2916ed27",
@@ -438,75 +487,6 @@
       ],
       "contradiction_notes": [],
       "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
-    },
-    {
-      "decision_id": "INDY-P2-009",
-      "queue_id": "INDY-P2-009",
-      "hotel": "JW Marriott Indianapolis",
-      "identity_key": "jw marriott indianapolis",
-      "corridor": "indianapolis-in__downtown",
-      "brand": "marriott",
-      "requested_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
-      "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
-      "runner_reason": "CAPTURED",
-      "outcome": "NEGATIVE",
-      "identity_binding": {
-        "bound": true,
-        "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
-        "intended": {
-          "canonical_name": "JW Marriott Indianapolis",
-          "first_party_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
-          "street": "10 South West Street",
-          "city": "Indianapolis",
-          "state": "IN",
-          "postal_code": "46204",
-          "phone": "",
-          "property_code": ""
-        },
-        "rendered": {
-          "page_name": "JW Marriott Indianapolis",
-          "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
-          "street": "10 S West Street",
-          "city": "Indianapolis",
-          "state": "Indiana",
-          "postal_code": "46204",
-          "phone": "+13178605800",
-          "property_code": "indjw",
-          "source": "jsonld"
-        },
-        "independent_non_url_keys": [
-          "address@structured_metadata",
-          "phone@structured_metadata"
-        ],
-        "url_identifier_used_as_bind": false,
-        "conflicts": [],
-        "notes": "10 S West Street is the same street as census 10 South West Street (S = South; West is the street name). City/ZIP match. Page phone +1 317-860-5800 has no census phone to conflict with. Capture-time assessor returned STRONG_MATCH (name+city) because the street parser treats both South and West as directionals and leaves an empty core; that parser miss is not a different hotel. URL/ZIP-only bind discarded."
-      },
-      "artifact_file": "www-marriott-com-en-us-hotels-indjw-jw-marriott-indianapolis-overview-2026-08-16T23-48-15-887Z.json",
-      "artifact_sha256": "sha256:2eabcbe4f504d9ad50167262366df63e3198f76a41aa12f727b446ecc3272ba9",
-      "artifact_kind": "rendered_html",
-      "text_sha256": "sha256:6d86ea285f2bb5cc3060030746f713dc966aad4e51047841dbc799cefee87a31",
-      "screenshot_sha256": "sha256:cd76cd865903e8dd88872ecc602e10630b4d3613f0daab690ce6a036a6f5f14e",
-      "captured_at": "2026-08-16T23:48:15.887Z",
-      "capture_method": "attended_browser",
-      "source_grade": "PT1_FIRST_PARTY",
-      "notes": [
-        "Official Marriott Pet Policy block states Pets Not Allowed. FAQ lists the question with no answer; the policy block is the evidence. Runner bound ZIP 46204 + URL indjw; that URL-plus-ZIP pair was discarded. Identity is re-bound on JSON-LD street 10 S West Street (= 10 South West Street) + JSON-LD phone."
-      ],
-      "exact_quotes": [
-        "Pets Not Allowed"
-      ],
-      "proposed_schema_1_2_facts": [
-        {
-          "field": "pets_allowed",
-          "value": false,
-          "quote": "Pets Not Allowed",
-          "quote_contiguous_in_artifact": true
-        }
-      ],
-      "withheld_fields": [],
-      "contradiction_notes": [],
-      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
     }
   ],
   "identity_uncertain": [
@@ -523,6 +503,7 @@
       "outcome": "IDENTITY_UNCERTAIN",
       "identity_binding": {
         "bound": false,
+        "clean_bind": false,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Comfort Inn Indianapolis Airport Plainfield",
@@ -550,6 +531,7 @@
         "conflicts": [],
         "notes": "No JSON-LD street, city/ZIP, or phone was captured. Property URL alone is not identity binding."
       },
+      "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
       "artifact_kind": null,
@@ -580,6 +562,7 @@
       "outcome": "IDENTITY_UNCERTAIN",
       "identity_binding": {
         "bound": false,
+        "clean_bind": false,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Courtyard by Marriott Indianapolis Airport",
@@ -609,6 +592,7 @@
         "conflicts": [],
         "notes": "One independent non-URL key (phone). Canonical-URL code indca was discarded. A URL-plus-phone page whose street did not agree cannot support a policy observation."
       },
+      "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
       "artifact_kind": null,
@@ -639,6 +623,7 @@
       "outcome": "IDENTITY_UNCERTAIN",
       "identity_binding": {
         "bound": false,
+        "clean_bind": false,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Delta Hotels by Marriott Indianapolis Airport",
@@ -668,6 +653,7 @@
         "conflicts": [],
         "notes": "One independent non-URL key (phone). Canonical-URL code indde was discarded. Street never agreed, so policy is withheld."
       },
+      "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
       "artifact_kind": null,
@@ -698,6 +684,7 @@
       "outcome": "IDENTITY_UNCERTAIN",
       "identity_binding": {
         "bound": false,
+        "clean_bind": false,
         "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
         "intended": {
           "canonical_name": "Holiday Inn Indianapolis Airport",
@@ -725,6 +712,7 @@
         "conflicts": [],
         "notes": "404/empty page cannot bind 8555 Stansted Drive. Property URL alone is not identity binding."
       },
+      "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
       "artifact_kind": null,
@@ -735,6 +723,67 @@
       "source_grade": null,
       "notes": [
         "Official URL rendered page title '404 Experience' after 20.9s. No identity snapshot. Path segment indap is an IHG city code shared with Crowne Plaza Airport and is not a bind. Crowne Airport refusal not inherited. Not a no-pets finding."
+      ],
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "contradiction_notes": [],
+      "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
+    },
+    {
+      "decision_id": "INDY-P2-009",
+      "queue_id": "INDY-P2-009",
+      "hotel": "JW Marriott Indianapolis",
+      "identity_key": "jw marriott indianapolis",
+      "corridor": "indianapolis-in__downtown",
+      "brand": "marriott",
+      "requested_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+      "runner_reason": "CAPTURED",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "identity_binding": {
+        "bound": false,
+        "clean_bind": false,
+        "gate": "STRICT_TWO_INDEPENDENT_NON_URL_KEYS",
+        "intended": {
+          "canonical_name": "JW Marriott Indianapolis",
+          "first_party_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+          "street": "10 South West Street",
+          "city": "Indianapolis",
+          "state": "IN",
+          "postal_code": "46204",
+          "phone": "",
+          "property_code": ""
+        },
+        "rendered": {
+          "page_name": "JW Marriott Indianapolis",
+          "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+          "street": "10 S West Street",
+          "city": "Indianapolis",
+          "state": "Indiana",
+          "postal_code": "46204",
+          "phone": "+13178605800",
+          "property_code": "indjw",
+          "source": "jsonld"
+        },
+        "independent_non_url_keys": [
+          "phone@structured_metadata"
+        ],
+        "url_identifier_used_as_bind": false,
+        "conflicts": [],
+        "notes": "Unclean bind: official street key was postal-only (46204), second key was the URL, verdict had no address_matched. JSON-LD street 10 S West Street was not an official street agreement. Policy is withheld. Artifact retained for audit only."
+      },
+      "policy_source": null,
+      "artifact_file": "www-marriott-com-en-us-hotels-indjw-jw-marriott-indianapolis-overview-2026-08-16T23-48-15-887Z.json",
+      "artifact_sha256": "sha256:2eabcbe4f504d9ad50167262366df63e3198f76a41aa12f727b446ecc3272ba9",
+      "artifact_kind": "rendered_html",
+      "text_sha256": "sha256:6d86ea285f2bb5cc3060030746f713dc966aad4e51047841dbc799cefee87a31",
+      "screenshot_sha256": "sha256:cd76cd865903e8dd88872ecc602e10630b4d3613f0daab690ce6a036a6f5f14e",
+      "captured_at": "2026-08-16T23:48:15.887Z",
+      "capture_method": "attended_browser",
+      "source_grade": "PT1_FIRST_PARTY",
+      "notes": [
+        "Page did not bind cleanly. Capture-time assessor was STRONG_MATCH (name+city only); the counted address key was ZIP 46204 plus URL indjw. Street never agreed under the official parser. Policy on this page is unused. Sibling Marriott policy not inherited."
       ],
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],

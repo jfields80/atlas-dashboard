@@ -4,10 +4,12 @@ Pass-2 artifacts are unchanged. This builder re-scores those ten rows
 against a STRICT identity gate before any policy observation is retained:
 
     PROPERTY URL ALONE IS NOT IDENTITY BINDING.
+    If a page does not bind cleanly: IDENTITY_UNCERTAIN. Do not use its policy.
 
 A retained policy row must show two independent non-URL keys (JSON-LD
-street and JSON-LD phone). A canonical-URL property code is recorded
-but never counted as a bind. Founder decisions are not applied.
+street and JSON-LD phone) and a first-party property-specific policy
+surface. A canonical-URL property code is recorded but never counted
+as a bind. Founder decisions are not applied.
 """
 
 from __future__ import annotations
@@ -111,6 +113,7 @@ def _rendered(**kwargs):
 def _binding(*, bound, intended, rendered, keys, notes, conflicts=None):
     return OrderedDict((
         ("bound", bound),
+        ("clean_bind", bound),
         ("gate", GATE),
         ("intended", intended),
         ("rendered", rendered),
@@ -121,9 +124,23 @@ def _binding(*, bound, intended, rendered, keys, notes, conflicts=None):
     ))
 
 
+def _policy_source(kind, surface):
+    return OrderedDict((
+        ("kind", kind),
+        ("surface", surface),
+        ("first_party", True),
+        ("sibling_or_brand_generic", False),
+    ))
+
+
 def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
-          withheld=None, contradictions=None, binding=None, final_url=None):
-    art = ART.get(h["identity_key"])
+          withheld=None, contradictions=None, binding=None, final_url=None,
+          policy_source=None, keep_artifact=None):
+    art = ART.get(h["identity_key"]) if keep_artifact is not False else None
+    # Uncertain rows may still have a forensic capture; publication-grade
+    # artifacts stay only on clean-bind policy rows.
+    if outcome == "IDENTITY_UNCERTAIN" and keep_artifact is None:
+        art = None
     row = OrderedDict((
         ("decision_id", "INDY-P2-%03d" % n),
         ("queue_id", "INDY-P2-%03d" % n),
@@ -135,7 +152,8 @@ def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
         ("final_url", final_url or (art or {}).get("url") or h.get("official_url") or ""),
         ("runner_reason", runner),
         ("outcome", outcome),
-        ("identity_binding", binding or {"bound": False, "gate": GATE}),
+        ("identity_binding", binding or {"bound": False, "clean_bind": False, "gate": GATE}),
+        ("policy_source", policy_source),
         ("artifact_file", (art or {}).get("file")),
         ("artifact_sha256", (art or {}).get("html")),
         ("artifact_kind", "rendered_html" if art else None),
@@ -205,6 +223,9 @@ def main() -> int:
         facts=[{"field": "pets_allowed", "value": False,
                 "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}],
         contradictions=["Service animals only sits beside the refusal and is not read as a pet permission."],
+        policy_source=_policy_source(
+            "official_brand_property_page",
+            "Marriott Castleton overview Pet Policy block on the official property page"),
         binding=_binding(
             bound=True, intended=_intended(courtyard_cas),
             rendered=_rendered(
@@ -228,6 +249,9 @@ def main() -> int:
         facts=[{"field": "pets_allowed", "value": False,
                 "quote": "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
                 "quote_contiguous_in_artifact": True}],
+        policy_source=_policy_source(
+            "property_specific_first_party_faq",
+            "IHG Crowne Plaza Downtown Union Station FAQ on the official property page"),
         binding=_binding(
             bound=True, intended=_intended(crowne),
             rendered=_rendered(
@@ -274,6 +298,9 @@ def main() -> int:
                    "reason": "SOURCE_AMBIGUOUS",
                    "quote": "Non Refundable Cleaning Fee of $100.00 due at check-in.",
                    "note": "Appears in the Pet Policy block beside a no-pets statement; not bound as a pet charge."}],
+        policy_source=_policy_source(
+            "official_brand_property_page",
+            "Marriott Fairfield Airport overview Pet Policy block on the official property page"),
         binding=_binding(
             bound=True, intended=_intended(fairfield),
             rendered=_rendered(
@@ -326,6 +353,9 @@ def main() -> int:
             {"field": "pet_count_scope", "reason": "SOURCE_SILENT",
              "note": "2 pets allowed does not say per room or per stay."},
         ],
+        policy_source=_policy_source(
+            "property_specific_first_party_faq",
+            "IHG Holiday Inn Express Plainfield / Indianapolis Airport FAQ on the official property page at 6296 Cambridge Way"),
         binding=_binding(
             bound=True, intended=_intended(hie),
             rendered=_rendered(
@@ -362,30 +392,26 @@ def main() -> int:
     jw = by["jw marriott indianapolis"]
     rows.append(_base(
         jw, 9,
-        "NEGATIVE", "CAPTURED", "APPROVE_VERIFIED_NO_PETS",
-        "Official Marriott Pet Policy block states Pets Not Allowed. FAQ lists "
-        "the question with no answer; the policy block is the evidence. "
-        "Runner bound ZIP 46204 + URL indjw; that URL-plus-ZIP pair was "
-        "discarded. Identity is re-bound on JSON-LD street 10 S West Street "
-        "(= 10 South West Street) + JSON-LD phone.",
-        quotes=["Pets Not Allowed"],
-        facts=[{"field": "pets_allowed", "value": False,
-                "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}],
+        "IDENTITY_UNCERTAIN", "CAPTURED", "HOLD_RETRY_IDENTITY",
+        "Page did not bind cleanly. Capture-time assessor was STRONG_MATCH "
+        "(name+city only); the counted address key was ZIP 46204 plus URL "
+        "indjw. Street never agreed under the official parser. Policy on this "
+        "page is unused. Sibling Marriott policy not inherited.",
+        final_url=ART["jw marriott indianapolis"]["url"],
+        keep_artifact=True,
         binding=_binding(
-            bound=True, intended=_intended(jw),
+            bound=False, intended=_intended(jw),
             rendered=_rendered(
                 page_name="JW Marriott Indianapolis",
                 final_url=ART["jw marriott indianapolis"]["url"],
                 street="10 S West Street", city="Indianapolis",
                 state="Indiana", postal_code="46204",
                 phone="+13178605800", property_code="indjw", source="jsonld"),
-            keys=["address@structured_metadata", "phone@structured_metadata"],
-            notes="10 S West Street is the same street as census 10 South West Street "
-                  "(S = South; West is the street name). City/ZIP match. Page phone "
-                  "+1 317-860-5800 has no census phone to conflict with. Capture-time "
-                  "assessor returned STRONG_MATCH (name+city) because the street parser "
-                  "treats both South and West as directionals and leaves an empty core; "
-                  "that parser miss is not a different hotel. URL/ZIP-only bind discarded.")))
+            keys=["phone@structured_metadata"],
+            notes="Unclean bind: official street key was postal-only (46204), "
+                  "second key was the URL, verdict had no address_matched. "
+                  "JSON-LD street 10 S West Street was not an official street "
+                  "agreement. Policy is withheld. Artifact retained for audit only.")))
 
     meridien = by["le meridien indianapolis"]
     rows.append(_base(
@@ -410,6 +436,9 @@ def main() -> int:
             {"field": "species", "reason": "SOURCE_SILENT",
              "note": "Generic pets is not dogs+cats."},
         ],
+        policy_source=_policy_source(
+            "official_brand_property_page",
+            "Marriott Le Meridien Indianapolis overview Pet Policy block on the official property page"),
         binding=_binding(
             bound=True, intended=_intended(meridien),
             rendered=_rendered(
@@ -426,19 +455,26 @@ def main() -> int:
     for row in rows:
         if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
             bind = row["identity_binding"]
-            if not bind.get("bound"):
-                raise SystemExit("policy retained without identity bind: %s" % row["identity_key"])
+            if not bind.get("bound") or not bind.get("clean_bind"):
+                raise SystemExit("policy retained without a clean bind: %s" % row["identity_key"])
             if len(bind.get("independent_non_url_keys") or []) < 2:
                 raise SystemExit("policy retained without two non-URL keys: %s" % row["identity_key"])
             if bind.get("url_identifier_used_as_bind"):
                 raise SystemExit("policy retained on URL identifier: %s" % row["identity_key"])
+            src = row.get("policy_source") or {}
+            if not src.get("first_party") or src.get("sibling_or_brand_generic"):
+                raise SystemExit("policy retained from a non-first-party surface: %s"
+                                 % row["identity_key"])
+        else:
+            if row["proposed_schema_1_2_facts"] or row["exact_quotes"]:
+                raise SystemExit("policy used on an unbound row: %s" % row["identity_key"])
 
     counts = OrderedDict((
         ("AFFIRMATIVE_STRUCTURED", 2),
         ("AFFIRMATIVE_PARTIAL", 0),
-        ("NEGATIVE", 4),
+        ("NEGATIVE", 3),
         ("POLICY_NOT_FOUND", 0),
-        ("IDENTITY_UNCERTAIN", 4),
+        ("IDENTITY_UNCERTAIN", 5),
         ("ROUTING_PROBLEM", 0),
         ("ACCESS_BLOCKED", 0),
         ("CAPTURE_FAILED", 0),
@@ -456,38 +492,55 @@ def main() -> int:
         ("source_queue", "indianapolis_capture_ready_queue_002.json"),
         ("rows_total", 10),
         ("rows_captured", 6),
-        ("rows_with_publication_grade_artifact", 6),
+        ("rows_with_publication_grade_artifact", 5),
         ("hilton_rows_driven", 0),
         ("founder_decisions_applied", False),
         ("identity_gate", OrderedDict((
             ("name", GATE),
             ("rule",
-             "PROPERTY URL ALONE IS NOT IDENTITY BINDING. A policy observation "
-             "is retained only when JSON-LD (or equivalent structured metadata) "
-             "renders a matching street and an independent non-conflicting phone. "
-             "A canonical-URL or requested-URL property code is never a bind."),
+             "PROPERTY URL ALONE IS NOT IDENTITY BINDING. If a page does not "
+             "bind cleanly, the outcome is IDENTITY_UNCERTAIN and its policy "
+             "is unused. A policy observation is retained only when JSON-LD "
+             "renders a matching street and an independent non-conflicting "
+             "phone, and the quote is from that property's first-party page "
+             "or property-specific FAQ. A canonical-URL property code is "
+             "never a bind."),
             ("rescored_from", "indianapolis-attended-capture-002 journal + capture JSON-LD"),
+        ))),
+        ("policy_authority", OrderedDict((
+            ("accepted", [
+                "exact property first-party website",
+                "official brand property page",
+                "property-specific first-party FAQ/policy surface",
+            ]),
+            ("rejected", [
+                "OTA text",
+                "search snippets as authority",
+                "neighboring hotel policy",
+                "generic brand policy",
+                "sibling-property policy",
+            ]),
         ))),
         ("outcome_counts", counts),
         ("rule",
          "Only the recommended 10 non-Hilton ready-queue rows were driven. "
-         "Policy was re-scored against the strict identity gate before retention. "
+         "An unclean identity bind withholds policy and continues. "
          "Crowne Downtown refusal is independent of Crowne Airport. "
-         "No sibling Marriott policy was inherited. No founder decision was applied. "
-         "No authority was written."),
+         "No sibling Marriott policy was inherited. No OTA or brand-generic "
+         "policy was used. No founder decision was applied. No authority was written."),
         ("speed_benchmark", OrderedDict((
             ("batch_total", 10),
             ("started_at", "2026-08-16T23:31:29.696Z"),
             ("finished_at", "2026-08-16T23:50:53.080Z"),
             ("elapsed_seconds", 1179.09),
             ("captures_completed", 10),
-            ("successful_artifacts", 6),
+            ("successful_artifacts", 5),
             ("median_inter_capture_gap_seconds", 106.0),
             ("captures_per_hour", 30.5),
             ("positive_rate", 0.2),
-            ("negative_rate", 0.4),
+            ("negative_rate", 0.3),
             ("policy_not_found_rate", 0.0),
-            ("identity_uncertain_rate", 0.4),
+            ("identity_uncertain_rate", 0.5),
         ))),
         ("results", rows),
     ))
@@ -501,12 +554,13 @@ def main() -> int:
         ("status", "FOUNDER_REVIEW_REQUIRED"),
         ("founder_decisions_applied", False),
         ("identity_gate", results["identity_gate"]),
+        ("policy_authority", results["policy_authority"]),
         ("rule",
          "Nothing here is published. Founder decisions are not applied in this "
          "packet. Approving a negative would write an exclusion later. Approving "
          "a positive would write schema 1.2 facts later. Identity-uncertain rows "
-         "stay unresolved. A row whose only second key was a URL property code "
-         "was not allowed to keep a policy observation."),
+         "stay unresolved and their policy is unused. A page that does not bind "
+         "cleanly cannot contribute a policy observation."),
         ("positive_candidates", positives),
         ("negative_candidates", negatives),
         ("identity_uncertain",
