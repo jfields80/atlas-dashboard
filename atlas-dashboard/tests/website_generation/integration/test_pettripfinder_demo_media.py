@@ -50,6 +50,7 @@ from scripts.generate_pettripfinder_pilot import (  # noqa: E402
     build_content_package,
     load_launch_package,
 )
+from scripts.pettripfinder import market_authority as MA  # noqa: E402
 from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset  # noqa: E402
 from scripts.pettripfinder.publication_guard import distinct_entity_groups  # noqa: E402
 from scripts.pettripfinder.media_ingestion import (  # noqa: E402
@@ -57,6 +58,16 @@ from scripts.pettripfinder.media_ingestion import (  # noqa: E402
     ingest_demo_media,
     load_demo_media_manifest,
 )
+
+def _expected_by_category():
+    """Seeded listings per category, summed from the per-market authority
+    shards (PTF-MARKET-AUTHORITY-SHARDING-001)."""
+    counts = {}
+    for market_id in MA.sharded_market_ids():
+        for row in MA.load_market_seed_rows(market_id):
+            counts[row["category"]] = counts.get(row["category"], 0) + 1
+    return counts
+
 
 _IMG_TAG_RE = re.compile(r"<img [^>]*>")
 _SRC_RE = re.compile(r'src="([^"]*)"')
@@ -261,16 +272,23 @@ class TestGeneratedHtml:
             assert "<img" not in html
             assert "card-image" not in html and "primary-image" not in html
 
-    def test_exactly_twenty_nine_img_tags_sitewide(self, tmp_path):
-        # 2 imaged listings x (1 category card + 1 profile primary) = 4,
-        # plus J.20 related-listing repetition: the Scioto Audubon card on
-        # the other 13 park profiles and the Land-Grant card on the other
-        # 12 restaurant profiles = 29. Every img is one of the two
-        # repository-owned demo illustrations; all other listings stay
-        # text-only.
+    def test_img_tags_sitewide_are_exactly_the_two_demo_illustrations(self, tmp_path):
+        # 2 imaged listings x (1 category card + 1 profile primary) = 4, plus
+        # J.20 related-listing repetition: the Scioto Audubon card appears on
+        # every OTHER park profile and the Land-Grant card on every OTHER
+        # restaurant profile. Every img is one of the two repository-owned demo
+        # illustrations; all other listings stay text-only.
+        #
+        # PTF-MARKET-AUTHORITY-SHARDING-001: the repetition terms are counted
+        # from the seed shards rather than pinned at 13 and 12. The formula is
+        # the behaviour under test; the sibling counts are just how many
+        # listings the markets happen to seed, and a market adding one park
+        # should not make this test wrong.
+        by_category = _expected_by_category()
+        expected = 4 + (by_category["pet-friendly-parks"] - 1)                      + (by_category["pet-friendly-restaurants"] - 1)
         _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
         total = sum(len(_IMG_TAG_RE.findall(p.html)) for p in rendered.page_details)
-        assert total == 29
+        assert total == expected
 
 
 # --------------------------------------------------------------------------- #

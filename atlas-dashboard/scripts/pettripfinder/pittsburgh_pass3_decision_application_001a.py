@@ -21,13 +21,14 @@ if str(ROOT) not in sys.path:
 
 from scripts.pettripfinder import canonical_view
 from scripts.pettripfinder import hotel_exclusions as EX
+from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder.contracts import enums, evidence as evidence_contract
 from scripts.pettripfinder.contracts import policy_schema, withholding
 from scripts.pettripfinder.contracts.fee_computation import classify
 from scripts.pettripfinder.market_ownership import MARKET_ID_FIELD, owned_by
 from scripts.pettripfinder.markets import assign_hotels, load_markets, market_by_id
 from scripts.pettripfinder.policy_migration import evidence_hash, evidence_ref_for, record_hash
-from scripts.pettripfinder.site_data import PRODUCTION_CSV, normalize_name, read_production_rows, verified_public_hotels
+from scripts.pettripfinder.site_data import normalize_name, read_production_rows, verified_public_hotels
 
 MARKET = "pittsburgh-pa"
 WORK_ORDER = "PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A"
@@ -36,7 +37,8 @@ FOUNDER = "jfields80"
 LP = ROOT / "launch_packages" / "pettripfinder"
 REPORTS = LP / "markets" / "reports"
 FACTS_PATH = LP / "hotel_policy_facts_pittsburgh-pa.json"
-EXCLUSIONS_PATH = LP / "hotel_exclusions.json"
+EXCLUSIONS_PATH = MA.exclusions_shard_path(MARKET)
+SEED_PATH = MA.seed_shard_path(MARKET)
 CENSUS_PATH = LP / "identity_census" / "pittsburgh-pa.json"
 PARTITION_PATH = LP / "pittsburgh_final_partition_001.json"
 PACKET_PATH = REPORTS / "pittsburgh_pass3_founder_review_packet.json"
@@ -296,6 +298,7 @@ def finalize_exclusion_bindings() -> int:
             changed += 1
     EX.validate(doc)
     dump(EXCLUSIONS_PATH, doc)
+    MA.write_generated_artifacts()
     return changed
 
 
@@ -330,7 +333,7 @@ def run(apply: bool) -> dict:
         return summary
     dump(FACTS_PATH, next_facts)
     dump(EXCLUSIONS_PATH, next_exclusions)
-    with PRODUCTION_CSV.open(encoding="utf-8-sig", newline="") as fh:
+    with SEED_PATH.open(encoding="utf-8-sig", newline="") as fh:
         reader = csv.DictReader(fh); rows = list(reader); fields = list(reader.fieldnames or [])
     seeds = []
     for record in published:
@@ -343,7 +346,8 @@ def run(apply: bool) -> dict:
     writer.writeheader()
     for row in rows + seeds:
         writer.writerow({key: row.get(key, "") for key in fields})
-    PRODUCTION_CSV.write_text(buf.getvalue(), encoding="utf-8", newline="")
+    SEED_PATH.write_text(buf.getvalue(), encoding="utf-8", newline="")
+    MA.write_generated_artifacts()
     from scripts.pettripfinder import build_pittsburgh_market_001 as builder
     builder._AUTHORITY_CACHE = None
     builder.build()

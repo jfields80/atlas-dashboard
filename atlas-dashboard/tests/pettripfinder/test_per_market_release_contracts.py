@@ -86,7 +86,10 @@ EXPECTED_RECONCILIATION = {
     # 44 rulings on the 68-row driveable-queue packet: forty artifact-backed
     # publications (41 -> 81) and four first-party refusals (31 -> 35), so
     # resolved is 116 and unresolved 72.
-    CLEVELAND: (188, 81, 35, 116, 72),
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then applied 23 rulings:
+    # 18 publications (81 -> 99, incl. two authorized renames) and 5
+    # refusals (35 -> 40), so resolved is 139 and unresolved 49.
+    CLEVELAND: (188, 99, 40, 139, 49),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -108,13 +111,9 @@ EXPECTED_RECONCILIATION = {
     # NOT_LODGING rulings are projected into the registry as
     # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
     # COUNTED from the committed final partition.
-    # PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 added 9 more publications
-    # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
-    # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
-    # is COUNTED from the committed final partition (63).
-    # PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A then applied three
-    # publications and two explicit property-level refusals; Sunnyledge stayed
-    # unresolved, so resolved is 29 + 6 + 3 and unresolved is 58.
+    # Pass 3 then applied three founder-approved publications and two explicit
+    # first-party refusals.  The three out-of-category decisions remain intact,
+    # so the partition mechanically resolves 29 + 6 + 3 = 38 rows.
     PITTSBURGH: (96, 29, 6, 38, 58),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
@@ -266,7 +265,7 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8,
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
                              PITTSBURGH: 6, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")

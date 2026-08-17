@@ -56,6 +56,17 @@ SOURCE_FAMILIES: FrozenSet[str] = frozenset({
 # mapped; a source is added here when its data enters the system, never
 # speculatively. The four CVB entries are the entire Cleveland-Akron-Canton
 # identity census (source_batch cleveland-akron-canton-007).
+#
+# PTF-MARKET-AUTHORITY-SHARDING-001. A NEW MARKET DOES NOT BELONG HERE.
+# Everything below predates the per-market coverage config and is retained
+# verbatim so no already-registered market changes family. A market registered
+# from now on declares its own sources in
+# ``launch_packages/pettripfinder/markets/coverage/<market_id>.json`` under
+# ``source_family_overrides``, which ``family_of`` merges on top of this table.
+# The distinction is not cosmetic: this dict is one shared file that every
+# market branch appended to at once, and it was one of the recurring merge
+# conflicts that sharding exists to remove. The per-market file has no such
+# contention, and an override is reviewed beside the market it belongs to.
 # --------------------------------------------------------------------------- #
 
 CONCRETE_SOURCE_FAMILY: Dict[str, str] = {

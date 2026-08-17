@@ -105,9 +105,42 @@ _MARKET_FILENAMES = {
 }
 
 
+def conventional_config_filename(market_id: str) -> str:
+    """The filename a market's discovery config gets when nobody names it.
+
+    Every entry in ``_MARKET_FILENAMES`` already follows this rule; stating it
+    as a function is what lets a new market ship a config file without also
+    editing a shared Python dict that every parallel market branch touches.
+    """
+    return "%s.json" % (market_id or "").replace("-", "_")
+
+
 def _resolve_config_path(market_id: str, config_dir: Path = None) -> Path:
+    """Resolve a market's discovery config.
+
+    PTF-MARKET-AUTHORITY-SHARDING-001. Two layers, explicit first:
+
+    1. ``_MARKET_FILENAMES`` -- the registry above. Kept, and still wins, so
+       every market registered before this change resolves exactly as it did
+       and a config filename may still deliberately differ from its market id.
+    2. The conventional filename, if that file actually exists on disk.
+
+    The second layer is the point: registering market N+1 used to require an
+    edit to this dict from that market's branch, which is a guaranteed conflict
+    with every other market's branch doing the same thing for no benefit --
+    every entry was the mechanical id-to-filename transform anyway. Discovery
+    by convention costs a file, not a merge.
+
+    An unknown market still fails closed: a market id with no registry entry
+    AND no file on disk raises, so a typo can never resolve to nothing quietly.
+    """
     base = config_dir or _CONFIG_DIR
     filename = _MARKET_FILENAMES.get(market_id)
-    if filename is None:
+    if filename is not None:
+        return base / filename
+    if not (market_id or "").strip():
         raise KeyError("unknown market_id: %r" % market_id)
-    return base / filename
+    discovered = base / conventional_config_filename(market_id)
+    if discovered.is_file():
+        return discovered
+    raise KeyError("unknown market_id: %r" % market_id)
