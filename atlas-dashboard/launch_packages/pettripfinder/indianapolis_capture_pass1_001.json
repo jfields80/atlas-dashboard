@@ -1,0 +1,516 @@
+{
+  "schema": "ptf-indianapolis-capture-pass1/1.0",
+  "work_order": "PTF-INDIANAPOLIS-CLAUDE-CAPTURE-PASS1-001",
+  "market_id": "indianapolis-in",
+  "source_queue": "indianapolis_capture_queue_pass4.json",
+  "rows_total": 10,
+  "rows_captured": 10,
+  "publication_grade": 2,
+  "outcome_counts": {
+    "PUBLICATION_CANDIDATE": 2,
+    "VERIFIED_NO_PETS_CANDIDATE": 3,
+    "POLICY_NOT_FOUND": 3,
+    "ACCESS_BLOCKED": 2,
+    "IDENTITY_UNCERTAIN": 0,
+    "CAPTURE_FAILED": 0,
+    "SOURCE_AMBIGUOUS": 0
+  },
+  "authority_freeze": {
+    "published_pet_friendly": 8,
+    "verified_no_pets": 4,
+    "authority_changed": false,
+    "founder_decisions_applied": false
+  },
+  "results": [
+    {
+      "identity_key": "bottleworks hotel",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/bottleworks-hotel-2026-08-17-pass1.txt",
+        "sha256": "sha256:e41275f31d3cf8ac49daeceab3f5fd5b930bcf49188a8b135783bdfd46d78a95",
+        "kind": "rendered_text"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [
+        "Pets are always welcome guests at Bottleworks Hotel."
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": true,
+          "quote": "Pets are always welcome guests at Bottleworks Hotel.",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [
+        {
+          "field": "species",
+          "reason": "SOURCE_SILENT"
+        },
+        {
+          "field": "pet_fee",
+          "reason": "POLICY_DOCUMENT_LINK_NOT_CAPTURED"
+        }
+      ],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Bottleworks Hotel Pet Policy page",
+      "notes": [
+        "The attended first-party policy page names Bottleworks Hotel and renders the property address and phone. No linked PDF terms were used in this capture."
+      ],
+      "decision_id": "INDY-CAP1-001",
+      "queue_order": 1,
+      "hotel": "Bottleworks Hotel",
+      "official_property_url": "https://www.bottleworkshotel.com/",
+      "final_url": "https://www.bottleworkshotel.com/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Bottleworks Hotel",
+        "street_identity": "850 massachusetts avenue|46204",
+        "property_code": "",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "REVIEW_PUBLICATION_CANDIDATE"
+    },
+    {
+      "identity_key": "candlewood suites indianapolis medical district",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/candlewood-suites-indianapolis-medical-district-2026-08-17-pass1.txt",
+        "sha256": "sha256:6da5686587a6e83f363199ab72f73e1273583245938ab8a0f0171351d038c83c",
+        "kind": "rendered_text"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [
+        "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required."
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": true,
+          "quote": "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "species",
+          "value": [
+            "cats",
+            "dogs"
+          ],
+          "quote": "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "pet_fee",
+          "value": {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "refundable": false
+          },
+          "quote": "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "pet_fee_scope",
+          "value": "per_pet",
+          "quote": "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
+          "field": "weight_limit",
+          "value": {
+            "value": 80,
+            "unit": "lb",
+            "operator": "lt",
+            "scope": "per_pet"
+          },
+          "quote": "Cats and dogs are allowed with a nonrefundable pet fee of 75 USD per pet. Each pet must weigh less than 80 lbs. A pet agreement must be signed at check in. Please call the hotel for details. A record of complete and up to date vaccinations is required.",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [
+        {
+          "field": "pet_fee.basis",
+          "reason": "SOURCE_SILENT"
+        },
+        {
+          "field": "reservation_requirement",
+          "reason": "SCHEMA_CANNOT_REPRESENT",
+          "note": "Signing an agreement at check-in is not a reservation requirement."
+        }
+      ],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Candlewood Suites property FAQ",
+      "notes": [
+        "Only the property-specific IHG FAQ text is used; no generic IHG or sibling policy is inferred."
+      ],
+      "decision_id": "INDY-CAP1-002",
+      "queue_order": 2,
+      "hotel": "Candlewood Suites Indianapolis Medical District",
+      "official_property_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+      "final_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Candlewood Suites Indianapolis Medical District",
+        "street_identity": "1152 north white river parkway west drive|46222",
+        "property_code": "indwp",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "REVIEW_PUBLICATION_CANDIDATE"
+    },
+    {
+      "identity_key": "conrad indianapolis",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/conrad-indianapolis-2026-08-17-pass1.rendered-dom.txt",
+        "sha256": "sha256:a973504bcc293af78023293cf229209ad1db110e0f1753d8456b1c008215fd8e",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Conrad Indianapolis property page",
+      "notes": [
+        "The attended property page bound identity but exposed no usable property-specific pet-policy terms. 'Pet-friendly options' was not treated as a policy assertion."
+      ],
+      "decision_id": "INDY-CAP1-003",
+      "queue_order": 3,
+      "hotel": "Conrad Indianapolis",
+      "official_property_url": "https://www.hilton.com/en/hotels/indcici-conrad-indianapolis/",
+      "final_url": "https://www.hilton.com/en/hotels/indcici-conrad-indianapolis/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Conrad Indianapolis",
+        "street_identity": "50 west washington street|46204",
+        "property_code": "indcici",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "NO_DECISION_REQUIRED"
+    },
+    {
+      "identity_key": "courtyard by marriott indianapolis at the capitol",
+      "outcome": "ACCESS_BLOCKED",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/courtyard-indianapolis-at-the-capitol-2026-08-17-pass1.rendered-dom.txt",
+        "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Courtyard property route",
+      "notes": [
+        "The first-party Marriott route produced an empty attended rendered surface. No policy inference was made."
+      ],
+      "decision_id": "INDY-CAP1-004",
+      "queue_order": 4,
+      "hotel": "Courtyard by Marriott Indianapolis at the Capitol",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/indcd-courtyard-indianapolis-at-the-capitol/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indcd-courtyard-indianapolis-at-the-capitol/overview/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Courtyard by Marriott Indianapolis at the Capitol",
+        "street_identity": "320 north senate avenue|46204",
+        "property_code": "indcd",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "NO_DECISION_REQUIRED"
+    },
+    {
+      "identity_key": "courtyard by marriott indianapolis downtown",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/courtyard-indianapolis-downtown-2026-08-17-pass1-expanded.rendered-dom.txt",
+        "sha256": "sha256:c098b9b5c7b2509a5786f36dd34d46fee9f8ff910cdf6856a60f855decc018de",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [
+        "No, pets are not allowed at Courtyard by Marriott Indianapolis Downtown."
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "No, pets are not allowed at Courtyard by Marriott Indianapolis Downtown.",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Courtyard Downtown property FAQ",
+      "notes": [
+        "Property-specific Marriott FAQ answer on the exact routed property page."
+      ],
+      "decision_id": "INDY-CAP1-005",
+      "queue_order": 5,
+      "hotel": "Courtyard by Marriott Indianapolis Downtown",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/indct-courtyard-indianapolis-downtown/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/indct-courtyard-indianapolis-downtown/overview/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Courtyard by Marriott Indianapolis Downtown",
+        "street_identity": "601 west washington street|46204",
+        "property_code": "indct",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "REVIEW_VERIFIED_NO_PETS_CANDIDATE"
+    },
+    {
+      "identity_key": "hilton garden inn indianapolis downtown",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/hilton-garden-inn-indianapolis-downtown-2026-08-17-pass1.rendered-dom.txt",
+        "sha256": "sha256:65fb5d10731af3532b22cc9beda311d414136737921ea22595e18cb73fd7b407",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Hilton Garden Inn property page",
+      "notes": [
+        "The attended exact Hilton property route bound identity but did not render a usable property-specific pet-policy surface."
+      ],
+      "decision_id": "INDY-CAP1-006",
+      "queue_order": 6,
+      "hotel": "Hilton Garden Inn Indianapolis Downtown",
+      "official_property_url": "https://www.hilton.com/en/hotels/inddhgi-hilton-garden-inn-indianapolis-downtown/",
+      "final_url": "https://www.hilton.com/en/hotels/inddhgi-hilton-garden-inn-indianapolis-downtown/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Hilton Garden Inn Indianapolis Downtown",
+        "street_identity": "10 east market street|46204",
+        "property_code": "inddhgi",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "NO_DECISION_REQUIRED"
+    },
+    {
+      "identity_key": "hilton indianapolis hotel and suites",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/hilton-indianapolis-hotel-and-suites-2026-08-17-pass1.rendered-dom.txt",
+        "sha256": "sha256:9b3c62b91c9c0127ccd153bb2b1c514e621a9441b6a47be780a97547c5f2e46e",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Hilton Indianapolis property page",
+      "notes": [
+        "The attended exact Hilton property route bound identity but did not render a usable property-specific pet-policy surface."
+      ],
+      "decision_id": "INDY-CAP1-007",
+      "queue_order": 7,
+      "hotel": "Hilton Indianapolis Hotel & Suites",
+      "official_property_url": "https://www.hilton.com/en/hotels/inddnhf-hilton-indianapolis-hotel-and-suites/",
+      "final_url": "https://www.hilton.com/en/hotels/inddnhf-hilton-indianapolis-hotel-and-suites/",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Hilton Indianapolis Hotel & Suites",
+        "street_identity": "120 west market street|46204",
+        "property_code": "inddnhf",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "NO_DECISION_REQUIRED"
+    },
+    {
+      "identity_key": "holiday inn express and suites indianapolis north carmel",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/holiday-inn-express-suites-indianapolis-north-carmel-2026-08-17-pass1-visible-dom.txt",
+        "sha256": "sha256:bfea00c422cfbb3e4072657aee1cfd1613da078c45603981276395b255a4dfbb",
+        "kind": "attended_rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [
+        "No, pets are not allowed"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "No, pets are not allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Holiday Inn Express Carmel property FAQ",
+      "notes": [
+        "The exact property FAQ's attended rendered control supplies the negative answer. No fee, species, or exception was inferred."
+      ],
+      "decision_id": "INDY-CAP1-008",
+      "queue_order": 8,
+      "hotel": "Holiday Inn Express & Suites Indianapolis North Carmel",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Holiday Inn Express & Suites Indianapolis North Carmel",
+        "street_identity": "9797 north michigan road|46032",
+        "property_code": "indnt",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "REVIEW_VERIFIED_NO_PETS_CANDIDATE"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis downtown",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/holiday-inn-express-indianapolis-downtown-2026-08-17-pass1-visible-dom-2.txt",
+        "sha256": "sha256:8657d8e73b8020b0e534cbd77e53b9ffdb14c9fdc8a23e4b1c2610e6184f8b6f",
+        "kind": "attended_rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [
+        "No, pets are not allowed"
+      ],
+      "proposed_schema_1_2_facts": [
+        {
+          "field": "pets_allowed",
+          "value": false,
+          "quote": "No, pets are not allowed",
+          "quote_contiguous_in_artifact": true
+        }
+      ],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Holiday Inn Express Downtown property FAQ",
+      "notes": [
+        "The exact property FAQ's attended rendered control supplies the negative answer. No fee, species, or exception was inferred."
+      ],
+      "decision_id": "INDY-CAP1-009",
+      "queue_order": 9,
+      "hotel": "Holiday Inn Express Indianapolis Downtown",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Holiday Inn Express Indianapolis Downtown",
+        "street_identity": "410 south missouri street|46225",
+        "property_code": "indms",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "REVIEW_VERIFIED_NO_PETS_CANDIDATE"
+    },
+    {
+      "identity_key": "holiday inn indianapolis downtown",
+      "outcome": "ACCESS_BLOCKED",
+      "artifact": {
+        "relative_path": "data/worker_runs/pettripfinder/indianapolis-claude-capture-pass1-001/captures/holiday-inn-indianapolis-downtown-2026-08-17-pass1.rendered-dom.txt",
+        "sha256": "sha256:70e05f14bef434b53052e74f400f066bb3fb7a784de183fa9723fd8b10d7a605",
+        "kind": "rendered_dom"
+      },
+      "source_grade": "PT1_FIRST_PARTY",
+      "capture_method": "attended_browser",
+      "captured_at": "2026-08-17",
+      "exact_quotes": [],
+      "proposed_schema_1_2_facts": [],
+      "withheld_fields": [],
+      "service_animal_statements": [],
+      "contradiction_notes": [],
+      "source_surface": "Holiday Inn Downtown property FAQ",
+      "notes": [
+        "The property-specific FAQ question rendered, but its answer could not be opened in the attended surface. No policy was accepted."
+      ],
+      "decision_id": "INDY-CAP1-010",
+      "queue_order": 10,
+      "hotel": "Holiday Inn Indianapolis Downtown",
+      "official_property_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+      "identity_binding": {
+        "bound": true,
+        "signals": [
+          "canonical_name",
+          "street_identity",
+          "official_property_url"
+        ],
+        "canonical_name": "Holiday Inn Indianapolis Downtown",
+        "street_identity": "515 south west street|46225",
+        "property_code": "indwe",
+        "route_status": "ROUTING_CONFIRMED"
+      },
+      "recommended_founder_decision": "NO_DECISION_REQUIRED"
+    }
+  ]
+}
