@@ -57,8 +57,8 @@ LANES_001A = ("independent", "redroof", "bestwestern", "choice", "wyndham",
               "ihg", "esa", "sonesta")
 
 BRAND_PATTERNS: Tuple[Tuple[str, str], ...] = (
-    ("hilton", r"hampton|homewood|home2|hilton|doubletree|embassy|tru by|spark by|curio|cincinnatian|lytle"),
-    ("marriott", r"marriott|courtyard|fairfield inn|residence inn|springhill|towneplace|renaissance|westin|aloft|moxy|delta hotels|ac hotel|autograph|tribute|kinley|phelps|celare"),
+    ("hilton", r"hampton|homewood|home2|hilton|doubletree|embassy|tru by|spark by|curio|cincinnatian"),
+    ("marriott", r"marriott|courtyard|fairfield inn|residence inn|springhill|towneplace|renaissance|westin|aloft|moxy|delta hotels|ac hotel|autograph|tribute|kinley|phelps|celare|lytle"),
     ("ihg", r"holiday inn|candlewood|staybridge|avid|voco|hotel indigo|crowne|even hotel"),
     ("choice", r"comfort |quality |sleep inn|clarion|econo lodge|rodeway|mainstay|suburban|ascend|blu hotel|cambria|woodspring"),
     ("wyndham", r"days inn|super 8|baymont|microtel|wingate|ramada|travelodge|la quinta|laquinta|hawthorn|wyndham|americinn"),
