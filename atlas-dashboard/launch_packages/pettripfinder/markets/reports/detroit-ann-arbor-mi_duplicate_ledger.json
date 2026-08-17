@@ -1,13 +1,13 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001",
   "market_id": "detroit-ann-arbor-mi",
-  "as_of": "2026-08-16",
+  "as_of": "2026-08-17",
   "counts": {
-    "canonical": 143,
+    "canonical": 142,
     "duplicate": 0,
     "boundary_excluded": 9,
-    "closed": 0,
+    "closed": 1,
     "category_excluded_in_census": 1
   },
   "items": [
@@ -82,6 +82,14 @@
       "duplicate_of": "",
       "notes": "Chamber 'hotels' category member in East Lansing; outside the market regardless of category, and its own lodging status was never independently confirmed.",
       "source": "auburn_hills_chamber"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham southfield detroit",
+      "canonical_name": "Hawthorn Suites by Wyndham Southfield Detroit",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001: founder-approved APPROVE_CLOSED_OR_CONVERTED_OUT_OF_ACTIVE_CENSUS. Wyndham's own live inventory search near the committed address (26700 Central Park Blvd, Southfield, MI) returns zero Wyndham-branded properties within 7+ miles. Convergent OTA evidence shows a post-Wyndham independent rebrand ('Springwood Suites') at the same address that is itself marked closed, with no independent first-party website ever found for it. Revalidated a second time immediately before this mutation; no newer active hotel identity was found at the address. Not a pet-policy decision -- no exclusion was created.",
+      "source": "chain_aggregate"
     }
   ]
 }

@@ -1,12 +1,18 @@
 """PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001 -- Phase 1 factory gates.
 
-Pinned to the measured independent-discovery universe: 152 candidates, 143
-canonical identities, 9 boundary exclusions, 0 duplicates. As of
+Pinned to the measured independent-discovery universe: 152 candidates, 9
+boundary exclusions, 0 duplicates. As of
 PTF-DETROIT-ANN-ARBOR-PASS1-DECISION-APPLICATION-001, the DTW/Romulus pilot
-capture pass has recorded real founder decisions: 6 PUBLISHED_PET_FRIENDLY,
-5 VERIFIED_NO_PETS, 1 OUT_OF_CURRENT_CATEGORY, and 131 still unresolved
-(including Delta Hotels by Marriott Detroit Metro Airport, held at
-AWAITING_ROUTING_REPLACEMENT pending PASS2 routing repair).
+capture pass recorded real founder decisions: 6 PUBLISHED_PET_FRIENDLY, 5
+VERIFIED_NO_PETS, 1 OUT_OF_CURRENT_CATEGORY. As of
+PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001, two more founder identity/
+census decisions landed: Delta Hotels by Marriott Detroit Metro Airport was
+renamed in place to Skyline Hotel Detroit Airport, SureStay Collection by BW
+(same address+phone, new brand flag) and moved to
+AWAITING_POLICY_OBSERVATION; Hawthorn Suites by Wyndham Southfield Detroit
+was retired from the active census via the 'closed' disposition (never a
+VERIFIED_NO_PETS exclusion), dropping the canonical census from 143 to 142.
+130 identities remain unresolved.
 """
 
 from __future__ import annotations
@@ -29,12 +35,12 @@ MARKET = "detroit-ann-arbor-mi"
 
 EXPECTED = {
     "candidates": 152,
-    "census": 143,
+    "census": 142,
     "published": 6,
     "no_pets": 5,
     "out_of_category": 1,
-    "unresolved": 131,
-    "queue": 131,
+    "unresolved": 130,
+    "queue": 130,
     "boundary_excluded": 9,
     "duplicates": 0,
 }
