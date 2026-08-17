@@ -757,9 +757,12 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
     for charge in facts.get("other_charges") or ():
         if not isinstance(charge, Mapping):
             continue
-        if charge.get("kind") == enums.CHARGE_CLEANING_FEE:
+        if charge.get("kind") in (enums.CHARGE_CLEANING_FEE,
+                                  enums.CHARGE_SANITATION_FEE):
             amount = _display_money(charge)
-            if amount:
+            if charge.get("conditional") is True and charge.get("trigger"):
+                out["cleaning_fee_condition"] = str(charge["trigger"])
+            elif amount:
                 out["cleaning_fee"] = amount
 
     for key in ("weight_limit_stated_none", "breed_restrictions_stated_none"):

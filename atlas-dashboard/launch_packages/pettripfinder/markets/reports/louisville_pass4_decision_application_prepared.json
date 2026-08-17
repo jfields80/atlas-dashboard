@@ -1,0 +1,68 @@
+{
+  "schema": "ptf-louisville-decision-application-prepared/1.0",
+  "work_order": "PTF-LOUISVILLE-PASS4-DECISION-APPLICATION-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-17",
+  "executed": false,
+  "authority_applied": false,
+  "merged": false,
+  "deployed": false,
+  "input_decision_reports": [
+    "louisville_pass1_founder_decisions.json",
+    "louisville_pass2_founder_decisions.json",
+    "louisville_pass4_founder_decisions.json"
+  ],
+  "atomic_application": true,
+  "approved_positive_keys": [
+    "bellwether hotel",
+    "galt house hotel",
+    "omni louisville hotel",
+    "drury inn and suites louisville north",
+    "red roof inn louisville expo airport",
+    "red roof inn louisville hurstbourne",
+    "studio 6 louisville airport expo center",
+    "baymont by wyndham louisville airport south",
+    "hawthorn suites by wyndham louisville east",
+    "travelodge by wyndham sellersburg louisville north",
+    "super 8 by wyndham louisville airport",
+    "la quinta inn and suites by wyndham louisville northeast old henry",
+    "staybridge suites louisville east",
+    "candlewood suites louisville airport"
+  ],
+  "approved_verified_no_pets_keys": [
+    "econo lodge downtown",
+    "hotel louisville downtown",
+    "the brown hotel",
+    "holiday inn express and suites jeffersonville"
+  ],
+  "excluded_from_application": {
+    "holds": [
+      "21c museum hotel louisville",
+      "drury inn and suites louisville"
+    ],
+    "no_decision": [
+      "hotel genevieve",
+      "best western greentree inn",
+      "radisson hotel louisville north"
+    ]
+  },
+  "preconditions": [
+    "All 18 approved decisions remain recorded and unapplied.",
+    "All source artifacts still pass hash and identity validation.",
+    "No unresolved hold or no-decision row is materialized.",
+    "Stage all 14 positive records and 4 verified-no-pets exclusions before any authority write."
+  ],
+  "deterministic_steps": [
+    "Read the three decision reports and require their exact key sets.",
+    "Build one staged Schema 1.2 positive package for the 14 approved positive identities.",
+    "Build one staged verified-no-pets exclusion set for the 4 approved explicit refusals.",
+    "Validate evidence pointers, identity bindings, policy schema, exclusions, census and partition as one candidate state.",
+    "Only after every validation passes, atomically replace Louisville authority surfaces and reconcile market counts."
+  ],
+  "expected_post_application": {
+    "published": 14,
+    "verified_no_pets": 4,
+    "unresolved": 111
+  },
+  "note": "Prepared only. This is one all-pass atomic application proposal, not execution authority."
+}

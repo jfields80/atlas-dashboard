@@ -1055,3 +1055,89 @@ class TestPass4Capture:
             / "louisville_manual_capture_queue_001.json"
         ).read_text(encoding="utf-8-sig"))
         assert queue["executed"] is False
+
+
+class TestPass4FounderDecisions:
+    def test_all_eleven_founder_decisions_are_recorded_not_applied(self):
+        decisions = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass4_founder_decisions.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert decisions["recorded_decision_count"] == 11
+        assert decisions["recorded_summary"] == {
+            "approvals_positive": 10,
+            "verified_no_pets": 1,
+            "approve_with_change": 3,
+            "decisions_applied": 0,
+        }
+        assert decisions["authority_applied"] is False
+        assert all(d["applied"] is False for d in decisions["decisions"])
+        by = {d["identity_key"]: d for d in decisions["decisions"]}
+        assert by["studio 6 louisville airport expo center"]["approved_facts"] == {
+            "pets_allowed": True
+        }
+        assert "property_wide_guest_deposit" in by[
+            "red roof inn louisville hurstbourne"]["withheld_fields"]
+        assert by["staybridge suites louisville east"]["decision"] == (
+            "APPROVE_WITH_CHANGE"
+        )
+        assert "refundability" in by[
+            "staybridge suites louisville east"]["withheld_fields"]
+        assert by["holiday inn express and suites jeffersonville"][
+            "decision"] == "APPROVE_VERIFIED_NO_PETS"
+
+    def test_all_pass_reconciliation_and_atomic_application_are_prepared(self):
+        rec = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_plus_pass2_plus_pass4_founder_decision_reconcile.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert rec["combined"] == {
+            "decisions_recorded": 20,
+            "approvals_positive": 14,
+            "verified_no_pets": 4,
+            "holds": 2,
+            "no_decision_blocked_rows": 3,
+            "decisions_applied": 0,
+        }
+        application = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass4_decision_application_prepared.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert application["work_order"] == (
+            "PTF-LOUISVILLE-PASS4-DECISION-APPLICATION-001"
+        )
+        assert application["executed"] is False
+        assert application["atomic_application"] is True
+        assert len(application["approved_positive_keys"]) == 14
+        assert len(application["approved_verified_no_pets_keys"]) == 4
+        assert application["expected_post_application"] == {
+            "published": 14, "verified_no_pets": 4, "unresolved": 111,
+        }
+        rec_state = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                        market_id=MARKET)
+        assert rec_state.published == 0
+        assert rec_state.verified_no_pets == 0
+
+
+class TestLouisvilleAuthorityApplication001A:
+    def test_contract_unblocker_and_partition_baseline_are_prepared(self):
+        doc = json.loads((PKG / "markets" / "reports" /
+            "louisville_founding_authority_application_001a_prepared.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert doc["executed"] is False
+        assert doc["contract_validation"]["travelodge_representable"] is True
+        assert doc["contract_validation"]["super8_representable"] is True
+        assert doc["contract_validation"]["sanitation_kind"] == "sanitation_fee"
+        assert len(doc["approved_row_contracts"]) == 18
+        assert {row["evidence_contract"] for row in doc["approved_row_contracts"]} == {
+            "CONTRACT_VALID"
+        }
+        baseline = doc["partition_baseline"]
+        assert baseline == {
+            "census": 130, "published": 0, "verified_no_pets": 0,
+            "out_of_current_category": 1,
+            "out_of_current_category_keys": ["the inn at woodhaven"],
+            "unresolved": 129,
+            "other_terminal": 0, "reconciliation_agrees": True,
+            "equation": "130 = 0 published + 0 verified_no_pets + 1 out_of_current_category + 129 unresolved + 0 other_terminal",
+        }
