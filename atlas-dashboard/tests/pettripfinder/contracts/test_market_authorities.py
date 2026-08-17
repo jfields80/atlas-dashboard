@@ -68,8 +68,8 @@ EXPECTED = {
     # short-term rentals and guesthouses the directories list beside hotels.
     # 0/0/250 until PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 applied the
     # founder's 26 ready Capture Pass 1 decisions (20 published, 6 no-pets).
-    CINCINNATI: {"census": 256, "published": 20, "no_pets": 6,
-                 "out_of_category": 6, "unresolved": 224},
+    CINCINNATI: {"census": 256, "published": 21, "no_pets": 6,
+                 "out_of_category": 6, "unresolved": 223},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -310,15 +310,18 @@ class TestTerminalDispositionsMatchAuthority:
         assert rec.out_of_category == 2
         assert rec.verified_no_pets + rec.out_of_category == 16
 
-    def test_cincinnati_publishes_twenty_and_has_six_verified_refusals(self):
+    def test_cincinnati_publishes_twentyone_and_has_six_verified_refusals(self):
         """PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 applied the founder's
-        26 ready Capture Pass 1 decisions. Out-of-category stays 6 -- the
+        26 ready Capture Pass 1 decisions; PTF-CINCINNATI-21C-FOUNDER-
+        DECISION-APPLICATION-001 then published the 21st (21c Museum Hotel
+        Cincinnati) once its recaptured artifact hash cleared the
+        ARTIFACT_INSUFFICIENT hold. Out-of-category stays 6 -- the
         guesthouses and short-term rentals its directories list beside
-        hotels, a category ruling untouched by this application.
+        hotels, a category ruling untouched by either application.
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 20
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 21
         assert states[enums.VERIFIED_NO_PETS] == 6
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
@@ -438,11 +441,15 @@ class TestRoutingSubsetOfCensus:
 
         PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired 26 more --
         Cincinnati's own founder-decided identities, now seed inventory or a
-        verified-no-pets exclusion instead of a live route."""
+        verified-no-pets exclusion instead of a live route. PTF-CINCINNATI-
+        21C-FOUNDER-DECISION-APPLICATION-001 retired the 27th (21c Museum
+        Hotel Cincinnati) once its recaptured artifact hash cleared the
+        ARTIFACT_INSUFFICIENT hold that had left it out of the first pass."""
         retired = {r["hotel_ref"]["identity_key"]: r for r in routes()
                    if r["status"] == enums.ROUTING_RETIRED}
         assert set(retired) == {
             "eastland inn restaurant", "the welshfield inn",
+            "21c museum hotel cincinnati",
             "baymont by wyndham lawrenceburg", "baymont by wyndham monroe",
             "best western clermont", "best western inn florence",
             "best western plus hannaford inn and suites",

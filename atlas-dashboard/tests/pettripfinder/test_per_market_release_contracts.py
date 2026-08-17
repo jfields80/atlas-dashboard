@@ -122,9 +122,12 @@ EXPECTED_RECONCILIATION = {
     # 20 approved Capture Pass 1 records and 6 verified-no-pets exclusions.
     # PTF-CINCINNATI-CATEGORY-EXIT-REGISTRY-REPAIR-001 then registered 6
     # OUT_OF_CURRENT_CATEGORY exclusion-registry records for a disposition
-    # the partition already carried (not a new decision), so resolved is
-    # 20 + 6 + 6 = 32 and unresolved is 256 - 32 = 224.
-    CINCINNATI: (256, 20, 6, 32, 224),
+    # the partition already carried (not a new decision). PTF-CINCINNATI-
+    # 21C-FOUNDER-DECISION-APPLICATION-001 then published the 21st record
+    # (21c Museum Hotel Cincinnati) once its recaptured artifact hash
+    # cleared the ARTIFACT_INSUFFICIENT hold, so resolved is
+    # 21 + 6 + 6 = 33 and unresolved is 256 - 33 = 223.
+    CINCINNATI: (256, 21, 6, 33, 223),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint

@@ -177,34 +177,39 @@ class TestAuthorityFreeze:
     narrower moment, the same distinction test_cincinnati_url_routing_
     progress_001.py draws between a checkpoint and its later finalization."""
 
-    def test_partition_totals_256_with_26_resolved(self):
+    def test_partition_totals_256_with_27_resolved(self):
+        # PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 moved 21c
+        # Museum Hotel Cincinnati from AWAITING_POLICY_OBSERVATION to
+        # PUBLISHED_PET_FRIENDLY once its recaptured artifact hash cleared
+        # the ARTIFACT_INSUFFICIENT hold, on top of the 26 Pass-1 decisions.
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
         assert sum(counts.values()) == 256
-        assert counts.get("PUBLISHED_PET_FRIENDLY") == 20
+        assert counts.get("PUBLISHED_PET_FRIENDLY") == 21
         assert counts.get("VERIFIED_NO_PETS") == 6
 
-    def test_routing_authority_reflects_the_26_retirements(self):
-        # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired the 26
-        # decided identities' routes (they are now seed inventory or a
-        # founder-approved exclusion, so a live route would coexist with
-        # either). Cincinnati's own 210-route count is unchanged -- retirement
-        # is a status flip, not a deletion. The global total is derived from
-        # every market's shard (PTF-MARKET-AUTHORITY-SHARDING-001) rather than
-        # pinned here, since it moves for reasons that have nothing to do
-        # with Cincinnati.
+    def test_routing_authority_reflects_the_27_retirements(self):
+        # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired 26 decided
+        # identities' routes; PTF-CINCINNATI-21C-FOUNDER-DECISION-
+        # APPLICATION-001 retired the 27th (21c) once it was published (they
+        # are now seed inventory or a founder-approved exclusion, so a live
+        # route would coexist with either). Cincinnati's own 210-route count
+        # is unchanged -- retirement is a status flip, not a deletion. The
+        # global total is derived from every market's shard
+        # (PTF-MARKET-AUTHORITY-SHARDING-001) rather than pinned here, since
+        # it moves for reasons that have nothing to do with Cincinnati.
         routing = _load(ROUTING_PATH)
         assert routing["count"] == len(routing["routes"])
         cincinnati = [r for r in routing["routes"] if r["market_id"] == "cincinnati-oh"]
         assert len(cincinnati) == 210
         retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
-        assert len(retired) == 26
+        assert len(retired) == 27
 
-    def test_hotel_policy_facts_file_exists_with_twenty_records(self):
+    def test_hotel_policy_facts_file_exists_with_twentyone_records(self):
         facts_path = LP / "hotel_policy_facts_cincinnati-oh.json"
         assert facts_path.exists()
         facts = _load(facts_path)
-        assert len(facts["hotels"]) == 20
+        assert len(facts["hotels"]) == 21
         for hotel in facts["hotels"]:
             assert hotel["approval"]["operator"] == "jfields80"
             assert hotel["approval"]["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"

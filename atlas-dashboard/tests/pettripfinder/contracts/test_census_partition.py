@@ -329,8 +329,11 @@ class TestCommittedAuthority:
         # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retired 26 more --
         # Cincinnati's own founder-decided identities, now seed inventory or
         # a verified-no-pets exclusion instead of a live route.
+        # PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 retired the
+        # 27th (21c Museum Hotel Cincinnati) once it was published.
         assert retired == {
             "Eastland Inn Restaurant", "The Welshfield Inn",
+            "21c Museum Hotel Cincinnati",
             "BEST WESTERN PLUS Hannaford Inn & Suites",
             "Baymont by Wyndham Lawrenceburg", "Baymont by Wyndham Monroe",
             "Best Western Clermont", "Best Western Inn Florence",

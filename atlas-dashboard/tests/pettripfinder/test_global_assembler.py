@@ -305,10 +305,12 @@ def test_cincinnati_is_registered_above_threshold_and_assembled(markets):
     crossing the market's own minimum_published_hotels (5) -- Cincinnati is
     now mechanically assemblable by this eligibility logic, the same way
     Indianapolis became eligible after its own founder-approved release.
-    This is a data-truth fact this test asserts; it is not a deploy trigger
-    and no deploy step ran here or anywhere in this application."""
+    PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 then published a
+    21st hotel once its recaptured artifact hash cleared its hold. This is
+    a data-truth fact this test asserts; it is not a deploy trigger and no
+    deploy step ran here or anywhere in this application."""
     row = market_eligibility(market_by_id(markets, CINCINNATI))
-    assert row["published_count"] == 20
+    assert row["published_count"] == 21
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
@@ -359,12 +361,14 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
     Cleveland hotels (81 -> 99); 288 since
     PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 published Cincinnati's
-    first twenty."""
+    first twenty; 289 since PTF-CINCINNATI-21C-FOUNDER-DECISION-
+    APPLICATION-001 published its 21st once its recaptured artifact hash
+    cleared its hold."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26, INDIANAPOLIS: 8, CINCINNATI: 20}
-    assert sum(counts.values()) == 288
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8, CINCINNATI: 21}
+    assert sum(counts.values()) == 289
 
 
 # --------------------------------------------------------------------------- #

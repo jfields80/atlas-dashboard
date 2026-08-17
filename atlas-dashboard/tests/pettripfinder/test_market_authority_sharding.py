@@ -173,7 +173,7 @@ class TestNothingMovedBetweenMarkets:
     # growth, not cross-market movement, so it is named here explicitly
     # rather than silently baked into the frozen baseline file, which stays
     # a true historical snapshot of the sharding moment itself.
-    _CINCINNATI_POST_BASELINE_DELTA = {"routing": 0, "exclusions": 12, "seed": 20}
+    _CINCINNATI_POST_BASELINE_DELTA = {"routing": 0, "exclusions": 12, "seed": 21}
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:

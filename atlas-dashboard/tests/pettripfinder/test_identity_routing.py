@@ -290,8 +290,11 @@ def test_committed_authority_split(routes):
     # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 retires 26: the 20
     # published + 6 VERIFIED_NO_PETS identities from the founder's Pass 1
     # decisions, so routing no longer coexists with either.
+    # PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 retires the 27th
+    # (21c Museum Hotel Cincinnati) once it was published.
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
         "eastland inn restaurant", "the welshfield inn",
+        "21c museum hotel cincinnati",
         "baymont by wyndham lawrenceburg",
         "baymont by wyndham monroe",
         "best western clermont",
