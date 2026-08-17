@@ -34,11 +34,8 @@ def test_all_and_only_the_committed_queue_rows_are_processed_once():
         "ACCESS_BLOCKED", "IDENTITY_UNCERTAIN", "CAPTURE_FAILED", "SOURCE_AMBIGUOUS"}
 
 
-def test_queue_rows_remain_unresolved_and_authority_is_frozen():
+def test_capture_report_preserves_its_pre_application_authority_snapshot():
     report = results()
-    partition = load(LP / "pittsburgh_final_partition_001.json")
-    by_key = {row["identity_key"]: row for row in partition["items"]}
-    assert all(not by_key[row["identity_key"]]["resolved"] for row in report["items"])
     frozen = report["authority_before_and_after"]
     assert {key: frozen[key] for key in ("published", "verified_no_pets", "out_of_category", "unresolved")} == {
         "published": 29, "verified_no_pets": 6, "out_of_category": 3, "unresolved": 58}
@@ -70,7 +67,7 @@ def test_founder_packet_is_review_only_and_matches_the_publication_grade_set():
     manifest = load(REPORTS / "pittsburgh_pass4_claude_capture_manifest.json")
     review_keys = {row["identity_key"] for row in packet["entries"]}
     grade_keys = {row["identity_key"] for row in report["items"] if row["publication_grade"]}
-    assert packet["status"] == "ALL_FOUNDER_DECISIONS_RECORDED_APPLICATION_PREP_PENDING"
+    assert packet["status"] == "FOUNDER_DECISIONS_APPLIED"
     assert packet["count"] == len(packet["entries"]) == len(grade_keys) == 10
     assert review_keys == grade_keys
     recorded = packet["entries"]
@@ -83,9 +80,9 @@ def test_founder_packet_is_review_only_and_matches_the_publication_grade_set():
         "APPROVE_PUBLISH_STRUCTURED", "APPROVE_PUBLISH_STRUCTURED",
         "APPROVE_WITH_CHANGE", "APPROVE_WITH_CHANGE", "APPROVE_WITH_CHANGE",
         "APPROVE_WITH_CHANGE"]
-    assert all(row["authority_application_status"] == "NOT_APPLIED" for row in recorded)
+    assert all(row["authority_application_status"] == "APPLIED" for row in recorded)
     assert all(row["founder_review_required"] is False for row in recorded)
     assert packet["decisions_recorded"] == 10
-    assert packet["decisions_applied"] == 0
+    assert packet["decisions_applied"] == 10
     assert manifest["count"] == 12
     assert [row["identity_key"] for row in manifest["artifacts"]] == [row["identity_key"] for row in report["items"]]

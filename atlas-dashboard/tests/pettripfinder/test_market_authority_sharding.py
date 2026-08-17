@@ -161,7 +161,7 @@ class TestNothingMovedBetweenMarkets:
     only later Pittsburgh delta represented here; every other market must still
     match that recorded baseline exactly."""
 
-    PITTSBURGH_PASS4_TOTALS = {"routing": 6, "exclusions": 9, "seed": 29}
+    PITTSBURGH_PASS4_TOTALS = {"routing": 6, "exclusions": 11, "seed": 37}
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:

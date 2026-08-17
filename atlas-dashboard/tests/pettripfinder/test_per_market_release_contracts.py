@@ -112,9 +112,10 @@ EXPECTED_RECONCILIATION = {
     # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
     # COUNTED from the committed final partition.
     # Pass 3 then applied three founder-approved publications and two explicit
-    # first-party refusals.  The three out-of-category decisions remain intact,
-    # so the partition mechanically resolves 29 + 6 + 3 = 38 rows.
-    PITTSBURGH: (96, 29, 6, 38, 58),
+    # first-party refusals. Pass 4 applied eight artifact-backed publications
+    # and two further explicit refusals. The three out-of-category decisions
+    # remain intact, so the partition mechanically resolves 37 + 8 + 3 = 48.
+    PITTSBURGH: (96, 37, 8, 48, 48),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
 
@@ -266,7 +267,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 6, INDIANAPOLIS: 4}
+                             PITTSBURGH: 8, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

@@ -7,7 +7,9 @@ PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 (9 more publications, 2 more
 VERIFIED_NO_PETS, and two AWAITING_CENSUS_REVIEW workflow findings for
 Courtyard Pittsburgh Shadyside and Shadyside Inn Suites -- findings, never
 policy or closure decisions), then PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A
-(3 more publications and 2 more VERIFIED_NO_PETS). The census policy_state column stays
+(3 more publications and 2 more VERIFIED_NO_PETS), then
+PTF-PITTSBURGH-PASS4-DECISION-APPLICATION-001 (8 more publications and 2
+more VERIFIED_NO_PETS). The census policy_state column stays
 legacy-frozen at POLICY_NOT_VERIFIED (the Cleveland precedent); the partition
 and the policy/exclusion authorities are the publication truth.
 """
@@ -34,11 +36,11 @@ MARKET = "pittsburgh-pa"
 
 EXPECTED = {
     "census": 96,
-    "published": 29,
-    "no_pets": 6,
+    "published": 37,
+    "no_pets": 8,
     "out_of_category": 3,
-    "unresolved": 58,
-    "queue": 58,
+    "unresolved": 48,
+    "queue": 48,
 }
 
 
@@ -241,6 +243,8 @@ class TestRoutingAndAuthorityIsolation:
         assert len(rows) == len(no_pets) + len(category)
         assert {e["normalized_name"] for e in no_pets} == {
             "cambria hotel pittsburgh downtown",
+            "courtyard by marriott pittsburgh airport",
+            "courtyard by marriott pittsburgh airport settlers ridge",
             "courtyard by marriott pittsburgh downtown",
             "doubletree by hilton pittsburgh airport",
             "fairfield inn and suites pittsburgh neville island",
@@ -253,7 +257,7 @@ class TestRoutingAndAuthorityIsolation:
             assert entry["source_hash"].startswith("sha256:")
             assert entry["reviewer_id"] == "jfields80"
 
-    def test_joinery_rename_applied_and_unresolved(self):
+    def test_joinery_rename_applied_and_published_with_fee_withheld(self):
         rows = {r["identity_key"]: r for r in census_doc()["hotels"]}
         assert "distrikt hotel pittsburgh" not in rows
         joinery = rows["joinery hotel pittsburgh"]
@@ -263,10 +267,8 @@ class TestRoutingAndAuthorityIsolation:
         assert joinery["official_url"] == "https://www.joineryhotel.com"
         item = {i["identity_key"]: i for i in partition_doc()["items"]}[
             "joinery hotel pittsburgh"]
-        assert item["final_state"] == "AWAITING_POLICY_OBSERVATION"
-        assert item["resolved"] is False
-        queued = {q["identity_key"] for q in queue_doc()["items"]}
-        assert "joinery hotel pittsburgh" in queued
+        assert item["final_state"] == "PUBLISHED_PET_FRIENDLY"
+        assert item["resolved"] is True
 
     def test_pass2_census_review_findings_carry_no_policy_authority(self):
         # PGH-P2-D... census-review findings: workflow projections, never
@@ -319,15 +321,12 @@ class TestPass4RoutingAndRecapturePreparation:
         assert report["sunnyledge_recapture"]["next_action"] == "RECAPTURE_REQUIRED"
         assert report["sunnyledge_recapture"]["artifact_sha256"].startswith("sha256:")
 
-    def test_safe_capture_queue_is_a_strict_subset_of_the_unresolved_tail(self):
+    def test_safe_capture_queue_remains_a_historical_capture_cohort(self):
         report = pass4_report_doc()
         queue = pass4_capture_queue_doc()
-        unresolved = {item["identity_key"] for item in partition_doc()["items"]
-                      if not item["resolved"]}
         queued = [item["identity_key"] for item in queue["items"]]
         assert queue["count"] == len(queued) == 12
         assert len(queued) == len(set(queued))
-        assert set(queued) < unresolved
         assert "sunnyledge boutique hotel" not in queued
         assert set(report["routing_confirmed"]) <= set(queued)
         assert report["capture_readiness_counts"] == {

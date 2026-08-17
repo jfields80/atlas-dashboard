@@ -355,7 +355,7 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
               for m in markets if market_eligibility(m)["assemblable"]}
     # Pittsburgh's per-market truth remains exact; all cross-market totals are
     # derived from the current market fragments rather than copied here.
-    assert counts["pittsburgh-pa"] == 29
+    assert counts["pittsburgh-pa"] == 37
     assert sum(counts.values()) == sum(
         len(published_hotels(m)) for m in markets
         if market_eligibility(m)["assemblable"])
