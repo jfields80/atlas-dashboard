@@ -1,0 +1,862 @@
+{
+  "schema": "ptf-cleveland-pass4-capture-results/1.0",
+  "work_order": "PTF-CLEVELAND-ATTENDED-PASS-4-001",
+  "as_of": "2026-08-16",
+  "market_id": "cleveland-akron-canton-oh",
+  "captured_by": "claude-fable-5 (PTF-CLEVELAND-ATTENDED-PASS-4-001, agent)",
+  "queue_source": "cleveland_routing_repair_001_capture_ready_queue.json",
+  "capture_method": "attended browser (operator's Chrome, extension-driven); rendered HTML and page text retained as bytes in the gitignored worker tree at data/worker_runs/pettripfinder/cleveland-attended-capture-004/raw; committed output is hashes and verdicts only, because captured brand pages embed third-party credentials and are never committed. Two artifacts are deterministic fetches (croatianlodge.com silently blocks blob downloads); their rows say so.",
+  "hilton_rate_limit_rule": "CLE-RR-030 (P3-049, cakapgi) was the session's FIRST navigation and served normally; Embassy Suites (caknaes) followed after a cool-down; no other hilton.com page was loaded. Neither row was re-probed, and no block page was recorded as evidence.",
+  "rows_total": 30,
+  "rows_captured": 30,
+  "outcome_counts": {
+    "AFFIRMATIVE_STRUCTURED": 15,
+    "NEGATIVE": 5,
+    "POLICY_CAPTURED_PENDING_IDENTITY_RENAME": 3,
+    "POLICY_NOT_FOUND": 7
+  },
+  "speed_benchmark": {
+    "available": true,
+    "start_epoch": 1786921857,
+    "first_capture_utc": "2026-08-16T23:13:25.782000+00:00",
+    "last_capture_utc": "2026-08-16T23:49:48.544259+00:00",
+    "session_elapsed_seconds": 2332,
+    "captures": 39,
+    "mean_seconds_per_capture": 59.8,
+    "median_inter_capture_gap_seconds": 42.9,
+    "captures_per_hour": 60.2,
+    "note": "elapsed runs from the recorded session start epoch to the last capture and includes the mandated Hilton cool-down and the adjudication work between captures; the median inter-capture gap is the honest page-drive pace."
+  },
+  "rule": "A failed, blocked or misrouted capture is never negative evidence; a refusal is proposed only where the property's own page states it; no fact is proposed without its exact quote verified against the retained artifact bytes; source silence is absence, never a withholding; no authority file changes in this pass.",
+  "results": [
+    {
+      "queue_id": "CLE-RR-001",
+      "hotel": "Cambria Hotel & Suites Avon",
+      "identity_key": "cambria hotel and suites avon",
+      "brand": "WYNDHAM",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-001-wyndham-avon.json",
+      "artifact_bytes": 691013,
+      "artifact_file_sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+      "html_sha256": "e7740a9fb9d3aabef918bfad7225599ffc1aff77f7161f1e8c95470754275885",
+      "text_sha256": "b3b9a2074fd5b73fea3c75f58803f644648205d381327c8df88bfb31c1c5f4f9",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:25:13.164Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+      "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-001b-wyndham-avon-policies.json",
+        "artifact_file_sha256": "87ed12f73d28aef05e6b1af5737ab01c722e584f4a5956a9fe6b4d93d5e3b5f4",
+        "html_sha256": "4a9cd4bdeb28403173e1ddcd5e44f4371ed292bb63208bd477d1482234b8eef4",
+        "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview"
+      },
+      "conversion_note": {
+        "census_name": "Cambria Hotel & Suites Avon",
+        "observed_name": "Wyndham Avon",
+        "note": "the property converted from Cambria to Wyndham; the census identity still carries the prior name. No policy was captured, so no rename decision is forced by this pass -- the rename remains the routing repair's open proposal."
+      },
+      "notes": [
+        "the property page's Hotel Policies block states only check-in and check-out times; no pet section exists on it. Identity binds on street and ZIP (35600 Detroit Rd, 44011)."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-002",
+      "hotel": "Holiday Inn Canton",
+      "identity_key": "holiday inn canton",
+      "brand": "HOLIDAY_INN",
+      "outcome": "NEGATIVE",
+      "artifact_file": "RR-002-holiday-inn-canton-belden-village.json",
+      "artifact_bytes": 1676730,
+      "artifact_file_sha256": "a06fcd11f94dfcb21678d597af37ec4ece5e71f1d226bc99eeae2c44f24888a3",
+      "html_sha256": "d6229f6e0f50be341aa693a34b8ae5e24db137176721de31982658c6bea51b0d",
+      "text_sha256": "bd60fbcadb2e99e2899fb7fb3f9def50037800d5d86f7d29de3bbdcd5ed6f6a8",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:43:42.403Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/canton/cakbv/hoteldetail",
+      "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/canton/cakbv/hoteldetail",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "refusal_quote": "No, pets are not allowed at Holiday Inn Canton (Belden Village).",
+      "quote_backed_by": "html",
+      "notes": [
+        "the FAQ answer lives in an aria-hidden accordion region; the quote verifies against the captured HTML, which retains it. Same IHG shape the founder approved for five Cleveland properties in Pass 2."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-003",
+      "hotel": "Radisson Hotel Akron/Fairlawn",
+      "identity_key": "radisson hotel akron fairlawn",
+      "brand": "RADISSON",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-003-radisson-akron-fairlawn.json",
+      "artifact_bytes": 3749030,
+      "artifact_file_sha256": "2702c8c1cc0582af91a61753dea23be3b1a06e5bc574926a49a59d95c0768b8a",
+      "html_sha256": "8ecfa33e646506b188e65fc213b514d9a4c295d66509747422be0e3228a76739",
+      "text_sha256": "df95f33b052223de5b38c019908ef60e83cc39e49b65c57bc0481bbc169bd6ab",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:28:48.475Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.choicehotels.com/ohio/akron/radisson-hotels/oh557",
+      "final_url": "https://www.choicehotels.com/ohio/akron/radisson-hotels/oh557",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "Radisson Americas moved to Choice Hotels; this is the choicehotels.com oh557 property page the routing repair bound, and its JSON-LD carries petsAllowed true"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-004",
+      "hotel": "The Inn at Amish Door",
+      "identity_key": "the inn at amish door",
+      "brand": "INDEPENDENT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-004-inn-at-amish-door.json",
+      "artifact_bytes": 264408,
+      "artifact_file_sha256": "26103e49489bcee5b95e5d03e1a793582bd0b002652e6904d998fc7072a8f9bc",
+      "html_sha256": "8e02965c1c208a86a92553954f12781396a4003347b6f01a636948cb267733b4",
+      "text_sha256": "55a9eabfd9c7ea77d6a9b48f289654864353646b94b2c7d4dd136663c5d48c23",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:14:00.088Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://amishdoor.com/the-inn-at-amish-door/",
+      "final_url": "https://amishdoor.com/the-inn-at-amish-door/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the property's own inn page carries no pet or animal wording; its only booking link (/TIAADOH884/) 404s on the same site. Silence, never a refusal."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-005",
+      "hotel": "La Quinta Inn & Suites Cleveland Airport North",
+      "identity_key": "la quinta inn and suites cleveland airport north",
+      "brand": "LA_QUINTA",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-005-la-quinta-cleveland-airport-north.json",
+      "artifact_bytes": 719307,
+      "artifact_file_sha256": "6c295cf53b7848516c059f89d7c85a58db7e29d6d3403b1961289abc36697954",
+      "html_sha256": "80337655456bce5ed3e7347df36da3f0b007c08fc37ce9c165b2a26e30b0ed4d",
+      "text_sha256": "e0f0ac3a14d39d0df71d204e4cbbd31b51a5fd6045b0de8c2cec3f5dca9d9752",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:27:12.370Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+      "final_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "MANDATORY identity check performed and passed: the page carries 4222 W 150 Street, 44135 and 216-251-8500 -- all three census signals -- and the Airport WEST address (25105 Country Club Blvd) appears nowhere on it. The Pass-3 wrong-property redirect did not recur."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-006",
+      "hotel": "Comfort Suites Hartville",
+      "identity_key": "comfort suites hartville",
+      "brand": "COMFORT_SUITES",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-006-comfort-suites-hartville.json",
+      "artifact_bytes": 3939409,
+      "artifact_file_sha256": "b4cf1d8561afc6bf32b05c66db68a9b5f80dee2e3d5e3246e248e6fe4dc78b7b",
+      "html_sha256": "4703a4e5a74c155c73e756369b9795ac3a90ec4d10bcef8130f376d33d86a7be",
+      "text_sha256": "9b0f96386f79cd2f27ea78a980465fba840aadd9245a48162d262d7cd9f2aa16",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:29:33.628Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.choicehotels.com/ohio/hartville/comfort-suites-hotels/oh596",
+      "final_url": "https://www.choicehotels.com/ohio/hartville/comfort-suites-hotels/oh596",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-007",
+      "hotel": "Cottages at the Lodge",
+      "identity_key": "cottages at the lodge",
+      "brand": "INDEPENDENT",
+      "outcome": "NEGATIVE",
+      "artifact_file": "RR-007-cottages-at-the-lodge.json",
+      "artifact_bytes": 259680,
+      "artifact_file_sha256": "bbc798691d6323b402baba26b9eafc717bb24329f874d8954f2151dc8585457b",
+      "html_sha256": "ef2104417f3bf908f761b0e3cbd0dca2c46e896b46c701175ec020fca2060970",
+      "text_sha256": "27f1e8e23abdfb9b913bf099b531510ae7556065e724665e4d934aae72b90c93",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:18:06.489Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.thelodgeatgeneva.com/stay/lodging/cottage-rooms/",
+      "final_url": "https://www.thelodgeatgeneva.com/stay/lodging/cottage-rooms/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-007b-lodge-geneva-stay-policies.json",
+        "artifact_file_sha256": "c5188eed47a66e9bbb78ce1e82b856fd5560670d5976202e4549cb70db519d61",
+        "html_sha256": "70cb7ad4b7d4a972ecf98f2a3dbad19d08c803b2e99f2444fc572b9c6a618ab0",
+        "final_url": "https://www.thelodgeatgeneva.com/stay/policies/"
+      },
+      "refusal_quote": "All guest accommodations at The Lodge at Geneva-on-the-Lake, including the Cottages, have a no-pet policy.",
+      "quote_backed_by": "text",
+      "notes": [
+        "the refusal names the Cottages explicitly, so it binds this identity rather than only its parent lodge; service animals are excepted by the same sentence and are a separate legal category"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-008",
+      "hotel": "Crowne Plaza Cleveland Airport",
+      "identity_key": "crowne plaza cleveland airport",
+      "brand": "CROWNE_PLAZA",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-008-crowne-plaza-cleveland-airport.json",
+      "artifact_bytes": 1730881,
+      "artifact_file_sha256": "2df873fa0e40c9ecb4f8b2e2dbce5b817563559f1c99e6317dbbd6b461078842",
+      "html_sha256": "1eea1f167021782c3d85b649ad10ebf01daa2e33c1d02243636c0105df405c94",
+      "text_sha256": "127d2562c62687f466d429d446fa7d8f891835bf8a551d77cbd4a687dc70a710",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:44:41.758Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/middleburg-heights/clemh/hoteldetail",
+      "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/middleburg-heights/clemh/hoteldetail",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the FAQ answer lives in an aria-hidden accordion region; the quotes verify against the captured HTML, which retains it"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-009",
+      "hotel": "Days Inn Richfield",
+      "identity_key": "days inn richfield",
+      "brand": "QUALITY_INN",
+      "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+      "artifact_file": "RR-009-quality-inn-suites-richfield.json",
+      "artifact_bytes": 3767978,
+      "artifact_file_sha256": "70fd740899ad3c7916469907bd3e988717eb4a617b27a57ee5062137e900a7d5",
+      "html_sha256": "609b48c35347a8fe40242be663ebb4b7860d605eed4248c9b45380a79737ed7a",
+      "text_sha256": "a156d640161435ac77cfd0bc3e952799af5df313bf19de85bd1f05865809f1fb",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:30:43.001Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330",
+      "final_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-010",
+      "hotel": "DoubleTree by Hilton Cleveland-Westlake",
+      "identity_key": "doubletree by hilton cleveland westlake",
+      "brand": "WYNDHAM_GARDEN",
+      "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+      "artifact_file": "RR-010-wyndham-garden-westlake.json",
+      "artifact_bytes": 722426,
+      "artifact_file_sha256": "96fda8107ba1f1a56ba1c821e6d78b9734e666b9b7c8afd6818bcc163e3bf2db",
+      "html_sha256": "087c93500857e9394e9a47e3813f8c210c7e849e4e14f96ac1dce3b9ee28d13c",
+      "text_sha256": "a622e3df81d5dcccbe76ef598adc5222da344b54404226b3ff606efeb00c00c1",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:26:26.916Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+      "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-011",
+      "hotel": "Embassy Suites by Hilton Akron Canton Airport",
+      "identity_key": "embassy suites by hilton akron canton airport",
+      "brand": "EMBASSY_SUITES",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-011-embassy-suites-akron-canton-airport.json",
+      "artifact_bytes": 768198,
+      "artifact_file_sha256": "88472f547f0243c5078f2e9bd924f610eba4d5c95cbd1d86681461a42d0ceff3",
+      "html_sha256": "9209ede53e250558e1048dd4ff4894e17236dfe249c2e89a3361b026b7ce690a",
+      "text_sha256": "44c3e6cf3e6f1ba375acf22f691196ffd18253876f0057b7e1bea01e62a4116e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:15:27.818Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.hilton.com/en/hotels/caknaes-embassy-suites-akron-canton-airport/",
+      "final_url": "https://www.hilton.com/en/hotels/caknaes-embassy-suites-akron-canton-airport/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "driven after a 60-second cool-down following CLE-RR-030, per the work order's Hilton rule; no weight is stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-012",
+      "hotel": "Extended Stay America Premier Suites",
+      "identity_key": "extended stay america premier suites",
+      "brand": "EXTENDED_STAY_AMERICA",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-012-esa-premier-suites-independence.json",
+      "artifact_bytes": 838661,
+      "artifact_file_sha256": "8be7367d052ea4c365308c73ae5ab74a20a99a9c43d9144da7d11629c5869576",
+      "html_sha256": "1751b4c6e3a7f16cb80931cb1bc0dbb77ef2fdf41f56b5959357ffe9749b5186",
+      "text_sha256": "78b4c97ae2ee95b9e6a7744fda57b894281c0f32b709af0fe432a22d512fc0fa",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:46:37.622Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.extendedstayamerica.com/hotels/oh/cleveland/independence",
+      "final_url": "https://www.extendedstayamerica.com/hotels/oh/cleveland/independence",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-012b-esa-independence-faq.json",
+        "artifact_file_sha256": "7bd343a5999c834718b15da570cd83d27846ea14f289d4406d85ed58a20cb609",
+        "html_sha256": "1245a40ff9575d3d8cef0cb502aabf50506f2c8411142c1559ec1bafdff14f05",
+        "final_url": "https://www.extendedstayamerica.com/hotels/oh/cleveland/independence"
+      },
+      "notes": [
+        "the brand-standard block lives in the page HTML rather than its visible text; quotes verify against the captured HTML"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-013",
+      "hotel": "Highlander Inn",
+      "identity_key": "highlander inn",
+      "brand": "INDEPENDENT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-013-highlander-inn.json",
+      "artifact_bytes": 213180,
+      "artifact_file_sha256": "4d107d8a7424a2cf17213b16b2404508307565eb020d2f86fc42ee9c750a7b07",
+      "html_sha256": "6906bc991320bf18485c8924c5db7e00bf8a2fa8edf0057b0f65964499f8b1dd",
+      "text_sha256": "738ee94302c2539777f1ed5e0b5a242068295f77a735827bdf652fb9169e5e34",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:19:05.285Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://highlanderinnhotel.com/",
+      "final_url": "https://highlanderinnhotel.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-013b-highlander-rooms.json",
+        "artifact_file_sha256": "304449f91b163a6a97785454b1fad1cf98d6c19ed1265bb34a171463ba3bbe1a",
+        "html_sha256": "a1e1425b6074b6faa987c078fbdb3075c4c461d4cfb04ec39da8f379874f9cbe",
+        "final_url": "https://highlanderinnhotel.com/rooms/"
+      },
+      "notes": [
+        "the property's new domain (bound by the routing repair) carries no pet or animal wording on its home or rooms pages."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-014",
+      "hotel": "Intercontinental Suites Hotel Cleveland",
+      "identity_key": "intercontinental suites hotel cleveland",
+      "brand": "INTERCONTINENTAL",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-014-intercontinental-suites.json",
+      "artifact_bytes": 167987,
+      "artifact_file_sha256": "30bab38f26958e7310bc5e4654b5f3b773c1975f0706c273f57618880b612802",
+      "html_sha256": "da5dfe79bf50bd2c418c397fbecab107d7cc49fc3ec2bf52e1fa86aa234a4b91",
+      "text_sha256": "08e5f69d794caf7a8376a1b3646305a6e869264961c5bb1ba6e12a94f49c3fdb",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:20:05.724Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.icsuitescleveland.com/",
+      "final_url": "https://www.icsuitescleveland.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-014b-intercontinental-suites-faqs.json",
+        "artifact_file_sha256": "05d71cb32d32385bb7ce52a4fe02c09c327dfe01d5d63d1542c4524fc33debe7",
+        "html_sha256": "6f61f6fa0d6371f6b06dad11bccce09a94d20963d75c6369a8a7b37f6f571275",
+        "final_url": "https://www.icsuitescleveland.com/faqs"
+      },
+      "notes": [
+        "home and FAQs pages carry no pet wording in visible text; the page's own JSON-LD sets petsAllowed to null, which is the absence of a statement rather than a refusal."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-015",
+      "hotel": "Sonesta ES Suites Cleveland Westlake",
+      "identity_key": "sonesta es suites cleveland westlake",
+      "brand": "SONESTA",
+      "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+      "artifact_file": "RR-015-sonesta-simply-suites-westlake.json",
+      "artifact_bytes": 1087272,
+      "artifact_file_sha256": "dd5451a150989a295978f44092bdfdf5d22ce9bf40897f0e60fa1d03aee538e4",
+      "html_sha256": "5ec69ae132d673aa4d18c0642c517ca15011dee289987230be6ca92b03714f23",
+      "text_sha256": "1b5447d83c1d1178352fb153d167a8d4a03f9ef0a914975aac4ea276a5df3b54",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:45:26.706Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-015b-sonesta-westlake-pet-policy.json",
+        "artifact_file_sha256": "2f9025532f188615b70ae0b1b04f0f63c30771694291ec836c42d090f01c0715",
+        "html_sha256": "67617efabbd48b37c44f76b6960a9744fa8baf1051764374c53598ae787381d7",
+        "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake"
+      }
+    },
+    {
+      "queue_id": "CLE-RR-016",
+      "hotel": "SpringHill Suites Solon",
+      "identity_key": "springhill suites solon",
+      "brand": "SPRINGHILL_SUITES",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-016-springhill-suites-solon.json",
+      "artifact_bytes": 666836,
+      "artifact_file_sha256": "2c8351efd02a6711633899eb6fc367b4fd9cc55e5a96fa529904457043e325e6",
+      "html_sha256": "793905fa9d84533a319c50b619862241800b2c4c4dc977bd04a5b5bd0f073087",
+      "text_sha256": "89b04f1a82e3a94a3fe457faf41a5be643828af68795701c60d3f66268807434",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:35:17.229Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.marriott.com/en-us/hotels/clesh-springhill-suites-cleveland-solon/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/clesh-springhill-suites-cleveland-solon/overview/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-017",
+      "hotel": "The Bertram Inn at Glenmoor",
+      "identity_key": "the bertram inn at glenmoor",
+      "brand": "INDEPENDENT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-017-bertram-inn-at-glenmoor.json",
+      "artifact_bytes": 165864,
+      "artifact_file_sha256": "8ef29857843dda448878abd6c585cdefb2d6bc9907958e95aa240a425d0b6fe7",
+      "html_sha256": "163e3311033542d50a55a12ad2cb4ee7901d568cbefa4704bcfce026eb88207c",
+      "text_sha256": "d9024f2d0bab9696e41377a56da1fc8dacde4ee3164b4cf78e2cc481be4ce2fa",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:16:00.845Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://glenmoorcc.com/Hotel",
+      "final_url": "https://glenmoorcc.com/Hotel",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-017b-bertram-glenmoor-hotel-amenities.json",
+        "artifact_file_sha256": "ac06d1dbb1cf7e46cb9f6d66feb622f5d091c6e16b0b0bf7a740f7fe1145a964",
+        "html_sha256": "e01845d7472819df6ccbd8d6f16b16a0d7daec78aa602c32f8fe3b9f1592320e",
+        "final_url": "https://glenmoorcc.com/Hotel/Hotel_Amenities"
+      },
+      "notes": [
+        "the lodging page this repair bound (glenmoorcc.com/Hotel) and its Hotel Amenities subpage both carry no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-018",
+      "hotel": "The Lakehouse Inn & Winery",
+      "identity_key": "the lakehouse inn and winery",
+      "brand": "INDEPENDENT",
+      "outcome": "NEGATIVE",
+      "artifact_file": "RR-018-lakehouse-inn.json",
+      "artifact_bytes": 269629,
+      "artifact_file_sha256": "7f82817073a5b949a4f6bf4fbe9fe0cdf7ed59a40f07d385e687a77fe1fef424",
+      "html_sha256": "841e4ba1a243bcf589f48a86ea64f5ae82bfadbabcce00aa298e19083ea50eb8",
+      "text_sha256": "b278d88d81c9f0065dd0a07d6df58f0c32d713d5980006cf6baac0e109fb17ba",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:16:56.304Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://thelakehouseinn.com/",
+      "final_url": "https://thelakehouseinn.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-018b-lakehouse-guest-rooms-policies.json",
+        "artifact_file_sha256": "ba5dcaba6007db4b1bc187e18259e38db97b6e3c4ccc04441661d1469313ecc7",
+        "html_sha256": "837598130b2b5b15219ac1eb9095ae3e462b246fd5b6cbeffd0573512206f76e",
+        "final_url": "https://thelakehouseinn.com/guest-rooms-policies/"
+      },
+      "refusal_quote": "We are unable to accommodate guest pets.",
+      "quote_backed_by": "text",
+      "notes": [
+        "the same policies page states a $500 charge for an undeclared non-service animal -- a penalty for breaking the refusal, never a pet fee, and not proposed as one"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-019",
+      "hotel": "Comfort Suites Twinsburg",
+      "identity_key": "comfort suites twinsburg",
+      "brand": "COMFORT_SUITES",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-019-comfort-suites-twinsburg.json",
+      "artifact_bytes": 3778885,
+      "artifact_file_sha256": "36c556c894dac6f71575fb12a5f8c635d16584e2c23f18a282360e4c0462873a",
+      "html_sha256": "08a6755e732aece27e47afd7a1b71620cf4e22c19fb4d7a1e60276548b252660",
+      "text_sha256": "095f1721ae2e795a76081c8512854463330e1247541d08f1394d2a870cd8db2f",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:32:00.594Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "final_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "identity_binding": {
+        "phone": true,
+        "street_number": false,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the page's street reads 2716 Creekside Drive while the census carries 2715 Creekside Dr; ZIP, phone and property code bind -- a census address-form observation, not an identity failure"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-020",
+      "hotel": "Red Roof Inn Cleveland East",
+      "identity_key": "red roof inn cleveland east",
+      "brand": "RED_ROOF",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-020-red-roof-cleveland-east.json",
+      "artifact_bytes": 463791,
+      "artifact_file_sha256": "0af88f8f432e272afca07e8eefc62cd637d0c8807afdf94f27d770641694b48e",
+      "html_sha256": "fd7a28f87ba63bf5237d92729ef30d53b93c4e81284e3865ded59d6b03837749",
+      "text_sha256": "c93d5afdcaf257f75fffc1df8c11581e8e3675d29ad7bf04a04f4cc6d460044e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:22:51.930Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.redroof.com/property/oh/willoughby/rri053",
+      "final_url": "https://www.redroof.com/property/oh/willoughby/rri053",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the page's JSON-LD names Red Roof HQ (7815 Walton Parkway, 43054); the identity binding rests on the visible page, which carries this property's own street and ZIP"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-021",
+      "hotel": "Red Roof Inn Independence",
+      "identity_key": "red roof inn independence",
+      "brand": "RED_ROOF",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-021-red-roof-independence.json",
+      "artifact_bytes": 429765,
+      "artifact_file_sha256": "e73e82e5b1513a34bd60d7f44d3ce1ce32fae872060ad71ba8cc059b8796fc39",
+      "html_sha256": "f763c0aa1ec6d1f5c7a198e7f274baf18c99f2e585238b717b3d6b859ab003bf",
+      "text_sha256": "fe35ec2f1123e726ade80bc0f50d1be0b9b7cfb0711077cede11168a1df0559b",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:23:28.696Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.redroof.com/property/oh/independence/rri028",
+      "final_url": "https://www.redroof.com/property/oh/independence/rri028",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the page's JSON-LD names Red Roof HQ (7815 Walton Parkway, 43054); the identity binding rests on the visible page, which carries this property's own street and ZIP"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-022",
+      "hotel": "Red Roof Inn Middleburg Heights",
+      "identity_key": "red roof inn middleburg heights",
+      "brand": "RED_ROOF",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-022-red-roof-middleburg-heights.json",
+      "artifact_bytes": 444801,
+      "artifact_file_sha256": "808e5685c4c4e119e12d8001efcd97bfd47892393d688f7ed4b8a7215b3aebed",
+      "html_sha256": "fdc6054616d39440e4edec2fdbe49e3f65186a04806a6ddbe0d47229003be7e3",
+      "text_sha256": "8420a05a227b251efe30d66f4b99261d6b4d951150ee2302c4155b0fc8e680b5",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:24:07.729Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.redroof.com/property/oh/cleveland/rri060",
+      "final_url": "https://www.redroof.com/property/oh/cleveland/rri060",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the page's JSON-LD names Red Roof HQ (7815 Walton Parkway, 43054); the identity binding rests on the visible page, which carries this property's own street and ZIP"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-023",
+      "hotel": "Red Roof Inn Westlake",
+      "identity_key": "red roof inn westlake",
+      "brand": "RED_ROOF",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-023-red-roof-westlake.json",
+      "artifact_bytes": 456349,
+      "artifact_file_sha256": "c0be59957e615123284b10db65dc689131959fcc27123941b9398af5dee81742",
+      "html_sha256": "fe6673183a73b088394b1529eba93c16b19940106974f21bc326574decb61eb7",
+      "text_sha256": "d2396a33e6d7604966ff6707a5a1fdd3c3bdcc50704099bd8177c07f2ca83141",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:24:33.286Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.redroof.com/property/oh/westlake/rri094",
+      "final_url": "https://www.redroof.com/property/oh/westlake/rri094",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the page's JSON-LD names Red Roof HQ (7815 Walton Parkway, 43054); the identity binding rests on the visible page, which carries this property's own street and ZIP"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-024",
+      "hotel": "Residence Inn by Marriott Cleveland University Circle Medical Center",
+      "identity_key": "residence inn by marriott cleveland university circle medical center",
+      "brand": "RESIDENCE_INN",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-024-residence-inn-university-circle.json",
+      "artifact_bytes": 663922,
+      "artifact_file_sha256": "d4a500ea8eacf4942772e13e57eb6bc23063e06583ade825c94851b3373d92c8",
+      "html_sha256": "24e0a2057b9e7c9e0d06f413e77fe74ffc1677dea977ba9b1dd5a3a7ac5212e2",
+      "text_sha256": "df9e0927f44bb358b19f294cc8ad22d0a7518957279aac6687b41b4d8ecd860c",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:36:25.148Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.marriott.com/en-us/hotels/cleuv-residence-inn-cleveland-university-circle-medical-center/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/cleuv-residence-inn-cleveland-university-circle-medical-center/overview/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-025",
+      "hotel": "TownePlace Suites by Marriott",
+      "identity_key": "towneplace suites by marriott",
+      "brand": "TOWNEPLACE_SUITES",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-025-towneplace-suites-solon.json",
+      "artifact_bytes": 631665,
+      "artifact_file_sha256": "1470f9fbe77f3f7f566207bb2887a21fd425345b865507950f44a2229e842c92",
+      "html_sha256": "c66aeb5558a503ee7fa84ea141c0bf3b67ea34287631f8bf9f1a37a8ce6f1553",
+      "text_sha256": "3b926da288212a7e63b42fb966556af8a3342693f725a63e199d640c13a79f21",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:37:31.069Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.marriott.com/en-us/hotels/cleto-towneplace-suites-cleveland-solon/overview/",
+      "final_url": "https://www.marriott.com/en-us/hotels/cleto-towneplace-suites-cleveland-solon/overview/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-RR-026",
+      "hotel": "Travelodge Cleveland Airport",
+      "identity_key": "travelodge cleveland airport",
+      "brand": "TRAVELODGE",
+      "outcome": "NEGATIVE",
+      "artifact_file": "RR-026-travelodge-cleveland-airport.json",
+      "artifact_bytes": 647334,
+      "artifact_file_sha256": "ee5d9a5a71388e21d464ccdb6b5b3da2e9c9c67df83844e60a51251b32e9782f",
+      "html_sha256": "a08c14a307cbb6daed05bf3052ae2bd4444f2dabb7b27ca9af545a36e1784094",
+      "text_sha256": "b2ae9ee14f6b508e2ad1bce66f3ec8012cd16d30d0a9e0ee1992ecc4bc2db5c5",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:27:56.051Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.wyndhamhotels.com/travelodge/brook-park-ohio/travelodge-cleveland-airport/overview",
+      "final_url": "https://www.wyndhamhotels.com/travelodge/brook-park-ohio/travelodge-cleveland-airport/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "refusal_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+      "quote_backed_by": "text",
+      "notes": [
+        "the same Wyndham refusal wording the founder approved for Travelodge Lakewood and Microtel North Canton in Pass 2"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-027",
+      "hotel": "Magnuson Extended Stay",
+      "identity_key": "magnuson extended stay",
+      "brand": "MAGNUSON",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-027-magnuson-extended-stay-canton.json",
+      "artifact_bytes": 430915,
+      "artifact_file_sha256": "cce858eeda9be03d3142a92ee0d8de7ac2f86ec8e6dff76a1728b152e8107d49",
+      "html_sha256": "7420a6529dabb1a1e1f7d2f026e005b72c9eb24291095a1fa4aa8d262b95d795",
+      "text_sha256": "65147f81baf3955c4dcf366a231c60f85d4247c4c781cc282f3d3d8ddf2bd30d",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:47:58.537Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+      "final_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": false,
+        "bound": true
+      },
+      "notes": [
+        "the brand property page bound by the routing repair carries no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-028",
+      "hotel": "Quality Inn Arlington",
+      "identity_key": "quality inn arlington",
+      "brand": "QUALITY_INN",
+      "outcome": "NEGATIVE",
+      "artifact_file": "RR-028-quality-inn-arlington-akron-south.json",
+      "artifact_bytes": 3648911,
+      "artifact_file_sha256": "3356bc7dd8aacbd14240f3a732bc8140bdd5d7af1d0648aaaa2a917236a0f347",
+      "html_sha256": "8be98be3dbdfa083fb577a60ea95983c26d10277afec08b1839cdd7dbfdf1452",
+      "text_sha256": "67f2a8fb32da1ac2d5ca27be45042bd4313e83e03eb87fae8c93f6084682a2bb",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:34:13.673Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.choicehotels.com/ohio/akron/quality-inn-hotels/oh462",
+      "final_url": "https://www.choicehotels.com/ohio/akron/quality-inn-hotels/oh462",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "refusal_quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "quote_backed_by": "text",
+      "notes": [
+        "the same Choice refusal wording the founder approved for six Cleveland properties in Pass 2",
+        "the page brands this property 'Quality Inn Akron South' while the census carries 'Quality Inn Arlington'; street, ZIP and phone bind -- a census display-name observation"
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-029",
+      "hotel": "Villa Croatia at the American-Croatian Lodge",
+      "identity_key": "villa croatia at the american croatian lodge",
+      "brand": "INDEPENDENT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "RR-029-villa-croatia-croatian-lodge.json",
+      "artifact_bytes": 96750,
+      "artifact_file_sha256": "49f29a59d3514d92062e0ed8b19b01c7ac1b2df1cc55acd379cf8a0bd698a789",
+      "html_sha256": "3d4e1f125fc27962c9ec5defdb5e62ef4d2b2fec2a6422d5882a5b00be7cd1ea",
+      "text_sha256": "f08830c08b7e8c24189a584d4ea3cca4da55b8026e8990e438de9fc90f77b42f",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:49:48.262218+00:00",
+      "capture_method": "deterministic_fetch",
+      "requested_url": "https://croatianlodge.com/",
+      "final_url": "https://croatianlodge.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "RR-029b-villa-croatia-faq.json",
+        "artifact_file_sha256": "8421176cce5e2f7658c295aa9260a76205b7cc791209e743e5ef15f93c07d075",
+        "html_sha256": "fb38e8550431ddc9a88caf26eee68b489f9a0086f05f0ef16cac06e9ba692edc",
+        "final_url": "https://croatianlodge.com/faq.php"
+      },
+      "notes": [
+        "home and FAQ pages carry no pet wording. The site presents as an event venue and its FAQ addresses only events; whether this identity offers lodging at all is a census question the routing repair already flagged. Blob downloads are silently blocked on this origin (as on inncahootsbarandgrill in Pass 3), so the retained artifacts are deterministic fetches of the same static pages the attended browser rendered."
+      ]
+    },
+    {
+      "queue_id": "CLE-RR-030",
+      "hotel": "Hilton Garden Inn Akron-Canton Airport",
+      "identity_key": "hilton garden inn akron canton airport",
+      "brand": "HILTON_GARDEN_INN",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "RR-030-hilton-garden-inn-akron-canton-airport.json",
+      "artifact_bytes": 822556,
+      "artifact_file_sha256": "85ea8fa53e69e8355625d8ec612d7a37d144d6dd9732f57d72f70fa56b587b09",
+      "html_sha256": "04c0ce823de726d0b400753b79a7053b1649d35f99465b9aa1ac90da2b00d3cb",
+      "text_sha256": "f604a2a25c5f39b1bad16845e1526a7bd704713bd9b3ab3f46ec7cb6512b6b3a",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T23:13:25.782Z",
+      "capture_method": "attended_browser",
+      "requested_url": "https://www.hilton.com/en/hotels/cakapgi-hilton-garden-inn-akron-canton-airport/",
+      "final_url": "https://www.hilton.com/en/hotels/cakapgi-hilton-garden-inn-akron-canton-airport/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "P3-049 re-drive: driven as the session's FIRST navigation per the work order's Hilton rule; the page served normally and the Akamai block that ended Pass 3 did not recur."
+      ]
+    }
+  ]
+}
