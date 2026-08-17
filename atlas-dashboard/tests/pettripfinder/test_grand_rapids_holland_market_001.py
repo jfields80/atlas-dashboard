@@ -188,15 +188,15 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert (progress["route_confirmed"] + progress["url_recovery"] +
             progress["identity_review"] + progress["census_review"] +
             progress["routing_unresolved"]) == 119
-    assert progress["route_confirmed"] == 60
-    assert progress["url_recovery"] == 59
+    assert progress["route_confirmed"] == 67
+    assert progress["url_recovery"] == 52
     routing = _load(PACKAGE / "identity_routing.json")
     routes = [row for row in routing["routes"] if row["market_id"] == MARKET]
-    assert len(routes) == 60
+    assert len(routes) == 67
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)
     queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
-    assert queue["count"] == len(queue["items"]) == 60
+    assert queue["count"] == len(queue["items"]) == 67
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
     review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
     assert review["count"] == 0

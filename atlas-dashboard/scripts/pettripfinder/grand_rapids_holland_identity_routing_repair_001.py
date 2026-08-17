@@ -48,6 +48,13 @@ RECOVERED_URLS = {
     "Comfort Suites Grand Rapids North": "https://www.choicehotels.com/michigan/comstock-park/comfort-suites-hotels/mi235",
     "MainStay Suites Grand Rapids": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
     "Clarion Inn & Suites Airport": "https://www.choicehotels.com/michigan/grand-rapids/clarion-hotels/mi355",
+    "Fairfield Inn & Suites Grand Rapids Wyoming": "https://www.marriott.com/en-us/hotels/grrfw-fairfield-inn-and-suites-grand-rapids-wyoming/overview/",
+    "SpringHill Suites by Marriott Grand Rapids West": "https://www.marriott.com/en-us/hotels/grrgs-springhill-suites-grand-rapids-west/overview/",
+    "Hyatt Place Grand Rapids South": "https://www.hyatt.com/hyatt-place/en-US/grrzw-hyatt-place-grand-rapids-south",
+    "Staybridge Suites Grand Rapids SW - Grandville": "https://www.ihg.com/staybridge/hotels/us/en/grandville/grrgv/hoteldetail",
+    "Holiday Inn Express & Suites Grand Rapids South - Wyoming": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wyoming-mi/grrym/hoteldetail",
+    "Holiday Inn Grand Rapids South": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/byomi/hoteldetail",
+    "Super 8 by Wyndham Grand Rapids": "https://www.wyndhamhotels.com/super-8/wyoming-michigan/super-8-grand-rapids-wyoming/overview",
 }
 
 
