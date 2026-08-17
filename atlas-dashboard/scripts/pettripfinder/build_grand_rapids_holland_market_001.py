@@ -15,7 +15,7 @@ from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
 MARKET = "grand-rapids-holland-mi"
 WORK_ORDER = "PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001"
-AS_OF = "2026-08-16"
+AS_OF = "2026-08-17"
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 REPORTS = PACKAGE / "markets" / "reports"
@@ -87,6 +87,86 @@ SECOND_PASS_CANONICAL = (
     ("Hampton Inn Holland", "12427 Felch St", "Holland", "49424", "616-399-8500", "hilton_locator", "holland-zeeland"),
 )
 
+# PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-002.  This pass begins with
+# the reconciled 56-row census.  It adds only current, address-bound public
+# transient-lodging identities from first-party property pages, official local
+# tourism pages, and the Kent County hotel/motel-tax roster.  The county
+# roster is an identity-discovery source, not policy or routing authority.
+THIRD_PASS_CANONICAL = (
+    ("Courtyard by Marriott Grand Rapids Downtown", "11 Monroe Ave NW", "Grand Rapids", "49503", "616-242-6000", "marriott_locator", "downtown-grand-rapids"),
+    ("SpringHill Suites by Marriott Grand Rapids North", "450 Center Dr NW", "Grand Rapids", "49544", "616-785-1600", "marriott_locator", "walker-northwest-grand-rapids"),
+    ("Residence Inn by Marriott Grand Rapids West", "3451 Rivertown Point Ct SW", "Grandville", "49418", "616-538-1100", "marriott_locator", "wyoming-grandville"),
+    ("TownePlace Suites Grand Rapids Airport Southeast", "4850 Town Center Dr SE", "Grand Rapids", "49512", "616-512-8300", "marriott_locator", "grr-airport-kentwood"),
+    ("Sheraton Grand Rapids Airport Hotel", "5700 28th St SE", "Grand Rapids", "49546", "616-957-1770", "marriott_locator", "grr-airport-kentwood"),
+    ("Hampton Inn & Suites Grand Rapids-Airport 28th St", "5200 28th St SE", "Grand Rapids", "49512", "616-575-9144", "hilton_locator", "grr-airport-kentwood"),
+    ("Hampton Inn & Suites Grandville Grand Rapids South", "4755 Wilson Ave SW", "Grandville", "49418", "616-752-7755", "hilton_locator", "wyoming-grandville"),
+    ("Hampton Inn Grand Rapids-South", "755 54th St SW", "Wyoming", "49509", "616-261-5500", "hilton_locator", "wyoming-grandville"),
+    ("Home2 Suites by Hilton Holland", "3140 West Shore Dr", "Holland", "49424", "616-377-7905", "hilton_locator", "holland-zeeland"),
+    ("AmericInn by Wyndham Grand Rapids Airport North", "5500 28th St SE", "Grand Rapids", "49512", "616-312-1992", "wyndham_locator", "grr-airport-kentwood"),
+    ("AmericInn by Wyndham Holland MI", "422 E 32nd St", "Holland", "49423", "616-251-1862", "wyndham_locator", "holland-zeeland"),
+    ("Baymont Inn & Suites Grand Rapids Southeast", "2873 Kraft Ave SE", "Grand Rapids", "49512", "616-956-3300", "experience_gr_cascade_2026", "grr-airport-kentwood"),
+    ("Country Inn & Suites Grand Rapids East", "3251 Deposit Dr NE", "Grand Rapids", "49546", "616-942-7000", "experience_gr_cascade_2026", "east-grand-rapids-ada"),
+    ("Country Inn & Suites Grand Rapids Airport", "5399 28th St Ct SE", "Grand Rapids", "49512", "616-500-0222", "experience_gr_cascade_2026", "grr-airport-kentwood"),
+    ("Clarion Inn & Suites Airport", "4981 28th St SE", "Grand Rapids", "49512", "", "kent_county_hotel_motel_tax", "grr-airport-kentwood"),
+    ("Drury Inn & Suites Grand Rapids", "5175 28th St SE", "Grand Rapids", "49512", "616-942-8511", "drury_locator", "grr-airport-kentwood"),
+    ("Rodeway Inn & Suites Grand Rapids Southeast", "4855 28th St SE", "Grand Rapids", "49512", "616-957-3000", "choice_locator", "grr-airport-kentwood"),
+    ("The Finnley Hotel", "65 Monroe Center St NW", "Grand Rapids", "49503", "616-622-2110", "experience_gr_downtown_2026", "downtown-grand-rapids"),
+    ("The BlueJay Hotel", "644 Bridge St NW", "Grand Rapids", "49504", "616-622-2112", "experience_gr_boutique_2026", "walker-northwest-grand-rapids"),
+    ("The Ada Hotel", "7415 River St", "Ada", "49301", "616-803-8595", "experience_gr_boutique_2026", "east-grand-rapids-ada"),
+    ("Comfort Suites Grandville - Grand Rapids SW", "4520 Kenowa Ave SW", "Grandville", "49418", "616-667-0733", "choice_locator", "wyoming-grandville"),
+    ("Comfort Suites Grand Rapids South", "7644 Caterpillar Ct SW", "Grand Rapids", "49548", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Country Inn & Suites by Radisson Grandville-Grand Rapids West", "3825 28th St SW", "Grandville", "49418", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Econo Lodge Grand Rapids Airport", "2985 Kraft Ave SE", "Grand Rapids", "49512", "", "kent_county_hotel_motel_tax", "grr-airport-kentwood"),
+    ("Extended Stay America Select Suites Grand Rapids Wyoming", "4500 Clyde Park Ave SW", "Wyoming", "49509", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Fairfield Inn & Suites Grand Rapids Wyoming", "5970 Metro Way", "Wyoming", "49519", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Holiday Inn Express & Suites Grand Rapids Airport South", "4888 Town Center Dr", "Grand Rapids", "49512", "", "kent_county_hotel_motel_tax", "grr-airport-kentwood"),
+    ("Hyatt Place Grand Rapids South", "2150 Metro Lane SW", "Wyoming", "49519", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Quality Inn Grand Rapids North - Walker", "2171 Holton Ct NW", "Walker", "49544", "", "kent_county_hotel_motel_tax", "walker-northwest-grand-rapids"),
+    ("Motel 6 Grand Rapids", "3221 Plainfield Ave NE", "Grand Rapids", "49525", "", "kent_county_hotel_motel_tax", "walker-northwest-grand-rapids"),
+    ("Quality Inn Grand Rapids South", "7625 Caterpillar Ct SW", "Grand Rapids", "49548", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Quality Inn Grand Rapids Near Downtown", "65 28th St SW", "Wyoming", "49509", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("Radisson Hotel Grand Rapids Riverfront", "270 Ann St NW", "Grand Rapids", "49504", "", "kent_county_hotel_motel_tax", "downtown-grand-rapids"),
+    ("Red Roof Inn Grand Rapids Airport", "5131 28th St SE", "Grand Rapids", "49512", "", "kent_county_hotel_motel_tax", "grr-airport-kentwood"),
+    ("Rodeway Inn Grandville - Grand Rapids", "3425 Fairlanes Ave SW", "Grandville", "49418", "616-532-3222", "choice_locator", "wyoming-grandville"),
+    ("SpringHill Suites Grand Rapids Airport Southeast", "5250 28th St SE", "Grand Rapids", "49512", "616-464-1130", "marriott_locator", "grr-airport-kentwood"),
+    ("Super 8 by Wyndham Grand Rapids", "727 44th St SW", "Wyoming", "49509", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("TownePlace Suites Grand Rapids South", "5880 Clyde Park Ave SW", "Wyoming", "49509", "", "kent_county_hotel_motel_tax", "wyoming-grandville"),
+    ("TownePlace Suites Grand Rapids Airport", "5430 28th St Ct SE", "Grand Rapids", "49512", "", "kent_county_hotel_motel_tax", "grr-airport-kentwood"),
+    ("Tru by Hilton Comstock Park Grand Rapids", "340 Dodge St NE", "Comstock Park", "49321", "", "kent_county_hotel_motel_tax", "walker-northwest-grand-rapids"),
+)
+
+# These are the original 19 identity-unresolved leads after current-address
+# reconciliation.  A later name/flag at the same independently bound property
+# is accounted for rather than silently discarded. Hawthorn and Ramada lack a
+# present identity binding and deliberately remain fail-closed.
+SECOND_PASS_RESOLUTION = {
+    "Courtyard Grand Rapids Downtown": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "SpringHill Suites Grand Rapids North": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Residence Inn Grand Rapids West": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "TownePlace Suites Grand Rapids Airport Southeast": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Sheraton Grand Rapids Airport Hotel": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Hampton Inn & Suites Grand Rapids-Airport 28th St": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Hampton Inn & Suites Grandville Grand Rapids South": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Hampton Inn Grand Rapids-South": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Home2 Suites by Hilton Grand Rapids South": "BOUNDARY_EXCLUDED",
+    "Home2 Suites by Hilton Holland": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "AmericInn by Wyndham Grand Rapids Airport North": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "AmericInn by Wyndham Holland MI": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Baymont Inn & Suites (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Best Western Hospitality Hotel & Suites (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Clarion Inn & Suites (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Country Inn & Suites (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+    "Holiday Inn Express Grand Rapids Airport South (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR",
+}
+
+THIRD_PASS_EXTRA = (
+    ("Home2 Suites by Hilton Grand Rapids South", "2288 64th St SW", "Byron Center", "49315", "616-577-8700", "hilton_locator", "BOUNDARY_EXCLUDED", "Address-bound Hilton property lies in Byron Center, outside the retained municipality set; it is not added merely to enlarge the census.", "", "https://www.hilton.com/en/hotels/grrhtht-home2-suites-grand-rapids-south/"),
+    ("Hotel Rose", "", "Rockford", "49341", "", "experience_gr_boutique_2026", "BOUNDARY_EXCLUDED", "Rockford is outside the retained Grand Rapids--Holland municipality set and is not a corridor extension.", "", "https://www.experiencegr.com/articles/post/boutique-hotels/"),
+    ("The Inn on Jefferson", "22 Jefferson Ave SE", "Grand Rapids", "49503", "", "experience_gr_downtown_2026", "CATEGORY_EXCLUDED", "The official destination directory classifies this as an inn/B&B-style accommodation, which remains outside the current PTF hotel category.", "", "https://www.experiencegr.com/plan-and-stay/about-grand-rapids/grand-rapids-regions/downtown/"),
+    ("PrairieSide Suites Luxury Bed and Breakfast", "3180 Washington Ave SW", "Grandville", "49418", "", "kent_county_hotel_motel_tax", "CATEGORY_EXCLUDED", "The county roster names a bed and breakfast; the current PTF hotel category excludes B&Bs.", "", "https://www.kentcountymi.gov/872/Hotel-Motel-Tax"),
+    ("Mitten Housing", "55 Ottawa Ave SW", "Grand Rapids", "49503", "", "kent_county_hotel_motel_tax", "SOURCE_LISTING_NOT_LODGING", "County roster label and destination-directory context identify housing rather than a normal transient hotel identity.", "", "https://www.kentcountymi.gov/872/Hotel-Motel-Tax"),
+)
+
 # Exact first-party property pages retained as future routing provenance.  No
 # page was reviewed for pet-policy content; an exact URL is not policy proof.
 PROPERTY_URLS = {
@@ -102,6 +182,25 @@ PROPERTY_URLS = {
     "Hampton Inn Holland": "https://www.hilton.com/en/hotels/hldmihx-hampton-holland/",
     "Holiday Inn Express Grand Rapids SW": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grandville/gdvmi/hoteldetail",
     "Travelodge by Wyndham Grand Rapids North": "https://www.wyndhamhotels.com/travelodge/grand-rapids-michigan/travelodge-grand-rapids-north/overview",
+    "Courtyard by Marriott Grand Rapids Downtown": "https://www.marriott.com/en-us/hotels/grrdt-courtyard-grand-rapids-downtown/overview/",
+    "SpringHill Suites by Marriott Grand Rapids North": "https://www.marriott.com/en-us/hotels/grrsh-springhill-suites-grand-rapids-north/overview/",
+    "Residence Inn by Marriott Grand Rapids West": "https://www.marriott.com/en-us/hotels/grrrw-residence-inn-grand-rapids-west/overview/",
+    "TownePlace Suites Grand Rapids Airport Southeast": "https://www.marriott.com/en-us/hotels/grrte-towneplace-suites-grand-rapids-airport-southeast/overview/",
+    "Sheraton Grand Rapids Airport Hotel": "https://www.marriott.com/en-us/hotels/grris-sheraton-grand-rapids-airport-hotel/overview/",
+    "Hampton Inn & Suites Grand Rapids-Airport 28th St": "https://www.hilton.com/en/hotels/grrhshx-hampton-suites-grand-rapids-airport-28th-st/",
+    "Hampton Inn & Suites Grandville Grand Rapids South": "https://www.hilton.com/en/hotels/grradhx-hampton-suites-grandville-grand-rapids-south/",
+    "Hampton Inn Grand Rapids-South": "https://www.hilton.com/en/hotels/grrsohx-hampton-grand-rapids-south/",
+    "Home2 Suites by Hilton Holland": "https://www.hilton.com/en/hotels/hlmhtht-home2-suites-holland/",
+    "AmericInn by Wyndham Grand Rapids Airport North": "https://www.wyndhamhotels.com/americinn/grand-rapids-michigan/americinn-grand-rapids-airport-north/overview",
+    "AmericInn by Wyndham Holland MI": "https://www.wyndhamhotels.com/americinn/holland-michigan/americinn-holland-mi/overview",
+    "Drury Inn & Suites Grand Rapids": "https://www.druryhotels.com/locations/grand-rapids-mi/drury-inn-and-suites-grand-rapids",
+    "Rodeway Inn & Suites Grand Rapids Southeast": "https://www.choicehotels.com/en-in/michigan/grand-rapids/rodeway-inn-hotels/mi534",
+    "The Finnley Hotel": "https://www.thefinnley.com/",
+    "The BlueJay Hotel": "https://www.thebluejaygr.com/",
+    "The Ada Hotel": "https://www.adahotel.com/",
+    "Comfort Suites Grandville - Grand Rapids SW": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+    "Rodeway Inn Grandville - Grand Rapids": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
+    "SpringHill Suites Grand Rapids Airport Southeast": "https://www.marriott.com/en-us/hotels/grrse-springhill-suites-grand-rapids-airport-southeast/overview/",
 }
 
 # Every additional lead is retained.  Rows not safe to bind to a present,
@@ -161,6 +260,11 @@ SOURCES = (
     ("red_roof_locator", "Red Roof Grand Rapids / Kentwood locator search", "redroof.com", "CHAIN", "Grand Rapids / Kentwood", 0, "PARTIAL", "No new address-bound in-scope property surfaced in this pass; absence of a result is not a complete inventory assertion."),
     ("extended_stay_america_locator", "Extended Stay America Grand Rapids locator search", "extendedstayamerica.com", "CHAIN", "Grand Rapids / Kentwood", 0, "PARTIAL", "No new address-bound in-scope property surfaced in this pass; absence of a result is not a complete inventory assertion."),
     ("motel6_studio6_locator", "Motel 6 / Studio 6 Grand Rapids locator search", "motel6.com", "CHAIN", "Grand Rapids / Kentwood", 0, "PARTIAL", "No new address-bound in-scope property surfaced in this pass; absence of a result is not a complete inventory assertion."),
+    ("experience_gr_downtown_2026", "Experience Grand Rapids downtown hotels", "experiencegr.com", "CVB", "Downtown Grand Rapids", 15, "PARTIAL", "A current named downtown list and 13-hotel statement; it includes hotel, inn, and housing entries and is not a complete market export."),
+    ("experience_gr_cascade_2026", "Experience Grand Rapids Cascade lodging guide", "experiencegr.com", "CVB", "GRR / Cascade", 8, "PARTIAL", "Named airport-area lodging references and detail pages; article scope is not a complete airport inventory."),
+    ("experience_gr_boutique_2026", "Experience Grand Rapids boutique-hotel guide", "experiencegr.com", "CVB", "Grand Rapids / Ada / Rockford", 4, "PARTIAL", "Named boutique-hotel leads; it is an editorial selection rather than a complete independent-lodging directory."),
+    ("kent_county_hotel_motel_tax", "Kent County hotel / motel tax roster", "kentcountymi.gov", "REGISTRY", "Kent County market cells", 31, "PARTIAL", "Static address-level taxpayer roster. This pass retained 31 newly address-bound, hotel-like market-cell leads; the broader roster also contains rentals, apartments, aliases, B&Bs, and out-of-scope places and has not been fully reconciled line-by-line."),
+    ("drury_locator", "Drury Inn & Suites Grand Rapids property page", "druryhotels.com", "CHAIN", "GRR Airport", 1, "PARTIAL", "Exact first-party property identity only; not a complete regional Drury inventory."),
 )
 
 
@@ -189,13 +293,21 @@ def _candidate(name, address, city, postal, phone, source, disposition, reason, 
 def build():
     phase_one_candidates = [_candidate(*r[:6], "CANONICAL_CENSUS", "Official destination-source lodging listing.", r[6]) for r in CANONICAL]
     second_pass_candidates = [_candidate(*r[:6], "ADD_TO_CENSUS", "Resolved additive identity from an official first-party brand inventory.", r[6], PROPERTY_URLS.get(r[0], "")) for r in SECOND_PASS_CANONICAL]
-    canonical_candidates = phase_one_candidates + second_pass_candidates
+    third_pass_candidates = [_candidate(*r[:6], "CANONICAL_CENSUS", "Address-bound current public transient-lodging identity from the additional completeness audit.", r[6], PROPERTY_URLS.get(r[0], "")) for r in THIRD_PASS_CANONICAL]
+    canonical_candidates = phase_one_candidates + second_pass_candidates + third_pass_candidates
     non_census_candidates = [
         _candidate(r[0], r[1], r[2], r[3], "", r[4], r[5], r[6])
         for r in NON_CENSUS
     ]
-    second_pass_extra = [_candidate(*r[:6], r[6], r[7], r[8], r[9]) for r in SECOND_PASS_EXTRA]
-    candidates = canonical_candidates + non_census_candidates + second_pass_extra
+    second_pass_extra_historical = [_candidate(*r[:6], r[6], r[7], r[8], r[9]) for r in SECOND_PASS_EXTRA]
+    second_pass_extra = [OrderedDict(item) for item in second_pass_extra_historical]
+    for item in second_pass_extra:
+        disposition = SECOND_PASS_RESOLUTION.get(item["source_listing_name"])
+        if disposition:
+            item["disposition"] = disposition
+            item["reason"] = "Current additional-pass identity binding reconciles this earlier discovery lead; the source row is retained for audit."
+    third_pass_extra = [_candidate(*r[:6], r[6], r[7], r[8], r[9]) for r in THIRD_PASS_EXTRA]
+    candidates = canonical_candidates + non_census_candidates + second_pass_extra + third_pass_extra
     source_rows = OrderedDict((
         ("schema", "ptf-market-source-listings/1.0"), ("market_id", MARKET),
         ("as_of", AS_OF), ("count", len(candidates)), ("items", candidates),
@@ -210,9 +322,16 @@ def build():
     _dump(PACKAGE / "grand_rapids_holland_completeness_candidate_ledger_001.json", OrderedDict((
         ("schema", "ptf-market-candidate-ledger/1.0"), ("market_id", MARKET),
         ("work_order", "PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-001"),
-        ("raw_listings", len(second_pass_candidates) + len(second_pass_extra)),
-        ("counts", dict(sorted(Counter(c["disposition"] for c in second_pass_candidates + second_pass_extra).items()))),
-        ("items", second_pass_candidates + second_pass_extra),
+        ("raw_listings", len(second_pass_candidates) + len(second_pass_extra_historical)),
+        ("counts", dict(sorted(Counter(c["disposition"] for c in second_pass_candidates + second_pass_extra_historical).items()))),
+        ("items", second_pass_candidates + second_pass_extra_historical),
+    )))
+    _dump(PACKAGE / "grand_rapids_holland_completeness_candidate_ledger_002.json", OrderedDict((
+        ("schema", "ptf-market-candidate-ledger/1.0"), ("market_id", MARKET),
+        ("work_order", "PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-002"),
+        ("raw_listings", len(third_pass_candidates) + len(third_pass_extra)),
+        ("counts", dict(sorted(Counter(c["disposition"] for c in third_pass_candidates + third_pass_extra).items()))),
+        ("items", third_pass_candidates + third_pass_extra),
     )))
     boundary = [c for c in candidates if c["disposition"] == "BOUNDARY_EXCLUDED"]
     _dump(PACKAGE / "grand_rapids_holland_boundary_review_001.json", OrderedDict((
@@ -336,9 +455,42 @@ def build():
         ("next_step", "ADDITIONAL_DISCOVERY"),
         ("policy_capture", "NOT_PERFORMED"),
     )))
+    _dump(PACKAGE / "grand_rapids_holland_census_completeness_002.json", OrderedDict((
+        ("schema", "ptf-market-census-completeness/1.0"), ("market_id", MARKET),
+        ("work_order", "PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-002"),
+        ("as_of", AS_OF),
+        ("starting_checkpoint", "df307cce5dd605e7242719405c70ea57ce971b00"),
+        ("completeness_pass_reconciliation", OrderedDict((
+            ("census_before", 56), ("new_discovery_candidates", len(third_pass_candidates) + len(third_pass_extra)),
+            ("new_valid_lodging_identities", len(third_pass_candidates)), ("proven_removals", 0),
+            ("final_census", len(hotels)), ("identity_unresolved_before", 19),
+            ("identity_unresolved_after", sum(1 for c in second_pass_extra if c["disposition"] == "IDENTITY_UNRESOLVED")),
+        ))),
+        ("airport_cluster", OrderedDict((
+            ("current_grr_kentwood_count", 19),
+            ("new_valid_lodging_identities", sum(1 for c in third_pass_candidates if c["corridor"] == "grr-airport-kentwood")),
+            ("final_count", sum(1 for c in canonical_candidates if c["corridor"] == "grr-airport-kentwood")),
+        ))),
+        ("holland_zeeland", OrderedDict((
+            ("current_count", 8),
+            ("new_valid_lodging_identities", sum(1 for c in third_pass_candidates if c["corridor"] == "holland-zeeland")),
+            ("final_count", sum(1 for c in canonical_candidates if c["corridor"] == "holland-zeeland")),
+        ))),
+        ("independent_lodging", OrderedDict((
+            ("candidates_found", 3), ("added_to_census", ["The Finnley Hotel", "The BlueJay Hotel", "The Ada Hotel"]),
+        ))),
+        ("source_coverage", OrderedDict((
+            ("kent_county_hotel_motel_tax", "PARTIAL: static roster materially improved address coverage, but its non-hotel, alias, and out-of-scope rows are not yet fully reconciled line-by-line."),
+            ("holland_cvb", "PARTIAL; dynamic tourism inventory remains unmeasured."),
+            ("brand_locators", "PARTIAL; current property bindings were captured selectively for discovery and future routing provenance."),
+        ))),
+        ("verdict", "CENSUS_STILL_INCOMPLETE"),
+        ("verdict_reason", "The Kent County registry materially expands and stabilizes the Grand Rapids-side universe, but the Holland-area dynamic source remains unmeasured and the Hawthorn and Ramada historic/current-identity leads lack exact current bindings."),
+        ("next_step", "ADDITIONAL_DISCOVERY"), ("policy_capture", "NOT_PERFORMED"),
+    )))
     _dump(REPORTS / (MARKET + "_duplicate_ledger.json"), OrderedDict((
         ("schema", "ptf-market-reconciliation/1.0"), ("market_id", MARKET),
-        ("counts", {"raw_listings": len(candidates), "canonical_census": len(hotels), "boundary_excluded": len(boundary), "category_excluded": 1, "source_listing_already_accounted_for": 1, "duplicates": 0, "identity_unresolved": sum(1 for c in candidates if c["disposition"] == "IDENTITY_UNRESOLVED"), "closed_or_converted": 0}),
+        ("counts", {"raw_listings": len(candidates), "canonical_census": len(hotels), "boundary_excluded": len(boundary), "category_excluded": sum(1 for c in candidates if c["disposition"] == "CATEGORY_EXCLUDED"), "source_listing_already_accounted_for": sum(1 for c in candidates if c["disposition"] == "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR"), "duplicates": 0, "identity_unresolved": sum(1 for c in candidates if c["disposition"] == "IDENTITY_UNRESOLVED"), "closed_or_converted": 0}),
         ("items", [c for c in candidates if c["disposition"] != "CANONICAL_CENSUS"]),
     )))
 

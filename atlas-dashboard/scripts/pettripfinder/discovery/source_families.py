@@ -122,6 +122,13 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "extended_stay_america_locator": FAMILY_CHAIN,
     "motel6_studio6_locator": FAMILY_CHAIN,
     "grr_airport": FAMILY_DIRECTORY,
+    # PTF-GRAND-RAPIDS-HOLLAND-CENSUS-COMPLETENESS-002: additional official
+    # destination material, current property pages, and a county registry.
+    "experience_gr_downtown_2026": FAMILY_CVB,
+    "experience_gr_cascade_2026": FAMILY_CVB,
+    "experience_gr_boutique_2026": FAMILY_CVB,
+    "kent_county_hotel_motel_tax": FAMILY_REGISTRY,
+    "drury_locator": FAMILY_CHAIN,
 }
 
 
