@@ -179,3 +179,24 @@ def test_market_has_no_collision_or_policy_authority():
     assert not (PACKAGE / ("hotel_policy_facts_" + MARKET + ".json")).exists()
     exclusions = _load(PACKAGE / "hotel_exclusions.json")
     assert not [x for x in exclusions["exclusions"] if x.get("market_id") == MARKET]
+
+
+def test_routing_repair_reconciles_the_fixed_active_universe():
+    progress = _load(PACKAGE / "grand_rapids_holland_identity_routing_repair_001_progress.json")
+    assert progress["total_universe"] == 119
+    assert progress["processed"] + progress["remaining"] == 119
+    assert (progress["route_confirmed"] + progress["url_recovery"] +
+            progress["identity_review"] + progress["census_review"] +
+            progress["routing_unresolved"]) == 119
+    assert progress["route_confirmed"] == 39
+    assert progress["url_recovery"] == 80
+    routing = _load(PACKAGE / "identity_routing.json")
+    routes = [row for row in routing["routes"] if row["market_id"] == MARKET]
+    assert len(routes) == 39
+    assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
+    assert len({row["official_property_url"] for row in routes}) == len(routes)
+    queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
+    assert queue["count"] == len(queue["items"]) == 39
+    assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
+    review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
+    assert review["count"] == 0

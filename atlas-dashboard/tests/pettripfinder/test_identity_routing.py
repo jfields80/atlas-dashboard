@@ -218,7 +218,9 @@ def test_committed_authority_validates(routes):
     # 87 after Pass 3; 90 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for
     # the three official URLs it found (Magnuson Canton, Quality Inn
     # Akron South, the American Croatian Lodge).
-    assert len(routes) == 90
+    # PTF-GRAND-RAPIDS-HOLLAND-IDENTITY-ROUTING-REPAIR-001 adds the 39
+    # address-bound, first-party property routes from its closed census.
+    assert len(routes) == 129
 
 
 def test_committed_authority_split(routes):
@@ -248,7 +250,7 @@ def test_committed_authority_split(routes):
     # North Canton moved CONFIRMED -> HELD because bestwestern.com
     # refuses to serve its property page (closure NOT inferred; the
     # Canton CVB lists it operating).
-    assert len(confirmed) == 78
+    assert len(confirmed) == 117
     assert len(held) == 10
     assert len(retired) == 2
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
@@ -328,7 +330,8 @@ def test_every_committed_route_is_in_a_known_market(routes):
     What must never appear is a route with no market or a market the config does
     not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
+        "grand-rapids-holland-mi"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
@@ -453,7 +456,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # contribution is unchanged.
     # 86 -> 84: two routed hotels became inventory and no longer need a
     # route to reach the capture queue.
-    assert len(routed.selected) - len(base.selected) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(routed.selected) - len(base.selected) == 58  # includes Grand Rapids--Holland routing
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -487,7 +490,8 @@ def test_routing_carries_more_than_one_market(queues):
     # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
     # those 74 (the Drury pair), so their routes retired and they reach the
     # queue as inventory rather than as routing.
-    assert len(added) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(by_market["grand-rapids-holland-mi"]) == 39
+    assert len(added) == 58  # includes Grand Rapids--Holland routing
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
