@@ -348,12 +348,14 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
     the first seventeen Pittsburgh hotels; 242 since
     PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
-    after Indianapolis published its eight founder-approved records."""
+    after Indianapolis published its eight founder-approved records; 268 since
+    PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
+    Cleveland hotels (81 -> 99)."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
+    assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
                       "pittsburgh-pa": 26, INDIANAPOLIS: 8}
-    assert sum(counts.values()) == 250
+    assert sum(counts.values()) == 268
 
 
 # --------------------------------------------------------------------------- #

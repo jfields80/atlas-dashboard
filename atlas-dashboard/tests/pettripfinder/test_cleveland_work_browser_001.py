@@ -117,8 +117,19 @@ class TestLedgerShape:
         assert len(ledger["reconciliation"]["batch_2_not_in_rollup"]) == 4
 
     def test_every_item_binds_to_a_cleveland_census_identity(self, ledger, census):
+        from scripts.pettripfinder.cleveland_final_partition_002 import (
+            IDENTITY_RENAMES,
+        )
         known = {h["slug"]: h for h in census["hotels"]}
         for item in ledger["items"]:
+            # Two identities were renamed on founder authorization after this
+            # transcript was written; the ledger keeps what it saw, so the
+            # binding follows the alias rather than rewriting history.
+            if item["normalized_name"] in IDENTITY_RENAMES:
+                current = IDENTITY_RENAMES[item["normalized_name"]]
+                assert any(h["normalized_name"] == current
+                           for h in census["hotels"]), current
+                continue
             assert item["slug"] in known, item["slug"]
             assert item["normalized_name"] == known[item["slug"]]["normalized_name"]
             assert item["market_id"] == WB.MARKET
@@ -148,11 +159,20 @@ class TestNothingPublished:
         packet = _json(P2_PACKET_PATH)
         pass3 = _json(P2_PACKET_PATH.parent
                       / "cleveland_pass3_founder_review_packet.json")
-        assert totals["published_pet_friendly_after"]             + len(packet["positive_candidates"]) + len(pass3["positive_candidates"]) == len(
+        pass4 = _json(P2_PACKET_PATH.parent
+                      / "cleveland_pass4_founder_review_packet.json")
+        published_later = (len(packet["positive_candidates"])
+                           + len(pass3["positive_candidates"])
+                           + len(pass4["positive_candidates"])
+                           + len(pass4["rename_candidates"]))
+        assert totals["published_pet_friendly_after"] + published_later == len(
             _json(CLEVELAND_FACTS_PATH)["hotels"])
         exclusions = _json(EXCLUSIONS_PATH)
         records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
-        assert totals["verified_no_pets_after"]             + len(packet["negative_candidates"]) + len(pass3["negative_candidates"]) == len(
+        excluded_later = (len(packet["negative_candidates"])
+                          + len(pass3["negative_candidates"])
+                          + len(pass4["negative_candidates"]))
+        assert totals["verified_no_pets_after"] + excluded_later == len(
             [r for r in records if r.get("market_id") == WB.MARKET])
         assert totals["confirmed_identities"] == _json(CENSUS_PATH)["count"]
 
@@ -163,9 +183,11 @@ class TestNothingPublished:
         published = {h["key"] for h in _json(CLEVELAND_FACTS_PATH)["hotels"]}
         packet = _json(P2_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["positive_candidates"]}
-        pass3 = _json(P2_PACKET_PATH.parent
-                      / "cleveland_pass3_founder_review_packet.json")
-        decided |= {c["identity_key"] for c in pass3["positive_candidates"]}
+        for later in ("cleveland_pass3_founder_review_packet.json",
+                      "cleveland_pass4_founder_review_packet.json"):
+            pk = _json(P2_PACKET_PATH.parent / later)
+            for group in ("positive_candidates", "rename_candidates"):
+                decided |= {c["identity_key"] for c in pk.get(group, [])}
         for item in ledger["items"]:
             if not item["published_before"]:
                 assert (item["normalized_name"] not in published
@@ -181,9 +203,10 @@ class TestNothingPublished:
         reviewed = {i["normalized_name"] for i in ledger["items"]}
         packet = _json(P2_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["negative_candidates"]}
-        pass3 = _json(P2_PACKET_PATH.parent
-                      / "cleveland_pass3_founder_review_packet.json")
-        decided |= {c["identity_key"] for c in pass3["negative_candidates"]}
+        for later in ("cleveland_pass3_founder_review_packet.json",
+                      "cleveland_pass4_founder_review_packet.json"):
+            pk = _json(P2_PACKET_PATH.parent / later)
+            decided |= {c["identity_key"] for c in pk["negative_candidates"]}
         assert not (reviewed & excluded) - decided - {
             r["normalized_name"] for r in records
             if r.get("observed_at", "") < WB.AS_OF}
@@ -361,7 +384,7 @@ class TestRoutingAdjudication:
         # of the 43 founder-decided identities; 58 after Pass 3
         # retired 44 more; 61 after PTF-CLEVELAND-ROUTING-REPAIR-001
         # created three.
-        assert by_market["cleveland-akron-canton-oh"] == 61
+        assert by_market["cleveland-akron-canton-oh"] == 38
         assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
@@ -427,7 +450,7 @@ class TestOtherMarketsUntouched:
         for record in routes:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         assert by_market["columbus-oh"] == 20
-        assert by_market["cleveland-akron-canton-oh"] == 61  # after routing-repair creations
+        assert by_market["cleveland-akron-canton-oh"] == 38  # after routing-repair creations
 
 
 # --------------------------------------------------------------------------- #

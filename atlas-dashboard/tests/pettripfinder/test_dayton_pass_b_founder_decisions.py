@@ -369,14 +369,21 @@ def test_the_cleveland_asymmetry_was_recorded_not_acted_on(ledger):
 
 
 def test_this_order_changed_no_cleveland_record():
-    """Asserted against Cleveland's own package, not against intent."""
+    """Asserted against Cleveland's own package, not against intent.
+
+    Scoped to the two identities FU-01 actually names, not to "every
+    Cleveland ESA record" -- PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
+    independently published a third ("extended stay america premier
+    suites"), which this order never touched and this test was never about.
+    """
     cleveland = json.loads(
         (LP / "hotel_policy_facts_cleveland-akron-canton-oh.json")
         .read_text(encoding="utf-8"))
-    esa = [h for h in cleveland["hotels"]
-           if "extended stay" in h["identity_key"]]
-    assert len(esa) == 2
-    for record in esa:
+    by_key = {h["identity_key"]: h for h in cleveland["hotels"]}
+    named = {"extended stay america select suites akron south",
+             "extended stay america hotel akron copley east"}
+    for key in named:
+        record = by_key[key]
         # Still exactly as the follow-up describes: no statement, no quote.
         assert record.get("service_animal_statement") is None
         assert not any("service animal" in e["quote"].lower()

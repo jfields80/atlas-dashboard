@@ -117,8 +117,9 @@ class TestItIsActuallyAPartition:
         # 29/159 at the 2026-08-12 partition; 72/116 after the Pass-2
         # founder decisions; 116/72 after the Pass-3 founder decisions
         # (PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001).
-        assert sum(counts[s] for s in TERMINAL_STATES) == 116
-        assert sum(counts[s] for s in UNRESOLVED_STATES) == 72
+        # 139/49 after the Pass-4 founder decisions (PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001).
+        assert sum(counts[s] for s in TERMINAL_STATES) == 139
+        assert sum(counts[s] for s in UNRESOLVED_STATES) == 49
 
     def test_the_reconciliation_matches_the_market_authority(self, committed):
         from scripts.pettripfinder.build_market_manifest import build_package
@@ -126,8 +127,8 @@ class TestItIsActuallyAPartition:
         rec = committed["reconciliation"]
         assert (rec["confirmed_identities"], rec["published_pet_friendly"],
                 rec["verified_no_pets"], rec["resolved"],
-                rec["unresolved"]) == (188, 81, 35, 116, 72)
-        assert build_package(MARKET).reconciliation() == (188, 81, 35, 116, 72)
+                rec["unresolved"]) == (188, 99, 40, 139, 49)
+        assert build_package(MARKET).reconciliation() == (188, 99, 40, 139, 49)
 
     def test_published_and_excluded_states_match_the_publication_authority(
             self, committed):
@@ -156,7 +157,7 @@ class TestItIsActuallyAPartition:
                            if not i["resolved"]}
         assert unresolved_here == {i["normalized_name"]
                                    for i in _json(UNRESOLVED_PATH)["items"]}
-        assert len(unresolved_here) == 72
+        assert len(unresolved_here) == 49
 
 
 class TestExactlyOneNextAction:
@@ -216,7 +217,9 @@ class TestExactlyOneNextAction:
         the refused route cannot support)."""
         authored = {i["slug"]: i for i in committed["items"]
                     if i["next_action_source"] == AUTHORED_HERE}
-        assert len(authored) == 20
+        # 20 until Pass 4 published seven of those identities, which spends
+        # their authored actions.
+        assert len(authored) == 7
         item = authored["hyatt-place-cleveland-westlake-crocker-park"]
         assert item["final_state"] == AWAITING_ROUTING_REVIEW
         assert "screenshot" in item["next_action"].lower()
@@ -258,10 +261,19 @@ class TestNothingPublishedFromATranscription:
         decision -- and every such row is named in a committed packet."""
         packet = _json(Q_PACKET_PATH)
         decided = {c["hotel_id"] for c in packet["positive_candidates"]} |                   {c["hotel_id"] for c in packet["negative_candidates"]}
-        pass3 = _json(Q_PACKET_PATH.parent
-                      / "cleveland_pass3_founder_review_packet.json")
-        decided |= {c["identity_key"] for c in pass3["positive_candidates"]}
-        decided |= {c["identity_key"] for c in pass3["negative_candidates"]}
+        for later in ("cleveland_pass3_founder_review_packet.json",
+                      "cleveland_pass4_founder_review_packet.json"):
+            pk = _json(Q_PACKET_PATH.parent / later)
+            for group in ("positive_candidates", "rename_candidates",
+                          "negative_candidates"):
+                decided |= {c["identity_key"] for c in pk.get(group, [])}
+        # Two of those identities were renamed on founder authorization, so
+        # the partition now names them by their current keys.
+        from scripts.pettripfinder.cleveland_final_partition_002 import (
+            IDENTITY_RENAMES,
+        )
+        decided |= {IDENTITY_RENAMES[k] for k in IDENTITY_RENAMES
+                    if k in decided}
         reviewed = [i for i in committed["items"]
                     if i["reviewed_in_work_browser_pass_001"]]
         assert len(reviewed) == 135
@@ -353,8 +365,8 @@ class TestTheAuthoritiesAgree:
         doc = _json(UNRESOLVED_PATH)
         assert (doc["confirmed_identities"], doc["resolved"],
                 doc["published_pet_friendly"], doc["verified_no_pets"],
-                doc["unresolved"]) == (188, 116, 81, 35, 72)
-        assert len(doc["items"]) == 72
+                doc["unresolved"]) == (188, 139, 99, 40, 49)
+        assert len(doc["items"]) == 49
 
 
 class TestCollisionAudits:
@@ -428,13 +440,21 @@ class TestTheSixteenthRoutingProposal:
         # routes of the 43 decided identities; 58 after Pass 3 retired
         # 44; 61 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for the three
         # official URLs it found.
-        assert len(routes) == 61
+        # 61 until Pass 4 retired the routes of its 23 decided identities.
+        assert len(routes) == 38
 
 
 class TestTheCrosswalkIsAuditable:
 
     def test_every_reviewed_item_keeps_its_upstream_outcome(self, committed):
-        wb = {i["normalized_name"]: i for i in _json(WORK_BROWSER_PATH)["items"]}
+        from scripts.pettripfinder.cleveland_final_partition_002 import (
+            IDENTITY_RENAMES,
+        )
+        # A historical ledger names each property as it stood when the pass
+        # ran; renamed identities are aliased for the join rather than having
+        # that transcript rewritten.
+        wb = {IDENTITY_RENAMES.get(i["normalized_name"], i["normalized_name"]): i
+              for i in _json(WORK_BROWSER_PATH)["items"]}
         for item in committed["items"]:
             if not item["reviewed_in_work_browser_pass_001"]:
                 continue
@@ -480,14 +500,18 @@ class TestTheCrosswalkIsAuditable:
         # PTF-CLEVELAND-ROUTING-REPAIR-001 bound working property pages for them.
         blocked = crosswalk["ACCESS_BLOCKED"]
         assert blocked["rows"] == 4
-        assert blocked["final_states"] == {ACCESS_BLOCKED: 1,
-                                          AWAITING_POLICY_OBSERVATION: 3}
+        # Pass 4 published two of the three the routing repair unblocked.
+        assert blocked["final_states"] == {
+            ACCESS_BLOCKED: 1, AWAITING_POLICY_OBSERVATION: 1,
+            PUBLISHED_PET_FRIENDLY: 2}
 
     def test_a_per_slug_override_always_carries_its_reason(self, committed):
         overridden = [i for i in committed["items"] if i["state_override_reason"]]
         # 12 until PTF-CLEVELAND-ROUTING-REPAIR-001 recorded its 7 repaired-route moves
         # (and Best Western Plus North Canton moving the other way).
-        assert len(overridden) == 19
+        # 19 until Pass 4 published ten of the overridden identities; an
+        # override is spent once its identity reaches a terminal state.
+        assert len(overridden) == 9
         assert all(len(i["state_override_reason"]) > 40 for i in overridden)
 
     def test_the_blocker_distribution_is_what_the_evidence_supports(self, committed):
@@ -499,12 +523,13 @@ class TestTheCrosswalkIsAuditable:
         # are ADR-forbidden and wait for the operator-manual session).
         # PTF-CLEVELAND-ROUTING-REPAIR-001 then repaired the routing lane: 43 identities
         # now await a policy observation on an identity-bound page.
-        assert counts[AWAITING_POLICY_ARTIFACT] == 6
-        assert counts[AWAITING_POLICY_OBSERVATION] == 43
+        # Pass 4 consumed 18 observation rows and 2 artifact rows.
+        assert counts[AWAITING_POLICY_ARTIFACT] == 4
+        assert counts[AWAITING_POLICY_OBSERVATION] == 22
         assert counts[AWAITING_ATTENDED_CAPTURE] == 1
         assert counts[AWAITING_ROUTING_REPLACEMENT] == 1
         assert counts[AWAITING_ROUTING_REVIEW] == 1
-        assert counts[AWAITING_OFFICIAL_URL] == 12
+        assert counts[AWAITING_OFFICIAL_URL] == 12  # unchanged by Pass 4
         assert counts[AWAITING_PROPERTY_LEVEL_URL] == 0
         assert counts[AWAITING_CONTRADICTION_RESOLUTION] == 3
         assert counts[AWAITING_CENSUS_REVIEW] == 3
@@ -522,9 +547,10 @@ class TestTheCrosswalkIsAuditable:
             self, committed):
         never = [i for i in committed["items"]
                  if not i["resolved"] and not i["reviewed_in_work_browser_pass_001"]]
-        assert len(never) == 24
+        # 24 until Pass 4 published nine of them.
+        assert len(never) == 15
         assert committed["reconciliation"][
-            "never_reviewed_by_any_browser_pass"] == 24
+            "never_reviewed_by_any_browser_pass"] == 15
         # PTF-CLEVELAND-ROUTING-REPAIR-001 bound property pages for the eight brand-level
         # rows and three of the missing-URL rows, so those eleven now
         # await a policy observation.

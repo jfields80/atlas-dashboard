@@ -1,0 +1,801 @@
+{
+ "schema": "ptf-identity-routing/1.0",
+ "contract": "ptf-identity-routing/1.0",
+ "market_id": "columbus-oh",
+ "note": "This market's slice of the identity-routing authority. The global launch_packages/pettripfinder/identity_routing.json is generated from every market's shard and must not be hand-edited.",
+ "source_batches": [
+  "columbus-official-url-recovery-001",
+  "columbus-official-url-apply-001"
+ ],
+ "count": 20,
+ "routes": [
+  {
+   "routing_id": "route-columbus-oh-best-western-canal-winchester-inn-columbus-south-east",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "best western canal winchester inn columbus south east",
+    "market_id": "columbus-oh",
+    "canonical_name": "Best Western Canal Winchester Inn - Columbus South East",
+    "normalized_name": "best western canal winchester inn columbus south east"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.bestwestern.com/en_US/book/hotels-in-canal-winchester/best-western-canal-winchester-inn-columbus-south-east/propertyCode.36149.html",
+   "official_domain": "bestwestern.com",
+   "property_code": "36149",
+   "brand": "BEST_WESTERN",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Canal Winchester CVB outbound link",
+    "hotelplanner.com",
+    "yelp.com",
+    "bestwestern.com's own canonical property URL carries propertyCode.36149, independently confirming the code previously seen only in a CVB outbound link"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=6323 Prentiss School",
+    "city=Canal Winchester",
+    "zip=43110",
+    "phone=614-834-4790"
+   ],
+   "identity_context": {
+    "address": "6323 Prentiss School Dr",
+    "city": "Canal Winchester",
+    "state": "OH",
+    "postal_code": "43110",
+    "phone": "614-834-4790"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Street suffix discrepancy: the record says 'Prentiss School Dr' but every observed source says 'Place'/'Pl'. Same number, city and ZIP, so the same property. Also possible Best Western -> Best Western PLUS tier drift in page titles; the property code is unaffected either way.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-best-western-executive-inn",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "best western executive inn",
+    "market_id": "columbus-oh",
+    "canonical_name": "Best Western Executive Inn",
+    "normalized_name": "best western executive inn"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.bestwestern.com/en_US/book/hotels-in-grove-city/best-western-executive-inn/propertyCode.36095.html",
+   "official_domain": "bestwestern.com",
+   "property_code": "36095",
+   "brand": "BEST_WESTERN",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "hotelplanner.com",
+    "yelp.com",
+    "visitgrovecity.com (301 then 403)",
+    "bestwestern.com domain-restricted search on '4026 Jackpot' returned the propertyCode.36095 page ranked first with a Grove City OH page title"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=4026 Jackpot Rd",
+    "city=Grove City",
+    "zip=43123",
+    "phone=614-875-7770"
+   ],
+   "identity_context": {
+    "address": "4026 Jackpot Road",
+    "city": "Grove City",
+    "state": "OH",
+    "postal_code": "43123",
+    "phone": "614-875-7770"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Three genuine near-collisions ruled out; only 36095 matches both the name and 4026 Jackpot Rd, Grove City OH 43123.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-cambria-columbus-polaris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "cambria columbus polaris",
+    "market_id": "columbus-oh",
+    "canonical_name": "Cambria Columbus-Polaris",
+    "normalized_name": "cambria columbus polaris"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/columbus/cambria-hotels/oh360",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh360",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "hotels.experiencecolumbus.com",
+    "travelagewest.com (403)",
+    "businesstravelnews.com (403)",
+    "the Experience Columbus hotel directory carries the address and an anchor to this exact choicehotels.com URL on the same record"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=9100 Lyra Dr",
+    "city=Columbus",
+    "hotel_name",
+    "cvb_anchor_to_official_url"
+   ],
+   "identity_context": {
+    "address": "9100 Lyra Dr.",
+    "city": "Columbus",
+    "state": "OH",
+    "postal_code": "43240",
+    "phone": "(614) 987-4741"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "TWO PHONES OBSERVED AND NEITHER IS VERIFIED: the CVB record shows 614-841-9100 while a search summary reported 614-987-4741. The record carries no phone so nothing conflicts, but do not adopt either. ZIP 43240 was not re-observed on the verification page (address and city only).",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-comfort-suites-grove-city-columbus-south",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "comfort suites grove city columbus south",
+    "market_id": "columbus-oh",
+    "canonical_name": "Comfort Suites Grove City Columbus South",
+    "normalized_name": "comfort suites grove city columbus south"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/grove-city/comfort-suites-hotels/oh675",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh675",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "stay.visitgrovecity.com (fetched 200)",
+    "the Visit Grove City CVB record carries the address, the phone matching the record exactly, and an anchor to this property's choicehotels.com oh675 page (HTTP 200); the CVB anchor uses the en-ca locale variant of the same property page"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=4200 Gantz Road",
+    "city=Grove City",
+    "zip=43123",
+    "phone=614-808-4496",
+    "cvb_anchor_to_official_url"
+   ],
+   "identity_context": {
+    "address": "4200 Gantz Road",
+    "city": "Grove City",
+    "state": "OH",
+    "postal_code": "43123",
+    "phone": "614-808-4496"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "FRANCHISEE DOMAIN IS DEAD AND MUST NOT BE USED: comfortsuitesgrovecity.com returns HTTP 200 but its body is a 114-byte redirect to /lander, a GoDaddy domain-parking shell (LANDER_SYSTEM='PW', parking assets). Search engines still index stale cached copies of its old hotel pages showing 4200 Gantz Road; that cache is NOT live. This confirms the earlier lead as unusable.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-courtyard-by-marriott-columbus-dublin",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "courtyard by marriott columbus dublin",
+    "market_id": "columbus-oh",
+    "canonical_name": "Courtyard by Marriott Columbus Dublin",
+    "normalized_name": "courtyard by marriott columbus dublin"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhdb-courtyard-columbus-dublin/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHDB",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "dublinchamber.org (fetched 200)",
+    "the Dublin Chamber publishes this EXACT marriott.com URL byte-for-byte alongside a matching address and phone -- an independent source linking directly to the official property URL"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=5175 Post Rd",
+    "city=Dublin",
+    "zip=43017",
+    "phone=614-764-9393",
+    "exact_url_published_by_chamber"
+   ],
+   "identity_context": {
+    "address": "5175 Post Rd",
+    "city": "Dublin",
+    "state": "OH",
+    "postal_code": "43017",
+    "phone": "614-764-9393"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Strongest binding in the Marriott set: an independent source publishes the identical official URL, not merely a matching address.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-courtyard-by-marriott-columbus-grove-city",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "courtyard by marriott columbus grove city",
+    "market_id": "columbus-oh",
+    "canonical_name": "Courtyard by Marriott Columbus Grove City",
+    "normalized_name": "courtyard by marriott columbus grove city"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhcg-courtyard-columbus-grove-city/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHCG",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "business.gcchamber.org (fetched 200, no website link)",
+    "yelp.com",
+    "marriott.com address-restricted search returned CMHCG pages whose indexed content carries 1668 Buckeye Place, Grove City 43123 and phone +1-614-782-8292, matching the record exactly"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=1668 Buckeye Place",
+    "city=Grove City",
+    "zip=43123",
+    "phone=614-782-8292"
+   ],
+   "identity_context": {
+    "address": "1668 Buckeye Place",
+    "city": "Grove City",
+    "state": "OH",
+    "postal_code": "43123",
+    "phone": "614-782-8292"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "visitgrovecity.com 301s cross-host to stay.visitgrovecity.com which then 403s, contributing nothing.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-fairfield-inn-and-suites-by-marriott-columbus-dublin",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "fairfield inn and suites by marriott columbus dublin",
+    "market_id": "columbus-oh",
+    "canonical_name": "Fairfield Inn & Suites by Marriott Columbus-Dublin",
+    "normalized_name": "fairfield inn and suites by marriott columbus dublin"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhdf-fairfield-inn-and-suites-columbus-dublin/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHDF",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "dublinchamber.org (fetched 200)",
+    "the Dublin Chamber publishes the brand-domain short URL http://www.fairfieldinn.com/CMHDF beside this exact address and phone, binding the code to the property through a Marriott-owned domain"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=7150 Sawmill Rd",
+    "city=Columbus",
+    "zip=43235",
+    "phone=614-389-3036",
+    "code_in_brand_short_url=fairfieldinn.com/CMHDF"
+   ],
+   "identity_context": {
+    "address": "7150 Sawmill Rd",
+    "city": "Columbus",
+    "state": "OH",
+    "postal_code": "43235",
+    "phone": "614-389-3036"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "City is Columbus 43235 despite 'Dublin' in the property name -- consistent with the record.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-fairfield-inn-and-suites-columbus-canal-winchester",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "fairfield inn and suites columbus canal winchester",
+    "market_id": "columbus-oh",
+    "canonical_name": "Fairfield Inn & Suites Columbus Canal Winchester",
+    "normalized_name": "fairfield inn and suites columbus canal winchester"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhfc-fairfield-inn-and-suites-columbus-canal-winchester/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHFC",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "yelp.com",
+    "reservationdesk.com",
+    "travelweekly.com (403)",
+    "two independent address-restricted searches returned marriott.com CMHFC pages whose indexed content carries the exact street, ZIP and phone"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=6349 Winchester Boulevard",
+    "city=Canal Winchester",
+    "zip=43110",
+    "phone=614-829-7065"
+   ],
+   "identity_context": {
+    "address": "6349 Winchester Blvd",
+    "city": "Canal Winchester",
+    "state": "OH",
+    "postal_code": "43110",
+    "phone": "614-829-7065"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Weakest chamber/CVB corroboration of the Marriott set -- no chamber or CVB page with an official link was retrievable. The exact phone match to the record is what distinguishes it decisively.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-fairfield-inn-and-suites-columbus-polaris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "fairfield inn and suites columbus polaris",
+    "market_id": "columbus-oh",
+    "canonical_name": "Fairfield Inn & Suites Columbus Polaris",
+    "normalized_name": "fairfield inn and suites columbus polaris"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhcp-fairfield-inn-and-suites-columbus-polaris/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHCP",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "waze.com",
+    "hotelplanner.com",
+    "tripadvisor.com",
+    "visitdelohio.com (403)",
+    "marriott.com address-restricted search on '9000 Worthington Road' 43082 returned only CMHCP pages"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=9000 Worthington Road",
+    "zip=43082",
+    "phone=614-568-0770"
+   ],
+   "identity_context": {
+    "address": "9000 Worthington Rd",
+    "city": "Westerville",
+    "state": "OH",
+    "postal_code": "43082",
+    "phone": "(614) 568-0770"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "CITY VARIANCE, NOT A CONFLICT: marriott.com indexes the mailing city as Columbus while the record says Westerville, and marriott.com's own page explains GPS users should enter 'Westerville'. Street and ZIP match exactly.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-holiday-inn-express-and-suites-columbus-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "holiday inn express and suites columbus airport",
+    "market_id": "columbus-oh",
+    "canonical_name": "Holiday Inn Express & Suites Columbus Airport",
+    "normalized_name": "holiday inn express and suites columbus airport"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/gahanna/cmhgh/hoteldetail",
+   "official_domain": "ihg.com",
+   "property_code": "cmhgh",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "visitgahanna.com (fetched 200)",
+    "the Gahanna CVB publishes this exact ihg.com URL with the property code appearing twice (path segment and the cm_mmc=...-CMHGH tracking parameter), beside the address 460 Waterbury Ct. and phone 614-428-8678"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "hotel_name_exact_match",
+    "city=Gahanna",
+    "code_twice=path_and_cm_mmc_parameter"
+   ],
+   "identity_context": {
+    "state": "OH"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "WEAKEST IHG BINDING. The record carries NO address and NO phone, so this rests on an exact hotel-name plus city match, not on address or phone agreement. Newly observed: 460 Waterbury Ct., Gahanna OH 43230 and 614-428-8678 -- recommend the operator cross-check these before the patch is applied.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-holiday-inn-express-and-suites-columbus-polaris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "holiday inn express and suites columbus polaris",
+    "market_id": "columbus-oh",
+    "canonical_name": "Holiday Inn Express and Suites Columbus Polaris",
+    "normalized_name": "holiday inn express and suites columbus polaris"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/columbus/wetoh/hoteldetail",
+   "official_domain": "ihg.com",
+   "property_code": "wetoh",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "hotels.experiencecolumbus.com",
+    "cvent.com",
+    "the Experience Columbus hotel directory carries the address, phone and an anchor to this exact ihg.com URL on the same record; cvent independently gives 8670 Orion Place, Columbus OH 43240"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=8670 Orion Pl",
+    "city=Columbus",
+    "zip=43240",
+    "cvb_anchor_to_official_url"
+   ],
+   "identity_context": {
+    "address": "8670 Orion Pl.",
+    "city": "Columbus",
+    "state": "OH",
+    "postal_code": "43240",
+    "phone": "(614) 781-6100"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "The brand's registered name is 'Columbus - Polaris Parkway' while the record says 'Columbus Polaris'. Bound by the exact street address, not by the slug. Phone 614-781-6100 newly observed.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-holiday-inn-express-hotel-and-suites-columbus-sw-grove-city-by-ihg",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "holiday inn express hotel and suites columbus sw grove city by ihg",
+    "market_id": "columbus-oh",
+    "canonical_name": "Holiday Inn Express Hotel & Suites Columbus SW Grove City by IHG",
+    "normalized_name": "holiday inn express hotel and suites columbus sw grove city by ihg"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grove-city/gctoh/hoteldetail",
+   "official_domain": "ihg.com",
+   "property_code": "gctoh",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "stay.visitgrovecity.com (fetched 200)",
+    "the Visit Grove City CVB record carries the address, the phone matching the record exactly, and an anchor to this exact ihg.com URL (HTTP 200)"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=3951 Jackpot Road",
+    "city=Grove City",
+    "zip=43123",
+    "phone=614-801-9000",
+    "cvb_anchor_to_official_url"
+   ],
+   "identity_context": {
+    "address": "3951 Jackpot Road",
+    "city": "Grove City",
+    "state": "OH",
+    "postal_code": "43123",
+    "phone": "614-801-9000"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Distinct from the Candlewood at 3996 Jackpot Rd despite the shared street: different house number, brand and code.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-hyatt-place-columbus-polaris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "hyatt place columbus polaris",
+    "market_id": "columbus-oh",
+    "canonical_name": "Hyatt Place Columbus Polaris",
+    "normalized_name": "hyatt place columbus polaris"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.hyatt.com/hyatt-place/en-US/cmhzp-hyatt-place-columbus-polaris",
+   "official_domain": "hyatt.com",
+   "property_code": "cmhzp",
+   "brand": "HYATT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "yelp.com",
+    "travelweekly.com",
+    "hyatt.com cmhzp hotel-info page content (index-mediated) gave the exact address and phone"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=2006 Polaris Parkway",
+    "city=Columbus",
+    "zip=43240",
+    "phone=614-964-1877",
+    "page_title=Hyatt Place Columbus / Polaris"
+   ],
+   "identity_context": {
+    "address": "2006 Polaris Pkwy.",
+    "city": "Columbus",
+    "state": "OH",
+    "postal_code": "43240",
+    "phone": "(614) 964-1877"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "NEAR-COLLISION: cmhzw is Hyatt Place Columbus/Worthington. The codes differ by one character; match exactly.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-marriott-columbus-northwest",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "marriott columbus northwest",
+    "market_id": "columbus-oh",
+    "canonical_name": "Marriott Columbus Northwest",
+    "normalized_name": "marriott columbus northwest"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhnw-marriott-columbus-northwest/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHNW",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "dublinchamber.org (fetched 200)",
+    "a marriott.com event-reservations endpoint exposes marshaCode=cmhnw and brandCode=MC for this property; the Dublin Chamber independently published the same address and phone"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=5605 Blazer Parkway",
+    "city=Dublin",
+    "zip=43017",
+    "phone=614-791-1000",
+    "marsha_code=cmhnw",
+    "brand_code=MC"
+   ],
+   "identity_context": {
+    "address": "5605 Blazer Pkwy",
+    "city": "Dublin",
+    "state": "OH",
+    "postal_code": "43017",
+    "phone": "614-791-1000"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Confirms the pre-supplied URL. Two flagged oddities, neither affecting routing: HotelPlanner lists ZIP 43016 while the chamber, marriott.com and the record all say 43017 (third-party error); and Marriott's own title tag reads 'Turtle Crossing' where the body copy says 'Tuttle Crossing' -- an apparent typo in Marriott's title.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-red-roof-inn-columbus-northeast-westerville",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "red roof inn columbus northeast westerville",
+    "market_id": "columbus-oh",
+    "canonical_name": "Red Roof Inn Columbus Northeast - Westerville",
+    "normalized_name": "red roof inn columbus northeast westerville"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/westerville/rri769",
+   "official_domain": "redroof.com",
+   "property_code": "rri769",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "hotelguides.com (fetched 200)",
+    "yelp.com",
+    "hotelplanner.com",
+    "redroof.com domain-restricted search on the exact street address returned this property URL ranked first, with a locale-matching page title"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "city=Westerville",
+    "street=909 S State St",
+    "url_path=/oh/westerville/",
+    "page_title_locale=Westerville, OH",
+    "code_format=rriNNN"
+   ],
+   "identity_context": {
+    "state": "OH"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Address 909 S State St, Westerville OH 43081 recovered; the record carried none. Only one Red Roof exists under /oh/westerville/.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-red-roof-plus-columbus-ohio-state-university-osu",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "red roof plus columbus ohio state university osu",
+    "market_id": "columbus-oh",
+    "canonical_name": "Red Roof PLUS+ Columbus-Ohio State University OSU",
+    "normalized_name": "red roof plus columbus ohio state university osu"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.redroof.com/property/oh/columbus/rri121",
+   "official_domain": "redroof.com",
+   "property_code": "rri121",
+   "brand": "RED_ROOF",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "hotelplanner.com",
+    "yelp.com",
+    "tripadvisor.com",
+    "redroof.com domain-restricted search on '441 Ackerman' returned this URL ranked first with an OSU-specific page title"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=441 Ackerman Rd",
+    "city=Columbus",
+    "zip=43202",
+    "page_title=Near Ohio State University"
+   ],
+   "identity_context": {
+    "state": "OH"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Address 441 Ackerman Rd, Columbus OH 43202 recovered; record had none. The vanity host columbusosu.redroof.com is DEAD (404 title).",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-renaissance-columbus-westerville-polaris-hotel",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "renaissance columbus westerville polaris hotel",
+    "market_id": "columbus-oh",
+    "canonical_name": "Renaissance Columbus Westerville-Polaris Hotel",
+    "normalized_name": "renaissance columbus westerville polaris hotel"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhbw-renaissance-columbus-westerville-polaris-hotel/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHBW",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "business.westervillechamber.com (fetched 200)",
+    "the Westerville Chamber publishes the brand-domain short URL http://www.marriott.com/CMHBW beside this exact address and phone"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=409 Altair Pkwy",
+    "city=Westerville",
+    "zip=43082",
+    "code_in_brand_short_url=marriott.com/CMHBW",
+    "phone=614-882-6800"
+   ],
+   "identity_context": {
+    "address": "409 Altair Pkwy.",
+    "city": "Westerville",
+    "state": "OH",
+    "postal_code": "43082",
+    "phone": "(614) 882-6800"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "The slug retains a trailing '-hotel'; dropping it yields an invalid path.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-residence-inn-by-marriott-columbus-polaris",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "residence inn by marriott columbus polaris",
+    "market_id": "columbus-oh",
+    "canonical_name": "Residence Inn by Marriott Columbus Polaris",
+    "normalized_name": "residence inn by marriott columbus polaris"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhnc-residence-inn-columbus-polaris/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHNC",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "business.westervillechamber.com (fetched 200)",
+    "the Westerville Chamber publishes the brand-domain short URL http://marriott.com/cmhnc beside this exact address"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=8865 Lyra Dr.",
+    "city=Columbus",
+    "zip=43240",
+    "code_in_brand_short_url=marriott.com/cmhnc",
+    "phone=614-436-3955"
+   ],
+   "identity_context": {
+    "address": "8865 Lyra Dr.",
+    "city": "Columbus",
+    "state": "OH",
+    "postal_code": "43240",
+    "phone": "(614) 436-3955"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "The marriott.com slug omits 'by-marriott' present in the display name. Listed by the Westerville chamber though addressed Columbus 43240 -- consistent with the record.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-springhill-suites-columbus-airport-gahanna",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "springhill suites columbus airport gahanna",
+    "market_id": "columbus-oh",
+    "canonical_name": "SpringHill Suites Columbus Airport Gahanna",
+    "normalized_name": "springhill suites columbus airport gahanna"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/cmhsh-springhill-suites-columbus-airport-gahanna/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "CMHSH",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "visitgahanna.com (fetched 200)",
+    "hotelplanner.com",
+    "experiencecolumbus.com (no address)",
+    "Visit Gahanna (CVB) publishes the brand-domain URL marriott.com/hotels/travel/cmhsh-springhill-suites-columbus-airport-gahanna/ beside the exact address and phone"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "street=665 Taylor Rd.",
+    "zip=43230",
+    "phone=614-501-4770",
+    "code_in_brand_url_published_by_cvb"
+   ],
+   "identity_context": {
+    "state": "OH"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "ADDRESS RECOVERED: 665 Taylor Rd., Gahanna OH 43230; the record had none. City renders as Gahanna (CVB) vs Columbus (marriott.com) on the same ZIP -- mailing variance, not a conflict.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-columbus-oh-staybridge-suites-columbus-worthington",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "staybridge suites columbus worthington",
+    "market_id": "columbus-oh",
+    "canonical_name": "Staybridge Suites Columbus - Worthington",
+    "normalized_name": "staybridge suites columbus worthington"
+   },
+   "market_id": "columbus-oh",
+   "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/worthington/cmhwh/hoteldetail",
+   "official_domain": "ihg.com",
+   "property_code": "cmhwh",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "search index of the brand page",
+    "hotelplanner.com",
+    "the brand page's OWN indexed content returned '115 Hutchinson Ave, Worthington, OH 43235' and '+1-614-785-0001' for the cmhwh URL family; hotelplanner independently corroborated the address (address only, no URL)"
+   ],
+   "identity_signals_matched": [
+    "brand",
+    "hotel_name",
+    "city=Worthington",
+    "code_in_path"
+   ],
+   "identity_context": {
+    "state": "OH"
+   },
+   "observed_at": "2026-08-08",
+   "verified_at": "2026-08-08",
+   "status": "ROUTING_HELD",
+   "notes": "HELD: URL_BINDING_STILL_WEAK The specific gap named in the recovery report is NOT closed. The ADDRESS is now corroborated by a first-party fetch of an independent third party, but nothing independent binds the CODE to this property: the Worthington Chamber member page that would have done so is dead ('This page is no longer available'), and the property is absent from the Experience Columbus directory. The code is the durable key, so a corroborated address is not a substitute.",
+   "category": "accommodation"
+  }
+ ]
+}
