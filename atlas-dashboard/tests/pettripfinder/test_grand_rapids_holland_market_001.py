@@ -30,14 +30,14 @@ def partition_doc():
 def test_candidate_reconciliation_has_no_unexplained_disappearance():
     ledger = _load(PACKAGE / "grand_rapids_holland_candidate_ledger_001.json")
     counts = ledger["counts"]
-    assert ledger["raw_listings"] == len(ledger["items"]) == 127
+    assert ledger["raw_listings"] == len(ledger["items"]) == 157
     assert counts == {
-        "ADD_TO_CENSUS": 24,
-        "BOUNDARY_EXCLUDED": 9,
-        "CANONICAL_CENSUS": 71,
-        "CATEGORY_EXCLUDED": 3,
-        "IDENTITY_UNRESOLVED": 2,
-        "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR": 17,
+        "ADD_TO_CENSUS": 23,
+        "BOUNDARY_EXCLUDED": 12,
+        "CANONICAL_CENSUS": 96,
+        "CATEGORY_EXCLUDED": 5,
+        "CLOSED_OR_CONVERTED": 1,
+        "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR": 19,
         "SOURCE_LISTING_NOT_LODGING": 1,
     }
     assert sum(counts.values()) == ledger["raw_listings"]
@@ -48,7 +48,7 @@ def test_census_is_independent_and_contract_valid():
     doc = census_doc()
     assert doc["schema"] == "ptf-market-identity-census/1.1"
     assert doc["market_id"] == MARKET
-    assert doc["count"] == len(doc["hotels"]) == 96
+    assert doc["count"] == len(doc["hotels"]) == 120
     assert census.validate(doc, market_states=["MI"]) == ()
     for row in doc["hotels"]:
         assert row["market_id"] == MARKET
@@ -63,7 +63,7 @@ def test_partition_is_honest_zero_policy_authority():
     assert reconciliation.published == 0
     assert reconciliation.verified_no_pets == 0
     assert reconciliation.out_of_category == 1
-    assert reconciliation.unresolved == 95
+    assert reconciliation.unresolved == 119
     assert partition.validate(doc) == ()
 
 
@@ -73,7 +73,7 @@ def test_corridors_classify_the_existing_census_not_the_reverse():
              "state": row["state"], "postal_code": row["postal_code"]}
             for row in census_doc()["hotels"] if row["lodging_state"] == "LODGING_CONFIRMED"]
     assignment = assign_hotels(market, rows, fail_closed=True)
-    assert len(assignment.corridor_of) == 95
+    assert len(assignment.corridor_of) == 119
     assert assignment.unassigned == ()
     assert set(assignment.published) == {
         MARKET + "__downtown-grand-rapids",
@@ -99,14 +99,14 @@ def test_sources_and_discovery_cells_are_registered():
 
 def test_boundary_and_routing_reports_are_conservative():
     boundary = _load(PACKAGE / "grand_rapids_holland_boundary_review_001.json")
-    assert len(boundary["items"]) == 9
+    assert len(boundary["items"]) == 12
     assert set(boundary["area_findings"]) == {"Grand Haven", "Muskegon", "Saugatuck / Douglas", "South Haven"}
     assert boundary["explicitly_excluded_areas"] == ["Lansing / East Lansing", "Traverse City / Northwest Michigan", "Kalamazoo / Battle Creek"]
     routing = _load(PACKAGE / "markets" / "reports" / (MARKET + "_routing_readiness.json"))
-    assert routing["summary"] == {"property_level_urls": 31, "missing_urls": 64, "routing_ready": 31, "evidence_ready_estimate": 0, "manual_or_bot_wall": 0}
+    assert routing["summary"] == {"property_level_urls": 39, "missing_urls": 80, "routing_ready": 39, "evidence_ready_estimate": 0, "manual_or_bot_wall": 0}
     assert all(item["assessment_status"] == "ASSESSMENT_ONLY" for item in routing["items"])
     capture = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_001.json")
-    assert capture["count"] == 31
+    assert capture["count"] == 39
     assert all(item["routing_ready"] for item in capture["items"])
 
 
@@ -141,6 +141,33 @@ def test_additional_completeness_pass_is_additive_and_fail_closed():
         "identity_unresolved_after": 2,
     }
     assert report["verdict"] == "CENSUS_STILL_INCOMPLETE"
+    assert report["policy_capture"] == "NOT_PERFORMED"
+
+
+def test_final_closure_pass_is_exact_and_reconciles_the_last_leads():
+    ledger = _load(PACKAGE / "grand_rapids_holland_completeness_candidate_ledger_003.json")
+    assert ledger["raw_listings"] == len(ledger["items"]) == 31
+    assert ledger["counts"] == {
+        "BOUNDARY_EXCLUDED": 3,
+        "CANONICAL_CENSUS": 25,
+        "CATEGORY_EXCLUDED": 2,
+        "CLOSED_OR_CONVERTED": 1,
+    }
+    assert sum(ledger["counts"].values()) == ledger["raw_listings"]
+    report = _load(PACKAGE / "grand_rapids_holland_census_closure_003.json")
+    assert report["reconciliation"] == {
+        "census_before": 96,
+        "new_discovery_candidates": 31,
+        "new_valid_lodging_identities": 25,
+        "proven_removals": 1,
+        "final_census": 120,
+        "identity_unresolved_before": 2,
+        "identity_unresolved_after": 0,
+        "duplicates": 0,
+        "closed_or_converted": 1,
+    }
+    assert report["verdict"] == "CENSUS_COMPLETE"
+    assert report["kent_county_reconciliation"]["complete_for_in_scope_lodging_reconciliation"]
     assert report["policy_capture"] == "NOT_PERFORMED"
 
 

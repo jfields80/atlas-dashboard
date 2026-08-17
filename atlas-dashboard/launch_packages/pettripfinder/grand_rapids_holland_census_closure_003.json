@@ -1,0 +1,58 @@
+{
+  "schema": "ptf-market-census-completeness/1.0",
+  "market_id": "grand-rapids-holland-mi",
+  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-CENSUS-CLOSURE-003",
+  "as_of": "2026-08-17",
+  "starting_checkpoint": "d792fb8feeeb7396236b32dc52f4fc98f9dba38e",
+  "reconciliation": {
+    "census_before": 96,
+    "new_discovery_candidates": 31,
+    "new_valid_lodging_identities": 25,
+    "proven_removals": 1,
+    "final_census": 120,
+    "identity_unresolved_before": 2,
+    "identity_unresolved_after": 0,
+    "duplicates": 0,
+    "closed_or_converted": 1
+  },
+  "identity_lead_resolution": {
+    "Hawthorn Suites by Wyndham Grand Rapids": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR: current Affordable Suites first-party page binds 2701 E Beltline Ave SE and 616-957-8111.",
+    "Ramada Plaza (GRR shuttle list)": "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR: historic airport roster phone/address binds to the current 3333 28th St SE property; Sonesta flag is separately recorded as converted to The Center Hotel."
+  },
+  "holland_zeeland_closure": {
+    "source_rows_reviewed": 22,
+    "new_candidates": 10,
+    "new_canonical": 10,
+    "duplicates": 0,
+    "category_excluded": 1,
+    "boundary_excluded": 0,
+    "unresolved": 0,
+    "final_count": 20
+  },
+  "kent_county_reconciliation": {
+    "complete_for_in_scope_lodging_reconciliation": true,
+    "source_registry_status": "PARTIAL",
+    "limitation": "The shared source registry admits only COMPLETE/PARTIAL/UNUSABLE. COMPLETE would overstate whole-roster treatment because it includes rentals, apartments, B&Bs, aliases, and out-of-boundary accounts; the scoped reconciliation status is therefore reported here rather than invented as a global enum.",
+    "new_canonical": 14,
+    "category_excluded": 2,
+    "boundary_excluded": 3,
+    "source_listing_already_accounted_for": 14
+  },
+  "independent_closure": {
+    "complete": true,
+    "new_candidates": 2,
+    "added_to_census": [
+      "Wooden Shoe Motel",
+      "White Pines Inn & Suites Holland"
+    ],
+    "coverage": "Official Experience Grand Rapids downtown, boutique, and Cascade material plus Holland CVB hotel and B&B inventories and first-party Holland property sites were checked. The closure pass added Wooden Shoe Motel and White Pines Inn & Suites Holland; no further in-scope independent public transient hotel surfaced."
+  },
+  "airport_sanity": {
+    "final_count": 32,
+    "finding": "No unexplained gap. The historic Ramada/Sonesta/The Center same-address flag sequence is explicit; no duplicate canonical identity remains."
+  },
+  "verdict": "CENSUS_COMPLETE",
+  "verdict_reason": "Both identity leads are dispositioned, Holland/Zeeland and the relevant Kent County lodging tail are reconciled, independent and airport checks found no unexplained gap, and all candidate-ledger arithmetic is explicit.",
+  "next_step": "IDENTITY_ROUTING_REPAIR",
+  "policy_capture": "NOT_PERFORMED"
+}
