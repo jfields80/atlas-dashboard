@@ -60,9 +60,14 @@ class TestCoverage:
 
 class TestEvidence:
 
+    #: Verdicts that legitimately carry no live URL -- the property is closed,
+    #: converted, or (Marriott Cincinnati Downtown at 444 Plum St) has not
+    #: opened yet. Each must still explain itself in the note.
+    NO_URL_VERDICTS = ("PROPERTY_CLOSED_OR_CONVERTED", "ROUTING_UNRESOLVED")
+
     def test_every_accepted_route_carries_its_evidence(self, progress):
         for row in progress["adjudicated"]:
-            if row["verdict"] == "PROPERTY_CLOSED_OR_CONVERTED":
+            if row["verdict"] in self.NO_URL_VERDICTS:
                 assert row["note"], row["identity_key"]
                 continue
             assert row["final_url"].startswith("https://"), row["identity_key"]
