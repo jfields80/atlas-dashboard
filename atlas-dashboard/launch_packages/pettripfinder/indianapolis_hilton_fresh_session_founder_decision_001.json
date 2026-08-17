@@ -1,0 +1,140 @@
+{
+  "schema": "ptf-indianapolis-hilton-fresh-session-founder-decision/1.0",
+  "work_order": "PTF-INDIANAPOLIS-HILTON-FRESH-SESSION-FOUNDER-DECISION-001",
+  "as_of": "2026-08-17",
+  "market_id": "indianapolis-in",
+  "source_packets": [
+    "indianapolis_hilton_fresh_session_results.json",
+    "indianapolis_hilton_fresh_session_review_packet.json"
+  ],
+  "status": "RECORDED_NOT_APPLIED",
+  "rule": "Record the six Hilton founder decisions only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing. Do not collapse stay-length ladders. Do not inherit species or fees across Hilton properties. A deposit heading is not a refundable deposit.",
+  "founder_decisions_applied": false,
+  "authority_changed": false,
+  "published": false,
+  "operating_lesson": [
+    "fresh browser session for Hilton-heavy batches",
+    "strict identity binding",
+    "conservative spacing",
+    "no rapid retry storm after challenge behavior"
+  ],
+  "positive_decisions": [
+    {
+      "decision_id": "INDY-HFS-001",
+      "identity_key": "hampton inn and suites indianapolis airport",
+      "hotel": "Hampton Inn & Suites Indianapolis Airport",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "9020 Hatfield Drive",
+        "city": "Indianapolis",
+        "postal_code": "46241",
+        "phone": "317-856-1000"
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "species=dogs+cats",
+        "pet_count_limit=2",
+        "stay-length fee ladder as stated"
+      ],
+      "do_not_invent": [
+        "single collapsed fee",
+        "fee scope",
+        "weight scope",
+        "unstated qualifiers"
+      ]
+    },
+    {
+      "decision_id": "INDY-HFS-002",
+      "identity_key": "hampton inn and suites indianapolis keystone",
+      "hotel": "Hampton Inn & Suites Indianapolis Keystone",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "approved_fields": [
+        "pets_allowed",
+        "species=dogs+cats",
+        "weight_limit=75 lb",
+        "property-specific fee ladder"
+      ],
+      "do_not_inherit_from": "any other Hampton property"
+    },
+    {
+      "decision_id": "INDY-HFS-003",
+      "identity_key": "hampton inn and suites indianapolis west speedway",
+      "hotel": "Hampton Inn & Suites Indianapolis West Speedway",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "approved_fields": [
+        "pets_allowed",
+        "species=dogs+cats",
+        "weight_limit=75 lb",
+        "fee_tiers=$93.20 and $155.30 exactly"
+      ],
+      "do_not_normalize_fees_to": "another Hilton/Hampton schedule"
+    },
+    {
+      "decision_id": "INDY-HFS-004",
+      "identity_key": "hampton inn indianapolis northeast castleton",
+      "hotel": "Hampton Inn Indianapolis Northeast Castleton",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "approved_fields": [
+        "pets_allowed",
+        "species=dogs+cats",
+        "fee tiers exactly as stated"
+      ],
+      "do_not_invent": [
+        "numerical weight limit",
+        "weight_limit_stated_none"
+      ],
+      "note": "Source was silent on weight. Silence is not an explicit no-weight-limit fact."
+    },
+    {
+      "decision_id": "INDY-HFS-005",
+      "identity_key": "hilton garden inn indianapolis airport",
+      "hotel": "Hilton Garden Inn Indianapolis Airport",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "8910 Hatfield Drive",
+        "note": "Not the Hampton at 9020 Hatfield Drive."
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "weight_limit=75 lb",
+        "fee ladder exactly as captured"
+      ],
+      "species": "ABSENT",
+      "do_not_inherit_from": [
+        "hampton inn and suites indianapolis airport",
+        "any other Hilton Garden Inn"
+      ]
+    }
+  ],
+  "identity_holds": [
+    {
+      "decision_id": "INDY-HFS-006",
+      "identity_key": "home2 suites by hilton indianapolis airport",
+      "hotel": "Home2 Suites by Hilton Indianapolis Airport",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "applied": false,
+      "note": "Street did not agree. Do not infer identity from brand or name. Do not use captured policy.",
+      "next_action": "Resolve census street 9025 Hatfield Drive, ZIP 46241, phone 317-856-9900, and Hilton code indcbht against the current official Home2 Airport property page. Policy stays unused until the street agrees."
+    }
+  ],
+  "counts": {
+    "policy_decisions_recorded": 6,
+    "positive_approved": 5,
+    "identity_holds": 1,
+    "access_blocked": 0,
+    "decisions_applied": 0
+  },
+  "not_done": [
+    "No Indianapolis policy package",
+    "No hotel_exclusions append",
+    "No live founder approval records",
+    "No merge",
+    "No deploy"
+  ]
+}

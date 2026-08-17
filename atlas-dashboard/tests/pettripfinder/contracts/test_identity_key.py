@@ -197,7 +197,8 @@ class TestAgainstCommittedAuthority:
 
     def test_no_census_collisions(self):
         """Two distinct identities sharing a key would be unjoinable."""
-        for market_id in ("dayton-oh", "cleveland-akron-canton-oh"):
+        for market_id in ("dayton-oh", "cleveland-akron-canton-oh",
+                          "indianapolis-in"):
             path = PACKAGE_DIR / "identity_census" / ("%s.json" % market_id)
             if not path.is_file():
                 continue

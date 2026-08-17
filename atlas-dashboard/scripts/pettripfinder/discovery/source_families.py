@@ -67,6 +67,13 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # PTF-DAYTON-MARKET-FACTORY-001: VisitDayton.com CVB source family.
     # Reserved for Dayton Convention & Visitors Bureau identity data.
     "visit_dayton": FAMILY_CVB,
+    # PTF-INDIANAPOLIS-MARKET-REVALIDATION-001: official Indianapolis destination sources.
+    "visit_indy": FAMILY_CVB,
+    "visit_hamilton_county": FAMILY_CVB,
+    "visit_hendricks_county": FAMILY_CVB,
+    "festival_country_indiana": FAMILY_CVB,
+    "indianapolis_airport": FAMILY_CVB,
+    "downtown_indy_inc": FAMILY_CVB,
     # PTF-CINCINNATI-CENSUS-RECONCILIATION-001: the six destination-marketing
     # directories that produced the Cincinnati tri-state census. All six are
     # CVB, so none of them independently confirms another -- which is exactly

@@ -90,6 +90,8 @@ _MARKET_FILENAMES = {
     "columbus-oh": "columbus_oh.json",
     # PTF-DAYTON-MARKET-FACTORY-001: worker-proposed; Opus integrates.
     "dayton-oh": "dayton_oh.json",
+    # PTF-INDIANAPOLIS-MARKET-REVALIDATION-001.
+    "indianapolis-in": "indianapolis_in.json",
     # PTF-CINCINNATI-CENSUS-RECONCILIATION-001 ported the tri-state config off
     # worker/ptf-cincinnati-market-001 and registered it here. Without this
     # entry the file existed but no caller could ever load it, which is how a
