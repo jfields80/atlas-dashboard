@@ -311,7 +311,12 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+    # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001: Pittsburgh now commits a
+    # policy package, a partition and 17 published seed hotels, so it is
+    # structurally assemblable -- while staying hidden from navigation and the
+    # sitemap and carrying a contract that grants no deployment.
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa"])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -325,11 +330,13 @@ def test_current_ohio_inventory_is_156_published_profiles(markets):
     """Section 28's target at the time, DERIVED -- not a constant in the code.
     176 since the Pass-2 founder decisions; 216 since
     PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
-    hotels."""
+    hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
+    the first seventeen Pittsburgh hotels."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47}
-    assert sum(counts.values()) == 216
+    assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
+                      "pittsburgh-pa": 17}
+    assert sum(counts.values()) == 233
 
 
 # --------------------------------------------------------------------------- #

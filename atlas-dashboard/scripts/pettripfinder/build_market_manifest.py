@@ -60,6 +60,8 @@ _PARTITION_FILES = {
     "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
     "dayton-oh": "dayton_final_partition_001.json",
     "cincinnati-oh": "cincinnati_final_partition_001.json",
+    # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001.
+    "pittsburgh-pa": "pittsburgh_final_partition_001.json",
 }
 
 

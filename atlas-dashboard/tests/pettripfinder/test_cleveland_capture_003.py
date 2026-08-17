@@ -62,10 +62,12 @@ class TestTargetSetIsDerivedNotAssumed:
                  if i["classification"] == "ROUTED_AWAITING_CAPTURE"]
         # 72 when capture-003 ran; 41 after the Pass-2 founder decisions
         # consumed thirty-one routed targets; 10 after the Pass-3 founder
-        # decisions consumed thirty-one more.
-        assert len(routed) == 10
+        # decisions consumed thirty-one more; 6 after
+        # PTF-CLEVELAND-ROUTING-REPAIR-001 moved four repaired rows to its
+        # own ROUTING_REPAIRED_AWAITING_CAPTURE classification.
+        assert len(routed) == 6
         names = [i["normalized_name"] for i in routed]
-        assert len(set(names)) == 10  # 72 before the Pass-2 decisions
+        assert len(set(names)) == 6  # 72 before the Pass-2 decisions
         for item in routed:
             attempt = item["capture_attempt"]
             assert attempt["run_id"] == "cleveland-policy-capture-003"

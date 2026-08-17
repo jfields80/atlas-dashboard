@@ -215,7 +215,10 @@ def test_committed_authority_validates(routes):
     # seed inventory in the same work order. See
     # test_no_committed_route_is_already_seed_inventory below, which is the rule
     # that absence obeys.
-    assert len(routes) == 87  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
+    # 87 after Pass 3; 90 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for
+    # the three official URLs it found (Magnuson Canton, Quality Inn
+    # Akron South, the American Croatian Lodge).
+    assert len(routes) == 90
 
 
 def test_committed_authority_split(routes):
@@ -241,12 +244,17 @@ def test_committed_authority_split(routes):
     # and a cross-category inn. The invariant they broke is fixed by
     # withdrawing the routes, not by admitting non-hotels to a hotel census.
     # So one leaves each bucket: 164 -> 163 confirmed, 10 -> 9 held.
-    assert len(confirmed) == 76  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
-    assert len(held) == 9
+    # PTF-CLEVELAND-ROUTING-REPAIR-001: +3 created CONFIRMED, and Best Western Plus
+    # North Canton moved CONFIRMED -> HELD because bestwestern.com
+    # refuses to serve its property page (closure NOT inferred; the
+    # Canton CVB lists it operating).
+    assert len(confirmed) == 78
+    assert len(held) == 10
     assert len(retired) == 2
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
         "eastland inn restaurant", "the welshfield inn"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
+        "best western plus north canton inn and suites",
         "staybridge suites columbus worthington",
         "comfort suites springfield i 70",
         "holiday inn express and suites greenville",
@@ -293,9 +301,12 @@ def test_every_committed_record_preserves_index_binding(routes):
     # the same batch are BRAND_INDEX_BINDING for exactly the reason this test
     # exists: Choice, IHG and Red Roof refused this work order too, so nothing
     # they serve may be called a rendered page.
-    assert len(rendered) == 5  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
-    # (Pass 3 published four of the rendered-page independents and the
-    # Sonesta route, retiring them.)
+    # 5 after Pass 3 retired four rendered-page independents and the
+    # Sonesta route; 18 after PTF-CLEVELAND-ROUTING-REPAIR-001: thirteen repaired or
+    # created routes whose non-bot-walled pages rendered for this session
+    # with the census identity on them (wyndhamhotels.com, sonesta.com,
+    # magnusonhotels.com and nine first-party independents).
+    assert len(rendered) == 18
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -442,7 +453,7 @@ def test_routing_adds_capture_ready_hotels(queues):
     # contribution is unchanged.
     # 86 -> 84: two routed hotels became inventory and no longer need a
     # route to reach the capture queue.
-    assert len(routed.selected) - len(base.selected) == 18  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
+    assert len(routed.selected) - len(base.selected) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -459,7 +470,7 @@ def test_routing_carries_more_than_one_market(queues):
     # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
     # 147 -> 145, the same two retirements.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 58  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
+    assert len(by_market["cleveland-akron-canton-oh"]) == 61  # after PTF-CLEVELAND-ROUTING-REPAIR-001
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -476,7 +487,7 @@ def test_routing_carries_more_than_one_market(queues):
     # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
     # those 74 (the Drury pair), so their routes retired and they reach the
     # queue as inventory rather than as routing.
-    assert len(added) == 18  # after PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001
+    assert len(added) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:

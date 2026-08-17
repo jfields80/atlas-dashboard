@@ -56,7 +56,8 @@ from scripts.pettripfinder.release_contracts import (
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
+PITTSBURGH = "pittsburgh-pa"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -98,6 +99,15 @@ EXPECTED_RECONCILIATION = {
     # and Best Western Celina's "Pets are not accepted." All four had been
     # written off as brand-platform ACCESS_BLOCKED by a static fetch.
     DAYTON: (129, 47, 8, 55, 74),
+    # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 applied the twenty founder
+    # decisions from the Pass 1 packet: 17 artifact-backed publications, 2
+    # first-party refusals, and the Distrikt -> Joinery identity rename
+    # (Joinery stays unresolved pending a clean recapture under the new
+    # identity). resolved is 22 rather than 19 because the three census
+    # NOT_LODGING rulings are projected into the registry as
+    # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
+    # COUNTED from the committed final partition.
+    PITTSBURGH: (96, 17, 2, 22, 74),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -232,7 +242,8 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8,
+                             PITTSBURGH: 2}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -262,14 +273,14 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]
         assert (REPO_ROOT / census["path"]).is_file()
         assert census["expected_count"] == EXPECTED_RECONCILIATION[market_id][0]
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH))
     def test_reconciliation_cross_checks_are_declared_and_hold(self, market_id):
         """Each census-backed market cross-checks against the reconciliation
         artifact written by the work that produced its numbers."""
