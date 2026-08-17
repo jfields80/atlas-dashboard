@@ -167,7 +167,15 @@ class TestContradictionsArePreservedNotResolved:
         assert h["facts"]["pet_fee"]["amount_cents"] == 7500
         assert "fee_tiers" not in h["facts"]
         assert "150" not in json.dumps(h["facts"])
-        assert "additional" in h["facts"]["general_restrictions"]
+        # The unresolved "additional $75" survives where source wording belongs
+        # -- in the evidence array. PTF-DAYTON-RECERTIFICATION-001 Pass B took
+        # it OUT of general_restrictions: a fee_tiers withholding cannot mean
+        # anything while the same unresolved amounts are published as prose on
+        # the very same profile. What the record must never do is assert a
+        # total, and it still does not.
+        assert "general_restrictions" in h["facts"]
+        assert "$" not in h["facts"]["general_restrictions"]
+        assert any("additional" in e["quote"] for e in h["evidence"])
 
 
 class TestSpeciesIsNeverCompleted:
