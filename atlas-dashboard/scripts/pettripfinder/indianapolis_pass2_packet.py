@@ -135,7 +135,7 @@ def _policy_source(kind, surface):
 
 def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
           withheld=None, contradictions=None, binding=None, final_url=None,
-          policy_source=None, keep_artifact=None):
+          policy_source=None, keep_artifact=None, service_animal_statements=None):
     art = ART.get(h["identity_key"]) if keep_artifact is not False else None
     # Uncertain rows may still have a forensic capture; publication-grade
     # artifacts stay only on clean-bind policy rows.
@@ -166,6 +166,7 @@ def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
         ("exact_quotes", quotes or []),
         ("proposed_schema_1_2_facts", facts or []),
         ("withheld_fields", withheld or []),
+        ("service_animal_statements", service_animal_statements or []),
         ("contradiction_notes", contradictions or []),
         ("recommended_founder_decision", rec),
     ))
@@ -222,6 +223,11 @@ def main() -> int:
         quotes=["Pets Not Allowed", "Service animals only"],
         facts=[{"field": "pets_allowed", "value": False,
                 "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}],
+        service_animal_statements=[{
+            "quote": "Service animals only",
+            "quote_contiguous_in_artifact": True,
+            "treated_as_guest_pet_permission": False,
+        }],
         contradictions=["Service animals only sits beside the refusal and is not read as a pet permission."],
         policy_source=_policy_source(
             "official_brand_property_page",
@@ -337,7 +343,8 @@ def main() -> int:
             {"field": "species", "value": {"dogs": "allowed"},
              "quote": "Pets allowed: Only dogs allowed",
              "quote_contiguous_in_artifact": True},
-            {"field": "pet_fee", "value": {"amount_cents": 2500, "currency": "USD", "basis": "per_night"},
+            {"field": "pet_fee",
+             "value": {"amount_cents": 2500, "currency": "USD", "basis": "per_night"},
              "quote": "Pet fee per night: 25 USD",
              "quote_contiguous_in_artifact": True},
             {"field": "weight_limit_stated_none", "value": True,
@@ -425,12 +432,18 @@ def main() -> int:
             {"field": "pets_allowed", "value": True,
              "quote": "Pets are welcome. No pet fee.",
              "quote_contiguous_in_artifact": True},
+            {"field": "pet_fee",
+             "value": {"amount_cents": 0, "currency": "USD"},
+             "quote": "Pets are welcome. No pet fee.",
+             "quote_contiguous_in_artifact": True},
             {"field": "weight_limit",
              "value": {"value": 40.0, "unit": "lb", "operator": "lte"},
              "quote": "Maximum Pet Weight: 40.0lbs",
              "quote_contiguous_in_artifact": True},
         ],
         withheld=[
+            {"field": "pet_fee.basis", "reason": "SOURCE_SILENT",
+             "note": "No pet fee is stated; a basis is not."},
             {"field": "weight_limit.scope", "reason": "SOURCE_SILENT",
              "note": "40.0lbs is stated without per-pet or combined."},
             {"field": "species", "reason": "SOURCE_SILENT",
@@ -464,6 +477,18 @@ def main() -> int:
             src = row.get("policy_source") or {}
             if not src.get("first_party") or src.get("sibling_or_brand_generic"):
                 raise SystemExit("policy retained from a non-first-party surface: %s"
+                                 % row["identity_key"])
+            for required in ("artifact_sha256", "artifact_kind", "captured_at",
+                             "capture_method", "source_grade"):
+                if not row.get(required):
+                    raise SystemExit("usable observation missing %s: %s"
+                                     % (required, row["identity_key"]))
+            if not row.get("exact_quotes"):
+                raise SystemExit("usable observation has no contiguous quote: %s"
+                                 % row["identity_key"])
+            if not all(f.get("quote") and f.get("quote_contiguous_in_artifact")
+                       for f in row["proposed_schema_1_2_facts"]):
+                raise SystemExit("fact missing a contiguous quote: %s"
                                  % row["identity_key"])
         else:
             if row["proposed_schema_1_2_facts"] or row["exact_quotes"]:
@@ -521,6 +546,35 @@ def main() -> int:
                 "sibling-property policy",
             ]),
         ))),
+        ("artifact_standard", OrderedDict((
+            ("usable_observation_requires", [
+                "artifact_sha256",
+                "artifact_kind",
+                "captured_at",
+                "capture_method",
+                "source_grade",
+                "exact contiguous quote",
+                "property identity binding",
+            ]),
+            ("retained_media", "rendered HTML and screenshot per existing artifact contract"),
+            ("raw_page_bytes",
+             "outside git in data/worker_runs/pettripfinder/indianapolis-attended-capture-002/"),
+        ))),
+        ("extraction_doctrine", OrderedDict((
+            ("rule", "SOURCE SILENCE = ABSENCE"),
+            ("extract_only_if_explicit", [
+                "pets_allowed", "species", "pet_count_limit", "pet_count_scope",
+                "weight_limit", "combined_weight_limit", "pet_fee", "fee basis",
+                "fee scope", "fee tiers", "fee cap", "deposits",
+                "cleaning fees / other charges", "breed restrictions",
+                "unattended rules", "room restrictions", "reservation requirements",
+                "general restrictions", "service-animal statements",
+            ]),
+            ("never_infer", [
+                "dogs + cats from generic pets",
+                "fee basis",
+            ]),
+        ))),
         ("outcome_counts", counts),
         ("rule",
          "Only the recommended 10 non-Hilton ready-queue rows were driven. "
@@ -555,6 +609,8 @@ def main() -> int:
         ("founder_decisions_applied", False),
         ("identity_gate", results["identity_gate"]),
         ("policy_authority", results["policy_authority"]),
+        ("artifact_standard", results["artifact_standard"]),
+        ("extraction_doctrine", results["extraction_doctrine"]),
         ("rule",
          "Nothing here is published. Founder decisions are not applied in this "
          "packet. Approving a negative would write an exclusion later. Approving "

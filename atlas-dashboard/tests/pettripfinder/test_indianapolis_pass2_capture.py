@@ -154,3 +154,54 @@ def test_retained_policy_is_first_party_property_specific():
         if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
             assert row["source_grade"] == "PT1_FIRST_PARTY"
             assert row["artifact_sha256"].startswith("sha256:")
+
+
+def test_usable_observations_are_publication_grade():
+    results = _json(RESULTS)
+    required = results["artifact_standard"]["usable_observation_requires"]
+    assert "artifact_sha256" in required
+    assert "exact contiguous quote" in required
+    assert "property identity binding" in required
+    for row in results["results"]:
+        if row["outcome"] not in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
+            continue
+        assert row["artifact_sha256"].startswith("sha256:")
+        assert row["artifact_kind"] == "rendered_html"
+        assert row["captured_at"]
+        assert row["capture_method"] == "attended_browser"
+        assert row["source_grade"] == "PT1_FIRST_PARTY"
+        assert row["exact_quotes"]
+        assert row["identity_binding"]["bound"] is True
+        assert row["text_sha256"].startswith("sha256:")
+        assert row["screenshot_sha256"].startswith("sha256:")
+        for fact in row["proposed_schema_1_2_facts"]:
+            assert fact["quote"]
+            assert fact["quote_contiguous_in_artifact"] is True
+            assert fact["quote"] in row["exact_quotes"]
+
+
+def test_extraction_does_not_infer_species_or_fee_basis():
+    results = _json(RESULTS)
+    assert results["extraction_doctrine"]["rule"] == "SOURCE SILENCE = ABSENCE"
+    by = {r["identity_key"]: r for r in results["results"]}
+    mer = by["le meridien indianapolis"]
+    mer_fields = {f["field"]: f for f in mer["proposed_schema_1_2_facts"]}
+    assert "species" not in mer_fields
+    assert any(w["field"] == "species" and w["reason"] == "SOURCE_SILENT"
+               for w in mer["withheld_fields"])
+    assert mer_fields["pet_fee"]["value"] == {"amount_cents": 0, "currency": "USD"}
+    assert "basis" not in mer_fields["pet_fee"]["value"]
+    hie = by["holiday inn express plainfield"]
+    hie_fee = next(f for f in hie["proposed_schema_1_2_facts"] if f["field"] == "pet_fee")
+    assert hie_fee["value"]["basis"] == "per_night"
+    assert hie_fee["quote"] == "Pet fee per night: 25 USD"
+    hie_species = next(f for f in hie["proposed_schema_1_2_facts"] if f["field"] == "species")
+    assert hie_species["value"] == {"dogs": "allowed"}
+    assert hie_species["quote"] == "Pets allowed: Only dogs allowed"
+    castleton = by["courtyard by marriott indianapolis castleton"]
+    assert castleton["service_animal_statements"][0]["treated_as_guest_pet_permission"] is False
+    for row in (by["courtyard by marriott indianapolis castleton"],
+                by["crowne plaza indianapolis downtown union station"],
+                by["fairfield inn and suites indianapolis airport"]):
+        fields = {f["field"] for f in row["proposed_schema_1_2_facts"]}
+        assert fields == {"pets_allowed"}

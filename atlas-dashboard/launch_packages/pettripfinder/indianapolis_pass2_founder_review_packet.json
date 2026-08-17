@@ -24,6 +24,47 @@
       "sibling-property policy"
     ]
   },
+  "artifact_standard": {
+    "usable_observation_requires": [
+      "artifact_sha256",
+      "artifact_kind",
+      "captured_at",
+      "capture_method",
+      "source_grade",
+      "exact contiguous quote",
+      "property identity binding"
+    ],
+    "retained_media": "rendered HTML and screenshot per existing artifact contract",
+    "raw_page_bytes": "outside git in data/worker_runs/pettripfinder/indianapolis-attended-capture-002/"
+  },
+  "extraction_doctrine": {
+    "rule": "SOURCE SILENCE = ABSENCE",
+    "extract_only_if_explicit": [
+      "pets_allowed",
+      "species",
+      "pet_count_limit",
+      "pet_count_scope",
+      "weight_limit",
+      "combined_weight_limit",
+      "pet_fee",
+      "fee basis",
+      "fee scope",
+      "fee tiers",
+      "fee cap",
+      "deposits",
+      "cleaning fees / other charges",
+      "breed restrictions",
+      "unattended rules",
+      "room restrictions",
+      "reservation requirements",
+      "general restrictions",
+      "service-animal statements"
+    ],
+    "never_infer": [
+      "dogs + cats from generic pets",
+      "fee basis"
+    ]
+  },
   "rule": "Nothing here is published. Founder decisions are not applied in this packet. Approving a negative would write an exclusion later. Approving a positive would write schema 1.2 facts later. Identity-uncertain rows stay unresolved and their policy is unused. A page that does not bind cleanly cannot contribute a policy observation.",
   "positive_candidates": [
     {
@@ -145,6 +186,7 @@
           "note": "2 pets allowed does not say per room or per stay."
         }
       ],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "APPROVE_PUBLISH_STRUCTURED"
     },
@@ -222,6 +264,15 @@
           "quote_contiguous_in_artifact": true
         },
         {
+          "field": "pet_fee",
+          "value": {
+            "amount_cents": 0,
+            "currency": "USD"
+          },
+          "quote": "Pets are welcome. No pet fee.",
+          "quote_contiguous_in_artifact": true
+        },
+        {
           "field": "weight_limit",
           "value": {
             "value": 40.0,
@@ -234,6 +285,11 @@
       ],
       "withheld_fields": [
         {
+          "field": "pet_fee.basis",
+          "reason": "SOURCE_SILENT",
+          "note": "No pet fee is stated; a basis is not."
+        },
+        {
           "field": "weight_limit.scope",
           "reason": "SOURCE_SILENT",
           "note": "40.0lbs is stated without per-pet or combined."
@@ -244,6 +300,7 @@
           "note": "Generic pets is not dogs+cats."
         }
       ],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "APPROVE_PUBLISH_STRUCTURED"
     }
@@ -323,6 +380,13 @@
         }
       ],
       "withheld_fields": [],
+      "service_animal_statements": [
+        {
+          "quote": "Service animals only",
+          "quote_contiguous_in_artifact": true,
+          "treated_as_guest_pet_permission": false
+        }
+      ],
       "contradiction_notes": [
         "Service animals only sits beside the refusal and is not read as a pet permission."
       ],
@@ -401,6 +465,7 @@
         }
       ],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
     },
@@ -485,6 +550,7 @@
           "note": "Appears in the Pet Policy block beside a no-pets statement; not bound as a pet charge."
         }
       ],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS"
     }
@@ -546,6 +612,7 @@
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
     },
@@ -607,6 +674,7 @@
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
     },
@@ -668,6 +736,7 @@
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
     },
@@ -727,6 +796,7 @@
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
     },
@@ -788,6 +858,7 @@
       "exact_quotes": [],
       "proposed_schema_1_2_facts": [],
       "withheld_fields": [],
+      "service_animal_statements": [],
       "contradiction_notes": [],
       "recommended_founder_decision": "HOLD_RETRY_IDENTITY"
     }
