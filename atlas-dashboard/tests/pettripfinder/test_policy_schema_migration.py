@@ -225,8 +225,14 @@ def test_silence_restatements_were_dropped_not_recoded():
     # ceiling the schema cannot carry; 56 since the Pass-3 founder decisions
     # withheld fifteen more (no-limit and stated-none disclosures, ceilings,
     # garbled Staybridge tiers, and the Hilton Cleveland Downtown fee
-    # contradiction) and the ESA ceiling!=price remediation one more.
-    assert total == 56
+    # contradiction) and the ESA ceiling!=price remediation one more; 60 since
+    # PTF-DAYTON-RECERTIFICATION-001 Pass B recorded a cleaning_fee withholding
+    # on each of Dayton's four Extended Stay America records. Their pages name
+    # the charge a cleaning fee and give only ceilings for it, so a reader
+    # looking for a cleaning fee is now answered instead of told nothing --
+    # the same SCHEMA_CANNOT_REPRESENT treatment Cleveland's ESA records got
+    # under founder decision D09.
+    assert total == 60
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -376,12 +382,34 @@ def test_source_quotes_were_never_altered(packages):
             # exemption auditable: grep it and every such entry is listed.
             exempt = {e.get("quote") for e in record.get("evidence") or ()
                       if e.get("contiguity_verified") is False}
-            for quote in set(new_quotes) - set(old_quotes) - exempt:
+            # ...and, since PTF-DAYTON-RECERTIFICATION-001 bound records to
+            # their page artifacts, an entry may instead declare that it was
+            # checked against something STRONGER than this proxy. ``page`` here
+            # is the record's legacy ``evidence_quote`` -- a stitched summary of
+            # the captured page, not the page -- so a sentence genuinely on the
+            # page can be missing from it, which is exactly what happened to
+            # Days Inn Sidney's service-animal line. An entry carrying
+            # contiguity_verified=true was asserted contiguous in the captured
+            # BYTES named by its artifact_sha256, so it is exempted from the
+            # weaker check and required to say so.
+            verified_against_artifact = {
+                e.get("quote") for e in record.get("evidence") or ()
+                if e.get("contiguity_verified") is True}
+            for quote in (set(new_quotes) - set(old_quotes)
+                          - exempt - verified_against_artifact):
                 assert " ".join(quote.split()) in page, record["key"]
             for entry in record.get("evidence") or ():
                 if entry.get("contiguity_verified") is False:
                     # Never dressed up as more than it is.
                     assert entry.get("artifact_class") == enums.POINTER_TO_EVIDENCE
+                    assert entry.get("provenance_note"), record["key"]
+                if entry.get("contiguity_verified") is True:
+                    # The stronger claim carries the stronger burden: it must
+                    # name the artifact it was checked against and be
+                    # publication grade, so the exemption is auditable by grep.
+                    assert entry.get("artifact_class") == \
+                        enums.PUBLICATION_GRADE_EVIDENCE, record["key"]
+                    assert entry.get("artifact_sha256"), record["key"]
                     assert entry.get("provenance_note"), record["key"]
 
 
@@ -435,14 +463,24 @@ def test_red_roof_cap_belongs_to_the_second_pet_rung(key):
 def test_staybridge_miamisburg_publishes_the_property_ladder():
     """Phase B could only warn that the $50 was not the whole charge. 1.2 states
     the ladder the property actually wrote."""
-    facts = _record("dayton-oh", "staybridge suites miamisburg")["facts"]
+    record = _record("dayton-oh", "staybridge suites miamisburg")
+    facts = record["facts"]
     tiers = facts["fee_tiers"]
     assert [(t["amount_cents"], t["condition_min"], t.get("condition_max"))
             for t in tiers] == [(5000, 1, 6), (15000, 7, None)]
     assert all(t["scope"] == enums.SCOPE_PER_PET for t in tiers)
     assert all(t["role"] == enums.ROLE_REPLACEMENT_PRICE for t in tiers)
-    # The property's own sentence survives verbatim beside the structure.
-    assert "one to six night stays" in facts["general_restrictions"]
+    # The property's own sentence survives verbatim -- in the evidence array,
+    # which is where source wording lives. It used to sit in
+    # general_restrictions as well, publishing the same ladder twice in two
+    # shapes; PTF-DAYTON-RECERTIFICATION-001 Pass B removed the duplicate. The
+    # one fact that sentence carried and the structure did not -- "Fee is
+    # nonrefundable" -- moved into canonical pet_fee.refundable rather than
+    # being lost with the prose.
+    assert "general_restrictions" not in facts
+    assert facts["pet_fee"]["refundable"] is False
+    assert any("one to six night stays" in e["quote"]
+               for e in record["evidence"])
 
 
 @pytest.mark.parametrize("market,key", [
@@ -503,8 +541,15 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A;
     # seven more arrived with the Pass-2 founder-approved publications and
     # three more with the Pass-3 publications (La Quinta Independence and
-    # the two Super 8s).
-    assert len(statements) == 31
+    # the two Super 8s); five more when PTF-DAYTON-RECERTIFICATION-001 Pass B
+    # recorded statements their pages made and their records did not -- Days
+    # Inn Sidney's "ADA-defined service animals are welcome free of charge" and
+    # the four Extended Stay America records' "Service animals will be exempt
+    # from this charge."
+    assert len(statements) == 36
+    # A legal access category never shares a namespace with commercial terms.
+    for _market, record in statements:
+        assert "service_animal_statement" not in record["facts"]
     for market, record in statements:
         assert "service_animal_exception" not in record["facts"]
         statement = record["service_animal_statement"]

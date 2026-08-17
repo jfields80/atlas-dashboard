@@ -257,9 +257,10 @@
         "pet_fee": {
           "amount_cents": 7500,
           "currency": "USD",
-          "basis": "per_stay"
+          "basis": "per_stay",
+          "refundable": false,
+          "tax_relationship": "plus_tax"
         },
-        "general_restrictions": "Pets allowed with USD 75 + 17.25% tax, non-refundable fee per stay ($87.94)",
         "pet_count_limit": 3,
         "pet_count_scope": "room"
       },
@@ -352,7 +353,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -362,9 +363,9 @@
           "evidence_hash": "sha256:adb670f03f81416d4548d9093dfdb3945d0407deec085a4e7743a2af1579017c"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:13cb6bdecc71c6ca6e151beb031495716e7f14bcf2cdd05f800dbe98c4d30188",
+        "record_hash": "sha256:ec99986459e28dd5b9c154f82595bf7da83e424652adb7defafb1c6ec4497416",
         "evidence_hash": "sha256:adb670f03f81416d4548d9093dfdb3945d0407deec085a4e7743a2af1579017c"
       },
       "worker_model_id": "",
@@ -499,6 +500,21 @@
           "captured_at": "2026-08-10T04:48:03.434Z",
           "capture_method": "browser_assisted",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_exception",
+          "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+          "source_url": "https://www.wyndhamhotels.com/days-inn/sidney-ohio/days-inn-sidney-oh/overview",
+          "value": "true",
+          "evidence_ref": "ev:602a0ac2336146b0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:30495285a4b428dc6166ba30f874130165c65c56ef789550398168fe86a937b3",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-10T04:48:03.434Z",
+          "capture_method": "browser_assisted",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:30495285a4b428dc6166ba30f874130165c65c56ef789550398168fe86a937b3 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 8,
@@ -510,7 +526,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -520,10 +536,10 @@
           "evidence_hash": "sha256:ffefcbbbcecf360620f3ce1f70530386df71b958c252eb136b04986cce89b548"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:4f5aa8e4bfed1f8b6bc9c19cdf5aa6ba8cc8040dbf429e0875602ca11c9a4062",
-        "evidence_hash": "sha256:ffefcbbbcecf360620f3ce1f70530386df71b958c252eb136b04986cce89b548"
+        "record_hash": "sha256:e40566b2a35702e725542c0f6d48994209cd13c57563f9ee85d4dca42df7b3ce",
+        "evidence_hash": "sha256:493c9b413ecd88011eb00f27a781c580b047e806490d2e72f226b5b68de721ec"
       },
       "worker_model_id": "",
       "worker_prompt_version": "",
@@ -533,7 +549,11 @@
       "schema_version": "1.2",
       "identity_key": "days inn by wyndham sidney",
       "market_id": "dayton-oh",
-      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT"
+      "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "doubletree by hilton dayton fairborn",
@@ -2208,7 +2228,7 @@
           "operator": "lte",
           "scope": "per_pet"
         },
-        "general_restrictions": "$75(1-5 nights) additional $75(5+ night) dogs & cats only. Two pets max per room.",
+        "general_restrictions": "dogs & cats only. Two pets max per room.",
         "pet_count_limit": 2,
         "pet_count_scope": "room",
         "species": {
@@ -2331,7 +2351,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -2341,9 +2361,9 @@
           "evidence_hash": "sha256:d1c940ec98f68193b4c2d633448929bd3cfb40eacaa50df4b27671c95a22f94b"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:d5efbf554a6d9d86ac8ed105c1478dc9ae620fb50ac5487215950c7180c914f8",
+        "record_hash": "sha256:dd6e66a909b39fd3cad10e1c3d16f3310461144a1ebf60827ad032d83555a5c9",
         "evidence_hash": "sha256:d1c940ec98f68193b4c2d633448929bd3cfb40eacaa50df4b27671c95a22f94b"
       },
       "withheld_fields": {
@@ -2520,7 +2540,6 @@
           "amount_cents": 7500,
           "currency": "USD"
         },
-        "general_restrictions": "75.00(1-4n),$125(5+n) 2petsMax,dog/cat on",
         "pet_count_limit": 2
       },
       "evidence": [
@@ -2586,7 +2605,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -2596,9 +2615,9 @@
           "evidence_hash": "sha256:b97ba046234ade2f745fea9500adad3b6858c770f596846b0a2ffee94422035d"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:cc79fbafe2bb0e45871cf269c8771c02f54172af969df80557bc607afb8678de",
+        "record_hash": "sha256:fdde992822cbce6c785f1bcd05339f2c9771a68108fd996b1a9454ab2169a826",
         "evidence_hash": "sha256:b97ba046234ade2f745fea9500adad3b6858c770f596846b0a2ffee94422035d"
       },
       "withheld_fields": {
@@ -3211,6 +3230,21 @@
           "captured_at": "2026-08-10T05:05:55.832Z",
           "capture_method": "browser_assisted",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "fee_scope",
+          "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+          "source_url": "https://www.wyndhamhotels.com/laquinta/fairborn-ohio/la-quinta-fairborn-wright-patterson/overview",
+          "value": "per room, covering up to 2 pets",
+          "evidence_ref": "ev:d1ef1a2d7f00f70b",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:061527e9a813c08a45d3f68ee9d12a57afba82b63de12fca9e4d6247fec16a6d",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-10T05:05:55.832Z",
+          "capture_method": "browser_assisted",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:061527e9a813c08a45d3f68ee9d12a57afba82b63de12fca9e4d6247fec16a6d before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 9,
@@ -3222,7 +3256,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -3232,10 +3266,10 @@
           "evidence_hash": "sha256:c38de52f3a6d5fc6582b7282ec218ca78bdd8548dfdc31866a91e2ff4bb3628b"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:aede80fd9625820418527288bbec1a55cf9b8a44be2cfea9ce44d6aa72568698",
-        "evidence_hash": "sha256:c38de52f3a6d5fc6582b7282ec218ca78bdd8548dfdc31866a91e2ff4bb3628b"
+        "record_hash": "sha256:45ab379b230eb7618b14dc8b3ff1edd9fd9a8d8836a567feb0f699f2a7752b83",
+        "evidence_hash": "sha256:a1a12f66f65e53d862d1a39917379cec2ad14ecb94f5fafedf131722732e75c2"
       },
       "worker_model_id": "",
       "worker_prompt_version": "",
@@ -3398,6 +3432,21 @@
           "captured_at": "2026-08-10T05:12:09.217Z",
           "capture_method": "browser_assisted",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "fee_scope",
+          "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+          "source_url": "https://www.wyndhamhotels.com/laquinta/miamisburg-ohio/la-quinta-inn-and-suites-miamisburg-dayton-south/overview",
+          "value": "per room, covering up to 2 pets",
+          "evidence_ref": "ev:369ece145f063570",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:83b28ecc5f26437742dff45d4826e224e8fba2fe2229525d29402c7595c1af92",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-10T05:12:09.217Z",
+          "capture_method": "browser_assisted",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:83b28ecc5f26437742dff45d4826e224e8fba2fe2229525d29402c7595c1af92 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 9,
@@ -3409,7 +3458,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -3419,10 +3468,10 @@
           "evidence_hash": "sha256:bb9fea6c0c99f10b158638e845dbe169813504f2b7710510c2d09dea8d0766a7"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:1fa709c96d3bc559cc9df06459b6ab081749a84a3eb336323d49b15763b6fb0b",
-        "evidence_hash": "sha256:bb9fea6c0c99f10b158638e845dbe169813504f2b7710510c2d09dea8d0766a7"
+        "record_hash": "sha256:bc440d63f3b1840b45905cfb6e6bc63d6601a74601e47397f9156d83ece349f8",
+        "evidence_hash": "sha256:bfa085e2e251bed28d8ee70ecdff7c34f3f743055d6e54e51a85605bf590e69a"
       },
       "worker_model_id": "",
       "worker_prompt_version": "",
@@ -4078,7 +4127,7 @@
           "operator": "lte",
           "scope": "per_pet"
         },
-        "general_restrictions": "Dogs only, no cats. 1-7 Nights - $75, 8-14 Nights - $150, 15+ Nights - $250",
+        "general_restrictions": "Dogs only, no cats.",
         "pet_count_limit": 2,
         "pet_count_scope": "room",
         "species": {
@@ -4188,7 +4237,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -4198,9 +4247,9 @@
           "evidence_hash": "sha256:095e03870d3b58ebeaaa9edef488685eb5b84d684f5911ab2602fb7cacf81361"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:12e8926758004e8fb1d7f402be779fd81620a7ee27a60d614dad48aaff1ea375",
+        "record_hash": "sha256:d41e2109ddf8f46630e10f1e316eee469874e96fc90a53dcf6017c476decba25",
         "evidence_hash": "sha256:095e03870d3b58ebeaaa9edef488685eb5b84d684f5911ab2602fb7cacf81361"
       },
       "withheld_fields": {
@@ -4262,9 +4311,9 @@
         "pet_fee": {
           "amount_cents": 5000,
           "currency": "USD",
-          "scope": "per_pet"
+          "scope": "per_pet",
+          "refundable": false
         },
-        "general_restrictions": "Fee is nonrefundable. Guests will be charged 50 per pet for one to six night stays and 150 per pet for seven plus nights.",
         "fee_tiers": [
           {
             "amount_cents": 5000,
@@ -4364,7 +4413,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -4374,9 +4423,9 @@
           "evidence_hash": "sha256:5cf2d146611d348c6fa3db384c71ddca09b16adb038c76ac26a4d8061a48fe6d"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:df5713caaf7b1efaac835c239949328bce0e8c911e7895fbc09a36e32133c5ec",
+        "record_hash": "sha256:03be9dfcaaca994fb0e41d470308dad451342a524e41bfd7998ff21eca2fe56e",
         "evidence_hash": "sha256:5cf2d146611d348c6fa3db384c71ddca09b16adb038c76ac26a4d8061a48fe6d"
       },
       "withheld_fields": {
@@ -4413,7 +4462,6 @@
           "operator": "lte",
           "scope": "per_pet"
         },
-        "general_restrictions": "Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00",
         "pet_count_limit": 2,
         "pet_count_scope": "room"
       },
@@ -4493,7 +4541,7 @@
       "verified_at": "2026-08-10",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -4503,9 +4551,9 @@
           "evidence_hash": "sha256:d329c6460a5c10e0357dd785460d41849c96b8e7155aea22511e73205147dd00"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:4190d05cb534ec706973ef2acf4cdf821ba128a00da72ccfd8a22e2663d3b259",
+        "record_hash": "sha256:2ae972e81082aca80815d61e988713e07eaea4fe0cee4a87fcef30ec3fe76bd8",
         "evidence_hash": "sha256:d329c6460a5c10e0357dd785460d41849c96b8e7155aea22511e73205147dd00"
       },
       "withheld_fields": {
@@ -5635,6 +5683,51 @@
           "captured_at": "2026-08-11T00:00:00Z",
           "capture_method": "deterministic_fetch",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_exception",
+          "quote": "Service animals will be exempt from this charge.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/fairborn",
+          "value": "true",
+          "evidence_ref": "ev:7ec9b45f9ae45ac5",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/fairborn",
+          "value": "CEILING_25_PER_DAY_PER_PET_NIGHTS_1_6",
+          "evidence_ref": "ev:599b159115a80418",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/fairborn",
+          "value": "CEILING_15_PER_DAY_PER_PET_NIGHTS_7_PLUS",
+          "evidence_ref": "ev:16af56a0797158ba",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:09425955f389018742bd73cbec4a15e76fd1ffe5f2a9a18b580ff58537155f24 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 4,
@@ -5646,7 +5739,7 @@
       "verified_at": "2026-08-11",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -5656,19 +5749,35 @@
           "evidence_hash": "sha256:07a7c2f0501ed1f90a831fed2f4abcb26f92290e6467499e3c39f1235d7ecff1"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:e141a44d55485fc19d05bceb9cc9c8591f24daac20869a148a96186a49933bee",
-        "evidence_hash": "sha256:07a7c2f0501ed1f90a831fed2f4abcb26f92290e6467499e3c39f1235d7ecff1"
+        "record_hash": "sha256:48016f7cd0214fc177d433ed8b49806a1b7e68116a9876e99647cacb7a168102",
+        "evidence_hash": "sha256:e5ee22c8de4aa715349f58f3e158df227940b848533e0b620d8c5aea43d8ef8a"
       },
       "withheld_fields": {
         "pet_fee": {
-          "reason_code": "SOURCE_AMBIGUOUS",
-          "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it.",
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property states its charge only as a ceiling -- 'Not to exceed a $25.00 per day cleaning fee plus tax' for the first six nights, and 'not to exceed a $15.00 per day' thereafter. CEILING != PRICE: schema 1.2 fee fields carry exact prices and no ceiling qualifier, so publishing either figure would assert a charge the page does not state. Both exact sentences are retained in the evidence array.",
           "evidence_refs": [
             "ev:058b2e81c3f383a8",
+            "ev:16af56a0797158ba",
             "ev:1b51d59a8b6dfca4",
             "ev:4e65278aa27dfaa3",
+            "ev:599b159115a80418",
+            "ev:7ec9b45f9ae45ac5",
+            "ev:cc6cf386800c43c2"
+          ]
+        },
+        "cleaning_fee": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The page names this charge a cleaning fee, states it plus tax, per pet, and changes its ceiling after the sixth night. Every amount it gives is a ceiling rather than a price, so no cleaning fee publishes. Recorded under the name the property uses, so a reader looking for a cleaning fee is answered rather than told nothing.",
+          "evidence_refs": [
+            "ev:058b2e81c3f383a8",
+            "ev:16af56a0797158ba",
+            "ev:1b51d59a8b6dfca4",
+            "ev:4e65278aa27dfaa3",
+            "ev:599b159115a80418",
+            "ev:7ec9b45f9ae45ac5",
             "ev:cc6cf386800c43c2"
           ]
         }
@@ -5681,7 +5790,11 @@
       "schema_version": "1.2",
       "identity_key": "extended stay america suites dayton fairborn",
       "market_id": "dayton-oh",
-      "computation_class": "NOT_COMPUTABLE"
+      "computation_class": "NOT_COMPUTABLE",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "extended stay america suites dayton south",
@@ -5758,6 +5871,51 @@
           "captured_at": "2026-08-11T00:00:00Z",
           "capture_method": "deterministic_fetch",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_exception",
+          "quote": "Service animals will be exempt from this charge.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/south",
+          "value": "true",
+          "evidence_ref": "ev:0c4e3e2fe54b06db",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/south",
+          "value": "CEILING_25_PER_DAY_PER_PET_NIGHTS_1_6",
+          "evidence_ref": "ev:9d9f7d844f6e7288",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/south",
+          "value": "CEILING_15_PER_DAY_PER_PET_NIGHTS_7_PLUS",
+          "evidence_ref": "ev:52f4175a17e5cff3",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:b6117a086b09dc6b1063e0f6d46a7b58eecea3ce6f8d09d92746d6d9a010fb64 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 4,
@@ -5769,7 +5927,7 @@
       "verified_at": "2026-08-11",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -5779,19 +5937,35 @@
           "evidence_hash": "sha256:194d1679e01d47457c854c2d6bd26de9214a207ee1830e8a8035f3963268e0ec"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:336a476a5793bd4bc5fd9e489faa8a8bb500846a154a7166db6da4066b21e045",
-        "evidence_hash": "sha256:194d1679e01d47457c854c2d6bd26de9214a207ee1830e8a8035f3963268e0ec"
+        "record_hash": "sha256:9376585e05be5d84bcdb79574969421854b073ed099f46540ebc8628da1db155",
+        "evidence_hash": "sha256:d1549958bdcaeed155a1a43639b7bbcff82ef8d032a2a300938d77694c90f54e"
       },
       "withheld_fields": {
         "pet_fee": {
-          "reason_code": "SOURCE_AMBIGUOUS",
-          "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it.",
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property states its charge only as a ceiling -- 'Not to exceed a $25.00 per day cleaning fee plus tax' for the first six nights, and 'not to exceed a $15.00 per day' thereafter. CEILING != PRICE: schema 1.2 fee fields carry exact prices and no ceiling qualifier, so publishing either figure would assert a charge the page does not state. Both exact sentences are retained in the evidence array.",
           "evidence_refs": [
             "ev:071c3d3e2f5f8c40",
+            "ev:0c4e3e2fe54b06db",
+            "ev:52f4175a17e5cff3",
             "ev:60580ddf2c7650ef",
             "ev:7fae5f96f1dc5867",
+            "ev:9d9f7d844f6e7288",
+            "ev:cb1ad389ee33c374"
+          ]
+        },
+        "cleaning_fee": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The page names this charge a cleaning fee, states it plus tax, per pet, and changes its ceiling after the sixth night. Every amount it gives is a ceiling rather than a price, so no cleaning fee publishes. Recorded under the name the property uses, so a reader looking for a cleaning fee is answered rather than told nothing.",
+          "evidence_refs": [
+            "ev:071c3d3e2f5f8c40",
+            "ev:0c4e3e2fe54b06db",
+            "ev:52f4175a17e5cff3",
+            "ev:60580ddf2c7650ef",
+            "ev:7fae5f96f1dc5867",
+            "ev:9d9f7d844f6e7288",
             "ev:cb1ad389ee33c374"
           ]
         }
@@ -5804,7 +5978,11 @@
       "schema_version": "1.2",
       "identity_key": "extended stay america suites dayton south",
       "market_id": "dayton-oh",
-      "computation_class": "NOT_COMPUTABLE"
+      "computation_class": "NOT_COMPUTABLE",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "extended stay america suites dayton north",
@@ -5881,6 +6059,51 @@
           "captured_at": "2026-08-11T00:00:00Z",
           "capture_method": "deterministic_fetch",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_exception",
+          "quote": "Service animals will be exempt from this charge.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/north",
+          "value": "true",
+          "evidence_ref": "ev:c34e2ec68107fa72",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/north",
+          "value": "CEILING_25_PER_DAY_PER_PET_NIGHTS_1_6",
+          "evidence_ref": "ev:a5d10a625af79ef5",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/north",
+          "value": "CEILING_15_PER_DAY_PER_PET_NIGHTS_7_PLUS",
+          "evidence_ref": "ev:c9e530b8a03ba6c0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-11T00:00:00Z",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:24add638a5b71767345d398b4bc6757e7fae59590d1963345bd1c7124bc35d45 before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 4,
@@ -5892,7 +6115,7 @@
       "verified_at": "2026-08-11",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -5902,19 +6125,35 @@
           "evidence_hash": "sha256:fe2ff4ddfc3b3d68dc6e97b23413a919edec5af79c2c674eac6bf6d62d3aea66"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:f33069a3a6c2c9ca72799561b29be9c177eed219c250fbe34eea475651789ed2",
-        "evidence_hash": "sha256:fe2ff4ddfc3b3d68dc6e97b23413a919edec5af79c2c674eac6bf6d62d3aea66"
+        "record_hash": "sha256:c3096b1cc355cc92aba7b6277cf0252810935e4c1e04f6af065ce8e9eb03befb",
+        "evidence_hash": "sha256:20ebf063126c4ed0e06458c5b00b66a534ab87067063216bb361aa01461db9bb"
       },
       "withheld_fields": {
         "pet_fee": {
-          "reason_code": "SOURCE_AMBIGUOUS",
-          "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it.",
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property states its charge only as a ceiling -- 'Not to exceed a $25.00 per day cleaning fee plus tax' for the first six nights, and 'not to exceed a $15.00 per day' thereafter. CEILING != PRICE: schema 1.2 fee fields carry exact prices and no ceiling qualifier, so publishing either figure would assert a charge the page does not state. Both exact sentences are retained in the evidence array.",
           "evidence_refs": [
             "ev:2d46d81e7f6aa0de",
             "ev:8fbae55a0d7dffa1",
             "ev:952983a57830ebde",
+            "ev:a5d10a625af79ef5",
+            "ev:c34e2ec68107fa72",
+            "ev:c9e530b8a03ba6c0",
+            "ev:e4bf9fc948c81a0e"
+          ]
+        },
+        "cleaning_fee": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The page names this charge a cleaning fee, states it plus tax, per pet, and changes its ceiling after the sixth night. Every amount it gives is a ceiling rather than a price, so no cleaning fee publishes. Recorded under the name the property uses, so a reader looking for a cleaning fee is answered rather than told nothing.",
+          "evidence_refs": [
+            "ev:2d46d81e7f6aa0de",
+            "ev:8fbae55a0d7dffa1",
+            "ev:952983a57830ebde",
+            "ev:a5d10a625af79ef5",
+            "ev:c34e2ec68107fa72",
+            "ev:c9e530b8a03ba6c0",
             "ev:e4bf9fc948c81a0e"
           ]
         }
@@ -5927,7 +6166,11 @@
       "schema_version": "1.2",
       "identity_key": "extended stay america suites dayton north",
       "market_id": "dayton-oh",
-      "computation_class": "NOT_COMPUTABLE"
+      "computation_class": "NOT_COMPUTABLE",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     },
     {
       "key": "best western plus miamisburg dayton suites banquets and hotel",
@@ -6302,6 +6545,51 @@
           "captured_at": "2026-08-12",
           "capture_method": "deterministic_fetch",
           "source_grade": "PT1_FIRST_PARTY"
+        },
+        {
+          "field": "service_animal_exception",
+          "quote": "Service animals will be exempt from this charge.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/miamisburg",
+          "value": "true",
+          "evidence_ref": "ev:1f8ba8f309bff3ec",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-12",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/miamisburg",
+          "value": "CEILING_25_PER_DAY_PER_PET_NIGHTS_1_6",
+          "evidence_ref": "ev:267d58436b6da800",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-12",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
+        },
+        {
+          "field": "cleaning_fee",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+          "source_url": "https://www.extendedstayamerica.com/hotels/oh/dayton/miamisburg",
+          "value": "CEILING_15_PER_DAY_PER_PET_NIGHTS_7_PLUS",
+          "evidence_ref": "ev:0298e6da5b420139",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-12",
+          "capture_method": "deterministic_fetch",
+          "source_grade": "PT1_FIRST_PARTY",
+          "contiguity_verified": true,
+          "provenance_note": "PTF-DAYTON-RECERTIFICATION-001 Pass B: quote asserted contiguous in the captured page text of artifact sha256:78679c26c662a192e22ba7e510828a4ca00398ed847abf8f8f6c3d60dfafb5ef before this entry was written. Verified against the artifact bytes, not against the record's legacy evidence_quote summary."
         }
       ],
       "evidence_count": 4,
@@ -6313,7 +6601,7 @@
       "verified_at": "2026-08-12",
       "approval": {
         "decision": "MACHINE_REVIEWED_PENDING_OPERATOR",
-        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass A, agent)",
+        "operator": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001 Pass B, agent)",
         "approval_date": "2026-08-16",
         "supersedes": {
           "decision": "APPROVED_AFTER_CURRENT_REVIEW",
@@ -6323,16 +6611,32 @@
           "evidence_hash": "sha256:a84da900bbbab2c7b728a1a2049d9e29eeae551120389d4f296a99c550fef9bd"
         },
         "caveats": [
-          "PTF-DAYTON-RECERTIFICATION-001 Pass A. Entry-level artifact bindings (artifact_sha256, artifact_kind, captured_at, capture_method, source_grade) were added after the capture's HTML was re-hashed from the worker-tree bytes and matched to this record's worker_result_hash, the capture's own URL was matched to this record's source_url, this property's identity was re-bound from the captured page, and every published quote was re-asserted contiguous in the captured text. Facts, quotes, source URLs, withholding decisions and the evidence set are unchanged (evidence_hash identical); record_hash moved because the record now carries the bindings. The approval under 'supersedes' was given for the record before those bindings and is preserved verbatim; it no longer binds this record. Founder re-attestation against the record_hash below is required."
+          "PTF-DAYTON-RECERTIFICATION-001 Pass B. This record carries a deterministic policy correction prepared for founder review and NOT yet approved. Facts and/or evidence changed, so record_hash and evidence_hash both moved. The approval under 'supersedes' is the founder's and was given for the record before Pass A's artifact bindings and before this correction; it is preserved verbatim and no longer binds. A founder decision against the record_hash below is required before this record may publish as approved."
         ],
-        "record_hash": "sha256:8e8964e17b89d49dd517d69cb030cdf605ea074b5deca522f462dcf2614967f5",
-        "evidence_hash": "sha256:a84da900bbbab2c7b728a1a2049d9e29eeae551120389d4f296a99c550fef9bd"
+        "record_hash": "sha256:1cc92210f26e10f26526c00f52a636dc0037df1d57aec8fa2cb2210f6f041596",
+        "evidence_hash": "sha256:2c5efa32af8083891cc3f7351472f5884f3405660d7fa821bf6924b5526159a0"
       },
       "withheld_fields": {
         "pet_fee": {
-          "reason_code": "SOURCE_AMBIGUOUS",
-          "reason": "The property states its charge as \"up to\" an amount per day, which is a ceiling rather than a price, and the ceiling changes after the sixth night. No amount a guest will actually be charged can be published from it.",
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The property states its charge only as a ceiling -- 'Not to exceed a $25.00 per day cleaning fee plus tax' for the first six nights, and 'not to exceed a $15.00 per day' thereafter. CEILING != PRICE: schema 1.2 fee fields carry exact prices and no ceiling qualifier, so publishing either figure would assert a charge the page does not state. Both exact sentences are retained in the evidence array.",
           "evidence_refs": [
+            "ev:0298e6da5b420139",
+            "ev:1f8ba8f309bff3ec",
+            "ev:267d58436b6da800",
+            "ev:aa1811f202f1501c",
+            "ev:af7bfc2418b70f4b",
+            "ev:bdf0f38a3f823b7e",
+            "ev:c3d856bcabe2f90c"
+          ]
+        },
+        "cleaning_fee": {
+          "reason_code": "SCHEMA_CANNOT_REPRESENT",
+          "reason": "The page names this charge a cleaning fee, states it plus tax, per pet, and changes its ceiling after the sixth night. Every amount it gives is a ceiling rather than a price, so no cleaning fee publishes. Recorded under the name the property uses, so a reader looking for a cleaning fee is answered rather than told nothing.",
+          "evidence_refs": [
+            "ev:0298e6da5b420139",
+            "ev:1f8ba8f309bff3ec",
+            "ev:267d58436b6da800",
             "ev:aa1811f202f1501c",
             "ev:af7bfc2418b70f4b",
             "ev:bdf0f38a3f823b7e",
@@ -6348,7 +6652,11 @@
       "schema_version": "1.2",
       "identity_key": "extended stay america select suites dayton miamisburg",
       "market_id": "dayton-oh",
-      "computation_class": "NOT_COMPUTABLE"
+      "computation_class": "NOT_COMPUTABLE",
+      "service_animal_statement": {
+        "stated": true,
+        "charges_stated": "no_charge"
+      }
     }
   ],
   "market_id": "dayton-oh"

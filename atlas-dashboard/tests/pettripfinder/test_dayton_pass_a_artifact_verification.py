@@ -38,7 +38,32 @@ CONTRACT_PATH = (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
                  / "dayton-oh.json")
 
 EXPECTED_RECORDS = 47
-EXPECTED_ENTRIES = 256
+#: Pass A promoted 256 entries. Pass B then added 15 pointers to source
+#: sentences the records were missing -- one service-animal line for Days Inn
+#: Sidney, and for each of the four ESA records a service-animal line plus the
+#: two ceiling sentences their pages state and their records had never carried
+#: -- and one fee_scope pointer for each La Quinta. Every one of them is
+#: publication grade on the same artifact, so the invariant Pass A established
+#: holds over a larger set rather than a frozen one.
+PASS_A_ENTRIES = 256
+EXPECTED_ENTRIES = 271
+
+#: Records Pass B corrected. Pass A's scope assertions apply to the rest.
+PASS_B_CORRECTED = {
+    "springhill suites troy dayton",
+    "towneplace suites by marriott dayton beavercreek",
+    "hilton garden inn dayton beavercreek",
+    "home2 suites by hilton dayton beavercreek",
+    "staybridge suites miamisburg",
+    "courtyard by marriott springfield downtown",
+    "days inn by wyndham sidney",
+    "extended stay america suites dayton fairborn",
+    "extended stay america suites dayton south",
+    "extended stay america suites dayton north",
+    "extended stay america select suites dayton miamisburg",
+    "la quinta inn and suites by wyndham fairborn wright patterson",
+    "la quinta inn and suites by wyndham miamisburg dayton south",
+}
 
 
 @pytest.fixture(scope="module")
@@ -139,15 +164,23 @@ def test_required_fields_are_present_on_every_entry(facts):
 
 
 def test_upgrade_did_not_touch_quotes_or_the_evidence_set(facts):
-    """Refs derive from field+quote+url, so identical refs prove the upgrade
-    changed bindings only -- never the words a fact rests on."""
+    """Refs derive from field+quote+url, so a ref that still recomputes proves
+    the upgrade changed bindings only -- never the words a fact rests on.
+
+    Pass B added 15 pointers, each declaring contiguity against the ARTIFACT
+    rather than against the legacy evidence_quote summary; those carry
+    ``contiguity_verified`` and are checked there instead.
+    """
     for hotel in facts["hotels"]:
         haystack = " ".join(hotel["evidence_quote"].split())
         for entry in hotel["evidence"]:
             assert entry["evidence_ref"] == evidence_ref_for(entry)
+            if entry.get("contiguity_verified") is True:
+                assert entry["provenance_note"]
+                continue
             assert evidence_contract.quote_is_contiguous(
                 entry["quote"], haystack) or entry["field"] in (
-                    "general_restrictions",)
+                    "general_restrictions", "service_animal_exception")
 
 
 def test_no_published_fact_is_uncited_under_either_name(facts):
@@ -189,9 +222,11 @@ def test_no_human_name_carries_a_machine_decision(facts):
     for hotel in facts["hotels"]:
         approval = hotel["approval"]
         assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert approval["operator"] == AGENT_IDENTITY
+        assert approval["operator"].startswith("claude-")
         assert approval["operator"] != "jfields80"
         assert approval["decision"] not in enums.PUBLISHING_DECISIONS
+        if hotel["identity_key"] not in PASS_B_CORRECTED:
+            assert approval["operator"] == AGENT_IDENTITY
 
 
 def test_prior_human_approval_is_preserved_verbatim_and_unbound(facts):
@@ -203,8 +238,21 @@ def test_prior_human_approval_is_preserved_verbatim_and_unbound(facts):
         assert prior["record_hash"]
         # Provably no longer binding: the record moved underneath it.
         assert prior["record_hash"] != approval["record_hash"]
-        # ...but the evidence set did not, which is what makes the upgrade safe.
-        assert prior["evidence_hash"] == approval["evidence_hash"]
+        # Never buried by a later machine pass. A human approval may itself
+        # supersede an EARLIER human one -- Holiday Inn Express Dayton
+        # Centerville's does, from the Phase F Class-B attestation -- so the
+        # invariant is not "nothing nested" but "no agent anywhere in the
+        # chain": the approval a reader checks first must be the last human
+        # decision, and every one behind it a human decision too.
+        chain, node = [], prior
+        while isinstance(node, dict) and node:
+            chain.append(node)
+            node = node.get("supersedes")
+        for link in chain:
+            assert link["operator"] == "jfields80", hotel["identity_key"]
+        if hotel["identity_key"] not in PASS_B_CORRECTED:
+            # Pass A moved bindings only, so the evidence set is untouched.
+            assert prior["evidence_hash"] == approval["evidence_hash"]
 
 
 def test_every_approval_binds_the_record_it_signs(facts):
@@ -222,62 +270,31 @@ def test_reattestation_packet_matches_the_committed_records(facts, packet):
     for row in packet["records"]:
         hotel = by_key[row["identity_key"]]
         assert row["reattestation_required"] is True
+        assert row["prior_operator"] == "jfields80"
+        # The founder's approval is the preserved prior on every record, and
+        # Pass B did not disturb that even where it corrected the record.
+        assert row["prior_record_hash"] == \
+            hotel["approval"]["supersedes"]["record_hash"]
+        if row["identity_key"] in PASS_B_CORRECTED:
+            # Pass B corrected this record afterwards, so the hash a founder
+            # attests is the one in the Pass B packet. This row is superseded
+            # provenance, not the live target.
+            continue
         assert row["record_hash_to_attest"] == hotel["approval"]["record_hash"]
         assert row["evidence_hash_unchanged"] == \
             hotel["approval"]["evidence_hash"]
-        assert row["prior_record_hash"] == \
-            hotel["approval"]["supersedes"]["record_hash"]
-        assert row["prior_operator"] == "jfields80"
 
 
 # --------------------------------------------------------------------------- #
-# Scope: Pass A changed bindings and nothing else.
+# Scope.
 # --------------------------------------------------------------------------- #
 
-def test_pass_a_left_every_fact_untouched(facts):
-    """The thirteen policy corrections belong to Pass B.
-
-    Asserted against the conditions the audit named, so a Pass-A run that
-    quietly repaired one would fail here rather than pass silently.
-    """
-    by_key = {hotel["identity_key"]: hotel for hotel in facts["hotels"]}
-    # The six general_restrictions monetary leaks are still present, verbatim.
-    # Pinned to the exact committed strings rather than to "contains a currency
-    # marker": Staybridge states its ladder in bare numerals, which is part of
-    # why the leak is hard to see, and a looser assertion missed it.
-    leaks = {
-        "springhill suites troy dayton":
-            "Dogs only, no cats. 1-7 Nights - $75, 8-14 Nights - $150, "
-            "15+ Nights - $250",
-        "towneplace suites by marriott dayton beavercreek":
-            "Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee "
-            "Per Night: $20.00",
-        "hilton garden inn dayton beavercreek":
-            "$75(1-5 nights) additional $75(5+ night) dogs & cats only. "
-            "Two pets max per room.",
-        "home2 suites by hilton dayton beavercreek":
-            "75.00(1-4n),$125(5+n) 2petsMax,dog/cat on",
-        "staybridge suites miamisburg":
-            "Fee is nonrefundable. Guests will be charged 50 per pet for one "
-            "to six night stays and 150 per pet for seven plus nights.",
-        "courtyard by marriott springfield downtown":
-            "Pets allowed with USD 75 + 17.25% tax, non-refundable fee per "
-            "stay ($87.94)",
-    }
-    for key, stated in leaks.items():
-        assert by_key[key]["facts"]["general_restrictions"] == stated, key
-    # The five missing service-animal statements are still missing.
-    for key in ("days inn by wyndham sidney",
-                "extended stay america suites dayton fairborn",
-                "extended stay america suites dayton south",
-                "extended stay america suites dayton north",
-                "extended stay america select suites dayton miamisburg"):
-        assert "service_animal_statement" not in by_key[key]
-    # The two La Quinta fee-scope pointers are still absent.
-    for key in ("la quinta inn and suites by wyndham fairborn wright patterson",
-                "la quinta inn and suites by wyndham miamisburg dayton south"):
-        assert by_key[key]["facts"]["pet_fee"]["scope"] == "per_room"
-        assert "fee_scope" not in {e["field"] for e in by_key[key]["evidence"]}
+# The guard that once lived here -- "Pass A left every fact untouched", pinned
+# to the exact leaked strings -- did its job and is now Pass B's to keep. It
+# asserted that the thirteen corrections had NOT been made, so once they were
+# it could only fail. Its successor is
+# test_dayton_pass_b_policy_corrections.py, which pins the corrected strings and
+# asserts the other thirty-four records did not move.
 
 
 def test_withholding_decisions_survived_untouched(facts):
@@ -287,8 +304,13 @@ def test_withholding_decisions_survived_untouched(facts):
     codes = [decision["reason_code"]
              for decisions in withheld.values()
              for decision in decisions.values()]
-    assert len(codes) == 21
-    assert set(codes) == {"SOURCE_AMBIGUOUS", "SOURCE_CONTRADICTORY"}
+    # 21 after Pass A; 25 after Pass B recorded a cleaning_fee withholding on
+    # each of the four ESA records and recoded their pet_fee from
+    # SOURCE_AMBIGUOUS to SCHEMA_CANNOT_REPRESENT -- the source is not
+    # ambiguous, it states a ceiling, which is a different thing.
+    assert len(codes) == 25
+    assert set(codes) == {"SOURCE_AMBIGUOUS", "SOURCE_CONTRADICTORY",
+                          "SCHEMA_CANNOT_REPRESENT"}
     assert "SOURCE_SILENT" not in codes
 
 
@@ -325,11 +347,16 @@ def test_census_hygiene_is_a_proposal_and_the_census_is_untouched(report):
 # Release contract.
 # --------------------------------------------------------------------------- #
 
-def test_release_contract_pins_the_upgraded_package(report):
+def test_release_contract_pins_the_current_package(report):
+    """The pin always names the CURRENT bytes; each pass re-pins what it left.
+
+    Pass A's sha became history the moment Pass B wrote, so an assertion still
+    pointed at it would have quietly stopped checking the live pin.
+    """
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
-    assert report["facts_sha256_after_apply"] == actual
+    assert report["facts_sha256_after_apply"] != actual   # superseded by Pass B
     assert report["facts_sha256_before_apply"] != actual
     assert contract["policy_package"]["expected_record_count"] == \
         EXPECTED_RECORDS

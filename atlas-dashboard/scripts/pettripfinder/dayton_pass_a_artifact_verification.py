@@ -131,45 +131,35 @@ FETCH_NO_SCREENSHOT = "DETERMINISTIC_FETCH_NO_SCREENSHOT"
 
 BROWSER_RUN = "dayton-capture-run-001"
 
-#: Schema-1.2 renamed several FACT keys without renaming the EVIDENCE field
-#: that supports them, so ``evidence.unevidenced_facts`` reports a fact as
-#: uncited when its citation is sitting right there under the old name. The
-#: fact is evidenced; the two vocabularies simply diverged.
-#:
-#: This is not a Dayton condition. Cleveland's corpus -- already merged to main
-#: at publication grade -- carries the same ``species`` alias on seventeen of
-#: its eighty-one records, and across both markets every single reported
-#: "unevidenced" fact resolves through this map: zero facts are genuinely
-#: uncited in either.
-#:
-#: So Pass A treats an alias as what it is, and refuses to treat it as anything
-#: else. It is NOT silently ignored: the run asserts that every blocker
-#: ``publication_blockers`` raises is covered here, and a fact with no citation
-#: under either name still stops the pass. It is also NOT repaired here --
-#: renaming an evidence field would move ``evidence_ref``, and therefore
-#: ``evidence_hash``, and therefore the very approval binding this pass exists
-#: to keep honest. The repair belongs to Pass B, alongside the other
-#: evidence-pointer corrections, or to a contract change that teaches
-#: ``unevidenced_facts`` the alias for all four markets at once.
-FACT_EVIDENCE_ALIASES: Dict[str, Tuple[str, ...]] = {
-    "species": ("species_allowed", "cats_allowed", "species"),
-    "combined_weight_limit": ("weight_limit_combined",
-                              "weight_limit_combined_operator"),
-    "dimension_constraints": ("general_restrictions",),
-    "other_charges": ("other_charges", "cleaning_fee", "pet_deposit"),
-}
+#: The alias vocabulary now lives in the contract, where every market reads it.
+#: Pass A discovered it -- schema 1.2 renamed several FACT keys without renaming
+#: the EVIDENCE field supporting them, so 26 Dayton records and 17 of
+#: Cleveland's 81 read as publishing an unevidenced fact -- and Pass B moved the
+#: knowledge into ``contracts/evidence.py`` rather than leaving one market's
+#: script holding a private copy of a cross-market rule.
+FACT_EVIDENCE_ALIASES = evidence_contract.FACT_EVIDENCE_ALIASES
 
 
 def alias_covered_facts(hotel: Dict) -> Tuple[str, ...]:
-    """Facts reported uncited whose citation exists under an aliased name.
+    """Facts this record cites ONLY under an aliased evidence-field name.
 
-    Raises rather than returns when a fact is cited under neither name: an
-    actually unevidenced published fact must stop this pass, not be counted.
+    Reported so the seam stays visible after the contract stopped complaining
+    about it: these facts are properly evidenced, but a reader looking for a
+    ``species`` pointer will find ``species_allowed`` instead.
+
+    Raises when a fact is cited under neither its own name nor an alias. The
+    contract already reports that condition; here it stops the pass, because a
+    published fact with no citation must never be promoted to publication
+    grade.
     """
+    facts = hotel.get("facts") or {}
     fields = {e.get("field") for e in hotel.get("evidence") or ()}
+    declared = set(hotel.get("derived_fields") or ())
     covered: List[str] = []
-    for fact in evidence_contract.unevidenced_facts(hotel):
-        aliases = FACT_EVIDENCE_ALIASES.get(fact, ())
+    for fact in facts:
+        if fact in declared or fact in fields:
+            continue
+        aliases = evidence_contract.FACT_EVIDENCE_ALIASES.get(fact, ())
         if not set(aliases) & fields:
             raise AssertionError(
                 "%s: published fact %r is cited by no evidence entry under "
@@ -607,9 +597,20 @@ def downgrade_approval(hotel: Dict) -> Dict:
     and the hashes recorded are the CURRENT record's, so a later founder
     attestation has an exact target. No operator name is reused.
 
+    Idempotence matters here more than anywhere else in the pass. Running this
+    twice used to nest the founder's approval one level deeper and leave the
+    agent's OWN machine approval sitting in ``supersedes`` -- so the provenance
+    a reader checks first would name a machine where a human belongs, and the
+    human's attestation would be hidden inside ``supersedes.supersedes``. When
+    the live approval is already this pass's, the record is rewritten in place
+    against the SAME preserved prior instead of superseding ourselves.
+
     Returns the packet row a founder needs to re-attest this record.
     """
     prior = hotel.get("approval") or {}
+    if (prior.get("decision") == enums.MACHINE_REVIEWED_PENDING_OPERATOR
+            and prior.get("operator") == AGENT_IDENTITY):
+        prior = prior.get("supersedes") or {}
     signed = {k: v for k, v in hotel.items() if k != "approval"}
     new_record_hash = record_hash(signed)
     new_evidence_hash = evidence_hash(hotel.get("evidence", []))
@@ -757,19 +758,15 @@ def run(data_root: Path, apply: bool) -> Dict:
             # publication_blockers() asks two different questions at once: is
             # the EVIDENCE fit to publish (Pass A's job, and validate() above
             # already answered it), and is every FACT cited (a facts-to-evidence
-            # naming question, which is Pass B's). Separate them, so an alias
-            # cannot block the artifact work and a genuinely uncited fact
-            # cannot slip past it.
+            # The alias seam is recorded per record so it stays visible now
+            # that the contract has stopped reporting it; alias_covered_facts
+            # still raises on a fact cited under no name at all.
             verification.alias_covered_facts = alias_covered_facts(hotel)
-            expected_alias_blocker = (
-                "published fact(s) with no evidence: %s"
-                % ", ".join(verification.alias_covered_facts))
-            unexplained = [b for b in evidence_contract.publication_blockers(hotel)
-                           if b != expected_alias_blocker]
-            if unexplained:
+            blockers = evidence_contract.publication_blockers(hotel)
+            if blockers:
                 raise AssertionError("%s: upgraded record still carries "
                                      "publication blockers: %s"
-                                     % (key, unexplained))
+                                     % (key, blockers))
             packet_rows.append(downgrade_approval(hotel))
             verification.approval_action = (
                 "SUPERSEDED_PENDING_REATTESTATION_RECORD_HASH_MOVED")
