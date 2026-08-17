@@ -893,3 +893,165 @@ class TestRoutingVsEvidenceReady:
         assert rec.published == 0
         assert rec.verified_no_pets == 0
         assert rec.unresolved == 129
+
+
+class TestPass4Capture:
+    BATCH = [
+        "red roof inn louisville expo airport",
+        "red roof inn louisville hurstbourne",
+        "studio 6 louisville airport expo center",
+        "baymont by wyndham louisville airport south",
+        "hawthorn suites by wyndham louisville east",
+        "travelodge by wyndham sellersburg louisville north",
+        "super 8 by wyndham louisville airport",
+        "la quinta inn and suites by wyndham louisville northeast old henry",
+        "holiday inn express and suites jeffersonville",
+        "staybridge suites louisville east",
+        "candlewood suites louisville airport",
+    ]
+
+    VALID_OUTCOMES = frozenset({
+        "PUBLICATION_CANDIDATE", "VERIFIED_NO_PETS_CANDIDATE",
+        "POLICY_NOT_FOUND", "IDENTITY_UNCERTAIN", "ACCESS_BLOCKED",
+        "CAPTURE_FAILED", "SOURCE_AMBIGUOUS",
+    })
+
+    def _results(self):
+        return json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_attended_capture_pass4_001.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def _packet(self):
+        return json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_attended_capture_pass4_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def test_batch_is_exactly_the_eleven_queued_rows(self):
+        doc = self._results()
+        keys = [r["identity_key"] for r in doc["rows"]]
+        assert doc["batch_total"] == len(keys) == 11
+        assert keys == self.BATCH
+        assert len(set(keys)) == 11
+        assert doc["authority_changed"] is False
+
+    def test_every_row_has_a_terminal_outcome_and_identity_binding(self):
+        doc = self._results()
+        for row in doc["rows"]:
+            assert row["outcome"] in self.VALID_OUTCOMES
+            assert row["identity_binding"] == "BOUND"
+            assert row["identity_signals"]
+            assert row["artifacts"]
+
+    def test_outcome_counts(self):
+        doc = self._results()
+        assert doc["outcome_counts"]["PUBLICATION_CANDIDATE"] == 10
+        assert doc["outcome_counts"]["VERIFIED_NO_PETS_CANDIDATE"] == 1
+        assert doc["outcome_counts"]["POLICY_NOT_FOUND"] == 0
+        assert doc["outcome_counts"]["ACCESS_BLOCKED"] == 0
+        assert doc["outcome_counts"]["CAPTURE_FAILED"] == 0
+        assert doc["outcome_counts"]["IDENTITY_UNCERTAIN"] == 0
+        assert doc["outcome_counts"]["SOURCE_AMBIGUOUS"] == 0
+        assert doc["brand_counts"] == {
+            "RED_ROOF": 2, "STUDIO6": 1, "WYNDHAM": 5, "IHG": 3,
+        }
+        assert doc["publication_grade_artifacts"] == 11
+
+    def test_holiday_inn_express_is_explicit_no_pets_not_silence(self):
+        doc = self._results()
+        by = {r["identity_key"]: r for r in doc["rows"]}
+        hie = by["holiday inn express and suites jeffersonville"]
+        assert hie["outcome"] == "VERIFIED_NO_PETS_CANDIDATE"
+        assert hie["proposed_facts"]["pets_allowed"] is False
+        assert "No, pets are not allowed" in hie["quotes"][0]
+
+    def test_red_roof_pair_share_the_same_bound_fee_schedule(self):
+        doc = self._results()
+        by = {r["identity_key"]: r for r in doc["rows"]}
+        expo = by["red roof inn louisville expo airport"]
+        hurst = by["red roof inn louisville hurstbourne"]
+        assert expo["outcome"] == hurst["outcome"] == "PUBLICATION_CANDIDATE"
+        assert (expo["proposed_facts"]["weight_limit_lbs"]
+                == hurst["proposed_facts"]["weight_limit_lbs"] == 80)
+        assert expo["queued_url"].endswith("rri118")
+        assert hurst["queued_url"].endswith("rri034")
+
+    def test_contradictions_and_ambiguities_are_withheld_not_resolved(self):
+        doc = self._results()
+        by = {r["identity_key"]: r for r in doc["rows"]}
+        staybridge = by["staybridge suites louisville east"]
+        assert "fee_refundable" not in staybridge["proposed_facts"]
+        assert "CONTRADICTORY" in staybridge["withheld_fields"]["fee_refundable"]
+        candlewood = by["candlewood suites louisville airport"]
+        assert "AMBIGUOUS" in (
+            candlewood["withheld_fields"]["deposit_vs_fee_relationship"])
+        super8 = by["super 8 by wyndham louisville airport"]
+        assert "species" in super8["withheld_fields"]
+        assert "species" not in super8["proposed_facts"]
+
+    def test_studio6_is_partial_not_fabricated(self):
+        doc = self._results()
+        studio6 = next(r for r in doc["rows"]
+                        if r["identity_key"]
+                        == "studio 6 louisville airport expo center")
+        assert studio6["proposed_facts"] == {"pets_allowed": True}
+        assert "fee" in studio6["withheld_fields"]
+        assert "weight_limit" in studio6["withheld_fields"]
+
+    def test_la_quinta_uses_the_corrected_old_henry_url(self):
+        doc = self._results()
+        lq = next(r for r in doc["rows"]
+                  if r["identity_key"] == (
+                      "la quinta inn and suites by wyndham louisville "
+                      "northeast old henry"))
+        assert "old-henry" in lq["final_url"]
+        assert "Alliant" not in " ".join(lq["identity_signals"])
+
+    def test_artifacts_exist_on_disk_and_hash_match(self):
+        import hashlib
+        art = REPO / "data" / "operator_evidence" / "louisville-pass4-capture-001"
+        doc = self._results()
+        for row in doc["rows"]:
+            for a in row["artifacts"]:
+                path = art / a["relpath"]
+                assert path.is_file(), a["relpath"]
+                payload = path.read_bytes()
+                assert hashlib.sha256(payload).hexdigest() == a["sha256"]
+                assert path.stat().st_size == a["bytes"]
+
+    def test_quotes_are_contiguous_in_their_text_artifacts(self):
+        art = REPO / "data" / "operator_evidence" / "louisville-pass4-capture-001"
+        doc = self._results()
+        for row in doc["rows"]:
+            if not row["quotes"]:
+                continue
+            text_artifacts = [a for a in row["artifacts"]
+                               if a["relpath"].endswith(".txt")]
+            assert text_artifacts, row["identity_key"]
+            blob = "\n".join(
+                (art / a["relpath"]).read_text(encoding="utf-8")
+                for a in text_artifacts)
+            for quote in row["quotes"]:
+                assert quote in blob, row["identity_key"]
+
+    def test_founder_review_packet_covers_all_eleven_with_no_approvals(self):
+        packet = self._packet()
+        assert packet["founder_approvals_written"] is False
+        assert packet["decision_count"] == 11
+        assert len(packet["rows"]) == 11
+        keys = [r["identity_key"] for r in packet["rows"]]
+        assert keys == self.BATCH
+
+    def test_authority_freeze_holds_after_pass4(self):
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
+        queue = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_manual_capture_queue_001.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert queue["executed"] is False
