@@ -318,6 +318,9 @@ def test_authority_freeze_and_benchmark():
     assert bench["positive_candidates"] == 2
     assert bench["negative_candidates"] == 3
     assert bench["identity_failures"] == 5
+    assert bench["policy_not_found"] == 0
+    assert bench["access_blocked"] == 0
+    assert bench["captures_per_hour"] == 30.5
     assert results["brand_care"]["marriott"]["hotels"]
     assert results["brand_care"]["ihg"]["hotels"]
     assert results["brand_care"]["choice"]["hotels"] == [
