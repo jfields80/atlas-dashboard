@@ -221,8 +221,17 @@ class TestD_StaybridgeMiamisburg:
         return find("dayton-oh", "staybridge suites miamisburg")
 
     def test_the_source_really_does_carry_a_higher_amount(self):
-        restrictions = self.record()["facts"]["general_restrictions"]
-        assert "150" in restrictions and "50 per pet" in restrictions
+        """The premise this class rests on, read where source wording lives.
+
+        It used to read facts["general_restrictions"], which carried the
+        sentence AND published it. PTF-DAYTON-RECERTIFICATION-001 Pass B
+        removed the published duplicate -- the same ladder was already in
+        fee_tiers, so the profile stated one charge twice in two shapes -- and
+        the sentence stayed in the evidence array, which is the record's
+        account of what the page said.
+        """
+        quotes = [e["quote"] for e in self.record()["evidence"]]
+        assert any("150" in q and "50 per pet" in q for q in quotes)
 
     def test_the_ladder_the_property_stated_is_now_published(self):
         """Phase B could only WARN that $50 was not the whole charge, because

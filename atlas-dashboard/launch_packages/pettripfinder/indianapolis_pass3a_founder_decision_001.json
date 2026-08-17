@@ -1,0 +1,84 @@
+{
+  "schema": "ptf-indianapolis-pass3a-founder-decision/1.0",
+  "work_order": "PTF-INDIANAPOLIS-PASS3A-FOUNDER-DECISION-001",
+  "as_of": "2026-08-17",
+  "market_id": "indianapolis-in",
+  "source_packets": [
+    "indianapolis_pass3a_capture_results.json",
+    "indianapolis_pass3a_founder_review_packet.json"
+  ],
+  "status": "RECORDED_NOT_APPLIED",
+  "rule": "Record both Pass 3A founder decisions only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing.",
+  "founder_decisions_applied": false,
+  "authority_changed": false,
+  "published": false,
+  "positive_decisions": [
+    {
+      "decision_id": "INDY-P3A-001",
+      "identity_key": "residence inn by marriott indianapolis airport",
+      "hotel": "Residence Inn Indianapolis Airport",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "5224 West Southern Avenue",
+        "city": "Indianapolis",
+        "state": "IN",
+        "postal_code": "46241",
+        "phone": "317-244-1500"
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "pet_fee=$100 per_stay",
+        "refundable=false",
+        "weight_limit=75 lb",
+        "pet_count_limit=2"
+      ],
+      "do_not_invent": [
+        "fee scope",
+        "weight scope",
+        "species",
+        "service-animal statement",
+        "reservation_requirement"
+      ],
+      "payment_timing": {
+        "quote": "due at check-in",
+        "treatment": "payment timing only",
+        "not": "reservation_requirement"
+      },
+      "do_not_confuse_with": [
+        "fairfield inn and suites indianapolis airport",
+        "crowne plaza indianapolis airport"
+      ],
+      "note": "Do not confuse this property with Fairfield at 5220 West Southern Avenue."
+    }
+  ],
+  "negative_decisions": [],
+  "identity_holds": [
+    {
+      "decision_id": "INDY-P3A-002",
+      "identity_key": "staybridge suites indianapolis airport plainfield",
+      "hotel": "Staybridge Suites Indianapolis Airport Plainfield",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "applied": false,
+      "note": "Phone matched but street did not. Do not infer identity from phone alone. Do not bind or publish observed policy.",
+      "next_action": "Resolve census address 6291 Cambridge Way against the current official IHG Staybridge property page, property code indpf, phone 317-839-2700, and the rendered street. Policy stays unused until the street agrees."
+    }
+  ],
+  "undecided": [],
+  "counts": {
+    "policy_decisions_recorded": 2,
+    "positive_approved": 1,
+    "verified_no_pets_approved": 0,
+    "identity_holds": 1,
+    "undecided": 0,
+    "decisions_applied": 0
+  },
+  "not_done": [
+    "No Indianapolis policy package",
+    "No hotel_exclusions append",
+    "No live founder approval records",
+    "No merge",
+    "No deploy"
+  ]
+}

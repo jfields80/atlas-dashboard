@@ -36,16 +36,24 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI)
+PITTSBURGH = "pittsburgh-pa"
+DETROIT = "detroit-ann-arbor-mi"
+INDIANAPOLIS = "indianapolis-in"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
+           INDIANAPOLIS)
 
 EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
-                   CINCINNATI: ["OH", "KY", "IN"]}
+                   CINCINNATI: ["OH", "KY", "IN"], PITTSBURGH: ["PA"],
+                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
-                       DAYTON: "market_prefixed", CINCINNATI: "market_prefixed"}
+    DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
+    PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
+    INDIANAPOLIS: "market_prefixed"}
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
+                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256}
 
 
 def census(market_id):

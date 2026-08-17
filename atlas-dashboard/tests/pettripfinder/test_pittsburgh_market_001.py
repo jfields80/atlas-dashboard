@@ -1,9 +1,12 @@
 """PTF-PITTSBURGH-MARKET-REVALIDATION-001 -- Pittsburgh factory gates.
 
 Pinned to the measured first-pass universe from PTF-PITTSBURGH-MARKET-BUILD-001,
-updated by PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001: 17 founder-approved
-published records, 2 VERIFIED_NO_PETS registry exclusions, and the D003
-Distrikt -> Joinery identity rename. The census policy_state column stays
+updated by PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 (17 published, 2
+VERIFIED_NO_PETS, the D003 Distrikt -> Joinery identity rename) and then
+PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 (9 more publications, 2 more
+VERIFIED_NO_PETS, and two AWAITING_CENSUS_REVIEW workflow findings for
+Courtyard Pittsburgh Shadyside and Shadyside Inn Suites -- findings, never
+policy or closure decisions). The census policy_state column stays
 legacy-frozen at POLICY_NOT_VERIFIED (the Cleveland precedent); the partition
 and the policy/exclusion authorities are the publication truth.
 """
@@ -30,11 +33,11 @@ MARKET = "pittsburgh-pa"
 
 EXPECTED = {
     "census": 96,
-    "published": 17,
-    "no_pets": 2,
+    "published": 26,
+    "no_pets": 4,
     "out_of_category": 3,
-    "unresolved": 74,
-    "queue": 74,
+    "unresolved": 63,
+    "queue": 63,
 }
 
 
@@ -213,7 +216,9 @@ class TestRoutingAndAuthorityIsolation:
         assert len(rows) == len(no_pets) + len(category)
         assert {e["normalized_name"] for e in no_pets} == {
             "cambria hotel pittsburgh downtown",
-            "courtyard by marriott pittsburgh downtown"}
+            "courtyard by marriott pittsburgh downtown",
+            "doubletree by hilton pittsburgh airport",
+            "fairfield inn and suites pittsburgh neville island"}
         assert {e["normalized_name"] for e in category} == {
             "inn on negley", "choderwood", "the maverick by kasa"}
         for entry in rows:
@@ -235,6 +240,35 @@ class TestRoutingAndAuthorityIsolation:
         assert item["resolved"] is False
         queued = {q["identity_key"] for q in queue_doc()["items"]}
         assert "joinery hotel pittsburgh" in queued
+
+    def test_pass2_census_review_findings_carry_no_policy_authority(self):
+        # PGH-P2-D... census-review findings: workflow projections, never
+        # policy or closure decisions. Neither identity may appear in the
+        # published facts package or the exclusion registry.
+        facts = _load(PACKAGE / "hotel_policy_facts_pittsburgh-pa.json")
+        published_keys = {h["identity_key"] for h in facts["hotels"]}
+        exclusions = _load(PACKAGE / "hotel_exclusions.json")
+        excluded_norms = {e["normalized_name"] for e in exclusions["exclusions"]
+                          if e.get("market_id") == MARKET}
+        items = {i["identity_key"]: i for i in partition_doc()["items"]}
+        for key in ("courtyard by marriott pittsburgh shadyside",
+                    "shadyside inn suites"):
+            assert key not in published_keys
+            assert key not in excluded_norms
+            assert items[key]["final_state"] == "AWAITING_CENSUS_REVIEW"
+            assert items[key]["resolved"] is False
+
+    def test_mansions_on_fifth_remains_unresolved_no_authority(self):
+        # Founder: policy-silent first-party site, no founder decision.
+        # Silence is never a refusal.
+        key = "mansions on fifth"
+        facts = _load(PACKAGE / "hotel_policy_facts_pittsburgh-pa.json")
+        assert key not in {h["identity_key"] for h in facts["hotels"]}
+        exclusions = _load(PACKAGE / "hotel_exclusions.json")
+        assert key not in {e["normalized_name"] for e in exclusions["exclusions"]}
+        item = {i["identity_key"]: i for i in partition_doc()["items"]}[key]
+        assert item["final_state"] == "AWAITING_POLICY_OBSERVATION"
+        assert item["resolved"] is False
 
     def test_market_isolation_from_ohio(self):
         configured = {m.market_id for m in load_markets()}

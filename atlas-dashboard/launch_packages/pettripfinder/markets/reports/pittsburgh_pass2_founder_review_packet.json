@@ -1,0 +1,867 @@
+{
+ "schema": "ptf-pittsburgh-pass2-founder-review-packet/1.0",
+ "work_order": "PTF-PITTSBURGH-PASS2-CAPTURE-001",
+ "market_id": "pittsburgh-pa",
+ "base_commit": "4843a7d0c7b0331a67a219c446a5c2726e95e726",
+ "as_of": "2026-08-16",
+ "count": 11,
+ "note": "Every entry is PENDING. Nothing here publishes, approves, or excludes anything. Founder decisions must be made by the founder; no decision field may be filled in by an agent. Rows 9 (Courtyard Shadyside) and 57 (Shadyside Inn Suites) are NOT founder-decision candidates -- they are routing/census-review findings and are recorded only in pittsburgh_pass2_capture_results.json. Row 47 (Mansions on Fifth) is POLICY_NOT_FOUND and likewise carries no decision candidate.",
+ "entries": [
+  {
+   "decision_id": "PGH-P2-D001",
+   "decision_type": "VERIFIED_NO_PETS",
+   "hotel": "DoubleTree by Hilton Pittsburgh Airport",
+   "identity_key": "doubletree by hilton pittsburgh airport",
+   "corridor": "pittsburgh-pa__airport",
+   "official_candidate_url": "https://www.hilton.com/en/hotels/pitardt-doubletree-pittsburgh-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/pitardt-doubletree-pittsburgh-airport/",
+   "identity_binding": "PAGE_RENDERED: header 'DoubleTree by Hilton Hotel Pittsburgh Airport' + '8402 University Blvd, Moon Township, Pennsylvania, 15108, USA' (census match); the Pets policy panel itself is empty of content",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r13.html",
+     "artifact_kind": "rendered_html",
+     "artifact_sha256": "7efcb90b83d2d34d24b50f75bd9f0052aa920b018da9dcec538a65af68f49b02"
+    },
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r13.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "d850f8d9075b4687706244ae2b086c6fde2d7be83fb718c636c611b3efac5906"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets not allowed",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Refusal appears as an amenities-grid chip icon ('Pets not allowed'), not in the (empty) structured Pets tab; both surfaces are on the same first-party page."
+   ],
+   "proposed_rendering_summary": "VERIFIED_NO_PETS candidate: property's own amenities list states 'Pets not allowed.'",
+   "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "EXCLUDED_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "PGH-P2-D002",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Fairfield Inn & Suites by Marriott Pittsburgh Robinson Township",
+   "identity_key": "fairfield inn and suites by marriott pittsburgh robinson township",
+   "corridor": "pittsburgh-pa__robinson",
+   "official_candidate_url": "https://www.marriott.com/hotels/travel/pitwf-fairfield-inn-and-suites-pittsburgh-airport-robinson-township/",
+   "final_url": "https://www.marriott.com/hotels/travel/pitwf-fairfield-inn-and-suites-pittsburgh-airport-robinson-township/",
+   "identity_binding": "PAGE_RENDERED (screenshot frame): header 'Fairfield by Marriott Inn & Suites Pittsburgh Airport/Robinson Township' + '+1 412-859-9070'; body '1004 Sutherland Drive, Pittsburgh, Pennsylvania, USA, 15205' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r17.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "7500dd7de406c7e368faf1640530bf8b1212e023ff4ad486e03717ae398dad1b"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pet Policy",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets Welcome",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "75.00 non refundable fee. Limit of two pets per room. Only dogs are permitted.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Pet Weight: 50.0lbs",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount": 75,
+     "currency": "USD",
+     "refundable": false
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 50,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    }
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "'Only dogs are permitted' explicitly excludes cats.",
+    "Marriott blocked the blob-download artifact on this session; the operator screenshot carries identity and full policy in one frame.",
+    "Founder rule applied: no unstated basis/scope inferred beyond the exact source wording."
+   ],
+   "proposed_rendering_summary": "Dogs only, 2 max, 50 lb. $75 non-refundable (basis/scope unstated -> absent).",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D003",
+   "decision_type": "VERIFIED_NO_PETS",
+   "hotel": "Fairfield Inn & Suites Pittsburgh Neville Island",
+   "identity_key": "fairfield inn and suites pittsburgh neville island",
+   "corridor": "pittsburgh-pa__airport",
+   "official_candidate_url": "https://www.marriott.com/hotels/travel/pitnv-fairfield-inn-and-suites-pittsburgh-neville-island/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitnv-fairfield-inn-and-suites-pittsburgh-neville-island/overview/",
+   "identity_binding": "PAGE_RENDERED (screenshot frame): header 'Fairfield by Marriott Inn & Suites Pittsburgh Neville Island' + '+1 412-264-4722'; body '5850 Grand Avenue, Pittsburgh, Pennsylvania, USA, 15225' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r19.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "0e7ed237fb5ab11a13ae71179b9b386babd50b62b271eb344aa9575c6ae286bd"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pet Policy",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets Not Allowed",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [],
+   "proposed_rendering_summary": "VERIFIED_NO_PETS candidate: property's own page states 'Pets Not Allowed.'",
+   "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "EXCLUDED_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "PGH-P2-D004",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Hampton Inn & Suites Pittsburgh Airport South Settlers Ridge",
+   "identity_key": "hampton inn and suites pittsburgh airport south settlers ridge",
+   "corridor": "pittsburgh-pa__robinson",
+   "official_candidate_url": "https://www.hilton.com/en/hotels/pitsrhx-hampton-suites-pittsburgh-airport-south-settlers-ridge/",
+   "final_url": "https://www.hilton.com/en/hotels/pitsrhx-hampton-suites-pittsburgh-airport-south-settlers-ridge/",
+   "identity_binding": "PAGE_RENDERED: header 'HAMPTON INN & SUITES PITTSBURGH AIRPORT SOUTH-SETTLERS RIDGE' + '5000 Campbells Run Road, Pittsburgh, Pennsylvania, 15205, USA' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r20.html",
+     "artifact_kind": "rendered_html",
+     "artifact_sha256": "cd8c785db499b9bae210fa5cd63660a02d4248e3eef411071d4ff6340a69f415"
+    },
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r20.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "0486bafbc185c3cbe69049a520c26de78dbcd3453ad3b18640f3eaf9adf2d0d3"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets allowed",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Yes. $50.00 Non-refundable Fee",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount": 50,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false
+     },
+     {
+      "amount": 75,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Hilton renders the non-refundable fee under a 'Deposit' heading; only the body wording governs, per schema doctrine.",
+    "Founder rule applied: no unstated qualifiers added."
+   ],
+   "proposed_rendering_summary": "Dogs and cats, 2 max. $50/pet 1-4 nights, $75/pet 5+ nights, non-refundable.",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D005",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Hilton Garden Inn Pittsburgh Airport",
+   "identity_key": "hilton garden inn pittsburgh airport",
+   "corridor": "pittsburgh-pa__airport",
+   "official_candidate_url": "https://www.hilton.com/en/hotels/pitmtgi-hilton-garden-inn-pittsburgh-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/pitmtgi-hilton-garden-inn-pittsburgh-airport/",
+   "identity_binding": "PAGE_RENDERED: header 'Hilton Garden Inn Pittsburgh Airport' + '9600 University Blvd., Moon Township, Pennsylvania, 15108, USA' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r28.html",
+     "artifact_kind": "rendered_html",
+     "artifact_sha256": "3f2222a4de6016fcaa2bbc957ebb7554de9b0622ebcc5f2ccb55283711fa2bf1"
+    },
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r28.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "4a4c3e557216a17ca896eda151b6237ca5df452575b5a01b9f223e221b7aea12"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets allowed",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Yes. $75.00 Non-refundable Fee",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Max weight",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "75 lbs",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "$75(1-4n), $125(5+n) Emotional Support Animals are subject fees. ESA's are not covered by ADA laws.",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "fee_tiers": [
+     {
+      "amount": 75,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false
+     },
+     {
+      "amount": 125,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "general_restrictions": "Emotional Support Animals are subject to fees; ESAs are not covered by ADA laws."
+   },
+   "withheld_fields": [
+    {
+     "field": "species",
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "'Max size Medium' is shown alongside a 75 lb weight max but the page never states which species are accepted (no 'dog/cat only' or similar wording on this property, unlike its siblings) -- species is left unpublished rather than inferred from the sibling pattern.",
+     "quotes": [
+      "Max weight",
+      "75 lbs"
+     ]
+    }
+   ],
+   "contradiction_or_ambiguity_notes": [
+    "The ESA fee/ADA-coverage sentence is a conditional monetary/legal note about a specific animal category; recorded as a general restriction, never as a blanket service-animal statement.",
+    "Founder decision: species is NOT inferred as dogs+cats -- this property's own page never states the allowed species, so species stays absent/withheld rather than inherited from neighboring HGI properties. Fee/tier wording preserved exactly as captured."
+   ],
+   "proposed_rendering_summary": "Pets yes, 75 lb, $75/pet 1-4 nights & $125/pet 5+ nights (non-refundable). Species unstated -- absent. ESA fee note recorded as restriction.",
+   "recommended_founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D006",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Hilton Garden Inn Pittsburgh Airport South Robinson Mall",
+   "identity_key": "hilton garden inn pittsburgh airport south robinson mall",
+   "corridor": "pittsburgh-pa__robinson",
+   "official_candidate_url": "https://www.hilton.com/en/hotels/pitrogi-hilton-garden-inn-pittsburgh-airport-south-robinson-mall/",
+   "final_url": "https://www.hilton.com/en/hotels/pitrogi-hilton-garden-inn-pittsburgh-airport-south-robinson-mall/",
+   "identity_binding": "PAGE_RENDERED: header 'Hilton Garden Inn Pittsburgh Airport South-Robinson Mall' + '303 Park Manor Drive, Robinson, Pennsylvania, 15205, USA' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r29.html",
+     "artifact_kind": "rendered_html",
+     "artifact_sha256": "9eba4dade1ed2add461fc2a48aece1cc5da083db8607a7a00f273906e934873b"
+    },
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r29.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "714a0ce4c72ffc0ad0e2ed9082ed8bcf96ed90b293056b99671fe76566122520"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets allowed",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Yes. $75.00 Non-refundable Fee",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "1-4 night stay $75 5+ night stay $125 2 pets max dog or cat only",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount": 75,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false
+     },
+     {
+      "amount": 125,
+      "currency": "USD",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder rule applied: nothing inferred from sibling properties; $75 (1-4 nights) / $125 (5+ nights) approved exactly as captured."
+   ],
+   "proposed_rendering_summary": "Dogs and cats, 2 max. $75/pet 1-4 nights, $125/pet 5+ nights, non-refundable.",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D007",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Hilton Garden Inn Pittsburgh University Place",
+   "identity_key": "hilton garden inn pittsburgh university place",
+   "corridor": "pittsburgh-pa__oakland",
+   "official_candidate_url": "https://www.hilton.com/en/hotels/pitucgi-hilton-garden-inn-pittsburgh-university-place/",
+   "final_url": "https://www.hilton.com/en/hotels/pitucgi-hilton-garden-inn-pittsburgh-university-place/",
+   "identity_binding": "PAGE_RENDERED: header 'Hilton Garden Inn Pittsburgh University Place' + '3454 Forbes Avenue, Pittsburgh, Pennsylvania, 15213, USA' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r30.html",
+     "artifact_kind": "rendered_html",
+     "artifact_sha256": "643b62925d0ab2150cce4f260bb2b9e8d3dcb9dc36ed0ea206a36aa4a19994f4"
+    },
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r30.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "3ab4ea8952bb9a60ead7e6576345b32485e4c994565dbc3a37162d35c08c1802"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets allowed",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Yes. $75.00 Non-refundable Fee",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "Max weight",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "75 lbs",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    },
+    {
+     "quote": "2 Pets Max, dog/cat only. $75/stay for 1-4 nights. $125/stay for 4+ nights.",
+     "verification": "CONTIGUOUS_IN_RENDERED_HTML"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "fee_tiers": [
+     {
+      "amount": 75,
+      "currency": "USD",
+      "basis": "per_stay",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 3,
+      "basis_stated": true
+     },
+     {
+      "amount": 125,
+      "currency": "USD",
+      "basis": "per_stay",
+      "role": "replacement",
+      "condition_type": "stay_length",
+      "boundary_unit": "nights",
+      "condition_min": 4,
+      "basis_stated": true
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "This property's own boundary is worded '4+ nights', NOT '5+' like its sibling Hilton properties in this batch -- recorded exactly as stated (condition_min=4), never assumed from the sibling pattern.",
+    "'/stay' is explicit here, so basis_stated=true unlike the other two HGI rows in this batch.",
+    "Founder decision: the property's own page states its second tier as '4+ nights' -- that exact boundary is preserved and NOT normalized to '5+' to match sibling Hilton properties."
+   ],
+   "proposed_rendering_summary": "Dogs and cats, 2 max, 75 lb. $75/stay (1-3 nights), $125/stay (4+ nights), non-refundable.",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D008",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Hotel Indigo Pittsburgh East Liberty",
+   "identity_key": "hotel indigo pittsburgh east liberty",
+   "corridor": "pittsburgh-pa__east-end",
+   "official_candidate_url": "https://www.ihg.com/hotelindigo/hotels/us/en/pittsburgh/pithb/hoteldetail",
+   "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/pittsburgh/pithb/hoteldetail",
+   "identity_binding": "PAGE_RENDERED (DOM text, screenshot frame): '123 North Highland Avenue Pittsburgh, PA 15206 United States' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r37.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "a9e34be1d5dc37f07bd5f4862da27b82fb9eb54c63f0a0f7ba1d6d09cd135c85"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pets are welcome at Hotel Indigo Pittsburgh East Liberty.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "A 75 USD nonrefundable pet fee is required, along with current contact information.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Housekeeping service will only be conducted when pet is out of room.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets are not allowed to be left alone in room.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pet fee per night: 75 USD",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pet damage deposit: 75 USD",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pet weight limit: No weight limit per pet",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "2 pets allowed",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets allowed: Only dogs and cats allowed",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit_stated_none": true,
+    "pet_count_limit": 2,
+    "general_restrictions": "Housekeeping only when pet is out of room; pets may not be left alone in the room; current contact information required."
+   },
+   "withheld_fields": [
+    {
+     "field": "pet_fee",
+     "reason_code": "SOURCE_CONTRADICTORY",
+     "reason": "The same page states a nonrefundable pet fee (implying one per-stay charge), a structured 'Pet fee per night: 75 USD' line, AND a separate 'Pet damage deposit: 75 USD' line -- three different framings of $75 that cannot all be the same charge. Neither is chosen, averaged, or related.",
+     "quotes": [
+      "A 75 USD nonrefundable pet fee is required, along with current contact information.",
+      "Pet fee per night: 75 USD",
+      "Pet damage deposit: 75 USD"
+     ]
+    }
+   ],
+   "contradiction_or_ambiguity_notes": [
+    "'Only dogs and cats allowed' is explicit; 'No weight limit per pet' is the canonical stated-none case."
+   ],
+   "proposed_rendering_summary": "Dogs and cats, 2 max, no weight limit. Fee withheld: SOURCE_CONTRADICTORY (nightly vs per-stay vs deposit framings of $75 on one page).",
+   "recommended_founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D009",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Pittsburgh Airport Marriott",
+   "identity_key": "pittsburgh airport marriott",
+   "corridor": "pittsburgh-pa__airport",
+   "official_candidate_url": "https://www.marriott.com/hotels/travel/pitmc-pittsburgh-airport-marriott/",
+   "final_url": "https://www.marriott.com/hotels/travel/pitmc-pittsburgh-airport-marriott/",
+   "identity_binding": "PAGE_RENDERED (screenshot frame): header 'Pittsburgh Airport Marriott' + '+1 412-788-8800'; body '777 Aten Road, Coraopolis, Pennsylvania, USA, 15108' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r50.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "9a8fe4f165b9c162c51be38ed92471542bab0f09626b032cc942fe35a68622a9"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pet Policy",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets Welcome",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "2 pets up with USD 75 fee & signed pet waiver at check-in. Service dogs, no fee.",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $75.00",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Pet Weight: 75.0lbs",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount": 75,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable": false
+    },
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "general_restrictions": "A signed pet waiver is required at check-in.",
+    "service_animal_statement": "Service dogs stay free of charge."
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder decision: the signed-waiver requirement is recorded exactly as sourced, not broadened."
+   ],
+   "proposed_rendering_summary": "Pets welcome, 2 max, 75 lb. $75/stay non-refundable, signed waiver required. Service dogs free.",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D010",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Residence Inn Pittsburgh Oakland University Place",
+   "identity_key": "residence inn pittsburgh oakland university place",
+   "corridor": "pittsburgh-pa__oakland",
+   "official_candidate_url": "https://www.marriott.com/en-us/hotels/pitrd-residence-inn-pittsburgh-oakland-university-place/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitrd-residence-inn-pittsburgh-oakland-university-place/overview/",
+   "identity_binding": "PAGE_RENDERED (screenshot frame): header 'RESIDENCE INN BY MARRIOTT PITTSBURGH OAKLAND/UNIVERSITY PLACE' + '+1 412-621-5600'; body '3341 Forbes Avenue, Pittsburgh, Pennsylvania, USA, 15213' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r55.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "4a62cbede71983c5e7776a57ad6f4008768025455be91bdc512155d22f7b3549"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pet Policy",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets Welcome",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets up to 60lbs permitted on select floors, fee varies based on length of stay",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Pet Weight: 60.0lbs",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 60,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "general_restrictions": "Pets are permitted on select floors only."
+   },
+   "withheld_fields": [
+    {
+     "field": "pet_fee",
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "The property's own prose states the fee 'varies based on length of stay' (implying a tiered/variable charge), while the structured line states one flat 'Non-Refundable Pet Fee Per Stay: $100.00' with no tiers shown anywhere on the page. A single flat amount contradicts a stated variable fee, so no amount is published.",
+     "quotes": [
+      "fee varies based on length of stay",
+      "Non-Refundable Pet Fee Per Stay: $100.00"
+     ]
+    }
+   ],
+   "contradiction_or_ambiguity_notes": [],
+   "proposed_rendering_summary": "Pets yes, 2 max, 60 lb, select floors only. Fee withheld: SOURCE_AMBIGUOUS ('varies by length of stay' vs single flat $100 figure).",
+   "recommended_founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  },
+  {
+   "decision_id": "PGH-P2-D011",
+   "decision_type": "PUBLISH_POSITIVE",
+   "hotel": "Sheraton Pittsburgh Airport Hotel",
+   "identity_key": "sheraton pittsburgh airport hotel",
+   "corridor": "pittsburgh-pa__airport",
+   "official_candidate_url": "https://www.marriott.com/hotels/travel/pitsa-sheraton-pittsburgh-airport-hotel/",
+   "final_url": "https://www.marriott.com/hotels/travel/pitsa-sheraton-pittsburgh-airport-hotel/",
+   "identity_binding": "PAGE_RENDERED (screenshot frame): header 'Sheraton Pittsburgh Airport Hotel' + '+1 412-262-2400'; body '1160 Thorn Run Road, Coraopolis, Pennsylvania, USA, 15108' (census match)",
+   "artifacts": [
+    {
+     "artifact_file": "data/operator_evidence/pittsburgh-pass2-capture-001/ptf-pgh-p2-r58.jpg",
+     "artifact_kind": "operator_screenshot",
+     "artifact_sha256": "6072252776a81113bf116e819d0dedab6a13362da4fefd7af04b9df3d95cee6a"
+    }
+   ],
+   "quotes": [
+    {
+     "quote": "Pet Policy",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets Welcome",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Pets 40 pounds max allowed with non-refundable fee of USD 75 per room per stay",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $75.00",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Pet Weight: 40.0lbs",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "verification": "SCREENSHOT_TRANSCRIPTION"
+    }
+   ],
+   "proposed_schema_1_2_facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount": 75,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_room",
+     "refundable": false
+    },
+    "weight_limit": {
+     "value": 40,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room"
+   },
+   "withheld_fields": [],
+   "contradiction_or_ambiguity_notes": [
+    "Founder rule applied: no unstated species or other qualifiers added."
+   ],
+   "proposed_rendering_summary": "Pets welcome, 2 max, 40 lb. $75/room/stay non-refundable.",
+   "recommended_founder_decision": "APPROVE",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "founder_decision_recorded_at": "2026-08-16",
+   "founder_decision_source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+   "outcome": "PUBLISHED"
+  }
+ ],
+ "census_review_findings": {
+  "recorded_at": "2026-08-16",
+  "source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+  "items": [
+   {
+    "row_number": 9,
+    "hotel": "Courtyard Pittsburgh Shadyside",
+    "identity_key": "courtyard by marriott pittsburgh shadyside",
+    "founder_decision": "NO_PET_POLICY_DECISION",
+    "recommended_next_action": "AWAITING_CENSUS_REVIEW",
+    "note": "Founder: the queued Marriott URL is dead and the property is absent from Marriott's current nearby inventory. Do NOT mark VERIFIED_NO_PETS."
+   },
+   {
+    "row_number": 57,
+    "hotel": "Shadyside Inn All Suites Hotel",
+    "identity_key": "shadyside inn suites",
+    "founder_decision": "NO_PET_POLICY_DECISION",
+    "recommended_next_action": "AWAITING_CENSUS_REVIEW",
+    "recommended_disposition": "CLOSED_OR_CONVERTED (probable, not yet determined)",
+    "note": "Founder: the first-party site now presents a farewell/history page rather than an operating lodging business. Do not remove from the census until a census-review work order makes that determination."
+   }
+  ]
+ },
+ "policy_not_found_findings": {
+  "recorded_at": "2026-08-16",
+  "source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+  "items": [
+   {
+    "row_number": 47,
+    "hotel": "Mansions on Fifth",
+    "identity_key": "mansions on fifth",
+    "founder_decision": "NO_FOUNDER_POLICY_DECISION",
+    "recommended_next_action": "AWAITING_POLICY_OBSERVATION",
+    "note": "Founder: first-party site was policy-silent. Silence = absence, never a refusal."
+   }
+  ]
+ },
+ "batch_decisions": {
+  "recorded_at": "2026-08-16",
+  "source": "Founder instruction: PITTSBURGH PASS 2 - FOUNDER DECISIONS, issued in chat by the founder on 2026-08-16",
+  "totals": {
+   "APPROVE_VERIFIED_NO_PETS": [
+    "PGH-P2-D001",
+    "PGH-P2-D003"
+   ],
+   "APPROVE_PUBLISH_STRUCTURED": [
+    "PGH-P2-D002",
+    "PGH-P2-D004",
+    "PGH-P2-D006",
+    "PGH-P2-D007",
+    "PGH-P2-D009",
+    "PGH-P2-D011"
+   ],
+   "APPROVE_WITH_CHANGE": [
+    "PGH-P2-D005",
+    "PGH-P2-D008",
+    "PGH-P2-D010"
+   ],
+   "HOLD": []
+  },
+  "authority_applied": false
+ },
+ "status": "FOUNDER_DECIDED_AND_APPLIED",
+ "applied_at": "2026-08-16",
+ "application_work_order": "PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001"
+}

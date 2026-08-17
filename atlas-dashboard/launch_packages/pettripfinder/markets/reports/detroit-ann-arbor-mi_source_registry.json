@@ -1,0 +1,121 @@
+{
+  "schema": "ptf-detroit-ann-arbor-source-registry/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-17",
+  "count": 7,
+  "sources": [
+    {
+      "source_id": "visit_detroit",
+      "name": "Visit Detroit Detroit Hotel Guide",
+      "organization": "Detroit Metro Convention & Visitors Bureau",
+      "source_type": "CVB",
+      "family": "CVB",
+      "url": "https://visitdetroit.com/detroit-hotel-guide/",
+      "geographic_coverage": "Detroit metro: Downtown Detroit, Wayne County/Dearborn, Oakland County, Macomb County, DTW Airport",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity",
+      "limitations": "The guide names hotels by neighborhood grouping and does not publish street addresses; identity confidence rests on the CVB's own unambiguous naming of a distinct property, not a transcribed address. Macomb County rows sourced here are boundary-excluded from this market.",
+      "automated_access": "static_html"
+    },
+    {
+      "source_id": "destination_ann_arbor",
+      "name": "Destination Ann Arbor places-to-stay directory",
+      "organization": "Destination Ann Arbor / Washtenaw County CVB",
+      "source_type": "CVB",
+      "family": "CVB",
+      "url": "https://www.annarbor.org/places-to-stay/hotels/",
+      "geographic_coverage": "Ann Arbor, Ypsilanti, and surrounding Washtenaw County destinations",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity_when_listing_page_states_address",
+      "limitations": "The top-level hotels index is a JavaScript-rendered widget not readable as static HTML; individual /listing/ pages and the Ypsilanti/Saline/Chelsea surrounding-destination pages were readable and used directly. Not every listing page states a street address.",
+      "automated_access": "static_html_partial"
+    },
+    {
+      "source_id": "dearborn_chamber",
+      "name": "Dearborn Area Chamber of Commerce member directory",
+      "organization": "Dearborn Area Chamber of Commerce",
+      "source_type": "destination_partner",
+      "family": "DIRECTORY",
+      "url": "https://www.dearbornareachamber.org/directory/",
+      "geographic_coverage": "Dearborn",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity",
+      "limitations": "Directory search results reachable per-listing rather than as one paginated category export; treated as PARTIAL harvesting.",
+      "automated_access": "static_html_partial"
+    },
+    {
+      "source_id": "auburn_hills_chamber",
+      "name": "Auburn Hills Chamber of Commerce hotels category",
+      "organization": "Auburn Hills Chamber of Commerce",
+      "source_type": "destination_partner",
+      "family": "DIRECTORY",
+      "url": "https://business.auburnhillschamber.com/list/category/hotels-479",
+      "geographic_coverage": "Auburn Hills, Troy, Rochester, Birmingham, Bloomfield Hills, Pontiac, Orion Township",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity",
+      "limitations": "Members with addresses far outside the market (Mackinac Island, East Lansing) and at least one non-lodging member (an AV retailer) appear in the 'hotels' category and are excluded/flagged rather than trusted blindly.",
+      "automated_access": "static_html"
+    },
+    {
+      "source_id": "vibe_showplace",
+      "name": "Vibe Credit Union Showplace official partner hotels",
+      "organization": "Vibe Credit Union Showplace (formerly Suburban Collection Showplace)",
+      "source_type": "destination_partner",
+      "family": "DIRECTORY",
+      "url": "https://www.vibeshowplace.com/hotels",
+      "geographic_coverage": "Novi and Wixom, adjacent to the venue",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity",
+      "limitations": "Only the anchor Hyatt Place listing carries a full street address on this page; the rest are named with distance-from-venue only.",
+      "automated_access": "static_html"
+    },
+    {
+      "source_id": "chain_locator",
+      "name": "First-party brand locator pages (Wyndham/Hilton/IHG/Choice/Motel 6)",
+      "organization": "Individual hotel brands",
+      "source_type": "official_business",
+      "family": "CHAIN",
+      "url": "https://www.wyndhamhotels.com/ ; https://www.hilton.com/ ; https://www.ihg.com/ ; https://www.choicehotels.com/ ; https://www.motel6.com/",
+      "geographic_coverage": "Romulus, Auburn Hills, Ann Arbor",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "authority_for_identity_and_url",
+      "limitations": "Used only where a specific first-party property page URL was directly observed; every row from this source carries that real, unfabricated URL.",
+      "automated_access": "static_html"
+    },
+    {
+      "source_id": "chain_aggregate",
+      "name": "Aggregated brand-locator discovery (no single directory page)",
+      "organization": "Multiple hotel brands, discovered via search aggregation",
+      "source_type": "aggregator",
+      "family": "CHAIN",
+      "url": "",
+      "geographic_coverage": "Southfield, Troy, Auburn Hills gap-fill, Novi gap-fill, Farmington Hills, Livonia/Plymouth/Northville, Dearborn gap-fill, DTW gap-fill",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-16",
+      "status": "discovery_and_gap_fill_evidence",
+      "limitations": "No single authoritative directory page exists for these suburbs; property names are corroborated across multiple booking aggregators citing the brand's own hotel, but no independently sourced street address was recovered. Every row from this source is IDENTITY_PROVISIONAL, the same treatment Pittsburgh gave its GPHA-only gap-fill rows.",
+      "automated_access": "search_aggregation"
+    }
+  ]
+}

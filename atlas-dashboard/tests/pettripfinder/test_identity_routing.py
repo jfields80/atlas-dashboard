@@ -218,7 +218,16 @@ def test_committed_authority_validates(routes):
     # 87 after Pass 3; 90 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for
     # the three official URLs it found (Magnuson Canton, Quality Inn
     # Akron South, the American Croatian Lodge).
-    assert len(routes) == 67
+    # 90 -> 300: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened Cincinnati
+    # routing for the first time, all 210 CONFIRMED (223 targets adjudicated,
+    # 12 ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
+    # excluded). Columbus and Dayton are unchanged.
+    # 300 -> 277: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
+    # Cleveland routing placeholders as their identities each reached a
+    # final publication or exclusion disposition (18 publications, incl. two
+    # renames, and 5 verified-no-pets); a published or excluded identity no
+    # longer needs a routing-only record.
+    assert len(routes) == 277
 
 
 def test_committed_authority_split(routes):
@@ -248,7 +257,14 @@ def test_committed_authority_split(routes):
     # North Canton moved CONFIRMED -> HELD because bestwestern.com
     # refuses to serve its property page (closure NOT inferred; the
     # Canton CVB lists it operating).
-    assert len(confirmed) == 55
+    # 78 -> 288: all 210 new Cincinnati routes are ROUTING_CONFIRMED (every
+    # target that reached routing authority carried a verified URL with
+    # street/ZIP/phone-where-available binding; nothing was written HELD).
+    # held and retired are untouched by Cincinnati.
+    # 288 -> 265: all 23 of Cleveland Pass 4's retirements were themselves
+    # ROUTING_CONFIRMED routes (every disposed identity had a confirmed
+    # binding before it published or excluded); held and retired stay 10/2.
+    assert len(confirmed) == 265
     assert len(held) == 10
     assert len(retired) == 2
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
@@ -306,7 +322,15 @@ def test_every_committed_record_preserves_index_binding(routes):
     # created routes whose non-bot-walled pages rendered for this session
     # with the census identity on them (wyndhamhotels.com, sonesta.com,
     # magnusonhotels.com and nine first-party independents).
-    assert len(rendered) == 12
+    # 18 -> 36: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C adds 18 more --
+    # independent first-party sites whose own page content bound the
+    # identity (21c Museum, Golden Lamb, Great Wolf Lodge, Motel Beechmont,
+    # REST, Symphony Hotel & Restaurant, The Elms, The Summit Hotel,
+    # Wildwood Inn and others), none on a bot-walled brand domain.
+    # 36 -> 30: six of Cleveland Pass 4's 23 retired routes were themselves
+    # PAGE_RENDERED (their identities published or excluded, so the
+    # rendered-page routing placeholder that got them there is retired too).
+    assert len(rendered) == 30
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -328,7 +352,7 @@ def test_every_committed_route_is_in_a_known_market(routes):
     What must never appear is a route with no market or a market the config does
     not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
@@ -453,7 +477,21 @@ def test_routing_adds_capture_ready_hotels(queues):
     # contribution is unchanged.
     # 86 -> 84: two routed hotels became inventory and no longer need a
     # route to reach the capture queue.
-    assert len(routed.selected) - len(base.selected) == 6  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
+    # 26 -> 168: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened Cincinnati
+    # routing (210 new routes). 142 of them are capture-shaped -- a
+    # registered brand adapter plus an https official URL -- broken down by
+    # brand: hilton 49, marriott 27, choice 21, ihg 15, wyndham 13,
+    # redroof 6, bestwestern 5, extendedstay 4, drury 2 (=142, isolated by
+    # re-running the queue with Cincinnati's routes filtered out and
+    # diffing). The other 68 (the 40 independents plus lanes this registry
+    # does not adapt) are retained in identity_routing.json as real routing
+    # but are not yet capture-eligible.
+    # 168 -> 148: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 retired 23
+    # Cleveland routing placeholders as their identities published or were
+    # excluded; a route that no longer exists cannot add a queue row, and
+    # this rerun of the queue against the merged routing authority is the
+    # derivation for the new delta.
+    assert len(routed.selected) - len(base.selected) == 148
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -470,7 +508,16 @@ def test_routing_carries_more_than_one_market(queues):
     # 60 -> 147: PTF-CLEVELAND-URL-RECOVERY-WORKER-002 recovered official URLs
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
     # 147 -> 145, the same two retirements.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 38  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    # 38 after PTF-CLEVELAND-ROUTING-REPAIR-001; unchanged at 38 through
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001, whose 23 retirements
+    # came entirely from the pre-repair 61 placeholders those decisions
+    # settled -- the repair-created routes were not among them.
+    assert len(by_market["cleveland-akron-canton-oh"]) == 38
+    assert len(by_market["dayton-oh"]) == 9
+    # First-time Cincinnati routing: 223 targets adjudicated, 210 routed (12
+    # ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
+    # excluded -- see PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C).
+    assert len(by_market["cincinnati-oh"]) == 210
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -487,7 +534,14 @@ def test_routing_carries_more_than_one_market(queues):
     # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
     # those 74 (the Drury pair), so their routes retired and they reach the
     # queue as inventory rather than as routing.
-    assert len(added) == 6  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
+    # 26 -> 168: Cincinnati's first routing pass contributes 142 capture-shaped
+    # rows (see test_routing_adds_capture_ready_hotels for the per-brand
+    # split); Cleveland and Columbus are unchanged.
+    # 168 -> 148: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001's 23 route
+    # retirements remove their contribution to the capture-ready set; the
+    # exact new figure is the rerun against the merged routing authority,
+    # same derivation as test_routing_adds_capture_ready_hotels above.
+    assert len(added) == 148
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
