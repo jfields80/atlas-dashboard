@@ -1,11 +1,11 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004-IDENTITY-D001-D002",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
   "counts": {
-    "canonical": 183,
-    "duplicate": 0,
+    "canonical": 182,
+    "duplicate": 1,
     "boundary_excluded": 17,
     "closed": 2,
     "category_excluded_in_census": 1,
@@ -178,6 +178,14 @@
       "disposition": "corrected",
       "duplicate_of": "",
       "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: The address recorded in Pass 002 (5150 Coolidge Hwy) does not match this property's own live IHG page (property code dtwro, unchanged) -- the real address is 5125 Meijer Drive. Not a rename: same identity_key, same canonical_name, address/phone corrected to match the property's own page.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "homewood suites by hilton novi detroit",
+      "canonical_name": "Homewood Suites by Hilton Novi Detroit",
+      "disposition": "duplicate",
+      "duplicate_of": "homewood suites by hilton novi",
+      "notes": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004-IDENTITY-D001-D002: founder-confirmed CONFIRMED_DUPLICATE. Identical hilton.com official_property_url and the same address/phone (modulo 'Dr' vs 'Drive', '248-...' vs '+1 248-...') as 'homewood suites by hilton novi', which was added earlier (IDENTITY-ROUTING-REPAIR-001) and already carries the market's routing record for this property; this row was added later (CENSUS-COMPLETENESS-003) without recognizing the existing identity. No second route was ever created for it.",
       "source": "chain_locator_003"
     }
   ]

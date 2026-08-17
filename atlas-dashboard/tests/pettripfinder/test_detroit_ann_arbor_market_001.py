@@ -34,7 +34,17 @@ convergent first-party re-verification -- "Best Western Premier Detroit
 Southfield Hotel" renamed in place to "Radisson Hotel Southfield-Detroit"
 (same address/phone, converted brand, former_name preserved) and
 "Staybridge Suites Detroit North - Royal Oak"'s address fixed to match
-its own IHG property page. 168 identities remain unresolved.
+its own IHG property page. 168 identities remain unresolved. As of
+PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004's founder identity follow-up
+(D001/D002), two more decisions landed: "Homewood Suites by Hilton Novi
+Detroit" was retired as a confirmed duplicate of "Homewood Suites by
+Hilton Novi" (identical hilton.com URL and address/phone, added under a
+second name by a later pass), dropping the census from 183 to 182 and
+raising the duplicate-ledger count to 1; "Best Western Greenfield Inn"'s
+city was corrected Dearborn -> Allen Park (address/ZIP/phone/URL/corridor
+all unchanged, via a one-hotel explicit corridor override -- Allen Park
+is still not in any corridor's included_cities). 167 identities remain
+unresolved.
 """
 
 from __future__ import annotations
@@ -57,14 +67,14 @@ MARKET = "detroit-ann-arbor-mi"
 
 EXPECTED = {
     "candidates": 152,
-    "census": 183,
+    "census": 182,
     "published": 7,
     "no_pets": 7,
     "out_of_category": 1,
-    "unresolved": 168,
-    "queue": 168,
+    "unresolved": 167,
+    "queue": 167,
     "boundary_excluded": 17,
-    "duplicates": 0,
+    "duplicates": 1,
 }
 
 
