@@ -807,6 +807,10 @@ class TestBrandSurfaceRepair001:
         assert repair["attended_required"] == 6
         assert repair["generic_capture_rerun"] is False
         assert repair["authority_changed"] is False
+        for row in repair["rows"]:
+            assert row["outcome_if_policy_remains_absent"].startswith(
+                "POLICY_NOT_FOUND"
+            )
         by = {r["identity_key"]: r for r in repair["rows"]}
         assert by["myriad hotel"]["reclassified_outcome"] == "POLICY_NOT_FOUND"
         assert by["myriad hotel"]["retain_policy_not_found"] is True
@@ -849,6 +853,10 @@ class TestBrandSurfaceRepair001:
             assert row["identity_check"]
             assert row["artifact_requirement"]
             assert row["rate_limit_session_caution"]
+            assert row["outcome_if_policy_remains_absent"].startswith(
+                "POLICY_NOT_FOUND"
+            )
+            assert "VERIFIED_NO_PETS" in row["outcome_if_policy_remains_absent"]
         rec = partition.reconcile(census.identity_keys(_census()), _partition(),
                                   market_id=MARKET)
         assert rec.published == 0

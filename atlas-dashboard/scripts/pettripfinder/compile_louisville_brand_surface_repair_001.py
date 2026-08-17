@@ -23,6 +23,10 @@ CENSUS = PKG / "identity_census" / "louisville-ky.json"
 PARTITION = PKG / "louisville_final_partition_001.json"
 WORK = "PTF-LOUISVILLE-BRAND-SURFACE-REPAIR-001"
 AS_OF = "2026-08-16"
+ABSENT = (
+    "POLICY_NOT_FOUND. Silence is never VERIFIED_NO_PETS. Do not infer a "
+    "refusal from an empty policy slot or a missing page."
+)
 
 WYNDHAM = {
     "baymont by wyndham louisville airport south": (
@@ -86,6 +90,7 @@ def _wyndham(row):
         ("session_caution",
          "One fresh desktop session per property. Do not reuse a blocked "
          "static GET."),
+        ("outcome_if_policy_remains_absent", ABSENT),
     ))
 
 
@@ -123,6 +128,7 @@ def _ihg(row):
          "structural. No sibling IHG inheritance."),
         ("session_caution",
          "Fresh session. Do not loop the same 403 route."),
+        ("outcome_if_policy_remains_absent", ABSENT),
     ))
 
 
@@ -159,6 +165,7 @@ def _redroof(row):
          "inherit Cleveland/Columbus Red Roof schedules."),
         ("session_caution",
          "Attended browser. Do not reuse the blocked static GET."),
+        ("outcome_if_policy_remains_absent", ABSENT),
     ))
 
 
@@ -193,6 +200,7 @@ def main() -> None:
             ("artifact_requirement", ""),
             ("session_caution",
              "Do not keep retrying Myriad first-party pages."),
+            ("outcome_if_policy_remains_absent", ABSENT),
         )),
         "studio 6 louisville airport expo center": lambda row: OrderedDict((
             ("decision_id", row["decision_id"]),
@@ -227,6 +235,7 @@ def main() -> None:
             ("artifact_requirement",
              "Rendered publication-grade HTML of THIS property URL."),
             ("session_caution", "Do not loop the timed-out static GET."),
+            ("outcome_if_policy_remains_absent", ABSENT),
         )),
     }
     rows = []
@@ -305,6 +314,8 @@ def main() -> None:
                 ("identity_check", r["identity_check"]),
                 ("artifact_requirement", r["artifact_requirement"]),
                 ("rate_limit_session_caution", r["session_caution"]),
+                ("outcome_if_policy_remains_absent",
+                 r["outcome_if_policy_remains_absent"]),
             ))
             for i, r in enumerate(queue, start=1)
         ]),
