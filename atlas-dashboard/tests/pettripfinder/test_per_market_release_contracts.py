@@ -134,15 +134,29 @@ class TestContractRegistry:
         ``derive_authority`` refuses outright rather than inventing an empty
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
+        PTF-INDIANAPOLIS-DECISION-APPLICATION-001 wrote
+        hotel_policy_facts_indianapolis-in.json with published:false. File
+        presence is not a release. An unpublished package is recorded
+        authority, not verified inventory a contract could describe.
+
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
         configured.
         """
         configured = {m.market_id for m in load_markets()}
-        releasable = {m for m in configured
-                      if (REPO_ROOT / "launch_packages" / "pettripfinder"
-                          / ("hotel_policy_facts_%s.json" % m)).exists()
-                      or m == COLUMBUS}
+        releasable = set()
+        for mid in configured:
+            if mid == COLUMBUS:
+                releasable.add(mid)
+                continue
+            path = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                    / ("hotel_policy_facts_%s.json" % mid))
+            if not path.is_file():
+                continue
+            doc = json.loads(path.read_text(encoding="utf-8-sig"))
+            if doc.get("published") is False:
+                continue
+            releasable.add(mid)
         assert releasable == set(MARKETS)
         assert set(available_market_ids()) == releasable
         assert set(available_market_ids()) <= configured

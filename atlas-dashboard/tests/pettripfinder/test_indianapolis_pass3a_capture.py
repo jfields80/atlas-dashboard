@@ -77,11 +77,15 @@ def test_pass3a_authority_untouched():
     assert packet["authority_changed"] is False
     assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
     assert packet["hilton_remaining"] == 6
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "founder_decisions_applied"] is False
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[

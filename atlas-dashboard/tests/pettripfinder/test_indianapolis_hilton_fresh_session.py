@@ -76,10 +76,14 @@ def test_hilton_authority_untouched():
     assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
     assert results["authority_freeze"]["pass2_decisions_applied"] is False
     assert results["authority_freeze"]["pass3a_decisions_applied"] is False
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]
     assert _json(QUEUE)["executed"] is True
     assert _json(QUEUE)["require_fresh_browser_session"] is True

@@ -42,14 +42,15 @@ def test_outcome_counts_sum_to_ten():
 
 
 def test_no_indianapolis_authority_was_written():
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     routing = _json(PACKAGE / "identity_routing.json")
     assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
     exclusions = _json(PACKAGE / "hotel_exclusions.json")
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
     indy = [e for e in records if e.get("market_id") == MARKET]
-    assert [e["exclusion_id"] for e in indy] == [
-        "indy-crowne-plaza-indianapolis-airport"]
+    assert "indy-crowne-plaza-indianapolis-airport" in {
+        e["exclusion_id"] for e in indy}
+    assert len(indy) == 4
 
 
 def test_negative_candidate_is_crowne_airport_with_contiguous_quote():

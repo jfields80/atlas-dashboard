@@ -55,8 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
-    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 1,
-                   "out_of_category": 0, "unresolved": 152},
+    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 4,
+                   "out_of_category": 0, "unresolved": 149},
 }
 
 
@@ -295,22 +295,40 @@ class TestTerminalDispositionsMatchAuthority:
         assert not (states & set(enums.TERMINAL_STATES))
         assert len(doc["items"]) == 121
 
-    def test_indianapolis_publishes_nothing_and_has_one_verified_refusal(self):
-        """Pass 1 applied one VERIFIED_NO_PETS; the market still publishes zero."""
+    def test_indianapolis_publishes_nothing_and_has_four_verified_refusals(self):
+        """Application applied four VERIFIED_NO_PETS; the market still publishes zero."""
+        no_pets = {
+            "crowne plaza indianapolis airport",
+            "courtyard by marriott indianapolis castleton",
+            "crowne plaza indianapolis downtown union station",
+            "fairfield inn and suites indianapolis airport",
+        }
+        confirmed = {
+            "holiday inn express plainfield",
+            "le meridien indianapolis",
+            "residence inn by marriott indianapolis airport",
+            "hampton inn and suites indianapolis airport",
+            "hampton inn and suites indianapolis keystone",
+            "hampton inn and suites indianapolis west speedway",
+            "hampton inn indianapolis northeast castleton",
+            "hilton garden inn indianapolis airport",
+        }
         doc = partition_doc(INDIANAPOLIS)
         states = {i["final_state"] for i in doc["items"]}
         assert states & set(enums.TERMINAL_STATES) == {enums.VERIFIED_NO_PETS}
         assert len(doc["items"]) == 153
         refused = [i for i in doc["items"]
                    if i["final_state"] == enums.VERIFIED_NO_PETS]
-        assert [i["identity_key"] for i in refused] == [
-            "crowne plaza indianapolis airport"]
+        assert {i["identity_key"] for i in refused} == no_pets
         census = census_doc(INDIANAPOLIS)
         by_key = {r["identity_key"]: r["policy_state"] for r in census["hotels"]}
-        assert by_key["crowne plaza indianapolis airport"] == enums.VERIFIED_NO_PETS
+        assert {key for key, state in by_key.items()
+                if state == enums.VERIFIED_NO_PETS} == no_pets
+        assert {key for key, state in by_key.items()
+                if state == enums.POLICY_CONFIRMED} == confirmed
         assert all(state == enums.POLICY_NOT_VERIFIED
                    for key, state in by_key.items()
-                   if key != "crowne plaza indianapolis airport")
+                   if key not in no_pets and key not in confirmed)
 
 
 # --------------------------------------------------------------------------

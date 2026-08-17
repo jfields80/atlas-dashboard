@@ -53,7 +53,7 @@ def test_outcome_counts_sum_to_ten_and_authority_untouched():
     assert packet["authority_changed"] is False
     assert len(packet["positive_candidates"]) == 2
     assert len(packet["negative_candidates"]) == 3
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
 
 
 def test_crowne_downtown_refusal_is_independent_of_airport():
@@ -305,12 +305,16 @@ def test_authority_freeze_and_benchmark():
     assert packet["founder_decisions_applied"] is False
     assert packet["authority_changed"] is False
     assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     exclusions = _json(PACKAGE / "hotel_exclusions.json")
     indy = [e for e in exclusions["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]
     bench = results["speed_benchmark"]
     assert bench["total_elapsed_seconds"] == 1179.09
     assert bench["rows_attempted"] == 10

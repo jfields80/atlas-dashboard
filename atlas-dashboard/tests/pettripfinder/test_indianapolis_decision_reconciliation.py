@@ -39,31 +39,36 @@ def test_hilton_decisions_recorded_not_applied():
     hold = rec["identity_holds"][0]
     assert hold["decision"] == "HOLD_IDENTITY_UNCERTAIN"
     assert "9025 Hatfield" in hold["next_action"]
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
 
 
-def test_reconciliation_totals_and_application_not_executed():
+def test_reconciliation_totals_and_application_executed_unpublished():
     recon = _json(RECON)
     tot = recon["totals"]
     assert tot["approved_positive_publications"] == 8
     assert tot["approved_verified_no_pets"] == 4
     assert tot["identity_holds"] == 7
-    assert tot["decisions_applied"] == 1
+    assert tot["decisions_applied"] == 12
     assert tot["remaining_unresolved_capture_ready_rows"] == 0
     assert tot["remaining_identity_repair_rows"] == 7
     assert recon["authority_live"]["published_pet_friendly"] == 0
-    assert recon["authority_live"]["verified_no_pets"] == 1
-    applied = [r for r in recon["approved_verified_no_pets"]["rows"]
+    assert recon["authority_live"]["verified_no_pets"] == 4
+    assert recon["approved_positive_publications"]["applied"] == 8
+    assert recon["approved_positive_publications"]["published"] is False
+    assert recon["approved_verified_no_pets"]["applied"] == 4
+    assert recon["approved_verified_no_pets"]["already_applied_before_this_order"] == [
+        "INDY-P1-007"]
+    assert recon["approved_verified_no_pets"]["applied_by_this_order"] == [
+        "INDY-P2-003", "INDY-P2-004", "INDY-P2-006"]
+    applied = [r["decision_id"] for r in recon["approved_verified_no_pets"]["rows"]
                if r["status"] == "APPLIED"]
-    assert applied == [{
-        "decision_id": "INDY-P1-007",
-        "identity_key": "crowne plaza indianapolis airport",
-        "status": "APPLIED",
-    }]
+    assert applied == [
+        "INDY-P1-007", "INDY-P2-003", "INDY-P2-004", "INDY-P2-006"]
     app = _json(APPLY)
     assert app["work_order"] == "PTF-INDIANAPOLIS-DECISION-APPLICATION-001"
-    assert app["executed"] is False
-    assert app["status"] == "PREPARED_NOT_EXECUTED"
+    assert app["executed"] is True
+    assert app["status"] == "EXECUTED"
+    assert app["published"] is False
     assert len(app["would_apply_positives"]) == 8
     assert len(app["would_apply_verified_no_pets"]) == 3
     assert app["already_applied"] == ["INDY-P1-007"]
@@ -71,4 +76,8 @@ def test_reconciliation_totals_and_application_not_executed():
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]

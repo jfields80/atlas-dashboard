@@ -29,8 +29,8 @@ def test_crowne_airport_exclusion_remains_applied():
         market_id="indianapolis-in")
     assert rec.agrees
     assert rec.published == 0
-    assert rec.verified_no_pets == 1
-    assert rec.unresolved == 152
+    assert rec.verified_no_pets == 4
+    assert rec.unresolved == 149
 
 
 def test_eight_identity_rows_are_classified_without_policy_inference():
@@ -94,4 +94,5 @@ def repair_ready_count():
 
 
 def test_no_indianapolis_policy_package():
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    facts = _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")
+    assert facts["published"] is False

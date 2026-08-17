@@ -49,11 +49,15 @@ def test_residence_inn_decision_recorded_not_applied():
     assert hold["applied"] is False
     assert "street" in hold["next_action"].lower()
     assert rec["undecided"] == []
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "status"] == "RECORDED_NOT_APPLIED"
     assert _json(HILTON)["executed"] is True

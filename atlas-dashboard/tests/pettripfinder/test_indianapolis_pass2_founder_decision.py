@@ -31,11 +31,15 @@ def test_decisions_are_recorded_and_not_applied():
     assert rec["counts"]["decisions_applied"] == 0
     assert all(d["applied"] is False for d in rec["positive_decisions"])
     assert all(d["applied"] is False for d in rec["negative_decisions"])
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport"]
+        "crowne plaza indianapolis airport",
+        "courtyard by marriott indianapolis castleton",
+        "crowne plaza indianapolis downtown union station",
+        "fairfield inn and suites indianapolis airport",
+    ]
 
 
 def test_approved_fields_match_founder_limits():

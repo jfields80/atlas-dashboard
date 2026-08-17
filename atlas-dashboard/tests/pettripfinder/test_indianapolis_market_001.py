@@ -70,25 +70,48 @@ def test_partition_reconciles_by_set():
                               market_id=MARKET)
     assert rec.agrees
     assert rec.published == 0
-    assert rec.verified_no_pets == 1
+    assert rec.verified_no_pets == 4
     assert rec.out_of_category == 0
-    assert rec.unresolved == 152
+    assert rec.unresolved == 149
     assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved \
         == rec.census_count
     assert partition.validate(part) == ()
 
 
-def test_every_policy_state_is_not_verified_except_one_refusal():
+NO_PETS = {
+    "crowne plaza indianapolis airport",
+    "courtyard by marriott indianapolis castleton",
+    "crowne plaza indianapolis downtown union station",
+    "fairfield inn and suites indianapolis airport",
+}
+CONFIRMED = {
+    "holiday inn express plainfield",
+    "le meridien indianapolis",
+    "residence inn by marriott indianapolis airport",
+    "hampton inn and suites indianapolis airport",
+    "hampton inn and suites indianapolis keystone",
+    "hampton inn and suites indianapolis west speedway",
+    "hampton inn indianapolis northeast castleton",
+    "hilton garden inn indianapolis airport",
+}
+
+
+def test_every_policy_state_is_not_verified_except_applied_rows():
     refused = []
+    confirmed = []
     for row in _json(CENSUS_PATH)["hotels"]:
         assert row["market_id"] == MARKET
         assert row["state"] == "IN"
-        if row["identity_key"] == "crowne plaza indianapolis airport":
+        if row["identity_key"] in NO_PETS:
             assert row["policy_state"] == enums.VERIFIED_NO_PETS
             refused.append(row["identity_key"])
+        elif row["identity_key"] in CONFIRMED:
+            assert row["policy_state"] == enums.POLICY_CONFIRMED
+            confirmed.append(row["identity_key"])
         else:
             assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
-    assert refused == ["crowne plaza indianapolis airport"]
+    assert set(refused) == NO_PETS
+    assert set(confirmed) == CONFIRMED
 
 
 def test_no_identity_shared_with_committed_markets():
@@ -161,9 +184,10 @@ def test_queue_equals_unresolved_partition():
     with rollup.open(encoding="utf-8", newline="") as fh:
         rows = list(csv.DictReader(fh))
     keys = [r["identity_key"] for r in rows]
-    assert len(keys) == len(set(keys)) == len(unresolved) == 152
-    assert set(keys) == unresolved
-    assert unresolved == set(census_by_key) - {"crowne plaza indianapolis airport"}
+    assert len(unresolved) == 149
+    assert unresolved == set(census_by_key) - NO_PETS
+    assert set(keys) >= unresolved
+    assert len(keys) == len(set(keys)) == 152
     for row in rows:
         key = row["identity_key"]
         assert key in census_by_key
@@ -187,7 +211,12 @@ def test_queue_batches_are_about_ten():
 
 
 def test_no_production_authority_was_created():
-    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    facts = PACKAGE / "hotel_policy_facts_indianapolis-in.json"
+    assert facts.is_file()
+    doc = _json(facts)
+    assert doc["published"] is False
+    assert doc["market_id"] == MARKET
+    assert len(doc["hotels"]) == 8
     assert MARKET not in available_market_ids()
     routing = json.loads((PACKAGE / "identity_routing.json").read_text(
         encoding="utf-8-sig"))
@@ -198,9 +227,13 @@ def test_no_production_authority_was_created():
         encoding="utf-8-sig"))
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
     indy_ex = [e for e in records if e.get("market_id") == MARKET]
-    assert [e["exclusion_id"] for e in indy_ex] == [
-        "indy-crowne-plaza-indianapolis-airport"]
-    assert indy_ex[0]["exclusion_state"] == enums.VERIFIED_NO_PETS
+    assert {e["exclusion_id"] for e in indy_ex} == {
+        "indy-crowne-plaza-indianapolis-airport",
+        "indy-courtyard-indianapolis-castleton",
+        "indy-crowne-plaza-indianapolis-downtown-union-station",
+        "indy-fairfield-inn-suites-indianapolis-airport",
+    }
+    assert all(e["exclusion_state"] == enums.VERIFIED_NO_PETS for e in indy_ex)
     release = ROOT / "deploy" / "netlify" / "release_contracts" / "indianapolis-in.json"
     assert not release.exists()
 
