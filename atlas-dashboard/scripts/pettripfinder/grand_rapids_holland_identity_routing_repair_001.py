@@ -23,6 +23,33 @@ CENSUS_PATH = PACKAGE / "identity_census" / (MARKET + ".json")
 PARTITION_PATH = PACKAGE / "grand_rapids_holland_final_partition_001.json"
 ROUTING_PATH = PACKAGE / "identity_routing.json"
 
+# PTF-GRAND-RAPIDS-HOLLAND-ROUTING-REPAIR-CONTINUATION-001.  Current official
+# locator/property-page results.  Each URL was accepted only where the exact
+# property name plus the census street address and ZIP were exposed together.
+RECOVERED_URLS = {
+    "Tru by Hilton Grand Rapids Airport": "https://www.hilton.com/en/hotels/grrndru-tru-grand-rapids-airport/",
+    "Amway Grand Plaza Curio Collection by Hilton": "https://www.hilton.com/en/hotels/grrqqqq-amway-grand-plaza/",
+    "AC Hotel Grand Rapids Downtown": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/overview/",
+    "Courtyard by Marriott Grand Rapids Airport": "https://www.marriott.com/en-us/hotels/grrcy-courtyard-grand-rapids-airport/overview/",
+    "Residence Inn Grand Rapids Airport": "https://www.marriott.com/en-us/hotels/grrri-residence-inn-grand-rapids-airport/overview/",
+    "Courtyard by Marriott Holland Downtown": "https://www.marriott.com/en-us/hotels/grrch-courtyard-holland-downtown/overview/",
+    "JW Marriott Grand Rapids": "https://www.marriott.com/en-us/hotels/grrjw-jw-marriott-grand-rapids/overview/",
+    "Fairfield Inn & Suites Grand Rapids North": "https://www.marriott.com/en-us/hotels/grrfn-fairfield-inn-and-suites-grand-rapids-north/overview/",
+    "Holiday Inn Grand Rapids Downtown": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+    "Staybridge Suites Grand Rapids Airport": "https://www.ihg.com/staybridge/hotels/us/en/grand-rapids/grrmi/hoteldetail",
+    "Holiday Inn Express Holland": "https://www.ihg.com/holidayinnexpress/hotels/us/en/holland/hldfe/hoteldetail",
+    "Holiday Inn Grand Rapids Airport": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpd/hoteldetail",
+    "Holiday Inn Grand Rapids North - Walker": "https://www.ihg.com/holidayinn/hotels/us/en/walker/grrwk/hoteldetail",
+    "Candlewood Suites Grand Rapids Airport": "https://www.ihg.com/candlewood/hotels/us/en/grand-rapids/grres/hoteldetail",
+    "Holiday Inn Express & Suites Grand Rapids-North": "https://www.ihg.com/holidayinnexpress/hotels/us/en/walker/grrds/hoteldetail",
+    "Wyndham Garden Grand Rapids Airport": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+    "Days Inn by Wyndham Holland": "https://www.wyndhamhotels.com/days-inn/holland-michigan/days-inn-holland/overview",
+    "Comfort Inn Grand Rapids Airport": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+    "Comfort Suites Grand Rapids North": "https://www.choicehotels.com/michigan/comstock-park/comfort-suites-hotels/mi235",
+    "MainStay Suites Grand Rapids": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+    "Clarion Inn & Suites Airport": "https://www.choicehotels.com/michigan/grand-rapids/clarion-hotels/mi355",
+}
+
 
 def _load(path: Path):
     return json.loads(path.read_text(encoding="utf-8-sig"))
@@ -84,7 +111,8 @@ def main() -> None:
 
     rows = []
     for row in active:
-        name, url = row["canonical_name"], PROPERTY_URLS.get(row["canonical_name"], "")
+        name = row["canonical_name"]
+        url = RECOVERED_URLS.get(name, PROPERTY_URLS.get(name, ""))
         brand_lane = lane(name)
         confirmed = bool(url)
         code = property_code(url, brand_lane) if url else ""
