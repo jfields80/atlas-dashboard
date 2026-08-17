@@ -4,10 +4,10 @@
   "work_order": "PTF-GRAND-RAPIDS-HOLLAND-IDENTITY-ROUTING-REPAIR-001",
   "as_of": "2026-08-17",
   "total": 119,
-  "routing_confirmed": 67,
-  "url_recovery": 52,
+  "routing_confirmed": 97,
+  "url_recovery": 17,
   "identity_review": 0,
-  "census_review": 0,
+  "census_review": 5,
   "routing_unresolved": 0,
   "rows": [
     {
@@ -111,24 +111,24 @@
       "canonical_name": "Baymont Inn & Suites by Wyndham Holland",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "WYNDHAM",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
+      "verdict": "CENSUS_REVIEW",
       "official_url": "",
       "property_code": "",
       "binding_signals": [],
       "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "reason": "Current Wyndham property identity at the same 680 E 24th St address is Baymont by Wyndham Holland; preserve the closed census name and require census review before routing."
     },
     {
       "identity_key": "baymont inn and suites grand rapids southeast",
       "canonical_name": "Baymont Inn & Suites Grand Rapids Southeast",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "WYNDHAM",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
+      "verdict": "CENSUS_REVIEW",
       "official_url": "",
       "property_code": "",
       "binding_signals": [],
       "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "reason": "Current Wyndham property identity at the same 2873 Kraft Ave SE address is Baymont by Wyndham Grand Rapids Airport; preserve the closed census name and require census review before routing."
     },
     {
       "identity_key": "best western executive inn and suites",
@@ -279,12 +279,16 @@
       "canonical_name": "Comfort Suites Grand Rapids South",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "CHOICE",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-suites-hotels/mi231",
+      "property_code": "mi231",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "comfort suites grandville grand rapids sw",
@@ -307,48 +311,64 @@
       "canonical_name": "Country Inn & Suites by Radisson Grandville-Grand Rapids West",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "RADISSON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grandville/country-inn-suites-hotels/mi612",
+      "property_code": "mi612",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "country inn and suites by radisson holland",
       "canonical_name": "Country Inn & Suites by Radisson Holland",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "RADISSON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/holland/country-inn-suites-hotels/mi444",
+      "property_code": "mi444",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "country inn and suites grand rapids airport",
       "canonical_name": "Country Inn & Suites Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "RADISSON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi611",
+      "property_code": "mi611",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "country inn and suites grand rapids east",
       "canonical_name": "Country Inn & Suites Grand Rapids East",
       "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
       "brand_lane": "RADISSON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi607",
+      "property_code": "mi607",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "courtyard by marriott grand rapids airport",
@@ -403,12 +423,12 @@
       "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "WYNDHAM",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
+      "verdict": "CENSUS_REVIEW",
       "official_url": "",
       "property_code": "",
       "binding_signals": [],
       "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "reason": "Current Wyndham property page uses 255A 28th St SW, Grand Rapids 49548, while the closed census has 255 28th St SW, Grand Rapids 49509; require census review before routing."
     },
     {
       "identity_key": "days inn by wyndham holland",
@@ -431,24 +451,32 @@
       "canonical_name": "DoubleTree by Hilton Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grraidt-doubletree-grand-rapids-airport/",
+      "property_code": "grraidt",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "doubletree by hilton holland",
       "canonical_name": "DoubleTree by Hilton Holland",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrhldt-doubletree-holland/",
+      "property_code": "grrhldt",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "drury inn and suites grand rapids",
@@ -471,12 +499,16 @@
       "canonical_name": "Econo Lodge Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "CHOICE",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294",
+      "property_code": "mi294",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "embassy suites by hilton grand rapids downtown",
@@ -499,36 +531,48 @@
       "canonical_name": "Extended Stay America Select Suites Grand Rapids Kentwood",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "ESA",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.extendedstayamerica.com/hotels/mi/grand-rapids/kentwood",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "extended stay america select suites grand rapids wyoming",
       "canonical_name": "Extended Stay America Select Suites Grand Rapids Wyoming",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "ESA",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.extendedstayamerica.com/hotels/mi/grand-rapids/wyoming",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "fairfield inn and suites grand rapids",
       "canonical_name": "Fairfield Inn & Suites Grand Rapids",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "MARRIOTT",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.marriott.com/en-us/hotels/grrpa-fairfield-inn-and-suites-grand-rapids/overview/",
+      "property_code": "grrpa",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "fairfield inn and suites grand rapids north",
@@ -699,36 +743,48 @@
       "canonical_name": "Hilton Garden Inn Grand Rapids East",
       "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrebgi-hilton-garden-inn-grand-rapids-east/",
+      "property_code": "grrebgi",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "holiday inn express and suites grand rapids airport north",
       "canonical_name": "Holiday Inn Express & Suites Grand Rapids - Airport North",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "IHG",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grand-rapids/grret/hoteldetail",
+      "property_code": "grret",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "holiday inn express and suites grand rapids airport south",
       "canonical_name": "Holiday Inn Express & Suites Grand Rapids Airport South",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "IHG",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grand-rapids/grrse/hoteldetail",
+      "property_code": "grrse",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "holiday inn express and suites grand rapids north",
@@ -863,12 +919,16 @@
       "canonical_name": "Home2 Suites by Hilton Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrdaht-home2-suites-grand-rapids-airport/",
+      "property_code": "grrdaht",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "home2 suites by hilton grand rapids north",
@@ -923,24 +983,32 @@
       "canonical_name": "Homewood Suites by Hilton Grand Rapids Downtown",
       "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrdohw-homewood-suites-grand-rapids-downtown/",
+      "property_code": "grrdohw",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "homewood suites by hilton holland",
       "canonical_name": "Homewood Suites by Hilton Holland",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/",
+      "property_code": "grrabhw",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "homewood suites by hilton walker grand rapids north",
@@ -1063,24 +1131,32 @@
       "canonical_name": "Microtel Inn & Suites by Wyndham Holland",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "WYNDHAM",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "motel 6 grand rapids",
       "canonical_name": "Motel 6 Grand Rapids",
       "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
       "brand_lane": "G6",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.motel6.com/property/motel-grand-rapids-mi-michigan-us-293514/",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "plainfield motel",
@@ -1111,48 +1187,60 @@
       "canonical_name": "Quality Inn Grand Rapids Near Downtown",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "CHOICE",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi281",
+      "property_code": "mi281",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "quality inn grand rapids north walker",
       "canonical_name": "Quality Inn Grand Rapids North - Walker",
       "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
       "brand_lane": "CHOICE",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels/mi298",
+      "property_code": "mi298",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "quality inn grand rapids south",
       "canonical_name": "Quality Inn Grand Rapids South",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "CHOICE",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
+      "verdict": "CENSUS_REVIEW",
       "official_url": "",
       "property_code": "",
       "binding_signals": [],
       "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "reason": "Current Choice property identity at the same 7625 Caterpillar Ct SW address is Quality Inn Grand Rapids South-Byron Center; preserve the closed census name and require census review before routing."
     },
     {
       "identity_key": "radisson hotel grand rapids riverfront",
       "canonical_name": "Radisson Hotel Grand Rapids Riverfront",
       "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
       "brand_lane": "RADISSON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.choicehotels.com/michigan/grand-rapids/radisson-hotels/mi423",
+      "property_code": "mi423",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "rainbow motel",
@@ -1171,24 +1259,32 @@
       "canonical_name": "Red Roof Inn Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "RED_ROOF",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "residence inn by marriott grand rapids downtown",
       "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
       "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
       "brand_lane": "MARRIOTT",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.marriott.com/en-us/hotels/grrrd-residence-inn-grand-rapids-downtown/overview/",
+      "property_code": "grrrd",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "residence inn by marriott grand rapids west",
@@ -1303,12 +1399,16 @@
       "canonical_name": "Spark by Hilton Grand Rapids",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrgspe-spark-grand-rapids/",
+      "property_code": "grrgspe",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "spark by hilton walker grand rapids north",
@@ -1411,12 +1511,16 @@
       "canonical_name": "Staybridge Suites Grand Rapids South",
       "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
       "brand_lane": "IHG",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.ihg.com/staybridge/hotels/us/en/grand-rapids/grred/hoteldetail",
+      "property_code": "grred",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "staybridge suites grand rapids sw grandville",
@@ -1547,12 +1651,16 @@
       "canonical_name": "TownePlace Suites Grand Rapids Airport",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "MARRIOTT",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.marriott.com/en-us/hotels/grrts-towneplace-suites-grand-rapids-airport/overview/",
+      "property_code": "grrts",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "towneplace suites grand rapids airport southeast",
@@ -1575,12 +1683,12 @@
       "canonical_name": "TownePlace Suites Grand Rapids South",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
       "brand_lane": "MARRIOTT",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
+      "verdict": "CENSUS_REVIEW",
       "official_url": "",
       "property_code": "",
       "binding_signals": [],
       "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "reason": "Current Marriott property identity at the same 5880 Clyde Park Ave SW address is TownePlace Suites by Marriott Grand Rapids Wyoming; preserve the closed census name and require census review before routing."
     },
     {
       "identity_key": "travelodge by wyndham grand rapids north",
@@ -1603,12 +1711,16 @@
       "canonical_name": "Tru by Hilton Comstock Park Grand Rapids",
       "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/",
+      "property_code": "grrrrru",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "tru by hilton grand rapids airport",
@@ -1631,12 +1743,16 @@
       "canonical_name": "Tulyp Tapestry Collection by Hilton",
       "corridor": "grand-rapids-holland-mi__holland-zeeland",
       "brand_lane": "HILTON",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
-      "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.hilton.com/en/hotels/grrcfup-tulyp/",
+      "property_code": "grrcfup",
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "white pines inn and suites holland",
@@ -1667,12 +1783,16 @@
       "canonical_name": "WoodSpring Suites Grand Rapids Kentwood",
       "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
       "brand_lane": "WOODSPRING",
-      "verdict": "PROPERTY_LEVEL_URL_RECOVERY",
-      "official_url": "",
+      "verdict": "PROPERTY_LEVEL_ROUTE_CONFIRMED",
+      "official_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/grand-rapids/woodspring-suites-grand-rapids-kentwood",
       "property_code": "",
-      "binding_signals": [],
-      "source_relationship": "",
-      "reason": "No exact property-level official URL is committed in the closed-census provenance; retained for official-locator recovery."
+      "binding_signals": [
+        "canonical_name",
+        "street_address",
+        "postal_code"
+      ],
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY",
+      "reason": "Existing exact first-party URL re-bound to the closed census identity by canonical name, street address, and ZIP; no policy page was inspected."
     },
     {
       "identity_key": "woodspring suites holland grand rapids",

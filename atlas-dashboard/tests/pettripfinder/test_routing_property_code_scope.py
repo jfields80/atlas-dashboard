@@ -157,6 +157,6 @@ class TestNothingElseMoved:
         # Dayton is the first market to add a Choice/IHG/Red Roof route since
         # the codes were scoped by registrable domain, which is exactly the
         # case this file exists for.
-        assert len(routes) == 157  # plus Grand Rapids--Holland's 67 routed identities
+        assert len(routes) == 187  # plus Grand Rapids--Holland's 97 routed identities
         markets = {r["market_id"] for r in routes}
         assert {"columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"} <= markets

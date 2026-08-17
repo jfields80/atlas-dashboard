@@ -188,20 +188,21 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert (progress["route_confirmed"] + progress["url_recovery"] +
             progress["identity_review"] + progress["census_review"] +
             progress["routing_unresolved"]) == 119
-    assert progress["route_confirmed"] == 67
-    assert progress["url_recovery"] == 52
+    assert progress["route_confirmed"] == 97
+    assert progress["url_recovery"] == 17
+    assert progress["census_review"] == 5
     routing = _load(PACKAGE / "identity_routing.json")
     routes = [row for row in routing["routes"] if row["market_id"] == MARKET]
-    assert len(routes) == 67
+    assert len(routes) == 97
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)
     queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
-    assert queue["count"] == len(queue["items"]) == 67
+    assert queue["count"] == len(queue["items"]) == 97
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])
     review = _load(PACKAGE / "grand_rapids_holland_postclosure_census_review_001.json")
     assert review["census_count"] == 120
     assert review["active_lodging_count"] == 119
-    assert review["current_routed_count"] == len(routes) == 67
+    assert review["current_routed_count"] == 67  # pre-continuation review baseline
     assert review["count"] == len(review["items"]) == 52
     assert review["reconciliation"] == {
         "property_level_url_recovery": 52,
@@ -226,5 +227,21 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
             PACKAGE / "markets" / "reports" / (MARKET + "_routing_results_001.json")
         )["rows"] if row["verdict"] == "PROPERTY_LEVEL_URL_RECOVERY"
     }
-    assert {row["identity_key"] for row in review["items"]} == recovery_keys
+    assert recovery_keys == {
+        row["identity_key"] for row in review["items"]
+        if row["proposed_disposition"] == "INDEPENDENT_FINAL_RECOVERY"
+    }
+    continuation = progress["continuation_003"]
+    assert continuation["structured_recovery_batch"] == 35
+    assert continuation["structured_routes_added"] == 30
+    assert continuation["structured_census_review"] == 5
+    assert continuation["structured_remaining"] == 0
+    assert continuation["independent_final_recovery_deferred"] == 17
+    assert continuation["reconciliation"] == {
+        "active_lodging": 119,
+        "route_confirmed": 97,
+        "clean_structured_remaining": 0,
+        "census_review": 5,
+        "independent_final_recovery": 17,
+    }
     assert all(row["census_action"] == "NO_CHANGE" for row in review["items"])
