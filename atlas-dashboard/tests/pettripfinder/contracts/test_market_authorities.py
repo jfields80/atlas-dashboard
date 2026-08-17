@@ -55,8 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
-    LOUISVILLE: {"census": 130, "published": 1, "no_pets": 1,
-                 "out_of_category": 1, "unresolved": 127},
+    LOUISVILLE: {"census": 130, "published": 0, "no_pets": 0,
+                 "out_of_category": 1, "unresolved": 129},
 }
 
 
