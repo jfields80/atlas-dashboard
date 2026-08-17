@@ -73,3 +73,58 @@ def test_holiday_inn_express_and_le_meridien_are_the_positives():
                for f in mer["proposed_schema_1_2_facts"])
     assert any(w["field"] == "weight_limit.scope" for w in mer["withheld_fields"])
     assert any(w["field"] == "species" for w in mer["withheld_fields"])
+
+
+def test_strict_identity_gate_before_any_policy():
+    results = _json(RESULTS)
+    packet = _json(PACKET)
+    assert results["founder_decisions_applied"] is False
+    assert packet["founder_decisions_applied"] is False
+    assert results["identity_gate"]["name"] == "STRICT_TWO_INDEPENDENT_NON_URL_KEYS"
+    assert "URL ALONE IS NOT IDENTITY BINDING" in results["identity_gate"]["rule"]
+    required = {"address@structured_metadata", "phone@structured_metadata"}
+    for row in results["results"]:
+        bind = row["identity_binding"]
+        assert bind["gate"] == "STRICT_TWO_INDEPENDENT_NON_URL_KEYS"
+        assert bind["url_identifier_used_as_bind"] is False
+        intended = bind["intended"]
+        assert intended["canonical_name"]
+        assert intended["first_party_url"]
+        assert intended["street"]
+        assert intended["city"]
+        assert intended["postal_code"]
+        if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
+            assert bind["bound"] is True
+            assert required <= set(bind["independent_non_url_keys"])
+            rendered = bind["rendered"]
+            assert rendered["street"]
+            assert rendered["postal_code"] == intended["postal_code"]
+            assert rendered["source"] == "jsonld"
+            assert row["proposed_schema_1_2_facts"]
+        else:
+            assert bind["bound"] is False
+            assert row["proposed_schema_1_2_facts"] == []
+            assert row["exact_quotes"] == []
+
+
+def test_url_code_is_not_treated_as_a_second_key():
+    by = {r["identity_key"]: r for r in _json(RESULTS)["results"]}
+    airport = by["courtyard by marriott indianapolis airport"]
+    assert airport["outcome"] == "IDENTITY_UNCERTAIN"
+    assert airport["identity_binding"]["independent_non_url_keys"] == [
+        "phone@structured_metadata"]
+    delta = by["delta hotels by marriott indianapolis airport"]
+    assert delta["outcome"] == "IDENTITY_UNCERTAIN"
+    hi = by["holiday inn indianapolis airport"]
+    assert hi["outcome"] == "IDENTITY_UNCERTAIN"
+    assert "404 Experience" in hi["notes"][0]
+    assert hi["identity_binding"]["rendered"]["page_name"] == "404 Experience"
+    jw = by["jw marriott indianapolis"]
+    assert jw["outcome"] == "NEGATIVE"
+    assert "10 S West Street" in jw["identity_binding"]["rendered"]["street"]
+    assert "URL/ZIP-only bind discarded" in jw["identity_binding"]["notes"]
+    hie = by["holiday inn express plainfield"]
+    assert hie["identity_binding"]["rendered"]["page_name"] == (
+        "Holiday Inn Express Indianapolis Airport")
+    assert hie["identity_binding"]["rendered"]["street"] == "6296 Cambridge Way"
+    assert hie["identity_binding"]["rendered"]["phone"] == "1-317-8399000"

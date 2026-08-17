@@ -1,4 +1,14 @@
-"""Build Indianapolis Pass 2 capture-results and founder-review packets."""
+"""Build Indianapolis Pass 2 capture-results and founder-review packets.
+
+Pass-2 artifacts are unchanged. This builder re-scores those ten rows
+against a STRICT identity gate before any policy observation is retained:
+
+    PROPERTY URL ALONE IS NOT IDENTITY BINDING.
+
+A retained policy row must show two independent non-URL keys (JSON-LD
+street and JSON-LD phone). A canonical-URL property code is recorded
+but never counted as a bind. Founder decisions are not applied.
+"""
 
 from __future__ import annotations
 
@@ -10,6 +20,7 @@ _REPO = Path(__file__).resolve().parents[2]
 LP = _REPO / "launch_packages" / "pettripfinder"
 CENSUS = LP / "identity_census" / "indianapolis-in.json"
 WORK_ORDER = "PTF-INDIANAPOLIS-ATTENDED-CAPTURE-PASS2-001"
+GATE = "STRICT_TWO_INDEPENDENT_NON_URL_KEYS"
 
 # Artifact hashes from the gitignored worker tree (re-derived).
 ART = {
@@ -70,7 +81,48 @@ ART = {
 }
 
 
-def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None, withheld=None, contradictions=None):
+def _intended(h):
+    return OrderedDict((
+        ("canonical_name", h["canonical_name"]),
+        ("first_party_url", h.get("official_url") or ""),
+        ("street", h.get("address") or ""),
+        ("city", h.get("city") or ""),
+        ("state", h.get("state") or ""),
+        ("postal_code", h.get("postal_code") or ""),
+        ("phone", h.get("phone") or ""),
+        ("property_code", h.get("property_code") or ""),
+    ))
+
+
+def _rendered(**kwargs):
+    return OrderedDict((
+        ("page_name", kwargs.get("page_name") or ""),
+        ("final_url", kwargs.get("final_url") or ""),
+        ("street", kwargs.get("street") or ""),
+        ("city", kwargs.get("city") or ""),
+        ("state", kwargs.get("state") or ""),
+        ("postal_code", kwargs.get("postal_code") or ""),
+        ("phone", kwargs.get("phone") or ""),
+        ("property_code", kwargs.get("property_code") or ""),
+        ("source", kwargs.get("source") or ""),
+    ))
+
+
+def _binding(*, bound, intended, rendered, keys, notes, conflicts=None):
+    return OrderedDict((
+        ("bound", bound),
+        ("gate", GATE),
+        ("intended", intended),
+        ("rendered", rendered),
+        ("independent_non_url_keys", list(keys)),
+        ("url_identifier_used_as_bind", False),
+        ("conflicts", list(conflicts or [])),
+        ("notes", notes),
+    ))
+
+
+def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
+          withheld=None, contradictions=None, binding=None, final_url=None):
     art = ART.get(h["identity_key"])
     row = OrderedDict((
         ("decision_id", "INDY-P2-%03d" % n),
@@ -80,11 +132,10 @@ def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None, withheld=No
         ("corridor", h["corridor"]),
         ("brand", h.get("brand") or ""),
         ("requested_url", h.get("official_url") or ""),
-        ("final_url", (art or {}).get("url") or h.get("official_url") or ""),
+        ("final_url", final_url or (art or {}).get("url") or h.get("official_url") or ""),
         ("runner_reason", runner),
         ("outcome", outcome),
-        ("identity_binding", {"bound": outcome not in (
-            "IDENTITY_UNCERTAIN", "ACCESS_BLOCKED", "CAPTURE_FAILED")}),
+        ("identity_binding", binding or {"bound": False, "gate": GATE}),
         ("artifact_file", (art or {}).get("file")),
         ("artifact_sha256", (art or {}).get("html")),
         ("artifact_kind", "rendered_html" if art else None),
@@ -108,47 +159,113 @@ def main() -> int:
     by = {r["identity_key"]: r for r in census["hotels"]}
     rows = []
 
+    comfort = by["comfort inn indianapolis airport plainfield"]
     rows.append(_base(
-        by["comfort inn indianapolis airport plainfield"], 1,
+        comfort, 1,
         "IDENTITY_UNCERTAIN", "IDENTITY_UNVERIFIABLE", "HOLD_RETRY_IDENTITY",
-        "Choice page produced no identity-bearing snapshot in 21.0s (hydration timeout). Not a refusal."))
+        "Choice page produced no identity-bearing snapshot in 21.0s (hydration timeout). "
+        "Title only is not a bind. URL path in082 is not identity. Not a refusal.",
+        binding=_binding(
+            bound=False, intended=_intended(comfort),
+            rendered=_rendered(
+                page_name="Hotel in Plainfield, IN | Comfort Inn Plainfield - Indianapolis Airport",
+                final_url=comfort["official_url"],
+                property_code="in082", source="page_title_only"),
+            keys=[],
+            notes="No JSON-LD street, city/ZIP, or phone was captured. "
+                  "Property URL alone is not identity binding.")))
+
+    courtyard_air = by["courtyard by marriott indianapolis airport"]
     rows.append(_base(
-        by["courtyard by marriott indianapolis airport"], 2,
+        courtyard_air, 2,
         "IDENTITY_UNCERTAIN", "IDENTITY_FAILED", "HOLD_RETRY_IDENTITY",
-        "Name, city, phone and URL property identifier matched, but the capture-time gate still returned IDENTITY_FAILED. No policy extracted. Sibling Marriott policy not inherited."))
+        "Phone and URL property identifier agreed; structured street did not. "
+        "IDENTITY_FAILED is a key contradiction, not a bind. No policy extracted. "
+        "Sibling Marriott policy not inherited.",
+        final_url="https://www.marriott.com/en-us/hotels/indca-courtyard-indianapolis-airport/overview/",
+        binding=_binding(
+            bound=False, intended=_intended(courtyard_air),
+            rendered=_rendered(
+                page_name="Courtyard by Marriott Indianapolis Airport | Hotel with Modern Rooms & Flexible Workspaces",
+                final_url="https://www.marriott.com/en-us/hotels/indca-courtyard-indianapolis-airport/overview/",
+                property_code="indca", source="diagnostic_only"),
+            keys=["phone@structured_metadata"],
+            notes="One independent non-URL key (phone). Canonical-URL code indca "
+                  "was discarded. A URL-plus-phone page whose street did not agree "
+                  "cannot support a policy observation.")))
+
+    courtyard_cas = by["courtyard by marriott indianapolis castleton"]
     rows.append(_base(
-        by["courtyard by marriott indianapolis castleton"], 3,
+        courtyard_cas, 3,
         "NEGATIVE", "CAPTURED", "APPROVE_VERIFIED_NO_PETS",
-        "Official Marriott Pet Policy block states Pets Not Allowed. Service animals only is a legal access category, not a guest-pet permission.",
+        "Official Marriott Pet Policy block states Pets Not Allowed. "
+        "Service animals only is a legal access category, not a guest-pet permission. "
+        "Identity bound on JSON-LD street + JSON-LD phone; URL code discarded.",
         quotes=["Pets Not Allowed", "Service animals only"],
         facts=[{"field": "pets_allowed", "value": False,
                 "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}],
-        withheld=[],
-        contradictions=["Service animals only sits beside the refusal and is not read as a pet permission."]))
-    rows[-1]["identity_binding"] = {
-        "bound": True,
-        "notes": "Capture proceeded after address + URL property code indcs.",
-    }
+        contradictions=["Service animals only sits beside the refusal and is not read as a pet permission."],
+        binding=_binding(
+            bound=True, intended=_intended(courtyard_cas),
+            rendered=_rendered(
+                page_name="Courtyard by Marriott Indianapolis Castleton",
+                final_url=ART["courtyard by marriott indianapolis castleton"]["url"],
+                street="8670 Allisonville Road", city="Indianapolis",
+                state="Indiana", postal_code="46250",
+                phone="+13175769559", property_code="indcs", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="Street matches exactly. City/ZIP match. Page phone +1 317-576-9559 "
+                  "has no census phone to conflict with. Runner second key was "
+                  "canonical-URL indcs and was discarded.")))
+
+    crowne = by["crowne plaza indianapolis downtown union station"]
     rows.append(_base(
-        by["crowne plaza indianapolis downtown union station"], 4,
+        crowne, 4,
         "NEGATIVE", "POLICY_ABSENT_CONFIRMED", "APPROVE_VERIFIED_NO_PETS",
-        "Property-specific IHG FAQ refusal. Independent of Crowne Plaza Airport. No service-animal sentence.",
+        "Property-specific IHG FAQ refusal. Independent of Crowne Plaza Airport. "
+        "No service-animal sentence. Identity bound on JSON-LD street + JSON-LD phone.",
         quotes=["No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn."],
         facts=[{"field": "pets_allowed", "value": False,
                 "quote": "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
-                "quote_contiguous_in_artifact": True}]))
-    rows[-1]["identity_binding"] = {
-        "bound": True,
-        "notes": "Identity CONFIRMED on address + property identifier inddt.",
-    }
+                "quote_contiguous_in_artifact": True}],
+        binding=_binding(
+            bound=True, intended=_intended(crowne),
+            rendered=_rendered(
+                page_name="Crowne Plaza Indianapolis-Dwtn-Union Stn",
+                final_url=ART["crowne plaza indianapolis downtown union station"]["url"],
+                street="123 West Louisiana St.", city="Indianapolis",
+                state="IN", postal_code="46225",
+                phone="1-317-6312221", property_code="inddt", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="123 West Louisiana St. matches 123 West Louisiana Street. "
+                  "City/ZIP match. Page phone +1 317-631-2221 has no census phone "
+                  "to conflict with. Quote names Dwtn-Union Stn, not Airport. "
+                  "Runner second key was canonical-URL inddt and was discarded.")))
+
+    delta = by["delta hotels by marriott indianapolis airport"]
     rows.append(_base(
-        by["delta hotels by marriott indianapolis airport"], 5,
+        delta, 5,
         "IDENTITY_UNCERTAIN", "IDENTITY_FAILED", "HOLD_RETRY_IDENTITY",
-        "Name, city, phone and URL property identifier matched; gate still IDENTITY_FAILED. No policy extracted. Sibling Marriott policy not inherited."))
+        "Phone and URL property identifier agreed; structured street did not. "
+        "IDENTITY_FAILED is a key contradiction, not a bind. No policy extracted. "
+        "Sibling Marriott policy not inherited.",
+        binding=_binding(
+            bound=False, intended=_intended(delta),
+            rendered=_rendered(
+                page_name="Delta Hotels Indianapolis Airport | Hotel with Modern Rooms & Flexible Spaces",
+                final_url=delta["official_url"],
+                property_code="indde", source="diagnostic_only"),
+            keys=["phone@structured_metadata"],
+            notes="One independent non-URL key (phone). Canonical-URL code indde "
+                  "was discarded. Street never agreed, so policy is withheld.")))
+
+    fairfield = by["fairfield inn and suites indianapolis airport"]
     rows.append(_base(
-        by["fairfield inn and suites indianapolis airport"], 6,
+        fairfield, 6,
         "NEGATIVE", "CAPTURED", "APPROVE_VERIFIED_NO_PETS",
-        "Official Marriott Pet Policy block states Pets Not Allowed. A non-refundable $100 cleaning fee sits in the same block and is withheld as ambiguous.",
+        "Official Marriott Pet Policy block states Pets Not Allowed. "
+        "A non-refundable $100 cleaning fee sits in the same block and is withheld as ambiguous. "
+        "Identity bound on JSON-LD street + matching JSON-LD phone.",
         quotes=["Pets Not Allowed",
                 "Non Refundable Cleaning Fee of $100.00 due at check-in."],
         facts=[{"field": "pets_allowed", "value": False,
@@ -156,12 +273,28 @@ def main() -> int:
         withheld=[{"field": "other_charges.cleaning_fee",
                    "reason": "SOURCE_AMBIGUOUS",
                    "quote": "Non Refundable Cleaning Fee of $100.00 due at check-in.",
-                   "note": "Appears in the Pet Policy block beside a no-pets statement; not bound as a pet charge."}]))
-    rows[-1]["identity_binding"] = {"bound": True, "notes": "Capture proceeded with identity_evidence_incomplete warning."}
+                   "note": "Appears in the Pet Policy block beside a no-pets statement; not bound as a pet charge."}],
+        binding=_binding(
+            bound=True, intended=_intended(fairfield),
+            rendered=_rendered(
+                page_name="Fairfield by Marriott Inn & Suites Indianapolis Airport",
+                final_url=ART["fairfield inn and suites indianapolis airport"]["url"],
+                street="5220 West Southern Avenue", city="Indianapolis",
+                state="Indiana", postal_code="46241",
+                phone="+13172441600", property_code="indfa", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="Street matches exactly. City/ZIP match. Phone digits 3172441600 "
+                  "match census 317-244-1600. Brand-line insert in the page name "
+                  "is not a different hotel. URL code discarded as a bind.")))
+
+    hie = by["holiday inn express plainfield"]
     rows.append(_base(
-        by["holiday inn express plainfield"], 7,
+        hie, 7,
         "AFFIRMATIVE_STRUCTURED", "CAPTURED", "APPROVE_PUBLISH_STRUCTURED",
-        "Official IHG pet widget is property-specific. Fee scope and pet-count scope are not stated and are withheld.",
+        "Official IHG pet widget is property-specific. Fee scope and pet-count "
+        "scope are not stated and are withheld. Display name on the page is "
+        "Holiday Inn Express Indianapolis Airport; street + phone bind it to "
+        "the Plainfield census row at 6296 Cambridge Way.",
         quotes=[
             "Pets are welcome at Holiday Inn Express Indianapolis Airport.",
             "Dogs permitted with a nominal nonrefundable fee each night.",
@@ -192,24 +325,75 @@ def main() -> int:
              "note": "per night is stated; per_pet vs per_room is not."},
             {"field": "pet_count_scope", "reason": "SOURCE_SILENT",
              "note": "2 pets allowed does not say per room or per stay."},
-        ]))
-    rows[-1]["identity_binding"] = {"bound": True, "notes": "Capture proceeded with identity_evidence_incomplete warning."}
+        ],
+        binding=_binding(
+            bound=True, intended=_intended(hie),
+            rendered=_rendered(
+                page_name="Holiday Inn Express Indianapolis Airport",
+                final_url=ART["holiday inn express plainfield"]["url"],
+                street="6296 Cambridge Way", city="Plainfield",
+                state="IN", postal_code="46168",
+                phone="1-317-8399000", property_code="indsw", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="Street matches exactly. City/ZIP match. Phone digits 3178399000 "
+                  "match census 317-839-9000. Page name differs (Indianapolis Airport "
+                  "vs Plainfield) but this is the same IHG property at 6296 Cambridge "
+                  "Way, not Holiday Inn Indianapolis Airport at 8555 Stansted Drive. "
+                  "Body-text code indsw is extra, not required.")))
+
+    hi_air = by["holiday inn indianapolis airport"]
     rows.append(_base(
-        by["holiday inn indianapolis airport"], 8,
+        hi_air, 8,
         "IDENTITY_UNCERTAIN", "IDENTITY_UNVERIFIABLE", "HOLD_RETRY_IDENTITY",
-        "IHG page produced no identity-bearing snapshot in 20.9s (hydration timeout). Not a refusal. Crowne Airport refusal not inherited."))
+        "Official URL rendered page title '404 Experience' after 20.9s. "
+        "No identity snapshot. Path segment indap is an IHG city code shared "
+        "with Crowne Plaza Airport and is not a bind. Crowne Airport refusal "
+        "not inherited. Not a no-pets finding.",
+        binding=_binding(
+            bound=False, intended=_intended(hi_air),
+            rendered=_rendered(
+                page_name="404 Experience",
+                final_url=hi_air["official_url"],
+                property_code="indap", source="page_title_only"),
+            keys=[],
+            notes="404/empty page cannot bind 8555 Stansted Drive. "
+                  "Property URL alone is not identity binding.")))
+
+    jw = by["jw marriott indianapolis"]
     rows.append(_base(
-        by["jw marriott indianapolis"], 9,
+        jw, 9,
         "NEGATIVE", "CAPTURED", "APPROVE_VERIFIED_NO_PETS",
-        "Official Marriott Pet Policy block states Pets Not Allowed. FAQ lists the question with no answer; the policy block is the evidence.",
+        "Official Marriott Pet Policy block states Pets Not Allowed. FAQ lists "
+        "the question with no answer; the policy block is the evidence. "
+        "Runner bound ZIP 46204 + URL indjw; that URL-plus-ZIP pair was "
+        "discarded. Identity is re-bound on JSON-LD street 10 S West Street "
+        "(= 10 South West Street) + JSON-LD phone.",
         quotes=["Pets Not Allowed"],
         facts=[{"field": "pets_allowed", "value": False,
-                "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}]))
-    rows[-1]["identity_binding"] = {"bound": True, "notes": "Capture proceeded with identity_evidence_incomplete warning."}
+                "quote": "Pets Not Allowed", "quote_contiguous_in_artifact": True}],
+        binding=_binding(
+            bound=True, intended=_intended(jw),
+            rendered=_rendered(
+                page_name="JW Marriott Indianapolis",
+                final_url=ART["jw marriott indianapolis"]["url"],
+                street="10 S West Street", city="Indianapolis",
+                state="Indiana", postal_code="46204",
+                phone="+13178605800", property_code="indjw", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="10 S West Street is the same street as census 10 South West Street "
+                  "(S = South; West is the street name). City/ZIP match. Page phone "
+                  "+1 317-860-5800 has no census phone to conflict with. Capture-time "
+                  "assessor returned STRONG_MATCH (name+city) because the street parser "
+                  "treats both South and West as directionals and leaves an empty core; "
+                  "that parser miss is not a different hotel. URL/ZIP-only bind discarded.")))
+
+    meridien = by["le meridien indianapolis"]
     rows.append(_base(
-        by["le meridien indianapolis"], 10,
+        meridien, 10,
         "AFFIRMATIVE_STRUCTURED", "CAPTURED", "APPROVE_PUBLISH_STRUCTURED",
-        "Official Marriott Pet Policy: Pets Welcome, no pet fee, 40 lb maximum with no stated scope. Generic pets is not dogs+cats.",
+        "Official Marriott Pet Policy: Pets Welcome, no pet fee, 40 lb maximum "
+        "with no stated scope. Generic pets is not dogs+cats. Identity bound on "
+        "JSON-LD street + JSON-LD phone; URL code discarded.",
         quotes=["Pets Welcome", "Pets are welcome. No pet fee.", "Maximum Pet Weight: 40.0lbs"],
         facts=[
             {"field": "pets_allowed", "value": True,
@@ -225,8 +409,29 @@ def main() -> int:
              "note": "40.0lbs is stated without per-pet or combined."},
             {"field": "species", "reason": "SOURCE_SILENT",
              "note": "Generic pets is not dogs+cats."},
-        ]))
-    rows[-1]["identity_binding"] = {"bound": True, "notes": "Capture proceeded with identity_evidence_incomplete warning."}
+        ],
+        binding=_binding(
+            bound=True, intended=_intended(meridien),
+            rendered=_rendered(
+                page_name="Le Méridien Indianapolis",
+                final_url=ART["le meridien indianapolis"]["url"],
+                street="123 South Illinois Street", city="Indianapolis",
+                state="Indiana", postal_code="46225",
+                phone="+13177371600", property_code="indmd", source="jsonld"),
+            keys=["address@structured_metadata", "phone@structured_metadata"],
+            notes="Street matches exactly. City/ZIP match. Page phone +1 317-737-1600 "
+                  "has no census phone to conflict with. Runner second key was "
+                  "canonical-URL indmd and was discarded.")))
+
+    for row in rows:
+        if row["outcome"] in ("AFFIRMATIVE_STRUCTURED", "NEGATIVE"):
+            bind = row["identity_binding"]
+            if not bind.get("bound"):
+                raise SystemExit("policy retained without identity bind: %s" % row["identity_key"])
+            if len(bind.get("independent_non_url_keys") or []) < 2:
+                raise SystemExit("policy retained without two non-URL keys: %s" % row["identity_key"])
+            if bind.get("url_identifier_used_as_bind"):
+                raise SystemExit("policy retained on URL identifier: %s" % row["identity_key"])
 
     counts = OrderedDict((
         ("AFFIRMATIVE_STRUCTURED", 2),
@@ -253,11 +458,23 @@ def main() -> int:
         ("rows_captured", 6),
         ("rows_with_publication_grade_artifact", 6),
         ("hilton_rows_driven", 0),
+        ("founder_decisions_applied", False),
+        ("identity_gate", OrderedDict((
+            ("name", GATE),
+            ("rule",
+             "PROPERTY URL ALONE IS NOT IDENTITY BINDING. A policy observation "
+             "is retained only when JSON-LD (or equivalent structured metadata) "
+             "renders a matching street and an independent non-conflicting phone. "
+             "A canonical-URL or requested-URL property code is never a bind."),
+            ("rescored_from", "indianapolis-attended-capture-002 journal + capture JSON-LD"),
+        ))),
         ("outcome_counts", counts),
         ("rule",
          "Only the recommended 10 non-Hilton ready-queue rows were driven. "
+         "Policy was re-scored against the strict identity gate before retention. "
          "Crowne Downtown refusal is independent of Crowne Airport. "
-         "No sibling Marriott policy was inherited. No authority was written."),
+         "No sibling Marriott policy was inherited. No founder decision was applied. "
+         "No authority was written."),
         ("speed_benchmark", OrderedDict((
             ("batch_total", 10),
             ("started_at", "2026-08-16T23:31:29.696Z"),
@@ -282,10 +499,14 @@ def main() -> int:
         ("as_of", "2026-08-16"),
         ("prepared_by", "grok-4.6 (PTF-INDIANAPOLIS-ATTENDED-CAPTURE-PASS2-001, agent)"),
         ("status", "FOUNDER_REVIEW_REQUIRED"),
+        ("founder_decisions_applied", False),
+        ("identity_gate", results["identity_gate"]),
         ("rule",
-         "Nothing here is published. Approving a negative writes an exclusion "
-         "later. Approving a positive writes schema 1.2 facts later. "
-         "Identity-uncertain rows stay unresolved."),
+         "Nothing here is published. Founder decisions are not applied in this "
+         "packet. Approving a negative would write an exclusion later. Approving "
+         "a positive would write schema 1.2 facts later. Identity-uncertain rows "
+         "stay unresolved. A row whose only second key was a URL property code "
+         "was not allowed to keep a policy observation."),
         ("positive_candidates", positives),
         ("negative_candidates", negatives),
         ("identity_uncertain",
