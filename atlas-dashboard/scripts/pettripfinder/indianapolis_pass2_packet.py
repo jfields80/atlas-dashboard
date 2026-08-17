@@ -344,8 +344,10 @@ def main() -> int:
              "quote": "Pets allowed: Only dogs allowed",
              "quote_contiguous_in_artifact": True},
             {"field": "pet_fee",
-             "value": {"amount_cents": 2500, "currency": "USD", "basis": "per_night"},
+             "value": {"amount_cents": 2500, "currency": "USD",
+                       "basis": "per_night", "refundable": False},
              "quote": "Pet fee per night: 25 USD",
+             "refundability_quote": "Dogs permitted with a nominal nonrefundable fee each night.",
              "quote_contiguous_in_artifact": True},
             {"field": "weight_limit_stated_none", "value": True,
              "quote": "Pet weight limit: No weight limit per pet",
@@ -498,6 +500,13 @@ def main() -> int:
                 if "scope" in value and "per pet" not in quote and "per room" not in quote:
                     raise SystemExit("fee scope inferred without an explicit quote: %s"
                                      % row["identity_key"])
+                refund_hay = " ".join((
+                    quote,
+                    (fact.get("refundability_quote") or "").lower(),
+                ))
+                if "refundable" in value and "refund" not in refund_hay:
+                    raise SystemExit("refundability inferred without an explicit quote: %s"
+                                     % row["identity_key"])
         else:
             if row["proposed_schema_1_2_facts"] or row["exact_quotes"]:
                 raise SystemExit("policy used on an unbound row: %s" % row["identity_key"])
@@ -573,7 +582,7 @@ def main() -> int:
             ("extract_only_if_explicit", [
                 "pets_allowed", "species", "pet_count_limit", "pet_count_scope",
                 "weight_limit", "combined_weight_limit", "pet_fee", "fee basis",
-                "fee scope", "fee tiers", "fee cap", "deposits",
+                "fee scope", "refundability", "fee tiers", "fee cap", "deposits",
                 "cleaning fees / other charges", "breed restrictions",
                 "unattended rules", "room restrictions", "reservation requirements",
                 "general restrictions", "service-animal statements",
@@ -582,6 +591,7 @@ def main() -> int:
                 "dogs + cats from generic pets",
                 "fee basis",
                 "fee scope",
+                "refundability",
             ]),
         ))),
         ("outcome_counts", counts),

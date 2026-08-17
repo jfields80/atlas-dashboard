@@ -184,6 +184,7 @@ def test_extraction_does_not_infer_species_or_fee_basis():
     results = _json(RESULTS)
     assert results["extraction_doctrine"]["rule"] == "SOURCE SILENCE = ABSENCE"
     assert "fee scope" in results["extraction_doctrine"]["never_infer"]
+    assert "refundability" in results["extraction_doctrine"]["never_infer"]
     by = {r["identity_key"]: r for r in results["results"]}
     mer = by["le meridien indianapolis"]
     mer_fields = {f["field"]: f for f in mer["proposed_schema_1_2_facts"]}
@@ -193,11 +194,15 @@ def test_extraction_does_not_infer_species_or_fee_basis():
     assert mer_fields["pet_fee"]["value"] == {"amount_cents": 0, "currency": "USD"}
     assert "basis" not in mer_fields["pet_fee"]["value"]
     assert "scope" not in mer_fields["pet_fee"]["value"]
+    assert "refundable" not in mer_fields["pet_fee"]["value"]
     hie = by["holiday inn express plainfield"]
     hie_fee = next(f for f in hie["proposed_schema_1_2_facts"] if f["field"] == "pet_fee")
     assert hie_fee["value"]["basis"] == "per_night"
     assert "scope" not in hie_fee["value"]
+    assert hie_fee["value"]["refundable"] is False
     assert hie_fee["quote"] == "Pet fee per night: 25 USD"
+    assert hie_fee["refundability_quote"] == (
+        "Dogs permitted with a nominal nonrefundable fee each night.")
     assert any(w["field"] == "pet_fee.scope" and w["reason"] == "SOURCE_SILENT"
                for w in hie["withheld_fields"])
     hie_species = next(f for f in hie["proposed_schema_1_2_facts"] if f["field"] == "species")
