@@ -490,6 +490,14 @@ def main() -> int:
                        for f in row["proposed_schema_1_2_facts"]):
                 raise SystemExit("fact missing a contiguous quote: %s"
                                  % row["identity_key"])
+            for fact in row["proposed_schema_1_2_facts"]:
+                if fact.get("field") != "pet_fee":
+                    continue
+                value = fact.get("value") or {}
+                quote = (fact.get("quote") or "").lower()
+                if "scope" in value and "per pet" not in quote and "per room" not in quote:
+                    raise SystemExit("fee scope inferred without an explicit quote: %s"
+                                     % row["identity_key"])
         else:
             if row["proposed_schema_1_2_facts"] or row["exact_quotes"]:
                 raise SystemExit("policy used on an unbound row: %s" % row["identity_key"])
@@ -573,6 +581,7 @@ def main() -> int:
             ("never_infer", [
                 "dogs + cats from generic pets",
                 "fee basis",
+                "fee scope",
             ]),
         ))),
         ("outcome_counts", counts),
