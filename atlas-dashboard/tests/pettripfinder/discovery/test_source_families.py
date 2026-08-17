@@ -6,7 +6,9 @@ import pytest
 
 from scripts.pettripfinder.discovery.source_families import (
     CONCRETE_SOURCE_FAMILY,
+    FAMILY_CHAIN,
     FAMILY_CVB,
+    FAMILY_DIRECTORY,
     FAMILY_GDS,
     FAMILY_OTA,
     FAMILY_REGISTRY,
@@ -30,6 +32,15 @@ class TestTaxonomy:
         for source in ("destination_cleveland", "akron_summit_cvb",
                        "stark_county_cvb", "destination_hudson"):
             assert family_of(source) == FAMILY_CVB
+
+    def test_pittsburgh_factory_sources_are_mapped(self):
+        assert family_of("visit_pittsburgh") == FAMILY_CVB
+        assert family_of("cultural_trust") == FAMILY_CVB
+        for source in ("paacc", "east_liberty_chamber", "gpha", "parks_conservancy"):
+            assert family_of(source) == FAMILY_DIRECTORY
+        assert family_of("city_parks") == FAMILY_REGISTRY
+        assert family_of("avets") == FAMILY_CHAIN
+        assert family_of("veg_pittsburgh") == FAMILY_CHAIN
 
     def test_dbpr_is_registry(self):
         assert family_of("fl_dbpr_lodging") == FAMILY_REGISTRY

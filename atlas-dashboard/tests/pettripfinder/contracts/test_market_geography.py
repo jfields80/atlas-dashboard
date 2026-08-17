@@ -42,7 +42,10 @@ EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
                    CINCINNATI: ["OH", "KY", "IN"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
                        DAYTON: "market_prefixed", CINCINNATI: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 121}
+# Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
+# from six official destination-marketing directories instead of from its own
+# corridor registry.
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256}
 
 
 def census(market_id):
@@ -120,8 +123,11 @@ class TestMarketStateOwnership:
             assert row["state"] in allowed, row["canonical_name"]
 
     def test_cincinnati_really_is_tri_state(self):
+        """96/16/9 before the rebuild. Kentucky grew nearly fivefold, because
+        the airport and Florence clusters the old census never surveyed are
+        almost all on the Kentucky side of the river."""
         counts = collections.Counter(r["state"] for r in census(CINCINNATI)["hotels"])
-        assert counts == {"OH": 96, "KY": 16, "IN": 9}
+        assert counts == {"OH": 170, "KY": 77, "IN": 9}
 
     def test_a_kentucky_property_is_not_relabelled_ohio(self):
         """The market's primary state may never overwrite a row's own."""
