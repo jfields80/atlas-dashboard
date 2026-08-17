@@ -1,0 +1,142 @@
+{
+  "schema": "ptf-market-release-contract/1.0",
+  "contract_id": "pettripfinder-cincinnati-oh-release/1.0",
+  "market_id": "cincinnati-oh",
+  "product": "pettripfinder-cincinnati-oh",
+  "release_name_prefix": "prod-005-cincinnati",
+  "description": "Deterministic release-gate contract for the PetTripFinder Cincinnati Tri-State (OH-KY-IN) market (PTF-CINCINNATI-RELEASE-CONTRACT-001). Every number below is derived from this market's own committed authority via scripts.pettripfinder.release_contracts.derive_authority, not hard-coded from memory. It describes only this market's reviewed authority and grants no deployment authorization.",
+  "deployment_authorization": {
+    "grants_deployment": false,
+    "asserts_market_complete": false,
+    "means": "A passing contract means this market's assembled package is structurally deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 224 of this market's 256 confirmed identities are still unresolved. Cincinnati's own founder review has not yet reached a decision for 21c Museum Hotel Cincinnati (ARTIFACT_INSUFFICIENT, pending RECAPTURE_ARTIFACT_HASH) or Cincinnati's Fidelity Hotel (pre-opening hold), and this contract makes no claim about either."
+  },
+  "canonical": {
+    "base_url": "https://pettripfinder.com",
+    "canonical_host": "pettripfinder.com",
+    "robots_sitemap_host": "pettripfinder.com",
+    "sitemap_host": "pettripfinder.com"
+  },
+  "identity_census": {
+    "path": "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
+    "schema": "ptf-market-identity-census/1.1",
+    "expected_count": 256,
+    "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). Policy publication is restricted to the 20 founder-approved PUBLICATION_CANDIDATE facts and 6 founder-approved VERIFIED_NO_PETS exclusions from PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS; 17 identity holds, 13 routing-unresolved identities, and 194 identities still awaiting policy observation remain unresolved. 6 identities are ruled out of the current lodging category (short-term rentals and guesthouses the source directories list beside hotels)."
+  },
+  "reconciliation": {
+    "confirmed_identities": 256,
+    "published_pet_friendly": 20,
+    "verified_no_pets": 6,
+    "out_of_current_category": 6,
+    "resolved": 32,
+    "unresolved": 224,
+    "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(), the same machinery every other market's contract uses; unresolved is not negative pet evidence. 'resolved' counts published + verified-no-pets + the 6 OUT_OF_CURRENT_CATEGORY exclusion-registry records this market owns (PTF-CINCINNATI-CATEGORY-EXIT-REGISTRY-REPAIR-001 mechanically registered these -- a disposition already made by PTF-CINCINNATI-CENSUS-RECONCILIATION-001, not a new decision -- matching the representation Columbus and Pittsburgh already use for the same disposition class). 256 = 20 + 6 + 6 + 224."
+  },
+  "reconciliation_cross_checks": [],
+  "policy_package": {
+    "path": "launch_packages/pettripfinder/hotel_policy_facts_cincinnati-oh.json",
+    "expected_sha256": "7fb86a7217e2d8ec6ca187d061fd8f5ca3771291b92fabc7c86eef1339d6908f",
+    "expected_schema_version": "1.2",
+    "expected_record_count": 20,
+    "identity_authority": true,
+    "note": "The live Cincinnati policy package is the sole identity authority for its twenty verified profiles; no hard-coded allow-list is repeated here. Written by PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 from the founder's 26 ready Capture Pass 1 decisions.",
+    "schema_note": "Schema 1.2; each record retains its founder decision binding and final record/evidence hashes."
+  },
+  "public_surface": {
+    "seed_hotel_rows": 20,
+    "public_hotel_profile_count": 20,
+    "excluded_public_profile_count": 0,
+    "held_hotel_exclusion": "Every other unresolved or category-excluded census identity has no seed row and no public route. This market currently holds none -- every seed row it owns is published."
+  },
+  "routes": {
+    "market_slug": "cincinnati-oh",
+    "route_mode": "market_prefixed",
+    "hotel_route_count": 20,
+    "published_corridor_route_count": 6,
+    "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/cincinnati-oh/. 6 of this market's 22 configured corridors are above their publication minimum and claim a route, derived from the twenty published hotels' own corridor assignments; the market is registered assemblable but not yet enabled in primary navigation (show_in_navigation is a separate, unrelated market-config setting)."
+  },
+  "minimum_release_gates": [
+    "authority.contract_is_for_this_market",
+    "authority.reconciliation_matches_market_authority",
+    "authority.package_exists",
+    "authority.package_sha256",
+    "authority.package_schema_version",
+    "authority.package_count",
+    "identity.verified_from_package",
+    "identity.held_derived",
+    "route.profile_count_matches_contract",
+    "route.all_committed_profiles_present",
+    "route.all_held_absent",
+    "route.no_excluded_reference_on_any_surface",
+    "publish.control_files_present",
+    "publish.headers_match_tracked_source",
+    "publish.redirects_match_tracked_source",
+    "publish.no_forbidden_files",
+    "publish.no_build_reports_in_site",
+    "headers.context_noindex_preview_only",
+    "content.zero_broken_links",
+    "content.quality_report_clean",
+    "content.build_report_hotel_count_matches_contract",
+    "tech.go_pages_noindex",
+    "tech.sitemap_public_canonical_only",
+    "tech.robots_sitemap_host_apex",
+    "tech.no_credentials",
+    "tech.no_windows_local_paths",
+    "tech.no_runtime_paths"
+  ],
+  "forbidden_output_tokens": [
+    "C:\\Atlas",
+    "C:/Atlas",
+    "NETLIFY_AUTH_TOKEN",
+    "NETLIFY_SITE_ID",
+    "nfp_",
+    "AppData",
+    "/Users/",
+    "\\Users\\"
+  ],
+  "publish": {
+    "publishable_root": "site/",
+    "control_files": [
+      "_headers",
+      "_redirects"
+    ],
+    "control_file_sources": {
+      "_headers": {
+        "preview": "deploy/netlify/headers.preview",
+        "production": "deploy/netlify/headers.production"
+      },
+      "_redirects": "deploy/netlify/redirects"
+    },
+    "forbidden_basenames": [
+      "_build_report.json",
+      "_broken_link_report.json",
+      "_quality_report.json",
+      "bundle_manifest.json",
+      ".env"
+    ],
+    "forbidden_extensions": [
+      ".py",
+      ".pyc",
+      ".pyo",
+      ".patch",
+      ".map",
+      ".json",
+      ".env"
+    ],
+    "forbidden_path_segments": [
+      ".git",
+      ".github",
+      ".claude",
+      ".netlify",
+      "__pycache__",
+      "data",
+      "docs",
+      "tests",
+      "scripts",
+      "services",
+      "launch_packages",
+      "engines",
+      "repositories"
+    ],
+    "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+  }
+}

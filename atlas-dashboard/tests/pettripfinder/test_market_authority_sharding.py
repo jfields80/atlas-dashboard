@@ -163,13 +163,17 @@ class TestNothingMovedBetweenMarkets:
 
     # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 legitimately grew
     # Cincinnati's shard after the sharding baseline was captured: 20 seed
-    # rows and 6 exclusions, from the founder's Pass 1 decisions. Routing is
-    # unchanged (210) -- retiring a route is a status flip, not a count
-    # change. That is same-market growth, not cross-market movement, so it
-    # is named here explicitly rather than silently baked into the frozen
-    # baseline file, which stays a true historical snapshot of the sharding
-    # moment itself.
-    _CINCINNATI_POST_BASELINE_DELTA = {"routing": 0, "exclusions": 6, "seed": 20}
+    # rows and 6 VERIFIED_NO_PETS exclusions, from the founder's Pass 1
+    # decisions. PTF-CINCINNATI-CATEGORY-EXIT-REGISTRY-REPAIR-001 then
+    # registered 6 more -- OUT_OF_CURRENT_CATEGORY records for a disposition
+    # the partition already carried, mechanically completed so
+    # derive_authority() reconciles, matching Columbus/Pittsburgh's own
+    # category-exit registration. Routing is unchanged (210) -- retiring a
+    # route is a status flip, not a count change. That is same-market
+    # growth, not cross-market movement, so it is named here explicitly
+    # rather than silently baked into the frozen baseline file, which stays
+    # a true historical snapshot of the sharding moment itself.
+    _CINCINNATI_POST_BASELINE_DELTA = {"routing": 0, "exclusions": 12, "seed": 20}
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:

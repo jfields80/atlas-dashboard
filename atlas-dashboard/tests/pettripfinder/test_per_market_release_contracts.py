@@ -58,7 +58,8 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
+CINCINNATI = "cincinnati-oh"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, CINCINNATI)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -117,6 +118,13 @@ EXPECTED_RECONCILIATION = {
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
+    # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 published the founder's
+    # 20 approved Capture Pass 1 records and 6 verified-no-pets exclusions.
+    # PTF-CINCINNATI-CATEGORY-EXIT-REGISTRY-REPAIR-001 then registered 6
+    # OUT_OF_CURRENT_CATEGORY exclusion-registry records for a disposition
+    # the partition already carried (not a new decision), so resolved is
+    # 20 + 6 + 6 = 32 and unresolved is 256 - 32 = 224.
+    CINCINNATI: (256, 20, 6, 32, 224),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -155,21 +163,15 @@ class TestContractRegistry:
         something to release before it needs one.
 
         PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 published Cincinnati's
-        first twenty hotels -- it now has verified inventory the same way
-        Indianapolis and Pittsburgh did before their own contracts existed.
-        Deliberately, this authority-application pass did NOT also author
-        Cincinnati's release contract: that document requires the site
-        generator's own derived corridor-route counts and a package sha256
-        pinned at write time, which is a separate, dedicated step every
-        other market got as its own numbered work order
-        (PTF-PER-MARKET-RELEASE-CONTRACTS-001 for the first three).
-        ``derive_authority`` still refuses to invent one, so Cincinnati is
-        verified-but-not-yet-releasable rather than silently assemblable --
-        named here as a known, intentional gap, not a bug.
+        first twenty hotels, and PTF-CINCINNATI-RELEASE-CONTRACT-001 then gave
+        it its own release contract (deriving every number from
+        release_contracts.derive_authority() rather than hard-coding), the
+        same way every other market's contract arrived as its own dedicated
+        work order.
 
-        The invariant that matters is otherwise unchanged: every market that
-        CAN release AND HAS a contract stays a subset of the configured
-        markets, and no contract exists for a market that is not configured.
+        The invariant that matters is unchanged: every market that CAN
+        release has a contract, and no contract exists for a market that is
+        not configured.
         """
         configured = {m.market_id for m in load_markets()}
         releasable = set()
@@ -185,22 +187,17 @@ class TestContractRegistry:
             if doc.get("published") is False:
                 continue
             releasable.add(mid)
-        # cincinnati-oh is releasable (real inventory) but has no contract yet
-        # -- see the docstring above.
-        assert releasable - {"cincinnati-oh"} == set(MARKETS)
-        assert "cincinnati-oh" not in set(MARKETS)
-        assert set(available_market_ids()) == releasable - {"cincinnati-oh"}
+        assert releasable == set(MARKETS)
+        assert set(available_market_ids()) == releasable
         assert set(available_market_ids()) <= configured
 
-    def test_cincinnati_has_inventory_but_no_contract_yet(self):
+    def test_cincinnati_has_a_release_contract(self):
         """Cincinnati crossed into verified inventory
-        (PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001, 20 published) but its
-        release contract is a deliberate, separate follow-up -- not authored
-        by an authority-application pass, the same way every other market's
-        contract arrived as its own dedicated work order."""
+        (PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001, 20 published) and now
+        has its own release contract (PTF-CINCINNATI-RELEASE-CONTRACT-001)."""
         configured = {m.market_id for m in load_markets()}
         assert "cincinnati-oh" in configured
-        assert "cincinnati-oh" not in set(available_market_ids())
+        assert "cincinnati-oh" in set(available_market_ids())
         assert "indianapolis-in" in configured
         assert "indianapolis-in" in set(available_market_ids())
 
@@ -277,7 +274,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, CINCINNATI: 6}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
