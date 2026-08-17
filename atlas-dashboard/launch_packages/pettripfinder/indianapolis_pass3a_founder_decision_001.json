@@ -1,0 +1,81 @@
+{
+  "schema": "ptf-indianapolis-pass3a-founder-decision/1.0",
+  "work_order": "PTF-INDIANAPOLIS-PASS3A-FOUNDER-DECISION-001",
+  "as_of": "2026-08-17",
+  "market_id": "indianapolis-in",
+  "source_packets": [
+    "indianapolis_pass3a_capture_results.json",
+    "indianapolis_pass3a_founder_review_packet.json"
+  ],
+  "status": "RECORDED_NOT_APPLIED",
+  "rule": "Record the Pass 3A Residence Inn decision only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing. Staybridge has no founder decision in this record. Do not execute the Hilton fresh-session queue.",
+  "founder_decisions_applied": false,
+  "authority_changed": false,
+  "published": false,
+  "positive_decisions": [
+    {
+      "decision_id": "INDY-P3A-001",
+      "identity_key": "residence inn by marriott indianapolis airport",
+      "hotel": "Residence Inn Indianapolis Airport",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "5224 West Southern Avenue",
+        "city": "Indianapolis",
+        "state": "IN",
+        "postal_code": "46241",
+        "phone": "317-244-1500"
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "pet_fee=$100 per_stay",
+        "refundable=false",
+        "weight_limit=75 lb",
+        "pet_count_limit=2"
+      ],
+      "do_not_invent": [
+        "fee scope",
+        "weight scope",
+        "species",
+        "service-animal statement",
+        "reservation_requirement"
+      ],
+      "payment_timing": {
+        "quote": "due at check-in",
+        "treatment": "payment timing only",
+        "not": "reservation_requirement"
+      },
+      "do_not_confuse_with": [
+        "fairfield inn and suites indianapolis airport",
+        "crowne plaza indianapolis airport"
+      ]
+    }
+  ],
+  "negative_decisions": [],
+  "undecided": [
+    {
+      "decision_id": "INDY-P3A-002",
+      "identity_key": "staybridge suites indianapolis airport plainfield",
+      "hotel": "Staybridge Suites Indianapolis Airport Plainfield",
+      "pass3a_outcome": "IDENTITY_UNCERTAIN",
+      "note": "No founder decision was supplied in this record. Policy remains unused."
+    }
+  ],
+  "counts": {
+    "policy_decisions_recorded": 1,
+    "positive_approved": 1,
+    "verified_no_pets_approved": 0,
+    "identity_holds": 0,
+    "undecided": 1,
+    "decisions_applied": 0
+  },
+  "not_done": [
+    "No Indianapolis policy package",
+    "No hotel_exclusions append",
+    "No live founder approval records",
+    "No Staybridge decision",
+    "No Hilton fresh-session capture",
+    "No merge",
+    "No deploy"
+  ]
+}
