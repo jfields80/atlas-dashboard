@@ -151,12 +151,23 @@ def verify_record(before: Dict, after: Dict) -> Dict:
     if before_record == after_record:
         failures.append("record_hash did NOT move; nothing was bound")
 
+    # The substance checks above are the founder's condition and never vary.
+    # The approval POSTURE does: a record is legitimately pending before Pass C
+    # applies and founder-approved after, and this verifier runs in both states
+    # -- once per record at application time, and again by the closeout tests.
+    # Accepting only one posture would make the applier non-idempotent, which is
+    # the exact defect this work order has already hit twice.
     approval = after["approval"]
     prior = approval.get("supersedes") or {}
-    if approval["decision"] != enums.MACHINE_REVIEWED_PENDING_OPERATOR:
-        failures.append("live approval is not pending-operator")
-    if approval["operator"] == "jfields80":
-        failures.append("a machine decision carries the founder's name")
+    decision = approval["decision"]
+    if decision == enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+        if approval["operator"] == "jfields80":
+            failures.append("a machine decision carries the founder's name")
+    elif decision == enums.APPROVED_AFTER_CURRENT_REVIEW:
+        if approval["operator"] != "jfields80":
+            failures.append("a founder approval is not in the founder's name")
+    else:
+        failures.append("unexpected live approval state %r" % decision)
     if prior.get("operator") != "jfields80":
         failures.append("the preserved prior approval is not the founder's")
     if prior.get("record_hash") != before_record:

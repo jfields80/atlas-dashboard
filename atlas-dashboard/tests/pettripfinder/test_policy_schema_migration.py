@@ -852,10 +852,27 @@ def test_every_approval_names_a_person_and_binds_the_record_it_signed(records):
         attested += 1
         assert entry["founder_attested"] is True
         if promised != approval["record_hash"]:
-            assert approval["decision"] == \
-                enums.MACHINE_REVIEWED_PENDING_OPERATOR, record["key"]
-            assert approval["supersedes"]["record_hash"] == promised, \
-                record["key"]
+            # The record moved past the hash the founder was shown. Two states
+            # are honest, and both keep that hash findable:
+            #
+            #   awaiting them  -- pending-operator, promised hash preserved; or
+            #   re-attested    -- the founder signed again at the NEW hash,
+            #                     which is what PTF-DAYTON-RECERTIFICATION-001
+            #                     Pass C did for all 47 Dayton records.
+            #
+            # What is never allowed is the promised hash simply disappearing,
+            # so it is required to survive verbatim somewhere in the chain
+            # rather than only one level down.
+            chain, node = [], approval.get("supersedes")
+            while isinstance(node, dict) and node:
+                chain.append(node.get("record_hash"))
+                node = node.get("supersedes")
+            assert promised in chain, record["key"]
+            if approval["decision"] != enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+                assert approval["decision"] == \
+                    enums.APPROVED_AFTER_CURRENT_REVIEW, record["key"]
+                assert "claude" not in approval["operator"].lower(), \
+                    record["key"]
     assert attested == 53
 
 

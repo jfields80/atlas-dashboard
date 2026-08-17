@@ -83,6 +83,7 @@ CONTRACT_PATH = (_REPO_ROOT / "deploy" / "netlify" / "release_contracts"
 
 POLICY = "POLICY_DECISION"
 COHORT = "ARTIFACT_BINDING_ONLY_REATTESTATION"
+APPROVE_COHORT = "APPROVE_ARTIFACT_BINDING_ONLY_REATTESTATION"
 
 
 def load_json(path: Path) -> Dict:
@@ -96,15 +97,33 @@ def _founder_prior(approval: Dict) -> Dict:
     leave an agent name where a reader looks for the previous human decision.
     """
     node = approval
-    while node.get("operator") != FOUNDER and node.get("supersedes"):
+    # Skip the agent's machine block, and skip THIS pass's own output too: on a
+    # re-run the live approval is already the founder's, and treating it as the
+    # prior would make the record supersede itself -- the same self-nesting
+    # defect Pass A hit. A block this pass wrote is identifiable by the
+    # decision_source it stamps; the founder's own earlier attestations carry
+    # none.
+    while node.get("supersedes") and (
+            node.get("operator") != FOUNDER or "decision_source" in node):
         node = node["supersedes"]
     if node.get("operator") != FOUNDER:
         raise AssertionError("no founder approval anywhere in the chain")
+    if "decision_source" in node:
+        raise AssertionError(
+            "the only founder approval in the chain is this pass's own output")
     return node
 
 
-def approve(record: Dict, kind: str, decision_row: Dict) -> Dict:
-    """Write the founder's live approval onto one record."""
+def approve(record: Dict, kind: str, decision_row: Dict,
+            decided_at: str = "", ledger_file: str = "") -> Dict:
+    """Write the founder's live approval onto one record.
+
+    The approval names WHICH decision authorised it, not merely that one did.
+    An approval that binds only hashes says a record was approved; one that also
+    names its decision says which ruling, given when, in which ledger -- so a
+    later reader can go back to what the founder actually decided rather than
+    inferring it from a date.
+    """
     approval = record["approval"]
     prior = _founder_prior(approval)
 
@@ -146,6 +165,13 @@ def approve(record: Dict, kind: str, decision_row: Dict) -> Dict:
         ("decision", enums.APPROVED_AFTER_CURRENT_REVIEW),
         ("operator", FOUNDER),
         ("approval_date", APPLIED_AT),
+        ("decision_source", OrderedDict([
+            ("kind", kind),
+            ("decision_id", decision_row.get("decision_id", APPROVE_COHORT)),
+            ("decided_by", FOUNDER),
+            ("decided_at", decided_at or APPLIED_AT),
+            ("ledger", ledger_file or LEDGER_PATH.name),
+        ])),
         ("supersedes", copy.deepcopy(dict(prior))),
         ("caveats", [caveat]),
         ("record_hash", final_record),
@@ -180,7 +206,9 @@ def run(baseline: str, apply: bool) -> Dict:
                 ("identity_key", key), ("lane", POLICY),
                 ("reason", "founder decision is %r" % row["founder_decision"])]))
             continue
-        approval = approve(by_key[key], POLICY, row)
+        approval = approve(by_key[key], POLICY, row,
+                           decided_at=row["decided_at"],
+                           ledger_file=LEDGER_PATH.name)
         applied.append(OrderedDict([
             ("identity_key", key), ("lane", POLICY),
             ("decision_id", row["decision_id"]),
@@ -198,7 +226,9 @@ def run(baseline: str, apply: bool) -> Dict:
                            "time"),
                 ("failures", verdict["failures"])]))
             continue
-        approval = approve(by_key[key], COHORT, row)
+        approval = approve(by_key[key], COHORT, row,
+                           decided_at=cohort_decision["decided_at"],
+                           ledger_file=LEDGER_PATH.name)
         applied.append(OrderedDict([
             ("identity_key", key), ("lane", COHORT),
             ("record_hash", approval["record_hash"]),

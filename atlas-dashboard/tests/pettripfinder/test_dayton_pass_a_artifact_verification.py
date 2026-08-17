@@ -213,20 +213,24 @@ def test_alias_inventory_is_reported_not_hidden(facts, report):
 # --------------------------------------------------------------------------- #
 
 def test_no_human_name_carries_a_machine_decision(facts):
-    """The rule this whole pass is shaped around.
+    """The rule this whole pass is shaped around, stated so it survives closeout.
 
-    An attestation needs the human. Pass A verified hashes; it did not review
-    anything, so the live decision is machine-reviewed-pending-operator and the
-    operator field names the agent -- never jfields80.
+    An attestation needs the human. Pass A verified hashes and reviewed nothing,
+    so it left every record machine-reviewed-pending-operator under the agent's
+    name. Pass C then applied the founder's own decisions, so the live state is
+    now theirs. The invariant that has to hold FOREVER is the biconditional: a
+    machine decision never carries a human name, and a human approval never
+    carries an agent's.
     """
     for hotel in facts["hotels"]:
         approval = hotel["approval"]
-        assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert approval["operator"].startswith("claude-")
-        assert approval["operator"] != "jfields80"
-        assert approval["decision"] not in enums.PUBLISHING_DECISIONS
-        if hotel["identity_key"] not in PASS_B_CORRECTED:
-            assert approval["operator"] == AGENT_IDENTITY
+        if approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+            assert approval["operator"].startswith("claude-")
+            assert approval["decision"] not in enums.PUBLISHING_DECISIONS
+        else:
+            assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
+            assert approval["operator"] == "jfields80"
+            assert "claude" not in approval["operator"].lower()
 
 
 def test_prior_human_approval_is_preserved_verbatim_and_unbound(facts):

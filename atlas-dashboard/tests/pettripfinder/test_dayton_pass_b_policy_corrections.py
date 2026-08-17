@@ -277,25 +277,38 @@ def test_no_withholding_was_invented_for_a_silent_source(facts):
 # Governance.
 # --------------------------------------------------------------------------- #
 
-def test_pass_b_wrote_no_approval(facts):
+def test_no_approval_was_written_without_a_recorded_decision(facts):
+    """Pass B wrote no approval; Pass C wrote 47, each from a recorded ruling.
+
+    The claim that survives both is the one worth testing: a live founder
+    approval exists only where the founder actually decided, and it binds the
+    record it signs.
+    """
+    ledger = json.loads(
+        (LP / "dayton_passB_founder_decisions.json").read_text(encoding="utf-8"))
+    decided = {r["identity_key"] for r in ledger["decisions"]}
+    decided |= {r["identity_key"] for r in
+                ledger["artifact_only_cohort_decision"]["records"]}
     for hotel in facts["hotels"]:
         approval = hotel["approval"]
-        assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert approval["decision"] not in enums.PUBLISHING_DECISIONS
-        assert approval["operator"] != "jfields80"
         assert approval["record_hash"] == record_hash(hotel)
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
+        if approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW:
+            assert approval["operator"] == "jfields80"
+            assert hotel["identity_key"] in decided, hotel["identity_key"]
+        else:
+            assert approval["operator"] != "jfields80"
 
 
 def test_the_founder_stayed_the_preserved_prior(by_key):
-    """Pass B superseded Pass A's machine block, not the founder's approval.
+    """No machine approval was ever nested into a supersedes chain.
 
-    Nesting a machine approval inside supersedes would put an agent's name
+    Pass B superseded Pass A's machine block and Pass C superseded Pass B's, and
+    at no point did either become the "prior" -- which would put an agent's name
     exactly where a reader looks for the last human decision.
     """
     for key in CORRECTED:
         approval = by_key[key]["approval"]
-        assert approval["operator"] == AGENT_IDENTITY
         prior = approval["supersedes"]
         assert prior["operator"] == "jfields80"
         assert prior["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
@@ -348,11 +361,16 @@ def test_census_was_not_touched_by_a_policy_pass(packet):
 # Release contract.
 # --------------------------------------------------------------------------- #
 
-def test_release_contract_pins_the_corrected_package(packet):
+def test_release_contract_pins_the_current_package(packet):
+    """The pin always names the CURRENT bytes; each pass re-pins what it left.
+
+    Pass B's sha became history when Pass C applied the founder's approvals, so
+    an assertion still pointed at it would have stopped checking the live pin.
+    """
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
-    assert packet["facts_sha256_after"] == actual
     assert packet["facts_sha256_before"] != actual
+    assert packet["facts_sha256_after"] != actual   # superseded by Pass C
     raw = FACTS_PATH.read_bytes()
     assert b"\r\n" not in raw and raw.endswith(b"\n")

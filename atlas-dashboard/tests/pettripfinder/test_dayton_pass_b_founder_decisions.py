@@ -52,19 +52,27 @@ def by_key(facts):
 # Recording is not applying.
 # --------------------------------------------------------------------------- #
 
-def test_no_approval_was_written_to_the_authority(facts):
+def test_recording_and_applying_stayed_separate_events(facts, ledger):
     """The assertion this file exists for.
 
-    Six APPROVE rulings are on file. Not one of them has been applied, so every
-    record -- corrected or not -- is still machine-reviewed and pending, and the
-    founder's name appears on no live decision.
+    The ledger records decisions; it never writes approvals. It still says
+    ``applied_to_authority: false`` on every row, because THAT was true of the
+    recording -- Pass C applied them afterwards as its own auditable event. A
+    ledger that had written the approvals itself would have collapsed the two.
     """
+    assert ledger["status"] == "RECORDED_NOT_APPLIED"
+    assert ledger["counts"]["applied"] == 0
+    for row in ledger["decisions"]:
+        assert row["applied_to_authority"] is False
+    # ...and every live approval traces to a decision this ledger recorded.
+    decided = {r["identity_key"] for r in ledger["decisions"]}
+    decided |= {r["identity_key"] for r in
+                ledger["artifact_only_cohort_decision"]["records"]}
     for hotel in facts["hotels"]:
         approval = hotel["approval"]
-        assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert approval["decision"] not in enums.PUBLISHING_DECISIONS
-        assert approval["operator"] != FOUNDER
-        assert approval["operator"].startswith("claude-")
+        if approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW:
+            assert approval["operator"] == FOUNDER
+            assert hotel["identity_key"] in decided
 
 
 def test_the_ledger_says_so_in_its_own_fields(ledger):

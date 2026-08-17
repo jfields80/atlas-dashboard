@@ -98,12 +98,18 @@ def test_the_cohort_and_the_decisions_partition_the_market(report):
                       packet["artifact_binding_only_reattestation"]["records"]}
 
 
-def test_no_cohort_record_is_founder_bound_yet(by_key, report):
+def test_every_cohort_record_is_now_founder_bound(by_key, report):
+    """Pass C applied the block decision; the cohort is attested, and the
+    approval it replaced is still the founder's own earlier one."""
     for row in report["records"]:
         approval = by_key[row["identity_key"]]["approval"]
-        assert approval["decision"] == enums.MACHINE_REVIEWED_PENDING_OPERATOR
-        assert approval["operator"] != "jfields80"
+        assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
+        assert approval["operator"] == "jfields80"
+        assert approval["decision_source"]["kind"] == \
+            "ARTIFACT_BINDING_ONLY_REATTESTATION"
         assert approval["supersedes"]["operator"] == "jfields80"
+        assert approval["supersedes"]["record_hash"] == \
+            row["record_hash_before_work_order"]
 
 
 def test_the_verifier_catches_a_hidden_policy_change(by_key, report):
