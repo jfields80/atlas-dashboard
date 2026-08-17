@@ -39,10 +39,10 @@ def test_hilton_decisions_recorded_not_applied():
     hold = rec["identity_holds"][0]
     assert hold["decision"] == "HOLD_IDENTITY_UNCERTAIN"
     assert "9025 Hatfield" in hold["next_action"]
-    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is True
 
 
-def test_reconciliation_totals_and_application_executed_unpublished():
+def test_reconciliation_totals_and_application_live_published():
     recon = _json(RECON)
     tot = recon["totals"]
     assert tot["approved_positive_publications"] == 8
@@ -51,10 +51,11 @@ def test_reconciliation_totals_and_application_executed_unpublished():
     assert tot["decisions_applied"] == 12
     assert tot["remaining_unresolved_capture_ready_rows"] == 0
     assert tot["remaining_identity_repair_rows"] == 7
-    assert recon["authority_live"]["published_pet_friendly"] == 0
+    assert recon["authority_live"]["published_pet_friendly"] == 8
     assert recon["authority_live"]["verified_no_pets"] == 4
     assert recon["approved_positive_publications"]["applied"] == 8
-    assert recon["approved_positive_publications"]["published"] is False
+    assert recon["authority_live"]["unresolved"] == 141
+    assert recon["approved_positive_publications"]["published"] is True
     assert recon["approved_verified_no_pets"]["applied"] == 4
     assert recon["approved_verified_no_pets"]["already_applied_before_this_order"] == [
         "INDY-P1-007"]
@@ -67,8 +68,8 @@ def test_reconciliation_totals_and_application_executed_unpublished():
     app = _json(APPLY)
     assert app["work_order"] == "PTF-INDIANAPOLIS-DECISION-APPLICATION-001"
     assert app["executed"] is True
-    assert app["status"] == "EXECUTED"
-    assert app["published"] is False
+    assert app["status"] == "LIVE_PUBLISHED"
+    assert app["published"] is True
     assert len(app["would_apply_positives"]) == 8
     assert len(app["would_apply_verified_no_pets"]) == 3
     assert app["already_applied"] == ["INDY-P1-007"]

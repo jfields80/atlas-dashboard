@@ -28,9 +28,9 @@ def test_crowne_airport_exclusion_remains_applied():
         census.identity_keys(_json(CENSUS)), _json(PARTITION),
         market_id="indianapolis-in")
     assert rec.agrees
-    assert rec.published == 0
+    assert rec.published == 8
     assert rec.verified_no_pets == 4
-    assert rec.unresolved == 149
+    assert rec.unresolved == 141
 
 
 def test_eight_identity_rows_are_classified_without_policy_inference():
@@ -93,6 +93,9 @@ def repair_ready_count():
     return _json(REPAIR)["capture_ready_count"]
 
 
-def test_no_indianapolis_policy_package():
+def test_live_indianapolis_policy_package_excludes_identity_repair_rows():
     facts = _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")
-    assert facts["published"] is False
+    assert facts["published"] is True
+    published = {h["identity_key"] for h in facts["hotels"]}
+    assert "comfort suites indianapolis airport" not in published
+    assert "home2 suites by hilton indianapolis airport" not in published

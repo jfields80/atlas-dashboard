@@ -42,7 +42,7 @@ def test_outcome_counts_sum_to_ten():
 
 
 def test_no_indianapolis_authority_was_written():
-    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is True
     routing = _json(PACKAGE / "identity_routing.json")
     assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
     exclusions = _json(PACKAGE / "hotel_exclusions.json")

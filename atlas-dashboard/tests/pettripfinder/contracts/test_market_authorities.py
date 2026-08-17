@@ -55,8 +55,8 @@ EXPECTED = {
              "out_of_category": 0, "unresolved": 74},
     CINCINNATI: {"census": 121, "published": 0, "no_pets": 0,
                  "out_of_category": 0, "unresolved": 121},
-    INDIANAPOLIS: {"census": 153, "published": 0, "no_pets": 4,
-                   "out_of_category": 0, "unresolved": 149},
+    INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
+                   "out_of_category": 0, "unresolved": 141},
 }
 
 
@@ -88,6 +88,7 @@ POLICY_FILES = {
     COLUMBUS: "hotel_policy_facts.json",
     CLEVELAND: "hotel_policy_facts_cleveland-akron-canton-oh.json",
     DAYTON: "hotel_policy_facts_dayton-oh.json",
+    INDIANAPOLIS: "hotel_policy_facts_indianapolis-in.json",
 }
 
 
@@ -259,14 +260,14 @@ class TestNextActionInvariant:
 
 class TestTerminalDispositionsMatchAuthority:
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
     def test_published_set_matches_the_policy_package(self, market_id):
         published = published_keys(POLICY_FILES[market_id])
         in_partition = {i["identity_key"] for i in partition_doc(market_id)["items"]
                         if i["final_state"] == enums.PUBLISHED_PET_FRIENDLY}
         assert in_partition == published
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
     def test_terminal_sets_match_the_exclusion_registry(self, market_id):
         exclusions = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
         for state in (enums.VERIFIED_NO_PETS, enums.OUT_OF_CURRENT_CATEGORY):
@@ -295,8 +296,8 @@ class TestTerminalDispositionsMatchAuthority:
         assert not (states & set(enums.TERMINAL_STATES))
         assert len(doc["items"]) == 121
 
-    def test_indianapolis_publishes_nothing_and_has_four_verified_refusals(self):
-        """Application applied four VERIFIED_NO_PETS; the market still publishes zero."""
+    def test_indianapolis_publishes_eight_and_has_four_verified_refusals(self):
+        """Live application reconciles the approved positives and negative evidence."""
         no_pets = {
             "crowne plaza indianapolis airport",
             "courtyard by marriott indianapolis castleton",
@@ -315,7 +316,8 @@ class TestTerminalDispositionsMatchAuthority:
         }
         doc = partition_doc(INDIANAPOLIS)
         states = {i["final_state"] for i in doc["items"]}
-        assert states & set(enums.TERMINAL_STATES) == {enums.VERIFIED_NO_PETS}
+        assert states & set(enums.TERMINAL_STATES) == {
+            enums.PUBLISHED_PET_FRIENDLY, enums.VERIFIED_NO_PETS}
         assert len(doc["items"]) == 153
         refused = [i for i in doc["items"]
                    if i["final_state"] == enums.VERIFIED_NO_PETS]

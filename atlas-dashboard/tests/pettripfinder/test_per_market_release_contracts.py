@@ -56,7 +56,8 @@ from scripts.pettripfinder.release_contracts import (
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
+INDIANAPOLIS = "indianapolis-in"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -90,6 +91,7 @@ EXPECTED_RECONCILIATION = {
     # and Best Western Celina's "Pets are not accepted." All four had been
     # written off as brand-platform ACCESS_BLOCKED by a static fetch.
     DAYTON: (129, 47, 8, 55, 74),
+    INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -134,10 +136,9 @@ class TestContractRegistry:
         ``derive_authority`` refuses outright rather than inventing an empty
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
-        PTF-INDIANAPOLIS-DECISION-APPLICATION-001 wrote
-        hotel_policy_facts_indianapolis-in.json with published:false. File
-        presence is not a release. An unpublished package is recorded
-        authority, not verified inventory a contract could describe.
+        Indianapolis now has eight founder-approved live records and therefore
+        has its own release contract. Cincinnati remains the intentional
+        contractless zero-inventory market.
 
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
@@ -166,7 +167,7 @@ class TestContractRegistry:
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" not in set(available_market_ids())
         assert "indianapolis-in" in configured
-        assert "indianapolis-in" not in set(available_market_ids())
+        assert "indianapolis-in" in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -240,7 +241,7 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 8}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 8, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -270,7 +271,7 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, INDIANAPOLIS))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]

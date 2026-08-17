@@ -69,10 +69,10 @@ def test_partition_reconciles_by_set():
     rec = partition.reconcile(census.identity_keys(census_doc), part,
                               market_id=MARKET)
     assert rec.agrees
-    assert rec.published == 0
+    assert rec.published == 8
     assert rec.verified_no_pets == 4
     assert rec.out_of_category == 0
-    assert rec.unresolved == 149
+    assert rec.unresolved == 141
     assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved \
         == rec.census_count
     assert partition.validate(part) == ()
@@ -184,8 +184,8 @@ def test_queue_equals_unresolved_partition():
     with rollup.open(encoding="utf-8", newline="") as fh:
         rows = list(csv.DictReader(fh))
     keys = [r["identity_key"] for r in rows]
-    assert len(unresolved) == 149
-    assert unresolved == set(census_by_key) - NO_PETS
+    assert len(unresolved) == 141
+    assert unresolved == set(census_by_key) - NO_PETS - CONFIRMED
     assert set(keys) >= unresolved
     assert len(keys) == len(set(keys)) == 152
     for row in rows:
@@ -210,19 +210,19 @@ def test_queue_batches_are_about_ten():
         assert 1 <= n <= 10
 
 
-def test_no_production_authority_was_created():
+def test_live_production_authority_is_complete_and_holds_stay_non_public():
     facts = PACKAGE / "hotel_policy_facts_indianapolis-in.json"
     assert facts.is_file()
     doc = _json(facts)
-    assert doc["published"] is False
+    assert doc["published"] is True
     assert doc["market_id"] == MARKET
     assert len(doc["hotels"]) == 8
-    assert MARKET not in available_market_ids()
+    assert MARKET in available_market_ids()
     routing = json.loads((PACKAGE / "identity_routing.json").read_text(
         encoding="utf-8-sig"))
     assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
     seed = (PACKAGE / "seed_businesses.csv").read_text(encoding="utf-8")
-    assert ",indianapolis-in" not in seed
+    assert seed.count(",indianapolis-in") == 8
     exclusions = json.loads((PACKAGE / "hotel_exclusions.json").read_text(
         encoding="utf-8-sig"))
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
@@ -235,15 +235,15 @@ def test_no_production_authority_was_created():
     }
     assert all(e["exclusion_state"] == enums.VERIFIED_NO_PETS for e in indy_ex)
     release = ROOT / "deploy" / "netlify" / "release_contracts" / "indianapolis-in.json"
-    assert not release.exists()
+    assert release.exists()
 
 
-def test_assembler_leaves_indianapolis_out():
+def test_assembler_includes_indianapolis_after_live_authority_application():
     markets = load_markets()
     row = market_eligibility(market_by_id(markets, MARKET))
-    assert row["assemblable"] is False
+    assert row["assemblable"] is True
     chosen, _rows = select_markets(markets)
-    assert MARKET not in [m.market_id for m in chosen]
+    assert MARKET in [m.market_id for m in chosen]
 
 
 def test_utilities_have_provenance_and_revalidation():

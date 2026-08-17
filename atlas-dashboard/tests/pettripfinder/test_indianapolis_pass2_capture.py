@@ -53,7 +53,7 @@ def test_outcome_counts_sum_to_ten_and_authority_untouched():
     assert packet["authority_changed"] is False
     assert len(packet["positive_candidates"]) == 2
     assert len(packet["negative_candidates"]) == 3
-    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is True
 
 
 def test_crowne_downtown_refusal_is_independent_of_airport():
@@ -305,7 +305,7 @@ def test_authority_freeze_and_benchmark():
     assert packet["founder_decisions_applied"] is False
     assert packet["authority_changed"] is False
     assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
-    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is False
+    assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is True
     exclusions = _json(PACKAGE / "hotel_exclusions.json")
     indy = [e for e in exclusions["exclusions"]
             if e.get("market_id") == "indianapolis-in"]

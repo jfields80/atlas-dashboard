@@ -312,22 +312,22 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON, INDIANAPOLIS])
 
 
-def test_indianapolis_is_registered_below_threshold_and_not_assembled(markets):
+def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
     row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
-    assert row["published_count"] == 0
+    assert row["published_count"] == 8
     assert row["conditions"]["census_present"] is True
-    assert row["conditions"]["meets_minimum_published"] is False
-    assert row["assemblable"] is False
+    assert row["conditions"]["meets_minimum_published"] is True
+    assert row["assemblable"] is True
 
 
-def test_indianapolis_does_not_fail_the_global_selection(markets):
+def test_indianapolis_is_in_the_global_selection(markets):
     chosen, rows = select_markets(markets)
-    assert INDIANAPOLIS not in [m.market_id for m in chosen]
+    assert INDIANAPOLIS in [m.market_id for m in chosen]
     assert INDIANAPOLIS in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON, INDIANAPOLIS])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -337,12 +337,12 @@ def test_navigation_visibility_is_not_an_assembly_condition(markets):
         assert "show_in_navigation" not in row["conditions"]
 
 
-def test_current_ohio_inventory_is_156_published_profiles(markets):
+def test_current_live_inventory_includes_indianapolis_profiles(markets):
     """Section 28's current target, DERIVED -- not a constant in the code."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 21, DAYTON: 47}
-    assert sum(counts.values()) == 156
+    assert counts == {COLUMBUS: 88, CLEVELAND: 21, DAYTON: 47, INDIANAPOLIS: 8}
+    assert sum(counts.values()) == 164
 
 
 # --------------------------------------------------------------------------- #
