@@ -8,7 +8,7 @@
   "deployment_authorization": {
     "grants_deployment": false,
     "asserts_market_complete": false,
-    "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 159 of this market's 188 confirmed identities are still unresolved."
+    "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 49 of this market's 188 confirmed identities are still unresolved."
   },
   "canonical": {
     "base_url": "https://pettripfinder.com",
@@ -24,10 +24,10 @@
   },
   "reconciliation": {
     "confirmed_identities": 188,
-    "published_pet_friendly": 21,
-    "verified_no_pets": 8,
-    "resolved": 29,
-    "unresolved": 159,
+    "published_pet_friendly": 99,
+    "verified_no_pets": 40,
+    "resolved": 139,
+    "unresolved": 49,
     "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. unresolved is UNKNOWN, never negative evidence: a failed capture answers nothing, and a routed identity with an official URL is still unanswered until a policy observation passes the membrane."
   },
   "reconciliation_cross_checks": [
@@ -50,24 +50,24 @@
   ],
   "policy_package": {
     "path": "launch_packages/pettripfinder/hotel_policy_facts_cleveland-akron-canton-oh.json",
-    "expected_sha256": "8cc741b189981cc3c04cf6e08adb0189d39135e63c2709120220711454511d9a",
+    "expected_sha256": "d865e4cdab48ec8a152127aa4675f3089c600342873b1ce5e6ff1c44bff3663c",
     "expected_schema_version": "1.2",
-    "expected_record_count": 21,
+    "expected_record_count": 99,
     "identity_authority": true,
     "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Held/manual-review hotels are this market's seed hotels absent from this package.",
     "schema_note": "Schema 1.2 as of PTF-POLICY-SCHEMA-MIGRATION-001. The record count, census and partition figures are unchanged: the migration changed how each record is written, never which records exist."
   },
   "public_surface": {
-    "seed_hotel_rows": 21,
-    "public_hotel_profile_count": 21,
+    "seed_hotel_rows": 99,
+    "public_hotel_profile_count": 99,
     "excluded_public_profile_count": 0,
     "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
   },
   "routes": {
     "market_slug": "cleveland-akron-canton",
     "route_mode": "market_prefixed",
-    "hotel_route_count": 21,
-    "published_corridor_route_count": 2,
+    "hotel_route_count": 99,
+    "published_corridor_route_count": 6,
     "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/cleveland-akron-canton/. Twelve of its fourteen configured corridors are below their publication minimum and claim no route; downtown-cleveland crossed that minimum when PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published Drury Plaza Hotel."
   },
   "minimum_release_gates": [

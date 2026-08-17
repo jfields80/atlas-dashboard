@@ -221,8 +221,17 @@ class TestD_StaybridgeMiamisburg:
         return find("dayton-oh", "staybridge suites miamisburg")
 
     def test_the_source_really_does_carry_a_higher_amount(self):
-        restrictions = self.record()["facts"]["general_restrictions"]
-        assert "150" in restrictions and "50 per pet" in restrictions
+        """The premise this class rests on, read where source wording lives.
+
+        It used to read facts["general_restrictions"], which carried the
+        sentence AND published it. PTF-DAYTON-RECERTIFICATION-001 Pass B
+        removed the published duplicate -- the same ladder was already in
+        fee_tiers, so the profile stated one charge twice in two shapes -- and
+        the sentence stayed in the evidence array, which is the record's
+        account of what the page said.
+        """
+        quotes = [e["quote"] for e in self.record()["evidence"]]
+        assert any("150" in q and "50 per pet" in q for q in quotes)
 
     def test_the_ladder_the_property_stated_is_now_published(self):
         """Phase B could only WARN that $50 was not the whole charge, because
@@ -289,7 +298,7 @@ class TestF_CombinedWeightNeverBecomesIndividual:
         return out
 
     def test_the_cohort_exists(self):
-        assert len(self.records()) == 8
+        assert len(self.records()) == 9  # +Hampton Tiedeman (Pass 3)
 
     def test_canonical_moves_the_value_to_the_combined_field(self):
         for record in self.records():
@@ -325,8 +334,9 @@ class TestG_CatProhibition:
 
     def test_the_cohort_exists(self):
         # Three at migration; five since the evidence reconciliation carried
-        # across two more properties that refuse cats in their own words.
-        assert len(self.records()) == 5
+        # across two more properties that refuse cats in their own words; six
+        # since Pass 2 published Aloft Beachwood ("Dogs only- no cats...").
+        assert len(self.records()) == 7  # +Super 8 Uniontown (Pass 3)
 
     def test_the_chip_says_not_allowed(self):
         for record in self.records():

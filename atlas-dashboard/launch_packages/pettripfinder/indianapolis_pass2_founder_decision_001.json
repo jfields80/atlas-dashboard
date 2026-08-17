@@ -1,0 +1,156 @@
+{
+  "schema": "ptf-indianapolis-pass2-founder-decision/1.0",
+  "work_order": "PTF-INDIANAPOLIS-PASS2-FOUNDER-DECISION-001",
+  "as_of": "2026-08-16",
+  "market_id": "indianapolis-in",
+  "source_packets": [
+    "indianapolis_pass2_capture_results.json",
+    "indianapolis_pass2_founder_review_packet.json"
+  ],
+  "status": "RECORDED_NOT_APPLIED",
+  "rule": "Record Batch A founder decisions only. Do not write hotel_exclusions, Indianapolis policy facts, live founder approvals, seeds, or routing. Do not inherit Crowne Airport. Do not execute the remaining eight-row queue.",
+  "founder_decisions_applied": false,
+  "authority_changed": false,
+  "published": false,
+  "positive_decisions": [
+    {
+      "decision_id": "INDY-P2-007",
+      "identity_key": "holiday inn express plainfield",
+      "hotel": "Holiday Inn Express Plainfield",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "6296 Cambridge Way",
+        "city": "Plainfield",
+        "state": "IN",
+        "postal_code": "46168",
+        "phone": "317-839-9000"
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "species=dogs only",
+        "pet_fee=$25 per_night",
+        "refundable=false",
+        "weight_limit_stated_none",
+        "pet_count_limit=2"
+      ],
+      "do_not_invent": [
+        "pet_count_scope"
+      ],
+      "do_not_confuse_with": "holiday inn indianapolis airport"
+    },
+    {
+      "decision_id": "INDY-P2-010",
+      "identity_key": "le meridien indianapolis",
+      "hotel": "Le Meridien Indianapolis",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "applied": false,
+      "accepted_identity": {
+        "street": "123 South Illinois Street",
+        "city": "Indianapolis",
+        "state": "IN",
+        "postal_code": "46225",
+        "phone": "317-737-1600"
+      },
+      "approved_fields": [
+        "pets_allowed",
+        "pet_fee=$0",
+        "weight_limit=40 lb"
+      ],
+      "do_not_invent": [
+        "fee basis",
+        "fee scope",
+        "weight scope",
+        "species"
+      ],
+      "note": "Generic pets does not mean dogs + cats."
+    }
+  ],
+  "negative_decisions": [
+    {
+      "decision_id": "INDY-P2-003",
+      "identity_key": "courtyard by marriott indianapolis castleton",
+      "hotel": "Courtyard by Marriott Indianapolis Castleton",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "applied": false,
+      "evidence_quote": "Pets Not Allowed",
+      "note": "Service-animal-only access is not guest-pet permission."
+    },
+    {
+      "decision_id": "INDY-P2-004",
+      "identity_key": "crowne plaza indianapolis downtown union station",
+      "hotel": "Crowne Plaza Indianapolis Downtown Union Station",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "applied": false,
+      "evidence_quote": "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
+      "do_not_inherit_from": "crowne plaza indianapolis airport"
+    },
+    {
+      "decision_id": "INDY-P2-006",
+      "identity_key": "fairfield inn and suites indianapolis airport",
+      "hotel": "Fairfield Inn & Suites Indianapolis Airport",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "applied": false,
+      "evidence_quote": "Pets Not Allowed",
+      "note": "Do not model the $100 cleaning fee as a pet fee. Keep SOURCE_AMBIGUOUS withholding."
+    }
+  ],
+  "identity_holds": [
+    {
+      "decision_id": "INDY-P2-001",
+      "identity_key": "comfort inn indianapolis airport plainfield",
+      "hotel": "Comfort Inn Indianapolis Airport Plainfield",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "next_action": "Recapture the Choice property page after full hydration and bind 6110 Cambridge Way plus 317-204-3768 before any policy read."
+    },
+    {
+      "decision_id": "INDY-P2-002",
+      "identity_key": "courtyard by marriott indianapolis airport",
+      "hotel": "Courtyard by Marriott Indianapolis Airport",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "next_action": "Recover the hydrated Marriott JSON-LD street and reconcile it to 5525 Fortune Circle East; do not use policy until street agrees."
+    },
+    {
+      "decision_id": "INDY-P2-005",
+      "identity_key": "delta hotels by marriott indianapolis airport",
+      "hotel": "Delta Hotels by Marriott Indianapolis Airport",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "next_action": "Recover the hydrated Marriott JSON-LD street and reconcile it to 2500 South High School Road; do not use policy until street agrees."
+    },
+    {
+      "decision_id": "INDY-P2-008",
+      "identity_key": "holiday inn indianapolis airport",
+      "hotel": "Holiday Inn Indianapolis Airport",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "next_action": "Replace the 404 official URL with the current IHG property page for 8555 Stansted Drive. Do not use Crowne Airport (indap) or Holiday Inn Express Plainfield."
+    },
+    {
+      "decision_id": "INDY-P2-009",
+      "identity_key": "jw marriott indianapolis",
+      "hotel": "JW Marriott Indianapolis",
+      "decision": "HOLD_IDENTITY_UNCERTAIN",
+      "lane": "identity-repair",
+      "next_action": "Make 10 South West Street and 317-860-5800 counting identity keys on the official page before any policy from the existing capture is used."
+    }
+  ],
+  "counts": {
+    "policy_decisions_recorded": 5,
+    "positive_approved": 2,
+    "verified_no_pets_approved": 3,
+    "identity_holds": 5,
+    "decisions_applied": 0
+  },
+  "not_done": [
+    "No Indianapolis policy package",
+    "No hotel_exclusions append",
+    "No live founder approval records",
+    "No seed rows",
+    "No remaining-eight capture",
+    "No merge",
+    "No deploy"
+  ]
+}

@@ -442,8 +442,15 @@ def second_amount_note(f: Dict) -> str:
     keeps the figure but must not let it stand as the whole answer.
 
     Returns "" unless the canonical view proves a second relevant amount.
+
+    The withholding decisions travel WITH the facts. Built from ``{"facts": f}``
+    alone, the view saw an empty withheld map, so a record that had decided it
+    could not publish its fee ladder looked, from in here, like a record with no
+    ladder at all -- and its scalar printed as the whole charge. Four records
+    across Cleveland and Dayton were in exactly that state.
     """
-    view = canonical_view.build({"facts": f})
+    view = canonical_view.build({"facts": f,
+                                 "withheld_fields": f.get("_withheld") or {}})
     if view.fee_display_mode != "withhold_scalar" or not view.fee:
         return ""
     return ("The hotel's published wording states a further amount for longer "

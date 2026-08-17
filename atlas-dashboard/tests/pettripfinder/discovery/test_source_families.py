@@ -6,6 +6,7 @@ import pytest
 
 from scripts.pettripfinder.discovery.source_families import (
     CONCRETE_SOURCE_FAMILY,
+    FAMILY_CHAIN,
     FAMILY_CVB,
     FAMILY_DIRECTORY,
     FAMILY_GDS,
@@ -32,6 +33,15 @@ class TestTaxonomy:
                        "stark_county_cvb", "destination_hudson"):
             assert family_of(source) == FAMILY_CVB
 
+    def test_pittsburgh_factory_sources_are_mapped(self):
+        assert family_of("visit_pittsburgh") == FAMILY_CVB
+        assert family_of("cultural_trust") == FAMILY_CVB
+        for source in ("paacc", "east_liberty_chamber", "gpha", "parks_conservancy"):
+            assert family_of(source) == FAMILY_DIRECTORY
+        assert family_of("city_parks") == FAMILY_REGISTRY
+        assert family_of("avets") == FAMILY_CHAIN
+        assert family_of("veg_pittsburgh") == FAMILY_CHAIN
+
     def test_dbpr_is_registry(self):
         assert family_of("fl_dbpr_lodging") == FAMILY_REGISTRY
 
@@ -40,6 +50,12 @@ class TestTaxonomy:
         assert family_of("soin_tourism") == FAMILY_CVB
         assert family_of("flylouisville") == FAMILY_DIRECTORY
         assert family_of("louisville_downtown_partnership") == FAMILY_DIRECTORY
+
+    def test_indianapolis_destination_sources_are_cvb(self):
+        for source in ("visit_indy", "visit_hamilton_county",
+                       "visit_hendricks_county", "festival_country_indiana",
+                       "indianapolis_airport", "downtown_indy_inc"):
+            assert family_of(source) == FAMILY_CVB
 
     def test_unmapped_source_is_an_answer_not_an_error(self):
         assert family_of("some_future_source") == ""

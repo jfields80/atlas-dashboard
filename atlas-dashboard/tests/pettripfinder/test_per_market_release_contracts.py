@@ -56,7 +56,9 @@ from scripts.pettripfinder.release_contracts import (
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON)
+INDIANAPOLIS = "indianapolis-in"
+PITTSBURGH = "pittsburgh-pa"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -76,7 +78,18 @@ EXPECTED_RECONCILIATION = {
     # publish -- three are readiness POLICY_PARTIAL (marketing-only Wyndham
     # copy) and one is a membrane M10 identity rejection -- so they stay in
     # the unresolved 159 rather than moving the resolved figure.
-    CLEVELAND: (188, 21, 8, 29, 159),
+    # PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 applied the founder's 45
+    # rulings on the 49-row attended-capture packet: twenty artifact-backed
+    # publications (21 -> 41) and twenty-three first-party refusals
+    # (8 -> 31 verified-no-pets), so resolved was 72 and unresolved 116.
+    # PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 then applied the founder's
+    # 44 rulings on the 68-row driveable-queue packet: forty artifact-backed
+    # publications (41 -> 81) and four first-party refusals (31 -> 35), so
+    # resolved is 116 and unresolved 72.
+    # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then applied 23 rulings:
+    # 18 publications (81 -> 99, incl. two authorized renames) and 5
+    # refusals (35 -> 40), so resolved is 139 and unresolved 49.
+    CLEVELAND: (188, 99, 40, 139, 49),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -90,6 +103,20 @@ EXPECTED_RECONCILIATION = {
     # and Best Western Celina's "Pets are not accepted." All four had been
     # written off as brand-platform ACCESS_BLOCKED by a static fetch.
     DAYTON: (129, 47, 8, 55, 74),
+    # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 applied the twenty founder
+    # decisions from the Pass 1 packet: 17 artifact-backed publications, 2
+    # first-party refusals, and the Distrikt -> Joinery identity rename
+    # (Joinery stays unresolved pending a clean recapture under the new
+    # identity). resolved is 22 rather than 19 because the three census
+    # NOT_LODGING rulings are projected into the registry as
+    # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
+    # COUNTED from the committed final partition.
+    # PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 added 9 more publications
+    # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
+    # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
+    # is COUNTED from the committed final partition (63).
+    PITTSBURGH: (96, 26, 4, 33, 63),
+    INDIANAPOLIS: (153, 8, 4, 12, 141),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -134,15 +161,28 @@ class TestContractRegistry:
         ``derive_authority`` refuses outright rather than inventing an empty
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
+        Indianapolis now has eight founder-approved live records and therefore
+        has its own release contract. Cincinnati remains the intentional
+        contractless zero-inventory market.
+
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
         configured.
         """
         configured = {m.market_id for m in load_markets()}
-        releasable = {m for m in configured
-                      if (REPO_ROOT / "launch_packages" / "pettripfinder"
-                          / ("hotel_policy_facts_%s.json" % m)).exists()
-                      or m == COLUMBUS}
+        releasable = set()
+        for mid in configured:
+            if mid == COLUMBUS:
+                releasable.add(mid)
+                continue
+            path = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                    / ("hotel_policy_facts_%s.json" % mid))
+            if not path.is_file():
+                continue
+            doc = json.loads(path.read_text(encoding="utf-8-sig"))
+            if doc.get("published") is False:
+                continue
+            releasable.add(mid)
         assert releasable == set(MARKETS)
         assert set(available_market_ids()) == releasable
         assert set(available_market_ids()) <= configured
@@ -151,8 +191,8 @@ class TestContractRegistry:
         configured = {m.market_id for m in load_markets()}
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" not in set(available_market_ids())
-        assert "louisville-ky" in configured
-        assert "louisville-ky" not in set(available_market_ids())
+        assert "indianapolis-in" in configured
+        assert "indianapolis-in" in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -211,7 +251,7 @@ class TestContractAgreesWithItsOwnAuthority:
         assert recon["unresolved"] == unresolved
 
     def test_verified_no_pets_is_scoped_to_the_market_that_owns_it(self):
-        """8 for Cleveland, 8 for Dayton, 14 for Columbus -- never the sum.
+        """31 for Cleveland, 8 for Dayton, 14 for Columbus -- never the sum.
 
         Counting the exclusion registry's length reported 22 verified-no-pets
         for a market that has 8, and counting every state in it reported 16 for
@@ -226,7 +266,8 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 8, DAYTON: 8}
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
+                             PITTSBURGH: 4, INDIANAPOLIS: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -256,14 +297,14 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]
         assert (REPO_ROOT / census["path"]).is_file()
         assert census["expected_count"] == EXPECTED_RECONCILIATION[market_id][0]
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH))
     def test_reconciliation_cross_checks_are_declared_and_hold(self, market_id):
         """Each census-backed market cross-checks against the reconciliation
         artifact written by the work that produced its numbers."""

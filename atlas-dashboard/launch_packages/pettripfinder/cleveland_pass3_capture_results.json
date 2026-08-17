@@ -1,0 +1,1867 @@
+{
+  "schema": "ptf-cleveland-pass3-capture-results/1.0",
+  "work_order": "PTF-CLEVELAND-ATTENDED-PASS-3-001",
+  "as_of": "2026-08-16",
+  "market_id": "cleveland-akron-canton-oh",
+  "captured_by": "claude-fable-5 (PTF-CLEVELAND-ATTENDED-PASS-3-001, agent)",
+  "capture_method": "attended browser (operator's Chrome, extension-driven); rendered HTML and page text retained as bytes in the gitignored worker tree at data/worker_runs/pettripfinder/cleveland-attended-capture-003/raw; committed output is hashes and verdicts only, because captured brand pages embed third-party credentials and are never committed. One artifact (P3-012) is a deterministic fetch; its row says why.",
+  "rows_total": 68,
+  "rows_captured": 67,
+  "rows_not_driven": [
+    "CLE-P3-049"
+  ],
+  "outcome_counts": {
+    "ACCESS_BLOCKED": 1,
+    "AFFIRMATIVE_PARTIAL": 3,
+    "AFFIRMATIVE_STRUCTURED": 37,
+    "CAPTURE_FAILED": 3,
+    "IDENTITY_UNCERTAIN": 3,
+    "NEGATIVE": 4,
+    "POLICY_NOT_FOUND": 17
+  },
+  "speed_benchmark": {
+    "available": true,
+    "start_epoch": 1786856983,
+    "first_capture_utc": "2026-08-16T05:11:26.736000+00:00",
+    "last_capture_utc": "2026-08-16T06:43:36.762000+00:00",
+    "session_elapsed_seconds": 5634,
+    "captures": 88,
+    "mean_seconds_per_capture": 64.0,
+    "median_inter_capture_gap_seconds": 40.9,
+    "captures_per_hour": 56.2,
+    "note": "elapsed runs from the recorded session start epoch to the last capture; the Hilton cool-down waits and the adjudication work between captures are inside it, so the per-capture mean is a whole-session figure, not a page-drive figure. The median inter-capture gap is the honest page-drive pace."
+  },
+  "rule": "A failed, blocked or misrouted capture is never negative evidence; a refusal is proposed only where the property's own page states it; no fact is proposed without its exact quote verified against the retained artifact bytes; no authority file changes in this pass.",
+  "results": [
+    {
+      "queue_id": "CLE-P3-001",
+      "group": "OBSERVATION",
+      "hotel": "Ariel Broadway Hotel",
+      "identity_key": "ariel broadway hotel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-001-ariel-broadway-hotel.json",
+      "artifact_bytes": 42368,
+      "artifact_file_sha256": "c37040134e5dca98601de9898150f9b9156e587c4d197de389bf37268179d5af",
+      "html_sha256": "de1fea7b2104434ed82bcadbd94b14340f638bc83d74c3b44e1da7cc154466c1",
+      "text_sha256": "580375c3784b758b59ab31d760df1f3cfca2b0c3ac6022adda31dd10a256279d",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:24:03.207Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.arielbroadwayhotel.com/abw/homePage.html",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording anywhere in the rendered text. Silence, never a refusal."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-002",
+      "group": "OBSERVATION",
+      "hotel": "Cambria Hotel & Suites Avon",
+      "identity_key": "cambria hotel and suites avon",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "CAPTURE_FAILED",
+      "artifact_file": "P3-002-cambria-hotel-suites-avon.json",
+      "artifact_bytes": 3682719,
+      "artifact_file_sha256": "10a974779e3b4c4f4e8e8fa8d782c0134414adab72ec37acbcc05a1ef11e2301",
+      "html_sha256": "f692920158432f310ebd9f187eca6f895f34c206a87ef2f44df836c01047ebda",
+      "text_sha256": "6aa904ad8715584ee4ffb665f1e4c39d12b6bad3311baeddae6b7462b1017ee6",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:24:52.750Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.choicehotels.com/ohio/avon/cambria-hotels?brand=BR",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": true,
+        "bound": false
+      },
+      "notes": [
+        "url_dead: the queued property page choicehotels.com/ohio/avon/cambria-hotels/oh598 redirects to the brand's Avon city listing (?brand=BR). The property page no longer serves; routing-review candidate. The redirect target was captured as proof."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-003",
+      "group": "OBSERVATION",
+      "hotel": "Cleveland House Hotels",
+      "identity_key": "cleveland house hotels",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-003-cleveland-house-hotels.json",
+      "artifact_bytes": 1603706,
+      "artifact_file_sha256": "fe01cb0860c6d47fc8ee7c60abc01c48ef6525bfe4e12c91a3f125a2c9abb391",
+      "html_sha256": "fa894404333c76b12b6d0158942c98dbc14a7f9cf8004ac176cf0482afd397af",
+      "text_sha256": "78ffd0f1cffa2f0c1e021902b8b8ebc09e38c379b545ecf54b7785a47f390c46",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:25:53.532Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://thehousehotels.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording in the rendered text."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-004",
+      "group": "OBSERVATION",
+      "hotel": "DoubleTree by Hilton Canton Downtown",
+      "identity_key": "doubletree by hilton canton downtown",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "NEGATIVE",
+      "artifact_file": "P3-004b-doubletree-canton-downtown-hilton.json",
+      "artifact_bytes": 751048,
+      "artifact_file_sha256": "e8a5b5764eafb4a984b50d2bb20da236b4f686d67b740f638cb523e1bd71950f",
+      "html_sha256": "46d8a1fc9c0e4ff063f9cec992cef359108af86799c82aa9797c24927fded515",
+      "text_sha256": "074550a3706d83659b92cd9b854f33a1575efd76950491f52e867631b52f0942",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:43:36.762Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakcodt-doubletree-canton-downtown/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-004-doubletree-canton-downtown.json",
+        "artifact_file_sha256": "e9e47a29440ef1b4f13872e0bdd6088cbea1ba90ad3022d3586775a7ec437745",
+        "html_sha256": "91b9834e337d2ab6ebeeccfe6a484f7c1840df19e1272ac409399d61067492c3",
+        "final_url": "https://www.330barandgrill.com/"
+      },
+      "refusal_quote": "Pets not allowed",
+      "quote_backed_by": "text",
+      "notes": [
+        "the queued official URL is https://www.330barandgrill.com/ -- captured as the supplementary artifact, it is the HOTEL'S OWN RESTAURANT's site (the property page's dining section names 330 Bar and Grill as its restaurant) with no lodging or pet content; routing-review candidate: the property page is hilton.com/en/hotels/cakcodt-doubletree-canton-downtown/, whose amenity list states 'Pets not allowed'. The refusal is the property page's own words; identity binds by JSON-LD (320 Market Avenue South, 44702, 330-471-8000)."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-005",
+      "group": "OBSERVATION",
+      "hotel": "Emerald Necklace Inn Bed & Breakfast and Tea Room",
+      "identity_key": "emerald necklace inn bed and breakfast and tea room",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-005-emerald-necklace-inn.json",
+      "artifact_bytes": 457160,
+      "artifact_file_sha256": "91cd16c91c12656f04343ba75dac50d302b92771b8f055fd15fb4ff36ec1d1e9",
+      "html_sha256": "65552d1f5b09d980c8d0831e40fd67850a0407ac978223fb4e547780d685d17c",
+      "text_sha256": "9686d50800c6b7dd2bb729e6010b94b46913940303ee3e357905c259c7f93db5",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:27:42.227Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.emeraldnecklaceinn.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-005b-emerald-necklace-inn-policy.json",
+        "artifact_file_sha256": "62883e4ae6be7072713a2d315dcedf7fab9bf586bc3192dcd398642b0cd5085c",
+        "html_sha256": "e9d70cbbc66017e8233206600ab8387e0b9aa508371f6ef5b415378fe3404a89",
+        "final_url": "https://www.emeraldnecklaceinn.com/policy/"
+      },
+      "notes": [
+        "policy lives on /policy/ (supplementary artifact is the quote source); damages are billed to the card on file per the same section"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-006",
+      "group": "OBSERVATION",
+      "hotel": "Fidelity Hotel",
+      "identity_key": "fidelity hotel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_PARTIAL",
+      "artifact_file": "P3-006-fidelity-hotel.json",
+      "artifact_bytes": 218099,
+      "artifact_file_sha256": "f5d3eb02e9f4c7b2e93fafd6f9becf21332204c7d1f90ca25e004bccb7a4bff1",
+      "html_sha256": "cd294a42bc3d70d040567bf22a4580f9095b80b58abe677d9eddeb56d634b79b",
+      "text_sha256": "ed3d4d9b8640c5827ecb938a0406ad738e0efe695bc51b17bd322ab76b26b9a5",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:28:43.099Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.fidelityhotels.com/cleveland/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-006b-fidelity-hotel-faq.json",
+        "artifact_file_sha256": "f32eceaeef32ae81b604f210cead848ba9e3a072ceb76eb3965db5060da8f3f9",
+        "html_sha256": "befd18dc6c6983a730ae1fb4673f21761b69d24dc4f4bd6235d7ec404738469a",
+        "final_url": "https://www.fidelityhotels.com/cleveland/faq/"
+      },
+      "notes": [
+        "species, count and weight are unstated on the FAQ; nothing is inferred"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-007",
+      "group": "OBSERVATION",
+      "hotel": "Holiday Inn Canton",
+      "identity_key": "holiday inn canton",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "artifact_file": "P3-007-holiday-inn-canton.json",
+      "artifact_bytes": 1342329,
+      "artifact_file_sha256": "6a25ca7fb9dc7a44e5da367380f3a17e4969535b339a39555b0f3980797d6903",
+      "html_sha256": "2c9b350f6bdefe125be42e384fd0ce1050f622ef01ef6d45cf1cc1c04897e661",
+      "text_sha256": "8db1686fff510a02a350e70173a8de6c99de83c5634c22b8c59ae0e5443feda2",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:29:43.319Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.twenty20taphouse.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "the queued official URL is https://www.twenty20taphouse.com/ -- a restaurant site with no lodging or pet content; nothing on it can be bound to the Holiday Inn Canton identity. Routing-review candidate."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-008",
+      "group": "OBSERVATION",
+      "hotel": "Holiday Inn Cleveland Clinic",
+      "identity_key": "holiday inn cleveland clinic",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-008-holiday-inn-cleveland-clinic.json",
+      "artifact_bytes": 122199,
+      "artifact_file_sha256": "0991ceaa4a0b88ba89c3d5c34748e7378cff83e19aacfef10cc29d9de720239f",
+      "html_sha256": "c803d1e3763d04bdc3a137925288050c5ccf54a797ada18d67fe2705561e0136",
+      "text_sha256": "e2c07fa2ac1bf67fd7e04e225d32bce50be02f3edc0911061231c8b7dfc02e2e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:30:19.073Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hiclevelandclinic.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-008b-holiday-inn-cleveland-clinic-faq.json",
+        "artifact_file_sha256": "c9d7d41be05f28ccac635d3f3ecd7b8fe06006edb8ff11e241986dab1a8c8879",
+        "html_sha256": "6d9936e1029778c31655fbad6429f7ef30531d0eb0465cd3bd29ece93ef61729",
+        "final_url": "https://www.hiclevelandclinic.com/faq/hotel"
+      },
+      "notes": [
+        "homepage and hotel-FAQ page both captured; neither carries any pet or animal wording (this property runs a vanity site, not an ihg.com surface)."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-009",
+      "group": "OBSERVATION",
+      "hotel": "Holiday Inn Cleveland South Independence",
+      "identity_key": "holiday inn cleveland south independence",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-009-holiday-inn-rockside.json",
+      "artifact_bytes": 210702,
+      "artifact_file_sha256": "2b4233ad03a28ce3ba666f1eed7cea0746ddb5e299e7f57ec4fc60e33185e964",
+      "html_sha256": "98be9cfb91a98b9d408772a7fb5b5a11481bd89b8fa0e5601cc02b0ecf54bace",
+      "text_sha256": "156287d4fddbdb6f04f9bf4652b8c7515581af7d3c2466fe8dc4b9595f4c5f10",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:31:34.313Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hirockside.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-009b-holiday-inn-rockside-amenities.json",
+        "artifact_file_sha256": "644dc58e5cdf88406f2390295bc56bd33013ee6a4e47ede5c4892d6bad897e8f",
+        "html_sha256": "7578d2be65f2244f670043121f303dfd498fdae0029c338a562be419ff2aeb4c",
+        "final_url": "https://www.hirockside.com/amenities"
+      },
+      "notes": [
+        "homepage and amenities page both captured on the vanity site hirockside.com; no pet or animal wording on either."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-010",
+      "group": "OBSERVATION",
+      "hotel": "Hotel Cleveland",
+      "identity_key": "hotel cleveland",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-010-hotel-cleveland.json",
+      "artifact_bytes": 794187,
+      "artifact_file_sha256": "c2d2d44fa2a8844c96454786feed9281ccae1b49a2d43e1f1656c5a24b2949c1",
+      "html_sha256": "e2fee557bf57a0af99ec765dec49dacf86e06ac9f0090166e1ef284348ddde1d",
+      "text_sha256": "3713a5cddcab5426fcad011bd21a36100ababc5a41921b32f8f184b9ab2bfd24",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:32:29.290Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hotelcleveland.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-010b-hotel-cleveland-stay.json",
+        "artifact_file_sha256": "93080badae2160732ad34a5cf63382e3994c68073cd3525cb07523d8685ea2c7",
+        "html_sha256": "43338c23102ca9db5f89ff73c265571ccb93b2279799fef5c5546b68446bdd73",
+        "final_url": "https://www.hotelcleveland.com/stay.htm"
+      },
+      "notes": [
+        "homepage and /stay.htm both captured; no pet or animal wording on either."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-011",
+      "group": "OBSERVATION",
+      "hotel": "Inn at Brandywine Falls",
+      "identity_key": "inn at brandywine falls",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-011-inn-at-brandywine-falls.json",
+      "artifact_bytes": 240765,
+      "artifact_file_sha256": "4b8ce7b7352c8793451468d6514720f5498c55cd886539c2290f53389878a124",
+      "html_sha256": "ddf39d01b5e5c2fc2049b597080b78bb527978a1ddaad80dfefefd7b7610180a",
+      "text_sha256": "9a4d590a1f89470d289678047921c6affbd1835c3652c10120e6892dc337a54e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:33:48.286Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.theinnatbrandywinefalls.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-011b-inn-at-brandywine-falls-faqs.json",
+        "artifact_file_sha256": "ab0e25a2ccb3f15cd8462886f802188c7ebb6de0162d0dee8aaa5fa2171d30f6",
+        "html_sha256": "4a83cc2b106c32b841e6192dabfcc18e846087d21bacc67eb0b508ecff6b4851",
+        "final_url": "https://www.theinnatbrandywinefalls.com/faqs"
+      },
+      "notes": [
+        "homepage and FAQs page both captured; no pet or animal wording on either."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-012",
+      "group": "OBSERVATION",
+      "hotel": "Inn Cahoots",
+      "identity_key": "inn cahoots",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-012-inn-cahoots.json",
+      "artifact_bytes": 74926,
+      "artifact_file_sha256": "967d11bfa00a2b03266dcccf3e0efbc2ae7bd2ec123ce81204012f3808250e3c",
+      "html_sha256": "e80320f66d75d15ea209ea660aba357cc20d3de1f044b18a172ef420a386ab83",
+      "text_sha256": "e8420a6c2cb3192c34f8c0d1334dee3a8152bf43da4756015a28acaa64c6bfad",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:17:14.510635+00:00",
+      "capture_method": "deterministic_fetch",
+      "final_url": "https://inncahootsbarandgrill.com",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the identity's own site is a bar-and-grill site (nav: New Index, Gallery, Cart) with no lodging or pet content. The attended browser loaded the page but blob downloads are silently blocked on this origin, so the retained artifact is a deterministic fetch of the same static page (the site is static; no bot wall)."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-013",
+      "group": "OBSERVATION",
+      "hotel": "Inn on Coventry",
+      "identity_key": "inn on coventry",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-013-inn-on-coventry.json",
+      "artifact_bytes": 380378,
+      "artifact_file_sha256": "bc12b11dde2f0ee1c5cfa93c3204b55b3cd165ad57e78b56c6fb48db30b763fa",
+      "html_sha256": "27e3bbbd190baed05b8ad7bf575fdcc49a16bf49915d0ae26285eef3109ba8ce",
+      "text_sha256": "2aa4e56e0e175e4d9c61d51a84e320dce73bdfe95c82c6057037671fb36239c2",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:35:35.029Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.theinnoncoventry.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-014",
+      "group": "OBSERVATION",
+      "hotel": "Kent State University Hotel & Conference Center",
+      "identity_key": "kent state university hotel and conference center",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-014-kent-state-hotel.json",
+      "artifact_bytes": 88771,
+      "artifact_file_sha256": "3a20a0205448e57b3cdcf41d0be52e9828394f70a9d2776d56dd49a2a7d2baa5",
+      "html_sha256": "b5e1e950967ab03b593bf925209c988479a63cb7adae03f02d032a39b720a37e",
+      "text_sha256": "f758d8d925484a4a078da348ca2b6c4e7a7ea1866905e6468af675143417ed71",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:36:04.525Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://kentstatehotel.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-014c-kent-state-hotel-faq-expanded.json",
+        "artifact_file_sha256": "e25af30a6168fef6f60cf6f03a9fde5dbe3e1f6ea30555c6c99bc6fcb615bace",
+        "html_sha256": "f7b206b04c5d1312a06cc7bac22ebaaf7bb3099f529ac11d164526dbc2ba783a",
+        "final_url": "https://kentstatehotel.com/frequently-asked-questions"
+      },
+      "notes": [
+        "homepage, FAQ page, and FAQ with accordions expanded all captured; no pet or animal wording on any surface."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-015",
+      "group": "OBSERVATION",
+      "hotel": "Kimpton Schofield Hotel",
+      "identity_key": "kimpton schofield hotel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-015-kimpton-schofield.json",
+      "artifact_bytes": 409093,
+      "artifact_file_sha256": "9a3990f0bdaf2f417b6fc959e7eb17d9496fe7f82177164fdf66fcc6e7eacab1",
+      "html_sha256": "1329ea9975e14e6307f59739d9d15ec11b7961780e05fc792e19096c69435b71",
+      "text_sha256": "acaad8fd0d7b5040c0fd67baa36c9edb2abd25cb0309987b2cb79c6afe2f1e55",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:39:05.502Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.theschofieldhotel.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-015b-kimpton-schofield-pet-friendly.json",
+        "artifact_file_sha256": "f4d5a629df7840dcd543dbf6852f34b2f9ed918b36a1dd18ae99fc67cfc5d824",
+        "html_sha256": "e6918445beccf96e09ad0767bbefc00f7f6580907a94914da51b5a8d59f31ed5",
+        "final_url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/"
+      },
+      "notes": [
+        "the page welcomes dogs, cats and 'feathery or scaly' family members ('as long as they fit in the elevator'); species is deliberately NOT narrowed to dogs+cats",
+        "cleaning fee: 'No deposit or cleaning fees charged' -- the no-fee statement covers deposit and cleaning fee; the page does not say 'no pet fee' in general, so pet_fee is not proposed as zero"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-016",
+      "group": "OBSERVATION",
+      "hotel": "Metropolitan Hotel at the 9",
+      "identity_key": "metropolitan hotel at the 9",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-016-metropolitan-at-the-9.json",
+      "artifact_bytes": 361050,
+      "artifact_file_sha256": "5fad822ce6076a6859dd2986ee23fb232cd1802000783f06c10a34636b03d962",
+      "html_sha256": "87c7fca2798c77a0dcf0cc91c8b0469e0d87eef6f7b27099b14cb7977fba083c",
+      "text_sha256": "d8b387b1e8a8683f7e875b0c9fb58c0eb0ef9250a2bb76d8e0c76db8d614aff8",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:40:15.392Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.metropolitancleveland.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-017",
+      "group": "OBSERVATION",
+      "hotel": "Palmantiers Motel",
+      "identity_key": "palmantiers motel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-017-palmantiers-motel.json",
+      "artifact_bytes": 685695,
+      "artifact_file_sha256": "cdb7228dbda75e1f7a92f7657333d476335a6c45ab20bc1dad5808dc2b8b7552",
+      "html_sha256": "c3a4b689a022bce384120cc5bdc70988ced683b7b9e6b9260843cee2b30f5c16",
+      "text_sha256": "306aa4c181302b1ac2917356fb737319534dabf9d835c56a312eee5d85c3e7bf",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:41:17.542Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.palmantiers.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-018",
+      "group": "OBSERVATION",
+      "hotel": "Punderson Manor Lodge & Conference Center",
+      "identity_key": "punderson manor lodge and conference center",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_PARTIAL",
+      "artifact_file": "P3-018-punderson-manor.json",
+      "artifact_bytes": 88814,
+      "artifact_file_sha256": "1994f49c775d99297da9499aedc42dbff9da9c3e40b470007096939148370f86",
+      "html_sha256": "a1608eb8dccdd7ca07a43a560e23fee7bb61e419f2115463733b5f53b2dff66f",
+      "text_sha256": "df7a2e12686169dbfedbe473dae21667d6202942c579535b5503e587aa63e63e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:41:54.440Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.pundersonmanor.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-018b-punderson-pet-cabins.json",
+        "artifact_file_sha256": "0e15dc4cbbc19f93ea368388c26ad47dd139fbb05ce535c45e50bcb05277f45e",
+        "html_sha256": "0ce2e9dad338b9df2b387a9aaf83f6500dbb5535e85ebc8788f6bfede2b6eb4d",
+        "final_url": "https://www.pundersonmanor.com/cabins/pet-friendly-cabins"
+      },
+      "notes": [
+        "lodge rooms vs cabins: the pet welcome is scoped to cabins by the page's own words; nothing is claimed for the lodge"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-019",
+      "group": "OBSERVATION",
+      "hotel": "Radisson Hotel Akron/Fairlawn",
+      "identity_key": "radisson hotel akron fairlawn",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "CAPTURE_FAILED",
+      "artifact_file": "P3-019-radisson-akron-fairlawn.json",
+      "artifact_bytes": 1801893,
+      "artifact_file_sha256": "1eccee6966f86ac6eaa35352d9b11a179013c1ec34015329dd7482ff8983bb17",
+      "html_sha256": "029224496792f32e44e35a50f6fbb6f426e8ae04c6384dcaea468184e4130088",
+      "text_sha256": "83431adf4ebf982fd31f3fb0b207c64d255afdc6a2693e4c0c2d20a93cdf9527",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:44:23.951Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.radissonhotels.com/en-us/brand/radisson",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "url_dead: radissonhotels.com/en-us/hotels/radisson-akron redirects to the Radisson brand page; the property page no longer serves (property likely left the system). Routing-review candidate. The redirect target was captured as proof."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-020",
+      "group": "OBSERVATION",
+      "hotel": "Roost Cleveland - Apartment Hotel",
+      "identity_key": "roost cleveland apartment hotel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-020-roost-cleveland.json",
+      "artifact_bytes": 816691,
+      "artifact_file_sha256": "a4b4d37fd3cfed804cd549f9a2c083fea8a285844a80fe10e0e8b10e821d4b63",
+      "html_sha256": "f057e9a2638c84e5246151a0b8e15ce8246853b5f04888387fc006f7a14655b4",
+      "text_sha256": "80211671cf8f5997cda085f31b3fabd541970cfb48f7bb463566b7cd2bf4a13e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:45:36.697Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-020b-roost-cleveland-faq.json",
+        "artifact_file_sha256": "8d9e20fbc8e3f5bd37a0f1dc3ae2db947a46103572a144831253755448a479d6",
+        "html_sha256": "c47c21a0d589e8a78cfc8e02fe5a84af54333544e36285808d77cba60379a8a8",
+        "final_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio/faq"
+      },
+      "notes": [
+        "homepage JSON-LD carries petsAllowed:true, binding the identity (105 Prospect Ave E, 44115)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-021",
+      "group": "OBSERVATION",
+      "hotel": "Shady Oaks Farm Bed and Breakfast",
+      "identity_key": "shady oaks farm bed and breakfast",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "NEGATIVE",
+      "artifact_file": "P3-021-shady-oaks-farm.json",
+      "artifact_bytes": 301386,
+      "artifact_file_sha256": "c8dc86a5f8824b07d126c55d088bd82f2ac83bac0eeb2def221a825e05bacdd8",
+      "html_sha256": "97539354dcf893e97834d3c40184a563218ce8a37d331fc74b072aee307f3490",
+      "text_sha256": "8863cb76b1a448096e8af867b7a7ed5de38185e9edf20b45e55d66bfd0083c84",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:47:02.615Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.shadyoaksfarmbnb.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-021b-shady-oaks-faqs.json",
+        "artifact_file_sha256": "6dd78fe81e38d968b35a9132ebf8b94760ec35d402382ede428c2a3eb4780d04",
+        "html_sha256": "e1c2d6e1c93dcd0c3536a3c86cbd480d624ca258867443ee6b1fcb3df7bdd838",
+        "final_url": "https://www.shadyoaksfarmbnb.com/faqs"
+      },
+      "refusal_quote": "PETS: WE DO NOT PERMIT GUESTS TO BRING PETS TO ENSURE AN ALLERGY FREE ENVIRONMENT FOR OUR GUESTS.",
+      "quote_backed_by": "text"
+    },
+    {
+      "queue_id": "CLE-P3-022",
+      "group": "OBSERVATION",
+      "hotel": "Skyview Lodge",
+      "identity_key": "skyview lodge",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-022-skyview-lodge.json",
+      "artifact_bytes": 164116,
+      "artifact_file_sha256": "37e013b35fb45c832979e7813893cdd4929c1d833aa518fb38c61e9f1ef4acf2",
+      "html_sha256": "18e26332b11ab66338354c97932ff23f65ca74d6cc97863a9427d7f182371ec1",
+      "text_sha256": "7b17946897e2d06262c37beac23f1fa69f9a282d5086662a1bc489fc01863cfb",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:48:21.593Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.skyviewlodgeinc.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-023",
+      "group": "OBSERVATION",
+      "hotel": "Sonesta ES Suites Cleveland Airport",
+      "identity_key": "sonesta es suites cleveland airport",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-023-sonesta-simply-suites-cleveland-airport.json",
+      "artifact_bytes": 1082186,
+      "artifact_file_sha256": "79b5e6bfe4912985ed7efa755ade7a3f6a91a15ffa54b1ac32d8809eb6d29aae",
+      "html_sha256": "3cf49ac4ab57171898df354db541aee3c9e3df309b57cdf9e55e3ea5ec750853",
+      "text_sha256": "2432a112dce5df62e9a7f2205874c6510f472b8f4c23890169830d42e2681615",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:49:13.940Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-023b-sonesta-simply-suites-pet-policy.json",
+        "artifact_file_sha256": "de1bd3735fa684be61b81ab31694ae40c5e13fa16217566db0f541df3d4566fb",
+        "html_sha256": "1c675f1d4ca2f545245c1c6c279d986fa61bf39d655835be48c1195babbdbcd0",
+        "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/middleburg-heights/sonesta-simply-suites-cleveland-airport"
+      },
+      "notes": [
+        "the page brands the property 'Sonesta Simply Suites' while the census carries 'Sonesta ES Suites' -- same address (17525 Rosbough), same phone; rebrand observation for census hygiene, not an identity failure"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-024",
+      "group": "OBSERVATION",
+      "hotel": "Stone Gables Inn",
+      "identity_key": "stone gables inn",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-024-stone-gables-inn.json",
+      "artifact_bytes": 115423,
+      "artifact_file_sha256": "f98666773a06f199ed97bf04367aaebf21723667715dfdd33039a214f83146c9",
+      "html_sha256": "1f6216e0467d1ef7e696f5dbefb350176e0a2272e770c073d197a94ec8861a76",
+      "text_sha256": "9b15baf34cf914946991c926eb3f692e6eece4cd016ab51d5bdc3c7c5f63e01f",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:50:13.797Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://stonegablesinn.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage captured; no pet or animal wording."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-025",
+      "group": "OBSERVATION",
+      "hotel": "Terry Point Motel",
+      "identity_key": "terry point motel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "NEGATIVE",
+      "artifact_file": "P3-025-terry-point-motel.json",
+      "artifact_bytes": 574219,
+      "artifact_file_sha256": "21c7df9f5e97d7638d054920ce7e57aabbbe37152ae84f85fb557907f992bb41",
+      "html_sha256": "caf1ec434a69eb2e541c3a0c57f3794b92dd437d53755dc4833289652ba0ff2d",
+      "text_sha256": "a165abf166e13cb8564c9fb363f0de5966eade88d1d6f4bc02595e5df624e394",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:50:50.853Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.terrypoint.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-025b-terry-point-faq.json",
+        "artifact_file_sha256": "95e54cfc013b0d9965e1d81a961566c0570d652016e7a94f80501199df9b4108",
+        "html_sha256": "558e20311585af3607e30d5675b02c049407bc66c6fa562c59180e4332f6782f",
+        "final_url": "https://www.terrypoint.com/faq"
+      },
+      "refusal_quote": "Do you accept pets? No, sadly at this time we do not allow pets.",
+      "quote_backed_by": "text",
+      "notes": [
+        "same operator as The Ohio Motel (each site links the other as 'our Sister Motel'; identical FAQ copy)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-026",
+      "group": "OBSERVATION",
+      "hotel": "The Bertram Hotel & Conference Center",
+      "identity_key": "the bertram hotel and conference center",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-026-bertram-inn.json",
+      "artifact_bytes": 147437,
+      "artifact_file_sha256": "10e9e21965c61953978218de2f432fa5b6c3d3edd3ee27aecc3612ac817665ef",
+      "html_sha256": "5db8e2a781d2baa50682e0631e8436e30685b3504fd16822977dc464e125b454",
+      "text_sha256": "8a86d0e691723b98cdd09ce36a6d1055c8e6ffda42f7260d33c24e699fa3d687",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:52:06.201Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://thebertraminn.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-026b-bertram-inn-amenities.json",
+        "artifact_file_sha256": "cc625e8c4506a02d3c8a25de6f3cca452ee89fe4f23db15e84755d1918e977c1",
+        "html_sha256": "9486796b00cedb79c4321871b0c1de5d32ee1e823a38cfc6fb2e978fbb8dcc87",
+        "final_url": "https://thebertraminn.com/amenities/"
+      },
+      "notes": [
+        "homepage and amenities page both captured; no pet or animal wording on either."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-027",
+      "group": "OBSERVATION",
+      "hotel": "The Hotel at Oberlin",
+      "identity_key": "the hotel at oberlin",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-027-hotel-at-oberlin.json",
+      "artifact_bytes": 76070,
+      "artifact_file_sha256": "42794f72a70ac2fc165f17314c7984e5d8fca83f968d294e984af99c76c22b9e",
+      "html_sha256": "8c69b740882d5c85b2ad36e10cc83a9d8ce85ca77950cbc41516752e3bd5ad6d",
+      "text_sha256": "67bbd17b9e020bda72fd9bac33abdea3150e2e2657702d8e33638d5cdf83ddc9",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:53:04.172Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://thehotelatoberlin.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-027b-hotel-at-oberlin-pet-friendly.json",
+        "artifact_file_sha256": "90e58f493eec48d499284f369fe362273fb2661a5b40efb3241aafef6aeb2c46",
+        "html_sha256": "36dbd6d59682a47f16e845ee5e5d972c13a32b022ab763315291e844657ccadb",
+        "final_url": "https://thehotelatoberlin.com/about/pet-friendly/"
+      }
+    },
+    {
+      "queue_id": "CLE-P3-028",
+      "group": "OBSERVATION",
+      "hotel": "The Inn at Amish Door",
+      "identity_key": "the inn at amish door",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "artifact_file": "P3-028-inn-at-amish-door.json",
+      "artifact_bytes": 111328,
+      "artifact_file_sha256": "1a05e0bc8b5c3d1bd12e47f2f5394966aa04342d6bd7b821f66a4778d24dd4b5",
+      "html_sha256": "b8da47bcd812d1473d2fb38481645d6f89a9dfdd8edbfc5122145a0f767aa35f",
+      "text_sha256": "0d1fe2412770b2d1bd61c9f1738d5b189f64d70bf514ad8d2a591b43872e53ab",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:54:02.057Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.milanaballroom.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the queued official URL is https://www.milanaballroom.com/ -- an event-venue site with no lodging or pet content; nothing on it can be bound to The Inn at Amish Door identity. Routing-review candidate."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-029",
+      "group": "OBSERVATION",
+      "hotel": "The Ohio Motel",
+      "identity_key": "the ohio motel",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "NEGATIVE",
+      "artifact_file": "P3-029-ohio-motel.json",
+      "artifact_bytes": 694555,
+      "artifact_file_sha256": "9583ea80f039f0816bdc19023ea729f6293dc1284df518a9870744cffc2edc46",
+      "html_sha256": "4922c09961c42e128cf9e2d73cc52a690ab0d0c21b69aeed0995407be375da48",
+      "text_sha256": "9e4b1bcef7873a2ce4d6b97daad60e106fad4e810c561f7617e68e8ff3c2ff85",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:54:32.318Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.theohiomotel.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-029b-ohio-motel-faq.json",
+        "artifact_file_sha256": "ad975dc5a1d0ee6ba8a7eb41f9c69a42b3c2b81f306bb60d4617092d311ed2ad",
+        "html_sha256": "a629999663dd49214c49b2f38d29cf682691583e57c9c1e60c2fbe8ff7142f28",
+        "final_url": "https://www.theohiomotel.com/faq"
+      },
+      "refusal_quote": "Do you accept pets? No, sadly at this time we do not allow pets.",
+      "quote_backed_by": "text",
+      "notes": [
+        "same operator as Terry Point Motel (mutual 'Sister Motel' links; identical FAQ copy)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-030",
+      "group": "OBSERVATION",
+      "hotel": "Walden Country Inn & Stables",
+      "identity_key": "walden country inn and stables",
+      "prior_state": "AWAITING_POLICY_OBSERVATION",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-030-walden-country-inn.json",
+      "artifact_bytes": 470928,
+      "artifact_file_sha256": "ddf5d63c594b8d3c9c75f8c57196c42a0f25bf3e9687dcd18538f16371971043",
+      "html_sha256": "973c81f38ca0797bb8f0e9f823fac1d736fe433ba34d80b09eac828f9605f044",
+      "text_sha256": "b5de9fc0c01788ee9be31f31fe8d8ea8ce6bec70092ddaca64adcc1095b41e31",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:55:30.442Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.yourwalden.com/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-030b-walden-policies.json",
+        "artifact_file_sha256": "b4f8cffcba2c440f6f595bad19566cc06b3b4b36582cfa76489e7942cfede6b3",
+        "html_sha256": "e31254609bb1c49d3a8dea980c60888ac565d11ea93b775e8a65f19131c35c9a",
+        "final_url": "https://www.yourwalden.com/policies"
+      },
+      "notes": [
+        "homepage and /policies both captured; no pet or animal wording on either."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-031",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Best Western Plus North Canton Inn & Suites",
+      "identity_key": "best western plus north canton inn and suites",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "CAPTURE_FAILED",
+      "artifact_file": "P3-031-best-western-plus-north-canton.json",
+      "artifact_bytes": 653143,
+      "artifact_file_sha256": "1c4dc665413e451f79168cc9ca6aebc882e68e2f1f7d3f1a91f97b1953a3f3e2",
+      "html_sha256": "a13dc8d6719b4e4b2c1a221a4b411bf4a8abe13af15b645c1d9c224ddf2b3615",
+      "text_sha256": "a05530f4c5c38ac16f96d977a23264fb3079c134e819fe58f0c504762bd7a67d",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:56:38.712Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.bestwestern.com/en_US/book/hotel-search.36148.html?propertyCity=Upper+Sandusky&propertyCountry=United+States&propertyState=Ohio",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "url_dead: the queued bestwestern.com property URL (code 36148) lands on a hotel-search page, not a property page. Routing-review candidate. The redirect target was captured as proof."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-032",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Doubletree by Hilton Akron/ Fairlawn",
+      "identity_key": "doubletree by hilton akron fairlawn",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-032-doubletree-akron-fairlawn.json",
+      "artifact_bytes": 749362,
+      "artifact_file_sha256": "acf5ee4222e05cca12fe4013f93f5d782e463ffadaed1504c2e0376d5bf593c5",
+      "html_sha256": "62966c04fdec9c1d3266a97f8bf264abf793cfe6ac7d3fcf9292a6ecfd6fa0cf",
+      "text_sha256": "efd3c5eb32cd74b6d912d236e2e7a66849cc569ea2cdf58b9aceb242d61c0959",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:11:26.736Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakdtdt-doubletree-akron-fairlawn/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-033",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Extended Stay America Hotel Akron/Copley East",
+      "identity_key": "extended stay america hotel akron copley east",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-033-esa-akron-copley-east.json",
+      "artifact_bytes": 785471,
+      "artifact_file_sha256": "b941efd7aa2ca777c0beb5c1de2206f8909737f9c172b9c68be4c8b9fc7c6266",
+      "html_sha256": "53e44167a010ab1f0e796ec470b519ee7995adb56bd7778f88ee81f823218470",
+      "text_sha256": "91fce9fb49d3cfc7e07c472ad8a09d5980fd02d781369f4cbabce288866805a6",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:57:21.786Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.extendedstayamerica.com/hotels/oh/akron/copley-east",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "homepage JSON-LD carries petsAllowed:true (185 Montrose West Ave., 44321)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-034",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Akron Fairlawn",
+      "identity_key": "hampton inn akron fairlawn",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-034-hampton-akron-fairlawn.json",
+      "artifact_bytes": 729736,
+      "artifact_file_sha256": "cd1095b5814bb4c5ac6ffc641ee21fc36635b9b23fe02dff5cee1c8676fe2154",
+      "html_sha256": "146c64d28b2a574863a30819c5ff6019a60202d8cc7c262c2d2bc32a161341ed",
+      "text_sha256": "4f37273921ce7b244bd70de641fd638c11f832d7b833ef3fe017320e75238c54",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:12:04.760Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakohhx-hampton-akron-fairlawn/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "'Max weight 0 lbs' is the Hilton template zero for an unstated limit -- never published (established Pass-2 rule)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-035",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Akron/South",
+      "identity_key": "hampton inn akron south",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-035-hampton-akron-south.json",
+      "artifact_bytes": 728428,
+      "artifact_file_sha256": "0bc963647bcc30af1283ebb1ca4f71948a6c697ca50109cb7a226ab6b8a28489",
+      "html_sha256": "a48dddc4018d6fd065be52485c6babead95424ed29317b6949da0d60e60de66d",
+      "text_sha256": "af4b22eb8ec90f8d48fce002e69ca63fe4a7f7c8119bd4c6e0d6eb54ab087813",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:13:00.749Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/caksohx-hampton-akron-south/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-036",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn & Suites — Alliance",
+      "identity_key": "hampton inn and suites alliance",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-036-hampton-suites-alliance.json",
+      "artifact_bytes": 742875,
+      "artifact_file_sha256": "2d770ce34e77ea26b7f20e7d20c07d4d584ded57b4eeea9f706ab45b15ae3c37",
+      "html_sha256": "7ffbbc797183ba056c0716b5a214a7aef795422c79f9bd42f3988dda842aa67d",
+      "text_sha256": "4c1a379dfe8f59cd7eb6bfae6c217bbe27c0fb809eaa8fcf14501612d9c2f3bb",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:13:20.749Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakalhx-hampton-suites-alliance/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-037",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn & Suites Beachwood",
+      "identity_key": "hampton inn and suites beachwood",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-037-hampton-suites-beachwood.json",
+      "artifact_bytes": 743654,
+      "artifact_file_sha256": "5339a27ae4138fdd7944b03dbeeaf7d7fe1159357673f3bf9cbcac34c81fa596",
+      "html_sha256": "2b29303fa9273a155b378b1b1200ba9ed1f3d7ede117d932e2abab1ad0dda377",
+      "text_sha256": "f148774c9cce8b09ba94dfb6ebeac1cd60dc83fe30664848ffe67a63e7404c40",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:14:09.748Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clebwhx-hampton-suites-cleveland-beachwood/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-038",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn & Suites By Hilton Canton",
+      "identity_key": "hampton inn and suites by hilton canton",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-038-hampton-suites-canton.json",
+      "artifact_bytes": 737038,
+      "artifact_file_sha256": "0a3c3a2b52655015938f5aef4006cc7c7e6c78276092ff7b8e57aae6beb957cc",
+      "html_sha256": "41836520443373241cc5f4784d856624aa0f1f9369c691bf9247b0b56d776f95",
+      "text_sha256": "f0d83f068c1e19621fe20f03e8381af457cca0bd431f8d278fb12f0f0dcfd92a",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:14:29.815Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakbmhx-hampton-suites-canton/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight, count or species stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-039",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn & Suites Cleveland Airport",
+      "identity_key": "hampton inn and suites cleveland airport",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-039-hampton-suites-cleveland-airport-middleburg.json",
+      "artifact_bytes": 738380,
+      "artifact_file_sha256": "8a51648f65b629140da37c14c657d92405fc8b105a4e70d91f079638aeabc9ac",
+      "html_sha256": "e8aca6721068e14c8cd0d0de40e1448a576cf6a591d41eae917ca8647c7b40e2",
+      "text_sha256": "278c1766c14f40e618352240fcc6cebbe56c103fca6fbcc5c5c3881c3d1d1b95",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:15:15.785Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clemhhx-hampton-suites-cleveland-airport-middleburg-heights/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the 'Other pet information' line is operator shorthand ('$75(1-4n),$125(5+n)') -- captured verbatim from the page, not transcriber prose"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-040",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn & Suites Cleveland Independence",
+      "identity_key": "hampton inn and suites cleveland independence",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-040-hampton-suites-cleveland-independence.json",
+      "artifact_bytes": 732054,
+      "artifact_file_sha256": "90fc12983cd7df18d38638419bb62d7910ee14e6489bdb0ce0c532bd9ce8a8cc",
+      "html_sha256": "5193c5bcfe21b8f46d301f53c5be8f85b813c2bf0acdf6e2ca6bd0f3354a2e1c",
+      "text_sha256": "4d616da8541621ce2f0a83bcd35e2495ec29a4e129e9067c3391540be274dee3",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:15:35.791Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cleiphx-hampton-suites-cleveland-independence/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-041",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Cleveland Airport Brooklyn Oh",
+      "identity_key": "hampton inn cleveland airport brooklyn oh",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-041-hampton-cleveland-airport-tiedeman.json",
+      "artifact_bytes": 734926,
+      "artifact_file_sha256": "f101828fa3b1c79e5efde7fd106a955da3b98d950df0599fddbbe5f4f79ee176",
+      "html_sha256": "a4c9c9a6bbb4aad32d30f89d7e56ca755e2292c1986afcf268d0ed1ff7b6e70b",
+      "text_sha256": "73a1adaf868a733c5c8da9d4cb339945e6ba3f0b0cd82a0c5d7fae9718702457",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:16:22.759Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clecchx-hampton-cleveland-airport-tiedeman-rd/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-042",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Cleveland Downtown",
+      "identity_key": "hampton inn cleveland downtown",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-042-hampton-cleveland-downtown.json",
+      "artifact_bytes": 735823,
+      "artifact_file_sha256": "c9b4b3b8886f8296c6c610346c3a3c08a9ae1a739fb52a937e6933e154836703",
+      "html_sha256": "b154a613ddfebd83f66e3b5d07902221b33713da1ccfe2763d13fcaaa37fb60c",
+      "text_sha256": "85840b1e8b24baaef208ae13d3f160748bb9c8b524a60f8ef24c85f1ec460d57",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:16:42.766Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cledthx-hampton-cleveland-downtown/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-043",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Massillon",
+      "identity_key": "hampton inn massillon",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-043-hampton-massillon.json",
+      "artifact_bytes": 731282,
+      "artifact_file_sha256": "2f2221cff5bc4e5a5363b9f03436a4c494d22125cb335da43f7877004f237821",
+      "html_sha256": "891b6a14e0633be887ed5a1b1f17517f3c30fc80536dbeac9b183f6763a579ea",
+      "text_sha256": "fa471081fb33c0d7670ec24782b0c0a02ff1f0e2189c4675b314755597fecb12",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:17:31.887Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/mslohhx-hampton-massillon/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-044",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn North Olmsted Cleveland Airport",
+      "identity_key": "hampton inn north olmsted cleveland airport",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-044-hampton-north-olmsted.json",
+      "artifact_bytes": 724160,
+      "artifact_file_sha256": "a8b312118c72d4dcf79f7a59c2fc6b388f2da8b26618e29b07310327f68dfd14",
+      "html_sha256": "d96caad7538ed582faeec774b36e9f8147979705eb70d642b40c8af60bdde6c0",
+      "text_sha256": "c50ceb4ccd5f97b44a906670966f614c9ad5ff6ad9528bd9b1575e2a77b6b209",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:17:51.744Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cleomhx-hampton-north-olmsted-cleveland-airport/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-045",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Stow",
+      "identity_key": "hampton inn stow",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-045-hampton-stow.json",
+      "artifact_bytes": 742064,
+      "artifact_file_sha256": "0a5a223f7dabd94830243591ee19a7b67a32120dd3383642a88bd853f6b310e4",
+      "html_sha256": "b5e9bd49a893eb61107d2f908439f2411ded459d7e1187e9ad0dea80b2a3d6c1",
+      "text_sha256": "14daf634fc837404db3f6a94503cd12a20c80454430f8cdcf74ccd5825aef07b",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:18:39.770Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/stoohhx-hampton-stow/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-046",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hampton Inn Westlake",
+      "identity_key": "hampton inn westlake",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-046-hampton-westlake.json",
+      "artifact_bytes": 719919,
+      "artifact_file_sha256": "f345d30069657f5a0afed66e237c9f24efa60c4065de5c33581c71ddd859e848",
+      "html_sha256": "05ba61c1b6b60d2765de640e2540c0646be30e3b08ae30d21df4553d837a5d1b",
+      "text_sha256": "c34e5b8a5f76626ddd6dcd7fc9355ccd5e6251d03ce50c4e27e32f405ca9130d",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:18:58.938Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cledrhx-hampton-cleveland-westlake/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-047",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Cleveland Downtown",
+      "identity_key": "hilton cleveland downtown",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-047-hilton-cleveland-downtown.json",
+      "artifact_bytes": 782431,
+      "artifact_file_sha256": "2e7a5fb2b201f44e6636df0b7baed8a310414186ddfec16238d76d1c1012717f",
+      "html_sha256": "32eecb88bb06e35fe33802fa1092dfe24ebb3f5bfc38790d61651c56d05ea5aa",
+      "text_sha256": "1d768c77ff9995e4d3f23d93a60a30312ce991cc8353321f5b673be963f692dc",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:19:47.789Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cledohh-hilton-cleveland-downtown/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the contradicting widget line reads 'Deposit Yes. $75.00 Non-refundable Fee' -- both quotes verified in the artifact"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-048",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Akron",
+      "identity_key": "hilton garden inn akron",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-048-hilton-garden-inn-akron.json",
+      "artifact_bytes": 749751,
+      "artifact_file_sha256": "1048673b9c0b3654345adbe05e5964a4fa70dfa071061d76079ab41a2ddf8959",
+      "html_sha256": "a6aa23c166ac926534b215a3cbf612d1617e2d44231a296630bd5bea919b3624",
+      "text_sha256": "274340a6366363bffb5d9018cd9fef3ea293245de2c80d71d838ad3c01418271",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:20:06.779Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakemgi-hilton-garden-inn-akron/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-049",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Akron-Canton Airport",
+      "identity_key": "hilton garden inn akron canton airport",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "ACCESS_BLOCKED",
+      "artifact_file": null,
+      "notes": [
+        "Hilton's Akamai edge rate-limited this session after sixteen rapid Hilton-family captures; the block lifted for every OTHER property URL after roughly an hour (nine further captures succeeded at a slower pace), but this URL -- the one used for the repeated cool-down probes -- kept serving the block page ('Hilton Page Reference Code') through the end of the session. A block page is never policy evidence; the row stays capturable and should be re-driven in a later session (twenty-five sibling captures prove the surface serves this browser when unthrottled)."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-050",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Cleveland Airport",
+      "identity_key": "hilton garden inn cleveland airport",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-050-hilton-garden-inn-cleveland-airport.json",
+      "artifact_bytes": 750820,
+      "artifact_file_sha256": "942bee4ac361b05eea94d9f0c9ed03397d876b31e469aa05b84df3baa2b4bf55",
+      "html_sha256": "677d239ac054cef25f0b9362c359e47f992df43b8f9d64acfdc950b6bbc548fd",
+      "text_sha256": "535da25e03849eb978d72922f66c67b4e4382bd531d5ea7eb98cc878581215b7",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:37:36.811Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cleahgi-hilton-garden-inn-cleveland-airport/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-051",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Cleveland East Mayfield Village",
+      "identity_key": "hilton garden inn cleveland east mayfield village",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-051-hilton-garden-inn-cleveland-east-mayfield-village.json",
+      "artifact_bytes": 752776,
+      "artifact_file_sha256": "046da8a1644324a613280027c48c1a2c41d0af0d57d89febf2ed726afa0a12b4",
+      "html_sha256": "74afbf000ec95c7f6292df4f6e54be3b8afffe20fee05ab85d99fede916c452b",
+      "text_sha256": "434714cf9593a7ddf397625a7f2a403c8d185db7f2eace4c18035fbf5ef40a58",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:38:21.768Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cleemgi-hilton-garden-inn-cleveland-east-mayfield-village/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-052",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Cleveland Twinsburg",
+      "identity_key": "hilton garden inn cleveland twinsburg",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-052-hilton-garden-inn-cleveland-twinsburg.json",
+      "artifact_bytes": 745253,
+      "artifact_file_sha256": "c3841e5f52e71a0f6dd2a43329374e5ac389a53318f5105a7c1e3473a9f3cba4",
+      "html_sha256": "8d76eece5aa7b0536e5dd5fa1e44a34637659f6df26bf193c033266194587234",
+      "text_sha256": "b2e0b3a19a8ff7934f907c1d62f23924ccd43b7fd9e9aead2e9dcc3545f7b801",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:39:05.782Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clethgi-hilton-garden-inn-cleveland-twinsburg/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight or species stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-053",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Hilton Garden Inn Downtown Cleveland",
+      "identity_key": "hilton garden inn downtown cleveland",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-053-hilton-garden-inn-downtown-cleveland.json",
+      "artifact_bytes": 738145,
+      "artifact_file_sha256": "51ea5c070d88a186634162737cb18e9b020c0e614de9185f54023e62d7ffcb3e",
+      "html_sha256": "507ac669d6882bfbd50cbe8ad43d9d6f32e7da4b46d9457dc9ed5bccf3379797",
+      "text_sha256": "f7f068956b8a8384f8c4b75f9d3b719ad1b4d7270f964ed18d7b0b88b0c45755",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:39:49.773Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clegwgi-hilton-garden-inn-cleveland-downtown/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-054",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Home2 Suites by Hilton",
+      "identity_key": "home2 suites by hilton",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-054-home2suites-brand.json",
+      "artifact_bytes": 322807,
+      "artifact_file_sha256": "06ed2c5141914b4df710672aa48d15260d5c5cd1d4be228cbb2ea6a429d2a3cf",
+      "html_sha256": "3453b6708601cce21920ff104680c0772338796e642da9f5505dad2fe942f708",
+      "text_sha256": "89120f059af454fc0e36aa0217974a5e5ac1dea925f1805c8c4ab602256810f2",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:09:58.194Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/brands/home2-suites/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "the queued official URL is the brand homepage (home2suites.com -> hilton.com/en/brands/home2-suites/); no property-level policy surface can exist at this URL. The brand page's pet text ('We welcome wagging tails ... *Fees apply and vary by hotel') is PT4 brand marketing, never property policy. Discovery-lane candidate: the identity needs a property-level URL (6200 Patriots Way, Independence)."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-055",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Home2 Suites by Hilton Canton",
+      "identity_key": "home2 suites by hilton canton",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-055-home2-suites-canton.json",
+      "artifact_bytes": 751672,
+      "artifact_file_sha256": "5d00fa80e49df020e9dfae23d9f03965f50636a224e6e191eba1af43c40d1124",
+      "html_sha256": "d32240268d1e8ad5bc130484503f8f57bad487178caf618d85fd633996998d78",
+      "text_sha256": "ec764317f81f3513c00cbb18ddafb201df1a7ce9ac27f27246111c9853297da6",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:40:34.016Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakncht-home2-suites-canton/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-056",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Home2 Suites by Hilton Stow Akron",
+      "identity_key": "home2 suites by hilton stow akron",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-056-home2-suites-stow-akron.json",
+      "artifact_bytes": 746255,
+      "artifact_file_sha256": "733a1fb8974b63b42ac141360239ec62f1ba40f4a2a1846c911019f81d9150a1",
+      "html_sha256": "0645df47239f5bd4b40c53e558ad8d475cc118a99e920de877788a70e4fd9340",
+      "text_sha256": "10e40ed31efcf8ea531b77593420c040ac862b39e18744ce71e9452c38b69429",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:41:18.769Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakstht-home2-suites-stow-akron/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-057",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Homewood Suites by Hilton",
+      "identity_key": "homewood suites by hilton",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-057-homewood-suites-solon.json",
+      "artifact_bytes": 741572,
+      "artifact_file_sha256": "e9b5600ce4ce8e3f357b82a06dd3846b4325a483e0c2aa0f48ae66f16c4ef025",
+      "html_sha256": "b01401dbd6ffb6904fb1cd4d08eb40039446c38cb39b1e6eef56c5965d552b29",
+      "text_sha256": "bbc552629f523aa12bfa5674a8fc1390f05691025f48e6026fd9178f4e2fc808",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:42:03.883Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clehwhw-homewood-suites-cleveland-solon/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "no weight stated on this page"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-058",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Homewood Suites by Hilton Akron/Fairlawn",
+      "identity_key": "homewood suites by hilton akron fairlawn",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-058-homewood-suites-akron-fairlawn.json",
+      "artifact_bytes": 752973,
+      "artifact_file_sha256": "ac6c918bf78586dd3416220394d9fcf72ad4b7a2aa77e908bd51d1e562dc96ec",
+      "html_sha256": "ba28c37ef772a68cfef3c7b4ef90d54eff4881b589fab0d03c35294b67fe0613",
+      "text_sha256": "debb74d406d98e2d2a7e4180d5ef4b5e1b894ed6589e59c4564ce35e1ed91bd6",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:42:46.799Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/cakfahw-homewood-suites-akron-fairlawn-oh/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-059",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Homewood Suites by Hilton Cleveland-Beachwood",
+      "identity_key": "homewood suites by hilton cleveland beachwood",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-059b-homewood-suites-cleveland-beachwood.json",
+      "artifact_bytes": 743222,
+      "artifact_file_sha256": "3c73fd9de0746976297b5036bc9e2d5842d1a2d954d24511c5b6e1dd423e3571",
+      "html_sha256": "0f8da42d900115e4a896565a31ee2408e4b0cc26c6797de1a1009e0e79d2b69c",
+      "text_sha256": "8f50803393a05e496df7c82a46e97015731afe60b138088d157218b6780e9285",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:36:03.391Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.hilton.com/en/hotels/clebdhw-homewood-suites-cleveland-beachwood/",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-059-homewood-suites-cleveland-beachwood.json",
+        "artifact_file_sha256": "245ba2be6af3e89c4391e143cea086e5136a6e8507b900afddbf1610730073a8",
+        "html_sha256": "991a3fd98f14a9d2bde2c8b9923b84fc62c33a1cfd69ea03bc59b4a41fed4ad7",
+        "final_url": "https://www.hilton.com/en/hotels/clebdhw-homewood-suites-cleveland-beachwood/"
+      }
+    },
+    {
+      "queue_id": "CLE-P3-060",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Knights Inn Cleveland/Macedonia",
+      "identity_key": "knights inn cleveland macedonia",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_PARTIAL",
+      "artifact_file": "P3-060-knights-inn-macedonia.json",
+      "artifact_bytes": 119061,
+      "artifact_file_sha256": "0f18830d15eb20fa797b07c767d479b84b18a10ad2de13417556628d16fa6cd7",
+      "html_sha256": "ad7d561f91209a46d864ab05862c2e45b26ec1cb964a6d82dad15eed5e9da8b1",
+      "text_sha256": "745ffd16f922480e4097b614dffc9fd74f689cf8d713f91e7ebd066b28fa3659",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:57:55.521Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-060b-knights-inn-macedonia-amenities.json",
+        "artifact_file_sha256": "8ce0a294b25877b6f140b48b62a8d2d00c69e9b679eeea8f162e51446e5b18fe",
+        "html_sha256": "23aa5cc89f04a7a59dc2f6071d7b92a87b40081469190c106940d1362f9920c7",
+        "final_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia"
+      },
+      "notes": [
+        "property-level marketing chip only; founder precedent P17 (Pass 2) published pets_allowed alone for exactly this shape"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-061",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "La Quinta Inn & Suites Cleveland Airport North",
+      "identity_key": "la quinta inn and suites cleveland airport north",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "IDENTITY_UNCERTAIN",
+      "artifact_file": "P3-061-la-quinta-cleveland-airport-west.json",
+      "artifact_bytes": 725655,
+      "artifact_file_sha256": "ac3f70464e75d205a1bd27a552bc08ec133d055902f32d368edaaba67507afc4",
+      "html_sha256": "7f99eff76238c42154f50b3e63501c0ceea4e403c99d040c9d39c80ca6bb043a",
+      "text_sha256": "0123447b997bf5699d1e41986acc6285f656cc54de475356d5dd17e0b5777fc3",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:59:08.218Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.wyndhamhotels.com/laquinta/north-olmsted-ohio/la-quinta-cleveland-airport-west/overview",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "the queued URL serves 'La Quinta Inn & Suites by Wyndham Cleveland Airport West' at 25105 Country Club Blvd, North Olmsted 44070, phone 440-734-4477 -- while the queue identity is La Quinta Inn & Suites Cleveland Airport NORTH at 4222 West 150th St, Cleveland 44135, phone 216.251.8500. Zero identity signals bind (different street, ZIP and phone). This is a different property; routing-review candidate. The page's own policy (2 pets max, cats and dogs, 75lbs per pet, $25 nightly / max $75 per stay) belongs to Airport West and is NOT proposed for this identity."
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-062",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "La Quinta Inn Cleveland Independence",
+      "identity_key": "la quinta inn cleveland independence",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-062-la-quinta-independence.json",
+      "artifact_bytes": 682696,
+      "artifact_file_sha256": "5d656c98293ec24746b00a3d0732ca8345c3f14a691d01c8f08805c7a0be935a",
+      "html_sha256": "d744a23837a1c6236a6064bc744df01d4dd3cd8651619a7da4b936c8c8fb6e6d",
+      "text_sha256": "9ef8c1d71dbb751ada9c8a420b2a80494485d71d3b5d3eab9b027c34ea31aaf0",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T05:59:57.886Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-063",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Staybridge Suites Akron Stow Cuyahoga Falls",
+      "identity_key": "staybridge suites akron stow cuyahoga falls",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-063-staybridge-stow.json",
+      "artifact_bytes": 1212738,
+      "artifact_file_sha256": "8035c6654c3723eb28f38c5ac4b7463139dfb5ffdaa96058404d5d050c7b7cf8",
+      "html_sha256": "98e3f0e2e3f19093f2a445dacc7d62ba9464eff37bbba1bcc6c5eb969e8b2d72",
+      "text_sha256": "6b7a4695ceb47e557208b34c4ee49191ae683be66c7cf54dbf4398797457a202",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:00:38.765Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.ihg.com/staybridge/hotels/us/en/stow/stwoh/hoteldetail",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "supplementary_artifact": {
+        "artifact_file": "P3-063b-staybridge-stow-faq.json",
+        "artifact_file_sha256": "21ffbc77f6ecf2698ea756edbfd873e451b02703ad0522899f78642fec8a8bab",
+        "html_sha256": "98362d8685643f52471d1632a68b040b2f2bbdb42802305c7eb6c995e5d1f7b0",
+        "final_url": "https://www.ihg.com/staybridge/hotels/us/en/stow/stwoh/hoteldetail"
+      },
+      "notes": [
+        "the FAQ answer lives in an aria-hidden accordion region; quotes verify against the captured HTML, which retains it"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-064",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Staybridge Suites Canton",
+      "identity_key": "staybridge suites canton",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-064-staybridge-canton.json",
+      "artifact_bytes": 1217307,
+      "artifact_file_sha256": "aea002f9b7845a9f65ae8257e8b6975138ee83ed471dd558ddc15ca7e2e21fd7",
+      "html_sha256": "2e376c51d2993f2d1dc4a36745503d04b069e926d81e9c932b8748ea870de955",
+      "text_sha256": "502f5ff2cfca12ba31ad62f104f2207523e7a7e15ef75656382500d99646372d",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:02:31.773Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.ihg.com/staybridge/hotels/us/en/canton/caker/hoteldetail",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the FAQ answer lives in an aria-hidden accordion region; quotes verify against the captured HTML, which retains it"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-065",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Staybridge Suites Mayfield Heights",
+      "identity_key": "staybridge suites mayfield heights",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-065-staybridge-mayfield-heights.json",
+      "artifact_bytes": 1206598,
+      "artifact_file_sha256": "83116dc3060c36e0125635201dcfc0e9f276ac901f02fcabce9980cfc2d437c8",
+      "html_sha256": "a9980603d99048ce34092f1c1c570591924dc70946ef01e8f8be758903ad95be",
+      "text_sha256": "2667cac9805efd0a1c089048cad54539f5f06d2ad836f0b703dca30aecd0dd0e",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:03:50.780Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.ihg.com/staybridge/hotels/us/en/mayfield-heights/clelc/hoteldetail",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "the conflicting marketing sentence reads 'a minimal fee of $75 for up to six nights and $150 for seven or more nights' -- both quotes verified in the artifact",
+        "the FAQ answer lives in an aria-hidden accordion region; quotes verify against the captured HTML, which retains it"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-066",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Super 8 by Wyndham Akron South/Green/Uniontown",
+      "identity_key": "super 8 by wyndham akron south green uniontown",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-066-super-8-akron-s-green-uniontown.json",
+      "artifact_bytes": 670193,
+      "artifact_file_sha256": "09ab42ff54690cb800dcece885f48c6a257d09d98eff5a6c509b3efec7aadcde",
+      "html_sha256": "79902ecb38d0f989fd5cece9c0382d24299bc9322613ebeadf5a125eb6294073",
+      "text_sha256": "f6085727e8c453765e23f01b5d8e4993b72b0ad9fe77c9aaa2ae6dd0d728a073",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:04:41.982Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      }
+    },
+    {
+      "queue_id": "CLE-P3-067",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Super 8 by Wyndham Richfield/Cleveland",
+      "identity_key": "super 8 by wyndham richfield cleveland",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "artifact_file": "P3-067-super-8-richfield-cleveland.json",
+      "artifact_bytes": 645777,
+      "artifact_file_sha256": "ba9d2cbd8fc5e425706b4415c27debcea2dd31dba296f099fb0ba12a18861ca9",
+      "html_sha256": "14db193a8233cf3ba7a571ece2633bfbb6ede9e8256f09992f0e1a7dc0028702",
+      "text_sha256": "f071caf3fce65a13de6c9dd432a4e470a3defbe34f650bce0df4c7341c3752d1",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:09:09.887Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
+      "identity_binding": {
+        "phone": true,
+        "street_number": true,
+        "zip": true,
+        "bound": true
+      },
+      "notes": [
+        "'hotel does not charge a pet sanitation fee' is an explicit none-charged statement, recorded here (no schema field exists for stated-none sanitation fees)"
+      ]
+    },
+    {
+      "queue_id": "CLE-P3-068",
+      "group": "MARKETING_ONLY_ARTIFACT",
+      "hotel": "Woodspring Suites Cleveland",
+      "identity_key": "woodspring suites cleveland",
+      "prior_state": "AWAITING_POLICY_ARTIFACT",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_file": "P3-068-woodspring-brand.json",
+      "artifact_bytes": 239244,
+      "artifact_file_sha256": "957231db94d51dcbed4a3acea47fb988cbccb3e48d95938db197d1a41088e33a",
+      "html_sha256": "5faf0571531ef00d8edc31c24dc0163578f246cde2e0880d426a882d0a4b070a",
+      "text_sha256": "aed953c27794b5c127fcf61ee484f759dc24bb11420e2e999e6028398d6d53ba",
+      "content_hashes_agree": true,
+      "captured_at": "2026-08-16T06:10:24.640Z",
+      "capture_method": "attended_browser",
+      "final_url": "https://www.woodspring.com/",
+      "identity_binding": {
+        "phone": false,
+        "street_number": false,
+        "zip": false,
+        "bound": false
+      },
+      "notes": [
+        "the queued official URL is the WoodSpring brand homepage; no property-level policy surface can exist at this URL. The brand page's pet text ('We offer pet friendly hotel rooms at most of our locations') is PT4 brand marketing, never property policy. Discovery-lane candidate: the identity needs a property-level URL (20829 Emerald Pkwy, 44135)."
+      ]
+    }
+  ]
+}

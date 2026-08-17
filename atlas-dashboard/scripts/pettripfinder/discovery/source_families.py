@@ -56,6 +56,17 @@ SOURCE_FAMILIES: FrozenSet[str] = frozenset({
 # mapped; a source is added here when its data enters the system, never
 # speculatively. The four CVB entries are the entire Cleveland-Akron-Canton
 # identity census (source_batch cleveland-akron-canton-007).
+#
+# PTF-MARKET-AUTHORITY-SHARDING-001. A NEW MARKET DOES NOT BELONG HERE.
+# Everything below predates the per-market coverage config and is retained
+# verbatim so no already-registered market changes family. A market registered
+# from now on declares its own sources in
+# ``launch_packages/pettripfinder/markets/coverage/<market_id>.json`` under
+# ``source_family_overrides``, which ``family_of`` merges on top of this table.
+# The distinction is not cosmetic: this dict is one shared file that every
+# market branch appended to at once, and it was one of the recurring merge
+# conflicts that sharding exists to remove. The per-market file has no such
+# contention, and an override is reviewed beside the market it belongs to.
 # --------------------------------------------------------------------------- #
 
 CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
@@ -72,6 +83,44 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "soin_tourism": FAMILY_CVB,
     "flylouisville": FAMILY_DIRECTORY,
     "louisville_downtown_partnership": FAMILY_DIRECTORY,
+    # PTF-INDIANAPOLIS-MARKET-REVALIDATION-001: official Indianapolis destination sources.
+    "visit_indy": FAMILY_CVB,
+    "visit_hamilton_county": FAMILY_CVB,
+    "visit_hendricks_county": FAMILY_CVB,
+    "festival_country_indiana": FAMILY_CVB,
+    "indianapolis_airport": FAMILY_CVB,
+    "downtown_indy_inc": FAMILY_CVB,
+    # PTF-CINCINNATI-CENSUS-RECONCILIATION-001: the six destination-marketing
+    # directories that produced the Cincinnati tri-state census. All six are
+    # CVB, so none of them independently confirms another -- which is exactly
+    # why meet_nky corroborating visit_cincy is recorded as corroboration and
+    # never counted as a second voice.
+    "visit_cincy": FAMILY_CVB,
+    "meet_nky": FAMILY_CVB,
+    "travel_butler_county": FAMILY_CVB,
+    "warren_county_cvb": FAMILY_CVB,
+    "discover_clermont": FAMILY_CVB,
+    "visit_southeast_indiana": FAMILY_CVB,
+    # PTF-PITTSBURGH-MARKET-REVALIDATION-001: official tourism, destination
+    # partners, and already-registered utility sources.
+    "visit_pittsburgh": FAMILY_CVB,
+    "cultural_trust": FAMILY_CVB,
+    "paacc": FAMILY_DIRECTORY,
+    "east_liberty_chamber": FAMILY_DIRECTORY,
+    "gpha": FAMILY_DIRECTORY,
+    "parks_conservancy": FAMILY_DIRECTORY,
+    "city_parks": FAMILY_REGISTRY,
+    "avets": FAMILY_CHAIN,
+    "veg_pittsburgh": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: official tourism, destination
+    # partners, chamber directories, and brand-locator discovery.
+    "visit_detroit": FAMILY_CVB,
+    "destination_ann_arbor": FAMILY_CVB,
+    "dearborn_chamber": FAMILY_DIRECTORY,
+    "auburn_hills_chamber": FAMILY_DIRECTORY,
+    "vibe_showplace": FAMILY_DIRECTORY,
+    "chain_locator": FAMILY_CHAIN,
+    "chain_aggregate": FAMILY_CHAIN,
 }
 
 

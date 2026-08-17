@@ -44,6 +44,7 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
 LOUISVILLE = "louisville-ky"
+INDIANAPOLIS = "indianapolis-in"
 
 FULL_BUILD = os.environ.get("PTF_ASSEMBLER_FULL_BUILD") == "1"
 needs_build = pytest.mark.skipif(
@@ -312,22 +313,26 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     chosen, rows = select_markets(markets)
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+    # Pittsburgh is currently assemblable but remains hidden from navigation;
+    # Indianapolis is independently eligible after its founder-approved release.
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
 
 
-def test_louisville_is_registered_below_threshold_and_not_assembled(markets):
-    row = market_eligibility(market_by_id(markets, LOUISVILLE))
-    assert row["published_count"] == 0
+def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
+    row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
+    assert row["published_count"] == 8
     assert row["conditions"]["census_present"] is True
-    assert row["conditions"]["meets_minimum_published"] is False
-    assert row["assemblable"] is False
+    assert row["conditions"]["meets_minimum_published"] is True
+    assert row["assemblable"] is True
 
 
-def test_louisville_does_not_fail_the_global_selection(markets):
+def test_indianapolis_is_in_the_global_selection(markets):
     chosen, rows = select_markets(markets)
-    assert LOUISVILLE not in [m.market_id for m in chosen]
-    assert LOUISVILLE in [r["market_id"] for r in rows]
-    assert sorted(m.market_id for m in chosen) == sorted([CLEVELAND, COLUMBUS, DAYTON])
+    assert INDIANAPOLIS in [m.market_id for m in chosen]
+    assert INDIANAPOLIS in [r["market_id"] for r in rows]
+    assert sorted(m.market_id for m in chosen) == sorted(
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -337,12 +342,21 @@ def test_navigation_visibility_is_not_an_assembly_condition(markets):
         assert "show_in_navigation" not in row["conditions"]
 
 
-def test_current_ohio_inventory_is_156_published_profiles(markets):
-    """Section 28's current target, DERIVED -- not a constant in the code."""
+def test_current_live_inventory_preserves_all_assemblable_market_profiles(markets):
+    """Section 28's target at the time, DERIVED -- not a constant in the code.
+    176 since the Pass-2 founder decisions; 216 since
+    PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
+    hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
+    the first seventeen Pittsburgh hotels; 242 since
+    PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
+    after Indianapolis published its eight founder-approved records; 268 since
+    PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
+    Cleveland hotels (81 -> 99)."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
-    assert counts == {COLUMBUS: 88, CLEVELAND: 21, DAYTON: 47}
-    assert sum(counts.values()) == 156
+    assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8}
+    assert sum(counts.values()) == 268
 
 
 # --------------------------------------------------------------------------- #
@@ -389,7 +403,7 @@ def test_combined_bundle_assembles_with_every_gate_passing(short_out):
     assert manifest["global_shadowing_count"] == 0
     assert manifest["canonical_violations"] == 0
     assert manifest["deployment_authorized"] is False
-    assert sum(len(f["hotel_routes"]) for f in manifest["fragments"].values()) == 156
+    assert sum(len(f["hotel_routes"]) for f in manifest["fragments"].values()) == 176  # after Pass-2 decisions
 
 
 @needs_build

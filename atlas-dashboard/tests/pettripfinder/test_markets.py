@@ -515,9 +515,13 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # PTF-GEOGRAPHY-NORMALIZATION-001: cincinnati-oh registered with the
     # tri-state contract. Columbus still resolves BY NAME, which is exactly
     # why this test resolves by name rather than by count.
+    # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: detroit-ann-arbor-mi
+    # registered as a Phase 1 census-only market (no policy authority yet).
+    # Columbus resolution by name is unchanged.
     assert sorted(m.market_id for m in markets) == \
-        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-         "louisville-ky"]
+        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
+         "dayton-oh", "detroit-ann-arbor-mi", "indianapolis-in", "louisville-ky",
+         "pittsburgh-pa"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

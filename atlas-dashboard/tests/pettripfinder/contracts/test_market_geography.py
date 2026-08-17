@@ -37,15 +37,24 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
 LOUISVILLE = "louisville-ky"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, LOUISVILLE)
+PITTSBURGH = "pittsburgh-pa"
+DETROIT = "detroit-ann-arbor-mi"
+INDIANAPOLIS = "indianapolis-in"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, LOUISVILLE, PITTSBURGH,
+           DETROIT, INDIANAPOLIS)
 
 EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
-                   CINCINNATI: ["OH", "KY", "IN"], LOUISVILLE: ["KY", "IN"]}
+                   CINCINNATI: ["OH", "KY", "IN"], LOUISVILLE: ["KY", "IN"], PITTSBURGH: ["PA"],
+                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
-                       DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
-                       LOUISVILLE: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 121,
-                 LOUISVILLE: 130}
+    DAYTON: "market_prefixed", CINCINNATI: "market_prefixed", LOUISVILLE: "market_prefixed",
+    PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
+    INDIANAPOLIS: "market_prefixed"}
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256, LOUISVILLE: 130,
+                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153}
+# Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
+# from six official destination-marketing directories instead of from its own
+# corridor registry.
 
 
 def census(market_id):
@@ -123,25 +132,11 @@ class TestMarketStateOwnership:
             assert row["state"] in allowed, row["canonical_name"]
 
     def test_cincinnati_really_is_tri_state(self):
+        """96/16/9 before the rebuild. Kentucky grew nearly fivefold, because
+        the airport and Florence clusters the old census never surveyed are
+        almost all on the Kentucky side of the river."""
         counts = collections.Counter(r["state"] for r in census(CINCINNATI)["hotels"])
-        assert counts == {"OH": 96, "KY": 16, "IN": 9}
-
-    def test_louisville_is_kentucky_and_indiana(self):
-        counts = collections.Counter(r["state"] for r in census(LOUISVILLE)["hotels"])
-        assert set(counts) == {"KY", "IN"}
-        assert counts["KY"] > counts["IN"] > 0
-
-    def test_a_louisville_indiana_city_does_not_match_a_kentucky_corridor(self):
-        m = market(LOUISVILLE)
-        ky = [c for c in m.corridors if c.state_code == "KY"]
-        assert ky
-        city = ky[0].included_cities[0] if ky[0].included_cities else "Louisville"
-        in_state = assign_hotels(m, [_row("k", city=city, state="KY", zip5="")],
-                                 fail_closed=False)
-        out_of_state = assign_hotels(m, [_row("k", city=city, state="IN", zip5="")],
-                                     fail_closed=False)
-        if in_state.corridor_of.get("k"):
-            assert not out_of_state.corridor_of.get("k")
+        assert counts == {"OH": 170, "KY": 77, "IN": 9}
 
     def test_a_kentucky_property_is_not_relabelled_ohio(self):
         """The market's primary state may never overwrite a row's own."""

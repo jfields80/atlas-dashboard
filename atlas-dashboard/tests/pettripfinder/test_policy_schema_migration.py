@@ -35,7 +35,9 @@ from scripts.pettripfinder.policy_migration import (
 )
 
 MARKETS = tuple(POLICY_PACKAGES)
-EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 21,
+# Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
+# published the founder-approved attended-capture candidates.
+EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 99,
                       "dayton-oh": 47}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
@@ -84,7 +86,7 @@ def test_every_record_declares_schema_1_2(records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 156
+    assert sum(counts.values()) == 234
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -217,8 +219,26 @@ def test_silence_restatements_were_dropped_not_recoded():
     total = sum(len(r.get("withheld_fields") or {})
                 for m in MARKETS for r in load_package(m)["hotels"])
     # 37 after the migration; 38 since PTF-POLICY-SCHEMA-MIGRATION-001A withheld
-    # Sheraton Worthington's weight, whose page disputes its own boundary.
-    assert total == 38
+    # Sheraton Worthington's weight, whose page disputes its own boundary;
+    # 40 since the Pass-2 founder decisions withheld Residence Inn Mentor's
+    # unexplained $5/night second amount and the ESA Akron South nights-7+
+    # ceiling the schema cannot carry; 56 since the Pass-3 founder decisions
+    # withheld fifteen more (no-limit and stated-none disclosures, ceilings,
+    # garbled Staybridge tiers, and the Hilton Cleveland Downtown fee
+    # contradiction) and the ESA ceiling!=price remediation one more; 60 since
+    # PTF-DAYTON-RECERTIFICATION-001 Pass B recorded a cleaning_fee withholding
+    # on each of Dayton's four Extended Stay America records. Their pages name
+    # the charge a cleaning fee and give only ceilings for it, so a reader
+    # looking for a cleaning fee is now answered instead of told nothing --
+    # the same SCHEMA_CANNOT_REPRESENT treatment Cleveland's ESA records got
+    # under founder decision D09; 67 since PTF-CLEVELAND-PASS4-DECISION-
+    # APPLICATION-001 added 7 more withholdings across the 18 newly
+    # published Cleveland records: Crowne Plaza's unitless weight and
+    # ambiguous deposit (2 fields), Embassy Suites' malformed fee tier, ESA
+    # Premier Suites' cleaning-fee ceilings, Red Roof Westlake's non-pet
+    # deposit, Wyndham Garden Westlake's discretionary sanitation charge,
+    # and Sonesta Westlake's unstated-refundability deposit.
+    assert total == 67
 
 
 def test_a_withheld_field_is_never_also_published(records):
@@ -328,6 +348,10 @@ def test_migration_kept_every_field_it_does_not_own(packages):
     for market in MARKETS:
         was = {r["key"]: r for r in _package_at_head(market)["hotels"]}
         for record in packages[market]["hotels"]:
+            if record["key"] not in was:
+                # Published after the migration (Pass-2 founder decisions);
+                # there is no pre-1.2 baseline for it to preserve.
+                continue
             before = was[record["key"]]
             for name, value in before.items():
                 if name in owned or name == "facts":
@@ -340,6 +364,8 @@ def test_source_quotes_were_never_altered(packages):
     for market in MARKETS:
         was = {r["key"]: r for r in _package_at_head(market)["hotels"]}
         for record in packages[market]["hotels"]:
+            if record["key"] not in was:
+                continue  # post-migration publication; no baseline quotes
             before = was[record["key"]]
             assert record.get("evidence_quote") == before.get("evidence_quote")
             assert record.get("source_url") == before.get("source_url")
@@ -362,12 +388,34 @@ def test_source_quotes_were_never_altered(packages):
             # exemption auditable: grep it and every such entry is listed.
             exempt = {e.get("quote") for e in record.get("evidence") or ()
                       if e.get("contiguity_verified") is False}
-            for quote in set(new_quotes) - set(old_quotes) - exempt:
+            # ...and, since PTF-DAYTON-RECERTIFICATION-001 bound records to
+            # their page artifacts, an entry may instead declare that it was
+            # checked against something STRONGER than this proxy. ``page`` here
+            # is the record's legacy ``evidence_quote`` -- a stitched summary of
+            # the captured page, not the page -- so a sentence genuinely on the
+            # page can be missing from it, which is exactly what happened to
+            # Days Inn Sidney's service-animal line. An entry carrying
+            # contiguity_verified=true was asserted contiguous in the captured
+            # BYTES named by its artifact_sha256, so it is exempted from the
+            # weaker check and required to say so.
+            verified_against_artifact = {
+                e.get("quote") for e in record.get("evidence") or ()
+                if e.get("contiguity_verified") is True}
+            for quote in (set(new_quotes) - set(old_quotes)
+                          - exempt - verified_against_artifact):
                 assert " ".join(quote.split()) in page, record["key"]
             for entry in record.get("evidence") or ():
                 if entry.get("contiguity_verified") is False:
                     # Never dressed up as more than it is.
                     assert entry.get("artifact_class") == enums.POINTER_TO_EVIDENCE
+                    assert entry.get("provenance_note"), record["key"]
+                if entry.get("contiguity_verified") is True:
+                    # The stronger claim carries the stronger burden: it must
+                    # name the artifact it was checked against and be
+                    # publication grade, so the exemption is auditable by grep.
+                    assert entry.get("artifact_class") == \
+                        enums.PUBLICATION_GRADE_EVIDENCE, record["key"]
+                    assert entry.get("artifact_sha256"), record["key"]
                     assert entry.get("provenance_note"), record["key"]
 
 
@@ -421,14 +469,24 @@ def test_red_roof_cap_belongs_to_the_second_pet_rung(key):
 def test_staybridge_miamisburg_publishes_the_property_ladder():
     """Phase B could only warn that the $50 was not the whole charge. 1.2 states
     the ladder the property actually wrote."""
-    facts = _record("dayton-oh", "staybridge suites miamisburg")["facts"]
+    record = _record("dayton-oh", "staybridge suites miamisburg")
+    facts = record["facts"]
     tiers = facts["fee_tiers"]
     assert [(t["amount_cents"], t["condition_min"], t.get("condition_max"))
             for t in tiers] == [(5000, 1, 6), (15000, 7, None)]
     assert all(t["scope"] == enums.SCOPE_PER_PET for t in tiers)
     assert all(t["role"] == enums.ROLE_REPLACEMENT_PRICE for t in tiers)
-    # The property's own sentence survives verbatim beside the structure.
-    assert "one to six night stays" in facts["general_restrictions"]
+    # The property's own sentence survives verbatim -- in the evidence array,
+    # which is where source wording lives. It used to sit in
+    # general_restrictions as well, publishing the same ladder twice in two
+    # shapes; PTF-DAYTON-RECERTIFICATION-001 Pass B removed the duplicate. The
+    # one fact that sentence carried and the structure did not -- "Fee is
+    # nonrefundable" -- moved into canonical pet_fee.refundable rather than
+    # being lost with the prose.
+    assert "general_restrictions" not in facts
+    assert facts["pet_fee"]["refundable"] is False
+    assert any("one to six night stays" in e["quote"]
+               for e in record["evidence"])
 
 
 @pytest.mark.parametrize("market,key", [
@@ -486,8 +544,22 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     statements = [(m, r) for m in MARKETS for r in load_package(m)["hotels"]
                   if r.get("service_animal_statement")]
     # Ten carried a legacy flag; eleven more state it in their own policy
-    # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A.
-    assert len(statements) == 21
+    # sentence and were reconciled in by PTF-POLICY-SCHEMA-MIGRATION-001A;
+    # seven more arrived with the Pass-2 founder-approved publications and
+    # three more with the Pass-3 publications (La Quinta Independence and
+    # the two Super 8s); PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then
+    # published eighteen more Cleveland records, several of which carry
+    # their own service-animal statement (by market: Columbus 11, Dayton 4,
+    # Cleveland through Pass 4 25 -- 40 total before Dayton Pass B). Five
+    # more when PTF-DAYTON-RECERTIFICATION-001 Pass B recorded statements
+    # their pages made and their records did not -- Days Inn Sidney's
+    # "ADA-defined service animals are welcome free of charge" and the four
+    # Extended Stay America records' "Service animals will be exempt from
+    # this charge" (Dayton 4 -> 9).
+    assert len(statements) == 45
+    # A legal access category never shares a namespace with commercial terms.
+    for _market, record in statements:
+        assert "service_animal_statement" not in record["facts"]
     for market, record in statements:
         assert "service_animal_exception" not in record["facts"]
         statement = record["service_animal_statement"]
@@ -790,10 +862,27 @@ def test_every_approval_names_a_person_and_binds_the_record_it_signed(records):
         attested += 1
         assert entry["founder_attested"] is True
         if promised != approval["record_hash"]:
-            assert approval["decision"] == \
-                enums.MACHINE_REVIEWED_PENDING_OPERATOR, record["key"]
-            assert approval["supersedes"]["record_hash"] == promised, \
-                record["key"]
+            # The record moved past the hash the founder was shown. Two states
+            # are honest, and both keep that hash findable:
+            #
+            #   awaiting them  -- pending-operator, promised hash preserved; or
+            #   re-attested    -- the founder signed again at the NEW hash,
+            #                     which is what PTF-DAYTON-RECERTIFICATION-001
+            #                     Pass C did for all 47 Dayton records.
+            #
+            # What is never allowed is the promised hash simply disappearing,
+            # so it is required to survive verbatim somewhere in the chain
+            # rather than only one level down.
+            chain, node = [], approval.get("supersedes")
+            while isinstance(node, dict) and node:
+                chain.append(node.get("record_hash"))
+                node = node.get("supersedes")
+            assert promised in chain, record["key"]
+            if approval["decision"] != enums.MACHINE_REVIEWED_PENDING_OPERATOR:
+                assert approval["decision"] == \
+                    enums.APPROVED_AFTER_CURRENT_REVIEW, record["key"]
+                assert "claude" not in approval["operator"].lower(), \
+                    record["key"]
     assert attested == 53
 
 
@@ -829,7 +918,16 @@ def test_an_attested_record_keeps_the_history_its_approval_replaced(records):
             attributed += 1
             assert approval["invalidated_attribution"]["decision"] == \
                 enums.LEGACY_BASELINE_REVIEWED
-    assert (superseded, attributed) == (48, 21)
+    # 48 after the Pass-1 closeout; +2 when Pass 2 bound the Drury records'
+    # byte-retained recaptures and unbound their 2026-08-11 approvals; +1
+    # when the founder's Pass-3 ceiling!=price remediation re-attested ESA
+    # Select Suites Akron South and unbound its 2026-08-15 approval; +46 when
+    # PTF-DAYTON-RECERTIFICATION-001 Pass A bound all 47 Dayton records to
+    # their page artifacts, moving every record_hash. Dayton contributed one
+    # of the 51 already (Holiday Inn Express Dayton Centerville, corrected by
+    # PTF-POLICY-SCHEMA-MIGRATION-001A), so it now contributes 47.
+    # By market: Columbus 28, Cleveland 22, Dayton 47.
+    assert (superseded, attributed) == (97, 21)
 
 
 def test_a_withdrawal_is_sticky_until_a_founder_clears_it():

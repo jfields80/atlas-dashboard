@@ -167,7 +167,15 @@ class TestContradictionsArePreservedNotResolved:
         assert h["facts"]["pet_fee"]["amount_cents"] == 7500
         assert "fee_tiers" not in h["facts"]
         assert "150" not in json.dumps(h["facts"])
-        assert "additional" in h["facts"]["general_restrictions"]
+        # The unresolved "additional $75" survives where source wording belongs
+        # -- in the evidence array. PTF-DAYTON-RECERTIFICATION-001 Pass B took
+        # it OUT of general_restrictions: a fee_tiers withholding cannot mean
+        # anything while the same unresolved amounts are published as prose on
+        # the very same profile. What the record must never do is assert a
+        # total, and it still does not.
+        assert "general_restrictions" in h["facts"]
+        assert "$" not in h["facts"]["general_restrictions"]
+        assert any("additional" in e["quote"] for e in h["evidence"])
 
 
 class TestSpeciesIsNeverCompleted:
@@ -390,7 +398,7 @@ class TestMarketIsolation:
         # Cleveland moved 19 -> 21 under its OWN integration
         # (PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003); Dayton did not
         # move it, which is what this test defends.
-        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 21
+        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 99  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
 
     def test_columbus_still_has_exactly_fourteen_no_pets(self):
         cbus = [e for e in load_exclusions()
@@ -402,7 +410,7 @@ class TestMarketIsolation:
         cle = [e for e in load_exclusions()
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cle) == 8
+        assert len(cle) == 40  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
 
     def test_no_dayton_hotel_appears_in_another_market_authority(self, facts):
         day_keys = {h["key"] for h in facts["hotels"]}
