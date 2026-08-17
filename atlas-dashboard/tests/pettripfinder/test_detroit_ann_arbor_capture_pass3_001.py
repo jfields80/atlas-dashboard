@@ -1,0 +1,242 @@
+"""PTF-DETROIT-ANN-ARBOR-CLAUDE-CAPTURE-PASS3-001 -- committed-state tests.
+
+Validates the real Claude attended-browser capture of the prepared 30-row
+EVIDENCE_READY queue from ROUTING-EXPANSION-004: exact 30-row batch
+completeness, artifact hash binding, quote contiguity, identity binding,
+and the capture-only authority freeze (no founder decision recorded, no
+policy/exclusion/seed authority touched, published=7 and
+verified_no_pets=7 unchanged). It deliberately never reads the gitignored
+worker tree except through the raw artifact files themselves -- artifact
+bytes are hashed at capture time and the committed sha256 is what these
+tests check against.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+LP = REPO_ROOT / "launch_packages" / "pettripfinder"
+RESULTS_PATH = LP / "detroit_ann_arbor_capture_pass3_001.json"
+PACKET_PATH = LP / "detroit_ann_arbor_capture_pass3_founder_review_packet.json"
+MANIFEST_PATH = LP / "detroit_ann_arbor_capture_pass3_001_evidence_manifest.json"
+FACTS_PATH = LP / "hotel_policy_facts_detroit-ann-arbor-mi.json"
+EXCLUSIONS_PATH = LP / "hotel_exclusions.json"
+CENSUS_PATH = LP / "identity_census" / "detroit-ann-arbor-mi.json"
+PARTITION_PATH = LP / "detroit_ann_arbor_final_partition_001.json"
+QUEUE_PATH = (LP / "detroit_ann_arbor_routing_expansion_004_capture_queue.json")
+ROUTING_SHARD_PATH = (LP / "markets" / "authority" / "detroit-ann-arbor-mi"
+                      / "identity_routing.json")
+RAW_DIR = (REPO_ROOT / "data" / "worker_runs" / "pettripfinder"
+          / "detroit-ann-arbor-capture-pass3-001" / "raw")
+
+MARKET = "detroit-ann-arbor-mi"
+EXPECTED_IDS = ["DTW-P3-%02d" % n for n in range(1, 31)]
+OUTCOMES = {
+    "PUBLICATION_CANDIDATE", "VERIFIED_NO_PETS_CANDIDATE", "POLICY_NOT_FOUND",
+    "IDENTITY_UNCERTAIN", "ACCESS_BLOCKED", "CAPTURE_FAILED", "SOURCE_AMBIGUOUS",
+}
+NO_ARTIFACT_IDS = {"DTW-P3-05", "DTW-P3-14"}  # Atheneum, Daxton: POLICY_NOT_FOUND
+
+
+def _load(path):
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+@pytest.fixture(scope="module")
+def results():
+    return _load(RESULTS_PATH)
+
+
+@pytest.fixture(scope="module")
+def packet():
+    return _load(PACKET_PATH)
+
+
+@pytest.fixture(scope="module")
+def manifest():
+    return _load(MANIFEST_PATH)
+
+
+@pytest.fixture(scope="module")
+def queue():
+    return _load(QUEUE_PATH)
+
+
+class TestBatchCompleteness:
+    def test_exactly_thirty_rows_in_results(self, results):
+        assert results["count"] == 30
+        rows = results["results"]
+        assert len(rows) == 30
+        assert [r["queue_id"] for r in rows] == EXPECTED_IDS
+        assert len({r["identity_key"] for r in rows}) == 30
+
+    def test_exactly_thirty_rows_in_packet(self, packet):
+        assert packet["count"] == 30
+        candidates = packet["candidates"]
+        assert len(candidates) == 30
+        assert [c["decision_id"] for c in candidates] == EXPECTED_IDS
+
+    def test_results_match_the_prepared_queue_exactly_no_substitutions(self, results, queue):
+        queue_keys = {r["identity_key"] for r in queue["rows"]}
+        result_keys = {r["identity_key"] for r in results["results"]}
+        assert result_keys == queue_keys
+
+    def test_every_result_row_has_exactly_one_valid_capture_outcome(self, results):
+        for r in results["results"]:
+            assert r["outcome"] in OUTCOMES
+
+    def test_no_founder_decision_recorded_yet(self, packet):
+        assert packet["status"] == "AWAITING_FOUNDER_REVIEW"
+        for c in packet["candidates"]:
+            assert "founder_decision" not in c
+            assert "founder_decision_recorded_by" not in c
+            assert c["recommended_founder_decision"]
+
+
+class TestArtifactBinding:
+    def test_every_artifact_sha256_matches_the_file_on_disk(self, packet):
+        for c in packet["candidates"]:
+            if c["decision_id"] in NO_ARTIFACT_IDS:
+                assert "artifact_sha256" not in c
+                continue
+            path = RAW_DIR / c["artifact_file"]
+            assert path.is_file(), path
+            actual = hashlib.sha256(path.read_bytes()).hexdigest()
+            assert actual == c["artifact_sha256"]
+
+    def test_results_and_packet_agree_on_the_hash(self, results, packet):
+        by_id_r = {r["queue_id"]: r for r in results["results"]}
+        for c in packet["candidates"]:
+            r = by_id_r[c["decision_id"]]
+            if c["decision_id"] in NO_ARTIFACT_IDS:
+                assert "artifact_sha256" not in r
+            else:
+                assert r["artifact_sha256"] == c["artifact_sha256"]
+
+    def test_manifest_indexes_every_artifact_row(self, manifest, packet):
+        expected = 30 - len(NO_ARTIFACT_IDS)
+        assert manifest["count"] == expected
+        assert len(manifest["items"]) == expected
+        manifest_ids = {i["queue_id"] for i in manifest["items"]}
+        packet_ids_with_artifact = {c["decision_id"] for c in packet["candidates"]
+                                    if c["decision_id"] not in NO_ARTIFACT_IDS}
+        assert manifest_ids == packet_ids_with_artifact
+
+
+class TestQuoteContiguity:
+    def test_every_captured_row_has_a_nonempty_exact_quote(self, packet):
+        for c in packet["candidates"]:
+            if c["decision_id"] in NO_ARTIFACT_IDS:
+                assert c["exact_quote"] == ""
+                continue
+            assert c["exact_quote"].strip()
+            assert "..." not in c["exact_quote"]
+            assert "[TRUNCATED]" not in c["exact_quote"]
+
+    def test_every_proposed_fact_and_withhold_quotes_the_source(self, packet):
+        for c in packet["candidates"]:
+            for fact in c["proposed_schema_1_2_facts"]:
+                assert fact["quote"].strip()
+                assert fact["quote"] in c["exact_quote"]
+            for w in c["withheld_fields"]:
+                assert w["reason_code"] in (
+                    "SOURCE_CONTRADICTORY", "SOURCE_AMBIGUOUS",
+                    "SCHEMA_CANNOT_REPRESENT", "ARTIFACT_INSUFFICIENT",
+                    "IDENTITY_NOT_CONFIRMED")
+                for q in w["quotes"]:
+                    assert q in c["exact_quote"]
+
+    def test_policy_not_found_rows_have_no_facts_or_withholds(self, packet):
+        for did in NO_ARTIFACT_IDS:
+            row = next(c for c in packet["candidates"] if c["decision_id"] == did)
+            assert row["outcome"] == "POLICY_NOT_FOUND"
+            assert row["proposed_schema_1_2_facts"] == []
+            assert row["withheld_fields"] == []
+
+
+class TestIdentityBinding:
+    def test_every_row_carries_a_name_binding(self, packet):
+        for c in packet["candidates"]:
+            assert c["identity_binding"]["name"] is True
+
+    def test_bound_rows_are_on_the_committed_census_official_domain(self, packet):
+        # final_url may be a deeper page than official_url (e.g. a property's
+        # own /faqs/ page reached by following a link FROM the official page,
+        # per the work order's "locate property-specific pet-policy surface"
+        # step) -- same registrable domain is the real invariant, not byte-
+        # identical URLs.
+        from urllib.parse import urlsplit
+        census = {r["identity_key"]: r for r in _load(CENSUS_PATH)["hotels"]}
+
+        def domain(url):
+            host = (urlsplit(url).hostname or "").lower()
+            labels = [l for l in host.split(".") if l]
+            return ".".join(labels[-2:]) if len(labels) >= 2 else host
+
+        for c in packet["candidates"]:
+            crow = census[c["identity_key"]]
+            assert crow["url_shape"] == "property"
+            assert domain(crow["official_url"]) == domain(c["final_url"])
+
+    def test_no_row_references_an_identity_outside_the_prepared_queue(self, packet, queue):
+        queue_keys = {r["identity_key"] for r in queue["rows"]}
+        for c in packet["candidates"]:
+            assert c["identity_key"] in queue_keys
+
+
+class TestFeeAmbiguityHandled:
+    def test_delta_novi_fee_withheld_schema_cannot_represent(self, packet):
+        row = next(c for c in packet["candidates"]
+                  if c["identity_key"] == "delta hotels by marriott detroit novi")
+        withheld = {w["field"]: w for w in row["withheld_fields"]}
+        assert withheld["pet_fee"]["reason_code"] == "SCHEMA_CANNOT_REPRESENT"
+        assert "pet_fee" not in {f["field"] for f in row["proposed_schema_1_2_facts"]}
+
+    def test_detroit_foundation_fee_withheld_artifact_insufficient(self, packet):
+        row = next(c for c in packet["candidates"]
+                  if c["identity_key"] == "detroit foundation hotel")
+        withheld = {w["field"]: w for w in row["withheld_fields"]}
+        assert withheld["pet_fee"]["reason_code"] == "ARTIFACT_INSUFFICIENT"
+        assert "pet_fee" not in {f["field"] for f in row["proposed_schema_1_2_facts"]}
+
+    def test_courtyard_compound_fee_not_withheld(self, packet):
+        for key in ("courtyard by marriott detroit dearborn", "courtyard by marriott detroit troy"):
+            row = next(c for c in packet["candidates"] if c["identity_key"] == key)
+            proposed = {f["field"] for f in row["proposed_schema_1_2_facts"]}
+            assert "pet_fee" in proposed
+            assert "other_charges" in proposed
+            assert row["withheld_fields"] == []
+
+
+class TestAuthorityFrozen:
+    """This is capture only: no founder decision, no authority write."""
+
+    def test_census_unchanged(self):
+        census = _load(CENSUS_PATH)
+        assert census["count"] == 182
+
+    def test_partition_terminal_counts_unchanged(self):
+        counts = _load(PARTITION_PATH)["final_state_counts"]
+        assert counts["PUBLISHED_PET_FRIENDLY"] == 7
+        assert counts["VERIFIED_NO_PETS"] == 7
+
+    def test_no_captured_identity_entered_policy_facts_or_exclusions(self, packet):
+        keys = {c["identity_key"] for c in packet["candidates"]}
+        facts = _load(FACTS_PATH)
+        assert not ({h["identity_key"] for h in facts["hotels"]} & keys)
+        assert len(facts["hotels"]) == 7
+        exclusions = _load(EXCLUSIONS_PATH)
+        excl_keys = {e["normalized_name"] for e in exclusions["exclusions"]
+                    if e.get("market_id") == MARKET}
+        assert not (excl_keys & keys)
+        assert len(excl_keys) == 7
+
+    def test_routing_shard_unchanged(self):
+        shard = _load(ROUTING_SHARD_PATH)
+        assert shard["count"] == 179
+        assert len(shard["routes"]) == 179
