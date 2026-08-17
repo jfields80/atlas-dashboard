@@ -674,7 +674,10 @@ class TestPass2FounderDecisionsRecorded:
             PKG / "markets" / "reports"
             / "louisville_pass3_capture_batch_prepared.json"
         ).read_text(encoding="utf-8-sig"))
-        assert batch["executed"] is False
+        assert batch["executed"] is True
+        assert batch["executed_work_order"] == (
+            "PTF-LOUISVILLE-ATTENDED-CAPTURE-PASS3-001"
+        )
         assert 10 <= batch["count"] == len(batch["items"]) <= 15
         keys = [r["identity_key"] for r in batch["items"]]
         assert "myriad hotel" in keys
@@ -691,3 +694,96 @@ class TestPass2FounderDecisionsRecorded:
         assert rec.published == 0
         assert rec.verified_no_pets == 0
         assert rec.unresolved == 129
+
+
+class TestPass3Capture:
+    BATCH = [
+        "myriad hotel",
+        "red roof inn louisville expo airport",
+        "red roof inn louisville hurstbourne",
+        "studio 6 louisville airport expo center",
+        "baymont by wyndham louisville airport south",
+        "hawthorn suites by wyndham louisville east",
+        "travelodge by wyndham sellersburg louisville north",
+        "super 8 by wyndham louisville airport",
+        "la quinta inn and suites by wyndham louisville northeast old henry",
+        "holiday inn express and suites jeffersonville",
+        "staybridge suites louisville east",
+        "candlewood suites louisville airport",
+    ]
+
+    def _results(self):
+        return json.loads((
+            PKG / "markets" / "reports" / "louisville_pass3_capture_results.json"
+        ).read_text(encoding="utf-8-sig"))
+
+    def test_batch_is_exactly_the_twelve_prepared_rows(self):
+        doc = self._results()
+        keys = [r["identity_key"] for r in doc["rows"]]
+        assert doc["batch_total"] == len(keys) == 12
+        assert keys == self.BATCH
+        assert doc["authority_changed"] is False
+        for row in doc["rows"]:
+            host = row["queued_url"].split("/")[2]
+            assert host not in {"www.hilton.com", "www.hyatt.com"}
+
+    def test_outcomes_identity_and_packet(self):
+        doc = self._results()
+        by = {r["identity_key"]: r for r in doc["rows"]}
+        assert by["myriad hotel"]["outcome"] == "POLICY_NOT_FOUND"
+        assert by["myriad hotel"]["identity_binding"] == "BOUND"
+        assert by["red roof inn louisville expo airport"]["outcome"] == "ACCESS_BLOCKED"
+        assert by["red roof inn louisville hurstbourne"]["outcome"] == "ACCESS_BLOCKED"
+        assert by["studio 6 louisville airport expo center"]["outcome"] == "CAPTURE_FAILED"
+        assert by["baymont by wyndham louisville airport south"]["outcome"] == "POLICY_NOT_FOUND"
+        assert by["hawthorn suites by wyndham louisville east"]["outcome"] == "POLICY_NOT_FOUND"
+        assert by["travelodge by wyndham sellersburg louisville north"]["outcome"] == "POLICY_NOT_FOUND"
+        assert by["super 8 by wyndham louisville airport"]["outcome"] == "POLICY_NOT_FOUND"
+        lq = by["la quinta inn and suites by wyndham louisville northeast old henry"]
+        assert lq["outcome"] == "POLICY_NOT_FOUND"
+        assert lq["identity_binding"] == "BOUND"
+        assert "Terra View" in " ".join(lq["identity_signals"])
+        assert by["holiday inn express and suites jeffersonville"]["outcome"] == "ACCESS_BLOCKED"
+        assert by["staybridge suites louisville east"]["outcome"] == "ACCESS_BLOCKED"
+        assert by["candlewood suites louisville airport"]["outcome"] == "ACCESS_BLOCKED"
+        assert doc["positive_candidates"] == 0
+        assert doc["negative_candidates"] == 0
+        assert doc["publication_grade_artifacts"] == 6
+        packet = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass3_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert packet["founder_approvals_written"] is False
+
+    def test_artifact_hashes_and_identity_signals(self):
+        import hashlib
+        art = REPO / "data" / "operator_evidence" / "louisville-pass3-capture-001"
+        for row in self._results()["rows"]:
+            if not row["artifact_sha256"]:
+                continue
+            path = art / row["artifact_relpath"]
+            payload = path.read_bytes()
+            assert hashlib.sha256(payload).hexdigest() == row["artifact_sha256"]
+            html = payload.decode("utf-8", "replace")
+            for signal in row["identity_signals"]:
+                assert signal in html, row["identity_key"]
+            for quote in row["quotes"]:
+                assert quote in html, row["identity_key"]
+
+    def test_authority_unchanged_after_pass3(self):
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
+        assert not (PKG / "hotel_policy_facts_louisville-ky.json").exists()
+        p1 = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_founder_decisions.json"
+        ).read_text(encoding="utf-8-sig"))
+        p2 = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_founder_decisions.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert p1["authority_applied"] is False
+        assert p2["authority_applied"] is False
