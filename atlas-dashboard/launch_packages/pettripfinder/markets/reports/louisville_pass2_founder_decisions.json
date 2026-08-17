@@ -1,0 +1,138 @@
+{
+  "schema": "ptf-louisville-pass2-founder-decisions/1.0",
+  "work_order": "PTF-LOUISVILLE-PASS2-FOUNDER-DECISIONS-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-16",
+  "operator": "jfields80",
+  "authority_applied": false,
+  "merged": false,
+  "deployed": false,
+  "recorded_decision_count": 3,
+  "recorded_summary": {
+    "decisions_recorded": 3,
+    "approvals_positive": 2,
+    "identity_holds": 1,
+    "no_decision_blocked_rows": 2,
+    "decisions_applied": 0
+  },
+  "decisions": [
+    {
+      "decision_id": "P2-001",
+      "packet_id": "LVL-P2-001",
+      "identity_key": "omni louisville hotel",
+      "hotel": "Omni Louisville Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "approved_fact_keys": [
+        "pets_allowed",
+        "species",
+        "pet_count_limit",
+        "pet_count_scope",
+        "weight_limit",
+        "other_charges"
+      ],
+      "approved_other_charges": [
+        {
+          "kind": "cleaning_fee",
+          "amount_cents": 12500,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_room",
+          "refundable": false
+        }
+      ],
+      "do_not": [
+        "convert cleaning_fee into pet_fee",
+        "treat credit card on reservation as pet declaration",
+        "infer a second pet is accepted"
+      ],
+      "artifact_sha256": "47eaa0d827146eaaf2a674472e785245f17211e557e9d75e5a851a4672b8bc65",
+      "verbatim": "DECISION:\n\nAPPROVE_AFFIRMATIVE_STRUCTURED\n\nApprove only the source-supported facts presented in the Pass 2 packet.\n\nApprove pets_allowed, species = dogs + cats, pet_count_limit = 1, pet_count_scope = room, weight_limit <=25 lb per_pet.\n\nApprove the explicitly stated $125 non-refundable cleaning fee as other_charges with the exact source-supported basis/scope already proposed.\n\nDo NOT convert the cleaning fee into a generic pet_fee.\nDo NOT treat credit card required on reservation as a pet reservation/declaration requirement.\nDo NOT infer that a second pet is automatically accepted."
+    },
+    {
+      "decision_id": "P2-002",
+      "packet_id": "LVL-P2-002",
+      "identity_key": "drury inn and suites louisville",
+      "hotel": "Drury Inn and Suites Louisville",
+      "decision": "HOLD_IDENTITY_CORRECTION",
+      "class": "HOLD",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "policy_approval": false,
+      "retain_as_provenance": true,
+      "artifact_sha256": "4183aae04cc9161983c361bffee4ea553b0174eaeb6f9999494e04dc688c5f89",
+      "verbatim": "DECISION:\n\nHOLD_IDENTITY_CORRECTION\n\nThe captured policy may be retained as provenance/evidence.\nDo NOT publish it under the current census identity.\nThe East property identity must be corrected/resolved first.\nThe policy wording may be reused only after it is safely rebound to the corrected final identity.\nNo policy approval yet."
+    },
+    {
+      "decision_id": "P2-003",
+      "packet_id": "LVL-P2-003",
+      "identity_key": "drury inn and suites louisville north",
+      "hotel": "Drury Inn and Suites Louisville North",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "approved_fact_keys": [
+        "pets_allowed",
+        "species",
+        "pet_count_limit",
+        "pet_count_scope",
+        "combined_weight_limit",
+        "pet_fee"
+      ],
+      "combined_weight_limit": {
+        "value": 80,
+        "unit": "lb",
+        "operator": "lte"
+      },
+      "pet_fee": {
+        "amount_cents": 5000,
+        "currency": "USD",
+        "basis": "per_day",
+        "scope": "per_room",
+        "tax_relationship": "plus_tax"
+      },
+      "do_not": [
+        "convert combined 80 lb to 40 lb per pet",
+        "invent refundability or additional qualifiers"
+      ],
+      "artifact_sha256": "087679f4c8d15386505e49a3ec173dc3856b698c90d1d17a2aeda6a0ef130ae4",
+      "verbatim": "DECISION:\n\nAPPROVE_AFFIRMATIVE_STRUCTURED\n\nApprove the source-supported facts exactly as presented.\n\nApprove pets_allowed, species = dogs + cats, pet_count_limit = 2, pet_count_scope = room, combined_weight_limit <=80 lb.\n\nThe 80 lb value is a COMBINED room limit. Do NOT convert it to 40 lb per pet.\n\nApprove the source-stated daily fee $50 per room plus tax using only the basis/scope the first-party wording explicitly supports. Preserve the tax relationship. Do not invent refundability."
+    }
+  ],
+  "no_founder_policy_decision": [
+    {
+      "identity_key": "best western greentree inn",
+      "hotel": "Best Western Greentree Inn",
+      "packet_id": "LVL-P2-004",
+      "founder_policy_decision": "NONE",
+      "decision_id": null,
+      "class": "NO_DECISION_BLOCKED",
+      "keep_unresolved": true,
+      "lane": "ATTENDED_MANUAL_DATADOME",
+      "verbatim": "NO FOUNDER POLICY DECISION.\n\nThe first-party surface was ACCESS_BLOCKED.\nJSON-LD or third-party wording was not used as substitute authority.\nKeep unresolved.\nPrepare a materially different attended/manual evidence path if one exists."
+    },
+    {
+      "identity_key": "radisson hotel louisville north",
+      "hotel": "Radisson Hotel Louisville North",
+      "packet_id": "LVL-P2-005",
+      "founder_policy_decision": "NONE",
+      "decision_id": null,
+      "class": "NO_DECISION_BLOCKED",
+      "keep_unresolved": true,
+      "lane": "ATTENDED_MANUAL_CHOICE",
+      "verbatim": "NO FOUNDER POLICY DECISION.\n\nThe Choice/Radisson surface was ACCESS_BLOCKED.\nNo third-party no-pets wording may be substituted.\nKeep unresolved.\nPrepare a fresh attended/manual route rather than repeated automated retries."
+    }
+  ],
+  "published": 0,
+  "verified_no_pets": 0,
+  "unresolved": 129,
+  "site_assembled": false,
+  "release_contract_written": false,
+  "note": "Three Pass 2 founder decisions recorded and not applied. Two ACCESS_BLOCKED rows have no founder policy decision."
+}

@@ -587,3 +587,107 @@ class TestPass2Capture:
         ).read_text(encoding="utf-8-sig"))
         assert decisions["authority_applied"] is False
         assert all(d["applied"] is False for d in decisions["decisions"])
+
+
+class TestPass2FounderDecisionsRecorded:
+    def test_three_pass2_decisions_are_recorded_and_not_applied(self):
+        decisions = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_founder_decisions.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert [d["decision_id"] for d in decisions["decisions"]] == [
+            "P2-001", "P2-002", "P2-003"
+        ]
+        assert decisions["authority_applied"] is False
+        assert decisions["merged"] is False
+        assert decisions["deployed"] is False
+        by_id = {d["decision_id"]: d for d in decisions["decisions"]}
+        assert by_id["P2-001"]["decision"] == "APPROVE_AFFIRMATIVE_STRUCTURED"
+        assert by_id["P2-001"]["identity_key"] == "omni louisville hotel"
+        assert "other_charges" in by_id["P2-001"]["approved_fact_keys"]
+        assert "pet_fee" not in by_id["P2-001"]["approved_fact_keys"]
+        assert by_id["P2-002"]["decision"] == "HOLD_IDENTITY_CORRECTION"
+        assert by_id["P2-002"]["policy_approval"] is False
+        assert by_id["P2-003"]["decision"] == "APPROVE_AFFIRMATIVE_STRUCTURED"
+        assert by_id["P2-003"]["combined_weight_limit"]["value"] == 80
+        assert "scope" not in by_id["P2-003"]["combined_weight_limit"]
+        assert all(d["applied"] is False for d in decisions["decisions"])
+        blocked = decisions["no_founder_policy_decision"]
+        assert [b["identity_key"] for b in blocked] == [
+            "best western greentree inn",
+            "radisson hotel louisville north",
+        ]
+        assert all(b["founder_policy_decision"] == "NONE" for b in blocked)
+        packet = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass2_founder_review_packet.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert packet["founder_approvals_written"] is False
+        assert packet["founder_decisions_recorded"] is True
+        assert packet["recorded_summary"]["decisions_recorded"] == 3
+        assert packet["recorded_summary"]["approvals_positive"] == 2
+
+    def test_drury_east_identity_action_is_prepared_and_not_executed(self):
+        action = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_drury_east_identity_resolution_action.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert action["executed"] is False
+        assert action["current_census_canonical_name"] == (
+            "Drury Inn and Suites Louisville"
+        )
+        assert action["observed_property_name"] == (
+            "Drury Inn & Suites Louisville East"
+        )
+        assert action["current_census_address"] == action["observed_property_address"]
+        assert action["phone"] == "502-326-4170"
+        assert action["drury_property_location_identifier"] == "0105"
+        assert "East" in action["exact_mismatch"]
+        assert "Do not silently rename" in action["next_action"]
+
+    def test_pass1_plus_pass2_reconcile_is_mechanical(self):
+        rec = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass1_plus_pass2_founder_decision_reconcile.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert rec["authority_applied"] is False
+        assert rec["combined"] == {
+            "decisions_recorded": 9,
+            "approvals_positive": 4,
+            "verified_no_pets": 3,
+            "holds": 2,
+            "no_decision_blocked_rows": 3,
+            "decisions_applied": 0,
+        }
+        p1 = rec["pass1"]
+        p2 = rec["pass2"]
+        assert (p1["decisions_recorded"] + p2["decisions_recorded"]
+                == rec["combined"]["decisions_recorded"])
+        assert (p1["approvals_positive"] + p2["approvals_positive"]
+                == rec["combined"]["approvals_positive"])
+        assert (p1["holds"] + p2["holds"] == rec["combined"]["holds"])
+        assert (p1["no_decision_blocked_rows"] + p2["no_decision_blocked_rows"]
+                == rec["combined"]["no_decision_blocked_rows"])
+
+    def test_pass3_batch_is_prepared_clean_and_not_executed(self):
+        batch = json.loads((
+            PKG / "markets" / "reports"
+            / "louisville_pass3_capture_batch_prepared.json"
+        ).read_text(encoding="utf-8-sig"))
+        assert batch["executed"] is False
+        assert 10 <= batch["count"] == len(batch["items"]) <= 15
+        keys = [r["identity_key"] for r in batch["items"]]
+        assert "myriad hotel" in keys
+        assert "drury inn and suites louisville" not in keys
+        assert "best western greentree inn" not in keys
+        assert "radisson hotel louisville north" not in keys
+        for row in batch["items"]:
+            assert row["executed"] is False
+            assert row["desk_identity_class"] != "IDENTITY_CORRECTION_REQUIRED"
+            host = row["official_url"].split("/")[2]
+            assert host not in {"www.hilton.com", "www.hyatt.com"}
+        rec = partition.reconcile(census.identity_keys(_census()), _partition(),
+                                  market_id=MARKET)
+        assert rec.published == 0
+        assert rec.verified_no_pets == 0
+        assert rec.unresolved == 129
