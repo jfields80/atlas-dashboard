@@ -107,7 +107,11 @@ EXPECTED_RECONCILIATION = {
     # NOT_LODGING rulings are projected into the registry as
     # OUT_OF_CURRENT_CATEGORY -- the Columbus mechanic -- and unresolved is
     # COUNTED from the committed final partition.
-    PITTSBURGH: (96, 17, 2, 22, 74),
+    # PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 added 9 more publications
+    # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
+    # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
+    # is COUNTED from the committed final partition (63).
+    PITTSBURGH: (96, 26, 4, 33, 63),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -243,7 +247,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 35, DAYTON: 8,
-                             PITTSBURGH: 2}
+                             PITTSBURGH: 4}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

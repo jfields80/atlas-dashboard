@@ -331,12 +331,13 @@ def test_current_ohio_inventory_is_156_published_profiles(markets):
     176 since the Pass-2 founder decisions; 216 since
     PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 published forty more Cleveland
     hotels; 233 since PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 published
-    the first seventeen Pittsburgh hotels."""
+    the first seventeen Pittsburgh hotels; 242 since
+    PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 81, DAYTON: 47,
-                      "pittsburgh-pa": 17}
-    assert sum(counts.values()) == 233
+                      "pittsburgh-pa": 26}
+    assert sum(counts.values()) == 242
 
 
 # --------------------------------------------------------------------------- #
