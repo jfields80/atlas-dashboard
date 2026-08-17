@@ -22,7 +22,7 @@ import pytest
 
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.dayton_pass_b_founder_decisions import (
-    APPROVE, BATCH_A, FOUNDER, HOLD,
+    APPROVE, DECISIONS, FOLLOW_UPS, FOUNDER, HOLD, PACKET_BATCH_KEYS,
 )
 from scripts.pettripfinder.policy_migration import evidence_hash, record_hash
 
@@ -91,14 +91,44 @@ def test_the_ledger_is_not_the_packet(ledger):
 # The decisions themselves.
 # --------------------------------------------------------------------------- #
 
-def test_batch_a_is_six_approvals_and_no_holds(ledger):
-    assert ledger["batch"] == "A"
-    assert ledger["counts"] == {"presented": 6, "approved": 6, "held": 0,
+def test_batches_a_and_b_are_eleven_approvals_and_no_holds(ledger):
+    assert ledger["batches_recorded"] == ["A", "B"]
+    assert ledger["counts"] == {"presented": 11, "approved": 11, "held": 0,
                                 "applied": 0}
-    assert len(ledger["decisions"]) == 6
+    assert len(ledger["decisions"]) == 11
     assert {r["founder_decision"] for r in ledger["decisions"]} == {APPROVE}
-    assert [r["decision_id"] for r in ledger["decisions"]] == \
-        ["DAY-B01", "DAY-B02", "DAY-B03", "DAY-B04", "DAY-B05", "DAY-B06"]
+    assert [r["decision_id"] for r in ledger["decisions"]] == [
+        "DAY-B01", "DAY-B02", "DAY-B03", "DAY-B04", "DAY-B05", "DAY-B06",
+        "DAY-B07", "DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11"]
+    assert ledger["counts_by_batch"]["A"]["approved"] == 6
+    assert ledger["counts_by_batch"]["B"]["approved"] == 5
+
+
+def test_a_batch_is_recorded_whole_or_not_at_all(ledger):
+    """A partial batch would leave records looking undecided when they had
+    simply been dropped from the transcription."""
+    packet = json.loads(PACKET_PATH.read_text(encoding="utf-8"))
+    for batch, given in DECISIONS.items():
+        asked = set(packet["batches"][PACKET_BATCH_KEYS[batch]])
+        answered = {decision_id for decision_id, _ in given}
+        assert answered == asked, batch
+        recorded = {r["decision_id"] for r in ledger["decisions"]
+                    if r["batch"] == batch}
+        assert recorded == asked, batch
+
+
+def test_recording_batch_b_did_not_disturb_batch_a(ledger):
+    """The ledger is rebuilt whole on every run, so an earlier batch must
+    survive a later one -- which it can only do while its records have not
+    moved."""
+    batch_a = [r for r in ledger["decisions"] if r["batch"] == "A"]
+    assert len(batch_a) == 6
+    for row in batch_a:
+        assert row["founder_decision"] == APPROVE
+        assert row["decided_at"] == ledger["decided_at"]
+        assert row["applied_to_authority"] is False
+    notes = {r["decision_id"]: r["decision_notes"] for r in batch_a}
+    assert any("Do NOT create $87.94" in n for n in notes["DAY-B06"])
 
 
 def test_every_decision_is_attributed_to_the_founder_who_gave_it(ledger):
@@ -112,7 +142,9 @@ def test_every_decision_is_attributed_to_the_founder_who_gave_it(ledger):
 def test_the_declared_decisions_match_the_recorded_ones(ledger):
     """The ledger is a transcription; nothing may appear in it that was not
     given, and nothing given may be dropped."""
-    declared = dict(BATCH_A)
+    declared = {decision_id: ruling
+                for given in DECISIONS.values()
+                for decision_id, ruling in given}
     recorded = {r["decision_id"]: r["founder_decision"]
                 for r in ledger["decisions"]}
     assert recorded == declared
@@ -154,10 +186,18 @@ def test_the_founders_specific_rulings_are_recorded_verbatim(ledger):
     assert any("tax_relationship = plus_tax" in n for n in notes)
     assert any("Do NOT create $87.94" in n for n in notes)
     assert any("REND-01" in n for n in notes)
-    # Every other Batch A row was decided without conditions.
-    for decision_id, row in rows.items():
-        if decision_id != "DAY-B06":
-            assert row["decision_notes"] == []
+    # Batch B came with conditions on every row, and they are recorded too.
+    assert any("free of charge" in n for n in rows["DAY-B07"]["decision_notes"])
+    assert any("Do not broaden this" in n
+               for n in rows["DAY-B07"]["decision_notes"])
+    for decision_id in ("DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11"):
+        notes = " ".join(rows[decision_id]["decision_notes"])
+        assert "SCHEMA_CANNOT_REPRESENT" in notes or "DAY-B08" in notes
+        assert "CEILING != PRICE" in notes or "exact" in notes.lower()
+    # The rest of Batch A was decided without conditions; recording a note
+    # nobody gave would be inventing a ruling.
+    for decision_id in ("DAY-B01", "DAY-B02", "DAY-B03", "DAY-B04", "DAY-B05"):
+        assert rows[decision_id]["decision_notes"] == []
 
 
 def test_87_94_was_not_recorded_as_a_charge(ledger, by_key):
@@ -178,14 +218,78 @@ def test_87_94_was_not_recorded_as_a_charge(ledger, by_key):
     assert any("87.94" in e["quote"] for e in courtyard["evidence"])
 
 
-def test_remaining_batches_are_still_outstanding(ledger):
-    remaining = ledger["remaining_batches"]
-    assert remaining["B_service_animal_and_esa"] == \
-        ["DAY-B07", "DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11"]
-    assert remaining["C_pointer_repair"] == ["DAY-B12", "DAY-B13"]
-    assert remaining["artifact_binding_only_cohort"] == 34
-    # 6 decided + 7 outstanding + 34 artifact-only = the whole market.
+def test_what_is_still_outstanding_reconciles_to_the_market(ledger):
+    outstanding = ledger["still_outstanding"]
+    assert outstanding["C_pointer_repair"] == ["DAY-B12", "DAY-B13"]
+    assert outstanding["artifact_binding_only_cohort"] == 34
+    assert "B_service_animal_and_esa" not in outstanding   # now decided
+    # 11 decided + 2 outstanding + 34 artifact-only = the whole market.
     assert (len(ledger["decisions"])
-            + len(remaining["B_service_animal_and_esa"])
-            + len(remaining["C_pointer_repair"])
-            + remaining["artifact_binding_only_cohort"]) == 47
+            + len(outstanding["C_pointer_repair"])
+            + outstanding["artifact_binding_only_cohort"]) == 47
+
+
+# --------------------------------------------------------------------------- #
+# Batch B specifics.
+# --------------------------------------------------------------------------- #
+
+ESA_DECISIONS = ("DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11")
+
+
+def test_the_esa_ceiling_ruling_is_recorded_on_every_esa_record(ledger, by_key):
+    """CEILING != PRICE, checked against the records and not just the notes."""
+    rows = {r["decision_id"]: r for r in ledger["decisions"]}
+    for decision_id in ESA_DECISIONS:
+        record = by_key[rows[decision_id]["identity_key"]]
+        withheld = record["withheld_fields"]
+        assert withheld["pet_fee"]["reason_code"] == \
+            enums.SCHEMA_CANNOT_REPRESENT
+        assert withheld["cleaning_fee"]["reason_code"] == \
+            enums.SCHEMA_CANNOT_REPRESENT
+        # No ceiling figure became a published price.
+        published = json.dumps(record["facts"])
+        assert "2500" not in published and "1500" not in published
+        assert "pet_fee" not in record["facts"]
+        # Both exact sentences are retained where source wording belongs.
+        ceilings = {e["quote"] for e in record["evidence"]
+                    if e["field"] == "cleaning_fee"}
+        assert len(ceilings) == 2
+
+
+def test_the_service_animal_mapping_was_not_broadened(ledger, by_key):
+    rows = {r["decision_id"]: r for r in ledger["decisions"]}
+    for decision_id in ("DAY-B07",) + ESA_DECISIONS:
+        record = by_key[rows[decision_id]["identity_key"]]
+        statement = record["service_animal_statement"]
+        assert statement == {"stated": True, "charges_stated": "no_charge"}
+        assert set(statement) == {"stated", "charges_stated"}
+        # A legal access category never enters the pet-policy facts block.
+        assert "service_animal_statement" not in record["facts"]
+
+
+def test_the_cleveland_asymmetry_was_recorded_not_acted_on(ledger):
+    """A recommendation given during a decision must not evaporate -- and must
+    not turn into an edit nobody authorised."""
+    follow_ups = {f["id"]: f for f in ledger["follow_ups"]}
+    assert len(FOLLOW_UPS) == len(follow_ups) == 1
+    entry = follow_ups["FU-01"]
+    assert entry["cleveland_touched_by_this_order"] is False
+    assert "not block" in entry["founder_ruling"].lower()
+    assert len(entry["records"]) == 2
+    assert all(r.startswith("cleveland-akron-canton-oh /")
+               for r in entry["records"])
+
+
+def test_this_order_changed_no_cleveland_record():
+    """Asserted against Cleveland's own package, not against intent."""
+    cleveland = json.loads(
+        (LP / "hotel_policy_facts_cleveland-akron-canton-oh.json")
+        .read_text(encoding="utf-8"))
+    esa = [h for h in cleveland["hotels"]
+           if "extended stay" in h["identity_key"]]
+    assert len(esa) == 2
+    for record in esa:
+        # Still exactly as the follow-up describes: no statement, no quote.
+        assert record.get("service_animal_statement") is None
+        assert not any("service animal" in e["quote"].lower()
+                       for e in record["evidence"])

@@ -1,38 +1,77 @@
 {
-  "schema": "ptf-dayton-passB-founder-decisions/1.0",
+  "schema": "ptf-dayton-passB-founder-decisions/1.1",
   "work_order": "PTF-DAYTON-RECERTIFICATION-001",
-  "decision_order": "DAYTON PASS B -- FOUNDER DECISIONS BATCH A",
-  "batch": "A",
+  "batches_recorded": [
+    "A",
+    "B"
+  ],
   "market_id": "dayton-oh",
   "decided_by": "jfields80",
   "decided_at": "2026-08-16",
   "recorded_by": "claude-opus-5 (PTF-DAYTON-RECERTIFICATION-001, agent) -- transcription only; the decisions are the founder's and no ruling was inferred, defaulted or completed by the agent",
   "status": "RECORDED_NOT_APPLIED",
-  "what_recorded_means": "The founder's ruling is on file and bound to the exact hashes they were shown. NOTHING has been applied: every Dayton record is still MACHINE_REVIEWED_PENDING_OPERATOR, no approval block was rewritten, and the policy package is byte-for-byte what Pass B committed. Applying these decisions -- turning each into an APPROVED_AFTER_CURRENT_REVIEW approval in the founder's name -- is a separate order that this pass was not given.",
+  "what_recorded_means": "The founder's rulings are on file and bound to the exact hashes they were shown. NOTHING has been applied: every Dayton record is still MACHINE_REVIEWED_PENDING_OPERATOR, no approval block was rewritten, and the policy package is byte-for-byte what Pass B committed. Applying these decisions -- turning each into an APPROVED_AFTER_CURRENT_REVIEW approval in the founder's name -- is a separate order that this pass was not given.",
   "why_a_separate_file_from_the_packet": "The review packet is emitted by an idempotent generator, so re-running it would overwrite anything written into it. A human attestation must not live somewhere a regeneration can erase.",
   "counts": {
-    "presented": 6,
-    "approved": 6,
+    "presented": 11,
+    "approved": 11,
     "held": 0,
     "applied": 0
   },
-  "remaining_batches": {
-    "B_service_animal_and_esa": [
-      "DAY-B07",
-      "DAY-B08",
-      "DAY-B09",
-      "DAY-B10",
-      "DAY-B11"
-    ],
+  "counts_by_batch": {
+    "A": {
+      "decision_order": "DAYTON PASS B -- FOUNDER DECISIONS BATCH A",
+      "presented": 6,
+      "approved": 6,
+      "held": 0,
+      "decision_ids": [
+        "DAY-B01",
+        "DAY-B02",
+        "DAY-B03",
+        "DAY-B04",
+        "DAY-B05",
+        "DAY-B06"
+      ]
+    },
+    "B": {
+      "decision_order": "DAYTON PASS B -- FOUNDER DECISIONS BATCH B",
+      "presented": 5,
+      "approved": 5,
+      "held": 0,
+      "decision_ids": [
+        "DAY-B07",
+        "DAY-B08",
+        "DAY-B09",
+        "DAY-B10",
+        "DAY-B11"
+      ]
+    }
+  },
+  "still_outstanding": {
     "C_pointer_repair": [
       "DAY-B12",
       "DAY-B13"
     ],
     "artifact_binding_only_cohort": 34
   },
+  "follow_ups": [
+    {
+      "id": "FU-01",
+      "raised_during": "Dayton Pass B Batch B",
+      "finding": "Cleveland's two Extended Stay America records carry no service_animal_statement and no service-animal quote anywhere in their evidence, while the Dayton ESA pages state \"Service animals will be exempt from this charge.\" explicitly. Approving Dayton Batch B therefore leaves Dayton's four ESA records more complete than Cleveland's two on this field.",
+      "founder_ruling": "Acknowledged. Does NOT block Dayton Batch B approval. Do not alter Cleveland in this Dayton work order.",
+      "recommended_owner": "a separate Cleveland evidence-completeness work order, opened after Dayton is closed",
+      "records": [
+        "cleveland-akron-canton-oh / extended stay america select suites akron south",
+        "cleveland-akron-canton-oh / extended stay america hotel akron copley east"
+      ],
+      "cleveland_touched_by_this_order": false
+    }
+  ],
   "decisions": [
     {
       "decision_id": "DAY-B01",
+      "batch": "A",
       "hotel": "SpringHill Suites Troy Dayton",
       "identity_key": "springhill suites troy dayton",
       "group": "A_MONETARY_LEAK",
@@ -57,6 +96,7 @@
     },
     {
       "decision_id": "DAY-B02",
+      "batch": "A",
       "hotel": "TownePlace Suites by Marriott Dayton Beavercreek",
       "identity_key": "towneplace suites by marriott dayton beavercreek",
       "group": "A_MONETARY_LEAK",
@@ -81,6 +121,7 @@
     },
     {
       "decision_id": "DAY-B03",
+      "batch": "A",
       "hotel": "Hilton Garden Inn Dayton Beavercreek",
       "identity_key": "hilton garden inn dayton beavercreek",
       "group": "A_MONETARY_LEAK",
@@ -105,6 +146,7 @@
     },
     {
       "decision_id": "DAY-B04",
+      "batch": "A",
       "hotel": "Home2 Suites by Hilton Dayton Beavercreek",
       "identity_key": "home2 suites by hilton dayton beavercreek",
       "group": "A_MONETARY_LEAK",
@@ -129,6 +171,7 @@
     },
     {
       "decision_id": "DAY-B05",
+      "batch": "A",
       "hotel": "Staybridge Suites Miamisburg",
       "identity_key": "staybridge suites miamisburg",
       "group": "B_DUPLICATED_PROSE",
@@ -159,6 +202,7 @@
     },
     {
       "decision_id": "DAY-B06",
+      "batch": "A",
       "hotel": "Courtyard by Marriott Springfield Downtown",
       "identity_key": "courtyard by marriott springfield downtown",
       "group": "B_DUPLICATED_PROSE",
@@ -196,6 +240,305 @@
         }
       ],
       "public_rendering_note": "Other restrictions disappears. The fee reads as $75 per stay plus tax, non-refundable, instead of as a sentence containing a total.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B07",
+      "batch": "B",
+      "hotel": "Days Inn by Wyndham Sidney",
+      "identity_key": "days inn by wyndham sidney",
+      "group": "C_SERVICE_ANIMAL",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Approve service_animal_statement = {stated: true, charges_stated: no_charge}, based on the explicit first-party wording \"Service Animals - ADA-defined service animals are welcome free of charge.\"",
+        "Approve the associated service_animal_exception evidence.",
+        "Do not broaden this beyond the explicit source language.",
+        "All existing pet-policy facts remain unchanged."
+      ],
+      "bound_record_hash": "sha256:e40566b2a35702e725542c0f6d48994209cd13c57563f9ee85d4dca42df7b3ce",
+      "bound_evidence_hash": "sha256:493c9b413ecd88011eb00f27a781c580b047e806490d2e72f226b5b68de721ec",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "FACT",
+          "field": "service_animal_statement",
+          "before": "<absent>",
+          "after": {
+            "stated": true,
+            "charges_stated": "no_charge"
+          }
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "service_animal_exception",
+          "before": "<absent>",
+          "after": "ev:602a0ac2336146b0",
+          "quote": "Service Animals - ADA-defined service animals are welcome free of charge."
+        }
+      ],
+      "public_rendering_note": "A service-animal row appears on the profile, as it already does on the two La Quintas.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B08",
+      "batch": "B",
+      "hotel": "Extended Stay America Suites Dayton - Fairborn",
+      "identity_key": "extended stay america suites dayton fairborn",
+      "group": "C_SERVICE_ANIMAL_AND_ESA_CEILING",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Approve service_animal_statement = {stated: true, charges_stated: no_charge}, based on \"Service animals will be exempt from this charge.\"",
+        "Approve the ceiling-handling correction: withheld.pet_fee SOURCE_AMBIGUOUS -> SCHEMA_CANNOT_REPRESENT.",
+        "Add withheld.cleaning_fee = SCHEMA_CANNOT_REPRESENT.",
+        "Retain both ceiling sentences verbatim in evidence.",
+        "Do NOT publish $25 or $15 as exact pet-fee prices. CEILING != PRICE."
+      ],
+      "bound_record_hash": "sha256:48016f7cd0214fc177d433ed8b49806a1b7e68116a9876e99647cacb7a168102",
+      "bound_evidence_hash": "sha256:e5ee22c8de4aa715349f58f3e158df227940b848533e0b620d8c5aea43d8ef8a",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "FACT",
+          "field": "service_animal_statement",
+          "before": "<absent>",
+          "after": {
+            "stated": true,
+            "charges_stated": "no_charge"
+          }
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "service_animal_exception",
+          "before": "<absent>",
+          "after": "ev:7ec9b45f9ae45ac5",
+          "quote": "Service animals will be exempt from this charge."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:599b159115a80418",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:16af56a0797158ba",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet."
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.pet_fee",
+          "before": "SOURCE_AMBIGUOUS",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.cleaning_fee",
+          "before": "<absent>",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        }
+      ],
+      "public_rendering_note": "A service-animal row appears. The pet-charge notice changes from an ambiguity notice to a schema/ceiling notice, and a cleaning-fee row appears carrying the same, so the reader is told a ceiling exists instead of being told nothing.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B09",
+      "batch": "B",
+      "hotel": "Extended Stay America Suites Dayton - South",
+      "identity_key": "extended stay america suites dayton south",
+      "group": "C_SERVICE_ANIMAL_AND_ESA_CEILING",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Apply the exact same approved treatment as DAY-B08: service-animal statement; no-charge mapping limited to the referenced pet charge; pet_fee withholding reason -> SCHEMA_CANNOT_REPRESENT; cleaning_fee withheld as SCHEMA_CANNOT_REPRESENT; both ceiling sentences preserved; no $25/$15 exact price published."
+      ],
+      "bound_record_hash": "sha256:9376585e05be5d84bcdb79574969421854b073ed099f46540ebc8628da1db155",
+      "bound_evidence_hash": "sha256:d1549958bdcaeed155a1a43639b7bbcff82ef8d032a2a300938d77694c90f54e",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "FACT",
+          "field": "service_animal_statement",
+          "before": "<absent>",
+          "after": {
+            "stated": true,
+            "charges_stated": "no_charge"
+          }
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "service_animal_exception",
+          "before": "<absent>",
+          "after": "ev:0c4e3e2fe54b06db",
+          "quote": "Service animals will be exempt from this charge."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:9d9f7d844f6e7288",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:52f4175a17e5cff3",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet."
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.pet_fee",
+          "before": "SOURCE_AMBIGUOUS",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.cleaning_fee",
+          "before": "<absent>",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        }
+      ],
+      "public_rendering_note": "A service-animal row appears. The pet-charge notice changes from an ambiguity notice to a schema/ceiling notice, and a cleaning-fee row appears carrying the same, so the reader is told a ceiling exists instead of being told nothing.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B10",
+      "batch": "B",
+      "hotel": "Extended Stay America Suites Dayton - North",
+      "identity_key": "extended stay america suites dayton north",
+      "group": "C_SERVICE_ANIMAL_AND_ESA_CEILING",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Apply the exact same approved treatment as DAY-B08. CEILING != PRICE.",
+        "Do not invent or publish an exact charge from \"Not to exceed a $25.00 per day cleaning fee...\" or \"not to exceed a $15.00 per day...\""
+      ],
+      "bound_record_hash": "sha256:c3096b1cc355cc92aba7b6277cf0252810935e4c1e04f6af065ce8e9eb03befb",
+      "bound_evidence_hash": "sha256:20ebf063126c4ed0e06458c5b00b66a534ab87067063216bb361aa01461db9bb",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "FACT",
+          "field": "service_animal_statement",
+          "before": "<absent>",
+          "after": {
+            "stated": true,
+            "charges_stated": "no_charge"
+          }
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "service_animal_exception",
+          "before": "<absent>",
+          "after": "ev:c34e2ec68107fa72",
+          "quote": "Service animals will be exempt from this charge."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:a5d10a625af79ef5",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:c9e530b8a03ba6c0",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet."
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.pet_fee",
+          "before": "SOURCE_AMBIGUOUS",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.cleaning_fee",
+          "before": "<absent>",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        }
+      ],
+      "public_rendering_note": "A service-animal row appears. The pet-charge notice changes from an ambiguity notice to a schema/ceiling notice, and a cleaning-fee row appears carrying the same, so the reader is told a ceiling exists instead of being told nothing.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B11",
+      "batch": "B",
+      "hotel": "Extended Stay America Select Suites Dayton - Miamisburg",
+      "identity_key": "extended stay america select suites dayton miamisburg",
+      "group": "C_SERVICE_ANIMAL_AND_ESA_CEILING",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Apply the exact same approved treatment as DAY-B08.",
+        "Approve the explicit service-animal statement and the schema-cannot-represent handling of the two cleaning-fee ceilings.",
+        "Do not manufacture an exact pet fee."
+      ],
+      "bound_record_hash": "sha256:1cc92210f26e10f26526c00f52a636dc0037df1d57aec8fa2cb2210f6f041596",
+      "bound_evidence_hash": "sha256:2c5efa32af8083891cc3f7351472f5884f3405660d7fa821bf6924b5526159a0",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "FACT",
+          "field": "service_animal_statement",
+          "before": "<absent>",
+          "after": {
+            "stated": true,
+            "charges_stated": "no_charge"
+          }
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "service_animal_exception",
+          "before": "<absent>",
+          "after": "ev:1f8ba8f309bff3ec",
+          "quote": "Service animals will be exempt from this charge."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:267d58436b6da800",
+          "quote": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet."
+        },
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "cleaning_fee",
+          "before": "<absent>",
+          "after": "ev:0298e6da5b420139",
+          "quote": "Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet."
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.pet_fee",
+          "before": "SOURCE_AMBIGUOUS",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        },
+        {
+          "kind": "WITHHOLDING",
+          "field": "withheld_fields.cleaning_fee",
+          "before": "<absent>",
+          "after": "SCHEMA_CANNOT_REPRESENT"
+        }
+      ],
+      "public_rendering_note": "A service-animal row appears. The pet-charge notice changes from an ambiguity notice to a schema/ceiling notice, and a cleaning-fee row appears carrying the same, so the reader is told a ceiling exists instead of being told nothing.",
       "applied_to_authority": false,
       "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
     }
