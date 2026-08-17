@@ -321,6 +321,15 @@ def test_authority_freeze_and_benchmark():
     assert bench["policy_not_found"] == 0
     assert bench["access_blocked"] == 0
     assert bench["captures_per_hour"] == 30.5
+    assert bench["useful_artifact_yield"] == 0.5
+    cmp_ = results["pass1_comparison"]
+    assert cmp_["primary_metric"] == "USEFUL_ARTIFACT_YIELD"
+    assert cmp_["pass1"]["useful_artifact_yield"] == 0.1
+    assert cmp_["pass2"]["useful_artifact_yield"] == 0.5
+    assert cmp_["pass2"]["usable_artifacts"] == 5
+    assert cmp_["pass1"]["usable_artifacts"] == 1
+    assert cmp_["pass2"]["captures_per_hour"] < cmp_["pass1"]["captures_per_hour"]
+    assert cmp_["delta"]["usable_artifacts"] == 4
     assert results["brand_care"]["marriott"]["hotels"]
     assert results["brand_care"]["ihg"]["hotels"]
     assert results["brand_care"]["choice"]["hotels"] == [

@@ -147,7 +147,41 @@
     "positive_rate": 0.2,
     "negative_rate": 0.3,
     "policy_not_found_rate": 0.0,
-    "identity_uncertain_rate": 0.5
+    "identity_uncertain_rate": 0.5,
+    "useful_artifact_yield": 0.5
+  },
+  "pass1_comparison": {
+    "primary_metric": "USEFUL_ARTIFACT_YIELD",
+    "note": "Useful artifact yield is publication-grade, identity-bound policy observations per attempted row. Raw browser completions/hour is recorded but is not the comparison metric.",
+    "pass1": {
+      "rows_attempted": 10,
+      "usable_artifacts": 1,
+      "useful_artifact_yield": 0.1,
+      "positive_candidates": 0,
+      "negative_candidates": 1,
+      "identity_failures": 8,
+      "policy_not_found": 0,
+      "access_blocked": 1,
+      "captures_per_hour": 74.8,
+      "elapsed_seconds": 481.54
+    },
+    "pass2": {
+      "rows_attempted": 10,
+      "usable_artifacts": 5,
+      "useful_artifact_yield": 0.5,
+      "positive_candidates": 2,
+      "negative_candidates": 3,
+      "identity_failures": 5,
+      "policy_not_found": 0,
+      "access_blocked": 0,
+      "captures_per_hour": 30.5,
+      "elapsed_seconds": 1179.09
+    },
+    "delta": {
+      "usable_artifacts": 4,
+      "useful_artifact_yield": 0.4,
+      "captures_per_hour": -44.3
+    }
   },
   "rule": "Nothing here is published. Founder decisions are not applied in this packet. Approving a negative would write an exclusion later. Approving a positive would write schema 1.2 facts later. Identity-uncertain rows stay unresolved and their policy is unused. A page that does not bind cleanly cannot contribute a policy observation.",
   "positive_candidates": [

@@ -751,6 +751,43 @@ def main() -> int:
             ("negative_rate", 0.3),
             ("policy_not_found_rate", 0.0),
             ("identity_uncertain_rate", 0.5),
+            ("useful_artifact_yield", 0.5),
+        ))),
+        ("pass1_comparison", OrderedDict((
+            ("primary_metric", "USEFUL_ARTIFACT_YIELD"),
+            ("note",
+             "Useful artifact yield is publication-grade, identity-bound "
+             "policy observations per attempted row. Raw browser "
+             "completions/hour is recorded but is not the comparison metric."),
+            ("pass1", OrderedDict((
+                ("rows_attempted", 10),
+                ("usable_artifacts", 1),
+                ("useful_artifact_yield", 0.1),
+                ("positive_candidates", 0),
+                ("negative_candidates", 1),
+                ("identity_failures", 8),
+                ("policy_not_found", 0),
+                ("access_blocked", 1),
+                ("captures_per_hour", 74.8),
+                ("elapsed_seconds", 481.54),
+            ))),
+            ("pass2", OrderedDict((
+                ("rows_attempted", 10),
+                ("usable_artifacts", 5),
+                ("useful_artifact_yield", 0.5),
+                ("positive_candidates", 2),
+                ("negative_candidates", 3),
+                ("identity_failures", 5),
+                ("policy_not_found", 0),
+                ("access_blocked", 0),
+                ("captures_per_hour", 30.5),
+                ("elapsed_seconds", 1179.09),
+            ))),
+            ("delta", OrderedDict((
+                ("usable_artifacts", 4),
+                ("useful_artifact_yield", 0.4),
+                ("captures_per_hour", -44.3),
+            ))),
         ))),
         ("results", rows),
     ))
@@ -772,6 +809,7 @@ def main() -> int:
         ("crowne_downtown_warning", results["crowne_downtown_warning"]),
         ("authority_freeze", results["authority_freeze"]),
         ("speed_benchmark", results["speed_benchmark"]),
+        ("pass1_comparison", results["pass1_comparison"]),
         ("rule",
          "Nothing here is published. Founder decisions are not applied in this "
          "packet. Approving a negative would write an exclusion later. Approving "
