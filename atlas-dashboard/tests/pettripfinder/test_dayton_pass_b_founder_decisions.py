@@ -91,17 +91,19 @@ def test_the_ledger_is_not_the_packet(ledger):
 # The decisions themselves.
 # --------------------------------------------------------------------------- #
 
-def test_batches_a_and_b_are_eleven_approvals_and_no_holds(ledger):
-    assert ledger["batches_recorded"] == ["A", "B"]
-    assert ledger["counts"] == {"presented": 11, "approved": 11, "held": 0,
+def test_all_thirteen_policy_decisions_are_recorded_and_approved(ledger):
+    assert ledger["batches_recorded"] == ["A", "B", "C"]
+    assert ledger["counts"] == {"presented": 13, "approved": 13, "held": 0,
                                 "applied": 0}
-    assert len(ledger["decisions"]) == 11
+    assert len(ledger["decisions"]) == 13
     assert {r["founder_decision"] for r in ledger["decisions"]} == {APPROVE}
     assert [r["decision_id"] for r in ledger["decisions"]] == [
         "DAY-B01", "DAY-B02", "DAY-B03", "DAY-B04", "DAY-B05", "DAY-B06",
-        "DAY-B07", "DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11"]
+        "DAY-B07", "DAY-B08", "DAY-B09", "DAY-B10", "DAY-B11",
+        "DAY-B12", "DAY-B13"]
     assert ledger["counts_by_batch"]["A"]["approved"] == 6
     assert ledger["counts_by_batch"]["B"]["approved"] == 5
+    assert ledger["counts_by_batch"]["C"]["approved"] == 2
 
 
 def test_a_batch_is_recorded_whole_or_not_at_all(ledger):
@@ -117,17 +119,18 @@ def test_a_batch_is_recorded_whole_or_not_at_all(ledger):
         assert recorded == asked, batch
 
 
-def test_recording_batch_b_did_not_disturb_batch_a(ledger):
+def test_a_later_batch_never_disturbed_an_earlier_one(ledger):
     """The ledger is rebuilt whole on every run, so an earlier batch must
     survive a later one -- which it can only do while its records have not
     moved."""
-    batch_a = [r for r in ledger["decisions"] if r["batch"] == "A"]
-    assert len(batch_a) == 6
-    for row in batch_a:
-        assert row["founder_decision"] == APPROVE
-        assert row["decided_at"] == ledger["decided_at"]
-        assert row["applied_to_authority"] is False
-    notes = {r["decision_id"]: r["decision_notes"] for r in batch_a}
+    for batch, size in (("A", 6), ("B", 5), ("C", 2)):
+        rows = [r for r in ledger["decisions"] if r["batch"] == batch]
+        assert len(rows) == size, batch
+        for row in rows:
+            assert row["founder_decision"] == APPROVE
+            assert row["decided_at"] == ledger["decided_at"]
+            assert row["applied_to_authority"] is False
+    notes = {r["decision_id"]: r["decision_notes"] for r in ledger["decisions"]}
     assert any("Do NOT create $87.94" in n for n in notes["DAY-B06"])
 
 
@@ -220,13 +223,54 @@ def test_87_94_was_not_recorded_as_a_charge(ledger, by_key):
 
 def test_what_is_still_outstanding_reconciles_to_the_market(ledger):
     outstanding = ledger["still_outstanding"]
-    assert outstanding["C_pointer_repair"] == ["DAY-B12", "DAY-B13"]
+    # Every policy batch is decided; only the artifact-only block remains.
+    assert set(outstanding) == {"artifact_binding_only_cohort"}
     assert outstanding["artifact_binding_only_cohort"] == 34
-    assert "B_service_animal_and_esa" not in outstanding   # now decided
-    # 11 decided + 2 outstanding + 34 artifact-only = the whole market.
+    # 13 policy decisions + 34 artifact-only = the whole market.
     assert (len(ledger["decisions"])
-            + len(outstanding["C_pointer_repair"])
             + outstanding["artifact_binding_only_cohort"]) == 47
+
+
+def test_the_governance_ruling_was_recorded(ledger):
+    """A principle given in passing during a batch review is exactly what
+    evaporates when the conversation ends, and this one governs every market
+    that follows."""
+    rulings = {g["id"]: g for g in ledger["governance_rulings"]}
+    assert set(rulings) == {"GOV-01"}
+    gov = rulings["GOV-01"]
+    assert gov["ruled_by"] == FOUNDER
+    assert "re-attestation" in gov["rule"]
+    assert "evidentiary basis" in gov["reason"]
+    assert "future markets" in gov["scope"]
+    assert gov["first_applied_to"] == ["DAY-B12", "DAY-B13"]
+
+
+def test_the_governance_ruling_reached_the_contract_it_names():
+    """The founder scoped GOV-01 to the evidence contract, so the contract is
+    where the next market has to be able to find it."""
+    source = (REPO_ROOT / "scripts" / "pettripfinder" / "contracts"
+              / "evidence.py").read_text(encoding="utf-8")
+    assert "GOV-01" in source
+    assert "citation-only" in source
+    assert "evidence-pointer repair DOES require founder" in source
+
+
+def test_batch_c_changed_a_pointer_and_nothing_else(ledger, by_key):
+    """The decisions that prompted GOV-01: no fact moved, only the citation."""
+    rows = {r["decision_id"]: r for r in ledger["decisions"]}
+    for decision_id in ("DAY-B12", "DAY-B13"):
+        row = rows[decision_id]
+        assert all(c["kind"] == "EVIDENCE_ADDED" for c in row["changes_approved"])
+        assert [c["field"] for c in row["changes_approved"]] == ["fee_scope"]
+        record = by_key[row["identity_key"]]
+        fee = record["facts"]["pet_fee"]
+        assert fee["scope"] == enums.SCOPE_PER_ROOM
+        assert fee["scope_pet_allowance"] == 2
+        assert fee["amount_cents"] == 2500
+        assert record["facts"]["fee_cap"]["amount_cents"] == 7500
+        assert record["facts"]["fee_cap"]["qualifier_stated"] is True
+        pointer = [e for e in record["evidence"] if e["field"] == "fee_scope"]
+        assert len(pointer) == 1
 
 
 # --------------------------------------------------------------------------- #

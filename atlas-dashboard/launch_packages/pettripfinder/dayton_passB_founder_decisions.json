@@ -3,7 +3,8 @@
   "work_order": "PTF-DAYTON-RECERTIFICATION-001",
   "batches_recorded": [
     "A",
-    "B"
+    "B",
+    "C"
   ],
   "market_id": "dayton-oh",
   "decided_by": "jfields80",
@@ -13,8 +14,8 @@
   "what_recorded_means": "The founder's rulings are on file and bound to the exact hashes they were shown. NOTHING has been applied: every Dayton record is still MACHINE_REVIEWED_PENDING_OPERATOR, no approval block was rewritten, and the policy package is byte-for-byte what Pass B committed. Applying these decisions -- turning each into an APPROVED_AFTER_CURRENT_REVIEW approval in the founder's name -- is a separate order that this pass was not given.",
   "why_a_separate_file_from_the_packet": "The review packet is emitted by an idempotent generator, so re-running it would overwrite anything written into it. A human attestation must not live somewhere a regeneration can erase.",
   "counts": {
-    "presented": 11,
-    "approved": 11,
+    "presented": 13,
+    "approved": 13,
     "held": 0,
     "applied": 0
   },
@@ -45,15 +46,36 @@
         "DAY-B10",
         "DAY-B11"
       ]
+    },
+    "C": {
+      "decision_order": "DAYTON PASS B -- FOUNDER DECISIONS BATCH C",
+      "presented": 2,
+      "approved": 2,
+      "held": 0,
+      "decision_ids": [
+        "DAY-B12",
+        "DAY-B13"
+      ]
     }
   },
   "still_outstanding": {
-    "C_pointer_repair": [
-      "DAY-B12",
-      "DAY-B13"
-    ],
     "artifact_binding_only_cohort": 34
   },
+  "governance_rulings": [
+    {
+      "id": "GOV-01",
+      "ruled_during": "Dayton Pass B Batch C",
+      "ruled_by": "jfields80",
+      "ruled_at": "2026-08-16",
+      "rule": "A citation-only / evidence-pointer repair DOES require founder re-attestation when it changes the final record_hash or evidence binding.",
+      "reason": "The public facts may be unchanged, but the record's evidentiary basis has changed. Founder attestation must bind the final supported record, not merely the visible facts.",
+      "scope": "Apply consistently in future markets unless the evidence contract is later changed explicitly.",
+      "first_applied_to": [
+        "DAY-B12",
+        "DAY-B13"
+      ]
+    }
+  ],
   "follow_ups": [
     {
       "id": "FU-01",
@@ -539,6 +561,67 @@
         }
       ],
       "public_rendering_note": "A service-animal row appears. The pet-charge notice changes from an ambiguity notice to a schema/ceiling notice, and a cleaning-fee row appears carrying the same, so the reader is told a ceiling exists instead of being told nothing.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B12",
+      "batch": "C",
+      "hotel": "La Quinta Inn & Suites by Wyndham Fairborn Wright-Patterson",
+      "identity_key": "la quinta inn and suites by wyndham fairborn wright patterson",
+      "group": "D_POINTER_REPAIR",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Approve the fee_scope evidence-pointer repair.",
+        "Approve the existing canonical interpretation: pet_fee amount $25, basis per_night, scope per_room, scope_pet_allowance 2; fee_cap amount $75, basis per_stay, qualifier_stated true.",
+        "The source wording \"Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.\" supports the existing per-room charge covering up to two pets.",
+        "No policy fact changes are authorized beyond what is already in the corrected record."
+      ],
+      "bound_record_hash": "sha256:45ab379b230eb7618b14dc8b3ff1edd9fd9a8d8836a567feb0f699f2a7752b83",
+      "bound_evidence_hash": "sha256:a1a12f66f65e53d862d1a39917379cec2ad14ecb94f5fafedf131722732e75c2",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "fee_scope",
+          "before": "<absent>",
+          "after": "ev:d1ef1a2d7f00f70b",
+          "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay."
+        }
+      ],
+      "public_rendering_note": "None. Scope already rendered as Per room; this adds the citation behind it.",
+      "applied_to_authority": false,
+      "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
+    },
+    {
+      "decision_id": "DAY-B13",
+      "batch": "C",
+      "hotel": "La Quinta Inn & Suites by Wyndham Miamisburg Dayton South",
+      "identity_key": "la quinta inn and suites by wyndham miamisburg dayton south",
+      "group": "D_POINTER_REPAIR",
+      "founder_decision": "APPROVE_CORRECTED_RECORD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-16",
+      "decision_notes": [
+        "Approve the same evidence-pointer repair and existing canonical interpretation as DAY-B12, based on this property's own captured first-party artifact.",
+        "Approve the added fee_scope evidence pointer.",
+        "No fact change. No public-rendering change. No new source text."
+      ],
+      "bound_record_hash": "sha256:bc440d63f3b1840b45905cfb6e6bc63d6601a74601e47397f9156d83ece349f8",
+      "bound_evidence_hash": "sha256:bfa085e2e251bed28d8ee70ecdff7c34f3f743055d6e54e51a85605bf590e69a",
+      "hashes_reverified_at_recording": true,
+      "changes_approved": [
+        {
+          "kind": "EVIDENCE_ADDED",
+          "field": "fee_scope",
+          "before": "<absent>",
+          "after": "ev:369ece145f063570",
+          "quote": "Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay."
+        }
+      ],
+      "public_rendering_note": "None. Scope already rendered as Per room; this adds the citation behind it.",
       "applied_to_authority": false,
       "authority_state_now": "MACHINE_REVIEWED_PENDING_OPERATOR"
     }

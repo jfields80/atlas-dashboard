@@ -25,6 +25,25 @@ An ACCESS_BLOCKED verdict is itself evidence-bearing and must be probed rather
 than assumed: a fabricated property code returns the same 403 as a real one, so
 a refusal proves nothing about the property. The blocker records the FETCH
 OUTCOME, never a conclusion about the hotel.
+
+Founder ruling GOV-01 -- a citation is part of the record
+---------------------------------------------------------
+Given during PTF-DAYTON-RECERTIFICATION-001 Pass B Batch C, 2026-08-16, and
+standing for every market that follows unless this contract is explicitly
+changed:
+
+    A citation-only / evidence-pointer repair DOES require founder
+    re-attestation when it changes the final record_hash or evidence binding.
+
+    The public facts may be unchanged, but the record's evidentiary basis has
+    changed. Founder attestation must bind the final supported record, not
+    merely the visible facts.
+
+So "no fact moved and the page looks identical" is never on its own a reason to
+skip attestation. Adding a pointer changes what a record claims to rest on, and
+that is precisely what an attestation covers. First applied to the two Dayton
+La Quinta records, whose published per_room fee scope had no ``fee_scope``
+citation of its own.
 """
 
 from __future__ import annotations

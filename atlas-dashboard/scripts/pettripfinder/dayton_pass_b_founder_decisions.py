@@ -56,6 +56,7 @@ WORK_ORDER = "PTF-DAYTON-RECERTIFICATION-001"
 DECISION_ORDERS = OrderedDict([
     ("A", "DAYTON PASS B -- FOUNDER DECISIONS BATCH A"),
     ("B", "DAYTON PASS B -- FOUNDER DECISIONS BATCH B"),
+    ("C", "DAYTON PASS B -- FOUNDER DECISIONS BATCH C"),
 ])
 DECIDED_AT = "2026-08-16"
 FOUNDER = "jfields80"
@@ -87,6 +88,10 @@ DECISIONS: "OrderedDict[str, Tuple[Tuple[str, str], ...]]" = OrderedDict([
         ("DAY-B09", APPROVE),
         ("DAY-B10", APPROVE),
         ("DAY-B11", APPROVE),
+    )),
+    ("C", (
+        ("DAY-B12", APPROVE),
+        ("DAY-B13", APPROVE),
     )),
 ])
 
@@ -146,7 +151,50 @@ DECISION_NOTES: Dict[str, Tuple[str, ...]] = {
         "schema-cannot-represent handling of the two cleaning-fee ceilings.",
         "Do not manufacture an exact pet fee.",
     ),
+    "DAY-B12": (
+        "Approve the fee_scope evidence-pointer repair.",
+        "Approve the existing canonical interpretation: pet_fee amount $25, "
+        "basis per_night, scope per_room, scope_pet_allowance 2; fee_cap "
+        "amount $75, basis per_stay, qualifier_stated true.",
+        "The source wording \"Fees - Non-refundable 25 USD nightly for up to "
+        "2 pets. Max 75 USD per stay.\" supports the existing per-room charge "
+        "covering up to two pets.",
+        "No policy fact changes are authorized beyond what is already in the "
+        "corrected record.",
+    ),
+    "DAY-B13": (
+        "Approve the same evidence-pointer repair and existing canonical "
+        "interpretation as DAY-B12, based on this property's own captured "
+        "first-party artifact.",
+        "Approve the added fee_scope evidence pointer.",
+        "No fact change. No public-rendering change. No new source text.",
+    ),
 }
+
+#: Standing rules the founder set while deciding. Recorded here because a
+#: principle given in passing during a batch review is exactly the kind of
+#: thing that evaporates when the conversation ends, and this one governs
+#: every market that follows.
+GOVERNANCE_RULINGS: Tuple[Dict, ...] = (
+    OrderedDict([
+        ("id", "GOV-01"),
+        ("ruled_during", "Dayton Pass B Batch C"),
+        ("ruled_by", FOUNDER),
+        ("ruled_at", DECIDED_AT),
+        ("rule",
+         "A citation-only / evidence-pointer repair DOES require founder "
+         "re-attestation when it changes the final record_hash or evidence "
+         "binding."),
+        ("reason",
+         "The public facts may be unchanged, but the record's evidentiary "
+         "basis has changed. Founder attestation must bind the final supported "
+         "record, not merely the visible facts."),
+        ("scope",
+         "Apply consistently in future markets unless the evidence contract is "
+         "later changed explicitly."),
+        ("first_applied_to", ["DAY-B12", "DAY-B13"]),
+    ]),
+)
 
 #: Work the founder directed OUT of this order rather than into it. Recorded
 #: here so a recommendation given during a decision does not evaporate when the
@@ -302,6 +350,7 @@ def build() -> Dict:
         ])),
         ("counts_by_batch", per_batch),
         ("still_outstanding", outstanding),
+        ("governance_rulings", [OrderedDict(g) for g in GOVERNANCE_RULINGS]),
         ("follow_ups", [OrderedDict(f) for f in FOLLOW_UPS]),
         ("decisions", rows),
     ])
