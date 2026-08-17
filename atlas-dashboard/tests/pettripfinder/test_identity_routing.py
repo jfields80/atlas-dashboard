@@ -373,12 +373,14 @@ def test_no_committed_route_is_on_a_third_party_domain(routes):
 
 
 def test_every_committed_route_is_in_a_known_market(routes):
-    """Routing is per-market and always was; Cleveland is the second market to
-    use it and Dayton, under PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, the third.
-    What must never appear is a route with no market or a market the config does
-    not define."""
-    assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
+    """Routing is per-market; a route must always identify a configured market.
+
+    Keep this derived from the shard registry so a new market routing shard does
+    not require a fragile, hand-maintained global market list.
+    """
+    expected = {market_id for market_id in MA.sharded_market_ids()
+                if MA.load_market_routes(market_id)}
+    assert {r["market_id"] for r in routes} == expected
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):

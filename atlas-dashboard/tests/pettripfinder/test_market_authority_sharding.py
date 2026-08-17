@@ -158,16 +158,16 @@ class TestAssemblyIsDeterministic:
 
 class TestNothingMovedBetweenMarkets:
     """The sharding baseline is immutable history.  Pittsburgh Pass 3 is the
-    only later authority change represented here; every other market must still
+    only later Pittsburgh delta represented here; every other market must still
     match that recorded baseline exactly."""
 
-    PITTSBURGH_PASS3_TOTALS = {"routing": 0, "exclusions": 9, "seed": 29}
+    PITTSBURGH_PASS4_TOTALS = {"routing": 6, "exclusions": 9, "seed": 29}
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
         for market_id in market_ids:
             expected = baseline["per_market_totals"][market_id]
             if market_id == "pittsburgh-pa":
-                expected = self.PITTSBURGH_PASS3_TOTALS
+                expected = self.PITTSBURGH_PASS4_TOTALS
             assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
@@ -175,7 +175,7 @@ class TestNothingMovedBetweenMarkets:
     def test_global_totals_are_the_baseline_plus_the_pittsburgh_delta(self, baseline):
         totals = baseline["global_totals"]
         old_pittsburgh = baseline["per_market_totals"]["pittsburgh-pa"]
-        current = self.PITTSBURGH_PASS3_TOTALS
+        current = self.PITTSBURGH_PASS4_TOTALS
         assert len(IR.load_routes()) == totals["routing"] - old_pittsburgh["routing"] + current["routing"]
         assert len(HE.load_exclusions()) == totals["exclusions"] - old_pittsburgh["exclusions"] + current["exclusions"]
         assert len(MA.assemble_seed_rows()) == totals["seed_rows"] - old_pittsburgh["seed"] + current["seed"]

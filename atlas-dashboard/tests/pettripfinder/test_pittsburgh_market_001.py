@@ -70,6 +70,14 @@ def routing_doc():
     return _load(PACKAGE / "markets" / "reports" / "pittsburgh-pa_routing_assessments.json")
 
 
+def pass4_report_doc():
+    return _load(PACKAGE / "markets" / "reports" / "pittsburgh_pass4_routing_recap_prep_001.json")
+
+
+def pass4_capture_queue_doc():
+    return _load(PACKAGE / "markets" / "reports" / "pittsburgh_pass4_claude_capture_queue.json")
+
+
 class TestCensus:
     def test_schema_count_and_ownership(self):
         doc = census_doc()
@@ -177,7 +185,23 @@ class TestRoutingAndAuthorityIsolation:
             assert item["assessment_status"] == "ASSESSMENT_ONLY"
             assert item["not_routing_authority"] is True
         routing = _load(PACKAGE / "identity_routing.json")
-        assert not any(r.get("market_id") == MARKET for r in routing.get("routes") or [])
+        pittsburgh_routes = [r for r in routing.get("routes") or []
+                            if r.get("market_id") == MARKET]
+        assert len(pittsburgh_routes) == 6
+        assert {r["hotel_ref"]["identity_key"] for r in pittsburgh_routes} == {
+            "courtyard by marriott pittsburgh airport",
+            "courtyard by marriott pittsburgh airport settlers ridge",
+            "motel 6 pittsburgh",
+            "sonesta simply suites pittsburgh airport",
+            "springhill suites pittsburgh airport",
+            "towneplace suites pittsburgh airport robinson township",
+        }
+        # Pass 4 recovered exact property endpoints without retaining rendered
+        # page bytes or recording policy content, so these are conservative
+        # routing bindings rather than policy authority.
+        assert {r["binding_method"] for r in pittsburgh_routes} == {"BRAND_INDEX_BINDING"}
+        assert {r["status"] for r in pittsburgh_routes} == {"ROUTING_CONFIRMED"}
+
 
     def test_policy_authority_is_founder_bound_and_no_release_contract(self):
         from scripts.pettripfinder.policy_migration import (
@@ -282,6 +306,35 @@ class TestRoutingAndAuthorityIsolation:
             other_doc = PACKAGE / "identity_census" / ("%s.json" % other)
             if other_doc.is_file():
                 assert pitt_keys.isdisjoint(census.identity_keys(_load(other_doc)))
+
+
+class TestPass4RoutingAndRecapturePreparation:
+    def test_authority_is_frozen_and_sunnyledge_is_not_policy_authority(self):
+        report = pass4_report_doc()
+        assert report["authority_freeze"] == {
+            "published": 29, "verified_no_pets": 6, "out_of_category": 3}
+        assert report["unresolved_before"] == 58
+        assert report["sunnyledge_recapture"]["outcome"] == "SOURCE_AMBIGUOUS"
+        assert report["sunnyledge_recapture"]["publication_grade"] is False
+        assert report["sunnyledge_recapture"]["next_action"] == "RECAPTURE_REQUIRED"
+        assert report["sunnyledge_recapture"]["artifact_sha256"].startswith("sha256:")
+
+    def test_safe_capture_queue_is_a_strict_subset_of_the_unresolved_tail(self):
+        report = pass4_report_doc()
+        queue = pass4_capture_queue_doc()
+        unresolved = {item["identity_key"] for item in partition_doc()["items"]
+                      if not item["resolved"]}
+        queued = [item["identity_key"] for item in queue["items"]]
+        assert queue["count"] == len(queued) == 12
+        assert len(queued) == len(set(queued))
+        assert set(queued) < unresolved
+        assert "sunnyledge boutique hotel" not in queued
+        assert set(report["routing_confirmed"]) <= set(queued)
+        assert report["capture_readiness_counts"] == {
+            "FRESH_SESSION_REQUIRED": 6,
+            "SPECIAL_SURFACE_REQUIRED": 4,
+            "ATTENDED_REQUIRED": 2,
+        }
 
 
 class TestUtilities:
