@@ -1,0 +1,214 @@
+{
+ "schema": "ptf-market-authority-application-prepared/1.0",
+ "work_order": "PTF-CINCINNATI-CAPTURE-PASS1-DECISION-APPLICATION-001",
+ "parent_work_order": "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-17",
+ "status": "PREPARED_NOT_EXECUTED",
+ "note": "This is a work-order OUTLINE describing what a future application pass would do. It writes NOTHING. hotel_policy_facts_cincinnati-oh.json and hotel_exclusions.json remain untouched by every file this document sits beside.",
+ "totals": {
+  "founder_review_rows": 27,
+  "ready_for_application": 26,
+  "held_pending_recapture": 1,
+  "would_move_to_published": 20,
+  "would_move_to_verified_no_pets": 6
+ },
+ "planned_steps": [
+  "1. Read all three founder-decision batch files (cincinnati_capture_pass1_founder_decisions_batch{A,B,C}.json) and reconcile against the 27-row founder review packet (already done in this pass: 27/27, 0 duplicates, 0 omissions).",
+  "2. For each of the 26 ready rows, write a hotel_policy_facts_cincinnati-oh.json record carrying exactly the approved_facts (never the original capture-pass proposed_facts, which the founder corrected in several rows) plus its withheld_fields_reason_codes, source URL, and artifact SHA256.",
+  "3. For the 6 APPROVE_VERIFIED_NO_PETS rows, write to the no-pets authority (hotel_exclusions.json or the market's equivalent) rather than hotel_policy_facts, per the project's established published/no-pets split.",
+  "4. Rebuild the Cincinnati partition: the 26 ready identities move from AWAITING_POLICY_OBSERVATION to PUBLISHED or VERIFIED_NO_PETS as appropriate. Cincinnati's Fidelity Hotel (identity: 'cincinnati s fidelity hotel') is NOT in this batch at all (it never reached founder review) and stays untouched.",
+  "5. Apply the founder's HOLD_PREOPENING direction for Cincinnati's Fidelity Hotel: no authority write, partition state unchanged, carried forward as-is pending the AWAITING_PROPERTY_OPENING backlog item.",
+  "6. Run the full regression suite (tests/pettripfinder, then the broader repo) before any commit.",
+  "7. Commit and push to worker/ptf-cincinnati-url-routing-recovery-001. Do not merge, do not deploy, per every prior work order's standing instruction."
+ ],
+ "ready_rows": [
+  {
+   "decision_id": "cincinnati-pass1-001-best-western-clermont",
+   "identity_key": "best western clermont",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-002-best-western-inn-florence",
+   "identity_key": "best western inn florence",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-003-best-western-plus-hannaford-inn-and-suites",
+   "identity_key": "best western plus hannaford inn and suites",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-004-best-western-plus-whitewater-inn",
+   "identity_key": "best western plus whitewater inn",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-005-best-western-premier-mariemont-inn",
+   "identity_key": "best western premier mariemont inn",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-006-extended-stay-america-florence-meijer-drive",
+   "identity_key": "extended stay america florence meijer drive",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-007-extended-stay-america-florence-turfway-road",
+   "identity_key": "extended stay america florence turfway road",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-008-extended-stay-america-suites-cincinnati-covington",
+   "identity_key": "extended stay america suites cincinnati covington",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-009-motel-6-florence-commerce-dr",
+   "identity_key": "motel 6 florence commerce dr",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-010-motel-6-sharonville",
+   "identity_key": "motel 6 sharonville",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-011-motel-6-walton-richwood",
+   "identity_key": "motel 6 walton richwood",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-012-doubletree-by-hilton-cincinnati-airport",
+   "identity_key": "doubletree by hilton cincinnati airport",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-013-doubletree-by-hilton-lawrenceburg",
+   "identity_key": "doubletree by hilton lawrenceburg",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-014-hometowne-studios-florence-cincinnati-airport",
+   "identity_key": "hometowne studios florence cincinnati airport",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-015-red-roof-inn-cincinnati-east-eastgate",
+   "identity_key": "red roof inn cincinnati east eastgate",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+  },
+  {
+   "decision_id": "cincinnati-pass1-016-red-roof-inn-cincinnati-north-mason",
+   "identity_key": "red roof inn cincinnati north mason",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+  },
+  {
+   "decision_id": "cincinnati-pass1-017-red-roof-inn-greendale",
+   "identity_key": "red roof inn greendale",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+  },
+  {
+   "decision_id": "cincinnati-pass1-018-red-roof-inn-richwood",
+   "identity_key": "red roof inn richwood",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+  },
+  {
+   "decision_id": "cincinnati-pass1-019-sonesta-es-suites-cincinnati-sharonville-east",
+   "identity_key": "sonesta es suites cincinnati sharonville east",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-020-sonesta-es-suites-cincinnati-sharonville-west",
+   "identity_key": "sonesta es suites cincinnati sharonville west",
+   "founder_decision": "APPROVE_WITH_CHANGE"
+  },
+  {
+   "decision_id": "cincinnati-pass1-021-baymont-by-wyndham-lawrenceburg",
+   "identity_key": "baymont by wyndham lawrenceburg",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED"
+  },
+  {
+   "decision_id": "cincinnati-pass1-022-baymont-by-wyndham-monroe",
+   "identity_key": "baymont by wyndham monroe",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-023-days-inn-and-suites-by-wyndham-cincinnati-north",
+   "identity_key": "days inn and suites by wyndham cincinnati north",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  },
+  {
+   "decision_id": "cincinnati-pass1-024-days-inn-batavia",
+   "identity_key": "days inn batavia",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-025-days-inn-cincinnati-east",
+   "identity_key": "days inn cincinnati east",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS"
+  },
+  {
+   "decision_id": "cincinnati-pass1-028-butler-inn",
+   "identity_key": "butler inn",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION"
+  }
+ ],
+ "held_rows": [
+  {
+   "decision_id": "cincinnati-pass1-026-21c-museum-hotel-cincinnati",
+   "identity_key": "21c museum hotel cincinnati",
+   "founder_decision": "HOLD_FOR_RECAPTURE",
+   "next_action": "RECAPTURE_ARTIFACT_HASH -- re-render https://21cmuseumhotels.com/cincinnati/experience/ and capture its SHA256. No broader research needed; if the recapture exposes no new terms, this becomes a simple APPROVE_PARTIAL_PUBLICATION (pets_allowed only)."
+  }
+ ],
+ "schema_blockers_found_and_resolved_in_decisions": [
+  {
+   "field": "fee_basis",
+   "finding": "contracts/enums.py FEE_BASES = (per_night, per_day, per_stay) only -- no per_month member exists anywhere in the codebase.",
+   "affected_rows": [
+    "cincinnati-pass1-014-hometowne-studios-florence-cincinnati-airport",
+    "cincinnati-pass1-019-sonesta-es-suites-cincinnati-sharonville-east"
+   ],
+   "resolution": "Both rows' monthly-cap/monthly-fee terms are withheld as SCHEMA_CANNOT_REPRESENT (a real, established withholding reason code) rather than converted, dropped, or synthesized into a different basis. This is a genuine schema gap, not a decision gap -- the founder's own direction on both rows anticipated it correctly."
+  },
+  {
+   "field": "fee_basis vs fee_scope",
+   "finding": "Verified these are two SEPARATE real enums in contracts/enums.py (BASIS_* for temporal recurrence, SCOPE_* for who the charge attaches to) -- no compound 'per_pet_per_night' value exists or should be created.",
+   "affected_rows": [
+    "cincinnati-pass1-021-baymont-by-wyndham-lawrenceburg"
+   ],
+   "resolution": "Recorded as fee_basis=per_night + fee_scope=per_pet, two fields. Not a blocker once correctly split."
+  },
+  {
+   "field": "weight_limit_stated_none / breed_restrictions_stated_none / pet_count_scope",
+   "finding": "All three are real, established fields (identity_evidence.py POLICY_FIELD_NAMES; used extensively in Cleveland's own decision-application scripts) -- not a blocker.",
+   "affected_rows": [
+    "cincinnati-pass1-019-sonesta-es-suites-cincinnati-sharonville-east",
+    "cincinnati-pass1-020-sonesta-es-suites-cincinnati-sharonville-west"
+   ],
+   "resolution": "Used directly, no substitute needed."
+  },
+  {
+   "field": "UNQUANTIFIED_SOURCE_TERM (proposed by the founder as a fallback name)",
+   "finding": "Does not exist. The real WITHHOLDING_REASONS enum is exactly (SOURCE_SILENT, SOURCE_AMBIGUOUS, SOURCE_CONTRADICTORY, SCHEMA_CANNOT_REPRESENT, ARTIFACT_INSUFFICIENT, IDENTITY_NOT_CONFIRMED).",
+   "affected_rows": [
+    "cincinnati-pass1-028-butler-inn"
+   ],
+   "resolution": "Mapped to SOURCE_AMBIGUOUS, the closest real code, per the founder's own fallback instruction."
+  },
+  {
+   "field": "artifact insufficiency (21c Museum Hotel, no SHA256)",
+   "finding": "ARTIFACT_INSUFFICIENT is a real, exact-fit withholding reason for this case.",
+   "affected_rows": [
+    "cincinnati-pass1-026-21c-museum-hotel-cincinnati"
+   ],
+   "resolution": "Row held (HOLD_FOR_RECAPTURE), not applied; not a blocker on the other 26 rows."
+  }
+ ],
+ "open_field_mapping_questions_not_blockers": [
+  "The Sonesta pair's '$75 for stays up to 7 nights' applicability window has no single field confirmed by this decision pass (fee_cap/fee_tiers exist in POLICY_FIELD_NAMES but their exact shape for a night-count boundary wasn't audited here) -- resolve at application time.",
+  "Days Inn Cincinnati North's 'all pets must be registered at check-in' likely belongs in general_restrictions (a real field) but the exact fit wasn't confirmed against how that field is consumed downstream -- resolve at application time."
+ ],
+ "atomicity_conclusion": "No schema blocker prevents the other 26 decisions from being applied. Every SCHEMA_CANNOT_REPRESENT / SOURCE_AMBIGUOUS / ARTIFACT_INSUFFICIENT withholding in this batch maps to a real, pre-existing reason code already used by other markets' decision-application scripts (see Cleveland Pass 2/3). The two open field-mapping questions above are precision questions for the application step, not blockers -- both fields already exist, only their exact shape for these two specific cases needs confirming."
+}

@@ -1,0 +1,186 @@
+{
+ "schema": "ptf-market-founder-decisions/1.0",
+ "work_order": "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS",
+ "parent_work_order": "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-REVIEW-001",
+ "market_id": "cincinnati-oh",
+ "batch": "C",
+ "as_of": "2026-08-17",
+ "note": "Founder decisions recorded, NOT applied. No policy authority file has been written by this pass. Field/enum choices in this batch were verified against the live schema (scripts/pettripfinder/contracts/enums.py, identity_evidence.py) rather than assumed.",
+ "authority_applied": false,
+ "count": 9,
+ "decision_counts": {
+  "APPROVE_WITH_CHANGE": 2,
+  "APPROVE_PUBLISH_STRUCTURED": 1,
+  "APPROVE_VERIFIED_NO_PETS": 3,
+  "APPROVE_PARTIAL_PUBLICATION": 2,
+  "HOLD_FOR_RECAPTURE": 1
+ },
+ "rows": [
+  {
+   "decision_id": "cincinnati-pass1-019-sonesta-es-suites-cincinnati-sharonville-east",
+   "identity_key": "sonesta es suites cincinnati sharonville east",
+   "canonical_name": "Sonesta ES Suites Cincinnati - Sharonville East",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "approved_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 1,
+    "pet_count_scope": "suite",
+    "weight_limit_stated_none": true,
+    "breed_restrictions_stated_none": true,
+    "pet_fee": 75,
+    "fee_basis": "per_stay"
+   },
+   "changes_from_proposed": [
+    "species=unrestricted REMOVED -- 'no breed restriction' does not establish which species are permitted; species stays absent unless the source separately names them.",
+    "weight_limit/breed_restriction re-expressed using the real schema's affirmative-none fields (weight_limit_stated_none, breed_restrictions_stated_none) rather than free-text notes.",
+    "Long-stay $150/month fee WITHHELD as SCHEMA_CANNOT_REPRESENT -- verified against contracts/enums.py: FEE_BASES = (per_night, per_day, per_stay) only, no per_month member exists. Not converted to per_stay/per_night/a cap/a synthetic tier; exact quote preserved."
+   ],
+   "withheld_fields_reason_codes": {
+    "long_stay_fee_150_per_month": "SCHEMA_CANNOT_REPRESENT",
+    "deposit": "SOURCE_SILENT",
+    "refundability": "SOURCE_SILENT",
+    "reservation_requirement": "SOURCE_SILENT"
+   },
+   "open_question": "The 'stays up to 7 nights' applicability window for the $75 fee has no single confirmed field in the schema audit performed during this decision pass (fee_cap/fee_tiers exist but their exact shape wasn't verified here) -- resolve the precise field mapping at application time, not decision time."
+  },
+  {
+   "decision_id": "cincinnati-pass1-020-sonesta-es-suites-cincinnati-sharonville-west",
+   "identity_key": "sonesta es suites cincinnati sharonville west",
+   "canonical_name": "Sonesta ES Suites Cincinnati - Sharonville West",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "approved_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "suite",
+    "weight_limit_stated_none": true,
+    "breed_restrictions_stated_none": true,
+    "pet_fee": 75,
+    "fee_basis": "per_stay"
+   },
+   "changes_from_proposed": [
+    "species=unrestricted REMOVED, same reasoning as the East sibling.",
+    "Long-stay $150 fee WITHHELD as SOURCE_AMBIGUOUS (not SCHEMA_CANNOT_REPRESENT like East) -- this property's own wording states no basis at all (not per month, per stay, per night, or per pet), so the problem is genuine source silence on basis, not a basis the schema is known to be unable to hold. East's 'per month' wording is NOT imported onto this property."
+   ],
+   "withheld_fields_reason_codes": {
+    "long_stay_fee_150_unspecified_basis": "SOURCE_AMBIGUOUS",
+    "deposit": "SOURCE_SILENT",
+    "refundability": "SOURCE_SILENT",
+    "reservation_requirement": "SOURCE_SILENT"
+   },
+   "open_question": "Same fee_cap/fee_tiers field-mapping question as East for the 7-night window."
+  },
+  {
+   "decision_id": "cincinnati-pass1-021-baymont-by-wyndham-lawrenceburg",
+   "identity_key": "baymont by wyndham lawrenceburg",
+   "canonical_name": "Baymont by Wyndham Lawrenceburg",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "approved_facts": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ],
+    "pet_count_limit": 2,
+    "pet_fee": 25,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "changes_from_proposed": [
+    "fee_basis and fee_scope kept as SEPARATE canonical fields (per_night / per_pet) -- verified against contracts/enums.py: BASIS_* and SCOPE_* are genuinely distinct enums (temporal recurrence vs who the charge attaches to). No compound 'per_pet_per_night' value created."
+   ],
+   "withheld_fields_reason_codes": {
+    "weight_limit": "SOURCE_SILENT",
+    "deposit": "SOURCE_SILENT",
+    "refundability": "SOURCE_SILENT",
+    "reservation_requirement": "SOURCE_SILENT"
+   },
+   "restriction_notes": "The $50 refundable incidental deposit is property-wide, never recorded as a pet deposit/fee/charge. 'Contact hotel for additional details and availability' is NOT a reservation_requirement. Service-animal statement ('ADA-defined service animals welcome') preserved separately; charge state recorded as not_addressed (the page does not say 'free of charge' the way Monroe's page does, so no-charge is not asserted)."
+  },
+  {
+   "decision_id": "cincinnati-pass1-022-baymont-by-wyndham-monroe",
+   "identity_key": "baymont by wyndham monroe",
+   "canonical_name": "Baymont by Wyndham Monroe Ohio",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "approved_facts": {
+    "pets_allowed": false
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "Service-animal statement preserved separately: 'ADA defined service animals are welcome free of charge' -- charge state recorded as no_charge (explicitly stated). Not treated as ordinary pet permission."
+  },
+  {
+   "decision_id": "cincinnati-pass1-023-days-inn-and-suites-by-wyndham-cincinnati-north",
+   "identity_key": "days inn and suites by wyndham cincinnati north",
+   "canonical_name": "Days Inn & Suites by Wyndham Cincinnati North",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION",
+   "approved_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15,
+    "fee_basis": "per_night"
+   },
+   "changes_from_proposed": [],
+   "withheld_fields_reason_codes": {
+    "fee_scope": "SOURCE_SILENT",
+    "species_allowed": "SOURCE_SILENT",
+    "pet_count_limit": "SOURCE_SILENT",
+    "weight_limit": "SOURCE_SILENT",
+    "deposit": "SOURCE_SILENT",
+    "refundability": "SOURCE_SILENT",
+    "reservation_requirement": "SOURCE_SILENT"
+   },
+   "restriction_notes": "fee_scope kept absent -- the page states neither per-pet nor per-room. 'All pets must be registered at the time of check in' is a check-in/declaration note, not a reservation_requirement; general_restrictions is the real field that exists for this class of note, but its exact fit should be confirmed at application time rather than decided here. The $50 incidental deposit is not pet-related. Service-animal statement preserved separately, charge state not_addressed."
+  },
+  {
+   "decision_id": "cincinnati-pass1-024-days-inn-batavia",
+   "identity_key": "days inn batavia",
+   "canonical_name": "Days Inn by Wyndham Batavia Ohio",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "approved_facts": {
+    "pets_allowed": false
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "Service-animal statement preserved separately ('ADA defined service animals are welcome at this hotel'), charge state not_addressed (no 'free of charge' language here). No other pet facts."
+  },
+  {
+   "decision_id": "cincinnati-pass1-025-days-inn-cincinnati-east",
+   "identity_key": "days inn cincinnati east",
+   "canonical_name": "Days Inn by Wyndham Cincinnati East",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "approved_facts": {
+    "pets_allowed": false
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "Service-animal statement preserved separately ('ADA-defined service animals welcome'), charge state not_addressed. 'No other animals allowed' is NOT reinterpreted into species-specific commercial pet facts."
+  },
+  {
+   "decision_id": "cincinnati-pass1-026-21c-museum-hotel-cincinnati",
+   "identity_key": "21c museum hotel cincinnati",
+   "canonical_name": "21c Museum Hotel Cincinnati",
+   "founder_decision": "HOLD_FOR_RECAPTURE",
+   "approved_facts": {},
+   "changes_from_proposed": [
+    "Not published this round -- no artifact SHA256 was captured, which fails this pass's own evidence contract (source_grade requires an artifact)."
+   ],
+   "withheld_fields_reason_codes": {
+    "all_fields": "ARTIFACT_INSUFFICIENT"
+   },
+   "restriction_notes": "pets_allowed=true is supported by the quote ('Pet-Friendly Rooms') but is not written pending recapture.",
+   "next_action": "RECAPTURE_ARTIFACT_HASH -- re-render https://21cmuseumhotels.com/cincinnati/experience/ and capture its SHA256. No broader research needed; if the recapture exposes no new terms, this becomes a simple APPROVE_PARTIAL_PUBLICATION (pets_allowed only)."
+  },
+  {
+   "decision_id": "cincinnati-pass1-028-butler-inn",
+   "identity_key": "butler inn",
+   "canonical_name": "Butler Inn",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION",
+   "approved_facts": {
+    "pets_allowed": true
+   },
+   "changes_from_proposed": [],
+   "withheld_fields_reason_codes": {
+    "pet_fee": "SOURCE_AMBIGUOUS (closest existing valid reason code -- 'UNQUANTIFIED_SOURCE_TERM' does not exist in contracts/enums.py's WITHHOLDING_REASONS)",
+    "species_allowed": "SOURCE_SILENT",
+    "pet_count_limit": "SOURCE_SILENT",
+    "weight_limit": "SOURCE_SILENT"
+   },
+   "restriction_notes": "The source acknowledges a fee exists ('Charges may apply') without quantifying it. No other_charges entry is created merely to store an unknown amount -- the withholding on pet_fee itself is sufficient."
+  }
+ ]
+}
