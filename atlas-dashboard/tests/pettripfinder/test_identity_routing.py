@@ -218,7 +218,11 @@ def test_committed_authority_validates(routes):
     # 87 after Pass 3; 90 after PTF-CLEVELAND-ROUTING-REPAIR-001 created routes for
     # the three official URLs it found (Magnuson Canton, Quality Inn
     # Akron South, the American Croatian Lodge).
-    assert len(routes) == 90
+    # 90 -> 300: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened Cincinnati
+    # routing for the first time, all 210 CONFIRMED (223 targets adjudicated,
+    # 12 ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
+    # excluded). Columbus, Cleveland and Dayton are unchanged.
+    assert len(routes) == 300
 
 
 def test_committed_authority_split(routes):
@@ -248,7 +252,11 @@ def test_committed_authority_split(routes):
     # North Canton moved CONFIRMED -> HELD because bestwestern.com
     # refuses to serve its property page (closure NOT inferred; the
     # Canton CVB lists it operating).
-    assert len(confirmed) == 78
+    # 78 -> 288: all 210 new Cincinnati routes are ROUTING_CONFIRMED (every
+    # target that reached routing authority carried a verified URL with
+    # street/ZIP/phone-where-available binding; nothing was written HELD).
+    # held and retired are untouched by Cincinnati.
+    assert len(confirmed) == 288
     assert len(held) == 10
     assert len(retired) == 2
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
@@ -306,7 +314,12 @@ def test_every_committed_record_preserves_index_binding(routes):
     # created routes whose non-bot-walled pages rendered for this session
     # with the census identity on them (wyndhamhotels.com, sonesta.com,
     # magnusonhotels.com and nine first-party independents).
-    assert len(rendered) == 18
+    # 18 -> 36: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C adds 18 more --
+    # independent first-party sites whose own page content bound the
+    # identity (21c Museum, Golden Lamb, Great Wolf Lodge, Motel Beechmont,
+    # REST, Symphony Hotel & Restaurant, The Elms, The Summit Hotel,
+    # Wildwood Inn and others), none on a bot-walled brand domain.
+    assert len(rendered) == 36
     # A brand that bot-walls us can never be the source of a rendered-page
     # binding. This is the assertion that would have caught the original batch.
     walled = {"hilton.com", "marriott.com", "ihg.com", "choicehotels.com",
@@ -328,7 +341,7 @@ def test_every_committed_route_is_in_a_known_market(routes):
     What must never appear is a route with no market or a market the config does
     not define."""
     assert {r["market_id"] for r in routes} == {
-        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh"}
+        "columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh"}
 
 
 def test_columbus_routing_is_unchanged_by_the_cleveland_market(routes):
@@ -453,7 +466,16 @@ def test_routing_adds_capture_ready_hotels(queues):
     # contribution is unchanged.
     # 86 -> 84: two routed hotels became inventory and no longer need a
     # route to reach the capture queue.
-    assert len(routed.selected) - len(base.selected) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    # 26 -> 168: PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C opened Cincinnati
+    # routing (210 new routes). 142 of them are capture-shaped -- a
+    # registered brand adapter plus an https official URL -- broken down by
+    # brand: hilton 49, marriott 27, choice 21, ihg 15, wyndham 13,
+    # redroof 6, bestwestern 5, extendedstay 4, drury 2 (=142, isolated by
+    # re-running the queue with Cincinnati's routes filtered out and
+    # diffing). The other 68 (the 40 independents plus lanes this registry
+    # does not adapt) are retained in identity_routing.json as real routing
+    # but are not yet capture-eligible.
+    assert len(routed.selected) - len(base.selected) == 168
 
 
 def test_routing_carries_more_than_one_market(queues):
@@ -471,6 +493,11 @@ def test_routing_carries_more_than_one_market(queues):
     # for 87 of the 102 hotels classified NO_OFFICIAL_URL.
     # 147 -> 145, the same two retirements.
     assert len(by_market["cleveland-akron-canton-oh"]) == 61  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    assert len(by_market["dayton-oh"]) == 9
+    # First-time Cincinnati routing: 223 targets adjudicated, 210 routed (12
+    # ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
+    # excluded -- see PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C).
+    assert len(by_market["cincinnati-oh"]) == 210
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
@@ -487,7 +514,10 @@ def test_routing_carries_more_than_one_market(queues):
     # 86 -> 84: PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 answered two of
     # those 74 (the Drury pair), so their routes retired and they reach the
     # queue as inventory rather than as routing.
-    assert len(added) == 26  # after PTF-CLEVELAND-ROUTING-REPAIR-001
+    # 26 -> 168: Cincinnati's first routing pass contributes 142 capture-shaped
+    # rows (see test_routing_adds_capture_ready_hotels for the per-brand
+    # split); Cleveland and Columbus are unchanged.
+    assert len(added) == 168
     # Every added row is capture-shaped: a brand with a registered adapter and
     # an official URL. A row that cannot be captured is not a contribution.
     for h in added:
