@@ -148,11 +148,13 @@ def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
         ("identity_key", h["identity_key"]),
         ("corridor", h["corridor"]),
         ("brand", h.get("brand") or ""),
+        ("official_url", h.get("official_url") or ""),
         ("requested_url", h.get("official_url") or ""),
         ("final_url", final_url or (art or {}).get("url") or h.get("official_url") or ""),
         ("runner_reason", runner),
         ("outcome", outcome),
         ("identity_binding", binding or {"bound": False, "clean_bind": False, "gate": GATE}),
+        ("identity_signals", None),
         ("policy_source", policy_source),
         ("artifact_file", (art or {}).get("file")),
         ("artifact_sha256", (art or {}).get("html")),
@@ -169,6 +171,23 @@ def _base(h, n, outcome, runner, rec, note, quotes=None, facts=None,
         ("service_animal_statements", service_animal_statements or []),
         ("contradiction_notes", contradictions or []),
         ("recommended_founder_decision", rec),
+    ))
+    bind = row["identity_binding"] if isinstance(row["identity_binding"], dict) else {}
+    intended = bind.get("intended") or {}
+    rendered = bind.get("rendered") or {}
+    row["identity_signals"] = OrderedDict((
+        ("bound", bool(bind.get("bound"))),
+        ("clean_bind", bool(bind.get("clean_bind"))),
+        ("intended_street", intended.get("street") or ""),
+        ("rendered_street", rendered.get("street") or ""),
+        ("intended_city_zip", ("%s %s" % (
+            intended.get("city") or "", intended.get("postal_code") or "")).strip()),
+        ("rendered_city_zip", ("%s %s" % (
+            rendered.get("city") or "", rendered.get("postal_code") or "")).strip()),
+        ("intended_phone", intended.get("phone") or ""),
+        ("rendered_phone", rendered.get("phone") or ""),
+        ("property_code", rendered.get("property_code") or intended.get("property_code") or ""),
+        ("independent_non_url_keys", list(bind.get("independent_non_url_keys") or [])),
     ))
     return row
 
@@ -642,14 +661,67 @@ def main() -> int:
             ("rule",
              "A no-pets candidate requires explicit first-party refusal wording."),
             ("accepted_examples", [
-                "Pets Not Allowed",
-                "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn.",
+                "Pets not allowed",
+                "No pets permitted",
+                "Pets are not allowed",
             ]),
             ("not_sufficient", [
                 "service animals only",
                 "silence",
                 "sibling-property refusal",
             ]),
+            ("service_animals",
+             "Service animals do not convert a no-pets property into pet-friendly."),
+            ("silence", "Silence is not negative."),
+        ))),
+        ("brand_care", OrderedDict((
+            ("marriott", OrderedDict((
+                ("hotels", [
+                    "Courtyard Airport",
+                    "Courtyard Castleton",
+                    "Delta Airport",
+                    "Fairfield Airport",
+                    "JW Marriott",
+                    "Le Meridien",
+                ]),
+                ("rule",
+                 "Allow hydration. Use property-specific policy/amenity/FAQ "
+                 "panels. Do not trust a successful navigation until the page "
+                 "identity is visible."),
+            ))),
+            ("ihg", OrderedDict((
+                ("hotels", [
+                    "Crowne Plaza Downtown",
+                    "Holiday Inn Express Plainfield",
+                    "Holiday Inn Indianapolis Airport",
+                ]),
+                ("rule",
+                 "Policy wording may live in accordion/FAQ/hidden rendered HTML. "
+                 "Capture exact property-level wording."),
+            ))),
+            ("choice", OrderedDict((
+                ("hotels", ["Comfort Inn Airport Plainfield"]),
+                ("rule",
+                 "Wait for full property-page hydration and confirm the "
+                 "property identity before binding policy."),
+            ))),
+        ))),
+        ("crowne_downtown_warning", OrderedDict((
+            ("rule",
+             "Do NOT inherit the previously verified no-pets policy from "
+             "Crowne Plaza Indianapolis Airport. Crowne Plaza Indianapolis "
+             "Downtown Union Station is a separate property and requires its "
+             "own policy evidence. No brand-level inheritance."),
+            ("airport_identity_key", "crowne plaza indianapolis airport"),
+            ("downtown_identity_key", "crowne plaza indianapolis downtown union station"),
+        ))),
+        ("authority_freeze", OrderedDict((
+            ("capture_only", True),
+            ("published_pet_friendly", 0),
+            ("verified_no_pets", 1),
+            ("verified_no_pets_identity_key", "crowne plaza indianapolis airport"),
+            ("indianapolis_policy_facts_written", False),
+            ("exclusion_authority_altered", False),
         ))),
         ("outcome_counts", counts),
         ("rule",
@@ -659,6 +731,12 @@ def main() -> int:
          "No sibling Marriott policy was inherited. No OTA or brand-generic "
          "policy was used. No founder decision was applied. No authority was written."),
         ("speed_benchmark", OrderedDict((
+            ("total_elapsed_seconds", 1179.09),
+            ("rows_attempted", 10),
+            ("usable_artifacts", 5),
+            ("positive_candidates", 2),
+            ("negative_candidates", 3),
+            ("identity_failures", 5),
             ("batch_total", 10),
             ("started_at", "2026-08-16T23:31:29.696Z"),
             ("finished_at", "2026-08-16T23:50:53.080Z"),
@@ -688,6 +766,10 @@ def main() -> int:
         ("artifact_standard", results["artifact_standard"]),
         ("extraction_doctrine", results["extraction_doctrine"]),
         ("negative_standard", results["negative_standard"]),
+        ("brand_care", results["brand_care"]),
+        ("crowne_downtown_warning", results["crowne_downtown_warning"]),
+        ("authority_freeze", results["authority_freeze"]),
+        ("speed_benchmark", results["speed_benchmark"]),
         ("rule",
          "Nothing here is published. Founder decisions are not applied in this "
          "packet. Approving a negative would write an exclusion later. Approving "

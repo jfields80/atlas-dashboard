@@ -81,14 +81,57 @@
   "negative_standard": {
     "rule": "A no-pets candidate requires explicit first-party refusal wording.",
     "accepted_examples": [
-      "Pets Not Allowed",
-      "No, pets are not allowed at Crowne Plaza Indianapolis-Dwtn-Union Stn."
+      "Pets not allowed",
+      "No pets permitted",
+      "Pets are not allowed"
     ],
     "not_sufficient": [
       "service animals only",
       "silence",
       "sibling-property refusal"
-    ]
+    ],
+    "service_animals": "Service animals do not convert a no-pets property into pet-friendly.",
+    "silence": "Silence is not negative."
+  },
+  "brand_care": {
+    "marriott": {
+      "hotels": [
+        "Courtyard Airport",
+        "Courtyard Castleton",
+        "Delta Airport",
+        "Fairfield Airport",
+        "JW Marriott",
+        "Le Meridien"
+      ],
+      "rule": "Allow hydration. Use property-specific policy/amenity/FAQ panels. Do not trust a successful navigation until the page identity is visible."
+    },
+    "ihg": {
+      "hotels": [
+        "Crowne Plaza Downtown",
+        "Holiday Inn Express Plainfield",
+        "Holiday Inn Indianapolis Airport"
+      ],
+      "rule": "Policy wording may live in accordion/FAQ/hidden rendered HTML. Capture exact property-level wording."
+    },
+    "choice": {
+      "hotels": [
+        "Comfort Inn Airport Plainfield"
+      ],
+      "rule": "Wait for full property-page hydration and confirm the property identity before binding policy."
+    }
+  },
+  "crowne_downtown_warning": {
+    "rule": "Do NOT inherit the previously verified no-pets policy from Crowne Plaza Indianapolis Airport. Crowne Plaza Indianapolis Downtown Union Station is a separate property and requires its own policy evidence. No brand-level inheritance.",
+    "airport_identity_key": "crowne plaza indianapolis airport",
+    "downtown_identity_key": "crowne plaza indianapolis downtown union station"
+  },
+  "authority_freeze": {
+    "capture_only": true,
+    "published_pet_friendly": 0,
+    "verified_no_pets": 1,
+    "verified_no_pets_identity_key": "crowne plaza indianapolis airport",
+    "indianapolis_policy_facts_written": false,
+    "exclusion_authority_altered": false
   },
   "outcome_counts": {
     "AFFIRMATIVE_STRUCTURED": 2,
@@ -102,6 +145,12 @@
   },
   "rule": "Only the recommended 10 non-Hilton ready-queue rows were driven. An unclean identity bind withholds policy and continues. Crowne Downtown refusal is independent of Crowne Airport. No sibling Marriott policy was inherited. No OTA or brand-generic policy was used. No founder decision was applied. No authority was written.",
   "speed_benchmark": {
+    "total_elapsed_seconds": 1179.09,
+    "rows_attempted": 10,
+    "usable_artifacts": 5,
+    "positive_candidates": 2,
+    "negative_candidates": 3,
+    "identity_failures": 5,
     "batch_total": 10,
     "started_at": "2026-08-16T23:31:29.696Z",
     "finished_at": "2026-08-16T23:50:53.080Z",
@@ -123,6 +172,7 @@
       "identity_key": "comfort inn indianapolis airport plainfield",
       "corridor": "indianapolis-in__plainfield",
       "brand": "choice",
+      "official_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
       "requested_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
       "final_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
       "runner_reason": "IDENTITY_UNVERIFIABLE",
@@ -157,6 +207,18 @@
         "conflicts": [],
         "notes": "No JSON-LD street, city/ZIP, or phone was captured. Property URL alone is not identity binding."
       },
+      "identity_signals": {
+        "bound": false,
+        "clean_bind": false,
+        "intended_street": "6110 Cambridge Way",
+        "rendered_street": "",
+        "intended_city_zip": "Plainfield 46168",
+        "rendered_city_zip": "",
+        "intended_phone": "317-204-3768",
+        "rendered_phone": "",
+        "property_code": "in082",
+        "independent_non_url_keys": []
+      },
       "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
@@ -183,6 +245,7 @@
       "identity_key": "courtyard by marriott indianapolis airport",
       "corridor": "indianapolis-in__airport",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/hotels/travel/indca-courtyard-indianapolis-airport/",
       "requested_url": "https://www.marriott.com/hotels/travel/indca-courtyard-indianapolis-airport/",
       "final_url": "https://www.marriott.com/en-us/hotels/indca-courtyard-indianapolis-airport/overview/",
       "runner_reason": "IDENTITY_FAILED",
@@ -219,6 +282,20 @@
         "conflicts": [],
         "notes": "One independent non-URL key (phone). Canonical-URL code indca was discarded. A URL-plus-phone page whose street did not agree cannot support a policy observation."
       },
+      "identity_signals": {
+        "bound": false,
+        "clean_bind": false,
+        "intended_street": "5525 Fortune Circle East",
+        "rendered_street": "",
+        "intended_city_zip": "Indianapolis 46241",
+        "rendered_city_zip": "",
+        "intended_phone": "317-248-0300",
+        "rendered_phone": "",
+        "property_code": "indca",
+        "independent_non_url_keys": [
+          "phone@structured_metadata"
+        ]
+      },
       "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
@@ -245,6 +322,7 @@
       "identity_key": "courtyard by marriott indianapolis castleton",
       "corridor": "indianapolis-in__keystone-castleton",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
       "requested_url": "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
       "final_url": "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
       "runner_reason": "CAPTURED",
@@ -281,6 +359,21 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Page phone +1 317-576-9559 has no census phone to conflict with. Runner second key was canonical-URL indcs and was discarded."
+      },
+      "identity_signals": {
+        "bound": true,
+        "clean_bind": true,
+        "intended_street": "8670 Allisonville Road",
+        "rendered_street": "8670 Allisonville Road",
+        "intended_city_zip": "Indianapolis 46250",
+        "rendered_city_zip": "Indianapolis 46250",
+        "intended_phone": "",
+        "rendered_phone": "+13175769559",
+        "property_code": "indcs",
+        "independent_non_url_keys": [
+          "address@structured_metadata",
+          "phone@structured_metadata"
+        ]
       },
       "policy_source": {
         "kind": "official_brand_property_page",
@@ -331,6 +424,7 @@
       "identity_key": "crowne plaza indianapolis downtown union station",
       "corridor": "indianapolis-in__downtown",
       "brand": "ihg",
+      "official_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
       "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
       "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
       "runner_reason": "POLICY_ABSENT_CONFIRMED",
@@ -367,6 +461,21 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "123 West Louisiana St. matches 123 West Louisiana Street. City/ZIP match. Page phone +1 317-631-2221 has no census phone to conflict with. Quote names Dwtn-Union Stn, not Airport. Runner second key was canonical-URL inddt and was discarded."
+      },
+      "identity_signals": {
+        "bound": true,
+        "clean_bind": true,
+        "intended_street": "123 West Louisiana Street",
+        "rendered_street": "123 West Louisiana St.",
+        "intended_city_zip": "Indianapolis 46225",
+        "rendered_city_zip": "Indianapolis 46225",
+        "intended_phone": "",
+        "rendered_phone": "1-317-6312221",
+        "property_code": "inddt",
+        "independent_non_url_keys": [
+          "address@structured_metadata",
+          "phone@structured_metadata"
+        ]
       },
       "policy_source": {
         "kind": "property_specific_first_party_faq",
@@ -408,6 +517,7 @@
       "identity_key": "delta hotels by marriott indianapolis airport",
       "corridor": "indianapolis-in__airport",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/en-us/hotels/indde-delta-hotels-indianapolis-airport/overview/",
       "requested_url": "https://www.marriott.com/en-us/hotels/indde-delta-hotels-indianapolis-airport/overview/",
       "final_url": "https://www.marriott.com/en-us/hotels/indde-delta-hotels-indianapolis-airport/overview/",
       "runner_reason": "IDENTITY_FAILED",
@@ -444,6 +554,20 @@
         "conflicts": [],
         "notes": "One independent non-URL key (phone). Canonical-URL code indde was discarded. Street never agreed, so policy is withheld."
       },
+      "identity_signals": {
+        "bound": false,
+        "clean_bind": false,
+        "intended_street": "2500 South High School Road",
+        "rendered_street": "",
+        "intended_city_zip": "Indianapolis 46241",
+        "rendered_city_zip": "",
+        "intended_phone": "317-247-9700",
+        "rendered_phone": "",
+        "property_code": "indde",
+        "independent_non_url_keys": [
+          "phone@structured_metadata"
+        ]
+      },
       "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
@@ -470,6 +594,7 @@
       "identity_key": "fairfield inn and suites indianapolis airport",
       "corridor": "indianapolis-in__airport",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/hotels/travel/indfa-fairfield-inn-and-suites-indianapolis-airport/",
       "requested_url": "https://www.marriott.com/hotels/travel/indfa-fairfield-inn-and-suites-indianapolis-airport/",
       "final_url": "https://www.marriott.com/en-us/hotels/indfa-fairfield-inn-and-suites-indianapolis-airport/overview/",
       "runner_reason": "CAPTURED",
@@ -506,6 +631,21 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Phone digits 3172441600 match census 317-244-1600. Brand-line insert in the page name is not a different hotel. URL code discarded as a bind."
+      },
+      "identity_signals": {
+        "bound": true,
+        "clean_bind": true,
+        "intended_street": "5220 West Southern Avenue",
+        "rendered_street": "5220 West Southern Avenue",
+        "intended_city_zip": "Indianapolis 46241",
+        "rendered_city_zip": "Indianapolis 46241",
+        "intended_phone": "317-244-1600",
+        "rendered_phone": "+13172441600",
+        "property_code": "indfa",
+        "independent_non_url_keys": [
+          "address@structured_metadata",
+          "phone@structured_metadata"
+        ]
       },
       "policy_source": {
         "kind": "official_brand_property_page",
@@ -555,6 +695,7 @@
       "identity_key": "holiday inn express plainfield",
       "corridor": "indianapolis-in__plainfield",
       "brand": "ihg",
+      "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
       "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
       "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
       "runner_reason": "CAPTURED",
@@ -591,6 +732,21 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Phone digits 3178399000 match census 317-839-9000. Page name differs (Indianapolis Airport vs Plainfield) but this is the same IHG property at 6296 Cambridge Way, not Holiday Inn Indianapolis Airport at 8555 Stansted Drive. Body-text code indsw is extra, not required."
+      },
+      "identity_signals": {
+        "bound": true,
+        "clean_bind": true,
+        "intended_street": "6296 Cambridge Way",
+        "rendered_street": "6296 Cambridge Way",
+        "intended_city_zip": "Plainfield 46168",
+        "rendered_city_zip": "Plainfield 46168",
+        "intended_phone": "317-839-9000",
+        "rendered_phone": "1-317-8399000",
+        "property_code": "indsw",
+        "independent_non_url_keys": [
+          "address@structured_metadata",
+          "phone@structured_metadata"
+        ]
       },
       "policy_source": {
         "kind": "property_specific_first_party_faq",
@@ -680,6 +836,7 @@
       "identity_key": "holiday inn indianapolis airport",
       "corridor": "indianapolis-in__airport",
       "brand": "ihg",
+      "official_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
       "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
       "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
       "runner_reason": "IDENTITY_UNVERIFIABLE",
@@ -714,6 +871,18 @@
         "conflicts": [],
         "notes": "404/empty page cannot bind 8555 Stansted Drive. Property URL alone is not identity binding."
       },
+      "identity_signals": {
+        "bound": false,
+        "clean_bind": false,
+        "intended_street": "8555 Stansted Drive",
+        "rendered_street": "",
+        "intended_city_zip": "Indianapolis 46241",
+        "rendered_city_zip": "",
+        "intended_phone": "317-856-6200",
+        "rendered_phone": "",
+        "property_code": "indap",
+        "independent_non_url_keys": []
+      },
       "policy_source": null,
       "artifact_file": null,
       "artifact_sha256": null,
@@ -740,6 +909,7 @@
       "identity_key": "jw marriott indianapolis",
       "corridor": "indianapolis-in__downtown",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
       "requested_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
       "final_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
       "runner_reason": "CAPTURED",
@@ -776,6 +946,20 @@
         "conflicts": [],
         "notes": "Unclean bind: official street key was postal-only (46204), second key was the URL, verdict had no address_matched. JSON-LD street 10 S West Street was not an official street agreement. Policy is withheld. Artifact retained for audit only."
       },
+      "identity_signals": {
+        "bound": false,
+        "clean_bind": false,
+        "intended_street": "10 South West Street",
+        "rendered_street": "10 S West Street",
+        "intended_city_zip": "Indianapolis 46204",
+        "rendered_city_zip": "Indianapolis 46204",
+        "intended_phone": "",
+        "rendered_phone": "+13178605800",
+        "property_code": "indjw",
+        "independent_non_url_keys": [
+          "phone@structured_metadata"
+        ]
+      },
       "policy_source": null,
       "artifact_file": "www-marriott-com-en-us-hotels-indjw-jw-marriott-indianapolis-overview-2026-08-16T23-48-15-887Z.json",
       "artifact_sha256": "sha256:2eabcbe4f504d9ad50167262366df63e3198f76a41aa12f727b446ecc3272ba9",
@@ -802,6 +986,7 @@
       "identity_key": "le meridien indianapolis",
       "corridor": "indianapolis-in__downtown",
       "brand": "marriott",
+      "official_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
       "requested_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
       "final_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
       "runner_reason": "CAPTURED",
@@ -838,6 +1023,21 @@
         "url_identifier_used_as_bind": false,
         "conflicts": [],
         "notes": "Street matches exactly. City/ZIP match. Page phone +1 317-737-1600 has no census phone to conflict with. Runner second key was canonical-URL indmd and was discarded."
+      },
+      "identity_signals": {
+        "bound": true,
+        "clean_bind": true,
+        "intended_street": "123 South Illinois Street",
+        "rendered_street": "123 South Illinois Street",
+        "intended_city_zip": "Indianapolis 46225",
+        "rendered_city_zip": "Indianapolis 46225",
+        "intended_phone": "",
+        "rendered_phone": "+13177371600",
+        "property_code": "indmd",
+        "independent_non_url_keys": [
+          "address@structured_metadata",
+          "phone@structured_metadata"
+        ]
       },
       "policy_source": {
         "kind": "official_brand_property_page",

@@ -27,9 +27,19 @@ def test_pass2_covers_exactly_the_ten_non_hilton_ready_rows():
     assert "embassy suites by hilton indianapolis downtown" not in hotels
     ready = {h["hotel_id"] for h in _json(QUEUE)["hotels"]}
     assert set(hotels) <= ready
+    OUTCOMES = {
+        "AFFIRMATIVE_STRUCTURED", "AFFIRMATIVE_PARTIAL", "NEGATIVE",
+        "POLICY_NOT_FOUND", "IDENTITY_UNCERTAIN", "ROUTING_PROBLEM",
+        "ACCESS_BLOCKED", "CAPTURE_FAILED",
+    }
     for row in results["results"]:
         assert row["identity_key"] == ptf_identity_key(row["hotel"])
         assert row["brand"] != "hilton"
+        assert row["outcome"] in OUTCOMES
+        assert row["official_url"]
+        assert row["final_url"]
+        assert "identity_signals" in row
+        assert "recommended_founder_decision" in row
 
 
 def test_outcome_counts_sum_to_ten_and_authority_untouched():
@@ -266,3 +276,49 @@ def test_negatives_require_explicit_first_party_refusal():
     assert castleton["proposed_schema_1_2_facts"][0]["quote"] == "Pets Not Allowed"
     assert "Service animals only" not in {
         f["quote"] for f in castleton["proposed_schema_1_2_facts"]}
+    assert "Silence is not negative" in results["negative_standard"]["silence"]
+    assert "do not convert" in results["negative_standard"]["service_animals"]
+
+
+def test_crowne_downtown_is_not_airport_inheritance():
+    results = _json(RESULTS)
+    warn = results["crowne_downtown_warning"]
+    assert "Crowne Plaza Indianapolis Airport" in warn["rule"]
+    assert warn["downtown_identity_key"] == "crowne plaza indianapolis downtown union station"
+    downtown = next(r for r in results["results"]
+                    if r["identity_key"] == warn["downtown_identity_key"])
+    assert downtown["outcome"] == "NEGATIVE"
+    assert "Airport" not in downtown["exact_quotes"][0]
+    assert "Dwtn-Union Stn" in downtown["exact_quotes"][0]
+
+
+def test_authority_freeze_and_benchmark():
+    results = _json(RESULTS)
+    packet = _json(PACKET)
+    freeze = results["authority_freeze"]
+    assert freeze["capture_only"] is True
+    assert freeze["published_pet_friendly"] == 0
+    assert freeze["verified_no_pets"] == 1
+    assert freeze["verified_no_pets_identity_key"] == "crowne plaza indianapolis airport"
+    assert freeze["indianapolis_policy_facts_written"] is False
+    assert freeze["exclusion_authority_altered"] is False
+    assert packet["founder_decisions_applied"] is False
+    assert packet["authority_changed"] is False
+    assert packet["status"] == "FOUNDER_REVIEW_REQUIRED"
+    assert not (PACKAGE / "hotel_policy_facts_indianapolis-in.json").exists()
+    exclusions = _json(PACKAGE / "hotel_exclusions.json")
+    indy = [e for e in exclusions["exclusions"]
+            if e.get("market_id") == "indianapolis-in"]
+    assert [e["normalized_name"] for e in indy] == [
+        "crowne plaza indianapolis airport"]
+    bench = results["speed_benchmark"]
+    assert bench["total_elapsed_seconds"] == 1179.09
+    assert bench["rows_attempted"] == 10
+    assert bench["usable_artifacts"] == 5
+    assert bench["positive_candidates"] == 2
+    assert bench["negative_candidates"] == 3
+    assert bench["identity_failures"] == 5
+    assert results["brand_care"]["marriott"]["hotels"]
+    assert results["brand_care"]["ihg"]["hotels"]
+    assert results["brand_care"]["choice"]["hotels"] == [
+        "Comfort Inn Airport Plainfield"]
