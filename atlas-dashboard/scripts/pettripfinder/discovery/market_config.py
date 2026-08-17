@@ -96,6 +96,8 @@ _MARKET_FILENAMES = {
     # market ends up with a census built from its own corridor registry instead
     # of from discovery.
     "cincinnati-oh": "cincinnati_oh.json",
+    # PTF-PITTSBURGH-MARKET-REVALIDATION-001.
+    "pittsburgh-pa": "pittsburgh_pa.json",
 }
 
 
