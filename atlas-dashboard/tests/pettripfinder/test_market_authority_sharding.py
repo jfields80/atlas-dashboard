@@ -162,20 +162,56 @@ class TestNothingMovedBetweenMarkets:
     authority movement" a checked fact rather than a claim."""
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
-        for market_id in market_ids:
+        # Iterate the BASELINE's markets, not today's. The baseline is a
+        # historical snapshot of what the seven pre-split markets held; a market
+        # registered after it (PTF-MILWAUKEE-MARKET-FACTORY-001 registered
+        # milwaukee-wi) is simply not something the snapshot can speak about,
+        # and back-filling it into the snapshot would be inventing a fact.
+        # The claim this test makes about the pre-split markets is unchanged.
+        for market_id in baseline["per_market_totals"]:
+            assert market_id in market_ids, market_id
             expected = baseline["per_market_totals"][market_id]
             assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
 
-    def test_global_totals_match_the_pre_split_baseline(self, baseline):
+    def test_markets_registered_after_the_baseline_moved_nothing(self, baseline, market_ids):
+        """Post-baseline growth is allowed; silent movement is not.
+
+        A market registered after the split may only ADD to the global
+        authority. If a newly registered market's shards are empty, the three
+        global totals must still be exactly what the pre-split baseline
+        recorded -- which is the strongest available statement that registering
+        it took nothing away from anyone."""
+        added = [m for m in market_ids if m not in baseline["per_market_totals"]]
+        contributed = sum(
+            len(MA.load_market_routes(m)) + len(MA.load_market_exclusions(m))
+            + len(MA.load_market_seed_rows(m)) for m in added)
+        totals = baseline["global_totals"]
+        if contributed == 0:
+            assert len(IR.load_routes()) == totals["routing"]
+            assert len(HE.load_exclusions()) == totals["exclusions"]
+            assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
+
+    def test_global_totals_match_the_pre_split_baseline(self, baseline, market_ids):
+        # Only meaningful while every post-baseline market's shards are empty;
+        # once one contributes records the sum legitimately grows, and
+        # test_markets_registered_after_the_baseline_moved_nothing carries the
+        # claim instead.
+        added = [m for m in market_ids if m not in baseline["per_market_totals"]]
+        if any(MA.load_market_routes(m) or MA.load_market_exclusions(m)
+               or MA.load_market_seed_rows(m) for m in added):
+            pytest.skip("a market registered after the baseline now carries records")
         totals = baseline["global_totals"]
         assert len(IR.load_routes()) == totals["routing"]
         assert len(HE.load_exclusions()) == totals["exclusions"]
         assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
 
-    def test_the_registered_market_set_is_unchanged(self, baseline):
-        assert list(MA.registered_market_ids()) == baseline["registered_market_ids"]
+    def test_no_baseline_market_was_dropped_or_renamed(self, baseline):
+        """Sharding must never lose a market. Registering a NEW one afterwards
+        is ordinary growth and is recorded here rather than forbidden."""
+        registered = set(MA.registered_market_ids())
+        assert set(baseline["registered_market_ids"]) <= registered
 
 
 # --------------------------------------------------------------------------- #

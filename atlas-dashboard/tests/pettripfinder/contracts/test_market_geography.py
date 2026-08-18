@@ -39,18 +39,20 @@ CINCINNATI = "cincinnati-oh"
 PITTSBURGH = "pittsburgh-pa"
 DETROIT = "detroit-ann-arbor-mi"
 INDIANAPOLIS = "indianapolis-in"
+MILWAUKEE = "milwaukee-wi"
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
-           INDIANAPOLIS)
+           INDIANAPOLIS, MILWAUKEE)
 
 EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
                    CINCINNATI: ["OH", "KY", "IN"], PITTSBURGH: ["PA"],
-                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"]}
+                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"], MILWAUKEE: ["WI"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
     DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
-    INDIANAPOLIS: "market_prefixed"}
+    INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153}
+                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153,
+                 MILWAUKEE: 147}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.

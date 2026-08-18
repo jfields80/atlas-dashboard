@@ -518,10 +518,12 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: detroit-ann-arbor-mi
     # registered as a Phase 1 census-only market (no policy authority yet).
     # Columbus resolution by name is unchanged.
+    # PTF-MILWAUKEE-MARKET-FACTORY-001: milwaukee-wi registered the same way --
+    # census and corridors only, no policy authority, nothing published.
     assert sorted(m.market_id for m in markets) == \
         ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
          "dayton-oh", "detroit-ann-arbor-mi", "indianapolis-in",
-         "pittsburgh-pa"]
+         "milwaukee-wi", "pittsburgh-pa"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"
