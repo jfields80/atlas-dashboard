@@ -49,6 +49,26 @@ ZONE = "scraping_browser1"
 
 CLI_NAME = "brightdata"
 
+#: Exit geography every session in this repository must use.
+#:
+#: PTF-BRIGHTDATA-MARRIOTT-PILOT-001 lost a property to an unpinned exit: one
+#: session geolocated outside the United States and marriott.com answered with
+#: ``/es/default.mi``, its Spanish brand homepage. That was caught only because
+#: the identity gate requires the property code in the FINAL url -- a host check
+#: would have accepted a brand homepage as a property page.
+#:
+#: Bright Data selects exit geography with a ``-country-<cc>`` suffix on the
+#: Browser API USERNAME, which is why this is a credential-shaped concern and
+#: lives here rather than in the capture module.
+DEFAULT_COUNTRY = "us"
+
+#: Bright Data's own geolocation echo. Used to VERIFY the pin took effect
+#: rather than to assume it did; it is their endpoint, so probing it costs a
+#: few kilobytes rather than a page load.
+GEO_PROBE_URL = "https://geo.brdtest.com/mygeo.json"
+
+_COUNTRY_SUFFIX_RE = re.compile(r"-country-[a-z]{2}$", re.IGNORECASE)
+
 #: CLI invocations this module may make. ``zones info`` is deliberately absent:
 #: it returns the zone password. An allowlist rather than a denylist, because a
 #: future subcommand that leaks a secret should fail closed here rather than
@@ -144,11 +164,46 @@ def contains_credential(value) -> bool:
     return False
 
 
-def browser_endpoint() -> str:
-    """The ``wss://`` endpoint Playwright connects to.
+def pin_country(auth: str, country: str) -> str:
+    """Return ``auth`` with its username pinned to an exit country.
+
+    Pure string surgery on ``user:password@host:port``: the suffix goes on the
+    USERNAME only, an existing ``-country-xx`` is replaced rather than stacked,
+    and the password and host are untouched. Separated from
+    :func:`browser_endpoint` so the rewrite can be tested with a fake
+    credential and never needs the real one.
+
+        >>> pin_country("brd-customer-x-zone-z:pw@host:9222", "us")
+        'brd-customer-x-zone-z-country-us:pw@host:9222'
+        >>> pin_country("brd-customer-x-zone-z-country-de:pw@host:9222", "us")
+        'brd-customer-x-zone-z-country-us:pw@host:9222'
+    """
+    country = (country or "").strip().lower()
+    if not country:
+        return auth
+    if not re.fullmatch(r"[a-z]{2}", country):
+        raise BrightDataCredentialError(
+            "exit country must be a two-letter ISO code, got %r" % country)
+    if "@" not in auth:
+        raise BrightDataCredentialError(
+            "the Browser API credential is not in user:password@host:port form")
+    userinfo, host = auth.split("@", 1)
+    if ":" not in userinfo:
+        raise BrightDataCredentialError(
+            "the Browser API credential carries no password separator")
+    username, password = userinfo.rsplit(":", 1)
+    username = _COUNTRY_SUFFIX_RE.sub("", username)
+    return "%s-country-%s:%s@%s" % (username, country, password, host)
+
+
+def browser_endpoint(*, country: Optional[str] = DEFAULT_COUNTRY) -> str:
+    """The ``wss://`` endpoint Playwright connects to, pinned to a country.
 
     Returned as a value and never logged. Callers must not put it into an
     exception message, a manifest, or a print.
+
+    ``country=None`` yields the unpinned endpoint and exists only so a test can
+    show that the pin is what changes the string. No capture path uses it.
     """
     auth = (os.environ.get(AUTH_ENV) or "").strip()
     if not auth:
@@ -156,9 +211,14 @@ def browser_endpoint() -> str:
             "%s is not set; this pilot cannot reach the Browser API. The "
             "credential is read from the environment and is never written to "
             "a file in this repository." % AUTH_ENV)
-    if auth.startswith("wss://") or auth.startswith("ws://"):
-        return auth
-    return "wss://" + auth
+    scheme = ""
+    for candidate in ("wss://", "ws://"):
+        if auth.startswith(candidate):
+            scheme, auth = candidate, auth[len(candidate):]
+            break
+    if country:
+        auth = pin_country(auth, country)
+    return (scheme or "wss://") + auth
 
 
 # --------------------------------------------------------------------------- #
@@ -400,6 +460,7 @@ def delta(before: UsageSnapshot, after: UsageSnapshot) -> Dict:
 __all__ = [
     "AUTH_ENV", "ZONE", "CLI_NAME", "ALLOWED_CLI_ARGS", "REDACTED",
     "BrightDataCredentialError", "BrightDataUsageError",
+    "DEFAULT_COUNTRY", "GEO_PROBE_URL", "pin_country",
     "credential_present", "redact", "contains_credential", "browser_endpoint",
     "money_to_minor", "bandwidth_to_bytes", "parse_zone_budget",
     "parse_balance", "UsageSnapshot", "read_usage",

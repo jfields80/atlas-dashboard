@@ -97,6 +97,12 @@ HARNESS_NOTES: Tuple[str, ...] = (
     "blank crop as an artifact.",
     "Both defects were in this repository's code. Neither was a refusal, a "
     "challenge, or a block by Marriott or by Bright Data.",
+    "The metrics below were captured with an UNPINNED Bright Data exit. "
+    "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002 made US exit geography the default "
+    "for every session in this package, so re-running this pilot today will "
+    "not reproduce the one failure it recorded -- that failure was a non-US "
+    "exit serving marriott.com/es/default.mi, and it is the reason the pin "
+    "exists.",
 )
 
 CLAUDE_FALLBACK_REQUIRED = "CLAUDE_FALLBACK_REQUIRED"

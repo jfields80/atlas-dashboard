@@ -104,6 +104,7 @@ Defects found in this repository's own instrumentation, recorded so the acquisit
 - Run 1 (2026-08-18, 5/5 captured, 6 attempts) lost one Bright Data session to a HARNESS failure, not a Bright Data block: 'Page.screenshot: Timeout 30000ms exceeded ... waiting for fonts to load' on Courtyard Detroit Downtown. Playwright's 30 s default is not enough for a full-page capture of a Marriott overview page over a remote browser. Screenshots now carry their own 90000 ms budget.
 - Run 1 also recorded a policy-section screenshot for Courtyard Detroit Dearborn that was a uniform white rectangle: the page had not scrolled, the hotel-information section had mounted its DOM without painting, and the summary counted the FILE rather than the IMAGE. The capture now centres the block, waits for its bounding box to stop moving, checks the crop for a single flat colour, retakes once, and REFUSES to record a blank crop as an artifact.
 - Both defects were in this repository's code. Neither was a refusal, a challenge, or a block by Marriott or by Bright Data.
+- The metrics below were captured with an UNPINNED Bright Data exit. PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002 made US exit geography the default for every session in this package, so re-running this pilot today will not reproduce the one failure it recorded -- that failure was a non-US exit serving marriott.com/es/default.mi, and it is the reason the pin exists.
 
 ## Contract integration gaps
 

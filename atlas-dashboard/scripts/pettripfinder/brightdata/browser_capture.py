@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import json
 import sys
 import time
 from dataclasses import dataclass
@@ -240,6 +241,107 @@ class _Interactions:
 
     def snapshot(self) -> Tuple[str, ...]:
         return tuple(self._steps)
+
+
+# --------------------------------------------------------------------------- #
+# Exit geography.
+# --------------------------------------------------------------------------- #
+
+@dataclass(frozen=True)
+class GeoProbe:
+    """What country a Bright Data session actually exits from.
+
+    Asked rather than assumed. Setting ``-country-us`` on the username is a
+    REQUEST; this reads Bright Data's own geolocation echo and reports what was
+    granted, because an unpinned exit is what produced a Spanish brand
+    homepage in the previous pilot and a request nobody verified would have
+    left that failure mode in place while looking fixed.
+    """
+
+    ok: bool
+    country: str = ""
+    expected: str = ""
+    detail: str = ""
+    raw: Optional[Dict] = None
+
+    def to_dict(self) -> Dict:
+        return {"ok": self.ok, "country": self.country,
+                "expected": self.expected, "detail": self.detail,
+                "probe_url": client.GEO_PROBE_URL, "raw": self.raw}
+
+
+async def probe_exit_country(*, expected: str = client.DEFAULT_COUNTRY,
+                             reads: int = 3, max_sessions: int = 6) -> GeoProbe:
+    """Open sessions until ``reads`` of them report their exit country.
+
+    Two rules, and they pull in opposite directions on purpose:
+
+    * a session that never connected tells us nothing about geography, so a
+      transient ``ERR_TUNNEL_CONNECTION_FAILED`` is RETRIED rather than
+      counted as a foreign exit;
+    * every session that DOES report must agree. One US exit out of three
+      proves nothing about the fourth, and an intermittently foreign exit is
+      exactly the failure being guarded against.
+
+    Failing to obtain ``reads`` successful reads within ``max_sessions`` is
+    itself a FAIL: geography that cannot be established is not geography that
+    may be assumed.
+    """
+    from playwright.async_api import async_playwright
+
+    seen: List[str] = []
+    errors: List[str] = []
+    raw: Optional[Dict] = None
+    try:
+        endpoint = client.browser_endpoint(country=expected)
+    except client.BrightDataCredentialError as exc:
+        return GeoProbe(False, expected=expected, detail=str(exc))
+
+    sessions = 0
+    while len(seen) < reads and sessions < max_sessions:
+        sessions += 1
+        try:
+            async with async_playwright() as playwright:
+                browser = await playwright.chromium.connect_over_cdp(
+                    endpoint, timeout=CONNECT_TIMEOUT_MS)
+                try:
+                    context = (browser.contexts[0] if browser.contexts
+                               else await browser.new_context())
+                    page = await context.new_page()
+                    await page.goto(client.GEO_PROBE_URL,
+                                    wait_until="domcontentloaded",
+                                    timeout=NAVIGATION_TIMEOUT_MS)
+                    body = await page.locator("body").inner_text(timeout=30_000)
+                    payload = json.loads(body)
+                    raw = payload if isinstance(payload, dict) else {"body": body}
+                    country = str((raw.get("country")
+                                   or (raw.get("geo") or {}).get("country")
+                                   or "")).strip().lower()
+                    seen.append(country or "<absent>")
+                finally:
+                    await browser.close()
+        except Exception as exc:                                # noqa: BLE001
+            errors.append(client.redact("%s: %s"
+                                        % (type(exc).__name__, str(exc)[:120])))
+        if len(seen) < reads:
+            await asyncio.sleep(RETRY_PAUSE_SECONDS)
+
+    unique = sorted(set(seen))
+    enough = len(seen) >= reads
+    agreed = unique == [expected.lower()]
+    ok = enough and agreed
+    if ok:
+        detail = ("%d of %d sessions reported an exit country and all of them "
+                  "were %r" % (len(seen), sessions, expected))
+    elif not enough:
+        detail = ("only %d of %d sessions reported an exit country (%s); "
+                  "geography that cannot be established may not be assumed"
+                  % (len(seen), sessions, "; ".join(errors[:3]) or "no detail"))
+    else:
+        detail = ("sessions exited from %s; every session must exit from %r "
+                  "before a benchmark may run" % (unique, expected))
+    return GeoProbe(ok=ok, country=",".join(unique) or "<none>",
+                    expected=expected, raw=raw, detail=detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -703,5 +805,6 @@ __all__ = [
     "SCREENSHOT_TIMEOUT_MS", "SCROLL_SETTLE_MS",
     "AUTOMATION", "sha256_file", "utc_now_iso", "image_is_blank",
     "CaptureTarget",
-    "NetworkUsage", "AttemptRecord", "run_attempt", "capture_property",
+    "NetworkUsage", "AttemptRecord", "GeoProbe", "probe_exit_country",
+    "run_attempt", "capture_property",
 ]
