@@ -6,9 +6,17 @@ during the work order; this module only reshapes those observations into the
 committed contracts, so re-running it on any machine reproduces the committed
 files byte for byte.
 
+This is the FIRST stage of a two-stage pipeline. It writes the market as the
+factory measured it; ``milwaukee_router_integration_001`` then applies the
+sixteen official URLs recovered by PTF-MILWAUKEE-ACQUISITION-ROUTER-
+INTEGRATION-001. Running this module alone therefore reproduces the factory
+baseline, not the current committed census -- run both, in that order, to
+reproduce what is committed.
+
 Run from the repository root::
 
     python -m scripts.pettripfinder.build_milwaukee_market_001
+    python -m scripts.pettripfinder.milwaukee_router_integration_001
 
 It writes:
 

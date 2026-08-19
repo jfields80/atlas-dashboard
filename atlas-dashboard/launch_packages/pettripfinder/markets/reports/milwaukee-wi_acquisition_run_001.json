@@ -1,0 +1,74 @@
+{
+ "schema": "ptf-milwaukee-acquisition-run/1.0",
+ "work_order": "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001",
+ "market_id": "milwaukee-wi",
+ "run_id": "milwaukee-router-001",
+ "run_start": "2026-08-19T03:00:11.017890+00:00",
+ "dry_run": false,
+ "cost_policy": {
+  "soft_checkpoint_1_usd_minor": 500,
+  "soft_checkpoint_2_usd_minor": 1000,
+  "hard_cap_usd_minor": 1500,
+  "measured_from": "vendor account balance drawdown, read live"
+ },
+ "preflight": {
+  "ok": false,
+  "checks": [
+   {
+    "check": "cost_telemetry_live",
+    "ok": true,
+    "detail": "balance 1608 cents, zone month-to-date $25.76"
+   },
+   {
+    "check": "balance_covers_the_cap",
+    "ok": true,
+    "detail": "balance 1608 cents against a 1500 cent cap"
+   },
+   {
+    "check": "at_least_one_provider_available",
+    "ok": false,
+    "detail": "brightdata_browser: BRIGHTDATA_BROWSER_AUTH is not set; brightdata_web_unlocker: BRIGHTDATA_BROWSER_AUTH is not set; direct_http: reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   }
+  ],
+  "providers": {
+   "brightdata_browser": {
+    "available": false,
+    "detail": "BRIGHTDATA_BROWSER_AUTH is not set"
+   },
+   "brightdata_web_unlocker": {
+    "available": false,
+    "detail": "BRIGHTDATA_BROWSER_AUTH is not set"
+   },
+   "direct_http": {
+    "available": false,
+    "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   }
+  },
+  "healthy_providers": [],
+  "baseline": {
+   "label": "milwaukee-wi:baseline",
+   "captured_at": "2026-08-19T03:00:08.892646+00:00",
+   "zone": "scraping_browser1",
+   "available": true,
+   "cost_month_usd_minor": 2576,
+   "bandwidth_bytes": 2900000000,
+   "bandwidth_display": "2.9 GB",
+   "cost_display": "$25.76",
+   "balance_usd_minor": 1608,
+   "pending_charge_usd_minor": 0,
+   "notes": [],
+   "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents"
+  }
+ },
+ "queue_total": 127,
+ "already_completed": 0,
+ "planned_this_batch": 10,
+ "checkpoints": [],
+ "properties": [],
+ "outcome": "STOPPED_BEFORE_SPENDING",
+ "stop_reason": "at_least_one_provider_available: brightdata_browser: BRIGHTDATA_BROWSER_AUTH is not set; brightdata_web_unlocker: BRIGHTDATA_BROWSER_AUTH is not set; direct_http: reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident.",
+ "run_end": "2026-08-19T03:00:11.017916+00:00",
+ "total_elapsed_seconds": 2.128,
+ "total_cost_usd_minor": 0,
+ "attended_fallback_required": 10
+}

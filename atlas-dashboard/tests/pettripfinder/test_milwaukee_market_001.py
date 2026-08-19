@@ -203,7 +203,12 @@ class TestPartition:
             assert item["resolved"] is False
             assert item["next_action"].strip()
             assert item["next_action_source"].strip()
-            assert item["determined_by"] == "PTF-MILWAUKEE-MARKET-FACTORY-001"
+            # Two work orders have set states in this market: the factory that
+            # built it, and the router integration that recovered sixteen
+            # routes. A row must name whichever one actually decided it.
+            assert item["determined_by"] in (
+                "PTF-MILWAUKEE-MARKET-FACTORY-001",
+                "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001")
 
     def test_no_policy_terminal_state_was_fabricated(self):
         states = {i["final_state"] for i in partition_doc()["items"]}
@@ -514,3 +519,208 @@ class TestQueueAndCompleteness:
         for row in census_doc()["hotels"]:
             counts[row["corridor"]] = counts.get(row["corridor"], 0) + 1
         assert completeness_doc()["corridor_counts"] == counts
+
+
+# --------------------------------------------------------------------------- #
+# PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001
+#
+# The routing prerequisites the router pass depends on, and the freeze that
+# pass runs under. Pinned to the measured state after sixteen routes were
+# recovered: 133 routed, 8 still without a first-party URL, 6 held for
+# identity or category review.
+# --------------------------------------------------------------------------- #
+
+ROUTER = {
+    "recovered": 16,
+    "routed": 133,
+    "still_unrouted": 8,
+    "identity_held": 6,
+    "queue_total": 133,
+    "routable": 127,
+    "brand_excluded": 6,
+}
+
+
+def recovery_doc():
+    return _load(PACKAGE / "markets" / "reports" / ("%s_routing_recovery_001.json" % MARKET))
+
+
+def identity_review_doc():
+    return _load(PACKAGE / "markets" / "reports" / ("%s_identity_review_001.json" % MARKET))
+
+
+def acquisition_queue_doc():
+    return _load(PACKAGE / "markets" / "reports"
+                 / ("%s_policy_acquisition_queue_001.json" % MARKET))
+
+
+class TestRoutingRecovery:
+    def test_recovered_routes_are_applied_to_census_and_partition(self):
+        doc = recovery_doc()
+        assert doc["recovered_count"] == ROUTER["recovered"]
+        census_by_key = {r["identity_key"]: r for r in census_doc()["hotels"]}
+        partition_by_key = {i["identity_key"]: i for i in partition_doc()["items"]}
+        for row in doc["recovered"]:
+            key = row["identity_key"]
+            assert census_by_key[key]["official_url"] == row["official_url"]
+            assert census_by_key[key]["url_shape"] == "property"
+            # A recovered route moves the row off "we do not know where its
+            # page is" and onto "we have never read its policy" -- and onto
+            # nothing else.
+            assert partition_by_key[key]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+
+    def test_every_unrouted_identity_says_why(self):
+        """Fourteen identities still have no first-party URL, and the two
+        reports have to account for all fourteen between them: eight failed
+        routing recovery and are explained there, six are held for identity or
+        category review and are explained in that report instead. A row that
+        appeared in neither would be an unrouted hotel nobody had to justify."""
+        doc = recovery_doc()
+        assert doc["still_unrouted_count"] == ROUTER["still_unrouted"]
+        explained_by_routing = {r["identity_key"] for r in doc["still_unrouted"]}
+        explained_by_identity = {d["identity_key"] for d in identity_review_doc()["items"]}
+        actual = {r["identity_key"] for r in census_doc()["hotels"]
+                  if not r["official_url"]}
+        assert explained_by_routing.isdisjoint(explained_by_identity)
+        assert explained_by_routing | explained_by_identity == actual
+        for row in doc["still_unrouted"]:
+            assert row["reason"].strip()
+
+    def test_no_recovered_route_points_at_an_intermediary(self):
+        banned = {"booking.com", "expedia.com", "hotels.com", "tripadvisor.com",
+                  "yelp.com", "trip.com", "kayak.com", "google.com",
+                  "reservationdesk.com", "hotelplanner.com", "travelweekly.com"}
+        for row in recovery_doc()["recovered"]:
+            host = row["official_url"].split("//", 1)[-1].split("/", 1)[0]
+            host = host[4:] if host.startswith("www.") else host
+            assert host not in banned, row["identity_key"]
+
+    def test_routed_and_unrouted_partition_the_census(self):
+        rows = census_doc()["hotels"]
+        routed = [r for r in rows if r["official_url"]]
+        assert len(routed) == ROUTER["routed"]
+        assert (len(rows) - len(routed)
+                == ROUTER["still_unrouted"] + ROUTER["identity_held"])
+
+
+class TestIdentityReview:
+    def test_every_held_identity_has_a_determination_with_evidence(self):
+        doc = identity_review_doc()
+        assert doc["count"] == ROUTER["identity_held"]
+        held = {i["identity_key"] for i in partition_doc()["items"]
+                if i["final_state"] in (enums.AWAITING_CENSUS_REVIEW,
+                                        enums.AWAITING_IDENTITY_RESOLUTION)}
+        assert {d["identity_key"] for d in doc["items"]} == held
+        for d in doc["items"]:
+            assert d["determination"].strip()
+            assert d["evidence"].strip()
+            assert d["source"].strip()
+            assert d["recommended_change"].strip()
+
+    def test_the_determinations_are_recorded_and_not_applied(self):
+        """SS18 freezes the partition. A determination that would change an
+        identity, a name or a count is a decision packet, not a mutation --
+        and the artifact has to say so rather than leaving a reader to infer
+        it from the absence of a change."""
+        doc = identity_review_doc()
+        assert doc["applied"] is False
+        partition_by_key = {i["identity_key"]: i for i in partition_doc()["items"]}
+        for d in doc["items"]:
+            assert partition_by_key[d["identity_key"]]["final_state"] == d["held_as"]
+
+    def test_no_held_identity_reached_the_acquisition_queue(self):
+        held = {d["identity_key"] for d in identity_review_doc()["items"]}
+        queued = {r["identity_key"] for r in acquisition_queue_doc()["items"]}
+        assert held.isdisjoint(queued)
+
+
+class TestAcquisitionQueue:
+    def test_queue_is_derived_from_the_partition_not_curated(self):
+        doc = acquisition_queue_doc()
+        assert doc["queue_total"] == len(doc["items"]) == ROUTER["queue_total"]
+        partition_by_key = {i["identity_key"]: i for i in partition_doc()["items"]}
+        census_by_key = {r["identity_key"]: r for r in census_doc()["hotels"]}
+        for row in doc["items"]:
+            key = row["identity_key"]
+            assert partition_by_key[key]["final_state"] == enums.AWAITING_POLICY_OBSERVATION
+            assert census_by_key[key]["official_url"] == row["official_url"]
+            assert row["market_id"] == MARKET
+
+    def test_no_row_is_lost_between_the_census_and_the_queue(self):
+        doc = acquisition_queue_doc()
+        queued = {r["identity_key"] for r in doc["items"]}
+        excluded = set()
+        for keys in doc["excluded_identity_keys"].values():
+            excluded.update(keys)
+        assert queued.isdisjoint(excluded)
+        assert queued | excluded == census.identity_keys(census_doc())
+
+    def test_exclusions_are_counted_and_named(self):
+        doc = acquisition_queue_doc()
+        assert doc["excluded_counts"]["identity_hold"] == ROUTER["identity_held"]
+        assert doc["excluded_counts"]["no_route"] == ROUTER["still_unrouted"]
+        assert doc["excluded_counts"]["already_resolved"] == 0
+        for name, keys in doc["excluded_identity_keys"].items():
+            assert len(keys) == doc["excluded_counts"][name]
+
+    def test_every_row_carries_a_resolved_router_lane(self):
+        from scripts.pettripfinder.acquisition import providers as PROVIDERS
+        from scripts.pettripfinder.acquisition import readers as READERS
+        known_providers = set(PROVIDERS.all_ids())
+        known_readers = set(READERS.all_ids()) if hasattr(READERS, "all_ids") else None
+        for row in acquisition_queue_doc()["items"]:
+            assert row["route_provider"] in known_providers, row["identity_key"]
+            if known_readers is not None:
+                assert row["route_reader"] in known_readers, row["identity_key"]
+            assert row["route_resolved_by"].strip()
+            assert row["max_attempts_per_provider"] >= 1
+
+    def test_choice_never_routes_to_the_browser_api(self):
+        """The measured fact the route table exists to encode: the Browser API
+        was refused fourteen times in fifteen on Choice. Fifteen Milwaukee
+        properties are Choice, and none of them may be planned onto that lane."""
+        rows = [r for r in acquisition_queue_doc()["items"] if r["brand"] == "CHOICE"]
+        assert len(rows) == 15
+        for row in rows:
+            assert row["route_provider"] == "brightdata_web_unlocker"
+            assert row["route_reader"] == "choice_static"
+            assert "brightdata_browser" not in row["route_fallbacks"]
+
+    def test_excluded_brands_are_flagged_with_their_reason(self):
+        doc = acquisition_queue_doc()
+        flagged = [r for r in doc["items"] if r["brand_excluded"]]
+        assert len(flagged) == ROUTER["brand_excluded"]
+        assert {r["brand"] for r in flagged} == {"HYATT", "BEST_WESTERN"}
+        for row in flagged:
+            assert row["brand_exclusion_reason"].strip()
+        assert doc["routable_total"] == ROUTER["routable"]
+
+    def test_the_queue_carries_no_policy_fact_of_any_kind(self):
+        """This queue is built before acquisition and must not contain a
+        policy fact, a quote or a verdict -- nothing here has read a page."""
+        banned = ("pet_", "fee", "policy_text", "quote", "weight", "deposit",
+                  "species", "verdict")
+        for row in acquisition_queue_doc()["items"]:
+            for field in row:
+                assert not any(b in field.lower() for b in banned), (
+                    field, row["identity_key"])
+
+
+class TestAuthorityFreeze:
+    def test_policy_authority_is_still_absent(self):
+        assert not (PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)).is_file()
+        for row in census_doc()["hotels"]:
+            assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
+
+    def test_no_partition_row_became_terminal(self):
+        for item in partition_doc()["items"]:
+            assert item["final_state"] not in enums.TERMINAL_STATES
+            assert item["resolved"] is False
+
+    def test_the_market_authority_shards_are_still_empty(self):
+        assert len(MA.load_market_routes(MARKET)) == 0
+        assert len(MA.load_market_exclusions(MARKET)) == 0
+        assert len(MA.load_market_seed_rows(MARKET)) == 0
+
+    def test_the_generated_globals_still_match_the_shards(self):
+        assert MA.check_generated_artifacts() == []
