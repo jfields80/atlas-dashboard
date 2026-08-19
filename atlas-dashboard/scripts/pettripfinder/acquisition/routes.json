@@ -1,0 +1,106 @@
+{
+  "schema": "ptf-acquisition-routes/1.0",
+  "version": 1,
+  "note": "Brand and domain routes, each seeded from a measured run. A row is added by a benchmark, never by an opinion. Override order is property > domain > brand > default.",
+  "default": {
+    "provider": "brightdata_browser",
+    "fallback_providers": ["brightdata_web_unlocker"],
+    "reader": "generic",
+    "max_attempts_per_provider": 3,
+    "why": "the lane that reached 21 of 30 properties across six buckets in pilot-002",
+    "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+  },
+  "brands": {
+    "MARRIOTT": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "marriott",
+      "max_attempts_per_provider": 3,
+      "why": "5/5 fetched, 100% precision and 100% critical recall across three pilots",
+      "measured_by": "PTF-BRIGHTDATA-MARRIOTT-PILOT-001, 002, 003"
+    },
+    "HILTON": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "hilton_competing",
+      "max_attempts_per_provider": 3,
+      "why": "3/3 fetched at 100% recall once the brand container was made to COMPETE with the generic walk instead of pre-empting it",
+      "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+    },
+    "IHG": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "ihg",
+      "max_attempts_per_provider": 3,
+      "why": "4/5 fetched at 100% precision and 62% recall; the most expensive lane measured at $2.71 for five properties, so its telemetry is worth watching",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    },
+    "WYNDHAM": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "wyndham",
+      "max_attempts_per_provider": 3,
+      "why": "5/5 fetched at 100% recall once div.policy-items.pet-policy was read via textContent; the page never paints it and innerText returns empty",
+      "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+    },
+    "CHOICE": {
+      "provider": "brightdata_web_unlocker",
+      "fallback_providers": [],
+      "reader": "choice_static",
+      "max_attempts_per_provider": 3,
+      "why": "the Browser API was refused 14 times in 15 attempts and captured nothing; the Web Unlocker fetched 5/5. Browser API is NOT a fallback here because it is the lane that measurably does not work",
+      "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003",
+      "forbidden_providers": ["brightdata_browser"]
+    },
+    "SONESTA": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "generic",
+      "why": "generic walk; part of the MIXED bucket measured at 2/5 in pilot-002",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    },
+    "RED_ROOF": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "generic",
+      "why": "generic walk. Its identity gate needs the alias mechanism: the brand names this property Cleveland Airport-Middleburg Heights where the record says Red Roof Inn Middleburg Heights",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    },
+    "ESA": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "generic",
+      "why": "generic walk; policy sits behind a services-and-policies modal that the disclosure pass opens",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    },
+    "MOTEL6": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "generic",
+      "why": "generic walk; one property measured",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    },
+    "DRURY": {
+      "provider": "brightdata_browser",
+      "fallback_providers": ["brightdata_web_unlocker"],
+      "reader": "generic",
+      "why": "generic walk",
+      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+    }
+  },
+  "domains": {
+    "www.choicehotels.com": {
+      "provider": "brightdata_web_unlocker",
+      "fallback_providers": [],
+      "reader": "choice_static",
+      "forbidden_providers": ["brightdata_browser"],
+      "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown still avoids the lane that does not work",
+      "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+    }
+  },
+  "properties": {},
+  "excluded_brands": {
+    "HYATT": "premium domain under the current Bright Data plan, and behind Kasada; excluded on cost, not on capability",
+    "BEST_WESTERN": "premium domain under the current Bright Data plan"
+  }
+}
