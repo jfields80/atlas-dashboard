@@ -75,6 +75,16 @@ class FirecrawlError(RuntimeError):
     """The API refused or returned something unusable."""
 
 
+class FirecrawlAllEnginesFailed(FirecrawlError):
+    """The vendor's own SCRAPE_ALL_ENGINES_FAILED.
+
+    Its own class because it is a CAPABILITY statement, not a transient error:
+    Firecrawl is saying every engine it has was refused by this origin. A retry
+    buys the same answer, and an interaction pass cannot interact with a page
+    that never arrived.
+    """
+
+
 class FirecrawlRateLimited(FirecrawlError):
     """HTTP 429.
 
@@ -112,7 +122,23 @@ def _request(url: str, *, data: Optional[Dict] = None,
     except urllib.error.HTTPError as exc:
         if exc.code == 429:
             raise FirecrawlRateLimited("rate limited (HTTP 429)")
-        raise FirecrawlError("HTTP %d: %s" % (exc.code, redact(str(exc))))
+        detail = ""
+        try:
+            detail = exc.read().decode("utf-8", "replace")
+        except Exception:                                        # noqa: BLE001
+            pass
+        code = ""
+        try:
+            code = str(json.loads(detail).get("code") or "")
+        except Exception:                                        # noqa: BLE001
+            pass
+        if code == "SCRAPE_ALL_ENGINES_FAILED":
+            raise FirecrawlAllEnginesFailed(
+                "SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused "
+                "by this origin")
+        raise FirecrawlError("HTTP %d%s: %s"
+                             % (exc.code, (" %s" % code) if code else "",
+                                redact(detail[:200] or str(exc))))
     try:
         return json.loads(raw)
     except ValueError:
@@ -182,6 +208,8 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
 
     try:
         result = fetch(target.requested_url, profile=profile)
+    except FirecrawlAllEnginesFailed as exc:
+        return finish(O.ACCESS_DENIED, detail="ALL_ENGINES_FAILED: %s" % exc)
     except FirecrawlRateLimited:
         # ACCESS_DENIED rather than NAVIGATION_FAILED: the request was refused,
         # not lost, and the retry rule treats a refusal as worth retrying.
@@ -312,6 +340,6 @@ async def capture_property(target: BC.CaptureTarget, *, run_dir: Path,
 
 
 __all__ = ["PROVIDER", "KEY_ENV", "DEFAULT_PROFILE", "FirecrawlError",
-           "FirecrawlRateLimited",
+           "FirecrawlRateLimited", "FirecrawlAllEnginesFailed",
            "credential_present", "credits_remaining", "redact", "fetch",
            "run_attempt", "capture_property"]

@@ -300,3 +300,165 @@ class TestTheCommittedFirecrawlBenchmark:
         assert "fields_gained_over_baseline" in comp
         assert "fields_lost_versus_baseline" in comp
         assert comp["properties_where_baseline_extracted_more"] >= 0
+
+
+# --------------------------------------------------------------------------- #
+# PTF-FIRECRAWL-HARD-LANES-003
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.acquisition import firecrawl_hard_lanes_003 as HARD
+
+HARD_REPORT = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
+               / "reports" / "ptf_firecrawl_hard_lanes_003.json")
+PROPOSAL = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
+            / "reports" / "ptf_firecrawl_route_proposal_003.json")
+
+
+class TestStructuredVersusTextIsAMembershipTestNotATypeTest:
+    def test_a_string_valued_FACT_disagreement_is_structured(self):
+        """The bug this replaces: benchmark-002 called any string mismatch
+        cosmetic. fee_basis is a string, and per_night against per_stay
+        misprices a guest's stay."""
+        out = HARD.classify({"fee_basis": {"a": "per_night", "b": "per_stay"}})
+        assert "fee_basis" in out["structured_mismatches"]
+        assert out["text_excerpt_variants"] == {}
+
+    def test_a_prose_field_is_a_text_variant(self):
+        out = HARD.classify({"service_animal_exception": {"a": "x", "b": "y"}})
+        assert "service_animal_exception" in out["text_excerpt_variants"]
+        assert out["structured_mismatches"] == {}
+
+    def test_an_unknown_field_fails_safe_as_structured(self):
+        """A field nobody classified must make this loud, not quiet."""
+        out = HARD.classify({"newly_added_field": {"a": 1, "b": 2}})
+        assert "newly_added_field" in out["structured_mismatches"]
+        assert out["unclassified_fields_treated_as_structured"] == ["newly_added_field"]
+
+    def test_every_zero_wrong_fact_field_is_classified_structured(self):
+        for field in HARD.ZERO_WRONG_FACT_FIELDS:
+            assert field in HARD.STRUCTURED_FIELDS, field
+            assert field not in HARD.FREE_TEXT_FIELDS, field
+
+
+class TestTheFalseFactDetectors:
+    def test_a_no_pets_property_reported_as_pet_friendly_is_caught(self):
+        assert HARD.false_facts({"pets_allowed": False},
+                                {"pets_allowed": True})["false_pets_allowed"]
+
+    def test_a_pet_friendly_property_reported_as_no_pets_is_caught(self):
+        assert HARD.false_facts({"pets_allowed": True},
+                                {"pets_allowed": False})["false_no_pets"]
+
+    def test_absence_is_not_a_false_fact(self):
+        """Missing a field costs coverage. It is not the same as being wrong,
+        and conflating them would make every thin capture look dangerous."""
+        out = HARD.false_facts({"pets_allowed": True, "pet_fee": 2500},
+                               {"pets_allowed": True})
+        assert out["false_fee"] is False
+        assert not any(out.values())
+
+    def test_a_differing_fee_is_a_false_fee(self):
+        assert HARD.false_facts({"pet_fee": 2500}, {"pet_fee": 5000})["false_fee"]
+
+
+class TestTheHydrationGate:
+    def test_a_heading_with_no_policy_is_not_a_success(self):
+        state, detail = HARD.policy_surface_state(
+            '<div class="pet-policy"></div>', brand_locator="CHOICE",
+            block_text="Pet Policy")
+        assert state == "HEADING_ONLY"
+        assert "HEADING" in detail
+
+    def test_real_policy_text_in_a_branded_container_is_hydrated(self):
+        state, _ = HARD.policy_surface_state(
+            '<div class="pet-policy">x</div>', brand_locator="CHOICE",
+            block_text="Pets Allowed. 2 pets max. 25lbs or less per pet. "
+                       "Fees - 30USD per pet per night.")
+        assert state == "HYDRATED"
+
+    def test_an_empty_document_is_absent(self):
+        state, _ = HARD.policy_surface_state("", brand_locator="CHOICE",
+                                             block_text="")
+        assert state == "ABSENT"
+
+
+class TestTheSampleWasChosenAgainstCriteria:
+    def test_the_brand_split_is_four_three_three(self):
+        counts = {}
+        for brand, _key, _why in HARD.SAMPLE:
+            counts[brand] = counts.get(brand, 0) + 1
+        assert counts == {"MARRIOTT": 4, "HILTON": 3, "CHOICE": 3}
+        assert len(HARD.SAMPLE) == 10
+
+    def test_every_choice_has_a_recorded_reason(self):
+        """So "not unusually easy" is checkable rather than asserted."""
+        for _brand, _key, why in HARD.SAMPLE:
+            assert why.strip()
+
+    def test_the_hard_cases_the_spec_asked_for_are_present(self):
+        keys = {k for _b, k, _w in HARD.SAMPLE}
+        assert "country inn and suites by radisson germantown wi" in keys
+        assert "cambria hotel milwaukee downtown" in keys      # a no-pets refusal
+        assert "courtyard by marriott milwaukee airport" in keys  # single-field
+        assert "doubletree by hilton hotel milwaukee downtown" in keys  # single-field
+
+
+class TestTheCommittedHardLaneResult:
+    def _doc(self):
+        if not HARD_REPORT.is_file():
+            pytest.skip("hard-lane test not run in this worktree")
+        return json.loads(HARD_REPORT.read_text(encoding="utf-8-sig"))
+
+    def test_no_structured_mismatch_and_no_false_fact(self):
+        o = self._doc()["overall"]
+        assert o["structured_mismatch"] == 0
+        assert o["false_pets_allowed"] == 0
+        assert o["false_no_pets"] == 0
+        assert o["unclassified_fields_treated_as_structured"] == []
+
+    def test_authority_and_routes_untouched(self):
+        doc = self._doc()
+        assert doc["authority_written"] is False
+        assert doc["routes_changed"] is False
+
+    def test_no_dollar_figure_was_invented(self):
+        """The plan endpoint reports credits and an allowance, not a unit
+        price, so a dollar number would be fabricated."""
+        assert "not derivable" in self._doc()["cost"]["dollar_conversion"]
+
+    def test_the_coverage_addendum_is_recorded(self):
+        """The claim 'Firecrawl fixes Country Inn' was tested and refuted; the
+        refutation has to live in the artifact, not only in a message."""
+        doc = self._doc()
+        add = doc.get("country_inn_coverage_addendum")
+        assert add is not None
+        assert add["acquired"] == 0
+        assert "does not extend it" in add["result"]
+
+
+class TestTheRouteProposalIsAProposal:
+    def _doc(self):
+        if not PROPOSAL.is_file():
+            pytest.skip("no proposal in this worktree")
+        return json.loads(PROPOSAL.read_text(encoding="utf-8-sig"))
+
+    def test_it_is_marked_not_applied(self):
+        assert self._doc()["status"] == "PROPOSED_NOT_APPLIED"
+
+    def test_the_live_route_table_still_has_choice_on_the_web_unlocker(self):
+        """The proposal must not have leaked into the thing it proposes."""
+        route = REGISTRY.resolve(
+            brand="CHOICE",
+            url="https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297")
+        assert route.provider == "brightdata_web_unlocker"
+        assert "firecrawl" not in PROVIDERS.all_ids()
+
+    def test_it_names_what_the_measurement_does_not_support(self):
+        """A proposal that only lists upside is a pitch."""
+        doc = self._doc()
+        assert doc["what_the_measurement_does_NOT_support"]
+        assert doc["validation_required_before_applying"]
+
+    def test_it_flags_the_tests_that_would_have_to_change(self):
+        step = self._doc()["proposed_change"]["step_1_register_the_provider"]
+        assert "test_acquisition_router" in step["also_required"]
