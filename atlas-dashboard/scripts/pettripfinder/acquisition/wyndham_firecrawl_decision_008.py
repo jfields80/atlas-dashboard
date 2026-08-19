@@ -137,14 +137,29 @@ def _observe(row: Dict, result) -> Dict:
     fc_attempts = [a for a in attempts if a.provider == PROVIDERS.FIRECRAWL]
     last = attempts[-1] if attempts else None
 
-    # Identity: read from the document when one exists, and from the last
-    # attempt's own identity block when it does not, so a page that arrived and
-    # was rejected still reports WHY.
-    identity = {}
+    # Identity comes from the DOCUMENT, because that is the only place it
+    # survives: the router converts capture AttemptRecords into
+    # ProviderAttempts and the identity block does not cross that boundary.
+    #
+    # An earlier version reached for ``last.identity`` here and would have
+    # raised AttributeError. It never did, because the branch only runs when
+    # no document was produced -- and the two brands tested before Motel 6
+    # never failed a single property. The first real failure found it.
+    #
+    # No document means the capture did not clear the gates, so identity is
+    # reported as unconfirmed with the outcome that explains why, rather than
+    # as an absence that could be mistaken for "not checked".
+    identity: Dict = {}
     if doc is not None:
         identity = dict(doc.identity or {})
-    elif last is not None and last.identity:
-        identity = dict(last.identity)
+    elif last is not None:
+        identity = {"confirmed": False,
+                    "reason": ("no document was produced; the attempt ended "
+                               "%s" % last.outcome),
+                    "outcome": last.outcome,
+                    "final_url": last.final_url,
+                    "title": last.title,
+                    "detail": (last.detail or "")[:200]}
 
     policy_text = (doc.policy_text if doc is not None else "")
     failure = result.failure
