@@ -214,12 +214,20 @@ class TestFirecrawlWasPromotedAndSpiderWasNot:
         assert "spider" not in PROVIDERS.all_ids()
         assert "spider" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
 
-    def test_firecrawl_reached_exactly_the_lane_it_was_measured_on(self):
-        """A benchmark on one brand is not a licence for the rest of them."""
+    def test_firecrawl_reached_exactly_the_lanes_it_was_measured_on(self):
+        """A benchmark on one brand is not a licence for the rest of them.
+
+        Two brands lead with Firecrawl now, and each has its own decision
+        test behind it: CHOICE from 004/005, WYNDHAM from 008. Marriott and
+        Hilton were measured too -- 1/4 and 0/3 -- and did not move."""
         registry = REGISTRY.load()
-        leads = [b for b, e in registry["brands"].items()
-                 if e["provider"] == "firecrawl"]
-        assert leads == ["CHOICE"]
+        leads = sorted(b for b, e in registry["brands"].items()
+                       if e["provider"] == "firecrawl")
+        assert leads == ["CHOICE", "WYNDHAM"]
+        for brand in leads:
+            assert registry["brands"][brand]["measured_by"]
+        assert registry["brands"]["MARRIOTT"]["provider"] == "brightdata_browser"
+        assert registry["brands"]["HILTON"]["provider"] == "brightdata_browser"
         assert registry["default"]["provider"] != "firecrawl"
         names = {registry["default"]["provider"]}
         for entry in list(registry["brands"].values()) + list(registry["domains"].values()):

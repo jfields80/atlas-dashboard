@@ -205,11 +205,26 @@ def test_reader_selection_is_independent_of_provider_selection():
     marriott = REGISTRY.resolve(brand="MARRIOTT",
                                 url="https://www.marriott.com/en-us/hotels/x/",
                                 registry=registry)
+    hilton = REGISTRY.resolve(brand="HILTON", url="https://www.hilton.com/x",
+                              registry=registry)
     wyndham = REGISTRY.resolve(brand="WYNDHAM",
                                url="https://www.wyndhamhotels.com/x",
                                registry=registry)
-    assert marriott.provider == wyndham.provider
-    assert marriott.reader != wyndham.reader
+    choice = REGISTRY.resolve(
+        brand="CHOICE",
+        url="https://www.choicehotels.com/wisconsin/milwaukee/x/wi1",
+        registry=registry)
+    # Same provider, different readers -- twice over, on both providers now
+    # carrying more than one brand. Wyndham used to be the example on the
+    # Browser API side; PTF-WYNDHAM-FIRECRAWL-DECISION-008 moved it, and the
+    # property being demonstrated is stronger for it rather than weaker.
+    assert marriott.provider == hilton.provider
+    assert marriott.reader != hilton.reader
+    assert wyndham.provider == choice.provider
+    assert wyndham.reader != choice.reader
+    # And a reader is not implied by a provider: Wyndham kept its reader
+    # across a change of provider.
+    assert wyndham.reader == "wyndham"
 
 
 def test_every_registry_reader_exists():
@@ -279,7 +294,7 @@ def test_a_route_may_not_both_prefer_and_forbid_a_provider():
     ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
     ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
     ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
-    ("WYNDHAM", PROVIDERS.BRIGHTDATA_BROWSER, "wyndham"),
+    ("WYNDHAM", PROVIDERS.FIRECRAWL, "wyndham"),
     ("CHOICE", PROVIDERS.FIRECRAWL, "choice_static"),
 ])
 def test_brand_routes_match_what_the_pilots_measured(brand, provider, reader):

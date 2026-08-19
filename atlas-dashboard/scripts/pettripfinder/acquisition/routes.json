@@ -1,6 +1,6 @@
 {
   "schema": "ptf-acquisition-routes/1.0",
-  "version": 2,
+  "version": 3,
   "note": "Brand and domain routes, each seeded from a measured run. A row is added by a benchmark, never by an opinion. Override order is property > domain > brand > default.",
   "default": {
     "provider": "brightdata_browser",
@@ -44,14 +44,27 @@
       "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
     },
     "WYNDHAM": {
-      "provider": "brightdata_browser",
+      "provider": "firecrawl",
       "fallback_providers": [
         "brightdata_web_unlocker"
       ],
       "reader": "wyndham",
       "max_attempts_per_provider": 3,
-      "why": "5/5 fetched at 100% recall once div.policy-items.pet-policy was read via textContent; the page never paints it and innerText returns empty",
-      "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      "why": "7/7 of the remaining Milwaukee Wyndham properties acquired at publication grade on a single Firecrawl attempt each, with identity confirmed and a located policy surface on every one, measured with no fallback available so nothing could be credited to the incumbent. Five distinct policies across seven properties -- including two Super 8s that disagree with each other -- confirm the lane reads each page rather than returning a brand constant. The Web Unlocker stays as fallback because nothing here tested it and nothing here retires it.",
+      "measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+      "forbidden_providers": [
+        "brightdata_browser"
+      ],
+      "max_attempts_rationale": "3, matching the CHOICE lane. No Wyndham property needed more than 1 in the decision test, so this is headroom rather than a measured requirement.",
+      "previous": {
+        "provider": "brightdata_browser",
+        "fallback_providers": [
+          "brightdata_web_unlocker"
+        ],
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003",
+        "retired_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+        "note": "the Browser API lane worked -- 5/5 at 100% recall -- and is not being retired for failing. It is being demoted because a cheaper lane matched it, and it is now FORBIDDEN on this route only to keep the ladder from silently re-entering an expensive provider on a technical failure. That is a cost decision, and it is reversible."
+      }
     },
     "CHOICE": {
       "provider": "firecrawl",

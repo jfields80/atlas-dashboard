@@ -72,7 +72,9 @@ EXPECTED_ROUTE: Dict[str, Tuple[str, str]] = {
     # Changed by PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006. The Web Unlocker
     # is still on this lane, as the fallback; what leads it changed.
     "CHOICE": (PROVIDERS.FIRECRAWL, "choice_static"),
-    "WYNDHAM": (PROVIDERS.BRIGHTDATA_BROWSER, "wyndham"),
+    # Changed by PTF-WYNDHAM-FIRECRAWL-DECISION-008. The Web Unlocker is still
+    # on this lane as the fallback; what leads it changed.
+    "WYNDHAM": (PROVIDERS.FIRECRAWL, "wyndham"),
     "MIXED": (PROVIDERS.BRIGHTDATA_BROWSER, "generic"),
 }
 

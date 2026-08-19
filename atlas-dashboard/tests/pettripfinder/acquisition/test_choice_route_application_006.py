@@ -105,11 +105,15 @@ class TestNoOtherRouteMoved:
         ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
         ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
         ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
-        ("WYNDHAM", PROVIDERS.BRIGHTDATA_BROWSER, "wyndham"),
     ])
     def test_the_hard_lanes_are_untouched(self, brand, provider, reader):
         """Firecrawl measured 1/4 on Marriott and 0/3 on Hilton. Earning one
-        brand is not evidence about any other."""
+        brand is not evidence about any other.
+
+        WYNDHAM was in this list when 006 shipped and is not any more: it got
+        its OWN decision test in PTF-WYNDHAM-FIRECRAWL-DECISION-008 and passed
+        it 7/7. That is the rule working, not an exception to it -- a brand
+        moves when it is measured, and only then."""
         route = REGISTRY.resolve(brand=brand, url="https://example.test/x")
         assert route.provider == provider
         assert route.reader == reader
@@ -119,13 +123,18 @@ class TestNoOtherRouteMoved:
         assert route.provider == PROVIDERS.BRIGHTDATA_BROWSER
         assert route.reader == "generic"
 
-    def test_firecrawl_appears_on_exactly_one_brand_and_one_domain(self):
+    def test_firecrawl_reaches_only_brands_that_earned_it(self):
+        """Every brand on this lane must name the decision test that put it
+        there, and the default must never be Firecrawl -- a default carries
+        brands nobody measured."""
         registry = REGISTRY.load()
-        brands = [b for b, row in registry["brands"].items()
-                  if row.get("provider") == PROVIDERS.FIRECRAWL]
+        brands = {b: row for b, row in registry["brands"].items()
+                  if row.get("provider") == PROVIDERS.FIRECRAWL}
+        assert set(brands) == {"CHOICE", "WYNDHAM"}
+        assert "CHOICE" in brands["CHOICE"].get("measured_by", "") or             "VALIDATION-004" in brands["CHOICE"]["measured_by"]
+        assert "WYNDHAM-FIRECRAWL-DECISION-008" in brands["WYNDHAM"]["measured_by"]
         domains = [d for d, row in registry["domains"].items()
                    if row.get("provider") == PROVIDERS.FIRECRAWL]
-        assert brands == ["CHOICE"]
         assert domains == ["www.choicehotels.com"]
         assert registry["default"]["provider"] != PROVIDERS.FIRECRAWL
 

@@ -277,12 +277,13 @@ async def run(args) -> Dict:
     results = sorted((rows[k] for k in rows), key=lambda r: r["identity_key"])
     return report(results, split, credits_before=credits_before,
                   credits_after=credits_after, spent_after=spent_after,
-                  stopped_because=stopped_because,
+                  stopped_because=stopped_because, run_id=args.run_id,
                   elapsed=round(time.monotonic() - began, 1))
 
 
 def report(results: List[Dict], split: Dict, *, credits_before, credits_after,
-           spent_after, stopped_because: str, elapsed: float) -> Dict:
+           spent_after, stopped_because: str, elapsed: float,
+           run_id: str = "milwaukee-resume-007") -> Dict:
     total = len(results)
     acquired = [r for r in results if r["final_state"].startswith("ACQUIRED")]
     pub = [r for r in results if r["final_state"] == "ACQUIRED_PUBLICATION_GRADE"]
@@ -460,7 +461,13 @@ def report(results: List[Dict], split: Dict, *, credits_before, credits_after,
         "total_elapsed_seconds": elapsed,
         "items": results,
     }
-    out = REPORTS / "ptf_milwaukee_provider_utilization_007.json"
+    # Named after the RUN, not the module. A fixed filename meant a later run
+    # under a different run id silently overwrote a committed report from an
+    # earlier work order -- which is exactly what happened the first time this
+    # runner was reused.
+    out = REPORTS / ("ptf_milwaukee_provider_utilization_007.json"
+                     if run_id in (None, "", "milwaukee-resume-007")
+                     else "ptf_milwaukee_provider_utilization_%s.json" % run_id)
     out.write_bytes((json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
                     .encode("utf-8"))
     return doc
