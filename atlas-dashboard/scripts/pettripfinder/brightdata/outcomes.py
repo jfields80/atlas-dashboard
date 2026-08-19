@@ -69,6 +69,30 @@ BLOCKED_OUTCOMES: FrozenSet[str] = frozenset({
 #: Outcomes that mean the surface answered and the answer was "nothing here".
 EXHAUSTED_OUTCOMES: FrozenSet[str] = frozenset({POLICY_NOT_FOUND})
 
+#: Outcomes a FRESH SESSION cannot change, so retrying them is pure spend.
+#:
+#: Both are statements about the page rather than the channel. A different
+#: session re-fetches the same URL and reads the same answer: the property is
+#: still a different property, and the policy is still not on the page. Only
+#: channel failures -- a refusal, an unhydrated shell, a timeout -- can differ
+#: between attempts, and those are exactly the ones absent here.
+#:
+#: PTF-ACQUISITION-ROUTER-001 measured the cost of not having this: three
+#: sessions spent re-confirming one identity mismatch.
+NO_RETRY_OUTCOMES: FrozenSet[str] = frozenset({IDENTITY_MISMATCH,
+                                               POLICY_NOT_FOUND})
+
+
+def worth_retrying(outcome: str) -> bool:
+    """Whether a fresh session could plausibly produce a different outcome.
+
+        >>> worth_retrying("ACCESS_DENIED")
+        True
+        >>> worth_retrying("IDENTITY_MISMATCH")
+        False
+    """
+    return outcome not in NO_RETRY_OUTCOMES and outcome != VALID
+
 #: Where each outcome lands in the existing ladder-transcript vocabulary
 #: (``policy/evidence_bundle.LADDER_OUTCOMES``). The pilot does not invent a
 #: parallel scale; it translates into the one the repository already has.
@@ -104,6 +128,7 @@ __all__ = [
     "VALID", "ACCESS_DENIED", "BLANK_PAGE", "UNHYDRATED", "IDENTITY_MISMATCH",
     "POLICY_NOT_FOUND", "NAVIGATION_FAILED", "CAPTURE_FAILED",
     "UNEXPECTED_PAGE", "OUTCOMES", "EVIDENCE_BEARING_OUTCOMES",
-    "BLOCKED_OUTCOMES", "EXHAUSTED_OUTCOMES", "LADDER_OUTCOME_MAP",
+    "BLOCKED_OUTCOMES", "EXHAUSTED_OUTCOMES", "NO_RETRY_OUTCOMES",
+    "LADDER_OUTCOME_MAP", "worth_retrying",
     "is_outcome", "may_bear_evidence",
 ]

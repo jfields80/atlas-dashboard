@@ -344,6 +344,11 @@ async def capture_property(target: BC.CaptureTarget, *, run_dir: Path,
         records.append(record)
         if record.outcome == O.VALID:
             return records, payload
+        if not O.worth_retrying(record.outcome):
+            # The page answered, and a fresh session re-fetches the same page.
+            # Retrying an identity mismatch or a policy silence buys the same
+            # answer at full price.
+            return records, None
         if attempt < max_attempts:
             await asyncio.sleep(BC.RETRY_PAUSE_SECONDS)
     return records, None
