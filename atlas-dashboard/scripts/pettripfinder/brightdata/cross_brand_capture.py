@@ -188,7 +188,7 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
                                   identity=identity_block,
                                   detail="; ".join(assessment.reasons))
 
-                hit = await PS.locate_policy(page)
+                hit = await PS.locate_policy(page, brand=brand)
                 if not hit.found:
                     return finish(O.POLICY_NOT_FOUND, final_url=final_url,
                                   title=title,

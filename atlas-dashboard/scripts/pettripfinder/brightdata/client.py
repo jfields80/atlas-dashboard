@@ -76,6 +76,10 @@ _COUNTRY_SUFFIX_RE = re.compile(r"-country-[a-z]{2}$", re.IGNORECASE)
 ALLOWED_CLI_ARGS: Tuple[Tuple[str, ...], ...] = (
     ("budget", "balance"),
     ("budget", "zone"),
+    # PTF-ACQUISITION-BRAND-REPAIR-003: the Web Unlocker fetch, for the brand
+    # that refuses the managed browser. Matched as a PREFIX, because the URL
+    # follows; "zones info" is still absent and still returns the zone password.
+    ("scrape",),
 )
 
 REDACTED = "<redacted:brightdata-credential>"
@@ -334,8 +338,8 @@ def _default_runner(args: Sequence[str]) -> Tuple[int, str]:
     ``shutil.which`` is required on Windows: the npm global is a ``.CMD`` shim
     and ``CreateProcess`` will not find it from a bare name.
     """
-    head = tuple(args[:2])
-    if head not in ALLOWED_CLI_ARGS:
+    if not any(tuple(args[:len(allowed)]) == allowed
+               for allowed in ALLOWED_CLI_ARGS):
         raise BrightDataUsageError(
             "refusing to run 'brightdata %s'; only %s are allowed, because "
             "other subcommands (notably 'zones info') return the zone password"

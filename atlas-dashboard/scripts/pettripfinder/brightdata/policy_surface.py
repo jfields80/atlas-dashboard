@@ -97,6 +97,27 @@ SIGNAL_PHRASES: Tuple[str, ...] = (
     "pets stay free",
 )
 
+#: Selectors that name a brand's own pet-policy container, tried BEFORE the
+#: generic walk and permitted to read text the page has not rendered.
+#:
+#: Deliberately short and deliberately not a scraper: each entry is one
+#: container selector, discovered by reading a persisted artifact rather than
+#: by guessing, and the generic walk still runs when it misses.
+BRAND_LOCATORS = {
+    "WYNDHAM": (
+        # <span class="policy-desc pet-policy-desc">Service Animals - ... /
+        # Dogs Allowed - 2 dogs max. ... / Fees - 25 USD per pet per night.</span>
+        ("wyndham_pet_policy_desc", ".pet-policy-desc"),
+        ("wyndham_pet_policy_items", ".policy-items.pet-policy"),
+    ),
+    "CHOICE": (
+        ("choice_pet_section", "[class*='pet'],[data-testid*='pet']"),
+    ),
+    "HILTON": (
+        ("hilton_pet_panel", "[data-testid*='pet'],[id*='pet'],[class*='pet']"),
+    ),
+}
+
 #: Labels whose disclosure control is worth opening before looking. Kept narrow
 #: on purpose: a click is a page mutation and the wrong one navigates away.
 EXPAND_LABEL_RE = (r"pet|policy|policies|amenit|hotel information|"
@@ -107,6 +128,30 @@ EXPAND_LABEL_RE = (r"pet|policy|policies|amenit|hotel information|"
 EXPAND_SELECTORS = ("details > summary", "button", "[role='button']",
                     "[aria-expanded='false']", ".accordion-button",
                     "[data-toggle='collapse']", "[class*='accordion'] button")
+
+
+#: The distinct things a pet policy can SAY. Counting them measures how much of
+#: a policy a block actually holds, and is the one yardstick every locator in
+#: this package is judged by -- the in-page walk, the brand selectors and the
+#: static-HTML reader alike.
+POLICY_FEATURE_RES: Tuple[re.Pattern, ...] = (
+    re.compile(r"pets?\s*:?\s*(?:are\s+)?(?:welcome|allowed|permitted|"
+               r"not\s+allowed|not\s+permitted)", re.IGNORECASE),
+    re.compile(r"no\s+pets?\b", re.IGNORECASE),
+    re.compile(r"\$\s*\d|\d+(?:\.\d{2})?\s*USD\b"),
+    re.compile(r"\d+\s*(?:lbs?|pounds?|kgs?)\b", re.IGNORECASE),
+    re.compile(r"\d+\s*pets?\b", re.IGNORECASE),
+    re.compile(r"\bpets?\s+(?:fee|deposit|charge)\b", re.IGNORECASE),
+    re.compile(r"\b(?:non-?refundable|deposit)\b", re.IGNORECASE),
+    re.compile(r"\bservice\s+animals?\b", re.IGNORECASE),
+    re.compile(r"\b(?:dogs?|cats?)\b", re.IGNORECASE),
+    re.compile(r"\bbreed\b", re.IGNORECASE),
+)
+
+
+def policy_features(text: str) -> int:
+    """How many distinct policy features a block carries."""
+    return sum(1 for pattern in POLICY_FEATURE_RES if pattern.search(text or ""))
 
 
 @dataclass(frozen=True)
@@ -122,6 +167,7 @@ class SurfaceHit:
     candidates_considered: int = 0
     policy_features: int = 0
     brand_generic: bool = False
+    rendered: bool = True
 
     def to_dict(self) -> Dict:
         return {"found": self.found, "strategy": self.strategy,
@@ -130,6 +176,7 @@ class SurfaceHit:
                 "container_chars": self.container_chars,
                 "policy_features": self.policy_features,
                 "brand_generic": self.brand_generic,
+                "rendered": self.rendered,
                 "candidates_considered": self.candidates_considered}
 
 
@@ -302,7 +349,45 @@ async def expand_disclosures(page, *, limit: int = 12) -> Tuple[str, ...]:
         return ()
 
 
-async def locate_policy(page) -> SurfaceHit:
+_BRAND_READ_SCRIPT = r"""
+(selector) => {
+    for (const el of document.querySelectorAll(selector)) {
+        const shown = (el.innerText || '').replace(/\s+/g, ' ').trim();
+        const present = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        const text = shown || present;
+        if (!text) continue;
+        return {text: text, rendered: shown.length > 0, chars: text.length};
+    }
+    return null;
+}
+"""
+
+
+async def locate_brand_policy(page, brand: str) -> Optional[SurfaceHit]:
+    """A brand's own policy container, including text the page has not painted.
+
+    Returns ``None`` when the brand has no entry or none of its selectors
+    resolve, so the caller falls through to the generic walk unchanged.
+    """
+    for locator_id, selector in BRAND_LOCATORS.get(brand or "", ()):
+        try:
+            result = await page.evaluate(_BRAND_READ_SCRIPT, selector)
+        except Exception:                                        # noqa: BLE001
+            continue
+        if not result:
+            continue
+        text = MS.collapse(str(result.get("text") or ""))
+        if not (MIN_BLOCK_CHARS <= len(text) <= MAX_BLOCK_CHARS):
+            continue
+        return SurfaceHit(found=True, text=text, strategy=locator_id,
+                          selector=selector, matched_phrase="brand container",
+                          container_chars=len(text),
+                          policy_features=policy_features(text),
+                          rendered=bool(result.get("rendered")))
+    return None
+
+
+async def locate_policy(page, brand: str = "") -> SurfaceHit:
     """Find the bounded policy container, generically.
 
     Tried in order: the Marriott-shaped structural locators first (they are
@@ -310,6 +395,12 @@ async def locate_policy(page) -> SurfaceHit:
     signal-phrase walk. Whichever succeeds is NAMED in the result, which is the
     observation the adapter decision rests on.
     """
+    # The brand selector is a CANDIDATE, not an answer. It competes with the
+    # structural and generic strategies below on policy features, because a
+    # brand selector that matches a two-word label is worse than the walk it
+    # would otherwise have pre-empted.
+    brand_hit = await locate_brand_policy(page, brand)
+
     for locator_id, selector in MS.POLICY_LOCATORS:
         try:
             locator = page.locator(selector).first
@@ -319,10 +410,12 @@ async def locate_policy(page) -> SurfaceHit:
         except Exception:                                        # noqa: BLE001
             continue
         if MIN_BLOCK_CHARS <= len(text) <= MAX_BLOCK_CHARS:
-            return SurfaceHit(found=True, text=text, strategy=locator_id,
-                              selector=selector,
-                              matched_phrase=MS.POLICY_HEADING.lower(),
-                              container_chars=len(text))
+            structural = SurfaceHit(found=True, text=text, strategy=locator_id,
+                                    selector=selector,
+                                    matched_phrase=MS.POLICY_HEADING.lower(),
+                                    container_chars=len(text),
+                                    policy_features=policy_features(text))
+            return _best(brand_hit, structural)
 
     try:
         result = await page.evaluate(
@@ -337,10 +430,10 @@ async def locate_policy(page) -> SurfaceHit:
         return SurfaceHit(found=False, strategy="generic_signal_walk")
 
     if not result or not result.get("found"):
-        return SurfaceHit(found=False, strategy="generic_signal_walk",
-                          candidates_considered=int((result or {}).get(
-                              "considered") or 0))
-    return SurfaceHit(
+        return brand_hit or SurfaceHit(
+            found=False, strategy="generic_signal_walk",
+            candidates_considered=int((result or {}).get("considered") or 0))
+    return _best(brand_hit, SurfaceHit(
         found=True, text=MS.collapse(str(result.get("text") or "")),
         strategy="generic_signal_walk",
         selector=str(result.get("selector") or ""),
@@ -348,7 +441,15 @@ async def locate_policy(page) -> SurfaceHit:
         container_chars=int(result.get("chars") or 0),
         policy_features=int(result.get("features") or 0),
         brand_generic=bool(result.get("generic")),
-        candidates_considered=int(result.get("considered") or 0))
+        candidates_considered=int(result.get("considered") or 0)))
+
+
+def _best(*hits) -> SurfaceHit:
+    """The candidate carrying the most policy features; smaller breaks a tie."""
+    found = [h for h in hits if h is not None and h.found]
+    if not found:
+        return SurfaceHit(found=False, strategy="no_candidate")
+    return max(found, key=lambda h: (h.policy_features, -h.container_chars))
 
 
 async def locate_element(page, hit: SurfaceHit):
@@ -596,10 +697,12 @@ def _registrable(host: str) -> str:
 
 __all__ = [
     "MIN_BLOCK_CHARS", "MAX_BLOCK_CHARS", "MIN_POLICY_FEATURES",
+    "POLICY_FEATURE_RES", "policy_features",
     "MIN_PET_MENTIONS_SHORT", "MIN_PET_MENTIONS_LONG", "LONG_BLOCK_CHARS",
     "SIGNAL_PHRASES",
     "EXPAND_LABEL_RE", "EXPAND_SELECTORS", "PROPERTY_CODE_PATTERNS",
-    "SurfaceHit", "expand_disclosures", "locate_policy", "locate_element",
+    "BRAND_LOCATORS", "SurfaceHit", "expand_disclosures", "locate_policy",
+    "locate_brand_policy", "locate_element",
     "property_code", "any_hotel_jsonld", "read_identity", "assess_identity",
     "path_identity", "page_health",
 ]

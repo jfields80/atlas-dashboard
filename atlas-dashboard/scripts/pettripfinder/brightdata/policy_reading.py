@@ -76,6 +76,61 @@ _LOOSE_CHARGE_RE = re.compile(
     r"(?:per|/|a)\s*(?P<basis>night|day|stay|nightly|daily)\b",
     re.IGNORECASE)
 
+#: The same charge written without a dollar sign. Wyndham writes "25 USD per
+#: pet per night" and "Non-refundable 15 USD nightly per pet"; the basis and the
+#: scope words can arrive in either order, exactly as in the dollar form.
+_SCOPED_CHARGE_USD_RE = re.compile(
+    r"(?P<amount>[\d,]+(?:\.\d{1,2})?)\s*USD\b[\s,]*"
+    r"(?:(?:per|/|a)\s*)?(?P<first>pet|animal|room|reservation|night|day|stay|"
+    r"nightly|daily)\b[\s,.]*"
+    r"(?:(?:per|/|a)\s*)?(?P<second>pet|animal|room|reservation|night|day|stay|"
+    r"nightly|daily)?\b",
+    re.IGNORECASE)
+
+#: A bare decimal amount with a basis: Choice writes "50.00 per stay". Explicit
+#: cents are REQUIRED -- without them "2 per room" and "50 pounds" would read as
+#: prices, which is the room-rate mistake in a cheaper costume.
+_BARE_CHARGE_RE = re.compile(
+    r"(?P<amount>[\d,]+\.\d{2})\s*(?:per|/|a)\s*"
+    r"(?P<basis>night|day|stay|nightly|daily)\b",
+    re.IGNORECASE)
+
+#: An amount a brand labels a fee or deposit WITHOUT stating a basis. Hilton's
+#: structured row reads "Deposit Yes. $75.00 Non-refundable Fee" and says
+#: nothing about per-night or per-stay. The amount is a fact; the basis is not,
+#: and is left absent rather than guessed.
+_LABELLED_AMOUNT_RE = re.compile(
+    r"(?:(?P<pre>fee|deposit|charge)\s*:?\s*)?"
+    r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)|"
+    r"(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
+    r"(?:\s*(?P<post>[a-z-]*\s*(?:fee|deposit|charge)))?",
+    re.IGNORECASE)
+
+#: A stated ceiling: "Max 75 USD per stay". Recorded as ``fee_cap``, never as
+#: the price -- the founder rule is CEILING != PRICE.
+_FEE_CAP_RE = re.compile(
+    r"\bmax(?:imum)?\s*(?:of\s*)?"
+    r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)|"
+    r"(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
+    r"\s*(?:per|/|a)\s*(?P<basis>night|day|stay)\b",
+    re.IGNORECASE)
+
+#: Word numbers, only where a pet count is being named.
+_WORD_NUMBERS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
+
+#: "dogs and cats only", "dog or cat only", "dogs/cats only", "dogs & cats
+#: only", "Cats and dogs only". Every one names BOTH species, which is what
+#: distinguishes it from a generic "pets welcome" that names none.
+#: A species-labelled acceptance row: "Dogs Allowed - 2 dogs max." Names the
+#: species as surely as "Dogs Only" does, without the exclusivity.
+_DOGS_LABELLED_RE = re.compile(
+    r"\b(?:dogs?|cats?)\s+(?:are\s+)?(?:allowed|welcome|permitted)\b",
+    re.IGNORECASE)
+
+_BOTH_SPECIES_RE = re.compile(
+    r"\b(?:dogs?|cats?)\s*(?:and|&|/|or)\s*(?:dogs?|cats?)\s+only\b",
+    re.IGNORECASE)
+
 #: "non-refundable ... $75" or "$75 ... non-refundable", within one statement.
 _NONREFUNDABLE_RE = re.compile(r"non-?\s?refundable", re.IGNORECASE)
 _REFUNDABLE_RE = re.compile(r"(?<!non-)(?<!non )\brefundable\b", re.IGNORECASE)
@@ -90,12 +145,35 @@ _COUNT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"limit\s+(?:of\s+)?(?P<count>\d+)\s+pets?\b", re.IGNORECASE),
     re.compile(r"(?:one|1)\s+(?:well-behaved\s+)?(?:family\s+)?pet\s+per\s+"
                r"(?P<scope>room)\b", re.IGNORECASE),
+    # Hilton and Wyndham both put the number first: "2 pets max", "2pets Max",
+    # "2 dogs max", "Two pets max per room".
+    re.compile(r"\b(?P<count>\d+)\s*(?:pets?|dogs?|cats?)\s+max(?:imum)?\b"
+               r"(?:\s+per\s+(?P<scope>room|reservation|suite))?",
+               re.IGNORECASE),
+    re.compile(r"\b(?P<word>one|two|three|four|five)\s+pets?\s+max(?:imum)?\b"
+               r"(?:\s+per\s+(?P<scope>room|reservation|suite))?",
+               re.IGNORECASE),
+    # Choice: "Maximum of two pets per room".
+    re.compile(r"max(?:imum)?\s+of\s+(?P<word>one|two|three|four|five)\s+"
+               r"pets?\s+per\s+(?P<scope>room|reservation|suite)\b",
+               re.IGNORECASE),
+    re.compile(r"max(?:imum)?\s+(?:of\s+)?(?P<count>\d+)\s+pets?\s+per\s+"
+               r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
 )
 
 #: Weights. "up to", "under", "or less" and "maximum" are all recorded as a
 #: VALUE and never as a comparison operator -- the corpus rule is unchanged.
 _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     MS._WEIGHT_RE,
+    # Hilton's table row. Listed before the loose forms because "75 lbs Max" in
+    # "Max weight 75 lbs Max size Medium" otherwise matched by accident, taking
+    # the right number for the wrong reason.
+    re.compile(r"max(?:imum)?\s+(?:pet\s+)?weight\s*:?\s*"
+               r"(?P<value>[\d,]+(?:\.\d+)?)\s*(?P<unit>lbs?|pounds?|kgs?)\b",
+               re.IGNORECASE),
+    # Choice: "Maximum 50 pounds each".
+    re.compile(r"max(?:imum)?\s+(?:of\s+)?(?P<value>[\d,]+(?:\.\d+)?)\s*"
+               r"(?P<unit>lbs?|pounds?|kgs?)\s+each\b", re.IGNORECASE),
     re.compile(r"(?:up\s+to|under|less\s+than|maximum(?:\s+of)?|max\.?)\s+"
                r"(?P<value>[\d,]+(?:\.\d+)?)\s*(?P<unit>lbs?|pounds?|kgs?)\b",
                re.IGNORECASE),
@@ -117,6 +195,9 @@ _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
     # the gap is bounded rather than forbidden.
     re.compile(r"\bpets?\s+(?:[a-z][\w-]*\s+){0,4}(?:is|are)\s+welcome\b",
                re.IGNORECASE),
+    # Wyndham labels the row by species: "Dogs Allowed - 2 dogs max." A
+    # brand that says which animal it takes has said that it takes animals.
+    _DOGS_LABELLED_RE,
 )
 
 #: Continuations that turn a refusal into a HOUSE RULE rather than a refusal of
@@ -139,9 +220,24 @@ _PETS_REFUSED_RES: Tuple[re.Pattern, ...] = (
     re.compile(MS._PETS_REFUSED_RE.pattern + _REFUSAL_QUALIFIER, re.IGNORECASE),
     re.compile(r"\bpets?\s*:?\s*(?:are\s+)?not\s+(?:allowed|permitted|accepted)\b"
                + _REFUSAL_QUALIFIER, re.IGNORECASE),
-    re.compile(r"\bno\s+pets?\b(?!\s+(?:allowed\s+)?fee)", re.IGNORECASE),
+    re.compile(r"\bno\s+(?:other\s+|additional\s+|further\s+)?pets?\b"
+               r"(?!\s+(?:allowed\s+)?fee)", re.IGNORECASE),
     re.compile(r"\bpets?\s+allowed\s*:?\s*no\b", re.IGNORECASE),
 )
+
+#: A condition attached to a charge that schema 1.2 has no field for: a fee
+#: that applies only to pets above a weight, or only in some circumstance. The
+#: amount is real and its APPLICABILITY is not representable, so publishing the
+#: amount alone would assert a charge for every pet.
+_CONDITIONAL_FEE_RE = re.compile(
+    r"\d+\s*(?:lbs?|pounds?|kgs?)\s+(?:or|and)\s+(?:over|more|above|up|greater)"
+    r"|\bfor\s+pets?\s+(?:over|above|under|below)\b"
+    r"|\bif\s+(?:the\s+)?pets?\b"
+    r"|\bpets?\s+(?:over|above)\s+\d+\s*(?:lbs?|pounds?)",
+    re.IGNORECASE)
+
+#: How far from the charge the condition may sit and still govern it.
+_CONDITION_WINDOW_CHARS = 60
 
 #: Chain-wide phrasing. A sentence about every hotel in the brand is not this
 #: property's policy; membrane rule M3 keeps the two apart and this is how a
@@ -175,16 +271,52 @@ def _amount_minor(text: str) -> int:
     return int(round(float(text.replace(",", "")) * 100))
 
 
-def _pet_context(text: str, start: int, end: int) -> bool:
-    """Whether pet wording sits close enough to an amount to be about it.
+#: Words that introduce a price belonging to something other than a pet. If one
+#: of these stands between the nearest pet word and the amount, the amount was
+#: introduced by the rate, not by the pet policy.
+_RATE_MARKER_RE = re.compile(
+    r"\b(?:rate|rates|price|prices|total|subtotal|avg|average|starting|"
+    r"from|nightly\s+rate|room\s+rate|member\s+rate|discounted)\b",
+    re.IGNORECASE)
 
-    A price on a hotel page is a room rate until the page associates it with
-    an animal. Choice's guest-room card proved the point: it carries "No Pets
-    Allowed" and "$160 USD /night" in one container, and without this the
-    nightly ROOM RATE became the pet fee.
+
+def _pet_context(text: str, start: int, end: int) -> bool:
+    """Whether an amount BELONGS to the pet statement, not merely sits near it.
+
+    A price on a hotel page is a room rate until the page associates it with an
+    animal. Choice's guest-room card proved the point twice: it carries "No
+    Pets Allowed" and "$160 USD /night" in one container, so proximity alone
+    accepted the nightly ROOM RATE as the pet fee.
+
+    So proximity is necessary and not sufficient. The nearest pet word is
+    found, and if a rate marker stands between it and the amount, the amount
+    belongs to the rate.
     """
-    window = text[max(0, start - _PET_CONTEXT_CHARS):end + _PET_CONTEXT_CHARS]
-    return bool(_PET_CONTEXT_RE.search(window))
+    window_start = max(0, start - _PET_CONTEXT_CHARS)
+    window = text[window_start:end + _PET_CONTEXT_CHARS]
+    if not _PET_CONTEXT_RE.search(window):
+        return False
+
+    # The nearest pet word on either side, measured in the full text.
+    nearest = None
+    for match in _PET_CONTEXT_RE.finditer(text, window_start,
+                                          end + _PET_CONTEXT_CHARS):
+        distance = (start - match.end()) if match.end() <= start else (match.start() - end)
+        if distance < 0:
+            distance = 0
+        if nearest is None or distance < nearest[0]:
+            nearest = (distance, match)
+    if nearest is None:
+        return False
+
+    match = nearest[1]
+    if match.end() <= start:
+        between = text[match.end():start]
+    elif match.start() >= end:
+        between = text[end:match.start()]
+    else:
+        between = ""
+    return not _RATE_MARKER_RE.search(between)
 
 
 @dataclass(frozen=True)
@@ -204,12 +336,16 @@ class Charge:
     quote: str
     label: str = ""
     cleaning_labelled: bool = False
+    #: "fee" or "deposit". A deposit is money the guest may get back and is
+    #: never the price of bringing an animal, so the two must not share a pool.
+    kind: str = "fee"
 
     def to_dict(self) -> Dict:
         return {"amount_minor": self.amount_minor, "basis": self.basis,
                 "scope": self.scope, "origin": self.origin,
                 "refundable": self.refundable, "quote": self.quote,
-                "label": self.label, "cleaning_labelled": self.cleaning_labelled}
+                "label": self.label, "kind": self.kind,
+                "cleaning_labelled": self.cleaning_labelled}
 
 
 @dataclass(frozen=True)
@@ -230,6 +366,9 @@ class Reading:
     pet_count_quote: str = ""
     dogs_only_quote: str = ""
     cats_refused_quote: str = ""
+    both_species_quote: str = ""
+    fee_cap: Optional[Dict] = None
+    fee_cap_quote: str = ""
     service_animal_quote: str = ""
     contradictions: Tuple[Dict, ...] = ()
     parser_notes: Tuple[str, ...] = ()
@@ -249,11 +388,24 @@ class Reading:
                 "pet_count_quote": self.pet_count_quote,
                 "dogs_only_quote": self.dogs_only_quote,
                 "cats_refused_quote": self.cats_refused_quote,
+                "both_species_quote": self.both_species_quote,
+                "fee_cap": self.fee_cap,
+                "fee_cap_quote": self.fee_cap_quote,
                 "service_animal_quote": self.service_animal_quote,
                 "contradictions": [dict(c) for c in self.contradictions],
                 "parser_notes": list(self.parser_notes),
                 "patterns_fired": list(self.patterns_fired),
                 "brand_generic": self.brand_generic}
+
+
+def _fee_is_conditional(block_text: str, charge) -> bool:
+    """Whether a condition the schema cannot express governs this charge."""
+    index = block_text.find(charge.quote)
+    if index < 0:
+        return bool(_CONDITIONAL_FEE_RE.search(block_text))
+    start = max(0, index - _CONDITION_WINDOW_CHARS)
+    end = index + len(charge.quote) + _CONDITION_WINDOW_CHARS
+    return bool(_CONDITIONAL_FEE_RE.search(block_text[start:end]))
 
 
 def _service_animal_quote(text: str, match) -> str:
@@ -273,6 +425,21 @@ def _service_animal_quote(text: str, match) -> str:
     start = max(0, match.start() - 100)
     end = min(len(text), match.end() + 140)
     return text[start:end].strip()
+
+
+#: Words that void an acceptance a few tokens later. "Sorry no other pets are
+#: allowed" contains "pets are allowed" and means its opposite.
+_NEGATION_RE = re.compile(r"\b(?:no|not|never|sorry|except|excluding)\b",
+                          re.IGNORECASE)
+
+#: How far back a negation may sit and still govern the acceptance.
+_NEGATION_LOOKBACK_CHARS = 24
+
+
+def _is_negated(text: str, match) -> bool:
+    """Whether an acceptance match is governed by an earlier negation."""
+    start = max(0, match.start() - _NEGATION_LOOKBACK_CHARS)
+    return bool(_NEGATION_RE.search(text[start:match.start()]))
 
 
 def _contains(outer, inner) -> bool:
@@ -346,6 +513,39 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
             cleaning_labelled=amount in cleaning_amounts))
         fired.append("scoped_prose_charge")
 
+    # --- the same charge written without a dollar sign --------------------- #
+    for pattern, label in ((_SCOPED_CHARGE_USD_RE, "usd_charge"),
+                           (_BARE_CHARGE_RE, "bare_decimal_charge")):
+        for match in pattern.finditer(text):
+            groups = match.groupdict()
+            words = [w for w in (groups.get("first"), groups.get("second"),
+                                 groups.get("basis")) if w]
+            basis = ""
+            scope = ""
+            for word in words:
+                lowered = word.lower()
+                if lowered in _BASIS_BY_WORD and not basis:
+                    basis = _BASIS_BY_WORD[lowered]
+                elif lowered in _SCOPE_BY_WORD and not scope:
+                    scope = _SCOPE_BY_WORD[lowered]
+            if not basis:
+                continue
+            if not _pet_context(text, match.start(), match.end()):
+                notes.append("ignored the amount %r: no pet wording within %d "
+                             "characters"
+                             % (text[match.start():match.end()],
+                                _PET_CONTEXT_CHARS))
+                continue
+            amount = _amount_minor(match.group("amount"))
+            window = text[max(0, match.start() - 60):match.end() + 40]
+            refundable = (False if _NONREFUNDABLE_RE.search(window)
+                          else True if _REFUNDABLE_RE.search(window) else None)
+            charges.append(Charge(
+                amount_minor=amount, basis=basis, scope=scope, origin="prose",
+                refundable=refundable, quote=text[match.start():match.end()],
+                cleaning_labelled=amount in cleaning_amounts))
+            fired.append(label)
+
     # --- loose prose charges, only for amounts nothing else explained ----- #
     #
     # Runs last and only fills gaps: a brand that states its charge in a
@@ -377,13 +577,63 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         explained.add(amount)
         fired.append("loose_prose_charge")
 
+    # --- a stated ceiling ---------------------------------------------------- #
+    #
+    # CEILING != PRICE is a founder rule. "Max 75 USD per stay" is recorded as
+    # fee_cap and is excluded from the charge list entirely, so it can never be
+    # mistaken for what the guest pays.
+    fee_cap = None
+    fee_cap_quote = ""
+    cap_match = _FEE_CAP_RE.search(text)
+    if cap_match and _pet_context(text, cap_match.start(), cap_match.end()):
+        raw = cap_match.group("dollars") or cap_match.group("usd")
+        fee_cap = {"amount_minor": _amount_minor(raw), "currency": "USD",
+                   "basis": _BASIS_BY_WORD[cap_match.group("basis").lower()]}
+        fee_cap_quote = text[cap_match.start():cap_match.end()]
+        capped = _amount_minor(raw)
+        charges = [c for c in charges if not (c.amount_minor == capped
+                                              and c.origin == "prose")]
+        fired.append("fee_cap")
+
+    # --- an amount a brand labels a fee, with no basis stated ---------------- #
+    #
+    # Hilton's structured row is "Deposit Yes. $75.00 Non-refundable Fee". The
+    # amount is a fact and the basis is not, so the amount is recorded with an
+    # EMPTY basis and the basis is withheld rather than guessed. Runs last and
+    # only for amounts nothing else has already explained.
+    explained_amounts = {c.amount_minor for c in charges}
+    if fee_cap:
+        explained_amounts.add(fee_cap["amount_minor"])
+    for match in _LABELLED_AMOUNT_RE.finditer(text):
+        if not (match.group("pre") or match.group("post")):
+            continue
+        raw = match.group("dollars") or match.group("usd")
+        if not raw:
+            continue
+        amount = _amount_minor(raw)
+        if amount in explained_amounts:
+            continue
+        if not _pet_context(text, match.start(), match.end()):
+            continue
+        window = text[max(0, match.start() - 60):match.end() + 40]
+        refundable = (False if _NONREFUNDABLE_RE.search(window)
+                      else True if _REFUNDABLE_RE.search(window) else None)
+        label_word = (match.group("pre") or match.group("post") or "").lower()
+        charges.append(Charge(
+            amount_minor=amount, basis="", scope="", origin="labelled_amount",
+            refundable=refundable, quote=text[match.start():match.end()],
+            cleaning_labelled=amount in cleaning_amounts,
+            kind="deposit" if "deposit" in label_word else "fee"))
+        explained_amounts.add(amount)
+        fired.append("labelled_amount_no_basis")
+
     # --- contradiction: one amount, two bases ----------------------------- #
     by_amount: Dict[int, List[Charge]] = {}
     for charge in charges:
         by_amount.setdefault(charge.amount_minor, []).append(charge)
     contradictions: List[Dict] = []
     for amount, group in sorted(by_amount.items()):
-        bases = sorted({c.basis for c in group})
+        bases = sorted({c.basis for c in group if c.basis})
         if len(bases) > 1:
             contradictions.append({
                 "amount_minor": amount, "field": "fee_basis",
@@ -425,7 +675,12 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     pet_count = pet_count_scope = pet_count_quote = None
     if count_match:
         groups = count_match.groupdict()
-        pet_count = int(groups["count"]) if groups.get("count") else 1
+        if groups.get("count"):
+            pet_count = int(groups["count"])
+        elif groups.get("word"):
+            pet_count = _WORD_NUMBERS[groups["word"].lower()]
+        else:
+            pet_count = 1
         raw_scope = (groups.get("scope") or "").lower()
         # "in Room" / "per room" is the label's own word, not an inference.
         pet_count_scope = (enums.SCOPE_PER_ROOM
@@ -437,6 +692,10 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     # --- allowed / refused --------------------------------------------------- #
     refused, refused_pattern = _first_match(text, _PETS_REFUSED_RES, "refused")
     welcome, welcome_pattern = _first_match(text, _PETS_WELCOME_RES, "welcome")
+    if welcome and _is_negated(text, welcome):
+        notes.append("ignored the acceptance %r: a negation governs it"
+                     % text[welcome.start():welcome.end()])
+        welcome, welcome_pattern = None, ""
     pets_allowed = None
     pets_allowed_quote = ""
     if refused and welcome and _contains(refused, welcome):
@@ -466,8 +725,11 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         pets_allowed_quote = text[welcome.start():welcome.end()]
         fired.append(welcome_pattern)
 
-    dogs_only = MS._DOGS_ONLY_RE.search(text)
+    dogs_only = (MS._DOGS_ONLY_RE.search(text)
+                 or re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
+                              r"permitted)\b", text, re.IGNORECASE))
     cats_refused = MS._CATS_REFUSED_RE.search(text)
+    both_species = _BOTH_SPECIES_RE.search(text)
     service = MS._SERVICE_ANIMAL_RE.search(text)
 
     return Reading(
@@ -482,6 +744,9 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         cats_refused_quote=(text[cats_refused.start():cats_refused.end()]
                             if cats_refused else ""),
         service_animal_quote=_service_animal_quote(text, service),
+        both_species_quote=(text[both_species.start():both_species.end()]
+                            if both_species else ""),
+        fee_cap=fee_cap, fee_cap_quote=fee_cap_quote,
         contradictions=tuple(contradictions), parser_notes=tuple(notes),
         patterns_fired=tuple(sorted(set(fired))),
         brand_generic=bool(_BRAND_GENERIC_RE.search(text)))
@@ -516,14 +781,43 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                     if reading.contradictions
                                     else enums.SOURCE_SILENT)
 
-    labelled = [c for c in reading.charges if c.origin == "labelled_row"]
-    prose = [c for c in reading.charges if c.origin == "prose"]
+    # A brand that writes "$75.00 Non-refundable Fee" has LABELLED the
+    # amount even though it stated no basis. Excluding it from the pool is
+    # what made four Hilton properties report SOURCE_SILENT for a fee
+    # printed on the page.
+    deposits = [c for c in reading.charges if c.kind == "deposit"]
+    if deposits:
+        extraction["pet_deposit"] = deposits[0].amount_minor
+        cite(deposits[0].quote, ["pet_deposit"])
+
+    labelled = [c for c in reading.charges
+                if c.origin in ("labelled_row", "labelled_amount")
+                and c.kind != "deposit"]
+    prose = [c for c in reading.charges
+             if c.origin == "prose" and c.kind != "deposit"]
     contradicted = {c["amount_minor"] for c in reading.contradictions
                     if c.get("amount_minor") is not None}
     contradicted_fields = {c["field"] for c in reading.contradictions}
 
     cleaning = [c for c in reading.charges if c.cleaning_labelled]
     pool = [c for c in labelled if not c.cleaning_labelled]
+
+    # A charge that states its basis is a better answer than one that does not.
+    # Without this, "100.00 USD refundable deposit" outranked "25.00 USD Per Pet
+    # per night" purely because it was matched by an earlier pass.
+    with_basis = [c for c in reading.charges
+                  if c.basis and c.kind != "deposit" and not c.cleaning_labelled]
+    distinct_amounts = {c.amount_minor for c in with_basis}
+    if len(distinct_amounts) == 1:
+        # One charge the surface stated more than once -- a labelled row and
+        # the prose that repeats it are the same money, not two fees. The
+        # labelled row is preferred for its quote; if the two disagree about
+        # the BASIS, the contradiction machinery has already recorded it and
+        # the basis is withheld below.
+        pool = [next((c for c in with_basis if c.origin == "labelled_row"),
+                     with_basis[0])]
+    elif with_basis:
+        pool = with_basis
     if not pool:
         distinct = {(c.amount_minor, c.basis) for c in prose
                     if not c.cleaning_labelled}
@@ -539,12 +833,25 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         extraction["cleaning_fee"] = cleaning[0].amount_minor
         cite(cleaning[0].quote, ["cleaning_fee"])
 
+    if len(pool) == 1 and _fee_is_conditional(reading.block_text, pool[0]):
+        withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_AMBIGUOUS_SCOPE",
+            "detail": "the charge is qualified by a condition the published "
+                      "fee vocabulary has no field for (%r); publishing the "
+                      "amount alone would assert a charge for every pet"
+                      % pool[0].quote})
+        pool = []
+
     if len(pool) == 1:
         charge = pool[0]
         extraction["pet_fee"] = charge.amount_minor
         extraction["fee_currency"] = "USD"
         cite(charge.quote, ["pet_fee", "fee_currency"])
-        if charge.amount_minor in contradicted and "fee_basis" in contradicted_fields:
+        if not charge.basis:
+            withheld["fee_basis"] = enums.SOURCE_SILENT
+        elif charge.amount_minor in contradicted and "fee_basis" in contradicted_fields:
             withheld["fee_basis"] = enums.SOURCE_CONTRADICTORY
             flags.append({"code": "FLAG_AMBIGUOUS_BASIS",
                           "detail": "the $%.2f charge is stated on more than "
@@ -578,7 +885,15 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                 % (len(pool),
                                    ", ".join(sorted(c.quote for c in pool)))})
     elif reading.pets_allowed:
-        withheld["pet_fee"] = enums.SOURCE_SILENT
+        # A reason already recorded is more specific than silence. The
+        # conditional-fee branch above empties the pool deliberately, and its
+        # SCHEMA_CANNOT_REPRESENT must not be overwritten by "the page said
+        # nothing" -- the page said something the schema cannot hold.
+        withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
+
+    if reading.fee_cap:
+        extraction["fee_cap"] = dict(reading.fee_cap)
+        cite(reading.fee_cap_quote, ["fee_cap"])
 
     if reading.weight_value is not None and reading.weight_unit:
         extraction["weight_limit"] = {"value": reading.weight_value,
@@ -594,13 +909,20 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         else:
             cite(reading.pet_count_quote, ["pet_count_limit"])
 
-    if reading.dogs_only_quote:
+    if reading.both_species_quote:
+        # "dogs and cats only" names BOTH, which a generic "pets welcome"
+        # never does. Recording two named species is transcription; inferring
+        # them from silence is what the corpus rule forbids.
+        extraction["species_allowed"] = ["cat", "dog"]
+        cite(reading.both_species_quote, ["species_allowed"])
+    elif reading.dogs_only_quote:
         extraction["species_allowed"] = ["dog"]
         cite(reading.dogs_only_quote, ["species_allowed"])
     if reading.cats_refused_quote:
         extraction["cats_allowed"] = False
         cite(reading.cats_refused_quote, ["cats_allowed"])
-    if not reading.dogs_only_quote and not reading.cats_refused_quote:
+    if not (reading.dogs_only_quote or reading.cats_refused_quote
+            or reading.both_species_quote):
         non_inferences.append(
             "species: a generic 'pets welcome' is not dogs+cats; the species "
             "map stays empty unless the surface names a species")

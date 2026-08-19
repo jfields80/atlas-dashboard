@@ -23,7 +23,7 @@ verify.
 from __future__ import annotations
 
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 
@@ -154,6 +154,7 @@ class PublicationGradeVerdict:
     quotes_contiguous: bool
     entries: Tuple[Dict, ...]
     gaps: Tuple[Dict, ...]
+    quote_sources: Dict[str, str] = field(default_factory=dict)
 
     @property
     def confirmed(self) -> bool:
@@ -165,6 +166,7 @@ class PublicationGradeVerdict:
                 "blockers": list(self.blockers),
                 "hash_rederived": self.hash_rederived,
                 "quotes_contiguous": self.quotes_contiguous,
+                "quote_sources": dict(self.quote_sources),
                 "evidence_entries": [dict(e) for e in self.entries],
                 "contract_integration_gaps": [dict(g) for g in self.gaps]}
 
@@ -224,19 +226,38 @@ def assess(*, evidence_items: Sequence[Mapping], extraction: Mapping,
         artifact_sha256=recorded_sha256, captured_at=captured_at,
         ref_prefix=ref_prefix)
 
-    # --- every quote must be contiguous in the saved page text ------------ #
-    quotes_contiguous = True
+    # --- every quote must be contiguous in the ARTIFACT IT CITES ---------- #
+    #
+    # The evidence entry attests ``rendered.html``, so that is what the quote
+    # must be found in. Checking only the displayed text was a proxy, and it
+    # failed five Wyndham captures whose policy lives in an element the page
+    # never paints -- words that are in the hashed artifact, and were never in
+    # the derived convenience file.
+    haystacks: List[Tuple[str, str]] = []
     if page_text_path is not None and page_text_path.exists():
-        artifact_text = page_text_path.read_text(encoding="utf-8",
-                                                 errors="replace")
-        for entry in entries:
-            if not EV.quote_is_contiguous(entry["quote"], artifact_text):
-                quotes_contiguous = False
-                reasons.append("quote for %r is not contiguous in the saved "
-                               "page text" % entry["field"])
-    else:
+        haystacks.append(("page-text.txt",
+                          page_text_path.read_text(encoding="utf-8",
+                                                   errors="replace")))
+    if artifact_path is not None and artifact_path.exists():
+        from scripts.pettripfinder.brightdata import unlocker_capture as _UC
+        haystacks.append((PRIMARY_ARTIFACT, _UC.html_to_text(
+            artifact_path.read_text(encoding="utf-8", errors="replace"))))
+
+    quotes_contiguous = True
+    quote_sources: Dict[str, str] = {}
+    if not haystacks:
         quotes_contiguous = False
-        reasons.append("no saved page text; quote contiguity is unverifiable")
+        reasons.append("no artifact text; quote contiguity is unverifiable")
+    for entry in entries:
+        found_in = next((name for name, text in haystacks
+                         if EV.quote_is_contiguous(entry["quote"], text)), "")
+        if found_in:
+            quote_sources[entry["field"]] = found_in
+        else:
+            quotes_contiguous = False
+            reasons.append("quote for %r is not contiguous in %s"
+                           % (entry["field"],
+                              " or ".join(n for n, _ in haystacks)))
 
     # --- the contract's own verdict, unmodified --------------------------- #
     record = {
@@ -273,7 +294,7 @@ def assess(*, evidence_items: Sequence[Mapping], extraction: Mapping,
         reasons=tuple(reasons), schema_issues=schema_issues,
         blockers=blockers, hash_rederived=hash_rederived,
         quotes_contiguous=quotes_contiguous, entries=entries,
-        gaps=tuple(g.to_dict() for g in gaps))
+        gaps=tuple(g.to_dict() for g in gaps), quote_sources=quote_sources)
 
 
 __all__ = ["CONFIRMED", "REJECTED", "PRIMARY_ARTIFACT", "PRIMARY_ARTIFACT_KIND",
