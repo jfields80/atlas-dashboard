@@ -181,3 +181,122 @@ class TestTheCommittedBenchmark:
         for row in detail:
             for field, sides in row["mismatches"].items():
                 assert set(sides) == {"bright_data", "spider"}
+
+# --------------------------------------------------------------------------- #
+# PTF-FIRECRAWL-BENCHMARK-002
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder.acquisition import firecrawl_benchmark_002 as FCB
+from scripts.pettripfinder.acquisition import firecrawl_capture as FIRECRAWL
+
+FC_REPORT = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
+             / "reports" / "ptf_firecrawl_benchmark_002.json")
+
+
+class TestFirecrawlIsAlsoNotPromoted:
+    def test_firecrawl_is_not_a_routable_provider(self):
+        assert "firecrawl" not in PROVIDERS.all_ids()
+        assert "firecrawl" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+
+    def test_the_route_table_is_still_untouched(self):
+        registry = REGISTRY.load()
+        names = {registry["default"]["provider"]}
+        for entry in list(registry["brands"].values()) + list(registry["domains"].values()):
+            names.add(entry["provider"])
+            names.update(entry.get("fallback_providers") or ())
+        assert "firecrawl" not in names and "spider" not in names
+
+
+class TestTheFirecrawlLaneBorrowsTheSamePipeline:
+    def test_it_reuses_the_unlocker_gates(self):
+        import inspect
+        source = inspect.getsource(FIRECRAWL)
+        for borrowed in ("UC.html_to_text", "UC.DENIAL_MARKERS",
+                         "UC.locate_policy_in_html", "UC._persist",
+                         "PS.page_health", "PS.assess_identity", "PR.parse"):
+            assert borrowed in source, borrowed
+
+    def test_it_asks_for_raw_html_not_markdown(self):
+        """Every downstream gate reads HTML. A markdown conversion would drop
+        the class names the brand locators key on."""
+        assert FIRECRAWL.DEFAULT_PROFILE["formats"] == ["rawHtml"]
+
+    def test_it_waits_for_the_page_to_paint(self):
+        """The entire reason this vendor was worth testing: Spider failed by
+        returning the shell."""
+        assert FIRECRAWL.DEFAULT_PROFILE["waitFor"] >= 3000
+
+    def test_the_two_benchmarks_share_one_comparison_vocabulary(self):
+        """Two definitions of MISMATCH would make the vendors incomparable,
+        which is the only thing running a second vendor is for."""
+        from scripts.pettripfinder.acquisition import spider_benchmark_001 as SB
+        assert FCB.compare is SB.compare
+        assert FCB.baseline_rows is SB.baseline_rows
+
+
+class TestARateLimitIsNotACapabilityFailure:
+    def test_rate_limiting_has_its_own_error_class(self):
+        assert issubclass(FIRECRAWL.FirecrawlRateLimited, FIRECRAWL.FirecrawlError)
+
+    def test_a_rate_limit_is_reported_as_a_quota_result(self):
+        """Ten properties first came back NAVIGATION_FAILED on HTTP 429 and
+        every one of them acquired cleanly when paced. Folding a quota result
+        into a capability failure would have reported 60% for a lane that
+        reaches 100%."""
+        import inspect
+        source = inspect.getsource(FIRECRAWL.run_attempt)
+        assert "RATE_LIMITED" in source
+        assert "says nothing about" in source
+
+
+class TestMismatchClassification:
+    def test_a_numeric_disagreement_is_structured(self):
+        out = FCB.classify_mismatches(
+            {"pet_fee": {"bright_data": 5000, "firecrawl": 3000}})
+        assert "pet_fee" in out["structured_disagreements"]
+        assert out["text_excerpt_variants"] == {}
+
+    def test_two_quotes_of_the_same_prose_are_a_text_variant(self):
+        out = FCB.classify_mismatches({"service_animal_exception": {
+            "bright_data": "Pet & Service Animal Policy",
+            "firecrawl": "Service Animals - ADA-defined service animals welcome."}})
+        assert "service_animal_exception" in out["text_excerpt_variants"]
+        assert out["structured_disagreements"] == {}
+
+    def test_a_dict_valued_disagreement_is_structured(self):
+        out = FCB.classify_mismatches({"weight_limit": {
+            "bright_data": {"value": 25.0, "unit": "lb"},
+            "firecrawl": {"value": 50.0, "unit": "lb"}}})
+        assert "weight_limit" in out["structured_disagreements"]
+
+
+class TestTheCommittedFirecrawlBenchmark:
+    def _doc(self):
+        if not FC_REPORT.is_file():
+            pytest.skip("firecrawl benchmark not run in this worktree")
+        return json.loads(FC_REPORT.read_text(encoding="utf-8-sig"))
+
+    def test_it_wrote_no_authority_and_changed_no_routes(self):
+        doc = self._doc()
+        assert doc["authority_written"] is False
+        assert doc["routes_changed"] is False
+
+    def test_no_structured_disagreement_survived(self):
+        """The disqualifying number. Different excerpts of prose are tolerable;
+        a different fee or weight limit is not."""
+        doc = self._doc()
+        assert doc["agreement"]["properties_with_a_STRUCTURED_disagreement"] == 0
+        assert doc["agreement"]["structured_disagreement_detail"] == []
+
+    def test_cost_is_reported_in_credits_and_says_so(self):
+        doc = self._doc()
+        assert "credits" in doc["cost"]["basis"]
+        assert "not a dollar figure" in doc["cost"]["basis"]
+
+    def test_completeness_is_reported_in_both_directions(self):
+        """A vendor that gains fields somewhere and loses them elsewhere must
+        show both, or the report is an advertisement."""
+        comp = self._doc()["completeness"]
+        assert "fields_gained_over_baseline" in comp
+        assert "fields_lost_versus_baseline" in comp
+        assert comp["properties_where_baseline_extracted_more"] >= 0
