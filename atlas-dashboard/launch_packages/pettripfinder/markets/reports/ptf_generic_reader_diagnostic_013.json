@@ -1,0 +1,861 @@
+{
+ "schema": "ptf-generic-reader-diagnostic/1.0",
+ "work_order": "PTF-GENERIC-READER-FIRECRAWL-DIAGNOSTIC-013",
+ "market_id": "milwaukee-wi",
+ "note": "Diagnostic only. No route changed, nothing published, and both Bright Data providers are unreachable by construction: this module imports no Bright Data capture path.",
+ "cohort": {
+  "universe_total": 16,
+  "universe_by_class": {
+   "INDEPENDENT": 11,
+   "MOTEL6": 4,
+   "RED_ROOF": 1
+  },
+  "selection_method": "MOTEL6 and RED_ROOF enter whole. INDEPENDENT rows are sorted by identity_key ascending and the first 10 are taken, to respect the 15-property cap. Every independent is on a distinct domain, so any subset of that size carries the same domain variation and the ordering cannot select for expected success.",
+  "excluded_by_cap": [
+   "woodspring suites milwaukee menomonee falls"
+  ],
+  "distinct_domains": 12
+ },
+ "cohort_members": [
+  {
+   "identity_key": "motel 6 milwaukee wi glendale",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "motel 6 oak creek wi",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "motel 6 suites milwaukee brookfield wi",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "red roof inn milwaukee airport oak creek",
+   "class": "RED_ROOF",
+   "domain": "www.redroof.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "knickerbocker on the lake",
+   "class": "INDEPENDENT",
+   "domain": "www.knickerbockeronthelake.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "potawatomi casino hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.potawatomi.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.saintkatearts.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the clarke hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theclarkehotel.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theinglesidehotel.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the iron horse hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theironhorsehotel.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the marc hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.marchotelmilwaukee.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.thepfisterhotel.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "the plaza hotel milwaukee",
+   "class": "INDEPENDENT",
+   "domain": "plazahotelmilwaukee.com",
+   "document_source": "CACHED_THIS_RUN"
+  },
+  {
+   "identity_key": "wildwood lodge",
+   "class": "INDEPENDENT",
+   "domain": "thewildwoodlodge.com",
+   "document_source": "CACHED_THIS_RUN"
+  }
+ ],
+ "layer_a_identity": {
+  "IDENTITY_OK": 15
+ },
+ "layer_b_presence": {
+  "AMENITY_ONLY": 2,
+  "NO_POLICY_PRESENT": 10,
+  "FULL_POLICY_PRESENT": 2,
+  "PARTIAL_POLICY_PRESENT": 1
+ },
+ "layer_c_reader_verdicts": {
+  "READER_FALSE_POSITIVE": 2,
+  "PROVIDER_LIMITED": 10,
+  "READER_MISS": 2,
+  "READER_PARTIAL": 1
+ },
+ "rates": {
+  "documents": 15,
+  "recoverable_documents": 3,
+  "reader_opportunity_rate_pct": 100.0,
+  "reader_opportunity_note": "of documents that DO contain policy language, the share the generic reader failed to represent. This is the number that says whether reader work would pay.",
+  "provider_limitation_rate_pct": 66.7,
+  "provider_limitation_note": "share of documents containing no policy any reader could recover."
+ },
+ "by_class": {
+  "INDEPENDENT": {
+   "documents": 10,
+   "presence": {
+    "NO_POLICY_PRESENT": 9,
+    "PARTIAL_POLICY_PRESENT": 1
+   },
+   "verdicts": {
+    "PROVIDER_LIMITED": 9,
+    "READER_MISS": 1
+   },
+   "recoverable": 1,
+   "reader_lost": 1
+  },
+  "MOTEL6": {
+   "documents": 4,
+   "presence": {
+    "AMENITY_ONLY": 2,
+    "NO_POLICY_PRESENT": 1,
+    "FULL_POLICY_PRESENT": 1
+   },
+   "verdicts": {
+    "READER_FALSE_POSITIVE": 2,
+    "PROVIDER_LIMITED": 1,
+    "READER_MISS": 1
+   },
+   "recoverable": 1,
+   "reader_lost": 1
+  },
+  "RED_ROOF": {
+   "documents": 1,
+   "presence": {
+    "FULL_POLICY_PRESENT": 1
+   },
+   "verdicts": {
+    "READER_PARTIAL": 1
+   },
+   "recoverable": 1,
+   "reader_lost": 1
+  }
+ },
+ "architectural_decision": "MIXED",
+ "routes_changed": false,
+ "authority_written": false,
+ "policies_published": false,
+ "cost": {
+  "new_firecrawl_credits": 0,
+  "credits_before": 918,
+  "credits_after": 918,
+  "bright_data_attempts": 0,
+  "bright_data_usd": 0.0
+ },
+ "total_elapsed_seconds": 1.6,
+ "properties": [
+  {
+   "identity_key": "motel 6 milwaukee wi glendale",
+   "property_name": "Motel 6 Milwaukee, WI - Glendale",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "url": "https://www.motel6.com/property/motel-glendale-wisconsin-us-294362/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.motel6.com",
+    "final_domain": "www.motel6.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 4655,
+    "document_sha256": "17cc4e2624c5488c00d563657e80ca15b0438bd95f982564ef2e827f33946c43"
+   },
+   "layer_b_presence": {
+    "presence": "AMENITY_ONLY",
+    "concepts": {
+     "allow_signal": [
+      "minutes from downtown Milwaukee and the University of Wisconsin. This pet-friendly motel welcomes your furry friends, making it easy to travel with pets",
+      "mind knowing your companions are always welcome. Read more Amenities Pets Allowed Coin Laundry Elevator Restaurant Nearby Wi-Fi Kids Stay Free View all"
+     ]
+    },
+    "substantive_concepts": [],
+    "why": "a pets-allowed signal with no actionable term anywhere in the document"
+   },
+   "layer_c_reader": {
+    "block_found": true,
+    "block_chars": 25,
+    "strategy": "static_html_walk",
+    "candidates_considered": 2,
+    "extraction": {
+     "pets_allowed": true
+    }
+   },
+   "reader_block": "Pets Allowed Coin Laundry",
+   "verdict": {
+    "verdict": "READER_FALSE_POSITIVE",
+    "why": "the document carries no actionable policy and the reader emitted a policy from an amenity label",
+    "reader_fields": []
+   },
+   "limitation_cause": "DOCUMENT_LACKS_POLICY: the property's own policy-bearing page was fetched and states no actionable pet terms"
+  },
+  {
+   "identity_key": "motel 6 oak creek wi",
+   "property_name": "Motel 6 Oak Creek, WI",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "url": "https://www.motel6.com/property/motel-oak-creek-wisconsin-us-293841/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.motel6.com",
+    "final_domain": "www.motel6.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 4410,
+    "document_sha256": "e19d067bd0f0e5bad6dc0daec07c9df42347d6b02effaefffcc2bb8bfc910c42"
+   },
+   "layer_b_presence": {
+    "presence": "AMENITY_ONLY",
+    "concepts": {
+     "allow_signal": [
+      "tawatomi Casino. Shopping and dining also nearby. Read more Amenities Pets Allowed Coin Laundry Restaurant Nearby Wi-Fi Airport within 20 miles Kids Sta"
+     ]
+    },
+    "substantive_concepts": [],
+    "why": "a pets-allowed signal with no actionable term anywhere in the document"
+   },
+   "layer_c_reader": {
+    "block_found": true,
+    "block_chars": 25,
+    "strategy": "static_html_walk",
+    "candidates_considered": 2,
+    "extraction": {
+     "pets_allowed": true
+    }
+   },
+   "reader_block": "Pets Allowed Coin Laundry",
+   "verdict": {
+    "verdict": "READER_FALSE_POSITIVE",
+    "why": "the document carries no actionable policy and the reader emitted a policy from an amenity label",
+    "reader_fields": []
+   },
+   "limitation_cause": "DOCUMENT_LACKS_POLICY: the property's own policy-bearing page was fetched and states no actionable pet terms"
+  },
+  {
+   "identity_key": "motel 6 suites milwaukee brookfield wi",
+   "property_name": "Motel 6 Suites Milwaukee Brookfield, WI",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "url": "https://www.motel6.com/property/motel-brookfield-wisconsin-us-368045/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.motel6.com",
+    "final_domain": "www.motel6.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 3152,
+    "document_sha256": "849f394b6eb52a4b7a1290d5fbfa22af7fde913bba2931cc9cb7ac512f627bcd"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 1,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "DOCUMENT_LACKS_POLICY: the property's own policy-bearing page was fetched and states no actionable pet terms"
+  },
+  {
+   "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+   "property_name": "Studio 6 Extended Stay Milwaukee Brookfield WI",
+   "class": "MOTEL6",
+   "domain": "www.motel6.com",
+   "url": "https://www.motel6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.motel6.com",
+    "final_domain": "www.motel6.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 5192,
+    "document_sha256": "5b9dffca7e955236fa491638274c40659e5786f8e4071424f7a05eade42ec7bd"
+   },
+   "layer_b_presence": {
+    "presence": "FULL_POLICY_PRESENT",
+    "concepts": {
+     "allow_signal": [
+      "aration Historic Downtown Access 4 km from Historic Downtown Waukesha Pet-Friendly Accommodation Pets welcome throughout your stay Stay longer, save mor",
+      "ccess 4 km from Historic Downtown Waukesha Pet-Friendly Accommodation Pets welcome throughout your stay Stay longer, save more 19% off · Save extra $4 $",
+      "ette Kitchen Refrigerator checkmark Created with Sketch. Free parking Pets Allowed Coin Laundry View all amenities Choose your room Best rate My6 member"
+     ],
+     "fee": [
+      "come throughout your stay Stay longer, save more 19% off · Save extra $4 $88 /night 5-night minimum Select 21% off · Save extra $36 $83 /night",
+      "e throughout your stay Stay longer, save more 19% off · Save extra $4 $88 /night 5-night minimum Select 21% off · Save extra $36 $83 /night Wee",
+      "to the property. View guest policy Additional policies A fee of up to $10 may apply to bookings for stays of less than 7 days. There is a non-r"
+     ],
+     "basis": [
+      "r stays of less than 7 days. There is a non-refundable pet fee of $25 per day applies for the first 6 days, and $15 per day thereafter except for s",
+      "fundable pet fee of $25 per day applies for the first 6 days, and $15 per day thereafter except for service animals. A refundable security deposit"
+     ],
+     "deposit": [
+      "o $10 may apply to bookings for stays of less than 7 days. There is a non-refundable pet fee of $25 per day applies for the first 6 days, and $15 per day",
+      "irst 6 days, and $15 per day thereafter except for service animals. A refundable security deposit is required at the time of check-in. A deposit of $7",
+      "per day thereafter except for service animals. A refundable security deposit is required at the time of check-in. A deposit of $70 will be collect"
+     ],
+     "service_animal": [
+      "y applies for the first 6 days, and $15 per day thereafter except for service animals. A refundable security deposit is required at the time of check-in. A"
+     ]
+    },
+    "substantive_concepts": [
+     "fee",
+     "basis",
+     "deposit"
+    ],
+    "why": "an allow/refuse signal plus 3 actionable terms: fee, basis, deposit"
+   },
+   "layer_c_reader": {
+    "block_found": true,
+    "block_chars": 133,
+    "strategy": "static_html_walk",
+    "candidates_considered": 4,
+    "extraction": {
+     "service_animal_exception": "There is a non-refundable pet fee of $25 per day applies for the first 6 days, and $15 per day thereafter except for service animals."
+    }
+   },
+   "reader_block": "There is a non-refundable pet fee of $25 per day applies for the first 6 days, and $15 per day thereafter except for service animals.",
+   "verdict": {
+    "verdict": "READER_MISS",
+    "why": "the document states 3 actionable terms and the reader recovered none",
+    "reader_fields": []
+   },
+   "limitation_cause": ""
+  },
+  {
+   "identity_key": "red roof inn milwaukee airport oak creek",
+   "property_name": "Red Roof Inn Milwaukee - Airport/ Oak Creek",
+   "class": "RED_ROOF",
+   "domain": "www.redroof.com",
+   "url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.redroof.com",
+    "final_domain": "www.redroof.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 9283,
+    "document_sha256": "4b3e7498f25d3339603cd27899e61b6df574f6969ed47fa87408cac84397f2e2"
+   },
+   "layer_b_presence": {
+    "presence": "FULL_POLICY_PRESENT",
+    "concepts": {
+     "allow_signal": [
+      "laundry, and complimentary coffee in the lobby. We are proud to be a pet-friendly hotel, so your four-legged companion is always welcome. Our hotel pla",
+      "e Oak Creek, WI Hotel Key Amenities X RediClean® RediClean® X Up to 2 pets allowed. First pet stays free. Second pet $15 per night. Up to 2 pets allowed",
+      "pets allowed. First pet stays free. Second pet $15 per night. Up to 2 pets allowed. First pet stays free. Second pet $15 per night. X Sleep Park & Fly S"
+     ],
+     "fee": [
+      "® RediClean® X Up to 2 pets allowed. First pet stays free. Second pet $15 per night. Up to 2 pets allowed. First pet stays free. Second pet $15",
+      "$15 per night. Up to 2 pets allowed. First pet stays free. Second pet $15 per night. X Sleep Park & Fly Sleep Park & Fly X Free Wi-Fi Free Wi-F",
+      "st be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to e"
+     ],
+     "basis": [
+      "diClean® X Up to 2 pets allowed. First pet stays free. Second pet $15 per night. Up to 2 pets allowed. First pet stays free. Second pet $15 per night",
+      "per night. Up to 2 pets allowed. First pet stays free. Second pet $15 per night. X Sleep Park & Fly Sleep Park & Fly X Free Wi-Fi Free Wi-Fi X Paid L",
+      "r room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals a"
+     ],
+     "weight": [
+      "t, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Read Full"
+     ],
+     "species": [
+      "n Age: 18 years or older. Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets a",
+      "18 years or older. Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed"
+     ],
+     "deposit": [
+      "nd emotional support animals are always welcome. Read Full Pet Policy Deposit Policy: A $50 refundable deposit for incidentals is required at check",
+      "nimals are always welcome. Read Full Pet Policy Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests. Speci",
+      "always welcome. Read Full Pet Policy Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests. Special Polic"
+     ],
+     "service_animal": [
+      "hines Transportation Free Parking Limited Bus/Truck Parking Available ADA Amenities Rooms Accessible Guest Rooms with Doorways that Provide 32”",
+      "tance Portable Communications Kits Available for the Hearing Impaired Service Animals are Welcome Signage for Permanent Rooms and Spaces have Braille and R"
+     ]
+    },
+    "substantive_concepts": [
+     "fee",
+     "basis",
+     "weight",
+     "deposit"
+    ],
+    "why": "an allow/refuse signal plus 4 actionable terms: fee, basis, weight, deposit"
+   },
+   "layer_c_reader": {
+    "block_found": true,
+    "block_chars": 410,
+    "strategy": "static_html_walk",
+    "candidates_considered": 6,
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 5000,
+     "pet_count_limit": 2
+    }
+   },
+   "reader_block": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Read Fu",
+   "verdict": {
+    "verdict": "READER_PARTIAL",
+    "why": "the document states 4 actionable terms and the reader recovered 1",
+    "reader_fields": [
+     "pet_count_limit"
+    ]
+   },
+   "limitation_cause": ""
+  },
+  {
+   "identity_key": "knickerbocker on the lake",
+   "property_name": "Knickerbocker on the Lake",
+   "class": "INDEPENDENT",
+   "domain": "www.knickerbockeronthelake.com",
+   "url": "https://www.knickerbockeronthelake.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.knickerbockeronthelake.com",
+    "final_domain": "www.knickerbockeronthelake.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 7874,
+    "document_sha256": "b8be2dd8ac3610c30583e7f437fdd1c5495943793da845ac742c3fda73dc0064"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {
+     "service_animal": [
+      "nter, and on-site parking [fee]. From the intimate, historic lobby to ADA-accessible spaces and full-service care, every detail reflects the Kn"
+     ]
+    },
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "potawatomi casino hotel",
+   "property_name": "Potawatomi Casino Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.potawatomi.com",
+   "url": "https://www.potawatomi.com/hotel",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.potawatomi.com",
+    "final_domain": "www.potawatomi.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 8385,
+    "document_sha256": "939f171eac885aee450c1e682cbcb8984b3ad92dc2b2ee2e0660f349306f0b69"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "property_name": "Saint Kate - The Arts Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.saintkatearts.com",
+   "url": "https://www.saintkatearts.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.saintkatearts.com",
+    "final_domain": "www.saintkatearts.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 4412,
+    "document_sha256": "8e6f23fb068db1b830bcf81d3dfed1dc27015afd64c4f605998e506b32b5c699"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the clarke hotel",
+   "property_name": "The Clarke Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theclarkehotel.com",
+   "url": "https://www.theclarkehotel.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.theclarkehotel.com",
+    "final_domain": "www.theclarkehotel.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 3023,
+    "document_sha256": "ac3427790eb8c1c3b3a555470a39c436f0882d2459006e16848d33fd0c38d7f8"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "property_name": "The Ingleside Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theinglesidehotel.com",
+   "url": "https://www.theinglesidehotel.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.theinglesidehotel.com",
+    "final_domain": "www.theinglesidehotel.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 7782,
+    "document_sha256": "c7ac1a0757488e4eedd4cb11e00bc1428811288d43d74b15ee6765be9f900268"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {
+     "species": [
+      "suites. Accommodations Room Types Hotel Amenities Overnight Packages Dog Friendly Accommodations FAQs Area Guide Meetings & Events The Inglesi",
+      "suites. Accommodations Room Types Hotel Amenities Overnight Packages Dog Friendly Accommodations FAQs Area Guide Meetings & Events The Inglesi",
+      "on the Lawn, a free concert series! Music on the Lawn Details We are Dog Friendly The Ingleside Hotel is Dog Friendly Our Dog Policy Discover"
+     ]
+    },
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the iron horse hotel",
+   "property_name": "The Iron Horse Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.theironhorsehotel.com",
+   "url": "https://www.theironhorsehotel.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.theironhorsehotel.com",
+    "final_domain": "www.theironhorsehotel.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 6194,
+    "document_sha256": "4c702f00b222ee4f578c23f190cea7c79e3d5c541efffe14c16b09bda4be15f5"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {
+     "species": [
+      ". Our beds are ready. ROOMS Continue the tradition of the YAPPY Hour. DOGS An original space. For original people. EVENTS Cocktails worth the ri"
+     ],
+     "service_animal": [
+      "lcomes guests of all abilities. Our facilities are compliant with the ADA (Department of Justice ADA Title III Regulation 28 CFR Part 36, 1991)",
+      "ies. Our facilities are compliant with the ADA (Department of Justice ADA Title III Regulation 28 CFR Part 36, 1991). For more information on a"
+     ]
+    },
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the marc hotel",
+   "property_name": "The Marc Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.marchotelmilwaukee.com",
+   "url": "https://www.marchotelmilwaukee.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.marchotelmilwaukee.com",
+    "final_domain": "www.marchotelmilwaukee.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 3063,
+    "document_sha256": "6bedd068adb498e6ad2a44abfb20f9807cccb6f5d16f76ca3542bcc9584a8a31"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "property_name": "The Pfister Hotel",
+   "class": "INDEPENDENT",
+   "domain": "www.thepfisterhotel.com",
+   "url": "https://www.thepfisterhotel.com/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "www.thepfisterhotel.com",
+    "final_domain": "www.thepfisterhotel.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 4781,
+    "document_sha256": "7f5bac7a1988d79ed4ff064ab87ddcdf9b243bb407a7051d19e0d633704eb535"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "the plaza hotel milwaukee",
+   "property_name": "The Plaza Hotel Milwaukee",
+   "class": "INDEPENDENT",
+   "domain": "plazahotelmilwaukee.com",
+   "url": "https://plazahotelmilwaukee.com/contact/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "plazahotelmilwaukee.com",
+    "final_domain": "plazahotelmilwaukee.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 1801,
+    "document_sha256": "cd23fedc920fb94564b22715093d936fd1bdfaec3652579cdf0bbef8ce0d1c29"
+   },
+   "layer_b_presence": {
+    "presence": "NO_POLICY_PRESENT",
+    "concepts": {},
+    "substantive_concepts": [],
+    "why": "no pet-policy language of any kind"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "PROVIDER_LIMITED",
+    "why": "the document does not contain policy any reader could recover",
+    "reader_fields": []
+   },
+   "limitation_cause": "URL_IS_NOT_A_POLICY_PAGE: the census URL points at a site root or contact page. The provider fetched it successfully; no provider or reader can recover a policy from a page that does not state one. This is a URL-discovery gap."
+  },
+  {
+   "identity_key": "wildwood lodge",
+   "property_name": "Wildwood Lodge",
+   "class": "INDEPENDENT",
+   "domain": "thewildwoodlodge.com",
+   "url": "https://thewildwoodlodge.com/pewaukee/",
+   "document_source": "CACHED_THIS_RUN",
+   "layer_a_identity": {
+    "state": "IDENTITY_OK",
+    "requested_domain": "thewildwoodlodge.com",
+    "final_domain": "thewildwoodlodge.com",
+    "redirected_off_domain": false,
+    "status": 200,
+    "text_chars": 7279,
+    "document_sha256": "4cf26dd9b93d3fb8e7eecc17fe09f8d3217268a38cf2ff847e45d6a72251a7cb"
+   },
+   "layer_b_presence": {
+    "presence": "PARTIAL_POLICY_PRESENT",
+    "concepts": {
+     "fee": [
+      "Wildwood Lodge and we look forward to pampering your furry friend. A $20 fee applies per night. Comfort All rooms have Serta perfect sleeper m"
+     ],
+     "basis": [
+      "and we look forward to pampering your furry friend. A $20 fee applies per night. Comfort All rooms have Serta perfect sleeper mattresses. Coffee + Te"
+     ],
+     "species": [
+      "ast daily. Free Wifi We offer high-speed wireless in all guest rooms. Dog Friendly All dogs are welcome at the Wildwood Lodge and we look forwa",
+      "ifi We offer high-speed wireless in all guest rooms. Dog Friendly All dogs are welcome at the Wildwood Lodge and we look forward to pampering yo"
+     ]
+    },
+    "substantive_concepts": [
+     "fee",
+     "basis"
+    ],
+    "why": "actionable terms (fee, basis) with no explicit allow or refuse statement"
+   },
+   "layer_c_reader": {
+    "block_found": false,
+    "block_chars": 0,
+    "strategy": "static_html_walk",
+    "candidates_considered": 0,
+    "extraction": {}
+   },
+   "reader_block": "",
+   "verdict": {
+    "verdict": "READER_MISS",
+    "why": "the document states an actionable term and the reader recovered nothing",
+    "reader_fields": []
+   },
+   "limitation_cause": ""
+  }
+ ]
+}
