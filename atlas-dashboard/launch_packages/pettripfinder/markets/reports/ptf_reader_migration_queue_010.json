@@ -1,0 +1,53 @@
+{
+ "schema": "ptf-reader-migration-queue/1.0",
+ "work_order": "PTF-POLICY-READER-TIERED-FEE-HARDENING-010",
+ "status": "QUEUED_NOT_APPLIED",
+ "note": "Records whose STORED extraction disagrees with the hardened reader. This work order fixed and measured the reader; it did NOT re-read or republish any historical record. Re-certification is an explicit decision and belongs to its own work order.",
+ "scanned": {
+  "blocks_on_disk": 141,
+  "unique_policy_texts": 76,
+  "unchanged": 73
+ },
+ "candidates": [
+  {
+   "slug": "staybridge-suites-milwaukee-airport-south",
+   "brand": "IHG",
+   "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\staybridge-suites-milwaukee-airport-south\\attempt-01\\policy-block.txt",
+   "field_change": "fee",
+   "old": "5000",
+   "new": "WITHHELD:SCHEMA_CANNOT_REPRESENT"
+  },
+  {
+   "slug": "holiday-inn-express-milwaukee-west-medical-center",
+   "brand": "IHG",
+   "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-express-milwaukee-west-medical-center\\attempt-01\\policy-block.txt",
+   "field_change": "weight",
+   "old": "-",
+   "new": "40.0lb"
+  },
+  {
+   "slug": "holiday-inn-milwaukee-riverfront",
+   "brand": "IHG",
+   "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-milwaukee-riverfront\\attempt-01\\policy-block.txt",
+   "field_change": "weight",
+   "old": "-",
+   "new": "50.0lb"
+  }
+ ],
+ "candidate_count": 3,
+ "by_brand": {
+  "IHG": 3
+ },
+ "safety_direction": "every fee change is toward WITHHOLDING and every weight change is a previously-missed fact now read. No record newly publishes a fee it did not publish before (newly_structured = 0), so the migration cannot make any record more assertive about price.",
+ "publication_holds": {
+  "staybridge suites milwaukee airport south": {
+   "state": "HELD",
+   "stored_pet_fee": 5000,
+   "corrected_reader_output": "pet_fee withheld (SCHEMA_CANNOT_REPRESENT)",
+   "why_the_hold_remains": "the READER is fixed and re-reading the same evidence now withholds the fee, but the STORED record still carries 5000. The hold is on the record, not on the parser, and it lifts when the record is re-derived -- which this work order is forbidden from doing.",
+   "lifts_when": "the record is re-derived under the hardened reader and re-attested"
+  }
+ },
+ "authority_written": false,
+ "records_republished": 0
+}

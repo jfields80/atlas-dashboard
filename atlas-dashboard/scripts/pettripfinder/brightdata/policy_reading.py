@@ -168,7 +168,11 @@ _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     # Hilton's table row. Listed before the loose forms because "75 lbs Max" in
     # "Max weight 75 lbs Max size Medium" otherwise matched by accident, taking
     # the right number for the wrong reason.
-    re.compile(r"max(?:imum)?\s+(?:pet\s+)?weight\s*:?\s*"
+    # ``of`` added by PTF-POLICY-READER-TIERED-FEE-HARDENING-010. Surfaces
+    # writing "a maximum weight of 40lbs" or "a max weight of 50 lbs" were
+    # missed, and the only thing between those and this pattern was the
+    # connector word. An optional token cannot change what already matched.
+    re.compile(r"max(?:imum)?\s+(?:pet\s+)?weight\s+(?:of\s+)?:?\s*"
                r"(?P<value>[\d,]+(?:\.\d+)?)\s*(?P<unit>lbs?|pounds?|kgs?)\b",
                re.IGNORECASE),
     # Choice: "Maximum 50 pounds each".
@@ -238,6 +242,44 @@ _CONDITIONAL_FEE_RE = re.compile(
 
 #: How far from the charge the condition may sit and still govern it.
 _CONDITION_WINDOW_CHARS = 60
+
+#: A price that applies only to SOME stays, or SOME pet counts, with a
+#: different price for the rest. Added by
+#: PTF-POLICY-READER-TIERED-FEE-HARDENING-010.
+#:
+#: Deliberately narrow. A bare mention of a pet count is NOT a tier: a surface
+#: reading "Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per
+#: stay" is a capped per-night fee this vocabulary already holds correctly, and
+#: a loose count pattern would withhold it for nothing. So the count form
+#: requires a PRICE adjacent to the count ("25USD 2 dogs") rather than any
+#: reference to a number of pets.
+_TIERED_FEE_RE = re.compile(
+    r"\bfor\s+(?:a\s+)?stays?\s+(?:of\s+)?\d+\s*(?:to|-|through)\s*\d+"
+    r"|\bfor\s+stays?\s+(?:of\s+)?(?:over|above|more\s+than|under|less\s+than)\s+\d+"
+    r"|\bfor\s+a\s+\d+\s*(?:to|-)\s*\d+\s*night"
+    r"|\bfor\s+\d+\s*(?:to|-)\s*\d+\s*nights?\b"
+    r"|\b\d+\s*(?:to|-)\s*\d+\s*nights?\s+the\s+fee\b"
+    r"|\b\d+\s*or\s+more\s+will\s+be\b"
+    r"|\b\d+\s*(?:usd|dollars?)\s+\d+\s+(?:dogs?|cats?|pets?)\b"
+    r"|\b(?:weekly|monthly)\s+\d+\s*(?:usd|dollars?)?\s*\d*\s*(?:dogs?|pets?)\b",
+    re.IGNORECASE)
+
+#: Two or more DISTINCT prices on the surface. A tier needs both this and the
+#: qualifier above: a cap has two prices and no qualifier, and a single-priced
+#: policy that mentions a night range has a qualifier and one price. Neither is
+#: a tier, and withholding either would lose a fact the schema can hold.
+_PRICE_RE = re.compile(
+    r"\$\s*\d+(?:[.,]\d{2})?|\b\d+(?:[.,]\d{2})?\s*(?:usd|dollars?)\b",
+    re.IGNORECASE)
+
+
+def _fee_is_tiered(block_text: str) -> bool:
+    """Does this surface price the same pet differently by stay or by count?"""
+    if not _TIERED_FEE_RE.search(block_text):
+        return False
+    prices = {re.sub(r"[^\d.]", "", m.group(0))
+              for m in _PRICE_RE.finditer(block_text)}
+    return len({p for p in prices if p}) > 1
 
 #: Chain-wide phrasing. A sentence about every hotel in the brand is not this
 #: property's policy; membrane rule M3 keeps the two apart and this is how a
@@ -959,6 +1001,23 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                       "fee vocabulary has no field for (%r); publishing the "
                       "amount alone would assert a charge for every pet"
                       % pool[0].quote})
+        pool = []
+
+    # A tiered price is withheld for the same reason and through the same
+    # machinery: the published vocabulary holds ONE amount and the surface
+    # stated several. Publishing whichever one happened to parse is not a
+    # partial answer, it is a wrong one. The case that forced this: a surface
+    # pricing 1-6 nights at 50 USD and 7+ nights at 150 USD, from which the
+    # reader published 50 -- understating a week by 100 USD.
+    if pool and _fee_is_tiered(reading.block_text):
+        withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_TIERED_FEE",
+            "detail": "the surface prices this pet differently by stay length "
+                      "or by pet count, and the published fee vocabulary holds "
+                      "a single amount; the tiers survive in the evidence "
+                      "quote and no single amount is asserted"})
         pool = []
 
     if len(pool) == 1:
