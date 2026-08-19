@@ -1,6 +1,6 @@
 {
   "schema": "ptf-acquisition-routes/1.0",
-  "version": 3,
+  "version": 4,
   "note": "Brand and domain routes, each seeded from a measured run. A row is added by a benchmark, never by an opinion. Override order is property > domain > brand > default.",
   "default": {
     "provider": "brightdata_browser",
@@ -34,14 +34,28 @@
       "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
     },
     "IHG": {
-      "provider": "brightdata_browser",
+      "provider": "firecrawl",
       "fallback_providers": [
         "brightdata_web_unlocker"
       ],
       "reader": "ihg",
       "max_attempts_per_provider": 3,
-      "why": "4/5 fetched at 100% precision and 62% recall; the most expensive lane measured at $2.71 for five properties, so its telemetry is worth watching",
-      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      "why": "5/5 of the Milwaukee IHG cohort acquired at publication grade on a single Firecrawl attempt each, identity confirmed and a property-specific policy surface located on every one, measured with no fallback available. Five distinct extractions across five properties, no brand-generic text and no capture landing off the property page. This matters more here than elsewhere: IHG carries no petsAllowed in its JSON-LD, so the policy only arrives if the page paints it -- and it did, on all five.",
+      "measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+      "forbidden_providers": [
+        "brightdata_browser"
+      ],
+      "max_attempts_rationale": "3, matching CHOICE and WYNDHAM. No IHG property needed more than 1, so this is headroom rather than a measured requirement.",
+      "known_reader_limitation": "the provider is not the constraint on this lane; the READER is. Two of five sources state a weight limit that policy_reading does not extract, and one (Staybridge Milwaukee Airport South) has a TIERED fee reduced to its first tier. That is provider-independent -- the same text through any lane produces the same record -- and it is why the incumbent's own recall here was 62%. Records flagged by the tiered-fee audit are HELD from publication.",
+      "previous": {
+        "provider": "brightdata_browser",
+        "fallback_providers": [
+          "brightdata_web_unlocker"
+        ],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002",
+        "retired_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+        "note": "4/5 fetched at 62% recall and $2.71 for five properties -- the weakest and most expensive lane in the table. Unlike CHOICE and WYNDHAM, this demotion replaces a lane that was underperforming, not one that was working."
+      }
     },
     "WYNDHAM": {
       "provider": "firecrawl",

@@ -208,7 +208,6 @@ class TestNothingElseMoved:
     @pytest.mark.parametrize("brand,provider,reader", [
         ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
         ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
-        ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
         ("MOTEL6", PROVIDERS.BRIGHTDATA_BROWSER, "generic"),
         ("RED_ROOF", PROVIDERS.BRIGHTDATA_BROWSER, "generic"),
     ])

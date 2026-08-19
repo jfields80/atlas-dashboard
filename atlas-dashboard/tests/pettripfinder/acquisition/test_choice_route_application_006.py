@@ -104,7 +104,6 @@ class TestNoOtherRouteMoved:
     @pytest.mark.parametrize("brand,provider,reader", [
         ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
         ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
-        ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
     ])
     def test_the_hard_lanes_are_untouched(self, brand, provider, reader):
         """Firecrawl measured 1/4 on Marriott and 0/3 on Hilton. Earning one
@@ -130,9 +129,10 @@ class TestNoOtherRouteMoved:
         registry = REGISTRY.load()
         brands = {b: row for b, row in registry["brands"].items()
                   if row.get("provider") == PROVIDERS.FIRECRAWL}
-        assert set(brands) == {"CHOICE", "WYNDHAM"}
-        assert "CHOICE" in brands["CHOICE"].get("measured_by", "") or             "VALIDATION-004" in brands["CHOICE"]["measured_by"]
+        assert set(brands) == {"CHOICE", "WYNDHAM", "IHG"}
+        assert "VALIDATION-004" in brands["CHOICE"]["measured_by"]
         assert "WYNDHAM-FIRECRAWL-DECISION-008" in brands["WYNDHAM"]["measured_by"]
+        assert "IHG-FIRECRAWL-DECISION-009" in brands["IHG"]["measured_by"]
         domains = [d for d, row in registry["domains"].items()
                    if row.get("provider") == PROVIDERS.FIRECRAWL]
         assert domains == ["www.choicehotels.com"]

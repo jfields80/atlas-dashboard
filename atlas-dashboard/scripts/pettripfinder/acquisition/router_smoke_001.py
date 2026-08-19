@@ -68,7 +68,9 @@ COMPARISON_REPORT = REPORT_DIR / "ptf_acquisition_router_001_comparison.md"
 EXPECTED_ROUTE: Dict[str, Tuple[str, str]] = {
     "MARRIOTT": (PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
     "HILTON": (PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
-    "IHG": (PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
+    # Changed by PTF-IHG-FIRECRAWL-DECISION-009. The Web Unlocker is still on
+    # this lane as the fallback; what leads it changed.
+    "IHG": (PROVIDERS.FIRECRAWL, "ihg"),
     # Changed by PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006. The Web Unlocker
     # is still on this lane, as the fallback; what leads it changed.
     "CHOICE": (PROVIDERS.FIRECRAWL, "choice_static"),

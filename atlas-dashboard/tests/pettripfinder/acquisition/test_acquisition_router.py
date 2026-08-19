@@ -293,7 +293,7 @@ def test_a_route_may_not_both_prefer_and_forbid_a_provider():
 @pytest.mark.parametrize("brand,provider,reader", [
     ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER, "marriott"),
     ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
-    ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
+    ("IHG", PROVIDERS.FIRECRAWL, "ihg"),
     ("WYNDHAM", PROVIDERS.FIRECRAWL, "wyndham"),
     ("CHOICE", PROVIDERS.FIRECRAWL, "choice_static"),
 ])

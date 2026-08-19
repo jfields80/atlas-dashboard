@@ -223,7 +223,7 @@ class TestFirecrawlWasPromotedAndSpiderWasNot:
         registry = REGISTRY.load()
         leads = sorted(b for b, e in registry["brands"].items()
                        if e["provider"] == "firecrawl")
-        assert leads == ["CHOICE", "WYNDHAM"]
+        assert leads == ["CHOICE", "IHG", "WYNDHAM"]
         for brand in leads:
             assert registry["brands"][brand]["measured_by"]
         assert registry["brands"]["MARRIOTT"]["provider"] == "brightdata_browser"

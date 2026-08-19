@@ -78,19 +78,24 @@ APPROVE_MIN_PUBLICATION_GRADE_RATE = 0.80
 LIMITATION_MIN_PUBLICATION_GRADE_RATE = 0.40
 
 
-def test_registry() -> Dict:
-    """The proposed Wyndham lane, in memory, with no fallback.
+def test_registry(brand: str = BRAND, reader: str = "wyndham") -> Dict:
+    """The proposed lane, in memory, with no fallback.
 
     Built by copying the committed registry and replacing ONE brand row, so
     every other route in the override is the real one and a mistake here cannot
     silently re-route another brand.
+
+    ``brand``/``reader`` are parameters so a later brand's decision test reuses
+    this exact construction rather than copying it -- a second copy could drift
+    into being a gentler test. The defaults reproduce
+    PTF-WYNDHAM-FIRECRAWL-DECISION-008 unchanged.
     """
     registry = json.loads(json.dumps(REGISTRY.load()))
-    registry["brands"][BRAND] = {
+    registry["brands"][brand] = {
         "provider": PROVIDERS.FIRECRAWL,
         # Empty on purpose: phase 2 measures Firecrawl alone.
         "fallback_providers": [],
-        "reader": "wyndham",
+        "reader": reader,
         "max_attempts_per_provider": PROPOSED_ATTEMPTS,
         "forbidden_providers": [PROVIDERS.BRIGHTDATA_BROWSER,
                                 PROVIDERS.BRIGHTDATA_WEB_UNLOCKER],
@@ -100,7 +105,7 @@ def test_registry() -> Dict:
     return registry
 
 
-def subjects() -> List[Dict]:
+def subjects(brand: str = BRAND) -> List[Dict]:
     """The remaining Milwaukee Wyndham properties, derived not listed.
 
     Selected by BRAND across both halves of the split, deliberately. An earlier
@@ -111,14 +116,14 @@ def subjects() -> List[Dict]:
     """
     split = partition_remaining()
     rows = [r for r in split["eligible"] + split["blocked"]
-            if r["brand"] == BRAND]
+            if r["brand"] == brand]
     return sorted(rows, key=lambda r: r["identity_key"])
 
 
-def _record_for(row: Dict):
+def _record_for(row: Dict, brand: str = BRAND):
     record = CORPUS.BenchmarkRecord(
         identity_key=row["identity_key"], name=row["canonical_name"],
-        market_id=MARKET, brand=BRAND, bucket=CORPUS.bucket_of(BRAND),
+        market_id=MARKET, brand=brand, bucket=CORPUS.bucket_of(brand),
         source_url=row["official_url"], pets_allowed=None, facts={}, quotes=(),
         withheld_fields={}, service_animal_statement="",
         categories=frozenset(), origin="census")
