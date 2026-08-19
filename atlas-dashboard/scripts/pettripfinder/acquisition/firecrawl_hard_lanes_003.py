@@ -238,12 +238,14 @@ SCRAPE_PROFILE: Dict = {"formats": ["rawHtml"], "waitFor": 6000,
 
 async def acquire(entry: Dict, *, run_dir: Path, pace: float,
                   run_id: str = "firecrawl-hard-lanes-003",
-                  ref_tag: str = "fc3") -> Dict:
+                  ref_tag: str = "fc3", max_attempts: int = 2) -> Dict:
     """Plain scrape first; deterministic interaction only if it is incomplete.
 
     ``run_id`` and ``ref_tag`` exist so a later work order can reuse this exact
     acquisition path -- same profiles, same three gates, same comparison -- and
-    still stamp its own provenance onto the evidence it produces. The defaults
+    still stamp its own provenance onto the evidence it produces, and
+    ``max_attempts`` so a later work order can test whether a failure was
+    intermittent without forking the acquisition path to do it. The defaults
     reproduce PTF-FIRECRAWL-HARD-LANES-003 unchanged.
     """
     record = CORPUS.BenchmarkRecord(
@@ -275,7 +277,7 @@ async def acquire(entry: Dict, *, run_dir: Path, pace: float,
     for mode, profile in (("scrape", SCRAPE_PROFILE), ("interact", INTERACT_PROFILE)):
         attempts, payload = await FIRECRAWL.capture_property(
             target, run_dir=run_dir / mode, brand=brand_locator,
-            max_attempts=2, profile=profile)
+            max_attempts=max_attempts, profile=profile)
         attempts_all.extend(attempts)
         out["%s_calls" % mode] = len(attempts)
         if payload is not None:

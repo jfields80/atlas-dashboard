@@ -427,6 +427,49 @@ def _service_animal_quote(text: str, match) -> str:
     return text[start:end].strip()
 
 
+def _service_animal_span(text: str, match) -> Optional[Tuple[int, int]]:
+    """The words a limit must sit in to be a limit ON service animals.
+
+    It begins at the service-animal PHRASE and ends where the published quote
+    ends. The quote's own start is deliberately not used: ``_segment_containing``
+    splits on punctuation, and Choice writes "... Max 65 Pounds Service animals
+    are permitted, without charge." with no full stop before "Service". That
+    segment therefore opens well before the phrase and swallows a genuine PET
+    weight limit stated ahead of it.
+
+    A limit written BEFORE the words "service animals" cannot be a limit on
+    service animals, so the span starts at the phrase.
+    """
+    quote = _service_animal_quote(text, match)
+    if not quote or match is None:
+        return None
+    start = text.find(quote)
+    if start < 0:
+        return None
+    end = start + len(quote)
+    return (match.start(), end) if match.start() < end else None
+
+
+def _span_of(text: str, match, quote: str) -> Optional[Tuple[int, int]]:
+    """A term's position, from its match when there is one and its quote when
+    there is not. Every quote in this reader is a contiguous substring of the
+    block, which is what makes the fallback exact rather than approximate."""
+    if match is not None:
+        return (match.start(), match.end())
+    if not quote:
+        return None
+    start = text.find(quote)
+    return None if start < 0 else (start, start + len(quote))
+
+
+def _within(outer: Optional[Tuple[int, int]],
+            inner: Optional[Tuple[int, int]]) -> bool:
+    """Whether ``inner`` lies wholly inside ``outer``."""
+    if outer is None or inner is None:
+        return False
+    return outer[0] <= inner[0] and inner[1] <= outer[1]
+
+
 #: Words that void an acceptance a few tokens later. "Sorry no other pets are
 #: allowed" contains "pets are allowed" and means its opposite.
 _NEGATION_RE = re.compile(r"\b(?:no|not|never|sorry|except|excluding)\b",
@@ -731,6 +774,80 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     cats_refused = MS._CATS_REFUSED_RE.search(text)
     both_species = _BOTH_SPECIES_RE.search(text)
     service = MS._SERVICE_ANIMAL_RE.search(text)
+
+    # --- a refusal may not arrive carrying ordinary-pet terms ---------------- #
+    #
+    # Two different faults produce the same shape, and they need different
+    # answers, so they are separated before either is acted on.
+    #
+    # 1. The term sits INSIDE the service-animal statement. "Only service
+    #    animals are permitted, maximum 2 per room" caps SERVICE ANIMALS. A
+    #    service-animal limit must never be republished as a pet limit, so the
+    #    term is dropped. That is a mis-attribution, not a contradiction: the
+    #    source said one coherent thing and the reader misread which subject it
+    #    was about.
+    #
+    # 2. The term is an ordinary-pet term standing outside that statement, and
+    #    the block also refuses pets. Then the SOURCE contradicts itself, and
+    #    the corpus rule is to publish neither side rather than pick one.
+    #
+    # This is a general rule about wording. It is deliberately not keyed to any
+    # property, brand or URL.
+    service_span = _service_animal_span(text, service)
+    pet_terms = [
+        ("weight_limit", _span_of(text, weight_match, weight_quote), weight_quote),
+        ("pet_count_limit", _span_of(text, count_match, pet_count_quote),
+         pet_count_quote),
+    ]
+    pet_terms += [("species_allowed", (m.start(), m.end()),
+                   text[m.start():m.end()])
+                  for m in (dogs_only, both_species) if m]
+    # ``Charge`` is frozen with the committed pilot manifests and carries no
+    # match object. Its quote is a contiguous substring of the block by
+    # contract, so its position is recoverable without changing that type.
+    pet_terms += [("pet_fee", _span_of(text, None, c.quote), c.quote)
+                  for c in charges]
+
+    def _drop(field: str) -> None:
+        nonlocal weight_value, weight_unit, weight_quote
+        nonlocal pet_count, pet_count_scope, pet_count_quote
+        nonlocal dogs_only, both_species, charges
+        if field == "weight_limit":
+            weight_value = weight_unit = weight_quote = None
+        elif field == "pet_count_limit":
+            pet_count = pet_count_scope = pet_count_quote = None
+        elif field == "species_allowed":
+            dogs_only = both_species = None
+        elif field == "pet_fee":
+            charges = []
+
+    inside_service = [(f, q) for f, span, q in pet_terms
+                      if span is not None and _within(service_span, span)]
+    for field, quote in inside_service:
+        notes.append("dropped %s %r: it stands inside the service-animal "
+                     "statement, so it limits service animals and not pets"
+                     % (field, quote))
+        _drop(field)
+
+    handled = {f for f, _q in inside_service}
+    ordinary = [(f, q) for f, span, q in pet_terms
+                if span is not None and f not in handled
+                and not _within(service_span, span)]
+    if pets_allowed is False and ordinary:
+        quotes = [pets_allowed_quote] + [q for _f, q in ordinary]
+        notes.append("the block refuses pets and states ordinary-pet terms "
+                     "(%s) in the same breath; neither is taken"
+                     % ", ".join(sorted({f for f, _q in ordinary})))
+        contradictions.append({
+            "amount_minor": None, "field": "pets_allowed", "bases_stated": [],
+            "withholding_reason": enums.SOURCE_CONTRADICTORY,
+            "quotes": [q for q in quotes if q],
+            "contradicted_fields": sorted({f for f, _q in ordinary}),
+            "note": ("the surface denies pet acceptance and states pet terms "
+                     "that only apply if pets are accepted")})
+        pets_allowed, pets_allowed_quote = None, ""
+        for field, _quote in ordinary:
+            _drop(field)
 
     return Reading(
         found=True, block_text=text, strategy=strategy,
