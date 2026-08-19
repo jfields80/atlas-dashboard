@@ -1,0 +1,4165 @@
+{
+ "schema": "ptf-milwaukee-policy-proposals/1.0",
+ "work_order": "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001",
+ "market_id": "milwaukee-wi",
+ "note": "Structured proposals only. Nothing here is published and nothing is approved: published=false and founder_approved=false on every row, no policy authority file exists for this market, and the market's three authority shards are untouched. Each proposal carries the exact contiguous quotes its facts rest on, the fields the source was silent about, and the inferences that were deliberately NOT made.",
+ "policy_schema_version": "1.2",
+ "authority_written": false,
+ "founder_approvals_created": 0,
+ "acquisition_state_counts": {
+  "ACQUIRED_PUBLICATION_GRADE": 58,
+  "IDENTITY_REVIEW": 2,
+  "PROVIDER_EXHAUSTED": 2,
+  "TECHNICAL_FALLBACK_REQUIRED": 4,
+  "POLICY_NOT_FOUND": 1
+ },
+ "publication_grade_total": 58,
+ "proposal_total": 58,
+ "founder_review_ready": 39,
+ "refusal_founder_review": 19,
+ "held_semantic_review": 0,
+ "refusal_note": "A captured refusal is a finding, not an exclusion. Nothing here creates a VERIFIED_NO_PETS record: that is a founder decision and a publication act, and this work order takes neither. Each refusal carries the exact quote it rests on so the decision is reviewable.",
+ "items": [
+  {
+   "identity_key": "aloft by marriott milwaukee downtown",
+   "canonical_name": "Aloft by Marriott Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Maximum Pet Weight: 40.0lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkeal-aloft-milwaukee-downtown/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkeal-aloft-milwaukee-downtown/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:30:50.768348+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "5e2a80cd8b2ed8ec56077d4273083e0107e67f5ab3a2eae86a88af75b849033a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\aloft-by-marriott-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::aloft-by-marriott-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Aloft by Marriott Milwaukee Downtown",
+    "address_on_page": "1230 N. Dr. Martin Luther King Jr. Dr.",
+    "property_code": "mkeal",
+    "phone_on_page": "+14142260122"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+   "canonical_name": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50USD per stay. ",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "50USD per stay. ",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30lbs or less",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "1 pet max",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/trademark/milwaukee-wisconsin/ambassador-hotel-trademark-collection/overview",
+    "final_url": "https://www.wyndhamhotels.com/trademark/milwaukee-wisconsin/ambassador-hotel-trademark-collection/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:31:25.636477+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "f6fd2220e7e6995b8cdabae84e3b1ae6e41b195f12ca603ad3bcad7723bdd22f",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\ambassador-hotel-milwaukee-trademark-collection-by-wyndham\\attempt-01",
+    "obs_id": "milwaukee-router-001::ambassador-hotel-milwaukee-trademark-collection-by-wyndham::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+    "address_on_page": "2308 W Wisconsin Avenue",
+    "phone_on_page": "414-3455000"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "americinn by wyndham brookfield",
+   "canonical_name": "AmericInn by Wyndham Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "service_animal_exception": "Pet & Service Animal Policy"
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pet & Service Animal Policy",
+     "location": "bounded policy container (wyndham_pet_policy_items / .policy-items.pet-policy)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/americinn/brookfield-wisconsin/americinn-brookfield/overview",
+    "final_url": "https://www.wyndhamhotels.com/americinn/brookfield-wisconsin/americinn-brookfield/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:32:44.373212+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "8c641bc33382f1f22b475eb22ace60951cbc343dea9afb08ed7839eae3ce4e6e",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\americinn-by-wyndham-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::americinn-by-wyndham-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "AmericInn by Wyndham Brookfield",
+    "address_on_page": "16865 W Bluemound Rd",
+    "phone_on_page": "+1-262-299-5640"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "americinn by wyndham glendale milwaukee",
+   "canonical_name": "AmericInn by Wyndham Glendale/Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 50lbs",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/americinn/glendale-wisconsin/americinn-glendale-milwaukee/overview",
+    "final_url": "https://www.wyndhamhotels.com/americinn/glendale-wisconsin/americinn-glendale-milwaukee/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:35:56.230040+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "f7b14b0a07edf86146b8ff70c1ab768169f98942cba781b6638002fdf6175b64",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\americinn-by-wyndham-glendale-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::americinn-by-wyndham-glendale-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "AmericInn by Wyndham Glendale/Milwaukee",
+    "address_on_page": "5110 N Port Washington Rd",
+    "phone_on_page": "414-9648484"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "avid hotels milwaukee west waukesha",
+   "canonical_name": "avid hotels Milwaukee West - Waukesha",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "cats_allowed": false,
+    "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50lbs or less",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "No cats",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "cats_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed Service animals allowed Pet walking area onsite",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail",
+    "final_url": "https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:37:15.993879+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "659423a7c5394e089164ccf97a72169ffb91fd1bebaae242836ce87fc6b1d327",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\avid-hotels-milwaukee-west-waukesha\\attempt-01",
+    "obs_id": "milwaukee-router-001::avid-hotels-milwaukee-west-waukesha::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "avid hotels Milwaukee West - Waukesha",
+    "address_on_page": "2101 Meadow Lane",
+    "phone_on_page": "1-262-3675750"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "avid hotels oak creek",
+   "canonical_name": "avid hotels Oak Creek",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "We charge 50.00 per pet, per night, except ADA Service Animals."
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--tablet--10 > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--tablet--10 > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "We charge 50.00 per pet, per night, except ADA Service Animals.",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--tablet--10 > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/oak-creek/mkeco/hoteldetail",
+    "final_url": "https://www.ihg.com/avidhotels/hotels/us/en/oak-creek/mkeco/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:38:05.516955+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "af560327f8e7e3c500b0046300bd60bb97e7a4338a94ffa4a781066642cf413a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\avid-hotels-oak-creek\\attempt-01",
+    "obs_id": "milwaukee-router-001::avid-hotels-oak-creek::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "avid hotels Oak Creek",
+    "address_on_page": "9293 South 13th Street",
+    "phone_on_page": "1-414-6263099"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "baymont by wyndham mequon milwaukee area",
+   "canonical_name": "Baymont by Wyndham Mequon Milwaukee Area",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA Defined service animals are welcome at this hotel."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "no other pets",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA Defined service animals are welcome at this hotel.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/baymont/mequon-wisconsin/baymont-inn-and-suites-mequon-milwaukee-area/overview",
+    "final_url": "https://www.wyndhamhotels.com/baymont/mequon-wisconsin/baymont-inn-and-suites-mequon-milwaukee-area/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:39:14.234291+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "86cb317a192b09324aef44debbd580bc71f66fc6287e6d7ae1fb25fd042e94c0",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\baymont-by-wyndham-mequon-milwaukee-area\\attempt-01",
+    "obs_id": "milwaukee-router-001::baymont-by-wyndham-mequon-milwaukee-area::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Baymont by Wyndham Mequon Milwaukee Area",
+    "address_on_page": "10330 Port Washington Road",
+    "phone_on_page": "1-262-2413677"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "baymont by wyndham waukesha",
+   "canonical_name": "Baymont by Wyndham Waukesha",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "50lbs or less",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs and cats only",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/baymont/waukesha-wisconsin/baymont-inn-and-suites-waukesha/overview",
+    "final_url": "https://www.wyndhamhotels.com/baymont/waukesha-wisconsin/baymont-inn-and-suites-waukesha/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:40:34.437722+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "c461bb2b7ef3da0c395c735c81481962248aa6bfc0950ef5f7cdfb88c37038bd",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\baymont-by-wyndham-waukesha\\attempt-01",
+    "obs_id": "milwaukee-router-001::baymont-by-wyndham-waukesha::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "BAYMONT BY WYNDHAM WAUKESHA",
+    "address_on_page": "2111 EAST MORELAND BLVD",
+    "phone_on_page": "262-547-7770"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "cambria hotel milwaukee downtown",
+   "canonical_name": "Cambria Hotel Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed: No",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297",
+    "final_url": "https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:42:55.297631+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "90181d4a281c2e654e63a4bf308479bf13ba3d25fca4480c9375c5fb62f9665f",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\cambria-hotel-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::cambria-hotel-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Cambria Hotel Milwaukee Downtown",
+    "address_on_page": "503 N. Plankinton Ave",
+    "phone_on_page": "(414) 223-4484"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "candlewood suites milwaukee airport oak creek",
+   "canonical_name": "Candlewood Suites Milwaukee Airport-Oak Creek",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "maximum of 2 pets",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/candlewood/hotels/us/en/oak-creek/mkegw/hoteldetail",
+    "final_url": "https://www.ihg.com/candlewood/hotels/us/en/oak-creek/mkegw/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:43:51.992622+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "032f07e70ecd6c64e298024c962ac3d3566b00a3271f8006cb1c46b733c57bf2",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\candlewood-suites-milwaukee-airport-oak-creek\\attempt-01",
+    "obs_id": "milwaukee-router-001::candlewood-suites-milwaukee-airport-oak-creek::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Candlewood Suites Milwaukee Airport-Oak Creek",
+    "address_on_page": "6440 S. 13th Street",
+    "phone_on_page": "1-414-5709999"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "candlewood suites milwaukee brown deer",
+   "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "less than 80lbs",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/candlewood/hotels/us/en/brown-deer/mkesd/hoteldetail",
+    "final_url": "https://www.ihg.com/candlewood/hotels/us/en/brown-deer/mkesd/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:45:09.699462+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "3811bc7082317ec2ec50ec8e9c77342f98bc7c73b5321c961fb41afc10aac758",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\candlewood-suites-milwaukee-brown-deer\\attempt-01",
+    "obs_id": "milwaukee-router-001::candlewood-suites-milwaukee-brown-deer::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Candlewood Suites Milwaukee Brown Deer",
+    "address_on_page": "4483 W Schroeder Dr",
+    "phone_on_page": "1-414-3553939"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "clarion pointe milwaukee airport",
+   "canonical_name": "Clarion Pointe Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed: No",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/milwaukee/clarion-hotels/wi519",
+    "final_url": "https://www.choicehotels.com/wisconsin/milwaukee/clarion-hotels/wi519",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:48:01.859494+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "67afcc17436c7a805c8be2c754338dce185255fe77065b2ec4d0aa54046ca9bf",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\clarion-pointe-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::clarion-pointe-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Clarion Pointe Milwaukee Airport",
+    "address_on_page": "5037 S Howell Ave",
+    "phone_on_page": "(414) 323-1930"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+   "canonical_name": "Cobblestone Hotel & Suites - Waukesha/West Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "INDEP:staycobblestone.com",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "PET FRIENDLY",
+     "location": "bounded policy container (generic_signal_walk / ul#amenities-list > li)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://staycobblestone.com/wi/waukesha/",
+    "final_url": "https://staycobblestone.com/wi/waukesha/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:48:58.861181+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "1ac83436a1b9204703664469561675e72705496cfe29028d2c0d4df928c1e920",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\cobblestone-hotel-suites-waukesha-west-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::cobblestone-hotel-suites-waukesha-west-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Cobblestone Hotel &amp; Suites Main Street in Waukesha, Wisconsin"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "comfort inn and suites nw milwaukee",
+   "canonical_name": "Comfort Inn & Suites NW Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "75.00 per stay",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "75.00 per stay",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Max 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service animals are permitted, without charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/germantown/comfort-inn-hotels/wi426",
+    "final_url": "https://www.choicehotels.com/wisconsin/germantown/comfort-inn-hotels/wi426",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:50:56.347757+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "ffde1bfcc742c3133a08fbbde9b26ce861aabf67c1c9ece7f3c46bc06507eed3",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\comfort-inn-suites-nw-milwaukee\\attempt-02",
+    "obs_id": "milwaukee-router-001::comfort-inn-suites-nw-milwaukee::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Comfort Inn & Suites NW Milwaukee",
+    "address_on_page": "W177 N 9675 Riversbend Lane",
+    "phone_on_page": "(262) 293-6004"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "comfort inn waukesha milwaukee west",
+   "canonical_name": "Comfort Inn Waukesha - Milwaukee West",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Are Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30.00 USD Per Night ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30.00 USD Per Night ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "maximum of 25 pounds",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Service animals are permitted, without charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/waukesha/comfort-inn-hotels/wi007",
+    "final_url": "https://www.choicehotels.com/wisconsin/waukesha/comfort-inn-hotels/wi007",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:51:10.411662+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "7d681b52fde2537eaa001c5c34e290de922f5f4e3ee329a85818356bf2279b11",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\comfort-inn-waukesha-milwaukee-west\\attempt-01",
+    "obs_id": "milwaukee-router-001::comfort-inn-waukesha-milwaukee-west::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Comfort Inn Waukesha - Milwaukee West",
+    "address_on_page": "2510 Plaza Court",
+    "phone_on_page": "(262) 228-6630"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "comfort suites milwaukee airport",
+   "canonical_name": "Comfort Suites Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "maximum of 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service animals are permitted, without charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/oak-creek/comfort-suites-hotels/wi065",
+    "final_url": "https://www.choicehotels.com/wisconsin/oak-creek/comfort-suites-hotels/wi065",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:52:36.474477+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "6542089dffb71bc0be9cf0b26c6ec7d68940bf9386a0f32fb8c9e92c902b4ef4",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\comfort-suites-milwaukee-airport\\attempt-02",
+    "obs_id": "milwaukee-router-001::comfort-suites-milwaukee-airport::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Comfort Suites Milwaukee Airport",
+    "address_on_page": "6362 S. 13th Street",
+    "phone_on_page": "(414) 376-4284"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "comfort suites milwaukee west",
+   "canonical_name": "Comfort Suites Milwaukee West",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25 USD Per Pet,Per Night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25 USD Per Pet,Per Night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25 USD Per Pet,Per Night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "Max 40 Pounds",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 Pet Per Room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    },
+    {
+     "quote": "Max 40 Pounds Service animals are permitted, without charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/milwaukee/comfort-suites-hotels/wi147",
+    "final_url": "https://www.choicehotels.com/wisconsin/milwaukee/comfort-suites-hotels/wi147",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:53:29.243285+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "77db6742f23106a04651826f391d688532ed96a308125cb83223c832b4d97a99",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\comfort-suites-milwaukee-west\\attempt-01",
+    "obs_id": "milwaukee-router-001::comfort-suites-milwaukee-west::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Comfort Suites Milwaukee West",
+    "address_on_page": "11777 W Silver Spring Drive",
+    "phone_on_page": "(414) 392-6451"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "country inn and suites by radisson germantown wi",
+   "canonical_name": "Country Inn & Suites by Radisson, Germantown, WI",
+   "market_id": "milwaukee-wi",
+   "brand": "CHOICE",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed: No",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.choicehotels.com/wisconsin/germantown/country-inn-suites-hotels/wi483",
+    "final_url": "https://www.choicehotels.com/wisconsin/germantown/country-inn-suites-hotels/wi483",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T03:58:13.169501+00:00",
+    "capture_method": "deterministic_fetch",
+    "provider": "brightdata_web_unlocker",
+    "reader": "choice_static",
+    "snapshot_hash": "a7c8b5c051e67a6cff3e31cd282dac3907758ff240cbeb76051bd969e680d5fe",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\country-inn-suites-by-radisson-germantown-wi\\attempt-02",
+    "obs_id": "milwaukee-router-001::country-inn-suites-by-radisson-germantown-wi::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Country Inn & Suites by Radisson, Germantown, WI",
+    "address_on_page": "W 188 North 11020 Maple Road",
+    "phone_on_page": "(262) 293-6948"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "courtyard by marriott milwaukee airport",
+   "canonical_name": "Courtyard by Marriott Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkecy-courtyard-milwaukee-airport/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkecy-courtyard-milwaukee-airport/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:08:52.398481+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "5ed7c15876ae7d57d671fa6eb17b9094d1ca51b5a6a57ee7209f9d1c46d5a0e2",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\courtyard-by-marriott-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::courtyard-by-marriott-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Courtyard by Marriott Milwaukee Airport",
+    "address_on_page": "4620 South 5th Street",
+    "property_code": "mkecy",
+    "phone_on_page": "+14147474405"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+   "canonical_name": "Courtyard by Marriott Milwaukee Brookfield at Poplar Creek",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_AMBIGUOUS",
+    "fee_basis": "SOURCE_AMBIGUOUS"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Maximum Pet Weight: 50.0lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkeby-courtyard-milwaukee-brookfield-at-poplar-creek/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkeby-courtyard-milwaukee-brookfield-at-poplar-creek/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:09:41.876943+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "6444f801393cf647e12e2d61f3cf6899c15f123f40183123985d6233a78bcd8d",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek\\attempt-01",
+    "obs_id": "milwaukee-router-001::courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Courtyard by Marriott Milwaukee Brookfield at Poplar Creek",
+    "address_on_page": "20300 West Bluemound Road",
+    "property_code": "mkeby",
+    "phone_on_page": "+12622054900"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "courtyard by marriott milwaukee downtown",
+   "canonical_name": "Courtyard by Marriott Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_AMBIGUOUS",
+    "fee_basis": "SOURCE_AMBIGUOUS"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkedt-courtyard-milwaukee-downtown/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkedt-courtyard-milwaukee-downtown/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:10:39.819558+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "ccdb19c982555d7db1a6aa8e4d3c9a5d292c8c4519167719c595d737ac21762e",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\courtyard-by-marriott-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::courtyard-by-marriott-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Courtyard by Marriott Milwaukee Downtown",
+    "address_on_page": "300 W. Michigan Street",
+    "property_code": "mkedt",
+    "phone_on_page": "+14142914122"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "crowne plaza milwaukee airport",
+   "canonical_name": "Crowne Plaza Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "75.00 USD per stay. A ",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "75.00 USD per stay. A ",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/milwaukee/mketh/hoteldetail",
+    "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/milwaukee/mketh/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:11:20.075815+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "15e79fd805bdc133b4116b72f44e3f2e36d4d13e789aec10647e34ce5bfefc10",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\crowne-plaza-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::crowne-plaza-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Crowne Plaza Milwaukee Airport",
+    "address_on_page": "6401 South 13th Street",
+    "phone_on_page": "1-414-7645300"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham milwaukee",
+   "canonical_name": "Days Inn & Suites by Wyndham Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "40lbs or less",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/days-inn/milwaukee-wisconsin/days-inn-and-suites-milwaukee/overview",
+    "final_url": "https://www.wyndhamhotels.com/days-inn/milwaukee-wisconsin/days-inn-and-suites-milwaukee/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:13:59.373340+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "4d6d4724d1a9947ff2143aae748e0168cb84ca051807cf7b74da94120cb0b2a3",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\days-inn-suites-by-wyndham-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::days-inn-suites-by-wyndham-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Days Inn & Suites by Wyndham Milwaukee",
+    "address_on_page": "1840 North 6th Street",
+    "phone_on_page": "414-2655629"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "days inn by wyndham west allis milwaukee",
+   "canonical_name": "Days Inn by Wyndham West Allis/Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "no other pets",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/days-inn/west-allis-wisconsin/days-inn-west-allis-milwaukee/overview",
+    "final_url": "https://www.wyndhamhotels.com/days-inn/west-allis-wisconsin/days-inn-west-allis-milwaukee/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:15:15.825637+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "6b032d8f9a229935249242613fca5db4d8ab725741d1f82c712a6d4c370d6d97",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\days-inn-by-wyndham-west-allis-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::days-inn-by-wyndham-west-allis-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Days Inn by Wyndham West Allis/Milwaukee",
+    "address_on_page": "1673 South 108th St.",
+    "phone_on_page": "414-7782200"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "delta hotels milwaukee northwest",
+   "canonical_name": "Delta Hotels Milwaukee Northwest",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkedm-delta-hotels-milwaukee-northwest/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkedm-delta-hotels-milwaukee-northwest/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:16:59.412167+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "d4587e806a5e35bcc79326df2e14c00bc308aa7059118929f9ac23224a7dcadc",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\delta-hotels-milwaukee-northwest\\attempt-01",
+    "obs_id": "milwaukee-router-001::delta-hotels-milwaukee-northwest::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Delta Hotels Milwaukee Northwest",
+    "address_on_page": "N88 W14750 Main Street",
+    "property_code": "mkedm",
+    "phone_on_page": "+12622515153"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel milwaukee brookfield",
+   "canonical_name": "DoubleTree by Hilton Hotel Milwaukee - Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.w-full.lg:ps-8 > div.p-4.pb-0 > div.flex.justify-center > ul.grid.gap-x-10 > li.flex.pb-6)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkebkdt-doubletree-milwaukee-brookfield/",
+    "final_url": "https://www.hilton.com/en/hotels/mkebkdt-doubletree-milwaukee-brookfield/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:17:49.341583+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "78d768a5d6c4d6ed0235697ea14ee991c2de7c410c07cc206b94bffb73233e17",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\doubletree-by-hilton-hotel-milwaukee-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::doubletree-by-hilton-hotel-milwaukee-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "DoubleTree by Hilton Hotel Milwaukee - Brookfield",
+    "address_on_page": "18155 Bluemound Road",
+    "property_code": "mkebkdt",
+    "phone_on_page": "+1 262-792-1212"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel milwaukee downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.w-full.lg:ps-8 > div.p-4.pb-0 > div.flex.justify-center > ul.grid.gap-x-10 > li.flex.pb-6)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkeccdt-doubletree-milwaukee-downtown/",
+    "final_url": "https://www.hilton.com/en/hotels/mkeccdt-doubletree-milwaukee-downtown/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:18:37.844122+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "3be6143e39902b19eeef7f7ba1c429d06c46f858c7c4078f844713037bd7063a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\doubletree-by-hilton-hotel-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::doubletree-by-hilton-hotel-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "DoubleTree by Hilton Hotel Milwaukee Downtown",
+    "address_on_page": "611 W. Wisconsin Avenue",
+    "property_code": "mkeccdt",
+    "phone_on_page": "+1 414-273-2950"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "embassy suites by hilton milwaukee brookfield",
+   "canonical_name": "Embassy Suites by Hilton Milwaukee Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "two pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkembes-embassy-suites-milwaukee-brookfield/",
+    "final_url": "https://www.hilton.com/en/hotels/mkembes-embassy-suites-milwaukee-brookfield/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:29:13.158896+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "9b2b379da6873c1c60f4e155de3e243e68a1c63cfcbf3bb0d73a72ab5bc377c4",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\embassy-suites-by-hilton-milwaukee-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::embassy-suites-by-hilton-milwaukee-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Embassy Suites by Hilton Milwaukee Brookfield",
+    "address_on_page": "1200 South Moorland Road",
+    "property_code": "mkembes",
+    "phone_on_page": "+1 262-782-2900"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "extended stay america milwaukee waukesha",
+   "canonical_name": "Extended Stay America - Milwaukee - Waukesha",
+   "market_id": "milwaukee-wi",
+   "brand": "ESA",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are allowed",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$15 non-refundable fee",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service animals will be exempt from this charge.",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/waukesha",
+    "final_url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/waukesha",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:32:09.209544+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "1b1e8d5a409a4fcb95d948b1de71b2ccd1d5576862c7e3c522b141a489a0758e",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\extended-stay-america-milwaukee-waukesha\\attempt-01",
+    "obs_id": "milwaukee-router-001::extended-stay-america-milwaukee-waukesha::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Extended Stay America - Milwaukee - Waukesha",
+    "address_on_page": "2520 Plaza Ct.",
+    "phone_on_page": "+1.262.798.0217"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "extended stay america milwaukee wauwatosa",
+   "canonical_name": "Extended Stay America - Milwaukee - Wauwatosa",
+   "market_id": "milwaukee-wi",
+   "brand": "ESA",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are allowed",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$15 non-refundable fee",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service animals will be exempt from this charge.",
+     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/wauwatosa",
+    "final_url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/wauwatosa",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:33:13.752509+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "b78dd563cc0da618e7be29c9c0ffe42f9d1743841937483f79ec754f07ed0d5d",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\extended-stay-america-milwaukee-wauwatosa\\attempt-01",
+    "obs_id": "milwaukee-router-001::extended-stay-america-milwaukee-wauwatosa::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Extended Stay America - Milwaukee - Wauwatosa",
+    "address_on_page": "11121 W. North Ave.",
+    "phone_on_page": "+1.414.443.1909"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee airport",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkeap-fairfield-inn-and-suites-milwaukee-airport/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkeap-fairfield-inn-and-suites-milwaukee-airport/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:34:15.775276+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "8ecec18165abee4cabb14a24387f2a11de8103abe106c1406b0e2eeea4644a51",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\fairfield-by-marriott-inn-suites-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::fairfield-by-marriott-inn-suites-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Milwaukee Airport",
+    "address_on_page": "6460 South 13th Street",
+    "property_code": "mkeap",
+    "phone_on_page": "+14145708888"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee brookfield",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkefb-fairfield-inn-and-suites-milwaukee-brookfield/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkefb-fairfield-inn-and-suites-milwaukee-brookfield/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:35:28.814919+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "ba9ba33f382b5a95ba7bb39ffe0f88d6d9916881b37ff5f53c5ff98c7bec7556",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\fairfield-by-marriott-inn-suites-milwaukee-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::fairfield-by-marriott-inn-suites-milwaukee-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Milwaukee Brookfield",
+    "address_on_page": "135 Discovery Drive",
+    "property_code": "mkefb",
+    "phone_on_page": "+12622054450"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee downtown",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $75.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $75.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Maximum Pet Weight: 50.0lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkefd-fairfield-inn-and-suites-milwaukee-downtown/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkefd-fairfield-inn-and-suites-milwaukee-downtown/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:38:20.525174+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "eb159092eec60fa97250d3f43ec10e687da29ddc932e39709f300cbbb1b84f45",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\fairfield-by-marriott-inn-suites-milwaukee-downtown\\attempt-02",
+    "obs_id": "milwaukee-router-001::fairfield-by-marriott-inn-suites-milwaukee-downtown::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Milwaukee Downtown",
+    "address_on_page": "710 North Dr. Martin Luther King Jr. Drive",
+    "property_code": "mkefd",
+    "phone_on_page": "+14146267100"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee north",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee North",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $125.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $125.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Maximum Pet Weight: 40.0lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkefi-fairfield-inn-and-suites-milwaukee-north/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkefi-fairfield-inn-and-suites-milwaukee-north/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:39:19.701677+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "8778a488a9f7401b5fd8966deb4355167fb74eb9c5eedfd63e03c556a313626f",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\fairfield-by-marriott-inn-suites-milwaukee-north\\attempt-01",
+    "obs_id": "milwaukee-router-001::fairfield-by-marriott-inn-suites-milwaukee-north::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Milwaukee North",
+    "address_on_page": "7035 North Port Washington Road",
+    "property_code": "mkefi",
+    "phone_on_page": "+14144465900"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee west",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee West",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkefw-fairfield-inn-and-suites-milwaukee-west/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkefw-fairfield-inn-and-suites-milwaukee-west/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:40:36.744028+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "7bea38e576233e0087d9c550a699dee3b7d471fe44fa0278c154823ae73d9d2a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\fairfield-by-marriott-inn-suites-milwaukee-west\\attempt-01",
+    "obs_id": "milwaukee-router-001::fairfield-by-marriott-inn-suites-milwaukee-west::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Milwaukee West",
+    "address_on_page": "4229 West National Avenue",
+    "property_code": "mkefw",
+    "phone_on_page": "+14146452800"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "four points by sheraton milwaukee north shore",
+   "canonical_name": "Four Points by Sheraton Milwaukee North Shore",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $50.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Non-Refundable Pet Fee Per Stay: $50.00",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    },
+    {
+     "quote": "Dogs Only",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marriott.com/en-us/hotels/mkefp-four-points-milwaukee-north-shore/overview/",
+    "final_url": "https://www.marriott.com/en-us/hotels/mkefp-four-points-milwaukee-north-shore/overview/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:41:27.250329+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "marriott",
+    "snapshot_hash": "559ece1736137531b1cd5865ff3ecf21e74714b604a279cae8acfa8d1601d54f",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\four-points-by-sheraton-milwaukee-north-shore\\attempt-01",
+    "obs_id": "milwaukee-router-001::four-points-by-sheraton-milwaukee-north-shore::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Four Points by Sheraton Milwaukee North Shore",
+    "address_on_page": "8900 North Kildeer Court",
+    "property_code": "mkefp",
+    "phone_on_page": "+14143558585"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee downtown",
+   "canonical_name": "Hampton Inn & Suites Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 50 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkedwhx-hampton-suites-milwaukee-downtown/",
+    "final_url": "https://www.hilton.com/en/hotels/mkedwhx-hampton-suites-milwaukee-downtown/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:42:50.922217+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "ff22168164d0466ec2ae9c3efef292c3844b6610b347daf32d3781a4689460f7",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-suites-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-suites-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn & Suites Milwaukee Downtown",
+    "address_on_page": "176 W. Wisconsin Avenue",
+    "property_code": "mkedwhx",
+    "phone_on_page": "+1 414-271-4656"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee franklin",
+   "canonical_name": "Hampton Inn & Suites Milwaukee/Franklin",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 8500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$85.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pet Max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkefkhx-hampton-suites-milwaukee-franklin/",
+    "final_url": "https://www.hilton.com/en/hotels/mkefkhx-hampton-suites-milwaukee-franklin/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:44:02.453400+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "3bce0585677cd98ad08a96a58ff6fc904db18f3edaa0a5ae8e28ae17adfc4610",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-suites-milwaukee-franklin\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-suites-milwaukee-franklin::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn & Suites Milwaukee/Franklin",
+    "address_on_page": "6901 S. 76th Street",
+    "property_code": "mkefkhx",
+    "phone_on_page": "+1 414-427-4800"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee west",
+   "canonical_name": "Hampton Inn & Suites Milwaukee West",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkewahx-hampton-suites-milwaukee-west/",
+    "final_url": "https://www.hilton.com/en/hotels/mkewahx-hampton-suites-milwaukee-west/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:46:25.462227+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "a98a5c0558e367e32792fddce6cd6a323effd13c01f426f7cd39312a6ecb6e56",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-suites-milwaukee-west\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-suites-milwaukee-west::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn & Suites Milwaukee West",
+    "address_on_page": "8201 W. Greenfield Avenue",
+    "property_code": "mkewahx",
+    "phone_on_page": "+1 414-436-2300"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn glendale milwaukee",
+   "canonical_name": "Hampton Inn Glendale Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkepwhx-hampton-glendale-milwaukee/",
+    "final_url": "https://www.hilton.com/en/hotels/mkepwhx-hampton-glendale-milwaukee/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:48:54.072055+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "3c7527e20849d4253cc3e57f175352ecfe86f9ca3cd716859ddc5bd1d4489006",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-glendale-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-glendale-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn Glendale Milwaukee",
+    "address_on_page": "7065 North Port Washington Rd",
+    "property_code": "mkepwhx",
+    "phone_on_page": "+1 414-928-3858"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn milwaukee airport",
+   "canonical_name": "Hampton Inn Milwaukee-Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$50.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkeaphx-hampton-milwaukee-airport/",
+    "final_url": "https://www.hilton.com/en/hotels/mkeaphx-hampton-milwaukee-airport/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:50:13.049788+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "766a2d70358338e076a7ff53f1d69ecf2856c0233eabadc4e3c5940c1b1daa01",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-milwaukee-airport\\attempt-02",
+    "obs_id": "milwaukee-router-001::hampton-inn-milwaukee-airport::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn Milwaukee-Airport",
+    "address_on_page": "1200 West College Avenue",
+    "property_code": "mkeaphx",
+    "phone_on_page": "+1 414-762-4240"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn milwaukee brookfield",
+   "canonical_name": "Hampton Inn Milwaukee/Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkebfhx-hampton-milwaukee-brookfield/",
+    "final_url": "https://www.hilton.com/en/hotels/mkebfhx-hampton-milwaukee-brookfield/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:51:40.735975+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "a96f6801a1ae1a9f3e5a07d3b82d0c397e0b28173e19cf5a3fe9b8cd6c8af6bb",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-milwaukee-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-milwaukee-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn Milwaukee/Brookfield",
+    "address_on_page": "575 North Barker Road",
+    "property_code": "mkebfhx",
+    "phone_on_page": "+1 262-796-1500"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hampton inn milwaukee northwest",
+   "canonical_name": "Hampton Inn Milwaukee-Northwest",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkellhx-hampton-milwaukee-northwest/",
+    "final_url": "https://www.hilton.com/en/hotels/mkellhx-hampton-milwaukee-northwest/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:53:01.089725+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "6af0d14dc6c8ca5a5012877725c5e356aa2d9d9c5d48eace0a59e090f7df009b",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hampton-inn-milwaukee-northwest\\attempt-01",
+    "obs_id": "milwaukee-router-001::hampton-inn-milwaukee-northwest::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hampton Inn Milwaukee-Northwest",
+    "address_on_page": "5601 N. Lover's Lane Rd.",
+    "property_code": "mkellhx",
+    "phone_on_page": "+1 414-466-8881"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham milwaukee airport",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "WYNDHAM",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Dogs Allowed",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "75lbs or less",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (wyndham_pet_policy_desc / .pet-policy-desc)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/oak-creek-wisconsin/hawthorn-extended-stay-milwaukee-airport/overview",
+    "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/oak-creek-wisconsin/hawthorn-extended-stay-milwaukee-airport/overview",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:54:10.480051+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "wyndham",
+    "snapshot_hash": "46892db68f9f0be36706b3f538832a8000c487f3922ef27a1622ab6cb04d3283",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hawthorn-extended-stay-by-wyndham-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::hawthorn-extended-stay-by-wyndham-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hawthorn Extended Stay by Wyndham Milwaukee Airport",
+    "address_on_page": "1001 W College Avenue",
+    "phone_on_page": "414-571-8800"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee airport",
+   "canonical_name": "Hilton Garden Inn Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkegigi-hilton-garden-inn-milwaukee-airport/",
+    "final_url": "https://www.hilton.com/en/hotels/mkegigi-hilton-garden-inn-milwaukee-airport/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:55:22.893916+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "fd3c463d2bfd6dfd83cf85daf588d1f16b38e75939691b25d95f9030189f45c1",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hilton-garden-inn-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::hilton-garden-inn-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hilton Garden Inn Milwaukee Airport",
+    "address_on_page": "5890 S. Howell Avenue",
+    "property_code": "mkegigi",
+    "phone_on_page": "+1 414-481-8280"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee brookfield conference center",
+   "canonical_name": "Hilton Garden Inn Milwaukee Brookfield Conference Center",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkebcgi-hilton-garden-inn-milwaukee-brookfield-conference-center/",
+    "final_url": "https://www.hilton.com/en/hotels/mkebcgi-hilton-garden-inn-milwaukee-brookfield-conference-center/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:56:40.076720+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "6aa74c7588a432af86859c337faae386d00f4e9e1cd920c94e6a57d7e96754e0",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hilton-garden-inn-milwaukee-brookfield-conference-center\\attempt-01",
+    "obs_id": "milwaukee-router-001::hilton-garden-inn-milwaukee-brookfield-conference-center::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hilton Garden Inn Milwaukee Brookfield Conference Center",
+    "address_on_page": "265 S. Moorland Road",
+    "property_code": "mkebcgi",
+    "phone_on_page": "+1 262-330-0800"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee downtown",
+   "canonical_name": "Hilton Garden Inn Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkemdgi-hilton-garden-inn-milwaukee-downtown/",
+    "final_url": "https://www.hilton.com/en/hotels/mkemdgi-hilton-garden-inn-milwaukee-downtown/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:57:09.776277+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "8dc5264bf9e636d25ada4759258b8c10e291237bab7c88cdb064eae7fb869030",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hilton-garden-inn-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::hilton-garden-inn-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hilton Garden Inn Milwaukee Downtown",
+    "address_on_page": "611 North Broadway",
+    "property_code": "mkemdgi",
+    "phone_on_page": "+1 414-271-6611"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee northwest conference center",
+   "canonical_name": "Hilton Garden Inn Milwaukee Northwest Conference Center",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkeppgi-hilton-garden-inn-milwaukee-northwest-conference-center/",
+    "final_url": "https://www.hilton.com/en/hotels/mkeppgi-hilton-garden-inn-milwaukee-northwest-conference-center/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:58:33.745255+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "7015f7a34b6512cc8f4fa88ec28afded5e8d9b409a5d1b8dd7f549d53d91b519",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hilton-garden-inn-milwaukee-northwest-conference-center\\attempt-01",
+    "obs_id": "milwaukee-router-001::hilton-garden-inn-milwaukee-northwest-conference-center::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hilton Garden Inn Milwaukee Northwest Conference Center",
+    "address_on_page": "11600 West Park Place",
+    "property_code": "mkeppgi",
+    "phone_on_page": "+1 414-359-9823"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hilton milwaukee",
+   "canonical_name": "Hilton Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "HILTON",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hilton.com/en/hotels/mkemhhf-hilton-milwaukee/",
+    "final_url": "https://www.hilton.com/en/hotels/mkemhhf-hilton-milwaukee/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T04:59:47.900042+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "hilton_competing",
+    "snapshot_hash": "5bd1b52fb163b72633018e0bdbef63287594ad80510062e51c23b2c4eb069d93",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\hilton-milwaukee\\attempt-01",
+    "obs_id": "milwaukee-router-001::hilton-milwaukee::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Hilton Milwaukee",
+    "address_on_page": "509 W. Wisconsin Avenue",
+    "property_code": "mkemhhf",
+    "phone_on_page": "+1 414-271-7250"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "holiday inn and suites milwaukee airport",
+   "canonical_name": "Holiday Inn & Suites Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkela/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkela/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:00:40.036607+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "93974bea0b745b61ec8a30262655f62b3b3468e3a921b3d52eaf7a2b83aa876a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-suites-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-suites-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn &amp; Suites Milwaukee Airport",
+    "address_on_page": "545 W. Layton Avenue",
+    "phone_on_page": "1-414-4824444"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn brookfield milwaukee",
+   "canonical_name": "Holiday Inn Brookfield - Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50 USD nonrefundable deposit",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "15 USD a day ",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "15 USD a day ",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "60lbs or less",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to 2 pets",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dogs allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/brookfield/mkebr/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/brookfield/mkebr/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:04:15.133002+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "7bf58aa9641e3e8cdb4bd7bb368f33a7594549f15d0811e919a6c3996710be5a",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-brookfield-milwaukee\\attempt-02",
+    "obs_id": "milwaukee-router-001::holiday-inn-brookfield-milwaukee::attempt-02"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Brookfield - ​​Milwaukee",
+    "address_on_page": "1005 South Moorland Road",
+    "phone_on_page": "1-262-7869540"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee airport",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeoc/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeoc/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:05:43.814987+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "6187bdd2802fc4fd4562d45ecc899000b9fbca38d6157e9e308ab63b70c94a52",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-suites-milwaukee-airport\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-suites-milwaukee-airport::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Milwaukee Airport",
+    "address_on_page": "1400 W. Zellman Court",
+    "phone_on_page": "1-414-5634000"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee brookfield",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - Brookfield",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brookfield/mkebf/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brookfield/mkebf/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:07:16.036709+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "5c422898487ae6a1c6c81f5ca80ae4913144b46473f635e4d5312046a00f0db7",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-suites-milwaukee-brookfield\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-suites-milwaukee-brookfield::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Milwaukee - Brookfield",
+    "address_on_page": "115 Discovery Drive",
+    "phone_on_page": "1-262-2145600"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee new berlin",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee-New Berlin",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-berlin/mkenb/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-berlin/mkenb/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:08:44.110933+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "0c3335bf664ef96ccacdfad3a35009fa6609ebcbfa5c11d59e25650a7850f4d7",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-suites-milwaukee-new-berlin\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-suites-milwaukee-new-berlin::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Milwaukee-New Berlin",
+    "address_on_page": "15451 W. Beloit Road",
+    "phone_on_page": "1-262-7870700"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee nw park place",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee NW - Park Place",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkepp/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkepp/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:10:37.298333+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "40eca48982f378f09a15087b060f62d612ab40e211bc6b1ce1e8e576e8103397",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-suites-milwaukee-nw-park-place\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-suites-milwaukee-nw-park-place::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Milwaukee NW – Park Place",
+    "address_on_page": "10831 W Park Place",
+    "phone_on_page": "1-414-9790250"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee west allis",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - West Allis",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-allis/mkell/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-allis/mkell/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:12:37.220710+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "bf8d2220ff11f5c266f79d989600d0d22bf67431764eb5d930ff664a7dba1d28",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-suites-milwaukee-west-allis\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-suites-milwaukee-west-allis::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Milwaukee – West Allis",
+    "address_on_page": "10111 West Lincoln Avenue",
+    "phone_on_page": "1-414-3272200"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "holiday inn express milwaukee downtown",
+   "canonical_name": "Holiday Inn Express Milwaukee Downtown",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeem/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeem/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:13:23.208226+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "130c83837d75071a41d2c76a6cafcfc7e434347a3a7892c04fe045f2278f5eb9",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-milwaukee-downtown\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-milwaukee-downtown::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express Milwaukee Downtown",
+    "address_on_page": "525 N Jefferson Street",
+    "phone_on_page": "1-414-2402896"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn express milwaukee n brown deer mequon",
+   "canonical_name": "Holiday Inn Express Milwaukee N-Brown Deer/Mequon",
+   "market_id": "milwaukee-wi",
+   "brand": "IHG",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brown-deer/mkebd/hoteldetail",
+    "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brown-deer/mkebd/hoteldetail",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-19T05:14:53.281668+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "ihg",
+    "snapshot_hash": "f3423f38150b90d62f6a8f325fa1d3f3af0a589723a3f35bf3abc354af89c1c1",
+    "raw_pointer": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-router-001\\milwaukee-router-001\\holiday-inn-express-milwaukee-n-brown-deer-mequon\\attempt-01",
+    "obs_id": "milwaukee-router-001::holiday-inn-express-milwaukee-n-brown-deer-mequon::attempt-01"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {
+    "name_on_page": "Holiday Inn Express Milwaukee N-Brown Deer/Mequon",
+    "address_on_page": "4443 W Schroeder Dr",
+    "phone_on_page": "1-414-3551300"
+   },
+   "frozen_semantics_violations": [],
+   "is_refusal": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "REFUSAL_FOUNDER_REVIEW"
+  }
+ ]
+}

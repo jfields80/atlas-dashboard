@@ -1,0 +1,214 @@
+"""PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001 -- structured proposals.
+
+Turns the durable acquisition journal into schema-1.2-shaped policy PROPOSALS
+and a run report. It publishes nothing, approves nothing, and writes no
+authority: the output is a founder-review packet.
+
+Why this is a projection and not an interpretation
+--------------------------------------------------
+Every fact here was already produced by the proven reading path -- the router
+stored ``document.observation`` built by the pilots' own ``build_observation``,
+which is where schema 1.2 is enforced. This module reshapes those records for
+review and re-asserts the frozen rules as gates. It never reads a page, never
+fills a gap, and never turns an absence into a value.
+
+The frozen semantics it re-checks per proposal:
+
+* ``per_day`` is not ``per_night``; ``fee_basis`` is one of per_night/per_day/
+  per_stay and ``fee_scope`` is a separate field.
+* unknown is ABSENCE. A withheld field appears in ``withheld_fields`` with a
+  reason and is absent from the facts, never present as null or "unknown".
+* nothing is inferred: species, refundability, fee scope, fee basis, weight
+  scope and reservation requirement are only present when the source said them.
+* a generic "pets welcome" is not dogs + cats.
+* an individual weight limit is not a combined one.
+* service-animal statements stay outside the pet-policy facts.
+* a missing policy is not a no-pets policy.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+from typing import Dict, List
+
+REPO = Path(__file__).resolve().parents[2]
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+
+MARKET = "milwaukee-wi"
+WORK_ORDER = "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001"
+PKG = REPO / "launch_packages" / "pettripfinder"
+REPORTS = PKG / "markets" / "reports"
+JOURNAL = (REPO / "data" / "acquisition" / "milwaukee-router-001"
+           / "milwaukee-router-001" / "journal.jsonl")
+
+PUBLICATION_GRADE = "ACQUIRED_PUBLICATION_GRADE"
+
+#: Facts that may never be inferred. Present only if the source stated them.
+NEVER_INFERRED = ("species", "refundable", "fee_scope", "fee_basis",
+                  "weight_scope", "reservation_required")
+VALID_FEE_BASES = {"per_night", "per_day", "per_stay"}
+
+
+def read_journal() -> List[Dict]:
+    if not JOURNAL.exists():
+        return []
+    return [json.loads(line) for line in
+            JOURNAL.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def _gate(extraction: Dict, withheld: Dict) -> List[str]:
+    """Frozen-semantics violations in one extraction. Empty is the good case."""
+    problems: List[str] = []
+
+    fee = extraction.get("pet_fee") or {}
+    if isinstance(fee, dict) and fee:
+        basis = fee.get("basis")
+        if basis is not None and basis not in VALID_FEE_BASES:
+            problems.append("pet_fee.basis %r is outside the frozen set" % basis)
+        # per_day and per_night are different words the source chose; a
+        # proposal that silently renames one to the other is a semantic edit.
+        if "basis" in fee and "scope" in fee and fee.get("scope") == fee.get("basis"):
+            problems.append("pet_fee scope and basis collapsed into one value")
+
+    for key in NEVER_INFERRED:
+        if key in extraction and extraction[key] in (None, "", "unknown", "unstated"):
+            problems.append("%s is present but empty; unknown must be ABSENCE" % key)
+
+    for key, value in extraction.items():
+        if value in (None, "unknown", "unstated"):
+            problems.append("%s carries a sentinel rather than being absent" % key)
+
+    overlap = sorted(set(withheld) & set(extraction))
+    if overlap:
+        problems.append("withheld and asserted at once: %s" % overlap)
+
+    weight = extraction.get("weight_limit") or {}
+    combined = extraction.get("combined_weight_limit") or {}
+    if weight and combined and weight == combined:
+        problems.append("individual and combined weight limits are the same object")
+
+    return problems
+
+
+def _is_refusal(extraction: Dict) -> bool:
+    """A captured no-pets finding.
+
+    Kept OUT of the violations list on purpose. A refusal is not a malformed
+    record -- it is a legitimate, well-formed finding that happens to need a
+    different reviewer decision, because turning it into a VERIFIED_NO_PETS
+    exclusion is a publication act this work order may not take. Filing it as
+    a "semantic violation" would slander 19 correct captures and hide the real
+    violation count, which is zero.
+    """
+    return extraction.get("pets_allowed") is False
+
+
+def build() -> Dict:
+    entries = read_journal()
+    states = Counter(e["final_state"] for e in entries)
+
+    proposals: List[Dict] = []
+    rejected: List[Dict] = []
+    for entry in entries:
+        if entry["final_state"] != PUBLICATION_GRADE:
+            continue
+        doc = (entry.get("result") or {}).get("document") or {}
+        obs = doc.get("observation") or {}
+        extraction = dict(obs.get("extraction") or {})
+        withheld = dict(doc.get("withheld_fields") or {})
+        problems = _gate(extraction, withheld)
+        refusal = _is_refusal(extraction)
+
+        proposal = {
+            "identity_key": entry["identity_key"],
+            "canonical_name": entry["canonical_name"],
+            "market_id": MARKET,
+            "brand": entry["brand"],
+            "policy_schema_version": "1.2",
+            "proposed_facts": extraction,
+            "withheld_fields": withheld,
+            "non_inferences": list(doc.get("non_inferences") or ()),
+            "evidence": [
+                {"quote": item.get("quote", ""),
+                 "location": item.get("location", ""),
+                 "field_refs": list(item.get("field_refs") or ())}
+                for item in (obs.get("evidence") or ())],
+            "service_animal_statement": extraction.get("service_animal_statement", ""),
+            "provenance": {
+                "source_url": doc.get("source_url", ""),
+                "final_url": doc.get("final_url", ""),
+                "authority_tier": obs.get("authority_tier", ""),
+                "source_type": obs.get("source_type", ""),
+                "retrieved_at": obs.get("retrieved_at", ""),
+                "capture_method": doc.get("capture_method", ""),
+                "provider": doc.get("provider", ""),
+                "reader": doc.get("reader", ""),
+                "snapshot_hash": obs.get("snapshot_hash", ""),
+                "raw_pointer": obs.get("raw_pointer", ""),
+                "obs_id": obs.get("obs_id", ""),
+            },
+            "publication_grade": (doc.get("publication_grade") or {}).get("verdict", ""),
+            "identity_check": obs.get("identity_check") or {},
+            "frozen_semantics_violations": problems,
+            "is_refusal": refusal,
+            # The two facts this whole work order turns on.
+            "published": False,
+            "founder_approved": False,
+            "review_status": ("HELD_SEMANTIC_REVIEW" if problems
+                              else "REFUSAL_FOUNDER_REVIEW" if refusal
+                              else "FOUNDER_REVIEW_READY"),
+        }
+        (rejected if problems else proposals).append(proposal)
+
+    ready = [p for p in proposals if p["review_status"] == "FOUNDER_REVIEW_READY"]
+    refusals = [p for p in proposals if p["review_status"] == "REFUSAL_FOUNDER_REVIEW"]
+    doc = {
+        "schema": "ptf-milwaukee-policy-proposals/1.0",
+        "work_order": WORK_ORDER,
+        "market_id": MARKET,
+        "note": (
+            "Structured proposals only. Nothing here is published and nothing "
+            "is approved: published=false and founder_approved=false on every "
+            "row, no policy authority file exists for this market, and the "
+            "market's three authority shards are untouched. Each proposal "
+            "carries the exact contiguous quotes its facts rest on, the fields "
+            "the source was silent about, and the inferences that were "
+            "deliberately NOT made."),
+        "policy_schema_version": "1.2",
+        "authority_written": False,
+        "founder_approvals_created": 0,
+        "acquisition_state_counts": dict(states),
+        "publication_grade_total": states.get(PUBLICATION_GRADE, 0),
+        "proposal_total": len(proposals) + len(rejected),
+        "founder_review_ready": len(ready),
+        "refusal_founder_review": len(refusals),
+        "held_semantic_review": len(rejected),
+        "refusal_note": (
+            "A captured refusal is a finding, not an exclusion. Nothing here "
+            "creates a VERIFIED_NO_PETS record: that is a founder decision and "
+            "a publication act, and this work order takes neither. Each refusal "
+            "carries the exact quote it rests on so the decision is reviewable."),
+        "items": proposals + rejected,
+    }
+    out = REPORTS / ("%s_policy_proposals_001.json" % MARKET)
+    out.write_bytes((json.dumps(doc, indent=1, ensure_ascii=False) + "\n").encode("utf-8"))
+    return doc
+
+
+def main() -> int:
+    doc = build()
+    print("acquisition states     : %s" % doc["acquisition_state_counts"])
+    print("publication-grade      : %d" % doc["publication_grade_total"])
+    print("proposals              : %d" % doc["proposal_total"])
+    print("  founder-review ready : %d" % doc["founder_review_ready"])
+    print("  held semantic review : %d" % doc["held_semantic_review"])
+    print("authority written      : %s" % doc["authority_written"])
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

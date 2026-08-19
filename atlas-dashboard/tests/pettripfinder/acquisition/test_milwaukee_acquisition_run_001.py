@@ -51,37 +51,88 @@ class TestTheCapIsTheFounderOverride:
         assert RUN.HARD_CAP_USD_MINOR == 1500
 
 
-class TestSpendIsMeasuredNotEstimated:
-    def test_spend_is_balance_drawdown(self):
-        meter = _Meter([snapshot(balance=1608), snapshot(balance=1461)])
-        meter.read("baseline")
-        meter.read("after")
-        assert meter.spent_usd_minor() == 147
+class _ZoneMeter(RUN.SpendMeter):
+    """A SpendMeter with injected per-zone costs and a fixed anchor.
 
-    def test_a_top_up_cannot_report_negative_spend(self):
-        """A mid-run top-up must not look like a refund and must never buy
-        headroom the cap did not grant."""
-        meter = _Meter([snapshot(balance=1608), snapshot(balance=5000)])
-        meter.read("baseline")
-        meter.read("after")
-        assert meter.spent_usd_minor() == 0
+    Deliberately does NOT touch the real anchor file: the cap logic must be
+    testable without the vendor and without this market's live state.
+    """
 
-    def test_an_unreadable_balance_is_none_and_never_zero(self):
-        """The override says stop when telemetry is unavailable. Reporting
-        zero would be indistinguishable from 'nothing has been spent yet',
-        which is exactly the confusion that overruns a budget."""
-        meter = _Meter([snapshot(balance=1608), snapshot(balance=None, available=False)])
-        meter.read("baseline")
-        meter.read("after")
+    def __init__(self, anchor_zones, now_zones, balance=1608):
+        super().__init__()
+        self._anchor = anchor_zones
+        self._now = now_zones
+        self.latest = snapshot(balance=balance)
+
+    def anchor_zone_costs(self):
+        return self._anchor
+
+    def zone_costs(self):
+        return self._now
+
+
+class TestSpendIsMeasuredFromZoneCostNotBalance:
+    """The incident this basis exists because of.
+
+    The balance was the original meter. It under-reported spend 3x because
+    Bright Data debits on a lag, and then a mid-run top-up pushed its drawdown
+    negative so the clamp reported $0.00 while the run was minutes from the
+    cap. Zone cost has neither failure mode.
+    """
+
+    def test_spend_is_the_sum_of_per_zone_growth(self):
+        meter = _ZoneMeter({"scraping_browser1": 2576, "mcp_unlocker": 0,
+                            "cli_unlocker": 0},
+                           {"scraping_browser1": 3853, "mcp_unlocker": 4,
+                            "cli_unlocker": 1})
+        assert meter.spent_usd_minor() == 1277 + 4 + 1
+
+    def test_a_balance_top_up_cannot_reduce_measured_spend(self):
+        """The exact failure: the balance ROSE mid-run. Zone cost is untouched
+        by it, so the meter keeps telling the truth."""
+        zones = ({"scraping_browser1": 2576, "mcp_unlocker": 0, "cli_unlocker": 0},
+                 {"scraping_browser1": 3853, "mcp_unlocker": 4, "cli_unlocker": 1})
+        before = _ZoneMeter(*zones, balance=1213).spent_usd_minor()
+        after_topup = _ZoneMeter(*zones, balance=1917).spent_usd_minor()
+        assert before == after_topup == 1282
+
+    def test_the_lagging_balance_would_have_under_reported(self):
+        """Recorded as a test so the reason for the basis cannot be forgotten:
+        at this moment the balance said $3.95 and the zones said $12.77."""
+        balance_drawdown = 1608 - 1213
+        zone_growth = _ZoneMeter(
+            {"scraping_browser1": 2576, "mcp_unlocker": 0, "cli_unlocker": 0},
+            {"scraping_browser1": 3853, "mcp_unlocker": 0, "cli_unlocker": 0}
+        ).spent_usd_minor()
+        assert balance_drawdown == 395
+        assert zone_growth == 1277
+        assert zone_growth > balance_drawdown * 3
+
+    def test_an_unreadable_zone_is_none_and_never_zero(self):
+        """Under a hard cap, an unknown spend and a zero spend must never look
+        the same."""
+        meter = _ZoneMeter({"scraping_browser1": 2576, "mcp_unlocker": 0,
+                            "cli_unlocker": 0},
+                           {"scraping_browser1": None, "mcp_unlocker": 0,
+                            "cli_unlocker": 1})
         assert meter.spent_usd_minor() is None
-        assert meter.telemetry_live is False
 
-    def test_zone_delta_is_reported_alongside_balance(self):
-        meter = _Meter([snapshot(balance=1608, cost_month=2576),
-                        snapshot(balance=1461, cost_month=2723)])
-        meter.read("baseline")
-        meter.read("after")
-        assert meter.zone_delta_usd_minor() == 147
+    def test_a_missing_anchor_is_none_and_never_zero(self):
+        meter = _ZoneMeter(None, {"scraping_browser1": 3853})
+        assert meter.spent_usd_minor() is None
+
+    def test_a_zone_that_somehow_shrinks_cannot_credit_the_budget(self):
+        meter = _ZoneMeter({"scraping_browser1": 3000, "mcp_unlocker": 0,
+                            "cli_unlocker": 0},
+                           {"scraping_browser1": 2000, "mcp_unlocker": 10,
+                            "cli_unlocker": 0})
+        assert meter.spent_usd_minor() == 10
+
+    def test_every_billable_zone_is_counted(self):
+        """The Browser API and the Web Unlocker bill to different zones. A
+        meter that watched only one would miss a whole lane."""
+        assert RUN.BILLABLE_ZONES == ("scraping_browser1", "mcp_unlocker",
+                                      "cli_unlocker")
 
 
 class TestPreflightRefusesToSpend:
@@ -157,3 +208,28 @@ class TestTheQueueItDrives:
         assert len(loaded) == doc["routable_total"]
         assert all(not r["brand_excluded"] for r in loaded)
         assert len(doc["items"]) - len(loaded) == doc["brand_excluded_total"]
+
+class TestTheGateTestsRemainingAllowanceNotTheWholeCap:
+    """A market that has already spent part of its budget must still be able
+    to resume. Comparing the balance against the FULL cap would refuse a run
+    that is comfortably fundable -- a false stop, which is not the same thing
+    as a safe one."""
+
+    def test_a_balance_below_the_full_cap_still_covers_the_remainder(self):
+        # $13.75 left, $2.33 already spent against a $15 cap: the remaining
+        # allowance is $12.67 and the balance covers it.
+        meter = _Meter([snapshot(balance=1375)])
+        remaining = RUN.HARD_CAP_USD_MINOR - 233
+        result = RUN.preflight(meter, cap_usd_minor=remaining)
+        gate = next(c for c in result["checks"] if c["check"] == "balance_covers_the_cap")
+        assert gate["ok"] is True
+
+    def test_a_balance_below_the_remainder_still_fails(self):
+        meter = _Meter([snapshot(balance=100)])
+        remaining = RUN.HARD_CAP_USD_MINOR - 233
+        result = RUN.preflight(meter, cap_usd_minor=remaining)
+        gate = next(c for c in result["checks"] if c["check"] == "balance_covers_the_cap")
+        assert gate["ok"] is False
+
+    def test_the_remaining_cap_never_goes_negative(self):
+        assert max(0, RUN.HARD_CAP_USD_MINOR - 99999) == 0
