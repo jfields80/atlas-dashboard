@@ -236,8 +236,16 @@ SCRAPE_PROFILE: Dict = {"formats": ["rawHtml"], "waitFor": 6000,
                         "timeout": 90000, "location": {"country": "US"}}
 
 
-async def acquire(entry: Dict, *, run_dir: Path, pace: float) -> Dict:
-    """Plain scrape first; deterministic interaction only if it is incomplete."""
+async def acquire(entry: Dict, *, run_dir: Path, pace: float,
+                  run_id: str = "firecrawl-hard-lanes-003",
+                  ref_tag: str = "fc3") -> Dict:
+    """Plain scrape first; deterministic interaction only if it is incomplete.
+
+    ``run_id`` and ``ref_tag`` exist so a later work order can reuse this exact
+    acquisition path -- same profiles, same three gates, same comparison -- and
+    still stamp its own provenance onto the evidence it produces. The defaults
+    reproduce PTF-FIRECRAWL-HARD-LANES-003 unchanged.
+    """
     record = CORPUS.BenchmarkRecord(
         identity_key=entry["identity_key"], name=entry["canonical_name"],
         market_id=MARKET, brand=entry["brand"],
@@ -302,11 +310,11 @@ async def acquire(entry: Dict, *, run_dir: Path, pace: float) -> Dict:
 
     last = attempts_all[-1]
     observation, _res = P2.build_observation(record, target, last, payload,
-                                             run_id="firecrawl-hard-lanes-003")
+                                             run_id=run_id)
     grade = PG.assess(
         evidence_items=observation["evidence"], extraction=observation["extraction"],
         source_url=observation["source_url"], captured_at=last.started_at,
-        ref_prefix="fc3::%s" % record.identity_key,
+        ref_prefix="%s::%s" % (ref_tag, record.identity_key),
         artifact_path=P2._artifact_path(payload["artifacts"], PG.PRIMARY_ARTIFACT),
         recorded_sha256=str(((payload["artifacts"].get("files") or {})
                              .get(PG.PRIMARY_ARTIFACT) or {}).get("sha256") or ""),

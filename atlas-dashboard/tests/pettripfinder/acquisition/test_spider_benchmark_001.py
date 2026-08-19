@@ -435,6 +435,15 @@ class TestTheCommittedHardLaneResult:
         assert add["acquired"] == 0
         assert "does not extend it" in add["result"]
 
+    def test_the_addendums_conclusion_is_marked_retracted(self):
+        """The measurement stands -- these three did fail on the day. The
+        conclusion drawn from it does not: PTF-FIRECRAWL-CHOICE-VALIDATION-004
+        acquired all three. A reader who opens only this file must not come
+        away with the retracted claim."""
+        add = self._doc()["country_inn_coverage_addendum"]
+        assert add["conclusion_superseded_by"] == "PTF-FIRECRAWL-CHOICE-VALIDATION-004"
+        assert "retracted" in add["conclusion_retracted"]
+
 
 class TestTheRouteProposalIsAProposal:
     def _doc(self):
@@ -444,6 +453,13 @@ class TestTheRouteProposalIsAProposal:
 
     def test_it_is_marked_not_applied(self):
         assert self._doc()["status"] == "PROPOSED_NOT_APPLIED"
+
+    def test_it_points_at_the_proposal_that_replaced_it(self):
+        """Its decision C rested on a coverage belief that was later
+        disproved, so it must not be read as the current recommendation."""
+        doc = self._doc()
+        assert doc["superseded_by"] == "ptf_firecrawl_choice_route_proposal_004.json"
+        assert doc["status"] == "PROPOSED_NOT_APPLIED"
 
     def test_the_live_route_table_still_has_choice_on_the_web_unlocker(self):
         """The proposal must not have leaked into the thing it proposes."""
