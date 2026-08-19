@@ -1,7 +1,7 @@
 {
  "schema": "ptf-reader-migration-queue/1.0",
  "work_order": "PTF-POLICY-READER-TIERED-FEE-HARDENING-010",
- "status": "QUEUED_NOT_APPLIED",
+ "status": "APPLIED",
  "note": "Records whose STORED extraction disagrees with the hardened reader. This work order fixed and measured the reader; it did NOT re-read or republish any historical record. Re-certification is an explicit decision and belongs to its own work order.",
  "scanned": {
   "blocks_on_disk": 141,
@@ -15,7 +15,8 @@
    "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\staybridge-suites-milwaukee-airport-south\\attempt-01\\policy-block.txt",
    "field_change": "fee",
    "old": "5000",
-   "new": "WITHHELD:SCHEMA_CANNOT_REPRESENT"
+   "new": "WITHHELD:SCHEMA_CANNOT_REPRESENT",
+   "recertified": true
   },
   {
    "slug": "holiday-inn-express-milwaukee-west-medical-center",
@@ -23,7 +24,8 @@
    "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-express-milwaukee-west-medical-center\\attempt-01\\policy-block.txt",
    "field_change": "weight",
    "old": "-",
-   "new": "40.0lb"
+   "new": "40.0lb",
+   "recertified": true
   },
   {
    "slug": "holiday-inn-milwaukee-riverfront",
@@ -31,7 +33,8 @@
    "evidence": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-milwaukee-riverfront\\attempt-01\\policy-block.txt",
    "field_change": "weight",
    "old": "-",
-   "new": "50.0lb"
+   "new": "50.0lb",
+   "recertified": true
   }
  ],
  "candidate_count": 3,
@@ -41,13 +44,45 @@
  "safety_direction": "every fee change is toward WITHHOLDING and every weight change is a previously-missed fact now read. No record newly publishes a fee it did not publish before (newly_structured = 0), so the migration cannot make any record more assertive about price.",
  "publication_holds": {
   "staybridge suites milwaukee airport south": {
-   "state": "HELD",
+   "state": "LIFTED",
    "stored_pet_fee": 5000,
    "corrected_reader_output": "pet_fee withheld (SCHEMA_CANNOT_REPRESENT)",
    "why_the_hold_remains": "the READER is fixed and re-reading the same evidence now withholds the fee, but the STORED record still carries 5000. The hold is on the record, not on the parser, and it lifts when the record is re-derived -- which this work order is forbidden from doing.",
-   "lifts_when": "the record is re-derived under the hardened reader and re-attested"
+   "lifts_when": "the record is re-derived under the hardened reader and re-attested",
+   "lifted_by": "PTF-IHG-RECERTIFICATION-011",
+   "conditions": {
+    "stored_record_no_longer_carries_5000": true,
+    "tiered_fee_safely_withheld": true,
+    "evidence_still_attached_and_contiguous": true,
+    "publication_gates_pass": true
+   },
+   "current_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "scope_of_the_lift": "the hold was placed on a FLATTENED FEE and that defect is resolved: the current record withholds the fee as SCHEMA_CANNOT_REPRESENT with FLAG_TIERED_FEE and the tier language survives in the evidence. It does NOT authorise publication -- see publication_blocked_separately."
   }
  },
  "authority_written": false,
- "records_republished": 0
+ "records_republished": 0,
+ "applied_by": "PTF-IHG-RECERTIFICATION-011",
+ "applied_reader_commit": "0fcc056cb534ba1fc1e1b3d0efa38f0e1675887b",
+ "publication_blocked_separately": {
+  "blocked": true,
+  "why": "Milwaukee has no hotel_policy_facts_milwaukee-wi.json and appears in no policy authority artifact. Publishing these records would be the market's FIRST policy publication, not a re-certification: it needs a market policy shard and founder attestation under the worker-approval contract. That is a separate, authorised decision.",
+  "markets_with_a_published_policy_shard": [
+   "hotel_policy_facts_cleveland-akron-canton-oh.json",
+   "hotel_policy_facts_dayton-oh.json",
+   "hotel_policy_facts_indianapolis-in.json",
+   "hotel_policy_facts_pittsburgh-pa.json"
+  ]
+ }
 }
