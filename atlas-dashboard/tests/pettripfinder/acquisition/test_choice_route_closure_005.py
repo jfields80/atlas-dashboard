@@ -164,21 +164,34 @@ class TestTheRouteChangeIsReadyButNotApplied:
             pytest.skip("no route change in this worktree")
         return json.loads(ROUTE_CHANGE.read_text(encoding="utf-8-sig"))
 
-    def test_it_is_ready_and_explicitly_not_applied(self):
+    def test_it_is_still_marked_as_a_proposal(self):
+        """This document proposed the change; it did not perform it.
+        PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006 applied it under founder
+        authorization and recorded that separately. This one stays a proposal,
+        so the decision trail keeps both of its halves."""
         doc = self._doc()
         assert doc["status"] == "PROPOSED_READY_TO_APPLY"
         assert doc["applied"] is False
 
-    def test_the_live_route_table_is_untouched_by_it(self):
-        """The whole point of a proposal is that it has not happened yet."""
-        for url in ("https://www.choicehotels.com/wisconsin/milwaukee/clarion-hotels/wi519",
-                    "https://www.choicehotels.com/wisconsin/milwaukee/sleep-inn-hotels/wi186"):
-            assert REGISTRY.resolve(brand="CHOICE", url=url).provider == \
-                "brightdata_web_unlocker"
-        assert "firecrawl" not in PROVIDERS.all_ids()
-        assert "firecrawl" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+    def test_what_it_proposed_is_what_was_actually_applied(self):
+        """A proposal that describes something other than the change that
+        shipped is worse than no proposal at all."""
+        after = self._doc()["proposed_change"]["step_2_route_choice"]["after"]
+        route = REGISTRY.resolve(
+            brand="CHOICE",
+            url="https://www.choicehotels.com/wisconsin/milwaukee/sleep-inn-hotels/wi186")
+        assert route.provider == after["provider"]
+        assert list(route.fallback_providers) == after["fallback_providers"]
+        assert route.max_attempts_per_provider == after["max_attempts_per_provider"]
+        assert list(route.forbidden_providers) == after["forbidden_providers"]
+        assert route.reader == after["reader"]
+        assert PROVIDERS.FIRECRAWL in PROVIDERS.implemented()
+
+    def test_spider_still_never_reached_the_route_table(self):
+        """Firecrawl was promoted on a measurement. Spider was measured on the
+        same corpus, reached 7 of 25, and is still absent."""
         text = ROUTES_PATH.read_text(encoding="utf-8")
-        assert "firecrawl" not in text and "spider" not in text
+        assert "spider" not in text
 
     def test_every_decision_condition_is_claimed_met_with_evidence(self):
         conditions = self._doc()["decision_conditions"]

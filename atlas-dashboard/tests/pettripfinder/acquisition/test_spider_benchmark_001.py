@@ -46,13 +46,19 @@ class TestMeasuringAProviderDidNotPromoteIt:
         assert "spider" not in providers
 
     def test_choice_still_forbids_the_browser_api(self):
-        """The benchmark must not have disturbed the one route rule that was
-        bought with fifteen failed attempts."""
+        """The one route rule that was bought with fifteen failed attempts.
+
+        Choice's PRIMARY moved to Firecrawl in
+        PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006 and the Web Unlocker is now
+        its fallback. This assertion is about neither: the Browser API must
+        stay off the Choice ladder no matter who leads it.
+        """
         route = REGISTRY.resolve(
             brand="CHOICE",
             url="https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297")
-        assert route.provider == "brightdata_web_unlocker"
         assert "brightdata_browser" in route.forbidden_providers
+        assert "brightdata_browser" not in route.ladder
+        assert "brightdata_web_unlocker" in route.ladder
 
 
 class TestTheLaneBorrowsTheMeasuredPipeline:
@@ -193,18 +199,33 @@ FC_REPORT = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
              / "reports" / "ptf_firecrawl_benchmark_002.json")
 
 
-class TestFirecrawlIsAlsoNotPromoted:
-    def test_firecrawl_is_not_a_routable_provider(self):
-        assert "firecrawl" not in PROVIDERS.all_ids()
-        assert "firecrawl" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+class TestFirecrawlWasPromotedAndSpiderWasNot:
+    """This class asserted the opposite until
+    PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006. What it protects is unchanged:
+    a provider earns a route by measurement, and only where it was measured.
+    Firecrawl was measured 15/15 on the Milwaukee Choice queue and got that
+    one lane. Spider was measured too -- 7/25 -- and got nothing."""
 
-    def test_the_route_table_is_still_untouched(self):
+    def test_firecrawl_is_routable_now_that_it_earned_a_lane(self):
+        assert "firecrawl" in PROVIDERS.all_ids()
+        assert "firecrawl" not in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+
+    def test_spider_is_still_not_routable_because_it_failed(self):
+        assert "spider" not in PROVIDERS.all_ids()
+        assert "spider" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+
+    def test_firecrawl_reached_exactly_the_lane_it_was_measured_on(self):
+        """A benchmark on one brand is not a licence for the rest of them."""
         registry = REGISTRY.load()
+        leads = [b for b, e in registry["brands"].items()
+                 if e["provider"] == "firecrawl"]
+        assert leads == ["CHOICE"]
+        assert registry["default"]["provider"] != "firecrawl"
         names = {registry["default"]["provider"]}
         for entry in list(registry["brands"].values()) + list(registry["domains"].values()):
             names.add(entry["provider"])
             names.update(entry.get("fallback_providers") or ())
-        assert "firecrawl" not in names and "spider" not in names
+        assert "spider" not in names
 
 
 class TestTheFirecrawlLaneBorrowsTheSamePipeline:
@@ -461,13 +482,15 @@ class TestTheRouteProposalIsAProposal:
         assert doc["superseded_by"] == "ptf_firecrawl_choice_route_proposal_004.json"
         assert doc["status"] == "PROPOSED_NOT_APPLIED"
 
-    def test_the_live_route_table_still_has_choice_on_the_web_unlocker(self):
-        """The proposal must not have leaked into the thing it proposes."""
-        route = REGISTRY.resolve(
-            brand="CHOICE",
-            url="https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297")
-        assert route.provider == "brightdata_web_unlocker"
-        assert "firecrawl" not in PROVIDERS.all_ids()
+    def test_this_proposal_was_superseded_before_anything_was_applied(self):
+        """Proposal 003 recommended decision C and was never applied. The
+        change that eventually shipped came from 004/005 at decision A and
+        B respectively -- so what must hold here is that THIS document is
+        still marked unapplied and points at its successor, not that the
+        route table never moved."""
+        doc = self._doc()
+        assert doc["status"] == "PROPOSED_NOT_APPLIED"
+        assert doc["superseded_by"] == "ptf_firecrawl_choice_route_proposal_004.json"
 
     def test_it_names_what_the_measurement_does_not_support(self):
         """A proposal that only lists upside is a pitch."""

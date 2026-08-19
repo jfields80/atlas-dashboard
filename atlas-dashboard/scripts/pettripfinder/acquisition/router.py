@@ -89,6 +89,38 @@ def _source_failure(withheld: Mapping) -> str:
     return ""
 
 
+def _seconds_by_provider(attempts: Sequence[ENV.ProviderAttempt]) -> Dict[str, float]:
+    """Wall-clock per lane, so a fallback's latency is visible on its own."""
+    out: Dict[str, float] = {}
+    for attempt in attempts:
+        out[attempt.provider] = out.get(attempt.provider, 0.0) + (
+            attempt.elapsed_seconds or 0.0)
+    return out
+
+
+def _credits_consumed(attempts: Sequence[ENV.ProviderAttempt]) -> Optional[float]:
+    """Plan credits, for lanes billed in them. Never mixed with dollars.
+
+    Counted from SUCCESSFUL attempts only, because that is what the billing
+    was observed to charge for across roughly forty calls -- an observation,
+    not a guarantee, and it is recorded as a measurement of this run rather
+    than as a price.
+    """
+    total = 0.0
+    seen = False
+    for attempt in attempts:
+        try:
+            cost = PROVIDERS.get(attempt.provider).cost_metadata()
+        except PROVIDERS.ProviderError:
+            continue
+        if cost.credits_per_property is None:
+            continue
+        seen = True
+        if attempt.outcome == CAPTURE.VALID:
+            total += cost.credits_per_property
+    return total if seen else None
+
+
 def _final_state(*, document: Optional[ENV.SourceDocument],
                  failure: str) -> str:
     """Exactly one state, and never silence."""
@@ -233,6 +265,12 @@ async def route_property(record, target, *, run_dir: Path, run_id: str,
             estimated_bytes=sum(a.estimated_bytes for a in attempts),
             estimated_usd_minor=(ledger.estimated_usd_minor
                                  if config.rate_usd_minor_per_gb else None),
+            reported_credits=_credits_consumed(attempts),
+            seconds_by_provider=_seconds_by_provider(attempts),
+            # The ladder moved past its primary. Recorded as a fact rather
+            # than inferred later from the length of providers_tried, which
+            # also grows when a provider is merely unhealthy.
+            fallback_invoked=len([p for p in tried if p != route.provider]) > 0,
             cost_status=("ESTIMATED" if config.rate_usd_minor_per_gb
                          else "UNAVAILABLE")),
         run_id=run_id)

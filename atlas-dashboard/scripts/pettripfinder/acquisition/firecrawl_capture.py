@@ -68,6 +68,18 @@ KEY_ENV = "FIRECRAWL_API_KEY"
 DEFAULT_PROFILE: Dict = {"formats": ["rawHtml"], "waitFor": 6000,
                          "timeout": 90000}
 
+#: The profile every measurement that justified routing to this lane actually
+#: used: PTF-FIRECRAWL-HARD-LANES-003, PTF-FIRECRAWL-CHOICE-VALIDATION-004 and
+#: PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005. It differs from DEFAULT_PROFILE by
+#: pinning the exit geography, which is not cosmetic -- an unpinned exit is how
+#: the Marriott pilot got redirected to /es/default.mi.
+#:
+#: It lives here, in the adapter, so that the registered provider and the
+#: benchmarks share ONE definition. Two copies would let the routed lane drift
+#: away from the lane the decision was made about, silently.
+ROUTED_PROFILE: Dict = {"formats": ["rawHtml"], "waitFor": 6000,
+                        "timeout": 90000, "location": {"country": "US"}}
+
 REQUEST_TIMEOUT_SECONDS = 180
 
 

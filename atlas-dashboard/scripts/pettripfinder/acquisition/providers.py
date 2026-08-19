@@ -44,6 +44,7 @@ from scripts.pettripfinder.brightdata import browser_capture as BC    # noqa: E4
 from scripts.pettripfinder.brightdata import client                   # noqa: E402
 from scripts.pettripfinder.brightdata import cross_brand_capture as CBC  # noqa: E402
 from scripts.pettripfinder.brightdata import unlocker_capture as UC   # noqa: E402
+from scripts.pettripfinder.acquisition import firecrawl_capture as FC  # noqa: E402
 
 # --------------------------------------------------------------------------- #
 # Capabilities. What a lane can do, not who sells it.
@@ -64,14 +65,33 @@ CAPABILITIES: Tuple[str, ...] = (
 
 @dataclass(frozen=True)
 class CostMetadata:
-    """What a lane costs, as measured -- never as advertised."""
+    """What a lane costs, as measured -- never as advertised.
+
+    Two currencies, never mixed. Bright Data bills dollars and Firecrawl bills
+    plan credits, and the Firecrawl plan endpoint reports an allowance rather
+    than a unit price -- so there is no honest exchange rate between them.
+    A lane fills in the field it is actually billed in and leaves the other
+    ``None``; summing the two would invent a number nobody measured.
+    """
 
     usd_minor_per_property: Optional[float]
     basis: str
     measured_by: str
+    #: Plan credits per property, for lanes billed in credits rather than money.
+    credits_per_property: Optional[float] = None
+
+    @property
+    def currency(self) -> str:
+        if self.usd_minor_per_property is not None:
+            return "usd_minor"
+        if self.credits_per_property is not None:
+            return "plan_credits"
+        return "none"
 
     def to_dict(self) -> Dict:
         return {"usd_minor_per_property": self.usd_minor_per_property,
+                "credits_per_property": self.credits_per_property,
+                "currency": self.currency,
                 "basis": self.basis, "measured_by": self.measured_by}
 
 
@@ -117,6 +137,10 @@ class _WrappedProvider:
     cost: CostMetadata
     recovers: FrozenSet[str]
     health: Callable[[], ProviderHealth]
+    #: Extra keyword arguments the capture module accepts. Firecrawl takes a
+    #: request profile, and the routed lane must use the SAME profile the
+    #: benchmarks used or the measurement stops describing production.
+    capture_kwargs: Mapping = field(default_factory=dict)
 
     def health_check(self) -> ProviderHealth:
         return self.health()
@@ -136,7 +160,8 @@ class _WrappedProvider:
         """
         brand = READERS_MOD.locator_brand_for(reader_id)
         return await self.module.capture_property(
-            target, run_dir=run_dir, brand=brand, max_attempts=max_attempts)
+            target, run_dir=run_dir, brand=brand, max_attempts=max_attempts,
+            **dict(self.capture_kwargs))
 
 
 def _browser_health() -> ProviderHealth:
@@ -145,6 +170,14 @@ def _browser_health() -> ProviderHealth:
     return ProviderHealth(True, "Browser API credential present; exit "
                                 "geography pinned to %r"
                                 % client.DEFAULT_COUNTRY)
+
+
+def _firecrawl_health() -> ProviderHealth:
+    if not FC.credential_present():
+        return ProviderHealth(False, "%s is not set" % FC.KEY_ENV)
+    return ProviderHealth(True, "Firecrawl credential present; exit geography "
+                                "pinned to %r"
+                                % FC.ROUTED_PROFILE["location"]["country"])
 
 
 def _unlocker_health() -> ProviderHealth:
@@ -160,6 +193,7 @@ def _unlocker_health() -> ProviderHealth:
 
 BRIGHTDATA_BROWSER = "brightdata_browser"
 BRIGHTDATA_WEB_UNLOCKER = "brightdata_web_unlocker"
+FIRECRAWL = "firecrawl"
 DIRECT_HTTP = "direct_http"
 
 _PROVIDERS: Dict[str, AcquisitionProvider] = {}
@@ -199,6 +233,35 @@ register(_WrappedProvider(
     health=_unlocker_health))
 
 
+register(_WrappedProvider(
+    provider_id=FIRECRAWL,
+    product="Firecrawl scrape API",
+    # Measured capabilities only. It renders JavaScript before returning and
+    # its exit geography is pinnable, both of which were exercised. It is NOT
+    # given CAN_INTERACT: the routed lane runs a plain scrape, and the
+    # deterministic interaction pass belongs to the benchmarks, not here.
+    capabilities=frozenset({RUNS_JAVASCRIPT, GEO_PINNABLE}),
+    module=FC,
+    # Billed in plan credits. The plan endpoint reports an allowance and not a
+    # unit price, so no dollar figure is asserted and none may be inferred.
+    cost=CostMetadata(usd_minor_per_property=None,
+                      basis="plan credits / properties acquired across 17 "
+                            "Milwaukee Choice acquisitions; failed scrape "
+                            "calls were not charged, which is an observation "
+                            "and not a billing guarantee",
+                      measured_by="PTF-FIRECRAWL-CHOICE-VALIDATION-004, "
+                                  "PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+                      credits_per_property=1.0),
+    # What it demonstrably survived that the incumbent did not: four Choice
+    # properties the Web Unlocker returned ACCESS_DENIED on, and the heading-
+    # only surfaces the Browser API returned where this lane waits for the
+    # policy node to paint.
+    recovers=frozenset({"ACCESS_DENIED", "UNHYDRATED", "BLANK_PAGE"}),
+    health=_firecrawl_health,
+    # The profile the decision was measured with. Not a default, not a copy.
+    capture_kwargs={"profile": FC.ROUTED_PROFILE}))
+
+
 #: Reserved so the ladder can say "cheapest first" honestly today. Declared
 #: UNAVAILABLE, and nothing routes to it until somebody builds it.
 @dataclass(frozen=True)
@@ -232,10 +295,14 @@ register(_ReservedProvider(
 
 #: Documented, not implemented, and not called. Each would need credentials and
 #: a measured benchmark before it could earn a row in the routing registry.
+#: ``firecrawl`` was removed from this list by
+#: PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006: it earned its row the way this
+#: comment always said it would have to, with a benchmark against the same
+#: properties (15/15 against the incumbent's 7/15 on the Milwaukee Choice
+#: queue). ``spider`` stays: it was benchmarked and it FAILED, 7/25.
 KNOWN_FUTURE_PROVIDERS: Dict[str, str] = {
-    "firecrawl": "no credential configured; would need a benchmark against the "
-                 "same properties before it could be routed to",
-    "spider": "no credential configured; same requirement",
+    "spider": "benchmarked in PTF-SPIDER-BENCHMARK-001 and not adopted: it "
+              "returned JavaScript shells and reached 7 of 25 properties",
     "apify": "no credential configured; same requirement",
     "playwright_local": "no managed exit geography; would reintroduce the "
                         "locale-redirect failure the US pin exists to prevent",
@@ -287,7 +354,7 @@ __all__ = [
     "RUNS_JAVASCRIPT", "CAN_INTERACT", "TAKES_SCREENSHOTS",
     "READS_UNRENDERED_DOM", "BYPASSES_BOT_PROTECTION", "GEO_PINNABLE",
     "CAPABILITIES", "CostMetadata", "ProviderHealth", "AcquisitionProvider",
-    "BRIGHTDATA_BROWSER", "BRIGHTDATA_WEB_UNLOCKER", "DIRECT_HTTP",
+    "BRIGHTDATA_BROWSER", "BRIGHTDATA_WEB_UNLOCKER", "FIRECRAWL", "DIRECT_HTTP",
     "KNOWN_FUTURE_PROVIDERS", "ProviderError", "register", "get", "available",
     "implemented", "all_ids", "describe",
 ]

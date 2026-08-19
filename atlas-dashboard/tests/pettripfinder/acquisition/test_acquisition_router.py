@@ -111,9 +111,18 @@ def test_withholding_reasons_map_to_source_failures():
 # Providers.
 # --------------------------------------------------------------------------- #
 
-def test_two_providers_are_implemented_and_one_slot_is_reserved():
+def test_three_providers_are_implemented_and_one_slot_is_reserved():
+    """Firecrawl was added by PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006.
+
+    This assertion previously read "two", deliberately, because an adapter
+    existing is not grounds to route to it. It reads "three" now because
+    Firecrawl earned the row the way that comment always required: 15/15 on
+    the Milwaukee Choice queue against the incumbent's 7/15. The change is a
+    decision, not a maintenance edit.
+    """
     assert set(PROVIDERS.implemented()) == {PROVIDERS.BRIGHTDATA_BROWSER,
-                                            PROVIDERS.BRIGHTDATA_WEB_UNLOCKER}
+                                            PROVIDERS.BRIGHTDATA_WEB_UNLOCKER,
+                                            PROVIDERS.FIRECRAWL}
     assert PROVIDERS.DIRECT_HTTP in PROVIDERS.all_ids()
     assert PROVIDERS.DIRECT_HTTP not in PROVIDERS.implemented()
 
@@ -127,9 +136,17 @@ def test_the_reserved_slot_is_unavailable_and_refuses_to_run():
 
 
 def test_future_providers_are_documented_and_not_implemented():
-    for name in ("firecrawl", "spider", "apify"):
+    """Firecrawl is no longer on this list; spider still is, and on purpose.
+
+    Spider was benchmarked and FAILED -- 7 of 25 properties, returning
+    JavaScript shells. Being measured is what gets a provider onto a route;
+    being measured is not the same as passing.
+    """
+    for name in ("spider", "apify", "playwright_local"):
         assert name in PROVIDERS.KNOWN_FUTURE_PROVIDERS
         assert name not in PROVIDERS.all_ids()
+    assert "firecrawl" not in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+    assert "firecrawl" in PROVIDERS.all_ids()
 
 
 def test_providers_are_described_by_capability_not_by_vendor():
@@ -224,11 +241,18 @@ def test_the_generic_reader_names_no_container():
 # --------------------------------------------------------------------------- #
 
 def test_choice_never_defaults_to_the_browser_api():
-    """15 attempts, 14 ACCESS_DENIED, 0 captures. The lane is measured shut."""
+    """15 attempts, 14 ACCESS_DENIED, 0 captures. The lane is measured shut.
+
+    The Choice PRIMARY changed to Firecrawl in
+    PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006. This rule did not, and it must
+    not: the Browser API stays off the Choice ladder entirely, whoever leads
+    it. A route change is not an occasion to relitigate a separate measurement.
+    """
     route = REGISTRY.resolve(
         brand="CHOICE",
         url="https://www.choicehotels.com/ohio/canton/comfort-inn-hotels/oh440")
-    assert route.provider == PROVIDERS.BRIGHTDATA_WEB_UNLOCKER
+    assert route.provider == PROVIDERS.FIRECRAWL
+    assert PROVIDERS.BRIGHTDATA_WEB_UNLOCKER in route.ladder
     assert PROVIDERS.BRIGHTDATA_BROWSER not in route.ladder
     assert PROVIDERS.BRIGHTDATA_BROWSER in route.forbidden_providers
 
@@ -256,7 +280,7 @@ def test_a_route_may_not_both_prefer_and_forbid_a_provider():
     ("HILTON", PROVIDERS.BRIGHTDATA_BROWSER, "hilton_competing"),
     ("IHG", PROVIDERS.BRIGHTDATA_BROWSER, "ihg"),
     ("WYNDHAM", PROVIDERS.BRIGHTDATA_BROWSER, "wyndham"),
-    ("CHOICE", PROVIDERS.BRIGHTDATA_WEB_UNLOCKER, "choice_static"),
+    ("CHOICE", PROVIDERS.FIRECRAWL, "choice_static"),
 ])
 def test_brand_routes_match_what_the_pilots_measured(brand, provider, reader):
     hosts = {"MARRIOTT": "www.marriott.com", "HILTON": "www.hilton.com",
@@ -713,9 +737,16 @@ def test_the_smoke_sample_comes_from_pilot_002():
 
 
 def test_expected_routes_are_asserted_not_read_back():
-    """A registry edit that re-routes Choice must FAIL this benchmark."""
-    assert SMOKE.EXPECTED_ROUTE["CHOICE"][0] == \
-        PROVIDERS.BRIGHTDATA_WEB_UNLOCKER
+    """A registry edit that re-routes Choice must FAIL this benchmark.
+
+    The pinned value moved to Firecrawl in
+    PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006. The mechanism did not: the
+    expectation is still hard-coded here rather than read from the registry,
+    so the NEXT unannounced re-route still fails this test instead of passing
+    it. That, and not the particular provider, is what this test protects.
+    """
+    assert SMOKE.EXPECTED_ROUTE["CHOICE"][0] == PROVIDERS.FIRECRAWL
+    assert SMOKE.EXPECTED_ROUTE["CHOICE"][0] != PROVIDERS.BRIGHTDATA_BROWSER
     source = inspect.getsource(SMOKE)
     assert "EXPECTED_ROUTE: Dict" in source
 

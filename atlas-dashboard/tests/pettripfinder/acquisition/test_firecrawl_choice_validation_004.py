@@ -239,20 +239,34 @@ class TestCompletenessIsMeasuredDifferentlyWithNoBaseline:
         assert out["complete"] is False
 
 
-class TestMeasuringAProviderDidNotPromoteIt:
-    def test_firecrawl_is_still_not_routable(self):
-        assert "firecrawl" not in PROVIDERS.all_ids()
-        assert "firecrawl" in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+class TestThisBenchmarkIsWhatEventuallyPromotedIt:
+    """When this file was written, measuring Firecrawl had deliberately NOT
+    routed it, and these tests asserted so. PTF-CHOICE-FIRECRAWL-ROUTE-
+    APPLICATION-006 then applied the change on the strength of this very
+    measurement plus PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005.
 
-    def test_choice_still_resolves_to_the_web_unlocker(self):
+    The principle the class was written to protect is intact and is what is
+    asserted now: a provider reaches a route through a measurement, and only
+    the lane it was measured on."""
+
+    def test_firecrawl_is_routable_on_the_lane_this_benchmark_measured(self):
+        assert "firecrawl" in PROVIDERS.all_ids()
+        assert "firecrawl" not in PROVIDERS.KNOWN_FUTURE_PROVIDERS
+
+    def test_choice_now_leads_with_firecrawl_and_keeps_the_unlocker_behind_it(self):
         for url in ("https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423",
                     "https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297"):
             route = REGISTRY.resolve(brand="CHOICE", url=url)
-            assert route.provider == "brightdata_web_unlocker"
+            assert route.provider == "firecrawl"
+            assert "brightdata_web_unlocker" in route.fallback_providers
+            assert "brightdata_browser" in route.forbidden_providers
 
-    def test_routes_json_still_names_no_benchmark_provider(self):
+    def test_no_unmeasured_provider_reached_the_route_table(self):
+        """Spider was benchmarked on this same corpus and reached 7 of 25. It
+        is still absent, which is the point: measurement is the gate, not
+        having an adapter."""
         text = ROUTES_PATH.read_text(encoding="utf-8")
-        assert "firecrawl" not in text and "spider" not in text
+        assert "spider" not in text
 
 
 class TestTheCommittedChoiceValidation:

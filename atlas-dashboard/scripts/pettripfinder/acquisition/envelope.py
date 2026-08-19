@@ -101,6 +101,13 @@ class AcquisitionCost:
     ``reported`` is what the provider's own billing said; ``estimated`` is
     arithmetic on measured traffic. They are separate fields because conflating
     a billed figure with a derived one is how a cost report stops being one.
+
+    Credits live in their own field for the same reason, one step further out.
+    Bright Data bills dollars and Firecrawl bills plan credits, and the plan
+    endpoint reports an allowance rather than a unit price -- so there is no
+    exchange rate between them that anyone has measured. A ladder that fell
+    through from Firecrawl to the Web Unlocker consumed BOTH, and the honest
+    record of that is two numbers, not one invented total.
     """
 
     attempts: int = 0
@@ -110,6 +117,13 @@ class AcquisitionCost:
     reported_usd_minor: Optional[int] = None
     estimated_usd_minor: Optional[float] = None
     cost_status: str = "UNAVAILABLE"
+    #: Plan credits consumed by credit-billed lanes. Never added to dollars.
+    reported_credits: Optional[float] = None
+    #: Seconds spent in each provider, so a fallback's latency cost is visible
+    #: rather than hidden inside one total.
+    seconds_by_provider: Mapping[str, float] = field(default_factory=dict)
+    #: True when the ladder moved past its primary provider.
+    fallback_invoked: bool = False
 
     def to_dict(self) -> Dict:
         return {"attempts": self.attempts,
@@ -120,6 +134,13 @@ class AcquisitionCost:
                 "estimated_usd_minor": (round(self.estimated_usd_minor, 2)
                                         if self.estimated_usd_minor is not None
                                         else None),
+                "reported_credits": self.reported_credits,
+                "seconds_by_provider": {k: round(v, 3) for k, v
+                                        in dict(self.seconds_by_provider).items()},
+                "fallback_invoked": self.fallback_invoked,
+                "currencies_are_not_combined": (
+                    "usd_minor and plan credits are separate measurements of "
+                    "separate vendors; no total spans them"),
                 "cost_status": self.cost_status}
 
 

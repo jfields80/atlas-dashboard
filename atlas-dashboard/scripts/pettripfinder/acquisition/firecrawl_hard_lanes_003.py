@@ -232,8 +232,11 @@ INTERACT_PROFILE: Dict = {
     ],
 }
 
-SCRAPE_PROFILE: Dict = {"formats": ["rawHtml"], "waitFor": 6000,
-                        "timeout": 90000, "location": {"country": "US"}}
+#: The adapter's own definition, not a copy of it. PTF-CHOICE-FIRECRAWL-ROUTE-
+#: APPLICATION-006 registered Firecrawl as a routable provider using this exact
+#: profile, and a second copy here would let the benchmark and the production
+#: lane drift apart without either file changing.
+SCRAPE_PROFILE: Dict = FIRECRAWL.ROUTED_PROFILE
 
 
 async def acquire(entry: Dict, *, run_dir: Path, pace: float,
