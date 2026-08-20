@@ -50,6 +50,7 @@ from scripts.pettripfinder.brightdata import client                  # noqa: E40
 from scripts.pettripfinder.brightdata import marriott_surface as MS  # noqa: E402
 from scripts.pettripfinder.brightdata import outcomes as O           # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR    # noqa: E402
+from scripts.pettripfinder.brightdata import policy_locator as PL   # noqa: E402
 from scripts.pettripfinder.brightdata import policy_surface as PS    # noqa: E402
 
 PROVIDER = "Bright Data Web Unlocker"
@@ -282,7 +283,8 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
 
     try:
         artifacts = _persist(attempt_dir=attempt_dir, html=html,
-                             body_text=body_text, block_text=reading.block_text)
+                             body_text=body_text, block_text=reading.block_text,
+                             hit=hit)
     except Exception as exc:                                     # noqa: BLE001
         return finish(O.CAPTURE_FAILED, final_url=final_url, title=title,
                       body_chars=len(MS.collapse(body_text)),
@@ -302,7 +304,15 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
 
 
 def _persist(*, attempt_dir: Path, html: str, body_text: str,
-             block_text: str) -> Dict:
+             block_text: str, hit=None) -> Dict:
+    """Write the artifact set.
+
+    ``hit`` is the ``SurfaceHit`` the locator that actually ran produced. When
+    it is given, the canonical locator record is written beside the block so a
+    later replay can recover this exact boundary instead of recomputing a
+    different one. Optional so a caller that has no hit still persists
+    everything it used to.
+    """
     artifacts: Dict[str, Dict] = {}
 
     def record(name: str, path: Path, mime: str, note: str = "") -> None:
@@ -327,6 +337,15 @@ def _persist(*, attempt_dir: Path, html: str, body_text: str,
     record("policy-block.txt", block_path, "text/plain; charset=utf-8",
            "the bounded policy block only; every quote is a contiguous "
            "substring of this file")
+
+    if hit is not None:
+        locator_path = PL.persist(attempt_dir, PL.build_record(
+            hit=hit, block_text=block_text,
+            document_sha256=BC.sha256_file(html_path),
+            walk=PL.STATIC_TEXT_WALK))
+        record(PL.LOCATOR_ARTIFACT, locator_path, "application/json",
+               "how this block's boundary was chosen; a replay reads the block "
+               "and checks it against this record rather than locating again")
 
     return {"files": artifacts, "attempt_dir": str(attempt_dir),
             "policy_section": {"attempted": False,

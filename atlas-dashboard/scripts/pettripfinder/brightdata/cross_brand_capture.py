@@ -215,7 +215,7 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
                         run_dir=run_dir, target=target, attempt=attempt,
                         page=page, policy_locator=element, html=html,
                         body_text=body_text, block_text=reading.block_text,
-                        interactions=interactions)
+                        interactions=interactions, hit=hit)
                 except Exception as exc:                        # noqa: BLE001
                     return finish(O.CAPTURE_FAILED, final_url=final_url,
                                   title=title,

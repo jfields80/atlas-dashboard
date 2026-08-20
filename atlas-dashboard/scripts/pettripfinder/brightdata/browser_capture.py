@@ -51,6 +51,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder.brightdata import client                  # noqa: E402
 from scripts.pettripfinder.brightdata import marriott_surface as MS  # noqa: E402
+from scripts.pettripfinder.brightdata import policy_locator as PL   # noqa: E402
 from scripts.pettripfinder.brightdata import outcomes as O           # noqa: E402
 
 #: Three fresh sessions per property, then the property is handed to a human.
@@ -481,7 +482,8 @@ async def _bring_into_view(page, locator, interactions: _Interactions) -> bool:
 
 async def _persist(*, run_dir: Path, target: CaptureTarget, attempt: int,
                    page, policy_locator, html: str, body_text: str,
-                   block_text: str, interactions: _Interactions) -> Dict:
+                   block_text: str, interactions: _Interactions,
+                   hit=None) -> Dict:
     """Write the artifact set. Raises on failure; the caller maps that to
     CAPTURE_FAILED so a half-written directory never counts as evidence."""
     attempt_dir = run_dir / target.slug / ("attempt-%02d" % attempt)
@@ -515,6 +517,17 @@ async def _persist(*, run_dir: Path, target: CaptureTarget, attempt: int,
     record("policy-block.txt", block_path, "text/plain; charset=utf-8",
            "the bounded pet-policy container only; every quote in this "
            "manifest is a contiguous substring of this file")
+
+    if hit is not None:
+        # The boundary this LIVE walk chose, recorded so a replay recovers it
+        # instead of recomputing a different one from the saved HTML. The two
+        # walks are different algorithms and are not required to agree.
+        locator_path = PL.persist(attempt_dir, PL.build_record(
+            hit=hit, block_text=block_text,
+            document_sha256=sha256_file(html_path), walk=PL.LIVE_DOM_WALK))
+        record(PL.LOCATOR_ARTIFACT, locator_path, "application/json",
+               "how this block's boundary was chosen; a replay reads the block "
+               "and checks it against this record rather than locating again")
 
     full_path = attempt_dir / "full-page.png"
     await page.screenshot(path=str(full_path), full_page=True,

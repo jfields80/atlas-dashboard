@@ -254,7 +254,7 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
     try:
         artifacts = UC._persist(attempt_dir=attempt_dir, html=html,
                                 body_text=body_text,
-                                block_text=reading.block_text)
+                                block_text=reading.block_text, hit=hit)
     except Exception as exc:                                     # noqa: BLE001
         return finish(O.CAPTURE_FAILED, final_url=final_url, title=title,
                       body_chars=len(MS.collapse(body_text)),
