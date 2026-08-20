@@ -99,8 +99,12 @@ _BARE_CHARGE_RE = re.compile(
 #: structured row reads "Deposit Yes. $75.00 Non-refundable Fee" and says
 #: nothing about per-night or per-stay. The amount is a fact; the basis is not,
 #: and is left absent rather than guessed.
+#: ``of`` added by PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016. "A
+#: one-time pet fee of $150 is non-refundable" states the amount as plainly as
+#: "Pet Fee: $150" does, and the only thing standing between them was the
+#: connector word. An optional token cannot change what already matched.
 _LABELLED_AMOUNT_RE = re.compile(
-    r"(?:(?P<pre>fee|deposit|charge)\s*:?\s*)?"
+    r"(?:(?P<pre>fee|deposit|charge)\s*(?:of\s+)?:?\s*)?"
     r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)|"
     r"(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
     r"(?:\s*(?P<post>[a-z-]*\s*(?:fee|deposit|charge)))?",
@@ -109,10 +113,21 @@ _LABELLED_AMOUNT_RE = re.compile(
 #: A stated ceiling: "Max 75 USD per stay". Recorded as ``fee_cap``, never as
 #: the price -- the founder rule is CEILING != PRICE.
 _FEE_CAP_RE = re.compile(
-    r"\bmax(?:imum)?\s*(?:of\s*)?"
+    # "not to exceed 7 nights or $105 per pet per stay" states two ceilings in
+    # one breath -- a length and a price -- and the money one is the fee cap.
+    # The length clause is stepped over rather than read: the published
+    # vocabulary has a ``fee_cap`` and no field for a maximum number of nights,
+    # and inventing one here would be this layer deciding what the schema holds.
+    r"\b(?:max(?:imum)?|not\s+to\s+exceed)\s*(?:of\s*)?"
+    r"(?:\d+\s+(?:nights?|days?)\s+or\s+)?"
     r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)|"
     r"(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
-    r"\s*(?:per|/|a)\s*(?P<basis>night|day|stay)\b",
+    # "not to exceed ... $105 per pet per stay" states the ceiling's SCOPE
+    # before its basis. The scope word is stepped over rather than read: a cap
+    # is recorded with the basis the surface gives it, and inventing a scope
+    # for it is not this layer's job.
+    r"\s*(?:(?:per|/|a)\s*(?:pet|animal|room|reservation)\s*,?\s*)?"
+    r"(?:per|/|a)\s*(?P<basis>night|day|stay)\b",
     re.IGNORECASE)
 
 #: Word numbers, only where a pet count is being named.
@@ -130,6 +145,16 @@ _DOGS_LABELLED_RE = re.compile(
 _BOTH_SPECIES_RE = re.compile(
     r"\b(?:dogs?|cats?)\s*(?:and|&|/|or)\s*(?:dogs?|cats?)\s+only\b",
     re.IGNORECASE)
+
+#: The same two species named as a parenthetical gloss on the word "pet": "a
+#: maximum of 2 pets (dogs or cats) per room", "one domestic pet (cat or dog)".
+#: The parenthesis is the property saying which animals its word "pet" covers,
+#: which is the same transcription as "dogs and cats only" and not an inference
+#: from silence. Three measured surfaces write it this way and none of them
+#: uses the word "only", which is the only thing the pattern above required.
+_SPECIES_PAIR_RE = re.compile(
+    r"\b(?:pets?|animals?)\s*\(\s*(?:dogs?|cats?)\s*(?:and|&|/|or)\s*"
+    r"(?:dogs?|cats?)\s*\)", re.IGNORECASE)
 
 #: "non-refundable ... $75" or "$75 ... non-refundable", within one statement.
 _NONREFUNDABLE_RE = re.compile(r"non-?\s?refundable", re.IGNORECASE)
@@ -159,6 +184,17 @@ _COUNT_RES: Tuple[re.Pattern, ...] = (
                re.IGNORECASE),
     re.compile(r"max(?:imum)?\s+(?:of\s+)?(?P<count>\d+)\s+pets?\s+per\s+"
                r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
+    # "a maximum of two (2) dogs per room policy". Two additions, each of which
+    # the reader already accepts elsewhere: the species may be named instead of
+    # the word "pet" -- ``_DOGS_LABELLED_RE`` treats "Dogs Allowed" as an
+    # acceptance for exactly that reason -- and a property that writes the
+    # number twice, as a word and then in figures, has still stated it once.
+    re.compile(r"max(?:imum)?\s+of\s+(?P<word>one|two|three|four|five)\s*"
+               r"(?:\(\s*\d+\s*\)\s*)?(?:pets?|dogs?|cats?)\s+per\s+"
+               r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
+    re.compile(r"max(?:imum)?\s+of\s+(?P<count>\d+)\s*"
+               r"(?:pets?|dogs?|cats?)\s+per\s+"
+               r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
 )
 
 #: Weights. "up to", "under", "or less" and "maximum" are all recorded as a
@@ -186,6 +222,12 @@ _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"pets?\s+(?:weighing\s+)?(?:up\s+to\s+)?"
                r"(?P<value>[\d,]+(?:\.\d+)?)\s*(?P<unit>lbs?|pounds?|kgs?)\b",
                re.IGNORECASE),
+    # "Pet not to exceed 80 pounds." A ceiling written as a prohibition rather
+    # than as a maximum. Recorded as a VALUE like every other form here: the
+    # comparison operator is still never inferred.
+    re.compile(r"(?:not\s+to\s+exceed|cannot\s+exceed|may\s+not\s+exceed|"
+               r"no\s+more\s+than)\s+(?P<value>[\d,]+(?:\.\d+)?)\s*"
+               r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
 )
 
 _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
@@ -193,7 +235,20 @@ _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"\bpets?\s+(?:are\s+)?(?:welcome|allowed|permitted)\b",
                re.IGNORECASE),
     re.compile(r"\bwe\s+welcome\s+pets?\b", re.IGNORECASE),
-    re.compile(r"\bpet\s+friendly\b", re.IGNORECASE),
+    # "pet friendly", and the species-named forms of the same claim. A
+    # measured surface calls itself "a dog friendly hotel" and prices dogs in
+    # the next sentence; the reader accepted the phrase only when the word was
+    # "pet".
+    re.compile(r"\b(?:pet|dog|cat)[\s-]friendly\b", re.IGNORECASE),
+    re.compile(r"\bwe\s+accept\s+(?:all\s+)?(?:pets?|dogs?|cats?)\b",
+               re.IGNORECASE),
+    # "A maximum of 2 pets (dogs or cats) per room are allowed at this
+    # hotel." The subject and its verb are separated by the property's own
+    # qualifiers, exactly as in the "is welcome" form above. The gap is bounded
+    # AND may not contain a negation: ``_is_negated`` only looks BACK from the
+    # match, so "pets ... are not allowed" would otherwise read as acceptance.
+    re.compile(r"\bpets?\s+(?:(?!\bnot\b|\bnever\b|\bno\b)[\w(),&/-]+\s+){0,5}"
+               r"(?:is|are)\s+(?:allowed|permitted|welcome)\b", re.IGNORECASE),
     # "One well-behaved family pet per room is welcome" (Red Roof). The subject
     # and the verb are separated by whatever qualifiers the property wrote, so
     # the gap is bounded rather than forbidden.
@@ -202,6 +257,12 @@ _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
     # Wyndham labels the row by species: "Dogs Allowed - 2 dogs max." A
     # brand that says which animal it takes has said that it takes animals.
     _DOGS_LABELLED_RE,
+    # "... welcomes dogs only." The reader already accepts "we
+    # welcome pets"; a property that welcomes an ANIMAL BY NAME has said the
+    # same thing, and the negation guard still governs this like every other
+    # acceptance here.
+    re.compile(r"\bwelcomes?\s+(?:only\s+)?(?:pets?|dogs?|cats?)\b",
+               re.IGNORECASE),
 )
 
 #: Continuations that turn a refusal into a HOUSE RULE rather than a refusal of
@@ -237,7 +298,13 @@ _CONDITIONAL_FEE_RE = re.compile(
     r"\d+\s*(?:lbs?|pounds?|kgs?)\s+(?:or|and)\s+(?:over|more|above|up|greater)"
     r"|\bfor\s+pets?\s+(?:over|above|under|below)\b"
     r"|\bif\s+(?:the\s+)?pets?\b"
-    r"|\bpets?\s+(?:over|above)\s+\d+\s*(?:lbs?|pounds?)",
+    r"|\bpets?\s+(?:over|above)\s+\d+\s*(?:lbs?|pounds?)"
+    # A PENALTY, not a price. "Unauthorized pets incur a $250 cleaning fee" on
+    # a surface that accepts no pets at all states what happens when the rule
+    # is broken; publishing it as the pet fee would tell a guest that this
+    # hotel charges $250 to bring a dog, which is not what it says. The amount
+    # is real and its applicability -- only to a violation -- has no field.
+    r"|\b(?:unauthori[sz]ed|unregistered|undeclared|undisclosed)\s+pets?\b",
     re.IGNORECASE)
 
 #: How far from the charge the condition may sit and still govern it.
@@ -261,7 +328,16 @@ _TIERED_FEE_RE = re.compile(
     r"|\b\d+\s*(?:to|-)\s*\d+\s*nights?\s+the\s+fee\b"
     r"|\b\d+\s*or\s+more\s+will\s+be\b"
     r"|\b\d+\s*(?:usd|dollars?)\s+\d+\s+(?:dogs?|cats?|pets?)\b"
-    r"|\b(?:weekly|monthly)\s+\d+\s*(?:usd|dollars?)?\s*\d*\s*(?:dogs?|pets?)\b",
+    r"|\b(?:weekly|monthly)\s+\d+\s*(?:usd|dollars?)?\s*\d*\s*(?:dogs?|pets?)\b"
+    # Priced by WHICH pet: "One domestic pet stays free. Second pet $15 per
+    # night." The published vocabulary holds one amount with one scope, and
+    # neither "$15 per pet" nor "$0 per pet" is what this surface says.
+    r"|\b(?:second|2nd|third|3rd|each\s+additional|additional)\s+"
+    r"(?:pets?|dogs?|cats?)\b"
+    # Priced by ROOM CLASS: "$20 per dog per night ($30/dog/night in Suites)".
+    # The same defect family as pricing by stay length -- one pet, two prices,
+    # and the schema has nowhere to say which room the guest booked.
+    r"|\bin\s+(?:suites?|studios?|villas?|cabins?|cottages?)\b",
     re.IGNORECASE)
 
 #: Two or more DISTINCT prices on the surface. A tier needs both this and the
@@ -321,6 +397,13 @@ _RATE_MARKER_RE = re.compile(
     r"from|nightly\s+rate|room\s+rate|member\s+rate|discounted)\b",
     re.IGNORECASE)
 
+#: A charge whose own sentence names a purpose that is not a pet. "for
+#: incidentals", "for all guests" -- the surface has said who pays it, and it
+#: is everyone.
+_NON_PET_PURPOSE_RE = re.compile(
+    r"\bincidental(?:s)?\b|\bfor\s+all\s+guests\b|\ball\s+guests\b",
+    re.IGNORECASE)
+
 
 def _pet_context(text: str, start: int, end: int) -> bool:
     """Whether an amount BELONGS to the pet statement, not merely sits near it.
@@ -358,7 +441,45 @@ def _pet_context(text: str, start: int, end: int) -> bool:
         between = text[end:match.start()]
     else:
         between = ""
-    return not _RATE_MARKER_RE.search(between)
+    if _RATE_MARKER_RE.search(between):
+        return False
+
+    # The amount may also say, in its own sentence, that it is about something
+    # other than a pet. Red Roof's block ends "Deposit Policy: A $50 refundable
+    # deposit for incidentals is required at check-in for all guests" -- one
+    # sentence away from the words "Pet Policy", close enough for the window
+    # above, and a deposit every guest pays whether or not they bring a dog.
+    # Published as a pet deposit it invents a charge for bringing an animal.
+    #
+    # The amount may also say, in its own sentence, what it is for -- and if
+    # that is not a pet, it is not a pet charge however close the word "pet"
+    # happens to sit. The test is the same shape as the rate-marker test above:
+    # NEAREST WINS. The stated purpose competes with the pet wording, and the
+    # one standing closer to the amount is the one the amount is about.
+    #
+    #   "Read Full Pet Policy Deposit Policy: A $50 refundable deposit for
+    #    incidentals is required at check-in for all guests."
+    #        -- "incidentals" is four characters away and "Pet" is a link label
+    #           a sentence back. Published as a pet deposit, this invents a
+    #           charge for bringing an animal that every guest already pays.
+    #
+    #   "A $75 pet fee applies for all guests travelling with pets."
+    #        -- "pet fee" is part of the amount's own phrase. It wins, and the
+    #           charge survives.
+    #
+    # Hilton writes "Deposit Yes. $75.00 Non-refundable Fee" and states no
+    # purpose at all, so this never looks at it.
+    segment_start = max(0, text.rfind(".", 0, start) + 1)
+    segment_end = text.find(".", end)
+    segment_end = len(text) if segment_end < 0 else segment_end + 1
+    purpose_distance = None
+    for purpose in _NON_PET_PURPOSE_RE.finditer(text, segment_start, segment_end):
+        gap = (purpose.start() - end if purpose.start() >= end
+               else start - purpose.end() if purpose.end() <= start else 0)
+        gap = max(gap, 0)
+        if purpose_distance is None or gap < purpose_distance:
+            purpose_distance = gap
+    return purpose_distance is None or nearest[0] <= purpose_distance
 
 
 @dataclass(frozen=True)
@@ -469,7 +590,8 @@ def _service_animal_quote(text: str, match) -> str:
     return text[start:end].strip()
 
 
-def _service_animal_span(text: str, match) -> Optional[Tuple[int, int]]:
+def _service_animal_span(text: str, match,
+                         charges: Sequence["Charge"] = ()) -> Optional[Tuple[int, int]]:
     """The words a limit must sit in to be a limit ON service animals.
 
     It begins at the service-animal PHRASE and ends where the published quote
@@ -481,6 +603,24 @@ def _service_animal_span(text: str, match) -> Optional[Tuple[int, int]]:
 
     A limit written BEFORE the words "service animals" cannot be a limit on
     service animals, so the span starts at the phrase.
+
+    IT ALSO ENDS WHERE A PRICE BEGINS
+    ---------------------------------
+    ``_segment_containing`` splits on punctuation, and a chip list has none.
+    One measured surface publishes its whole policy as four labels run
+    together -- "Service Animals Welcome Pet-Friendly Non-refundable fee: $100
+    per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are
+    allowed" -- so the segment was the entire block, the phrase sat at
+    character zero, and every ordinary-pet term in the property's policy was
+    discarded as a limit on service animals. The reader returned the label and
+    nothing else.
+
+    A service-animal exception does not carry a price: an exception exists to
+    say the charge does NOT apply. So the span stops where the first charge
+    after the phrase begins. This is deliberately narrower than "stops at the
+    next pet word" -- "Only service animals are permitted, maximum 2 pets per
+    room" caps service animals, states no amount, and must keep behaving as it
+    does today.
     """
     quote = _service_animal_quote(text, match)
     if not quote or match is None:
@@ -489,6 +629,10 @@ def _service_animal_span(text: str, match) -> Optional[Tuple[int, int]]:
     if start < 0:
         return None
     end = start + len(quote)
+    for charge in charges:
+        at = text.find(charge.quote) if charge.quote else -1
+        if match.start() < at < end:
+            end = at
     return (match.start(), end) if match.start() < end else None
 
 
@@ -527,9 +671,71 @@ def _is_negated(text: str, match) -> bool:
     return bool(_NEGATION_RE.search(text[start:match.start()]))
 
 
+#: The refusal wordings that are only a refusal when nothing was accepted
+#: first. "No pets" refuses pets. "No OTHER pets" answers a question the
+#: sentence before it asked, and the answer depends on what that sentence said.
+_QUALIFIED_REFUSAL_RE = re.compile(
+    r"\bno\s+(?:other|additional|further)\s+pets?\b", re.IGNORECASE)
+
+
+def _is_species_restriction(text: str, refused, dogs_only, both_species,
+                            service) -> bool:
+    """Whether "no other pets" restricts the SPECIES rather than refusing pets.
+
+    Both readings exist and they are opposite, so the antecedent decides:
+
+      "Service animals are welcome. No other pets are allowed."
+          -- the only thing accepted is a service animal, which is not a pet.
+             This refuses pets, and reading it any other way would publish a
+             no-pets hotel as pet-friendly. It was very nearly published.
+
+      "... welcomes dogs only. No other pets are allowed on property. ...
+       A $40 pet fee per night, per dog (up to 2 dogs max)."
+          -- the property has just said which animal it takes and then priced
+             it. This restricts the species. Read as a refusal it made the
+             surface self-contradictory and the reader withheld the fee, the
+             count, the species and the acceptance: four facts, all stated.
+
+    So a qualified refusal is a species restriction when a SPECIES acceptance
+    stands before it, and that acceptance is not the service-animal sentence.
+    """
+    if not _QUALIFIED_REFUSAL_RE.match(text, refused.start()):
+        return False
+    accepted = [m for m in (dogs_only, both_species) if m is not None]
+    if not accepted:
+        return False
+    service_span = _service_animal_span(text, service)
+    return any(m.end() <= refused.start()
+               and not _within(service_span, (m.start(), m.end()))
+               for m in accepted)
+
+
 def _contains(outer, inner) -> bool:
     """Whether one match's span wholly contains another's."""
     return outer.start() <= inner.start() and outer.end() >= inner.end()
+
+
+def _first_acceptance(text: str):
+    """The first acceptance a negation does NOT govern, and the ones it did.
+
+    ``_first_match`` stops at the first PATTERN that matches anywhere, so one
+    negated phrase used to end the search for the whole block. A measured
+    surface writes "... welcomes dogs only. No other pets are allowed on
+    property." -- the negated fragment "pets are allowed" matched an
+    early pattern, was correctly discarded, and took the property's actual
+    acceptance down with it two sentences earlier.
+
+    A negation governs a MATCH, never a document, so a discarded match is
+    stepped over and the search continues.
+    """
+    negated = []
+    for index, pattern in enumerate(_PETS_WELCOME_RES):
+        for match in pattern.finditer(text):
+            if _is_negated(text, match):
+                negated.append(text[match.start():match.end()])
+                continue
+            return match, "welcome[%d]" % index, negated
+    return None, "", negated
 
 
 def _first_match(text: str, patterns: Sequence[re.Pattern], label: str):
@@ -775,12 +981,25 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         fired.append(count_pattern)
 
     # --- allowed / refused --------------------------------------------------- #
+    dogs_only = (MS._DOGS_ONLY_RE.search(text)
+                 or re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
+                              r"permitted)\b", text, re.IGNORECASE))
+    cats_refused = MS._CATS_REFUSED_RE.search(text)
+    both_species = _BOTH_SPECIES_RE.search(text) or _SPECIES_PAIR_RE.search(text)
+    service = MS._SERVICE_ANIMAL_RE.search(text)
+
     refused, refused_pattern = _first_match(text, _PETS_REFUSED_RES, "refused")
-    welcome, welcome_pattern = _first_match(text, _PETS_WELCOME_RES, "welcome")
-    if welcome and _is_negated(text, welcome):
-        notes.append("ignored the acceptance %r: a negation governs it"
-                     % text[welcome.start():welcome.end()])
-        welcome, welcome_pattern = None, ""
+    if refused and _is_species_restriction(text, refused, dogs_only,
+                                           both_species, service):
+        notes.append(
+            "read %r as a restriction to the species this surface names and "
+            "not as a refusal of pets: the property states which animals it "
+            "accepts before it says there are no others"
+            % text[refused.start():refused.end()])
+        refused, refused_pattern = None, ""
+    welcome, welcome_pattern, negated = _first_acceptance(text)
+    for quote in negated:
+        notes.append("ignored the acceptance %r: a negation governs it" % quote)
     pets_allowed = None
     pets_allowed_quote = ""
     if refused and welcome and _contains(refused, welcome):
@@ -810,13 +1029,6 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         pets_allowed_quote = text[welcome.start():welcome.end()]
         fired.append(welcome_pattern)
 
-    dogs_only = (MS._DOGS_ONLY_RE.search(text)
-                 or re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
-                              r"permitted)\b", text, re.IGNORECASE))
-    cats_refused = MS._CATS_REFUSED_RE.search(text)
-    both_species = _BOTH_SPECIES_RE.search(text)
-    service = MS._SERVICE_ANIMAL_RE.search(text)
-
     # --- a refusal may not arrive carrying ordinary-pet terms ---------------- #
     #
     # Two different faults produce the same shape, and they need different
@@ -835,7 +1047,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     #
     # This is a general rule about wording. It is deliberately not keyed to any
     # property, brand or URL.
-    service_span = _service_animal_span(text, service)
+    service_span = _service_animal_span(text, service, charges)
     pet_terms = [
         ("weight_limit", _span_of(text, weight_match, weight_quote), weight_quote),
         ("pet_count_limit", _span_of(text, count_match, pet_count_quote),
@@ -911,6 +1123,69 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         brand_generic=bool(_BRAND_GENERIC_RE.search(text)))
 
 
+#: Sentence punctuation. A statement has some; a chip in an amenity list has
+#: none, which is one of the differences this guard turns on.
+_SENTENCE_PUNCTUATION_RE = re.compile(r"[.!?]")
+
+#: Any wording a pet POLICY uses and an amenity LABEL does not: a number, a
+#: price, a charge word, a physical limit, a named species, a house rule.
+#:
+#: This is asked of the SURFACE, never of what the parser managed to read. The
+#: first version of the guard asked the parser, and that is a different and much
+#: worse question: five surfaces stating a real fee -- "Pet fee per night: 75
+#: USD Pet weight limit: 75 2 pets allowed", "Dog Friendly: $25/dog per night"
+#: -- have wordings this reader still does not parse, and the guard turned each
+#: of those parser gaps into a published claim that the page carried nothing but
+#: an amenity chip. A reader that cannot read a policy must say so, not report
+#: that there was none.
+_POLICY_VOCABULARY_RE = re.compile(
+    r"\d|\$|\bfee\b|\bfees\b|\bcharge\b|\bdeposit\b|\bpolicy\b|\bpolicies\b"
+    r"|\bweight\b|\blimit\b|\blbs?\b|\bpounds?\b|\bkgs?\b|\bbreed\b"
+    r"|\bleash\b|\bkennel\b|\bcrate\b|\bunattended\b|\brefundable\b"
+    r"|\bservice\s+animals?\b|\bdogs?\b|\bcats?\b|\bper\s+(?:night|stay|day)\b",
+    re.IGNORECASE)
+
+
+def _is_amenity_label_only(reading: Reading) -> bool:
+    """Whether the surface carries a LABEL where a policy would be.
+
+    A brand that lists its facilities as chips had one of them read as a
+    policy:
+    "Pets Allowed Coin Laundry" satisfied an acceptance pattern and produced
+    ``pets_allowed: true`` for two properties. That is a real signal about the
+    hotel and it is not a policy -- it states no fee, no count, no weight, no
+    species and no condition, and a guest who reads "pets allowed" on a hotel
+    page has been told nothing they can plan a trip around.
+
+    Four conditions, all required, and NONE of them is a length rule -- a short
+    policy is still a policy:
+
+      * the signal is an ACCEPTANCE. A refusal is never an amenity chip: no
+        facilities list advertises "no pets", so "Sorry, no pets allowed."
+        stays a policy and stays meaningful.
+      * the reader found no term -- no charge, no cap, no count, no weight, no
+        species, no service-animal exception, nothing contradicted.
+      * and NEITHER DID THE SURFACE: no price, no number, no charge word, no
+        physical limit, no named species anywhere in the block. This is the
+        condition that matters, because the one above is a statement about the
+        parser and this one is a statement about the page.
+      * the wording is a LABEL rather than a STATEMENT: no sentence punctuation
+        anywhere in the block. "Pets are welcome." is a sentence and survives;
+        "Pets Allowed Coin Laundry" is two chips in a row.
+    """
+    if reading.pets_allowed is not True:
+        return False
+    if (reading.charges or reading.fee_cap or reading.weight_value is not None
+            or reading.pet_count_limit is not None
+            or reading.dogs_only_quote or reading.both_species_quote
+            or reading.cats_refused_quote or reading.service_animal_quote
+            or reading.contradictions):
+        return False
+    if _POLICY_VOCABULARY_RE.search(reading.block_text):
+        return False
+    return not _SENTENCE_PUNCTUATION_RE.search(reading.block_text)
+
+
 def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
     """Map a reading onto the frozen ``ptf-policy-observation/1.0`` vocabulary.
 
@@ -932,7 +1207,16 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         evidence.append({"quote": quote, "location": location,
                          "field_refs": list(fields)})
 
-    if reading.pets_allowed is not None:
+    amenity_only = _is_amenity_label_only(reading)
+    if amenity_only:
+        withheld["pets_allowed"] = enums.ARTIFACT_INSUFFICIENT
+        flags.append({
+            "code": "FLAG_AMENITY_LABEL_ONLY",
+            "detail": "the only pet wording on this surface is an amenity "
+                      "label (%r) -- a chip in a list, stating no term and "
+                      "making no statement; it is not a pet policy and is not "
+                      "recorded as one" % reading.block_text[:120]})
+    elif reading.pets_allowed is not None:
         extraction["pets_allowed"] = reading.pets_allowed
         cite(reading.pets_allowed_quote, ["pets_allowed"])
     else:

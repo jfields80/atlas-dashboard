@@ -145,16 +145,25 @@ def _final_state(*, document: Optional[ENV.SourceDocument],
 
 async def route_property(record, target, *, run_dir: Path, run_id: str,
                          config: Optional[RouterConfig] = None,
-                         registry: Optional[Mapping] = None
-                         ) -> ENV.RoutingResult:
+                         registry: Optional[Mapping] = None,
+                         route_url: str = "") -> ENV.RoutingResult:
     """Acquire one property through its resolved lane, with escalation.
 
     ``record`` is a corpus benchmark row (identity and brand); ``target`` is the
     capture target built from it. Neither carries a policy value -- the
     structural guarantee the pilots established is unchanged here.
+
+    ``route_url`` names the URL the LANE is resolved from, and defaults to the
+    one being fetched, which is what every caller before source resolution
+    existed meant. A caller that reads a different page of the same property --
+    a discovered policy URL instead of the census homepage -- passes the census
+    URL here, so choosing a better page cannot silently move the property to
+    another provider: ``registry.resolve`` keys on the URL's host, and those are
+    two separate decisions.
     """
     config = config or RouterConfig()
-    route = REGISTRY.resolve(brand=record.brand, url=target.requested_url,
+    route = REGISTRY.resolve(brand=record.brand,
+                             url=route_url or target.requested_url,
                              identity_key=record.identity_key,
                              registry=registry)
     ledger = BUDGET.BudgetLedger(budget=config.budget)

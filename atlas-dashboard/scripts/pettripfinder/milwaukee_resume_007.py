@@ -59,7 +59,8 @@ from scripts.pettripfinder.acquisition import providers as PROVIDERS         # n
 from scripts.pettripfinder.acquisition import registry as REGISTRY           # noqa: E402
 from scripts.pettripfinder.acquisition import router as ROUTER               # noqa: E402
 from scripts.pettripfinder.brightdata import corpus as CORPUS                # noqa: E402
-from scripts.pettripfinder.brightdata import cross_brand_pilot_002 as P2     # noqa: E402
+from scripts.pettripfinder.brightdata import cross_brand_pilot_002 as P2
+from scripts.pettripfinder.acquisition import source_selection as SS     # noqa: E402
 from scripts.pettripfinder.milwaukee_acquisition_run_001 import (            # noqa: E402
     BILLABLE_ZONES, SpendMeter,
 )
@@ -143,13 +144,22 @@ def partition_remaining() -> Dict[str, List[Dict]]:
 
 
 def _record_for(row: Dict):
+    """The record, the target it will be fetched from, and why that page.
+
+    The record keeps the census ``official_url``: it is identity, and nothing
+    here edits identity. The TARGET may point somewhere else -- at the policy
+    page the discovery overlay found for this property -- and the selection
+    beside it records both URLs so a report can say whether the overlay was
+    consulted and whether it changed anything.
+    """
     record = CORPUS.BenchmarkRecord(
         identity_key=row["identity_key"], name=row["canonical_name"],
         market_id=MARKET, brand=row["brand"],
         bucket=CORPUS.bucket_of(row["brand"]), source_url=row["official_url"],
         pets_allowed=None, facts={}, quotes=(), withheld_fields={},
         service_animal_statement="", categories=frozenset(), origin="census")
-    return record, P2.target_for(record)
+    target, selection = SS.resolved_target(record, market_id=MARKET)
+    return record, target, selection
 
 
 def _usage(result) -> Dict:
@@ -221,14 +231,19 @@ async def run(args) -> Dict:
                                % (spent, HARD_CAP_USD_MINOR))
             break
 
-        record, target = _record_for(row)
+        record, target, selection = _record_for(row)
+        # The lane is resolved from the CENSUS url, never from the page the
+        # overlay chose: which page we read and who fetches it are separate
+        # decisions and must stay that way.
         result = await ROUTER.route_property(
-            record, target, run_dir=run_dir, run_id=args.run_id)
+            record, target, run_dir=run_dir, run_id=args.run_id,
+            route_url=selection.route_url)
         entry = {
             "identity_key": row["identity_key"],
             "canonical_name": row["canonical_name"],
             "brand": row["brand"],
             "official_url": row["official_url"],
+            "source_selection": selection.to_dict(),
             "route": result.route,
             "final_state": result.state,
             "failure": result.failure,

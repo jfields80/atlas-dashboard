@@ -1,0 +1,364 @@
+{
+ "motel6_amenity_chip--motel-6-milwaukee-wi-glendale": {
+  "block": "Pets Allowed Coin Laundry",
+  "block_chars": 25,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "motel6_amenity_chip--motel-6-oak-creek-wi": {
+  "block": "Pets Allowed Coin Laundry",
+  "block_chars": 25,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "control--amenity-chip-bare": {
+  "block": "Pets Allowed",
+  "block_chars": 12,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "control--capped-fee": {
+  "block": "Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+  "block_chars": 68,
+  "block_found": true,
+  "extraction": {
+   "pet_fee": 2500,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "fee_cap": {
+    "amount_minor": 7500,
+    "currency": "USD",
+    "basis": "per_stay"
+   },
+   "pet_count_limit": 2
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "control--no-other-pets-after-service": {
+  "block": "Service animals are welcome. No other pets are allowed.",
+  "block_chars": 55,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": false,
+   "service_animal_exception": "Service animals are welcome."
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": [
+   "ignored the acceptance 'pets are allowed': a negation governs it"
+  ]
+ },
+ "control--no-pets": {
+  "block": "Sorry, no pets allowed.",
+  "block_chars": 23,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": false
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": [
+   "ignored the acceptance 'pets allowed': a negation governs it"
+  ]
+ },
+ "control--pet-count": {
+  "block": "Pets Allowed. Pet limit 2 Pet Per Room.",
+  "block_chars": 39,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room"
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "control--service-animal-after-weight": {
+  "block": "Pets Allowed. Pet Charge 30.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 65 Pounds Service animals are permitted, without charge.",
+  "block_chars": 141,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_fee": 3000,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "fee_scope": "per_pet",
+   "weight_limit": {
+    "value": 65.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Max 65 Pounds Service animals are permitted, without charge."
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ },
+ "control--service-animals-only-refusal": {
+  "block": "Pets Allowed: No, only Service animals are permitted.",
+  "block_chars": 53,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No, only Service animals are permitted."
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ },
+ "control--simple-fee": {
+  "block": "Pets Allowed. Pet Charge 30.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room.",
+  "block_chars": 80,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_fee": 3000,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "fee_scope": "per_pet",
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room"
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ },
+ "control--species-restriction": {
+  "block": "Dogs only. Two pets max per room.",
+  "block_chars": 33,
+  "block_found": true,
+  "extraction": {
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room",
+   "species_allowed": [
+    "dog"
+   ]
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "control--terse-affirmative": {
+  "block": "Pets are welcome. A $50 fee per stay applies.",
+  "block_chars": 45,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_fee": 5000,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay"
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ },
+ "control--tiered-fee": {
+  "block": "Pet Charge 50.00 USD Per Stay for stays 1-6 nights. For stays of 7 or more nights the fee is 150.00 USD per stay.",
+  "block_chars": 113,
+  "block_found": true,
+  "extraction": {},
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT",
+   "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+   "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+  },
+  "flags": [
+   {
+    "code": "FLAG_TIERED_FEE",
+    "detail": "the surface prices this pet differently by stay length or by pet count, and the published fee vocabulary holds a single amount; the tiers survive in the evidence quote and no single amount is asserted"
+   }
+  ],
+  "notes": [
+   "ignored the amount '150.00 USD per stay': no pet wording within 70 characters"
+  ]
+ },
+ "control--weight-limit": {
+  "block": "Pets Allowed. Pet limit 2 Pet Per Room. Max 65 Pounds.",
+  "block_chars": 54,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "weight_limit": {
+    "value": 65.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room"
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "red_roof--red-roof-inn-milwaukee-airport-oak-creek": {
+  "block": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Read Full Pet Policy Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests.",
+  "block_chars": 410,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_deposit": 5000,
+   "pet_count_limit": 2
+  },
+  "withheld": {
+   "pet_fee": "SOURCE_AMBIGUOUS",
+   "fee_basis": "SOURCE_AMBIGUOUS"
+  },
+  "flags": [
+   {
+    "code": "FLAG_MULTI_POLICY_BLOCKS",
+    "detail": "the surface carries 2 distinct pet charges ($105 per pet per stay, $15/ night, ) and does not say which is the pet fee"
+   }
+  ],
+  "notes": []
+ },
+ "independent--knickerbocker-on-the-lake": {
+  "block": "Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee.",
+  "block_chars": 82,
+  "block_found": true,
+  "extraction": {
+   "pet_fee": 25000,
+   "fee_currency": "USD",
+   "service_animal_exception": "Only ADA service animals are allowed."
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT",
+   "fee_basis": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "independent--saint-kate-the-arts-hotel": {
+  "block": "Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – please contact the hotel before booking your stay to discuss your options. At Saint Kate, we offer dog treats, dog bowls, and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-party dog walking or potty service if needed.",
+  "block_chars": 461,
+  "block_found": true,
+  "extraction": {
+   "pets_allowed": true,
+   "pet_fee": 10000,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay"
+  },
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ },
+ "independent--the-iron-horse-hotel": {
+  "block": "Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee covers enhanced room detailing to ensure every guest enjoys a clean and comfortable stay.",
+  "block_chars": 168,
+  "block_found": true,
+  "extraction": {
+   "pet_fee": 10000,
+   "fee_currency": "USD",
+   "fee_basis": "per_night"
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "independent--the-plaza-hotel-milwaukee": {
+  "block": "One-time $50 pet fee per animal",
+  "block_chars": 31,
+  "block_found": true,
+  "extraction": {
+   "pet_fee": 5000,
+   "fee_currency": "USD"
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT",
+   "fee_basis": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "independent--the-ingleside-hotel": {
+  "block": "The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and based on availability. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of arrival. Fee includes one sWag Bag per dog.",
+  "block_chars": 340,
+  "block_found": true,
+  "extraction": {},
+  "withheld": {
+   "pets_allowed": "SOURCE_CONTRADICTORY"
+  },
+  "flags": [
+   {
+    "code": "FLAG_CONTRADICTS_OFFICIAL",
+    "detail": "the surface denies pet acceptance and states pet terms that only apply if pets are accepted"
+   }
+  ],
+  "notes": [
+   "ignored the acceptance 'pets are allowed': a negation governs it",
+   "the block refuses pets and states ordinary-pet terms (pet_count_limit, pet_fee, species_allowed) in the same breath; neither is taken"
+  ]
+ },
+ "independent--the-marc-hotel": {
+  "block": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed",
+  "block_chars": 144,
+  "block_found": true,
+  "extraction": {
+   "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": [
+   "dropped pet_count_limit 'maximum of 2 pets': it stands inside the service-animal statement, so it limits service animals and not pets",
+   "dropped pet_fee 'fee: $100': it stands inside the service-animal statement, so it limits service animals and not pets"
+  ]
+ },
+ "independent--the-pfister-hotel": {
+  "block": "A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals.",
+  "block_chars": 198,
+  "block_found": true,
+  "extraction": {
+   "pet_count_limit": 2,
+   "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+  },
+  "withheld": {
+   "pets_allowed": "SOURCE_SILENT"
+  },
+  "flags": [],
+  "notes": []
+ },
+ "independent--wildwood-lodge": {
+  "block": "",
+  "block_chars": 0,
+  "block_found": false,
+  "extraction": {},
+  "withheld": {},
+  "flags": [],
+  "notes": []
+ }
+}

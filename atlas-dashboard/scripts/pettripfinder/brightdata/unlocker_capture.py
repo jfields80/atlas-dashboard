@@ -91,14 +91,22 @@ def html_to_text(html: str) -> str:
 
 
 def locate_policy_in_html(html: str) -> PS.SurfaceHit:
-    """The bounded policy block, found without a browser.
+    """The bounded policy block, found without a browser."""
+    return locate_policy_in_text(html_to_text(html))
+
+
+def locate_policy_in_text(text: str) -> PS.SurfaceHit:
+    """The bounded policy block, over text that is already text.
 
     The same objective as the in-page walk -- the richest container under the
     ceiling that carries a policy signal phrase -- computed over static text.
     Candidate blocks are the page's own line structure; a line is grown with
     its neighbours only while it stays under the ceiling.
+
+    Split out from ``locate_policy_in_html`` so a corpus can hold extracted
+    text rather than whole documents and still exercise the locator itself. The
+    HTML entry point is unchanged and still the one every caller uses.
     """
-    text = html_to_text(html)
     lines = text.splitlines()
     best: Optional[Tuple[int, int, str]] = None      # (features, -length, text)
     considered = 0
@@ -355,4 +363,5 @@ async def capture_property(target: BC.CaptureTarget, *, run_dir: Path,
 
 
 __all__ = ["PROVIDER", "UNLOCKER_ZONES", "DENIAL_MARKERS", "html_to_text",
-           "locate_policy_in_html", "run_attempt", "capture_property"]
+           "locate_policy_in_html", "locate_policy_in_text", "run_attempt",
+           "capture_property"]

@@ -264,7 +264,11 @@ def assess(*, evidence_items: Sequence[Mapping], extraction: Mapping,
         "facts": {name: extraction[name] for name in sorted(extraction)},
         "evidence": list(entries),
     }
-    schema_issues = tuple({"path": i.path, "code": i.code, "message": i.message}
+    # ``Issue`` carries ``detail``; ``message`` has never existed on it. This
+    # line only runs when validation actually returns an issue, so the grader
+    # raised AttributeError on precisely the captures it exists to grade as
+    # ungradeable, and passed silently on the ones that needed no judgement.
+    schema_issues = tuple({"path": i.path, "code": i.code, "detail": i.detail}
                           for i in EV.validate(record))
     blockers = tuple(EV.publication_blockers(record))
 

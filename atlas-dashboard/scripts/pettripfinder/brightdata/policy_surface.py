@@ -95,6 +95,21 @@ SIGNAL_PHRASES: Tuple[str, ...] = (
     "maximum pet weight", "maximum number of pets", "service animals",
     "we welcome pets", "pet charge", "pet deposit", "dogs only",
     "pets stay free",
+    # A property that names the SPECIES has still named a pet policy. The
+    # parser already accepts "Dogs Allowed" as an acceptance; the locator did
+    # not, so a page whose only wording was species-named was never reached at
+    # all -- Wildwood Lodge published a fee, a count and a species under the
+    # heading "dog friendly hotel" and this walk considered zero candidates on
+    # it. These are the species-named mirrors of the phrases already above,
+    # added by PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016.
+    # Only the DOG forms, and deliberately. The cat forms were symmetry rather
+    # than measurement -- no surface in the corpus needed them -- and admitting
+    # them would have meant loosening the invariant that every signal phrase
+    # names an animal, because "cat" is a substring of ordinary hotel words
+    # like "vacation" and "location". A speculative phrase is not worth a
+    # weaker guard.
+    "dog friendly", "dog-friendly", "dogs welcome", "dogs are welcome",
+    "dogs allowed", "dogs are allowed", "dog policy", "dog fee", "dog charge",
 )
 
 #: Selectors that name a brand's own pet-policy container, tried BEFORE the
