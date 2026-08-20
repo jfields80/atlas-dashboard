@@ -32,7 +32,7 @@ import json
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Mapping, Optional
 
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
@@ -107,7 +107,17 @@ def _is_refusal(extraction: Dict) -> bool:
     return extraction.get("pets_allowed") is False
 
 
-def build() -> Dict:
+def build(rederived: Optional[Mapping] = None, write: bool = True) -> Dict:
+    """Project the journal into proposals.
+
+    ``rederived`` maps identity_key -> a re-derived reading of that record's own
+    persisted evidence block, supplied by a work order authorised to re-derive
+    one. It replaces the READING and nothing else: identity, provenance,
+    publication status and review status are still computed from the journal
+    exactly as before. Passing nothing reproduces the original output byte for
+    byte, which is what makes this seam safe to leave in place.
+    """
+    rederived = dict(rederived or {})
     entries = read_journal()
     states = Counter(e["final_state"] for e in entries)
 
@@ -120,6 +130,26 @@ def build() -> Dict:
         obs = doc.get("observation") or {}
         extraction = dict(obs.get("extraction") or {})
         withheld = dict(doc.get("withheld_fields") or {})
+        non_inferences = list(doc.get("non_inferences") or ())
+        evidence = list(obs.get("evidence") or ())
+        supersession = None
+        update = rederived.get(entry["identity_key"])
+        if update:
+            # The previous reading is not discarded: it is carried here, on the
+            # row it replaced, so a proposal says what it used to say and which
+            # reader changed its mind.
+            supersession = {
+                "superseded_by": update["work_order"],
+                "reader_commit": update["reader_commit"],
+                "evidence_block_path": update["evidence_block_path"],
+                "evidence_block_sha256": update["evidence_block_sha256"],
+                "previous_facts": extraction,
+                "previous_withheld_fields": withheld,
+            }
+            extraction = dict(update["extraction"])
+            withheld = dict(update["withheld"])
+            non_inferences = list(update["non_inferences"])
+            evidence = list(update["evidence"])
         problems = _gate(extraction, withheld)
         refusal = _is_refusal(extraction)
 
@@ -131,12 +161,12 @@ def build() -> Dict:
             "policy_schema_version": "1.2",
             "proposed_facts": extraction,
             "withheld_fields": withheld,
-            "non_inferences": list(doc.get("non_inferences") or ()),
+            "non_inferences": non_inferences,
             "evidence": [
                 {"quote": item.get("quote", ""),
                  "location": item.get("location", ""),
                  "field_refs": list(item.get("field_refs") or ())}
-                for item in (obs.get("evidence") or ())],
+                for item in evidence],
             "service_animal_statement": extraction.get("service_animal_statement", ""),
             "provenance": {
                 "source_url": doc.get("source_url", ""),
@@ -158,6 +188,7 @@ def build() -> Dict:
             # The two facts this whole work order turns on.
             "published": False,
             "founder_approved": False,
+            "rederivation": supersession,
             "review_status": ("HELD_SEMANTIC_REVIEW" if problems
                               else "REFUSAL_FOUNDER_REVIEW" if refusal
                               else "FOUNDER_REVIEW_READY"),
@@ -194,8 +225,10 @@ def build() -> Dict:
             "carries the exact quote it rests on so the decision is reviewable."),
         "items": proposals + rejected,
     }
-    out = REPORTS / ("%s_policy_proposals_001.json" % MARKET)
-    out.write_bytes((json.dumps(doc, indent=1, ensure_ascii=False) + "\n").encode("utf-8"))
+    if write:
+        out = REPORTS / ("%s_policy_proposals_001.json" % MARKET)
+        out.write_bytes((json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
+                        .encode("utf-8"))
     return doc
 
 

@@ -92,6 +92,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -197,6 +198,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -249,6 +251,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -352,6 +355,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -430,6 +434,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -499,6 +504,22 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/avid-hotels-oak-creek/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "932f654d661bdfb1a7d7092ac26018efdfae0d8e8a06518576cba67cd7c17cc3",
+    "previous_facts": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "dog"
+     ],
+     "service_animal_exception": "We charge 50.00 per pet, per night, except ADA Service Animals."
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -557,6 +578,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -670,6 +692,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -728,6 +751,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -738,14 +762,16 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
     "pet_count_limit": 2
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -754,6 +780,21 @@
      "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 75 USD",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 75 USD",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "fee_basis"
      ]
     },
     {
@@ -788,6 +829,19 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-airport-oak-creek/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "a6fad5d013907c564d5ce18a38dba4eb2e236a403a372555c927b1a7d3a2ea04",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_count_limit": 2
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -804,7 +858,8 @@
     }
    },
    "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
    },
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
@@ -851,6 +906,22 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "175aff2a08bca2fad769cc644d1a10f43948ad58b6363467ef4a3aa7886eb143",
+    "previous_facts": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     }
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -909,6 +980,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -918,11 +990,13 @@
    "brand": "INDEP:staycobblestone.com",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
@@ -934,6 +1008,28 @@
      "location": "bounded policy container (generic_signal_walk / ul#amenities-list > li)",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$25/dog per night",
+     "location": "bounded policy container (generic_signal_walk / ul#amenities-list > li)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "$25/dog per night",
+     "location": "bounded policy container (generic_signal_walk / ul#amenities-list > li)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "$25/dog per night",
+     "location": "bounded policy container (generic_signal_walk / ul#amenities-list > li)",
+     "field_refs": [
+      "fee_scope"
      ]
     }
    ],
@@ -959,6 +1055,18 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "a70663c220672e40481d43b579e8d914b3f3ce8ec29c6fa9205dd9311d3a17b2",
+    "previous_facts": {
+     "pets_allowed": true
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1044,6 +1152,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1132,6 +1241,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1200,6 +1310,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1305,6 +1416,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1363,6 +1475,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -1414,6 +1527,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -1489,6 +1603,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1553,6 +1668,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1563,16 +1679,19 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
-    "pet_fee": 7500,
-    "fee_currency": "USD",
-    "fee_basis": "per_stay"
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
    },
-   "withheld_fields": {},
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
-    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
-    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
    ],
    "evidence": [
     {
@@ -1583,18 +1702,10 @@
      ]
     },
     {
-     "quote": "75.00 USD per stay. A ",
+     "quote": "dogs and cats allowed",
      "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
      "field_refs": [
-      "pet_fee",
-      "fee_currency"
-     ]
-    },
-    {
-     "quote": "75.00 USD per stay. A ",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
-     "field_refs": [
-      "fee_basis"
+      "species_allowed"
      ]
     }
    ],
@@ -1622,6 +1733,19 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "aa0abbab148bd3e6a6bce9e46b911c45392e5f0c6deb9b4150af9d6b440de2e5",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay"
+    },
+    "previous_withheld_fields": {}
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1734,6 +1858,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1792,6 +1917,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -1843,6 +1969,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -1894,6 +2021,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -1945,6 +2073,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -2038,6 +2167,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2109,6 +2239,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2180,6 +2311,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2231,6 +2363,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -2282,6 +2415,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -2373,6 +2507,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2464,6 +2599,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2515,6 +2651,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -2604,6 +2741,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2687,6 +2825,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2780,6 +2919,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2843,6 +2983,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2925,6 +3066,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3007,6 +3149,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3071,6 +3214,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3145,6 +3289,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3257,6 +3402,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3350,6 +3496,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3433,6 +3580,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3486,6 +3634,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3568,6 +3717,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3643,6 +3793,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3693,6 +3844,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -3706,7 +3858,6 @@
     "pet_deposit": 5000,
     "pet_fee": 1500,
     "fee_currency": "USD",
-    "fee_basis": "per_day",
     "weight_limit": {
      "value": 60.0,
      "unit": "lb"
@@ -3716,11 +3867,14 @@
      "dog"
     ]
    },
-   "withheld_fields": {},
+   "withheld_fields": {
+    "fee_basis": "SOURCE_CONTRADICTORY"
+   },
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
-    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
    ],
    "evidence": [
     {
@@ -3738,18 +3892,11 @@
      ]
     },
     {
-     "quote": "15 USD a day ",
+     "quote": "Pet fee per night: 15 USD",
      "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
      "field_refs": [
       "pet_fee",
       "fee_currency"
-     ]
-    },
-    {
-     "quote": "15 USD a day ",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.text-transform-uppercase > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
-     "field_refs": [
-      "fee_basis"
      ]
     },
     {
@@ -3798,6 +3945,28 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/holiday-inn-brookfield-milwaukee/attempt-02/policy-block.txt",
+    "evidence_block_sha256": "cbf162149b29bd5a9901de9bfe7764433c2737276391fed488e330184176f0bd",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_deposit": 5000,
+     "pet_fee": 1500,
+     "fee_currency": "USD",
+     "fee_basis": "per_day",
+     "weight_limit": {
+      "value": 60.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "previous_withheld_fields": {}
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3848,6 +4017,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -3898,6 +4068,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -3948,6 +4119,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -3998,6 +4170,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -4008,16 +4181,18 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
     "species_allowed": [
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
    ],
    "evidence": [
     {
@@ -4025,6 +4200,21 @@
      "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 30 USD",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 30 USD",
+     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.faq.aem-GridColumn--default--none > div.cmp-accordion.cmp-faq > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "field_refs": [
+      "fee_basis"
      ]
     },
     {
@@ -4059,6 +4249,21 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/holiday-inn-express-suites-milwaukee-west-allis/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "9e686eaaf5f95ea38274d1ee04e2e633e66bc6eff29259f88a83e838ac6c3504",
+    "previous_facts": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -4109,6 +4314,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   },
   {
@@ -4159,6 +4365,7 @@
    "is_refusal": true,
    "published": false,
    "founder_approved": false,
+   "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
   }
  ]
