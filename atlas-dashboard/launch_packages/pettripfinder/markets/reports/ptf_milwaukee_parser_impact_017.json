@@ -1,0 +1,311 @@
+{
+ "schema": "ptf-parser-impact/1.0",
+ "work_order": "PTF-POLICY-PARSER-SEMANTIC-HARDENING-017",
+ "market_id": "milwaukee-wi",
+ "authority_written": false,
+ "observations_updated": false,
+ "published": false,
+ "note": "Which Milwaukee properties the two hardened semantics reach, and what the reader says about them now. Nothing here is stored against any record; these are re-derivation candidates.",
+ "properties_affected": 9,
+ "documents_affected": 23,
+ "properties": [
+  {
+   "property": "avid-hotels-oak-creek",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/avid-hotels-oak-creek/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/avid-hotels-oak-creek/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "Pet fee per night:"
+  },
+  {
+   "property": "candlewood-suites-milwaukee-airport-oak-creek",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/candlewood-suites-milwaukee-airport-oak-creek/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-airport-oak-creek/attempt-01/rendered.html",
+    "spider-benchmark-001/spider-benchmark-001/candlewood-suites-milwaukee-airport-oak-creek/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "Pet fee per night:"
+  },
+  {
+   "property": "candlewood-suites-milwaukee-brown-deer",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/candlewood-suites-milwaukee-brown-deer/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/rendered.html",
+    "spider-benchmark-001/spider-benchmark-001/candlewood-suites-milwaukee-brown-deer/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "fields_gained": [],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "Pet fee per night:"
+  },
+  {
+   "property": "cobblestone-hotel-suites-waukesha-west-milwaukee",
+   "wording_classes": [
+    "SLASH_SPECIES_FEE"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01/rendered.html",
+    "spider-benchmark-001/spider-benchmark-001/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "fee_scope",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "$25/dog"
+  },
+  {
+   "property": "crowne-plaza-milwaukee-airport",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON",
+    "TWO_SPECIES_ACCEPTED"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/crowne-plaza-milwaukee-airport/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/rendered.html",
+    "spider-benchmark-001/spider-benchmark-001/crowne-plaza-milwaukee-airport/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "Pet fee per night:"
+  },
+  {
+   "property": "holiday-inn-brookfield-milwaukee",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/holiday-inn-brookfield-milwaukee/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/holiday-inn-brookfield-milwaukee/attempt-02/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "fee_basis"
+   ],
+   "fields_removed": [],
+   "quote": "Pet fee per night:"
+  },
+  {
+   "property": "holiday-inn-express-suites-milwaukee-west-allis",
+   "wording_classes": [
+    "BARE_POSITIVE_DOG",
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "firecrawl-benchmark-002/firecrawl-benchmark-002/holiday-inn-express-suites-milwaukee-west-allis/attempt-01/rendered.html",
+    "milwaukee-router-001/milwaukee-router-001/holiday-inn-express-suites-milwaukee-west-allis/attempt-01/rendered.html",
+    "spider-benchmark-001/spider-benchmark-001/holiday-inn-express-suites-milwaukee-west-allis/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "dogs allowed"
+  },
+  {
+   "property": "holiday-inn-milwaukee-riverfront",
+   "wording_classes": [
+    "BARE_POSITIVE_DOG",
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "ihg-firecrawl-decision-009/ihg-decision-009/holiday-inn-milwaukee-riverfront/attempt-01/rendered.html",
+    "milwaukee-ihg-009/milwaukee-ihg-009/holiday-inn-milwaukee-riverfront/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "quote": "Dogs are welcome"
+  },
+  {
+   "property": "kimpton-journeyman-hotel",
+   "wording_classes": [
+    "FEE_PER_NIGHT_COLON"
+   ],
+   "documents": [
+    "ihg-firecrawl-decision-009/ihg-decision-009/kimpton-journeyman-hotel/attempt-01/rendered.html",
+    "milwaukee-ihg-009/milwaukee-ihg-009/kimpton-journeyman-hotel/attempt-01/rendered.html"
+   ],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 0
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 0,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [
+    "pet_deposit"
+   ],
+   "quote": "Pet fee per night:"
+  }
+ ]
+}

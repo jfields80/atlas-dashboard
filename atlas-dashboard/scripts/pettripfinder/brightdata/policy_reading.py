@@ -53,17 +53,34 @@ _BASIS_BY_WORD = {"stay": enums.BASIS_PER_STAY, "night": enums.BASIS_PER_NIGHT,
                   "nightly": enums.BASIS_PER_NIGHT, "day": enums.BASIS_PER_DAY,
                   "daily": enums.BASIS_PER_DAY}
 
+#: A named species in a CHARGE is a scope word: "$25 per dog per night" prices
+#: one animal, exactly as "$25 per pet per night" does. The published scope
+#: vocabulary has ``per_pet`` and ``per_room`` and no per-species member, and a
+#: dog is a pet, so both map to ``per_pet`` -- which is transcription, not an
+#: inference about which species the property accepts. That question is
+#: answered by the species fields and never by a price.
+#:
+#: This map is consulted ONLY inside the charge patterns. "dog" is not a scope
+#: token anywhere else: ``pet_count_scope`` still reads room / reservation /
+#: suite alone, so "2 dogs per room" keeps its room scope.
 _SCOPE_BY_WORD = {"pet": enums.SCOPE_PER_PET, "animal": enums.SCOPE_PER_PET,
+                  "dog": enums.SCOPE_PER_PET, "dogs": enums.SCOPE_PER_PET,
+                  "cat": enums.SCOPE_PER_PET, "cats": enums.SCOPE_PER_PET,
                   "room": enums.SCOPE_PER_ROOM, "reservation": enums.SCOPE_PER_ROOM}
+
+#: The species words the charge patterns accept as a scope. Kept beside the map
+#: so the two cannot drift: a word in the alternation with no entry above would
+#: silently parse as "no scope stated".
+_CHARGE_SCOPE_SPECIES = r"dogs?|cats?"
 
 #: An amount with its own scope and basis words attached, in either order:
 #: "$25 per pet per night", "$25 per night per pet", "$25 per pet, per night".
 _SCOPED_CHARGE_RE = re.compile(
     r"\$\s*(?P<amount>[\d,]+(?:\.\d{1,2})?)\s*"
-    r"(?:(?:per|/|a)\s*(?P<first>pet|animal|room|reservation|night|day|stay|"
-    r"nightly|daily)\b[\s,]*)"
-    r"(?:(?:per|/|a)\s*(?P<second>pet|animal|room|reservation|night|day|stay|"
-    r"nightly|daily)\b)?",
+    r"(?:(?:per|/|a)\s*(?P<first>pet|animal|" + _CHARGE_SCOPE_SPECIES +
+    r"|room|reservation|night|day|stay|nightly|daily)\b[\s,]*)"
+    r"(?:(?:per|/|a)\s*(?P<second>pet|animal|" + _CHARGE_SCOPE_SPECIES +
+    r"|room|reservation|night|day|stay|nightly|daily)\b)?",
     re.IGNORECASE)
 
 #: An amount whose basis words sit a few words later: "$75 non-refundable fee
@@ -81,10 +98,26 @@ _LOOSE_CHARGE_RE = re.compile(
 #: scope words can arrive in either order, exactly as in the dollar form.
 _SCOPED_CHARGE_USD_RE = re.compile(
     r"(?P<amount>[\d,]+(?:\.\d{1,2})?)\s*USD\b[\s,]*"
-    r"(?:(?:per|/|a)\s*)?(?P<first>pet|animal|room|reservation|night|day|stay|"
-    r"nightly|daily)\b[\s,.]*"
-    r"(?:(?:per|/|a)\s*)?(?P<second>pet|animal|room|reservation|night|day|stay|"
-    r"nightly|daily)?\b",
+    r"(?:(?:per|/|a)\s*)?(?P<first>pet|animal|" + _CHARGE_SCOPE_SPECIES +
+    r"|room|reservation|night|day|stay|nightly|daily)\b[\s,.]*"
+    r"(?:(?:per|/|a)\s*)?(?P<second>pet|animal|" + _CHARGE_SCOPE_SPECIES +
+    r"|room|reservation|night|day|stay|nightly|daily)?\b",
+    re.IGNORECASE)
+
+#: The label states the BASIS and the amount follows it: "Pet fee per night: 75
+#: USD", "Pet charge per stay $50". Every other charge pattern here reads the
+#: amount first and looks rightwards for its terms, so a surface that puts them
+#: in the other order was read as stating no charge at all -- not as an
+#: ambiguous one, as none.
+#:
+#: The pet word is REQUIRED in the label. Without it "Rate per night: 189 USD"
+#: is the same shape, and this pattern would read a room rate as a pet fee --
+#: the guest-room-card mistake in yet another costume.
+_BASIS_FIRST_CHARGE_RE = re.compile(
+    r"\b(?:pets?|dogs?|cats?|animals?)\s+(?:fee|fees|charge|charges|rate)\s*"
+    r"(?:per|/|a)\s*(?P<basis>night|day|stay|nightly|daily)\s*:?\s*"
+    r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)"
+    r"|(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)",
     re.IGNORECASE)
 
 #: A bare decimal amount with a basis: Choice writes "50.00 per stay". Explicit
@@ -144,6 +177,19 @@ _DOGS_LABELLED_RE = re.compile(
 
 _BOTH_SPECIES_RE = re.compile(
     r"\b(?:dogs?|cats?)\s*(?:and|&|/|or)\s*(?:dogs?|cats?)\s+only\b",
+    re.IGNORECASE)
+
+#: The same two species named as an ACCEPTANCE rather than as an exclusivity:
+#: "Dogs and cats allowed", "Cats and dogs are welcome". The pattern above
+#: required the word "only", so a property that named both species and did not
+#: claim exclusivity recorded no species at all -- the most explicit statement
+#: a surface can make about species, dropped for want of one word.
+#:
+#: A refusal cannot reach this: "Dogs and cats are not allowed" puts "not"
+#: where the verb has to be, so the alternation simply does not match.
+_BOTH_SPECIES_ACCEPTED_RE = re.compile(
+    r"\b(?:dogs?|cats?)\s*(?:and|&|/|or)\s*(?:dogs?|cats?)\s+"
+    r"(?:are\s+)?(?:allowed|welcome|permitted|accepted)\b",
     re.IGNORECASE)
 
 #: The same two species named as a parenthetical gloss on the word "pet": "a
@@ -349,13 +395,32 @@ _PRICE_RE = re.compile(
     re.IGNORECASE)
 
 
+#: A tier priced at nothing. "One pet stays free. Second pet $15 per night" has
+#: two prices, and one of them is zero -- but zero is written in words, so the
+#: two-distinct-prices test saw a single price and let $15 through as THE pet
+#: fee. A guest with one dog would have been quoted $15 a night to bring an
+#: animal this hotel takes for nothing.
+_FREE_TIER_RE = re.compile(
+    r"\b(?:stays?|stay|is|are)\s+free\b|\bfree\s+of\s+charge\b"
+    r"|\bat\s+no\s+(?:charge|cost|fee)\b|\bno\s+(?:charge|fee)\s+for\b",
+    re.IGNORECASE)
+
+
 def _fee_is_tiered(block_text: str) -> bool:
-    """Does this surface price the same pet differently by stay or by count?"""
+    """Does this surface price the same pet differently by stay or by count?
+
+    A tier needs a qualifier AND more than one price. A stated FREE is a price:
+    it is what the surface charges for that pet, and counting only the numbers
+    made a two-tier policy look like a one-price one.
+    """
     if not _TIERED_FEE_RE.search(block_text):
         return False
     prices = {re.sub(r"[^\d.]", "", m.group(0))
               for m in _PRICE_RE.finditer(block_text)}
-    return len({p for p in prices if p}) > 1
+    distinct = {p for p in prices if p}
+    if _FREE_TIER_RE.search(block_text):
+        distinct.add("0")
+    return len(distinct) > 1
 
 #: Chain-wide phrasing. A sentence about every hotel in the brand is not this
 #: property's policy; membrane rule M3 keeps the two apart and this is how a
@@ -397,11 +462,21 @@ _RATE_MARKER_RE = re.compile(
     r"from|nightly\s+rate|room\s+rate|member\s+rate|discounted)\b",
     re.IGNORECASE)
 
+#: How far in front of a stated purpose a pet word may sit and still be
+#: understood as qualifying it. Short on purpose: "pet security deposit" is one
+#: noun phrase; "pets welcome, and a security deposit" is two clauses.
+_PURPOSE_QUALIFIER_CHARS = 16
+
 #: A charge whose own sentence names a purpose that is not a pet. "for
 #: incidentals", "for all guests" -- the surface has said who pays it, and it
 #: is everyone.
+#: ``security deposit`` and ``damage deposit`` name a purpose every guest pays
+#: for, and they beat a pet word that merely sits in the same sentence. Under
+#: the nearest-wins rule below they cost a genuine "pet security deposit"
+#: nothing: there the pet word is adjacent to the amount and wins the tie.
 _NON_PET_PURPOSE_RE = re.compile(
-    r"\bincidental(?:s)?\b|\bfor\s+all\s+guests\b|\ball\s+guests\b",
+    r"\bincidental(?:s)?\b|\bfor\s+all\s+guests\b|\ball\s+guests\b"
+    r"|\bsecurity\s+deposit\b|\bdamage\s+deposit\b",
     re.IGNORECASE)
 
 
@@ -474,6 +549,15 @@ def _pet_context(text: str, start: int, end: int) -> bool:
     segment_end = len(text) if segment_end < 0 else segment_end + 1
     purpose_distance = None
     for purpose in _NON_PET_PURPOSE_RE.finditer(text, segment_start, segment_end):
+        # A purpose the pet wording itself QUALIFIES is not a rival: "pet
+        # security deposit" is a security deposit for a pet, and the pet word
+        # modifies the phrase rather than merely sitting near it. Without this
+        # the phrase always won, because it overlaps the amount's own label and
+        # so scores a distance of zero that no adjacent word can beat.
+        lead = text[max(0, purpose.start() - _PURPOSE_QUALIFIER_CHARS):
+                    purpose.start()]
+        if _PET_CONTEXT_RE.search(lead):
+            continue
         gap = (purpose.start() - end if purpose.start() >= end
                else start - purpose.end() if purpose.end() <= start else 0)
         gap = max(gap, 0)
@@ -530,6 +614,11 @@ class Reading:
     dogs_only_quote: str = ""
     cats_refused_quote: str = ""
     both_species_quote: str = ""
+    #: Whether the species wording claimed EXCLUSIVITY ("Dogs only") or merely
+    #: named a species the property takes ("All dogs are welcome"). Both are
+    #: recorded as species evidence and neither is read as a prohibition, but
+    #: they are not the same statement and the reading says which one it holds.
+    species_exclusive: bool = False
     fee_cap: Optional[Dict] = None
     fee_cap_quote: str = ""
     service_animal_quote: str = ""
@@ -804,6 +893,32 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
             cleaning_labelled=amount in cleaning_amounts))
         fired.append("scoped_prose_charge")
 
+    # --- the label states the basis and the amount follows ----------------- #
+    #
+    # Runs before the amount-first passes so the basis its own label carries is
+    # the one recorded, rather than whatever a later loose match finds to the
+    # right of the number.
+    for match in _BASIS_FIRST_CHARGE_RE.finditer(text):
+        raw = match.group("dollars") or match.group("usd")
+        if not raw:
+            continue
+        if not _pet_context(text, match.start(), match.end()):
+            notes.append("ignored the amount %r: no pet wording within %d "
+                         "characters"
+                         % (text[match.start():match.end()], _PET_CONTEXT_CHARS))
+            continue
+        amount = _amount_minor(raw)
+        window = text[max(0, match.start() - 60):match.end() + 40]
+        refundable = (False if _NONREFUNDABLE_RE.search(window)
+                      else True if _REFUNDABLE_RE.search(window) else None)
+        charges.append(Charge(
+            amount_minor=amount,
+            basis=_BASIS_BY_WORD[match.group("basis").lower()], scope="",
+            origin="prose", refundable=refundable,
+            quote=text[match.start():match.end()],
+            cleaning_labelled=amount in cleaning_amounts))
+        fired.append("basis_first_charge")
+
     # --- the same charge written without a dollar sign --------------------- #
     for pattern, label in ((_SCOPED_CHARGE_USD_RE, "usd_charge"),
                            (_BARE_CHARGE_RE, "bare_decimal_charge")):
@@ -981,11 +1096,20 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         fired.append(count_pattern)
 
     # --- allowed / refused --------------------------------------------------- #
-    dogs_only = (MS._DOGS_ONLY_RE.search(text)
-                 or re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
-                              r"permitted)\b", text, re.IGNORECASE))
+    # Exclusive wordings first, then the merely affirmative ones. Which kind
+    # matched is remembered: "Dogs only" says something about cats and "All
+    # dogs are welcome" does not, and a reading that cannot tell them apart
+    # cannot be asked the difference later.
+    dogs_exclusive = MS._DOGS_ONLY_RE.search(text)
+    dogs_mentioned = re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
+                               r"permitted)\b", text, re.IGNORECASE)
+    dogs_only = dogs_exclusive or dogs_mentioned
     cats_refused = MS._CATS_REFUSED_RE.search(text)
-    both_species = _BOTH_SPECIES_RE.search(text) or _SPECIES_PAIR_RE.search(text)
+    both_exclusive = _BOTH_SPECIES_RE.search(text)
+    both_species = (both_exclusive or _BOTH_SPECIES_ACCEPTED_RE.search(text)
+                    or _SPECIES_PAIR_RE.search(text))
+    species_exclusive = bool(both_exclusive
+                             or (dogs_exclusive and not both_species))
     service = MS._SERVICE_ANIMAL_RE.search(text)
 
     refused, refused_pattern = _first_match(text, _PETS_REFUSED_RES, "refused")
@@ -1117,6 +1241,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         service_animal_quote=_service_animal_quote(text, service),
         both_species_quote=(text[both_species.start():both_species.end()]
                             if both_species else ""),
+        species_exclusive=species_exclusive,
         fee_cap=fee_cap, fee_cap_quote=fee_cap_quote,
         contradictions=tuple(contradictions), parser_notes=tuple(notes),
         patterns_fired=tuple(sorted(set(fired))),
@@ -1386,6 +1511,21 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         non_inferences.append(
             "species: a generic 'pets welcome' is not dogs+cats; the species "
             "map stays empty unless the surface names a species")
+    elif not reading.species_exclusive and not reading.cats_refused_quote:
+        # ``species_allowed`` is a list of species the surface AFFIRMED, and
+        # every consumer reads it that way: a species absent from it renders as
+        # "Not stated" and resolves to no state at all, while a prohibition is
+        # carried separately by ``cats_allowed`` and by the 1.2 species map.
+        #
+        # Saying so out loud anyway. "All dogs are welcome" names one animal
+        # and is silent about the rest, and the distance between "silent" and
+        # "refused" is the whole of the founder rule that SOURCE SILENCE IS
+        # ABSENCE. A reader that leaves it implicit is one careless consumer
+        # away from publishing a cat prohibition nobody wrote.
+        non_inferences.append(
+            "species: this surface names a species it accepts and does not "
+            "say the others are refused; species_allowed lists affirmations "
+            "only, and an unnamed species stays unknown rather than prohibited")
 
     if reading.service_animal_quote:
         extraction["service_animal_exception"] = reading.service_animal_quote

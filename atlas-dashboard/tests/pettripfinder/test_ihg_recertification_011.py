@@ -97,11 +97,31 @@ class TestTheRecordsWereReDerivedNotEdited:
 
     def test_every_extracted_value_is_reproducible_from_the_evidence(self):
         """The strongest available check that nothing was hand-typed: parse
-        the stored evidence again here and require the same answer."""
+        the stored evidence again here and require the same answers.
+
+        Every value the record STORES must still come back, and none may come
+        back different. What is deliberately not required is that the fresh
+        reading be no LARGER: the reader is versioned -- this artifact records
+        the commit it was read at -- and a later reader that recovers a fee the
+        page always stated has not caught anyone editing a record. Requiring
+        equality here would mean every reader improvement had to be paid for by
+        rewriting a committed measurement, which is the opposite of what this
+        class is guarding.
+
+        A record whose fresh reading is larger is a RE-DERIVATION CANDIDATE.
+        That is a decision for a work order authorised to write observations,
+        and it is not this test's to make.
+        """
         for record in _doc(RECERT)["records"]:
             reading = PR.parse(record["evidence_block"], strategy="verify")
             again = dict(PR.to_extraction(reading, location="").extraction)
-            assert again == record["new_extraction"], record["slug"]
+            stored = record["new_extraction"]
+            missing = sorted(set(stored) - set(again))
+            assert not missing, (record["slug"], "no longer reproducible",
+                                 missing)
+            conflicting = sorted(f for f in stored if again[f] != stored[f])
+            assert not conflicting, (record["slug"], "value disagrees with the "
+                                     "evidence", conflicting)
 
     def test_every_quote_is_contiguous_within_its_own_block(self):
         for record in _doc(RECERT)["records"]:

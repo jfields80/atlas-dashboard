@@ -166,6 +166,11 @@ def main(argv=None) -> int:
     parser.add_argument("--before", type=Path,
                         help="a scan written by another tree, to compare against")
     parser.add_argument("--write-report", action="store_true")
+    # A later work order re-runs this scanner against its own baseline, and
+    # its report is not this one. Writing to the fixed path would overwrite a
+    # committed measurement with a different run's numbers -- the mistake that
+    # cost 008 its predecessor's report.
+    parser.add_argument("--report-path", type=Path, default=REPORT)
     args = parser.parse_args(argv)
 
     data_root = args.data_root.resolve()
@@ -201,9 +206,10 @@ def main(argv=None) -> int:
                       ("documents_scanned", "counts", "changed_by_run")},
                      indent=1))
     if args.write_report:
-        REPORT.write_text(json.dumps(doc, indent=1, ensure_ascii=False),
-                          encoding="utf-8")
-        print("report written: %s" % REPORT)
+        args.report_path.write_text(json.dumps(doc, indent=1,
+                                               ensure_ascii=False),
+                                    encoding="utf-8")
+        print("report written: %s" % args.report_path)
     return 0
 
 
