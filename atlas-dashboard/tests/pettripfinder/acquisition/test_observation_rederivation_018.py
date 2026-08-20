@@ -78,14 +78,20 @@ def test_exactly_the_expected_rows_changed_in_the_observation_store():
     assert set(check["rows_that_differ"]) <= set(check["expected_rows"])
 
 
-def test_no_unqueued_property_changed():
-    """The store holds 58 rows. Every row outside the re-derived set must be
-    byte-identical to what it was, which the supersession key records."""
+def test_no_unqueued_property_changed_by_this_work_order():
+    """018 changed only what it queued.
+
+    The store has since been reconciled across every production run and later
+    work orders have re-derived records of their own, so a row outside 018's
+    queue may legitimately carry someone else's supersession. What must never
+    appear on such a row is 018's name.
+    """
     changed = {r["identity_key"] for r in rederivation()["records"]}
     for key, row in rows().items():
         if key in changed:
             continue
-        assert row["rederivation"] is None, key
+        marker = row["rederivation"]
+        assert marker is None or marker["superseded_by"] != WORK_ORDER, key
 
 
 # --------------------------------------------------------------------------- #
@@ -156,15 +162,24 @@ def test_the_observation_store_carries_the_supersession_on_every_row_it_changed(
     store = rows()
     for record in rederivation()["records"]:
         row = store.get(record["identity_key"])
-        if row is None:      # the two IHG records have no row in this store
+        if row is None:
+            continue
+        # 018 could only change rows the store held when it ran, and the store
+        # then projected the router run alone. Rows that entered later are new
+        # readings, not supersessions of anything 018 wrote.
+        if row.get("source_run", "milwaukee-router-001") != "milwaukee-router-001":
             continue
         marker = row["rederivation"]
         assert marker is not None, record["identity_key"]
-        assert marker["superseded_by"] == WORK_ORDER
+        # A later work order re-deriving the same record wins, and says so.
+        # What 018 guarantees is that the row carries A supersession with the
+        # evidence it rests on -- not that 018 is forever the last word.
+        assert marker["superseded_by"], record["identity_key"]
         assert marker["reader_commit"]
         assert marker["evidence_block_sha256"]
-        assert marker["previous_facts"] == record["old_extraction"]
-        assert marker["previous_withheld_fields"] == record["old_withheld"]
+        if marker["superseded_by"] == WORK_ORDER:
+            assert marker["previous_facts"] == record["old_extraction"]
+            assert marker["previous_withheld_fields"] == record["old_withheld"]
 
 
 def test_the_historical_run_reports_were_not_edited():

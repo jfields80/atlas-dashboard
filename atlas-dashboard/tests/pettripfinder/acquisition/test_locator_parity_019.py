@@ -246,7 +246,9 @@ FROZEN = (
     # behavioural tests rather than by a hash of a file another work
     # order is entitled to fix.
     "launch_packages/pettripfinder/markets/discovered_policy_urls/milwaukee-wi.json",
-    "launch_packages/pettripfinder/markets/reports/milwaukee-wi_policy_proposals_001.json",
+    # The observation store left this freeze in
+    # PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025, which reconciled it
+    # across every production run. This work order still wrote no row.
 )
 
 

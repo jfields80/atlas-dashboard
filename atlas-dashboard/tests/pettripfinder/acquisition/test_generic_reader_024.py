@@ -325,18 +325,15 @@ def test_the_canonical_locator_contract_is_untouched():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"
 
 
-def test_no_observation_store_integration_occurred():
-    store = json.loads(
-        (REPO / "launch_packages" / "pettripfinder" / "markets" / "reports"
-         / "milwaukee-wi_policy_proposals_001.json").read_text(
-            encoding="utf-8-sig"))
-    assert len(store["items"]) == 58
-    changed = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
-         "milwaukee-wi_policy_proposals_001.json"],
-        cwd=str(REPO.parent), capture_output=True, text=True).stdout.strip()
-    assert changed == ""
+def test_this_work_order_declared_no_store_integration():
+    """024 measured semantics and applied nothing.
+
+    The store was reconciled afterwards by
+    PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025. What remains true of 024
+    is that its own queue was never applied.
+    """
+    assert queue()["applied"] is False
+    assert corpus_report()["observations_updated"] is False
 
 
 def test_no_milwaukee_policy_authority_exists():

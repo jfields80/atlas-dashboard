@@ -107,8 +107,45 @@ def _is_refusal(extraction: Dict) -> bool:
     return extraction.get("pets_allowed") is False
 
 
-def build(rederived: Optional[Mapping] = None, write: bool = True) -> Dict:
-    """Project the journal into proposals.
+#: Review states a row can hold, beyond ready and refusal. Added by
+#: PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025, because a row can be
+#: publication grade at ACQUISITION level and still not be something a founder
+#: should be handed: a fee the schema cannot carry, a surface that published no
+#: terms, or two production observations that disagree. Calling any of those
+#: FOUNDER_REVIEW_READY would promote a row on the strength of how it was
+#: fetched rather than what it says.
+HELD_SCHEMA = "HELD_SCHEMA_CANNOT_REPRESENT"
+HELD_INSUFFICIENT = "HELD_INSUFFICIENT_EVIDENCE"
+HELD_CONFLICT = "CURRENT_STATE_CONFLICT"
+
+
+def _review_status(problems: List[str], refusal: bool, extraction: Mapping,
+                   withheld: Mapping, entry: Mapping) -> str:
+    """What a reviewer should be told this row is.
+
+    Ordered by how much it stops a human acting: a frozen-semantics violation
+    and a conflict are defects; a schema-unrepresentable fee is a real policy
+    nobody can publish as one field; a surface with no terms is a fact about
+    the hotel. A refusal is reviewable and complete, so it keeps its own state.
+    """
+    if problems:
+        return "HELD_SEMANTIC_REVIEW"
+    if entry.get("_conflict"):
+        return HELD_CONFLICT
+    reasons = set(withheld.values())
+    if "SCHEMA_CANNOT_REPRESENT" in reasons:
+        return HELD_SCHEMA
+    if refusal:
+        return "REFUSAL_FOUNDER_REVIEW"
+    if "ARTIFACT_INSUFFICIENT" in reasons or not extraction:
+        return HELD_INSUFFICIENT
+    return "FOUNDER_REVIEW_READY"
+
+
+def build(rederived: Optional[Mapping] = None, write: bool = True,
+          extra_entries: Optional[List[Dict]] = None) -> Dict:
+    """Project the journal -- and any explicitly supplied production sources --
+    into proposals.
 
     ``rederived`` maps identity_key -> a re-derived reading of that record's own
     persisted evidence block, supplied by a work order authorised to re-derive
@@ -118,7 +155,16 @@ def build(rederived: Optional[Mapping] = None, write: bool = True) -> Dict:
     byte, which is what makes this seam safe to leave in place.
     """
     rederived = dict(rederived or {})
-    entries = read_journal()
+    # ``extra_entries`` carries production observations from Milwaukee runs
+    # OTHER than milwaukee-router-001, in the same entry shape read_journal
+    # returns. Added by PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025: this
+    # store was a projection of one journal, which is why seventeen Marriott,
+    # eleven Hilton and sixteen earlier-run observations had no current row.
+    # The caller decides which runs are eligible and which observation wins per
+    # identity; this function still owns the shaping, the frozen-semantics gate
+    # and the review status, so every row is gated by one code path. Passing no
+    # extras reproduces the original output exactly.
+    entries = read_journal() + list(extra_entries or [])
     states = Counter(e["final_state"] for e in entries)
 
     proposals: List[Dict] = []
@@ -183,20 +229,21 @@ def build(rederived: Optional[Mapping] = None, write: bool = True) -> Dict:
             },
             "publication_grade": (doc.get("publication_grade") or {}).get("verdict", ""),
             "identity_check": obs.get("identity_check") or {},
+            "source_run": entry.get("source_run", "milwaukee-router-001"),
             "frozen_semantics_violations": problems,
             "is_refusal": refusal,
             # The two facts this whole work order turns on.
             "published": False,
             "founder_approved": False,
             "rederivation": supersession,
-            "review_status": ("HELD_SEMANTIC_REVIEW" if problems
-                              else "REFUSAL_FOUNDER_REVIEW" if refusal
-                              else "FOUNDER_REVIEW_READY"),
+            "review_status": _review_status(problems, refusal, extraction,
+                                            withheld, entry),
         }
         (rejected if problems else proposals).append(proposal)
 
     ready = [p for p in proposals if p["review_status"] == "FOUNDER_REVIEW_READY"]
     refusals = [p for p in proposals if p["review_status"] == "REFUSAL_FOUNDER_REVIEW"]
+    held_states = Counter(p["review_status"] for p in proposals + rejected)
     doc = {
         "schema": "ptf-milwaukee-policy-proposals/1.0",
         "work_order": WORK_ORDER,
@@ -212,12 +259,15 @@ def build(rederived: Optional[Mapping] = None, write: bool = True) -> Dict:
         "policy_schema_version": "1.2",
         "authority_written": False,
         "founder_approvals_created": 0,
+        "source_runs": sorted({e.get("source_run", "milwaukee-router-001")
+                               for e in entries}),
         "acquisition_state_counts": dict(states),
         "publication_grade_total": states.get(PUBLICATION_GRADE, 0),
         "proposal_total": len(proposals) + len(rejected),
         "founder_review_ready": len(ready),
         "refusal_founder_review": len(refusals),
         "held_semantic_review": len(rejected),
+        "review_status_counts": dict(held_states),
         "refusal_note": (
             "A captured refusal is a finding, not an exclusion. Nothing here "
             "creates a VERIFIED_NO_PETS record: that is a founder decision and "

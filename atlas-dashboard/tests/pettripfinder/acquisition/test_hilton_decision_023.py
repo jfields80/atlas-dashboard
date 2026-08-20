@@ -371,12 +371,12 @@ def test_nothing_was_published():
     assert decision()["readers_changed"] is False
 
 
-def test_the_observation_store_was_not_widened():
-    """Phase 16: Hilton observations stay outside the 58-row projection."""
-    store = json.loads(
-        (REPO / "launch_packages" / "pettripfinder" / "markets" / "reports"
-         / "milwaukee-wi_policy_proposals_001.json").read_text(
-            encoding="utf-8-sig"))
-    assert len(store["items"]) == 58
-    hilton_names = {r["canonical_name"] for r in run()["rows"]}
-    assert not hilton_names & {i["canonical_name"] for i in store["items"]}
+def test_this_work_order_did_not_widen_the_observation_store():
+    """Phase 16 held: 023 left the store alone.
+
+    PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025 later reconciled it and
+    the Hilton rows are in it now, which is that work order's doing and not
+    this one's. What stays true of 023 is that it declared no integration.
+    """
+    assert run()["authority_written"] is False
+    assert run()["published"] is False
