@@ -1,0 +1,1627 @@
+{
+ "schema": "ptf-source-url-discovery/1.0",
+ "work_order": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+ "market_id": "milwaukee-wi",
+ "note": "Measurement only. No source URL was edited, no route changed, the reader is untouched and nothing was published. Candidates come from each property's OWN links; no URL was guessed from convention.",
+ "cohort_size": 11,
+ "discovery_ladder": [
+  {
+   "score": 100,
+   "rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs?/|dog-?friendly"
+  },
+  {
+   "score": 90,
+   "rule": "\\bpets?\\b|\\bdogs?\\b"
+  },
+  {
+   "score": 70,
+   "rule": "hotel-?polic|property-?polic|hotel-?information|guest-?information|hou"
+  },
+  {
+   "score": 60,
+   "rule": "faqs?\\b|frequently-?asked"
+  },
+  {
+   "score": 40,
+   "rule": "amenit|accommodation|services"
+  },
+  {
+   "score": 20,
+   "rule": "\\bterms\\b|\\brules\\b|guest-?info"
+  }
+ ],
+ "max_candidates_per_property": 3,
+ "outcomes": {
+  "POLICY_URL_FOUND": 8,
+  "NO_POLICY_URL_FOUND": 3
+ },
+ "rates": {
+  "policy_url_discovery_rate_pct": 72.7,
+  "firecrawl_viability_after_url_correction_pct": 100.0,
+  "current_reader_recovery_rate_pct": 50.0
+ },
+ "reader_effects": {
+  "URL_FIX_SUFFICIENT": 4,
+  "URL_FOUND_READER_STILL_MISSES": 4
+ },
+ "architectural_recommendation": "BUILD_URL_DISCOVERY_LAYER",
+ "boundaries_respected": {
+  "routes_changed": false,
+  "reader_changed": false,
+  "source_urls_changed": false,
+  "authority_written": false,
+  "policies_published": false,
+  "bright_data_attempts": 0
+ },
+ "cost": {
+  "firecrawl_credits": 2,
+  "credits_before": 897,
+  "credits_after": 895,
+  "bright_data_attempts": 0,
+  "bright_data_usd": 0.0
+ },
+ "total_elapsed_seconds": 25.1,
+ "properties": [
+  {
+   "identity_key": "knickerbocker on the lake",
+   "property_name": "Knickerbocker on the Lake",
+   "starting_url": "https://www.knickerbockeronthelake.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 9,
+   "candidates_first_party": 9,
+   "candidates_tried": [
+    {
+     "url": "https://www.knickerbockeronthelake.com/faq",
+     "anchor_text": "faq",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 4406,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "knickerbocker",
+       "lake"
+      ],
+      "tokens_found": [
+       "knickerbocker",
+       "lake"
+      ],
+      "final_url": "https://www.knickerbockeronthelake.com/faq"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "actionable terms (fee) with no explicit allow or refuse statement",
+     "substantive_concepts": [
+      "fee"
+     ],
+     "snippets": {
+      "fee": [
+       "l Policies Is the hotel smoke-free? Yes. Smoking indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed",
+       "pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee. What are quiet hours? Please keep noise low between 10:"
+      ],
+      "service_animal": [
+       "oking indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning",
+       "g indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee. What are qu"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "pet_fee": 25000,
+      "fee_currency": "USD",
+      "service_animal_exception": "Only ADA service animals are allowed."
+     },
+     "reader_block": "Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee."
+    },
+    {
+     "url": "https://www.knickerbockeronthelake.com/amenities",
+     "anchor_text": "amenities",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 2998,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "knickerbocker",
+       "lake"
+      ],
+      "tokens_found": [
+       "knickerbocker",
+       "lake"
+      ],
+      "final_url": "https://www.knickerbockeronthelake.com/amenities"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://www.knickerbockeronthelake.com/stay/junior-suite",
+     "anchor_text": "view accommodation details",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 2100,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [
+       "junior-suite"
+      ],
+      "distinctive_tokens": [
+       "knickerbocker",
+       "lake"
+      ],
+      "tokens_found": [
+       "knickerbocker",
+       "lake"
+      ],
+      "final_url": "https://www.knickerbockeronthelake.com/stay/junior-suite"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.knickerbockeronthelake.com/faq",
+   "discovery_evidence": {
+    "anchor_text": "faq",
+    "matched_rule": "faqs?\\b|frequently-?asked",
+    "score": 60,
+    "found_on": "https://www.knickerbockeronthelake.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "knickerbocker",
+     "lake"
+    ],
+    "tokens_found": [
+     "knickerbocker",
+     "lake"
+    ],
+    "final_url": "https://www.knickerbockeronthelake.com/faq"
+   },
+   "policy_presence": "PARTIAL_POLICY_PRESENT",
+   "policy_snippets": {
+    "fee": [
+     "l Policies Is the hotel smoke-free? Yes. Smoking indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed",
+     "pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee. What are quiet hours? Please keep noise low between 10:"
+    ],
+    "service_animal": [
+     "oking indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning",
+     "g indoors will incur a $250 cleaning fee. Do you allow pets? Only ADA service animals are allowed. Unauthorized pets incur a $250 cleaning fee. What are qu"
+    ]
+   },
+   "source_quality": "exact_property_page",
+   "reader_effect": "URL_FIX_SUFFICIENT",
+   "reader_extraction": {
+    "pet_fee": 25000,
+    "fee_currency": "USD",
+    "service_animal_exception": "Only ADA service animals are allowed."
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "potawatomi casino hotel",
+   "property_name": "Potawatomi Casino Hotel",
+   "starting_url": "https://www.potawatomi.com/hotel",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 5,
+   "candidates_first_party": 5,
+   "candidates_tried": [
+    {
+     "url": "https://www.potawatomi.com/casino/house-rules",
+     "anchor_text": "house rules",
+     "score": 70,
+     "matched_rule": "hotel-?polic|property-?polic|hotel-?info",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 32423,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [
+       "casino"
+      ],
+      "distinctive_tokens": [
+       "potawatomi"
+      ],
+      "tokens_found": [
+       "potawatomi"
+      ],
+      "final_url": "https://www.potawatomi.com/casino/house-rules"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://www.potawatomi.com/casino/rewards-mke/faqs",
+     "anchor_text": "faqs",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 8664,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [
+       "casino",
+       "rewards-mke"
+      ],
+      "distinctive_tokens": [
+       "potawatomi"
+      ],
+      "tokens_found": [
+       "potawatomi"
+      ],
+      "final_url": "https://www.potawatomi.com/casino/rewards-mke/faqs"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://www.potawatomi.com/frequently-asked-questions",
+     "anchor_text": "faq",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 19651,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "potawatomi"
+      ],
+      "tokens_found": [
+       "potawatomi"
+      ],
+      "final_url": "https://www.potawatomi.com/frequently-asked-questions"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {
+      "service_animal": [
+       "no Hotel is proud to comply with the Americans With Disabilities Act (ADA). We have ADA rooms as well as hearing-impaired rooms to accommodate",
+       "oud to comply with the Americans With Disabilities Act (ADA). We have ADA rooms as well as hearing-impaired rooms to accommodate your needs. Pl"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    }
+   ],
+   "outcome": "NO_POLICY_URL_FOUND",
+   "discovered_url": null,
+   "discovery_evidence": null,
+   "identity_evidence": null,
+   "policy_presence": null,
+   "policy_snippets": {},
+   "source_quality": null,
+   "reader_effect": "",
+   "reader_extraction": {},
+   "credits": 0
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "property_name": "Saint Kate - The Arts Hotel",
+   "starting_url": "https://www.saintkatearts.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 3,
+   "candidates_first_party": 3,
+   "candidates_tried": [
+    {
+     "url": "https://www.saintkatearts.com/faq",
+     "anchor_text": "faq",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 8112,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "saint",
+       "kate"
+      ],
+      "tokens_found": [
+       "saint",
+       "kate"
+      ],
+      "final_url": "https://www.saintkatearts.com/faq"
+     },
+     "presence": "FULL_POLICY_PRESENT",
+     "presence_why": "an allow/refuse signal plus 3 actionable terms: fee, basis, unattended",
+     "substantive_concepts": [
+      "fee",
+      "basis",
+      "unattended"
+     ],
+     "snippets": {
+      "allow_signal": [
+       "ure Milwaukee . Do you allow pets at your hotel? Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are alwa",
+       "hotel? Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with"
+      ],
+      "refuse_signal": [
+       "lease hang the \"Pet Inside\" door hanger on your exterior door handle. Pets are not allowed in the Milwaukee Center Galleria and should always use the front entr"
+      ],
+      "fee": [
+       "s, dog bowls, and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-part"
+      ],
+      "basis": [
+       ", and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-party dog walki"
+      ],
+      "species": [
+       "pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – p",
+       "re booking your stay to discuss your options. At Saint Kate, we offer dog treats, dog bowls, and beds based on availability. There is a pet cle"
+      ],
+      "unattended": [
+       "us and clean up your dog's waste accordingly. Pets should not be left unattended in your room for long periods of time. When a pet is left unattended",
+       "unattended in your room for long periods of time. When a pet is left unattended in your room, please hang the \"Pet Inside\" door hanger on your exteri"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "pets_allowed": true,
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay"
+     },
+     "reader_block": "Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – please contact the hotel before booking your stay to disc"
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.saintkatearts.com/faq",
+   "discovery_evidence": {
+    "anchor_text": "faq",
+    "matched_rule": "faqs?\\b|frequently-?asked",
+    "score": 60,
+    "found_on": "https://www.saintkatearts.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "saint",
+     "kate"
+    ],
+    "tokens_found": [
+     "saint",
+     "kate"
+    ],
+    "final_url": "https://www.saintkatearts.com/faq"
+   },
+   "policy_presence": "FULL_POLICY_PRESENT",
+   "policy_snippets": {
+    "allow_signal": [
+     "ure Milwaukee . Do you allow pets at your hotel? Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are alwa",
+     "hotel? Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with"
+    ],
+    "refuse_signal": [
+     "lease hang the \"Pet Inside\" door hanger on your exterior door handle. Pets are not allowed in the Milwaukee Center Galleria and should always use the front entr"
+    ],
+    "fee": [
+     "s, dog bowls, and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-part"
+    ],
+    "basis": [
+     ", and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-party dog walki"
+    ],
+    "species": [
+     "pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – p",
+     "re booking your stay to discuss your options. At Saint Kate, we offer dog treats, dog bowls, and beds based on availability. There is a pet cle"
+    ],
+    "unattended": [
+     "us and clean up your dog's waste accordingly. Pets should not be left unattended in your room for long periods of time. When a pet is left unattended",
+     "unattended in your room for long periods of time. When a pet is left unattended in your room, please hang the \"Pet Inside\" door hanger on your exteri"
+    ]
+   },
+   "source_quality": "exact_property_page",
+   "reader_effect": "URL_FIX_SUFFICIENT",
+   "reader_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "the clarke hotel",
+   "property_name": "The Clarke Hotel",
+   "starting_url": "https://www.theclarkehotel.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 1,
+   "candidates_first_party": 1,
+   "candidates_tried": [
+    {
+     "url": "https://theclarkehotel.com/hotel-information/",
+     "anchor_text": "hotel information",
+     "score": 70,
+     "matched_rule": "hotel-?polic|property-?polic|hotel-?info",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 401,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "clarke"
+      ],
+      "tokens_found": [],
+      "final_url": "https://theclarkehotel.com/hotel-information/"
+     },
+     "presence": "NO_POLICY_PRESENT",
+     "presence_why": "no pet-policy language of any kind",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    }
+   ],
+   "outcome": "NO_POLICY_URL_FOUND",
+   "discovered_url": null,
+   "discovery_evidence": null,
+   "identity_evidence": null,
+   "policy_presence": null,
+   "policy_snippets": {},
+   "source_quality": null,
+   "reader_effect": "",
+   "reader_extraction": {},
+   "credits": 0
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "property_name": "The Ingleside Hotel",
+   "starting_url": "https://www.theinglesidehotel.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 11,
+   "candidates_first_party": 11,
+   "candidates_tried": [
+    {
+     "url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+     "anchor_text": "dog friendly",
+     "score": 100,
+     "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 7494,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "ingleside"
+      ],
+      "tokens_found": [
+       "ingleside"
+      ],
+      "final_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly"
+     },
+     "presence": "FULL_POLICY_PRESENT",
+     "presence_why": "an allow/refuse signal plus 2 actionable terms: fee, basis",
+     "substantive_concepts": [
+      "fee",
+      "basis"
+     ],
+     "snippets": {
+      "allow_signal": [
+       "o make reservations. The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and bas"
+      ],
+      "fee": [
+       "ability. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the",
+       "ity. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of"
+      ],
+      "basis": [
+       "s must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of arrival. F"
+      ],
+      "species": [
+       "Dog Friendly Hotel Waukesha - Near Milwaukee | Ingleside Hotel Skip to ma",
+       "suites. Accommodations Room Types Hotel Amenities Overnight Packages Dog Friendly Accommodations FAQs Area Guide Meetings & Events The Inglesi"
+      ]
+     },
+     "source_quality": "property_specific_first_party_policy_page",
+     "reader_extraction": {},
+     "reader_block": "The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and based on availability. Pets must be registered during check-in at the front desk. A $40 "
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+   "discovery_evidence": {
+    "anchor_text": "dog friendly",
+    "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+    "score": 100,
+    "found_on": "https://www.theinglesidehotel.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "ingleside"
+    ],
+    "tokens_found": [
+     "ingleside"
+    ],
+    "final_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly"
+   },
+   "policy_presence": "FULL_POLICY_PRESENT",
+   "policy_snippets": {
+    "allow_signal": [
+     "o make reservations. The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and bas"
+    ],
+    "fee": [
+     "ability. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the",
+     "ity. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of"
+    ],
+    "basis": [
+     "s must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of arrival. F"
+    ],
+    "species": [
+     "Dog Friendly Hotel Waukesha - Near Milwaukee | Ingleside Hotel Skip to ma",
+     "suites. Accommodations Room Types Hotel Amenities Overnight Packages Dog Friendly Accommodations FAQs Area Guide Meetings & Events The Inglesi"
+    ]
+   },
+   "source_quality": "property_specific_first_party_policy_page",
+   "reader_effect": "URL_FOUND_READER_STILL_MISSES",
+   "reader_extraction": {},
+   "credits": 0
+  },
+  {
+   "identity_key": "the iron horse hotel",
+   "property_name": "The Iron Horse Hotel",
+   "starting_url": "https://www.theironhorsehotel.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 2,
+   "candidates_first_party": 2,
+   "candidates_tried": [
+    {
+     "url": "https://www.theironhorsehotel.com/dogs/",
+     "anchor_text": "dogs",
+     "score": 100,
+     "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 1852,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "iron",
+       "horse"
+      ],
+      "tokens_found": [
+       "iron",
+       "horse"
+      ],
+      "final_url": "https://www.theironhorsehotel.com/dogs/"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "actionable terms (fee, basis) with no explicit allow or refuse statement",
+     "substantive_concepts": [
+      "fee",
+      "basis"
+     ],
+     "snippets": {
+      "fee": [
+       "h your four legged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fe",
+       "r legged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee cover"
+      ],
+      "basis": [
+       "ged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee covers enhanced"
+      ],
+      "species": [
+       "Dogs | The Iron Horse Hotel Skip to content IHH_WebLogo Book Now WELCOME T",
+       "ngs Wellness & Fitness Contact Gallery Privacy Gift Cards Careers FAQ DOGS WELCOME At our place, dogs aren’t just allowed. They’re part of the c"
+      ]
+     },
+     "source_quality": "property_specific_first_party_policy_page",
+     "reader_extraction": {
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_night"
+     },
+     "reader_block": "Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee covers enhanced room detailing to ensure every guest enjoys a clean and comfortable stay."
+    },
+    {
+     "url": "https://www.theironhorsehotel.com/faq/",
+     "anchor_text": "faq",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 4987,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "iron",
+       "horse"
+      ],
+      "tokens_found": [
+       "iron",
+       "horse"
+      ],
+      "final_url": "https://www.theironhorsehotel.com/faq/"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "actionable terms (fee) with no explicit allow or refuse statement",
+     "substantive_concepts": [
+      "fee"
+     ],
+     "snippets": {
+      "fee": [
+       "your stay, please let us know when you reserve your room. There is a $100 pet fee. To give your doggie the VIPooch treatment, check out our Big",
+       "stay, please let us know when you reserve your room. There is a $100 pet fee. To give your doggie the VIPooch treatment, check out our Big Dog Pac"
+      ],
+      "species": [
+       "e will do our best to accommodate your changes. See More See Less Are dogs allowed to stay at the hotel? Fur babies give The Iron Horse Hotel tw",
+       "babies give The Iron Horse Hotel two paws up! Yes! We gladly welcome dogs of all sizes. If you’re bringing a furry friend during your stay, ple"
+      ],
+      "service_animal": [
+       "do our best to accommodate your needs. See More See Less Do you have ADA compliant rooms? Yes, we offer a variety of accessible rooms to guest",
+       "oms feature roll-in accessibility and accessible transfer. Please see ADA Accessibility under our “rooms” section for specific room features, v"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "pet_fee": 10000,
+      "fee_currency": "USD"
+     },
+     "reader_block": "Yes! We gladly welcome dogs of all sizes. If you’re bringing a furry friend during your stay, please let us know when you reserve your room. There is a $100 pet fee. To give your doggie the VIPooch treatment, check out o"
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.theironhorsehotel.com/dogs/",
+   "discovery_evidence": {
+    "anchor_text": "dogs",
+    "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+    "score": 100,
+    "found_on": "https://www.theironhorsehotel.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "iron",
+     "horse"
+    ],
+    "tokens_found": [
+     "iron",
+     "horse"
+    ],
+    "final_url": "https://www.theironhorsehotel.com/dogs/"
+   },
+   "policy_presence": "PARTIAL_POLICY_PRESENT",
+   "policy_snippets": {
+    "fee": [
+     "h your four legged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fe",
+     "r legged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee cover"
+    ],
+    "basis": [
+     "ged family member by your side. Becuase They're Family Pet Fee A $100 per night dog fee applies to all overnight pet guests. This fee covers enhanced"
+    ],
+    "species": [
+     "Dogs | The Iron Horse Hotel Skip to content IHH_WebLogo Book Now WELCOME T",
+     "ngs Wellness & Fitness Contact Gallery Privacy Gift Cards Careers FAQ DOGS WELCOME At our place, dogs aren’t just allowed. They’re part of the c"
+    ]
+   },
+   "source_quality": "property_specific_first_party_policy_page",
+   "reader_effect": "URL_FIX_SUFFICIENT",
+   "reader_extraction": {
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "the marc hotel",
+   "property_name": "The Marc Hotel",
+   "starting_url": "https://www.marchotelmilwaukee.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 3,
+   "candidates_first_party": 3,
+   "candidates_tried": [
+    {
+     "url": "https://www.marchotelmilwaukee.com/reservations-policy",
+     "anchor_text": "reservations policy",
+     "score": 70,
+     "matched_rule": "hotel-?polic|property-?polic|hotel-?info",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 1427,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "marc"
+      ],
+      "tokens_found": [
+       "marc"
+      ],
+      "final_url": "https://www.marchotelmilwaukee.com/reservations-policy"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "actionable terms (fee, count, deposit) with no explicit allow or refuse statement",
+     "substantive_concepts": [
+      "fee",
+      "count",
+      "deposit"
+     ],
+     "snippets": {
+      "fee": [
+       "s (dogs or cats) per room are allowed at the The Marc Hotel. One Time Pet Fee of $100 is non-refundable. Service Animals Allowed, no fee for servic",
+       "cats) per room are allowed at the The Marc Hotel. One Time Pet Fee of $100 is non-refundable. Service Animals Allowed, no fee for service animal"
+      ],
+      "count": [
+       "ility. Rooms are subject to 17.9% state and local taxes. Pet Policy A maximum of 2 pets (dogs or cats) per room are allowed at the The Marc Hotel. One Time P"
+      ],
+      "species": [
+       "bject to 17.9% state and local taxes. Pet Policy A maximum of 2 pets (dogs or cats) per room are allowed at the The Marc Hotel. One Time Pet Fee",
+       "17.9% state and local taxes. Pet Policy A maximum of 2 pets (dogs or cats) per room are allowed at the The Marc Hotel. One Time Pet Fee of $100"
+      ],
+      "deposit": [
+       "r room are allowed at the The Marc Hotel. One Time Pet Fee of $100 is non-refundable. Service Animals Allowed, no fee for service animals. © 2026 The Marc"
+      ],
+      "service_animal": [
+       "ed at the The Marc Hotel. One Time Pet Fee of $100 is non-refundable. Service Animals Allowed, no fee for service animals. © 2026 The Marc Hotel. All Right",
+       "et Fee of $100 is non-refundable. Service Animals Allowed, no fee for service animals. © 2026 The Marc Hotel. All Rights Reserved. 640 N. 6th Street Milwau"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "pet_count_limit": 2,
+      "service_animal_exception": "Service Animals Allowed, no fee for service animals."
+     },
+     "reader_block": "A maximum of 2 pets (dogs or cats) per room are allowed at the The Marc Hotel. One Time Pet Fee of $100 is non-refundable. Service Animals Allowed, no fee for service animals."
+    },
+    {
+     "url": "https://www.marchotelmilwaukee.com/accommodations/",
+     "anchor_text": "accommodations",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 6690,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "marc"
+      ],
+      "tokens_found": [
+       "marc"
+      ],
+      "final_url": "https://www.marchotelmilwaukee.com/accommodations/"
+     },
+     "presence": "AMENITY_ONLY",
+     "presence_why": "a pets-allowed signal with no actionable term anywhere in the document",
+     "substantive_concepts": [],
+     "snippets": {
+      "allow_signal": [
+       ", Premium (HBO, CNN, ESPN), Standard Network, HD Channels Digital Key Pet-Friendly Rooms For Your Convenience 24-Hour Housekeeping Connecting Rooms Avai"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://www.marchotelmilwaukee.com/amenities/",
+     "anchor_text": "amenities",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 2196,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "marc"
+      ],
+      "tokens_found": [
+       "marc"
+      ],
+      "final_url": "https://www.marchotelmilwaukee.com/amenities/"
+     },
+     "presence": "FULL_POLICY_PRESENT",
+     "presence_why": "an allow/refuse signal plus 5 actionable terms: fee, basis, weight, count, deposit",
+     "substantive_concepts": [
+      "fee",
+      "basis",
+      "weight",
+      "count",
+      "deposit"
+     ],
+     "snippets": {
+      "allow_signal": [
+       "e Meeting Room/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pe"
+      ],
+      "fee": [
+       "r Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per roo",
+       "re allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging: On-site © 2026 The Marc Hotel. All Right"
+      ],
+      "basis": [
+       "llowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging: On-site © 2026 The Marc Hotel. All Rights Reserved"
+      ],
+      "weight": [
+       "on Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV",
+       "A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging"
+      ],
+      "count": [
+       "Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit",
+       "me Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Par"
+      ],
+      "species": [
+       "-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking S",
+       "ble fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Park"
+      ],
+      "deposit": [
+       "m/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cat"
+      ],
+      "service_animal": [
+       "e Van Self-Parking Garage Meeting Room/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet lim"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+     },
+     "reader_block": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.marchotelmilwaukee.com/amenities/",
+   "discovery_evidence": {
+    "anchor_text": "amenities",
+    "matched_rule": "amenit|accommodation|services",
+    "score": 40,
+    "found_on": "https://www.marchotelmilwaukee.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "marc"
+    ],
+    "tokens_found": [
+     "marc"
+    ],
+    "final_url": "https://www.marchotelmilwaukee.com/amenities/"
+   },
+   "policy_presence": "FULL_POLICY_PRESENT",
+   "policy_snippets": {
+    "allow_signal": [
+     "e Meeting Room/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pe"
+    ],
+    "fee": [
+     "r Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per roo",
+     "re allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging: On-site © 2026 The Marc Hotel. All Right"
+    ],
+    "basis": [
+     "llowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging: On-site © 2026 The Marc Hotel. All Rights Reserved"
+    ],
+    "weight": [
+     "on Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV",
+     "A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Parking Garage: $40 per night + tax EV Charging"
+    ],
+    "count": [
+     "Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit",
+     "me Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Par"
+    ],
+    "species": [
+     "-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking S",
+     "ble fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed Weight limit: 75 lbs. On-Site Parking Self-Park"
+    ],
+    "deposit": [
+     "m/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cat"
+    ],
+    "service_animal": [
+     "e Van Self-Parking Garage Meeting Room/Ballroom Wheelchair Accessible Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet lim"
+    ]
+   },
+   "source_quality": "exact_property_page",
+   "reader_effect": "URL_FOUND_READER_STILL_MISSES",
+   "reader_extraction": {
+    "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "property_name": "The Pfister Hotel",
+   "starting_url": "https://www.thepfisterhotel.com/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 8,
+   "candidates_first_party": 8,
+   "candidates_tried": [
+    {
+     "url": "https://www.thepfisterhotel.com/accommodations/pets/",
+     "anchor_text": "pets",
+     "score": 100,
+     "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 3592,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "pfister"
+      ],
+      "tokens_found": [
+       "pfister"
+      ],
+      "final_url": "https://www.thepfisterhotel.com/accommodations/pets/"
+     },
+     "presence": "FULL_POLICY_PRESENT",
+     "presence_why": "an allow/refuse signal plus 3 actionable terms: fee, count, deposit",
+     "substantive_concepts": [
+      "fee",
+      "count",
+      "deposit"
+     ],
+     "snippets": {
+      "allow_signal": [
+       "Pet Friendly Hotels in Milwaukee | The Pfister Hotel and Spa Skip to main content",
+       "vents Non Profit Packages 3D Tour Pfister Website Accommodations Pets Pet-Friendly Milwaukee Hotel The Pfister Hotel is proud to be one of the best pet-"
+      ],
+      "refuse_signal": [
+       "pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals. Reminders Please pick up after your"
+      ],
+      "fee": [
+       "(dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet f",
+       "ats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee requi"
+      ],
+      "count": [
+       "rior service for both you and your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time"
+      ],
+      "species": [
+       "th you and your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fe",
+       "nd your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $15"
+      ],
+      "deposit": [
+       "room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service an"
+      ],
+      "service_animal": [
+       "d at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals. Reminders",
+       "refundable. Service animals are allowed, with no pet fee required for service animals. Reminders Please pick up after your pet's waste and dispose of it pr"
+      ]
+     },
+     "source_quality": "property_specific_first_party_policy_page",
+     "reader_extraction": {
+      "pet_count_limit": 2,
+      "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+     },
+     "reader_block": "A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals."
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+   "discovery_evidence": {
+    "anchor_text": "pets",
+    "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+    "score": 100,
+    "found_on": "https://www.thepfisterhotel.com/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "pfister"
+    ],
+    "tokens_found": [
+     "pfister"
+    ],
+    "final_url": "https://www.thepfisterhotel.com/accommodations/pets/"
+   },
+   "policy_presence": "FULL_POLICY_PRESENT",
+   "policy_snippets": {
+    "allow_signal": [
+     "Pet Friendly Hotels in Milwaukee | The Pfister Hotel and Spa Skip to main content",
+     "vents Non Profit Packages 3D Tour Pfister Website Accommodations Pets Pet-Friendly Milwaukee Hotel The Pfister Hotel is proud to be one of the best pet-"
+    ],
+    "refuse_signal": [
+     "pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals. Reminders Please pick up after your"
+    ],
+    "fee": [
+     "(dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet f",
+     "ats) per room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee requi"
+    ],
+    "count": [
+     "rior service for both you and your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time"
+    ],
+    "species": [
+     "th you and your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fe",
+     "nd your beloved pet. Book Now PET POLICY A maximum of 2 pets (dogs or cats) per room are allowed at The Pfister Hotel. A one-time pet fee of $15"
+    ],
+    "deposit": [
+     "room are allowed at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service an"
+    ],
+    "service_animal": [
+     "d at The Pfister Hotel. A one-time pet fee of $150 is non-refundable. Service animals are allowed, with no pet fee required for service animals. Reminders",
+     "refundable. Service animals are allowed, with no pet fee required for service animals. Reminders Please pick up after your pet's waste and dispose of it pr"
+    ]
+   },
+   "source_quality": "property_specific_first_party_policy_page",
+   "reader_effect": "URL_FOUND_READER_STILL_MISSES",
+   "reader_extraction": {
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "the plaza hotel milwaukee",
+   "property_name": "The Plaza Hotel Milwaukee",
+   "starting_url": "https://plazahotelmilwaukee.com/contact/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 2,
+   "candidates_first_party": 1,
+   "candidates_tried": [
+    {
+     "url": "https://plazahotelmilwaukee.com/amenities/",
+     "anchor_text": "amenities",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 2261,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "plaza"
+      ],
+      "tokens_found": [
+       "plaza"
+      ],
+      "final_url": "https://plazahotelmilwaukee.com/amenities/"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "an allow/refuse signal plus one actionable term: fee",
+     "substantive_concepts": [
+      "fee"
+     ],
+     "snippets": {
+      "allow_signal": [
+       "Milwaukee Hotel Amenities | Pet Friendly, Spa, Kitchenettes & Parking You are using an outdated browser. Pleas",
+       "a Treatments Menu or call (414) 460-2672 to reserve your spa service. Pet Friendly Hotel in Milwaukee Why leave your four-legged friend behind at home?"
+      ],
+      "fee": [
+       "laza Hotel, Fido is family too. Pet-friendly rooms available One-time $50 pet fee per animal Optional Pet Package: Includes toys, treats, and e",
+       "Hotel, Fido is family too. Pet-friendly rooms available One-time $50 pet fee per animal Optional Pet Package: Includes toys, treats, and extras to"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {
+      "pet_fee": 5000,
+      "fee_currency": "USD"
+     },
+     "reader_block": "One-time $50 pet fee per animal"
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://plazahotelmilwaukee.com/amenities/",
+   "discovery_evidence": {
+    "anchor_text": "amenities",
+    "matched_rule": "amenit|accommodation|services",
+    "score": 40,
+    "found_on": "https://plazahotelmilwaukee.com/contact/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [],
+    "candidate_location": [],
+    "distinctive_tokens": [
+     "plaza"
+    ],
+    "tokens_found": [
+     "plaza"
+    ],
+    "final_url": "https://plazahotelmilwaukee.com/amenities/"
+   },
+   "policy_presence": "PARTIAL_POLICY_PRESENT",
+   "policy_snippets": {
+    "allow_signal": [
+     "Milwaukee Hotel Amenities | Pet Friendly, Spa, Kitchenettes & Parking You are using an outdated browser. Pleas",
+     "a Treatments Menu or call (414) 460-2672 to reserve your spa service. Pet Friendly Hotel in Milwaukee Why leave your four-legged friend behind at home?"
+    ],
+    "fee": [
+     "laza Hotel, Fido is family too. Pet-friendly rooms available One-time $50 pet fee per animal Optional Pet Package: Includes toys, treats, and e",
+     "Hotel, Fido is family too. Pet-friendly rooms available One-time $50 pet fee per animal Optional Pet Package: Includes toys, treats, and extras to"
+    ]
+   },
+   "source_quality": "exact_property_page",
+   "reader_effect": "URL_FIX_SUFFICIENT",
+   "reader_extraction": {
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "credits": 0
+  },
+  {
+   "identity_key": "wildwood lodge",
+   "property_name": "Wildwood Lodge",
+   "starting_url": "https://thewildwoodlodge.com/pewaukee/",
+   "starting_url_source": "REUSED_DIAGNOSTIC_013",
+   "candidates_discovered": 3,
+   "candidates_first_party": 3,
+   "candidates_tried": [
+    {
+     "url": "https://thewildwoodlodge.com/clive/faqs/",
+     "anchor_text": "faqs",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 10447,
+     "identity": {
+      "confirmed": false,
+      "why": "the page names a different location on the same domain (['clive'], where this property is ['pewaukee'])",
+      "same_domain": true,
+      "location_conflict": true,
+      "disclaims_property_specificity": false,
+      "starting_location": [
+       "pewaukee"
+      ],
+      "candidate_location": [
+       "clive"
+      ],
+      "distinctive_tokens": [
+       "wildwood"
+      ],
+      "tokens_found": [
+       "wildwood"
+      ],
+      "final_url": "https://thewildwoodlodge.com/clive/faqs/"
+     },
+     "presence": "UNUSABLE_DOCUMENT",
+     "presence_why": "identity, navigation or hydration prevents a determination",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "generic_brand_or_operator_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+     "anchor_text": "faqs",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 9122,
+     "identity": {
+      "confirmed": true,
+      "why": "same-domain page, no location conflict",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": false,
+      "starting_location": [
+       "pewaukee"
+      ],
+      "candidate_location": [
+       "pewaukee"
+      ],
+      "distinctive_tokens": [
+       "wildwood"
+      ],
+      "tokens_found": [
+       "wildwood"
+      ],
+      "final_url": "https://thewildwoodlodge.com/pewaukee/faqs/"
+     },
+     "presence": "PARTIAL_POLICY_PRESENT",
+     "presence_why": "actionable terms (fee, basis) with no explicit allow or refuse statement",
+     "substantive_concepts": [
+      "fee",
+      "basis"
+     ],
+     "snippets": {
+      "fee": [
+       "f you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximu",
+       "your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room p"
+      ],
+      "basis": [
+       "ravel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per r"
+      ],
+      "species": [
+       "o use the fitness center. Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight.",
+       "pt pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight. If you choose to travel with your dog"
+      ]
+     },
+     "source_quality": "exact_property_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    },
+    {
+     "url": "https://thewildwoodlodge.com/clive",
+     "anchor_text": "amenities",
+     "score": 40,
+     "matched_rule": "amenit|accommodation|services",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 7562,
+     "identity": {
+      "confirmed": false,
+      "why": "the page names a different location on the same domain (['clive'], where this property is ['pewaukee'])",
+      "same_domain": true,
+      "location_conflict": true,
+      "disclaims_property_specificity": false,
+      "starting_location": [
+       "pewaukee"
+      ],
+      "candidate_location": [
+       "clive"
+      ],
+      "distinctive_tokens": [
+       "wildwood"
+      ],
+      "tokens_found": [
+       "wildwood"
+      ],
+      "final_url": "https://thewildwoodlodge.com/clive"
+     },
+     "presence": "UNUSABLE_DOCUMENT",
+     "presence_why": "identity, navigation or hydration prevents a determination",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "generic_brand_or_operator_page",
+     "reader_extraction": {},
+     "reader_block": ""
+    }
+   ],
+   "outcome": "POLICY_URL_FOUND",
+   "discovered_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+   "discovery_evidence": {
+    "anchor_text": "faqs",
+    "matched_rule": "faqs?\\b|frequently-?asked",
+    "score": 60,
+    "found_on": "https://thewildwoodlodge.com/pewaukee/"
+   },
+   "identity_evidence": {
+    "confirmed": true,
+    "why": "same-domain page, no location conflict",
+    "same_domain": true,
+    "location_conflict": false,
+    "disclaims_property_specificity": false,
+    "starting_location": [
+     "pewaukee"
+    ],
+    "candidate_location": [
+     "pewaukee"
+    ],
+    "distinctive_tokens": [
+     "wildwood"
+    ],
+    "tokens_found": [
+     "wildwood"
+    ],
+    "final_url": "https://thewildwoodlodge.com/pewaukee/faqs/"
+   },
+   "policy_presence": "PARTIAL_POLICY_PRESENT",
+   "policy_snippets": {
+    "fee": [
+     "f you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximu",
+     "your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room p"
+    ],
+    "basis": [
+     "ravel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per r"
+    ],
+    "species": [
+     "o use the fitness center. Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight.",
+     "pt pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight. If you choose to travel with your dog"
+    ]
+   },
+   "source_quality": "exact_property_page",
+   "reader_effect": "URL_FOUND_READER_STILL_MISSES",
+   "reader_extraction": {},
+   "credits": 0
+  },
+  {
+   "identity_key": "woodspring suites milwaukee menomonee falls",
+   "property_name": "WoodSpring Suites Milwaukee - Menomonee Falls",
+   "starting_url": "https://www.woodspring.com/extended-stay-hotels/locations/wisconsin/Menomonee-Falls/woodspring-suites-Milwuakee-Menomonee-Falls",
+   "starting_url_source": "CACHED",
+   "candidates_discovered": 4,
+   "candidates_first_party": 3,
+   "candidates_tried": [
+    {
+     "url": "https://www.woodspring.com/offers/pet-friendly-hotel",
+     "anchor_text": "pet-friendly extended stay hotels",
+     "score": 100,
+     "matched_rule": "pet-?polic|pets?-?friendly|/pets?/|/dogs",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "CACHED",
+     "status": 200,
+     "text_chars": 14121,
+     "identity": {
+      "confirmed": false,
+      "why": "the page disclaims property specificity in its own words, so it states no terms for this property",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": true,
+      "starting_location": [
+       "menomonee-falls",
+       "wisconsin",
+       "woodspring-suites-milwuakee-menomonee-falls"
+      ],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "woodspring",
+       "menomonee",
+       "falls"
+      ],
+      "tokens_found": [
+       "woodspring",
+       "menomonee",
+       "falls"
+      ],
+      "final_url": "https://www.woodspring.com/offers/pet-friendly-hotel"
+     },
+     "presence": "UNUSABLE_DOCUMENT",
+     "presence_why": "identity, navigation or hydration prevents a determination",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "generic_brand_or_operator_page",
+     "reader_extraction": {
+      "service_animal_exception": "While all of our extended stay hotels welcome eligible service animals at no additional charge, we also offer pet-friendly hotel rooms* at most of our locations ."
+     },
+     "reader_block": "While all of our extended stay hotels welcome eligible service animals at no additional charge, we also offer pet-friendly hotel rooms* at most of our locations . Find each of our hotel's pet policies by simply choosing "
+    },
+    {
+     "url": "https://www.woodspring.com/faqs",
+     "anchor_text": "faqs",
+     "score": 60,
+     "matched_rule": "faqs?\\b|frequently-?asked",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "FIRECRAWL",
+     "status": 200,
+     "text_chars": 12800,
+     "identity": {
+      "confirmed": false,
+      "why": "the page disclaims property specificity in its own words, so it states no terms for this property",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": true,
+      "starting_location": [
+       "menomonee-falls",
+       "wisconsin",
+       "woodspring-suites-milwuakee-menomonee-falls"
+      ],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "woodspring",
+       "menomonee",
+       "falls"
+      ],
+      "tokens_found": [
+       "woodspring"
+      ],
+      "final_url": "https://www.woodspring.com/faqs"
+     },
+     "presence": "UNUSABLE_DOCUMENT",
+     "presence_why": "identity, navigation or hydration prevents a determination",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "generic_brand_or_operator_page",
+     "reader_extraction": {
+      "service_animal_exception": "Assistance / service animals are welcome at no additional charge at all of our locations (guests must notify the front desk at time of check-in for staff awareness) and we offer pet-friendly hotel locations."
+     },
+     "reader_block": "Assistance / service animals are welcome at no additional charge at all of our locations (guests must notify the front desk at time of check-in for staff awareness) and we offer pet-friendly hotel locations. Note that pe"
+    },
+    {
+     "url": "https://www.woodspring.com/policies",
+     "anchor_text": "guest rules &amp; policies",
+     "score": 20,
+     "matched_rule": "\\bterms\\b|\\brules\\b|guest-?info",
+     "relationship": "SAME_DOMAIN",
+     "fetch_source": "FIRECRAWL",
+     "status": 200,
+     "text_chars": 11049,
+     "identity": {
+      "confirmed": false,
+      "why": "the page disclaims property specificity in its own words, so it states no terms for this property",
+      "same_domain": true,
+      "location_conflict": false,
+      "disclaims_property_specificity": true,
+      "starting_location": [
+       "menomonee-falls",
+       "wisconsin",
+       "woodspring-suites-milwuakee-menomonee-falls"
+      ],
+      "candidate_location": [],
+      "distinctive_tokens": [
+       "woodspring",
+       "menomonee",
+       "falls"
+      ],
+      "tokens_found": [
+       "woodspring"
+      ],
+      "final_url": "https://www.woodspring.com/policies"
+     },
+     "presence": "UNUSABLE_DOCUMENT",
+     "presence_why": "identity, navigation or hydration prevents a determination",
+     "substantive_concepts": [],
+     "snippets": {},
+     "source_quality": "generic_brand_or_operator_page",
+     "reader_extraction": {
+      "service_animal_exception": "Violating the hotel’s Service Animal and/or Pet Policy"
+     },
+     "reader_block": "Violating the hotel’s Service Animal and/or Pet Policy 2"
+    }
+   ],
+   "outcome": "NO_POLICY_URL_FOUND",
+   "discovered_url": null,
+   "discovery_evidence": null,
+   "identity_evidence": null,
+   "policy_presence": null,
+   "policy_snippets": {},
+   "source_quality": null,
+   "reader_effect": "",
+   "reader_extraction": {},
+   "credits": 2
+  }
+ ]
+}
