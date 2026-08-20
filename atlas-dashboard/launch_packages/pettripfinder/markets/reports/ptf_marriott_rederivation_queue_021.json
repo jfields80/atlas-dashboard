@@ -1,0 +1,101 @@
+{
+ "schema": "ptf-marriott-rederivation-queue/1.0",
+ "work_order": "PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-20T15:49:38+00:00",
+ "note": "Marriott observations whose stored reading materially disagrees with the corrected locator's block. Nothing here is applied: re-deriving an observation changes what a record is ABOUT and needs its own work order and its own attestation.",
+ "requires_reacquisition": false,
+ "reacquisition_note": "The corrected block is already present in the persisted document, so a re-derivation reads it from disk. No provider call is needed and no capture is superseded.",
+ "published": false,
+ "founder_approved": false,
+ "items": [
+  {
+   "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+   "template": "TEMPLATE_ICON_CONTAINER",
+   "material_issue": "FEE_COMPONENT_MISSING",
+   "reason": "the corrected block states amounts the stored one omits: $75.00",
+   "stored_block": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+   "corrected_block": "Pet Policy Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "corrected_locator": "pet_policy_heading_parent",
+   "reader_before": {
+    "pets_allowed": true
+   },
+   "reader_after": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "fields_added": [
+    "pet_count_limit",
+    "pet_count_scope",
+    "weight_limit"
+   ],
+   "fields_withheld_after": [
+    "fee_basis",
+    "pet_fee"
+   ]
+  },
+  {
+   "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
+   "template": "TEMPLATE_ICON_CONTAINER",
+   "material_issue": "FEE_COMPONENT_MISSING",
+   "reason": "the stored record asserts a single pet fee while the block states components the schema cannot carry together ($75); the corrected reader withholds it",
+   "stored_block": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+   "corrected_block": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+   "corrected_locator": "pet_policy_heading_parent",
+   "reader_before": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "reader_after": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "fields_added": [],
+   "fields_withheld_after": [
+    "fee_basis",
+    "pet_fee"
+   ]
+  },
+  {
+   "canonical_name": "The Trade, Autograph Collection",
+   "template": "TEMPLATE_ACCORDION",
+   "material_issue": "FEE_UNDERSTATED",
+   "reason": "the corrected block states a recurring charge the stored one does not; the stored reading understates what a stay costs",
+   "stored_block": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+   "corrected_block": "Pet Policy Pets Welcome. Pet deposit starts at $125 (may increase for suites) + $20 daily pet fee. Non-Refundable Pet Fee Per Stay: $125.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+   "corrected_locator": "pet_policy_accordion_panel",
+   "reader_before": {
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "reader_after": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "fields_added": [
+    "pet_count_limit",
+    "pet_count_scope",
+    "pets_allowed",
+    "weight_limit"
+   ],
+   "fields_withheld_after": [
+    "fee_basis",
+    "pet_fee"
+   ]
+  }
+ ],
+ "count": 3
+}

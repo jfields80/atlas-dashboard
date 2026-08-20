@@ -83,17 +83,59 @@ FIRST_PARTY_HOSTS: Tuple[str, ...] = ("www.marriott.com", "marriott.com")
 _PROPERTY_CODE_RE = re.compile(r"/hotels/([a-z0-9]{4,7})-", re.IGNORECASE)
 
 #: The bounded pet-policy locators, tried in order. Each is (id, selector).
-#: The first is structural (heading -> parent); the others are the icon block,
-#: kept as fallbacks for template drift.
+#: The first two are structural (heading -> parent), one per template Marriott
+#: actually serves; the last two are the icon block, kept as fallbacks for
+#: template drift.
+#:
+#: MARRIOTT SERVES TWO TEMPLATES AND THE OLD LIST ONLY SAW ONE
+#: -----------------------------------------------------------
+#: PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021 measured all seventeen
+#: remaining Milwaukee Marriott properties. Fourteen render the policy beside
+#: an ``icon-pet-friendly`` span under a ``<div>Pet Policy</div>`` heading,
+#: which ``pet_policy_heading_parent`` binds exactly. The other three render it
+#: into an accordion panel headed by ``<b>Pet Policy</b>`` and carry NO
+#: ``icon-pet`` span at all, so every locator in the old list missed them: the
+#: first requires a ``div``, and the other two require the icon.
+#:
+#: When they all miss, the generic signal walk runs instead, and on Marriott it
+#: tends to land on the FAQ. That is not a harmless substitution. The Trade,
+#: Autograph Collection stored "A non-refundable pet fee of $125.00 per stay
+#: applies" from the FAQ while its own Pet Policy panel says "Pet deposit
+#: starts at $125 (may increase for suites) + $20 daily pet fee" -- the record
+#: omitted a recurring charge while looking complete.
+#:
+#: ``pet_policy_accordion_panel`` binds the accordion heading to its own panel.
+#: The heading text must be exactly "Pet Policy", which is what keeps the
+#: sibling panels on the same page -- Parking, Valet, Policies and Payments,
+#: Services -- out of the block, and what keeps the JavaScript i18n dictionary
+#: entry ``"hws.petPolicy":"Pet Policy"`` out of it too: that string lives in a
+#: ``<script>``, and an element selector never reaches it.
+#:
+#: Deliberately NOT broadened to ``strong``/``h3``/``h4``. Those forms appear on
+#: no captured Marriott page, and this list's standing rule is that a selector
+#: is discovered by reading a persisted artifact rather than by guessing. Two
+#: templates are measured, so two structural locators exist.
 POLICY_LOCATORS: Tuple[Tuple[str, str], ...] = (
     ("pet_policy_heading_parent",
      "xpath=//div[normalize-space(text())='Pet Policy']/parent::*"),
+    ("pet_policy_accordion_panel",
+     "xpath=//b[normalize-space(text())='Pet Policy']/parent::*"),
     ("hotel_info_pet_icon_block",
      "css=div.hotel-info__column div.d-flex.align-items-start"
      ":has(span[class*='icon-pet'])"),
     ("any_pet_icon_block",
      "css=div.d-flex.align-items-start:has(span[class*='icon-pet'])"),
 )
+
+#: The two structural locators as bare XPath. The live walk hands the prefixed
+#: forms above to Playwright; a differential over persisted documents cannot
+#: start a browser, so the same expressions are named here in the one form lxml
+#: evaluates. Derived from POLICY_LOCATORS rather than retyped, so the offline
+#: evaluation and the live one cannot drift apart.
+STRUCTURAL_XPATHS: Tuple[Tuple[str, str], ...] = tuple(
+    (locator_id, selector[len("xpath="):])
+    for locator_id, selector in POLICY_LOCATORS
+    if selector.startswith("xpath="))
 
 POLICY_HEADING = "Pet Policy"
 
@@ -526,6 +568,10 @@ class PolicyReading:
     service_animal_quote: str = ""
     contradictions: Tuple[Dict, ...] = ()
     parser_notes: Tuple[str, ...] = ()
+    #: Charge components the block STATES and this reader did not turn into a
+    #: :class:`Charge`. See :func:`unrepresented_charges` for why they are
+    #: fatal to a fee field rather than merely interesting.
+    unrepresented: Tuple[Dict, ...] = ()
 
     def to_dict(self) -> Dict:
         return {
@@ -546,7 +592,99 @@ class PolicyReading:
             "service_animal_quote": self.service_animal_quote,
             "contradictions": [dict(c) for c in self.contradictions],
             "parser_notes": list(self.parser_notes),
+            "unrepresented": [dict(u) for u in self.unrepresented],
         }
+
+
+#: Any dollar amount in the block, whatever wording surrounds it.
+_ANY_AMOUNT_RE = re.compile(r"\$\s*(?P<amount>[\d,]+(?:\.\d{1,2})?)")
+
+#: Recurring-charge wording as an ADJECTIVE. ``_PROSE_CHARGE_RE`` needs "$20
+#: per day"; a property that writes "$20 daily pet fee" states the same
+#: recurring charge in a form no charge pattern here matches.
+_RECURRING_WORD_RE = re.compile(r"\b(?:daily|nightly|per\s+night|per\s+day)\b",
+                                re.IGNORECASE)
+
+_DEPOSIT_WORD_RE = re.compile(r"\bdeposit\b", re.IGNORECASE)
+
+#: The recurring bases. A block whose wording is recurring but whose charges
+#: are all per-stay has a component this reader did not capture.
+_RECURRING_BASES = frozenset({enums.BASIS_PER_NIGHT, enums.BASIS_PER_DAY})
+
+
+def unrepresented_charges(text: str,
+                          charges: Sequence["Charge"]) -> Tuple[Dict, ...]:
+    """Charge components the block states that no emitted charge accounts for.
+
+    WHY THIS EXISTS
+    ---------------
+    PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021 corrected the locator so The
+    Trade's own Pet Policy panel is read instead of its FAQ. The panel says:
+
+        Pet deposit starts at $125 (may increase for suites) + $20 daily pet
+        fee. Non-Refundable Pet Fee Per Stay: $125.00
+
+    and the reader still emitted exactly one charge -- $125 per stay -- because
+    ``$20 daily`` is an adjective rather than a "per day" phrase and "deposit
+    starts at $125" carries no basis word at all. A complete block therefore
+    produced an understated fee, which is the same guest-visible error the
+    locator fix was meant to end, relocated one layer down.
+
+    So the reader stops asserting a single fee when the surface plainly states
+    more than one component. It does NOT try to add them up: a deposit, a
+    recurring charge and a per-stay fee are three different things, the frozen
+    schema carries one ``pet_fee`` with one ``fee_basis``, and inventing a
+    combined number would be a worse error than withholding.
+
+    Three components are detected, each from the property's own words:
+
+      amounts    a dollar figure in the block that no charge carries. Catches
+                 tiered fees ("0-5 nights $75, 5+ $150") where only the first
+                 tier became a charge, and second charges stated in prose
+      recurring  recurring wording with no per-night or per-day charge emitted
+      deposit    the word "deposit" with no deposit-labelled charge
+
+    Returns a tuple of findings; empty means the emitted charges account for
+    everything the block says about money.
+    """
+    findings: List[Dict] = []
+    stated = {}
+    for match in _ANY_AMOUNT_RE.finditer(text or ""):
+        stated.setdefault(_amount_minor(match.group("amount")),
+                          text[match.start():match.end()])
+    represented = {c.amount_minor for c in charges}
+    for amount in sorted(set(stated) - represented):
+        findings.append({
+            "kind": "amount_not_represented",
+            "amount_minor": amount,
+            "quote": stated[amount],
+            "note": ("the block states this amount and no charge this reader "
+                     "produced carries it"),
+        })
+
+    if _RECURRING_WORD_RE.search(text or "") and not any(
+            c.basis in _RECURRING_BASES for c in charges):
+        match = _RECURRING_WORD_RE.search(text)
+        findings.append({
+            "kind": "recurring_charge_not_represented",
+            "amount_minor": None,
+            "quote": _segment_containing(text, match.start()),
+            "note": ("the block states a recurring charge and every charge "
+                     "read from it is one-off; a per-stay figure alone "
+                     "understates what a stay costs"),
+        })
+
+    if _DEPOSIT_WORD_RE.search(text or "") and not any(
+            "deposit" in (c.label or "").lower() for c in charges):
+        match = _DEPOSIT_WORD_RE.search(text)
+        findings.append({
+            "kind": "deposit_not_represented",
+            "amount_minor": None,
+            "quote": _segment_containing(text, match.start()),
+            "note": ("the block states a deposit and no charge read from it "
+                     "is labelled one; a deposit is not a fee"),
+        })
+    return tuple(findings)
 
 
 def parse_policy_block(block_text: str, *, locator_id: str = "") -> PolicyReading:
@@ -684,7 +822,8 @@ def parse_policy_block(block_text: str, *, locator_id: str = "") -> PolicyReadin
                             if cats_refused else ""),
         service_animal_quote=(_segment_containing(text, service.start())
                               if service else ""),
-        contradictions=tuple(contradictions), parser_notes=tuple(notes))
+        contradictions=tuple(contradictions), parser_notes=tuple(notes),
+        unrepresented=unrepresented_charges(text, charges))
 
 
 # --------------------------------------------------------------------------- #
@@ -809,6 +948,33 @@ def to_extraction(reading: PolicyReading, *, location: str) -> ExtractionResult:
         # A basis that was populated is not also withheld. Belt and braces:
         # the two maps must never disagree about one field.
         withheld.pop("fee_basis", None)
+
+    # --- components the schema cannot carry -------------------------------- #
+    # A single ``pet_fee`` cannot express "a deposit AND a nightly charge AND a
+    # per-stay fee", nor a tiered fee whose second tier never became a charge.
+    # Where the block states more than the emitted charges carry, the fee is
+    # WITHHELD rather than asserted at whichever component happened to parse.
+    # Publishing the parsed one would understate the cost while looking
+    # complete, which is the failure this guard exists to prevent.
+    if reading.unrepresented:
+        extraction.pop("pet_fee", None)
+        extraction.pop("fee_basis", None)
+        extraction.pop("fee_currency", None)
+        evidence = [e for e in evidence
+                    if not ({"pet_fee", "fee_basis", "fee_currency"}
+                            & set(e.get("field_refs") or []))]
+        withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_MULTI_POLICY_BLOCKS",
+            "detail": ("the block states charge components this schema cannot "
+                       "carry together (%s); no single pet_fee is asserted"
+                       % "; ".join(sorted(u["quote"] for u in
+                                          reading.unrepresented)))})
+        non_inferences.append(
+            "pet_fee: the surface states more than one charge component and "
+            "the schema carries one amount and one basis; the components are "
+            "not summed and none is chosen")
 
     # --- weight ------------------------------------------------------------- #
     if reading.weight_value is not None and reading.weight_unit:
