@@ -238,7 +238,13 @@ FROZEN = (
     "scripts/pettripfinder/acquisition/failures.py",
     "scripts/pettripfinder/acquisition/source_discovery.py",
     "scripts/pettripfinder/acquisition/source_selection.py",
-    "scripts/pettripfinder/brightdata/policy_reading.py",
+    # policy_reading.py was REMOVED from this freeze by
+    # PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024,
+    # which changed the generic reader deliberately: banded fees were
+    # collapsing to one understated amount. This work order still changed
+    # nothing there, and what it relied on is pinned by its own
+    # behavioural tests rather than by a hash of a file another work
+    # order is entitled to fix.
     "launch_packages/pettripfinder/markets/discovered_policy_urls/milwaukee-wi.json",
     "launch_packages/pettripfinder/markets/reports/milwaukee-wi_policy_proposals_001.json",
 )

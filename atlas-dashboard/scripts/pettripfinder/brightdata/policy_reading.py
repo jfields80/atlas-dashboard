@@ -383,8 +383,36 @@ _TIERED_FEE_RE = re.compile(
     # Priced by ROOM CLASS: "$20 per dog per night ($30/dog/night in Suites)".
     # The same defect family as pricing by stay length -- one pet, two prices,
     # and the schema has nowhere to say which room the guest booked.
-    r"|\bin\s+(?:suites?|studios?|villas?|cabins?|cottages?)\b",
+    r"|\bin\s+(?:suites?|studios?|villas?|cabins?|cottages?)\b"
+    # ---- duration bands stated WITHOUT a preposition ---------------------- #
+    # Added by PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024.
+    # Every pattern above needs "for" ("for stays of", "for 2-4 nights"). Some
+    # chains state the same fact without a preposition, and five properties in
+    # one market asserted an understated fee because of it:
+    #
+    #     $50(1-4 nights),$125(5+ nights)     parenthesised range, open band
+    #     $75/stay 1-4 nights, $125/stay 5+   bare range, bare open band
+    #     $75 for the first four nights       the count spelled as a word
+    #
+    # Same semantic fact as the forms above -- one pet, two prices, chosen by
+    # how long the guest stays -- and the schema holds one amount and one basis.
+    #
+    # Safe to add because a tier still requires MORE THAN ONE DISTINCT PRICE.
+    # A capped fee ("25 USD nightly, max 75 USD per stay") has two prices and
+    # no duration band; a single-priced policy that mentions a night range has
+    # a band and one price. Neither becomes a tier.
+    r"|\(\s*\d+\s*(?:-|to|–)\s*\d+\s*nights?\s*\)"
+    r"|\(\s*\d+\s*\+\s*nights?\s*\)"
+    r"|\b\d+\s*\+\s*nights?\b"
+    r"|\bfor\s+\d+\s*\+"
+    r"|\b\d+\s*(?:-|to|–)\s*\d+\s*nights?\b"
+    r"|\bfirst\s+(?:one|two|three|four|five|six|seven|\d+)\s+nights?\b",
     re.IGNORECASE)
+
+#: Recurring wording stated as an adjective. The charge patterns need "per
+#: day"; "$20 daily pet fee" states the same recurring charge in a form none of
+#: them match. Used only to detect a component the charges did not capture.
+_RECURRING_WORD_RE = re.compile(r"(?:daily|nightly)", re.IGNORECASE)
 
 #: Two or more DISTINCT prices on the surface. A tier needs both this and the
 #: qualifier above: a cap has two prices and no qualifier, and a single-priced
@@ -621,6 +649,8 @@ class Reading:
     species_exclusive: bool = False
     fee_cap: Optional[Dict] = None
     fee_cap_quote: str = ""
+    #: Charge components the surface states that no charge carries.
+    unrepresented: Tuple[Dict, ...] = ()
     service_animal_quote: str = ""
     contradictions: Tuple[Dict, ...] = ()
     parser_notes: Tuple[str, ...] = ()
@@ -643,6 +673,7 @@ class Reading:
                 "both_species_quote": self.both_species_quote,
                 "fee_cap": self.fee_cap,
                 "fee_cap_quote": self.fee_cap_quote,
+                "unrepresented": [dict(u) for u in self.unrepresented],
                 "service_animal_quote": self.service_animal_quote,
                 "contradictions": [dict(c) for c in self.contradictions],
                 "parser_notes": list(self.parser_notes),
@@ -1033,6 +1064,59 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         explained_amounts.add(amount)
         fired.append("labelled_amount_no_basis")
 
+    # --- charge components nothing above explained ------------------------- #
+    #
+    # Added by PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024,
+    # generalising the rule PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021 proved
+    # inside marriott_surface. The semantic fact is domain-independent: when a
+    # surface states money this reader did not turn into a charge, the charge it
+    # DID produce is not the whole price.
+    #
+    #     $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay:
+    #     $150.00
+    #
+    # left $75 unexplained and published $150 as the pet fee. A guest with one
+    # pet is quoted the wrong number, and it looks complete.
+    #
+    # ``explained_amounts`` already carries every charge and the fee cap, so a
+    # ceiling is not an unexplained amount and a capped fee stays structured --
+    # the founder rule CEILING != PRICE is preserved rather than re-litigated.
+    # ``_pet_context`` keeps room rates and parking charges out.
+    unexplained: List[Dict] = []
+    for match in _PRICE_RE.finditer(text):
+        raw = re.sub(r"[^\d.]", "", match.group(0))
+        if not raw:
+            continue
+        amount = _amount_minor(raw)
+        if amount in explained_amounts:
+            continue
+        if not _pet_context(text, match.start(), match.end()):
+            continue
+        unexplained.append({
+            "kind": "amount_not_represented",
+            "amount_minor": amount,
+            "quote": text[match.start():match.end()],
+            "note": ("the surface states this amount and no charge read from "
+                     "it carries the figure"),
+        })
+        explained_amounts.add(amount)
+
+    # A recurring charge stated as an ADJECTIVE: "$20 daily pet fee". The
+    # charge patterns need "per day"; the fact is the same and a per-stay
+    # figure alone understates what a stay costs.
+    if _RECURRING_WORD_RE.search(text) and not any(
+            c.basis in (enums.BASIS_PER_NIGHT, enums.BASIS_PER_DAY)
+            for c in charges):
+        recurring = _RECURRING_WORD_RE.search(text)
+        if _pet_context(text, recurring.start(), recurring.end()):
+            unexplained.append({
+                "kind": "recurring_charge_not_represented",
+                "amount_minor": None,
+                "quote": text[max(0, recurring.start() - 30):recurring.end() + 30],
+                "note": ("the surface states a recurring charge and every "
+                         "charge read from it is one-off"),
+            })
+
     # --- contradiction: one amount, two bases ----------------------------- #
     by_amount: Dict[int, List[Charge]] = {}
     for charge in charges:
@@ -1243,6 +1327,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
                             if both_species else ""),
         species_exclusive=species_exclusive,
         fee_cap=fee_cap, fee_cap_quote=fee_cap_quote,
+        unrepresented=tuple(unexplained),
         contradictions=tuple(contradictions), parser_notes=tuple(notes),
         patterns_fired=tuple(sorted(set(fired))),
         brand_generic=bool(_BRAND_GENERIC_RE.search(text)))
@@ -1400,6 +1485,30 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
     if cleaning:
         extraction["cleaning_fee"] = cleaning[0].amount_minor
         cite(cleaning[0].quote, ["cleaning_fee"])
+
+    # A component the surface states and no charge carries is withheld through
+    # the same machinery, for the same reason: the vocabulary holds ONE amount
+    # and one basis, and the surface described more than one thing. Added by
+    # PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024,
+    # generalising what 021 proved for Marriott. The components are NOT summed:
+    # a deposit, a nightly charge and a per-stay fee are three different things.
+    #
+    # Runs AFTER the tier check so the more specific reason wins where both
+    # apply. A banded fee usually leaves an amount unexplained too, and
+    # reporting it as "components that cannot be carried together" would bury
+    # the fact that the surface prices the same pet by stay length -- which is
+    # what a reviewer needs to see, and what FLAG_TIERED_FEE says.
+    if pool and reading.unrepresented and not _fee_is_tiered(reading.block_text):
+        withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_MULTI_POLICY_BLOCKS",
+            "detail": ("the surface states charge components this vocabulary "
+                       "cannot carry together (%s); no single pet_fee is "
+                       "asserted"
+                       % "; ".join(sorted(u["quote"]
+                                          for u in reading.unrepresented)))})
+        pool = []
 
     if len(pool) == 1 and _fee_is_conditional(reading.block_text, pool[0]):
         withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT

@@ -423,7 +423,9 @@ def test_the_canonical_locator_contract_is_untouched():
 
 def test_the_generic_locator_and_its_bounds_are_untouched():
     for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
+                 # policy_reading.py left this freeze in 024, which changed
+                 # the generic reader deliberately. This work order still
+                 # changed nothing there.
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py"):

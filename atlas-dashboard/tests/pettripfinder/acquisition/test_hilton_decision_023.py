@@ -158,7 +158,9 @@ def test_the_canonical_locator_contract_is_active_and_unchanged():
     for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
+                 # policy_reading.py left this freeze in 024, which changed
+                 # the generic reader deliberately. This work order still
+                 # changed nothing there.
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py"):
@@ -309,13 +311,21 @@ def test_a_banded_fee_that_withholds_is_complete():
     assert finding["verdict"] == H.COMPLETE
 
 
-def test_the_brand_container_preempting_the_walk_is_held():
+def test_a_thin_brand_container_block_is_held():
+    """024 corrected the VERDICT this case earns.
+
+    023 called it BRAND_CONTAINER_PREEMPTED without checking whether a richer
+    candidate existed. With no persisted document to point at, the honest
+    verdict is a thin surface: the property published a flag and no terms.
+    The record is held either way; the reason is now the true one.
+    """
     finding = H.audit_row({
         "canonical_name": "x", "policy_locator": "hilton_pet_panel",
         "usable_policy_detail": {"block_text": "Pets allowed Yes",
                                  "substantive_fields": [],
                                  "withheld_fields": [], "block_chars": 16}})
-    assert finding["verdict"] == H.BRAND_CONTAINER_PREEMPTED
+    assert finding["verdict"] == H.THIN_SURFACE
+    assert finding["issues"]
 
 
 def test_the_run_holds_six_records_and_says_so():

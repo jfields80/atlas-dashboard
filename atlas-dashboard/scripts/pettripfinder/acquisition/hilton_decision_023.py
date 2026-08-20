@@ -1166,12 +1166,49 @@ _ANY_AMOUNT = re.compile(r"\$\s*([\d,]+(?:\.\d{2})?)")
 
 TIERED_FEE_UNDERSTATED = "TIERED_FEE_UNDERSTATED"
 BRAND_CONTAINER_PREEMPTED = "BRAND_CONTAINER_PREEMPTED_THE_WALK"
+#: The property publishes an affirmative flag and no terms. Not a defect in
+#: anything of ours -- the surface says this much and no more.
+THIN_SURFACE = "THIN_SURFACE_NO_TERMS_PUBLISHED"
 COMPLETE = "COMPLETE"
 
 
 def tiers_in(block: str) -> List[str]:
     """The night-banded amounts a Hilton block states, in the property's words."""
     return [m.group(0).strip() for m in _TIER.finditer(block or "")]
+
+
+def refusal_in(block: str) -> bool:
+    """A refusal is complete however short it is."""
+    return D.states_a_refusal(block or "")
+
+
+def _richer_candidate_exists(row: Mapping, block: str) -> bool:
+    """Does the persisted document hold a policy candidate with more in it?
+
+    Read from the artifact, never assumed. The static walk over the saved
+    document is a different algorithm from the live DOM walk (019), so this is
+    not a prediction of what the live walk would have chosen -- it is evidence
+    about whether the PAGE carries more than the block we kept. That is the
+    only question a pre-emption claim needs answered, and answering it from the
+    bytes is what stops the claim being a guess.
+    """
+    path = (row.get("usable_policy_detail") or {}).get("rendered_html_path") or ""
+    candidate = Path(path) if path else None
+    if candidate is not None and not candidate.is_absolute():
+        candidate = REPO / path
+    if candidate is None or not candidate.is_file():
+        return False
+    from scripts.pettripfinder.brightdata import unlocker_capture as UC
+    hit = UC.locate_policy_in_text(
+        UC.html_to_text(candidate.read_text(encoding="utf-8", errors="replace")))
+    if not hit.found:
+        return False
+    return (PS.policy_features(hit.text) > PS.policy_features(block)
+            and len(MS_collapse(hit.text)) > len(MS_collapse(block)))
+
+
+def MS_collapse(text: str) -> str:
+    return re.sub(r"\s+", " ", (text or "")).strip()
 
 
 def audit_row(row: Mapping) -> Dict:
@@ -1200,9 +1237,26 @@ def audit_row(row: Mapping) -> Dict:
     issues: List[str] = []
     if tiers and asserted_fee:
         issues.append(TIERED_FEE_UNDERSTATED)
-    if (row.get("policy_locator") in HILTON_BOUND_LOCATORS
-            and detail.get("block_chars", 0) < 40):
-        issues.append(BRAND_CONTAINER_PREEMPTED)
+
+    # PRE-EMPTION IS A CLAIM ABOUT AN ALTERNATIVE, SO IT NEEDS ONE.
+    # 023 charged this whenever the brand container matched and the block was
+    # short, and that was wrong: it inferred a suppressed richer candidate
+    # without ever looking for one. Spark by Hilton Milwaukee Airport was
+    # flagged on that reasoning and its page publishes "Pets allowed Yes" and
+    # nothing else -- the words "Max weight" and "Other pet information" appear
+    # on it only inside a JavaScript label dictionary, and its own JSON payload
+    # carries petMaxSize: null and petChargeRefundable: null.
+    #
+    # So a thin block from the brand container is only pre-emption when the
+    # persisted document actually holds a richer candidate. Otherwise it is a
+    # THIN SURFACE: the property said this much and no more, which is a fact
+    # about the hotel and not a defect in the locator.
+    thin = detail.get("block_chars", 0) < 40 and not refusal_in(block)
+    if thin and row.get("policy_locator") in HILTON_BOUND_LOCATORS:
+        richer = _richer_candidate_exists(row, block)
+        issues.append(BRAND_CONTAINER_PREEMPTED if richer else THIN_SURFACE)
+    elif thin:
+        issues.append(THIN_SURFACE)
 
     return {
         "canonical_name": row["canonical_name"],
@@ -1219,9 +1273,12 @@ def audit_row(row: Mapping) -> Dict:
         "why": ("the block states banded fees (%s) and the record asserts a "
                 "single pet_fee; a longer stay costs more than the record says"
                 % "; ".join(tiers) if TIERED_FEE_UNDERSTATED in issues else
-                "the brand container matched and returned a bare flag, "
-                "pre-empting the richer generic walk"
+                "the brand container returned a bare flag while the persisted "
+                "document holds a richer candidate"
                 if BRAND_CONTAINER_PREEMPTED in issues else
+                "the property publishes an affirmative flag and no terms; the "
+                "surface says this much and no more"
+                if THIN_SURFACE in issues else
                 "the record represents or withholds every term the block states"),
     }
 
@@ -1243,7 +1300,8 @@ def template_audit(rows: Sequence[Mapping]) -> Dict:
         "held_for_review": [f["canonical_name"] for f in held],
         "issue_counts": {
             issue: sum(1 for f in findings if issue in f["issues"])
-            for issue in (TIERED_FEE_UNDERSTATED, BRAND_CONTAINER_PREEMPTED)},
+            for issue in (TIERED_FEE_UNDERSTATED, BRAND_CONTAINER_PREEMPTED,
+                          THIN_SURFACE)},
         "why_this_matters": (
             "A record that understates a pet fee is worse than one that is "
             "missing: it looks complete and a guest would act on it. None of "
@@ -1257,7 +1315,8 @@ def template_audit(rows: Sequence[Mapping]) -> Dict:
 __all__ = [
     "WORK_ORDER", "EXPECTED_REMAINING", "DECISION_COHORT_MAX", "PER_GROUP",
     "tiers_in", "audit_row", "template_audit", "TIERED_FEE_UNDERSTATED",
-    "BRAND_CONTAINER_PREEMPTED", "COMPLETE", "PROVIDER_ACCESS_FAILURE",
+    "BRAND_CONTAINER_PREEMPTED", "THIN_SURFACE", "COMPLETE",
+    "PROVIDER_ACCESS_FAILURE", "refusal_in",
     "remaining_cohort", "sub_brand_of", "url_shape", "structural_groups",
     "decision_cohort", "source_audit", "registry_override", "usable_policy",
     "attribute_failure", "acquire", "read_spend", "spend_delta",
