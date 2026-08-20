@@ -431,12 +431,20 @@ def run(args) -> Dict:
         time.sleep(args.pace)
 
     credits_after = FC.credits_remaining()
+
+    # Cost is measured when the requests are made. A later rebuild runs from
+    # cache and has nothing left to measure, so it must not overwrite the
+    # measurement with its own near-zero delta -- which is exactly what the
+    # first version of this module did, recording 2 for a 23-document run.
+    # The per-document count is the durable figure and survives any rebuild.
+    fetched = len(list((RUN_ROOT / args.run_id).rglob("rendered.html")))
     return report(rows, credits_before=credits_before,
-                  credits_after=credits_after,
+                  credits_after=credits_after, documents_fetched=fetched,
                   elapsed=round(time.monotonic() - began, 1))
 
 
-def report(rows: List[Dict], *, credits_before, credits_after, elapsed) -> Dict:
+def report(rows: List[Dict], *, credits_before, credits_after, elapsed,
+           documents_fetched: Optional[int] = None) -> Dict:
     outcomes = Counter(r["outcome"] for r in rows)
     found = [r for r in rows if r["outcome"] == "POLICY_URL_FOUND"]
     acquirable = [r for r in found if r["policy_presence"] in
@@ -482,7 +490,13 @@ def report(rows: List[Dict], *, credits_before, credits_after, elapsed) -> Dict:
             "source_urls_changed": False, "authority_written": False,
             "policies_published": False, "bright_data_attempts": 0,
         },
-        "cost": {"firecrawl_credits": sum(r["credits"] for r in rows),
+        "cost": {"firecrawl_credits": (documents_fetched
+                                      if documents_fetched is not None
+                                      else sum(r["credits"] for r in rows)),
+                 "credits_measured_how": ("one credit per document fetched, "
+                                          "counted from the persisted files so "
+                                          "a cache-only rebuild cannot "
+                                          "overwrite it"),
                  "credits_before": credits_before, "credits_after": credits_after,
                  "bright_data_attempts": 0, "bright_data_usd": 0.0},
         "total_elapsed_seconds": elapsed,

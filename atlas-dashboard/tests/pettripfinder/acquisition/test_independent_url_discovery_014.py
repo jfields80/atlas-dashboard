@@ -297,6 +297,18 @@ class TestTheCommittedDiscovery:
         assert cost["bright_data_attempts"] == 0
         assert cost["bright_data_usd"] == 0.0
 
+    def test_the_credit_figure_survives_a_cache_only_rebuild(self):
+        """It did not, at first: the artifact recorded 2 credits for a
+        23-document run, because the final rebuild ran entirely from cache and
+        overwrote the measurement with its own delta. Cost is measured when
+        requests are made, so the durable figure is the document count."""
+        cost = _doc()["cost"]
+        fetched = len(list((REPO_ROOT / "data" / "acquisition"
+                            / "independent-url-discovery-014").rglob("rendered.html")))
+        assert cost["firecrawl_credits"] == fetched
+        assert cost["firecrawl_credits"] > 2
+        assert "cache" in cost["credits_measured_how"] or             "rebuild" in cost["credits_measured_how"]
+
     def test_the_recommendation_follows_from_the_discovery_rate(self):
         doc = _doc()
         rate = doc["rates"]["policy_url_discovery_rate_pct"]
