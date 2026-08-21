@@ -262,6 +262,12 @@ class IdentitySignals:
     canonical_url: str = ""
     pets_allowed_structured: str = ""
     jsonld_present: bool = False
+    #: Every telephone number the page prints, normalised. ``phone_on_page`` is
+    #: the STRUCTURED one and stays separate: a hotel that publishes no lodging
+    #: JSON-LD still prints its own number in the footer, and confirming the
+    #: census number appears there is evidence where structured data is silent.
+    #: Read as a set of candidates, never as "the property's number".
+    phones_on_page: Tuple[str, ...] = ()
 
     def to_dict(self) -> Dict:
         return {
@@ -273,6 +279,7 @@ class IdentitySignals:
             "canonical_url": self.canonical_url,
             "pets_allowed_structured": self.pets_allowed_structured,
             "jsonld_present": self.jsonld_present,
+            "phones_on_page": list(self.phones_on_page),
         }
 
 
@@ -308,6 +315,12 @@ class IdentityAssessment:
     reasons: Tuple[str, ...]
     signals_matched: Tuple[str, ...]
     signals_conflicting: Tuple[str, ...]
+    #: WHICH rule bound this page to the census row -- ``PROPERTY_CODE``,
+    #: ``EXACT_ADDRESS_AND_NAME``, ``PHONE_AND_NAME``,
+    #: ``CANONICAL_PATH_AND_NAME`` -- or empty when nothing bound it. Recorded
+    #: so a confirmation can be audited without re-deriving it from the signal
+    #: list, which several rules can produce identically.
+    binding_method: str = ""
 
 
 def assess_identity(signals: IdentitySignals, *, expected_name: str,
@@ -378,7 +391,8 @@ def assess_identity(signals: IdentitySignals, *, expected_name: str,
         reasons.append("confirmed on %s" % ", ".join(matched))
     return IdentityAssessment(confirmed=confirmed, reasons=tuple(reasons),
                               signals_matched=tuple(matched),
-                              signals_conflicting=tuple(conflicting))
+                              signals_conflicting=tuple(conflicting),
+                              binding_method="PROPERTY_CODE" if confirmed else "")
 
 
 # --------------------------------------------------------------------------- #

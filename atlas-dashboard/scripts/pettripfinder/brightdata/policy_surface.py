@@ -57,6 +57,9 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.brightdata import marriott_surface as MS  # noqa: E402
+from scripts.pettripfinder.discovery.property_identity import (      # noqa: E402
+    normalize_phone, street_identity,
+)
 
 #: The smallest container that may count as a policy block, and the largest.
 #: Below the floor there is not enough text to carry a policy; above the
@@ -548,6 +551,109 @@ def any_hotel_jsonld(html: str) -> Optional[Dict]:
     return None
 
 
+#: Words that appear in so many lodging names that sharing one proves nothing.
+#: A code-less binding needs at least one token from OUTSIDE this vocabulary
+#: and outside the property's own locality, or "The Plaza Hotel Milwaukee" and
+#: "Milwaukee Hotel Amenities | Pet Friendly, Spa" agree on "hotel" and
+#: "milwaukee" and bind two unrelated things together.
+GENERIC_NAME_TOKENS: frozenset = frozenset({
+    "hotel", "hotels", "motel", "motels", "inn", "inns", "suites", "suite",
+    "lodge", "lodging", "resort", "resorts", "the", "a", "an", "and", "by",
+    "at", "of", "on", "in", "house", "place", "plaza", "center", "centre",
+    "downtown", "airport", "north", "south", "east", "west", "spa", "casino",
+    "conference", "collection", "rooms", "stay", "bed", "breakfast",
+})
+
+#: Signals that name a PHYSICAL lodging -- a street or a telephone line. These
+#: are the only ones that can carry a code-less binding, because everything
+#: else on this list ("same domain", "the path looks right", "the name is
+#: similar") answers whether the URL is related, not whether the page is about
+#: this building.
+PHYSICAL_SIGNALS: Tuple[str, ...] = ("street_identity", "phone")
+
+#: Signals whose DISAGREEMENT vetoes a code-less binding. Everything the gate
+#: already compared, plus the street: a page publishing a different street
+#: address contradicts the census about which building it is, and that has to
+#: fail closed even where the old path-and-name rule would have confirmed.
+#: ``phone`` is deliberately absent -- see the telephone branch below.
+VETOING_SIGNALS: Tuple[str, ...] = ("property_code", "name", "postal_code",
+                                    "street_identity")
+
+
+#: Compass words, folded the way ``street_identity`` already folds
+#: "Street"/"St". Without this "1028 East Juneau Avenue" and "1028 E. Juneau
+#: Avenue" are two buildings, and the gate refuses a hotel over a full stop.
+#: Folded HERE rather than in ``street_identity`` itself, which the identity
+#: census uses to decide whether two records are one property -- widening that
+#: key is a separate question with its own blast radius.
+_DIRECTIONALS: Dict[str, str] = {
+    "north": "n", "south": "s", "east": "e", "west": "w",
+    "northeast": "ne", "northwest": "nw",
+    "southeast": "se", "southwest": "sw",
+}
+
+
+def _street_key(address: str) -> str:
+    """A comparable street WITHOUT the ZIP, or empty when it names no building.
+
+    An address with no leading house number -- "North Brookfield Road" -- is a
+    road, and two properties sit on it. Returning nothing there is the
+    difference between "no signal" and "a conflict".
+    """
+    key = street_identity(address or "", "").rstrip("|").strip()
+    key = " ".join(_DIRECTIONALS.get(token, token) for token in key.split())
+    return key if re.match(r"^\d", key) else ""
+
+#: A telephone number as a human would see one written: separated, or behind a
+#: ``tel:`` link. An unseparated run of ten digits is an id, a timestamp or a
+#: tracking token far more often than it is a phone number, and admitting those
+#: turned this signal into noise.
+_PHONE_RE = re.compile(r"tel:\+?1?(\d{10})\b"
+                       r"|\+?1?[\s\-.]?\(?(\d{3})\)?[\s\-.](\d{3})"
+                       r"[\s\-.](\d{4})\b")
+
+
+def phones_in(html: str) -> Tuple[str, ...]:
+    """Every telephone number the page prints, normalised, in page order.
+
+    Scanned from the raw markup so a ``tel:`` href counts. The separators the
+    pattern accepts exclude ``<`` and ``>``, so a match cannot span two
+    elements and pick up half of each.
+
+    WHAT THIS IS NOT
+    ----------------
+    Not "the property's number", and not on its own an identity. A hotel group
+    prints every location's number in one footer: the page for the Wildwood
+    Lodge in Clive, Iowa prints the Pewaukee, Wisconsin number, and a rule that
+    bound on "the census number appears somewhere" bound the wrong building.
+    So this set is only ever read as CORROBORATION -- it can explain away an
+    apparent conflict, and it can never confirm an identity.
+    """
+    seen: List[str] = []
+    for groups in _PHONE_RE.findall(html or ""):
+        key = normalize_phone("".join(groups))
+        if key and key not in seen:
+            seen.append(key)
+    return tuple(seen)
+
+
+def distinctive_overlap(page_name: str, expected_name: str, *,
+                        locality: str = "") -> frozenset:
+    """Name tokens the two share that could only belong to this property.
+
+    Generic lodging vocabulary and the property's own city and state are
+    removed first. What is left is the part of a name agreement that carries
+    information; when it is empty, the names agree only on words half the
+    market's hotels also use.
+    """
+    shared = MS.name_tokens(page_name) & MS.name_tokens(expected_name)
+    geo = MS.name_tokens(locality)
+    return frozenset(token for token in shared
+                     if token not in GENERIC_NAME_TOKENS
+                     and token not in geo
+                     and not token.isdigit())
+
+
 def read_identity(html: str, *, final_url: str, title: str,
                   brand: str) -> MS.IdentitySignals:
     """Identity signals for any brand.
@@ -559,6 +665,7 @@ def read_identity(html: str, *, final_url: str, title: str,
     node = any_hotel_jsonld(html)
     canonical = MS.canonical_url(html)
     code = (property_code(canonical, brand) or property_code(final_url, brand))
+    printed = phones_in(html)
     if node:
         address = node.get("address") or {}
         if not isinstance(address, Mapping):
@@ -572,24 +679,49 @@ def read_identity(html: str, *, final_url: str, title: str,
             property_code_on_page=code,
             canonical_url=canonical or str(node.get("url") or ""),
             pets_allowed_structured=("" if pets is None else str(pets).strip()),
-            jsonld_present=True)
+            jsonld_present=True, phones_on_page=printed)
     og = _OG_TITLE_RE.search(html or "")
     doc = _TITLE_RE.search(html or "")
     name = MS.collapse(og.group(1) if og else (doc.group(1) if doc else title))
     return MS.IdentitySignals(name_on_page=name, property_code_on_page=code,
-                              canonical_url=canonical, jsonld_present=False)
+                              canonical_url=canonical, jsonld_present=False,
+                              phones_on_page=printed)
 
 
 def assess_identity(signals: MS.IdentitySignals, *, expected_name: str,
                     expected_property_code: str, expected_url: str,
-                    expected_postal_code: str = "") -> MS.IdentityAssessment:
-    """Is this the property we asked for, when there may be no property code?
+                    expected_postal_code: str = "",
+                    expected_street: str = "", expected_phone: str = "",
+                    expected_locality: str = "") -> MS.IdentityAssessment:
+    """Is this page demonstrably about the same physical lodging as the census row?
 
-    Where a code exists it decides, exactly as in the Marriott pilot. Where the
-    brand has no code in its URLs -- most independents, and several chains --
-    the binding falls back to the URL PATH plus the name, and the assessment
-    records which of the two it used. A generic brand page never passes either
-    way: its path is not the property's path and its name is the brand's.
+    Where the brand puts a code in its URLs the code decides, exactly as in the
+    Marriott pilot, and nothing below changes that path.
+
+    WHERE THERE IS NO CODE
+    ----------------------
+    Most independents have none, and the original rule bound them through the
+    page's own canonical PATH plus its name. That works for a chain whose
+    property lives at ``/wi/waukesha/`` and fails for the ordinary case of a
+    one-property site: ``path_identity`` deliberately ignores a one-segment
+    path, so ``/faq`` yields no path signal at all and a hotel that answered
+    correctly was refused. Ten Milwaukee properties failed exactly there.
+
+    The repair does not relax that rule -- it stands, unchanged, and everything
+    it used to confirm it still confirms. A second, independent route is added
+    beside it: a page may bind when it agrees with the census on something
+    PHYSICAL -- the street identity, or the telephone line -- and on a name
+    whose agreement is more than the words every hotel shares.
+
+    Both halves are required and neither is sufficient. A street with no name
+    cannot separate two hotels at one address; a name with no street cannot
+    separate two Wildwood Lodges in two states. Same-domain is not a signal
+    here at all, and neither is a URL that merely looks related: what this
+    function is asked is which BUILDING the page is about.
+
+    Any conflicting signal fails the code-less binding closed. A page whose
+    structured address is a different street is not this property however well
+    its name reads.
     """
     matched: List[str] = []
     conflicting: List[str] = []
@@ -634,24 +766,116 @@ def assess_identity(signals: MS.IdentitySignals, *, expected_name: str,
             reasons.append("page ZIP %r != expected %r"
                            % (signals.postal_code, expected_postal_code))
 
+    # The street the page publishes about itself, against the street the
+    # identity census holds. ``street_identity`` normalises "Street"/"St" and
+    # nothing else, so a different house number stays a different place.
+    #
+    # The ZIP is deliberately left OUT of both keys and compared on its own
+    # above. It belongs in the key when two CENSUS rows are compared, because
+    # both carry a plain five-digit code. A page carries "53221-2824", or
+    # carries none at all, and folding that into the street key turned one
+    # address into two and invented conflicts on properties that agreed.
+    page_street = _street_key(signals.address_on_page)
+    want_street = _street_key(expected_street)
+    if page_street and want_street:
+        if page_street == want_street:
+            matched.append("street_identity")
+        else:
+            conflicting.append("street_identity")
+            reasons.append("page street %r does not agree with expected %r"
+                           % (signals.address_on_page, expected_street))
+    elif want_street and signals.address_on_page:
+        reasons.append("the page prints %r, which carries no house number and "
+                       "so names a road rather than a building"
+                       % signals.address_on_page)
+
+    # Only the telephone number the page declares as ITS OWN can bind. A number
+    # merely printed somewhere may belong to a sibling property on the same
+    # operator's site, which is how a page about Clive, Iowa carried the
+    # Pewaukee, Wisconsin line.
+    want_phone = normalize_phone(expected_phone)
+    structured_phone = normalize_phone(signals.phone_on_page)
+    printed = {phone for phone in signals.phones_on_page if phone}
+    if want_phone and structured_phone:
+        if structured_phone == want_phone:
+            matched.append("phone")
+        elif want_phone in printed:
+            # Both numbers are on the page. That is an operator site listing
+            # more than one property, not a contradiction about this one.
+            reasons.append("the page declares telephone %r and also prints "
+                           "this property's %r -- one site, several properties"
+                           % (signals.phone_on_page, expected_phone))
+        else:
+            # NOT a conflict. A hotel publishes a front desk line, a
+            # reservations line and a toll-free line, and which one reaches the
+            # structured data is an authoring choice, not a statement that this
+            # is a different building. A telephone number may CONFIRM an
+            # identity here; it is never allowed to deny one.
+            reasons.append("page telephone %r is not the census number %r; "
+                           "one property commonly publishes several"
+                           % (signals.phone_on_page, expected_phone))
+    elif want_phone:
+        reasons.append("the page declares no telephone number of its own")
+
     if path_identity(expected_url) and \
             path_identity(signals.canonical_url or "") == path_identity(expected_url):
         matched.append("canonical_path")
 
+    distinctive = distinctive_overlap(signals.name_on_page, expected_name,
+                                      locality=expected_locality)
+    name_agrees = ("name" in matched or "name_partial" in matched)
+    physical = [signal for signal in PHYSICAL_SIGNALS if signal in matched]
+
+    method = ""
     if want_code:
         confirmed = ("property_code" in matched
                      and "property_code" not in conflicting
                      and any(m != "property_code" for m in matched))
+        method = "PROPERTY_CODE" if confirmed else ""
     else:
-        # No code to lean on: require the page's own path AND its own name.
-        confirmed = (("canonical_path" in matched or "postal_code" in matched)
-                     and ("name" in matched or "name_partial" in matched)
-                     and not conflicting)
+        # The original rule, with one deliberate change: a contradicted street
+        # now vetoes it too. The old rule confirmed on the path and the name
+        # because those were the only signals it had; a page that names a
+        # different street is not this building, and the honest thing to do
+        # with that information once we have it is fail closed. Every such
+        # withdrawal is measured and enumerated rather than assumed harmless.
+        vetoes = [signal for signal in conflicting
+                  if signal in VETOING_SIGNALS]
+        legacy = (("canonical_path" in matched or "postal_code" in matched)
+                  and name_agrees and not vetoes)
+        # The addition: something physical, and a name agreement that is not
+        # only the words every hotel in the market shares.
+        #
+        # The name half is the STRICT one -- one name contains the other -- and
+        # not the partial-overlap rule the legacy route accepts. A Studio 6 and
+        # a Motel 6 share a building, a ZIP and four of six name tokens in
+        # Brookfield; the partial rule calls that a name agreement and the
+        # street agrees for the honest reason that it is the same street. Only
+        # containment separates them.
+        physical_bound = (bool(physical) and "name" in matched
+                          and bool(distinctive) and not vetoes)
+        confirmed = legacy or physical_bound
+        if physical_bound and "street_identity" in physical:
+            method = "EXACT_ADDRESS_AND_NAME"
+        elif physical_bound:
+            method = "PHONE_AND_NAME"
+        elif confirmed:
+            method = "CANONICAL_PATH_AND_NAME"
+        if not confirmed and name_agrees and not distinctive:
+            reasons.append("the names agree only on %s, which this market's "
+                           "hotels share"
+                           % (", ".join(sorted(page_tokens & want_tokens))
+                              or "nothing"))
+        if not confirmed and name_agrees and not physical:
+            reasons.append("nothing physical agreed: no street identity and "
+                           "no telephone match, and a related-looking URL on "
+                           "the same domain is not an identity")
     if confirmed:
-        reasons.append("confirmed on %s" % ", ".join(matched))
+        reasons.append("confirmed on %s via %s" % (", ".join(matched), method))
     return MS.IdentityAssessment(confirmed=confirmed, reasons=tuple(reasons),
                                  signals_matched=tuple(matched),
-                                 signals_conflicting=tuple(conflicting))
+                                 signals_conflicting=tuple(conflicting),
+                                 binding_method=method)
 
 
 def path_identity(url: str) -> str:
@@ -720,4 +944,6 @@ __all__ = [
     "locate_brand_policy", "locate_element",
     "property_code", "any_hotel_jsonld", "read_identity", "assess_identity",
     "path_identity", "page_health",
+    "GENERIC_NAME_TOKENS", "PHYSICAL_SIGNALS", "phones_in",
+    "distinctive_overlap",
 ]

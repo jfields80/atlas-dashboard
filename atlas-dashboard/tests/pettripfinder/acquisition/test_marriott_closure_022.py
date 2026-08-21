@@ -38,6 +38,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY          # no
 from scripts.pettripfinder.brightdata import marriott_surface as MS         # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL           # noqa: E402
 from scripts.pettripfinder.contracts import enums                           # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 TRADE = "The Trade, Autograph Collection"
 POPLAR = "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek"
@@ -318,8 +319,6 @@ def test_the_marriott_route_is_unchanged():
 def test_the_global_locator_contract_is_unchanged():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"
     for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/routes.json",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
@@ -328,7 +327,7 @@ def test_the_global_locator_contract_is_unchanged():
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 022" % path
-
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_hilton_was_not_touched():
     route = REGISTRY.resolve(brand="HILTON", url="https://www.hilton.com/x")

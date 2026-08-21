@@ -37,6 +37,7 @@ from scripts.pettripfinder.acquisition import hilton_decision_023 as H     # noq
 from scripts.pettripfinder.acquisition import providers as PROVIDERS       # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY         # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL          # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 HILTON_URL = "https://www.hilton.com/en/hotels/mkeaiht-home2-suites-x/"
 
@@ -156,8 +157,6 @@ def test_the_in_memory_override_changes_hilton_and_nothing_else():
 def test_the_canonical_locator_contract_is_active_and_unchanged():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"
     for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  # policy_reading.py left this freeze in 024, which changed
                  # the generic reader deliberately. This work order still
                  # changed nothing there.
@@ -168,7 +167,7 @@ def test_the_canonical_locator_contract_is_active_and_unchanged():
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 023" % path
-
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_source_selection_is_independent_of_provider_routing():
     row = H.remaining_cohort()[0]

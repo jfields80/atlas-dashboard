@@ -45,6 +45,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY          # no
 from scripts.pettripfinder.brightdata import marriott_surface as MS         # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL           # noqa: E402
 from scripts.pettripfinder.contracts import enums                           # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 
 def report():
@@ -422,8 +423,7 @@ def test_the_canonical_locator_contract_is_untouched():
 
 
 def test_the_generic_locator_and_its_bounds_are_untouched():
-    for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
-                 # policy_reading.py left this freeze in 024, which changed
+    for path in (                 # policy_reading.py left this freeze in 024, which changed
                  # the generic reader deliberately. This work order still
                  # changed nothing there.
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
@@ -433,7 +433,7 @@ def test_the_generic_locator_and_its_bounds_are_untouched():
             ["git", "status", "--porcelain", "--", path],
             cwd=str(REPO.parent), capture_output=True, text=True).stdout.strip()
         assert changed == "", "%s was modified by 021" % path
-
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_no_milwaukee_policy_authority_exists():
     found = list((REPO / "launch_packages" / "pettripfinder")

@@ -35,6 +35,7 @@ from scripts.pettripfinder.acquisition import generic_reader_024 as G        # n
 from scripts.pettripfinder.acquisition import providers as PROVIDERS         # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY           # noqa: E402
 from scripts.pettripfinder.acquisition import store_integration_025 as S     # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 
 def store():
@@ -302,12 +303,11 @@ def test_acquisition_routing_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 025" % path
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()

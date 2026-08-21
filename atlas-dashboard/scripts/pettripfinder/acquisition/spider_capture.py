@@ -221,14 +221,18 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
         signals, expected_name=target.hotel,
         expected_property_code=target.property_code,
         expected_url=target.requested_url,
-        expected_postal_code=target.expected_postal_code)
+        expected_postal_code=target.expected_postal_code,
+        expected_street=target.expected_street,
+        expected_phone=target.expected_phone,
+        expected_locality=target.expected_locality)
     identity_block = {"signals": signals.to_dict(),
                       "confirmed": assessment.confirmed,
                       "matched": list(assessment.signals_matched),
                       "conflicting": list(assessment.signals_conflicting),
                       "reasons": list(assessment.reasons),
                       "binding": ("property_code" if target.property_code
-                                  else "canonical_path_and_name")}
+                                  else "canonical_path_and_name"),
+                      "binding_method": assessment.binding_method}
     if not assessment.confirmed:
         return finish(O.IDENTITY_MISMATCH, final_url=final_url, title=title,
                       body_chars=len(MS.collapse(body_text)),

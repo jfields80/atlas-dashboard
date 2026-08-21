@@ -62,6 +62,9 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS    # noqa: E
 from scripts.pettripfinder.brightdata import outcomes as O             # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR      # noqa: E402
 from scripts.pettripfinder.brightdata import policy_surface as PS      # noqa: E402
+from scripts.pettripfinder.discovery.property_identity import (   # noqa: E402
+    street_identity,
+)
 from scripts.pettripfinder.brightdata import publication_grade as PG   # noqa: E402
 from scripts.pettripfinder.contracts import enums                      # noqa: E402
 from scripts.pettripfinder.contracts import evidence as EV             # noqa: E402
@@ -172,6 +175,12 @@ def target_for(record: CORPUS.BenchmarkRecord) -> BC.CaptureTarget:
         market_id=record.market_id,
         normalized_name=normalize_name(record.name),
         identity_key=record.identity_key,
+        street_identity=street_identity(record.street, record.postal_code)
+                        if record.street else "",
+        expected_street=record.street,
+        expected_postal_code=record.postal_code,
+        expected_phone=record.phone,
+        expected_locality=record.locality,
         census_matched=True,
         census_note="identity taken from the committed %s authority"
                     % record.market_id)

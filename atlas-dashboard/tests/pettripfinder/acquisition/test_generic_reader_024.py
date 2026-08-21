@@ -39,6 +39,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY         # noq
 from scripts.pettripfinder.brightdata import policy_locator as PL          # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR          # noqa: E402
 from scripts.pettripfinder.contracts import enums                          # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 SCHEMA = enums.SCHEMA_CANNOT_REPRESENT
 
@@ -313,13 +314,12 @@ def test_provider_routing_is_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 024" % path
-
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_the_canonical_locator_contract_is_untouched():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"

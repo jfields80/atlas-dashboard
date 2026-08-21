@@ -10,25 +10,26 @@
   "hilton-milwaukee-023",
   "marriott-milwaukee-020",
   "milwaukee-final-026",
+  "milwaukee-identity-027",
   "milwaukee-ihg-009",
   "milwaukee-router-001",
   "milwaukee-wyndham-008"
  ],
  "acquisition_state_counts": {
-  "ACQUIRED_PUBLICATION_GRADE": 107,
+  "ACQUIRED_PUBLICATION_GRADE": 110,
   "IDENTITY_REVIEW": 2,
   "PROVIDER_EXHAUSTED": 2,
   "TECHNICAL_FALLBACK_REQUIRED": 4,
   "POLICY_NOT_FOUND": 1
  },
- "publication_grade_total": 107,
- "proposal_total": 107,
- "founder_review_ready": 51,
+ "publication_grade_total": 110,
+ "proposal_total": 110,
+ "founder_review_ready": 53,
  "refusal_founder_review": 25,
  "held_semantic_review": 0,
  "review_status_counts": {
-  "FOUNDER_REVIEW_READY": 51,
-  "HELD_INSUFFICIENT_EVIDENCE": 7,
+  "FOUNDER_REVIEW_READY": 53,
+  "HELD_INSUFFICIENT_EVIDENCE": 8,
   "REFUSAL_FOUNDER_REVIEW": 25,
   "HELD_SCHEMA_CANNOT_REPRESENT": 24
  },
@@ -6893,6 +6894,67 @@
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
+   "identity_key": "saint kate the arts hotel",
+   "canonical_name": "Saint Kate - The Arts Hotel",
+   "market_id": "milwaukee-wi",
+   "brand": "INDEP:www.saintkatearts.com",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_CONTRADICTORY"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "$100 per stay",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "$100 per stay",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_basis"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.saintkatearts.com/faq",
+    "final_url": "https://www.saintkatearts.com/faq",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-21T02:17:10+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "77266c986a88fedd91973ec1074ea5d33381a3a46a9df3163560a52651b988b9",
+    "raw_pointer": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/saint-kate-the-arts-hotel/attempt-01",
+    "obs_id": "milwaukee-identity-027::saint kate the arts hotel"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {},
+   "source_run": "milwaukee-identity-027",
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "rederivation": null,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
    "identity_key": "sheraton milwaukee brookfield hotel",
    "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
    "market_id": "milwaukee-wi",
@@ -7631,6 +7693,140 @@
    "founder_approved": false,
    "rederivation": null,
    "review_status": "REFUSAL_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "canonical_name": "The Ingleside Hotel",
+   "market_id": "milwaukee-wi",
+   "brand": "INDEP:www.theinglesidehotel.com",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "evidence": [
+    {
+     "quote": "welcomes dogs",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$40 pet fee per night",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "$40 pet fee per night",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "2 dogs max",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dogs only",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+    "final_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-21T02:18:38+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "60b32327433825a601d5ae7d732e4c962ba8c165e2112a6d73ccbe77e90f7662",
+    "raw_pointer": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-ingleside-hotel/attempt-01",
+    "obs_id": "milwaukee-identity-027::the ingleside hotel"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {},
+   "source_run": "milwaukee-identity-027",
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "rederivation": null,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "the marc hotel",
+   "canonical_name": "The Marc Hotel",
+   "market_id": "milwaukee-wi",
+   "brand": "INDEP:www.marchotelmilwaukee.com",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "service_animal_exception": "Service Animals Welcome"
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Service Animals Welcome",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+    "final_url": "https://www.marchotelmilwaukee.com/amenities/",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-21T02:19:16+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "snapshot_hash": "1057d782779ed936d8f523bca044a07cdc405b7374d212439e83176952698920",
+    "raw_pointer": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-marc-hotel/attempt-01",
+    "obs_id": "milwaukee-identity-027::the marc hotel"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {},
+   "source_run": "milwaukee-identity-027",
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "rederivation": null,
+   "review_status": "HELD_INSUFFICIENT_EVIDENCE"
   },
   {
    "identity_key": "the pfister hotel",

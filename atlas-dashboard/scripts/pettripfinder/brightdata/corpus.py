@@ -167,6 +167,14 @@ class BenchmarkRecord:
     service_animal_statement: str
     categories: FrozenSet[str]
     origin: str                     # "policy_record" | "exclusion_registry"
+    #: What the identity census knows about WHERE this property is. Optional
+    #: because records built from policy files carry no address; a builder that
+    #: reads the census fills them and the capture's identity gate can then use
+    #: a street and a telephone line instead of a URL path alone.
+    street: str = ""
+    postal_code: str = ""
+    phone: str = ""
+    locality: str = ""
 
     @property
     def slug(self) -> str:

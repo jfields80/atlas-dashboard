@@ -40,6 +40,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY           # n
 from scripts.pettripfinder.acquisition import source_selection as SS         # noqa: E402
 from scripts.pettripfinder.acquisition import store_integration_025 as S     # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL            # noqa: E402
+from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 
 
 def run_report():
@@ -74,9 +75,13 @@ def test_no_already_touched_property_was_acquired():
     """The cohort was the never-touched set; every subject was new."""
     doc = run_report()
     subjects = {r["identity_key"] for r in doc["rows"]}
+    # Runs BEFORE 026 only. 027 later re-acquired several of these subjects,
+    # which is a fact about 027 and says nothing about whether 026's cohort
+    # had been touched when 026 chose it.
+    before_026 = S.RUN_ORDER[:S.RUN_ORDER.index(F.RUN_ID)]
     prior = set()
     for run, journal, _root in S.SOURCES:
-        if run == F.RUN_ID:
+        if run not in before_026:
             continue
         path = S.DATA / journal
         if not path.is_file():
@@ -233,11 +238,19 @@ def test_only_publication_grade_rows_entered():
 
 
 def test_unresolved_properties_did_not_receive_invented_rows():
+    """Nothing 026 failed to acquire got a row OUT OF 026.
+
+    A later work order may legitimately acquire one of them -- 027 did, for
+    four -- so the store row must be checked for which run produced it rather
+    than merely for existing. The thing that would be wrong is a row 026 could
+    not have evidence for.
+    """
     doc = run_report()
     unacquired = {r["identity_key"] for r in doc["rows"]
                   if r["acquisition_status"] != "ACQUIRED"}
-    in_store = {i["identity_key"] for i in store()["items"]}
-    assert not unacquired & in_store
+    from_026 = {i["identity_key"] for i in store()["items"]
+                if i.get("source_run") == F.RUN_ID}
+    assert not unacquired & from_026
 
 
 # --------------------------------------------------------------------------- #
@@ -305,14 +318,13 @@ def test_routes_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 026" % path
-
+    LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_historical_run_reports_are_unchanged():
     for path in ("ptf_marriott_milwaukee_run_020.json",
@@ -335,4 +347,8 @@ def test_existing_observations_kept_their_facts():
     assert doc["changed_facts"] == []
     assert doc["removed"] == []
     assert doc["duplicates"] == []
-    assert len(doc["added"]) == 6
+    # The store-integration report belongs to whichever work order last ran the
+    # integration -- 027 at the time of writing. What 026 added is pinned from
+    # the store itself, by source run, which no later integration can move.
+    assert len({i["identity_key"] for i in store()["items"]
+                if i.get("source_run") == F.RUN_ID}) == 6

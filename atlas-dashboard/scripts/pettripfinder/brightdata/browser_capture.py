@@ -157,6 +157,11 @@ class CaptureTarget:
     street_identity: str = ""
     expected_postal_code: str = ""
     expected_street: str = ""
+    #: The census telephone line and the property's city/state. Both are
+    #: identity INPUTS in the same sense as the name and the code: they say
+    #: which building was asked for, never what it charges.
+    expected_phone: str = ""
+    expected_locality: str = ""
     census_matched: bool = False
     census_note: str = ""
 
@@ -728,6 +733,7 @@ async def run_attempt(target: CaptureTarget, attempt: int, *, run_dir: Path
                     "matched": list(assessment.signals_matched),
                     "conflicting": list(assessment.signals_conflicting),
                     "reasons": list(assessment.reasons),
+                    "binding_method": assessment.binding_method,
                 }
                 if not assessment.confirmed:
                     return finish(O.IDENTITY_MISMATCH, final_url=final_url,
