@@ -38,6 +38,8 @@ from scripts.pettripfinder.acquisition import marriott_decision_020 as M  # noqa
 from scripts.pettripfinder.acquisition import providers as PROVIDERS      # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY        # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL         # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 MARRIOTT_URL = "https://www.marriott.com/en-us/hotels/mkeak-hotel-metro/overview/"
 
@@ -513,6 +515,11 @@ def test_nothing_was_published_by_the_decision():
 
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "marriott decision 020 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("f96a942")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()

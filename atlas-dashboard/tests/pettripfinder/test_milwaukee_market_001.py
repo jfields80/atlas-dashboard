@@ -420,27 +420,75 @@ class TestRoutingAndCaptureReadiness:
 
 
 class TestPolicyAuthorityIsEmpty:
-    def test_no_policy_fact_file_exists_for_this_market(self):
-        assert not (PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)).is_file()
+    def test_a_policy_fact_file_exists_only_by_founder_decision(self):
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        The market factory left Milwaukee's policy authority empty and this
+        proved it. The founder has since read the 036 review package and
+        approved 96 records explicitly and in writing, so "empty" is no longer
+        the claim -- what stays true is that the factory added nothing, that
+        the shards are the only place a market writes, and that the generated
+        globals are exactly what the shards produce.
+        """
+        facts = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
+        if not facts.is_file():
+            return                       # before 036 there was nothing to check
+        import json
+        doc = json.loads(facts.read_text(encoding="utf-8"))
+        assert doc["published"] is False
+        ledger = PACKAGE / "milwaukee_founder_decisions_036.json"
+        assert ledger.is_file(), "authority exists with no decision ledger"
+        approved = {row["identity_key"]
+                    for row in json.loads(ledger.read_text(encoding="utf-8"))["decisions"]
+                    if row["decision"] == "APPROVE"}
+        for record in doc["hotels"]:
+            assert record["identity_key"] in approved
+            assert record["approval"]["operator"]
 
     def test_no_release_contract_exists_yet(self):
         from scripts.pettripfinder.release_contracts import available_market_ids
         assert MARKET not in set(available_market_ids())
 
-    def test_the_authority_shards_exist_and_are_empty(self):
+    def test_the_authority_shards_carry_only_what_a_decision_put_there(self):
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        The market factory left Milwaukee's policy authority empty and this
+        proved it. The founder has since read the 036 review package and
+        approved 96 records explicitly and in writing, so "empty" is no longer
+        the claim -- what stays true is that the factory added nothing, that
+        the shards are the only place a market writes, and that the generated
+        globals are exactly what the shards produce.
+        """
         assert MARKET in MA.sharded_market_ids()
         assert len(MA.load_market_routes(MARKET)) == EXPECTED_AUTHORITY["routing"]
-        assert len(MA.load_market_exclusions(MARKET)) == EXPECTED_AUTHORITY["exclusions"]
         assert len(MA.load_market_seed_rows(MARKET)) == EXPECTED_AUTHORITY["seed"]
+        exclusions = MA.load_market_exclusions(MARKET)
+        if not exclusions:
+            return
+        for row in exclusions:
+            assert row["exclusion_state"] == "VERIFIED_NO_PETS"
+            assert row["reviewer_id"], row["exclusion_id"]
+            assert row["evidence_quote"].strip(), row["exclusion_id"]
 
     def test_the_market_owns_all_three_shard_files(self):
         for path in (MA.routing_shard_path(MARKET), MA.exclusions_shard_path(MARKET),
                      MA.seed_shard_path(MARKET)):
             assert path.is_file(), path
 
-    def test_no_exclusion_or_seed_row_names_this_market(self):
+    def test_no_seed_row_names_this_market_and_every_exclusion_is_signed(self):
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        The market factory left Milwaukee's policy authority empty and this
+        proved it. The founder has since read the 036 review package and
+        approved 96 records explicitly and in writing, so "empty" is no longer
+        the claim -- what stays true is that the factory added nothing, that
+        the shards are the only place a market writes, and that the generated
+        globals are exactly what the shards produce.
+        """
         exclusions = _load(PACKAGE / "hotel_exclusions.json")["exclusions"]
-        assert [e for e in exclusions if e.get("market_id") == MARKET] == []
+        for row in [e for e in exclusions if e.get("market_id") == MARKET]:
+            assert row["reviewer_id"], row["exclusion_id"]
+            assert row["reviewed_at"], row["exclusion_id"]
         rows = MA.assemble_seed_rows()
         assert [r for r in rows if r.get("market_id") == MARKET] == []
 
@@ -451,8 +499,12 @@ class TestPolicyAuthorityIsEmpty:
         existed."""
         assert MA.check_generated_artifacts() == []
         assert len(MA.assemble_routing_document()["routes"]) == 277
-        assert len(MA.assemble_exclusions_document()["exclusions"]) == 75
         assert len(MA.assemble_seed_rows()) == 296
+        # The exclusion count moves only by this market's own shard: 75 before
+        # the founder's decision, plus whatever that decision admitted.
+        registry = MA.assemble_exclusions_document()["exclusions"]
+        mine = [row for row in registry if row.get("market_id") == MARKET]
+        assert len(registry) - len(mine) == 75
 
 
 class TestCrossMarketIsolation:
@@ -707,20 +759,41 @@ class TestAcquisitionQueue:
 
 
 class TestAuthorityFreeze:
-    def test_policy_authority_is_still_absent(self):
-        assert not (PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)).is_file()
-        for row in census_doc()["hotels"]:
-            assert row["policy_state"] == enums.POLICY_NOT_VERIFIED
+    def test_policy_authority_exists_only_where_a_human_approved_it(self):
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        The market factory left Milwaukee's policy authority empty and this
+        proved it. The founder has since read the 036 review package and
+        approved 96 records explicitly and in writing, so "empty" is no longer
+        the claim -- what stays true is that the factory added nothing, that
+        the shards are the only place a market writes, and that the generated
+        globals are exactly what the shards produce.
+        """
+        import json
+        facts = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
+        if facts.is_file():
+            assert json.loads(facts.read_text(encoding="utf-8"))["published"] is False
+        assert MA.check_generated_artifacts() == []
 
     def test_no_partition_row_became_terminal(self):
         for item in partition_doc()["items"]:
             assert item["final_state"] not in enums.TERMINAL_STATES
             assert item["resolved"] is False
 
-    def test_the_market_authority_shards_are_still_empty(self):
-        assert len(MA.load_market_routes(MARKET)) == 0
-        assert len(MA.load_market_exclusions(MARKET)) == 0
-        assert len(MA.load_market_seed_rows(MARKET)) == 0
+    def test_the_market_authority_shards_hold_only_signed_rows(self):
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        The market factory left Milwaukee's policy authority empty and this
+        proved it. The founder has since read the 036 review package and
+        approved 96 records explicitly and in writing, so "empty" is no longer
+        the claim -- what stays true is that the factory added nothing, that
+        the shards are the only place a market writes, and that the generated
+        globals are exactly what the shards produce.
+        """
+        assert len(MA.load_market_routes(MARKET)) == EXPECTED_AUTHORITY["routing"]
+        assert len(MA.load_market_seed_rows(MARKET)) == EXPECTED_AUTHORITY["seed"]
+        for row in MA.load_market_exclusions(MARKET):
+            assert row["reviewer_id"], row["exclusion_id"]
 
     def test_the_generated_globals_still_match_the_shards(self):
         assert MA.check_generated_artifacts() == []

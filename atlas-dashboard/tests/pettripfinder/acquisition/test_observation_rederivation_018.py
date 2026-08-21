@@ -18,6 +18,7 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder.acquisition import registry as REGISTRY          # noqa: E402
 from scripts.pettripfinder.acquisition import source_discovery as SD        # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR           # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
 
 REPORTS = REPO / "launch_packages" / "pettripfinder" / "markets" / "reports"
 REDERIVATION = REPORTS / "ptf_milwaukee_observation_rederivation_018.json"
@@ -312,9 +313,14 @@ def test_the_discovery_overlay_still_resolves_eight_policy_urls():
 
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "observation rederivation 018 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("d627d3e")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_nothing_was_published_and_nothing_was_approved():

@@ -38,6 +38,8 @@ from scripts.pettripfinder.acquisition import providers as PROVIDERS       # noq
 from scripts.pettripfinder.acquisition import registry as REGISTRY         # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL          # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 HILTON_URL = "https://www.hilton.com/en/hotels/mkeaiht-home2-suites-x/"
 
@@ -360,11 +362,19 @@ def test_multiple_hilton_locators_were_observed():
 # --------------------------------------------------------------------------- #
 
 def test_no_policy_authority_was_created():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
-    assert run()["authority_written"] is False
-    assert decision()["authority_written"] is False
+    """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+    This claimed the work order created no Milwaukee authority, which
+    was true and still is. Read against the live filesystem it became
+    "Milwaukee may never have one", and the founder has since approved
+    96 records explicitly and in writing. The historical claim is
+    checked against the commit; the standing claim -- that authority is
+    recorded and never live inventory, and that every row in it was
+    approved by a human -- is checked beside it.
+    """
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("cebeeac")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
+    AUTHORITY_FREEZE.assert_every_authority_row_was_approved_by_a_human()
 
 
 def test_nothing_was_published():

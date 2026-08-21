@@ -653,7 +653,11 @@ def manifest(paths: Mapping[str, Path]) -> Dict:
         ("authority_count", 0),
         ("files", OrderedDict(
             (name, OrderedDict([
-                ("path", path.relative_to(REPO).as_posix()),
+                # A package written outside the repository (a test's temp
+                # directory) still names its files; only a path inside the repo
+                # is expressed relative to it.
+                ("path", path.relative_to(REPO).as_posix()
+                 if REPO in path.parents else path.name),
                 ("sha256", _sha256_file(path)),
                 ("bytes", path.stat().st_size)]))
             for name, path in sorted(paths.items()))),
@@ -760,7 +764,20 @@ def summary_markdown() -> str:
     return "\n".join(lines) + "\n"
 
 
-def write_package() -> Dict:
+def write_package(directory: Optional[Path] = None) -> Dict:
+    """Write the package. A caller may name a different directory.
+
+    Added so a test can prove the generator is deterministic without rewriting
+    the COMMITTED package to do it -- the manifest carries a generated_at, so
+    regenerating in place makes a test mutate a founder-facing artifact.
+    """
+    global PACKAGE_DIR, REVIEW_JSON, REVIEW_CSV, MANIFEST, SUMMARY
+    if directory is not None:
+        PACKAGE_DIR = Path(directory)
+        REVIEW_JSON = PACKAGE_DIR / "founder-review.json"
+        REVIEW_CSV = PACKAGE_DIR / "founder-review.csv"
+        MANIFEST = PACKAGE_DIR / "founder-review-manifest.json"
+        SUMMARY = PACKAGE_DIR / "founder-review-summary.md"
     PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_JSON.write_text(_stable(review_document()) + "\n", encoding="utf-8")
 

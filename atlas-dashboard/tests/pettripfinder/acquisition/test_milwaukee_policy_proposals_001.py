@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 
 from scripts.pettripfinder import milwaukee_policy_proposals_001 as PROP
+from . import authority_freeze as AUTHORITY_FREEZE
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROPOSALS = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
@@ -85,7 +86,14 @@ class TestTheCommittedProposals:
 
     def test_no_market_policy_authority_file_was_created(self):
         pkg = REPO_ROOT / "launch_packages" / "pettripfinder"
-        assert not (pkg / "hotel_policy_facts_milwaukee-wi.json").is_file()
+    # NARROWED. This claimed "milwaukee policy proposals 001 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("04dd8ea")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
     def test_every_proposal_carries_the_quotes_its_facts_rest_on(self):
         for row in self._doc()["items"]:
@@ -145,7 +153,17 @@ class TestTheCommittedProposals:
             assert row["review_status"] == "REFUSAL_FOUNDER_REVIEW"
             # and it must still carry the words it rests on
             assert row["evidence"], row["identity_key"]
+        # NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036. What this test is
+        # about is that a captured no-pets READING never silently becomes an
+        # authority record -- asserted above, on the proposals themselves,
+        # which is where the danger was. A Milwaukee exclusion may now exist,
+        # because the founder read the evidence and approved twenty-six of
+        # them in writing; what may not exist is one that nobody signed.
         pkg = REPO_ROOT / "launch_packages" / "pettripfinder"
         exclusions = json.loads((pkg / "hotel_exclusions.json").read_text(encoding="utf-8-sig"))
-        assert [e for e in exclusions["exclusions"]
-                if e.get("market_id") == "milwaukee-wi"] == []
+        for entry in exclusions["exclusions"]:
+            if entry.get("market_id") != "milwaukee-wi":
+                continue
+            assert entry.get("reviewer_id"), entry["exclusion_id"]
+            assert entry.get("reviewed_at"), entry["exclusion_id"]
+            assert entry.get("evidence_quote", "").strip(), entry["exclusion_id"]

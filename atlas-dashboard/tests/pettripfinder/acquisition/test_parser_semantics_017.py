@@ -30,6 +30,7 @@ from scripts.pettripfinder import canonical_view as CV                   # noqa:
 from scripts.pettripfinder.acquisition import registry as REGISTRY       # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR        # noqa: E402
 from scripts.pettripfinder.contracts import enums                        # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
 
 FIXTURE = (REPO / "tests" / "pettripfinder" / "fixtures"
            / "parser_semantics_017" / "differential.json")
@@ -323,9 +324,14 @@ def test_the_registry_still_routes_every_brand_where_016_left_it():
 
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "parser semantics 017 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("1537625")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_the_committed_differential_records_no_publication():

@@ -32,6 +32,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY
 from scripts.pettripfinder.brightdata import cross_brand_pilot_002 as P2
 from scripts.pettripfinder.brightdata import policy_surface as PS
 from pettripfinder.acquisition import reader_freeze as READER_FREEZE
+from . import authority_freeze as AUTHORITY_FREEZE
 
 
 # --------------------------------------------------------------------------- #
@@ -386,7 +387,14 @@ def test_held_observations_are_not_counted_as_acquisition_failures():
 
 def test_no_milwaukee_policy_authority_exists():
     root = REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
-    assert list(root.rglob("*hotel_policy_facts*milwaukee*")) == []
+    # NARROWED. This claimed "premium resolution 028 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("ccd041f")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     store = json.loads(P.STORE.read_text(encoding="utf-8-sig"))
     assert store["authority_written"] is False
     assert store["founder_approvals_created"] == 0

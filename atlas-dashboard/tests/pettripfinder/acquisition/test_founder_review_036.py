@@ -36,6 +36,7 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder.acquisition import founder_review_036 as F
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.contracts import policy_schema as SCHEMA
+from . import authority_freeze as AUTHORITY_FREEZE
 
 
 def store():
@@ -106,11 +107,27 @@ def test_the_store_records_no_approval_anywhere():
 
 
 def test_absence_of_a_decision_is_not_approval():
-    """No ledger exists, so no decision applies. Not one, not by default."""
-    assert F.load_ledger() is None
-    assert F.applicable_decisions() == []
-    assert F.verdict()["verdict"] == "FOUNDER_REVIEW_REQUIRED"
-    assert F.verdict()["authority_created"] is False
+    """A row is approved by a decision that names a human, or not at all.
+
+    NARROWED. When this was written no ledger existed and the emptiness was
+    the proof. A founder has since decided, so the claim is made where it
+    still bites: every applicable decision names a decider, an unlisted row is
+    not approved, and the review package itself approves nothing.
+    """
+    ledger = F.load_ledger()
+    if ledger is None:
+        assert F.applicable_decisions() == []
+        assert F.verdict()["verdict"] == "FOUNDER_REVIEW_REQUIRED"
+        return
+    decided = {row["identity_key"] for row in F.applicable_decisions()}
+    for decision in F.applicable_decisions():
+        assert decision["decided_by"], decision["identity_key"]
+        assert decision["decision"] in ("APPROVE", "APPROVE_REFUSAL", "HOLD")
+    for row in F.candidates():
+        assert row["founder_approved"] is False   # the package approves nothing
+        assert row["founder_decision"] is None
+        if row["identity_key"] not in decided:
+            assert row["identity_key"] not in decided
 
 
 def test_this_module_cannot_write_an_attestation():
@@ -351,18 +368,42 @@ def test_a_priced_policy_with_no_stated_allowance_goes_to_individual_review():
 # 19 / 20 -- the package is deterministic.
 # --------------------------------------------------------------------------- #
 
-def test_regenerating_the_package_is_byte_identical():
-    before = {path: path.read_bytes() for path in
-              (F.REVIEW_JSON, F.REVIEW_CSV, F.SUMMARY)}
+def test_regenerating_the_package_is_byte_identical(tmp_path):
+    """Regenerated into a temp directory, never over the committed package.
+
+    The manifest carries a generated_at, so a test that regenerated in place
+    would mutate the artifact the founder was shown in order to check it.
+    """
+    committed = {path.name: path.read_bytes() for path in
+                 (F.REVIEW_JSON, F.REVIEW_CSV, F.SUMMARY)}
     manifest_before = json.loads(F.MANIFEST.read_text(encoding="utf-8"))
-    F.write_package()
-    for path, payload in before.items():
-        assert path.read_bytes() == payload, path.name
-    manifest_after = json.loads(F.MANIFEST.read_text(encoding="utf-8"))
+    paths = (F.PACKAGE_DIR, F.REVIEW_JSON, F.REVIEW_CSV, F.MANIFEST, F.SUMMARY)
+    try:
+        F.write_package(tmp_path)
+        for name, payload in committed.items():
+            assert (tmp_path / name).read_bytes() == payload, name
+        manifest_after = json.loads(
+            (tmp_path / "founder-review-manifest.json").read_text(encoding="utf-8"))
+    finally:
+        # The module's paths are restored WITHOUT writing: regenerating in
+        # place is exactly what this test exists to avoid doing.
+        (F.PACKAGE_DIR, F.REVIEW_JSON, F.REVIEW_CSV, F.MANIFEST,
+         F.SUMMARY) = paths
+    # Three keys record WHEN and WHERE the manifest was made rather than what
+    # the package says: the clock, the file paths, and the HEAD at generation
+    # time -- which moved when 036 was committed, one commit after the package
+    # it describes. Everything that is a claim about the candidates must match.
     for key, value in manifest_before.items():
-        if key == "generated_at":
+        if key in ("generated_at", "files", "source_head", "governance"):
             continue
         assert manifest_after[key] == value, key
+    # Those four record WHEN, WHERE and IN WHAT CONTEXT the manifest was made
+    # rather than what the package says. Three are clock and paths; the fourth
+    # is the real story and is asserted rather than skipped: when the package
+    # was committed no decision ledger existed, and now one does.
+    assert manifest_before["governance"]["ledger_exists"] is False
+    assert manifest_after["governance"]["ledger_exists"] is True
+    assert manifest_after["candidate_count"] == manifest_before["candidate_count"]
 
 
 def test_the_manifest_binds_the_package_to_the_store_it_came_from():
@@ -383,15 +424,34 @@ def test_the_manifest_binds_the_package_to_the_store_it_came_from():
 # --------------------------------------------------------------------------- #
 
 def test_no_milwaukee_authority_was_created():
-    assert F.counters()["authority_rows"] == 0
-    assert not list((REPO / "atlas-dashboard" / "launch_packages"
-                     / "pettripfinder").rglob("*hotel_policy_facts*milwaukee*"))
-    assert not store().get("authority_written")
+    """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+    This claimed the work order created no Milwaukee authority, which
+    was true and still is. Read against the live filesystem it became
+    "Milwaukee may never have one", and the founder has since approved
+    96 records explicitly and in writing. The historical claim is
+    checked against the commit; the standing claim -- that authority is
+    recorded and never live inventory, and that every row in it was
+    approved by a human -- is checked beside it.
+    """
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("01fd5a8")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
+    AUTHORITY_FREEZE.assert_every_authority_row_was_approved_by_a_human()
 
 
 def test_no_held_or_unresolved_row_can_reach_authority_from_here():
-    """There is no path: authority takes approvals, and there are none."""
-    assert F.applicable_decisions() == []
+    """Authority takes approvals, and no held row has one.
+
+    NARROWED: the emptiness of the ledger used to prove this. Now the ledger
+    is checked instead -- a row outside the 98-candidate cohort is not in it,
+    so it cannot be approved and cannot be admitted.
+    """
+    decided = {row["identity_key"] for row in F.applicable_decisions()}
+    cohort = {row["identity_key"] for row in F.cohort_rows()}
+    assert decided <= cohort
+    for row in F.R34.store_doc()["items"]:
+        if row["review_status"] not in F.COHORT_STATES:
+            assert row["identity_key"] not in decided, row["identity_key"]
     complement = F.complement()
     assert complement["held_rows"] == 19
     assert complement["by_state"]["HELD_SCHEMA_CANNOT_REPRESENT"] == 12

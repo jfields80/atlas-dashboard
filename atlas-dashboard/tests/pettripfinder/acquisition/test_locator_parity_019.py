@@ -356,12 +356,19 @@ def test_the_live_lane_passes_its_hit_through_too():
     assert calls
     for call in calls:
         assert "hit" in {k.arg for k in call.keywords}
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "locator parity 019 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("9f134ff")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_nothing_was_published():

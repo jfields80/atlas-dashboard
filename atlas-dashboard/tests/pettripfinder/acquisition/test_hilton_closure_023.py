@@ -35,6 +35,8 @@ from scripts.pettripfinder.acquisition import hilton_closure_023 as CL      # no
 from scripts.pettripfinder.acquisition import hilton_decision_023 as H      # noqa: E402
 from scripts.pettripfinder.acquisition import providers as PROVIDERS        # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY          # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 def closure():
@@ -291,9 +293,14 @@ def test_the_historical_counter_artifact_keeps_its_own_number():
 # --------------------------------------------------------------------------- #
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "hilton closure 023 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("bf9a533")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     assert closure()["authority_written"] is False
 
 

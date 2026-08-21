@@ -32,6 +32,7 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS
 from scripts.pettripfinder.brightdata import policy_reading as PR
 from scripts.pettripfinder.contracts import enums
 
+from . import authority_freeze as AUTHORITY_FREEZE
 from . import locator_freeze as LOCATOR_FREEZE
 from . import reader_freeze as READER_FREEZE
 
@@ -360,8 +361,14 @@ def test_no_authority_exists_and_nothing_is_published():
     assert not doc.get("authority_written")
     assert all(not row.get("published") for row in doc["items"])
     assert all(not row.get("founder_approved") for row in doc["items"])
-    assert not list((R.REPO / "launch_packages" / "pettripfinder")
-                    .rglob("*hotel_policy_facts*milwaukee*"))
+    # NARROWED. This claimed "recurring and parity 035 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("69538f6")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_the_projection_is_deterministic_on_a_second_run():

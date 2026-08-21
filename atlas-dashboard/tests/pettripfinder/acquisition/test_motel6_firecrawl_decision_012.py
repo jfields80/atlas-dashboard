@@ -28,6 +28,7 @@ from scripts.pettripfinder.acquisition import motel6_firecrawl_decision_012 as M
 from scripts.pettripfinder.acquisition import providers as PROVIDERS
 from scripts.pettripfinder.acquisition import registry as REGISTRY
 from scripts.pettripfinder.acquisition import wyndham_firecrawl_decision_008 as WY
+from . import authority_freeze as AUTHORITY_FREEZE
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REPORTS = REPO_ROOT / "launch_packages" / "pettripfinder" / "markets" / "reports"
@@ -290,6 +291,18 @@ class TestNothingElseMoved:
         assert F.may_escalate(F.UNEXPECTED_PAGE)
 
     def test_milwaukee_still_has_no_policy_authority_shard(self):
-        shard = (REPO_ROOT / "launch_packages" / "pettripfinder"
-                 / "hotel_policy_facts_milwaukee-wi.json")
-        assert not shard.exists()
+        """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+        This claimed the work order created no Milwaukee authority, which
+        was true and still is. Read against the live filesystem it became
+        "Milwaukee may never have one", and the founder has since approved
+        96 records explicitly and in writing. The historical claim is
+        checked against the commit; the standing claim -- that authority is
+        recorded and never live inventory, and that every row in it was
+        approved by a human -- is checked beside it.
+        """
+        AUTHORITY_FREEZE.assert_commit_created_no_authority("35dfac2")
+        AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
+        AUTHORITY_FREEZE.assert_every_authority_row_was_approved_by_a_human()
+
+

@@ -29,6 +29,7 @@ from scripts.pettripfinder.acquisition import reader_corpus_029 as CORPUS
 from scripts.pettripfinder.acquisition import reader_hardening_029 as R
 from scripts.pettripfinder.brightdata import policy_reading as PR
 from scripts.pettripfinder.contracts import enums
+from . import authority_freeze as AUTHORITY_FREEZE
 
 
 def read(block: str):
@@ -356,7 +357,14 @@ def test_the_store_keeps_one_row_per_identity():
 
 def test_no_milwaukee_policy_authority_exists():
     root = REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
-    assert list(root.rglob("*hotel_policy_facts*milwaukee*")) == []
+    # NARROWED. This claimed "reader hardening 029 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("a80b2b4")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     store = json.loads(R.STORE.read_text(encoding="utf-8-sig"))
     assert store["authority_written"] is False
     assert store["founder_approvals_created"] == 0

@@ -185,6 +185,8 @@ def test_the_whole_assessment_contacts_no_provider():
     assert plan["repairs"]
     assert set(scenes) == {"FREEZE_NOW", "ONE_MORE_REPAIR_WAVE",
                            "MAXIMUM_RECOVERY"}
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 # --------------------------------------------------------------------------- #
@@ -253,7 +255,14 @@ def test_this_work_order_writes_exactly_one_artifact():
 
 def test_no_milwaukee_policy_authority_exists():
     root = REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
-    assert list(root.rglob("*hotel_policy_facts*milwaukee*")) == []
+    # NARROWED. This claimed "closure assessment 031 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("ce94aa0")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     store = json.loads(C.STORE.read_text(encoding="utf-8-sig"))
     assert store["authority_written"] is False
     assert store["founder_approvals_created"] == 0

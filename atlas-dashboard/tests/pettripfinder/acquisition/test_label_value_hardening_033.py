@@ -28,6 +28,7 @@ from scripts.pettripfinder.brightdata import policy_locator as PL
 from scripts.pettripfinder.brightdata import policy_reading as PR
 from scripts.pettripfinder.contracts import enums
 
+from . import authority_freeze as AUTHORITY_FREEZE
 from . import locator_freeze as LOCATOR_FREEZE
 from . import reader_freeze as READER_FREEZE
 
@@ -303,8 +304,14 @@ def test_nothing_is_published_and_no_authority_exists():
     doc = store()
     assert not doc.get("authority_written")
     assert all(not row.get("published") for row in doc["items"])
-    assert not list((R.REPO / "launch_packages" / "pettripfinder")
-                    .rglob("*hotel_policy_facts*milwaukee*"))
+    # NARROWED. This claimed "label value hardening 033 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("fe4b42f")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_routing_source_selection_and_the_locator_are_unchanged():

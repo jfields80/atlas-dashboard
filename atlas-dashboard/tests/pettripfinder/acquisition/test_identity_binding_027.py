@@ -461,7 +461,14 @@ def test_the_store_keeps_one_row_per_identity():
 
 def test_no_milwaukee_policy_authority_exists():
     root = REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
-    assert list(root.rglob("*hotel_policy_facts*milwaukee*")) == []
+    # NARROWED. This claimed "identity binding 027 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("6e84d0e")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     store = json.loads(I.STORE.read_text(encoding="utf-8-sig"))
     assert store["authority_written"] is False
     assert store["founder_approvals_created"] == 0
@@ -494,6 +501,8 @@ def test_routes_and_providers_are_unchanged():
 def test_the_policy_locator_contract_is_untouched():
     from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 def test_this_work_order_writes_only_under_its_own_run_directory():

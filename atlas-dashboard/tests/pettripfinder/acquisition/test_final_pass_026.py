@@ -42,6 +42,8 @@ from scripts.pettripfinder.acquisition import store_integration_025 as S     # n
 from scripts.pettripfinder.brightdata import policy_locator as PL            # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 from pettripfinder.acquisition import reader_freeze as READER_FREEZE
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 def run_report():
@@ -298,9 +300,14 @@ def test_observed_plus_unresolved_reconciles_to_routable():
 # --------------------------------------------------------------------------- #
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "final pass 026 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("9f714f3")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     assert run_report()["authority_written"] is False
 
 

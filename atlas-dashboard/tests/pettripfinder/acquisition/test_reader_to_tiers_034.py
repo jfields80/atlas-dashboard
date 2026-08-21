@@ -29,6 +29,7 @@ from scripts.pettripfinder.brightdata import policy_reading as PR
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.contracts import policy_schema as SCHEMA
 
+from . import authority_freeze as AUTHORITY_FREEZE
 from . import locator_freeze as LOCATOR_FREEZE
 from . import reader_freeze as READER_FREEZE
 
@@ -335,8 +336,14 @@ def test_the_schema_version_is_still_1_2():
 def test_no_milwaukee_policy_authority_exists():
     doc = store()
     assert not doc.get("authority_written")
-    assert not list((R.REPO / "launch_packages" / "pettripfinder")
-                    .rglob("*hotel_policy_facts*milwaukee*"))
+    # NARROWED. This claimed "reader to tiers 034 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("285e12b")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_nothing_is_published_and_nothing_is_approved():

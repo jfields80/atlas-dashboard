@@ -37,6 +37,7 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY           # n
 from scripts.pettripfinder.acquisition import store_integration_025 as S     # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
 from pettripfinder.acquisition import reader_freeze as READER_FREEZE
+from . import authority_freeze as AUTHORITY_FREEZE
 
 
 def store():
@@ -300,9 +301,14 @@ def test_published_and_founder_approved_remain_zero():
 
 
 def test_no_milwaukee_policy_authority_was_created():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "store integration 025 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("02a9d9c")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     assert store()["authority_written"] is False
 
 

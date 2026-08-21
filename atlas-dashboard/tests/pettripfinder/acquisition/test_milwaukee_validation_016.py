@@ -16,6 +16,7 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder.acquisition import registry as REGISTRY       # noqa: E402
 from scripts.pettripfinder.acquisition import source_discovery as SD     # noqa: E402
 from scripts.pettripfinder.acquisition import source_selection as SS     # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
 
 MARKET = "milwaukee-wi"
 REPORTS = REPO / "launch_packages" / "pettripfinder" / "markets" / "reports"
@@ -108,10 +109,19 @@ def test_the_evidence_integrity_claim_is_specific_about_what_was_checked():
 # --------------------------------------------------------------------------- #
 
 def test_no_milwaukee_policy_authority_exists():
-    for pattern in ("hotel_policy_facts_milwaukee*.json",
-                    "*milwaukee*policy_facts*.json"):
-        found = list((REPO / "launch_packages" / "pettripfinder").rglob(pattern))
-        assert not found, found
+    """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
+
+    This claimed the work order created no Milwaukee authority, which
+    was true and still is. Read against the live filesystem it became
+    "Milwaukee may never have one", and the founder has since approved
+    96 records explicitly and in writing. The historical claim is
+    checked against the commit; the standing claim -- that authority is
+    recorded and never live inventory, and that every row in it was
+    approved by a human -- is checked beside it.
+    """
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("35dfac2")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
+    AUTHORITY_FREEZE.assert_every_authority_row_was_approved_by_a_human()
 
 
 def test_neither_016_report_claims_to_have_written_authority():

@@ -28,6 +28,7 @@ from scripts.pettripfinder.acquisition import store_integration_025 as S
 from scripts.pettripfinder.acquisition import store_reader_sync_030 as R
 from scripts.pettripfinder.brightdata import policy_locator as PL
 import scripts.pettripfinder.milwaukee_policy_proposals_001 as PROP
+from . import authority_freeze as AUTHORITY_FREEZE
 
 
 def _code_of(function):
@@ -428,7 +429,14 @@ def test_a_single_clean_marriott_charge_still_publishes():
 
 def test_no_milwaukee_policy_authority_exists():
     root = REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
-    assert list(root.rglob("*hotel_policy_facts*milwaukee*")) == []
+    # NARROWED. This claimed "store reader sync 030 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("c10bc0d")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
     assert store()["authority_written"] is False
     assert store()["founder_approvals_created"] == 0
 

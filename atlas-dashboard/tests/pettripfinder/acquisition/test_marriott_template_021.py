@@ -46,6 +46,8 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS         # no
 from scripts.pettripfinder.brightdata import policy_locator as PL           # noqa: E402
 from scripts.pettripfinder.contracts import enums                           # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 
 def report():
@@ -434,9 +436,14 @@ def test_the_generic_locator_and_its_bounds_are_untouched():
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 def test_no_milwaukee_policy_authority_exists():
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "marriott template 021 created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("f96a942")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_nothing_was_published():

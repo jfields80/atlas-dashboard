@@ -40,6 +40,8 @@ from scripts.pettripfinder.acquisition import providers as PROVIDERS      # noqa
 from scripts.pettripfinder.acquisition import registry as REGISTRY        # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL         # noqa: E402
 from scripts.pettripfinder.brightdata import unlocker_capture as UC       # noqa: E402
+from . import authority_freeze as AUTHORITY_FREEZE
+
 
 DOCUMENT = """<html><body>
 <div class="page"><div class="col"><h2>Amenities</h2>
@@ -435,9 +437,14 @@ def test_no_milwaukee_policy_authority_appeared():
     publication-grade captures are exactly the circumstance in which one could
     have been written by accident.
     """
-    found = list((REPO / "launch_packages" / "pettripfinder")
-                 .rglob("*hotel_policy_facts*milwaukee*"))
-    assert not found, found
+    # NARROWED. This claimed "fresh proof 019a created no Milwaukee authority",
+    # which was true and still is -- but read against the live filesystem
+    # it became "Milwaukee may never have one", and the founder approved
+    # 96 records in PTF-MILWAUKEE-FOUNDER-DECISION-036. The historical
+    # claim is checked against the commit; the standing claim -- that
+    # authority is recorded and never live inventory -- is checked too.
+    AUTHORITY_FREEZE.assert_commit_created_no_authority("c2e5955")
+    AUTHORITY_FREEZE.assert_authority_is_recorded_not_live()
 
 
 def test_the_registry_file_is_untouched_by_this_work_order():
