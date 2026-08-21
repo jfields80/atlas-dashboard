@@ -74,10 +74,23 @@ def dry():
     "$125/stay for 5+ nights",
 ])
 def test_a_banded_fee_cannot_collapse_to_the_first_amount(block):
+    # NARROWED by work order 034. The durable claim is that a banded
+    # surface never collapses to ONE amount; it used to be made by
+    # asserting the fee was withheld, which is the exact behaviour 034 was
+    # commissioned to replace. Schema 1.2 has always been able to hold the
+    # ladder, so the price is now carried in fee_tiers -- and the thing
+    # that must never happen, publishing one rung as the fee, is asserted
+    # directly.
     result = read(block)
     assert "pet_fee" not in result["extraction"]
-    assert result["withheld"]["pet_fee"] == SCHEMA
-    assert result["withheld"]["fee_basis"] == SCHEMA
+    tiers = result["extraction"].get("fee_tiers") or []
+    if tiers:
+        amounts = [tier["amount_cents"] for tier in tiers]
+        assert len(amounts) >= 2 and len(set(amounts)) >= 2
+        assert "pet_fee" not in result["withheld"]
+    else:
+        assert result["withheld"]["pet_fee"] == SCHEMA
+        assert result["withheld"]["fee_basis"] == SCHEMA
 
 
 def test_the_highest_band_is_never_silently_dropped():
@@ -163,7 +176,9 @@ def test_weight_and_count_and_species_survive_a_withheld_fee():
              "weight 100 lbs Other pet information $50(1-4 nights),$125(5+ "
              "nights) 2 Pet Max, Dog/Cat only")
     result = read(block)
-    assert result["withheld"]["pet_fee"] == SCHEMA
+    # The fee is carried as a ladder now (034); what this test is about is
+    # that the REST of the policy survives whatever happens to the fee.
+    assert "pet_fee" not in result["extraction"]
     assert result["extraction"]["weight_limit"]["value"] == 100.0
     assert result["extraction"]["pet_count_limit"] == 2
 

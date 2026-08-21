@@ -223,8 +223,11 @@ def test_a_bare_no_pets_is_never_read_as_a_species_restriction():
 
 def test_the_010_tiered_fee_case_is_still_withheld():
     got = case("control--tiered-fee")
+    # 034 gave this shape a home. No single amount is published either way,
+    # which is what 016 was protecting.
     assert "pet_fee" not in got["extraction"]
-    assert got["withheld"]["pet_fee"] == enums.SCHEMA_CANNOT_REPRESENT
+    assert (got["withheld"].get("pet_fee") == enums.SCHEMA_CANNOT_REPRESENT
+            or got["extraction"].get("fee_tiers"))
 
 
 def test_a_single_price_with_a_night_range_is_not_a_tier():
@@ -240,8 +243,13 @@ def test_a_second_pet_price_makes_a_surface_tiered():
     extraction, withheld, flags = read(
         "First pet $25 per night. Second pet $15 per night.")
     assert "pet_fee" not in extraction
-    assert withheld["pet_fee"] == enums.SCHEMA_CANNOT_REPRESENT
-    assert "FLAG_TIERED_FEE" in flags
+    # A price per ANIMAL is a fee_pet_schedule since 034; before it, the
+    # surface was detected as tiered and the fee withheld. Either way the
+    # reader refuses to call $25 or $15 "the pet fee", which is the claim.
+    rungs = (extraction.get("fee_pet_schedule") or {}).get("entries") or []
+    assert rungs or withheld["pet_fee"] == enums.SCHEMA_CANNOT_REPRESENT
+    if rungs:
+        assert [entry["amount_cents"] for entry in rungs] == [2500, 1500]
 
 
 # --------------------------------------------------------------------------- #
@@ -353,6 +361,14 @@ def test_the_committed_differential_is_never_contradicted_by_the_reader():
             # A field that became a FACT is not a lost withholding: the reader
             # learned to represent it, which is the opposite of a regression.
             if field in got["extraction"]:
+                gained.setdefault(row["case_id"], []).append(field)
+                continue
+            if (field in ("pet_fee", "fee_basis")
+                    and (got["extraction"].get("fee_tiers")
+                         or got["extraction"].get("fee_pet_schedule"))):
+                # 034 BUILT the structure this row was withheld for. The
+                # committed differential records a withholding that no longer
+                # applies, and no single amount is published either way.
                 gained.setdefault(row["case_id"], []).append(field)
                 continue
             assert got["withheld"].get(field) == reason, (row["case_id"], field)

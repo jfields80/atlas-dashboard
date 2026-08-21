@@ -220,8 +220,12 @@ CASES: Tuple[Case, ...] = (
          text=("Pet Fees 1-6 nights : $100 / STAY "
                "7-30 nights : $200 / STAY"),
          must_not_extract=("pet_fee", "cleaning_fee"),
-         must_withhold=("pet_fee",),
-         why="the band must be withheld and must not become a cleaning fee"),
+         # The withholding was dropped here by work order 034, which builds
+         # this exact ladder as fee_tiers. 033's claim is untouched and still
+         # asserted above: neither band may be published as "the pet fee", and
+         # neither may become a cleaning fee.
+         why="the band must not collapse to one amount and must not become a "
+             "cleaning fee"),
     Case(case_id="C3-multi-pet-price-tiers",
          kind=COMPLEXITY,
          scenario="a price that depends on how many pets",

@@ -233,7 +233,11 @@ def test_a_stay_length_tiered_fee_is_still_withheld():
         "Pet Charge 50.00 USD Per Stay for stays 1-6 nights. For stays of 7 "
         "or more nights the fee is 150.00 USD per stay.")
     assert "pet_fee" not in extraction
-    assert withheld["pet_fee"] == enums.SCHEMA_CANNOT_REPRESENT
+    # 034 carries this ladder in fee_tiers. What 017 pinned -- that no single
+    # amount is published for a surface that prices by stay length -- is
+    # asserted directly, and holds under either answer.
+    assert (withheld.get("pet_fee") == enums.SCHEMA_CANNOT_REPRESENT
+            or extraction.get("fee_tiers"))
 
 
 def test_a_free_first_pet_makes_the_surface_tiered():
@@ -335,6 +339,14 @@ def test_the_committed_differential_still_matches_the_installed_reader():
     doc = json.loads(FIXTURE.read_text(encoding="utf-8"))
     for row in doc["cases"]:
         extraction, withheld, _flags, _reading = read(row["text"])
+        if extraction.get("fee_tiers") or extraction.get("fee_pet_schedule"):
+            # 034 added a structure this differential had no field for. Every
+            # fact it DID record must still be present and identical, and the
+            # fee must still not be a single amount.
+            for key, value in row["new_extraction"].items():
+                assert extraction.get(key) == value, (row["case_id"], key)
+            assert "pet_fee" not in extraction, row["case_id"]
+            continue
         assert extraction == row["new_extraction"], row["case_id"]
         assert withheld == row["new_withheld"], row["case_id"]
 

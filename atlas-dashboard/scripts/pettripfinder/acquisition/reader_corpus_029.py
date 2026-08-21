@@ -185,7 +185,12 @@ CASES: Tuple[Case, ...] = (
          scenario="a fee stated in duration bands",
          text=("Pets welcome. Pet fee: $50 (1-4 nights), $100 (5+ nights)."),
          must_not_extract=("pet_fee",),
-         must_withhold=("pet_fee",),
+         # The withholding was dropped from this case by work order 034, which
+         # taught the reader to build the ladder schema 1.2 had always been
+         # able to hold. What 029 was protecting is unchanged and is still
+         # asserted above: neither $50 nor $100 may be published as "the pet
+         # fee". Where the price goes instead is a later question, and 034
+         # answered it.
          why="a band is a tier written as a table"),
     Case(case_id="P3-multi-component-fee",
          kind=PROTECTION,

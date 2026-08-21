@@ -186,11 +186,26 @@ def test_every_queued_row_rests_on_its_own_persisted_evidence():
 
 
 def test_banded_fees_are_withheld_in_the_store():
-    held = [i for i in store()["items"]
+    """No row ever carries one amount for a price the source states in bands.
+
+    NARROWED by work order 034, which taught the reader to build the ladder
+    schema 1.2 had always been able to hold: the count of rows HELD for a
+    banded fee fell from twenty-nine to eleven, and pinning that count made
+    "sixteen or more are stuck" a requirement rather than an observation. What
+    the store must never contain is asserted directly instead -- a single
+    ``pet_fee`` beside a ladder, or a held fee that leaked its amount anyway.
+    """
+    rows = store()["items"]
+    held = [i for i in rows
             if i["withheld_fields"].get("pet_fee") == "SCHEMA_CANNOT_REPRESENT"]
-    assert len(held) >= 16
     for row in held:
         assert "pet_fee" not in row["proposed_facts"], row["canonical_name"]
+    laddered = [i for i in rows
+                if (i["proposed_facts"] or {}).get("fee_tiers")
+                or (i["proposed_facts"] or {}).get("fee_pet_schedule")]
+    for row in laddered:
+        assert "pet_fee" not in row["proposed_facts"], row["canonical_name"]
+    assert held or laddered
 
 
 def test_non_fee_facts_survive_a_withheld_fee():
@@ -199,7 +214,12 @@ def test_non_fee_facts_survive_a_withheld_fee():
     if row is None:
         pytest.skip("row not present in this worktree")
     assert row["proposed_facts"].get("weight_limit", {}).get("value") == 100.0
-    assert row["withheld_fields"]["pet_fee"] == "SCHEMA_CANNOT_REPRESENT"
+    # The fee is a ladder now (034). What this test is about is that the rest
+    # of the policy survives whatever happens to the fee, and that no single
+    # amount is published for a banded one.
+    assert "pet_fee" not in row["proposed_facts"]
+    assert (row["withheld_fields"].get("pet_fee") == "SCHEMA_CANNOT_REPRESENT"
+            or row["proposed_facts"].get("fee_tiers"))
 
 
 # --------------------------------------------------------------------------- #

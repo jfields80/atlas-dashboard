@@ -208,9 +208,16 @@ def test_024_semantics_are_the_current_reading():
             if i.get("source_run") == CL.PRODUCTION_RUN]
     held = [i for i in rows
             if i["withheld_fields"].get("pet_fee") == "SCHEMA_CANNOT_REPRESENT"]
-    assert len(held) == 9
-    for row in held:
+    laddered = [i for i in rows if (i["proposed_facts"] or {}).get("fee_tiers")]
+    # NARROWED by work order 034. These nine rows were held because Hilton
+    # prices its pets in duration bands and the reader could only refuse them;
+    # they now carry the ladder as fee_tiers, which is what 023's own evidence
+    # always said. The claim that survives -- and the one 024 was about -- is
+    # that not one of them publishes a single amount for a banded price.
+    assert len(held) + len(laddered) == 9
+    for row in held + laddered:
         assert "pet_fee" not in row["proposed_facts"]
+    for row in held:
         assert row["review_status"] == "HELD_SCHEMA_CANNOT_REPRESENT"
 
 

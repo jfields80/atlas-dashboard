@@ -27,14 +27,14 @@
  },
  "publication_grade_total": 117,
  "proposal_total": 117,
- "founder_review_ready": 54,
+ "founder_review_ready": 73,
  "refusal_founder_review": 26,
  "held_semantic_review": 0,
  "review_status_counts": {
-  "FOUNDER_REVIEW_READY": 54,
-  "HELD_INSUFFICIENT_EVIDENCE": 8,
+  "FOUNDER_REVIEW_READY": 73,
+  "HELD_INSUFFICIENT_EVIDENCE": 7,
   "REFUSAL_FOUNDER_REVIEW": 26,
-  "HELD_SCHEMA_CANNOT_REPRESENT": 29
+  "HELD_SCHEMA_CANNOT_REPRESENT": 11
  },
  "refusal_note": "A captured refusal is a finding, not an exclusion. Nothing here creates a VERIFIED_NO_PETS record: that is a founder decision and a publication act, and this work order takes neither. Each refusal carries the exact quote it rests on so the decision is reviewable.",
  "items": [
@@ -468,7 +468,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/avid-hotels-milwaukee-west-waukesha/attempt-01/policy-block.txt",
     "evidence_block_sha256": "f384ad1c3044402b24f263e8d2248604494679b652aa544f64fffc8835280fe2",
     "previous_facts": {
@@ -1378,7 +1378,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
     "evidence_block_sha256": "1643783491d6631e2c35cbd8729c87090982a727f2f2b152b8aefa7adc885a7d",
     "previous_facts": {
@@ -1507,7 +1507,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-west/attempt-01/policy-block.txt",
     "evidence_block_sha256": "4e56e31fea98485749af067b1b6b1139f0da608706e366febb977b6810ca1d6e",
     "previous_facts": {
@@ -1720,7 +1720,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
     "evidence_block_sha256": "53b35ecf67fd0251d5e989ec893e8972e144a13975b84baf16fa3944a4080e9f",
     "previous_facts": {
@@ -1807,7 +1807,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
     "evidence_block_sha256": "958b86efdfee2cb1b4d078823ccb53daf317b17ae397b456d634beffca23495e",
     "previous_facts": {
@@ -2242,6 +2242,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
@@ -2252,13 +2273,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -2266,6 +2287,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4nts",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+nts",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -2319,7 +2361,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/embassy-suites-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
     "evidence_block_sha256": "e63e5242593e8fc5c58d62b96513aa546b1d102b5c722fb272d76f0307c6b6ef",
     "previous_facts": {
@@ -2340,7 +2382,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "extended stay america milwaukee waukesha",
@@ -2424,7 +2466,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-waukesha/attempt-01/policy-block.txt",
     "evidence_block_sha256": "f0f2dd40ca9b5ee1888c004a34cbc20d707bac1191258d4c758452c2b63481d8",
     "previous_facts": {
@@ -2521,7 +2563,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-wauwatosa/attempt-01/policy-block.txt",
     "evidence_block_sha256": "f0f2dd40ca9b5ee1888c004a34cbc20d707bac1191258d4c758452c2b63481d8",
     "previous_facts": {
@@ -2980,19 +3022,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 50.0,
      "unit": "lb"
     },
     "pet_count_limit": 2
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -3001,6 +3064,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $75",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $125",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3047,7 +3131,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-downtown/attempt-01/policy-block.txt",
     "evidence_block_sha256": "5fb67a5f1dee3dd66197c9bf94e8b6c36c9a78245e49203d6e389021c301462c",
     "previous_facts": {
@@ -3064,7 +3148,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hampton inn and suites milwaukee franklin",
@@ -3074,6 +3158,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 8500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 15500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
@@ -3084,13 +3189,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -3098,6 +3203,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$85(1-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$155(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3151,7 +3277,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-franklin/attempt-01/policy-block.txt",
     "evidence_block_sha256": "3388382e149c9710be9c017eee246bf2ef1b5cc62f9410d55154c38dedc4c32f",
     "previous_facts": {
@@ -3172,7 +3298,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hampton inn and suites milwaukee west",
@@ -3182,29 +3308,81 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 1
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 2,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "species_allowed": [
      "cat",
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
      "quote": "Pets allowed",
-     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
+     "quote": "$50(1n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$75(2-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
      "quote": "dog/cat only",
-     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "location": "policy-block.txt",
      "field_refs": [
       "species_allowed"
      ]
@@ -3236,7 +3414,23 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-west/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "8a7bfbcf459bbb2db3663bc9ee559363b323e83a3106bf9639a3d8c5c48dc58b",
+    "previous_facts": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -3247,19 +3441,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "pet_count_limit": 2,
     "species_allowed": [
      "cat",
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -3267,6 +3482,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3313,7 +3549,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-glendale-milwaukee/attempt-01/policy-block.txt",
     "evidence_block_sha256": "104795ffc869970e7dc324ccbfc865819e5f4b05bc342636b78ea2372ae181ef",
     "previous_facts": {
@@ -3330,7 +3566,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hampton inn milwaukee airport",
@@ -3340,19 +3576,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "pet_count_limit": 2,
     "species_allowed": [
      "cat",
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -3360,6 +3617,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $50",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $75",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3406,7 +3684,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-airport/attempt-02/policy-block.txt",
     "evidence_block_sha256": "49d5092ef5214e04a1c1d86632794436499025c5a7edfa79377c5e88994c6975",
     "previous_facts": {
@@ -3423,7 +3701,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hampton inn milwaukee brookfield",
@@ -3432,15 +3710,36 @@
    "brand": "HILTON",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -3449,6 +3748,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     }
    ],
@@ -3481,7 +3801,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-brookfield/attempt-01/policy-block.txt",
     "evidence_block_sha256": "aed60fe3df231882641efb36a6128349f3a2034a8bdb0da105c04d12dd8a72c8",
     "previous_facts": {
@@ -3493,7 +3813,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hampton inn milwaukee northwest",
@@ -3503,18 +3823,39 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "species_allowed": [
      "cat",
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -3522,6 +3863,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3561,7 +3923,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-northwest/attempt-01/policy-block.txt",
     "evidence_block_sha256": "cd7f9a9a49f09294dd72572f3b80d6449691de5aef8c102f3d05c6a7f8c7b503",
     "previous_facts": {
@@ -3577,7 +3939,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hawthorn extended stay by wyndham milwaukee airport",
@@ -3701,6 +4063,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
@@ -3711,13 +4094,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -3725,6 +4108,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $75",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $125",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3778,7 +4182,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-airport/attempt-01/policy-block.txt",
     "evidence_block_sha256": "cd8ba02d6c262ff3a185d2dfeecd9f1a701c73c8b63d21d3ff6ea906e4d40f1c",
     "previous_facts": {
@@ -3799,7 +4203,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hilton garden inn milwaukee brookfield conference center",
@@ -3809,19 +4213,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
     },
     "pet_count_limit": 2
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -3830,6 +4255,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75 1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125 5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -3876,7 +4322,7 @@
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
     "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
-    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-brookfield-conference-center/attempt-01/policy-block.txt",
     "evidence_block_sha256": "70912db717df86964e518c6b703ceb32b0dbb248837a8f6b9d5a9594d6c3a097",
     "previous_facts": {
@@ -3893,7 +4339,7 @@
      "fee_basis": "SOURCE_SILENT"
     }
    },
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hilton garden inn milwaukee downtown",
@@ -3902,22 +4348,57 @@
    "brand": "HILTON",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ]
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
     {
      "quote": "Pets allowed",
-     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75 1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125 5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     }
    ],
@@ -3947,8 +4428,20 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
-   "review_status": "HELD_INSUFFICIENT_EVIDENCE"
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-downtown/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "02803c96b7dc56adadb54178ba285c93310f3ec78cee9d51b7db8acfa3f2a78a",
+    "previous_facts": {
+     "pets_allowed": true
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hilton garden inn milwaukee northwest conference center",
@@ -5136,6 +5629,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 100.0,
      "unit": "lb"
@@ -5146,13 +5660,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -5160,6 +5674,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$50(1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5206,7 +5741,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "home2 suites by hilton milwaukee airport",
@@ -5277,6 +5812,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 100.0,
      "unit": "lb"
@@ -5287,13 +5843,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -5301,6 +5857,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5347,7 +5924,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "home2 suites by hilton milwaukee downtown",
@@ -5357,18 +5934,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 4,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
     }
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -5377,6 +5976,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75/stay 1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125/stay 5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5409,7 +6029,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "home2 suites by hilton milwaukee west",
@@ -5419,6 +6039,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 100.0,
      "unit": "lb"
@@ -5429,13 +6070,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -5443,6 +6084,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5489,7 +6151,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "homewood suites by hilton milwaukee downtown",
@@ -5498,15 +6160,36 @@
    "brand": "HILTON",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -5515,6 +6198,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75 for the first four nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125 for 5+",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     }
    ],
@@ -5540,7 +6244,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "homewood suites by hilton oak creek milwaukee",
@@ -5550,6 +6254,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 1,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 2,
+      "basis_stated": true,
+      "condition_max": 4,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
@@ -5560,13 +6298,12 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted"
    ],
    "evidence": [
     {
@@ -5574,6 +6311,34 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$50/stay for 1 night",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$75/stay for 2-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125/stay for 5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5620,7 +6385,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "homewood suites by hilton wauwatosa milwaukee",
@@ -5630,18 +6395,39 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "species_allowed": [
      "cat",
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -5649,6 +6435,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -5681,7 +6488,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "hotel metro autograph collection",
@@ -5817,7 +6624,7 @@
     "final_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T15:42:17+00:00",
+    "retrieved_at": "2026-08-21T16:36:02+00:00",
     "capture_method": "browser_assisted",
     "provider": "",
     "reader": "generic",
@@ -5957,7 +6764,7 @@
     "final_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T15:42:17+00:00",
+    "retrieved_at": "2026-08-21T16:36:02+00:00",
     "capture_method": "browser_assisted",
     "provider": "",
     "reader": "generic",
@@ -8865,6 +9672,27 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
     "weight_limit": {
      "value": 100.0,
      "unit": "lb"
@@ -8875,13 +9703,13 @@
      "dog"
     ]
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it"
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
    ],
    "evidence": [
     {
@@ -8889,6 +9717,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$50(1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -8935,7 +9784,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "tru by hilton milwaukee downtown",
@@ -8945,18 +9794,40 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 4,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ],
     "weight_limit": {
      "value": 75.0,
      "unit": "lb"
     }
    },
-   "withheld_fields": {
-    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -8965,6 +9836,27 @@
      "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75/stay 1-4 nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125/stay 5+ nights",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_tiers"
      ]
     },
     {
@@ -8997,7 +9889,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "wildwood lodge",

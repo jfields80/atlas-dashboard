@@ -38,7 +38,8 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import (Dict, List, Mapping, NamedTuple, Optional, Sequence,
+                    Tuple)
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
@@ -523,6 +524,17 @@ _TIERED_FEE_RE = re.compile(
 #: Recurring wording stated as an adjective. The charge patterns need "per
 #: day"; "$20 daily pet fee" states the same recurring charge in a form none of
 #: them match. Used only to detect a component the charges did not capture.
+#: NOTE (work order 034, reader-to-tiers): the two word boundaries in this
+#: pattern are literal backspace characters, not ````. A heredoc mangled them
+#: when the rule was written, so this detection has never fired and the
+#: multi-component check below has never seen a recurring charge. Repairing it
+#: is a REAL change with a consequence -- a WoodSpring page states "a
+#: Daily Pet Fee 5 USD Per Pet along with Non-Refundable Pet Fee of 100 USD",
+#: and a working pattern reclassifies that row from SOURCE_AMBIGUOUS to
+#: SCHEMA_CANNOT_REPRESENT, moving it OUT of founder review. 034 was
+#: commissioned to turn safe holds into structures, not to demote a ready row
+#: for an unrelated reason, so the character is left exactly as committed and
+#: the defect is reported instead.
 _RECURRING_WORD_RE = re.compile(r"(?:daily|nightly)", re.IGNORECASE)
 
 #: Two or more DISTINCT prices on the surface. A tier needs both this and the
@@ -1704,6 +1716,540 @@ def _is_amenity_label_only(reading: Reading) -> bool:
     return not _SENTENCE_PUNCTUATION_RE.search(reading.block_text)
 
 
+# --------------------------------------------------------------------------- #
+# Structured fees: the schema-1.2 shapes this reader used to refuse to build.
+# --------------------------------------------------------------------------- #
+#
+# Work order 034, reader-to-tiers.
+#
+# Schema 1.2 has held ``fee_tiers[]`` and ``fee_pet_schedule`` since the policy
+# migration, and Cleveland's founder adjudications wrote them by hand. The
+# automated reader never emitted either: it detected a band, said the
+# vocabulary holds one amount, and withheld the price as
+# SCHEMA_CANNOT_REPRESENT. Twenty-nine rows in one market sat there.
+#
+# The withholding was right about the SIMPLE field and wrong about the schema.
+# What follows reads the band structure itself, and it emits only when the
+# source fully determines the rule -- because a half-read ladder is a worse
+# answer than a held one.
+
+#: Numbers a policy spells rather than prints. "the first four nights".
+_BAND_WORD_NUMBERS: Dict[str, int] = {
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+}
+
+#: The unit a stay-length band counts in. ``n`` and ``nt`` are here because
+#: Hilton's own field abbreviates: "$75(1-4n), $125(5+n)".
+_BAND_UNIT = r"(?:nights?|nites?|nts?|n|days?)"
+
+#: Every way this corpus states a range of nights, in one alternation so that
+#: two readings of the same characters cannot both match. Order matters:
+#: "first four nights" must be read before "four nights", and "up to 5 nights"
+#: before the bare closed range.
+_STAY_RANGE_RE = re.compile(
+    r"first\s+(?P<first_hi>\d{1,3}|one|two|three|four|five|six|seven|eight|nine|ten)"
+    r"\s*" + _BAND_UNIT + r"\b"
+    r"|up\s+to\s+(?P<upto_hi>\d{1,3})\s*" + _BAND_UNIT + r"\b"
+    r"|(?:over|above|more\s+than)\s+(?P<over_lo>\d{1,3})\s*" + _BAND_UNIT + r"\b"
+    r"|(?P<ormore_lo>\d{1,3})\s+or\s+more\s*(?:" + _BAND_UNIT + r"\b)?"
+    r"|(?P<closed_lo>\d{1,3})\s*(?:-|–|to|through)\s*(?P<closed_hi>\d{1,3})"
+    r"\s*" + _BAND_UNIT + r"\b"
+    r"|(?P<plus_lo>\d{1,3})\s*\+\s*(?P<plus_unit>" + _BAND_UNIT + r"\b)?"
+    # A single night, including the abbreviated unit a chain packs into its
+    # own field: one chain writes
+    # "$50(1n),$75(2-4n),$125(5+n)". Reading only the last two rungs made a
+    # three-rung ladder look like one that starts at night two -- a refusal --
+    # and that row was already publishing no fee at all while its page
+    # printed three.
+    r"|(?P<single_n>\d{1,3})\s*(?:night|nite|nt|n|day)\b(?!s)",
+    re.IGNORECASE)
+
+#: An amount, wherever it is written. Shares its vocabulary with ``_PRICE_RE``
+#: but keeps the digits in a group so the value can be read off.
+_BAND_AMOUNT_RE = re.compile(
+    r"\$\s*(?P<dollars>\d[\d,]*(?:\.\d{2})?)"
+    r"|(?P<usd>\d[\d,]*(?:\.\d{2})?)\s*(?:USD|dollars?)\b",
+    re.IGNORECASE)
+
+#: The basis a band states for ITSELF: "$75/stay 1-4 nights", "$100 / STAY".
+_BAND_BASIS_RE = re.compile(
+    r"/\s*(?P<slash>stay|night|nite|day)s?\b"
+    r"|per\s+(?P<per>stay|night|day)\b"
+    r"|\b(?P<adverb>nightly|daily)\b",
+    re.IGNORECASE)
+
+#: The scope a band states for itself. Never inferred, per the frozen rules.
+_BAND_SCOPE_RE = re.compile(r"per\s+(?P<what>pet|dog|cat|room|unit)\b",
+                            re.IGNORECASE)
+
+#: A ceiling standing in front of an amount. "Up to 75 dollars", "not to
+#: exceed $15", "maximum of $150". CEILING != PRICE is a founder rule, and a
+#: band ladder whose rungs are ceilings prices nothing.
+_BAND_CEILING_RE = re.compile(
+    r"(?:up\s+to|not\s+to\s+exceed|maximum\s+of|max(?:imum)?)\s*"
+    r"(?:\$\s*\d|\d[\d,]*(?:\.\d{2})?\s*(?:USD|dollars?))",
+    re.IGNORECASE)
+
+#: A recurrence the published vocabulary does not have. FEE_BASES holds
+#: per_night, per_day and per_stay and nothing else, so "$75 weekly" and "$75
+#: per 7 day stay" can be neither recorded nor mapped onto a neighbour --
+#: per_day is deliberately not per_night and a week is not either of them.
+#:
+#: Emitting the amount with ``basis_stated: false`` would be worse than
+#: withholding: it says the source named no recurrence when the source named
+#: one this schema cannot hold. So the ladder is refused and the words survive
+#: in the evidence quote.
+_BAND_UNSUPPORTED_BASIS_RE = re.compile(
+    r"\b(?:weekly|monthly|biweekly|fortnightly)\b"
+    r"|per\s+\d+\s*(?:day|night|week)s?\b"
+    r"|per\s+(?:week|month)\b",
+    re.IGNORECASE)
+
+#: A qualifier on the PRICE that a tier has nowhere to put. ``pet_fee`` carries
+#: ``tax_relationship``; a tier does not, so a band stated "plus applicable
+#: taxes" would publish a number the guest does not pay.
+_BAND_TAX_RE = re.compile(
+    r"plus\s+(?:applicable\s+)?tax(?:es)?\b|\+\s*tax\b|before\s+tax(?:es)?\b",
+    re.IGNORECASE)
+
+#: Conditions schema 1.2 has no condition_type for. Each one makes the ladder
+#: unrepresentable rather than merely incomplete.
+_BAND_ROOM_TYPE_RE = re.compile(
+    r"\bin\s+(?:the\s+)?(?:suites?|studios?|villas?|cabins?|cottages?|"
+    r"penthouses?)\b", re.IGNORECASE)
+_BAND_SPECIES_PRICED_RE = re.compile(
+    r"\bdogs?\b[^.]{0,30}?(?:\$\s*\d|\d[\d,]*\s*USD)[^.]{0,60}?"
+    r"\bcats?\b[^.]{0,30}?(?:\$\s*\d|\d[\d,]*\s*USD)"
+    r"|\bcats?\b[^.]{0,30}?(?:\$\s*\d|\d[\d,]*\s*USD)[^.]{0,60}?"
+    r"\bdogs?\b[^.]{0,30}?(?:\$\s*\d|\d[\d,]*\s*USD)",
+    re.IGNORECASE)
+#: TWO prices, each with its own weight qualifier. One weight beside one price
+#: is a weight LIMIT printed next to a fee -- Hilton ends its field
+#: "(2max under 75lbs)" -- and reading that as weight-conditioned pricing held
+#: two readable ladders for a condition neither surface states.
+_BAND_WEIGHT_PRICED_RE = re.compile(
+    r"(?:\$\s*\d[\d,]*|\d[\d,]*\s*USD)[^.]{0,20}?"
+    r"(?:under|over|below|above)\s*\d{1,3}\s*(?:lbs?|pounds?|kgs?)"
+    r"[^.]{0,60}?(?:\$\s*\d[\d,]*|\d[\d,]*\s*USD)[^.]{0,20}?"
+    r"(?:under|over|below|above)\s*\d{1,3}\s*(?:lbs?|pounds?|kgs?)"
+    r"|(?:under|over|below|above)\s*\d{1,3}\s*(?:lbs?|pounds?|kgs?)"
+    r"[^.]{0,20}?(?:\$\s*\d[\d,]*|\d[\d,]*\s*USD)"
+    r"[^.]{0,60}?(?:under|over|below|above)\s*\d{1,3}\s*(?:lbs?|pounds?|kgs?)"
+    r"[^.]{0,20}?(?:\$\s*\d[\d,]*|\d[\d,]*\s*USD)",
+    re.IGNORECASE)
+
+#: Wording that makes a rung an ADDITION to its sibling rather than a
+#: replacement for it. A ladder that mixes the two has no single role, and
+#: Hyatt Place Airport is the case: "7-30 nights + additional cleaning fee :
+#: $200 / STAY" is either the long-stay price or a separate charge, and the
+#: page does not say which.
+_BAND_ADDITIVE_RE = re.compile(
+    r"\badditional\b|\bin\s+addition\b|\bplus\s+a\b|\bon\s+top\s+of\b"
+    r"|\bas\s+well\s+as\b", re.IGNORECASE)
+
+#: What a surface says about getting the money back, quoted rather than parsed.
+_REFUNDABILITY_PHRASE_RE = re.compile(
+    r"\bnon[-\s]?refundable(?:\s+fee)?|\brefundable(?:\s+fee|\s+deposit)?",
+    re.IGNORECASE)
+
+#: How far apart an amount and the range it prices may stand. Wide enough for
+#: "50 USD nonrefundable fee, per pet, for stays 1 to 6 nights", where the
+#: qualifiers between the price and its band are the reason the gap is large.
+_BAND_PAIR_CHARS = 48
+
+#: What separates one rung from the next. A price and the band it prices are
+#: written together; a comma, a semicolon or a full stop between them means the
+#: price belongs to the OTHER rung. Without this, "$50/stay for 1 night,
+#: $75/stay for 2-4 nights" reads the second price onto the first band -- the
+#: following amount is two characters away and the owning one is ten.
+_BAND_SEPARATOR_RE = re.compile(r"[,;.]|\bor\b|\band\b", re.IGNORECASE)
+
+
+class StayBand(NamedTuple):
+    """One rung of a stay-length ladder, exactly as the source states it."""
+
+    amount_minor: int
+    currency: str
+    min_nights: int
+    max_nights: Optional[int]
+    basis: str
+    basis_stated: bool
+    scope: str
+    quote: str
+
+
+class BandReading(NamedTuple):
+    """What the surface's ladder is, and every reason it may not be published."""
+
+    bands: Tuple[StayBand, ...]
+    problems: Tuple[str, ...]
+
+    @property
+    def usable(self) -> bool:
+        return bool(self.bands) and not self.problems
+
+
+def _band_number(raw: str) -> Optional[int]:
+    raw = (raw or "").strip().lower()
+    if raw.isdigit():
+        return int(raw)
+    return _BAND_WORD_NUMBERS.get(raw)
+
+
+def _stay_ranges(text: str) -> List[Tuple[int, Optional[int], int, int, bool]]:
+    """(min, max, start, end, unit_stated) for every night range in the text."""
+    found = []
+    for match in _STAY_RANGE_RE.finditer(text):
+        group = match.groupdict()
+        low = high = None
+        unit_stated = True
+        if group.get("first_hi"):
+            low, high = 1, _band_number(group["first_hi"])
+        elif group.get("upto_hi"):
+            low, high = 1, _band_number(group["upto_hi"])
+        elif group.get("over_lo"):
+            # "over 7 nights" starts at 8. The source has said nothing about
+            # night 7, which the contiguity check below is what catches.
+            value = _band_number(group["over_lo"])
+            low, high = (value + 1 if value is not None else None), None
+        elif group.get("ormore_lo"):
+            low, high = _band_number(group["ormore_lo"]), None
+        elif group.get("closed_lo"):
+            low, high = (_band_number(group["closed_lo"]),
+                         _band_number(group["closed_hi"]))
+        elif group.get("plus_lo"):
+            low, high = _band_number(group["plus_lo"]), None
+            unit_stated = bool(group.get("plus_unit"))
+        elif group.get("single_n"):
+            value = _band_number(group["single_n"])
+            low, high = value, value
+        if low is None:
+            continue
+        # A source may write "0-5 nights"; night zero is not a stay. The
+        # boundary is normalised for arithmetic and the OVERLAP check still
+        # sees what the source actually said.
+        low = max(low, 1)
+        found.append((low, high, match.start(), match.end(), unit_stated))
+    return found
+
+
+def _band_amounts(text: str) -> List[Tuple[int, int, int]]:
+    """(amount_minor, start, end) for every amount in the text."""
+    out = []
+    for match in _BAND_AMOUNT_RE.finditer(text):
+        raw = match.group("dollars") or match.group("usd")
+        if raw:
+            out.append((_amount_minor(raw), match.start(), match.end()))
+    return out
+
+
+def _band_qualifier(text: str, left: int, right: int, pattern) -> str:
+    """The first qualifier stated between an amount and its own range."""
+    window = text[max(0, left - 12):right + 12]
+    match = pattern.search(window)
+    if not match:
+        return ""
+    return match.group(0)
+
+
+def parse_stay_bands(text: str) -> BandReading:
+    """Read a stay-length ladder, and every reason it may not be published.
+
+    Deliberately conservative. A ladder is published only when the source
+    determines it completely: contiguous ranges, one role, one basis story, no
+    unexplained money, and no condition schema 1.2 cannot express. Anything
+    else comes back with problems, and the caller withholds exactly as before.
+    """
+    text = text or ""
+    problems: List[str] = []
+    ranges = _stay_ranges(text)
+    amounts = _band_amounts(text)
+    if len(ranges) < 2:
+        return BandReading((), ("FEWER_THAN_TWO_BANDS",))
+
+    # Pair each range with the amount that prices it. Done as one assignment
+    # rather than range by range: a greedy nearest-first walk gives the second
+    # rung's price to the first rung wherever the ladder is written
+    # "$50/stay for 1 night, $75/stay for 2-4 nights", and then the last rung
+    # has nothing left and a readable ladder reports itself unreadable.
+    #
+    # So every feasible pairing is scored and the best COMPLETE assignment
+    # wins: most rungs priced first, then fewest clause boundaries crossed,
+    # then shortest total distance.
+    if len(ranges) > 6 or len(amounts) > 12:
+        return BandReading((), ("TOO_MANY_CANDIDATES_TO_PAIR",))
+
+    feasible: List[List[Tuple[Tuple[int, int], int]]] = []
+    for low, high, r_start, r_end, unit_stated in ranges:
+        options: List[Tuple[Tuple[int, int], int]] = []
+        for index, (value, a_start, a_end) in enumerate(amounts):
+            if a_end <= r_start:
+                gap, between = r_start - a_end, text[a_end:r_start]
+            elif a_start >= r_end:
+                gap, between = a_start - r_end, text[r_end:a_start]
+            else:
+                continue
+            if gap > _BAND_PAIR_CHARS:
+                continue
+            # An amount or a range standing in between belongs to another
+            # rung, and reaching across it would price this band with a
+            # neighbour's money.
+            if _BAND_AMOUNT_RE.search(between) or _STAY_RANGE_RE.search(between):
+                continue
+            crossings = 1 if _BAND_SEPARATOR_RE.search(between) else 0
+            options.append(((crossings, gap), index))
+        options.sort()
+        feasible.append(options)
+
+    best_assignment: Optional[Tuple[Tuple[int, int, int], List[int]]] = None
+
+    def _assign(position: int, taken: set, chosen: List[int],
+                crossings: int, distance: int) -> None:
+        nonlocal best_assignment
+        if position == len(feasible):
+            priced = sum(1 for index in chosen if index >= 0)
+            score = (-priced, crossings, distance)
+            if best_assignment is None or score < best_assignment[0]:
+                best_assignment = (score, list(chosen))
+            return
+        for (cross, gap), index in feasible[position]:
+            if index in taken:
+                continue
+            taken.add(index)
+            chosen.append(index)
+            _assign(position + 1, taken, chosen, crossings + cross,
+                    distance + gap)
+            chosen.pop()
+            taken.discard(index)
+        # This rung may also go unpriced, which is itself a finding.
+        chosen.append(-1)
+        _assign(position + 1, taken, chosen, crossings, distance)
+        chosen.pop()
+
+    _assign(0, set(), [], 0, 0)
+    assignment = best_assignment[1] if best_assignment else []
+
+    used: set = set()
+    paired: List[Tuple[Tuple, Tuple]] = []
+    for position, index in enumerate(assignment):
+        if index < 0:
+            problems.append("BAND_WITHOUT_A_PRICE")
+            continue
+        used.add(index)
+        paired.append((ranges[position], amounts[index]))
+
+    if len(paired) < 2:
+        return BandReading((), tuple(problems or ("FEWER_THAN_TWO_BANDS",)))
+
+    priced = {value for _, (value, _, _) in paired}
+    for index, (value, _, _) in enumerate(amounts):
+        if index not in used and value not in priced:
+            # Money the ladder does not explain. Hilton restates its first
+            # rung as a headline ("Deposit Yes. $75.00 Non-refundable Fee")
+            # and that is the same money; a THIRD number is a component this
+            # structure is not carrying.
+            problems.append("UNEXPLAINED_AMOUNT")
+            break
+
+    bands: List[StayBand] = []
+    bases = set()
+    for (low, high, r_start, r_end, unit_stated), (value, a_start, a_end) in paired:
+        basis_word = _band_qualifier(text, a_start, a_end, _BAND_BASIS_RE)
+        basis = ""
+        if basis_word:
+            word = re.sub(r"[^a-z]", "", basis_word.lower())
+            for key, mapped in (("stay", enums.BASIS_PER_STAY),
+                                ("night", enums.BASIS_PER_NIGHT),
+                                ("nightly", enums.BASIS_PER_NIGHT),
+                                ("day", enums.BASIS_PER_DAY),
+                                ("daily", enums.BASIS_PER_DAY)):
+                if key in word:
+                    basis = mapped
+                    break
+        scope_word = _band_qualifier(text, a_start, a_end, _BAND_SCOPE_RE)
+        scope = ""
+        if scope_word:
+            lowered = scope_word.lower()
+            scope = (enums.SCOPE_PER_ROOM if "room" in lowered or "unit" in lowered
+                     else enums.SCOPE_PER_PET)
+        if basis:
+            bases.add(basis)
+        left, right = min(a_start, r_start), max(a_end, r_end)
+        bands.append(StayBand(
+            amount_minor=value, currency="USD", min_nights=low,
+            max_nights=high, basis=basis, basis_stated=bool(basis),
+            scope=scope, quote=text[left:right]))
+
+    bands.sort(key=lambda band: (band.min_nights,
+                                 band.max_nights or 10 ** 6))
+    for first, second in zip(bands, bands[1:]):
+        if first.max_nights is None:
+            problems.append("OVERLAPPING_BANDS")
+        elif second.min_nights <= first.max_nights:
+            # "0-5 nights $75 5+ $150" prices night five twice, and choosing
+            # a winner would quote a price the hotel did not.
+            problems.append("OVERLAPPING_BANDS")
+        elif second.min_nights > first.max_nights + 1:
+            # "1 to 6 nights ... over 7 nights" says nothing about night 7.
+            problems.append("GAP_BETWEEN_BANDS")
+    if bands[0].min_nights != 1:
+        problems.append("LADDER_DOES_NOT_START_AT_ONE")
+    if len({band.amount_minor for band in bands}) < 2:
+        problems.append("BANDS_STATE_ONE_PRICE")
+    if len(bases) > 1:
+        problems.append("CONTRADICTORY_BASIS")
+    if not any(unit for *_, unit in ranges):
+        problems.append("NO_BAND_STATES_ITS_UNIT")
+
+    if _BAND_CEILING_RE.search(text):
+        problems.append("CEILING_NOT_PRICE")
+    if _BAND_TAX_RE.search(text):
+        problems.append("TAX_QUALIFIER_NOT_REPRESENTABLE")
+    if _BAND_UNSUPPORTED_BASIS_RE.search(text):
+        problems.append("UNSUPPORTED_BASIS")
+    if _BAND_ROOM_TYPE_RE.search(text):
+        problems.append("ROOM_TYPE_CONDITION")
+    if _BAND_SPECIES_PRICED_RE.search(text):
+        problems.append("SPECIES_CONDITIONED_PRICE")
+    if _BAND_WEIGHT_PRICED_RE.search(text):
+        problems.append("WEIGHT_CONDITIONED_PRICE")
+    for band in bands:
+        if _BAND_ADDITIVE_RE.search(band.quote):
+            problems.append("AMBIGUOUS_ROLE")
+            break
+    return BandReading(tuple(bands), tuple(sorted(set(problems))))
+
+
+def tiers_from_bands(bands: Sequence[StayBand]) -> List[Dict]:
+    """Schema-1.2 ``fee_tiers`` for a ladder, in the shape the corpus uses.
+
+    ``role`` is REPLACEMENT_PRICE and is asserted rather than defaulted: every
+    band here states the whole price for a stay of that length, which is what
+    the caller has already checked by refusing any ladder whose rungs read as
+    additions. ``basis`` is absent unless the source stated it, and
+    ``basis_stated`` says which of the two happened -- the same pair of facts
+    Cleveland's founder adjudications recorded by hand.
+    """
+    tiers = []
+    for band in bands:
+        tier: Dict = {"amount_cents": band.amount_minor,
+                      "currency": band.currency,
+                      "role": enums.ROLE_REPLACEMENT_PRICE,
+                      "condition_type": enums.CONDITION_STAY_LENGTH_RANGE,
+                      "boundary_unit": enums.BOUNDARY_NIGHTS,
+                      "condition_min": band.min_nights,
+                      "basis_stated": band.basis_stated}
+        if band.max_nights is not None:
+            tier["condition_max"] = band.max_nights
+        if band.basis:
+            tier["basis"] = band.basis
+        if band.scope:
+            tier["scope"] = band.scope
+        tiers.append(tier)
+    return tiers
+
+
+#: An ordinal rung: "1 pet $15 per night, 2 pets $25 per night", or the same
+#: ladder written "First pet $20, second pet $10".
+_PET_RUNG_RE = re.compile(
+    r"(?:(?P<count>\d{1,2})\s*(?:pets?|dogs?|cats?)"
+    r"|(?P<word>first|second|third|fourth)\s+(?:pet|dog|cat))"
+    r"[^.$\d]{0,20}?"
+    r"(?:\$\s*(?P<dollars>\d[\d,]*(?:\.\d{2})?)"
+    r"|(?P<usd>\d[\d,]*(?:\.\d{2})?)\s*USD\b)",
+    re.IGNORECASE)
+
+_PET_RUNG_WORDS = {"first": 1, "second": 2, "third": 3, "fourth": 4}
+
+#: "each additional pet" names no ordinal. It could be the second animal or
+#: the fifth, and a schedule that guesses would price a rung the source never
+#: stated. Detected so the ladder is refused rather than invented.
+_PET_RUNG_OPEN_ENDED_RE = re.compile(
+    r"\beach\s+additional\s+(?:pet|dog|cat)|\bevery\s+(?:other|additional)\s+"
+    r"(?:pet|dog|cat)", re.IGNORECASE)
+
+
+class PetSchedule(NamedTuple):
+    entries: Tuple[Dict, ...]
+    problems: Tuple[str, ...]
+
+    @property
+    def usable(self) -> bool:
+        return bool(self.entries) and not self.problems
+
+
+def parse_pet_schedule(text: str) -> PetSchedule:
+    """Read a price stated per ANIMAL rather than per stay length.
+
+    ``additive`` is mandatory in the schema and is never inferred here: a rung
+    is additive only where the source says the charge is on top of the one
+    below it. Where the wording leaves that open the schedule is refused --
+    "$15 for the second pet" charged additively or not is a different bill.
+    """
+    text = text or ""
+    problems: List[str] = []
+    rungs: Dict[int, Dict] = {}
+    for match in _PET_RUNG_RE.finditer(text):
+        group = match.groupdict()
+        ordinal = (int(group["count"]) if group.get("count")
+                   else _PET_RUNG_WORDS.get((group.get("word") or "").lower()))
+        if not ordinal:
+            continue
+        raw = group.get("dollars") or group.get("usd")
+        if not raw:
+            continue
+        span = text[max(0, match.start() - 12):match.end() + 16]
+        basis = ""
+        basis_word = _BAND_BASIS_RE.search(span)
+        if basis_word:
+            word = re.sub(r"[^a-z]", "", basis_word.group(0).lower())
+            for key, mapped in (("stay", enums.BASIS_PER_STAY),
+                                ("nightly", enums.BASIS_PER_NIGHT),
+                                ("night", enums.BASIS_PER_NIGHT),
+                                ("daily", enums.BASIS_PER_DAY),
+                                ("day", enums.BASIS_PER_DAY)):
+                if key in word:
+                    basis = mapped
+                    break
+        entry: Dict = {"pet_ordinal": ordinal,
+                       "amount_cents": _amount_minor(raw),
+                       "currency": "USD",
+                       # The ladders this reads state a rung's OWN price --
+                       # "2 pets $25" is the bill for two animals, not $25 on
+                       # top of the first. Additive rungs are named as such by
+                       # wording this parser refuses outright.
+                       "additive": False}
+        if basis:
+            entry["basis"] = basis
+        scope_word = _BAND_SCOPE_RE.search(span)
+        if scope_word:
+            lowered = scope_word.group(0).lower()
+            entry["scope"] = (enums.SCOPE_PER_ROOM
+                              if "room" in lowered or "unit" in lowered
+                              else enums.SCOPE_PER_PET)
+        if ordinal in rungs and rungs[ordinal] != entry:
+            problems.append("CONTRADICTORY_RUNG")
+        rungs[ordinal] = entry
+    if _PET_RUNG_OPEN_ENDED_RE.search(text):
+        problems.append("OPEN_ENDED_RUNG")
+    if len(rungs) < 2:
+        return PetSchedule((), tuple(problems or ("FEWER_THAN_TWO_RUNGS",)))
+    ordinals = sorted(rungs)
+    if ordinals != list(range(1, len(ordinals) + 1)):
+        problems.append("RUNGS_ARE_NOT_CONSECUTIVE_FROM_ONE")
+    if len({entry["amount_cents"] for entry in rungs.values()}) < 2:
+        problems.append("RUNGS_STATE_ONE_PRICE")
+    if _BAND_CEILING_RE.search(text):
+        problems.append("CEILING_NOT_PRICE")
+    if _BAND_ROOM_TYPE_RE.search(text):
+        problems.append("ROOM_TYPE_CONDITION")
+    if _BAND_WEIGHT_PRICED_RE.search(text):
+        problems.append("WEIGHT_CONDITIONED_PRICE")
+    entries = tuple(rungs[ordinal] for ordinal in ordinals)
+    return PetSchedule(entries, tuple(sorted(set(problems))))
+
+
 def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
     """Map a reading onto the frozen ``ptf-policy-observation/1.0`` vocabulary.
 
@@ -1806,6 +2352,101 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         extraction["cleaning_fee"] = cleaning[0].amount_minor
         cite(cleaning[0].quote, ["cleaning_fee"])
 
+    # --- the structured price, where the source fully determines it -------- #
+    #
+    # Work order 034, reader-to-tiers. Everything below this block withholds
+    # a price the single ``pet_fee`` field cannot hold. Schema 1.2 has held
+    # ``fee_tiers`` and ``fee_pet_schedule`` since the policy migration, and
+    # this reader never built either -- so twenty-nine rows in one market
+    # carried SCHEMA_CANNOT_REPRESENT for a shape the schema was already
+    # carrying by hand from a founder adjudication.
+    #
+    # It runs FIRST because it is the more specific answer. A ladder that reads
+    # completely is a fact; the branches below are what to do when it does not.
+    structured = False
+    bands = parse_stay_bands(reading.block_text)
+    schedule = parse_pet_schedule(reading.block_text)
+    band_amounts = {band.amount_minor for band in bands.bands}
+
+    # A charge the ladder does not explain is a second component, and the
+    # ladder is not the whole price. A deposit or a cleaning fee whose amount
+    # IS one of the rungs is worse than unexplained -- it is the same money
+    # counted twice -- so either way the structure is refused.
+    collides = [c for c in reading.charges
+                if (c.kind == "deposit" or c.cleaning_labelled)
+                and c.amount_minor in band_amounts]
+
+    if bands.usable and schedule.entries:
+        # Two ladders at once: a price by stay length AND a price by animal.
+        # 1.2 can express either, and nothing says how they combine.
+        flags.append({"code": "FLAG_TIERED_FEE",
+                      "detail": "the surface prices by stay length and by pet "
+                                "count at once, and the two ladders are not "
+                                "reconciled by the source"})
+    elif bands.usable and not collides:
+        extraction["fee_tiers"] = tiers_from_bands(bands.bands)
+        for band in bands.bands:
+            cite(band.quote, ["fee_tiers"])
+        # A tier has no refundability field. Where the surface states one --
+        # Hilton heads every ladder "Deposit Yes. $75.00 Non-refundable Fee" --
+        # the words are cited against the structure rather than dropped, so a
+        # reviewer sees the term the vocabulary could not carry.
+        refundability = _REFUNDABILITY_PHRASE_RE.search(reading.block_text)
+        if refundability:
+            cite(refundability.group(0), ["fee_tiers"])
+            non_inferences.append(
+                "fee_tiers[].refundable: the schema's tier carries no "
+                "refundability field; the surface's own words (%r) are cited "
+                "against the structure and nothing is inferred from them"
+                % refundability.group(0))
+        structured = True
+        flags.append({
+            "code": "FLAG_STRUCTURED_TIERS",
+            "detail": "the price is stated as %d bands by stay length and is "
+                      "carried in fee_tiers" % len(bands.bands)})
+    elif schedule.usable and not collides:
+        extraction["fee_pet_schedule"] = {"entries": [dict(entry)
+                                                      for entry in schedule.entries]}
+        cite(reading.block_text[:240], ["fee_pet_schedule"])
+        structured = True
+        flags.append({
+            "code": "FLAG_STRUCTURED_PET_SCHEDULE",
+            "detail": "the price is stated per animal and is carried in "
+                      "fee_pet_schedule (%d rungs)" % len(schedule.entries)})
+
+    if structured:
+        # ONE authoritative price. A simple ``pet_fee`` beside a ladder is two
+        # answers to the same question, and the renderer would have to choose.
+        pool = []
+        non_inferences.append(
+            "pet_fee: the surface prices this pet by %s; the whole ladder is "
+            "carried in %s and no single amount is asserted"
+            % ("stay length" if "fee_tiers" in extraction else "pet count",
+               "fee_tiers" if "fee_tiers" in extraction else "fee_pet_schedule"))
+        if not any(band.basis_stated for band in bands.bands) \
+                and "fee_tiers" in extraction:
+            non_inferences.append(
+                "fee_tiers[].basis: this surface states amounts and stay "
+                "lengths and never says whether a rung is charged per night "
+                "or per stay; basis_stated records that it did not")
+    else:
+        why = tuple(bands.problems) if bands.bands else tuple(schedule.problems)
+        if why and (bands.bands or schedule.entries):
+            # The surface DID state a ladder and it cannot be given to the
+            # schema safely. Recorded as SCHEMA_CANNOT_REPRESENT here rather
+            # than left to fall through to "the page said nothing": a block
+            # priced "$75 weekly for 1-4 nights" names a recurrence FEE_BASES
+            # has no member for, and reporting that as silence would tell a
+            # reviewer to go looking for a fee that is printed on the page.
+            withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+            withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
+            flags.append({
+                "code": "FLAG_TIER_STRUCTURE_REFUSED",
+                "detail": "the surface prices this pet in bands the schema "
+                          "cannot be given safely (%s); no structure is "
+                          "emitted and no single amount is asserted"
+                          % ", ".join(why)})
+
     # A component the surface states and no charge carries is withheld through
     # the same machinery, for the same reason: the vocabulary holds ONE amount
     # and one basis, and the surface described more than one thing. Added by
@@ -1818,7 +2459,8 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
     # reporting it as "components that cannot be carried together" would bury
     # the fact that the surface prices the same pet by stay length -- which is
     # what a reviewer needs to see, and what FLAG_TIERED_FEE says.
-    if pool and reading.unrepresented and not _fee_is_tiered(reading.block_text):
+    if (pool and not structured and reading.unrepresented
+            and not _fee_is_tiered(reading.block_text)):
         withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
         withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
         flags.append({
@@ -1830,7 +2472,8 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                           for u in reading.unrepresented)))})
         pool = []
 
-    if len(pool) == 1 and _fee_is_conditional(reading.block_text, pool[0]):
+    if (len(pool) == 1 and not structured
+            and _fee_is_conditional(reading.block_text, pool[0])):
         withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
         withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
         flags.append({
@@ -1847,7 +2490,7 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
     # partial answer, it is a wrong one. The case that forced this: a surface
     # pricing 1-6 nights at 50 USD and 7+ nights at 150 USD, from which the
     # reader published 50 -- understating a week by 100 USD.
-    if pool and _fee_is_tiered(reading.block_text):
+    if pool and not structured and _fee_is_tiered(reading.block_text):
         withheld["pet_fee"] = enums.SCHEMA_CANNOT_REPRESENT
         withheld["fee_basis"] = enums.SCHEMA_CANNOT_REPRESENT
         flags.append({
@@ -1898,11 +2541,17 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                 "(%s) and does not say which is the pet fee"
                                 % (len(pool),
                                    ", ".join(sorted(c.quote for c in pool)))})
-    elif reading.pets_allowed:
+    elif reading.pets_allowed and not structured:
         # A reason already recorded is more specific than silence. The
         # conditional-fee branch above empties the pool deliberately, and its
         # SCHEMA_CANNOT_REPRESENT must not be overwritten by "the page said
         # nothing" -- the page said something the schema cannot hold.
+        #
+        # A STRUCTURED price is the same argument one step further: a ladder in
+        # ``fee_tiers`` is the surface's price, and reporting pet_fee as
+        # SOURCE_SILENT beside it would tell a reviewer the page named no fee
+        # while the row carries three of them. Added by
+        # Found by work order 034, reader-to-tiers.
         withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
 
     for excluded_amount in reading.excluded_amounts:

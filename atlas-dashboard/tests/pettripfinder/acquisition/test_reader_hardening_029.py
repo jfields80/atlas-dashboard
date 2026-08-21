@@ -125,7 +125,11 @@ def test_a_fee_the_schema_cannot_hold_is_still_withheld(case_id):
     case = target_case(case_id)
     result = read(case.block())
     assert "pet_fee" not in result.extraction
-    assert "pet_fee" in result.withheld
+    # 034 gave the banded case a structure. The claim 029 was making -- that
+    # no single amount is asserted for a fee the vocabulary cannot hold -- is
+    # unchanged; where the amount IS holdable, it is held as a ladder.
+    assert ("pet_fee" in result.withheld
+            or result.extraction.get("fee_tiers"))
 
 
 def test_a_contradicted_basis_is_still_withheld():
