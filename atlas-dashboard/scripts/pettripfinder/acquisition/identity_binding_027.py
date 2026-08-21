@@ -361,6 +361,17 @@ def _registrable(url: str) -> str:
 
 _LEGACY_SOURCE_PATH = "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py"
 
+#: The commit whose gate is "the old gate" -- 026's, the last before this
+#: repair touched ``assess_identity``.
+#:
+#: Pinned, and pinned for a reason 028 found the hard way: this read ``HEAD``,
+#: and once 027 was committed HEAD BECAME the new gate. The before/after
+#: comparison then measured the new rule against itself, and the extracted
+#: source stopped compiling in its own namespace the moment the new rule
+#: referenced a helper the exec environment does not carry. A baseline that
+#: moves is not a baseline.
+LEGACY_COMMIT = "9f714f3bc63207ac4a2f03d419d4b1ce66a431d5"
+
 
 _LEGACY_CACHE: Dict[str, object] = {}
 
@@ -380,14 +391,14 @@ def legacy_assess():
     if "assess" in _LEGACY_CACHE:
         return _LEGACY_CACHE["assess"]
     blob = subprocess.run(
-        ["git", "show", "HEAD:%s" % _LEGACY_SOURCE_PATH],
+        ["git", "show", "%s:%s" % (LEGACY_COMMIT, _LEGACY_SOURCE_PATH)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8",
         check=True).stdout
     start = blob.index("def assess_identity(")
     end = blob.index("def path_identity(", start)
     namespace: Dict = {"MS": MS, "List": List,
                        "path_identity": PS.path_identity}
-    exec(compile(blob[start:end], "<policy_surface@HEAD>", "exec"), namespace)
+    exec(compile(blob[start:end], "<policy_surface@%s>" % LEGACY_COMMIT[:7], "exec"), namespace)
     _LEGACY_CACHE["assess"] = namespace["assess_identity"]
     return _LEGACY_CACHE["assess"]
 
@@ -686,6 +697,21 @@ def _reader_called_it_a_refusal(document) -> Optional[bool]:
     return None
 
 
+#: The usable-policy checks whose answer depends on whether the block refuses.
+#: Recomputed rather than trusted, so a refusal the regex missed and a refusal
+#: the regex imagined are both answered by the reader.
+def _refusal_dependent_checks(verdict: Mapping, refusal: bool) -> Dict:
+    block = (verdict.get("block_text") or "").strip()
+    substantive = bool(verdict.get("substantive_fields")) or refusal
+    withheld = bool(verdict.get("withheld_fields"))
+    return {
+        "block_is_not_a_shell": bool(refusal or len(block) >= 40),
+        "states_terms_or_a_refusal": bool(substantive or withheld),
+        "reader_represented_or_withheld": bool(substantive or withheld),
+        "not_a_bare_allowed_flag": bool(substantive),
+    }
+
+
 def assess_usable(document, *, identity_confirmed: bool) -> Dict:
     """023's usable-policy bar, with identity taken from the router's own gate.
 
@@ -703,10 +729,17 @@ def assess_usable(document, *, identity_confirmed: bool) -> Dict:
         return verdict
     checks = dict(verdict.get("checks") or {})
     checks["identity_bound_to_this_property"] = bool(identity_confirmed)
-    failed = sorted(name for name, passed in checks.items() if not passed)
     read_as_refusal = _reader_called_it_a_refusal(document)
     refusal = (bool(verdict.get("states_a_refusal")) if read_as_refusal is None
                else read_as_refusal)
+    # The checks that turn on "is this a refusal" ask the READER, not the
+    # regex. Best Western writes "Pets are not accepted", which the reader
+    # reads as a refusal and the pattern does not match at all -- so a
+    # complete, property-bound answer was failing the shell check for being
+    # thirty-three characters long. This is not a relaxation: a row only
+    # qualifies here when the reader itself extracted pets_allowed = False.
+    checks.update(_refusal_dependent_checks(verdict, refusal))
+    failed = sorted(name for name, passed in checks.items() if not passed)
     verdict["block_matches_a_refusal_pattern"] = bool(
         verdict.get("states_a_refusal"))
     verdict["reader_read_it_as_a_refusal"] = read_as_refusal
@@ -798,6 +831,8 @@ def _rescore_usable(detail: Mapping, identity_confirmed: bool,
     refusal = (bool(out.get("states_a_refusal")) if read_as_refusal is None
                else bool(read_as_refusal))
     out["reader_read_it_as_a_refusal"] = read_as_refusal
+    checks.update(_refusal_dependent_checks(out, refusal))
+    failed = sorted(name for name, passed in checks.items() if not passed)
     out["checks"] = checks
     out["verdict"] = H.USABLE if not failed else H.NOT_USABLE
     out["reason"] = (

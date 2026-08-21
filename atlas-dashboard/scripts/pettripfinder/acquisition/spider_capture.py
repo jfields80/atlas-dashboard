@@ -209,14 +209,14 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
                             final_url=final_url,
                             expected_url=target.requested_url,
                             expected_property_code=target.property_code,
-                            brand=brand)
+                            brand=target.identity_brand or brand)
     if health is not None:
         return finish(health, final_url=final_url, title=title,
                       body_chars=len(MS.collapse(body_text)),
                       detail="rejected by the page-health gate")
 
     signals = PS.read_identity(html, final_url=final_url, title=title,
-                               brand=brand)
+                               brand=target.identity_brand or brand)
     assessment = PS.assess_identity(
         signals, expected_name=target.hotel,
         expected_property_code=target.property_code,

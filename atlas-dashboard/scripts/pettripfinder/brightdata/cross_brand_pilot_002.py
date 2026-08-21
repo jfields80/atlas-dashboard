@@ -181,6 +181,7 @@ def target_for(record: CORPUS.BenchmarkRecord) -> BC.CaptureTarget:
         expected_postal_code=record.postal_code,
         expected_phone=record.phone,
         expected_locality=record.locality,
+        identity_brand=record.brand,
         census_matched=True,
         census_note="identity taken from the committed %s authority"
                     % record.market_id)

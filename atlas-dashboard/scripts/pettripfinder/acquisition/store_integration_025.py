@@ -124,6 +124,11 @@ RUN_KINDS: Dict[str, Tuple[str, str]] = {
     # street and telephone.
     "milwaukee-identity-027": (CURRENT_PRODUCTION,
                                "the code-less identity repair's re-acquisition"),
+    # Added by PTF-HYATT-BEST-WESTERN-PREMIUM-RESOLUTION-028: the premium-domain
+    # bucket, acquirable once the Bright Data plan covered Hyatt and Best
+    # Western.
+    "milwaukee-premium-028": (CURRENT_PRODUCTION,
+                              "the Hyatt and Best Western premium-domain run"),
     "marriott-closure-022": (SUPERSEDING,
                              "one fresh capture confirming the corrected "
                              "Marriott locator; supersedes The Trade"),
@@ -180,6 +185,10 @@ SOURCES: Tuple[Tuple[str, str, str], ...] = (
     ("milwaukee-identity-027",
      "milwaukee-identity-027/journal.jsonl",
      "milwaukee-identity-027/milwaukee-identity-027"),
+    # Added by PTF-HYATT-BEST-WESTERN-PREMIUM-RESOLUTION-028.
+    ("milwaukee-premium-028",
+     "milwaukee-premium-028/journal.jsonl",
+     "milwaukee-premium-028/milwaukee-premium-028"),
 )
 
 #: Newer wins where no supersession says otherwise. Ordered oldest to newest by
@@ -189,6 +198,7 @@ RUN_ORDER: Tuple[str, ...] = (
     "milwaukee-router-001", "milwaukee-resume-007", "milwaukee-wyndham-008",
     "milwaukee-ihg-009", "marriott-milwaukee-020", "hilton-milwaukee-023",
     "milwaukee-final-026", "milwaukee-identity-027",
+    "milwaukee-premium-028",
 )
 
 
@@ -228,6 +238,7 @@ _RUN_REPORTS: Dict[str, Path] = {
     "hilton-milwaukee-023": REPORTS / "ptf_hilton_milwaukee_run_023.json",
     "milwaukee-final-026": REPORTS / "ptf_milwaukee_final_pass_026.json",
     "milwaukee-identity-027": REPORTS / "ptf_identity_binding_027.json",
+    "milwaukee-premium-028": REPORTS / "ptf_premium_resolution_028.json",
 }
 _RUN_TIMES: Dict[str, str] = {}
 

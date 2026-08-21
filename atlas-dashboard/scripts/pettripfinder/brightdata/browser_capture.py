@@ -162,6 +162,12 @@ class CaptureTarget:
     #: which building was asked for, never what it charges.
     expected_phone: str = ""
     expected_locality: str = ""
+    #: The property's OWN brand, which is not the same thing as the brand whose
+    #: locator will be tried. A route may read a coded brand with the generic
+    #: walk -- Hyatt and Best Western both do -- and the capture then received
+    #: an empty brand and re-derived the property code as empty while the
+    #: expected code was a real one. Two concepts, two fields.
+    identity_brand: str = ""
     census_matched: bool = False
     census_note: str = ""
 

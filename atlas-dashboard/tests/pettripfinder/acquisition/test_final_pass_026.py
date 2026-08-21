@@ -266,8 +266,16 @@ def test_touched_is_127_and_never_touched_is_zero():
 
 
 def test_observed_plus_unresolved_reconciles_to_routable():
+    """The ROUTABLE subset reconciles -- which is not the market.
+
+    ``observed`` is intersected with the routable set because the store is no
+    longer confined to it: 028 acquired the premium-domain bucket, which was
+    excluded from routable by cost and is census inventory all the same. This
+    equation is about the 127 and says nothing about the 147; the full-census
+    reconciliation is 028's.
+    """
     routable = set(F.routable())
-    observed = {i["identity_key"] for i in store()["items"]}
+    observed = {i["identity_key"] for i in store()["items"]} & routable
     graded = set()
     for run, journal, _root in S.SOURCES:
         path = S.DATA / journal

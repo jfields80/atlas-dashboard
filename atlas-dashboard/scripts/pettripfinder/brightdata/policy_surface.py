@@ -512,6 +512,14 @@ PROPERTY_CODE_PATTERNS: Dict[str, str] = {
     "HILTON": r"/en/hotels/([a-z0-9]{6,12})-",
     "IHG": r"/hotels/[a-z]{2}/[a-z]+/([a-z0-9]{5})/",
     "CHOICE": r"/[a-z]{2}/[a-z-]+/[a-z-]+-hotel/([a-z0-9]{4,8})",
+    # Added by PTF-HYATT-BEST-WESTERN-PREMIUM-RESOLUTION-028. Both brands put a
+    # code in every property URL and the identity census already holds it, so
+    # binding on the code is available and is strictly stronger than the
+    # code-less route these two would otherwise take:
+    #   /hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport
+    #   /book/hotels-in-milwaukee/<slug>/propertyCode.50056.html
+    "HYATT": r"/en-US/([a-z0-9]{5})-",
+    "BEST_WESTERN": r"/propertyCode\.(\d{4,6})\.",
 }
 
 
