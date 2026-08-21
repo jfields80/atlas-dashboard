@@ -970,7 +970,28 @@ def to_extraction(reading: PolicyReading, *, location: str) -> ExtractionResult:
     # WITHHELD rather than asserted at whichever component happened to parse.
     # Publishing the parsed one would understate the cost while looking
     # complete, which is the failure this guard exists to prevent.
-    if reading.unrepresented:
+    # A charge this reader PARSED and no field can carry is such a component
+    # too, and it was the one shape this guard could not see. Courtyard
+    # Milwaukee Downtown writes "Daily cleaning fee of $5/ day in addition to
+    # the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay:
+    # $50.00". Both amounts become charges; only structured rows become fee
+    # candidates; so $50 published and $5 a day vanished without a withholding,
+    # a flag or a note. ``unrepresented_charges`` could not catch it because it
+    # asks which amounts became CHARGES, and this one did -- it just never
+    # became a FIELD.
+    #
+    # Computed here rather than in the parser because only this layer knows
+    # which charges the extraction ended up carrying.
+    carried = {c.amount_minor for c in fee_candidates}
+    carried.update(c.amount_minor for c in cleaning)
+    unrepresented = list(reading.unrepresented) + [
+        {"kind": "charge_not_represented", "amount_minor": charge.amount_minor,
+         "quote": charge.quote,
+         "note": ("the reader read this charge from the block and no field "
+                  "carries it")}
+        for charge in reading.charges if charge.amount_minor not in carried]
+
+    if unrepresented:
         extraction.pop("pet_fee", None)
         extraction.pop("fee_basis", None)
         extraction.pop("fee_currency", None)
@@ -984,7 +1005,7 @@ def to_extraction(reading: PolicyReading, *, location: str) -> ExtractionResult:
             "detail": ("the block states charge components this schema cannot "
                        "carry together (%s); no single pet_fee is asserted"
                        % "; ".join(sorted(u["quote"] for u in
-                                          reading.unrepresented)))})
+                                          unrepresented)))})
         non_inferences.append(
             "pet_fee: the surface states more than one charge component and "
             "the schema carries one amount and one basis; the components are "

@@ -461,25 +461,77 @@ def queued_identities() -> Dict[str, Dict]:
     return {item["canonical_name"]: item for item in doc["items"]}
 
 
-def rederivations(entries: Sequence[Dict]) -> Dict[str, Dict]:
-    """The overlay the store builder applies, for the queued records.
+#: The work order that made the current-state projection universal. Stamped on
+#: every row the projection moves, because lineage must name the authority for
+#: the derivation and not merely the module the code happens to live in.
+CURRENT_STATE_WORK_ORDER = "PTF-MILWAUKEE-STORE-READER-SYNC-030"
 
-    Built by re-reading each record's own persisted block with the reader at
-    HEAD. Every entry already carries that reading, so this is the same fact
-    restated in the shape the builder's supersession seam expects.
+#: What that stamp means, carried onto the row so a reader of the store does
+#: not have to know a work-order number to understand it.
+CURRENT_STATE_DERIVATION = (
+    "current-state projection: this row's facts are the CURRENT reader over "
+    "the exact persisted policy block this observation was based on. The "
+    "acquisition run's own reading is preserved beside it and is what that run "
+    "actually reported at capture time.")
+
+
+def historical_reading(entry: Mapping) -> Dict:
+    """What this entry's own record says the reader made of it AT THE TIME.
+
+    For a router-001 entry that is the capture-time reading, carried verbatim
+    in the journal. For an entry this module built from evidence it is already
+    the current reading, so such a row can never be stale and never acquires a
+    re-derivation marker -- which is correct: nothing about it changed.
     """
-    queued = queued_identities()
+    doc = (entry.get("result") or {}).get("document") or {}
+    obs = doc.get("observation") or {}
+    return {"extraction": dict(obs.get("extraction") or {}),
+            "withheld": dict(doc.get("withheld_fields") or {})}
+
+
+def same_reading(left: Mapping, right: Mapping) -> bool:
+    return (dict(left.get("extraction") or {})
+            == dict(right.get("extraction") or {})
+            and dict(left.get("withheld") or {})
+            == dict(right.get("withheld") or {}))
+
+
+def current_state_projection(entries: Sequence[Dict]) -> Dict[str, Dict]:
+    """The current reader over every selected observation's own block.
+
+    THE ASYMMETRY THIS REPLACES
+    ---------------------------
+    This used to be scoped to ``queued_identities()`` -- fifteen names from one
+    work order's review queue. Every OTHER production run reaches the store as
+    an entry built by re-reading its evidence, so those rows track the reader
+    automatically; router-001 rows are projected from that run's journal, which
+    holds what its reader said in August. A router-001 row could therefore only
+    receive a later reader by being named in an overlay, and four identities sat
+    correct on disk and stale in the store because nobody had named them.
+
+    Now every selected observation is read the same way: resolve the block the
+    observation is ABOUT, run the reader that observation's route selects, and
+    hand the result to the store builder's existing seam. Selection is not
+    touched -- this runs after it and changes only what the winning observation
+    is read to say.
+
+    An entry whose current reading equals its historical one produces NO entry
+    here. There is nothing to supersede and no lineage to record, and emitting
+    one would claim the reader changed its mind when it did not.
+    """
     commit = reader_commit()
     out: Dict[str, Dict] = {}
     for entry in entries:
-        if entry["canonical_name"] not in queued:
-            continue
         block = entry.get("_block") or ""
         if not block:
             continue
         read = _read_block(block, entry.get("brand", ""))
+        historical = historical_reading(entry)
+        if same_reading(historical, read):
+            continue
         out[entry["identity_key"]] = {
-            "work_order": WORK_ORDER,
+            "work_order": CURRENT_STATE_WORK_ORDER,
+            "derivation": CURRENT_STATE_DERIVATION,
             "reader_commit": commit,
             "evidence_block_path": entry.get("_evidence_block_path", ""),
             "evidence_block_sha256": entry.get("_evidence_block_sha256", ""),
@@ -489,6 +541,17 @@ def rederivations(entries: Sequence[Dict]) -> Dict[str, Dict]:
             "evidence": read["evidence"],
         }
     return out
+
+
+def rederivations(entries: Sequence[Dict]) -> Dict[str, Dict]:
+    """Kept as the name earlier work orders call; now the whole projection.
+
+    PTF-MILWAUKEE-STORE-READER-SYNC-030 removed the named-overlay scope. The
+    function is left in place because it is the seam 025's own tests and
+    reports refer to, and it now returns what it always should have: every
+    selected observation whose current reading differs from its historical one.
+    """
+    return current_state_projection(entries)
 
 
 REDERIVATION_018 = REPORTS / "ptf_milwaukee_observation_rederivation_018.json"
@@ -558,14 +621,30 @@ def integrate(write: bool = False) -> Dict:
     superseded = marriott_supersessions()
     chosen, conflicts = select_current(entries, superseded)
 
-    # Order matters: 018's corrections first, then 022's Marriott
-    # supersessions, then 024's. A later work order re-deriving the same record
-    # is entitled to win; an earlier one must not be silently discarded.
+    # Order matters, and each step earns its place.
+    #
+    # 018's corrections first, because they are a record of what that work
+    # order examined and decided. Then the current-state projection, which is
+    # entitled to win: it reads the same persisted blocks with a newer reader.
+    # Where the two AGREE the earlier attribution is kept -- the reading did
+    # not change, so claiming a newer work order changed it would be false.
+    #
+    # 022's Marriott supersessions last, and deliberately. Those rows rest on a
+    # mechanical determination as well as a reading, and one of them reads
+    # LESS from its block than the determination concluded. A projection that
+    # overrode it would silently discard an adjudication.
     overlay = overlay_018()
-    overlay.update(rederivations(chosen))
+    projection = current_state_projection(chosen)
+    projected_rows, kept_earlier = [], []
+    for identity, reading in projection.items():
+        prior = overlay.get(identity)
+        if prior and same_reading(prior, reading):
+            kept_earlier.append(identity)
+            continue
+        overlay[identity] = reading
+        projected_rows.append(identity)
     overlay.update(marriott_overlay(superseded))
 
-    router = [e for e in chosen if e.get("source_run") == "milwaukee-router-001"]
     extra = [e for e in chosen if e.get("source_run") != "milwaukee-router-001"]
     doc = PROP.build(rederived=overlay, write=write, extra_entries=extra)
 
@@ -601,6 +680,14 @@ def integrate(write: bool = False) -> Dict:
                        "canonical_name": c["canonical_name"],
                        **c["_conflict"]} for c in conflicts],
         "rederivations_applied": sorted(overlay),
+        "current_state_projection": {
+            "observations_read": len(chosen),
+            "readings_that_changed": sorted(projection),
+            "applied": sorted(projected_rows),
+            "earlier_attribution_kept": sorted(kept_earlier),
+            "superseded_and_left_alone": sorted(
+                set(projection) & set(superseded)),
+        },
         "marriott_supersessions": sorted(superseded),
         "published_after": sum(1 for i in doc["items"] if i.get("published")),
         "founder_approved_after": sum(1 for i in doc["items"]

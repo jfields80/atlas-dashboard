@@ -198,6 +198,10 @@ def build(rederived: Optional[Mapping] = None, write: bool = True,
             # reader changed its mind.
             supersession = {
                 "superseded_by": update["work_order"],
+                # Why this row's facts are not the run's own reading. Optional
+                # so an earlier work order's overlay, which carries no such
+                # note, is written exactly as it was.
+                "derivation": update.get("derivation", ""),
                 "reader_commit": update["reader_commit"],
                 "evidence_block_path": update["evidence_block_path"],
                 "evidence_block_sha256": update["evidence_block_sha256"],

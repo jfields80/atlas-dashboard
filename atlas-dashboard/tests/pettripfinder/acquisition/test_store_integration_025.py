@@ -143,20 +143,45 @@ def test_the_marriott_production_rows_entered():
 # 6-7. The 024 re-derivations.
 # --------------------------------------------------------------------------- #
 
-def test_every_queued_rederivation_used_persisted_evidence():
+def test_every_queued_row_rests_on_its_own_persisted_evidence():
+    """Narrowed by PTF-MILWAUKEE-STORE-READER-SYNC-030.
+
+    This used to require a ``rederivation`` block on every queued row, because
+    the overlay was scoped to that queue and stamped all fifteen unconditionally
+    -- including rows whose reading had not changed at all. Lineage now records
+    a CHANGE, so six Hilton rows whose stored reading already equalled the
+    current one carry none, and stamping them would claim a work order changed
+    a reading it did not touch.
+
+    The invariant that replaces it is stronger and is what the old one was
+    reaching for: every queued row's facts are what the current reader makes of
+    that row's own persisted block, and any lineage present names a real block.
+    """
     queued = {i["canonical_name"] for i in
               json.loads(G.QUEUE_REPORT.read_text(encoding="utf-8-sig"))["items"]}
     rows = {i["canonical_name"]: i for i in store()["items"]}
+    entries = []
+    for run_id, journal, capture_root in S.SOURCES:
+        entries.extend(S.load_source(run_id, journal, capture_root))
+    superseded = S.marriott_supersessions()
+    chosen, _conflicts = S.select_current(entries, superseded)
+    by_name = {e["canonical_name"]: e for e in chosen}
     seen = 0
     for name in queued:
         row = rows.get(name)
         if row is None:          # Spark, which is not publication grade
             continue
         seen += 1
-        assert row["rederivation"], name
-        assert row["rederivation"]["evidence_block_sha256"], name
-        assert row["rederivation"]["evidence_block_path"].endswith(
-            "policy-block.txt"), name
+        lineage = row.get("rederivation") or {}
+        if lineage:
+            assert lineage["evidence_block_sha256"], name
+            assert lineage["evidence_block_path"].endswith(
+                "policy-block.txt"), name
+        entry = by_name.get(name)
+        if entry is None or row["identity_key"] in superseded:
+            continue
+        current = S._read_block(entry["_block"], entry.get("brand", ""))
+        assert current["extraction"] == row["proposed_facts"], name
     assert seen >= 15
 
 

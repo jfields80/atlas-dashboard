@@ -25,14 +25,14 @@
  },
  "publication_grade_total": 114,
  "proposal_total": 114,
- "founder_review_ready": 56,
+ "founder_review_ready": 53,
  "refusal_founder_review": 26,
  "held_semantic_review": 0,
  "review_status_counts": {
-  "FOUNDER_REVIEW_READY": 56,
+  "FOUNDER_REVIEW_READY": 53,
   "HELD_INSUFFICIENT_EVIDENCE": 8,
   "REFUSAL_FOUNDER_REVIEW": 26,
-  "HELD_SCHEMA_CANNOT_REPRESENT": 24
+  "HELD_SCHEMA_CANNOT_REPRESENT": 27
  },
  "refusal_note": "A captured refusal is a finding, not an exclusion. Nothing here creates a VERIFIED_NO_PETS record: that is a founder decision and a publication act, and this work order takes neither. Each refusal carries the exact quote it rests on so the decision is reviewable.",
  "items": [
@@ -390,6 +390,7 @@
      "value": 50.0,
      "unit": "lb"
     },
+    "pet_count_limit": 2,
     "cats_allowed": false,
     "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
    },
@@ -403,28 +404,35 @@
    "evidence": [
     {
      "quote": "Pets allowed",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "50lbs or less",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "location": "policy-block.txt",
      "field_refs": [
       "weight_limit"
      ]
     },
     {
+     "quote": "maximum of 2 Dogs",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
      "quote": "No cats",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "location": "policy-block.txt",
      "field_refs": [
       "cats_allowed"
      ]
     },
     {
      "quote": "Pets allowed Service animals allowed Pet walking area onsite",
-     "location": "bounded policy container (generic_signal_walk / div.aem-Grid.aem-Grid--12 > div.hotel-detail-container.additional-hotel-info > div.cmp-hotel-detail-container.cmp-accordion > div.cmp-accordion__item > div.cmp-accordion__panel.cmp-accordion__panel--expanded)",
+     "location": "policy-block.txt",
      "field_refs": [
       "service_animal_exception"
      ]
@@ -455,7 +463,25 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/avid-hotels-milwaukee-west-waukesha/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "f384ad1c3044402b24f263e8d2248604494679b652aa544f64fffc8835280fe2",
+    "previous_facts": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "cats_allowed": false,
+     "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -528,6 +554,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/avid-hotels-oak-creek/attempt-01/policy-block.txt",
     "evidence_block_sha256": "932f654d661bdfb1a7d7092ac26018efdfae0d8e8a06518576cba67cd7c17cc3",
@@ -857,6 +884,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-airport-oak-creek/attempt-01/policy-block.txt",
     "evidence_block_sha256": "a6fad5d013907c564d5ce18a38dba4eb2e236a403a372555c927b1a7d3a2ea04",
@@ -935,6 +963,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/policy-block.txt",
     "evidence_block_sha256": "175aff2a08bca2fad769cc644d1a10f43948ad58b6363467ef4a3aa7886eb143",
@@ -1086,6 +1115,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01/policy-block.txt",
     "evidence_block_sha256": "a70663c220672e40481d43b579e8d914b3f3ce8ec29c6fa9205dd9311d3a17b2",
@@ -1287,7 +1317,8 @@
     "service_animal_exception": "Service animals are permitted, without charge."
    },
    "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
    },
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
@@ -1297,21 +1328,21 @@
    "evidence": [
     {
      "quote": "Pets Allowed",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "maximum of 2 pets",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_count_limit"
      ]
     },
     {
      "quote": "Service animals are permitted, without charge.",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "service_animal_exception"
      ]
@@ -1342,8 +1373,22 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
-   "review_status": "FOUNDER_REVIEW_READY"
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
+    "evidence_block_sha256": "1643783491d6631e2c35cbd8729c87090982a727f2f2b152b8aefa7adc885a7d",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    }
+   },
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
    "identity_key": "comfort suites milwaukee west",
@@ -1353,6 +1398,7 @@
    "policy_schema_version": "1.2",
    "proposed_facts": {
     "pets_allowed": true,
+    "pet_deposit": 10000,
     "pet_fee": 2500,
     "fee_currency": "USD",
     "fee_basis": "per_night",
@@ -1374,14 +1420,21 @@
    "evidence": [
     {
      "quote": "Pets Allowed",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
+     "quote": "deposit of 100 USD",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
      "quote": "25 USD Per Pet,Per Night",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_fee",
       "fee_currency"
@@ -1389,28 +1442,28 @@
     },
     {
      "quote": "25 USD Per Pet,Per Night",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "fee_basis"
      ]
     },
     {
      "quote": "25 USD Per Pet,Per Night",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "fee_scope"
      ]
     },
     {
      "quote": "Max 40 Pounds",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "weight_limit"
      ]
     },
     {
      "quote": "2 Pet Per Room",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_count_limit",
       "pet_count_scope"
@@ -1418,7 +1471,7 @@
     },
     {
      "quote": "Max 40 Pounds Service animals are permitted, without charge.",
-     "location": "bounded policy container (static_html_walk / (static text))",
+     "location": "policy-block.txt",
      "field_refs": [
       "service_animal_exception"
      ]
@@ -1449,7 +1502,28 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-west/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "4e56e31fea98485749af067b1b6b1139f0da608706e366febb977b6810ca1d6e",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 40.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+    },
+    "previous_withheld_fields": {}
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -1581,32 +1655,34 @@
     "pet_count_scope": "per_room"
    },
    "withheld_fields": {
-    "pet_fee": "SOURCE_AMBIGUOUS",
-    "fee_basis": "SOURCE_AMBIGUOUS"
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
    },
    "non_inferences": [
-    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it",
-    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    "fee_scope: not stated by the Marriott template; unknown is absence",
+    "weight_limit.operator: 'Maximum' is not recorded as lt or lte; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not stated; per_pet is not assumed",
+    "pet_fee: the surface states more than one charge component and the schema carries one amount and one basis; the components are not summed and none is chosen",
+    "species: a generic 'Pets Welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
     {
      "quote": "Pets Welcome",
-     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "Maximum Pet Weight: 50.0lbs",
-     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "location": "policy-block.txt",
      "field_refs": [
       "weight_limit"
      ]
     },
     {
      "quote": "Maximum Number of Pets in Room: 2",
-     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_count_limit",
       "pet_count_scope"
@@ -1639,8 +1715,27 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
-   "review_status": "FOUNDER_REVIEW_READY"
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "53b35ecf67fd0251d5e989ec893e8972e144a13975b84baf16fa3944a4080e9f",
+    "previous_facts": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_AMBIGUOUS",
+     "fee_basis": "SOURCE_AMBIGUOUS"
+    }
+   },
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
    "identity_key": "courtyard by marriott milwaukee downtown",
@@ -1654,25 +1749,27 @@
     "pet_count_scope": "per_room"
    },
    "withheld_fields": {
-    "pet_fee": "SOURCE_AMBIGUOUS",
-    "fee_basis": "SOURCE_AMBIGUOUS"
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
    },
    "non_inferences": [
-    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
-    "weight_limit.scope: not emitted unless the source states it",
-    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    "fee_scope: not stated by the Marriott template; unknown is absence",
+    "weight_limit.operator: 'Maximum' is not recorded as lt or lte; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not stated; per_pet is not assumed",
+    "pet_fee: the surface states more than one charge component and the schema carries one amount and one basis; the components are not summed and none is chosen",
+    "species: a generic 'Pets Welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
     {
      "quote": "Pets Welcome",
-     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "Maximum Number of Pets in Room: 2",
-     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_count_limit",
       "pet_count_scope"
@@ -1705,8 +1802,23 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
-   "review_status": "FOUNDER_REVIEW_READY"
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "958b86efdfee2cb1b4d078823ccb53daf317b17ae397b456d634beffca23495e",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "previous_withheld_fields": {
+     "pet_fee": "SOURCE_AMBIGUOUS",
+     "fee_basis": "SOURCE_AMBIGUOUS"
+    }
+   },
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
    "identity_key": "crowne plaza milwaukee airport",
@@ -1773,6 +1885,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/policy-block.txt",
     "evidence_block_sha256": "aa0abbab148bd3e6a6bce9e46b911c45392e5f0c6deb9b4150af9d6b440de2e5",
@@ -2202,8 +2315,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/embassy-suites-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
     "evidence_block_sha256": "e63e5242593e8fc5c58d62b96513aa546b1d102b5c722fb272d76f0307c6b6ef",
     "previous_facts": {
@@ -2236,6 +2350,7 @@
     "pets_allowed": true,
     "pet_fee": 1500,
     "fee_currency": "USD",
+    "pet_count_limit": 2,
     "service_animal_exception": "Service animals will be exempt from this charge."
    },
    "withheld_fields": {
@@ -2245,27 +2360,35 @@
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
     "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "pet_deposit: the surface states $25.00 for a purpose it does not name as a pet's ('e contact the property for questions. There will be up to a $25 (+ tax) per day non'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
     {
      "quote": "pets are allowed",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "$15 non-refundable fee",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_fee",
       "fee_currency"
      ]
     },
     {
+     "quote": "maximum of two pets",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
      "quote": "Service animals will be exempt from this charge.",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "service_animal_exception"
      ]
@@ -2296,7 +2419,22 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-waukesha/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "f0f2dd40ca9b5ee1888c004a34cbc20d707bac1191258d4c758452c2b63481d8",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_fee": 1500,
+     "fee_currency": "USD",
+     "service_animal_exception": "Service animals will be exempt from this charge."
+    },
+    "previous_withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2309,6 +2447,7 @@
     "pets_allowed": true,
     "pet_fee": 1500,
     "fee_currency": "USD",
+    "pet_count_limit": 2,
     "service_animal_exception": "Service animals will be exempt from this charge."
    },
    "withheld_fields": {
@@ -2318,27 +2457,35 @@
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
     "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "pet_deposit: the surface states $25.00 for a purpose it does not name as a pet's ('e contact the property for questions. There will be up to a $25 (+ tax) per day non'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
     {
      "quote": "pets are allowed",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pets_allowed"
      ]
     },
     {
      "quote": "$15 non-refundable fee",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "pet_fee",
       "fee_currency"
      ]
     },
     {
+     "quote": "maximum of two pets",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
      "quote": "Service animals will be exempt from this charge.",
-     "location": "bounded policy container (generic_signal_walk / div#servicesAndPoliciesModal > div.modal-dialog.modal-lg > div.modal-content > div.modal-body > div)",
+     "location": "policy-block.txt",
      "field_refs": [
       "service_animal_exception"
      ]
@@ -2369,7 +2516,22 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": null,
+   "rederivation": {
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-wauwatosa/attempt-01/policy-block.txt",
+    "evidence_block_sha256": "f0f2dd40ca9b5ee1888c004a34cbc20d707bac1191258d4c758452c2b63481d8",
+    "previous_facts": {
+     "pets_allowed": true,
+     "pet_fee": 1500,
+     "fee_currency": "USD",
+     "service_animal_exception": "Service animals will be exempt from this charge."
+    },
+    "previous_withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    }
+   },
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
@@ -2881,8 +3043,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-downtown/attempt-01/policy-block.txt",
     "evidence_block_sha256": "5fb67a5f1dee3dd66197c9bf94e8b6c36c9a78245e49203d6e389021c301462c",
     "previous_facts": {
@@ -2984,8 +3147,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-franklin/attempt-01/policy-block.txt",
     "evidence_block_sha256": "3388382e149c9710be9c017eee246bf2ef1b5cc62f9410d55154c38dedc4c32f",
     "previous_facts": {
@@ -3145,8 +3309,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-glendale-milwaukee/attempt-01/policy-block.txt",
     "evidence_block_sha256": "104795ffc869970e7dc324ccbfc865819e5f4b05bc342636b78ea2372ae181ef",
     "previous_facts": {
@@ -3237,8 +3402,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-airport/attempt-02/policy-block.txt",
     "evidence_block_sha256": "49d5092ef5214e04a1c1d86632794436499025c5a7edfa79377c5e88994c6975",
     "previous_facts": {
@@ -3311,8 +3477,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-brookfield/attempt-01/policy-block.txt",
     "evidence_block_sha256": "aed60fe3df231882641efb36a6128349f3a2034a8bdb0da105c04d12dd8a72c8",
     "previous_facts": {
@@ -3390,8 +3557,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-northwest/attempt-01/policy-block.txt",
     "evidence_block_sha256": "cd7f9a9a49f09294dd72572f3b80d6449691de5aef8c102f3d05c6a7f8c7b503",
     "previous_facts": {
@@ -3606,8 +3774,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-airport/attempt-01/policy-block.txt",
     "evidence_block_sha256": "cd8ba02d6c262ff3a185d2dfeecd9f1a701c73c8b63d21d3ff6ea906e4d40f1c",
     "previous_facts": {
@@ -3703,8 +3872,9 @@
    "published": false,
    "founder_approved": false,
    "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
+    "superseded_by": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+    "derivation": "current-state projection: this row's facts are the CURRENT reader over the exact persisted policy block this observation was based on. The acquisition run's own reading is preserved beside it and is what that run actually reported at capture time.",
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-brookfield-conference-center/attempt-01/policy-block.txt",
     "evidence_block_sha256": "70912db717df86964e518c6b703ceb32b0dbb248837a8f6b9d5a9594d6c3a097",
     "previous_facts": {
@@ -4092,6 +4262,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/holiday-inn-brookfield-milwaukee/attempt-02/policy-block.txt",
     "evidence_block_sha256": "cbf162149b29bd5a9901de9bfe7764433c2737276391fed488e330184176f0bd",
@@ -4401,6 +4572,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018",
+    "derivation": "",
     "reader_commit": "15376256635ff79d43153ea71574fa8c46e46f7d",
     "evidence_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/holiday-inn-express-suites-milwaukee-west-allis/attempt-01/policy-block.txt",
     "evidence_block_sha256": "9e686eaaf5f95ea38274d1ee04e2e633e66bc6eff29259f88a83e838ac6c3504",
@@ -5031,28 +5203,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-menomonee-falls-milwaukee/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "9cf2100a4b490d5427f71036ee02bc5ef2b2fb8288f1e0f74e91e40302f69939",
-    "previous_facts": {
-     "pets_allowed": true,
-     "weight_limit": {
-      "value": 100.0,
-      "unit": "lb"
-     },
-     "pet_count_limit": 2,
-     "species_allowed": [
-      "cat",
-      "dog"
-     ]
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
@@ -5193,28 +5344,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "859f3f93877765481a475e1c2ecb60acf420080a8decd5b907035d388bcf5d91",
-    "previous_facts": {
-     "pets_allowed": true,
-     "weight_limit": {
-      "value": 100.0,
-      "unit": "lb"
-     },
-     "pet_count_limit": 2,
-     "species_allowed": [
-      "cat",
-      "dog"
-     ]
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
@@ -5356,28 +5486,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-milwaukee-west/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "5c85d3d536c985c931c2b98331d74a84ee89545802f532e8adbd00e111f5a2a6",
-    "previous_facts": {
-     "pets_allowed": true,
-     "weight_limit": {
-      "value": 100.0,
-      "unit": "lb"
-     },
-     "pet_count_limit": 2,
-     "species_allowed": [
-      "cat",
-      "dog"
-     ]
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
@@ -5428,19 +5537,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/homewood-suites-by-hilton-milwaukee-downtown/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "a99029c21d4b3a4ec50bed259225163dd62cef270cf95211c16b1670cebc0807",
-    "previous_facts": {
-     "pets_allowed": true
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
@@ -5581,23 +5678,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/homewood-suites-by-hilton-wauwatosa-milwaukee/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "eda5b911ca3e3c04688603d02847d323304cb813879cfa92440e130d19ef7f98",
-    "previous_facts": {
-     "pets_allowed": true,
-     "species_allowed": [
-      "cat",
-      "dog"
-     ]
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
@@ -6744,6 +6825,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "derivation": "",
     "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
     "evidence_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
     "evidence_block_sha256": "53b35ecf67fd0251d5e989ec893e8972e144a13975b84baf16fa3944a4080e9f",
@@ -7311,6 +7393,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "derivation": "",
     "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
     "evidence_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02/policy-block.txt",
     "evidence_block_sha256": "ecc66a56daae4a8730bdb4e6d154e8e52f85f055fe5c945f2a8f93b5a107d000",
@@ -8302,6 +8385,7 @@
    "founder_approved": false,
    "rederivation": {
     "superseded_by": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "derivation": "",
     "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
     "evidence_block_path": "data/acquisition/marriott-closure-022/marriott-closure-022/the-trade-autograph-collection/attempt-01/policy-block.txt",
     "evidence_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b",
@@ -8704,28 +8788,7 @@
    "is_refusal": false,
    "published": false,
    "founder_approved": false,
-   "rederivation": {
-    "superseded_by": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
-    "reader_commit": "ab1fbb6c302ffb407fdb7fb1b15f1a9fd514bef8",
-    "evidence_block_path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/tru-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
-    "evidence_block_sha256": "30de37366d939643740b32df3d2e066ca0a527e54db31f15f4e42fb7a99d96ca",
-    "previous_facts": {
-     "pets_allowed": true,
-     "weight_limit": {
-      "value": 100.0,
-      "unit": "lb"
-     },
-     "pet_count_limit": 2,
-     "species_allowed": [
-      "cat",
-      "dog"
-     ]
-    },
-    "previous_withheld_fields": {
-     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
-     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
-    }
-   },
+   "rederivation": null,
    "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
   },
   {
