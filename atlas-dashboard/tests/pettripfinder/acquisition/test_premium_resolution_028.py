@@ -31,6 +31,7 @@ from scripts.pettripfinder.acquisition import readers as READERS
 from scripts.pettripfinder.acquisition import registry as REGISTRY
 from scripts.pettripfinder.brightdata import cross_brand_pilot_002 as P2
 from scripts.pettripfinder.brightdata import policy_surface as PS
+from pettripfinder.acquisition import reader_freeze as READER_FREEZE
 
 
 # --------------------------------------------------------------------------- #
@@ -213,17 +214,19 @@ def test_the_canonical_locator_persisted_for_every_publication_grade_row():
         assert artifacts["canonical"] is True
 
 
-def test_reader_semantics_are_unchanged_and_still_withhold():
-    """No gate was relaxed to make the premium bucket look better.
+def test_no_reader_gate_was_relaxed_for_the_premium_bucket():
+    """028 published nothing the reader had not represented.
 
-    Two Best Western pages state a daily rate the reader did not represent, and
-    both are HELD rather than published with a guessed number.
+    It used to say so by freezing ``policy_reading.py``. 029 was commissioned
+    to change that file -- the two Best Western pages state a count, a weight
+    and a daily rate the reader was missing -- so the claim is made through the
+    protections themselves instead, which is what it was ever about.
+
+    The two rows are no longer HELD, and that is the point of 029: the fee is
+    now REPRESENTED rather than guessed. What must still hold is that every
+    held row names what it withheld.
     """
-    changed = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py"],
-        cwd=str(REPO), capture_output=True, text=True).stdout.strip()
-    assert changed == ""
+    READER_FREEZE.assert_reader_protections_unchanged()
     store = json.loads(P.STORE.read_text(encoding="utf-8-sig"))
     premium = [row for row in store["items"]
                if row["source_run"] == P.RUN_ID]
@@ -231,7 +234,7 @@ def test_reader_semantics_are_unchanged_and_still_withhold():
     for row in premium:
         if row["review_status"] == "HELD_INSUFFICIENT_EVIDENCE":
             assert row["withheld_fields"]
-
+    READER_FREEZE.assert_reader_protections_unchanged()
 
 def test_a_refusal_the_regex_missed_is_still_read_as_a_refusal():
     """Best Western writes "Pets are not accepted", which no pattern matched.
@@ -289,16 +292,27 @@ def test_only_publication_grade_rows_reached_the_store():
     assert in_store == graded
 
 
-def test_the_integration_added_rows_and_changed_no_facts():
+def test_the_integration_never_removes_or_duplicates_a_row():
+    """What 028 added is pinned from the store; the report belongs to whoever
+    ran the integration last.
+
+    ``changed_facts`` was asserted empty because 028 only added. 029 then
+    re-derived four identities from their persisted evidence, which is a
+    legitimate change to the same shared report, so the invariants that survive
+    a later integration are asserted here and 028's own contribution is pinned
+    by source run.
+    """
     doc = json.loads(
         (REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder"
          / "markets" / "reports"
          / "ptf_milwaukee_store_integration_025.json").read_text(
             encoding="utf-8-sig"))
-    assert doc["changed_facts"] == []
     assert doc["removed"] == []
     assert doc["duplicates"] == []
-    assert doc["rows_before"] == 110
+    assert doc["conflicts"] == []
+    assert len({row["identity_key"] for row in
+                json.loads(P.STORE.read_text(encoding="utf-8-sig"))["items"]
+                if row["source_run"] == P.RUN_ID}) == 4
 
 
 # --------------------------------------------------------------------------- #
@@ -401,7 +415,6 @@ def test_unrelated_routes_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
@@ -409,7 +422,7 @@ def test_unrelated_routes_are_unchanged():
                                  cwd=str(REPO), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 028" % path
-
+    READER_FREEZE.assert_reader_protections_unchanged()
 
 def test_the_policy_locator_surface_is_untouched():
     from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE

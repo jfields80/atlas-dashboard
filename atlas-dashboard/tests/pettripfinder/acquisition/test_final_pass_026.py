@@ -41,6 +41,7 @@ from scripts.pettripfinder.acquisition import source_selection as SS         # n
 from scripts.pettripfinder.acquisition import store_integration_025 as S     # noqa: E402
 from scripts.pettripfinder.brightdata import policy_locator as PL            # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
+from pettripfinder.acquisition import reader_freeze as READER_FREEZE
 
 
 def run_report():
@@ -325,7 +326,6 @@ def test_routes_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
@@ -333,6 +333,7 @@ def test_routes_and_providers_are_unchanged():
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 026" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
+    READER_FREEZE.assert_reader_protections_unchanged()
 
 def test_historical_run_reports_are_unchanged():
     for path in ("ptf_marriott_milwaukee_run_020.json",
@@ -352,9 +353,12 @@ def test_existing_observations_kept_their_facts():
         (REPO / "launch_packages" / "pettripfinder" / "markets" / "reports"
          / "ptf_milwaukee_store_integration_025.json").read_text(
             encoding="utf-8-sig"))
-    assert doc["changed_facts"] == []
+    # ``changed_facts`` is no longer asserted empty: 029 re-derived four
+    # identities from their persisted evidence through this same shared report,
+    # and none of them is 026's. What must hold is that nothing was lost.
     assert doc["removed"] == []
     assert doc["duplicates"] == []
+    assert "best western germantown inn" not in doc["changed_facts"]
     # The store-integration report belongs to whichever work order last ran the
     # integration -- 027 at the time of writing. What 026 added is pinned from
     # the store itself, by source run, which no later integration can move.

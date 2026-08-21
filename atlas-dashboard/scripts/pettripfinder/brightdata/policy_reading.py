@@ -120,6 +120,40 @@ _BASIS_FIRST_CHARGE_RE = re.compile(
     r"|(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)",
     re.IGNORECASE)
 
+#: A charge the surface NAMES as the pet's: "The Pet Friendly rate is 35.00 USD
+#: per day", "Pet fee is $25 per night", "Dog charge: 40.00 USD".
+#:
+#: WHY THIS EXISTS AS ITS OWN PATTERN
+#: ----------------------------------
+#: ``_SCOPED_CHARGE_USD_RE`` already matched "35.00 USD per day" perfectly. The
+#: amount was thrown away by ``_pet_context``, which asks what stands between
+#: the nearest pet word and the figure and finds the word "rate" -- the very
+#: marker that exists to stop a nightly ROOM rate being published as a pet fee.
+#: Best Western calls its pet charge "the Pet Friendly rate", so the guard fired
+#: on a genuine pet fee.
+#:
+#: The guard is NOT relaxed. Instead the pet word must appear INSIDE the match,
+#: bound to the charge noun as its modifier -- which is the same argument
+#: ``_BASIS_FIRST_CHARGE_RE`` already makes for requiring the pet word in its
+#: label. A charge named "the pet rate" is bound to pets by its own name and
+#: does not need proximity adjudicated.
+#:
+#: At most ONE adjective may stand between, and it may not be a word that closes
+#: the pet clause. That is what keeps the room-rate hole shut: in "No Pets
+#: Allowed Discounted rate: $160" the word after "Pets" is "Allowed", which ends
+#: the pet statement and begins a separate noun phrase about the room.
+_CLAUSE_CLOSING_WORDS = r"allowed|permitted|welcome|welcomed|accepted|not|are|is"
+_PET_NAMED_CHARGE_RE = re.compile(
+    r"\b(?:pets?|dogs?|cats?|animals?)[\s-]+"
+    r"(?!(?:" + _CLAUSE_CLOSING_WORDS + r")\b)"
+    r"(?:[a-z]+[\s-]+)?"
+    r"(?:fee|fees|charge|charges|rate|rates)\b\s*"
+    r"(?:is|are|of|:|=)?\s*"
+    r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)"
+    r"|(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
+    r"(?:\s*(?:per|/|a)\s*(?P<basis>night|day|stay|nightly|daily)\b)?",
+    re.IGNORECASE)
+
 #: A bare decimal amount with a basis: Choice writes "50.00 per stay". Explicit
 #: cents are REQUIRED -- without them "2 per room" and "50 pounds" would read as
 #: prices, which is the room-rate mistake in a cheaper costume.
@@ -241,6 +275,22 @@ _COUNT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"max(?:imum)?\s+of\s+(?P<count>\d+)\s*"
                r"(?:pets?|dogs?|cats?)\s+per\s+"
                r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
+    # "allow up to two dogs", "maximum 2 dogs", "no more than three pets".
+    # A ceiling with the species named and NO scope stated.
+    #
+    # Every existing form here needs one of three things the wording above does
+    # not have: the literal word "pet", the number in figures, or a "per room"
+    # scope. Two of those are already optional elsewhere in this tuple -- the
+    # "2 dogs max" form names a species and states no scope -- so the only
+    # thing that was really required was the word "max" standing AFTER the
+    # number rather than a "up to" standing before it.
+    #
+    # No scope is recorded. The surface has said how many animals it accepts
+    # and has not said whether that is per room or per reservation, and
+    # ``pet_count_scope`` is not emitted unless the source states it.
+    re.compile(r"(?:up\s+to|maximum(?:\s+of)?|max\.?|no\s+more\s+than)\s+"
+               r"(?:(?P<count>\d+)|(?P<word>one|two|three|four|five))\s+"
+               r"(?:pets?|dogs?|cats?)\b", re.IGNORECASE),
 )
 
 #: Weights. "up to", "under", "or less" and "maximum" are all recorded as a
@@ -274,7 +324,42 @@ _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"(?:not\s+to\s+exceed|cannot\s+exceed|may\s+not\s+exceed|"
                r"no\s+more\s+than)\s+(?P<value>[\d,]+(?:\.\d+)?)\s*"
                r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
+    # "The size limit for any one dog shall be 80 pounds."
+    #
+    # A limit NOUN carrying its value after a copula, rather than a maximum
+    # word carrying it directly. Every pattern above needs "weight" as the noun
+    # or a lead-in immediately before the figure; this shape has a different
+    # noun ("size limit") and puts several words between it and the number.
+    #
+    # The gap is bounded and may not cross a full stop, so the noun and the
+    # figure must be in one sentence -- otherwise a limit in one statement
+    # would collect a number from the next.
+    re.compile(r"\b(?:size|weight)\s+(?:limit|restriction)\b[^.]{0,48}?"
+               r"\b(?:is|are|shall\s+be|will\s+be|of|:)\s*"
+               r"(?P<value>[\d,]+(?:\.\d+)?)\s*"
+               r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
 )
+
+#: Language that makes a stated weight a figure for SEVERAL animals together.
+#: An individual limit may not be inferred from it: "up to two dogs, combined
+#: weight not to exceed 100 pounds" says nothing about how heavy one dog may
+#: be, and publishing 100 lb as the pet weight limit would invite a guest to
+#: arrive with a 100 lb dog the property never agreed to.
+#:
+#: Found by this work order's corpus rather than by a capture -- the reader was
+#: reading combined weights as individual ones and no case had asked it to.
+_COMBINED_WEIGHT_RE = re.compile(
+    r"\b(?:combined|total|aggregate|together)\b", re.IGNORECASE)
+
+#: How far in front of a weight figure the combining word may sit and still be
+#: understood as qualifying it. One clause, not one block.
+_COMBINED_WEIGHT_LOOKBACK_CHARS = 40
+
+
+def _weight_is_combined(text: str, match) -> bool:
+    """Whether this weight is stated for several animals at once."""
+    start = max(0, match.start() - _COMBINED_WEIGHT_LOOKBACK_CHARS)
+    return bool(_COMBINED_WEIGHT_RE.search(text[start:match.end()]))
 
 _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
     MS._PETS_WELCOME_RE,
@@ -651,6 +736,15 @@ class Reading:
     fee_cap_quote: str = ""
     #: Charge components the surface states that no charge carries.
     unrepresented: Tuple[Dict, ...] = ()
+    #: Amounts the surface states that were attributed to a purpose OTHER than
+    #: a pet, and so were not read as a pet charge. Kept apart from
+    #: ``unrepresented`` deliberately: an unrepresented component means the
+    #: charge we produced is incomplete and the fee must be withheld, whereas
+    #: this means the surface itself said the money is for something else. The
+    #: first is our failure to represent; the second is the page's own
+    #: statement, and recording it as a non-inference is what stops it
+    #: vanishing without trace.
+    excluded_amounts: Tuple[Dict, ...] = ()
     service_animal_quote: str = ""
     contradictions: Tuple[Dict, ...] = ()
     parser_notes: Tuple[str, ...] = ()
@@ -1014,6 +1108,41 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         explained.add(amount)
         fired.append("loose_prose_charge")
 
+    # --- a charge the surface names as the pet's --------------------------- #
+    #
+    # Runs LAST and only fills gaps, exactly as the loose pass above does. An
+    # amount another pass already turned into a charge is left where it is:
+    # claiming it here would move it from the LABELLED lane into the prose
+    # lane, and the two mean different things downstream. WoodSpring states two
+    # labelled pet fees and no basis, which is SOURCE_AMBIGUOUS -- "the surface
+    # names two charges and does not say which is the fee". Re-homing them
+    # turned that into SOURCE_SILENT, which claims the surface stated nothing,
+    # and the surface stated two.
+    #
+    # It runs WITHOUT ``_pet_context``. The pet word is INSIDE the match, bound
+    # to the charge noun, so there is no proximity left to adjudicate -- the
+    # same argument ``_BASIS_FIRST_CHARGE_RE`` makes for requiring the pet word
+    # in its label. See ``_PET_NAMED_CHARGE_RE``.
+    for match in _PET_NAMED_CHARGE_RE.finditer(text):
+        raw = match.group("dollars") or match.group("usd")
+        if not raw:
+            continue
+        amount = _amount_minor(raw)
+        if amount in explained:
+            continue
+        basis_word = match.group("basis")
+        window = text[max(0, match.start() - 60):match.end() + 40]
+        refundable = (False if _NONREFUNDABLE_RE.search(window)
+                      else True if _REFUNDABLE_RE.search(window) else None)
+        charges.append(Charge(
+            amount_minor=amount,
+            basis=_BASIS_BY_WORD[basis_word.lower()] if basis_word else "",
+            scope="", origin="labelled_amount", refundable=refundable,
+            quote=text[match.start():match.end()],
+            cleaning_labelled=amount in cleaning_amounts))
+        explained.add(amount)
+        fired.append("pet_named_charge")
+
     # --- a stated ceiling ---------------------------------------------------- #
     #
     # CEILING != PRICE is a founder rule. "Max 75 USD per stay" is recorded as
@@ -1083,6 +1212,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     # the founder rule CEILING != PRICE is preserved rather than re-litigated.
     # ``_pet_context`` keeps room rates and parking charges out.
     unexplained: List[Dict] = []
+    excluded: List[Dict] = []
     for match in _PRICE_RE.finditer(text):
         raw = re.sub(r"[^\d.]", "", match.group(0))
         if not raw:
@@ -1091,6 +1221,13 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         if amount in explained_amounts:
             continue
         if not _pet_context(text, match.start(), match.end()):
+            excluded.append({
+                "amount_minor": amount,
+                "quote": text[max(0, match.start() - 60):match.end() + 20],
+                "note": ("the surface states this amount for a purpose it "
+                         "does not name as a pet's, so it is not read as a "
+                         "pet charge"),
+            })
             continue
         unexplained.append({
             "kind": "amount_not_represented",
@@ -1147,6 +1284,14 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     # --- weight ------------------------------------------------------------ #
     weight_match, weight_pattern = _first_match(text, _WEIGHT_RES, "weight")
     weight_value = weight_unit = weight_quote = None
+    if weight_match and _weight_is_combined(text, weight_match):
+        # The figure is for several animals together. Recorded as a note and
+        # not as a limit: no individual weight is inferred from a combined one.
+        notes.append("ignored the weight %r: the surface states it for the "
+                     "animals combined, and an individual limit cannot be "
+                     "inferred from a combined one"
+                     % text[weight_match.start():weight_match.end()])
+        weight_match = None
     if weight_match:
         weight_value = float(weight_match.group("value").replace(",", ""))
         weight_unit = _UNIT_CANON.get(
@@ -1328,6 +1473,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         species_exclusive=species_exclusive,
         fee_cap=fee_cap, fee_cap_quote=fee_cap_quote,
         unrepresented=tuple(unexplained),
+        excluded_amounts=tuple(excluded),
         contradictions=tuple(contradictions), parser_notes=tuple(notes),
         patterns_fired=tuple(sorted(set(fired))),
         brand_generic=bool(_BRAND_GENERIC_RE.search(text)))
@@ -1584,6 +1730,14 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         # SCHEMA_CANNOT_REPRESENT must not be overwritten by "the page said
         # nothing" -- the page said something the schema cannot hold.
         withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
+
+    for excluded_amount in reading.excluded_amounts:
+        non_inferences.append(
+            "pet_deposit: the surface states $%.2f for a purpose it does not "
+            "name as a pet's (%r); it is not recorded as a pet charge and is "
+            "reported here rather than dropped"
+            % (excluded_amount["amount_minor"] / 100.0,
+               collapse(excluded_amount["quote"])[:120]))
 
     if reading.fee_cap:
         extraction["fee_cap"] = dict(reading.fee_cap)

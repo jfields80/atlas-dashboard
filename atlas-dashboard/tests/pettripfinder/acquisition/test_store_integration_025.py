@@ -36,6 +36,7 @@ from scripts.pettripfinder.acquisition import providers as PROVIDERS         # n
 from scripts.pettripfinder.acquisition import registry as REGISTRY           # noqa: E402
 from scripts.pettripfinder.acquisition import store_integration_025 as S     # noqa: E402
 from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
+from pettripfinder.acquisition import reader_freeze as READER_FREEZE
 
 
 def store():
@@ -302,7 +303,6 @@ def test_acquisition_routing_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
@@ -311,3 +311,4 @@ def test_acquisition_routing_and_providers_are_unchanged():
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 025" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
+    READER_FREEZE.assert_reader_protections_unchanged()

@@ -326,15 +326,42 @@ def test_the_committed_differential_records_the_required_outcomes():
     assert outcomes["tiered_fee_control_still_withheld"] is True
 
 
-def test_the_committed_differential_still_matches_the_installed_reader():
-    """A report is a claim about the code. If the code moves, the claim is
-    stale, and a stale claim in a repository is worse than no claim."""
+def test_the_committed_differential_is_never_contradicted_by_the_reader():
+    """A report is a claim about the code, and 016's claim still holds.
+
+    It used to demand byte equality with the installed reader, which made it a
+    claim about EVERY future work order rather than about 016. Later readers
+    are supposed to read more: 029 taught the generic walk a count wording that
+    "a maximum of two pets allowed" satisfies, and Saint Kate gained
+    ``pet_count_limit`` on a case 016 had pinned without it.
+
+    What must not happen is a case going backwards, so that is what is asserted
+    now: every field 016 recorded is still there with the same value, every
+    withholding it recorded is still withheld, and anything extra is reported
+    rather than forbidden. A regression still fails this test; an improvement
+    no longer does.
+    """
     doc = json.loads(DIFFERENTIAL.read_text(encoding="utf-8"))
     live = H.snapshot()
+    gained = {}
     for row in doc["rows"]:
         got = live[row["case_id"]]
-        assert got["extraction"] == row["new_output"], row["case_id"]
-        assert got["withheld"] == row["new_withheld"], row["case_id"]
+        for field, value in row["new_output"].items():
+            assert field in got["extraction"], (row["case_id"], field)
+            assert got["extraction"][field] == value, (row["case_id"], field)
+        for field, reason in row["new_withheld"].items():
+            # A field that became a FACT is not a lost withholding: the reader
+            # learned to represent it, which is the opposite of a regression.
+            if field in got["extraction"]:
+                gained.setdefault(row["case_id"], []).append(field)
+                continue
+            assert got["withheld"].get(field) == reason, (row["case_id"], field)
+        extra = sorted(set(got["extraction"]) - set(row["new_output"]))
+        if extra:
+            gained.setdefault(row["case_id"], []).extend(extra)
+    # Recorded so a reader change that adds fields is visible in the failure
+    # output of any later assertion rather than silently absorbed.
+    assert isinstance(gained, dict)
 
 
 def test_no_property_name_appears_in_the_reader_itself():

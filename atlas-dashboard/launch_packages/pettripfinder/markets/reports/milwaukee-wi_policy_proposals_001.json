@@ -25,12 +25,12 @@
  },
  "publication_grade_total": 114,
  "proposal_total": 114,
- "founder_review_ready": 54,
+ "founder_review_ready": 56,
  "refusal_founder_review": 26,
  "held_semantic_review": 0,
  "review_status_counts": {
-  "FOUNDER_REVIEW_READY": 54,
-  "HELD_INSUFFICIENT_EVIDENCE": 10,
+  "FOUNDER_REVIEW_READY": 56,
+  "HELD_INSUFFICIENT_EVIDENCE": 8,
   "REFUSAL_FOUNDER_REVIEW": 26,
   "HELD_SCHEMA_CANNOT_REPRESENT": 24
  },
@@ -4550,7 +4550,7 @@
     "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-germantown/best-western-germantown-inn/propertyCode.50140.html",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T04:07:54+00:00",
+    "retrieved_at": "2026-08-21T04:56:10+00:00",
     "capture_method": "browser_assisted",
     "provider": "brightdata_browser",
     "reader": "generic",
@@ -4575,14 +4575,22 @@
    "brand": "BEST_WESTERN",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "pet_fee": 3500,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "pet_deposit: the surface states $150.00 for a purpose it does not name as a pet's ('00 USD per day. A refundable cleaning and damage deposit of 150.00 USD is required upon ch'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -4592,6 +4600,35 @@
      "field_refs": [
       "pets_allowed"
      ]
+    },
+    {
+     "quote": "Pet Friendly rate is 35.00 USD per day",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Friendly rate is 35.00 USD per day",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "size limit for any one dog shall be 80 pounds",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to two dogs",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
     }
    ],
    "service_animal_statement": "",
@@ -4600,7 +4637,7 @@
     "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-milwaukee/best-western-plus-milwaukee-airport-hotel-conference-center/propertyCode.50056.html",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T04:08:41+00:00",
+    "retrieved_at": "2026-08-21T04:56:10+00:00",
     "capture_method": "browser_assisted",
     "provider": "brightdata_browser",
     "reader": "generic",
@@ -4616,7 +4653,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_INSUFFICIENT_EVIDENCE"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "best western waukesha grand",
@@ -4625,14 +4662,21 @@
    "brand": "BEST_WESTERN",
    "policy_schema_version": "1.2",
    "proposed_facts": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
    },
-   "withheld_fields": {
-    "pet_fee": "SOURCE_SILENT"
-   },
+   "withheld_fields": {},
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -4642,6 +4686,35 @@
      "field_refs": [
       "pets_allowed"
      ]
+    },
+    {
+     "quote": "Pet Friendly rate is 30.00 USD per day",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Friendly rate is 30.00 USD per day",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "size limit for any one dog shall be 80 pounds",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to two dogs",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
     }
    ],
    "service_animal_statement": "",
@@ -4650,7 +4723,7 @@
     "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-pewaukee/best-western-waukesha-grand/propertyCode.50116.html",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T04:09:21+00:00",
+    "retrieved_at": "2026-08-21T04:56:10+00:00",
     "capture_method": "browser_assisted",
     "provider": "brightdata_browser",
     "reader": "generic",
@@ -4666,7 +4739,7 @@
    "published": false,
    "founder_approved": false,
    "rederivation": null,
-   "review_status": "HELD_INSUFFICIENT_EVIDENCE"
+   "review_status": "FOUNDER_REVIEW_READY"
   },
   {
    "identity_key": "holiday inn express milwaukee west medical center",
@@ -5657,7 +5730,7 @@
     "final_url": "https://www.hyatt.com/hyatt-place/en-US/mkezd-hyatt-place-milwaukee-downtown",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T04:18:28+00:00",
+    "retrieved_at": "2026-08-21T04:56:10+00:00",
     "capture_method": "browser_assisted",
     "provider": "brightdata_web_unlocker",
     "reader": "generic",
@@ -6231,6 +6304,8 @@
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $12.00 for a purpose it does not name as a pet's ('l Accessibility Stay longer, save more 20% off · Save extra $12 $64 /night Weekly r'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $64.00 for a purpose it does not name as a pet's ('cessibility Stay longer, save more 20% off · Save extra $12 $64 /night Weekly rate'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -6281,6 +6356,9 @@
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $68.00 for a purpose it does not name as a pet's ('Miles Kids Stay Free View all amenities 11% off · My6 rate $68 $60 /night + $10 ta'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $60.00 for a purpose it does not name as a pet's ('es Kids Stay Free View all amenities 11% off · My6 rate $68 $60 /night + $10 taxes'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $10.00 for a purpose it does not name as a pet's ('Free View all amenities 11% off · My6 rate $68 $60 /night + $10 taxes & fees Aug 20'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -7111,7 +7189,8 @@
    "proposed_facts": {
     "pet_fee": 10000,
     "fee_currency": "USD",
-    "fee_basis": "per_stay"
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2
    },
    "withheld_fields": {
     "pets_allowed": "SOURCE_CONTRADICTORY"
@@ -7136,6 +7215,13 @@
      "location": "policy-block.txt",
      "field_refs": [
       "fee_basis"
+     ]
+    },
+    {
+     "quote": "maximum of two pets",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
      ]
     }
    ],
@@ -7252,6 +7338,10 @@
     "fee_currency": "USD",
     "fee_basis": "per_night",
     "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
     "pet_count_limit": 2,
     "species_allowed": [
      "dog"
@@ -7292,6 +7382,13 @@
      "location": "policy-block.txt",
      "field_refs": [
       "fee_scope"
+     ]
+    },
+    {
+     "quote": "size limit of 40 pounds",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "weight_limit"
      ]
     },
     {
@@ -7671,6 +7768,10 @@
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $4.00 for a purpose it does not name as a pet's ('ghout your stay Stay longer, save more 19% off · Save extra $4 $88 /night 5-night'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $88.00 for a purpose it does not name as a pet's ('ut your stay Stay longer, save more 19% off · Save extra $4 $88 /night 5-night mini'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $36.00 for a purpose it does not name as a pet's ('a $4 $88 /night 5-night minimum Select 21% off · Save extra $36 $83 /night Weekly r'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $83.00 for a purpose it does not name as a pet's ('$88 /night 5-night minimum Select 21% off · Save extra $36 $83 /night Weekly rate'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -7721,6 +7822,9 @@
    "non_inferences": [
     "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
     "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $50.00 for a purpose it does not name as a pet's ('check in. An incidental deposit or hold is due at check-in: 50.00 USD if paying with cred'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $100.00 for a purpose it does not name as a pet's ('d is due at check-in: 50.00 USD if paying with credit card. 100.00 USD if paying with debi'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $100.00 for a purpose it does not name as a pet's ('ng within a 30-mile radius of the hotel will require to pay 100.00 USD cash deposit whethe'); it is not recorded as a pet charge and is reported here rather than dropped",
     "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
    ],
    "evidence": [
@@ -8072,7 +8176,7 @@
      ]
     },
     {
-     "quote": "fee of $150",
+     "quote": "pet fee of $150",
      "location": "policy-block.txt",
      "field_refs": [
       "pet_fee",

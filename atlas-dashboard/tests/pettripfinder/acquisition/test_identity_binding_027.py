@@ -36,6 +36,7 @@ from scripts.pettripfinder.acquisition import identity_binding_027 as I
 from scripts.pettripfinder.acquisition import identity_corpus_027 as CORPUS
 from scripts.pettripfinder.brightdata import marriott_surface as MS
 from scripts.pettripfinder.brightdata import policy_surface as PS
+from pettripfinder.acquisition import reader_freeze as READER_FREEZE
 
 
 def _signals(**kwargs):
@@ -483,14 +484,13 @@ def test_routes_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO), capture_output=True,
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 027" % path
-
+    READER_FREEZE.assert_reader_protections_unchanged()
 
 def test_the_policy_locator_contract_is_untouched():
     from pettripfinder.acquisition import locator_freeze as LOCATOR_FREEZE
