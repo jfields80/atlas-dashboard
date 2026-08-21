@@ -924,7 +924,21 @@ def to_extraction(reading: PolicyReading, *, location: str) -> ExtractionResult:
                                     "charges and no structured row; no fee is "
                                     "taken from prose alone"})
 
-    if cleaning:
+    if cleaning and cleaning[0].basis in enums.NIGHTLY_BASES:
+        # The same rule the generic reader applies, for the same reason:
+        # ``cleaning_fee`` is one bare integer and a recurring charge needs a
+        # basis the field has nowhere to put. No Marriott row reaches this
+        # today -- not one record in the market publishes a cleaning fee -- and
+        # it is here so that the first one to state "$25 per night cleaning"
+        # is withheld rather than published at a night's price for a week's
+        # stay. Added by work order 035.
+        withheld["cleaning_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_RECURRING_CLEANING_CHARGE",
+            "detail": ("the surface states a recurring cleaning charge (%r) "
+                       "and the published vocabulary holds one amount and no "
+                       "basis for it" % cleaning[0].quote)})
+    elif cleaning:
         charge = cleaning[0]
         extraction["cleaning_fee"] = charge.amount_minor
         evidence.append(_evidence_item(charge.quote, location, ["cleaning_fee"]))

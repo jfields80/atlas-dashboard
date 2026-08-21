@@ -1,0 +1,1442 @@
+{
+  "schema": "ptf-milwaukee-recurring-and-parity/1.0",
+  "work_order": "PTF-MILWAUKEE-RECURRING-CHARGE-AND-MARRIOTT-PARITY-035",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T19:42:40+00:00",
+  "baseline_commit": "285e12bdc961e3460eff205b6c41133fcd444b52",
+  "preflight": {
+    "checked_at": "2026-08-21T19:42:40+00:00",
+    "branch": "grok/ptf-milwaukee-market-001",
+    "head": "285e12bdc961e3460eff205b6c41133fcd444b52",
+    "expected_head": "285e12bdc961e3460eff205b6c41133fcd444b52",
+    "origin_head": "285e12bdc961e3460eff205b6c41133fcd444b52",
+    "working_tree_entries": [
+      "M atlas-dashboard/launch_packages/pettripfinder/markets/reports/milwaukee-wi_policy_proposals_001.json",
+      " M atlas-dashboard/launch_packages/pettripfinder/markets/reports/ptf_milwaukee_store_integration_025.json",
+      " M atlas-dashboard/scripts/pettripfinder/acquisition/label_value_hardening_033.py",
+      " M atlas-dashboard/scripts/pettripfinder/acquisition/reader_to_tiers_034.py",
+      " M atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
+      " M atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
+      " M atlas-dashboard/tests/pettripfinder/acquisition/test_label_value_hardening_033.py",
+      " M atlas-dashboard/tests/pettripfinder/acquisition/test_reader_to_tiers_034.py",
+      "?? atlas-dashboard/scripts/pettripfinder/acquisition/recurring_and_parity_035.py",
+      "?? atlas-dashboard/tests/pettripfinder/acquisition/test_recurring_and_parity_035.py"
+    ],
+    "policy_schema_version": "1.2",
+    "store_rows": 117,
+    "review_states": {
+      "FOUNDER_REVIEW_READY": 72,
+      "HELD_INSUFFICIENT_EVIDENCE": 7,
+      "REFUSAL_FOUNDER_REVIEW": 26,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 12
+    },
+    "authority_written": false,
+    "published": 0
+  },
+  "recurring_defect": {
+    "source_representation_at_baseline": "'\\x08(?:daily|nightly)\\x08'",
+    "compiled_bytes_at_baseline": [
+      "0x8",
+      "0x28",
+      "0x3f",
+      "0x3a",
+      "0x64",
+      "0x61",
+      "0x69",
+      "0x6c",
+      "0x79",
+      "0x7c",
+      "0x6e",
+      "0x69",
+      "0x67",
+      "0x68",
+      "0x74",
+      "0x6c",
+      "0x79",
+      "0x29",
+      "0x8"
+    ],
+    "intended_semantics": "the words 'daily' and 'nightly' as whole words: \\b(?:daily|nightly)\\b",
+    "actual_semantics": "the words 'daily' and 'nightly' flanked by literal BACKSPACE characters (U+0008), which no scraped page contains",
+    "defective_matches_ordinary_text": false,
+    "intended_matches_ordinary_text": true,
+    "installed_pattern": "\\b(?:daily|nightly)\\b",
+    "installed_is_intended": true,
+    "guard_unchanged": "the search still fires only where NO charge already carries a nightly or daily basis and the word stands in pet context"
+  },
+  "recurring_corpus": [
+    {
+      "case_id": "R1-daily-plus-one-time",
+      "text": "Dogs Allowed Only, 2 Pets per room, max 50 pounds. Daily Pet Fee 5 USD Per Pet along with Non-Refundable Pet Fee of 100 USD required at check-in.",
+      "expectation": "a recurring charge and a one-off charge; the single fee field can carry neither pair, so the fee is withheld",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": true,
+      "old_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "old_withheld": {
+        "pet_fee": "SOURCE_AMBIGUOUS",
+        "fee_basis": "SOURCE_AMBIGUOUS"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differs": true
+    },
+    {
+      "case_id": "R2-per-night-plus-per-stay",
+      "text": "Pets welcome. A $10 per night pet fee and a $75 per stay pet fee apply.",
+      "expectation": "two charges already carrying their own bases; the recurring rule is guarded off and the ambiguity is reported as it always was",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": false,
+      "old_facts": {
+        "pets_allowed": true
+      },
+      "old_withheld": {
+        "pet_fee": "SOURCE_AMBIGUOUS",
+        "fee_basis": "SOURCE_AMBIGUOUS"
+      },
+      "new_facts": {
+        "pets_allowed": true
+      },
+      "new_withheld": {
+        "pet_fee": "SOURCE_AMBIGUOUS",
+        "fee_basis": "SOURCE_AMBIGUOUS"
+      },
+      "differs": false
+    },
+    {
+      "case_id": "R3-daily-cleaning-plus-one-time-pet-fee",
+      "text": "Pet Policy Pets Welcome Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+      "expectation": "the cleaning charge is recurring and is withheld with a reason; the per-stay pet fee is stated plainly and survives",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": true,
+      "old_facts": {
+        "pets_allowed": true,
+        "cleaning_fee": 500,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "old_withheld": {},
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "new_withheld": {
+        "cleaning_fee": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differs": true
+    },
+    {
+      "case_id": "R4-recurring-fee-with-a-cap",
+      "text": "Pets welcome. A $20 daily pet fee applies, up to a maximum of $100 per stay.",
+      "expectation": "the ceiling stays a ceiling and no price is invented from it",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": true,
+      "old_facts": {
+        "pets_allowed": true,
+        "fee_cap": {
+          "amount_minor": 10000,
+          "currency": "USD",
+          "basis": "per_stay"
+        }
+      },
+      "old_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "fee_cap": {
+          "amount_minor": 10000,
+          "currency": "USD",
+          "basis": "per_stay"
+        }
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differs": true
+    },
+    {
+      "case_id": "R5-one-time-only",
+      "text": "Pets welcome. A $150 non-refundable pet fee per stay applies.",
+      "expectation": "a one-off charge must not become recurring",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": false,
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay"
+      },
+      "old_withheld": {},
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay"
+      },
+      "new_withheld": {},
+      "differs": false
+    },
+    {
+      "case_id": "R6-unrelated-recurring-charges",
+      "text": "Pets allowed. Self-parking is $35 daily. A nightly resort fee of $29 applies.",
+      "expectation": "recurring charges that are not a pet's cannot become pet charges",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": true,
+      "old_facts": {
+        "pets_allowed": true
+      },
+      "old_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "new_facts": {
+        "pets_allowed": true
+      },
+      "new_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "differs": false
+    },
+    {
+      "case_id": "R7-recurring-already-represented",
+      "text": "Pets welcome. The pet fee is 35.00 USD per day.",
+      "expectation": "per_day is per_day, is not per_night, and needs no withholding",
+      "recurring_word_seen_before": false,
+      "recurring_word_seen_after": false,
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_fee": 3500,
+        "fee_currency": "USD",
+        "fee_basis": "per_day"
+      },
+      "old_withheld": {},
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_fee": 3500,
+        "fee_currency": "USD",
+        "fee_basis": "per_day"
+      },
+      "new_withheld": {},
+      "differs": false
+    }
+  ],
+  "differential": {
+    "blocks_scanned": 117,
+    "rows_changed": 1,
+    "rows_unchanged": 116,
+    "ready_to_held": [],
+    "held_to_ready": [],
+    "facts_added": {},
+    "facts_removed": {},
+    "identities": [
+      "woodspring suites milwaukee menomonee falls"
+    ],
+    "rows": [
+      {
+        "identity_key": "woodspring suites milwaukee menomonee falls",
+        "brand": "INDEP:www.woodspring.com",
+        "reader": "generic",
+        "block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/woodspring-suites-milwaukee-menomonee-falls/attempt-01/policy-block.txt",
+        "evidence": "ARE PETS ALLOWED AT WOODSPRING SUITES MILWAUKEE - MENOMONEE FALLS? Dogs Allowed Only, 2 Pets per room, max 50 pounds. Daily Pet Fee 5 USD Per Pet along with Non-Refundable Pet Fee of 100 USD required at check-in. For breed restrictions, please contact the hotel.",
+        "old_facts": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS",
+          "fee_basis": "SOURCE_AMBIGUOUS"
+        },
+        "new_facts": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "new_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_added": [],
+        "facts_removed": [],
+        "withheld_added": [],
+        "withheld_removed": [],
+        "review_state_before": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "review_state_after": "HELD_SCHEMA_CANNOT_REPRESENT"
+      }
+    ]
+  },
+  "marriott_parity": {
+    "rows_compared": 28,
+    "by_classification": {
+      "EQUIVALENT": 24,
+      "GENERIC_BETTER": 4
+    },
+    "identities_by_classification": {
+      "EQUIVALENT": [
+        "aloft by marriott milwaukee downtown",
+        "courtyard by marriott milwaukee airport",
+        "courtyard by marriott milwaukee brookfield at poplar creek",
+        "delta hotels milwaukee northwest",
+        "fairfield by marriott inn and suites milwaukee airport",
+        "fairfield by marriott inn and suites milwaukee brookfield",
+        "fairfield by marriott inn and suites milwaukee downtown",
+        "fairfield by marriott inn and suites milwaukee north",
+        "fairfield by marriott inn and suites milwaukee west",
+        "four points by sheraton milwaukee north shore",
+        "hotel metro autograph collection",
+        "milwaukee marriott downtown",
+        "milwaukee marriott west",
+        "renaissance milwaukee west hotel",
+        "residence inn by marriott milwaukee brookfield",
+        "residence inn by marriott milwaukee downtown",
+        "residence inn by marriott milwaukee north glendale",
+        "residence inn by marriott milwaukee west",
+        "sheraton milwaukee brookfield hotel",
+        "springhill suites by marriott menomonee falls",
+        "springhill suites by marriott milwaukee downtown",
+        "springhill suites by marriott milwaukee west wauwatosa",
+        "towneplace suites by marriott milwaukee brookfield",
+        "towneplace suites by marriott milwaukee oak creek"
+      ],
+      "GENERIC_BETTER": [
+        "courtyard by marriott milwaukee downtown",
+        "residence inn by marriott milwaukee brookfield at poplar creek",
+        "the trade autograph collection",
+        "the westin milwaukee"
+      ]
+    },
+    "same_review_consequence": 28,
+    "unreachable_by_any_reader_change": [
+      "residence inn by marriott milwaukee brookfield at poplar creek",
+      "sheraton milwaukee brookfield hotel",
+      "the trade autograph collection"
+    ]
+  },
+  "marriott_parity_rows": [
+    {
+      "identity_key": "aloft by marriott milwaukee downtown",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/aloft-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Guest must sign property waiver at check in for full list of policies Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 40.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 40.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee airport",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-airport/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "review_consequence_generic": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee downtown",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+      "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {
+        "cleaning_fee": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differences": [
+        {
+          "field": "pet_fee",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": 5000,
+          "marriott_withheld": "SCHEMA_CANNOT_REPRESENT",
+          "generic_withheld": null
+        },
+        {
+          "field": "fee_currency",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": "USD",
+          "marriott_withheld": null,
+          "generic_withheld": null
+        },
+        {
+          "field": "fee_basis",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": "per_stay",
+          "marriott_withheld": "SCHEMA_CANNOT_REPRESENT",
+          "generic_withheld": null
+        },
+        {
+          "field": "cleaning_fee",
+          "kind": "WITHHOLDING_DIFFERS",
+          "marriott": null,
+          "generic": null,
+          "marriott_withheld": null,
+          "generic_withheld": "SCHEMA_CANNOT_REPRESENT"
+        }
+      ],
+      "classification": "GENERIC_BETTER",
+      "review_consequence_marriott": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "review_consequence_generic": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    {
+      "identity_key": "delta hotels milwaukee northwest",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/delta-hotels-milwaukee-northwest/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "fairfield by marriott inn and suites milwaukee airport",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/fairfield-by-marriott-inn-suites-milwaukee-airport/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "fairfield by marriott inn and suites milwaukee brookfield",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/fairfield-by-marriott-inn-suites-milwaukee-brookfield/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "fairfield by marriott inn and suites milwaukee downtown",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/fairfield-by-marriott-inn-suites-milwaukee-downtown/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "fairfield by marriott inn and suites milwaukee north",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/fairfield-by-marriott-inn-suites-milwaukee-north/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome USD125 non-refundable fee per room/stay. Limit 2 pets per room. Max wt 40 lbs. Non-Refundable Pet Fee Per Stay: $125.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 40.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 40.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "fairfield by marriott inn and suites milwaukee west",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/fairfield-by-marriott-inn-suites-milwaukee-west/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "four points by sheraton milwaukee north shore",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/four-points-by-sheraton-milwaukee-north-shore/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Dogs Only Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "hotel metro autograph collection",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/hotel-metro-autograph-collection/attempt-03/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome 75.00 USD non Refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "milwaukee marriott downtown",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/milwaukee-marriott-downtown/attempt-01/policy-block.txt",
+      "evidence": "No, pets are not allowed at Milwaukee Marriott Downtown.",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "milwaukee marriott west",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/milwaukee-marriott-west/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Pet fee is per stay. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "renaissance milwaukee west hotel",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/renaissance-milwaukee-west-hotel/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Up to 2 pets, up to 50lbs, 150USD, non-refundable, per stay. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "evidence": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+      "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "frozen_by_adjudication": true,
+      "marriott_facts": {
+        "pets_allowed": true
+      },
+      "marriott_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        }
+      },
+      "generic_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differences": [
+        {
+          "field": "weight_limit",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "marriott_withheld": null,
+          "generic_withheld": null
+        }
+      ],
+      "classification": "GENERIC_BETTER",
+      "review_consequence_marriott": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "review_consequence_generic": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee downtown",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-downtown/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Pets are welcome up to 50 lbs. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 1,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 15000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 1,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee north glendale",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-north-glendale/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Pets Accepted Upon Request Non-Refundable Pet Fee Per Stay: $125.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 75.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 75.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee west",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-west/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome All well mannered specific animals with 100 USD per animal Non refundable fee Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "sheraton milwaukee brookfield hotel",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+      "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "frozen_by_adjudication": true,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "review_consequence_generic": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    {
+      "identity_key": "springhill suites by marriott menomonee falls",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/springhill-suites-by-marriott-menomonee-falls/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Dogs only Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "springhill suites by marriott milwaukee downtown",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/springhill-suites-by-marriott-milwaukee-downtown/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome 1 dog 75 pounds max per room with USD 75 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 75.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 1,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 7500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 75.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 1,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "springhill suites by marriott milwaukee west wauwatosa",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/springhill-suites-by-marriott-milwaukee-west-wauwatosa/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Not Allowed",
+      "store_review_state": "REFUSAL_FOUNDER_REVIEW",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": false
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": false
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "REFUSAL_FOUNDER_REVIEW",
+      "review_consequence_generic": "REFUSAL_FOUNDER_REVIEW"
+    },
+    {
+      "identity_key": "the trade autograph collection",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-trade-autograph-collection/attempt-02/policy-block.txt",
+      "evidence": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+      "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "frozen_by_adjudication": true,
+      "marriott_facts": {
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay"
+      },
+      "marriott_withheld": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 100.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "generic_withheld": {},
+      "differences": [
+        {
+          "field": "pets_allowed",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": true,
+          "marriott_withheld": "SOURCE_SILENT",
+          "generic_withheld": null
+        },
+        {
+          "field": "weight_limit",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "marriott_withheld": null,
+          "generic_withheld": null
+        },
+        {
+          "field": "pet_count_limit",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": 2,
+          "marriott_withheld": null,
+          "generic_withheld": null
+        }
+      ],
+      "classification": "GENERIC_BETTER",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "the westin milwaukee",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-westin-milwaukee/attempt-01/policy-block.txt",
+      "evidence": "Pets Welcome. Dogs only up to 75 pounds. Limit one dog per room.",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "marriott_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "generic_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 75.0,
+          "unit": "lb"
+        },
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "generic_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "differences": [
+        {
+          "field": "weight_limit",
+          "kind": "GENERIC_ONLY",
+          "marriott": null,
+          "generic": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "marriott_withheld": null,
+          "generic_withheld": null
+        }
+      ],
+      "classification": "GENERIC_BETTER",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "towneplace suites by marriott milwaukee brookfield",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/towneplace-suites-by-marriott-milwaukee-brookfield/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Maximum of 2 pets per room with a $100.00 non-refundable fee per pet Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "towneplace suites by marriott milwaukee oak creek",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/towneplace-suites-by-marriott-milwaukee-oak-creek/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome 2 pets per room with non-refundable fee of USD 100 per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+      "store_review_state": "FOUNDER_REVIEW_READY",
+      "frozen_by_adjudication": false,
+      "marriott_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "marriott_withheld": {},
+      "generic_facts": {
+        "pets_allowed": true,
+        "pet_fee": 10000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "generic_withheld": {},
+      "differences": [],
+      "classification": "EQUIVALENT",
+      "review_consequence_marriott": "FOUNDER_REVIEW_READY",
+      "review_consequence_generic": "FOUNDER_REVIEW_READY"
+    }
+  ],
+  "courtyard": {
+    "identity_key": "courtyard by marriott milwaukee downtown",
+    "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+    "evidence": "Pet Policy Pets Welcome Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+    "source_states": [
+      "a one-time non-refundable pet fee of $50.00 per stay",
+      "a cleaning fee of $5 per DAY",
+      "a maximum of 2 pets in a room"
+    ],
+    "marriott_before": {
+      "extraction": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "flags": [
+        {
+          "code": "FLAG_MULTI_POLICY_BLOCKS",
+          "detail": "the block states charge components this schema cannot carry together ($5/ day); no single pet_fee is asserted"
+        }
+      ]
+    },
+    "generic_before": {
+      "extraction": {
+        "pets_allowed": true,
+        "cleaning_fee": 500,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "withheld": {},
+      "flags": []
+    },
+    "marriott_after": {
+      "extraction": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "flags": [
+        {
+          "code": "FLAG_MULTI_POLICY_BLOCKS",
+          "detail": "the block states charge components this schema cannot carry together ($5/ day); no single pet_fee is asserted"
+        }
+      ]
+    },
+    "generic_after": {
+      "extraction": {
+        "pets_allowed": true,
+        "pet_fee": 5000,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay",
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "withheld": {
+        "cleaning_fee": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "flags": [
+        {
+          "code": "FLAG_RECURRING_CLEANING_CHARGE",
+          "detail": "the surface states a recurring cleaning charge ('$5/ day ') and the published vocabulary holds one amount and no basis for it"
+        }
+      ]
+    },
+    "store_review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+    "finding": "034's note is half right and was not authoritative. The generic reader IS correct about the pet fee -- $50.00 per stay is stated in the property's own structured row and the Marriott reader withholds it. But the generic reader was ALSO about to publish the $5-per-day cleaning charge as a bare '$5.00': cleaning_fee is one integer, the display projection has no basis to render, and a seven-night stay would have been understated by thirty dollars. Both readers now withhold a recurring cleaning charge with a reason, so this row stays held either way -- and the generic reading carries the pet fee it can actually prove."
+  },
+  "marriott_repair": {
+    "code_changed": true,
+    "what": "marriott_surface withholds a RECURRING cleaning charge instead of publishing it as a flat amount -- the same rule the generic reader now applies",
+    "what_was_not_done": "the three remaining GENERIC_BETTER rows need the generic reader's PROSE parsing inside marriott_surface, and the dependency runs the other way: policy_reading imports marriott_surface. Achieving that parity means extracting a shared parsing component from two readers, which Phase 9 forbids doing here. Measured, named, and left.",
+    "rows_changed_by_the_marriott_edit": 0
+  },
+  "review_states": {
+    "FOUNDER_REVIEW_READY": 72,
+    "HELD_INSUFFICIENT_EVIDENCE": 7,
+    "REFUSAL_FOUNDER_REVIEW": 26,
+    "HELD_SCHEMA_CANNOT_REPRESENT": 12
+  },
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 117,
+    "active_unresolved": 16,
+    "store_rows": 117,
+    "founder_review_ready": 72,
+    "refusal_founder_review": 26,
+    "held_schema_cannot_represent": 12,
+    "held_insufficient_evidence": 7,
+    "current_state_conflict": 0,
+    "held_semantic_review": 0,
+    "first_publication_candidates": 98,
+    "published": 0,
+    "sum_of_final_states": 147
+  },
+  "cost": {
+    "provider_calls": 0,
+    "firecrawl_calls": 0,
+    "browser_api_calls": 0,
+    "web_unlocker_calls": 0,
+    "brightdata_spend_usd": 0.0,
+    "why": "two readers were run over blocks that were already on disk"
+  },
+  "freezes": {
+    "policy_schema_version": "1.2",
+    "paths": {
+      "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/contracts/enums.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/routes.json": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/registry.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/router.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py": "clean",
+      "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py": "clean",
+      "atlas-dashboard/launch_packages/pettripfinder/identity_census": "clean",
+      "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json": "clean"
+    },
+    "all_clean": true,
+    "changed_by_035": [
+      "scripts/pettripfinder/brightdata/policy_reading.py (recurring-word repair; recurring cleaning charge withheld)",
+      "scripts/pettripfinder/brightdata/marriott_surface.py (the same recurring-cleaning rule, changing no current row)"
+    ]
+  },
+  "publication_readiness": {
+    "known_pricing_defect_remaining": false,
+    "blockers": [],
+    "ready_rows": 72,
+    "ready_rows_carrying_a_price": 64,
+    "first_publication_candidates": 98,
+    "verdict": "READY_FOR_FIRST_PUBLICATION",
+    "reason": "no READY row carries a fee the vocabulary could not represent, no READY row publishes a recurring charge as a flat amount, and every remaining hold names its reason",
+    "scope_note": "this is an assessment of the CURRENT-STATE STORE. It says nothing about whether the founder has reviewed any row: published is 0, founder_approved is 0 and no authority file exists for this market."
+  },
+  "authority_written": false,
+  "published": 0
+}

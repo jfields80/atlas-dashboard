@@ -194,6 +194,7 @@ CLASSES = (
     "species_condition",
     "weight_condition",
     "tax_qualifier",
+    "recurring_charge_not_read",
     "frozen_by_adjudication",
     "brand_reader_not_extended",
     "other",
@@ -224,6 +225,11 @@ _UNREPRESENTABLE = {
     "brand_reader_not_extended": "the store reads this row with the Marriott "
                                  "surface reader, and this work order extended "
                                  "the generic reader only",
+    # Added by work order 035, which repaired the recurring-charge detector
+    # and put a row into this cohort that 034's taxonomy had no name for.
+    "recurring_charge_not_read": "the surface states a recurring charge and a "
+                                 "one-off charge, and the single fee field can "
+                                 "carry neither pair",
 }
 
 _PROBLEM_TO_CLASS = {
@@ -294,6 +300,10 @@ def classify(row: Mapping) -> Dict:
             classes.append(name)
     if _TWO_BASES_RE.search(block) and "contradictory_basis" not in classes:
         classes.append("contradictory_basis")
+    reading = PR.parse(block, strategy=WORK_ORDER)
+    if any(item.get("kind") == "recurring_charge_not_represented"
+           for item in (reading.unrepresented or ())):
+        classes.append("recurring_charge_not_read")
     if not classes:
         classes.append("other")
 

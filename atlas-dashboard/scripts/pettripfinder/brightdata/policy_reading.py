@@ -524,18 +524,20 @@ _TIERED_FEE_RE = re.compile(
 #: Recurring wording stated as an adjective. The charge patterns need "per
 #: day"; "$20 daily pet fee" states the same recurring charge in a form none of
 #: them match. Used only to detect a component the charges did not capture.
-#: NOTE (work order 034, reader-to-tiers): the two word boundaries in this
-#: pattern are literal backspace characters, not ````. A heredoc mangled them
-#: when the rule was written, so this detection has never fired and the
-#: multi-component check below has never seen a recurring charge. Repairing it
-#: is a REAL change with a consequence -- a WoodSpring page states "a
-#: Daily Pet Fee 5 USD Per Pet along with Non-Refundable Pet Fee of 100 USD",
-#: and a working pattern reclassifies that row from SOURCE_AMBIGUOUS to
-#: SCHEMA_CANNOT_REPRESENT, moving it OUT of founder review. 034 was
-#: commissioned to turn safe holds into structures, not to demote a ready row
-#: for an unrelated reason, so the character is left exactly as committed and
-#: the defect is reported instead.
-_RECURRING_WORD_RE = re.compile(r"(?:daily|nightly)", re.IGNORECASE)
+#:
+#: REPAIRED by work order 035. The two boundaries here were literal BACKSPACE
+#: characters (U+0008), not word boundaries -- a heredoc mangled them when the
+#: rule was written -- so the pattern could only ever match a control character
+#: no scraped page contains, and this detection had never fired once. 034 found
+#: it, measured the consequence and deliberately left it alone rather than
+#: demote a row while doing something else; 035 was commissioned to close it.
+#:
+#: The repair is the two characters and nothing else. The guard around the
+#: search is unchanged: it fires only where NO charge already carries a
+#: nightly or daily basis, and only where the word stands in pet context, so
+#: a parking charge billed daily and a fee already read as per_day are both
+#: untouched.
+_RECURRING_WORD_RE = re.compile(r"\b(?:daily|nightly)\b", re.IGNORECASE)
 
 #: Two or more DISTINCT prices on the surface. A tier needs both this and the
 #: qualifier above: a cap has two prices and no qualifier, and a single-priced
@@ -2348,6 +2350,23 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         # unrepresentable.
         # Found by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
         withheld["cleaning_fee"] = enums.SOURCE_AMBIGUOUS
+    elif cleaning and cleaning[0].basis in enums.NIGHTLY_BASES:
+        # A RECURRING cleaning charge, and ``cleaning_fee`` is one bare integer
+        # with nowhere to put "per day". One Marriott property states "a Daily
+        # cleaning fee of $5/ day in addition to the one time non-refundable
+        # pet fee": published as "$5.00" -- which is what the display
+        # projection renders, having no basis to show -- a seven-night stay is
+        # understated by thirty dollars.
+        #
+        # The amount is not dropped: it is withheld with a reason, so a
+        # reviewer sees a charge the vocabulary cannot carry rather than a
+        # cheaper one than the hotel charges. Added by work order 035.
+        withheld["cleaning_fee"] = enums.SCHEMA_CANNOT_REPRESENT
+        flags.append({
+            "code": "FLAG_RECURRING_CLEANING_CHARGE",
+            "detail": ("the surface states a recurring cleaning charge (%r) "
+                       "and the published vocabulary holds one amount and no "
+                       "basis for it" % cleaning[0].quote)})
     elif cleaning:
         extraction["cleaning_fee"] = cleaning[0].amount_minor
         cite(cleaning[0].quote, ["cleaning_fee"])
@@ -2552,7 +2571,24 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         # SOURCE_SILENT beside it would tell a reviewer the page named no fee
         # while the row carries three of them. Added by
         # Found by work order 034, reader-to-tiers.
-        withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
+        recurring_unread = any(
+            item.get("kind") == "recurring_charge_not_represented"
+            for item in (reading.unrepresented or ()))
+        if recurring_unread:
+            # The surface named a recurring charge and no charge pattern could
+            # read it -- "$20 daily pet fee applies, up to a maximum of $100
+            # per stay" states a price this reader cannot carry, and calling
+            # that SILENCE tells a reviewer the page named no fee while it
+            # names one in the same sentence as the ceiling. Added by work
+            # order 035, alongside the repair that made this detectable at all.
+            withheld.setdefault("pet_fee", enums.SCHEMA_CANNOT_REPRESENT)
+            flags.append({
+                "code": "FLAG_RECURRING_CHARGE_NOT_READ",
+                "detail": ("the surface states a recurring pet charge that no "
+                           "charge pattern could read; no amount is asserted "
+                           "and the silence is not claimed")})
+        else:
+            withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
 
     for excluded_amount in reading.excluded_amounts:
         non_inferences.append(

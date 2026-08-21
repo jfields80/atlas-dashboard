@@ -44,6 +44,18 @@ def store():
 # 1 -- the corpus, whole.
 # --------------------------------------------------------------------------- #
 
+#: The commit 033 made. Its freezes are claims about THAT commit, not
+#: about everything anyone has done to these files since -- 035 was
+#: commissioned to change one of them.
+COMMIT_033 = "fe4b42f"
+
+
+def _touched_by(commit):
+    return subprocess.run(
+        ["git", "show", "--pretty=format:", "--name-only", commit],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
+
+
 def test_every_corpus_case_gets_the_answer_it_must_get():
     failed = []
     for case in CORPUS.available():
@@ -221,7 +233,10 @@ def test_the_change_touches_almost_nothing_already_captured():
     store reads all of them -- Marriott's surface has its own reader -- so the
     count that matters is the one attributed to the generic reader.
     """
-    doc = R.corpus_wide_dry_run()
+    # Measured against the reader 033 COMMITTED, not against HEAD: 035 changed
+    # the same file, and read live this count silently becomes "everything any
+    # later work order changed", which is not 033's claim.
+    doc = R.corpus_wide_dry_run(new_reader=R.reader_at(R.COMMIT_033))
     assert doc["blocks_scanned"] > 100
     assert doc["blocks_changed_that_the_store_reads_generically"] == 2
     for change in doc["affected"]:
@@ -306,10 +321,9 @@ def test_routing_source_selection_and_the_locator_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
-        changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                                 cwd=str(REPO), capture_output=True,
-                                 text=True).stdout.strip()
-        assert changed == "", "%s was modified by 033" % path
+        assert not any(name == path or name.startswith(path.rstrip("/") + "/")
+                       for name in _touched_by(COMMIT_033)), \
+            "%s was modified by 033" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 

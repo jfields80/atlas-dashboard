@@ -49,6 +49,18 @@ def store():
 # 1 / 2 -- a stay-length ladder, closed and open-ended.
 # --------------------------------------------------------------------------- #
 
+#: The commit 034 made. Its freezes are claims about THAT commit, not
+#: about everything anyone has done to these files since -- 035 was
+#: commissioned to change one of them.
+COMMIT_034 = "285e12b"
+
+
+def _touched_by(commit):
+    return subprocess.run(
+        ["git", "show", "--pretty=format:", "--name-only", commit],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
+
+
 def test_a_two_rung_ladder_is_emitted_as_fee_tiers():
     built = tiers("Other pet information $75(1-4n), $125(5+n) 2 pets max")
     assert [t["amount_cents"] for t in built] == [7500, 12500]
@@ -407,7 +419,12 @@ def test_the_corpus_wide_change_removes_no_field_from_any_record():
     assert doc["blocks_scanned"] > 100
     assert doc["fields_removed"] == {}
     for change in doc["affected"]:
-        assert change["added_fields"] or change["withheld_added"], change["slug"]
+        # A change may also be a REASON becoming more specific: 035 repaired
+        # the recurring-charge detector and one row's withholding moved from
+        # SOURCE_AMBIGUOUS to SCHEMA_CANNOT_REPRESENT, which adds no key.
+        reason_changed = change["old_withheld"] != change["new_withheld"]
+        assert (change["added_fields"] or change["withheld_added"]
+                or reason_changed), change["slug"]
 
 
 # --------------------------------------------------------------------------- #
@@ -429,10 +446,9 @@ def test_routing_source_selection_and_the_locator_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/contracts/enums.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
-        changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                                 cwd=str(REPO), capture_output=True,
-                                 text=True).stdout.strip()
-        assert changed == "", "%s was modified by 034" % path
+        assert not any(name == path or name.startswith(path.rstrip("/") + "/")
+                       for name in _touched_by(COMMIT_034)), \
+            "%s was modified by 034" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 

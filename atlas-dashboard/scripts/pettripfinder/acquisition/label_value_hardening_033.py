@@ -113,6 +113,35 @@ def _rel(path: Path) -> str:
 # The reader as it was.
 # --------------------------------------------------------------------------- #
 
+def reader_at(commit: str):
+    """``policy_reading`` as committed at ``commit``, importable.
+
+    Added by work order 035 so 033's own measurements can name the reader they
+    are about instead of drifting onto whatever is installed later.
+    """
+    key = "module@%s" % commit
+    if key in _BASELINE_CACHE:
+        return _BASELINE_CACHE[key]
+    import importlib.util
+    import tempfile
+    source = subprocess.run(
+        ["git", "show", "%s:%s" % (commit, _READER_PATH)],
+        cwd=str(REPO.parent), capture_output=True, text=True, encoding="utf-8",
+        check=True).stdout
+    if not source.strip():
+        raise RuntimeError("no reader at %r" % commit)
+    holder = (Path(tempfile.mkdtemp(prefix="ptf033-"))
+              / "policy_reading_at.py")
+    holder.write_text(source, encoding="utf-8")
+    spec = importlib.util.spec_from_file_location(
+        "policy_reading_at_033_%s" % commit.replace("-", "_"), holder)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    _BASELINE_CACHE[key] = module
+    return module
+
+
 def baseline_reader():
     """``policy_reading`` exactly as committed at ``BASELINE_COMMIT``."""
     if "module" in _BASELINE_CACHE:
@@ -309,7 +338,14 @@ def production_readers() -> Dict[str, str]:
     return out
 
 
-def corpus_wide_dry_run() -> Dict:
+#: The commit 033 itself made. Its own before/after claims are about THAT
+#: reader; 035 changed the same file, and a live comparison silently re-scopes
+#: 033's findings to include every change made since.
+COMMIT_033 = "fe4b42f"
+
+
+def corpus_wide_dry_run(new_reader=None) -> Dict:
+    new_reader = PR if new_reader is None else new_reader
     old = baseline_reader()
     readers = production_readers()
     scanned = 0
@@ -323,7 +359,7 @@ def corpus_wide_dry_run() -> Dict:
                                                 errors="replace")
         scanned += 1
         before = read_with(old, block)
-        after = read_with(PR, block)
+        after = read_with(new_reader, block)
         if (before["extraction"] == after["extraction"]
                 and before["withheld"] == after["withheld"]):
             continue
