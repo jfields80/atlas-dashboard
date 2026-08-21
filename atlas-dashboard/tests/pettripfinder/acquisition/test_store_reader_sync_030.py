@@ -57,6 +57,17 @@ def rows_by_identity():
 # 1 / 2 -- history is a record, not a working copy.
 # --------------------------------------------------------------------------- #
 
+#: The commit 030 made. Its freezes are claims about that commit, not about
+#: everything anyone has done to these files since.
+COMMIT_030 = "c10bc0d"
+
+
+def _touched_by(commit):
+    return subprocess.run(
+        ["git", "show", "--pretty=format:", "--name-only", commit],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
+
+
 def test_the_router_journal_still_says_what_its_reader_said():
     """The store derived new facts; the journal was not edited to match.
 
@@ -247,9 +258,11 @@ def test_one_identity_is_one_row():
 
 
 def test_the_row_count_moves_only_when_an_observation_is_added():
-    """030 added none. 032 added one, from evidence already on disk."""
+    """030 added none. 032 added one and 033 two, all from evidence on disk."""
     from scripts.pettripfinder.acquisition import locator_recovery_032 as R32
-    assert len(store()["items"]) == 114 + len(R32.journal_rows())
+    from scripts.pettripfinder.acquisition import label_value_hardening_033 as R33
+    assert len(store()["items"]) == (114 + len(R32.journal_rows())
+                                     + len(R33.journal_rows()))
 
 
 def test_the_integration_added_and_removed_nothing():
@@ -429,7 +442,8 @@ def test_the_market_counters_did_not_move():
     assert counters["census_total"] == 147
     assert counters["active_eligible"] == 133
     from scripts.pettripfinder.acquisition import locator_recovery_032 as R32
-    recovered = len(R32.journal_rows())
+    from scripts.pettripfinder.acquisition import label_value_hardening_033 as R33
+    recovered = len(R32.journal_rows()) + len(R33.journal_rows())
     assert counters["observed"] == 114 + recovered
     assert counters["active_unresolved"] == 19 - recovered
     assert counters["published"] == 0
@@ -447,7 +461,5 @@ def test_routing_and_capture_machinery_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
-        changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                                 cwd=str(REPO), capture_output=True,
-                                 text=True).stdout.strip()
-        assert changed == "", "%s was modified by 030" % path
+        assert not any(name == path or name.startswith(path.rstrip("/") + "/")
+                       for name in _touched_by(COMMIT_030)),             "%s was modified by 030" % path

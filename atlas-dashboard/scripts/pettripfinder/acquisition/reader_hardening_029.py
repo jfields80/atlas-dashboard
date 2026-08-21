@@ -389,10 +389,22 @@ def corpus_differential() -> Dict:
 # Phase 10 -- every persisted Milwaukee policy block.
 # --------------------------------------------------------------------------- #
 
-def persisted_blocks() -> List[Dict]:
+#: The production runs that existed when 029 ran. Later work orders register
+#: new ones -- 032 and 033 both did -- and a claim 029 made about "everywhere
+#: in the persisted corpus" cannot be about evidence that did not exist yet.
+RUNS_AT_029: Tuple[str, ...] = (
+    "milwaukee-router-001", "milwaukee-resume-007", "milwaukee-wyndham-008",
+    "milwaukee-ihg-009", "marriott-milwaukee-020", "hilton-milwaukee-023",
+    "milwaukee-final-026", "milwaukee-identity-027", "milwaukee-premium-028",
+)
+
+
+def persisted_blocks(runs: Optional[Sequence[str]] = None) -> List[Dict]:
     """Every policy block a Milwaukee production run persisted, with its run."""
     out: List[Dict] = []
     for run_id, _journal, capture_root in S.SOURCES:
+        if runs is not None and run_id not in runs:
+            continue
         root = DATA / capture_root
         if not root.is_dir():
             continue
@@ -425,8 +437,42 @@ def brand_for_slug(slug: str) -> Tuple[str, str]:
     return identity, (S.brand_for(identity, "") if identity else "") or "UNKNOWN"
 
 
-def corpus_wide_dry_run() -> Dict:
+#: The commit 029 itself made. Its own before/after claims are about THIS
+#: reader, not about whatever reader is on disk later: 033 was commissioned to
+#: change the same file, and a live comparison silently re-scopes 029's
+#: findings to include every change made since.
+COMMIT_029 = "a80b2b4"
+
+
+def reader_at(commit: str):
+    """``policy_reading`` as committed at ``commit``, importable."""
+    key = "module@%s" % commit
+    if key in _BASELINE_CACHE:
+        return _BASELINE_CACHE[key]
+    import importlib.util
+    import tempfile
+    source = subprocess.run(
+        ["git", "show", "%s:%s" % (commit, _READER_PATH)],
+        cwd=str(REPO), capture_output=True, text=True, encoding="utf-8",
+        check=True).stdout
+    if not source.strip():
+        raise RuntimeError("no reader at %r" % commit)
+    holder = (Path(tempfile.mkdtemp(prefix="ptf029-"))
+              / "policy_reading_at.py")
+    holder.write_text(source, encoding="utf-8")
+    spec = importlib.util.spec_from_file_location(
+        "policy_reading_at_%s" % commit.replace("-", "_"), holder)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    _BASELINE_CACHE[key] = module
+    return module
+
+
+def corpus_wide_dry_run(new_reader=None,
+                        runs: Optional[Sequence[str]] = None) -> Dict:
     """The changed reader over every persisted block. Nothing is written."""
+    new_reader = PR if new_reader is None else new_reader
     old = baseline_reader()
     scanned = 0
     changed: List[Dict] = []
@@ -434,12 +480,12 @@ def corpus_wide_dry_run() -> Dict:
     added_fields = Counter()
     removed_fields = Counter()
     withheld_added = Counter()
-    for item in persisted_blocks():
+    for item in persisted_blocks(runs):
         block = (REPO / item["path"]).read_text(encoding="utf-8",
                                                 errors="replace")
         scanned += 1
         before = read_with(old, block)
-        after = read_with(PR, block)
+        after = read_with(new_reader, block)
         if before["extraction"] == after["extraction"] \
                 and before["withheld"] == after["withheld"]:
             continue

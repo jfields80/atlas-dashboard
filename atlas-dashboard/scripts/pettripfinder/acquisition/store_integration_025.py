@@ -134,6 +134,12 @@ RUN_KINDS: Dict[str, Tuple[str, str]] = {
     # contacted; the document sha256 matches the capture it came from.
     "milwaukee-locator-032": (CURRENT_PRODUCTION,
                               "the offline richer-block recovery"),
+    # Added by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033: the two blocks 032
+    # recovered and could not use, journalled once the reader could read the
+    # label-and-value layout they are written in. Same documents, same hashes,
+    # no provider contacted.
+    "milwaukee-label-value-033": (CURRENT_PRODUCTION,
+                                  "the label/value reader repair's re-derivation"),
     "marriott-closure-022": (SUPERSEDING,
                              "one fresh capture confirming the corrected "
                              "Marriott locator; supersedes The Trade"),
@@ -198,6 +204,10 @@ SOURCES: Tuple[Tuple[str, str, str], ...] = (
     ("milwaukee-locator-032",
      "milwaukee-locator-032/journal.jsonl",
      "milwaukee-locator-032/milwaukee-locator-032"),
+    # Added by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
+    ("milwaukee-label-value-033",
+     "milwaukee-label-value-033/milwaukee-label-value-033/journal.jsonl",
+     "milwaukee-label-value-033/milwaukee-label-value-033"),
 )
 
 #: Newer wins where no supersession says otherwise. Ordered oldest to newest by
@@ -208,6 +218,7 @@ RUN_ORDER: Tuple[str, ...] = (
     "milwaukee-ihg-009", "marriott-milwaukee-020", "hilton-milwaukee-023",
     "milwaukee-final-026", "milwaukee-identity-027",
     "milwaukee-premium-028", "milwaukee-locator-032",
+    "milwaukee-label-value-033",
 )
 
 
@@ -249,6 +260,8 @@ _RUN_REPORTS: Dict[str, Path] = {
     "milwaukee-identity-027": REPORTS / "ptf_identity_binding_027.json",
     "milwaukee-premium-028": REPORTS / "ptf_premium_resolution_028.json",
     "milwaukee-locator-032": REPORTS / "ptf_milwaukee_locator_recovery_032.json",
+    "milwaukee-label-value-033":
+        REPORTS / "ptf_label_value_reader_hardening_033.json",
 }
 _RUN_TIMES: Dict[str, str] = {}
 

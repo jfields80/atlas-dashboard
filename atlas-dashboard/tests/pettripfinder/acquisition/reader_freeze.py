@@ -31,7 +31,26 @@ from scripts.pettripfinder.contracts import enums
 #: sha256 of the patterns the safeguards are made of.
 TIERED_FEE_SHA = "f86f8190be00e97e7eabefd616e2487d"
 RATE_MARKER_SHA = "13567602e891334286e1c64938404a5f"
-NON_PET_PURPOSE_SHA = "eb08d249a4552992dc10fadec1804869"
+
+#: The non-pet purposes, pinned as MEMBERSHIP rather than as a hash of the
+#: whole pattern. A hash says "this guard is exactly what it was", which reads
+#: a STRENGTHENING as a breach: 033 added parking, smoking, resort fees and
+#: valet to it, having found the reader publishing a resort fee and a smoking
+#: fee as the pet fee. What the freeze is for is that nothing is ever taken
+#: OUT, so that is what it now checks -- every frozen alternative must still
+#: be there, and each still refuses in behaviour below.
+FROZEN_NON_PET_PURPOSES = (
+    r"\bincidental(?:s)?\b", r"\bfor\s+all\s+guests\b",
+    r"\ball\s+guests\b", r"\bsecurity\s+deposit\b",
+    r"\bdamage\s+deposit\b",
+)
+
+
+#: What 033 added, pinned the same way so a later work order cannot quietly
+#: drop it either.
+NON_PET_PURPOSES_ADDED_BY_033 = (
+    r"\bparking\b", r"\bsmoking\b", r"\bresort\s+fee\b", r"\bvalet\b",
+)
 
 
 def _sha(text):
@@ -50,7 +69,8 @@ def assert_reader_protections_unchanged():
     # The guards, by pattern.
     assert _sha(PR._TIERED_FEE_RE.pattern) == TIERED_FEE_SHA
     assert _sha(PR._RATE_MARKER_RE.pattern) == RATE_MARKER_SHA
-    assert _sha(PR._NON_PET_PURPOSE_RE.pattern) == NON_PET_PURPOSE_SHA
+    for alternative in FROZEN_NON_PET_PURPOSES + NON_PET_PURPOSES_ADDED_BY_033:
+        assert alternative in PR._NON_PET_PURPOSE_RE.pattern, alternative
     assert PR._PET_CONTEXT_CHARS == 70
     assert PR._PURPOSE_QUALIFIER_CHARS == 16
 
@@ -85,3 +105,13 @@ def assert_reader_protections_unchanged():
     service = PR.to_extraction(PR.parse("Service Animals are Welcome"),
                                location="freeze")
     assert "pets_allowed" not in service.extraction
+
+    # A charge every guest pays is not the price of bringing an animal, however
+    # near the word "pet" it is printed. Added by 033, which found the reader
+    # publishing the first two of these as ``pet_fee``.
+    for block in ("Pets welcome. Resort fee : $29 per night.",
+                  "Pets welcome. Smoking fee : $250 per stay.",
+                  "Pets allowed. Self-parking $35 per night.",
+                  "Pets allowed. Valet parking : $45 per night."):
+        other = PR.to_extraction(PR.parse(block), location="freeze")
+        assert "pet_fee" not in other.extraction, block

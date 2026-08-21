@@ -147,7 +147,13 @@ _PET_NAMED_CHARGE_RE = re.compile(
     r"\b(?:pets?|dogs?|cats?|animals?)[\s-]+"
     r"(?!(?:" + _CLAUSE_CLOSING_WORDS + r")\b)"
     r"(?:[a-z]+[\s-]+)?"
-    r"(?:fee|fees|charge|charges|rate|rates)\b\s*"
+    # ``price`` and ``cost`` are charge nouns exactly as ``fee`` and ``rate``
+    # are. "Pet Fees Price : $40 / NIGHT" was read as nothing, because the word
+    # PRICE is also a room-rate marker and ``_pet_context`` therefore refused
+    # the amount -- the same collision 029 found with "the Pet Friendly rate",
+    # and the same answer: the pet word is INSIDE the label, so the label binds
+    # the charge and no proximity is left to adjudicate.
+    r"(?:fee|fees|charge|charges|rate|rates|price|prices|cost|costs)\b\s*"
     r"(?:is|are|of|:|=)?\s*"
     r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)"
     r"|(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
@@ -291,6 +297,21 @@ _COUNT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"(?:up\s+to|maximum(?:\s+of)?|max\.?|no\s+more\s+than)\s+"
                r"(?:(?P<count>\d+)|(?P<word>one|two|three|four|five))\s+"
                r"(?:pets?|dogs?|cats?)\b", re.IGNORECASE),
+    # "Maximum number of pets is 2", "Maximum number of pets : 3".
+    #
+    # A LABEL and a VALUE, with the number after the noun instead of before it.
+    # Every form above puts the figure first, so a table that states the same
+    # fact as a row read as nothing at all.
+    #
+    # The animal is REQUIRED in the label. Without it "Maximum number of guests
+    # is 4" and "Maximum occupancy : 4" are the same shape, and a room's
+    # occupancy is not a pet limit. No scope is recorded: the surface stated a
+    # ceiling and did not say per room.
+    re.compile(r"max(?:imum)?\s+(?:number\s+of\s+|no\.?\s+of\s+)?"
+               r"(?:pets?|dogs?|cats?)\s*(?:allowed\s*)?"
+               r"(?:\b(?:is|are)\b|:|=)\s*"
+               r"(?:(?P<count>\d+)|(?P<word>one|two|three|four|five))\b",
+               re.IGNORECASE),
 )
 
 #: Weights. "up to", "under", "or less" and "maximum" are all recorded as a
@@ -334,8 +355,13 @@ _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     # The gap is bounded and may not cross a full stop, so the noun and the
     # figure must be in one sentence -- otherwise a limit in one statement
     # would collect a number from the next.
+    # ``\b`` was guarding the whole alternation, and a colon is not a word --
+    # so a word boundary in front of it could never match one. "Individual pet
+    # weight limit : 150 Pounds" therefore failed on a rule written to accept
+    # exactly that shape. The boundary now guards the WORD copulas alone.
+    # Found by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
     re.compile(r"\b(?:size|weight)\s+(?:limit|restriction)\b[^.]{0,48}?"
-               r"\b(?:is|are|shall\s+be|will\s+be|of|:)\s*"
+               r"(?:\b(?:is|are|shall\s+be|will\s+be|of)\b|:)\s*"
                r"(?P<value>[\d,]+(?:\.\d+)?)\s*"
                r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
 )
@@ -587,9 +613,17 @@ _PURPOSE_QUALIFIER_CHARS = 16
 #: for, and they beat a pet word that merely sits in the same sentence. Under
 #: the nearest-wins rule below they cost a genuine "pet security deposit"
 #: nothing: there the pet word is adjacent to the amount and wins the tie.
+#: ``parking``, ``smoking``, ``resort fee`` and ``valet`` were added by
+#: PTF-LABEL-VALUE-POLICY-READER-HARDENING-033, which caught this reader
+#: publishing "Resort fee : $29 per night" and "Smoking fee : $250 per stay" as
+#: the PET fee, because a pet word stood in the same block. The LOCATOR has
+#: refused those four since 032 and the reader had never been told; two layers
+#: that disagree about whose charge an amount is will always publish the more
+#: permissive answer.
 _NON_PET_PURPOSE_RE = re.compile(
     r"\bincidental(?:s)?\b|\bfor\s+all\s+guests\b|\ball\s+guests\b"
-    r"|\bsecurity\s+deposit\b|\bdamage\s+deposit\b",
+    r"|\bsecurity\s+deposit\b|\bdamage\s+deposit\b"
+    r"|\bparking\b|\bsmoking\b|\bresort\s+fee\b|\bvalet\b",
     re.IGNORECASE)
 
 
@@ -667,9 +701,13 @@ def _pet_context(text: str, start: int, end: int) -> bool:
         # modifies the phrase rather than merely sitting near it. Without this
         # the phrase always won, because it overlaps the amount's own label and
         # so scores a distance of zero that no adjacent word can beat.
-        lead = text[max(0, purpose.start() - _PURPOSE_QUALIFIER_CHARS):
-                    purpose.start()]
-        if _PET_CONTEXT_RE.search(lead):
+        # ...within the SAME statement. A pet word on the other side of a full
+        # stop qualifies nothing: "Pets welcome. Resort fee : $29 per night."
+        # exempted the resort fee because the word "Pets" stood fourteen
+        # characters back, and the reader then published a charge every guest
+        # pays as the price of bringing an animal.
+        # Found by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
+        if _pet_qualifies(text, purpose.start()):
             continue
         gap = (purpose.start() - end if purpose.start() >= end
                else start - purpose.end() if purpose.end() <= start else 0)
@@ -952,9 +990,114 @@ def _first_acceptance(text: str):
     return None, "", negated
 
 
-def _first_match(text: str, patterns: Sequence[re.Pattern], label: str):
+def _pet_qualifies(text: str, position: int) -> bool:
+    """Whether a pet word stands on the noun beginning at ``position``.
+
+    One rule, two callers: a purpose the pet wording QUALIFIES is not a rival
+    purpose, and a cleaning noun the pet wording qualifies is not a separate
+    cleaning charge. The lead never crosses a full stop, because a pet word in
+    the previous sentence qualifies nothing.
+    """
+    lead = text[max(0, position - _PURPOSE_QUALIFIER_CHARS):position]
+    lead = lead[lead.rfind(".") + 1:]
+    return bool(_PET_CONTEXT_RE.search(lead))
+
+
+#: A cleaning charge whose LABEL comes first: "Cleaning fee : $75 per stay".
+#: ``_PROSE_CLEANING_RE`` reads the other order -- amount, then the word -- so a
+#: table that puts the label in front of the value stated a cleaning charge the
+#: reader could not see, and the amount then competed with the pet fee as a
+#: second unexplained charge.
+_LABEL_FIRST_CLEANING_RE = re.compile(
+    r"\bclean(?:ing)?\b[^.$]{0,24}?"
+    r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)"
+    r"|(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)",
+    re.IGNORECASE)
+
+#: How far past a cleaning word an amount may sit and still be ITS amount.
+_CLEANING_LABELS_FORWARD_CHARS = 24
+
+
+def _cleaning_amounts(text: str) -> set:
+    """Amounts the surface itself calls a cleaning charge.
+
+    TWO ORDERS, AND ONE TRAP
+    ------------------------
+    A property may write "$75 per stay cleaning fee" or "Cleaning fee : $75",
+    and both are the same statement. Only the first was read.
+
+    The trap is what the first pattern does when a cleaning word labels the
+    NEXT amount rather than the last one. Hyatt Place Airport's block reads::
+
+        Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning
+        fee : $200 / STAY
+
+    and the backward rule attached "cleaning" to $100 -- the FIRST band of the
+    pet fee, twenty-five characters earlier. The row then published
+    ``cleaning_fee: $100``, which is not a cleaning fee and is not $100 of
+    anything a guest pays for cleaning.
+
+    So a cleaning word that is plainly the label of a FOLLOWING amount does not
+    also claim a preceding one. Found by
+    PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
+    """
+    text = text or ""
+    labelled_forward = set()
+    for match in _LABEL_FIRST_CLEANING_RE.finditer(text):
+        raw = match.group("dollars") or match.group("usd")
+        if not raw:
+            continue
+        if _pet_qualifies(text, match.start()):
+            # "There is a pet cleaning fee of $100 per stay" is the charge for
+            # bringing an animal, whatever the property files it under, and the
+            # reader has always read it as the pet fee. A pet word standing on
+            # the noun makes the charge a PET charge -- the same rule
+            # ``_pet_context`` applies to "pet security deposit" -- so this
+            # pass does not take it away and turn a stated pet price into a
+            # cleaning line with no pet price beside it.
+            continue
+        labelled_forward.add(_amount_minor(raw))
+
+    amounts = set(labelled_forward)
+    for match in MS._PROSE_CLEANING_RE.finditer(text):
+        word = re.search(r"\bclean(?:ing)?\b", match.group(0), re.IGNORECASE)
+        if word is not None:
+            after = text[match.start() + word.end():
+                         match.start() + word.end()
+                         + _CLEANING_LABELS_FORWARD_CHARS]
+            if _LABEL_FIRST_CLEANING_RE.search(
+                    match.group(0)[word.start():] + after):
+                # The word labels the amount that FOLLOWS it, so it does not
+                # also label the one behind it.
+                continue
+        amounts.add(_amount_minor(match.group("amount")))
+    return amounts
+
+
+def _cleaning_is_inside_a_band(reading, charge) -> bool:
+    """Whether a cleaning amount is one price of a banded pet fee.
+
+    A real cleaning fee stands beside the pet fee: "Pet fee $50 per stay.
+    Cleaning fee : $75 per stay" is two charges and both are publishable. A
+    banded one stands INSIDE it, as the second half of a duration ladder, and
+    then the amount is not separable from the price it bands.
+
+    The test is not the cleaning wording -- that is what mislabels these -- but
+    whether the surface prices its pets in bands at all, and whether this
+    amount is one of the prices in that structure.
+    """
+    if not _fee_is_tiered(reading.block_text):
+        return False
+    others = {c.amount_minor for c in reading.charges
+              if c is not charge and c.kind != "deposit"}
+    return bool(others) and charge.amount_minor not in others
+
+
+def _first_match(text: str, patterns: Sequence[re.Pattern], label: str,
+                 accept=None):
     for index, pattern in enumerate(patterns):
-        match = pattern.search(text)
+        match = next((m for m in pattern.finditer(text)
+                      if accept is None or accept(m)), None)
         if match:
             return match, "%s[%d]" % (label, index)
     return None, ""
@@ -971,8 +1114,7 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     notes: List[str] = []
     charges: List[Charge] = []
 
-    cleaning_amounts = {_amount_minor(m.group("amount"))
-                        for m in MS._PROSE_CLEANING_RE.finditer(text)}
+    cleaning_amounts = _cleaning_amounts(text)
 
     # --- labelled rows (Marriott's shape, reused verbatim) ---------------- #
     for match in MS._LABELLED_CHARGE_RE.finditer(text):
@@ -1283,6 +1425,26 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
 
     # --- weight ------------------------------------------------------------ #
     weight_match, weight_pattern = _first_match(text, _WEIGHT_RES, "weight")
+    if weight_match is not None and _weight_is_combined(text, weight_match):
+        # The winning match is a COMBINED weight while the same surface also
+        # states an individual one. Pattern precedence, not position, decides
+        # which match wins, so a loose bare-number pattern reading "150 Pounds
+        # Maximum" out of the COMBINED row beat the explicit "Individual pet
+        # weight limit : 150 Pounds" that a later pattern read.
+        #
+        # Dropping it there lost a weight the surface states plainly -- both
+        # Hyatt blocks print the individual limit first and the combined one
+        # second, and both published no weight at all. So an individual
+        # statement is preferred to a combined one wherever the surface makes
+        # both; only a surface that states nothing BUT a combined weight falls
+        # through to the note below.
+        # Found by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
+        individual = _first_match(
+            text, _WEIGHT_RES, "weight",
+            accept=lambda m: not _weight_is_combined(text, m))
+        if individual[0] is not None:
+            weight_match, weight_pattern = individual
+
     weight_value = weight_unit = weight_quote = None
     if weight_match and _weight_is_combined(text, weight_match):
         # The figure is for several animals together. Recorded as a note and
@@ -1628,7 +1790,19 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                     "charges and no structured row; no fee is "
                                     "taken from prose alone"})
 
-    if cleaning:
+    if cleaning and _cleaning_is_inside_a_band(reading, cleaning[0]):
+        # The cleaning wording sits INSIDE a banded pet price, so the surface
+        # has not separated the two charges. Hyatt Place Airport prints
+        # "1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee :
+        # $200 / STAY": whether $200 is a cleaning fee, or the long-stay pet
+        # price WITH cleaning in it, is exactly what the page does not say.
+        # The pet fee is already withheld here as a band the schema cannot
+        # hold; republishing one of its own numbers under another name would
+        # state as a separate charge the thing that was withheld as
+        # unrepresentable.
+        # Found by PTF-LABEL-VALUE-POLICY-READER-HARDENING-033.
+        withheld["cleaning_fee"] = enums.SOURCE_AMBIGUOUS
+    elif cleaning:
         extraction["cleaning_fee"] = cleaning[0].amount_minor
         cite(cleaning[0].quote, ["cleaning_fee"])
 

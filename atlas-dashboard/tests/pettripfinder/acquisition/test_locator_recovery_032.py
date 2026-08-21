@@ -37,6 +37,17 @@ def store():
 # 1 -- semantic, not length-based.
 # --------------------------------------------------------------------------- #
 
+#: The commit 032 made. Its freezes are claims about that commit, not about
+#: everything anyone has done to these files since.
+COMMIT_032 = "b21a04a"
+
+
+def _touched_by(commit):
+    return subprocess.run(
+        ["git", "show", "--pretty=format:", "--name-only", commit],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
+
+
 def test_recovery_is_driven_by_terms_and_not_by_length():
     """A longer block is not a better one.
 
@@ -225,16 +236,33 @@ def test_only_a_recovery_that_states_a_pet_fact_becomes_an_observation():
     that keeps an amenity chip out -- no hand-picking required.
     """
     rows = {row["identity_key"]: row for row in R.recoveries()}
-    airport = rows["hyatt place milwaukee airport"]
+
+    # The GATE, which is 032's rule and holds for any reader: a recovery
+    # becomes an observation exactly when the reading states a pet fact.
+    for row in rows.values():
+        assert row["yields_an_observation"] == bool(row["substantive_pet_fields"])
+
+    # What 032's OWN reader made of the two Hyatts is history, and its report
+    # is where that is recorded. Re-deriving it live asserts that they are
+    # still unreadable -- which is precisely what 033 was commissioned to fix,
+    # so the test would have failed for succeeding. It is read from the
+    # committed report instead, the same repair 031's tests needed.
+    historical = {row["identity_key"]: row for row in json.loads(
+        R.RUN_REPORT.read_text(encoding="utf-8-sig"))["recoveries"]}
+    airport = historical["hyatt place milwaukee airport"]
     assert airport["recovered"] is True
     assert airport["extraction"] == {"cleaning_fee": 10000}
-    assert airport["substantive_pet_fields"] == []
     assert airport["yields_an_observation"] is False
 
-    regency = rows["hyatt regency milwaukee"]
+    regency = historical["hyatt regency milwaukee"]
     assert regency["recovered"] is True
     assert regency["extraction"] == {}
     assert regency["yields_an_observation"] is False
+
+    # And the blocks themselves are unchanged: 033 repaired the READER.
+    for key in ("hyatt place milwaukee airport", "hyatt regency milwaukee"):
+        assert rows[key]["new_block"] == historical[key]["new_block"]
+        assert rows[key]["recovered"] is True
 
     wildwood = rows["wildwood lodge"]
     assert wildwood["yields_an_observation"] is True
@@ -360,7 +388,13 @@ def test_the_counters_moved_by_exactly_what_recovered():
     assert counters["active_eligible"] == 133
     assert counters["sum_of_final_states"] == 147
     assert counters["published"] == 0
-    journalled = len(R.journal_rows())
+    # Every observation recovered offline since 032, by the run that recovered
+    # it. 033 read two blocks 032 had recovered and could not use, so its
+    # journal belongs in this sum: the claim is that the counters move by
+    # exactly what was recovered, not that 032 was the last work order to
+    # recover anything.
+    from scripts.pettripfinder.acquisition import label_value_hardening_033 as R33
+    journalled = len(R.journal_rows()) + len(R33.journal_rows())
     assert counters["observed"] == 114 + journalled
     assert counters["active_unresolved"] == 19 - journalled
 
@@ -387,10 +421,8 @@ def test_routing_and_source_selection_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
-        changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                                 cwd=str(REPO), capture_output=True,
-                                 text=True).stdout.strip()
-        assert changed == "", "%s was modified by 032" % path
+        assert not any(name == path or name.startswith(path.rstrip("/") + "/")
+                       for name in _touched_by(COMMIT_032)),             "%s was modified by 032" % path
 
 
 def test_the_original_captures_were_not_rewritten():

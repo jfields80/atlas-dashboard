@@ -12,28 +12,29 @@
   "milwaukee-final-026",
   "milwaukee-identity-027",
   "milwaukee-ihg-009",
+  "milwaukee-label-value-033",
   "milwaukee-locator-032",
   "milwaukee-premium-028",
   "milwaukee-router-001",
   "milwaukee-wyndham-008"
  ],
  "acquisition_state_counts": {
-  "ACQUIRED_PUBLICATION_GRADE": 115,
+  "ACQUIRED_PUBLICATION_GRADE": 117,
   "IDENTITY_REVIEW": 2,
   "PROVIDER_EXHAUSTED": 2,
   "TECHNICAL_FALLBACK_REQUIRED": 4,
   "POLICY_NOT_FOUND": 1
  },
- "publication_grade_total": 115,
- "proposal_total": 115,
- "founder_review_ready": 53,
+ "publication_grade_total": 117,
+ "proposal_total": 117,
+ "founder_review_ready": 54,
  "refusal_founder_review": 26,
  "held_semantic_review": 0,
  "review_status_counts": {
-  "FOUNDER_REVIEW_READY": 53,
+  "FOUNDER_REVIEW_READY": 54,
   "HELD_INSUFFICIENT_EVIDENCE": 8,
   "REFUSAL_FOUNDER_REVIEW": 26,
-  "HELD_SCHEMA_CANNOT_REPRESENT": 28
+  "HELD_SCHEMA_CANNOT_REPRESENT": 29
  },
  "refusal_note": "A captured refusal is a finding, not an exclusion. Nothing here creates a VERIFIED_NO_PETS record: that is a founder decision and a publication act, and this work order takes neither. Each refusal carries the exact quote it rests on so the decision is reviewable.",
  "items": [
@@ -5771,6 +5772,70 @@
    "review_status": "FOUNDER_REVIEW_READY"
   },
   {
+   "identity_key": "hyatt place milwaukee airport",
+   "canonical_name": "Hyatt Place Milwaukee Airport",
+   "market_id": "milwaukee-wi",
+   "brand": "HYATT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT",
+    "cleaning_fee": "SOURCE_AMBIGUOUS",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "weight limit : 50 Pounds",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum number of pets is 2",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
+    "final_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-21T15:42:17+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "",
+    "reader": "generic",
+    "snapshot_hash": "56749d42323e9cbcf13800aa9e000084703e67acf6d6e7bbc1dfd85b0e25946c",
+    "raw_pointer": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-place-milwaukee-airport/attempt-01",
+    "obs_id": "milwaukee-label-value-033::hyatt place milwaukee airport"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {},
+   "source_run": "milwaukee-label-value-033",
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "rederivation": null,
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+  },
+  {
    "identity_key": "hyatt place milwaukee downtown",
    "canonical_name": "Hyatt Place Milwaukee Downtown",
    "market_id": "milwaukee-wi",
@@ -5823,6 +5888,86 @@
    "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
    "identity_check": {},
    "source_run": "milwaukee-premium-028",
+   "frozen_semantics_violations": [],
+   "is_refusal": false,
+   "published": false,
+   "founder_approved": false,
+   "rederivation": null,
+   "review_status": "FOUNDER_REVIEW_READY"
+  },
+  {
+   "identity_key": "hyatt regency milwaukee",
+   "canonical_name": "Hyatt Regency Milwaukee",
+   "market_id": "milwaukee-wi",
+   "brand": "HYATT",
+   "policy_schema_version": "1.2",
+   "proposed_facts": {
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "weight_limit": {
+     "value": 150.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "evidence": [
+    {
+     "quote": "Pet Fees Price : $40 / NIGHT",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Fees Price : $40 / NIGHT",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "weight limit : 150 Pounds",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum number of pets is 2",
+     "location": "policy-block.txt",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "service_animal_statement": "",
+   "provenance": {
+    "source_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
+    "final_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
+    "authority_tier": "PT1",
+    "source_type": "official_property_page",
+    "retrieved_at": "2026-08-21T15:42:17+00:00",
+    "capture_method": "browser_assisted",
+    "provider": "",
+    "reader": "generic",
+    "snapshot_hash": "d18341b32e3df9ba5d7675f2f6898df839744bb02c728b3d1e8817a618ec99cf",
+    "raw_pointer": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-regency-milwaukee/attempt-01",
+    "obs_id": "milwaukee-label-value-033::hyatt regency milwaukee"
+   },
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_check": {},
+   "source_run": "milwaukee-label-value-033",
    "frozen_semantics_violations": [],
    "is_refusal": false,
    "published": false,
@@ -8897,7 +9042,7 @@
     "final_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
     "authority_tier": "PT1",
     "source_type": "official_property_page",
-    "retrieved_at": "2026-08-21T14:03:34+00:00",
+    "retrieved_at": "2026-08-21T14:04:34+00:00",
     "capture_method": "browser_assisted",
     "provider": "",
     "reader": "generic",

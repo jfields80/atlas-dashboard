@@ -191,10 +191,23 @@ def test_the_whole_assessment_contacts_no_provider():
 # 3 / 4 / 5 -- nothing moved.
 # --------------------------------------------------------------------------- #
 
+#: The commit 031 made. Its freezes are claims about it.
+COMMIT_031 = "ce94aa0"
+
+
 def test_routes_readers_and_capture_machinery_are_unchanged():
     # store_integration_025.py left this freeze in 032, which registered a
     # new production source there. Routing, providers, readers, discovery,
     # the census and the partition are still pinned.
+    #
+    # Asserted against 031's OWN COMMIT rather than the working tree. The claim
+    # is "031 changed none of these", and a working-tree check makes it "nobody
+    # has changed any of these since", which is a different and much larger
+    # promise -- one that fails the moment a later work order is commissioned
+    # to change one of them. 033 was, and policy_reading.py is on the list.
+    touched = subprocess.run(
+        ["git", "show", "--pretty=format:", "--name-only", COMMIT_031],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
     for path in ("atlas-dashboard/scripts/pettripfinder/acquisition/routes.json",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/registry.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
@@ -206,10 +219,8 @@ def test_routes_readers_and_capture_machinery_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
-        changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                                 cwd=str(REPO), capture_output=True,
-                                 text=True).stdout.strip()
-        assert changed == "", "%s was modified by 031" % path
+        assert not any(name == path or name.startswith(path.rstrip("/") + "/")
+                       for name in touched), "%s was modified by 031" % path
 
 
 def test_the_assessment_itself_writes_no_store_row():

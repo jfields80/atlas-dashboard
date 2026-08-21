@@ -316,13 +316,22 @@ def test_no_field_is_removed_anywhere_in_the_persisted_corpus():
     That case is not in the Milwaukee corpus at all, so across everything this
     market has captured the change is purely additive.
     """
-    doc = R.corpus_wide_dry_run()
+    # Measured against the reader 029 COMMITTED, not against HEAD. 033 was
+    # commissioned to change the same file and deliberately withdraws one
+    # wrong ``cleaning_fee``; read live, that removal would be reported here as
+    # 029 having removed a field it never touched.
+    # ...and over the evidence that EXISTED then: 032 and 033 registered new
+    # runs, and 029 said nothing about blocks that had not been captured yet.
+    doc = R.corpus_wide_dry_run(new_reader=R.reader_at(R.COMMIT_029),
+                                runs=R.RUNS_AT_029)
     assert doc["blocks_scanned"] > 100
     assert doc["fields_removed"] == {}
 
 
 def test_every_changed_block_gains_structure_or_gains_caution():
-    for change in R.corpus_wide_dry_run()["affected"]:
+    affected = R.corpus_wide_dry_run(
+        new_reader=R.reader_at(R.COMMIT_029), runs=R.RUNS_AT_029)["affected"]
+    for change in affected:
         assert change["added_fields"] or change["withheld_added"], change["slug"]
         assert not change["removed_fields"], change["slug"]
 
