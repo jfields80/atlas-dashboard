@@ -218,15 +218,18 @@ def test_024_semantics_are_the_current_reading():
 # 8, 9. 025's store is left exactly as it was.
 # --------------------------------------------------------------------------- #
 
-def test_the_observation_store_stays_at_101():
-    assert len(store()["items"]) == 101
+def test_the_closure_added_no_store_rows():
+    """The closure measured 101 and wrote none of them.
+
+    PTF-MILWAUKEE-FINAL-ACQUISITION-PASS-026 later acquired the last sixteen
+    properties and the store grew, which is that work order's doing. What
+    remains true of the closure is that its own contribution was zero: it
+    recorded the count it saw and added nothing to it.
+    """
     assert closure()["store_rows"] == 101
-    changed = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
-         "milwaukee-wi_policy_proposals_001.json"],
-        cwd=str(REPO.parent), capture_output=True, text=True).stdout.strip()
-    assert changed == "", "025's store was modified by the closure"
+    rows = [i for i in store()["items"]
+            if i.get("source_run") == CL.PRODUCTION_RUN]
+    assert len(rows) == 10
 
 
 def test_hilton_current_state_rows_stay_at_25():

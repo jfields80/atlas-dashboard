@@ -1,0 +1,234 @@
+{
+ "schema": "ptf-milwaukee-counts/1.2",
+ "work_order": "PTF-MILWAUKEE-FINAL-ACQUISITION-PASS-026",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-21T01:10:39+00:00",
+ "definitions": {
+  "routable": "non-excluded queue rows",
+  "touched": "an acquisition attempt was journalled",
+  "publication_grade": "attempt satisfied PUBLICATION_GRADE_REQUIRED",
+  "observed": "has a current-state store row",
+  "unresolved": "touched but not publication grade",
+  "never_touched": "routable and never attempted",
+  "published": "live on the site"
+ },
+ "routable": 127,
+ "touched": 127,
+ "publication_grade": 107,
+ "observed": 107,
+ "unresolved": 20,
+ "never_touched": 0,
+ "published": 0,
+ "founder_approved": 0,
+ "invariant_observed_plus_unresolved": 127,
+ "review_states": {
+  "FOUNDER_REVIEW_READY": 51,
+  "HELD_INSUFFICIENT_EVIDENCE": 7,
+  "REFUSAL_FOUNDER_REVIEW": 25,
+  "HELD_SCHEMA_CANNOT_REPRESENT": 24
+ },
+ "rows_by_brand": {
+  "MARRIOTT": 28,
+  "HILTON": 25,
+  "IHG": 19,
+  "WYNDHAM": 15,
+  "CHOICE": 11,
+  "MOTEL6": 3,
+  "ESA": 2,
+  "INDEP:staycobblestone.com": 1,
+  "RED_ROOF": 1,
+  "INDEP:www.thepfisterhotel.com": 1,
+  "INDEP:www.woodspring.com": 1
+ },
+ "rows_by_run": {
+  "milwaukee-router-001": 58,
+  "marriott-milwaukee-020": 17,
+  "milwaukee-wyndham-008": 11,
+  "hilton-milwaukee-023": 10,
+  "milwaukee-final-026": 6,
+  "milwaukee-ihg-009": 5
+ },
+ "acquisition_unresolved": {
+  "definition": "touched but with no publication-grade observation; these have NO current-state row",
+  "count": 20,
+  "from_026": 10,
+  "pre_existing": 10,
+  "by_reason": {
+   "IDENTITY_FAILURE": 10,
+   "ACCESS_FAILURE": 7,
+   "INSUFFICIENT_EVIDENCE": 2,
+   "POLICY_NOT_PRESENT": 1
+  },
+  "queue": [
+   {
+    "identity_key": "brewhouse inn and suites",
+    "canonical_name": "Brewhouse Inn & Suites",
+    "brand": "INDEP:www.brewhousesuites.com",
+    "source_run": "milwaukee-router-001",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "chalet motel of mequon",
+    "canonical_name": "Chalet Motel of Mequon",
+    "brand": "INDEP:chaletmotelmequon.com",
+    "source_run": "milwaukee-router-001",
+    "final_state": "PROVIDER_EXHAUSTED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson brown deer milwaukee north",
+    "canonical_name": "Country Inn & Suites by Radisson, Brown Deer - Milwaukee North",
+    "brand": "CHOICE",
+    "source_run": "milwaukee-router-001",
+    "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson milwaukee airport wi",
+    "canonical_name": "Country Inn & Suites by Radisson, Milwaukee Airport, WI",
+    "brand": "CHOICE",
+    "source_run": "milwaukee-router-001",
+    "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson milwaukee west brookfield wi",
+    "canonical_name": "Country Inn & Suites by Radisson, Milwaukee West (Brookfield), WI",
+    "brand": "CHOICE",
+    "source_run": "milwaukee-router-001",
+    "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "county clare irish inn and pub",
+    "canonical_name": "County Clare Irish Inn & Pub",
+    "brand": "INDEP:www.countyclare-inn.com",
+    "source_run": "milwaukee-router-001",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "drury plaza hotel milwaukee downtown",
+    "canonical_name": "Drury Plaza Hotel Milwaukee Downtown",
+    "brand": "DRURY",
+    "source_run": "milwaukee-router-001",
+    "final_state": "POLICY_NOT_FOUND",
+    "reason": "POLICY_NOT_PRESENT"
+   },
+   {
+    "identity_key": "dubbel dutch hotel",
+    "canonical_name": "Dubbel Dutch Hotel",
+    "brand": "INDEP:www.thedubbeldutch.com",
+    "source_run": "milwaukee-router-001",
+    "final_state": "PROVIDER_EXHAUSTED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "econo lodge milwaukee airport",
+    "canonical_name": "Econo Lodge Milwaukee Airport",
+    "brand": "CHOICE",
+    "source_run": "milwaukee-router-001",
+    "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "knickerbocker on the lake",
+    "canonical_name": "Knickerbocker on the Lake",
+    "brand": "INDEP:www.knickerbockeronthelake.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "motel 6 suites milwaukee brookfield wi",
+    "canonical_name": "Motel 6 Suites Milwaukee Brookfield, WI",
+    "brand": "MOTEL6",
+    "source_run": "milwaukee-final-026",
+    "final_state": "PROVIDER_EXHAUSTED",
+    "reason": "ACCESS_FAILURE"
+   },
+   {
+    "identity_key": "potawatomi casino hotel",
+    "canonical_name": "Potawatomi Casino Hotel",
+    "brand": "INDEP:www.potawatomi.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "saint kate the arts hotel",
+    "canonical_name": "Saint Kate - The Arts Hotel",
+    "brand": "INDEP:www.saintkatearts.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "spark by hilton milwaukee airport",
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "brand": "HILTON",
+    "source_run": "hilton-milwaukee-023",
+    "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+    "reason": "INSUFFICIENT_EVIDENCE"
+   },
+   {
+    "identity_key": "the clarke hotel",
+    "canonical_name": "The Clarke Hotel",
+    "brand": "INDEP:www.theclarkehotel.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "the ingleside hotel",
+    "canonical_name": "The Ingleside Hotel",
+    "brand": "INDEP:www.theinglesidehotel.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "the iron horse hotel",
+    "canonical_name": "The Iron Horse Hotel",
+    "brand": "INDEP:www.theironhorsehotel.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "the marc hotel",
+    "canonical_name": "The Marc Hotel",
+    "brand": "INDEP:www.marchotelmilwaukee.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "the plaza hotel milwaukee",
+    "canonical_name": "The Plaza Hotel Milwaukee",
+    "brand": "INDEP:plazahotelmilwaukee.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "IDENTITY_REVIEW",
+    "reason": "IDENTITY_FAILURE"
+   },
+   {
+    "identity_key": "wildwood lodge",
+    "canonical_name": "Wildwood Lodge",
+    "brand": "INDEP:thewildwoodlodge.com",
+    "source_run": "milwaukee-final-026",
+    "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+    "reason": "INSUFFICIENT_EVIDENCE"
+   }
+  ]
+ },
+ "held_but_observed": {
+  "note": "rows that DO have a current observation whose structured fields are held. These are not acquisition failures and must not be added to the remaining-acquisition count.",
+  "HELD_SCHEMA_CANNOT_REPRESENT": 24,
+  "HELD_INSUFFICIENT_EVIDENCE": 7,
+  "HELD_SEMANTIC_REVIEW": 0,
+  "CURRENT_STATE_CONFLICT": 0
+ },
+ "milwaukee_policy_authority_files": 0,
+ "note_on_two_unresolved_notions": "026's run report counts rows with no USABLE policy (14 of 16). This counter counts rows with no PUBLICATION-GRADE observation (10 of 16 from 026). They differ because four 026 captures are publication grade -- sound evidence -- while their block carries no policy a guest could use. Those four have current-state rows and are held, not missing."
+}

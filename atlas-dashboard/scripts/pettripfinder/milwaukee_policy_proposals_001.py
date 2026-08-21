@@ -139,6 +139,18 @@ def _review_status(problems: List[str], refusal: bool, extraction: Mapping,
         return "REFUSAL_FOUNDER_REVIEW"
     if "ARTIFACT_INSUFFICIENT" in reasons or not extraction:
         return HELD_INSUFFICIENT
+    # A bare allowed-flag is not a policy. Added by
+    # PTF-MILWAUKEE-FINAL-ACQUISITION-PASS-026: three Motel 6 captures asserted
+    # pets_allowed from a block of page chrome -- ratings, a phone number, a
+    # nightly rate -- and one Red Roof capture carried nothing but a
+    # service-animal sentence. All four would have been handed to a founder as
+    # ready. A guest learns nothing from either, and a service-animal statement
+    # is a legal obligation rather than a pet policy.
+    substantive = set(extraction) - {"pets_allowed", "pets_allowed_quote",
+                                     "service_animal_exception",
+                                     "service_animal_statement"}
+    if not substantive:
+        return HELD_INSUFFICIENT
     return "FOUNDER_REVIEW_READY"
 
 
