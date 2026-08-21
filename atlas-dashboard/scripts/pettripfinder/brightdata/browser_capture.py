@@ -494,7 +494,7 @@ async def _bring_into_view(page, locator, interactions: _Interactions) -> bool:
 async def _persist(*, run_dir: Path, target: CaptureTarget, attempt: int,
                    page, policy_locator, html: str, body_text: str,
                    block_text: str, interactions: _Interactions,
-                   hit=None) -> Dict:
+                   hit=None, recovery=None) -> Dict:
     """Write the artifact set. Raises on failure; the caller maps that to
     CAPTURE_FAILED so a half-written directory never counts as evidence."""
     attempt_dir = run_dir / target.slug / ("attempt-%02d" % attempt)
@@ -535,7 +535,8 @@ async def _persist(*, run_dir: Path, target: CaptureTarget, attempt: int,
         # walks are different algorithms and are not required to agree.
         locator_path = PL.persist(attempt_dir, PL.build_record(
             hit=hit, block_text=block_text,
-            document_sha256=sha256_file(html_path), walk=PL.LIVE_DOM_WALK))
+            document_sha256=sha256_file(html_path), walk=PL.LIVE_DOM_WALK,
+            recovery=recovery))
         record(PL.LOCATOR_ARTIFACT, locator_path, "application/json",
                "how this block's boundary was chosen; a replay reads the block "
                "and checks it against this record rather than locating again")

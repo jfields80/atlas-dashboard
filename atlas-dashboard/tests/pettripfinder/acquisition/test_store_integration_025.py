@@ -328,7 +328,6 @@ def test_acquisition_routing_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],

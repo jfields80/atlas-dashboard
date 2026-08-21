@@ -108,11 +108,14 @@ def test_historical_run_reports_are_untouched():
 
 def test_selection_is_unchanged_and_owns_no_reading():
     chosen, superseded, conflicts = R.selection()
-    assert len(chosen) == 114
+    rows = rows_by_identity()
+    # Derived from the store rather than pinned: 032 added a recovered
+    # observation, and the selection must track it exactly -- which a hard
+    # number cannot express and this equality can.
+    assert len(chosen) == len(rows)
     assert not conflicts
-    assert len({entry["identity_key"] for entry in chosen}) == 114
-    assert sorted(entry["identity_key"] for entry in chosen) \
-        == sorted(rows_by_identity())
+    assert len({entry["identity_key"] for entry in chosen}) == len(rows)
+    assert sorted(entry["identity_key"] for entry in chosen) == sorted(rows)
 
 
 def test_every_selected_observation_has_a_persisted_block():
@@ -120,7 +123,7 @@ def test_every_selected_observation_has_a_persisted_block():
     assert all(entry.get("_block") for entry in chosen)
     audit = R.replay_audit()
     assert audit["rows_blocked"] == 0
-    assert audit["rows_compared"] == 114
+    assert audit["rows_compared"] == len(rows_by_identity())
 
 
 def test_the_projection_runs_after_selection_and_changes_no_winner():
@@ -152,7 +155,7 @@ def test_the_projection_covers_every_production_family():
             current = S._read_block(entry["_block"], entry.get("brand", ""))
             assert isinstance(current["extraction"], dict)
             read += 1
-    assert read == 114
+    assert read == len(chosen)
     assert set(projection) <= {entry["identity_key"] for entry in chosen}
 
 
@@ -230,7 +233,7 @@ def test_the_whole_projection_needs_no_provider_call():
         audit = R.replay_audit()
         review = R.safety_review()
     assert attempts == []
-    assert audit["rows_compared"] == 114
+    assert audit["rows_compared"] == len(rows_by_identity())
     assert review["changed_rows"] == audit["rows_stale"]
 
 
@@ -243,14 +246,15 @@ def test_one_identity_is_one_row():
     assert len(keys) == len(set(keys))
 
 
-def test_the_row_count_did_not_move():
-    assert len(store()["items"]) == 114
+def test_the_row_count_moves_only_when_an_observation_is_added():
+    """030 added none. 032 added one, from evidence already on disk."""
+    from scripts.pettripfinder.acquisition import locator_recovery_032 as R32
+    assert len(store()["items"]) == 114 + len(R32.journal_rows())
 
 
 def test_the_integration_added_and_removed_nothing():
     result = S.integrate(write=False)
-    assert result["rows_before"] == 114
-    assert result["rows_after"] == 114
+    assert result["rows_before"] == result["rows_after"]
     assert result["added"] == []
     assert result["removed"] == []
     assert result["duplicates"] == []
@@ -424,8 +428,10 @@ def test_the_market_counters_did_not_move():
     counters = R.counters()
     assert counters["census_total"] == 147
     assert counters["active_eligible"] == 133
-    assert counters["observed"] == 114
-    assert counters["active_unresolved"] == 19
+    from scripts.pettripfinder.acquisition import locator_recovery_032 as R32
+    recovered = len(R32.journal_rows())
+    assert counters["observed"] == 114 + recovered
+    assert counters["active_unresolved"] == 19 - recovered
     assert counters["published"] == 0
     assert counters["sum_of_final_states"] == 147
 
@@ -438,8 +444,6 @@ def test_routing_and_capture_machinery_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):

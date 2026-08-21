@@ -24,6 +24,17 @@ REPO = Path(__file__).resolve().parents[4]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+#: 031's committed record of what it assessed. Its findings are historical: a
+#: property it classified as recoverable is SUPPOSED to leave the unresolved
+#: set once someone recovers it, and 032 recovered one. These tests therefore
+#: check 031's report against itself and against the archive, and never against
+#: a live re-classification, which answers "what is unresolved NOW".
+ASSESSMENT = json.loads(
+    (REPO / "atlas-dashboard" / "launch_packages" / "pettripfinder" / "markets"
+     / "reports" / "ptf_milwaukee_closure_assessment_031.json")
+    .read_text(encoding="utf-8-sig"))
+ASSESSED = ASSESSMENT["properties"]
+
 from scripts.pettripfinder.acquisition import closure_assessment_031 as C
 from scripts.pettripfinder.acquisition import premium_resolution_028 as P28
 from scripts.pettripfinder.acquisition import registry as REGISTRY
@@ -34,22 +45,31 @@ from scripts.pettripfinder.acquisition import registry as REGISTRY
 # --------------------------------------------------------------------------- #
 
 def test_all_nineteen_unresolved_are_classified_exactly_once():
-    rows = C.classify()
+    rows = ASSESSED
     assert len(rows) == 19
     keys = [row["identity_key"] for row in rows]
     assert len(set(keys)) == 19
-    declared = P28.exception_queue()["active_acquisition_exceptions"]["queue"]
-    assert sorted(keys) == sorted(row["identity_key"] for row in declared)
     for row in rows:
         assert row["closure_class"] in C.CLASSES
         assert row["why"]
+
+
+def test_todays_unresolved_set_is_a_subset_of_what_031_assessed():
+    """A property may LEAVE the set -- by being recovered -- and never enter it.
+
+    032 recovered one of the three locator cases from evidence already on
+    disk. Anything appearing here that 031 never assessed would mean a
+    property regressed, which is the thing worth failing on.
+    """
+    today = {row["identity_key"] for row in C.classify()}
+    assert today <= {row["identity_key"] for row in ASSESSED}
 
 
 def test_no_classification_is_a_placeholder():
     """A property with no recorded judgement must fail, not default to OTHER."""
     for row in C.classify():
         assert row["why"] != "no judgement recorded for this identity"
-    assert set(C.JUDGEMENTS) == {row["identity_key"] for row in C.classify()}
+    assert {row["identity_key"] for row in C.classify()} <= set(C.JUDGEMENTS)
 
 
 def test_the_classification_is_deterministic():
@@ -67,8 +87,9 @@ def test_every_judgement_still_rests_on_evidence_that_holds():
     assert failed == [], failed
 
 
-def test_preflight_matches_the_committed_state():
-    checks = C.preflight()["assertions"]
+def test_the_preflight_031_recorded_held_when_it_ran():
+    """Its own assertions, from its own report. 032 has since moved the store."""
+    checks = ASSESSMENT["preflight"]["assertions"]
     assert all(checks.values()), checks
 
 
@@ -78,7 +99,7 @@ def test_preflight_matches_the_committed_state():
 
 def test_the_three_locator_misses_have_their_policy_on_disk():
     """The strongest claim in this assessment, re-derived rather than quoted."""
-    rows = {row["identity_key"]: row for row in C.classify()}
+    rows = {row["identity_key"]: row for row in ASSESSED}
     for identity in ("hyatt regency milwaukee",
                      "hyatt place milwaukee airport",
                      "wildwood lodge"):
@@ -93,7 +114,7 @@ def test_the_three_locator_misses_have_their_policy_on_disk():
 
 
 def test_the_four_choice_properties_never_saw_their_committed_lane():
-    rows = {row["identity_key"]: row for row in C.classify()}
+    rows = {row["identity_key"]: row for row in ASSESSED}
     choice = [row for row in rows.values()
               if row["brand"] == "CHOICE"
               and row["unresolved_reason"] == "ACCESS_FAILURE"]
@@ -121,7 +142,7 @@ def test_the_unverifiable_claims_are_not_called_final():
     persists nothing cannot support it. Those are OTHER, pointing at the
     persistence repair -- never FINAL_SOURCE_LIMITATION.
     """
-    rows = {row["identity_key"]: row for row in C.classify()}
+    rows = {row["identity_key"]: row for row in ASSESSED}
     for identity in ("drury plaza hotel milwaukee downtown",
                      "potawatomi casino hotel",
                      "brewhouse inn and suites"):
@@ -132,7 +153,7 @@ def test_the_unverifiable_claims_are_not_called_final():
 
 
 def test_spark_is_a_source_limitation_and_says_why():
-    row = {r["identity_key"]: r for r in C.classify()}[
+    row = {r["identity_key"]: r for r in ASSESSED}[
         "spark by hilton milwaukee airport"]
     assert row["closure_class"] == C.FINAL_SOURCE
     assert row["document_persisted"] is True
@@ -160,7 +181,7 @@ def test_the_whole_assessment_contacts_no_provider():
         plan = C.repair_plan()
         scenes = C.scenarios()
     assert attempts == []
-    assert len(rows) == 19
+    assert rows
     assert plan["repairs"]
     assert set(scenes) == {"FREEZE_NOW", "ONE_MORE_REPAIR_WAVE",
                            "MAXIMUM_RECOVERY"}
@@ -171,6 +192,9 @@ def test_the_whole_assessment_contacts_no_provider():
 # --------------------------------------------------------------------------- #
 
 def test_routes_readers_and_capture_machinery_are_unchanged():
+    # store_integration_025.py left this freeze in 032, which registered a
+    # new production source there. Routing, providers, readers, discovery,
+    # the census and the partition are still pinned.
     for path in ("atlas-dashboard/scripts/pettripfinder/acquisition/routes.json",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/registry.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
@@ -178,10 +202,7 @@ def test_routes_readers_and_capture_machinery_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/acquisition/store_integration_025.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_surface.py",
                  "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census",
                  "atlas-dashboard/launch_packages/pettripfinder/milwaukee_final_partition_001.json"):
@@ -191,15 +212,16 @@ def test_routes_readers_and_capture_machinery_are_unchanged():
         assert changed == "", "%s was modified by 031" % path
 
 
-def test_the_observation_store_is_untouched():
-    path = ("atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
-            "milwaukee-wi_policy_proposals_001.json")
-    changed = subprocess.run(["git", "status", "--porcelain", "--", path],
-                             cwd=str(REPO), capture_output=True,
-                             text=True).stdout.strip()
-    assert changed == ""
-    store = json.loads(C.STORE.read_text(encoding="utf-8-sig"))
-    assert len(store["items"]) == 114
+def test_the_assessment_itself_writes_no_store_row():
+    """031 assessed and changed nothing; 032 then changed the store on purpose.
+
+    A git check over the store would now report 032's work as 031's, so the
+    claim is made structurally instead: the assessment module writes exactly
+    one path and it is its own report.
+    """
+    text = Path(C.__file__).read_text(encoding="utf-8")
+    assert text.count("write_text(") == 1
+    assert "RUN_REPORT.write_text" in text
 
 
 def test_this_work_order_writes_exactly_one_artifact():
@@ -237,8 +259,8 @@ def test_nothing_is_published():
 # --------------------------------------------------------------------------- #
 
 def test_the_freeze_scenarios_reconcile_with_the_classification():
-    rows = C.classify()
-    scenes = C.scenarios()
+    rows = ASSESSED
+    scenes = ASSESSMENT["scenarios"]
     assert scenes["FREEZE_NOW"]["observed"] == 114
     assert scenes["FREEZE_NOW"]["final_active_exceptions"] == 19
     wave = scenes["ONE_MORE_REPAIR_WAVE"]

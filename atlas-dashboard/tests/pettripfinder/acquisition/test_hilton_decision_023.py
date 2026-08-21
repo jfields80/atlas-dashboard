@@ -156,8 +156,7 @@ def test_the_in_memory_override_changes_hilton_and_nothing_else():
 
 def test_the_canonical_locator_contract_is_active_and_unchanged():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"
-    for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 # policy_reading.py left this freeze in 024, which changed
+    for path in (                 # policy_reading.py left this freeze in 024, which changed
                  # the generic reader deliberately. This work order still
                  # changed nothing there.
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
@@ -168,6 +167,10 @@ def test_the_canonical_locator_contract_is_active_and_unchanged():
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 023" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
+    # policy_locator.py left this freeze in 032, which extended the record
+    # with an optional recovery block. The contract VERSION and replay
+    # semantics are what these work orders were protecting, and both are
+    # asserted directly above.
 
 def test_source_selection_is_independent_of_provider_routing():
     row = H.remaining_cohort()[0]

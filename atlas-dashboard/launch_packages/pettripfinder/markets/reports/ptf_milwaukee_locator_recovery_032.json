@@ -1,0 +1,277 @@
+{
+  "schema": "ptf-milwaukee-locator-recovery/1.0",
+  "work_order": "PTF-MILWAUKEE-HIGH-VALUE-REPAIR-WAVE-032",
+  "market": "milwaukee-wi",
+  "run_id": "milwaukee-locator-032",
+  "generated_at": "2026-08-21T14:04:34+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T14:04:34+00:00",
+    "store_rows": 115,
+    "observed": 115,
+    "active_unresolved": 18,
+    "published": 0,
+    "authority_written": false,
+    "authority_files": 0,
+    "locator_recovery_subjects": 3,
+    "subjects": [
+      "hyatt place milwaukee airport",
+      "hyatt regency milwaukee",
+      "wildwood lodge"
+    ],
+    "assertions": {
+      "store_is_114": false,
+      "unresolved_is_19": false,
+      "locator_recovery_subjects_is_3": true,
+      "every_subject_has_a_persisted_document": true,
+      "nothing_published": true,
+      "authority_absent": true
+    }
+  },
+  "recoveries": [
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "canonical_name": "Hyatt Place Milwaukee Airport",
+      "brand": "HYATT",
+      "source_run": "milwaukee-premium-028",
+      "source_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
+      "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-place-milwaukee-airport/attempt-01",
+      "document_sha256": "7ab480f2c09d21c2a0bb91ec9ce99a2e4b8a1f0164745fd7b005ae31ffe966c7",
+      "old_block": "Pets are Welcome",
+      "old_block_chars": 16,
+      "recovered": true,
+      "recovery": {
+        "recovered": true,
+        "reason": "the persisted document states 5 actionable pet term(s) the located block does not carry",
+        "block_chars": 207,
+        "terms_before": [],
+        "terms_after": [
+          "$100",
+          "$200",
+          "50 pounds",
+          "75 pounds",
+          "maximum number of pets"
+        ],
+        "terms_added": [
+          "$100",
+          "$200",
+          "50 pounds",
+          "75 pounds",
+          "maximum number of pets"
+        ],
+        "candidates_considered": 24
+      },
+      "new_block": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds Maximum number of pets is 2.",
+      "new_block_chars": 207,
+      "extraction": {
+        "cleaning_fee": 10000
+      },
+      "withheld": {
+        "pets_allowed": "SOURCE_SILENT",
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "evidence": [
+        {
+          "quote": "$100 / STAY ",
+          "location": "policy-block.txt",
+          "field_refs": [
+            "cleaning_fee"
+          ]
+        }
+      ],
+      "non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "reader_found": true,
+      "substantive_pet_fields": [],
+      "yields_an_observation": false,
+      "journalled": false
+    },
+    {
+      "identity_key": "hyatt regency milwaukee",
+      "canonical_name": "Hyatt Regency Milwaukee",
+      "brand": "HYATT",
+      "source_run": "milwaukee-premium-028",
+      "source_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
+      "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-regency-milwaukee/attempt-01",
+      "document_sha256": "cb355a4f68835fe36dce113f6dcd823325c7ebb01731817d3908d37676aaee4d",
+      "old_block": "Pet Fees Price : $40 /",
+      "old_block_chars": 22,
+      "recovered": true,
+      "recovery": {
+        "recovered": true,
+        "reason": "the persisted document states 3 actionable pet term(s) the located block does not carry",
+        "block_chars": 152,
+        "terms_before": [],
+        "terms_after": [
+          "$40",
+          "150 pounds",
+          "maximum number of pets"
+        ],
+        "terms_added": [
+          "$40",
+          "150 pounds",
+          "maximum number of pets"
+        ],
+        "candidates_considered": 18
+      },
+      "new_block": "Pet Fees Price : $40 / NIGHT Weight Limits Individual pet weight limit : 150 Pounds Combined pets weight limit : 150 Pounds Maximum number of pets is 2.",
+      "new_block_chars": 152,
+      "extraction": {},
+      "withheld": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "evidence": [],
+      "non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "pet_deposit: the surface states $40.00 for a purpose it does not name as a pet's ('Pet Fees Price : $40 / NIGHT Weight Limi'); it is not recorded as a pet charge and is reported here rather than dropped",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "reader_found": true,
+      "substantive_pet_fields": [],
+      "yields_an_observation": false,
+      "journalled": false
+    },
+    {
+      "identity_key": "wildwood lodge",
+      "canonical_name": "Wildwood Lodge",
+      "brand": "INDEP:thewildwoodlodge.com",
+      "source_run": "milwaukee-final-026",
+      "source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+      "source_attempt_dir": "data/acquisition/milwaukee-final-026/milwaukee-final-026/wildwood-lodge/attempt-01",
+      "document_sha256": "43786a97448474309f879103d397c273fe54b64b445d23613960f81e88fd5762",
+      "old_block": "FREQUENTLY ASKED QUESTIONS FAQS WHEN IS CHECK IN & CHECK OUT? WHAT IS THE CANCELLATION POLICY? DOES THE HOTEL PROVIDE FREE WIFI? DO I HAVE TO PAY FOR PARKING? WHAT IS THE SMOKING POLICY? I'M TRAVELING WITH VALUABLES, ARE THERE SAFETY DEPOSIT BOXES AT THE PROPERTY? HOW CAN I CONTACT THE FRONT DESK? AMENITIES DOES THE WILDWOOD SUPPLY CRIBS & ROLLAWAY BEDS? ARE ROOMS EQUIPPED WITH A FRIDGE AND A MICROWAVE? WHAT ARE THE HOURS OF THE SWIMMING POOL? DOES THE WILDWOOD LODGE HAVE A FITNESS CENTER? DO YOU ACCEPT PETS? DO YOU OFFER DRY CLEANING & LAUNDRY SERVICES? I FORGOT SOMETHING - WHAT AMENITIES DOES THE HOTEL OFFER? HOW OFTEN DOES HOUSEKEEPING CLEAN MY ROOM? WHAT ARE THE IN-ROOM ACCESSIBILITY FEATURES? DINING IS THERE COMPLIMENTARY BREAKFAST? ARE THERE ANY ON-SITE DINING OPTIONS? CLIVE LOCATION 11431 Forest Avenue Clive, IA 50325 515.222.9876 BOOK NOW PEWAUKEE LOCATION Mailing PO BOX 28 Pewaukee, WI 53072 Physical N14 W24121 Tower Place Pewaukee, WI 53072 262.506.2000 BOOK NOW © 2026 HOA Hotels LLC | Privacy Policy",
+      "old_block_chars": 1025,
+      "recovered": true,
+      "recovery": {
+        "recovered": true,
+        "reason": "the persisted document states 6 actionable pet term(s) the located block does not carry",
+        "block_chars": 435,
+        "terms_before": [],
+        "terms_after": [
+          "$20",
+          "$30",
+          "not allowed",
+          "per dog",
+          "per night",
+          "two (2) dogs per"
+        ],
+        "terms_added": [
+          "$20",
+          "$30",
+          "not allowed",
+          "per dog",
+          "per night",
+          "two (2) dogs per"
+        ],
+        "candidates_considered": 6
+      },
+      "new_block": "Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight. If you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room policy. Dogs are not allowed in the pool area or in any of our public spaces. Dogs that are disruptive to other hotel guests may be asked to leave.",
+      "new_block_chars": 435,
+      "extraction": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "evidence": [
+        {
+          "quote": "dog friendly",
+          "location": "policy-block.txt",
+          "field_refs": [
+            "pets_allowed"
+          ]
+        },
+        {
+          "quote": "maximum of two (2) dogs per room",
+          "location": "policy-block.txt",
+          "field_refs": [
+            "pet_count_limit",
+            "pet_count_scope"
+          ]
+        }
+      ],
+      "non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "reader_found": true,
+      "substantive_pet_fields": [
+        "pet_count_limit",
+        "pets_allowed"
+      ],
+      "yields_an_observation": true,
+      "journalled": true
+    }
+  ],
+  "recovered": 3,
+  "yielding_an_observation": 1,
+  "journalled": 1,
+  "negative_controls": [
+    {
+      "control": "spark-amenity-flag",
+      "block": "Pets allowed Yes",
+      "document": "Hotel policies Parking Pets Smoking Pets allowed Yes All Policies A fee will be assessed for smoking in a non-smoking room. Free breakfast Indoor pool Free parking Pet-friendly rooms",
+      "recovered": false,
+      "reason": "the document states no actionable pet term the block lacks",
+      "terms_added": [],
+      "expanded": false
+    },
+    {
+      "control": "motel6-amenity-chip",
+      "block": "Pet Friendly",
+      "document": "Amenities Free WiFi Pet Friendly Outdoor Pool Guest Laundry Rooms from $59 per night. Rated 3.5 of 5 by 412 guests.",
+      "recovered": false,
+      "reason": "the document states no actionable pet term the block lacks",
+      "terms_added": [],
+      "expanded": false
+    },
+    {
+      "control": "red-roof-service-animal-only",
+      "block": "Service Animals are Welcome",
+      "document": "Service Animals are Welcome. Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests.",
+      "recovered": false,
+      "reason": "the document states no actionable pet term the block lacks",
+      "terms_added": [],
+      "expanded": false
+    },
+    {
+      "control": "unrelated-room-prices",
+      "block": "Pets Welcome",
+      "document": "Pets Welcome. 1 King Bed 4 Guests Discounted rate: $160 USD /night Strikethrough Rate: $172 Member Rate 160.00 per night",
+      "recovered": false,
+      "reason": "the document states no actionable pet term the block lacks",
+      "terms_added": [],
+      "expanded": false
+    },
+    {
+      "control": "smoking-and-parking-fees",
+      "block": "Pets allowed",
+      "document": "Pets allowed. Self-parking $35 per night. A cleaning fee will be assessed for smoking in a non-smoking room.",
+      "recovered": false,
+      "reason": "the document states no actionable pet term the block lacks",
+      "terms_added": [],
+      "expanded": false
+    }
+  ],
+  "negative_controls_that_expanded": [],
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 115,
+    "active_unresolved": 18,
+    "published": 0,
+    "sum_of_final_states": 147
+  },
+  "provider_calls": 0,
+  "incremental_spend_usd": 0.0,
+  "authority_written": false,
+  "published": 0
+}

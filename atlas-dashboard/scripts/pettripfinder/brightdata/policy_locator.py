@@ -109,12 +109,22 @@ class CanonicalBlock:
 
 
 def build_record(*, hit, block_text: str, document_sha256: str,
-                 walk: str) -> Dict:
+                 walk: str, recovery: Optional[Mapping] = None) -> Dict:
     """The locator record for one capture.
 
     ``hit`` is the ``SurfaceHit`` the locator that actually ran produced. Every
     field is copied from it; none is recomputed, because recomputing is the
     thing this contract exists to stop.
+
+    ``recovery`` describes a richer-block recovery when one happened: what the
+    walk first selected, what was taken instead, and which actionable terms the
+    swap added. ``block_text`` is always the FINAL canonical block, so replay
+    is unchanged -- it reads the persisted bytes and checks them against
+    ``block_sha256``, and never re-runs the recovery search.
+    #
+    The contract version does not move for this. A record written before the
+    recovery existed is still complete and still replays byte-for-byte; the
+    field is additive and its absence means "the walk's first choice stood".
     """
     return {
         "contract": CONTRACT,
@@ -134,6 +144,7 @@ def build_record(*, hit, block_text: str, document_sha256: str,
         "block_sha256": sha256_text(block_text),
         "block_chars": len(block_text or ""),
         "document_sha256": document_sha256,
+        "recovery": dict(recovery) if recovery else None,
     }
 
 

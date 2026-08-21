@@ -172,6 +172,274 @@ def policy_features(text: str) -> int:
     return sum(1 for pattern in POLICY_FEATURE_RES if pattern.search(text or ""))
 
 
+# --------------------------------------------------------------------------- #
+# Recovering a block that is poorer than its own document.
+# --------------------------------------------------------------------------- #
+#
+# PTF-MILWAUKEE-CLOSURE-ASSESSMENT-031 found three Milwaukee properties whose
+# COMPLETE policy sits in the document the capture persisted while the located
+# block carries a fragment of it. Hyatt Regency's page says "Pet Fees Price :
+# $40 / NIGHT ... Individual pet weight limit : 150 Pounds ... Maximum number
+# of pets is 2" and the located block is twenty-two characters that stop
+# mid-phrase before the word NIGHT. Hyatt Place Airport's block is the heading
+# "Pets are Welcome". Wildwood Lodge's block is the list of collapsed FAQ
+# QUESTIONS and the ANSWERS are in the same DOM.
+#
+# The container walk is not wrong about any of those: it picks the ancestor
+# carrying the most policy FEATURES under a size cap, and on these surfaces the
+# richest ancestor genuinely is small. What nothing checked is whether the
+# document it came from says materially more.
+#
+# WHY THIS IS NOT "TAKE A BIGGER BLOCK"
+# -------------------------------------
+# Size is the thing that must not decide this. Wildwood's located block is a
+# thousand characters of questions and the answers beside it are shorter; a
+# length rule prefers the useless one. What is compared instead is ACTIONABLE
+# POLICY TERMS -- a price, a weight, a count, a basis, a refusal -- each of
+# which has to sit beside a pet word to count. A candidate is accepted only
+# when it adds at least one term the current block does not have.
+#
+# That is what keeps the negative controls closed. "Pets allowed Yes" carries
+# no actionable term, so a page of amenity chips has nothing to add and cannot
+# trigger expansion. "Service Animals are Welcome" likewise. A room rate
+# further down the page is not a pet term, because the amount has to be near a
+# pet word AND survive the rate-marker test the reader uses for the same
+# reason -- a discounted nightly rate beside "No Pets Allowed" is a room rate
+# in both layers.
+
+#: A term a guest could act on. The bare word "fee" is deliberately absent: a
+#: page that says "a fee will be assessed for smoking" a few words from "Pets
+#: allowed Yes" states no pet term, and admitting one there would expand a
+#: block on the strength of a smoking charge.
+ACTIONABLE_TERM_RE = re.compile(
+    r"\$\s*\d[\d,]*(?:\.\d{2})?"
+    r"|\b\d[\d,]*(?:\.\d{1,2})?\s*(?:USD|dollars)\b"
+    r"|\b\d[\d,]*(?:\.\d+)?\s*(?:pounds?|lbs?|kgs?)\b"
+    r"|\b(?:maximum|max)\s+(?:number\s+of\s+)?(?:pets?|dogs?|cats?)\b"
+    r"|\b(?:one|two|three|four|five|\d+)\s*(?:\(\s*\d+\s*\)\s*)?"
+    r"(?:pets?|dogs?|cats?)\s+(?:per|max|maximum|allowed)\b"
+    r"|\bper\s+(?:night|stay|day|pet|dog)\b"
+    r"|\bnot\s+(?:allowed|accepted|permitted)\b",
+    re.IGNORECASE)
+
+#: A pet word for the purpose of attributing a term. "service animal" is
+#: excluded deliberately: a service animal is not a pet anywhere else in this
+#: codebase, and admitting it here let Red Roof's "$50 refundable deposit for
+#: incidentals ... required for all guests" read as a pet charge because the
+#: words "Service Animals" sat forty characters away.
+_TERM_PET_WORD_RE = re.compile(
+    r"\bpets?\b|\bdogs?\b|\bcats?\b|(?<!service )\banimals?\b",
+    re.IGNORECASE)
+
+#: A purpose the surface names that is not a pet's. A term inside a statement
+#: about parking, smoking, incidentals or a deposit every guest pays belongs to
+#: THAT statement, however near a pet word it happens to sit. The reader
+#: refuses the same amounts for the same reason, and both layers have to: a
+#: locator that expands onto a parking charge hands the reader a block whose
+#: guard then has to undo the expansion.
+EXPANSION_NON_PET_PURPOSE_RE = re.compile(
+    r"\bincidental(?:s)?\b|\bfor\s+all\s+guests\b|\ball\s+guests\b"
+    r"|\bsecurity\s+deposit\b|\bdamage\s+deposit\b"
+    r"|\bparking\b|\bsmoking\b|\bvalet\b|\bresort\s+fee\b",
+    re.IGNORECASE)
+
+#: How near a pet word an actionable term must sit to belong to it.
+TERM_PET_WINDOW = 80
+
+
+def actionable_pet_terms(text: str) -> frozenset:
+    """Actionable policy terms that sit beside a pet word.
+
+    Proximity is necessary and not sufficient: the term itself has to be a
+    price, a weight, a count, a basis or a refusal, and a rate marker standing
+    between it and the nearest pet word disqualifies it -- the same rule the
+    reader applies, for the same reason.
+    """
+    text = text or ""
+    found = set()
+    for match in ACTIONABLE_TERM_RE.finditer(text):
+        start = max(0, match.start() - TERM_PET_WINDOW)
+        window = text[start:match.end() + TERM_PET_WINDOW]
+        pet = None
+        for candidate in _TERM_PET_WORD_RE.finditer(window):
+            pet = candidate
+            if candidate.end() + start > match.start():
+                break
+        if pet is None:
+            continue
+        # A rate marker between the pet word and the amount means the amount
+        # was introduced by the rate, not by the pet policy.
+        left = min(pet.end() + start, match.start())
+        right = max(pet.start() + start, match.end())
+        if EXPANSION_RATE_MARKER_RE.search(text[left:right]):
+            continue
+        # The term's own statement may name what it is FOR, and if that is not
+        # a pet then it is not a pet term however close a pet word sits.
+        sentence_start = max(0, text.rfind(".", 0, match.start()) + 1)
+        sentence_end = text.find(".", match.end())
+        sentence_end = len(text) if sentence_end < 0 else sentence_end
+        if EXPANSION_NON_PET_PURPOSE_RE.search(
+                text[sentence_start:sentence_end]):
+            continue
+        found.add(re.sub(r"\s+", " ", match.group(0)).strip().lower())
+    return frozenset(found)
+
+
+#: Words that introduce a price belonging to something other than a pet. Kept
+#: beside the reader's own list on purpose: both layers must refuse the same
+#: guest-room card, and a locator that expanded onto a room rate would hand the
+#: reader a block its guard then has to undo.
+EXPANSION_RATE_MARKER_RE = re.compile(
+    r"\b(?:rate|rates|price|prices|total|subtotal|avg|average|starting|"
+    r"from|nightly\s+rate|room\s+rate|member\s+rate|discounted)\b",
+    re.IGNORECASE)
+
+_SENTENCE_EDGE_RE = re.compile(r"(?<=[.!?])\s+")
+
+
+@dataclass(frozen=True)
+class BlockRecovery:
+    """Whether a richer bounded region exists in the same document."""
+
+    recovered: bool = False
+    text: str = ""
+    reason: str = ""
+    terms_before: Tuple[str, ...] = ()
+    terms_after: Tuple[str, ...] = ()
+    terms_added: Tuple[str, ...] = ()
+    candidates_considered: int = 0
+
+    def to_dict(self) -> Dict:
+        return {
+            "recovered": self.recovered,
+            "reason": self.reason,
+            "block_chars": len(self.text),
+            "terms_before": list(self.terms_before),
+            "terms_after": list(self.terms_after),
+            "terms_added": list(self.terms_added),
+            "candidates_considered": self.candidates_considered,
+        }
+
+
+def _snap_to_sentences(text: str, start: int, end: int) -> str:
+    """A window widened to whole sentences, never past the size cap."""
+    left = text.rfind(". ", max(0, start - 240), start)
+    left = 0 if left < 0 else left + 2
+    right = text.find(". ", end, min(len(text), end + 240))
+    right = len(text) if right < 0 else right + 1
+    return text[left:right].strip()
+
+
+def _trim_to_pet_content(text: str) -> str:
+    """Drop trailing sentences that are not about pets.
+
+    The forward window overshoots on purpose -- a policy may run for several
+    sentences and the reach cannot know where it ends -- so the tail is cut
+    back to the last sentence carrying a pet word or an actionable term.
+    Without it Hyatt's block ran on into "Accessibility at Our Hotel", which is
+    page-wide content and not this property's pet policy.
+    """
+    sentences = [part for part in _SENTENCE_EDGE_RE.split(text) if part.strip()]
+    if not sentences:
+        return text
+    keep = 0
+    for index, sentence in enumerate(sentences):
+        if _TERM_PET_WORD_RE.search(sentence) or                 ACTIONABLE_TERM_RE.search(sentence):
+            keep = index + 1
+    return " ".join(sentences[:keep]).strip() if keep else text
+
+
+def _acceptable_candidate(text: str) -> bool:
+    """The quality bar the locator already applies, unchanged."""
+    if not (MIN_BLOCK_CHARS <= len(text) <= MAX_BLOCK_CHARS):
+        return False
+    if policy_features(text) < MIN_POLICY_FEATURES:
+        return False
+    mentions = len(_TERM_PET_WORD_RE.findall(text))
+    needed = (MIN_PET_MENTIONS_LONG if len(text) >= LONG_BLOCK_CHARS
+              else MIN_PET_MENTIONS_SHORT)
+    return mentions >= needed
+
+
+def recover_richer_block(block_text: str, document_text: str) -> BlockRecovery:
+    """A bounded region of the SAME document that states more than the block.
+
+    The document is the one this capture already bound to its identity, so
+    recovery cannot move the record to another property: it re-reads a page
+    that has already passed the identity gate and takes a different window of
+    it. No page is fetched and no boundary is invented -- the candidate is a
+    span of text the capture persisted.
+
+    Returns a recovery only when a candidate adds an actionable term the
+    current block lacks, clears the locator's existing size, feature and
+    pet-mention bars, and is not merely longer.
+    """
+    block = MS.collapse(block_text or "")
+    document = MS.collapse(document_text or "")
+    have = actionable_pet_terms(block)
+    if not document:
+        return BlockRecovery(reason="no document to search",
+                             terms_before=tuple(sorted(have)))
+    whole = actionable_pet_terms(document)
+    if not (whole - have):
+        return BlockRecovery(
+            reason="the document states no actionable pet term the block lacks",
+            terms_before=tuple(sorted(have)),
+            terms_after=tuple(sorted(have)))
+
+    considered = 0
+    best = None
+    lowered = document.lower()
+    anchors = []
+    for phrase in SIGNAL_PHRASES:
+        start = lowered.find(phrase)
+        while start != -1:
+            anchors.append(start)
+            start = lowered.find(phrase, start + 1)
+    for anchor in sorted(set(anchors)):
+        for reach in (400, 800, MAX_BLOCK_CHARS):
+            # The window opens AT the signal phrase and only ever grows
+            # forwards. Reaching backwards pulled the amenity list that sits
+            # above Hyatt's policy and the previous FAQ answer that sits above
+            # Wildwood's, which is exactly the page-wide content a policy block
+            # must not carry. ``_snap_to_sentences`` still widens left to the
+            # start of the sentence the phrase is IN, so a heading is not cut
+            # in half.
+            candidate = _snap_to_sentences(
+                document, anchor, min(len(document), anchor + reach))
+            candidate = _trim_to_pet_content(candidate)
+            if len(candidate) > MAX_BLOCK_CHARS:
+                candidate = candidate[:MAX_BLOCK_CHARS]
+            considered += 1
+            if not _acceptable_candidate(candidate):
+                continue
+            terms = actionable_pet_terms(candidate)
+            gained = terms - have
+            if not gained:
+                continue
+            score = (len(gained), len(terms), -len(candidate))
+            if best is None or score > best[0]:
+                best = (score, candidate, terms, gained)
+
+    if best is None:
+        return BlockRecovery(
+            reason=("the document states terms the block lacks, but no bounded "
+                    "candidate carried them within the locator's own limits"),
+            terms_before=tuple(sorted(have)),
+            terms_after=tuple(sorted(have)),
+            candidates_considered=considered)
+
+    _score, candidate, terms, gained = best
+    return BlockRecovery(
+        recovered=True, text=candidate,
+        reason=("the persisted document states %d actionable pet term(s) the "
+                "located block does not carry" % len(gained)),
+        terms_before=tuple(sorted(have)),
+        terms_after=tuple(sorted(terms)),
+        terms_added=tuple(sorted(gained)),
+        candidates_considered=considered)
+
+
 @dataclass(frozen=True)
 class SurfaceHit:
     """One located policy container."""
@@ -954,4 +1222,6 @@ __all__ = [
     "path_identity", "page_health",
     "GENERIC_NAME_TOKENS", "PHYSICAL_SIGNALS", "phones_in",
     "distinctive_overlap",
+    "ACTIONABLE_TERM_RE", "actionable_pet_terms", "BlockRecovery",
+    "recover_richer_block", "TERM_PET_WINDOW",
 ]

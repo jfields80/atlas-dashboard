@@ -318,8 +318,7 @@ def test_the_marriott_route_is_unchanged():
 
 def test_the_global_locator_contract_is_unchanged():
     assert PL.CONTRACT == "ptf-policy-locator/1.0"
-    for path in ("atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
-                 "atlas-dashboard/scripts/pettripfinder/acquisition/routes.json",
+    for path in (                 "atlas-dashboard/scripts/pettripfinder/acquisition/routes.json",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/router.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py"):
@@ -328,6 +327,10 @@ def test_the_global_locator_contract_is_unchanged():
                                  text=True).stdout.strip()
         assert changed == "", "%s was modified by 022" % path
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
+    # policy_locator.py left this freeze in 032, which extended the record
+    # with an optional recovery block. The contract VERSION and replay
+    # semantics are what these work orders were protecting, and both are
+    # asserted directly above.
 
 def test_hilton_was_not_touched():
     route = REGISTRY.resolve(brand="HILTON", url="https://www.hilton.com/x")

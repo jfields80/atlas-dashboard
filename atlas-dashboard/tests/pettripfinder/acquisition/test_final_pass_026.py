@@ -326,7 +326,6 @@ def test_routes_and_providers_are_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py",
                  "atlas-dashboard/launch_packages/pettripfinder/identity_census"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO.parent), capture_output=True,

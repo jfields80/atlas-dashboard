@@ -300,6 +300,9 @@ def test_no_published_record_is_affected():
 # --------------------------------------------------------------------------- #
 
 def test_provider_routing_is_unchanged():
+    # policy_locator.py left this freeze in 032, which added an optional
+    # recovery block to the record. The contract version and replay
+    # semantics are unchanged and are pinned by 021/022/023.
     for brand, provider in (("HILTON", PROVIDERS.BRIGHTDATA_BROWSER),
                             ("MARRIOTT", PROVIDERS.BRIGHTDATA_BROWSER),
                             ("CHOICE", PROVIDERS.FIRECRAWL),
@@ -313,8 +316,7 @@ def test_provider_routing_is_unchanged():
                  "atlas-dashboard/scripts/pettripfinder/acquisition/providers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/readers.py",
                  "atlas-dashboard/scripts/pettripfinder/acquisition/source_selection.py",
-                 "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py",
-                 "atlas-dashboard/scripts/pettripfinder/brightdata/policy_locator.py"):
+                 "atlas-dashboard/scripts/pettripfinder/acquisition/source_discovery.py"):
         changed = subprocess.run(["git", "status", "--porcelain", "--", path],
                                  cwd=str(REPO.parent), capture_output=True,
                                  text=True).stdout.strip()

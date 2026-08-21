@@ -27,6 +27,7 @@ outcome per attempt, and only ``VALID`` may write an artifact.
 from __future__ import annotations
 
 import asyncio
+import re
 import sys
 import time
 from pathlib import Path
@@ -39,6 +40,7 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.brightdata import browser_capture as BC   # noqa: E402
 from scripts.pettripfinder.brightdata import client                  # noqa: E402
 from scripts.pettripfinder.brightdata import marriott_surface as MS  # noqa: E402
+from scripts.pettripfinder.brightdata import declined_capture as DECLINED  # noqa: E402
 from scripts.pettripfinder.brightdata import outcomes as O           # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR    # noqa: E402
 from scripts.pettripfinder.brightdata import policy_surface as PS    # noqa: E402
@@ -188,6 +190,12 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
                     "binding_method": assessment.binding_method,
                 }
                 if not assessment.confirmed:
+                    _keep_declined(
+                        run_dir=run_dir, target=target, attempt=attempt,
+                        outcome=O.IDENTITY_MISMATCH, html=html,
+                        body_text=body_text, final_url=final_url, title=title,
+                        provider="brightdata_browser", identity=identity_block,
+                        detail="; ".join(assessment.reasons))
                     return finish(O.IDENTITY_MISMATCH, final_url=final_url,
                                   title=title,
                                   body_chars=len(MS.collapse(body_text)),
@@ -196,6 +204,13 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
 
                 hit = await PS.locate_policy(page, brand=brand)
                 if not hit.found:
+                    _keep_declined(
+                        run_dir=run_dir, target=target, attempt=attempt,
+                        outcome=O.POLICY_NOT_FOUND, html=html,
+                        body_text=body_text, final_url=final_url, title=title,
+                        provider="brightdata_browser", identity=identity_block,
+                        detail="no bounded policy container on a page that "
+                               "otherwise rendered")
                     return finish(O.POLICY_NOT_FOUND, final_url=final_url,
                                   title=title,
                                   body_chars=len(MS.collapse(body_text)),
@@ -207,7 +222,25 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
                 interactions.add("located the policy container via %s"
                                  % hit.strategy)
 
-                reading = PR.parse(hit.text, strategy=hit.strategy)
+                # The container walk picks the richest ancestor under a size
+                # cap, and on some surfaces that ancestor is a heading or a
+                # list of collapsed FAQ questions while the SAME document
+                # states the fee, the weight and the count a few sentences
+                # away. Recovery re-reads this document -- the one the identity
+                # gate has already bound -- and takes a bounded region that
+                # adds actionable pet terms the block lacks. It cannot reach
+                # another property, and it never fires on a page whose pet
+                # wording is an amenity chip or a service-animal sentence,
+                # because neither states a term to add.
+                block_text = hit.text
+                recovery = PS.recover_richer_block(hit.text, html_text(html))
+                if recovery.recovered:
+                    block_text = recovery.text
+                    interactions.add(
+                        "recovered a richer bounded block from the same "
+                        "document: %s" % recovery.reason)
+
+                reading = PR.parse(block_text, strategy=hit.strategy)
                 if not reading.found:
                     return finish(O.POLICY_NOT_FOUND, final_url=final_url,
                                   title=title,
@@ -221,7 +254,9 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
                         run_dir=run_dir, target=target, attempt=attempt,
                         page=page, policy_locator=element, html=html,
                         body_text=body_text, block_text=reading.block_text,
-                        interactions=interactions, hit=hit)
+                        interactions=interactions, hit=hit,
+                        recovery=recovery.to_dict() if recovery.recovered
+                        else None)
                 except Exception as exc:                        # noqa: BLE001
                     return finish(O.CAPTURE_FAILED, final_url=final_url,
                                   title=title,
@@ -247,6 +282,30 @@ async def run_attempt(target: BC.CaptureTarget, attempt: int, *,
         return finish(O.NAVIGATION_FAILED,
                       detail="session failed: %s: %s"
                              % (type(exc).__name__, exc))
+
+
+_TAG_RE = re.compile(r"<script.*?</script>|<style.*?</style>", re.S | re.I)
+_ANY_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _keep_declined(*, run_dir, target, attempt, outcome, html, body_text,
+                   final_url, title, provider, identity=None, detail=""):
+    """Preserve the evidence for a decline. Never changes the verdict."""
+    return DECLINED.keep(
+        run_dir=run_dir, slug=target.slug, attempt=attempt, outcome=outcome,
+        html=html, body_text=body_text,
+        requested_url=target.requested_url, final_url=final_url, title=title,
+        provider=provider, identity=identity, detail=detail)
+
+
+def html_text(html: str) -> str:
+    """The document as text, tags removed.
+
+    Read from the HTML rather than the rendered body text on purpose: a
+    collapsed accordion is in the DOM and not in what the page RENDERS, and
+    Wildwood Lodge's FAQ answers live in exactly that gap.
+    """
+    return MS.collapse(_ANY_TAG_RE.sub(" ", _TAG_RE.sub(" ", html or "")))
 
 
 async def capture_property(target: BC.CaptureTarget, *, run_dir: Path,

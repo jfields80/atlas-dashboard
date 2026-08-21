@@ -308,7 +308,7 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
 
 
 def _persist(*, attempt_dir: Path, html: str, body_text: str,
-             block_text: str, hit=None) -> Dict:
+             block_text: str, hit=None, recovery=None) -> Dict:
     """Write the artifact set.
 
     ``hit`` is the ``SurfaceHit`` the locator that actually ran produced. When
@@ -346,7 +346,7 @@ def _persist(*, attempt_dir: Path, html: str, body_text: str,
         locator_path = PL.persist(attempt_dir, PL.build_record(
             hit=hit, block_text=block_text,
             document_sha256=BC.sha256_file(html_path),
-            walk=PL.STATIC_TEXT_WALK))
+            walk=PL.STATIC_TEXT_WALK, recovery=recovery))
         record(PL.LOCATOR_ARTIFACT, locator_path, "application/json",
                "how this block's boundary was chosen; a replay reads the block "
                "and checks it against this record rather than locating again")
