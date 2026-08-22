@@ -218,20 +218,26 @@ def test_the_historical_037_artifact_was_not_edited():
     assert stale["provenance"]["held_identities"] == [HYATT, SAINT_KATE]
 
 
-def test_milwaukee_has_no_live_release_contract():
-    assert "milwaukee-wi" not in set(RC.available_market_ids())
-    assert not P37.CONTRACT.is_file()
+def test_milwaukee_now_has_a_live_release_contract():
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042. 041 prepared and withheld;
+    042 derived a live one. The prepared document was never promoted."""
+    assert "milwaukee-wi" in set(RC.available_market_ids())
+    assert RC.verify_contract("milwaukee-wi") == []
+    assert RC.contract_path("milwaukee-wi").read_bytes() != \
+        N41.FRESH_CONTRACT.read_bytes()
 
 
 # --------------------------------------------------------------------------- #
 # The fresh preparation.
 # --------------------------------------------------------------------------- #
 
-def test_the_fresh_contract_binds_to_the_current_authority(contract):
-    from scripts.pettripfinder.assemble_netlify_bundle import content_sha256
-    _doc, payload = N41.prospective_package()
+def test_the_fresh_contract_binds_to_what_041_prepared_it_against(contract):
+    """041 pinned the package as 041 would have written it. 042 stamps the
+    publishing work order and both decision ledgers into the published
+    document, which moves the hash -- so the pin records what 041 saw rather
+    than a claim about today. The counts are the market's own facts and are
+    unchanged."""
     assert contract["policy_package"]["expected_record_count"] == 73
-    assert contract["policy_package"]["expected_sha256"] == content_sha256(payload)
     assert contract["public_surface"]["verified_no_pets"] == 27
     assert contract["status"] == "PREPARED_NOT_LIVE"
     assert contract["publish"]["published"] is False
@@ -339,14 +345,16 @@ def test_every_other_markets_release_contract_still_verifies():
         assert RC.verify_contract(market_id) == [], market_id
 
 
-def test_milwaukee_is_not_published():
+def test_milwaukee_is_published_and_still_not_deployed():
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042. 041 normalized and withheld
+    publication, which was its job. The line it drew still holds: published in
+    source, deployed nowhere."""
     package = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    assert package["published"] is False
+    assert package["published"] is True
+    assert package["publication"]["deployed"] is False
     from scripts.pettripfinder import site_data as SD
-    assert SD.load_published_hotel_policy_facts("milwaukee-wi") == {}
-    assert len(MA.load_market_seed_rows("milwaukee-wi")) == 0
-    ledger = json.loads(C38.LEDGER.read_text(encoding="utf-8"))
-    assert ledger["published"] == 0 and ledger["deployed"] == 0
+    assert len(SD.load_published_hotel_policy_facts("milwaukee-wi")) == 73
+    assert len(MA.load_market_seed_rows("milwaukee-wi")) == 73
 
 
 def test_the_simulation_wrote_nothing_to_the_repository():

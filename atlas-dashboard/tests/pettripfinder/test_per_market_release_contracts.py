@@ -58,7 +58,12 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
+#: PTF-MILWAUKEE-PUBLICATION-042 published Milwaukee, so it now has verified
+#: inventory and therefore must have a contract. The invariant below is
+#: unchanged -- every market that CAN release has one -- and this is the list
+#: of markets that can.
+MILWAUKEE = "milwaukee-wi"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -117,6 +122,12 @@ EXPECTED_RECONCILIATION = {
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
+    # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
+    # pet-friendly and 27 verified-no-pets, both founder-approved across two
+    # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
+    # from the committed final partition (47), and is UNKNOWN rather than
+    # negative evidence.
+    MILWAUKEE: (147, 73, 27, 100, 47),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -267,7 +278,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

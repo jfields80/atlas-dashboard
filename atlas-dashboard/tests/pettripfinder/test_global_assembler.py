@@ -315,7 +315,8 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     # Pittsburgh is currently assemblable but remains hidden from navigation;
     # Indianapolis is independently eligible after its founder-approved release.
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS,
+         "milwaukee-wi"])
 
 
 def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
@@ -331,7 +332,8 @@ def test_indianapolis_is_in_the_global_selection(markets):
     assert INDIANAPOLIS in [m.market_id for m in chosen]
     assert INDIANAPOLIS in [r["market_id"] for r in rows]
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS,
+         "milwaukee-wi"])
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):
@@ -350,12 +352,16 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 published nine more; 250
     after Indianapolis published its eight founder-approved records; 268 since
     PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 published eighteen more
-    Cleveland hotels (81 -> 99)."""
+    Cleveland hotels (81 -> 99); 341 since PTF-MILWAUKEE-PUBLICATION-042
+    published Milwaukee's seventy-three, approved across two founder sittings.
+    Every other market's count is unchanged, which is the half of this
+    assertion that says a new market did not disturb an old one."""
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26, INDIANAPOLIS: 8}
-    assert sum(counts.values()) == 268
+                      "pittsburgh-pa": 26, INDIANAPOLIS: 8,
+                      "milwaukee-wi": 73}
+    assert sum(counts.values()) == 341
 
 
 # --------------------------------------------------------------------------- #

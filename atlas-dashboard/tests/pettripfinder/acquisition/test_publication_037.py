@@ -178,16 +178,29 @@ def test_the_published_document_is_deterministic():
 def test_the_inventory_is_derived_and_not_yet_committed():
     """Prepared, provably correct, and withheld until the collision is reviewed."""
     from scripts.pettripfinder import market_authority as MA
-    assert len(MA.load_market_seed_rows("milwaukee-wi")) == 0
+    # SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042, which committed the
+    # inventory 037 had only derived. The durable half is that the committed
+    # rows ARE the derivation -- one row per approved record, nothing authored
+    # at publication time.
+    committed = MA.load_market_seed_rows("milwaukee-wi")
     assert len(seed_rows()) == len(P.approved_identities())
-    assert len(MA.assemble_seed_rows()) == 296
+    assert len(committed) == len(seed_rows())
+    assert sorted(row["name"] for row in committed) == \
+        sorted(row["name"] for row in seed_rows())
 
 
-def test_the_market_is_prepared_and_not_published():
+def test_the_market_is_published_and_still_not_deployed():
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042.
+
+    037 prepared and stopped, and asserting "not published" was exactly right
+    then. The distinction 037 established is the one that survives: publication
+    is a state of the SOURCE and deployment is a separate act.
+    """
     doc = authority()
-    assert doc["published"] is False
-    assert SD.load_published_hotel_policy_facts("milwaukee-wi") == {}
-    assert P.counters()["published"] == 0
+    assert doc["published"] is True
+    assert len(SD.load_published_hotel_policy_facts("milwaukee-wi")) == \
+        len(doc["hotels"])
+    assert doc["publication"]["deployed"] is False
     assert P.counters()["deployed_live"] == 0
 
 
@@ -229,17 +242,29 @@ def test_the_prepared_contract_is_stale_and_must_be_re_prepared():
                + chr(10)).encode("utf-8")
     pinned = prepared_contract()["policy_package"]["expected_sha256"]
     assert pinned != content_sha256(payload)
-    assert not P.CONTRACT.is_file()
+    # 042 wrote a LIVE contract for this market, derived from current state.
+    # This prepared document is still not it, and is still refused by hash.
+    import hashlib
+    from scripts.pettripfinder import release_contracts as RC
     assert P.PREPARED_CONTRACT.is_file()
+    stale_hash = hashlib.sha256(P.PREPARED_CONTRACT.read_bytes()).hexdigest()
+    assert stale_hash in RC.superseded_contracts()
+    live = json.loads(P.CONTRACT.read_text(encoding="utf-8"))
+    assert live["policy_package"]["expected_sha256"] != pinned
 
 
 def test_the_prepared_contract_is_not_in_the_live_directory():
     """verify_all() checks every contract it finds there, and this one is
     calibrated to a state the market has not entered."""
     assert P.PREPARED_CONTRACT.is_file()
-    assert not P.CONTRACT.is_file()
-    from scripts.pettripfinder.release_contracts import available_market_ids
-    assert "milwaukee-wi" not in set(available_market_ids())
+    # SUCCEEDED by 042: the market now HAS a live contract, and it is not this
+    # document. What 037 established survives -- its own prepared artifact was
+    # never promoted.
+    from scripts.pettripfinder.release_contracts import (
+        available_market_ids, contract_path)
+    assert "milwaukee-wi" in set(available_market_ids())
+    assert contract_path("milwaukee-wi").read_bytes() != \
+        P.PREPARED_CONTRACT.read_bytes()
 
 
 def test_the_contract_grants_no_deployment():
@@ -389,8 +414,10 @@ def test_the_other_markets_seed_inventory_is_untouched():
     assert by_market["dayton-oh"] == 47
     assert by_market["pittsburgh-pa"] == 26
     assert by_market["indianapolis-in"] == 8
-    assert "milwaukee-wi" not in by_market
-    assert sum(by_market.values()) == 296
+    # 042 published Milwaukee, so it owns inventory now. The claim this test is
+    # about is that no OTHER market count moved because of it.
+    assert by_market["milwaukee-wi"] == 73
+    assert sum(by_market.values()) == 296 + 73
 
 
 def test_no_provider_was_called_and_nothing_was_deployed():

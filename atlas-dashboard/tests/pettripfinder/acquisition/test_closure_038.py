@@ -227,9 +227,13 @@ def test_the_closure_publishes_nothing(ledger):
     assert ledger["deployed"] == 0
 
 
-def test_the_market_policy_package_is_still_unpublished():
+def test_038_published_nothing_itself():
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042. 038 closed the market and
+    published nothing; the package now records which work order did."""
     doc = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    assert doc["published"] is False
+    if doc["published"]:
+        assert doc["publication"]["work_order"] != C38.WORK_ORDER
+        assert doc["publication"]["deployed"] is False
 
 
 # --- J. the identity resolution the founder signed --------------------------- #

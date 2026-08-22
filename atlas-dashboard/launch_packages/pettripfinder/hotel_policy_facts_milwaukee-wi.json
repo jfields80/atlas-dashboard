@@ -2,8 +2,8 @@
  "schema_version": "1.2",
  "market": "Greater Milwaukee",
  "market_id": "milwaukee-wi",
- "published": false,
- "published_note": "published=false means this package is recorded authority and is NOT live inventory: site_data.load_published_hotel_policy_facts returns nothing for it. Founder approval admits a record to authority; publication is a separate, later decision.",
+ "published": true,
+ "published_note": "published=true admits this market's records to live inventory: site_data.load_published_hotel_policy_facts returns them and the assembler builds a profile for each. The records themselves are unchanged from the day the founder approved them -- same facts, same hashes, same approvals, same evidence -- and the publishing work order asserts that byte for byte. Publication is still not deployment: nothing is live until a bundle is deployed.",
  "provenance": {
   "work_order": "PTF-MILWAUKEE-FOUNDER-DECISION-036",
   "review_work_order": "PTF-MILWAUKEE-FIRST-AUTHORITY-AND-FOUNDER-REVIEW-036",
@@ -10378,5 +10378,15 @@
    }
   }
  ],
- "refused_records": []
+ "refused_records": [],
+ "publication": {
+  "work_order": "PTF-MILWAUKEE-PUBLICATION-042",
+  "published_for_decision_dated": "2026-08-21",
+  "decision_ledgers": [
+   "milwaukee_founder_decisions_036.json",
+   "milwaukee_founder_decisions_040.json"
+  ],
+  "deployed": false,
+  "note": "build-ready in source; no deployment performed"
+ }
 }

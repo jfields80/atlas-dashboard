@@ -436,7 +436,11 @@ def test_039_admitted_nobody_to_authority():
     for row in MA.load_market_exclusions("milwaukee-wi"):
         assert (row.get("decision_source") or {}).get(
             "work_order") != V39.WORK_ORDER
-    assert authority["published"] is False
+    # SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042: the market is published now,
+    # and 039's claim was never "nobody may ever publish" -- it was that 039
+    # itself neither approved nor published anything.
+    if authority["published"]:
+        assert authority["publication"]["work_order"] != V39.WORK_ORDER
 
 
 def test_the_closure_arithmetic_is_unchanged():

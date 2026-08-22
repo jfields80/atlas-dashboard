@@ -356,11 +356,13 @@ def test_every_active_identity_appears_exactly_once():
 # What 040 must not have done.
 # --------------------------------------------------------------------------- #
 
-def test_milwaukee_is_not_published(authority):
-    assert authority["published"] is False
-    ledger = json.loads(C38.LEDGER.read_text(encoding="utf-8"))
-    assert ledger["published"] == 0
-    assert ledger["deployed"] == 0
+def test_040_published_nothing_itself(authority):
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042. 040 decided and stopped;
+    what it must never have done is publish, and the package records which
+    work order actually did."""
+    if authority["published"]:
+        assert authority["publication"]["work_order"] != D40.WORK_ORDER
+        assert authority["publication"]["deployed"] is False
 
 
 def test_the_seed_inventory_was_not_touched():

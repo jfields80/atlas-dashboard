@@ -290,8 +290,16 @@ def render_seed_shard(rows: Sequence[Mapping[str, str]]) -> str:
 # Phase 4 -- the flag, and nothing else.
 # --------------------------------------------------------------------------- #
 
-def published_document() -> Tuple[Dict, List[str]]:
-    """The authority with ``published`` true, and proof nothing else moved."""
+def published_document(work_order: str = WORK_ORDER,
+                       ledgers: Optional[Sequence[str]] = None
+                       ) -> Tuple[Dict, List[str]]:
+    """The authority with ``published`` true, and proof nothing else moved.
+
+    ``work_order`` names whoever actually performs the flip. 037 prepared and
+    stopped; a later work order that publishes must not stamp 037's name on
+    the act, and it must name every founder sitting that authorized the
+    records rather than only the first.
+    """
     doc = authority_document()
     before = json.dumps(doc["hotels"], sort_keys=True, ensure_ascii=False)
     doc["published"] = True
@@ -301,16 +309,16 @@ def published_document() -> Tuple[Dict, List[str]]:
         "assembler builds a profile for each. The records themselves are "
         "unchanged from the day the founder approved them -- same facts, same "
         "hashes, same approvals, same evidence -- and "
-        "PTF-MILWAUKEE-PUBLICATION-037 asserts that byte for byte. Publication "
+        "the publishing work order asserts that byte for byte. Publication "
         "is still not deployment: nothing is live until a bundle is deployed.")
     doc["publication"] = OrderedDict([
-        ("work_order", WORK_ORDER),
+        ("work_order", work_order),
         # The founder's decision date, not the clock. A timestamp here would
         # make every rebuild a diff and would break the sha256 the release
         # contract pins -- the same reason build_market_authorities fixes its
         # own as_of rather than reading the clock.
         ("published_for_decision_dated", A.ledger()["decided_at"]),
-        ("decision_ledger", F.LEDGER.name),
+        ("decision_ledgers", list(ledgers) if ledgers else [F.LEDGER.name]),
         ("deployed", False),
         ("note", "build-ready in source; no deployment performed"),
     ])
@@ -323,10 +331,11 @@ def published_document() -> Tuple[Dict, List[str]]:
 # Writing.
 # --------------------------------------------------------------------------- #
 
-def write(apply: bool = False) -> Dict:
+def write(apply: bool = False, work_order: str = WORK_ORDER,
+          ledgers: Optional[Sequence[str]] = None) -> Dict:
     assert_start_state()
     rows, refused = seed_rows()
-    doc, changes = published_document()
+    doc, changes = published_document(work_order=work_order, ledgers=ledgers)
     if changes:
         raise PublicationError("; ".join(changes))
     if apply:

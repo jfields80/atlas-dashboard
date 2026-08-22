@@ -401,10 +401,22 @@ def test_a_no_pets_property_can_never_appear_pet_friendly():
 # Authority is not publication.
 # --------------------------------------------------------------------------- #
 
-def test_the_authority_is_recorded_and_not_live():
-    doc = authority()
-    assert doc["published"] is False
-    assert SD.load_published_hotel_policy_facts(A.MARKET) == {}
+def test_the_published_flag_is_what_admits_a_package_to_live_inventory():
+    """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042.
+
+    036 recorded authority and published nothing, and "not live" was the right
+    claim then. What the test established survives: the FLAG is what admits a
+    package to live inventory, not the presence of records. Read from the
+    WHOLE file rather than 036's slice, because the flag is a property of the
+    package and the package now carries two founder sittings.
+    """
+    doc = whole_authority_file()
+    live = SD.load_published_hotel_policy_facts(A.MARKET)
+    assert doc["hotels"], "the package must hold records for this to mean much"
+    if doc["published"]:
+        assert len(live) == len(doc["hotels"])
+    else:
+        assert live == {}
     # Dayton's package has no such flag and IS live inventory, so the flag is
     # doing the work rather than the absence of data.
     assert len(SD.load_published_hotel_policy_facts("dayton-oh")) > 0

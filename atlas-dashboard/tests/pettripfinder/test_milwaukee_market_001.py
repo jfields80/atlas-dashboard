@@ -458,7 +458,12 @@ class TestPolicyAuthorityIsEmpty:
             return                       # before 036 there was nothing to check
         import json
         doc = json.loads(facts.read_text(encoding="utf-8"))
-        assert doc["published"] is False
+        # SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042: the market is published,
+        # so the claim is no longer "unpublished" but "published only by an
+        # act that names itself". A package cannot arrive published silently.
+        if doc["published"]:
+            assert doc["publication"]["work_order"]
+            assert doc["publication"]["deployed"] is False
         # Every founder sitting, not just the first: 040 approved four more
         # rows in its own additive ledger. The claim is that NO record exists
         # without an explicit approval in one of them -- widened by sitting,
@@ -474,9 +479,24 @@ class TestPolicyAuthorityIsEmpty:
             assert record["identity_key"] in approved
             assert record["approval"]["operator"]
 
-    def test_no_release_contract_exists_yet(self):
-        from scripts.pettripfinder.release_contracts import available_market_ids
-        assert MARKET not in set(available_market_ids())
+    def test_the_release_contract_exists_and_grants_no_deployment(self):
+        """SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042.
+
+        The claim was that no contract existed yet, which was the right thing
+        to assert while the market was unpublished and stopped being true the
+        moment it was. What must hold now is stronger: the contract exists, it
+        verifies against this market's own committed authority, and it still
+        authorizes no deployment.
+        """
+        import json
+        from scripts.pettripfinder.release_contracts import (
+            available_market_ids, contract_path, verify_contract)
+        assert MARKET in set(available_market_ids())
+        assert verify_contract(MARKET) == []
+        contract = json.loads(
+            contract_path(MARKET).read_text(encoding="utf-8"))
+        assert contract["market_id"] == MARKET
+        assert contract["deployment_authorization"]["grants_deployment"]             is False
 
     def test_the_authority_shards_carry_only_what_a_decision_put_there(self):
         """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
@@ -800,7 +820,18 @@ class TestAuthorityFreeze:
         import json
         facts = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
         if facts.is_file():
-            assert json.loads(facts.read_text(encoding="utf-8"))["published"] is False
+            doc = json.loads(facts.read_text(encoding="utf-8"))
+            # SUCCEEDED by PTF-MILWAUKEE-PUBLICATION-042: this market is
+            # published now, so "published is False" is no longer the claim.
+            # What survives is that publication is an ACT someone performed
+            # and signed -- a package cannot arrive published by accident.
+            if doc["published"]:
+                block = doc["publication"]
+                assert block["work_order"]
+                assert block["decision_ledgers"]
+                assert block["deployed"] is False
+            for record in doc["hotels"]:
+                assert record["approval"]["operator"]
         assert MA.check_generated_artifacts() == []
 
     def test_no_partition_row_became_terminal(self):
