@@ -84,6 +84,7 @@ from scripts.pettripfinder import hotel_exclusions as EX                    # no
 from scripts.pettripfinder.market_ownership import MARKET_ID_FIELD          # noqa: E402
 from scripts.pettripfinder.policy import policy_membrane as MB              # noqa: E402
 from scripts.pettripfinder.site_data import normalize_name                  # noqa: E402
+from scripts.pettripfinder.contracts import enums          # noqa: E402
 
 MARKET = "dayton-oh"
 CATEGORY = "pet-friendly-hotels"
@@ -499,7 +500,7 @@ def build(strict: bool = True) -> Tuple[List[Dict], List[Dict], List[Dict]]:
             ("verification_state", "VERIFIED_PET_FRIENDLY"),
             ("verification_date", AS_OF), ("verified_at", AS_OF),
             ("approval", OrderedDict([("approval_date", AS_OF),
-                                      ("decision", "APPROVED"),
+                                      ("decision", enums.APPROVED_AFTER_CURRENT_REVIEW),
                                       ("operator", REVIEWER)])),
             ("withheld_fields", OrderedDict(sorted(spec.get("withheld", {}).items()))),
             ("worker_model_id", ""), ("worker_prompt_version", ""),

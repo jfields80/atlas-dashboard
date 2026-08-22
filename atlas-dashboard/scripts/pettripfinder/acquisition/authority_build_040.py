@@ -57,6 +57,7 @@ from scripts.pettripfinder.acquisition import founder_review_039 as V39      # n
 from scripts.pettripfinder.contracts import enums                            # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as SCHEMA          # noqa: E402
 from scripts.pettripfinder.contracts import fee_computation                 # noqa: E402
+from scripts.pettripfinder.contracts import founder_approval as FA          # noqa: E402
 from scripts.pettripfinder.policy_migration import evidence_hash, record_hash  # noqa: E402
 
 WORK_ORDER = D40.WORK_ORDER
@@ -337,7 +338,12 @@ def authority_record(decision: Mapping) -> Dict:
         raise AuthorityError("; ".join(disagreements))
 
     record["approval"] = OrderedDict([
-        ("decision", "APPROVED"),
+        # The CANONICAL state, via the write guard. 040 originally wrote
+        # "APPROVED", which this repository had already registered as a legacy
+        # spelling four work orders earlier -- the guard exists so the next
+        # builder cannot repeat that by hand.
+        ("decision", FA.assert_writable(FA.CANONICAL_APPROVED,
+                                        where=WORK_ORDER)),
         ("operator", decision["decided_by"]),
         ("approval_date", decision["decided_at"]),
         ("decision_source", OrderedDict([
