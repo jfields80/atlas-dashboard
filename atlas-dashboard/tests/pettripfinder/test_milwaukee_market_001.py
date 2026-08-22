@@ -419,6 +419,29 @@ class TestRoutingAndCaptureReadiness:
                 assert item["binding_method"] == ""
 
 
+
+def _assert_every_seed_row_traces_to_an_approved_record():
+    """Seed inventory exists only where a founder approved the record.
+
+    NARROWED by PTF-MILWAUKEE-PUBLICATION-037. The market factory left this
+    shard empty and the tests above proved it; publication then DERIVED one row
+    per founder-approved authority record. "Empty" is no longer the claim --
+    "nothing here that a human did not approve" is, and it is the claim that
+    protects a reader.
+    """
+    import json as _json
+    rows = MA.load_market_seed_rows(MARKET)
+    facts_path = PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)
+    if not rows:
+        return
+    assert facts_path.is_file(), "seed inventory with no policy authority"
+    doc = _json.loads(facts_path.read_text(encoding="utf-8"))
+    approved = {record["name"] for record in doc["hotels"]}
+    for row in rows:
+        assert row["name"] in approved, row["name"]
+        assert row["market_id"] == MARKET
+    assert len(rows) == len(approved)
+
 class TestPolicyAuthorityIsEmpty:
     def test_a_policy_fact_file_exists_only_by_founder_decision(self):
         """NARROWED by PTF-MILWAUKEE-FOUNDER-DECISION-036.
@@ -461,14 +484,11 @@ class TestPolicyAuthorityIsEmpty:
         """
         assert MARKET in MA.sharded_market_ids()
         assert len(MA.load_market_routes(MARKET)) == EXPECTED_AUTHORITY["routing"]
-        assert len(MA.load_market_seed_rows(MARKET)) == EXPECTED_AUTHORITY["seed"]
-        exclusions = MA.load_market_exclusions(MARKET)
-        if not exclusions:
-            return
-        for row in exclusions:
+        for row in MA.load_market_exclusions(MARKET):
             assert row["exclusion_state"] == "VERIFIED_NO_PETS"
             assert row["reviewer_id"], row["exclusion_id"]
             assert row["evidence_quote"].strip(), row["exclusion_id"]
+        _assert_every_seed_row_traces_to_an_approved_record()
 
     def test_the_market_owns_all_three_shard_files(self):
         for path in (MA.routing_shard_path(MARKET), MA.exclusions_shard_path(MARKET),
@@ -489,8 +509,7 @@ class TestPolicyAuthorityIsEmpty:
         for row in [e for e in exclusions if e.get("market_id") == MARKET]:
             assert row["reviewer_id"], row["exclusion_id"]
             assert row["reviewed_at"], row["exclusion_id"]
-        rows = MA.assemble_seed_rows()
-        assert [r for r in rows if r.get("market_id") == MARKET] == []
+        _assert_every_seed_row_traces_to_an_approved_record()
 
     def test_registering_milwaukee_changed_no_other_market_s_authority(self):
         """The generated globals are what the shards produce, and Milwaukee's
@@ -499,12 +518,15 @@ class TestPolicyAuthorityIsEmpty:
         existed."""
         assert MA.check_generated_artifacts() == []
         assert len(MA.assemble_routing_document()["routes"]) == 277
-        assert len(MA.assemble_seed_rows()) == 296
-        # The exclusion count moves only by this market's own shard: 75 before
-        # the founder's decision, plus whatever that decision admitted.
+        # Each global moves only by THIS market's own shard: the pre-Milwaukee
+        # totals were 75 exclusions and 296 seed rows, and every row added
+        # since belongs to this market.
         registry = MA.assemble_exclusions_document()["exclusions"]
         mine = [row for row in registry if row.get("market_id") == MARKET]
         assert len(registry) - len(mine) == 75
+        seeds = MA.assemble_seed_rows()
+        my_seeds = [row for row in seeds if row.get("market_id") == MARKET]
+        assert len(seeds) - len(my_seeds) == 296
 
 
 class TestCrossMarketIsolation:
@@ -791,9 +813,9 @@ class TestAuthorityFreeze:
         globals are exactly what the shards produce.
         """
         assert len(MA.load_market_routes(MARKET)) == EXPECTED_AUTHORITY["routing"]
-        assert len(MA.load_market_seed_rows(MARKET)) == EXPECTED_AUTHORITY["seed"]
         for row in MA.load_market_exclusions(MARKET):
             assert row["reviewer_id"], row["exclusion_id"]
+        _assert_every_seed_row_traces_to_an_approved_record()
 
     def test_the_generated_globals_still_match_the_shards(self):
         assert MA.check_generated_artifacts() == []

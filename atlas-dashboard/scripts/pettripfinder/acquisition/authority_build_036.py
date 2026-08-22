@@ -592,7 +592,11 @@ def authority_document() -> Dict:
             ("decision_ledger", F.LEDGER.name),
             ("decided_by", ledger()["decided_by"]),
             ("decided_at", ledger()["decided_at"]),
-            ("built_at", _now()),
+            # The founder's decision date, not the clock. A timestamp here
+            # makes every rebuild a diff and makes the package's sha256
+            # unpinnable -- which is what PTF-MILWAUKEE-PUBLICATION-037
+            # hit when its release contract tried to pin one.
+            ("built_for_decision_dated", ledger()["decided_at"]),
             ("source_store", F.STORE.relative_to(REPO).as_posix()),
             ("source_store_sha256", F._sha256_file(F.STORE)),
         ])),
