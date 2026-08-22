@@ -223,11 +223,17 @@ def render_production_hotel_profile(
 def build_hotel_go_pages(
     row: Dict[str, str], listing_id: str, corridor: str, facts_entry: Optional[Dict],
     market: str = DEFAULT_ANALYTICS_MARKET,
+    affiliate_destination=None, build_id: str = "", provider_inline_js: str = "",
 ) -> Dict[str, str]:
     """The /go/ interstitials the approved hotel renderer links to, including
     /go/<id>/booking/ (verified pet-friendly hotels only -- the booking CTA is
     the primary action only in the 'book' state). Reuses the shared, tested
-    go-page builder; no new redirect logic here."""
+    go-page builder; no new redirect logic here.
+
+    PTF-MEASUREMENT-001. ``affiliate_destination`` (a resolved
+    ``affiliate_destinations.AffiliateDestination``, or ``None``), ``build_id``
+    and ``provider_inline_js`` pass through to the shared builder; all three
+    default to today's output."""
     status = verification_status_for(facts_entry)
     include_booking = status == "VERIFIED_PET_FRIENDLY"
     return build_go_pages_for_listing(
@@ -235,4 +241,5 @@ def build_hotel_go_pages(
         phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
         state=row.get("state", ""), category_slug=CATEGORY_SLUG, corridor=corridor,
         verification_status=status, include_booking=include_booking,
-        market=market)
+        market=market, affiliate_destination=affiliate_destination,
+        build_id=build_id, provider_inline_js=provider_inline_js)

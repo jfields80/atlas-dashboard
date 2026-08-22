@@ -483,6 +483,14 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
         _run_route_gates(gates, contract, _market, site_dir, verified_slugs, held_slugs,
                          corridor_slugs, held_names, verified_names)
         _run_tech_gates(gates, contract, site_dir, held_slugs)
+        # PTF-MEASUREMENT-001: the same measurement/affiliate gates the
+        # composed assembler runs, so a single-market bundle is held to the
+        # same contract. Extra gates never fail a contract that does not list
+        # them; a failing one fails the bundle.
+        from scripts.pettripfinder.affiliate_destinations import run_affiliate_gates
+        from scripts.pettripfinder.measurement import run_measurement_gates
+        run_measurement_gates(gates, _gate, site_dir)
+        run_affiliate_gates(gates, _gate, market_ids=[_market.market_id])
 
         # Every declared minimum gate must be present AND passing.
         minimum = contract["minimum_release_gates"]

@@ -284,3 +284,22 @@ publish; display or store any credential value; commit or push. Every command in
 | E3 | Publishing to production |
 | F | Rolling back production |
 | — | Enabling continuous (Git) deployment |
+
+---
+
+## 10. Measurement (PTF-MEASUREMENT-001) — future enablement only
+
+Authority: `docs/pettripfinder/MEASUREMENT_CONTRACT.md`. The committed
+`deploy/netlify/measurement.json` is **disabled** (`enabled: false`,
+`provider.kind: none`); in that state generation emits no provider script, no
+`page_view`, no `build_id`, and the composed bundle hash does not move. The
+global deployment manifest pins the config's SHA-256 (`measurement.config_sha256`)
+and six measurement/affiliate gates alongside the control files.
+
+Enabling measurement is its **own release** (contract §9): edit the config,
+allow the provider host in `headers.production` / `headers.preview`, rebuild,
+re-stamp the manifest, and authorize the **new** bundle hash under a deployment
+work order. It is never folded into a deployment that was authorized against a
+different hash. No provider is configured and no affiliate program is enrolled
+today; Search Console verification, Netlify Analytics and affiliate enrollment
+are external business tasks that change no byte here.

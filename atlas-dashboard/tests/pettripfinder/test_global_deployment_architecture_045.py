@@ -346,3 +346,110 @@ def test_no_milwaukee_refusal_reaches_the_bundle(production):
     for row in MA.load_market_exclusions("milwaukee-wi"):
         slug = ptf_identity_key(row["canonical_name"]).replace(" ", "-")
         assert not (root / slug).exists(), row["canonical_name"]
+
+
+# --------------------------------------------------------------------------- #
+# PTF-MEASUREMENT-001 Phase 1 + 1b: the measurement/affiliate layer is gated
+# on the composed bundle and, disabled, moves no byte of it.
+# --------------------------------------------------------------------------- #
+
+from scripts.pettripfinder import affiliate_destinations as AD        # noqa: E402
+from scripts.pettripfinder import measurement as M                    # noqa: E402
+from scripts.pettripfinder.global_deployment import (                 # noqa: E402
+    REQUIRED_GLOBAL_GATES, load_manifest,
+)
+
+MEASUREMENT_GATES = M.MEASUREMENT_GATES + AD.AFFILIATE_GATES
+
+#: The composed production bundle PTF-...-DEPLOYMENT-ARCHITECTURE-045 made
+#: deployable. Phase 1 + 1b of the measurement work order is accepted only if
+#: a fresh assembly still produces exactly this.
+PRE_MEASUREMENT_BUNDLE_SHA256 = (
+    "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
+
+
+def test_measurement_is_disabled_in_source():
+    cfg = M.load_measurement_config()
+    assert cfg.enabled is False and cfg.provider.kind == M.PROVIDER_KIND_NONE
+    assert AD.load_providers() == {}
+    assert AD.assemble_global_view() == {}
+
+
+def test_the_six_measurement_gates_are_required_and_pass(production):
+    manifest, _site = production
+    for gate in MEASUREMENT_GATES:
+        assert gate in REQUIRED_GLOBAL_GATES, gate
+        assert manifest["gates"][gate]["pass"], (gate, manifest["gates"][gate])
+
+
+def test_every_045_gate_still_runs_and_passes(production):
+    manifest, _site = production
+    for gate in REQUIRED_GLOBAL_GATES:
+        assert gate in manifest["gates"] and manifest["gates"][gate]["pass"], gate
+    assert len(manifest["gates"]) == 25
+
+
+def test_the_disabled_bundle_is_the_045_bundle_byte_for_byte(production):
+    """The zero-byte acceptance target. If this moves, the measurement layer
+    leaked into a disabled build; do not accept a new hash here."""
+    manifest, _site = production
+    assert manifest["bundle_sha256"] == PRE_MEASUREMENT_BUNDLE_SHA256
+
+
+def test_no_page_in_the_disabled_bundle_carries_a_measurement_block(production):
+    _manifest, site = production
+    for page in site.rglob("*.html"):
+        text = page.read_text(encoding="utf-8")
+        assert M.SNIPPET_MARKER not in text, page
+        assert M.GO_ADAPTER_MARKER not in text, page
+        assert '"build_id"' not in text, page
+        assert "<script src=" not in text and "<script defer" not in text, page
+
+
+def test_booking_pages_still_redirect_to_the_official_url(production):
+    _manifest, site = production
+    booking = sorted(site.rglob("booking/index.html"))
+    assert len(booking) == 341
+    for page in booking:
+        text = page.read_text(encoding="utf-8")
+        assert '"affiliate_provider": ""' in text, page
+        assert 'rel="noopener"' in text, page
+        assert "sponsored" not in text, page
+
+
+def test_the_bundle_manifest_pins_the_measurement_config(production):
+    manifest, _site = production
+    block = manifest["measurement"]
+    assert block["config_source"] == "deploy/netlify/measurement.json"
+    assert block["config_sha256"] == M.config_sha256()
+    assert block["enabled"] is False and block["provider_kind"] == "none"
+
+
+def test_the_committed_manifest_pins_the_measurement_config_and_stays_unauthorized():
+    doc = load_manifest()
+    assert doc["measurement"]["config_sha256"] == M.config_sha256()
+    assert doc["deployment_authorized"] is False
+    assert doc["bundle_sha256"] == PRE_MEASUREMENT_BUNDLE_SHA256
+    for gate in MEASUREMENT_GATES:
+        assert gate in doc["required_gates"], gate
+
+
+def test_a_changed_measurement_config_invalidates_the_manifest():
+    doc = load_manifest()
+    doc["measurement"] = dict(doc["measurement"], config_sha256="0" * 64)
+    assert any("measurement.json" in p for p in GD.verify_manifest(doc))
+
+
+def test_participation_and_inventory_are_unchanged(production):
+    manifest, site = production
+    assert manifest["market_fragments_included"] == list(EXPECTED_MARKETS)
+    assert {r["market_id"]: r["published_profiles"]
+            for r in manifest["participating_markets"]} == EXPECTED_PROFILES
+    assert sum(EXPECTED_PROFILES.values()) == 341
+    assert manifest["total_html_pages"] == 2195
+    assert manifest["sitemap_route_count"] == 428
+    live = [line.strip() for line in LIVE_ROUTE_INVENTORY.read_text(encoding="utf-8")
+            .splitlines() if line.strip() and not line.startswith("#")]
+    assert len(live) == 132          # the 044 live inventory, comments excluded
+    for route in live:
+        assert (site / route.strip("/") / "index.html").is_file(), route

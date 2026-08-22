@@ -64,6 +64,18 @@ REQUIRED_GLOBAL_GATES = (
     "content.sitemap_is_the_site",
     "content.sitemap_excludes_go",
     "content.go_routes_unique",
+    # measurement (PTF-MEASUREMENT-001): the committed contract is valid, a
+    # content page carries its block exactly once when enabled and never when
+    # disabled, and a disabled bundle loads no external script.
+    "measurement.config_valid",
+    "measurement.snippet_once_per_content_page",
+    "measurement.no_external_script_when_disabled",
+    # affiliate (Phase 1b): every mapped destination points at an allowlisted
+    # host of an ENROLLED provider and is bound to the property it was mapped
+    # against. All three pass vacuously at zero destinations.
+    "affiliate.destinations_allowlisted",
+    "affiliate.identity_bound",
+    "affiliate.no_destination_without_enrolled_provider",
 )
 
 
@@ -129,6 +141,10 @@ def build_manifest(bundle_manifest: Mapping) -> Dict:
         ("bundle_sha256", bundle_manifest["bundle_sha256"]),
         ("sitemap_sha256", bundle_manifest["sitemap_sha256"]),
         ("control_files", OrderedDict(bundle_manifest["control_files"])),
+        # PTF-MEASUREMENT-001: the measurement contract the bundle was built
+        # under, pinned like a control file. A config edit after stamping is a
+        # different artifact, and verify_manifest says so.
+        ("measurement", OrderedDict(bundle_manifest["measurement"])),
         ("participating_markets", markets),
         ("total_published_profiles",
          sum(row["published_profiles"] for row in markets)),
@@ -157,8 +173,10 @@ def build_manifest(bundle_manifest: Mapping) -> Dict:
 def write_manifest(bundle_manifest: Mapping) -> Dict:
     doc = build_manifest(bundle_manifest)
     MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
+    # newline="\n" so the committed bytes do not depend on the platform that
+    # stamped them (the file is eol=lf in .gitattributes).
     MANIFEST_PATH.write_text(json.dumps(doc, indent=1, ensure_ascii=False)
-                             + chr(10), encoding="utf-8")
+                             + chr(10), encoding="utf-8", newline="\n")
     return doc
 
 
@@ -214,6 +232,18 @@ def verify_manifest(manifest: Optional[Mapping] = None) -> List[str]:
         elif _sha256_file(path) != pinned:
             problems.append("%s has changed since the manifest was written"
                             % source)
+
+    measurement = doc.get("measurement") or {}
+    source = measurement.get("config_source")
+    pinned = measurement.get("config_sha256")
+    if not source or not pinned:
+        problems.append("measurement config is not pinned")
+    else:
+        path = REPO_ROOT / source
+        if not path.is_file():
+            problems.append("measurement config source missing: %s" % source)
+        elif _sha256_file(path) != pinned:
+            problems.append("%s has changed since the manifest was written" % source)
 
     missing = [gate for gate in REQUIRED_GLOBAL_GATES
                if gate not in (doc.get("required_gates") or ())]

@@ -75,6 +75,22 @@ from scripts.pettripfinder.markets import (
     sitemap_corridor_routes,
 )
 from scripts.pettripfinder.commercial_actions import set_go_market_prefix
+from scripts.pettripfinder.affiliate_destinations import (
+    destination_for as affiliate_destination_for,
+    load_providers as load_affiliate_providers,
+    load_market_destinations_document,
+)
+from scripts.pettripfinder.measurement import (
+    PAGE_TYPE_CORRIDOR,
+    PAGE_TYPE_GO_REDIRECT,
+    PageContext,
+    build_id_for,
+    classify_route,
+    inject_page_measurement,
+    inline_beacon_provider_js,
+    load_measurement_config,
+    set_measurement_config,
+)
 from scripts.pettripfinder.markets.contract import ROUTE_MODE_LEGACY_UNPREFIXED
 from scripts.pettripfinder.market_context import PRODUCTION_MARKET_ID, resolve_market
 from scripts.pettripfinder.market_ownership import owned_by
@@ -335,6 +351,20 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # markets holding the same hotel slug cannot claim one route.
     set_go_market_prefix("" if market.route_mode == ROUTE_MODE_LEGACY_UNPREFIXED
                          else market.market_slug)
+    # PTF-MEASUREMENT-001. The committed measurement contract, read once and
+    # scoped to this build by the same one-call idiom. While it is disabled
+    # (the committed state) every value derived here is empty and every
+    # injection below is the identity function, so the bundle's bytes are
+    # exactly what they were before this module existed.
+    measurement = load_measurement_config()
+    set_measurement_config(measurement)
+    _build_id = build_id_for(market.market_id) if measurement.active else ""
+    _go_adapter_js = inline_beacon_provider_js(measurement)
+    # Phase 1b: this market's affiliate destinations, resolved per hotel row
+    # below. The committed shards hold zero rows, so every resolution is None
+    # and the booking action keeps its official-URL destination.
+    _affiliate_providers = load_affiliate_providers()
+    _affiliate_shard = load_market_destinations_document(market.market_id)
     print("Market scope: %s -- %d owned inventory rows, %d categor%s" % (
         market.market_id, len(package["seed_businesses"]),
         len(package["categories"]), "y" if len(package["categories"]) == 1 else "ies"))
@@ -436,8 +466,14 @@ def run(output: str, *, market: MarketConfig = None) -> int:
                 staged_path.parent.rmdir()
             except OSError:                       # pragma: no cover - non-empty
                 pass
-        go_pages.update(build_hotel_go_pages(row, listing_id, corridor, facts_entry,
-                                             market=market.market_id))
+        go_pages.update(build_hotel_go_pages(
+            row, listing_id, corridor, facts_entry, market=market.market_id,
+            # Fail-closed resolution: None when unmapped (today, always); a
+            # mapped row that fails any check raises and stops the build.
+            affiliate_destination=affiliate_destination_for(
+                row, market.market_id, providers=_affiliate_providers,
+                destinations=_affiliate_shard),
+            build_id=_build_id, provider_inline_js=_go_adapter_js))
 
     # --- park / restaurant profiles -----------------------------------------
     for rows, slug, place_type in ((park_rows, "pet-friendly-parks", "Park"),
@@ -457,7 +493,8 @@ def run(output: str, *, market: MarketConfig = None) -> int:
                 listing_id=listing_id, name=row["name"], official_url=row.get("website_url", ""),
                 phone=row.get("phone", ""), address=row.get("address", ""), city=row.get("city", ""),
                 state=row.get("state", ""), category_slug=slug, corridor="",
-                verification_status="POLICY_UNVERIFIED", market=market.market_id))
+                verification_status="POLICY_UNVERIFIED", market=market.market_id,
+                build_id=_build_id, provider_inline_js=_go_adapter_js))
 
     # --- hotel category page -------------------------------------------------
     hotel_cat_path = out_dir / "pet-friendly-hotels" / "index.html"
@@ -677,6 +714,44 @@ def run(output: str, *, market: MarketConfig = None) -> int:
             continue
         text = _BODY_OPEN_RE.sub(r"\1" + _SKIP_LINK, text, count=1)
         html_path.write_text(text, encoding="utf-8", newline="\n")
+
+    # --- measurement (PTF-MEASUREMENT-001) -----------------------------------
+    # One pass over every CONTENT page, after all content is in its final
+    # place. ``inject_page_measurement`` is the identity function while the
+    # committed config is disabled, and the pass is skipped outright then so
+    # the disabled build does not even re-read its own files. /go/ pages are
+    # measured by their own builder (the inline adapter above), never here.
+    if measurement.active:
+        _corridor_slugs = {corridor_route(market, c).rstrip("/").rsplit("/", 1)[-1]
+                           for c in assignment.published_corridors()}
+        _hotel_by_route = {hotel_route(market, r["name"]): r for r in hotel_rows}
+        for html_path in sorted(out_dir.rglob("index.html")):
+            route = "/" + html_path.parent.relative_to(out_dir).as_posix().strip(".") + "/"
+            route = re.sub(r"/{2,}", "/", route)
+            page_type = classify_route(
+                route, market_slug=market.market_slug,
+                legacy_unprefixed=market.route_mode == ROUTE_MODE_LEGACY_UNPREFIXED,
+                published_categories=sorted(_present))
+            if page_type == PAGE_TYPE_GO_REDIRECT:
+                continue
+            if route.rstrip("/").rsplit("/", 1)[-1] in _corridor_slugs \
+                    and route not in _hotel_by_route:
+                page_type = PAGE_TYPE_CORRIDOR
+            hotel = _hotel_by_route.get(route)
+            ctx = PageContext(
+                market=market.market_id, page_type=page_type, route=route,
+                listing_id=_listing_id(hotel["name"]) if hotel else "",
+                category="pet-friendly-hotels" if hotel else "",
+                corridor=_corridor_name_for(hotel) if hotel else "",
+                verification_status=(
+                    "VERIFIED_PET_FRIENDLY" if hotel and policy_facts.get(
+                        normalize_name(hotel["name"])) else
+                    ("POLICY_UNVERIFIED" if hotel else "")),
+                build_id=_build_id)
+            text = html_path.read_text(encoding="utf-8")
+            measured = inject_page_measurement(text, ctx, measurement)
+            if measured != text:
+                html_path.write_text(measured, encoding="utf-8", newline="\n")
 
     # --- reports -----------------------------------------------------------
     build_report = {

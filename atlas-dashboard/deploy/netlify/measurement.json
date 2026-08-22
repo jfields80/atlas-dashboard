@@ -1,0 +1,19 @@
+{
+ "schema": "ptf-measurement-config/1.0",
+ "what_this_is": "The committed measurement contract for the PetTripFinder site (PTF-MEASUREMENT-001). Read by scripts/pettripfinder/measurement.py at build time. While enabled is false, generation emits NO provider script, NO page_view, NO build_id markup and the composed bundle hash does not move. Enabling is its own release: set enabled true, name a cookieless provider of kind beacon_script, add its host to script-src/connect-src in deploy/netlify/headers.*, rebuild, re-stamp the global deployment manifest, and authorize THAT bundle hash. No vendor is configured here.",
+ "enabled": false,
+ "provider": {
+  "kind": "none",
+  "script_src": "",
+  "event_endpoint": "",
+  "site_domain": "",
+  "allowed_hosts": []
+ },
+ "build_id": {
+  "source": "market_policy_package_sha256",
+  "length": 12
+ },
+ "go_pages": {
+  "adapter": "inline_send_beacon"
+ }
+}

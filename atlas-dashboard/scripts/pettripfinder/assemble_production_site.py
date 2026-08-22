@@ -796,6 +796,15 @@ def assemble(output: str, *, context: str = "production",
                               headers_bytes, redirects_bytes)
     _run_participation_gates(gates, chosen, eligibility)
     _run_migration_gate(gates, bundle)
+    # PTF-MEASUREMENT-001. The measurement contract and the affiliate
+    # authority are gated on the COMPOSED bundle, the artifact that ships.
+    # Both modules own their gates; the assembler only records them.
+    from scripts.pettripfinder.affiliate_destinations import run_affiliate_gates
+    from scripts.pettripfinder.measurement import (
+        config_sha256 as measurement_config_sha256, run_measurement_gates,
+    )
+    measurement = run_measurement_gates(gates, _gate, bundle)
+    run_affiliate_gates(gates, _gate, market_ids=[m.market_id for m in chosen])
 
     broken = broken_internal_links(bundle)
     _gate(gates, "content.zero_broken_links", not broken, "; ".join(broken[:6]))
@@ -850,6 +859,15 @@ def assemble(output: str, *, context: str = "production",
         ])),
         ("sitemap_sha256", hashlib.sha256(
             (bundle / "sitemap.xml").read_bytes()).hexdigest()),
+        # PTF-MEASUREMENT-001: which measurement contract this bundle was
+        # built under. Pinned so a deployer can tell a measured bundle from an
+        # unmeasured one without diffing 2,000 pages.
+        ("measurement", OrderedDict([
+            ("config_source", "deploy/netlify/measurement.json"),
+            ("config_sha256", measurement_config_sha256()),
+            ("enabled", measurement.active),
+            ("provider_kind", measurement.provider.kind),
+        ])),
         ("participating_markets", [
             OrderedDict([
                 ("market_id", m.market_id),
