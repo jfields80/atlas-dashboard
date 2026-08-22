@@ -75,6 +75,8 @@ from scripts.pettripfinder.contracts import policy_schema as SCHEMA         # no
 from scripts.pettripfinder import hotel_exclusions as EX                    # noqa: E402
 from scripts.pettripfinder import market_authority as MA                    # noqa: E402
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key   # noqa: E402
+from scripts.pettripfinder import approval_binding as AB
+from scripts.pettripfinder.acquisition import approval_rebinding_039 as REBIND
 from scripts.pettripfinder.policy_migration import evidence_hash, record_hash  # noqa: E402
 
 WORK_ORDER = D.WORK_ORDER
@@ -151,6 +153,18 @@ def bound_decisions() -> Tuple[List[Dict], List[Dict]]:
     the hashes are recomputed from the row as it stands NOW and compared with
     the hashes the founder was shown. A record that has moved since is refused
     by name rather than approved on the strength of an older reading.
+
+    TWO BINDINGS, EITHER SUFFICIENT, NEITHER LOOSE
+    -----------------------------------------------
+    036's hashes covered the whole store row, provenance included, so a reader
+    repair withdrew fifteen approvals whose facts and evidence were
+    byte-identical. PTF-...-APPROVAL-BINDING-039 added a versioned SEMANTIC
+    binding over what the founder actually approved, and a decision applies if
+    either binding holds.
+
+    The semantic route is not a fallback for anything: it only admits a row the
+    039 migration examined and proved unchanged, by name. A row whose meaning
+    moved is absent from that index and is refused here exactly as before.
     """
     live = {row["identity_key"]: row for row in F.cohort_rows()}
     applicable: List[Dict] = []
@@ -164,16 +178,36 @@ def bound_decisions() -> Tuple[List[Dict], List[Dict]]:
             continue
         current_record = record_hash(row)
         current_evidence = evidence_hash(row.get("evidence") or ())
+        if (current_record == decision["record_hash"]
+                and current_evidence == decision["evidence_hash"]):
+            applicable.append(dict(decision, _row=row,
+                                   _bound_by="record_hash+evidence_hash (036)"))
+            continue
+        rebound = REBIND.rebound_index().get(key)
+        # All three must agree: the decision must still be the one 039
+        # examined (its own two hashes, unaltered in the ledger) AND the live
+        # row must still mean what that migration proved it meant. A tampered
+        # ledger entry matches neither route and is refused by name, exactly
+        # as it was before the semantic binding existed.
+        if (rebound
+                and rebound[1] == decision["record_hash"]
+                and rebound[2] == decision["evidence_hash"]
+                and rebound[0] == AB.semantic_hash(row)):
+            applicable.append(dict(
+                decision, _row=row,
+                _bound_by=AB.BINDING_CONTRACT_VERSION,
+                _rebinding_note=(
+                    "the 036 hashes no longer match because implementation "
+                    "provenance moved; 039 proved the approved meaning is "
+                    "unchanged and rebound this decision by name")))
+            continue
         if current_record != decision["record_hash"]:
             refused.append(dict(decision, refusal_reason=(
                 "the record has moved since the founder saw it (%s -> %s)"
                 % (decision["record_hash"][:23], current_record[:23]))))
             continue
-        if current_evidence != decision["evidence_hash"]:
-            refused.append(dict(decision, refusal_reason=(
-                "the evidence has moved since the founder saw it")))
-            continue
-        applicable.append(dict(decision, _row=row))
+        refused.append(dict(decision, refusal_reason=(
+            "the evidence has moved since the founder saw it")))
     return applicable, refused
 
 

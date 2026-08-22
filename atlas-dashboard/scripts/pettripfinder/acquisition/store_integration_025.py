@@ -691,6 +691,11 @@ def integrate(write: bool = False) -> Dict:
 
     return {
         "schema": "ptf-milwaukee-store-integration/1.0",
+        # The rows the projection WOULD write, returned whether or not it did.
+        # PTF-...-APPROVAL-BINDING-039 needs to prove an approval survives a
+        # re-projection, and proving it by writing the store first would be
+        # doing the thing the proof exists to make safe.
+        "projected_items": doc["items"],
         "work_order": WORK_ORDER,
         "market": MARKET,
         "generated_at": _now(),

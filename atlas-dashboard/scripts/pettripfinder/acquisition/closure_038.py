@@ -406,7 +406,7 @@ def classify(identity: Mapping, *, friendly: set, refusals: set, held: set,
                       "weaken that gate. The evidence is persisted, the "
                       "decline is stated, and the founder decides."
                       % (", ".join(replay["actionable_terms"][:4]),
-                         "; ".join(replay["identity_reasons"])[:120]),
+                         "; ".join(replay["identity_reasons"])[:260]),
             "last_work_order": WORK_ORDER,
         })
         base["lineage"] = OrderedDict([
