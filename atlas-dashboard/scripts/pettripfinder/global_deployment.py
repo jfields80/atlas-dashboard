@@ -119,7 +119,13 @@ def build_manifest(bundle_manifest: Mapping) -> Dict:
         ("context", context),
         ("base_url", bundle_manifest["base_url"]),
         ("anchor_market", bundle_manifest["anchor_market"]),
+        # Informational. The BINDING identity is bundle_sha256: these are
+        # code-only commits that do not change a byte of the site, so the
+        # commit a manifest names and the commit a deployer checks out can
+        # differ by one without describing different artifacts. A deployment
+        # work order authorizes the HASH and states the commit it built from.
         ("source_commit", bundle_manifest["generated_from_commit"]),
+        ("binding_identity", "bundle_sha256"),
         ("bundle_sha256", bundle_manifest["bundle_sha256"]),
         ("sitemap_sha256", bundle_manifest["sitemap_sha256"]),
         ("control_files", OrderedDict(bundle_manifest["control_files"])),
