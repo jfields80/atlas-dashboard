@@ -313,13 +313,13 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
     # Pittsburgh is currently assemblable but remains hidden from navigation;
-    # Indianapolis is independently eligible after its founder-approved release.
+    # Indianapolis is source-ready but withheld from the first multi-market
+    # launch by founder decision (PTF-046, deploy/netlify/launch_participation.json).
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS,
-         "milwaukee-wi"])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi"])
 
 
-def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
+def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
     row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
     assert row["published_count"] == 8
     assert row["conditions"]["census_present"] is True
@@ -327,13 +327,30 @@ def test_indianapolis_is_registered_above_threshold_and_assembled(markets):
     assert row["assemblable"] is True
 
 
-def test_indianapolis_is_in_the_global_selection(markets):
+def test_indianapolis_is_source_ready_but_not_in_the_global_selection(markets):
+    """PTF-046: the founder withheld Indianapolis (8 profiles) from the first
+    multi-market launch on coverage. Its source is untouched and still
+    assemblable; participation is the separate, recorded decision."""
     chosen, rows = select_markets(markets)
-    assert INDIANAPOLIS in [m.market_id for m in chosen]
-    assert INDIANAPOLIS in [r["market_id"] for r in rows]
+    assert INDIANAPOLIS not in [m.market_id for m in chosen]
+    row = next(r for r in rows if r["market_id"] == INDIANAPOLIS)
+    assert row["assemblable"] is True
+    assert row["launch_status"] == \
+        "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
+    assert row["participates"] is False
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", INDIANAPOLIS,
-         "milwaukee-wi"])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi"])
+
+
+def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
+    """``assemblable`` stays a pure source fact (the four conditions) and
+    ``participates`` is that AND the founder's authorization -- reported apart
+    so a withheld market is never mistaken for a broken one."""
+    for row in (market_eligibility(m) for m in markets):
+        assert row["assemblable"] is all(row["conditions"].values())
+        assert row["participates"] is (row["assemblable"]
+                                       and row["founder_authorized_for_launch"])
+        assert "founder_authorized_for_launch" not in row["conditions"]
 
 
 def test_navigation_visibility_is_not_an_assembly_condition(markets):

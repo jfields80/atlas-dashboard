@@ -35,7 +35,9 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = (REPO_ROOT / "deploy" / "netlify"
                  / "global_deployment_manifest.json")
 
-MANIFEST_SCHEMA = "ptf-global-deployment-manifest/1.0"
+#: 1.1 (PTF-046): pins the founder launch participation record alongside the
+#: control files and names each excluded market's launch status.
+MANIFEST_SCHEMA = "ptf-global-deployment-manifest/1.1"
 
 #: Gates the composed artifact must pass before it is deployable. Named here so
 #: the requirement is a committed list rather than whatever the assembler
@@ -52,12 +54,21 @@ REQUIRED_GLOBAL_GATES = (
     "global.no_ineligible_market_included",
     "global.market_profile_counts_match_contracts",
     "global.live_routes_preserved",
+    # founder participation (PTF-046): every registered market carries an
+    # explicit launch status, and no status contradicts the market's source.
+    "global.launch_participation_explicit",
+    "global.launch_participation_agrees_with_source",
     # publishable shape
     "publish.control_files_present",
     "publish.headers_match_tracked_source",
     "publish.redirects_match_tracked_source",
     "publish.no_forbidden_files",
     "publish.no_build_reports_in_site",
+    # The production _headers must not carry the preview noindex, and the
+    # preview _headers must. Ran on every composed bundle since 045 but was
+    # never catalogued (25 ran, 24 required) -- found by PTF-046, which
+    # requires the list of gates that ran to BE this list.
+    "headers.context_noindex_preview_only",
     # content
     "content.zero_broken_links",
     "content.canonical_uniqueness",
@@ -145,6 +156,11 @@ def build_manifest(bundle_manifest: Mapping) -> Dict:
         # under, pinned like a control file. A config edit after stamping is a
         # different artifact, and verify_manifest says so.
         ("measurement", OrderedDict(bundle_manifest["measurement"])),
+        # PTF-046: the founder's participation record, pinned. A market the
+        # founder withheld is listed under excluded_markets with its launch
+        # status, so "excluded" never reads as "broken".
+        ("launch_participation",
+         OrderedDict(bundle_manifest["launch_participation"])),
         ("participating_markets", markets),
         ("total_published_profiles",
          sum(row["published_profiles"] for row in markets)),
@@ -152,9 +168,13 @@ def build_manifest(bundle_manifest: Mapping) -> Dict:
         ("total_files", bundle_manifest["total_files"]),
         ("sitemap_route_count", bundle_manifest["sitemap_route_count"]),
         ("excluded_markets", [
-            OrderedDict([("market_id", row["market_id"]),
-                         ("why", sorted(k for k, v in row["conditions"].items()
-                                        if not v))])
+            OrderedDict([
+                ("market_id", row["market_id"]),
+                ("launch_status", row.get("launch_status")),
+                ("why", sorted(k for k, v in row["conditions"].items() if not v)
+                 + ([] if row.get("founder_authorized_for_launch")
+                    else ["founder_authorized_for_launch"])),
+            ])
             for row in bundle_manifest.get("markets_registered_but_excluded")
             or ()]),
         ("required_gates", list(REQUIRED_GLOBAL_GATES)),
@@ -244,6 +264,35 @@ def verify_manifest(manifest: Optional[Mapping] = None) -> List[str]:
             problems.append("measurement config source missing: %s" % source)
         elif _sha256_file(path) != pinned:
             problems.append("%s has changed since the manifest was written" % source)
+
+    # PTF-046: the participation record is an input to the artifact. If it
+    # has changed, or it now authorizes a different set than the manifest
+    # says participated, this manifest describes a bundle nobody would build.
+    participation = doc.get("launch_participation") or {}
+    source = participation.get("source")
+    pinned = participation.get("sha256")
+    if not source or not pinned:
+        problems.append("launch participation record is not pinned")
+    else:
+        path = REPO_ROOT / source
+        if not path.is_file():
+            problems.append("launch participation source missing: %s" % source)
+        elif _sha256_file(path) != pinned:
+            problems.append("%s has changed since the manifest was written" % source)
+        else:
+            from scripts.pettripfinder.launch_participation import (
+                LaunchParticipationError, authorized_market_ids)
+            try:
+                authorized = authorized_market_ids()
+            except LaunchParticipationError as exc:
+                problems.append("launch participation record unreadable: %s" % exc)
+            else:
+                participated = sorted(row["market_id"] for row
+                                      in doc.get("participating_markets") or ())
+                if authorized != participated:
+                    problems.append(
+                        "founder authorizes %s but the manifest's participating "
+                        "set is %s" % (authorized, participated))
 
     missing = [gate for gate in REQUIRED_GLOBAL_GATES
                if gate not in (doc.get("required_gates") or ())]

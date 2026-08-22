@@ -68,6 +68,7 @@ from scripts.pettripfinder.markets.contract import (                         # n
     ROUTE_MODE_LEGACY_UNPREFIXED,
 )
 from scripts.pettripfinder.market_ownership import owned_by                  # noqa: E402
+from scripts.pettripfinder import launch_participation as LP                 # noqa: E402
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, read_production_rows,
     verified_public_hotels,
@@ -166,6 +167,18 @@ def published_hotels(market: MarketConfig) -> List[Dict]:
     return verified_public_hotels(hotels, load_published_hotel_policy_facts(market.market_id))
 
 
+def _launch_status_of(market_id: str) -> str:
+    """The founder's recorded launch status, or UNLISTED; never raises here.
+
+    A missing or malformed record reads as "nobody is authorized" -- the
+    participation gates report WHY, but selection itself must fail closed.
+    """
+    try:
+        return LP.launch_status(market_id)
+    except LP.LaunchParticipationError:
+        return LP.UNLISTED
+
+
 def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
     """Why this market is or is not assemblable, stated per condition.
 
@@ -173,6 +186,13 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
     the report says what is missing rather than only what was noticed first.
     Cincinnati must come out of this as "registered, below threshold, not
     assembled" -- an honest zero, not an error (Phase E section 25).
+
+    ``assemblable`` is a SOURCE fact: the four conditions below. Whether the
+    market joins the composed production bundle is additionally the founder's
+    call, recorded in ``deploy/netlify/launch_participation.json`` (PTF-046):
+    ``participates`` is ``assemblable`` AND ``founder_authorized_for_launch``.
+    The two are reported apart so a market the founder withheld is never
+    mistaken for one whose source is broken.
     """
     census = CENSUS_DIR / ("%s.json" % market.market_id)
     partition = _partition_path(market.market_id)
@@ -189,12 +209,18 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
         ("meets_minimum_published",
          published >= market.minimum_published_hotels),
     ])
+    assemblable = all(conditions.values())
+    status = _launch_status_of(market.market_id)
+    authorized = status == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
     return OrderedDict([
         ("market_id", market.market_id),
         ("published_count", published),
         ("minimum_published_hotels", market.minimum_published_hotels),
         ("conditions", conditions),
-        ("assemblable", all(conditions.values())),
+        ("assemblable", assemblable),
+        ("launch_status", status),
+        ("founder_authorized_for_launch", authorized),
+        ("participates", assemblable and authorized),
         ("show_in_navigation", market.show_in_navigation),
         ("inventory_error", inventory_error),
     ])
@@ -202,16 +228,18 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
 
 def select_markets(markets: Optional[Sequence[MarketConfig]] = None
                    ) -> Tuple[List[MarketConfig], List["OrderedDict[str, object]"]]:
-    """``(assemblable, eligibility_rows)`` in registration order.
+    """``(participating, eligibility_rows)`` in registration order.
 
-    ``show_in_navigation`` is deliberately NOT a condition: a market may be
-    assembled and still hidden from navigation, and conflating the two would
-    make a visibility decision silently change what the bundle contains.
+    A market participates when its source is assemblable AND the founder has
+    authorized it for launch. ``show_in_navigation`` is deliberately NOT a
+    condition: a market may be assembled and still hidden from navigation, and
+    conflating the two would make a visibility decision silently change what
+    the bundle contains.
     """
     markets = list(markets) if markets is not None else list(load_markets())
     rows = [market_eligibility(m) for m in markets]
     by_id = {m.market_id: m for m in markets}
-    chosen = [by_id[r["market_id"]] for r in rows if r["assemblable"]]
+    chosen = [by_id[r["market_id"]] for r in rows if r["participates"]]
     return chosen, rows
 
 
@@ -605,10 +633,31 @@ def _run_participation_gates(gates, chosen, eligibility) -> None:
                     for mid, rows in list(disagreeing.items())[:3]))
 
     ineligible = sorted(row["market_id"] for row in eligibility
-                        if not row["assemblable"])
+                        if not row["participates"])
     leaked = sorted(set(included) & set(ineligible))
     _gate(gates, "global.no_ineligible_market_included",
           not leaked, "ineligible but present: %s" % leaked)
+
+    # PTF-046: participation is the founder's recorded decision, stated for
+    # EVERY registered market. An unlisted market is excluded (fail closed),
+    # and the silence is what this gate refuses; a status that claims a
+    # readiness the source does not have is refused too, so the record can
+    # neither admit a broken market nor describe a withheld one as broken.
+    try:
+        checks = LP.verify_participation(
+            [m.market_id for m in load_markets()],
+            {row["market_id"]: bool(row["assemblable"]) for row in eligibility})
+        explicit_problem = [("unlisted", checks["unlisted"]),
+                            ("unregistered", checks["unregistered"])]
+        explicit_problem = ["%s: %s" % (k, v) for k, v in explicit_problem if v]
+        source_problem = list(checks["source_disagreement"])
+    except LP.LaunchParticipationError as exc:
+        explicit_problem = [str(exc)]
+        source_problem = ["record unreadable: %s" % exc]
+    _gate(gates, "global.launch_participation_explicit",
+          not explicit_problem, "; ".join(explicit_problem))
+    _gate(gates, "global.launch_participation_agrees_with_source",
+          not source_problem, "; ".join(source_problem[:4]))
 
     # What each market's own contract says it publishes must be what the
     # composed bundle actually carries for it.
@@ -835,7 +884,7 @@ def assemble(output: str, *, context: str = "production",
         ("anchor_market", anchor.market_id),
         ("market_fragments_included", [m.market_id for m in chosen]),
         ("markets_registered_but_excluded",
-         [r for r in eligibility if not r["assemblable"]]),
+         [r for r in eligibility if not r["participates"]]),
         ("markets_publicly_navigable", [e["market_id"] for e in visible]),
         ("fragments", fragments),
         ("global_routes", list(GLOBAL_ROUTES)),
@@ -867,6 +916,14 @@ def assemble(output: str, *, context: str = "production",
             ("config_sha256", measurement_config_sha256()),
             ("enabled", measurement.active),
             ("provider_kind", measurement.provider.kind),
+        ])),
+        # PTF-046: the founder's participation record this bundle was composed
+        # under, pinned like a control file. A different record is a different
+        # participation set and therefore a different artifact.
+        ("launch_participation", OrderedDict([
+            ("source", LP.PARTICIPATION_PATH.relative_to(_REPO_ROOT).as_posix()),
+            ("sha256", LP.participation_sha256()),
+            ("founder_authorized", LP.authorized_market_ids()),
         ])),
         ("participating_markets", [
             OrderedDict([

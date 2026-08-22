@@ -303,3 +303,45 @@ work order. It is never folded into a deployment that was authorized against a
 different hash. No provider is configured and no affiliate program is enrolled
 today; Search Console verification, Netlify Analytics and affiliate enrollment
 are external business tasks that change no byte here.
+
+---
+
+## 11. Launch participation (PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046)
+
+Source readiness and launch participation are two different questions.
+`assemble_production_site.market_eligibility` answers the first from the
+market's own authority (census, final partition, policy authority, minimum
+published) and reports it as `assemblable`. The second is the founder's, and
+it is recorded in **`deploy/netlify/launch_participation.json`**
+(`ptf-launch-participation/1.0`, read by
+`scripts/pettripfinder/launch_participation.py`):
+
+| `launch_status` | Meaning | Joins the composed bundle |
+|---|---|---|
+| `FOUNDER_AUTHORIZED_FOR_LAUNCH` | source-ready and founder-authorized | **yes** (the only admitting status) |
+| `SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` | passes every assembly condition; withheld by founder decision | no |
+| `NOT_SOURCE_READY` | fails an assembly condition; no authorization could admit it | no |
+| *(unlisted)* | reads as `UNLISTED`; never authorized | no, and the build fails |
+
+Rules, all enforced by gates the global deployment manifest requires:
+
+- Every registered market must carry a row
+  (`global.launch_participation_explicit`), so a market can be neither
+  silently excluded nor silently included.
+- A status may not claim a readiness the source does not have
+  (`global.launch_participation_agrees_with_source`).
+- The record is pinned by SHA-256 in the global deployment manifest
+  (`launch_participation.sha256`), and `verify_manifest` also checks that the
+  set the record authorizes is the set the manifest says participated. A
+  participation change is therefore a **different artifact** with a new bundle
+  hash, exactly like a control-file or measurement-config change.
+- Withdrawing a market here touches none of its authority: its release
+  contract still verifies, its data is unchanged, and
+  `assemble_netlify_bundle --market <id>` still builds it alone.
+
+First multi-market launch (founder decision, 2026-08-22): Columbus, Cleveland,
+Dayton, Milwaukee, Pittsburgh are `FOUNDER_AUTHORIZED_FOR_LAUNCH`; Indianapolis
+(8 profiles, contract verifying) is
+`SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` on coverage grounds;
+Cincinnati and Detroit are `NOT_SOURCE_READY`. Print the current record with
+`python -m scripts.pettripfinder.launch_participation`.

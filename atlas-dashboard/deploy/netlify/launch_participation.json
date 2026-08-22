@@ -1,0 +1,53 @@
+{
+ "schema": "ptf-launch-participation/1.0",
+ "what_this_is": "The founder's launch participation record for the composed PetTripFinder production bundle. Read by scripts/pettripfinder/launch_participation.py at assembly time. Every registered market must carry a row; only FOUNDER_AUTHORIZED_FOR_LAUNCH admits a market into the composed bundle. This record never states a market's facts: source readiness is derived by the assembler from the market's own census, partition, policy authority and release contract, and a status that disagrees with the source fails the build. Withdrawing a market here changes no byte of that market's authority and does not affect its own per-market assembly.",
+ "decision": {
+  "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+  "decided_by": "founder",
+  "decided_on": "2026-08-22",
+  "reason": "Founder deployment scope change: Indianapolis currently contributes only 8 hotel profiles -- technically valid source inventory, but not sufficient market coverage for founder launch standards. The first multi-market production launch includes Columbus, Cleveland-Akron-Canton, Dayton, Milwaukee and Pittsburgh only. Indianapolis source authority, data and release contract are unchanged; it is not failed."
+ },
+ "launch_statuses": {
+  "FOUNDER_AUTHORIZED_FOR_LAUNCH": "source-ready and founder-authorized; the only status that admits a market",
+  "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH": "passes every assembly condition; withheld from this launch by founder decision; nothing about the market is wrong",
+  "NOT_SOURCE_READY": "does not pass every assembly condition; no founder authorization could admit it"
+ },
+ "markets": [
+  {
+   "market_id": "cincinnati-oh",
+   "launch_status": "NOT_SOURCE_READY",
+   "note": "publishes no hotel; no release contract"
+  },
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "columbus-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "anchor market; its routes are the global namespace and the 132 live production routes"
+  },
+  {
+   "market_id": "dayton-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "detroit-ann-arbor-mi",
+   "launch_status": "NOT_SOURCE_READY",
+   "note": "no final partition; publishes no hotel; no release contract"
+  },
+  {
+   "market_id": "indianapolis-in",
+   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "8 founder-approved profiles, contract verifies; withheld from the first multi-market launch on coverage, not correctness (founder decision, 2026-08-22)"
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  }
+ ]
+}

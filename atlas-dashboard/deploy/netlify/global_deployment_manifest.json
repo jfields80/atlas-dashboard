@@ -1,13 +1,13 @@
 {
- "schema": "ptf-global-deployment-manifest/1.0",
+ "schema": "ptf-global-deployment-manifest/1.1",
  "what_this_is": "The composed multi-market production artifact. Per-market release contracts remain the authority for each market's own facts; this proves each participated cleanly and pins what only exists once they are composed.",
  "context": "production",
  "base_url": "https://pettripfinder.com",
  "anchor_market": "columbus-oh",
- "source_commit": "fe2de0e9f8510976f70d5fb4b64dea882ce86df7",
+ "source_commit": "a6d4a3d7b8ceef361deff0916f4a6ae56c75f6ff",
  "binding_identity": "bundle_sha256",
- "bundle_sha256": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
- "sitemap_sha256": "c252ee77d59724ae743d1d3d61d3913714b59607228382fcd3c7726fc4871ac0",
+ "bundle_sha256": "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d",
+ "sitemap_sha256": "8fe6e3c4a8e0a96e196153216c567d6fca47d6330c93fdd3b07f3748b2eff96d",
  "control_files": {
   "headers_source": "deploy/netlify/headers.production",
   "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
@@ -19,6 +19,17 @@
   "config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604",
   "enabled": false,
   "provider_kind": "none"
+ },
+ "launch_participation": {
+  "source": "deploy/netlify/launch_participation.json",
+  "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+  "founder_authorized": [
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "milwaukee-wi",
+   "pittsburgh-pa"
+  ]
  },
  "participating_markets": [
   {
@@ -43,13 +54,6 @@
    "contract_disagreements": []
   },
   {
-   "market_id": "indianapolis-in",
-   "published_profiles": 8,
-   "release_contract": "deploy/netlify/release_contracts/indianapolis-in.json",
-   "release_contract_sha256": "16e8bce85752a855e21224f6890e9877fb5b22cec00ff5e45c24823583ff1987",
-   "contract_disagreements": []
-  },
-  {
    "market_id": "milwaukee-wi",
    "published_profiles": 73,
    "release_contract": "deploy/netlify/release_contracts/milwaukee-wi.json",
@@ -64,22 +68,33 @@
    "contract_disagreements": []
   }
  ],
- "total_published_profiles": 341,
- "total_html_pages": 2195,
- "total_files": 2213,
- "sitemap_route_count": 428,
+ "total_published_profiles": 333,
+ "total_html_pages": 2147,
+ "total_files": 2165,
+ "sitemap_route_count": 416,
  "excluded_markets": [
   {
    "market_id": "cincinnati-oh",
+   "launch_status": "NOT_SOURCE_READY",
    "why": [
-    "meets_minimum_published"
+    "meets_minimum_published",
+    "founder_authorized_for_launch"
    ]
   },
   {
    "market_id": "detroit-ann-arbor-mi",
+   "launch_status": "NOT_SOURCE_READY",
    "why": [
     "final_partition_present",
-    "meets_minimum_published"
+    "meets_minimum_published",
+    "founder_authorized_for_launch"
+   ]
+  },
+  {
+   "market_id": "indianapolis-in",
+   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "why": [
+    "founder_authorized_for_launch"
    ]
   }
  ],
@@ -92,11 +107,14 @@
   "global.no_ineligible_market_included",
   "global.market_profile_counts_match_contracts",
   "global.live_routes_preserved",
+  "global.launch_participation_explicit",
+  "global.launch_participation_agrees_with_source",
   "publish.control_files_present",
   "publish.headers_match_tracked_source",
   "publish.redirects_match_tracked_source",
   "publish.no_forbidden_files",
   "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
   "content.zero_broken_links",
   "content.canonical_uniqueness",
   "content.sitemap_is_the_site",

@@ -38,11 +38,14 @@ from scripts.pettripfinder.markets import load_markets
 #: rather than as a path error.
 SCRATCH = Path(chr(67) + ":/t/ptf045t")
 
+#: PTF-046: the founder withheld indianapolis-in (8 profiles, source-ready)
+#: from the first multi-market launch; see deploy/netlify/launch_participation.json
+#: and tests/pettripfinder/test_launch_participation_046.py.
 EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "indianapolis-in", "milwaukee-wi", "pittsburgh-pa")
+                    "milwaukee-wi", "pittsburgh-pa")
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-                     "dayton-oh": 47, "indianapolis-in": 8,
-                     "milwaukee-wi": 73, "pittsburgh-pa": 26}
+                     "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26}
+EXPECTED_TOTAL = 333
 
 
 @pytest.fixture(scope="module")
@@ -148,7 +151,7 @@ def test_each_markets_profile_count_matches_its_own_contract(production):
     counts = {row["market_id"]: row["published_profiles"]
               for row in manifest["participating_markets"]}
     assert counts == EXPECTED_PROFILES
-    assert sum(counts.values()) == 341
+    assert sum(counts.values()) == EXPECTED_TOTAL
 
 
 def test_a_contractless_market_is_excluded_and_says_why():
@@ -219,7 +222,7 @@ def test_the_sitemap_carries_canonical_routes_not_legacy_ones(production):
     manifest, site = production
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
     assert "/go/" not in sitemap
-    assert manifest["sitemap_route_count"] == 428
+    assert manifest["sitemap_route_count"] == 416   # 428 - Indianapolis (046)
 
 
 # --------------------------------------------------------------------------- #
@@ -362,10 +365,18 @@ from scripts.pettripfinder.global_deployment import (                 # noqa: E4
 MEASUREMENT_GATES = M.MEASUREMENT_GATES + AD.AFFILIATE_GATES
 
 #: The composed production bundle PTF-...-DEPLOYMENT-ARCHITECTURE-045 made
-#: deployable. Phase 1 + 1b of the measurement work order is accepted only if
-#: a fresh assembly still produces exactly this.
-PRE_MEASUREMENT_BUNDLE_SHA256 = (
+#: deployable, which Phase 1 + 1b of the measurement work order reproduced
+#: byte for byte (2213/2213 files). WITHDRAWN by the founder in PTF-046: the
+#: participation set changed (Indianapolis withheld), so it is no longer a
+#: deployable candidate and must never be authorized by habit.
+WITHDRAWN_SIX_MARKET_BUNDLE_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
+#: The five-market production candidate (PTF-046), measurement disabled. A
+#: fresh assembly must still produce exactly this; the zero-byte proof for the
+#: disabled measurement layer was established at the six-market hash and is
+#: carried forward by test_no_page_in_the_disabled_bundle_carries_a_measurement_block.
+DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+    "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
 
 
 def test_measurement_is_disabled_in_source():
@@ -386,14 +397,17 @@ def test_every_045_gate_still_runs_and_passes(production):
     manifest, _site = production
     for gate in REQUIRED_GLOBAL_GATES:
         assert gate in manifest["gates"] and manifest["gates"][gate]["pass"], gate
-    assert len(manifest["gates"]) == 25
+    # 19 (045) + 6 (measurement/affiliate) + 2 (launch participation, 046)
+    assert len(manifest["gates"]) == len(REQUIRED_GLOBAL_GATES) == 27
 
 
-def test_the_disabled_bundle_is_the_045_bundle_byte_for_byte(production):
-    """The zero-byte acceptance target. If this moves, the measurement layer
-    leaked into a disabled build; do not accept a new hash here."""
+def test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte(production):
+    """The acceptance target. If this moves, either the measurement layer
+    leaked into a disabled build or the participation set changed; neither
+    is accepted by editing the hash here without its own work order."""
     manifest, _site = production
-    assert manifest["bundle_sha256"] == PRE_MEASUREMENT_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_BUNDLE_SHA256
 
 
 def test_no_page_in_the_disabled_bundle_carries_a_measurement_block(production):
@@ -409,7 +423,7 @@ def test_no_page_in_the_disabled_bundle_carries_a_measurement_block(production):
 def test_booking_pages_still_redirect_to_the_official_url(production):
     _manifest, site = production
     booking = sorted(site.rglob("booking/index.html"))
-    assert len(booking) == 341
+    assert len(booking) == EXPECTED_TOTAL
     for page in booking:
         text = page.read_text(encoding="utf-8")
         assert '"affiliate_provider": ""' in text, page
@@ -429,7 +443,7 @@ def test_the_committed_manifest_pins_the_measurement_config_and_stays_unauthoriz
     doc = load_manifest()
     assert doc["measurement"]["config_sha256"] == M.config_sha256()
     assert doc["deployment_authorized"] is False
-    assert doc["bundle_sha256"] == PRE_MEASUREMENT_BUNDLE_SHA256
+    assert doc["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate
 
@@ -445,9 +459,9 @@ def test_participation_and_inventory_are_unchanged(production):
     assert manifest["market_fragments_included"] == list(EXPECTED_MARKETS)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == EXPECTED_PROFILES
-    assert sum(EXPECTED_PROFILES.values()) == 341
-    assert manifest["total_html_pages"] == 2195
-    assert manifest["sitemap_route_count"] == 428
+    assert sum(EXPECTED_PROFILES.values()) == EXPECTED_TOTAL
+    assert manifest["total_html_pages"] == 2147     # 2195 - Indianapolis (046)
+    assert manifest["sitemap_route_count"] == 416   # 428 - Indianapolis (046)
     live = [line.strip() for line in LIVE_ROUTE_INVENTORY.read_text(encoding="utf-8")
             .splitlines() if line.strip() and not line.startswith("#")]
     assert len(live) == 132          # the 044 live inventory, comments excluded
