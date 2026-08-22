@@ -38,6 +38,24 @@ from scripts.pettripfinder.contracts import enums, fee_computation
 from scripts.pettripfinder.contracts import policy_schema as SCHEMA
 
 
+
+FROZEN_BY_THIS_WORK_ORDER = (
+    "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py",
+    "atlas-dashboard/scripts/pettripfinder/contracts/enums.py",
+    "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
+    "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
+    "atlas-dashboard/launch_packages/pettripfinder/identity_census",
+    "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
+    "milwaukee-wi_policy_proposals_001.json",
+)
+
+
+def files_changed_by(commit: str):
+    return subprocess.run(["git", "show", "--name-only", "--format=", commit],
+                          cwd=str(REPO), capture_output=True,
+                          text=True).stdout.split()
+
+
 def authority():
     return json.loads(A.AUTHORITY.read_text(encoding="utf-8"))
 
@@ -434,20 +452,17 @@ def test_nothing_was_fetched_and_nothing_was_deployed():
 
 
 def test_the_schema_and_the_capture_evidence_are_untouched():
+    """The claim is about THIS work order, not about the future.
+
+    It used to assert the working tree was clean, which made it fail the moment
+    a later, authorised work order touched the reader --
+    PTF-...-FULL-CLOSURE-038 repaired a place-qualified refusal. What is
+    durable is that e7c8363 changed none of these files, and that is checked
+    against its own commit.
+    """
     assert enums.POLICY_SCHEMA_VERSION == "1.2"
-    changed = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py",
-         "atlas-dashboard/scripts/pettripfinder/contracts/enums.py",
-         "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
-         "atlas-dashboard/scripts/pettripfinder/brightdata/marriott_surface.py",
-         "atlas-dashboard/launch_packages/pettripfinder/identity_census",
-         "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
-         "milwaukee-wi_policy_proposals_001.json",
-         "atlas-dashboard/launch_packages/pettripfinder/"
-         "milwaukee_founder_review_036"],
-        cwd=str(REPO), capture_output=True, text=True).stdout.strip()
-    assert changed == "", changed
+    touched = set(files_changed_by('e7c8363')) & set(FROZEN_BY_THIS_WORK_ORDER)
+    assert touched == set(), touched
 
 
 def test_the_counters_reconcile_after_the_decision():

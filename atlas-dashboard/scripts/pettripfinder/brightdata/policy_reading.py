@@ -944,6 +944,50 @@ _QUALIFIED_REFUSAL_RE = re.compile(
     r"\bno\s+(?:other|additional|further)\s+pets?\b", re.IGNORECASE)
 
 
+#: A refusal that names WHERE, not whether. "Pets are not allowed in the
+#: shopping galleria", "dogs are not permitted in the pool area", "no pets in
+#: the restaurant" -- a pet-friendly hotel telling a guest which room their dog
+#: may not walk into. (Named after no property on purpose: the rule is about
+#: the shape of the sentence, and a reader that recognises a hotel is a reader
+#: that has stopped reading.)
+#:
+#: Read as a refusal it does two wrong things at once: it denies an acceptance
+#: the same page states in its first sentence, and it produces a
+#: SOURCE_CONTRADICTORY the source never made. One property was HELD out of
+#: publication by a founder for exactly that reason -- the machine told them
+#: the page contradicted itself, and the page does not.
+#: GUEST ACCOMMODATION IS NOT ONE OF THESE PLACES. "Pets are not allowed
+#: in guest rooms" is a refusal at a hotel, not a restriction, and the
+#: first draft of this pattern listed room, suite, floor and balcony and
+#: quietly turned that refusal into silence. Only shared and public
+#: spaces belong here.
+#: Found by PTF-...-IDENTITY-RESOLUTION-AND-FULL-CLOSURE-038 (the market name
+#: is left out on purpose: this test suite forbids a reader that knows one).
+_PLACE_QUALIFIED_REFUSAL_RE = re.compile(
+    r"\b(?:in|inside|on|within|near|around|at)\s+"
+    r"(?:the|our|any|all|either)?\s*"
+    r"(?:[a-z][\w'-]*\s+){0,3}?"
+    r"(?:area|areas|lobby|pool|spa|gym|fitness|restaurant|bar|"
+    r"dining|patio|deck|terrace|galleria|mall|garden|elevator|"
+    r"breakfast|lounge|club|beach|"
+    r"playground|centre|center|shop|store|market|hall|space|spaces)\b",
+    re.IGNORECASE)
+
+#: How far past the refusal the place may sit. One clause: "not allowed in the
+#: pool area" and not "not allowed. Our pool area is open until ten".
+_PLACE_QUALIFIER_CHARS = 44
+
+
+def _refusal_names_a_place(text: str, match) -> bool:
+    """Whether a refusal is about WHERE a pet may go rather than whether."""
+    window = text[match.end():match.end() + _PLACE_QUALIFIER_CHARS]
+    stop = re.search(r"[.;]", window)
+    if stop:
+        window = window[:stop.start()]
+    return bool(_PLACE_QUALIFIED_REFUSAL_RE.match(window.strip())
+                or _PLACE_QUALIFIED_REFUSAL_RE.match(window.lstrip()))
+
+
 def _is_species_restriction(text: str, refused, dogs_only, both_species,
                             service) -> bool:
     """Whether "no other pets" restricts the SPECIES rather than refusing pets.
@@ -1518,6 +1562,19 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     service = MS._SERVICE_ANIMAL_RE.search(text)
 
     refused, refused_pattern = _first_match(text, _PETS_REFUSED_RES, "refused")
+    if refused and _refusal_names_a_place(text, refused):
+        # A place, not a policy. Recorded as a note so the sentence is not
+        # lost, and skipped as a refusal: the next candidate refusal, if the
+        # surface makes one, is still found below.
+        notes.append(
+            "read %r as a restriction on WHERE a pet may go and not as a "
+            "refusal of pets: the sentence names a place"
+            % text[refused.start():min(len(text), refused.end() + 40)])
+        remaining, remaining_pattern = _first_match(
+            text, _PETS_REFUSED_RES, "refused",
+            accept=lambda m: (m.start() > refused.start()
+                              and not _refusal_names_a_place(text, m)))
+        refused, refused_pattern = remaining, remaining_pattern
     if refused and _is_species_restriction(text, refused, dogs_only,
                                            both_species, service):
         notes.append(

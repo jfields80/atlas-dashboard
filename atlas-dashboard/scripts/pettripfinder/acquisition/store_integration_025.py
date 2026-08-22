@@ -140,6 +140,15 @@ RUN_KINDS: Dict[str, Tuple[str, str]] = {
     # no provider contacted.
     "milwaukee-label-value-033": (CURRENT_PRODUCTION,
                                   "the label/value reader repair's re-derivation"),
+    # Added by PTF-MILWAUKEE-IDENTITY-RESOLUTION-AND-FULL-CLOSURE-038: two
+    # first-party policy pages discovery had found and no run had ever
+    # fetched. Both were DECLINED at the identity gate -- a /faq and a /dogs/
+    # subpage carry the hotel's name and nothing physical -- so the run
+    # contributes no observation. It is registered anyway: an unclassified run
+    # on disk is exactly what this table exists to make impossible.
+    "milwaukee-closure-038": (CURRENT_PRODUCTION,
+                              "the closure work order's bounded reacquisition; "
+                              "two properties, both declined on identity"),
     "marriott-closure-022": (SUPERSEDING,
                              "one fresh capture confirming the corrected "
                              "Marriott locator; supersedes The Trade"),
@@ -218,7 +227,7 @@ RUN_ORDER: Tuple[str, ...] = (
     "milwaukee-ihg-009", "marriott-milwaukee-020", "hilton-milwaukee-023",
     "milwaukee-final-026", "milwaukee-identity-027",
     "milwaukee-premium-028", "milwaukee-locator-032",
-    "milwaukee-label-value-033",
+    "milwaukee-label-value-033", "milwaukee-closure-038",
 )
 
 

@@ -1,7 +1,7 @@
 {
  "schema": "ptf-identity-resolutions/1.0",
  "contract": "ptf-identity-resolutions/1.0",
- "market": "columbus-oh",
+ "market": "multi-market",
  "note": "Reviewed decisions that two identities sharing one street address are distinct businesses. Without a record here an address collision blocks publication: the guard treats a shared address as UNREVIEWED, never as an automatic duplicate and never as an automatic pass. A resolution asserts nothing about either property's policy.",
  "resolutions": [
   {
@@ -28,6 +28,42 @@
    "reviewer_id": "jfields80",
    "reviewed_at": "2026-08-06T12:00:00-04:00",
    "resolution_hash": "sha256:e064c13aef1a419f3b2f796584414fbdc659da09226bcc3afbdbc925ecd8a5e3"
+  },
+  {
+   "resolution_id": "res-milwaukee-jefferson-dual-brand",
+   "resolution_type": "same_campus_distinct_entity",
+   "address_key": "515|jefferson|53202",
+   "identities": [
+    {
+     "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+     "category": "pet-friendly-hotels",
+     "slug": "home2-suites-by-hilton-milwaukee-downtown",
+     "official_url": "https://www.hilton.com/en/hotels/mkesuht-home2-suites-milwaukee-downtown/",
+     "booking_destination": "https://www.hilton.com/en/hotels/mkesuht-home2-suites-milwaukee-downtown/",
+     "property_code": "MKESUHT"
+    },
+    {
+     "canonical_name": "Tru by Hilton Milwaukee Downtown",
+     "category": "pet-friendly-hotels",
+     "slug": "tru-by-hilton-milwaukee-downtown",
+     "official_url": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/",
+     "booking_destination": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/",
+     "property_code": "MKESORU"
+    }
+   ],
+   "evidence": "Hilton publishes these as two properties with two property codes (MKESORU, MKESUHT) on two first-party pages, each stating its own pet policy, in one dual-brand building at 515 N Jefferson St. The market census records both as IDENTITY_CONFIRMED and had already flagged both collision_state SHARED_ADDRESS. One address, two hotels: neither is a duplicate of the other and neither may be merged or suppressed. This resolution asserts nothing about either property's policy.",
+   "distinct_reason": "a dual-brand hotel property: one building operated as two hotels under two Hilton brands, each with its own property code, its own first-party page, its own front-desk inventory and its own pet policy. The founder's decision order states 'the shared physical address is intentional because this is a dual-brand hotel property'.",
+   "market_id": "milwaukee-wi",
+   "decision_source": {
+    "work_order": "PTF-MILWAUKEE-IDENTITY-RESOLUTION-AND-FULL-CLOSURE-038",
+    "kind": "FOUNDER_IDENTITY_DECISION",
+    "scope": "identity only; authorises no publication",
+    "prepared_by": "PTF-MILWAUKEE-PUBLICATION-037 review request"
+   },
+   "reviewer_id": "jfields80",
+   "reviewed_at": "2026-08-21T12:00:00-05:00",
+   "resolution_hash": "sha256:08094bc6e39d798394a177bf1b5efa9b8c6907d27540d358554e7a271b7f4fea"
   }
- ]
+ ],
+ "market_note": "One file, every market: load_resolutions reads them all and each row names its own market_id. The header said columbus-oh while Columbus was the only market with a reviewed collision."
 }

@@ -241,10 +241,16 @@ def test_the_shared_address_is_real_and_unreviewed():
             for name in pair}
     assert len(keys) == 1, "the pair no longer shares an address"
     assert keys == {"515|jefferson|53202"}
+    # 037 asserted this pair was UNREVIEWED, which is why it stopped short of
+    # publishing. PTF-...-FULL-CLOSURE-038 carries the founder's ruling that
+    # these are two distinct hotels, so the successor assertion is the one this
+    # test's own message asked for: the pair is reviewed, by a named reviewer.
     reviewed = {tuple(sorted(group)) for group in PG.distinct_entity_groups()}
-    assert tuple(sorted(pair)) not in reviewed, (
-        "a reviewer has resolved this -- publication can proceed and this "
-        "test should be replaced by the published-state assertions")
+    assert tuple(sorted(pair)) in reviewed
+    record = next(r for r in PG.load_resolutions()
+                  if {i["canonical_name"] for i in r["identities"]} == set(pair))
+    assert record["reviewer_id"]
+    assert record["distinct_reason"].strip()
 
 
 def test_the_review_request_is_unsigned():
@@ -284,12 +290,14 @@ def test_this_module_cannot_sign_a_resolution():
 # 7 -- nothing leaked, nothing else moved.
 # --------------------------------------------------------------------------- #
 
-def test_the_derived_inventory_would_lose_a_row_to_the_unreviewed_collision():
-    """The reason the inventory is not committed, asserted rather than argued.
+def test_the_derived_inventory_no_longer_loses_a_row_to_the_collision():
+    """037's blocker, asserted from the other side.
 
     The dataset builder de-duplicates by address unless a reviewed resolution
-    names the pair, so one of the two hotels at 515 N Jefferson St is dropped
-    and every seed row no longer becomes a listing.
+    names the pair. Without one, a hotel at 515 N Jefferson St was dropped and
+    the seed stopped becoming listings one-for-one. 038's founder ruling is
+    what closes that gap, and removing the ruling reopens it -- which is
+    checked here too, so the test still proves the resolution is load-bearing.
     """
     from scripts.generate_pettripfinder_pilot import load_launch_package
     from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset
@@ -301,10 +309,18 @@ def test_the_derived_inventory_would_lose_a_row_to_the_unreviewed_collision():
         locations=package["locations"],
         distinct_entity_groups=PG.distinct_entity_groups())
     assert result.ok, result.errors
-    # One row in, one row short out: the pair at 515 N Jefferson St collapses.
-    assert len(result.dataset.listings) == len(rows) - 1
-    dropped = str(getattr(result, "notes", "")) + str(result)
-    assert "duplicate" in dropped.lower(), dropped[:400]
+    # One row in, one listing out, for every row.
+    assert len(result.dataset.listings) == len(rows)
+    names = {listing.business_name for listing in result.dataset.listings}
+    assert {"Home2 Suites by Hilton Milwaukee Downtown",
+            "Tru by Hilton Milwaukee Downtown"} <= names
+    # And the resolution is what does it: take it away and the row is lost.
+    without = build_listing_dataset(
+        seed_businesses=rows,
+        categories=package["categories"],
+        locations=package["locations"],
+        distinct_entity_groups=())
+    assert len(without.dataset.listings) == len(rows) - 1
 
 
 def test_the_built_site_contains_no_milwaukee_route():
@@ -366,16 +382,25 @@ def test_no_provider_was_called_and_nothing_was_deployed():
 
 
 def test_the_authority_facts_and_the_review_artifacts_are_untouched():
+    """A claim about what 037 did, checked against 037's commit.
+
+    Asserted on the working tree it meant "no later work order may touch the
+    reader", which is not what 037 promised and not something a test can hold.
+    """
+    frozen = {
+        "atlas-dashboard/launch_packages/pettripfinder/milwaukee_founder_review_036",
+        "atlas-dashboard/launch_packages/pettripfinder/milwaukee_founder_decisions_036.json",
+        "atlas-dashboard/launch_packages/pettripfinder/identity_census",
+        "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
+        "milwaukee-wi_policy_proposals_001.json",
+        "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
+        "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py",
+    }
     changed = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "atlas-dashboard/launch_packages/pettripfinder/milwaukee_founder_review_036",
-         "atlas-dashboard/launch_packages/pettripfinder/milwaukee_founder_decisions_036.json",
-         "atlas-dashboard/launch_packages/pettripfinder/identity_census",
-         "atlas-dashboard/launch_packages/pettripfinder/markets/reports/"
-         "milwaukee-wi_policy_proposals_001.json",
-         "atlas-dashboard/scripts/pettripfinder/brightdata/policy_reading.py",
-         "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py"],
-        cwd=str(REPO), capture_output=True, text=True).stdout.strip()
-    assert changed == "", changed
+        ["git", "show", "--name-only", "--format=", "a8a3d2d"],
+        cwd=str(REPO), capture_output=True, text=True).stdout.split()
+    touched = {path for path in changed
+               if any(path.startswith(item) for item in frozen)}
+    assert touched == set(), touched
     for record in authority()["hotels"]:
         assert record["approval"]["decision_source"]["ledger"] == F.LEDGER.name
