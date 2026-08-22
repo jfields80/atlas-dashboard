@@ -1,0 +1,130 @@
+{
+ "schema": "ptf-deployment-authorization/1.0",
+ "what_this_is": "Founder authorization to write ONE exact composed artifact to ONE production target. Every field under bindings is copied from the verified global deployment manifest and re-checked against the repository by verify_authorization; any disagreement refuses the deploy. Used once: DEPLOYED consumes it.",
+ "authorization_id": "ptf-auth-047-a324b1bf5023",
+ "authorized_by": "founder",
+ "authorization_source": "Work order PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047 (2026-08-22): 'THIS WORK ORDER IS EXPLICIT FOUNDER AUTHORIZATION TO DEPLOY ONLY: source lineage 1d8d87c; bundle a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d; production context; markets cleveland-akron-canton-oh, columbus-oh, dayton-oh, milwaukee-wi, pittsburgh-pa; profiles 333; measurement disabled; affiliates inactive; target pettripfinder-prod https://pettripfinder.com; rollback target 6a78dc1cdad05ac32bc58cec. Any different artifact requires a new authorization.'",
+ "authorized_at": "2026-08-22T22:55:39+00:00",
+ "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
+ "note": "First multi-market production deployment. Indianapolis withheld (SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, PTF-046); Cincinnati and Detroit NOT_SOURCE_READY. Measurement disabled, 0 affiliate providers, 0 destinations. Supersedes the withdrawn six-market candidate 8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8, which was never authorized in any record.",
+ "source_commit": "1d8d87cecd1bcb4b215489c960362dc6c775e663",
+ "manifest_source_commit": "4342865d400a6456cb420c188bdf7d2dae302f58",
+ "binding_identity": "bundle_sha256",
+ "bundle_sha256": "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d",
+ "production_context": "production",
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26
+ },
+ "total_profiles": 333,
+ "total_html_pages": 2147,
+ "total_files": 2165,
+ "sitemap_route_count": 416,
+ "sitemap_sha256": "8fe6e3c4a8e0a96e196153216c567d6fca47d6330c93fdd3b07f3748b2eff96d",
+ "headers_source": "deploy/netlify/headers.production",
+ "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
+ "redirects_source": "deploy/netlify/redirects",
+ "redirects_sha256": "db33b892554509f8534667a1bf773cbce23b9b5371c17bf8da8d33a6ec331f8a",
+ "measurement_config_source": "deploy/netlify/measurement.json",
+ "measurement_config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604",
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "launch_participation_source": "deploy/netlify/launch_participation.json",
+ "launch_participation_sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+ "founder_authorized_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa"
+ ],
+ "release_contracts": [
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "path": "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json",
+   "sha256": "9856a22ec4f8b4a87c1ede20cb387899a2a31d945c4503ea57940f02c7ae2d17"
+  },
+  {
+   "market_id": "columbus-oh",
+   "path": "deploy/netlify/release_contracts/columbus-oh.json",
+   "sha256": "b14f9f21a94ac09f7d658a94de17d770d58b54b398b1ade650f90481708091c2"
+  },
+  {
+   "market_id": "dayton-oh",
+   "path": "deploy/netlify/release_contracts/dayton-oh.json",
+   "sha256": "7462a2772c8fe09cf5365c2ec420a87e14c5f99727357ffd68618f154c25332b"
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "path": "deploy/netlify/release_contracts/milwaukee-wi.json",
+   "sha256": "25f75791ff08d178462feb49866aa56a75bea517a26875582dd82f5dfc8afe07"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "path": "deploy/netlify/release_contracts/pittsburgh-pa.json",
+   "sha256": "074f99ee6c02618dbbfab88c88818a07428a54153b50b8833a260eae099d2eb9"
+  }
+ ],
+ "global_gate_count": 27,
+ "required_gates": [
+  "assembly.no_route_collisions",
+  "assembly.no_global_shadowing",
+  "assembly.anchor_supplies_global_shell",
+  "global.every_included_market_has_a_contract",
+  "global.every_included_market_contract_verifies",
+  "global.no_ineligible_market_included",
+  "global.market_profile_counts_match_contracts",
+  "global.live_routes_preserved",
+  "global.launch_participation_explicit",
+  "global.launch_participation_agrees_with_source",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.canonical_uniqueness",
+  "content.sitemap_is_the_site",
+  "content.sitemap_excludes_go",
+  "content.go_routes_unique",
+  "measurement.config_valid",
+  "measurement.snippet_once_per_content_page",
+  "measurement.no_external_script_when_disabled",
+  "affiliate.destinations_allowlisted",
+  "affiliate.identity_bound",
+  "affiliate.no_destination_without_enrolled_provider"
+ ],
+ "rollback_target": "6a78dc1cdad05ac32bc58cec",
+ "target_site": "pettripfinder-prod",
+ "target_domain": "https://pettripfinder.com",
+ "authorization_status": "AUTHORIZED",
+ "status_history": [
+  {
+   "status": "PREPARED",
+   "at": "2026-08-22T22:55:39+00:00",
+   "note": "bound to the verified manifest"
+  },
+  {
+   "status": "AUTHORIZED",
+   "at": "2026-08-22T22:55:39+00:00",
+   "note": "founder authorization recorded from work order 047; explicit, single-use"
+  }
+ ]
+}

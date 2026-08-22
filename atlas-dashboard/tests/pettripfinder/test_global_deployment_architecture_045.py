@@ -293,13 +293,19 @@ def test_assembly_does_not_authorize_deployment(production):
 
 
 def test_the_manifest_is_not_pre_authorized():
+    """PTF-047: the flag now MIRRORS a deployment authorization record. True
+    without a record that verifies against this manifest is still refused."""
     doc = GD.load_manifest()
-    assert doc["deployment_authorized"] is False
-    doc = dict(doc, deployment_authorized=True)
+    assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
+    doc = dict(doc, deployment_authorized=True, deployment_authorization=None)
     assert any("pre-authorized" in p for p in GD.verify_manifest(doc))
 
 
-def test_milwaukee_is_published_in_source_and_not_deployed():
+def test_milwaukee_is_published_in_source_and_its_authority_does_not_record_deployment():
+    """The market authority package says PUBLISHED (a source fact). Whether
+    the composed bundle reached production is not the authority's fact and
+    PTF-047 does not write it there: deployment lives in
+    deploy/netlify/deployment_records/ and the authorization's status."""
     from scripts.pettripfinder.acquisition import authority_build_036 as A36
     package = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
     assert package["published"] is True
@@ -439,10 +445,12 @@ def test_the_bundle_manifest_pins_the_measurement_config(production):
     assert block["enabled"] is False and block["provider_kind"] == "none"
 
 
-def test_the_committed_manifest_pins_the_measurement_config_and_stays_unauthorized():
+def test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_only_by_record():
     doc = load_manifest()
     assert doc["measurement"]["config_sha256"] == M.config_sha256()
-    assert doc["deployment_authorized"] is False
+    # PTF-047: authorized only through a verifying deployment authorization.
+    assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
+    assert GD.verify_manifest() == []
     assert doc["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate

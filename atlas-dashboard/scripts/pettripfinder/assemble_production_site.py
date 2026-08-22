@@ -577,6 +577,17 @@ def file_hashes(root: Path) -> "OrderedDict[str, str]":
     return out
 
 
+def bundle_digest(hashes: Mapping[str, str]) -> str:
+    """The bundle identity: one digest over the sorted per-file digests.
+
+    Defined once so a deployer re-hashing a directory on disk (PTF-047's
+    ``verify_bundle_directory``) computes exactly what the assembler wrote.
+    """
+    return hashlib.sha256(
+        "\n".join("%s %s" % (k, v) for k, v in hashes.items()).encode("utf-8")
+    ).hexdigest()
+
+
 # --------------------------------------------------------------------------- #
 # Assembly.
 # --------------------------------------------------------------------------- #
@@ -895,9 +906,7 @@ def assemble(output: str, *, context: str = "production",
         ("collision_count", len(collisions)),
         ("global_shadowing_count", len(shadowing)),
         ("canonical_violations", len(canon)),
-        ("bundle_sha256", hashlib.sha256(
-            "\n".join("%s %s" % (k, v) for k, v in hashes.items()).encode("utf-8")
-        ).hexdigest()),
+        ("bundle_sha256", bundle_digest(hashes)),
         ("control_files", OrderedDict([
             ("headers_source",
              HEADERS_SOURCES[context].relative_to(_REPO_ROOT).as_posix()),

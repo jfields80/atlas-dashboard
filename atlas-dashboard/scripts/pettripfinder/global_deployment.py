@@ -223,8 +223,12 @@ def verify_manifest(manifest: Optional[Mapping] = None) -> List[str]:
                         % (doc.get("schema"), MANIFEST_SCHEMA))
     if doc.get("context") != "production":
         problems.append("context is %r" % doc.get("context"))
-    if doc.get("deployment_authorized") is not False:
-        problems.append("manifest arrives pre-authorized")
+    # PTF-047: ``deployment_authorized`` is a mirror of a deployment
+    # authorization record, never a decision. True without a record that
+    # verifies against THIS manifest is what "pre-authorized" means.
+    from scripts.pettripfinder.deployment_authorization import (
+        manifest_authorization_problems)
+    problems.extend(manifest_authorization_problems(doc))
 
     for row in doc.get("participating_markets") or ():
         path = REPO_ROOT / row["release_contract"]

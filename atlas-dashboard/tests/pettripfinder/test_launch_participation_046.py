@@ -289,7 +289,8 @@ def test_the_committed_manifest_verifies_and_pins_the_record():
     assert [r["market_id"] for r in doc["participating_markets"]] == list(FIVE)
     assert doc["total_published_profiles"] == 333
     assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
-    assert doc["deployment_authorized"] is False
+    # PTF-047: the flag mirrors a verifying deployment authorization record.
+    assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
     assert excluded[WITHHELD]["launch_status"] == \
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH

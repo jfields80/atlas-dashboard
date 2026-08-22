@@ -345,3 +345,56 @@ Dayton, Milwaukee, Pittsburgh are `FOUNDER_AUTHORIZED_FOR_LAUNCH`; Indianapolis
 `SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` on coverage grounds;
 Cincinnati and Detroit are `NOT_SOURCE_READY`. Print the current record with
 `python -m scripts.pettripfinder.launch_participation`.
+
+---
+
+## 12. Deployment authorization and deployment records (PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047)
+
+The composed relationship, each layer consuming the one above and recomputing
+nothing of its own:
+
+```
+market release contracts            deploy/netlify/release_contracts/<market>.json
+    -> global deployment manifest   deploy/netlify/global_deployment_manifest.json
+    -> founder launch participation deploy/netlify/launch_participation.json
+    -> deployment authorization     deploy/netlify/deployment_authorizations/<id>.json
+    -> production deployment        netlify deploy --prod --no-build --dir <site>
+    -> deployment record            deploy/netlify/deployment_records/<id>.json
+```
+
+**Authorization** (`ptf-deployment-authorization/1.0`,
+`scripts/pettripfinder/deployment_authorization.py`). Built FROM the verified
+manifest with `build_authorization`; it copies every pinned input -- bundle hash,
+source commit, context, participating markets and profile counts, sitemap hash,
+`_headers` / `_redirects` hashes, measurement config hash and disabled state,
+affiliate counts, launch participation hash and founder-authorized set, every
+release contract path + hash, the gate catalogue -- plus `rollback_target`,
+`target_site` and `target_domain`. `verify_authorization` fails closed on any
+disagreement with the manifest OR with the files on disk (so a stale manifest
+and a stale authorization cannot agree with each other).
+
+State model: `PREPARED -> AUTHORIZED | SUPERSEDED`,
+`AUTHORIZED -> DEPLOYED | FAILED | SUPERSEDED`, `DEPLOYED -> ROLLED_BACK`.
+Only `AUTHORIZED` may deploy (`deployability_problems`), and not once a later
+authorization for the same target is `AUTHORIZED`/`DEPLOYED`. `DEPLOYED`
+consumes the authorization: a production authorization is used once.
+
+The manifest's `deployment_authorized` is a **mirror** of a record, never a
+decision: `authorize_manifest` flips it only when the record verifies and is
+`AUTHORIZED`, and `verify_manifest` re-verifies the referenced record on every
+run. `true` without a verifying record is refused as "pre-authorized".
+
+Immediately before the production write:
+
+```sh
+python -m scripts.pettripfinder.deployment_authorization --deployable <id>   # []
+# verify_target(auth, netlify api getSite body): name, ssl_url, published_deploy.id == rollback_target
+# verify_bundle_directory(auth, <site dir>): re-hashes the directory to the bound bundle sha256
+```
+
+**Record** (`ptf-deployment-record/1.0`). Written ONLY after the real outcome is
+known, via `build_deployment_record` + `write_record`, which refuses a record
+that disagrees with its authorization, claims `DEPLOYED` with a failed live
+check or a rollback, or contains a credential. After success the authorization
+moves to `DEPLOYED`; after rollback the record says `ROLLED_BACK`,
+`rollback_used: true`, the reason, and the restored deployment id.
