@@ -146,6 +146,28 @@ def ledger() -> Dict:
     return doc
 
 
+def superseded_decisions() -> Dict[str, Dict]:
+    """036 decisions a LATER founder sitting has since answered again.
+
+    The founder held Saint Kate in 036 and approved it in 040. The older
+    decision is history, not a pending instruction: it applies nothing, and
+    once the store is projected onto the reading 040 approved, the older HOLD
+    stops matching the record it was about. Reporting that as REFUSED would
+    leave a permanent false alarm on a row nobody is waiting on.
+
+    Superseding requires an explicit later decision by a founder on the same
+    identity. Nothing here lapses on its own.
+    """
+    from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
+    if not D40.LEDGER.is_file():
+        return {}
+    return {row["identity_key"]: {"decision": row["decision"],
+                                  "work_order": D40.WORK_ORDER,
+                                  "ledger": D40.LEDGER.name,
+                                  "decided_at": row["decided_at"]}
+            for row in D40.load_ledger()["decisions"]}
+
+
 def bound_decisions() -> Tuple[List[Dict], List[Dict]]:
     """(applicable, refused) decisions, each re-checked against the live row.
 
@@ -167,10 +189,16 @@ def bound_decisions() -> Tuple[List[Dict], List[Dict]]:
     moved is absent from that index and is refused here exactly as before.
     """
     live = {row["identity_key"]: row for row in F.cohort_rows()}
+    later = superseded_decisions()
     applicable: List[Dict] = []
     refused: List[Dict] = []
     for decision in ledger()["decisions"]:
         key = decision["identity_key"]
+        if key in later:
+            # A later sitting answered this identity. The older decision is
+            # neither applicable nor refused; it is superseded, and it is the
+            # later ledger's job to say what happens to the row.
+            continue
         row = live.get(key)
         if row is None:
             refused.append(dict(decision, refusal_reason=(

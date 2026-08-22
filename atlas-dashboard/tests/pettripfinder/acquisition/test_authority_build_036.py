@@ -127,9 +127,19 @@ def test_a_shorthand_that_names_two_hotels_is_refused():
 
 
 def test_every_decision_still_binds_at_application_time():
+    """98 decisions, minus those a later founder sitting answered again.
+
+    PTF-MILWAUKEE-FOUNDER-DECISION-040 re-decided Saint Kate, so 036's HOLD on
+    it is superseded rather than pending: it applies nothing and is reported
+    as neither applicable nor refused. What must stay true is that NOTHING is
+    refused, and that every decision is accounted for.
+    """
     applicable, refused = A.bound_decisions()
+    superseded = {key for key in A.superseded_decisions()
+                  if key in {row["identity_key"]
+                             for row in A.ledger()["decisions"]}}
     assert refused == []
-    assert len(applicable) == 98
+    assert len(applicable) + len(superseded) == 98
 
 
 def test_a_moved_record_refuses_to_apply(monkeypatch):
@@ -139,7 +149,7 @@ def test_a_moved_record_refuses_to_apply(monkeypatch):
     applicable, refused = A.bound_decisions()
     assert len(refused) == 1
     assert "moved since the founder saw it" in refused[0]["refusal_reason"]
-    assert len(applicable) == 97
+    assert len(applicable) == 96
 
 
 # --------------------------------------------------------------------------- #
@@ -520,7 +530,10 @@ def test_the_counters_reconcile_after_the_decision():
     assert counters["founder_approved"] == 96
     assert counters["approved_pet_friendly"] == 70
     assert counters["approved_refusal"] == 26
-    assert counters["held_by_founder"] == 2
+    # Two, minus Saint Kate: PTF-MILWAUKEE-FOUNDER-DECISION-040 answered it
+    # again and approved it, so 036's hold is superseded rather than standing.
+    # Hyatt Regency is the one 036 hold nobody has revisited.
+    assert counters["held_by_founder"] == 1
     assert counters["authority_rows"] == 70
     assert counters["published"] == 0
     assert counters["deployed_live"] == 0

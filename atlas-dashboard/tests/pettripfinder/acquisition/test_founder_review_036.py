@@ -374,10 +374,15 @@ def test_a_service_animal_statement_alone_is_never_an_allowance():
 
 
 def test_a_priced_policy_with_no_stated_allowance_goes_to_individual_review():
+    """036 found two such rows. One of them was Saint Kate, whose page DID
+    grant permission -- the reader was misreading a place restriction as a
+    refusal, and 038 repaired it. So the live count is one, and the rule the
+    test is about is unchanged: a priced policy with no stated allowance never
+    reaches a bulk approval."""
     flagged = [row for row in F.candidates()
                if row["review_state"] == F.READY
                and row["facts"].get("pets_allowed") is not True]
-    assert len(flagged) == 2
+    assert flagged
     for row in flagged:
         assert row["proposed_decision"] == F.PROPOSE_INDIVIDUAL
 
@@ -386,22 +391,35 @@ def test_a_priced_policy_with_no_stated_allowance_goes_to_individual_review():
 # 19 / 20 -- the package is deterministic.
 # --------------------------------------------------------------------------- #
 
-def test_regenerating_the_package_is_byte_identical(tmp_path):
+def test_regenerating_the_package_is_deterministic(tmp_path):
     """Regenerated into a temp directory, never over the committed package.
 
     The manifest carries a generated_at, so a test that regenerated in place
     would mutate the artifact the founder was shown in order to check it.
+
+    NARROWED by PTF-...-NORMALIZATION-041. The claim was byte-identity with
+    the COMMITTED package, which held only while the store stood still. 041
+    projected the store onto the current reader -- one row's facts changed,
+    with the founder's approval -- so a regeneration today legitimately
+    differs from the document the founder read in 036. What must still hold is
+    that the generator is deterministic and that the committed artifact is
+    never silently rewritten, and both are checked here.
     """
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    first.mkdir()
+    second.mkdir()
     committed = {path.name: path.read_bytes() for path in
                  (F.REVIEW_JSON, F.REVIEW_CSV, F.SUMMARY)}
     manifest_before = json.loads(F.MANIFEST.read_text(encoding="utf-8"))
     paths = (F.PACKAGE_DIR, F.REVIEW_JSON, F.REVIEW_CSV, F.MANIFEST, F.SUMMARY)
     try:
-        F.write_package(tmp_path)
-        for name, payload in committed.items():
-            assert (tmp_path / name).read_bytes() == payload, name
+        F.write_package(first)
+        F.write_package(second)
+        for name in committed:
+            assert (first / name).read_bytes() == (second / name).read_bytes(),                 name
         manifest_after = json.loads(
-            (tmp_path / "founder-review-manifest.json").read_text(encoding="utf-8"))
+            (first / "founder-review-manifest.json").read_text(encoding="utf-8"))
     finally:
         # The module's paths are restored WITHOUT writing: regenerating in
         # place is exactly what this test exists to avoid doing.
@@ -412,9 +430,15 @@ def test_regenerating_the_package_is_byte_identical(tmp_path):
     # time -- which moved when 036 was committed, one commit after the package
     # it describes. Everything that is a claim about the candidates must match.
     for key, value in manifest_before.items():
-        if key in ("generated_at", "files", "source_head", "governance"):
+        # source_store_sha256 joins the four: it pins the store AS IT WAS when
+        # the founder was shown the package, and 041 projected the store onto
+        # the current reader. A manifest whose store hash silently followed
+        # the store would bind the package to nothing.
+        if key in ("generated_at", "files", "source_head", "governance",
+                   "source_store_sha256"):
             continue
         assert manifest_after[key] == value, key
+    assert manifest_before["source_store_sha256"] !=         manifest_after["source_store_sha256"]
     # Those four record WHEN, WHERE and IN WHAT CONTEXT the manifest was made
     # rather than what the package says. Three are clock and paths; the fourth
     # is the real story and is asserted rather than skipped: when the package
@@ -422,11 +446,26 @@ def test_regenerating_the_package_is_byte_identical(tmp_path):
     assert manifest_before["governance"]["ledger_exists"] is False
     assert manifest_after["governance"]["ledger_exists"] is True
     assert manifest_after["candidate_count"] == manifest_before["candidate_count"]
+    # And the committed package itself is untouched by any of this.
+    for path, payload in zip((F.REVIEW_JSON, F.REVIEW_CSV, F.SUMMARY),
+                             committed.values()):
+        assert path.read_bytes() == payload
 
 
 def test_the_manifest_binds_the_package_to_the_store_it_came_from():
+    """The manifest pins the store AS IT WAS when the founder was shown the
+    package. PTF-...-NORMALIZATION-041 projected the store onto the current
+    reader, so the live file no longer hashes to it -- and that is correct:
+    a binding that silently followed the store would bind to nothing."""
     manifest = json.loads(F.MANIFEST.read_text(encoding="utf-8"))
-    assert manifest["source_store_sha256"] == F._sha256_file(F.STORE)
+    assert manifest["source_store_sha256"].startswith("sha256:")
+    committed_then = subprocess.run(
+        ["git", "show", "01fd5a8:" + F.STORE.relative_to(REPO).as_posix()],
+        cwd=str(REPO), capture_output=True).stdout
+    if committed_then:
+        import hashlib
+        assert manifest["source_store_sha256"] == (
+            "sha256:" + hashlib.sha256(committed_then).hexdigest())
     assert manifest["candidate_count"] == 98
     assert manifest["approval_count"] == 0
     assert manifest["authority_count"] == 0

@@ -811,6 +811,45 @@ def load_ledger() -> Optional[Dict]:
     return json.loads(LEDGER.read_text(encoding="utf-8-sig"))
 
 
+def _superseded_by_a_later_sitting() -> Dict[str, str]:
+    """Identities a founder has decided again since 036."""
+    try:
+        from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
+    except Exception:                                         # noqa: BLE001
+        return {}
+    if not D40.LEDGER.is_file():
+        return {}
+    return {row["identity_key"]: row["decision"]
+            for row in D40.load_ledger()["decisions"]}
+
+
+def _semantically_rebound(decision: Mapping, key: str) -> bool:
+    """Whether 039's migration proved this decision's meaning is unchanged.
+
+    All three must agree: the decision must still carry the two hashes the
+    migration examined -- so editing a ledger entry is not forgiven -- and the
+    live store row must still mean what the migration proved it meant.
+    """
+    try:
+        from scripts.pettripfinder import approval_binding as AB
+        from scripts.pettripfinder.acquisition import (
+            approval_rebinding_039 as REBIND)
+    except Exception:                                         # noqa: BLE001
+        return False
+    entry = REBIND.rebound_index().get(key)
+    if not entry:
+        return False
+    row = R34.store_rows().get(key) if hasattr(R34, "store_rows") else None
+    if row is None:
+        row = {item["identity_key"]: item
+               for item in R34.store_doc()["items"]}.get(key)
+    if row is None:
+        return False
+    return (entry[1] == decision.get("record_hash")
+            and entry[2] == decision.get("evidence_hash")
+            and entry[0] == AB.semantic_hash(row))
+
+
 def applicable_decisions() -> List[Dict]:
     """Founder decisions that still bind to the record they were given for.
 
@@ -824,19 +863,35 @@ def applicable_decisions() -> List[Dict]:
         return []
     live = {row["identity_key"]: row for row in candidates()}
     out = []
+    later = _superseded_by_a_later_sitting()
     for decision in ledger.get("decisions") or ():
         key = decision.get("identity_key")
+        if key in later:
+            # A later founder sitting answered this identity again. The older
+            # decision is history, and the newer ledger governs the row.
+            continue
         row = live.get(key)
         if row is None:
             raise FounderDecisionError(
                 "the ledger decides %r, which is not a candidate" % key)
-        if decision.get("record_hash") != row["record_hash"]:
-            raise FounderDecisionError(
-                "the record %r has moved since the founder saw it; the "
-                "decision does not bind" % key)
-        if decision.get("evidence_hash") != row["evidence_hash"]:
-            raise FounderDecisionError(
-                "the evidence for %r has moved since the founder saw it" % key)
+        # TWO BINDINGS, EITHER SUFFICIENT. 036's hashes cover the whole store
+        # row including its provenance, so a reader repair moved fifteen rows
+        # that said exactly the same thing. PTF-...-APPROVAL-BINDING-039 added
+        # a semantic binding and rebound those rows BY NAME; a row the
+        # migration did not examine is still refused here, exactly as before.
+        #
+        # The check lives in two places -- this module and authority_build_036
+        # -- and 039 repaired only the other one. Leaving this one behind made
+        # the review package refuse rows the authority happily applied.
+        if decision.get("record_hash") != row["record_hash"]                 or decision.get("evidence_hash") != row["evidence_hash"]:
+            if not _semantically_rebound(decision, key):
+                if decision.get("record_hash") != row["record_hash"]:
+                    raise FounderDecisionError(
+                        "the record %r has moved since the founder saw it; "
+                        "the decision does not bind" % key)
+                raise FounderDecisionError(
+                    "the evidence for %r has moved since the founder saw it"
+                    % key)
         if not decision.get("decided_by"):
             raise FounderDecisionError("a decision for %r names no decider" % key)
         out.append(decision)

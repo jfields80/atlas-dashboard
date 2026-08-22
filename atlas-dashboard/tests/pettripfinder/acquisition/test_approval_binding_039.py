@@ -327,10 +327,14 @@ def test_the_contract_is_versioned(rebinding):
 # The binding, in use.
 # --------------------------------------------------------------------------- #
 
-def test_all_98_decisions_still_apply_today():
+def test_every_decision_still_applies_or_is_superseded():
+    """Nothing is refused. A decision a later founder sitting answered again
+    is superseded, not pending -- 040 re-decided Saint Kate."""
     applicable, refused = A36.bound_decisions()
+    ledger_keys = {row["identity_key"] for row in F36.load_ledger()["decisions"]}
+    superseded = ledger_keys & set(A36.superseded_decisions())
     assert refused == []
-    assert len(applicable) == 98
+    assert len(applicable) + len(superseded) == 98
 
 
 def test_a_row_that_needs_re_review_is_not_in_the_rebound_index():
@@ -363,7 +367,7 @@ def test_a_tampered_decision_is_refused_by_both_bindings(monkeypatch):
     monkeypatch.setattr(F36, "load_ledger", lambda: ledger)
     applicable, refused = A36.bound_decisions()
     assert [row["identity_key"] for row in refused] == [target["identity_key"]]
-    assert len(applicable) == 97
+    assert len(applicable) == 96
 
 
 # --------------------------------------------------------------------------- #
