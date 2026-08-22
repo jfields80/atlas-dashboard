@@ -67,24 +67,34 @@ def prepared_contract():
 # 1 -- the state publication starts from.
 # --------------------------------------------------------------------------- #
 
-def test_the_start_state_is_exactly_what_036_left():
+def test_the_start_state_matches_what_the_founders_decided():
+    """Derived from the decisions, not pinned to a moment.
+
+    This used to assert 70 and 26 -- the counts 037 found -- which made a
+    later founder sitting look like corruption. What must never drift is the
+    correspondence: every approval in a publication set, every hold out of one.
+    """
     state = P.assert_start_state()
-    assert state["authority_records"] == 70
-    assert state["exclusion_records"] == 26
+    assert state["authority_records"] == len(P.approved_identities())
+    assert state["exclusion_records"] == len(P.approved_refusals())
     assert state["all_exclusions_verified_no_pets"] is True
     assert state["held_in_authority"] == []
     assert state["held_in_exclusions"] == []
-    assert len(state["held_identities"]) == 2
+    assert state["held_identities"]
 
 
 def test_the_two_held_properties_are_read_from_the_ledger_not_listed():
     """A hand-typed hold is a hold that can be mistyped."""
     import inspect
+    # Composed across every sitting, latest answer winning: 036 held Saint
+    # Kate and 040 approved it, holding two other rows instead.
     assert sorted(P.held_identities()) == ["hyatt regency milwaukee",
-                                           "saint kate the arts hotel"]
-    source = inspect.getsource(P.held_identities)
-    assert "hyatt" not in source.lower()
-    assert "saint kate" not in source.lower()
+                                           "knickerbocker on the lake",
+                                           "the iron horse hotel"]
+    for function in (P.held_identities, P.founder_decisions):
+        source = inspect.getsource(function).lower()
+        for name in ("hyatt", "saint kate", "knickerbocker", "iron horse"):
+            assert name not in source
 
 
 # --------------------------------------------------------------------------- #
@@ -93,7 +103,8 @@ def test_the_two_held_properties_are_read_from_the_ledger_not_listed():
 
 def test_the_seed_inventory_is_one_row_per_approved_record():
     rows = seed_rows()
-    assert len(rows) == 70
+    assert len(rows) == len(authority()["hotels"]) == len(
+        P.approved_identities())
     names = [row["name"] for row in rows]
     assert len(names) == len(set(names))
     assert sorted(names) == sorted(record["name"] for record in authority()["hotels"])
@@ -137,7 +148,7 @@ def test_no_held_property_has_an_inventory_row():
 def test_no_refusal_has_an_inventory_row():
     """A verified no-pets finding must never become pet-friendly inventory."""
     refusals = {row["normalized_name"] for row in MA.load_market_exclusions("milwaukee-wi")}
-    assert len(refusals) == 26
+    assert len(refusals) == len(P.approved_refusals())
     for row in seed_rows():
         assert SD.normalize_name(row["name"]) not in refusals
 
@@ -168,7 +179,7 @@ def test_the_inventory_is_derived_and_not_yet_committed():
     """Prepared, provably correct, and withheld until the collision is reviewed."""
     from scripts.pettripfinder import market_authority as MA
     assert len(MA.load_market_seed_rows("milwaukee-wi")) == 0
-    assert len(seed_rows()) == 70
+    assert len(seed_rows()) == len(P.approved_identities())
     assert len(MA.assemble_seed_rows()) == 296
 
 
@@ -203,12 +214,23 @@ def test_the_prepared_contract_states_this_market_and_its_derived_numbers():
     assert recon["confirmed_identities"] - recon["resolved"] == recon["unresolved"]
 
 
-def test_the_contract_pins_the_sha_the_published_package_will_have():
+def test_the_prepared_contract_is_stale_and_must_be_re_prepared():
+    """037 pinned the sha of the package as it stood then, and
+    PTF-MILWAUKEE-FOUNDER-DECISION-040 grew the authority by four
+    founder-approved rows. The pin is therefore STALE, and that is the
+    correct state for an artifact prepared against an earlier package: it
+    was never applied, it is not in the live directory, and the
+    publication work order that eventually runs must re-prepare it rather
+    than inherit a number calibrated to a market that no longer exists.
+    """
     from scripts.pettripfinder.assemble_netlify_bundle import content_sha256
     doc, _ = P.published_document()
-    payload = (json.dumps(doc, indent=1, ensure_ascii=False) + "\n").encode("utf-8")
-    assert prepared_contract()["policy_package"]["expected_sha256"] == \
-        content_sha256(payload)
+    payload = (json.dumps(doc, indent=1, ensure_ascii=False)
+               + chr(10)).encode("utf-8")
+    pinned = prepared_contract()["policy_package"]["expected_sha256"]
+    assert pinned != content_sha256(payload)
+    assert not P.CONTRACT.is_file()
+    assert P.PREPARED_CONTRACT.is_file()
 
 
 def test_the_prepared_contract_is_not_in_the_live_directory():
@@ -349,7 +371,11 @@ def test_the_exclusion_registry_still_assembles_for_every_market():
     from scripts.pettripfinder import hotel_exclusions as EX
     registry = MA.assemble_exclusions_document()
     rows = EX.validate(registry)
-    assert len(rows) == 101
+    milwaukee = [row for row in rows if row["market_id"] == "milwaukee-wi"]
+    # The whole file validates; Milwaukee's slice grows as founders decide,
+    # and every other market's count is the claim that must not move.
+    assert len(milwaukee) == len(P.approved_refusals())
+    assert len(rows) - len(milwaukee) == 75
     assert MA.check_generated_artifacts() == []
 
 
@@ -402,5 +428,11 @@ def test_the_authority_facts_and_the_review_artifacts_are_untouched():
     touched = {path for path in changed
                if any(path.startswith(item) for item in frozen)}
     assert touched == set(), touched
+    # Every record names the ledger of the sitting that approved it. There is
+    # more than one sitting now, and a record naming NO ledger -- or one that
+    # does not exist -- is the failure this is watching for.
+    from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
+    known = {F.LEDGER.name, D40.LEDGER.name}
     for record in authority()["hotels"]:
-        assert record["approval"]["decision_source"]["ledger"] == F.LEDGER.name
+        assert record["approval"]["decision_source"]["ledger"] in known
+        assert record["approval"]["operator"] == D.FOUNDER

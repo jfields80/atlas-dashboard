@@ -231,6 +231,42 @@ def unfetched_policy_url(identity: Mapping) -> str:
     return target
 
 
+@functools.lru_cache(maxsize=None)
+def later_founder_decisions() -> Dict[str, tuple]:
+    """Decisions taken AFTER this work order, by identity.
+
+    038 marked six rows awaiting a founder and 040 answered all six. A ledger
+    that still reads "awaiting" once an answer exists is the kind of stale
+    status that gets a decided row re-asked. Read, never assumed: absent the
+    040 ledger this returns nothing and the rows are still awaiting.
+    """
+    from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
+    if not D40.LEDGER.is_file():
+        return {}
+    doc = json.loads(D40.LEDGER.read_text(encoding="utf-8"))
+    return {row["identity_key"]: (row["decision"], row["reason"],
+                                  doc["work_order"])
+            for row in doc["decisions"]}
+
+
+def _review_status(identity_key: str) -> str:
+    """Awaiting a founder, or answered by one -- never the first once the
+    second is true."""
+    answered = later_founder_decisions().get(identity_key)
+    if not answered:
+        return "AWAITING_FOUNDER_DECISION (038 candidate)"
+    decision, _reason, work_order = answered
+    return "%s_BY_FOUNDER (%s)" % (decision, work_order)
+
+
+def _founder_note(identity_key: str) -> str:
+    answered = later_founder_decisions().get(identity_key)
+    if not answered:
+        return ""
+    decision, reason, work_order = answered
+    return " %s answered %s: %s" % (work_order, decision, reason)
+
+
 def _prior_031() -> Dict[str, Dict]:
     path = (F36.REPORTS / "ptf_milwaukee_closure_assessment_031.json")
     if not path.is_file():
@@ -395,7 +431,7 @@ def classify(identity: Mapping, *, friendly: set, refusals: set, held: set,
     if declined:
         base.update({
             "evidence_status": "DECLINED_ON_IDENTITY",
-            "founder_review_status": "AWAITING_FOUNDER_DECISION (038 candidate)",
+            "founder_review_status": _review_status(identity["identity_key"]),
             "disposition": HELD_REVIEW,
             "recovery_class": FINAL_IDENTITY_LIMITATION,
             "reason": "the property's own policy page was fetched and states "
@@ -404,9 +440,10 @@ def classify(identity: Mapping, *, friendly: set, refusals: set, held: set,
                       "physical -- no address, no telephone, no JSON-LD -- so "
                       "the identity gate cannot bind it (%s). 038 did not "
                       "weaken that gate. The evidence is persisted, the "
-                      "decline is stated, and the founder decides."
+                      "decline is stated, and the founder decides.%s"
                       % (", ".join(replay["actionable_terms"][:4]),
-                         "; ".join(replay["identity_reasons"])[:260]),
+                         "; ".join(replay["identity_reasons"])[:260],
+                         _founder_note(identity["identity_key"])),
             "last_work_order": WORK_ORDER,
         })
         base["lineage"] = OrderedDict([

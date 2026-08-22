@@ -459,10 +459,16 @@ class TestPolicyAuthorityIsEmpty:
         import json
         doc = json.loads(facts.read_text(encoding="utf-8"))
         assert doc["published"] is False
-        ledger = PACKAGE / "milwaukee_founder_decisions_036.json"
-        assert ledger.is_file(), "authority exists with no decision ledger"
+        # Every founder sitting, not just the first: 040 approved four more
+        # rows in its own additive ledger. The claim is that NO record exists
+        # without an explicit approval in one of them -- widened by sitting,
+        # never weakened.
+        ledgers = sorted(PACKAGE.glob("milwaukee_founder_decisions_*.json"))
+        assert ledgers, "authority exists with no decision ledger"
         approved = {row["identity_key"]
-                    for row in json.loads(ledger.read_text(encoding="utf-8"))["decisions"]
+                    for ledger in ledgers
+                    for row in json.loads(
+                        ledger.read_text(encoding="utf-8"))["decisions"]
                     if row["decision"] == "APPROVE"}
         for record in doc["hotels"]:
             assert record["identity_key"] in approved

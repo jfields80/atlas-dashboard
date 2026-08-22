@@ -77,11 +77,37 @@ PREPARED_CONTRACT = PREPARED_DIR / ("release_contract.%s.prepared.json" % MARKET
 REVIEW_REQUEST = PREPARED_DIR / "identity-resolution-review-request.json"
 RUN_REPORT = F.REPORTS / "ptf_milwaukee_publication_037.json"
 
-#: The founder's two held properties. Read from the ledger, never listed: a
+#: The founder's held properties. Read from the ledgers, never listed: a
 #: hand-typed hold is a hold that can be mistyped.
+#:
+#: Composed across every founder sitting, latest answer winning. 036 held
+#: Saint Kate; PTF-MILWAUKEE-FOUNDER-DECISION-040 approved it and held two
+#: other rows instead. Reading 036 alone would keep an approved property out
+#: of publication forever and let two genuinely held ones through -- both
+#: failures in the direction that matters.
+def founder_decisions() -> Dict[str, str]:
+    from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
+    out = {row["identity_key"]: row["decision"]
+           for row in A.ledger()["decisions"]}
+    if D40.LEDGER.is_file():
+        out.update({row["identity_key"]: row["decision"]
+                    for row in D40.load_ledger()["decisions"]})
+    return out
+
+
 def held_identities() -> Tuple[str, ...]:
-    return tuple(sorted(row["identity_key"] for row in A.ledger()["decisions"]
-                        if row["decision"] == D.HOLD))
+    return tuple(sorted(key for key, decision in founder_decisions().items()
+                        if decision == D.HOLD))
+
+
+def approved_identities() -> Tuple[str, ...]:
+    return tuple(sorted(key for key, decision in founder_decisions().items()
+                        if decision == D.APPROVE))
+
+
+def approved_refusals() -> Tuple[str, ...]:
+    return tuple(sorted(key for key, decision in founder_decisions().items()
+                        if decision == D.APPROVE_REFUSAL))
 
 
 #: The seed inventory's columns, in the order every other market's shard uses.
@@ -153,20 +179,28 @@ def preflight() -> Dict:
 def assert_start_state() -> Dict:
     state = preflight()
     problems = []
-    if state["authority_records"] != 70:
-        problems.append("authority holds %d records, expected 70"
-                        % state["authority_records"])
-    if state["exclusion_records"] != 26:
-        problems.append("exclusion shard holds %d rows, expected 26"
-                        % state["exclusion_records"])
+    # DERIVED from the founder's decisions rather than pinned to the counts
+    # 037 happened to find. A later sitting is entitled to grow the authority;
+    # what must never drift is the correspondence between what a founder
+    # approved and what the publication sets hold.
+    expected_authority = len(approved_identities())
+    expected_exclusions = len(approved_refusals())
+    if state["authority_records"] != expected_authority:
+        problems.append("authority holds %d records, and the founders "
+                        "approved %d" % (state["authority_records"],
+                                         expected_authority))
+    if state["exclusion_records"] != expected_exclusions:
+        problems.append("exclusion shard holds %d rows, and the founders "
+                        "approved %d refusals" % (state["exclusion_records"],
+                                                  expected_exclusions))
     if not state["all_exclusions_verified_no_pets"]:
         problems.append("an exclusion is not VERIFIED_NO_PETS")
     if state["held_in_authority"] or state["held_in_exclusions"]:
         problems.append("a held property is already in a publication set: %s"
                         % (state["held_in_authority"] + state["held_in_exclusions"]))
-    if len(state["held_identities"]) != 2:
-        problems.append("expected exactly two held properties, found %d"
-                        % len(state["held_identities"]))
+    if not state["held_identities"]:
+        problems.append("no held properties found; a hold that vanishes is a "
+                        "hold nobody lifted")
     if problems:
         raise PublicationError("; ".join(problems))
     return state

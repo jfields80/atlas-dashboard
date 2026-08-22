@@ -81,10 +81,15 @@ def test_no_identity_is_both_active_and_not(rows):
 
 # --- C. authority is frozen -------------------------------------------------- #
 
-def test_authority_counts_are_exactly_what_the_founder_approved(rows):
+def test_authority_counts_are_exactly_what_the_founders_approved(rows):
+    """Derived from the decisions across every sitting, not pinned to 038's
+    moment: a later founder is entitled to approve more, and what must hold is
+    that the closure's authority buckets equal what was actually approved."""
+    from scripts.pettripfinder.acquisition import publication_037 as P37
     counts = Counter(row["disposition"] for row in rows)
-    assert counts[C38.AUTHORITY_PET_FRIENDLY] == 70
-    assert counts[C38.AUTHORITY_VERIFIED_NO_PETS] == 26
+    assert counts[C38.AUTHORITY_PET_FRIENDLY] == len(P37.approved_identities())
+    assert counts[C38.AUTHORITY_VERIFIED_NO_PETS] == len(
+        P37.approved_refusals())
 
 
 def test_every_authority_row_names_a_founder_approval(rows):
@@ -94,15 +99,23 @@ def test_every_authority_row_names_a_founder_approval(rows):
 
 
 def test_the_closure_admitted_nobody_to_authority():
+    """038 classified; it approved nothing. Asserted by name rather than by
+    count, so a later founder's approvals do not read as 038's."""
     doc = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    assert len(doc["hotels"]) == 70
-    assert len(MA.load_market_exclusions(C38.MARKET)) == 26
+    for record in doc["hotels"]:
+        assert record["approval"]["decision_source"]["work_order"] !=             C38.WORK_ORDER
+    for row in MA.load_market_exclusions(C38.MARKET):
+        assert (row.get("decision_source") or {}).get(
+            "work_order") != C38.WORK_ORDER
 
 
-def test_the_two_founder_holds_are_still_outside_authority(rows):
-    held = {row["identity_key"] for row in A36.ledger()["decisions"]
-            if row["decision"] == D36.HOLD}
-    assert len(held) == 2
+def test_every_currently_held_property_is_outside_authority(rows):
+    """A hold is only a hold until the founder lifts it. 036 held Saint Kate
+    and 040 approved it, so the durable claim is about whatever is held NOW --
+    pinning 036's pair would have failed the moment a founder answered."""
+    from scripts.pettripfinder.acquisition import publication_037 as P37
+    held = set(P37.held_identities())
+    assert held
     for row in rows:
         if row["identity_key"] in held:
             assert row["authority_status"] == "NONE"
@@ -167,13 +180,17 @@ def test_a_source_that_contradicts_itself_is_not_a_candidate(rows):
 def test_a_declined_capture_carries_no_proposed_facts():
     """The router refused to bind the page to the property. A founder may still
     read the quote; nothing downstream may read a parse of it as facts."""
-    declined = [row for row in C38.new_candidates()
-                if not row["identity_confirmed"]]
+    from scripts.pettripfinder.acquisition import founder_review_039 as V39
+    # Read from the committed review package: live state no longer offers
+    # these as candidates because 040 decided them, and what 038 produced is
+    # what this test is about.
+    declined = [row for row in V39.rows()
+                if row["identity_status"] != "CONFIRMED"]
     assert declined
     for row in declined:
-        assert row["proposed_facts"] == {}
-        assert row["reader_reading_trustworthy"] is False
-        assert row["evidence_block"]
+        assert row["proposed_publication_facts"] == {}
+        assert row["parse_is_trustworthy"] is False
+        assert row["evidence_quote"]
 
 
 def test_the_identity_gate_was_not_weakened():

@@ -231,6 +231,22 @@ def candidate_row(candidate: Mapping) -> Dict:
 
 
 def rows() -> List[Dict]:
+    """The six, from the committed package if it exists.
+
+    A review package is a record of what the founder was SHOWN. Once they have
+    answered, re-deriving it from live state would rewrite the question after
+    the fact -- and live state no longer offers these rows as candidates at
+    all, because PTF-MILWAUKEE-FOUNDER-DECISION-040 decided every one of them.
+    Before the package is written, the derivation is the only source there is.
+    """
+    if REVIEW_JSON.is_file():
+        return list(json.loads(
+            REVIEW_JSON.read_text(encoding="utf-8"))["candidates"])
+    return [candidate_row(candidate) for candidate in C38.new_candidates()]
+
+
+def derived_rows() -> List[Dict]:
+    """The package as live state would produce it now, for regeneration."""
     return [candidate_row(candidate) for candidate in C38.new_candidates()]
 
 
@@ -241,6 +257,8 @@ def assert_cohort() -> List[Dict]:
             "ABORT: 038 derives %d candidates, not %d. The package must "
             "contain exactly the rows 038 left awaiting a decision."
             % (len(out), EXPECTED_CANDIDATES))
+    # Rows 036 had already ruled on. 040's decisions are ABOUT these six and
+    # are deliberately not treated as prior decisions here.
     decided = {d["identity_key"] for d in F36.load_ledger()["decisions"]
                if d["decision"] != "HOLD"}
     overlap = sorted({row["identity_key"] for row in out} & decided)

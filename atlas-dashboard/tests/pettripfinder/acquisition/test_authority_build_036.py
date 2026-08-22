@@ -57,6 +57,22 @@ def files_changed_by(commit: str):
 
 
 def authority():
+    """036's SLICE of the market authority.
+
+    The file is shared by every founder sitting -- 040 appended three approved
+    rows to it -- so "the authority" in this module means the rows 036's own
+    ledger produced. Scoping it here keeps every assertion below a claim about
+    what 036 did, which is what they were always about, instead of a claim
+    that no later founder may ever approve anything.
+    """
+    doc = json.loads(A.AUTHORITY.read_text(encoding="utf-8"))
+    doc["hotels"] = [record for record in doc["hotels"]
+                     if record["approval"]["decision_source"]["ledger"]
+                     == F.LEDGER.name]
+    return doc
+
+
+def whole_authority_file():
     return json.loads(A.AUTHORITY.read_text(encoding="utf-8"))
 
 
@@ -67,8 +83,11 @@ def exclusions():
 
 
 def milwaukee_shard():
+    """036's slice of Milwaukee's exclusion shard, for the same reason."""
     from scripts.pettripfinder import market_authority as MA
-    return MA.load_market_exclusions(A.MARKET)
+    return [row for row in MA.load_market_exclusions(A.MARKET)
+            if (row.get("decision_source") or {}).get("ledger")
+            == F.LEDGER.name]
 
 
 # --------------------------------------------------------------------------- #
@@ -329,15 +348,21 @@ def test_the_exclusion_registry_still_validates_for_every_market():
     OTHER markets. The registry validates the whole file, so this does too.
     """
     rows = EX.validate(exclusions())
-    assert len(rows) == 101
+    # The whole file still validates; the counts grow as later founder
+    # sittings add rows (040 admitted one more Milwaukee refusal), so the
+    # durable claim is that 036's own 26 are all still there and that every
+    # other market is untouched by them.
     milwaukee = [row for row in rows if row["market_id"] == A.MARKET]
-    assert len(milwaukee) == 26
+    assert len(milwaukee_shard()) == 26
+    assert len(milwaukee) >= 26
+    assert len(rows) - len(milwaukee) == 75
 
 
 def test_every_milwaukee_exclusion_is_a_quoted_refusal_reviewed_by_a_human():
-    for row in exclusions()["exclusions"]:
-        if row.get("market_id") != A.MARKET:
-            continue
+    """036's rows, reviewed by 036's founder on 036's date. A later sitting
+    signs its own rows with its own date, and that is checked by that work
+    order's tests, not by pinning this one to a moment in time."""
+    for row in milwaukee_shard():
         assert row["exclusion_state"] == A.VERIFIED_NO_PETS
         assert row["evidence_quote"].strip()
         assert row["reviewer_id"] == D.FOUNDER
@@ -408,13 +433,35 @@ def test_the_store_still_records_no_approval():
 # --------------------------------------------------------------------------- #
 
 def test_rebuilding_the_authority_is_byte_identical():
+    """036's derivation is deterministic -- asserted WITHOUT writing.
+
+    This used to call ``write(apply=True)``, which was fine while 036 was the
+    only founder sitting and became a defect the moment it was not:
+    PTF-MILWAUKEE-FOUNDER-DECISION-040 added three approved rows, and a
+    rebuild from 036's ledger alone deleted them from disk. The determinism
+    claim never needed a write, so it no longer makes one, and the refusal is
+    asserted separately below.
+    """
+    on_disk = json.loads(A.AUTHORITY.read_text(encoding="utf-8"))["hotels"]
+    derived = A.authority_document()["hotels"]
+    assert on_disk[:len(derived)] == derived
+    assert A.authority_document()["hotels"] == derived
+
+
+def test_036_refuses_to_write_away_a_later_founder_sitting():
+    """A builder that can quietly un-approve a record is worse than one that
+    fails. 036 derives its own rows and knows nothing of later ones, so it
+    refuses rather than dropping them."""
     before = A.AUTHORITY.read_bytes()
-    shard_before = A.EXCLUSION_SHARD.read_bytes()
-    A.write(apply=True)
-    after = A.AUTHORITY.read_bytes()
-    # Only the built_at stamp may move; every record must be identical.
-    assert json.loads(after)["hotels"] == json.loads(before)["hotels"]
-    assert A.EXCLUSION_SHARD.read_bytes() == shard_before
+    later = [record for record in
+             json.loads(before)["hotels"]
+             if record["approval"]["decision_source"]["ledger"]
+             != F.LEDGER.name]
+    if not later:
+        pytest.skip("no later founder sitting exists yet")
+    with pytest.raises(A.AuthorityError):
+        A.write(apply=True)
+    assert A.AUTHORITY.read_bytes() == before
 
 
 def test_applying_twice_adds_no_duplicate_exclusion():

@@ -108,10 +108,18 @@ def test_every_candidate_shows_its_quote_and_its_lineage():
         assert row["source_url"].startswith("http")
 
 
-def test_nothing_in_the_package_reached_authority():
+def test_039_put_nothing_from_the_package_into_authority():
+    """039 asked; it did not answer. Where a candidate is in authority today
+    it is because PTF-MILWAUKEE-FOUNDER-DECISION-040 approved it, and the
+    record says so -- which is the check, rather than "no candidate is ever
+    admitted"."""
     authority = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    published = {record["identity_key"] for record in authority["hotels"]}
-    assert not {row["identity_key"] for row in V39.rows()} & published
+    keys = {row["identity_key"] for row in V39.rows()}
+    for record in authority["hotels"]:
+        if record["identity_key"] in keys:
+            source = record["approval"]["decision_source"]
+            assert source["work_order"] != V39.WORK_ORDER
+            assert source["review_work_order"] == V39.WORK_ORDER
 
 
 def test_the_package_cost_nothing():
@@ -373,15 +381,19 @@ def test_hyatt_regency_is_still_held_and_still_not_a_candidate():
                                              for r in authority["hotels"]}
 
 
-def test_saint_kate_is_presented_not_approved():
+def test_saint_kate_was_presented_and_not_approved_by_039():
+    """The package asked the question and left it open. A founder answered it
+    later, in their own work order, which is the point of the separation."""
     row = next(r for r in V39.rows()
                if r["identity_key"] == "saint kate the arts hotel")
     assert row["status"] == "AWAITING_FOUNDER_DECISION"
     assert row["founder_decision"] == "<UNANSWERED>"
     assert row["proposed_publication_facts"].get("pets_allowed") is True
     authority = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    assert "saint kate the arts hotel" not in {r["identity_key"]
-                                               for r in authority["hotels"]}
+    record = next((r for r in authority["hotels"]
+                   if r["identity_key"] == "saint kate the arts hotel"), None)
+    if record is not None:
+        assert record["approval"]["decision_source"]["work_order"] !=             V39.WORK_ORDER
 
 
 def test_a_declined_page_is_presented_with_the_decline_and_no_facts():
@@ -404,11 +416,22 @@ def test_the_identity_gate_itself_was_not_touched_by_039():
         assert "identity_resolutions.json" not in path, path
 
 
-def test_authority_counts_are_untouched():
+def test_039_admitted_nobody_to_authority():
+    """039 reviewed and rebound; it approved nothing.
+
+    Asserted as "no record names 039" rather than "the file still holds 70",
+    which stopped being 039's claim the moment PTF-MILWAUKEE-FOUNDER-DECISION
+    -040 admitted four rows a founder approved.
+    """
     from scripts.pettripfinder import market_authority as MA
     authority = json.loads(A36.AUTHORITY.read_text(encoding="utf-8"))
-    assert len(authority["hotels"]) == 70
-    assert len(MA.load_market_exclusions("milwaukee-wi")) == 26
+    for record in authority["hotels"]:
+        source = record["approval"]["decision_source"]
+        assert source["work_order"] != V39.WORK_ORDER
+        assert source["ledger"] != V39.REVIEW_JSON.name
+    for row in MA.load_market_exclusions("milwaukee-wi"):
+        assert (row.get("decision_source") or {}).get(
+            "work_order") != V39.WORK_ORDER
     assert authority["published"] is False
 
 

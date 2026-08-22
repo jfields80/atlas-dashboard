@@ -668,6 +668,27 @@ def assembled_registry(shard: Mapping) -> Dict:
     return doc
 
 
+def _later_sittings_on_disk(document: Mapping) -> List[str]:
+    """Founder-approved rows on disk that THIS builder would not write back.
+
+    036 derives its records from 036's ledger, so rebuilding after a later
+    founder sitting silently drops that sitting's approvals -- which is what
+    happened: a determinism test called ``write(apply=True)`` and deleted three
+    rows a founder had approved in 040. A builder that can quietly un-approve
+    a record is worse than one that fails, so this refuses.
+
+    The fix for a caller is not to force it: it is to build through the later
+    work order's builder, which composes both sittings.
+    """
+    if not AUTHORITY.is_file():
+        return []
+    existing = json.loads(AUTHORITY.read_text(encoding="utf-8"))
+    mine = {record["identity_key"] for record in document["hotels"]}
+    return sorted(
+        record["identity_key"] for record in existing.get("hotels") or ()
+        if record["identity_key"] not in mine)
+
+
 def write(apply: bool = False) -> Dict:
     records, refused = build_records()
     authority = authority_document()
@@ -675,6 +696,13 @@ def write(apply: bool = False) -> Dict:
     registry = assembled_registry(shard)
     generated = ""
     if apply:
+        dropped = _later_sittings_on_disk(authority)
+        if dropped:
+            raise AuthorityError(
+                "refusing to write: %d founder-approved row(s) on disk come "
+                "from a later sitting this builder does not know about (%s). "
+                "Build through that work order's builder, which composes both."
+                % (len(dropped), ", ".join(dropped)))
         AUTHORITY.write_text(
             json.dumps(authority, indent=1, ensure_ascii=False) + "\n",
             encoding="utf-8")
