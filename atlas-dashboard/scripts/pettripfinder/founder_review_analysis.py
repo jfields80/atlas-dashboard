@@ -70,6 +70,9 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.acquisition import market_routing as MR  # noqa: E402
+from scripts.pettripfinder.policy.policy_membrane import (  # noqa: E402
+    _has_distinguishing_token,
+)
 
 SCHEMA = "ptf-founder-review-analysis/1.0"
 
@@ -390,19 +393,30 @@ def dispose(candidate: Mapping, review: Mapping) -> Tuple[str, List[str], str]:
         membrane = candidate.get("membrane") or {}
         corroborated = review["identity"]["signals_agreeing"] >= 2
         if membrane.get("verdict") == "REJECT_WRONG_PROPERTY":
+            # PTF-ST-LOUIS-FOUNDER-REMEDIATION-004 already decoded HTML entities
+            # and admitted a street-plus-owner-qualified-name override, so a row
+            # that STILL fails M10 fails for one of two substantive reasons. The
+            # next action has to name which, or it sends a reader to do work
+            # that is already done.
+            bare = not _has_distinguishing_token(
+                candidate.get("canonical_name", ""))
             return (HOLD,
                     ["the membrane refuses this observation as being about "
-                     "another property (M10)",
+                     "another property (M10), after the entity and chain-suffix "
+                     "normalisations were already applied",
                      "independent signals agreeing with the census row: %d of 3"
                      % review["identity"]["signals_agreeing"]],
-                    ("decode HTML entities and strip chain suffixes in the M10 "
-                     "name comparison, then re-derive this observation offline "
-                     "from its persisted block; the binding is already "
-                     "corroborated on street number and telephone"
-                     if corroborated else
-                     "resolve the identity by hand: the name, street number and "
-                     "telephone do not agree, so which building this page "
-                     "describes is genuinely unsettled"))
+                    ("the census name is a bare chain word, so the membrane's "
+                     "identity override refuses it by design: any page of this "
+                     "chain would satisfy a name that names no building. Give "
+                     "the census row the property name its own page states, "
+                     "then re-derive offline"
+                     if bare else
+                     "the page and the census name genuinely different things, "
+                     "which usually means the property was renamed. A person "
+                     "decides whether they are one building; the street %s. No "
+                     "re-fetch is involved either way"
+                     % ("agrees" if corroborated else "does not settle it")))
         return (HOLD,
                 ["the membrane refuses this observation as malformed: %s"
                  % (membrane.get("detail") or "")[:200]],

@@ -850,10 +850,54 @@ def _service_animal_quote(text: str, match) -> str:
         return ""
     segment = MS._segment_containing(text, match.start())
     if segment and len(segment) <= _MAX_SERVICE_ANIMAL_CHARS:
-        return segment
+        return _drop_swallowed_pet_terms(text, segment, match)
     start = max(0, match.start() - 100)
     end = min(len(text), match.end() + 140)
-    return text[start:end].strip()
+    return _drop_swallowed_pet_terms(text, text[start:end].strip(), match)
+
+
+#: Terms that price or cap an ORDINARY pet. A service-animal exception exists to
+#: say a charge does NOT apply, so one of these standing AHEAD of the phrase is
+#: the property's pet policy, not a term on service animals.
+_PET_TERM_BEFORE_SERVICE_RE = re.compile(
+    r"\b(?:\d+\s*(?:lb|lbs|pound|pounds)|per\s+night|per\s+pet|per\s+room|"
+    r"limit\s+of|\d+\.\d\d\s*USD|USD\s*\d|\$\s*\d|max(?:imum)?\s+\d)",
+    re.IGNORECASE)
+
+
+def _drop_swallowed_pet_terms(text: str, quote: str, match) -> str:
+    """Trim a published service-animal quote back to the phrase when the words
+    in front of it are the property's PET terms.
+
+    ``_service_animal_span`` already refuses to read a limit stated before the
+    phrase as a limit on service animals, and says why: "A limit written BEFORE
+    the words 'service animals' cannot be a limit on service animals, so the
+    span starts at the phrase." That reasoning governed which limits were
+    ATTRIBUTED and never the quote that was PUBLISHED, so the two disagreed.
+
+    Choice writes "... with a 40.00 USD, per night, Limit of one pet per room,
+    and 20 pounds max Service animals are permitted, without charge." with no
+    full stop before "Service". ``_segment_containing`` therefore opens the
+    segment well ahead of the phrase, and the published record stated that
+    SERVICE ANIMALS cost $40 a night and were capped at 20 pounds -- a
+    guest-visible, ADA-adjacent misstatement. PTF-ST-LOUIS-FOUNDER-REVIEW-003
+    found two of them in one market.
+
+    The trim is deliberately conditional. Only a prefix carrying a price, a
+    weight or a count is removed, so "Only service animals are permitted" keeps
+    its "Only" -- that word changes the meaning of the sentence and nothing
+    about it belongs to the pet policy. The result stays a contiguous substring
+    of the block, so the evidence contract's contiguity check is unaffected.
+    """
+    if not quote or match is None:
+        return quote
+    offset = text.find(quote)
+    if offset < 0 or match.start() <= offset:
+        return quote
+    prefix = text[offset:match.start()]
+    if not _PET_TERM_BEFORE_SERVICE_RE.search(prefix):
+        return quote
+    return text[match.start():offset + len(quote)].strip()
 
 
 def _service_animal_span(text: str, match,

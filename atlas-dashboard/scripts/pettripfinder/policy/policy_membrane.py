@@ -40,6 +40,7 @@ Pure and deterministic: no network, no clock, no file reads.
 
 from __future__ import annotations
 
+import html
 import re
 import sys
 import unicodedata
@@ -166,10 +167,154 @@ def _tokens(name: str) -> frozenset:
     identity rule moves; a genuine name mismatch still fails, and the
     conjunctive code-plus-address override remains the only way past it.
     """
-    text = (name or "").lower().replace("&", " and ")
+    # HTML entities are decoded FIRST. A page that serves "Holiday Inn Express
+    # &amp; Suites" and a record that holds "&" are the same eight characters
+    # once decoded; left encoded, the "&" fires the ampersand rule and leaves a
+    # stray "amp" token in one set and not the other. Seven IHG properties in
+    # one market were refused as the wrong hotel over that token.
+    # Purely corrective: unescaping cannot introduce a token that the decoded
+    # name does not actually contain.
+    text = html.unescape(name or "").lower().replace("&", " and ")
     text = "".join(c for c in unicodedata.normalize("NFKD", text)
                    if not unicodedata.combining(c))
     return frozenset(t for t in re.split(r"[^a-z0-9]+", text) if t)
+
+
+#: Qualifiers that name an OWNER or a soft brand, never a building. Stripped
+#: only inside the street-plus-name override below, never from the M10 name rule
+#: itself.
+_CHAIN_QUALIFIER_RE = re.compile(
+    r"\b(?:by|at)\s+(?:ihg|wyndham|marriott|hilton|choice|radisson|sonesta|"
+    r"hyatt|best\s+western)\b|"
+    r"\b(?:tapestry|autograph|curio|tribute|signature)\s+collection\b",
+    re.IGNORECASE)
+
+#: Tokens that appear in thousands of hotel names and distinguish none of them.
+#: A reference name made ONLY of these is a bare chain word, and the override
+#: below refuses it however well the address agrees.
+_GENERIC_NAME_TOKENS = frozenset({
+    "inn", "hotel", "hotels", "suites", "suite", "motel", "lodge", "resort",
+    "and", "by", "at", "the", "of", "a", "an", "stay", "extended", "select",
+    "express", "plaza", "house", "place", "collection", "hampton", "courtyard",
+    "doubletree", "wingate", "hilton", "marriott", "wyndham", "ihg", "choice",
+    "radisson", "sonesta", "hyatt", "best", "western", "days", "super", "8",
+    "6", "travelodge", "baymont", "microtel", "comfort", "quality", "sleep",
+    "econo", "red", "roof", "la", "quinta", "holiday", "candlewood",
+    "residence", "springhill", "fairfield", "garden", "woodspring", "drury",
+    "sheraton", "westin", "aloft", "element", "tru", "home2", "avid",
+    "staybridge", "embassy", "hyatt", "america", "americas", "value", "budget",
+})
+
+
+def _has_distinguishing_token(name: str) -> bool:
+    """Does this name say WHICH building, not just which chain?
+
+    The override below is allowed to equate names that differ by a chain
+    qualifier. That is safe for "Holiday Inn Express & Suites Edwardsville by
+    IHG" and catastrophic for "Hampton": every Hampton Inn in the market is a
+    superset of the token {hampton}, so a bare chain word plus a matching street
+    would let ANY page of that chain establish a fact against a record that
+    names no building at all. St. Louis carries five such census rows.
+
+    So the override requires the REFERENCE name to retain at least one token
+    that is not a chain word, a lodging word or a filler word.
+    """
+    return bool(_tokens(_CHAIN_QUALIFIER_RE.sub(" ", name or ""))
+                - _GENERIC_NAME_TOKENS)
+
+
+def _street_agrees(reference, page) -> bool:
+    """Do a stored street identity and a street printed on a page agree?
+
+    ``street_identity`` returns ``"<street>|<postal>"``, and a hotel page prints
+    its street in the page furniture while very often omitting the postal code.
+    Comparing the two composites therefore fails on rows whose street matches
+    character for character: ``"1320 thornton st|63069"`` against
+    ``"1320 thornton st|"``.
+
+    So the halves are compared separately. The STREET must agree and is never
+    optional. The POSTAL code is checked only when BOTH sides carry one -- an
+    absent postal is a silent page, not a disagreement, and treating silence as
+    disagreement is the same mistake this codebase names everywhere else.
+
+    A street alone is weaker than a street plus a postal, which is exactly why
+    every caller here uses it as one half of a CONJUNCTIVE test and never on its
+    own.
+    """
+    left = street_identity(str(reference or "").split("|")[0])
+    right = street_identity(str(page or "").split("|")[0])
+    left_street, _, left_postal = left.partition("|")
+    right_street, _, right_postal = right.partition("|")
+    if not left_street or not right_street:
+        return False
+    if left_street != right_street:
+        return False
+    if left_postal and right_postal and left_postal != right_postal:
+        return False
+    # Guard against a degenerate "street" that is really just a number.
+    return len(left_street.split()) >= 2
+
+
+def _same_property_by_street_and_qualified_name(ref, check) -> bool:
+    """M10's second narrow escape: the STREET agrees and the names differ only
+    by an owner qualifier.
+
+    The first escape needs a brand property code, and only Marriott and Hilton
+    put one on the page. IHG, Wyndham and Choice put a street address and a
+    telephone and nothing else, so twelve St. Louis captures whose identity the
+    capture gate had already confirmed were refused here -- eight of them over
+    the single token "amp", the rest over "by IHG".
+
+    This stays CONJUNCTIVE and stays narrower than the name rule it overrides:
+
+      * the STREET IDENTITY must be present on both sides and agree. An address
+        is per-building; it is the same key the first escape already trusts.
+      * the names must agree ONCE OWNER QUALIFIERS ARE REMOVED. "... Edwardsville
+        by IHG" and "... Edwardsville" are one hotel; "by IHG" says who owns it.
+      * the reference name must still NAME A BUILDING after that removal. A bare
+        chain word is refused outright -- see ``_has_distinguishing_token``.
+
+    All three, or nothing. Dropping the third turns this into exactly the hole
+    PTF-COLUMBUS-IDENTITY-CLEANUP-001 refused to open.
+    """
+    if not _street_agrees(ref.get("street_identity"),
+                          check.get("address_on_page")):
+        return False
+
+    reference = str(ref.get("canonical_name") or "")
+    if not _has_distinguishing_token(reference):
+        return False
+
+    # A property code present on BOTH sides and DISAGREEING is positive proof of
+    # a different hotel, and nothing below may override it. cmhcees and cmhates
+    # are two Columbus Embassy Suites; a disagreeing code is a disagreement, not
+    # the silence an absent code represents.
+    ref_code = str(ref.get("property_code") or "").strip().lower()
+    page_code = str(check.get("property_code") or "").strip().lower()
+    if ref_code and page_code and ref_code != page_code:
+        return False
+
+    known = (_tokens(_CHAIN_QUALIFIER_RE.sub(" ", reference))
+             | _tokens(_CHAIN_QUALIFIER_RE.sub(
+                 " ", str(ref.get("normalized_name") or ""))))
+    page = _tokens(_CHAIN_QUALIFIER_RE.sub(
+        " ", str(check.get("name_on_page") or "")))
+    if not known or not page:
+        return False
+    # ONE DIRECTION ONLY: the page must name AT LEAST what the record names.
+    #
+    # The symmetric test looks natural and is the hole PTF-COLUMBUS-IDENTITY-
+    # CLEANUP-001 refused to open. Embassy Suites Columbus - Airport/Corporate
+    # Exchange sits on Corporate Exchange Drive and its page calls itself
+    # "Embassy Suites by Hilton Columbus" -- a name the AIRPORT sibling answers
+    # to just as well. A page that names LESS than the record cannot tell the
+    # record's hotel from a sibling that shares the shorter name, so the street
+    # is doing all the work and the street alone was never enough.
+    #
+    # Requiring the page to be the superset costs three St. Louis rows whose
+    # pages drop a real token ("& Suites", "Airport"). Those go back to a human,
+    # which is the right side to be wrong on.
+    return known <= page
 
 
 def _same_property_by_code_and_address(ref, check) -> bool:
@@ -205,11 +350,8 @@ def _same_property_by_code_and_address(ref, check) -> bool:
     if not ref_code or not page_code or ref_code != page_code:
         return False
 
-    ref_street = str(ref.get("street_identity") or "").strip()
-    page_street = str(check.get("address_on_page") or "").strip()
-    if not ref_street or not page_street:
-        return False
-    return street_identity(ref_street) == street_identity(page_street)
+    return _street_agrees(ref.get("street_identity"),
+                          check.get("address_on_page"))
 
 
 def registrable_domain(url: str) -> str:
@@ -296,13 +438,15 @@ def evaluate(observation: Mapping) -> MembraneVerdict:
     page = _tokens(check["name_on_page"])
     known = _tokens(ref["normalized_name"]) | _tokens(ref["canonical_name"])
     if not (known <= page or page <= known):
-        if not _same_property_by_code_and_address(ref, check):
+        if not (_same_property_by_code_and_address(ref, check)
+                or _same_property_by_street_and_qualified_name(ref, check)):
             return MembraneVerdict(
                 REJECT_WRONG_PROPERTY, rule="M10",
                 detail="identity gate: the page identifies %r, which is neither "
                        "a subset nor a superset of the referenced identity %r, "
-                       "and no exact property-code + street-address agreement "
-                       "establishes it another way"
+                       "and neither an exact property-code + street-address "
+                       "agreement nor a street-address + owner-qualified-name "
+                       "agreement establishes it another way"
                        % (check["name_on_page"], ref["canonical_name"]))
     official = ref.get("official_url", "")
     if tier == PT1_OFFICIAL_PROPERTY and official and \

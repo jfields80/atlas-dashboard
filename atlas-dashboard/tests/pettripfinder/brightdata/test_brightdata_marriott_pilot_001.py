@@ -605,7 +605,14 @@ def test_existing_contract_vocabularies_are_untouched():
     assert enums.BASIS_PER_DAY != enums.BASIS_PER_NIGHT
     assert PO.CAPTURE_METHODS == ("deterministic_fetch", "browser_assisted",
                                   "human_manual", "phone_contact")
-    assert PO.CONTRACT_VERSION == "1.0.0"
+    # The observation contract stands at 1.1.0 since PTF-ST-LOUIS-FOUNDER-
+    # REMEDIATION-004 registered the two structured-pricing flag codes the
+    # reader had been emitting unregistered. This assertion's purpose is that
+    # IMPORTING a package must never mutate a vocabulary, and it still holds:
+    # the change is a declared amendment, and 1.0.0 records -- which four
+    # markets' committed stores carry -- still validate.
+    assert PO.CONTRACT_VERSION == "1.1.0"
+    assert "1.0.0" in PO.ACCEPTED_CONTRACT_VERSIONS
     assert EV.PUBLICATION_GRADE_REQUIRED == (
         "evidence_ref", "field", "quote", "source_url", "source_grade",
         "artifact_class", "artifact_sha256", "artifact_kind", "captured_at")

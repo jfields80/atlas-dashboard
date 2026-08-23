@@ -45,6 +45,7 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS      # noqa:
 from scripts.pettripfinder.brightdata import policy_surface as PS        # noqa: E402
 from scripts.pettripfinder.brightdata import publication_grade as PG     # noqa: E402
 from scripts.pettripfinder.brightdata import unlocker_capture as UC      # noqa: E402
+from scripts.pettripfinder.discovery.property_identity import street_identity  # noqa: E402
 from scripts.pettripfinder.policy import policy_membrane as MEMBRANE     # noqa: E402
 from scripts.pettripfinder.policy import policy_observation as PO        # noqa: E402
 from scripts.pettripfinder.policy import readiness as READINESS          # noqa: E402
@@ -108,7 +109,40 @@ def _capture_method(result: Mapping) -> str:
             else "deterministic_fetch")
 
 
-def observation_for(result: Mapping, *, run_id: str, market_id: str
+def _hotel_ref(result: Mapping, *, market_id: str,
+               census_row: Optional[Mapping],
+               corrected_name: str = "") -> "OrderedDict":
+    """The reference into the identity authority, INCLUDING its street guard.
+
+    ``policy_observation`` calls hotel_ref "a reference into the existing
+    identity authority (market_id + normalized_name, GUARDED BY
+    street_identity)", and this builder had been leaving that guard empty. The
+    consequence was silent: ``policy_membrane``'s M10 escapes both need a street
+    on the reference side, so neither could ever fire for a market built on this
+    path, and twelve St. Louis captures whose identity the capture gate had
+    already confirmed were refused as the wrong property with no way back.
+
+    The street comes from the CENSUS, which is the identity authority. It is not
+    read off the page -- that is the value being checked against.
+    """
+    row = census_row or {}
+    street = row.get("address", "") or ""
+    postal = row.get("postal_code", "") or ""
+    ref = OrderedDict((
+        ("market_id", market_id),
+        ("canonical_name", corrected_name or result["canonical_name"]),
+        ("normalized_name", result["identity_key"]),
+        ("official_url", result["source_url"]),
+        ("property_code", ""),
+    ))
+    if street:
+        ref["street_identity"] = street_identity(street, postal)
+    return ref
+
+
+def observation_for(result: Mapping, *, run_id: str, market_id: str,
+                    census_row: Optional[Mapping] = None,
+                    corrected_name: str = ""
                     ) -> Tuple[Optional[Dict], Optional[Dict], str]:
     """``(observation, publication_grade, refusal_reason)`` for one result."""
     attempt_dir = Path(result.get("artifact_dir") or "")
@@ -143,13 +177,9 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str
     observation = OrderedDict((
         ("obs_id", "%s::%s" % (run_id, result["identity_key"])),
         ("contract_version", PO.CONTRACT_VERSION),
-        ("hotel_ref", OrderedDict((
-            ("market_id", market_id),
-            ("canonical_name", result["canonical_name"]),
-            ("normalized_name", result["identity_key"]),
-            ("official_url", result["source_url"]),
-            ("property_code", ""),
-        ))),
+        ("hotel_ref", _hotel_ref(result, market_id=market_id,
+                                 census_row=census_row,
+                                 corrected_name=corrected_name)),
         ("identity_check", _identity_check(html_path, result)),
         ("source_url", result.get("final_url") or result["source_url"]),
         ("source_type", "official_property_page"),
@@ -189,7 +219,8 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str
                                  all_surfaces_reached=True)
     record = OrderedDict((
         ("identity_key", result["identity_key"]),
-        ("canonical_name", result["canonical_name"]),
+        ("canonical_name", corrected_name or result["canonical_name"]),
+        ("census_canonical_name", result["canonical_name"]),
         ("corridor", result.get("corridor", "")),
         ("brand", result.get("brand", "")),
         # Read from the row, defaulted to what the only lane that existed when
@@ -220,16 +251,28 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str
     return (record, grade.to_dict(), "")
 
 
-def build(pilot: Mapping, *, run_id: str) -> Tuple[List[Dict], List[Dict]]:
+def build(pilot: Mapping, *, run_id: str,
+          census: Optional[Mapping] = None,
+          name_corrections: Optional[Mapping] = None
+          ) -> Tuple[List[Dict], List[Dict]]:
     """``(records, refusals)``. Every VALID capture is accounted for."""
     market_id = pilot["market_id"]
+    rows = {h["identity_key"]: h for h in (census or {}).get("hotels") or ()}
+    # A census name is what DISCOVERY observed. Where that is a bare chain word,
+    # an evidence-cited overlay supplies the name the property's own page
+    # states. The census file itself is never edited: a derivation and an
+    # observation must stay distinguishable.
+    corrected = {r["identity_key"]: r["corrected_canonical_name"]
+                 for r in (name_corrections or {}).get("records") or ()}
     records: List[Dict] = []
     refusals: List[Dict] = []
     for result in pilot["results"]:
         if result["outcome"] != "VALID":
             continue
         record, _grade, refusal = observation_for(
-            result, run_id=run_id, market_id=market_id)
+            result, run_id=run_id, market_id=market_id,
+            census_row=rows.get(result["identity_key"]),
+            corrected_name=corrected.get(result["identity_key"], ""))
         if record is None:
             refusals.append(OrderedDict((
                 ("identity_key", result["identity_key"]),
@@ -247,12 +290,26 @@ def build(pilot: Mapping, *, run_id: str) -> Tuple[List[Dict], List[Dict]]:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pilot", required=True)
+    parser.add_argument("--census", default="",
+                        help="the market census; supplies hotel_ref's "
+                             "street_identity guard, which the membrane's "
+                             "identity escapes need on the reference side")
+    parser.add_argument("--name-corrections", default="",
+                        help="a ptf-canonical-name-correction report; replaces "
+                             "a bare-chain census name with the one the "
+                             "property's own captured page states")
     parser.add_argument("--out", required=True)
     parser.add_argument("--run-id", default="ptf-st-louis-direct-http-001")
     args = parser.parse_args(argv)
 
     pilot = json.loads(Path(args.pilot).read_text(encoding="utf-8"))
-    records, refusals = build(pilot, run_id=args.run_id)
+    census = (json.loads(Path(args.census).read_text(encoding="utf-8"))
+              if args.census else None)
+    corrections = (json.loads(Path(args.name_corrections)
+                              .read_text(encoding="utf-8"))
+                   if args.name_corrections else None)
+    records, refusals = build(pilot, run_id=args.run_id, census=census,
+                              name_corrections=corrections)
 
     grades = Counter(r["publication_grade"]["verdict"] for r in records)
     readiness_states = Counter(r["readiness"].get("state", "") for r in records)
