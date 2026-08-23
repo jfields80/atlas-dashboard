@@ -94,6 +94,12 @@ BRAND_INDEX_SEGMENTS = frozenset({
     "our-hotels", "hotel-search", "explore", "offers", "deals", "home",
 })
 
+#: A LAST path segment that names a category of hotels rather than one hotel.
+#: Only the last segment is tested: "comfort-inn-hotels" is an index when the
+#: path stops there and a valid parent when a property code follows it.
+_CATEGORY_INDEX_SEGMENT = re.compile(
+    r"^(.+-)?(hotels|motels|inns|resorts|properties)$")
+
 
 def normalize_source_url(url: str) -> str:
     """Drop referrer-tracking parameters and the fragment; keep everything else.
@@ -136,6 +142,18 @@ def classify_url_shape(url: str) -> str:
     segments = [s for s in parts.path.split("/") if s]
     if not segments:
         return BRAND_INDEX
+    # A path ENDING in a plural category segment is a listing of hotels, not
+    # one hotel -- ".../missouri/saint-louis/quality-inn-hotels" lists every
+    # Quality Inn in a city, and the property page for one of them adds its
+    # code after it (".../illinois/alton/comfort-inn-hotels/il008").
+    #
+    # This is not a guess about Choice's URL grammar. Three St. Louis census
+    # identities -- two Comfort Inns and a Sleep Inn -- carry that one URL, and
+    # three hotels cannot share a property page. Worse, it passed the capture's
+    # identity gate on city and brand-family alone and returned POLICY_NOT_FOUND,
+    # which is a claim about a hotel made from a page that is not that hotel's.
+    if _CATEGORY_INDEX_SEGMENT.match(segments[-1].lower()):
+        return BRAND_INDEX
     # A brand property page always carries a property-identifying segment: a
     # hotel code, a slug with more than one word, or a numeric id. A path made
     # only of index words is a locator.
@@ -144,6 +162,25 @@ def classify_url_shape(url: str) -> str:
     if not meaningful:
         return BRAND_INDEX
     return PROPERTY_PAGE
+
+
+def urls_claimed_more_than_once(entries: Sequence[Mapping]) -> "OrderedDict":
+    """Source URLs that more than one identity claims, worst first.
+
+    The general form of the defect the category-index rule catches one shape of.
+    Two identities on one URL means at least one of them is wrong, and whichever
+    is wrong will have a policy fact read from another hotel's page. Reported
+    rather than resolved: which identity owns the URL is a source-discovery
+    question, and guessing it here would bind a fact to the wrong building.
+    """
+    claims: Dict[str, List[str]] = {}
+    for entry in entries:
+        url = entry.get("source_url") or ""
+        if url and entry.get("routing_state") == ROUTED:
+            claims.setdefault(url, []).append(entry["identity_key"])
+    shared = {url: sorted(keys) for url, keys in claims.items() if len(keys) > 1}
+    return OrderedDict(sorted(shared.items(),
+                              key=lambda kv: (-len(kv[1]), kv[0])))
 
 
 def route_row(row: Mapping, registry_doc: Optional[Mapping] = None) -> "OrderedDict":

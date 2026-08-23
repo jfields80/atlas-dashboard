@@ -121,23 +121,35 @@ def examine(directory: Path) -> Optional[Dict]:
     return entry
 
 
-def run(run_dir: Path) -> List[Dict]:
+def run(*run_dirs: Path) -> List[Dict]:
+    """Every declined capture under every run directory handed in.
+
+    Several directories, not one, because a market accumulates acquisition
+    PASSES: the free lane's declines live under one run id and the paid lane's
+    under another. Asking only the newest would report that a market's offline
+    recovery examined nothing, while the evidence the earlier pass preserved sat
+    on disk unread -- which is a claim about the market that is simply false.
+    """
     entries: List[Dict] = []
-    for directory in sorted(run_dir.glob("*/declined-*")):
-        entry = examine(directory)
-        if entry is not None:
-            entries.append(entry)
+    for run_dir in run_dirs:
+        for directory in sorted(Path(run_dir).glob("*/declined-*")):
+            entry = examine(directory)
+            if entry is not None:
+                entry["run_dir"] = Path(run_dir).as_posix()
+                entries.append(entry)
     return entries
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-dir", required=True)
+    parser.add_argument("--run-dir", required=True, action="append",
+                        help="repeatable; one per acquisition pass")
     parser.add_argument("--market", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--work-order", default="PTF-ST-LOUIS-MARKET-001")
     args = parser.parse_args(argv)
 
-    entries = run(Path(args.run_dir))
+    entries = run(*[Path(d) for d in args.run_dir])
     verdicts = Counter(e["verdict"] for e in entries)
     document = OrderedDict((
         ("schema", SCHEMA),
@@ -146,7 +158,8 @@ def main(argv=None) -> int:
          "asked offline before any repeated network acquisition. Nothing here "
          "is an observation and nothing here changes a capture's verdict."),
         ("market_id", args.market),
-        ("work_order", "PTF-ST-LOUIS-MARKET-001"),
+        ("work_order", args.work_order),
+        ("run_dirs", [Path(d).as_posix() for d in args.run_dir]),
         ("network_calls", 0),
         ("usd_spent", 0.0),
         ("examined", len(entries)),

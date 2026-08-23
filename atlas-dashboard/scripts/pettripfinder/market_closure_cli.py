@@ -125,27 +125,31 @@ def _partition_state(*, routing: Mapping, capture: Optional[Mapping],
 
     if capture is None:
         return (enums.AWAITING_POLICY_OBSERVATION,
-                "routed to a measured lane that this environment holds no "
-                "credential for; never attempted, so nothing is known about "
-                "what this property's page says")
+                "routed to a measured lane and never attempted, so nothing is "
+                "known about what this property's page says")
     outcome = capture["outcome"]
+    # Which lane was refused is part of the finding. The first St. Louis pass
+    # could only say "the free lane" because it was the only lane that could
+    # run; once a paid lane runs too, that phrasing names the wrong one.
+    lane = capture.get("provider") or "the free lane"
     if outcome in ACCESS_OUTCOMES:
         return (enums.ACCESS_BLOCKED,
-                "the free lane was refused (%s): %s"
-                % (outcome, capture.get("detail", "")[:200]))
+                "%s was refused (%s): %s"
+                % (lane, outcome, capture.get("detail", "")[:200]))
     if outcome in IDENTITY_OUTCOMES:
         return (enums.AWAITING_ATTENDED_CAPTURE,
-                "the page served but could not be bound to this property "
-                "without a browser (%s): %s"
-                % (outcome, capture.get("detail", "")[:200]))
+                "the page served but %s could not bind it to this property "
+                "(%s): %s"
+                % (lane, outcome, capture.get("detail", "")[:200]))
     if outcome in UNRENDERED_OUTCOMES:
         return (enums.AWAITING_ATTENDED_CAPTURE,
                 "a document arrived but had not finished being a page (%s): %s"
                 % (outcome, capture.get("detail", "")[:200]))
     if outcome in SILENT_OUTCOMES:
         return (enums.AWAITING_POLICY_OBSERVATION,
-                "the property's own page served and states no pet policy in "
-                "its static HTML (%s)" % outcome)
+                "the property's own page served, its identity was confirmed, "
+                "and it states no pet policy as read by %s (%s)"
+                % (lane, outcome))
     return (enums.AWAITING_POLICY_OBSERVATION,
             "capture outcome %r left no policy observation" % outcome)
 

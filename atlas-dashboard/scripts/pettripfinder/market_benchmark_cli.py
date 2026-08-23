@@ -62,16 +62,25 @@ def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else ""
 
 
-def build(market_id: str, phases: Mapping) -> Dict:
+def build(market_id: str, phases: Mapping, *, suffix: str = "001",
+          acquisition_name: str = "direct_http_pilot") -> Dict:
+    """The benchmark manifest for one PASS over a market.
+
+    ``suffix`` and ``acquisition_name`` exist because a market gets benchmarked
+    more than once. The first St. Louis pass read ``*_001.json`` and the only
+    acquisition report it could read was the free lane's pilot; a paid pass
+    writes ``*_002.json`` and its acquisition view is the MERGED one. Hard-coding
+    either would make the second benchmark silently re-report the first.
+    """
     census = json.loads((CENSUS_DIR / ("%s.json" % market_id)).read_text(encoding="utf-8"))
     slug = market_id.replace("-", "_")
     ledger_path = PACKAGE_DIR / ("%s_candidate_ledger_001.json" % slug)
-    pilot_path = PACKAGE_DIR / ("%s_direct_http_pilot_001.json" % slug)
-    closure_path = PACKAGE_DIR / ("%s_closure_ledger_001.json" % slug)
-    partition_path = PACKAGE_DIR / ("%s_final_partition_001.json" % slug)
-    review_path = PACKAGE_DIR / ("%s_founder_review_packet_001.json" % slug)
-    recovery_path = PACKAGE_DIR / ("%s_zero_cost_recovery_001.json" % slug)
-    store_path = PACKAGE_DIR / ("%s_observation_store_001.json" % slug)
+    pilot_path = PACKAGE_DIR / ("%s_%s_%s.json" % (slug, acquisition_name, suffix))
+    closure_path = PACKAGE_DIR / ("%s_closure_ledger_%s.json" % (slug, suffix))
+    partition_path = PACKAGE_DIR / ("%s_final_partition_%s.json" % (slug, suffix))
+    review_path = PACKAGE_DIR / ("%s_founder_review_packet_%s.json" % (slug, suffix))
+    recovery_path = PACKAGE_DIR / ("%s_zero_cost_recovery_%s.json" % (slug, suffix))
+    store_path = PACKAGE_DIR / ("%s_observation_store_%s.json" % (slug, suffix))
 
     candidate_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
     pilot = json.loads(pilot_path.read_text(encoding="utf-8"))
@@ -106,8 +115,14 @@ def build(market_id: str, phases: Mapping) -> Dict:
         ("observed_acquired_pct", OrderedDict((
             ("target", TARGET_BANDS["observed_acquired_pct"]),
             ("actual", _pct(acquired, attempted)),
-            ("basis", "%d VALID of %d attempted on the only lane available in "
-                      "this environment" % (acquired, attempted)),
+            # The lane is NAMED rather than described. The first St. Louis pass
+            # could honestly write "the only lane available in this
+            # environment" because it was; repeating that sentence over a pass
+            # that ran three lanes would tell a reader the opposite of the truth.
+            ("basis", "%d VALID of %d attempted across %s"
+                      % (acquired, attempted,
+                         pilot.get("provider")
+                         or ", ".join(pilot.get("lanes") or ("one lane",)))),
         ))),
         ("publication_grade_pct_of_active", OrderedDict((
             ("target", TARGET_BANDS["publication_grade_pct_of_active"]),
@@ -145,7 +160,7 @@ def build(market_id: str, phases: Mapping) -> Dict:
          "committed artifact named in `artifacts`, so any of them can be "
          "re-derived and a later market can be compared to this one."),
         ("market_id", market_id),
-        ("work_order", "PTF-ST-LOUIS-MARKET-001"),
+        ("work_order", phases.get("work_order", "PTF-ST-LOUIS-MARKET-001")),
         ("as_of", phases["as_of"]),
         ("elapsed", phases["elapsed"]),
         ("census", OrderedDict((
@@ -177,14 +192,14 @@ def build(market_id: str, phases: Mapping) -> Dict:
             ("new_source_families", phases["routing"]["new_source_families"]),
         ))),
         ("acquisition", OrderedDict((
-            ("lane", pilot["provider"]),
+            ("lane", pilot.get("provider") or ", ".join(pilot.get("lanes") or ())),
             ("attempted", attempted),
             ("acquired_valid", acquired),
             ("acquired_pct", _pct(acquired, attempted)),
             ("outcome_counts", pilot["outcome_counts"]),
-            ("outcomes_by_brand", pilot["outcomes_by_brand"]),
-            ("skipped_lane_refused", len(pilot["skipped_lane_refused"])),
-            ("lane_refused_brands", pilot["lane_refused_brands"]),
+            ("outcomes_by_brand", pilot.get("outcomes_by_brand") or {}),
+            ("skipped_lane_refused", len(pilot.get("skipped_lane_refused") or ())),
+            ("lane_refused_brands", pilot.get("lane_refused_brands") or {}),
         ))),
         ("zero_cost_recovery", OrderedDict((
             ("what_it_asked",
@@ -224,7 +239,7 @@ def build(market_id: str, phases: Mapping) -> Dict:
         ("artifacts", OrderedDict((
             ("census", OrderedDict((("path", str((CENSUS_DIR / ("%s.json" % market_id)).relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(CENSUS_DIR / ("%s.json" % market_id)))))),
             ("candidate_ledger", OrderedDict((("path", str(ledger_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(ledger_path))))),
-            ("direct_http_pilot", OrderedDict((("path", str(pilot_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(pilot_path))))),
+            ("acquisition", OrderedDict((("path", str(pilot_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(pilot_path))))),
             ("observation_store", OrderedDict((("path", str(store_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(store_path))))),
             ("final_partition", OrderedDict((("path", str(partition_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(partition_path))))),
             ("closure_ledger", OrderedDict((("path", str(closure_path.relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(closure_path))))),
@@ -239,10 +254,16 @@ def main(argv=None) -> int:
     parser.add_argument("--market", required=True)
     parser.add_argument("--phases", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--suffix", default="001",
+                        help="which pass of this market to read artifacts for")
+    parser.add_argument("--acquisition-name", default="direct_http_pilot",
+                        help="the acquisition report's filename stem; a paid "
+                             "pass reads the merged view, not one lane's pilot")
     args = parser.parse_args(argv)
 
     phases = json.loads(Path(args.phases).read_text(encoding="utf-8"))
-    document = build(args.market, phases)
+    document = build(args.market, phases, suffix=args.suffix,
+                     acquisition_name=args.acquisition_name)
     sha = CPB.write_json(Path(args.out), document)
     print(json.dumps(document["scorecard"], indent=1))
     print("written: %s (%s)" % (args.out, sha))

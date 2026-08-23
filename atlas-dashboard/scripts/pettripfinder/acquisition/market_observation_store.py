@@ -95,6 +95,19 @@ def _identity_check(html_path: Path, result: Mapping) -> "OrderedDict":
     return check
 
 
+#: Lanes that drive a real browser. ``policy_observation.CAPTURE_METHODS``
+#: already distinguishes these from a fetch, and the distinction is not
+#: cosmetic: a record captured through a managed browser was produced by
+#: something that could have interacted with the page, and a reviewer reading
+#: the provenance is entitled to know which of the two produced the quote.
+_BROWSER_PROVIDERS = frozenset({"brightdata_browser"})
+
+
+def _capture_method(result: Mapping) -> str:
+    return ("browser_assisted" if result.get("provider") in _BROWSER_PROVIDERS
+            else "deterministic_fetch")
+
+
 def observation_for(result: Mapping, *, run_id: str, market_id: str
                     ) -> Tuple[Optional[Dict], Optional[Dict], str]:
     """``(observation, publication_grade, refusal_reason)`` for one result."""
@@ -143,7 +156,7 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str
         ("authority_tier", PO.PT1_OFFICIAL_PROPERTY),
         ("observed_at", "2026-08-23"),
         ("retrieved_at", "2026-08-23"),
-        ("capture_method", "deterministic_fetch"),
+        ("capture_method", _capture_method(result)),
         ("evidence", [dict(item) for item in extraction_result.evidence]),
         ("extraction", dict(extraction_result.extraction)),
         ("extraction_confidence", "EXACT_QUOTE"),
@@ -179,8 +192,14 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str
         ("canonical_name", result["canonical_name"]),
         ("corridor", result.get("corridor", "")),
         ("brand", result.get("brand", "")),
-        ("provider", "direct_http"),
-        ("reader", "generic"),
+        # Read from the row, defaulted to what the only lane that existed when
+        # this module was written would have said. A paid run carries its own
+        # provider and reader per property -- Firecrawl with the Choice reader
+        # on one row, the Browser API with the Marriott reader on the next --
+        # and asserting "direct_http / generic" over that would put a false
+        # provenance on a record whose whole value is its provenance.
+        ("provider", result.get("provider") or "direct_http"),
+        ("reader", result.get("reader") or "generic"),
         ("reader_provenance", OrderedDict((
             ("module", "scripts/pettripfinder/brightdata/policy_reading.py"),
             ("entrypoint", "parse -> to_extraction"),

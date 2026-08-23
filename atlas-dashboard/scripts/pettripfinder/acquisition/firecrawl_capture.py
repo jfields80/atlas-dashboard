@@ -51,6 +51,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.brightdata import browser_capture as BC       # noqa: E402
+from scripts.pettripfinder.brightdata import declined_capture as DECLINED  # noqa: E402
 from scripts.pettripfinder.brightdata import marriott_surface as MS      # noqa: E402
 from scripts.pettripfinder.brightdata import outcomes as O               # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR        # noqa: E402
@@ -194,6 +195,11 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
     interactions = BC._Interactions()
     interactions.add("rendered via %s (waitFor=%sms)"
                      % (PROVIDER, (profile or DEFAULT_PROFILE).get("waitFor")))
+    # Set once the document actually arrives, and read by ``finish`` when the
+    # capture is then declined. A dict rather than a closure variable for the
+    # same reason ``direct_http_capture`` uses one: ``finish`` is defined before
+    # the document exists and must not need rebinding.
+    declined_state: Dict[str, str] = {"html": "", "text": ""}
 
     def finish(outcome: str, *, detail: str = "", final_url: str = "",
                title: str = "", body_chars: int = 0,
@@ -213,6 +219,25 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
                      "per-request cost; spend is the credit delta over a "
                      "run").to_dict(),
             artifact_dir=artifact_dir)
+        if outcome != O.VALID and declined_state["html"]:
+            # The document reached us and was then declined. Keeping it is what
+            # makes "this page states no pet policy" FALSIFIABLE: a decline that
+            # persists nothing is an assertion nobody can check, which is the
+            # defect PTF-MILWAUKEE-CLOSURE-ASSESSMENT-031 found on three
+            # properties whose full policy was in the document all along.
+            #
+            # This lane had no such persistence until PTF-ST-LOUIS-PAID-
+            # ACQUISITION-002, so its declines were exactly the assertions 031
+            # ruled out -- the free lane preserved 49 documents in the same
+            # market while this one preserved none. The judgement is unchanged;
+            # only the audit trail is added.
+            DECLINED.keep(
+                run_dir=run_dir, slug=target.slug, attempt=attempt,
+                outcome=outcome, html=declined_state["html"],
+                body_text=declined_state["text"],
+                requested_url=target.requested_url, final_url=final_url,
+                title=title, provider=PROVIDER, identity=identity,
+                detail=redact(detail))
         return record, (payload if outcome == O.VALID else None)
 
     attempt_dir = run_dir / target.slug / ("attempt-%02d" % attempt)
@@ -245,6 +270,11 @@ def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
                                                 or "no content"))
 
     body_text = UC.html_to_text(html)
+    # From here on a document exists, so every outcome below is a DECLINE of
+    # something we can keep. Set before the first gate, not after each one, so
+    # a gate added later cannot forget to arm the audit trail.
+    declined_state["html"] = html
+    declined_state["text"] = body_text
     match = re.search(r"<title[^>]*>(.*?)</title>", html,
                       re.IGNORECASE | re.DOTALL)
     title = MS.collapse(htmllib.unescape(match.group(1)) if match

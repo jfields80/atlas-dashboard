@@ -1,0 +1,436 @@
+{
+  "schema": "ptf-market-benchmark/1.0",
+  "what_this_is": "The fresh-market benchmark for the first PetTripFinder market built on the post-Milwaukee generic path. Every figure is read from a committed artifact named in `artifacts`, so any of them can be re-derived and a later market can be compared to this one.",
+  "market_id": "st-louis-mo",
+  "work_order": "PTF-ST-LOUIS-PAID-ACQUISITION-002",
+  "as_of": "2026-08-23",
+  "elapsed": {
+    "started_utc": "2026-08-23T03:00:00Z",
+    "basis": "PTF-ST-LOUIS-PAID-ACQUISITION-002 ran across THREE sessions and the figure is their sum, not the last one. Two earlier sessions stopped before spending anything: the first built the live lane preflight and was refused by the Bright Data Browser API with a 407, the second diagnosed that 407 across four candidate causes and stopped again. This session found the credential corrected, all three lanes AUTHENTICATED, and ran the paid cohort. Provider work ran in the background and is inside this figure, not beside it.",
+    "total_hours": 4.05,
+    "phases": [
+      {
+        "phase": "live lane preflight (session 1)",
+        "hours": 1.1,
+        "note": "building lane_preflight, finding and fixing a credential leak in a truncated redaction, STOP at a 407 with zero properties fetched"
+      },
+      {
+        "phase": "407 diagnosis (session 2)",
+        "hours": 0.6,
+        "note": "four candidate causes each tested with an explicitly constructed Authorization header; all four ruled out; STOP again, zero fetched"
+      },
+      {
+        "phase": "re-preflight and cohort derivation (session 3)",
+        "hours": 0.4,
+        "note": "all three lanes AUTHENTICATED; the generic paid runner, the cohort-by-subtraction rule and the two-meter cap"
+      },
+      {
+        "phase": "paid acquisition (session 3)",
+        "hours": 1.35,
+        "note": "93 of 212 cohort properties across Choice, IHG, Wyndham and Marriott before the run was interrupted; every one journalled"
+      },
+      {
+        "phase": "zero-cost URL recovery and the routing defect",
+        "hours": 0.3,
+        "note": "5 URLs recovered from cached payloads; the category-index classifier defect found, fixed and tested"
+      },
+      {
+        "phase": "closeout: recovery, merge, store, closure, review package",
+        "hours": 0.3,
+        "note": "offline; zero network, zero spend"
+      }
+    ]
+  },
+  "census": {
+    "discovery_candidates": 565,
+    "candidate_dispositions": {
+      "ABSORBED_INTO_ANOTHER_IDENTITY": 95,
+      "ADMITTED_TO_CENSUS": 357,
+      "IDENTITY_COLLISION_REQUIRES_REVIEW": 8,
+      "IDENTITY_NO_LOCALITY": 21,
+      "NOT_LODGING_CATEGORY": 24,
+      "OUT_OF_MARKET_BOUNDARY_DECISION": 1,
+      "OUT_OF_MARKET_GEOGRAPHY": 52,
+      "UNNAMED_CANDIDATE": 7
+    },
+    "census_identities": 357,
+    "identity_states": {
+      "IDENTITY_CONFIRMED": 357
+    },
+    "identity_confirmed_pct": 100.0,
+    "identity_key_collisions_held": 7
+  },
+  "active_eligibility": {
+    "active_eligible": 357,
+    "not_active": 0,
+    "eligibility_counts": {
+      "ACTIVE_ELIGIBLE": 357
+    }
+  },
+  "source_discovery": {
+    "official_url_present": 297,
+    "official_url_pct": 83.2,
+    "url_shapes": {
+      "BRAND_INDEX": 4,
+      "BRAND_REDIRECT": 7,
+      "NO_URL": 60,
+      "PROPERTY_PAGE": 286
+    }
+  },
+  "routing": {
+    "automatically_routed": 280,
+    "automatically_routed_pct": 78.4,
+    "routing_states": {
+      "ROUTED": 280,
+      "ROUTE_BRAND_EXCLUDED": 13,
+      "ROUTE_NEEDS_OFFICIAL_URL": 60,
+      "ROUTE_NEEDS_PROPERTY_URL": 4
+    },
+    "brands": {
+      "BEST_WESTERN": 10,
+      "CHOICE": 33,
+      "DRURY": 17,
+      "ESA": 6,
+      "HILTON": 43,
+      "HYATT": 3,
+      "IHG": 19,
+      "INDEPENDENT": 73,
+      "MARRIOTT": 40,
+      "MOTEL6": 6,
+      "NO_URL": 60,
+      "RED_ROOF": 4,
+      "SONESTA": 6,
+      "WYNDHAM": 37
+    },
+    "providers": {
+      "brightdata_browser": 194,
+      "firecrawl": 86
+    },
+    "new_source_families": 0
+  },
+  "acquisition": {
+    "lane": "brightdata_browser, brightdata_web_unlocker, firecrawl",
+    "attempted": 200,
+    "acquired_valid": 94,
+    "acquired_pct": 47.0,
+    "outcome_counts": {
+      "ACCESS_DENIED": 10,
+      "IDENTITY_MISMATCH": 45,
+      "NAVIGATION_FAILED": 12,
+      "POLICY_NOT_FOUND": 16,
+      "UNEXPECTED_PAGE": 11,
+      "UNHYDRATED": 12,
+      "VALID": 94
+    },
+    "outcomes_by_brand": {
+      "CHOICE": {
+        "IDENTITY_MISMATCH": 6,
+        "POLICY_NOT_FOUND": 2,
+        "VALID": 23
+      },
+      "DRURY": {
+        "IDENTITY_MISMATCH": 12,
+        "UNEXPECTED_PAGE": 4
+      },
+      "ESA": {
+        "IDENTITY_MISMATCH": 1,
+        "VALID": 5
+      },
+      "IHG": {
+        "IDENTITY_MISMATCH": 3,
+        "VALID": 16
+      },
+      "INDEPENDENT": {
+        "ACCESS_DENIED": 9,
+        "IDENTITY_MISMATCH": 18,
+        "NAVIGATION_FAILED": 7,
+        "POLICY_NOT_FOUND": 14,
+        "UNEXPECTED_PAGE": 6,
+        "UNHYDRATED": 12,
+        "VALID": 7
+      },
+      "MARRIOTT": {
+        "ACCESS_DENIED": 1,
+        "IDENTITY_MISMATCH": 1,
+        "VALID": 10
+      },
+      "SONESTA": {
+        "UNEXPECTED_PAGE": 1,
+        "VALID": 5
+      },
+      "WYNDHAM": {
+        "IDENTITY_MISMATCH": 4,
+        "NAVIGATION_FAILED": 5,
+        "VALID": 28
+      }
+    },
+    "skipped_lane_refused": 145,
+    "lane_refused_brands": {
+      "MARRIOTT (st_louis_mo_direct_http_pilot_001.json)": "HTTP 403 at the edge on both probes",
+      "HILTON (st_louis_mo_direct_http_pilot_001.json)": "HTTP 403 at the edge on both probes",
+      "IHG (st_louis_mo_direct_http_pilot_001.json)": "HTTP 403 at the edge on both probes",
+      "RED_ROOF (st_louis_mo_direct_http_pilot_001.json)": "HTTP 403 at the edge on both probes",
+      "CHOICE (st_louis_mo_direct_http_pilot_001.json)": "no response inside 25s on both probes",
+      "MOTEL6 (st_louis_mo_direct_http_pilot_001.json)": "no response inside 25s on both probes"
+    }
+  },
+  "zero_cost_recovery": {
+    "what_it_asked": "whether any persisted DECLINED document contains a policy block the walk that ran never read -- asked offline, before any repeated network acquisition",
+    "examined": 50,
+    "verdicts": {
+      "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 36,
+      "NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK": 14
+    },
+    "network_calls": 0,
+    "usd_spent": 0.0
+  },
+  "reader": {
+    "observations_built": 94,
+    "publication_grade_counts": {
+      "PUBLICATION_GRADE_CONFIRMED": 92,
+      "PUBLICATION_GRADE_REJECTED": 2
+    },
+    "readiness_counts": {
+      "POLICY_CONFIRMED": 50,
+      "POLICY_CONFIRMED_WITH_AMBIGUITY": 4,
+      "POLICY_NEGATIVE_CONFIRMED": 22,
+      "POLICY_NOT_FOUND": 16,
+      "POLICY_PARTIAL": 2
+    },
+    "pets_allowed_counts": {
+      "False": 29,
+      "None": 5,
+      "True": 60
+    },
+    "refusals": []
+  },
+  "closure": {
+    "active_denominator": 357,
+    "rows": 357,
+    "disposition_counts": {
+      "HELD_REVIEW": 92,
+      "ACCESS_UNRESOLVED": 184,
+      "POLICY_NOT_FOUND": 15,
+      "INSUFFICIENT_EVIDENCE": 66
+    },
+    "reconciliation": {
+      "active_count": 357,
+      "duplicate": [],
+      "foreign": [],
+      "ledger_count": 357,
+      "missing": []
+    },
+    "partition_states": {
+      "AWAITING_OFFICIAL_URL": 60,
+      "AWAITING_PROPERTY_LEVEL_URL": 4,
+      "AWAITING_ROUTING_REVIEW": 13,
+      "AWAITING_POLICY_OBSERVATION": 96,
+      "AWAITING_POLICY_ARTIFACT": 2,
+      "AWAITING_ATTENDED_CAPTURE": 68,
+      "AWAITING_FOUNDER_DECISION": 92,
+      "ACCESS_BLOCKED": 22
+    }
+  },
+  "founder_review": {
+    "candidates": 92,
+    "candidate_pct_of_active": 25.8,
+    "recommendation_counts": {
+      "RECOMMEND_AUTHORITY_PET_FRIENDLY": 60,
+      "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS": 29,
+      "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE": 3
+    },
+    "review_status_counts": {
+      "MACHINE_REVIEWED_PENDING_OPERATOR": 92
+    }
+  },
+  "cost": {
+    "total_usd": 2.41,
+    "basis": "Bright Data per-zone month-to-date cost growth over scraping_browser1, mcp_unlocker and cli_unlocker, summed since this run's own anchor and read live from the vendor. NOT the account balance, which lags roughly 3x and rises on a top-up. The run's own per-property estimate independently reached $2.27 over the same work, and the cap was enforced on the larger of the two throughout. Firecrawl bills PLAN CREDITS and no dollar figure is asserted for it: 81 credits of an 884-credit balance. Google Places and Overpass made zero calls this work order; MARKET-001's $2.52 of discovery spend is separate and is not re-counted here.",
+    "cap_usd": 10.0,
+    "provider_calls": {
+      "firecrawl": 81,
+      "brightdata_browser": 11,
+      "brightdata_web_unlocker": 7,
+      "google_places_text_search": 0,
+      "overpass": 0,
+      "direct_http": 0
+    },
+    "measured_usd_minor": 241,
+    "estimated_usd_minor": 227.0,
+    "plan_credits_consumed": 81,
+    "note": "The $10 cap was never reached. The run stopped because it was interrupted, not because it ran out of money -- $7.59 of the cap is unspent and 120 cohort properties are unattempted. The two independent meters agreeing to within 14 cents over 93 properties is the evidence that the cap would have bound correctly had the run continued."
+  },
+  "architecture": {
+    "new_generic_modules": [
+      {
+        "path": "scripts/pettripfinder/acquisition/market_paid_acquisition.py",
+        "why": "milwaukee_acquisition_run_001.py already proved this shape and is welded to one market: its queue path, cost anchor, cap and market id are module constants. St. Louis is the first market with no market-specific factory script, so the paid run was the last piece that had to become generic.",
+        "reusable": "every future market's paid pass; carries the cohort-by-subtraction rule, the two-meter cap and the family circuit breaker"
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/acquisition_merge.py",
+        "why": "the observation store, the closure ledger and the founder-review builder each take ONE acquisition report. True while a market had one pass, and quietly wrong the moment it has two: a property acquired by the paid lane still read UNHYDRATED from the free lane's report.",
+        "reusable": "every market that acquires more than once, which is every market"
+      },
+      {
+        "path": "scripts/pettripfinder/discovery/census_url_recovery.py",
+        "why": "60 of the 77 identities St. Louis cannot route are blocked by nobody knowing where the hotel's website is. The first place to look is the discovery payloads the market already paid for.",
+        "reusable": "every market; the strict phone-or-name-and-postal binding is what keeps it from proposing another hotel's URL"
+      },
+      {
+        "path": "scripts/pettripfinder/market_closeout.sh",
+        "why": "five offline steps whose ORDER is load-bearing; running one against a stale predecessor was possible and silent",
+        "reusable": "every market work order's closing sequence"
+      }
+    ],
+    "shared_files_modified": [
+      {
+        "path": "scripts/pettripfinder/acquisition/market_routing.py",
+        "change": "classify_url_shape now refuses a path whose LAST segment is a category of hotels; urls_claimed_more_than_once added as a diagnostic",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/firecrawl_capture.py",
+        "change": "a declined capture now persists its document under the existing ptf-declined-capture/1.0 contract, as the free lane already did. The judgement is unchanged; only the audit trail is added.",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/market_observation_store.py",
+        "change": "provider, reader and capture_method are READ from the row instead of asserted as direct_http/generic/deterministic_fetch",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/market_closure_cli.py",
+        "change": "the partition reason names the lane that was refused rather than saying 'the free lane', and no longer blames a missing credential for an unfetched property",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/market_benchmark_cli.py",
+        "change": "--suffix and --acquisition-name, so a second pass over a market does not silently re-report the first",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/zero_cost_recovery.py",
+        "change": "--run-dir is repeatable, so recovery covers every acquisition pass rather than only the newest",
+        "additive": true
+      }
+    ],
+    "market_specific_scripts": 0,
+    "new_tests": 85,
+    "new_tests_note": "74 in four new files plus 11 added to the routing suite; all pass"
+  },
+  "interventions": [
+    {
+      "phase": "preflight",
+      "who": "operator (founder)",
+      "what": "corrected the Bright Data zone password after two sessions of PAID-ACQUISITION-002 stopped on a 407 wrong_password",
+      "automatable": "no -- a credential rotation is a human act. The recommendation from session 2 stands and is still not built: the preflight report should carry a non-secret fingerprint of the credential it probed, so a later run can state 'this is a different credential' as a fact."
+    },
+    {
+      "phase": "acquisition",
+      "who": "operator (Claude)",
+      "what": "chose the family order within the dollar lanes -- Marriott and Hilton first, as the two the registry has measured at 100% on the Browser API, then the small brands, then independents",
+      "automatable": "partly -- the ordering rule is now code, but which families are 'measured' is read from routes.json prose rather than a field"
+    },
+    {
+      "phase": "acquisition",
+      "who": "environment",
+      "what": "the paid run was interrupted at 93 of 212 cohort properties; the journal preserved every paid capture and --report-only was added so a killed run still produces its artifact",
+      "automatable": "yes -- and it now is"
+    },
+    {
+      "phase": "routing",
+      "who": "operator (Claude)",
+      "what": "found the category-index defect by reading a single POLICY_NOT_FOUND row whose identity gate had passed on a Choice city-search page, then confirmed it with the three-identities-one-URL check",
+      "automatable": "yes -- urls_claimed_more_than_once is that check, and it now reports zero"
+    }
+  ],
+  "scorecard": {
+    "automatic_routing_pct": {
+      "target": ">= 90",
+      "actual": 78.4,
+      "basis": "280 of 357 census identities resolved a measured lane on a property-level first-party URL"
+    },
+    "observed_acquired_pct": {
+      "target": ">= 85",
+      "actual": 47.0,
+      "basis": "94 VALID of 200 attempted across brightdata_browser, brightdata_web_unlocker, firecrawl"
+    },
+    "publication_grade_pct_of_active": {
+      "target": ">= 80",
+      "actual": 25.8,
+      "basis": "92 publication-grade observations over 357 active-eligible identities"
+    },
+    "active_closure_pct": {
+      "target": "= 100 (required, not a target)",
+      "actual": 100.0,
+      "basis": "357 ledger rows over a 357-identity active denominator; reconciliation missing=0 foreign=0 duplicate=0"
+    },
+    "provider_spend_usd": {
+      "target": "<= 10.00",
+      "actual": 2.41,
+      "basis": "Bright Data per-zone month-to-date cost growth over scraping_browser1, mcp_unlocker and cli_unlocker, summed since this run's own anchor and read live from the vendor. NOT the account balance, which lags roughly 3x and rises on a top-up. The run's own per-property estimate independently reached $2.27 over the same work, and the cap was enforced on the larger of the two throughout. Firecrawl bills PLAN CREDITS and no dollar figure is asserted for it: 81 credits of an 884-credit balance. Google Places and Overpass made zero calls this work order; MARKET-001's $2.52 of discovery spend is separate and is not re-counted here."
+    },
+    "elapsed_hours": {
+      "target": "4 - 8",
+      "actual": 4.05,
+      "basis": "PTF-ST-LOUIS-PAID-ACQUISITION-002 ran across THREE sessions and the figure is their sum, not the last one. Two earlier sessions stopped before spending anything: the first built the live lane preflight and was refused by the Bright Data Browser API with a 407, the second diagnosed that 407 across four candidate causes and stopped again. This session found the credential corrected, all three lanes AUTHENTICATED, and ran the paid cohort. Provider work ran in the background and is inside this figure, not beside it."
+    }
+  },
+  "production_safety": {
+    "live_markets_unchanged": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa"
+    ],
+    "launch_participation_sha256_unchanged": true,
+    "global_deployment_manifest_verifies": true,
+    "deployment_record_untouched": "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0",
+    "deployment_authorization_untouched": "ptf-auth-047-a324b1bf5023",
+    "measurement_enabled": false,
+    "affiliate_providers_enrolled": 0,
+    "st_louis_registered": false,
+    "st_louis_launch_status": "UNLISTED (fail-closed; never authorized)",
+    "st_louis_published": false,
+    "st_louis_deployed": false,
+    "st_louis_release_contract": false,
+    "st_louis_authority_shard": false,
+    "proved_by": "tests/pettripfinder/test_st_louis_production_safety_001.py"
+  },
+  "artifacts": {
+    "census": {
+      "path": "launch_packages/pettripfinder/identity_census/st-louis-mo.json",
+      "sha256": "4532823d3b3f454b3dce18729e67a5f46f3608cdc909957935f21bb3737a768f"
+    },
+    "candidate_ledger": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_candidate_ledger_001.json",
+      "sha256": "38e6b66032fd848ef69c3dde475636f65e1b9e3779d5cd5891e64ab3ec1616ef"
+    },
+    "acquisition": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_acquisition_merged_002.json",
+      "sha256": "7bebe19f1dcb3e3c2e48b9e3897d9666a5af7f258a28c49bac6e0cd708a6c141"
+    },
+    "observation_store": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_observation_store_002.json",
+      "sha256": "ae9a47ebe359cd5405c7ba825ffbc9136d8ff77ba2773782445bb5f776f20897"
+    },
+    "final_partition": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_final_partition_002.json",
+      "sha256": "9d1b88db649274c3ff003100ef69797687c007e4cf694f1257ec38ac45ab312c"
+    },
+    "closure_ledger": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_closure_ledger_002.json",
+      "sha256": "65672ec16ce9f8d18a9df8248f6016da48a3b18de8a5c00564e1ee42a1b8929b"
+    },
+    "founder_review_packet": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_founder_review_packet_002.json",
+      "sha256": "7658c6507038cc26e689e98f9826488e3534f71aa35d2b9a3a20bb50d14bae4d"
+    },
+    "zero_cost_recovery": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_zero_cost_recovery_002.json",
+      "sha256": "c8a369957ee80341f82918967166051e41690156844077224d47e29e88acc661"
+    }
+  }
+}

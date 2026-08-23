@@ -1,0 +1,168 @@
+{
+ "as_of": "2026-08-23",
+ "work_order": "PTF-ST-LOUIS-PAID-ACQUISITION-002",
+ "elapsed": {
+  "started_utc": "2026-08-23T03:00:00Z",
+  "basis": "PTF-ST-LOUIS-PAID-ACQUISITION-002 ran across THREE sessions and the figure is their sum, not the last one. Two earlier sessions stopped before spending anything: the first built the live lane preflight and was refused by the Bright Data Browser API with a 407, the second diagnosed that 407 across four candidate causes and stopped again. This session found the credential corrected, all three lanes AUTHENTICATED, and ran the paid cohort. Provider work ran in the background and is inside this figure, not beside it.",
+  "total_hours": 4.05,
+  "phases": [
+   {
+    "phase": "live lane preflight (session 1)",
+    "hours": 1.1,
+    "note": "building lane_preflight, finding and fixing a credential leak in a truncated redaction, STOP at a 407 with zero properties fetched"
+   },
+   {
+    "phase": "407 diagnosis (session 2)",
+    "hours": 0.6,
+    "note": "four candidate causes each tested with an explicitly constructed Authorization header; all four ruled out; STOP again, zero fetched"
+   },
+   {
+    "phase": "re-preflight and cohort derivation (session 3)",
+    "hours": 0.4,
+    "note": "all three lanes AUTHENTICATED; the generic paid runner, the cohort-by-subtraction rule and the two-meter cap"
+   },
+   {
+    "phase": "paid acquisition (session 3)",
+    "hours": 1.35,
+    "note": "93 of 212 cohort properties across Choice, IHG, Wyndham and Marriott before the run was interrupted; every one journalled"
+   },
+   {
+    "phase": "zero-cost URL recovery and the routing defect",
+    "hours": 0.3,
+    "note": "5 URLs recovered from cached payloads; the category-index classifier defect found, fixed and tested"
+   },
+   {
+    "phase": "closeout: recovery, merge, store, closure, review package",
+    "hours": 0.3,
+    "note": "offline; zero network, zero spend"
+   }
+  ]
+ },
+ "cost": {
+  "total_usd": 2.41,
+  "basis": "Bright Data per-zone month-to-date cost growth over scraping_browser1, mcp_unlocker and cli_unlocker, summed since this run's own anchor and read live from the vendor. NOT the account balance, which lags roughly 3x and rises on a top-up. The run's own per-property estimate independently reached $2.27 over the same work, and the cap was enforced on the larger of the two throughout. Firecrawl bills PLAN CREDITS and no dollar figure is asserted for it: 81 credits of an 884-credit balance. Google Places and Overpass made zero calls this work order; MARKET-001's $2.52 of discovery spend is separate and is not re-counted here.",
+  "cap_usd": 10.0,
+  "provider_calls": {
+   "firecrawl": 81,
+   "brightdata_browser": 11,
+   "brightdata_web_unlocker": 7,
+   "google_places_text_search": 0,
+   "overpass": 0,
+   "direct_http": 0
+  },
+  "measured_usd_minor": 241,
+  "estimated_usd_minor": 227.0,
+  "plan_credits_consumed": 81,
+  "note": "The $10 cap was never reached. The run stopped because it was interrupted, not because it ran out of money -- $7.59 of the cap is unspent and 120 cohort properties are unattempted. The two independent meters agreeing to within 14 cents over 93 properties is the evidence that the cap would have bound correctly had the run continued."
+ },
+ "routing": {
+  "new_source_families": 0
+ },
+ "architecture": {
+  "new_generic_modules": [
+   {
+    "path": "scripts/pettripfinder/acquisition/market_paid_acquisition.py",
+    "why": "milwaukee_acquisition_run_001.py already proved this shape and is welded to one market: its queue path, cost anchor, cap and market id are module constants. St. Louis is the first market with no market-specific factory script, so the paid run was the last piece that had to become generic.",
+    "reusable": "every future market's paid pass; carries the cohort-by-subtraction rule, the two-meter cap and the family circuit breaker"
+   },
+   {
+    "path": "scripts/pettripfinder/acquisition/acquisition_merge.py",
+    "why": "the observation store, the closure ledger and the founder-review builder each take ONE acquisition report. True while a market had one pass, and quietly wrong the moment it has two: a property acquired by the paid lane still read UNHYDRATED from the free lane's report.",
+    "reusable": "every market that acquires more than once, which is every market"
+   },
+   {
+    "path": "scripts/pettripfinder/discovery/census_url_recovery.py",
+    "why": "60 of the 77 identities St. Louis cannot route are blocked by nobody knowing where the hotel's website is. The first place to look is the discovery payloads the market already paid for.",
+    "reusable": "every market; the strict phone-or-name-and-postal binding is what keeps it from proposing another hotel's URL"
+   },
+   {
+    "path": "scripts/pettripfinder/market_closeout.sh",
+    "why": "five offline steps whose ORDER is load-bearing; running one against a stale predecessor was possible and silent",
+    "reusable": "every market work order's closing sequence"
+   }
+  ],
+  "shared_files_modified": [
+   {
+    "path": "scripts/pettripfinder/acquisition/market_routing.py",
+    "change": "classify_url_shape now refuses a path whose LAST segment is a category of hotels; urls_claimed_more_than_once added as a diagnostic",
+    "additive": true
+   },
+   {
+    "path": "scripts/pettripfinder/acquisition/firecrawl_capture.py",
+    "change": "a declined capture now persists its document under the existing ptf-declined-capture/1.0 contract, as the free lane already did. The judgement is unchanged; only the audit trail is added.",
+    "additive": true
+   },
+   {
+    "path": "scripts/pettripfinder/acquisition/market_observation_store.py",
+    "change": "provider, reader and capture_method are READ from the row instead of asserted as direct_http/generic/deterministic_fetch",
+    "additive": true
+   },
+   {
+    "path": "scripts/pettripfinder/market_closure_cli.py",
+    "change": "the partition reason names the lane that was refused rather than saying 'the free lane', and no longer blames a missing credential for an unfetched property",
+    "additive": true
+   },
+   {
+    "path": "scripts/pettripfinder/market_benchmark_cli.py",
+    "change": "--suffix and --acquisition-name, so a second pass over a market does not silently re-report the first",
+    "additive": true
+   },
+   {
+    "path": "scripts/pettripfinder/acquisition/zero_cost_recovery.py",
+    "change": "--run-dir is repeatable, so recovery covers every acquisition pass rather than only the newest",
+    "additive": true
+   }
+  ],
+  "market_specific_scripts": 0,
+  "new_tests": 85,
+  "new_tests_note": "74 in four new files plus 11 added to the routing suite; all pass"
+ },
+ "interventions": [
+  {
+   "phase": "preflight",
+   "who": "operator (founder)",
+   "what": "corrected the Bright Data zone password after two sessions of PAID-ACQUISITION-002 stopped on a 407 wrong_password",
+   "automatable": "no -- a credential rotation is a human act. The recommendation from session 2 stands and is still not built: the preflight report should carry a non-secret fingerprint of the credential it probed, so a later run can state 'this is a different credential' as a fact."
+  },
+  {
+   "phase": "acquisition",
+   "who": "operator (Claude)",
+   "what": "chose the family order within the dollar lanes -- Marriott and Hilton first, as the two the registry has measured at 100% on the Browser API, then the small brands, then independents",
+   "automatable": "partly -- the ordering rule is now code, but which families are 'measured' is read from routes.json prose rather than a field"
+  },
+  {
+   "phase": "acquisition",
+   "who": "environment",
+   "what": "the paid run was interrupted at 93 of 212 cohort properties; the journal preserved every paid capture and --report-only was added so a killed run still produces its artifact",
+   "automatable": "yes -- and it now is"
+  },
+  {
+   "phase": "routing",
+   "who": "operator (Claude)",
+   "what": "found the category-index defect by reading a single POLICY_NOT_FOUND row whose identity gate had passed on a Choice city-search page, then confirmed it with the three-identities-one-URL check",
+   "automatable": "yes -- urls_claimed_more_than_once is that check, and it now reports zero"
+  }
+ ],
+ "production_safety": {
+  "live_markets_unchanged": [
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "milwaukee-wi",
+   "pittsburgh-pa"
+  ],
+  "launch_participation_sha256_unchanged": true,
+  "global_deployment_manifest_verifies": true,
+  "deployment_record_untouched": "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0",
+  "deployment_authorization_untouched": "ptf-auth-047-a324b1bf5023",
+  "measurement_enabled": false,
+  "affiliate_providers_enrolled": 0,
+  "st_louis_registered": false,
+  "st_louis_launch_status": "UNLISTED (fail-closed; never authorized)",
+  "st_louis_published": false,
+  "st_louis_deployed": false,
+  "st_louis_release_contract": false,
+  "st_louis_authority_shard": false,
+  "proved_by": "tests/pettripfinder/test_st_louis_production_safety_001.py"
+ }
+}

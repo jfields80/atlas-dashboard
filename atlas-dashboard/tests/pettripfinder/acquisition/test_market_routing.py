@@ -53,6 +53,74 @@ class TestShape:
         assert MR.NO_URL not in MR.ROUTABLE_SHAPES
 
 
+class TestCategoryIndex:
+    """A path ENDING in a category of hotels lists many; it names none.
+
+    PTF-ST-LOUIS-PAID-ACQUISITION-002 found this the way it is always found: a
+    Choice city-search URL was carried by THREE St. Louis census identities --
+    two Comfort Inns and a Sleep Inn -- and being shaped like a property page,
+    it was routed, fetched, passed the capture's identity gate on city and
+    brand family alone, and returned POLICY_NOT_FOUND. That is a claim about a
+    hotel made from a page that is not that hotel's.
+    """
+
+    def test_a_city_and_brand_listing_is_an_index(self):
+        assert MR.classify_url_shape(
+            "https://www.choicehotels.com/missouri/saint-louis/quality-inn-hotels"
+        ) == MR.BRAND_INDEX
+
+    def test_the_same_path_with_a_property_code_after_it_is_a_property_page(self):
+        assert MR.classify_url_shape(
+            "https://www.choicehotels.com/illinois/alton/comfort-inn-hotels/il008"
+        ) == MR.PROPERTY_PAGE
+
+    @pytest.mark.parametrize("tail", ["hotels", "motels", "inns", "resorts",
+                                      "properties", "econo-lodge-hotels"])
+    def test_every_category_word_is_an_index_in_the_last_segment(self, tail):
+        assert MR.classify_url_shape(
+            "https://www.choicehotels.com/illinois/alton/%s" % tail
+        ) == MR.BRAND_INDEX
+
+    def test_a_trailing_slash_does_not_hide_the_category_segment(self):
+        assert MR.classify_url_shape(
+            "https://www.choicehotels.com/missouri/saint-louis/quality-inn-hotels/"
+        ) == MR.BRAND_INDEX
+
+    def test_a_property_slug_that_merely_contains_a_category_word_survives(self):
+        # "hotels" inside a segment is not "hotels" as the segment's category
+        # suffix -- refusing these would delete real property pages.
+        assert MR.classify_url_shape(
+            "https://www.marriott.com/en-us/hotels/stlaw-ac-hotel/overview/"
+        ) == MR.PROPERTY_PAGE
+        assert MR.classify_url_shape(
+            "https://someindependent.com/hotelsuites"
+        ) == MR.PROPERTY_PAGE
+
+
+class TestSharedUrls:
+    def test_two_identities_on_one_routed_url_are_reported(self):
+        entries = [
+            {"identity_key": "a", "source_url": "https://x/1",
+             "routing_state": MR.ROUTED},
+            {"identity_key": "b", "source_url": "https://x/1",
+             "routing_state": MR.ROUTED},
+            {"identity_key": "c", "source_url": "https://x/2",
+             "routing_state": MR.ROUTED},
+        ]
+        shared = MR.urls_claimed_more_than_once(entries)
+        assert list(shared) == ["https://x/1"]
+        assert shared["https://x/1"] == ["a", "b"]
+
+    def test_an_unrouted_row_cannot_raise_a_false_collision(self):
+        entries = [
+            {"identity_key": "a", "source_url": "https://x/1",
+             "routing_state": MR.ROUTED},
+            {"identity_key": "b", "source_url": "https://x/1",
+             "routing_state": MR.ROUTE_BRAND_EXCLUDED},
+        ]
+        assert MR.urls_claimed_more_than_once(entries) == {}
+
+
 class TestRouting:
     def _row(self, url):
         return {"identity_key": "k", "canonical_name": "K", "corridor": "c",
