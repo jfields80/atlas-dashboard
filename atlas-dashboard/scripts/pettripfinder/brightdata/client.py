@@ -37,6 +37,7 @@ import os
 import re
 import shutil
 import subprocess
+import urllib.parse
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
@@ -68,6 +69,11 @@ DEFAULT_COUNTRY = "us"
 GEO_PROBE_URL = "https://geo.brdtest.com/mygeo.json"
 
 _COUNTRY_SUFFIX_RE = re.compile(r"-country-[a-z]{2}$", re.IGNORECASE)
+
+#: Exit countries whose PINNED username must be treated as a secret fragment.
+#: ``DEFAULT_COUNTRY`` is the only one any capture path uses; the rest are here
+#: so that a future pin does not silently reopen the leak this list closes.
+_PIN_COUNTRIES: Tuple[str, ...] = ("us", "ca", "gb", "de", "fr", "es", "mx")
 
 #: CLI invocations this module may make. ``zones info`` is deliberately absent:
 #: it returns the zone password. An allowlist rather than a denylist, because a
@@ -110,26 +116,67 @@ def credential_present() -> bool:
     return bool((os.environ.get(AUTH_ENV) or "").strip())
 
 
+def _encoded_forms(value: str) -> Tuple[str, ...]:
+    """``value`` plus every URL-escaped spelling of it a URL layer may emit."""
+    if not value:
+        return ()
+    forms = {value,
+             urllib.parse.quote(value, safe=""),
+             urllib.parse.quote_plus(value),
+             urllib.parse.quote(value)}
+    return tuple(f for f in forms if len(f) > 3)
+
+
 def _secret_fragments() -> Tuple[str, ...]:
     """Every substring whose appearance in output would be a leak.
 
     Longest first, so that redacting the userinfo does not leave a bare
     password behind, and vice versa.
+
+    Two forms of the same secret have to be registered, because two different
+    layers write it out.
+
+    * The COUNTRY-PINNED username. Every capture path connects through
+      :func:`browser_endpoint`, which appends ``-country-xx`` to the username,
+      so the string Playwright echoes back in an error is never the raw
+      environment value.
+    * The PERCENT-ENCODED password. Playwright re-serialises the endpoint as a
+      URL, so a password containing a URL-reserved character (``#``, ``@``,
+      ``/``, ``?``) is reported escaped. PTF-ST-LOUIS-PAID-ACQUISITION-002
+      caught this live: a Browser API ``407 Auth Failed`` printed the zone
+      password with its ``#`` written ``%23``, which matched no registered
+      fragment and survived redaction. The existing guard test passed only
+      because its fixture password was alphanumeric.
     """
     auth = (os.environ.get(AUTH_ENV) or "").strip()
     if not auth:
         return ()
-    fragments = {auth, "wss://" + auth}
-    userinfo = auth.split("@", 1)[0]
+    for candidate in ("wss://", "ws://"):
+        if auth.startswith(candidate):
+            auth = auth[len(candidate):]
+            break
+    fragments = {auth, "wss://" + auth, "ws://" + auth}
+    userinfo, _, host = auth.partition("@")
     if userinfo:
         fragments.add(userinfo)
         if ":" in userinfo:
             user, password = userinfo.rsplit(":", 1)
+            # The pinned forms are what a live connection error actually holds.
+            base = _COUNTRY_SUFFIX_RE.sub("", user)
+            pinned_users = {user, base} | {
+                "%s-country-%s" % (base, cc) for cc in _PIN_COUNTRIES}
+            for pinned in sorted(pinned_users):
+                fragments.add(pinned)
+                for pwd in _encoded_forms(password):
+                    fragments.add("%s:%s" % (pinned, pwd))
+                    if host:
+                        fragments.add("%s:%s@%s" % (pinned, pwd, host))
             for part in (user, password):
                 # Very short fragments would redact ordinary prose instead.
                 if len(part) > 3:
-                    fragments.add(part)
-    return tuple(sorted((f for f in fragments if f), key=len, reverse=True))
+                    fragments.update(_encoded_forms(part))
+    return tuple(sorted((f for f in fragments if f and len(f) > 3),
+                        key=len, reverse=True))
 
 
 def redact(value):
@@ -147,6 +194,27 @@ def redact(value):
     if isinstance(value, list):
         return [redact(v) for v in value]
     return value
+
+
+def redact_truncate(value: str, limit: int) -> str:
+    """Redact FIRST, then truncate. Never the other way round.
+
+    PTF-ST-LOUIS-PAID-ACQUISITION-002 found a live Browser API password in a
+    report that had been through :func:`redact`. The call site had written
+    ``redact("%s" % str(exc)[:120])``: the slice cut the endpoint in half, so
+    the surviving prefix of the password matched no registered fragment and
+    the redactor had nothing to remove. The guard was not weak -- it was
+    handed a string the secret had already been broken inside of.
+
+    Ordering is the whole fix, and it is provable rather than heuristic: once
+    redaction has run, no secret remains in the string, so no slice of it can
+    contain one. :func:`contains_credential` cannot catch this class on its
+    own, because a half of a password is not a fragment it knows.
+    """
+    cleaned = redact(value or "")
+    if limit is not None and limit >= 0 and len(cleaned) > limit:
+        return cleaned[:limit]
+    return cleaned
 
 
 def contains_credential(value) -> bool:
@@ -465,7 +533,8 @@ __all__ = [
     "AUTH_ENV", "ZONE", "CLI_NAME", "ALLOWED_CLI_ARGS", "REDACTED",
     "BrightDataCredentialError", "BrightDataUsageError",
     "DEFAULT_COUNTRY", "GEO_PROBE_URL", "pin_country",
-    "credential_present", "redact", "contains_credential", "browser_endpoint",
+    "credential_present", "redact", "redact_truncate",
+    "contains_credential", "browser_endpoint",
     "money_to_minor", "bandwidth_to_bytes", "parse_zone_budget",
     "parse_balance", "UsageSnapshot", "read_usage",
     "implied_rate_usd_minor_per_gb", "delta",

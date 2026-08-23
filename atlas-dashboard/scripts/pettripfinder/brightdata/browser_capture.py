@@ -333,8 +333,14 @@ async def probe_exit_country(*, expected: str = client.DEFAULT_COUNTRY,
                 finally:
                     await browser.close()
         except Exception as exc:                                # noqa: BLE001
-            errors.append(client.redact("%s: %s"
-                                        % (type(exc).__name__, str(exc)[:120])))
+            # Redact the WHOLE message, then trim. Slicing first splits the
+            # credential and leaves a prefix no fragment matches; a live 407
+            # printed a zone password that way (PAID-ACQUISITION-002). The
+            # wider budget is affordable now that the trim is safe, and it is
+            # what keeps the vendor's own diagnosis -- "407 Auth Failed
+            # (wrong_password)" -- in the record instead of only the endpoint.
+            errors.append(client.redact_truncate(
+                "%s: %s" % (type(exc).__name__, exc), 400))
         if len(seen) < reads:
             await asyncio.sleep(RETRY_PAUSE_SECONDS)
 

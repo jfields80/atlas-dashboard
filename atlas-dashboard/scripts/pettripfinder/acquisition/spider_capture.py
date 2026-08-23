@@ -96,7 +96,7 @@ def _post(body: Dict, *, timeout: int = REQUEST_TIMEOUT_SECONDS) -> Dict:
     try:
         data = json.loads(raw)
     except ValueError:
-        raise SpiderError("non-JSON response: %s" % redact(raw[:200]))
+        raise SpiderError("non-JSON response: %s" % redact(raw)[:200])
     rows = data if isinstance(data, list) else [data]
     if not rows:
         raise SpiderError("empty response")

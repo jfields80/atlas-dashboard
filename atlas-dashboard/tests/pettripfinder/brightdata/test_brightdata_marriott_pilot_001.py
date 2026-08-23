@@ -20,6 +20,7 @@ import asyncio
 import inspect
 import json
 import re
+import urllib.parse
 import sys
 from pathlib import Path
 
@@ -440,6 +441,112 @@ def test_redaction_removes_every_fragment_of_the_endpoint(monkeypatch):
     cleaned = client.redact(leaky)
     assert not client.contains_credential(cleaned)
     assert "s3cr3tpassword" not in cleaned
+
+
+def test_redaction_survives_the_url_escaping_playwright_applies(monkeypatch):
+    """PTF-ST-LOUIS-PAID-ACQUISITION-002.
+
+    The test above passes with an alphanumeric password, which is why the
+    real leak went unseen for six work orders. Playwright re-serialises the
+    endpoint as a URL before it echoes it in an error, so a password holding
+    a URL-reserved character arrives percent-escaped, and the escaped
+    spelling is a different string from the one the environment holds.
+
+    A live ``407 Auth Failed`` printed the zone password this way.
+    """
+    password = "bLUE#JACK/ETS?123"
+    monkeypatch.setenv(client.AUTH_ENV,
+                       "brd-customer-hl_test-zone-scraping_browser1:"
+                       "%s@brd.superproxy.io:9222" % password)
+    escaped = urllib.parse.quote(password, safe="")
+    assert escaped != password
+
+    leaky = ("BrowserType.connect_over_cdp: WebSocket error: "
+             "wss://brd-customer-hl_test-zone-scraping_browser1-country-us:"
+             "%s@brd.superproxy.io:9222/ 407 Auth Failed (wrong_password)"
+             % escaped)
+    assert client.contains_credential(leaky)
+    cleaned = client.redact(leaky)
+    assert not client.contains_credential(cleaned)
+    assert password not in cleaned
+    assert escaped not in cleaned
+    # The diagnosis must survive the redaction, or the guard costs us the bug.
+    assert "407 Auth Failed" in cleaned
+
+
+def test_redaction_covers_the_country_pinned_username(monkeypatch):
+    """Every capture path connects PINNED, so the raw username is never the
+    string an error carries."""
+    monkeypatch.setenv(client.AUTH_ENV,
+                       "brd-customer-hl_test-zone-scraping_browser1:"
+                       "s3cr3tpassword@brd.superproxy.io:9222")
+    pinned = client.browser_endpoint(country=client.DEFAULT_COUNTRY)
+    assert "-country-us" in pinned
+    assert client.contains_credential(pinned)
+    assert not client.contains_credential(client.redact(pinned))
+
+
+def test_redaction_is_indifferent_to_a_scheme_in_the_environment(monkeypatch):
+    """``wss://`` may or may not be part of the variable; both spellings of
+    the same secret must redact."""
+    for raw in ("brd-customer-hl_test-zone-z1:s3cr3tpassword@brd.superproxy.io:9222",
+                "wss://brd-customer-hl_test-zone-z1:s3cr3tpassword@brd.superproxy.io:9222"):
+        monkeypatch.setenv(client.AUTH_ENV, raw)
+        for spelling in (raw, raw.replace("wss://", ""), "wss://" + raw.replace("wss://", "")):
+            assert client.contains_credential(spelling), spelling
+            assert not client.contains_credential(client.redact(spelling)), spelling
+
+
+def test_truncating_before_redacting_is_what_leaked_the_password(monkeypatch):
+    """PTF-ST-LOUIS-PAID-ACQUISITION-002 -- the actual root cause.
+
+    The redactor was never weak. The call site sliced the exception message to
+    120 characters BEFORE handing it over, which cut the endpoint in half; the
+    surviving prefix of the password was not a fragment the redactor knew, so
+    there was nothing for it to remove and the report looked clean.
+
+    This test states the property in both directions, because only the pair of
+    them distinguishes a fixed ordering from a longer slice.
+    """
+    password = "bLUEJACKETS123"
+    monkeypatch.setenv(client.AUTH_ENV,
+                       "brd-customer-hl_test-zone-scraping_browser1:"
+                       "%s@brd.superproxy.io:9222" % password)
+    endpoint = client.browser_endpoint()
+    message = ("Error: BrowserType.connect_over_cdp: WebSocket error: %s/ "
+               "407 Auth Failed (wrong_password)" % endpoint)
+
+    # The old ordering: the slice lands inside the password.
+    leaked = client.redact(message[:120])
+    leaked_prefix = next((password[:n] for n in range(len(password), 3, -1)
+                          if password[:n] in leaked), "")
+    assert leaked_prefix, "fixture no longer reproduces the bug"
+    assert not client.contains_credential(leaked), (
+        "contains_credential cannot see a half password -- which is exactly "
+        "why the guard reported clean")
+
+    # The fixed ordering: nothing of the password survives, at any limit.
+    for limit in (60, 120, 200, 400, 10_000):
+        safe = client.redact_truncate(message, limit)
+        assert password not in safe
+        assert leaked_prefix not in safe, limit
+        assert len(safe) <= limit
+
+
+def test_redact_truncate_keeps_the_vendor_diagnosis(monkeypatch):
+    """A guard that costs us the reason is not a good trade: the fix has to
+    leave ``407 Auth Failed`` readable, or the next operator learns only that
+    something went wrong."""
+    monkeypatch.setenv(client.AUTH_ENV,
+                       "brd-customer-hl_test-zone-z1:s3cr3tpassword"
+                       "@brd.superproxy.io:9222")
+    message = ("Error: BrowserType.connect_over_cdp: WebSocket error: %s/ "
+               "407 Auth Failed (wrong_password). Wrong customer password."
+               % client.browser_endpoint())
+    safe = client.redact_truncate(message, 400)
+    assert "407 Auth Failed" in safe
+    assert "wrong_password" in safe
+    assert not client.contains_credential(safe)
 
 
 def test_redaction_recurses_into_manifests(monkeypatch):

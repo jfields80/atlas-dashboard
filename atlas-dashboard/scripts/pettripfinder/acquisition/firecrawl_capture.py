@@ -150,11 +150,11 @@ def _request(url: str, *, data: Optional[Dict] = None,
                 "by this origin")
         raise FirecrawlError("HTTP %d%s: %s"
                              % (exc.code, (" %s" % code) if code else "",
-                                redact(detail[:200] or str(exc))))
+                                redact(detail or str(exc))[:200]))
     try:
         return json.loads(raw)
     except ValueError:
-        raise FirecrawlError("non-JSON response: %s" % redact(raw[:200]))
+        raise FirecrawlError("non-JSON response: %s" % redact(raw)[:200])
 
 
 def credits_remaining() -> Optional[int]:
