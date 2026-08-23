@@ -180,6 +180,39 @@ class TestSpendMeter:
         assert meter.estimated_usd_minor == 0.0
         assert meter.estimated_credits == 1.0
 
+    def test_a_resume_seeds_the_estimate_with_what_earlier_sessions_spent(
+            self, tmp_path, monkeypatch):
+        # The defect this pins: a fresh process starts the estimate at zero, so
+        # it counts only THIS session. During the vendor's settling lag that is
+        # the number the cap binds on, and a cap binding on a session-local
+        # figure lets a resumed run spend the whole cap AGAIN on top of what
+        # earlier sessions already spent. Both meters must be cumulative or
+        # max() is comparing different things.
+        meter = self._anchor(tmp_path, {"z1": 100})
+        monkeypatch.setattr(meter, "zone_costs", lambda label: {"z1": 341})
+        monkeypatch.setattr(PA.PROVIDERS, "all_ids", lambda: ())
+        PA.preflight(meter, run_id="r", cap_usd_minor=1000)
+        assert meter.estimated_usd_minor == 241.0
+        assert meter.seeded_usd_minor == 241.0
+
+        # A fresh estimate would now read 16; the seeded one reads 257, which
+        # is what the cap must see.
+        class Attempt:
+            provider = "brightdata_browser"
+
+        meter.charge([Attempt()])
+        view = meter.spend_view("now", refresh=False)
+        assert view["estimated_usd_minor"] == 257.0
+        assert view["this_session_usd_minor"] == 16.0
+
+    def test_a_first_run_seeds_nothing(self, tmp_path, monkeypatch):
+        meter = self._anchor(tmp_path, {"z1": 100})
+        monkeypatch.setattr(meter, "zone_costs", lambda label: {"z1": 100})
+        monkeypatch.setattr(PA.PROVIDERS, "all_ids", lambda: ())
+        PA.preflight(meter, run_id="r", cap_usd_minor=1000)
+        assert meter.seeded_usd_minor == 0.0
+        assert meter.estimated_usd_minor == 0.0
+
     def test_reusing_the_last_reading_still_recomputes_the_estimate(
             self, tmp_path, monkeypatch):
         meter = self._anchor(tmp_path, {"z1": 100})
@@ -195,6 +228,68 @@ class TestSpendMeter:
         view = meter.spend_view("second", refresh=False)
         assert len(calls) == 1                     # the vendor was not re-asked
         assert view["binding_usd_minor"] == 500.0  # the cap still saw the truth
+
+
+class TestCapReservation:
+    """The cap must stop BEFORE it is crossed, at the run's OWN measured rate.
+
+    Both halves were wrong in the first version and the bill proves it: the
+    St. Louis paid run stopped at 1055 cents against a 1000-cent cap. It checked
+    `binding >= cap` -- a stop-when-exceeded, which `budget.Budget`'s own
+    docstring rules out -- and it sized nothing, so with the vendor read every
+    fifth property up to five properties could commit unwatched. The registry
+    priced the Browser API at 16.0 cents from another market; these pages cost
+    20.9.
+    """
+
+    def _meter(self, tmp_path, *, measured, seeded, priced, every=5):
+        path = tmp_path / "anchor.json"
+        path.write_text(json.dumps({"zone_costs_usd_minor": {"z1": 0}}),
+                        encoding="utf-8")
+        meter = PA.SpendMeter(anchor_path=path, zones=("z1",), meter_every=every)
+        meter.last_measured = measured
+        meter.seeded_usd_minor = seeded
+        meter.priced_properties = priced
+        return meter
+
+    def test_the_rate_is_taken_from_the_run_not_from_the_registry(self, tmp_path):
+        # 814 cents over 39 properties is 20.9, not the registry's 16.0.
+        meter = self._meter(tmp_path, measured=1055, seeded=241, priced=39)
+        assert round(meter.calibrated_unit_usd_minor(), 1) == 20.9
+
+    def test_a_rate_from_too_few_properties_is_refused_as_noise(self, tmp_path):
+        meter = self._meter(tmp_path, measured=100, seeded=0, priced=2)
+        assert meter.calibrated_unit_usd_minor() is None
+        # ...and the registry figure is then the honest fallback.
+        assert meter.reservation_usd_minor(16.0) == 80.0
+
+    def test_the_reservation_covers_a_whole_metering_interval(self, tmp_path):
+        # The blind spot is not one property, it is every property that can run
+        # between two vendor readings.
+        meter = self._meter(tmp_path, measured=1055, seeded=241, priced=39)
+        assert round(meter.reservation_usd_minor(16.0)) == 104   # 20.9 * 5
+
+    def test_the_interval_is_what_scales_the_reservation(self, tmp_path):
+        meter = self._meter(tmp_path, measured=1055, seeded=241, priced=39,
+                            every=1)
+        assert round(meter.reservation_usd_minor(16.0)) == 21
+
+    def test_the_run_that_overshot_would_now_have_stopped_earlier(self, tmp_path):
+        # Replay of the real numbers. At the last check before the overshoot the
+        # run had spent about 950 cents; 950 >= 1000 was False, so it continued
+        # and landed at 1055. With a reservation it stops at 950.
+        meter = self._meter(tmp_path, measured=950, seeded=241, priced=34)
+        reserve = meter.reservation_usd_minor(16.0)
+        assert 950 < 1000                      # the old test passed here
+        assert 950 + reserve > 1000            # the new one does not
+
+    def test_a_credit_billed_lane_reserves_no_dollars(self):
+        assert PA._fallback_unit({"provider": "firecrawl"}) == 0.0
+        assert PA._fallback_unit({"provider": "brightdata_browser"}) == 16.0
+
+    def test_an_unknown_provider_still_reserves_something(self):
+        assert PA._fallback_unit({"provider": "nonesuch"}) == 16.0
+        assert PA._fallback_unit({}) == 16.0
 
 
 class TestFamilyBreaker:
@@ -224,6 +319,44 @@ class TestFamilyBreaker:
             breaker.record("CHOICE", acquired=False, failure="ACCESS_DENIED")
         assert breaker.is_open("CHOICE")
         assert not breaker.is_open("MARRIOTT")
+
+
+class TestTheReportDescribesTheWorkOrder:
+    """A resumed run must report the JOURNAL, never just its own batch.
+
+    This was a silent data-loss bug and it cost a whole closeout. The resumed
+    St. Louis run wrote its own 39 rows as the report; the merge then saw 39
+    instead of 132, and the founder package fell from 92 candidates to 47. Forty-
+    five properties that had been paid for and read vanished from the market's
+    current state, and every downstream artifact was quietly consistent with the
+    smaller number.
+    """
+
+    def _journal(self, tmp_path, keys):
+        from scripts.pettripfinder.acquisition import journal as JOURNAL
+        j = JOURNAL.Journal(path=tmp_path / "journal.jsonl")
+        for key in keys:
+            j.append({"identity_key": key, "outcome": O.VALID,
+                      "publication_grade": True, "family": "MARRIOTT",
+                      "provider": "brightdata_browser", "failure": ""})
+        return j
+
+    def test_a_resume_reports_every_journalled_property_not_its_own_batch(
+            self, tmp_path):
+        journal = self._journal(tmp_path, ["a", "b", "c"])
+        report = {"attempted": 1}
+        completed = journal.read()
+        report["results"] = [completed[k] for k in sorted(completed)]
+        report["attempted_this_session"] = report["attempted"]
+        report["attempted"] = len(completed)
+        assert [r["identity_key"] for r in report["results"]] == ["a", "b", "c"]
+        assert report["attempted"] == 3
+        assert report["attempted_this_session"] == 1
+
+    def test_the_journal_is_keyed_by_identity_so_a_resume_cannot_duplicate(
+            self, tmp_path):
+        journal = self._journal(tmp_path, ["a", "b", "a"])
+        assert sorted(journal.read()) == ["a", "b"]
 
 
 class TestUrlOverlay:

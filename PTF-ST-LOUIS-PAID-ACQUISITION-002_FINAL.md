@@ -24,25 +24,43 @@ AUTHENTICATED** and the paid cohort ran.
 
 | | MARKET-001 | PAID-002 |
 |---|---|---|
-| Publication-grade observations | 17 | **92** |
-| Founder-review candidates | 17 (4.8% of active) | **92 (25.8%)** |
-| Acquired VALID | 19 of 138 (13.8%) | **94 of 200 (47.0%)** |
+| Publication-grade observations | 17 | **122** |
+| Founder-review candidates | 17 (4.8% of active) | **122 (34.2%)** |
+| Acquired VALID | 19 of 138 (13.8%) | **124 of 239 (51.9%)** |
 | Lanes that ran | direct_http only | Firecrawl, Browser API, Web Unlocker |
-| Provider spend | $2.52 (discovery) | **$2.41** (acquisition) |
+| Provider spend | $2.52 (discovery) | **$10.82** (acquisition) |
 
-## B. The run was interrupted, and nothing was lost
+## B. THE CAP WAS EXCEEDED BY $0.82
 
-The paid run was killed at **93 of 212** cohort properties. Every completed
-property had already been journalled before the next began, so no paid capture
-was lost — the durability rule that cost PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002
-nineteen paid captures earned its keep here.
+**Final cumulative Bright Data spend: $10.82 against a $10.00 cap - 8.2% over.**
+This is a breach and is reported as one.
 
-The process died before writing its report. `--report-only` was added so a
-killed run still produces its artifact from the journal alone, spending nothing.
+Two causes, both in code this work order wrote.
 
-**120 cohort properties are unattempted and $7.59 of the $10 cap is unspent.**
-The run stopped because it was interrupted, not because it hit a ceiling. It
-resumes from the journal with one command; nothing already acquired is re-bought.
+1. **The guard stopped when exceeded, not before exceeding.** It asked
+   `binding >= cap`. `budget.Budget`'s own docstring rules that out: *"Every
+   ceiling is checked BEFORE an attempt is spent, never after. A budget that
+   notices it was exceeded has already been exceeded."* It reserved no headroom,
+   so with the vendor metered every fifth property, up to five could commit
+   between readings with nothing but the estimate watching.
+2. **The estimate was priced from another market.** The registry puts the
+   Browser API at 16.0c/property, measured on PTF-ACQUISITION-BRAND-REPAIR-003.
+   St. Louis's Marriott and Hilton pages cost **20.9c** - so the estimate ran
+   30% light and could not catch the overrun either.
+
+Both are fixed. The cap now reserves a whole metering interval priced at the
+run's **own** measured rate, falling back to the registry only until it has
+eight properties of its own evidence. Seven tests pin it, one replaying the
+exact numbers that overshot. **The fix cannot undo this bill.**
+
+A second defect, found in the same triage and worse in kind: **the resumed run
+reported only its own batch instead of the journal.** The merge saw 39 rows
+instead of 132, and the founder package fell from 122 candidates to 47 - 75
+properties that had been paid for and read vanished from the market's current
+state, with every downstream artifact quietly consistent with the smaller
+number. The report is now a projection of the journal. Two tests pin it.
+
+**81 cohort properties remain unattempted** and no budget remains to reach them.
 
 ## C. Cohort — 212, derived by subtraction
 
@@ -59,35 +77,41 @@ Every ROUTED identity minus the ones whose question is already answered:
 The cohort and the settled set partition the routed population exactly; a test
 asserts it.
 
-## D. Acquisition — 93 attempted, 75 publication-grade
+## D. Acquisition - 132 attempted, 122 publication-grade
 
 | Family | VALID | Attempted | Lane | MARKET-001 |
 |---|---|---|---|---|
+| Marriott | **32** | 38 | Browser API | never fetched (403) |
 | Wyndham | **26** | 31 | Firecrawl | 2 of 37 |
 | Choice | **23** | 31 | Firecrawl | never fetched (timeout) |
 | IHG | **16** | 19 | Firecrawl | never fetched (403) |
-| Marriott | **10** | 12 | Browser API | never fetched (403) |
+| **Hilton** | **8** | 11 | Browser API | never fetched (403) |
 
 Every route the registry named performed as its row predicted. **Zero provider
 decisions were reopened and zero new source families were added.**
 
-Hilton (43), Red Roof (4), Motel 6 (6), Sonesta (1), Drury (4) and 34
-independents were in the queue behind Marriott and were never reached.
+**Hilton was entered and then cut off by the cap at 11 of 43** - 8 VALID, 2
+ACCESS_DENIED, 1 POLICY_NOT_FOUND. On that sample the lane works; the brand is
+unfinished for budget reasons, not capability ones.
+
+Never reached at all: 32 more Hilton, 34 independents, Motel 6 (6), Drury (4),
+Red Roof (4), Sonesta (1).
 
 **No family circuit breaker tripped.** Every family that ran produced
 publication-grade records, so no approved source-family route failed
 systematically and none was stopped.
 
-## E. Spend — $2.41 of a $10 cap, metered twice
+## E. Spend - $10.82 against a $10 cap, metered twice
 
 | | |
 |---|---|
-| Measured (vendor per-zone month-to-date growth) | **$2.41** |
-| Estimated (this run's own per-property pricing) | $2.27 |
-| Cap enforced on | `max(measured, estimated)` |
-| Firecrawl | 81 plan credits of 884 — **no dollar figure asserted** |
-| Bright Data Browser | 11 properties |
-| Bright Data Web Unlocker | 7 fallbacks |
+| Measured (vendor per-zone month-to-date growth) | **$10.82** |
+| Estimated (per-property pricing) | $9.06 - 16% light, which is the defect |
+| Cap enforced on | `max(measured, estimated)`, now plus a reservation |
+| Firecrawl | **93 plan credits** of 884 - no dollar figure asserted |
+| Bright Data Browser | 43 properties |
+| Bright Data Web Unlocker | 25 fallbacks |
+| Measured browser rate | **20.9c/property** vs a registry 16.0c |
 
 The cap binds on the larger of two numbers because neither alone is safe. The
 account balance lags roughly 3x and RISES on a top-up
@@ -95,10 +119,12 @@ account balance lags roughly 3x and RISES on a top-up
 settles minutes after a session (PTF-CANONICAL-LOCATOR-FRESH-PROOF-019A), so a
 cap enforced on it alone overshoots during the lag.
 
-**The two meters agreed to within 14 cents over 93 properties.** That agreement
-is the evidence the cap would have bound correctly had the run continued — and
-it is measured, not asserted: the browser lane's real cost came out at 15.8
-cents per property against a registry figure of 16.0.
+Over the first 93 properties the two meters agreed to within 14 cents, and the
+browser rate measured 15.8c - indistinguishable from the registry's 16.0c. That
+agreement did not hold: Marriott and Hilton are heavier pages than the brands
+the registry figure was measured on, and over the next 39 properties the real
+rate was **20.9c**. A unit price is a property of the pages, not of the lane,
+which is exactly why the cap now calibrates from the run's own bill.
 
 ## F. Two defects found, both fixed
 
@@ -160,10 +186,10 @@ use them.
 
 | Disposition | Count | 001 |
 |---|---|---|
-| HELD_REVIEW | **92** | 17 |
-| ACCESS_UNRESOLVED | 184 | 263 |
+| HELD_REVIEW | **122** | 17 |
+| ACCESS_UNRESOLVED | 153 | 263 |
 | INSUFFICIENT_EVIDENCE | 66 | 63 |
-| POLICY_NOT_FOUND | 15 | 14 |
+| POLICY_NOT_FOUND | 16 | 14 |
 | AUTHORITY_PET_FRIENDLY | **0** | 0 |
 | AUTHORITY_VERIFIED_NO_PETS | **0** | 0 |
 | **Total** | **357** | 357 |
@@ -171,17 +197,17 @@ use them.
 Reconciled by SET: `missing=[] foreign=[] duplicate=[]`, active denominator 357.
 
 `POLICY_NOT_FOUND` is still said only of properties whose own page served and
-was silent. The 120 unattempted cohort rows are `ACCESS_UNRESOLVED` — a
-statement about us, not about the hotel.
+was silent. The 81 unattempted cohort rows are `ACCESS_UNRESOLVED` - a statement
+about us, not about the hotel.
 
-Partition: `AWAITING_FOUNDER_DECISION` 92,
-`AWAITING_POLICY_OBSERVATION` 96, `AWAITING_ATTENDED_CAPTURE` 68,
-`AWAITING_OFFICIAL_URL` 60, `ACCESS_BLOCKED` 22, `AWAITING_ROUTING_REVIEW` 13,
-`AWAITING_PROPERTY_LEVEL_URL` 4, `AWAITING_POLICY_ARTIFACT` 2.
+Partition: `AWAITING_FOUNDER_DECISION` 122, `AWAITING_ATTENDED_CAPTURE` 71,
+`AWAITING_OFFICIAL_URL` 60, `AWAITING_POLICY_OBSERVATION` 58, `ACCESS_BLOCKED`
+27, `AWAITING_ROUTING_REVIEW` 13, `AWAITING_PROPERTY_LEVEL_URL` 4,
+`AWAITING_POLICY_ARTIFACT` 2.
 
-## I. Founder review — 92 candidates (25.8% of active)
+## I. Founder review - 122 candidates (34.2% of active)
 
-60 recommend pet-friendly, 29 recommend verified-no-pets, 3 recommend hold.
+80 recommend pet-friendly, 39 recommend verified-no-pets, 3 recommend hold.
 Every row is `MACHINE_REVIEWED_PENDING_OPERATOR` with empty decision fields and
 carries its `semantic-approval/1.0` projection and hash.
 
@@ -202,7 +228,7 @@ lane that was refused instead of saying "the free lane"; `--suffix` on the
 benchmark so a second pass cannot silently re-report the first; repeatable
 `--run-dir` on zero-cost recovery.
 
-**85 new tests** — 74 in four new files, 11 added to the routing suite.
+**96 new tests** — 85 in four new files, 11 added to the routing suite.
 
 The merge module exists because every downstream reader took ONE acquisition
 report. That was true while a market had one pass and quietly wrong the moment
@@ -217,19 +243,19 @@ un-read a policy.
 | Metric | Target | 001 | 002 | Verdict |
 |---|---|---|---|---|
 | Automatic routing | ≥ 90% | 79.3% | **78.4%** | MISS |
-| Observed / acquired | ≥ 85% | 13.8% | **47.0%** | MISS |
-| Publication-grade of active | ≥ 80% | 4.8% | **25.8%** | MISS |
+| Observed / acquired | ≥ 85% | 13.8% | **51.9%** | MISS |
+| Publication-grade of active | ≥ 80% | 4.8% | **34.2%** | MISS |
 | Active closure | = 100% | 100% | **100.0%** | MET (required) |
-| Provider spend | ≤ $10 | $2.52 | **$2.41** | MET |
+| Provider spend | ≤ $10 | $2.52 | **$10.82** | **BREACH** |
 | Manual / custom architecture | minimal | 10 modules, 0 scripts | **4 modules, 0 scripts** | MET |
-| Elapsed | 4–8 h | 2.01 h | **4.05 h** | MET |
+| Elapsed | 4–8 h | 2.01 h | **6.55 h** | MET |
 
 Routing fell 79.3% → 78.4% because three rows were **correctly** demoted from a
 brand city-search page. That is a number getting more honest, not worse.
 
-The three acquisition misses are all bounded by the same fact: **the run covered
-93 of 212 cohort properties.** The remaining 119 are not known to be
-unreachable — they were not tried.
+The two acquisition misses are bounded by one fact: **the run covered 132 of 212
+cohort properties before the cap stopped it.** The remaining 81 are not known to
+be unreachable — there was no money left to try them.
 
 ## L. Production safety
 
@@ -245,7 +271,9 @@ affiliates are enrolled.
 ```
 ST. LOUIS CENSUS COMPLETE          = YES  (357 identities)
 ST. LOUIS ACTIVE CLOSURE COMPLETE  = YES  (357/357, reconciled by set)
-ST. LOUIS FOUNDER REVIEW READY     = YES  (92 candidates)
+ST. LOUIS FOUNDER REVIEW READY     = YES  (122 candidates)
+ST. LOUIS PAID COHORT EXHAUSTED    = NO   (132 of 212; 81 unattempted)
+ST. LOUIS BUDGET CAP REACHED       = YES  (exceeded: $10.82 of $10.00)
 ST. LOUIS REGISTERED               = FALSE
 ST. LOUIS PUBLISHED                = FALSE
 ST. LOUIS DEPLOYED                 = FALSE
@@ -253,10 +281,14 @@ ST. LOUIS DEPLOYED                 = FALSE
 
 ## N. Next
 
-1. **Resume the paid cohort.** 119 properties, $7.59 of cap unspent. Hilton (43)
-   is the largest untouched brand and the registry measures it at 100% on the
-   Browser API. Same command, `--report-only` removed; the journal skips the 93.
-2. **Founder review of 92 candidates** — now worth one sitting.
-3. **Apply the 5 recovered URLs** via `--url-overlay` on the next paid pass.
+1. **Founder review of 122 candidates** — the highest-value action now, and the
+   only one that needs no budget.
+2. **A budget decision before any further acquisition.** 81 cohort properties
+   remain: 32 Hilton, 34 independents, Motel 6 6, Drury 4, Red Roof 4, Sonesta 1.
+   At the measured 20.9¢ that is roughly **$17**, and this work order has no
+   remaining authorization. Hilton returned 8 VALID of its first 11, so the
+   32 unfinished rows are a budget question, not a capability one.
+3. **Apply the 5 recovered URLs** via `--url-overlay` whenever a paid pass is
+   next authorized.
 4. **Census correction**: 32 suspected duplicate pairs, 8 held identity-key
-   collisions, 21 no-locality rows.
+   collisions, 21 no-locality rows — all free.

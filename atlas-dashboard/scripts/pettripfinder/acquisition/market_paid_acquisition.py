@@ -211,6 +211,16 @@ def apply_url_overlay(rows: List[Dict], overlay_path: str) -> Dict:
     ))
 
 
+def _fallback_unit(entry: Mapping) -> float:
+    """The registry's own price for this row's lane, used until a run has
+    measured its own. Zero for a credit-billed lane, which draws no dollars."""
+    try:
+        cost = PROVIDERS.get(entry["provider"]).cost_metadata()
+    except (PROVIDERS.ProviderError, KeyError):
+        return 16.0
+    return float(cost.usd_minor_per_property or 0.0)
+
+
 def order_queue(cohort: Sequence[Mapping], priority: Sequence[str]) -> List[Dict]:
     """Cheapest currency first, then measured yield, then everything else.
 
@@ -258,6 +268,19 @@ class SpendMeter:
     #: round-trips (~6 s). See ``spend_view``.
     last_measured: Optional[int] = None
     reads: int = 0
+    #: What earlier sessions of this work order had already spent when this one
+    #: started. Folded into the estimate by ``preflight`` so both meters are
+    #: cumulative; reported separately so this session's own spend is still
+    #: readable as ``estimated_usd_minor - seeded_usd_minor``.
+    seeded_usd_minor: float = 0.0
+    #: Properties this session has priced, used to calibrate a real unit cost.
+    priced_properties: int = 0
+    #: How many properties may run between two vendor readings. The reservation
+    #: has to cover the whole interval, so the meter needs to know it.
+    meter_every: int = 5
+
+    #: Below this many properties a derived rate is noise, not a measurement.
+    MIN_CALIBRATION_SAMPLE: int = 8
 
     # -- the vendor's own numbers ------------------------------------------ #
 
@@ -343,6 +366,7 @@ class SpendMeter:
         observation that failed scrapes went unbilled is an observation and not
         a billing guarantee. A cap must not be enforced on a vendor's goodwill.
         """
+        self.priced_properties += 1
         for provider_id in {a.provider for a in attempts}:
             try:
                 cost = PROVIDERS.get(provider_id).cost_metadata()
@@ -352,6 +376,43 @@ class SpendMeter:
                 self.estimated_usd_minor += cost.usd_minor_per_property
             if cost.credits_per_property is not None:
                 self.estimated_credits += cost.credits_per_property
+
+    def calibrated_unit_usd_minor(self) -> Optional[float]:
+        """What a property is ACTUALLY costing this run, or ``None``.
+
+        The registry's ``usd_minor_per_property`` is a real measurement, but it
+        was measured on another market's pages: PTF-ACQUISITION-BRAND-REPAIR-003
+        put the Browser API at 16.0 cents, and St. Louis's Marriott and Hilton
+        pages came in at 20.9. A ceiling defended by another market's average is
+        a ceiling that is 30% too generous without anyone noticing.
+
+        So once this run has enough of its own evidence, the reservation below
+        uses the run's own rate. ``None`` until then -- a rate derived from two
+        properties is noise, and the registry figure is the honest fallback.
+        """
+        if self.priced_properties < self.MIN_CALIBRATION_SAMPLE:
+            return None
+        session = (self.last_measured or 0) - self.seeded_usd_minor
+        if session <= 0:
+            return None
+        return session / float(self.priced_properties)
+
+    def reservation_usd_minor(self, fallback: float) -> float:
+        """What to hold back for the property about to run.
+
+        ``budget.Budget``'s own rule is that a ceiling is checked BEFORE an
+        attempt is spent, because "a budget that notices it was exceeded has
+        already been exceeded". The first version of this cap broke that rule:
+        it stopped when spend had already crossed the line, and with the vendor
+        read every fifth property it crossed it by 55 cents.
+
+        The reservation covers a whole metering interval, not one property,
+        because that is the real blind spot -- between two vendor readings the
+        run can commit ``meter_every`` properties with nothing but the estimate
+        watching.
+        """
+        unit = self.calibrated_unit_usd_minor() or fallback
+        return unit * max(1, self.meter_every)
 
     def spend_view(self, label: str, *, refresh: bool = True) -> Dict:
         """Both numbers, the one the cap binds on, and why.
@@ -379,6 +440,9 @@ class SpendMeter:
              if measured is not None and measured >= estimated else "estimated"),
             ("telemetry_live", measured is not None),
             ("estimated_plan_credits", round(self.estimated_credits, 2)),
+            ("seeded_usd_minor", round(self.seeded_usd_minor, 2)),
+            ("this_session_usd_minor",
+             round(estimated - self.seeded_usd_minor, 2)),
             ("vendor_reads", self.reads),
             ("lag_note", "the vendor's zone meter settles minutes after a "
                          "session; until it does the estimate is the only "
@@ -603,12 +667,20 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
                 "rather than spend against a cap nobody can measure")
             report["deferred"] = [e["identity_key"] for e in pending[index - 1:]]
             break
-        if spend["binding_usd_minor"] >= cap_usd_minor:
+        reserve = meter.reservation_usd_minor(_fallback_unit(entry))
+        if spend["binding_usd_minor"] + reserve > cap_usd_minor:
             report["outcome"] = "STOPPED_HARD_CAP"
             report["stop_reason"] = (
-                "hard cap reached: %s of %d cents (%s)"
+                "hard cap: %s of %d cents spent (%s), and the next metering "
+                "interval would cost about %d more. Stopped BEFORE crossing "
+                "rather than after -- a budget that notices it was exceeded has "
+                "already been exceeded."
                 % (spend["binding_usd_minor"], cap_usd_minor,
-                   spend["binding_source"]))
+                   spend["binding_source"], round(reserve)))
+            report["cap_reservation_usd_minor"] = round(reserve, 2)
+            report["cap_calibrated_unit_usd_minor"] = (
+                round(meter.calibrated_unit_usd_minor(), 2)
+                if meter.calibrated_unit_usd_minor() else None)
             report["deferred"] = [e["identity_key"] for e in pending[index - 1:]]
             break
         if credit_cap is not None and spend["estimated_plan_credits"] >= credit_cap:
@@ -676,7 +748,19 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
         report["outcome"] = "BATCH_COMPLETE"
 
     report.setdefault("outcome", "BATCH_COMPLETE")
-    report["results"] = results
+    # The report describes the WORK ORDER, not this invocation. Emitting only
+    # the batch this process ran is a silent data-loss bug and it cost a whole
+    # closeout: a resumed St. Louis run reported its own 39 rows, the merge saw
+    # 39 instead of 132, and the founder package fell from 92 candidates to 47
+    # -- 45 properties that had been paid for and read simply vanished from the
+    # market's current state. The journal is the durable record of the work
+    # order, so the report is a projection OF THE JOURNAL, and `attempted`
+    # stays this session's count because that is a different question.
+    completed = journal.read()
+    report["results"] = [completed[key] for key in sorted(completed)]
+    report["attempted_this_session"] = report["attempted"]
+    report["attempted"] = len(completed)
+    report["journalled_total"] = len(completed)
     return report
 
 
@@ -685,10 +769,24 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
 # --------------------------------------------------------------------------- #
 
 def preflight(meter: SpendMeter, *, run_id: str, cap_usd_minor: int) -> Dict:
-    """Everything that must be true before one cent is spent."""
+    """Everything that must be true before one cent is spent.
+
+    Also SEEDS the estimate, which matters only on a resume and matters a lot.
+
+    The two meters must both be cumulative or ``max()`` compares different
+    things. ``measured`` already is: it is growth since an anchor that outlives
+    the process. ``estimated`` is not -- a fresh process starts it at zero, so
+    it counts only THIS session. During the vendor's settling lag that is the
+    number the cap binds on, and a cap binding on a session-local figure would
+    let a resumed run spend the whole cap AGAIN on top of what earlier sessions
+    already spent. Seeding it with the measured total makes both cumulative.
+    """
     checks: List[Dict] = []
     meter.anchor("%s:anchor" % run_id)
     measured = meter.measured_usd_minor("%s:preflight" % run_id)
+    if measured:
+        meter.estimated_usd_minor = float(measured)
+        meter.seeded_usd_minor = float(measured)
     snap = meter.latest
 
     checks.append(OrderedDict((
@@ -820,7 +918,8 @@ def main(argv=None) -> int:
 
     run_dir = Path(args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
-    meter = SpendMeter(anchor_path=run_dir / "market_cost_anchor.json")
+    meter = SpendMeter(anchor_path=run_dir / "market_cost_anchor.json",
+                       meter_every=max(1, args.meter_every))
     journal = JOURNAL.Journal(path=run_dir / "journal.jsonl")
     cap_usd_minor = int(round(args.cap_usd * 100))
 
@@ -878,10 +977,15 @@ def main(argv=None) -> int:
         document["preflight"] = {"ok": True, "checks": [], "providers": {},
                                  "note": "not run: --report-only spends nothing"}
         document["outcome"] = "REPORT_FROM_JOURNAL"
+        # Says WHAT is true, never WHY. This path is reached after a kill, after
+        # a cap, and after a clean finish alike, and the journal records none of
+        # those -- asserting a cause here would put a guess in an artifact whose
+        # whole value is that its numbers are re-derivable.
         document["stop_reason"] = (
-            "the run was interrupted after %d of %d cohort properties; this "
-            "document is built from the journal, which is durable by design, "
-            "so nothing that was paid for is missing from it"
+            "%d of %d cohort properties are journalled; this document is built "
+            "from the journal, which is durable by design, so nothing that was "
+            "paid for is missing from it. The reason the run ended is not "
+            "recorded in the journal and is not asserted here."
             % (len(results), len(queue)))
         document["results"] = results
         document["attempted"] = len(results)
