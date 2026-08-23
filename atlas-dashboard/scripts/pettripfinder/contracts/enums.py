@@ -326,9 +326,16 @@ AWAITING_ATTENDED_CAPTURE = "AWAITING_ATTENDED_CAPTURE"
 AWAITING_CONTRADICTION_RESOLUTION = "AWAITING_CONTRADICTION_RESOLUTION"
 AWAITING_CENSUS_REVIEW = "AWAITING_CENSUS_REVIEW"
 AWAITING_IDENTITY_RESOLUTION = "AWAITING_IDENTITY_RESOLUTION"
+#: PTF-ST-LOUIS-MARKET-001. Publication-grade evidence EXISTS on this
+#: property's own surface and the only thing outstanding is a human. Every
+#: other blocker names work the MACHINE still owes, so a reviewed candidate
+#: had to borrow one that was false about it: Milwaukee filed 133 identities
+#: as AWAITING_POLICY_OBSERVATION, including the ones whose policy had been
+#: observed.
+AWAITING_FOUNDER_DECISION = "AWAITING_FOUNDER_DECISION"
 ACCESS_BLOCKED = "ACCESS_BLOCKED"
 
-#: Eleven blockers, normalised from the four markets' own vocabularies. The
+#: Twelve blockers, normalised from the four markets' own vocabularies. The
 #: corpus held ACCESS_BLOCKED, ADR_ACCESS_BLOCKED, SOURCE_BLOCKED and
 #: ANTI_BOT_CHALLENGE for one concept and five spellings of "no property URL";
 #: dozens of aliases for the same state is a vocabulary nobody can query.
@@ -337,7 +344,8 @@ BLOCKER_STATES: Tuple[str, ...] = (
     AWAITING_ROUTING_REVIEW, AWAITING_ROUTING_REPLACEMENT,
     AWAITING_POLICY_OBSERVATION, AWAITING_POLICY_ARTIFACT,
     AWAITING_ATTENDED_CAPTURE, AWAITING_CONTRADICTION_RESOLUTION,
-    AWAITING_CENSUS_REVIEW, AWAITING_IDENTITY_RESOLUTION, ACCESS_BLOCKED,
+    AWAITING_CENSUS_REVIEW, AWAITING_IDENTITY_RESOLUTION,
+    AWAITING_FOUNDER_DECISION, ACCESS_BLOCKED,
 )
 
 PARTITION_STATES: Tuple[str, ...] = TERMINAL_STATES + BLOCKER_STATES
