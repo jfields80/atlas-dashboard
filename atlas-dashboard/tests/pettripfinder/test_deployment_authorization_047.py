@@ -135,12 +135,16 @@ def test_the_authorization_document_says_a_different_artifact_needs_a_new_one(au
         auth["authorization_source"]
 
 
-def test_the_corrected_manifest_claims_no_authorization(manifest):
-    """A manifest may only claim authorization it can point at."""
+def test_the_manifest_no_longer_points_at_this_authorization(manifest):
+    """A manifest may only claim authorization it can point at, and the one it
+    points at is no longer 047: PTF-...-REAUTHORIZE-012 authorized the
+    corrected artifact under its own record."""
     assert manifest["bundle_sha256"] != BUNDLE
     assert manifest["deployment_authorized"] is \
         (manifest.get("deployment_authorization") is not None)
-    assert manifest["deployment_authorized"] is False
+    ref = manifest.get("deployment_authorization") or {}
+    assert ref.get("authorization_id") != AUTH_ID
+    assert ref.get("bundle_sha256") == manifest["bundle_sha256"] != BUNDLE
     assert GD.verify_manifest() == []
 
 

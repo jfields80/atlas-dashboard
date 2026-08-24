@@ -1,0 +1,135 @@
+{
+ "schema": "ptf-deployment-record/1.0",
+ "what_this_is": "What a production deployment actually did, written only after the outcome was known. Names the authorization it consumed; holds no credential.",
+ "deployment_record_id": "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5",
+ "authorization_id": "ptf-auth-012-70747f09fdfe",
+ "work_order": "PTF-MILWAUKEE-SERVICE-ANIMAL-REAUTHORIZE-012",
+ "source_commit": "aed62f76671451bfb1facace5b806430b587fb31",
+ "manifest_source_commit": "aed62f76671451bfb1facace5b806430b587fb31",
+ "bundle_sha256": "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967",
+ "sitemap_sha256": "8fe6e3c4a8e0a96e196153216c567d6fca47d6330c93fdd3b07f3748b2eff96d",
+ "deployment_id": "6a8c6de6fa99ff1f7bd5c7f5",
+ "previous_deployment_id": "6a8a2dada6e73cb0d819c9d0",
+ "rollback_target": "6a8a2dada6e73cb0d819c9d0",
+ "target_site": "pettripfinder-prod",
+ "production_url": "https://pettripfinder.com",
+ "deployed_at": "2026-08-24T16:41:05Z",
+ "deployer": {
+  "executed_by": "Claude Code (claude-opus-5) under work order PTF-MILWAUKEE-SERVICE-ANIMAL-REAUTHORIZE-012",
+  "netlify_account": "Jonathan Fields (founder account, netlify-cli 26.2.0)",
+  "authorized_by": "founder",
+  "started_at": "2026-08-24T16:40:22Z"
+ },
+ "deployed_directory": "C:/t/ptf012/b2/site (assemble_production_site --output C:/t/ptf012/b2, generated_from_commit aed62f7)",
+ "command": "netlify deploy --prod --no-build --dir C:/t/ptf012/b2/site --site \"$NETLIFY_SITE_ID\" --json --message \"PTF-012 ...\"",
+ "exit_status": 0,
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26
+ },
+ "total_profiles": 333,
+ "sitemap_route_count": 416,
+ "global_gate_results": {
+  "required": 27,
+  "passed": 27,
+  "failed": []
+ },
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "live_verification_results": {
+  "corrected_profiles": {
+   "checked": 4,
+   "http_200": 4,
+   "carry_the_corrected_sentence": 4,
+   "still_carry_the_false_sentence": 0,
+   "bytes_match_deployed_bundle": 4,
+   "sentence": "The property states that service animals are welcome at no charge.",
+   "superseded_sentence": "The property states that service animals are welcome and that a charge applies.",
+   "urls": [
+    "https://pettripfinder.com/pet-friendly-hotels/milwaukee-wi/avid-hotels-oak-creek/",
+    "https://pettripfinder.com/pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-waukesha/",
+    "https://pettripfinder.com/pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-wauwatosa/",
+    "https://pettripfinder.com/pet-friendly-hotels/milwaukee-wi/the-pfister-hotel/"
+   ]
+  },
+  "unaffected_spot_checks": {
+   "milwaukee": {
+    "url": "https://pettripfinder.com/pet-friendly-hotels/milwaukee-wi/comfort-suites-milwaukee-west/",
+    "status": 200,
+    "bytes_match_deployed_bundle": true,
+    "unchanged_since_047": true
+   },
+   "columbus": {
+    "url": "https://pettripfinder.com/pet-friendly-hotels/drury-plaza-hotel-columbus-downtown/",
+    "status": 200,
+    "bytes_match_deployed_bundle": true,
+    "unchanged_since_047": true
+   },
+   "dayton": {
+    "url": "https://pettripfinder.com/pet-friendly-hotels/dayton-oh/drury-inn-suites-dayton-north/",
+    "status": 200,
+    "bytes_match_deployed_bundle": true,
+    "unchanged_since_047": true
+   },
+   "additional_routes_byte_matched": 13,
+   "additional_routes_mismatched": 0,
+   "note": "Hubs for all five markets, the global pages, a Milwaukee corridor and the Milwaukee policy-comparison table were fetched and compared byte for byte against the deployed bundle; all matched, and all were byte-identical to the artifact PTF-047 deployed."
+  },
+  "homepage": {
+   "pass": true,
+   "status": 200,
+   "bytes_match": true,
+   "unchanged_since_047": true
+  },
+  "sitemap": {
+   "pass": true,
+   "status": 200,
+   "loc_count": 416,
+   "sha256": "8fe6e3c4a8e0a96e196153216c567d6fca47d6330c93fdd3b07f3748b2eff96d",
+   "matches_local": true,
+   "matches_manifest_pin": true,
+   "unchanged_since_047": true,
+   "no_indianapolis": true,
+   "no_st_louis": true
+  },
+  "robots": {
+   "status": 200,
+   "bytes_match": true,
+   "unchanged_since_047": true
+  },
+  "public_differential_vs_previous_deploy": {
+   "files_total": 2165,
+   "added": 0,
+   "removed": 0,
+   "changed": 4,
+   "changed_files": [
+    "pet-friendly-hotels/milwaukee-wi/avid-hotels-oak-creek/index.html",
+    "pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-waukesha/index.html",
+    "pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-wauwatosa/index.html",
+    "pet-friendly-hotels/milwaukee-wi/the-pfister-hotel/index.html"
+   ],
+   "lines_changed_per_file": 1,
+   "note": "Measured against a bundle rebuilt from cb550e7, which reproduced the deployed artifact a324b1bf byte for byte."
+  }
+ },
+ "final_status": "DEPLOYED",
+ "rollback_used": false,
+ "rollback_reason": null,
+ "restored_deployment_id": null
+}
