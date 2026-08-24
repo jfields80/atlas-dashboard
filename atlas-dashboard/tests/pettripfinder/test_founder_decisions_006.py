@@ -216,14 +216,18 @@ class TestTheCommittedDecisions:
         assert row["membrane"]["verdict"] == M.REJECT_WRONG_PROPERTY
         assert not row["observation"].get("identity_adjudication")
 
-    def test_only_hampton_got_a_name_authorisation(self):
-        # Wingate's identity was approved, which surfaces its bare-chain name as
-        # a correction. The founder authorised Hampton's name and not Wingate's,
-        # so Wingate waits.
+    def test_each_name_correction_names_the_work_order_that_authorised_it(self):
+        # 006's claim is that a name correction is authorised PER ROW and is
+        # traceable to the authorisation, not that the overlay froze after
+        # Hampton. Wingate's name was authorised separately in
+        # PTF-ST-LOUIS-FOUNDER-FINALIZE-007, and a test that pinned its absence
+        # would have to be deleted the moment the founder said yes -- which is
+        # a test asserting the calendar, not the rule.
         overlay = _load("markets/name_corrections/st-louis-mo.json")
-        keys = {r["identity_key"] for r in overlay["records"]}
-        assert "hampton" in keys
-        assert "wingate at wyndham" not in keys
+        by_key = {r["identity_key"]: r for r in overlay["records"]}
+        assert "DECISIONS-006" in by_key["hampton"]["authorised_by"]
+        if "wingate at wyndham" in by_key:
+            assert "FINALIZE-007" in by_key["wingate at wyndham"]["authorised_by"]
 
     def test_the_114_existing_signatures_still_bind(self):
         ledger = _load("st_louis_mo_founder_decisions_005.json")

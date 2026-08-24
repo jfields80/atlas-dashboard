@@ -86,8 +86,16 @@ def _now() -> str:
 def sign(packet: Mapping, analysis: Mapping, *, decided_by: str,
          decided_at: str, authorization: str, work_order: str,
          recorded_by: str,
-         signable: Sequence[str] = DEFAULT_SIGNABLE) -> Dict:
-    """The ledger. Signs exactly the rows whose review says they are ready."""
+         signable: Sequence[str] = DEFAULT_SIGNABLE,
+         already_signed: Sequence[Mapping] = ()) -> Dict:
+    """The ledger. Signs exactly the rows whose review says they are ready.
+
+    ``already_signed`` carries earlier ledgers for this market. A row they cover
+    is skipped, not re-signed: an attestation is a dated act by a named person,
+    and writing a second one over the same row would either duplicate a ruling
+    or silently restate it under a new date. Each pass therefore signs only its
+    own delta, and the market's signature is the union of its ledgers.
+    """
     if not decided_by or not decided_at or not authorization:
         raise SignatureError(
             "decided_by, decided_at and authorization are required and have no "
@@ -104,8 +112,18 @@ def sign(packet: Mapping, analysis: Mapping, *, decided_by: str,
             % (len(missing), missing[:5]))
 
     signable_set = frozenset(signable)
+    previously: Dict[str, Dict] = {}
+    for ledger in already_signed:
+        for row in ledger.get("signed") or ():
+            previously[row["identity_key"]] = OrderedDict((
+                ("identity_key", row["identity_key"]),
+                ("signed_by_work_order", ledger.get("work_order", "")),
+                ("founder_reviewed_at", row.get("founder_reviewed_at", "")),
+                ("proposes_authority", row.get("proposes_authority", "")),
+            ))
     signed: List[Dict] = []
     withheld: List[Dict] = []
+    carried: List[Dict] = []
 
     for key in sorted(candidates):
         candidate = candidates[key]
@@ -119,6 +137,10 @@ def sign(packet: Mapping, analysis: Mapping, *, decided_by: str,
                 "%s already carries an attestation in the packet; a second "
                 "signature over a signed row would overwrite somebody's "
                 "ruling" % key)
+
+        if key in previously:
+            carried.append(previously[key])
+            continue
 
         if disposition not in signable_set:
             withheld.append(OrderedDict((
@@ -175,11 +197,14 @@ def sign(packet: Mapping, analysis: Mapping, *, decided_by: str,
         ("status", "RECORDED"),
         ("authorised_scope", list(signable)),
         ("candidates_reviewed", len(candidates)),
+        ("already_signed_elsewhere", len(carried)),
+        ("already_signed_rows", carried),
         ("signed_count", len(signed)),
         ("withheld_count", len(withheld)),
         ("signed_by_authority", OrderedDict(sorted(by_authority.items()))),
         ("withheld_by_disposition", OrderedDict(sorted(
             Counter(r["reviewed_disposition"] for r in withheld).items()))),
+        ("market_signature_total", len(signed) + len(carried)),
         ("nothing_is_published_by_this_file",
          "This ledger records a decision. It registers no market, publishes no "
          "page and deploys nothing."),
@@ -204,18 +229,24 @@ def main(argv=None) -> int:
                         help="who transcribed the ruling")
     parser.add_argument("--sign", action="append", default=None,
                         help="reviewed dispositions in scope; repeatable")
+    parser.add_argument("--already-signed", action="append", default=None,
+                        help="an earlier decision ledger for this market; its "
+                             "rows are carried, never re-signed. Repeatable.")
     parser.add_argument("--expect-signed", type=int, default=None,
                         help="fail unless exactly this many rows are signed")
     args = parser.parse_args(argv)
 
     packet = json.loads(Path(args.packet).read_text(encoding="utf-8"))
     analysis = json.loads(Path(args.analysis).read_text(encoding="utf-8"))
+    earlier = [json.loads(Path(p).read_text(encoding="utf-8"))
+               for p in (args.already_signed or ())]
     ledger = sign(packet, analysis, decided_by=args.decided_by,
                   decided_at=args.decided_at,
                   authorization=args.authorization,
                   work_order=args.work_order,
                   recorded_by=args.recorded_by,
-                  signable=tuple(args.sign or DEFAULT_SIGNABLE))
+                  signable=tuple(args.sign or DEFAULT_SIGNABLE),
+                  already_signed=earlier)
 
     if args.expect_signed is not None and ledger["signed_count"] != args.expect_signed:
         raise SignatureError(
@@ -228,7 +259,10 @@ def main(argv=None) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(ledger, indent=1, ensure_ascii=False) + "\n",
                    encoding="utf-8", newline="\n")
-    print("signed   : %d" % ledger["signed_count"])
+    print("signed   : %d (this pass)" % ledger["signed_count"])
+    print("carried  : %d already signed by an earlier ledger"
+          % ledger["already_signed_elsewhere"])
+    print("market   : %d signed in total" % ledger["market_signature_total"])
     print("by author: %s" % dict(ledger["signed_by_authority"]))
     print("withheld : %d %s" % (ledger["withheld_count"],
                                 dict(ledger["withheld_by_disposition"])))

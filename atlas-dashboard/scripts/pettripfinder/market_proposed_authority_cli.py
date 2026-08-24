@@ -65,8 +65,37 @@ def _slug(market_id: str, identity_key: str) -> str:
     return "%s-%s" % (prefix, identity_key.replace(" ", "-"))
 
 
-def build(decisions: Mapping, store: Mapping, census: Mapping) -> Dict:
-    market_id = decisions.get("market_id", "")
+def build(decisions, store: Mapping, census: Mapping) -> Dict:
+    """``decisions`` is one ledger or a sequence of them.
+
+    A market's signature accumulates across passes: each ledger signs its own
+    delta and never re-signs what an earlier one covered, so the authority is
+    built from their UNION. Taking only the newest would silently drop every row
+    signed before it.
+    """
+    ledgers = [decisions] if isinstance(decisions, Mapping) else list(decisions)
+    market_id = next((d.get("market_id", "") for d in ledgers
+                      if d.get("market_id")), "")
+    seen = set()
+    merged = []
+    for ledger in ledgers:
+        for row in ledger.get("signed") or ():
+            if row["identity_key"] in seen:
+                raise ProposedAuthorityError(
+                    "%s is signed by two ledgers -- an attestation is a dated "
+                    "act and must not be duplicated" % row["identity_key"])
+            seen.add(row["identity_key"])
+            merged.append(row)
+    decisions = OrderedDict((
+        ("schema", ledgers[-1].get("schema", "")),
+        ("market_id", market_id),
+        ("work_order", " + ".join(d.get("work_order", "") for d in ledgers)),
+        ("decided_by", ledgers[-1].get("decided_by", "")),
+        ("decided_at", ledgers[-1].get("decided_at", "")),
+        ("approval_vocabulary", ledgers[-1].get("approval_vocabulary", "")),
+        ("source_ledgers", [d.get("work_order", "") for d in ledgers]),
+        ("signed", merged),
+    ))
     rows = {r["identity_key"]: r for r in store.get("records") or ()}
     hotels = {h["identity_key"]: h for h in census.get("hotels") or ()}
 
@@ -160,6 +189,7 @@ def build(decisions: Mapping, store: Mapping, census: Mapping) -> Dict:
         ("published", False),
         ("deployed", False),
         ("built_from", OrderedDict((
+            ("source_ledgers", decisions.get("source_ledgers", [])),
             ("decision_ledger", decisions.get("schema", "")),
             ("decided_by", decisions.get("decided_by", "")),
             ("decided_at", decisions.get("decided_at", "")),
@@ -181,14 +211,17 @@ def build(decisions: Mapping, store: Mapping, census: Mapping) -> Dict:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--market", required=True)
-    parser.add_argument("--decisions", required=True)
+    parser.add_argument("--decisions", action="append", required=True,
+                        help="a founder decision ledger; repeatable, and the "
+                             "authority is built from their union")
     parser.add_argument("--store", required=True)
     parser.add_argument("--census", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--expect-total", type=int, default=None)
     args = parser.parse_args(argv)
 
-    decisions = json.loads(Path(args.decisions).read_text(encoding="utf-8"))
+    decisions = [json.loads(Path(p).read_text(encoding="utf-8"))
+                 for p in args.decisions]
     store = json.loads(Path(args.store).read_text(encoding="utf-8"))
     census = json.loads(Path(args.census).read_text(encoding="utf-8"))
     document = build(decisions, store, census)
