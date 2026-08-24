@@ -244,11 +244,17 @@ class TestTheCommittedFinalisation:
         assert closure["reconciliation"]["duplicate"] == []
         assert closure["disposition_counts"]["HELD_REVIEW"] == 122  # 121 + 1
 
-    def test_the_market_is_still_unregistered(self):
-        from pathlib import Path
+    def test_this_work_order_registered_nothing(self):
+        """These work orders registered NOTHING, and that record stands.
+
+        PTF-ST-LOUIS-REGISTER-PUBLISH-011 took the registration step, and did not
+        go back and rewrite the ledgers that say a signature pass registered
+        nothing -- doing so would erase the fact they record. Where the market
+        stands NOW is read from the registry, which is the only thing that can
+        answer it. What each of these signature ledgers asserted about ITSELF is
+        what is checked here.
+        """
         authority = _load("st_louis_mo_proposed_authority_007.json")
         assert authority["registered"] is False
         assert authority["published"] is False
         assert authority["deployed"] is False
-        assert not (Path(PKG) / "markets" / "authority" / "st-louis-mo").exists()
-        assert not (Path(PKG) / "markets" / "st-louis-mo.json").exists()

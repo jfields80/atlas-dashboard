@@ -249,7 +249,22 @@ class TestTheCommittedDecisions:
         assert analysis["reviewed"] == analysis["candidates_in_packet"] == 122
         assert analysis["each_reviewed_exactly_once"] is True
 
-    def test_the_market_is_still_unregistered(self):
+    def test_this_work_order_registered_nothing(self):
+        """These work orders registered NOTHING, and that record stands.
+
+        PTF-ST-LOUIS-REGISTER-PUBLISH-011 took the registration step, and did not
+        go back and rewrite the ledgers that say a signature pass registered
+        nothing -- doing so would erase the fact they record. Where the market
+        stands NOW is read from the registry, which is the only thing that can
+        answer it. What each of these signature ledgers asserted about ITSELF is
+        what is checked here.
+        """
         from pathlib import Path
-        assert not (Path(PKG) / "markets" / "authority" / "st-louis-mo").exists()
-        assert not (Path(PKG) / "markets" / "st-louis-mo.json").exists()
+
+        from scripts.pettripfinder import market_authority as MA
+
+        overlay = _load("markets/founder_overrides/st-louis-mo.json")
+        assert overlay["market_id"] == "st-louis-mo"
+        # Registration happened later and is read from the registry.
+        assert (Path(PKG) / "markets" / "st-louis-mo.json").is_file()
+        assert "st-louis-mo" in MA.registered_market_ids()

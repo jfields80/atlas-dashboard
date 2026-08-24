@@ -239,13 +239,33 @@ class TestTheCommittedSignature:
         assert authority["published"] is False
         assert authority["deployed"] is False
 
-    def test_no_authority_shard_directory_was_created(self):
-        # market_authority lists that directory to decide which markets exist
-        # and RAISES on a shard whose market has no contract. Creating one
-        # would break the global build the deployment manifest pins.
-        from pathlib import Path
-        shard = Path(PKG) / "markets" / "authority" / "st-louis-mo"
-        assert not shard.exists()
+    def test_no_authority_shard_directory_was_created_by_this_work_order(self):
+        """005 created no shard, and that is what it recorded about itself.
+
+        ``market_authority`` lists that directory to decide which markets exist
+        and RAISES on a shard whose market has no contract, so creating one in a
+        signature pass would have broken the global build the deployment
+        manifest pins. PTF-ST-LOUIS-REGISTER-PUBLISH-011 created it -- together
+        with the market contract that makes it legal -- and this ledger was not
+        rewritten to pretend otherwise.
+        """
+        from scripts.pettripfinder import market_authority as MA
+
+        ledger = _load("st_louis_mo_founder_decisions_005.json")
+        assert ledger["nothing_is_published_by_this_file"]
+        # The shard that exists today holds only rows a founder signed, and
+        # every identity 005 signed and 008B did not retire is in it.
+        signed = {row["identity_key"] for row in ledger["signed"]}
+        retired = {"wingate at wyndham", "doubletree"}
+        # Compared on IDENTITY, which is what a signature is about. Four rows
+        # publish under an evidence-cited corrected name, so the seed CSV's own
+        # name is the wrong side of the comparison; the package carries both.
+        package = _load("hotel_policy_facts_st-louis-mo.json")
+        present = ({h["identity_key"] for h in package["hotels"]}
+                   | {r["normalized_name"]
+                      for r in MA.load_market_exclusions("st-louis-mo")})
+        assert (signed - retired) <= present
+        assert not present & retired
 
     def test_the_eight_unsigned_rows_are_named_with_their_reason(self):
         ledger = _load("st_louis_mo_founder_decisions_005.json")
