@@ -1,0 +1,101 @@
+{
+ "schema": "ptf-founder-withdrawal-ledger/1.0",
+ "what_this_is": "A founder retiring signatures they previously gave, because two census identities turned out to be one building each. A signature is an attestation and is never deleted or edited: the original ruling stays exactly as it was written, in the ledger that recorded it, and this file records a LATER ruling that supersedes it. Reading both in order tells the whole story; reading either alone would not.",
+ "market_id": "st-louis-mo",
+ "work_order": "PTF-ST-LOUIS-PUBLICATION-CLEANUP-008B",
+ "decided_by": "jfields80",
+ "decided_at": "2026-08-23",
+ "recorded_by": "claude-opus-5 (PTF-ST-LOUIS-PUBLICATION-CLEANUP-008B, agent) -- transcription only; both supersessions and the dual-brand confirmation are the founder's, given in the work order, and no row was retired that the founder did not name",
+ "vocabulary": "founder-approval-vocabulary/1.0",
+ "superseding_decision": "SUPERSEDED",
+ "why_that_word": "SUPERSEDED already exists in contracts.enums.APPROVAL_DECISIONS and is documented as 'replaced by a later decision. Not publishable.' It is writable and is not in PUBLISHING_DECISIONS, which is exactly the semantics required here. No new vocabulary was invented.",
+ "how_this_was_found": "The bare-chain census names 'doubletree' and 'wingate at wyndham' HID both collisions. PTF-ST-LOUIS-FOUNDER-REMEDIATION-004 and -FINALIZE-007 corrected those names to what each property's own page states, which made each row a name-for-name twin of a sibling identity that had been in the census all along. The duplication was already inside the 114 rows signed at 005; the renames did not create it, they exposed it. PTF-ST-LOUIS-PUBLICATION-READINESS-008A caught it as a slug collision during a read-only publication simulation.",
+
+ "withdrawals": [
+  {
+   "retired_identity_key": "wingate at wyndham",
+   "retired_canonical_name": "Wingate by Wyndham St. Louis/Fenton Route 66",
+   "retired_census_name": "Wingate At Wyndham",
+   "retired_authority": "PUBLISHED_PET_FRIENDLY",
+   "originally_signed_by_work_order": "PTF-ST-LOUIS-FOUNDER-FINALIZE-007",
+   "original_ledger": "launch_packages/pettripfinder/st_louis_mo_founder_decisions_007.json",
+   "original_decision_preserved": "APPROVED_AFTER_CURRENT_REVIEW by jfields80 on 2026-08-23; that record is untouched and remains readable in its own ledger",
+   "new_decision": "SUPERSEDED",
+   "surviving_identity_key": "wingate by wyndham st louis fenton route 66",
+   "surviving_canonical_name": "Wingate by Wyndham St. Louis/Fenton Route 66",
+   "surviving_signed_by_work_order": "PTF-ST-LOUIS-FOUNDER-SIGNATURE-005",
+   "why_one_building": [
+    "identical source URL: https://www.wyndhamhotels.com/wingate/fenton-missouri/wingate-st-louis-fenton-rt-66/overview -- both rows were captured from the same page",
+    "same street: 1100 South Highway Drive / 1100 S Hwy Dr",
+    "same postal code: 63026",
+    "identical pet-policy facts: $25.00 per pet per night, 70 lb weight limit"
+   ],
+   "known_discrepancy": "the two census rows carry different telephone numbers (6366001818 on the retired row, 6364921357 on the surviving row). The property's own page prints 636-600-1818. Recorded rather than resolved: the surviving row's telephone is a census value this work order does not correct, and it is a candidate for a later census-hygiene pass.",
+   "founder_ruling": "Keep the full canonical property identity 'Wingate by Wyndham St. Louis/Fenton Route 66'. Retire the superseded bare/duplicate identity 'wingate at wyndham'.",
+   "effect": "the retired row leaves the current authority and publishes nothing; no public route, no seed row, no exclusion entry"
+  },
+  {
+   "retired_identity_key": "doubletree",
+   "retired_canonical_name": "DoubleTree by Hilton Hotel Collinsville - St. Louis",
+   "retired_census_name": "DoubleTree",
+   "retired_authority": "VERIFIED_NO_PETS",
+   "originally_signed_by_work_order": "PTF-ST-LOUIS-FOUNDER-SIGNATURE-005",
+   "original_ledger": "launch_packages/pettripfinder/st_louis_mo_founder_decisions_005.json",
+   "original_decision_preserved": "APPROVED_AFTER_CURRENT_REVIEW by jfields80 on 2026-08-23; that record is untouched and remains readable in its own ledger",
+   "new_decision": "SUPERSEDED",
+   "surviving_identity_key": "doubletree by hilton hotel collinsville st louis",
+   "surviving_canonical_name": "DoubleTree by Hilton Hotel Collinsville - St. Louis",
+   "surviving_signed_by_work_order": "PTF-ST-LOUIS-FOUNDER-SIGNATURE-005",
+   "why_one_building": [
+    "same street: 1000 Eastport Plaza Drive / 1000 Eastport Plaza Dr",
+    "same postal code: 62234",
+    "same telephone: 6183452800 on both rows",
+    "same Hilton property code in both source URLs: stlcndt",
+    "both rows carry the same VERIFIED_NO_PETS finding"
+   ],
+   "known_discrepancy": "none. Every available signal agrees.",
+   "founder_ruling": "Keep 'DoubleTree by Hilton Hotel Collinsville - St. Louis'. Retire 'doubletree'.",
+   "effect": "the retired row leaves the current authority and publishes nothing; it contributes no entry to the hotel_exclusions registry"
+  }
+ ],
+
+ "identity_confirmations": [
+  {
+   "kind": "DISTINCT_PROPERTIES_AT_ONE_ADDRESS",
+   "address": "1065 Chesterfield Pkwy E, Chesterfield MO 63017",
+   "shared_telephone": "6365197500",
+   "identities": [
+    {
+     "identity_key": "fairfield by marriott inn and suites st louis chesterfield",
+     "canonical_name": "Fairfield by Marriott Inn & Suites St. Louis Chesterfield",
+     "marriott_property_code": "stlff",
+     "authority": "PUBLISHED_PET_FRIENDLY"
+    },
+    {
+     "identity_key": "springhill suites by marriott st louis chesterfield",
+     "canonical_name": "SpringHill Suites by Marriott St. Louis Chesterfield",
+     "marriott_property_code": "stlsu",
+     "authority": "VERIFIED_NO_PETS"
+    }
+   ],
+   "founder_ruling": "CONFIRMED AS TWO DISTINCT HOTELS. Do not merge or suppress either row.",
+   "why_the_gate_asks": "PTF-MILWAUKEE-PUBLICATION-037 blocked a build over two Hilton brands at one address, because a shared address is exactly how one building gets published twice. The gate is right to stop; a human is what settles it.",
+   "why_these_are_distinct": [
+    "DIFFERENT Marriott property codes: stlff and stlsu. Marriott codes are per-hotel and no two hotels share one -- the same discriminator PTF-COLUMBUS-IDENTITY-CLEANUP-001 relied on to keep three Columbus Embassy Suites apart.",
+    "different brands with different source pages",
+    "a shared switchboard is ordinary at a dual-brand Marriott property and is not evidence of one hotel"
+   ],
+   "note": "The two rows carry OPPOSITE pet findings -- Fairfield is pet-friendly and SpringHill is verified-no-pets -- which is only coherent if they are in fact two hotels. Merging them would have published one of the two findings about a building that never made it."
+  }
+ ],
+
+ "expected_effect": {
+  "signed_rows_before": 121,
+  "superseded": 2,
+  "current_signed_authority": 119,
+  "pet_friendly": 82,
+  "verified_no_pets": 37,
+  "projected_public_hotel_routes": 82
+ },
+ "nothing_is_published_by_this_file": "This ledger records decisions. It registers no market, publishes no page and deploys nothing."
+}

@@ -65,19 +65,32 @@ def _slug(market_id: str, identity_key: str) -> str:
     return "%s-%s" % (prefix, identity_key.replace(" ", "-"))
 
 
-def build(decisions, store: Mapping, census: Mapping) -> Dict:
+def build(decisions, store: Mapping, census: Mapping,
+          withdrawals: Optional[Mapping] = None) -> Dict:
     """``decisions`` is one ledger or a sequence of them.
 
     A market's signature accumulates across passes: each ledger signs its own
     delta and never re-signs what an earlier one covered, so the authority is
     built from their UNION. Taking only the newest would silently drop every row
     signed before it.
+
+    ``withdrawals`` carries later rulings that SUPERSEDE earlier signatures. A
+    withdrawn row leaves the CURRENT authority and publishes nothing, and its
+    original attestation is not touched: it stays exactly as written in the
+    ledger that recorded it. Deleting the row instead would destroy the only
+    record that the founder ever approved it, and editing it in place would
+    quietly rewrite a dated act by a named person. So the authority is
+    (union of signed) MINUS (withdrawn), and every withdrawal is reported with
+    the row it survives in favour of.
     """
     ledgers = [decisions] if isinstance(decisions, Mapping) else list(decisions)
     market_id = next((d.get("market_id", "") for d in ledgers
                       if d.get("market_id")), "")
+    retired = {w["retired_identity_key"]: w
+               for w in (withdrawals or {}).get("withdrawals") or ()}
     seen = set()
     merged = []
+    superseded: List[Dict] = []
     for ledger in ledgers:
         for row in ledger.get("signed") or ():
             if row["identity_key"] in seen:
@@ -85,6 +98,24 @@ def build(decisions, store: Mapping, census: Mapping) -> Dict:
                     "%s is signed by two ledgers -- an attestation is a dated "
                     "act and must not be duplicated" % row["identity_key"])
             seen.add(row["identity_key"])
+            if row["identity_key"] in retired:
+                ruling = retired[row["identity_key"]]
+                superseded.append(OrderedDict((
+                    ("identity_key", row["identity_key"]),
+                    ("canonical_name", row.get("canonical_name", "")),
+                    ("was", row.get("proposes_authority", "")),
+                    ("now", enums.SUPERSEDED),
+                    ("originally_signed_by",
+                     ruling.get("originally_signed_by_work_order", "")),
+                    ("superseded_by_work_order",
+                     (withdrawals or {}).get("work_order", "")),
+                    ("surviving_identity_key",
+                     ruling.get("surviving_identity_key", "")),
+                    ("attestation_preserved_in",
+                     ruling.get("original_ledger", "")),
+                    ("why", ruling.get("founder_ruling", "")),
+                )))
+                continue
             merged.append(row)
     decisions = OrderedDict((
         ("schema", ledgers[-1].get("schema", "")),
@@ -95,6 +126,7 @@ def build(decisions, store: Mapping, census: Mapping) -> Dict:
         ("approval_vocabulary", ledgers[-1].get("approval_vocabulary", "")),
         ("source_ledgers", [d.get("work_order", "") for d in ledgers]),
         ("signed", merged),
+        ("superseded", superseded),
     ))
     rows = {r["identity_key"]: r for r in store.get("records") or ()}
     hotels = {h["identity_key"]: h for h in census.get("hotels") or ()}
@@ -199,6 +231,10 @@ def build(decisions, store: Mapping, census: Mapping) -> Dict:
                  "the publication grade and the readiness state are statements "
                  "the machine made and none of them is an approval"),
         ("signed_rows_in", len(decisions.get("signed") or ())),
+        ("superseded_count", len(decisions.get("superseded") or ())),
+        ("superseded_rows", list(decisions.get("superseded") or ())),
+        ("identity_confirmations",
+         list((withdrawals or {}).get("identity_confirmations") or ())),
         ("pet_friendly_count", len(pet_friendly)),
         ("verified_no_pets_count", len(exclusions)),
         ("authority_total", len(pet_friendly) + len(exclusions)),
@@ -217,6 +253,10 @@ def main(argv=None) -> int:
     parser.add_argument("--store", required=True)
     parser.add_argument("--census", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--withdrawals", default="",
+                        help="a ptf-founder-withdrawal-ledger; its rows leave "
+                             "the CURRENT authority and their original "
+                             "attestations are left untouched")
     parser.add_argument("--expect-total", type=int, default=None)
     args = parser.parse_args(argv)
 
@@ -224,7 +264,9 @@ def main(argv=None) -> int:
                  for p in args.decisions]
     store = json.loads(Path(args.store).read_text(encoding="utf-8"))
     census = json.loads(Path(args.census).read_text(encoding="utf-8"))
-    document = build(decisions, store, census)
+    withdrawals = (json.loads(Path(args.withdrawals).read_text(encoding="utf-8"))
+                   if args.withdrawals else None)
+    document = build(decisions, store, census, withdrawals=withdrawals)
 
     if document["unresolved"]:
         raise ProposedAuthorityError(
@@ -241,6 +283,7 @@ def main(argv=None) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(document, indent=1, ensure_ascii=False) + "\n",
                    encoding="utf-8", newline="\n")
+    print("superseded      : %d" % document["superseded_count"])
     print("pet-friendly    : %d" % document["pet_friendly_count"])
     print("verified-no-pets: %d" % document["verified_no_pets_count"])
     print("authority total : %d" % document["authority_total"])
