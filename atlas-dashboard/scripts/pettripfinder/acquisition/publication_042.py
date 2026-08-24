@@ -211,7 +211,9 @@ def validate_pet_friendly() -> Tuple[List[Dict], List[Dict]]:
         issues = SCHEMA.validate_record(record)
         if issues:
             why.append("schema 1.2: %s" % "; ".join(str(i) for i in issues))
-        if record.get("schema_version") != enums.POLICY_SCHEMA_VERSION:
+        # Canonical, not newest. A live market's records do not stop being
+        # publishable because a later market made an additive amendment.
+        if not enums.is_canonical_policy_schema(record.get("schema_version")):
             why.append("schema_version is %r" % record.get("schema_version"))
 
         approval = record.get("approval") or {}

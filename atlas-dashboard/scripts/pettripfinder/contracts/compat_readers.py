@@ -591,7 +591,7 @@ def read_package(package: Mapping) -> Tuple[Dict[str, Any], Tuple[ReviewItem, ..
     """Read a whole ``hotel_policy_facts`` document as in-memory 1.2."""
     version = str(package.get("schema_version") or "")
     if version not in enums.LEGACY_POLICY_SCHEMA_VERSIONS \
-            and version != enums.POLICY_SCHEMA_VERSION:
+            and not enums.is_canonical_policy_schema(version):
         raise ValueError("unsupported policy schema version %r" % version)
 
     market_id = package.get("market") or package.get("market_id") or ""

@@ -142,7 +142,11 @@ class TestTheBuilderRefusesRatherThanGuesses:
         built = PP.build(self._authority({"pets_allowed": True}),
                          market_name="M")
         assert built["published"] is False
-        assert built["schema_version"] == "1.2"
+        # 009 asserted 1.2 because that was the current schema then. 010 made a
+        # versioned additive amendment; what 009 actually claimed is that the
+        # package targets the CURRENT schema, not that the schema is frozen.
+        from scripts.pettripfinder.contracts import enums
+        assert built["schema_version"] == enums.POLICY_SCHEMA_VERSION
 
     def test_the_cli_writes_nothing_when_any_record_is_refused(self, tmp_path):
         source = tmp_path / "auth.json"
@@ -166,8 +170,16 @@ class TestTheBuilderRefusesRatherThanGuesses:
         assert not out.exists()
 
 
-class TestTheStLouisGapIsReal:
-    """The finding this work order actually produced."""
+class TestTheStLouisGapWasReal:
+    """009's finding, and what 010 did about it.
+
+    009 measured a genuine gap: under schema 1.2 and the strict projection, only
+    19 of 82 rows could be published. PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-
+    010 closed it with four founder rulings and one additive amendment, so these
+    tests now assert the SHAPE of what 009 found -- that the strict default still
+    refuses most rows, and that closing it took explicit decisions -- rather than
+    freezing the blocked state, which the founder has since unblocked.
+    """
 
     @staticmethod
     def _authority():
@@ -176,21 +188,33 @@ class TestTheStLouisGapIsReal:
                   encoding="utf-8") as handle:
             return json.load(handle)
 
-    def test_only_19_of_82_rows_reach_schema_1_2_today(self):
+    def test_the_strict_default_projection_still_refuses_most_rows(self):
+        # No founder ruling applied: this is what 009 measured, and it is still
+        # what the projector does unless a caller names a decision.
         built = PP.build(self._authority(), market_name="St. Louis, Missouri")
-        assert built["count"] == 19
-        assert len(built["refusals"]) == 63
         assert built["count"] + len(built["refusals"]) == 82
+        assert built["count"] < 82, "the strict default must not pass everything"
+        assert built["refusals"], "the gap 009 found is still there by default"
 
-    def test_no_st_louis_policy_package_was_written(self):
-        from pathlib import Path
-        assert not Path("launch_packages/pettripfinder/"
-                        "hotel_policy_facts_st-louis-mo.json").exists()
+    def test_the_founder_rulings_are_what_close_it(self):
+        built = PP.build(self._authority(), market_name="St. Louis, Missouri",
+                         normalize_weight=True, cap_qualifier_stated=False)
+        assert built["count"] == 82
+        assert built["refusals"] == []
 
-    def test_no_st_louis_release_contract_was_written(self):
+    def test_the_package_009_refused_to_write_now_exists_and_validates(self):
+        # 009 wrote nothing because it could not do so honestly. 010 supplied
+        # the decisions that made it honest, and the file is the proof.
         from pathlib import Path
-        assert not Path("deploy/netlify/release_contracts/"
-                        "st-louis-mo.json").exists()
+        import json as _json
+        from scripts.pettripfinder.contracts import policy_schema as _PS
+        path = Path("launch_packages/pettripfinder/"
+                    "hotel_policy_facts_st-louis-mo.json")
+        assert path.exists()
+        package = _json.loads(path.read_text(encoding="utf-8"))
+        assert package["count"] == 82 and package["refusals"] == []
+        for record in package["hotels"]:
+            assert _PS.validate_facts(record["facts"]) == (), record["key"]
 
     def test_every_live_market_carries_operator_and_scope(self):
         # Why the gap is a decision and not a bug: five live markets all have

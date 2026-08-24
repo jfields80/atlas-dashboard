@@ -529,7 +529,9 @@ def test_the_schema_and_the_capture_evidence_are_untouched():
     durable is that e7c8363 changed none of these files, and that is checked
     against its own commit.
     """
-    assert enums.POLICY_SCHEMA_VERSION == "1.2"
+    # 010 amended the schema to 1.3 (additive, authorised). The constant is not
+    # this work order's to pin; what it claimed is that IT changed no schema
+    # file, which the commit-scoped check below states directly.
     touched = set(files_changed_by('e7c8363')) & set(FROZEN_BY_THIS_WORK_ORDER)
     assert touched == set(), touched
 

@@ -327,10 +327,15 @@ def test_the_whole_repair_needed_no_provider_call():
     assert cost["brightdata_spend_usd"] == 0.0
 
 
-def test_the_schema_version_is_still_1_2():
-    assert enums.POLICY_SCHEMA_VERSION == "1.2"
-    assert R.schema_is_unchanged()["schema_files_modified"] == ""
+def test_this_work_order_did_not_change_the_policy_schema():
+        # Restated by PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010, which made
+        # an authorised ADDITIVE amendment to 1.3. What this work order claimed
+        # is that IT did not change the policy schema -- not that the schema is
+        # frozen for all time. The durable form of that claim is the committed
+        # artifact's own version, which is a fact about this work order's
+        # output, plus the requirement that it still speaks a canonical schema.
     assert store()["policy_schema_version"] == "1.2"
+    assert enums.is_canonical_policy_schema(store()["policy_schema_version"])
 
 
 def test_no_milwaukee_policy_authority_exists():

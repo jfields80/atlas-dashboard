@@ -533,7 +533,7 @@ def test_nothing_was_deployed_and_no_provider_was_called():
         assert token not in source, token
 
 
-def test_the_schema_is_still_1_2_and_the_store_was_not_touched():
+def test_this_work_order_changed_no_schema_file_and_no_store():
     """The claim is about THIS work order, not about the future.
 
     It used to assert the working tree was clean, which made it fail the moment
@@ -542,8 +542,11 @@ def test_the_schema_is_still_1_2_and_the_store_was_not_touched():
     durable is that 01fd5a8 changed none of these files, and that is checked
     against its own commit.
     """
-    assert enums.POLICY_SCHEMA_VERSION == "1.2"
+    # 010 amended the schema to 1.3 (additive, authorised). The constant is not
+    # this work order's to pin; what it claimed is that IT changed no schema
+    # file, which the commit-scoped check below states directly.
     assert store()["policy_schema_version"] == "1.2"
+    assert enums.is_canonical_policy_schema(store()["policy_schema_version"])
     touched = set(files_changed_by('01fd5a8')) & set(FROZEN_BY_THIS_WORK_ORDER)
     assert touched == set(), touched
 

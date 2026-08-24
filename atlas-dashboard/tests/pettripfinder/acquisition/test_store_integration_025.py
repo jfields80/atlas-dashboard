@@ -82,14 +82,42 @@ def test_controls_and_benchmarks_are_excluded():
         assert excluded not in store()["source_runs"]
 
 
+#: Runs under ``data/acquisition/`` that belong to ANOTHER market.
+#:
+#: ``store_integration_025`` is Milwaukee's module -- ``MARKET`` is
+#: "milwaukee-wi" and ``RUN_KINDS`` feeds Milwaukee's projection -- but
+#: ``data/acquisition/`` is shared by every market, so each new market drops
+#: directories here that this table has no business classifying. They are listed
+#: EXPLICITLY rather than filtered by prefix: the gate below is that nobody may
+#: leave a run undecided, and a silent pattern match would let a genuinely
+#: unclassified Milwaukee run through the moment its name happened to match.
+OTHER_MARKET_RUNS = {
+    "st_louis_direct_http_001",   # PTF-ST-LOUIS-MARKET-001, zero-cost lane
+    "st_louis_paid_002",          # PTF-ST-LOUIS-PAID-ACQUISITION-002
+}
+
+
 def test_every_run_on_disk_is_classified():
     """An unclassified run is a run nobody decided about."""
     on_disk = {p.name for p in (REPO / "data" / "acquisition").iterdir()
                if p.is_dir()}
     # wyndham-008 is journalled inside the resume-007 tree rather than as its
     # own top-level directory, so it is named in RUN_KINDS without appearing here.
-    unclassified = on_disk - set(S.RUN_KINDS)
+    unclassified = on_disk - set(S.RUN_KINDS) - OTHER_MARKET_RUNS
     assert not unclassified, unclassified
+
+
+def test_no_foreign_run_can_reach_the_milwaukee_projection():
+    """The escape hatch above must stay an escape hatch.
+
+    Naming a run as another market's is only safe while that also keeps it out
+    of Milwaukee's sources: if one were ever both excused here AND readable as a
+    Milwaukee source, the exemption would have hidden a real classification gap.
+    """
+    assert OTHER_MARKET_RUNS.isdisjoint(set(S.RUN_KINDS))
+    assert OTHER_MARKET_RUNS.isdisjoint({s.run for s in S.SOURCES}
+                                        if hasattr(next(iter(S.SOURCES), None),
+                                                   "run") else set(S.SOURCES))
 
 
 def test_a_decision_run_is_not_an_eligible_source():

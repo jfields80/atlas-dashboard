@@ -466,7 +466,7 @@ def build(facts_entry: Optional[Mapping], *, market_id: str = "") -> CanonicalVi
     # The version is read from the record rather than sniffed from its shape,
     # because a guess about which schema a record speaks is exactly the kind of
     # inference this phase exists to remove.
-    if str(entry.get("schema_version") or "") == enums.POLICY_SCHEMA_VERSION:
+    if enums.is_canonical_policy_schema(entry.get("schema_version")):
         canonical = entry.get("facts") or {}
         withheld = entry.get("withheld_fields") or {}
         for_classification = dict(canonical)
@@ -627,7 +627,7 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
     """
     entry = entry or {}
     facts = entry.get("facts") or {}
-    if str(entry.get("schema_version") or "") != enums.POLICY_SCHEMA_VERSION:
+    if not enums.is_canonical_policy_schema(entry.get("schema_version")):
         return dict(facts)
 
     out: Dict[str, Any] = {}

@@ -47,10 +47,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from collections import Counter, OrderedDict
 from pathlib import Path
-from typing import Dict, List, Mapping, Optional, Tuple
+from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
@@ -59,7 +60,7 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.contracts import enums  # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as PS  # noqa: E402
 
-SCHEMA_VERSION = "1.2"
+SCHEMA_VERSION = enums.POLICY_SCHEMA_VERSION
 
 #: reader species token -> package species key. Only these two are recognised;
 #: an unknown token is reported rather than guessed at.
@@ -70,10 +71,81 @@ class PolicyPackageError(RuntimeError):
     pass
 
 
-def project_facts(source: Mapping) -> Tuple[Dict, List[str]]:
-    """``(facts, notes)`` -- the 1.2 fact block for one authority row."""
+
+#: Wording that unambiguously states an UPPER bound on one animal's weight.
+_MAXIMAL_RE = re.compile(
+    r"\b(max(?:imum)?\.?|up\s+to|under|less\s+than|no\s+more\s+than|"
+    r"or\s+less|not\s+exceed|weight\s+limit|limit\s+of)\b", re.IGNORECASE)
+
+#: Wording that describes a weight shared ACROSS pets. Founder condition 3 and 4:
+#: a combined or per-room total is a different fact and is never normalised to
+#: per_pet.
+_COMBINED_RE = re.compile(
+    r"\b(combined|total|together|aggregate|both\s+pets|all\s+pets)\b",
+    re.IGNORECASE)
+
+_REFUNDABLE_RE = re.compile(r"\brefundable\b", re.IGNORECASE)
+_NON_REFUNDABLE_RE = re.compile(r"\bnon[-\s]?refundable\b", re.IGNORECASE)
+
+
+def weight_normalisation_eligible(source: Mapping,
+                                  quotes: Sequence[str]) -> Tuple[bool, str]:
+    """Founder decision 1's five conditions, each tested against the evidence.
+
+    The rule is a PUBLICATION rule, not a reader change: it says that a
+    property-specific source stating an unqualified blanket maximum may be
+    published as ``lte`` / ``per_pet``. It is deliberately narrow, and anything
+    it cannot verify it declines.
+    """
+    if not quotes:
+        return (False, "no quote cites the weight limit, so nothing can be read")
+    joined = " || ".join(quotes)
+    if _COMBINED_RE.search(joined):
+        return (False, "the source describes a combined or shared weight: %r"
+                       % joined[:120])
+    if source.get("combined_weight_limit") is not None:
+        return (False, "the record carries a separate combined_weight_limit")
+    if (source.get("weight_limit") or {}).get("scope"):
+        return (False, "a scope is already stated and is not overridden")
+    if not _MAXIMAL_RE.search(joined):
+        return (False, "the wording does not clearly state a maximum: %r"
+                       % joined[:120])
+    return (True, "")
+
+
+def deposit_refundability(quotes: Sequence[str]) -> Optional[bool]:
+    """``True`` / ``False`` / ``None`` -- and ``None`` means UNSTATED.
+
+    Never inferred from the word "deposit". A source that says only
+    "deposit of 50.00 USD" has not said whether it comes back.
+    """
+    joined = " ".join(quotes)
+    if _NON_REFUNDABLE_RE.search(joined):
+        return False
+    if _REFUNDABLE_RE.search(joined):
+        return True
+    return None
+
+
+def project_facts(source: Mapping, evidence: Sequence[Mapping] = (), *,
+                  normalize_weight: bool = False,
+                  cap_qualifier_stated: Optional[bool] = None
+                  ) -> Tuple[Dict, List[str]]:
+    """``(facts, notes)`` -- the publication fact block for one authority row.
+
+    ``normalize_weight`` and ``cap_qualifier_stated`` are OFF by default. Each
+    switches on one founder publication decision, so the projector's default
+    behaviour remains the strict one and a caller has to say which ruling it is
+    applying.
+    """
     facts: Dict = OrderedDict()
     notes: List[str] = []
+
+    def quotes_for(field: str) -> List[str]:
+        return [str(e.get("quote", "")) for e in evidence
+                if field in (e.get("field_refs") or ())]
+
+    quotes = quotes_for("weight_limit")
 
     if "pets_allowed" in source:
         facts["pets_allowed"] = bool(source["pets_allowed"])
@@ -95,10 +167,22 @@ def project_facts(source: Mapping) -> Tuple[Dict, List[str]]:
     if isinstance(weight, Mapping) and weight.get("value") is not None:
         node = OrderedDict((("value", weight["value"]),
                             ("unit", weight.get("unit", "lb"))))
-        # operator and scope ONLY if the source stated them.
         for optional in ("operator", "scope"):
             if weight.get(optional):
                 node[optional] = weight[optional]
+        if ("operator" not in node or "scope" not in node) and normalize_weight:
+            eligible, why = weight_normalisation_eligible(source, quotes)
+            if eligible:
+                node.setdefault("operator", "lte")
+                node.setdefault("scope", enums.WEIGHT_SCOPE_PER_PET)
+                notes.append(
+                    "weight_limit.operator=lte and scope=per_pet were "
+                    "FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-"
+                    "PUBLICATION-SCHEMA-DECISIONS-010; the source states an "
+                    "unqualified blanket maximum and the reader records a "
+                    "value only. Source text preserved: %s" % (" || ".join(quotes) or "(no weight quote)"))
+            else:
+                notes.append("weight_limit NOT normalised: %s" % why)
         facts["weight_limit"] = node
 
     if source.get("fee_tiers"):
@@ -132,33 +216,112 @@ def project_facts(source: Mapping) -> Tuple[Dict, List[str]]:
                     node[optional] = cap[optional]
             if cap.get("qualifier_stated") is not None:
                 node["qualifier_stated"] = bool(cap["qualifier_stated"])
+            elif cap_qualifier_stated is not None:
+                # FOUNDER DECISION 3. false means "the source states the cap and
+                # does NOT state an additional qualifier". It does NOT mean "no
+                # qualifier exists" -- the distinction is the whole point of the
+                # field, and inventing a qualifier is the failure _check_cap was
+                # written against.
+                node["qualifier_stated"] = bool(cap_qualifier_stated)
+                notes.append(
+                    "fee_cap.qualifier_stated=%s recorded under founder "
+                    "decision 3: the source states the cap and states no "
+                    "further qualifier. This asserts what the SOURCE said, "
+                    "never that no qualifier exists."
+                    % bool(cap_qualifier_stated))
             facts["fee_cap"] = node
         else:
             facts["fee_cap"] = OrderedDict(
                 (("amount_cents", cap),
                  ("currency", source.get("fee_currency", "USD"))))
     if source.get("pet_deposit") is not None:
-        facts["pet_deposit"] = OrderedDict(
-            (("amount_cents", source["pet_deposit"]),
-             ("currency", source.get("fee_currency", "USD"))))
+        # FOUNDER DECISION 4. A deposit is a DISTINCT charge and is never merged
+        # into the pet fee -- a hotel may levy both, and this corpus contains
+        # hotels that do. Refundability is read from the deposit's own quote and
+        # is never inferred from the word "deposit": PTF saw a heading reading
+        # "Deposit Yes" over a body reading "Non-refundable Fee", and only the
+        # body was true.
+        refundable = deposit_refundability(quotes_for("pet_deposit"))
+        charge = OrderedDict((
+            ("kind", ("refundable_deposit"
+                      if refundable is True
+                      else "incidental_deposit")),
+            ("description", "pet deposit"),
+            ("amount_cents", source["pet_deposit"]),
+            ("currency", source.get("fee_currency", "USD")),
+        ))
+        if source.get("deposit_basis"):
+            charge["basis"] = source["deposit_basis"]
+        if refundable is None:
+            charge["refundable_stated"] = False
+            notes.append(
+                "pet_deposit projected to other_charges with "
+                "refundable_stated=false: the source states the deposit and "
+                "does not state whether it is refundable. Schema 1.3 carries "
+                "that as an explicit non-statement rather than forcing a "
+                "writer to invent one.")
+        else:
+            charge["refundable"] = refundable
+            charge["refundable_stated"] = True
+        facts.setdefault("other_charges", []).append(charge)
 
     if source.get("pet_count_limit") is not None:
         facts["pet_count_limit"] = source["pet_count_limit"]
     if source.get("pet_count_scope"):
         facts["pet_count_scope"] = source["pet_count_scope"]
-    if source.get("service_animal_exception"):
-        facts["service_animal_exception"] = source["service_animal_exception"]
-
     return (facts, notes)
 
 
-def build(authority: Mapping, *, market_name: str) -> Dict:
+#: Charge language read from the service-animal sentence ITSELF.
+#:
+#: Founder Decision 2 forbids inferring service-animal terms from pet-policy
+#: terms; it does not forbid reading the statement the property actually wrote.
+#: Only these two outcomes are ever produced -- a stated absence of charge, or
+#: "the statement does not address charges". ``charge_stated`` is deliberately
+#: unreachable here: asserting that a property charges for a service animal is a
+#: claim no projection should make from prose.
+_NO_CHARGE_PHRASES = (
+    "without charge", "free of charge", "no additional charge",
+    "no charge", "exempt from this charge", "at no charge",
+)
+
+
+def project_service_animal_statement(source: Mapping) -> Optional[Dict]:
+    """FOUNDER DECISION 2 -- the statement, in the namespace it belongs to.
+
+    010's first draft put this prose in ``facts.service_animal_exception``,
+    which ``policy_schema.validate_record`` has always rejected: a legal access
+    category must not sit in the commercial-terms namespace, because a weight
+    limit beside it invites something to apply one to the other. That is the
+    founder's own constraint, already enforced by the contract. The statement
+    goes on the record envelope instead, carrying the property's exact words.
+    """
+    quote = (source.get("service_animal_exception") or "").strip()
+    if not quote:
+        return None
+    lowered = quote.lower()
+    charges = (enums.SERVICE_ANIMAL_NO_CHARGE
+               if any(phrase in lowered for phrase in _NO_CHARGE_PHRASES)
+               else enums.SERVICE_ANIMAL_NOT_ADDRESSED)
+    return OrderedDict((
+        ("stated", True),
+        ("charges_stated", charges),
+        ("quote", quote),
+    ))
+
+
+def build(authority: Mapping, *, market_name: str,
+          normalize_weight: bool = False,
+          cap_qualifier_stated: Optional[bool] = None) -> Dict:
     market_id = authority.get("market_id", "")
     hotels: List[Dict] = []
     refusals: List[Dict] = []
 
     for row in authority.get("pet_friendly") or ():
-        facts, notes = project_facts(row.get("facts") or {})
+        facts, notes = project_facts(
+            row.get("facts") or {}, row.get("evidence") or (),
+            normalize_weight=normalize_weight,
+            cap_qualifier_stated=cap_qualifier_stated)
         issues = PS.validate_facts(facts)
         if issues:
             refusals.append(OrderedDict((
@@ -168,6 +331,12 @@ def build(authority: Mapping, *, market_name: str) -> Dict:
             continue
         record = OrderedDict((
             ("key", row["normalized_name"]),
+            # The join key for every layer. validate_record requires it and
+            # every live market's records carry it; 010's first draft emitted
+            # only "key", so all 82 records failed the record contract while
+            # passing the facts contract.
+            ("identity_key", row["normalized_name"]),
+            ("schema_version", SCHEMA_VERSION),
             ("name", row["canonical_name"]),
             ("facts", facts),
             ("evidence", [OrderedDict((
@@ -188,8 +357,22 @@ def build(authority: Mapping, *, market_name: str) -> Dict:
             ("founder_reviewer_id", row.get("founder_reviewer_id", "")),
             ("founder_reviewed_at", row.get("founder_reviewed_at", "")),
         ))
+        statement = project_service_animal_statement(row.get("facts") or {})
+        if statement is not None:
+            record["service_animal_statement"] = statement
         if notes:
             record["projection_notes"] = notes
+
+        # The record contract, not just the fact contract. A package whose
+        # records fail validate_record is not the same artifact the live
+        # markets committed, however clean its fact blocks are.
+        record_issues = PS.validate_record(record)
+        if record_issues:
+            refusals.append(OrderedDict((
+                ("identity_key", row["normalized_name"]),
+                ("issues", [("%s: %s -- %s" % (i.path, i.code, i.detail))
+                            for i in record_issues]))))
+            continue
         hotels.append(record)
 
     hotels.sort(key=lambda r: r["key"])
@@ -224,10 +407,23 @@ def main(argv=None) -> int:
     parser.add_argument("--market-name", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--expect-count", type=int, default=None)
+    parser.add_argument("--normalize-weight", action="store_true",
+                        help="apply founder decision 1: a property-specific "
+                             "unqualified blanket maximum publishes as lte / "
+                             "per_pet. Off by default; the strict reading is "
+                             "the default and a caller must name the ruling.")
+    parser.add_argument("--cap-qualifier-stated", choices=("true", "false"),
+                        default=None,
+                        help="apply founder decision 3 to caps whose source "
+                             "states no further qualifier")
     args = parser.parse_args(argv)
 
     authority = json.loads(Path(args.authority).read_text(encoding="utf-8"))
-    document = build(authority, market_name=args.market_name)
+    document = build(authority, market_name=args.market_name,
+                     normalize_weight=args.normalize_weight,
+                     cap_qualifier_stated=(
+                         None if args.cap_qualifier_stated is None
+                         else args.cap_qualifier_stated == "true"))
 
     if document["refusals"]:
         raise PolicyPackageError(

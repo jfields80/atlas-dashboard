@@ -125,7 +125,37 @@ class TestNoStLouisRouteCanEnterProduction:
         routes = (DEPLOY / "live_production_routes.txt").read_text(encoding="utf-8")
         assert "st-louis" not in routes.lower()
 
-    def test_st_louis_has_no_release_contract(self):
-        contracts = sorted(p.name for p in
-                           (DEPLOY / "release_contracts").glob("*.json"))
-        assert "st-louis-mo.json" not in contracts
+    def test_st_louis_release_contract_cannot_reach_production(self):
+        """PTF-ST-LOUIS-RELEASE-CONTRACT-009/010 authored the contract ahead of
+        registration, and deliberately NOT in the live directory: that directory
+        is the verified set, so an unregistered market's contract there would
+        break ``verify_contract`` for every market. What keeps a route out of
+        production is asserted here: the live set does not name St. Louis, the
+        prepared contract grants no deployment and says it is unregistered, the
+        market has no registered contract and no authority shard, and the live
+        manifest does not name it.
+        """
+        live = sorted(p.name for p in
+                      (DEPLOY / "release_contracts").glob("*.json"))
+        assert "st-louis-mo.json" not in live
+
+        prepared = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                    / "st_louis_publication_010"
+                    / "release_contract.st-louis-mo.prepared.json")
+        if prepared.exists():
+            contract = json.loads(prepared.read_text(encoding="utf-8"))
+            assert contract["deployment_authorization"]["grants_deployment"] is False
+            assert contract["status"] == "PREPARED_NOT_REGISTERED"
+
+        package = REPO_ROOT / "launch_packages" / "pettripfinder"
+        assert not (package / "markets" / "st-louis-mo.json").exists()
+        assert not (package / "markets" / "authority" / "st-louis-mo").exists()
+
+        manifest = json.loads(
+            (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
+        assert "st-louis-mo" not in [m["market_id"] for m
+                                     in manifest["participating_markets"]]
+        participation = json.loads(
+            (DEPLOY / "launch_participation.json").read_text(encoding="utf-8"))
+        assert "st-louis-mo" not in [m["market_id"] for m
+                                     in participation["markets"]]

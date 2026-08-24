@@ -32,6 +32,17 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS
 from scripts.pettripfinder.brightdata import policy_reading as PR
 from scripts.pettripfinder.contracts import enums
 
+#: The commit that IS PTF-RECURRING-AND-MARRIOTT-PARITY-035.
+WORK_ORDER_COMMIT = "69538f6"
+SCHEMA_PATH = "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py"
+
+
+def files_changed_by(commit):
+    return subprocess.run(["git", "show", "--name-only", "--format=", commit],
+                          cwd=str(REPO), capture_output=True,
+                          text=True).stdout.split()
+
+
 from . import authority_freeze as AUTHORITY_FREEZE
 from . import locator_freeze as LOCATOR_FREEZE
 from . import reader_freeze as READER_FREEZE
@@ -324,11 +335,16 @@ def test_neither_reader_branches_on_a_property_or_a_market():
                                                              token)
 
 
-def test_the_schema_version_is_still_1_2():
-    assert enums.POLICY_SCHEMA_VERSION == "1.2"
+def test_this_work_order_did_not_change_the_policy_schema():
+        # Restated by PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010, which made
+        # an authorised ADDITIVE amendment to 1.3. What this work order claimed
+        # is that IT did not change the policy schema -- not that the schema is
+        # frozen for all time. The durable form of that claim is the committed
+        # artifact's own version, which is a fact about this work order's
+        # output, plus the requirement that it still speaks a canonical schema.
     assert store()["policy_schema_version"] == "1.2"
-    assert R.freezes()["paths"][
-        "atlas-dashboard/scripts/pettripfinder/contracts/policy_schema.py"] == "clean"
+    assert enums.is_canonical_policy_schema(store()["policy_schema_version"])
+    assert SCHEMA_PATH not in files_changed_by(WORK_ORDER_COMMIT)
 
 
 def test_the_whole_pass_needed_no_provider_call():
@@ -356,8 +372,13 @@ def test_no_capture_artifact_was_rewritten():
 
 
 def test_routing_the_locator_and_discovery_are_unchanged():
-    freezes = R.freezes()
-    assert freezes["all_clean"], freezes["paths"]
+    # Scoped to this work order's own commit rather than the live working tree.
+    # R.freezes() reads `git status`, so it failed the moment a later authorised
+    # work order touched any frozen path -- PTF-ST-LOUIS-...-010 amended
+    # policy_schema.py to 1.3. What is durable is that 69538f6 changed none of
+    # them, and the locator surface is asserted directly either way.
+    touched = set(files_changed_by(WORK_ORDER_COMMIT)) & set(R.freezes()["paths"])
+    assert touched == set(), touched
     LOCATOR_FREEZE.assert_locator_surface_unchanged()
 
 
