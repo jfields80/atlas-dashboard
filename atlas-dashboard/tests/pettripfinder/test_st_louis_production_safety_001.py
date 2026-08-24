@@ -1,17 +1,22 @@
-"""PTF-ST-LOUIS-MARKET-001 -- the live five-market production set is untouched.
+"""PTF-ST-LOUIS-REGISTER-PUBLISH-011 -- registering St. Louis changed St. Louis.
 
-Section 15 of the work order: St. Louis work must not change the live bundle,
-the deployment authorization, the deployment record, the launch status of any
-existing market, the measurement state or the affiliate state.
+This file used to assert the opposite of what it asserts now, and the reason is
+worth keeping. PTF-ST-LOUIS-MARKET-001 section 15 required that St. Louis work
+not change the live bundle, the deployment authorization, the deployment record,
+the launch status of any existing market, the measurement state or the affiliate
+state -- and registration is not a free act: ``markets/*.json`` IS the registry,
+``launch_participation`` fails closed on any registered market with no row, and
+the participation file's sha256 is pinned by the global deployment manifest AND
+copied into the founder's signed authorization. So creating
+``markets/st-louis-mo.json`` would have invalidated a production deployment
+record, which is why the market contract sat in ``markets/pending/`` as a valid,
+parseable, DELIBERATELY UNREGISTERED document.
 
-The interesting one is the FIRST test. Registering a market is not a free act:
-``markets/*.json`` IS the registry, ``launch_participation`` fails closed on any
-registered market with no row, and the participation file's sha256 is pinned by
-the global deployment manifest AND copied into the founder's signed
-authorization. So creating ``markets/st-louis-mo.json`` in this work order would
-have invalidated a production deployment record -- which is why the St. Louis
-market contract is a valid, parseable, DELIBERATELY UNREGISTERED document in
-``markets/pending/``.
+011 is the work order that takes that step, so the registration assertions
+invert. What does NOT invert is everything else: the five markets that were live
+before must stay live, unchanged, and the deployment record and authorization
+that describe the CURRENT production deploy must remain exactly what they were,
+because a new bundle needs a NEW authorization and may not inherit one.
 """
 
 from __future__ import annotations
@@ -25,79 +30,125 @@ import pytest
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import market_authority as MA
+from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.markets.contract import load_markets, parse_market
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 MARKETS_DIR = PACKAGE / "markets"
-PENDING = MARKETS_DIR / "pending" / "st-louis-mo.json"
+REGISTERED = MARKETS_DIR / "st-louis-mo.json"
 DEPLOY = REPO_ROOT / "deploy" / "netlify"
 
-#: The five markets live at PTF-047, and the two registered-but-withheld ones.
+#: The five markets live at PTF-047/012, before St. Louis joined.
 LIVE_FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
              "milwaukee-wi", "pittsburgh-pa")
+#: The six the founder authorized at 011.
+LIVE_SIX = tuple(sorted(LIVE_FIVE + ("st-louis-mo",)))
 
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-class TestStLouisIsNotRegistered:
-    def test_the_contract_is_valid_and_deliberately_not_in_the_registry(self):
-        document = json.loads(PENDING.read_text(encoding="utf-8"))
-        config = parse_market(document, source="pending/st-louis-mo.json")
+class TestStLouisIsNowRegistered:
+    def test_the_contract_moved_out_of_pending_into_the_registry(self):
+        document = json.loads(REGISTERED.read_text(encoding="utf-8"))
+        config = parse_market(document, source="st-louis-mo.json")
         assert config.market_id == "st-louis-mo"
         assert config.corridors, "a market contract with no corridor has no geography"
-        assert not (MARKETS_DIR / "st-louis-mo.json").exists()
+        assert not (MARKETS_DIR / "pending" / "st-louis-mo.json").exists()
 
-    def test_the_registry_still_holds_exactly_the_markets_it_held(self):
-        assert "st-louis-mo" not in MA.registered_market_ids()
-        assert len(load_markets()) == 8
+    def test_the_pre_registration_markers_did_not_survive_registration(self):
+        """``_registration_status: PENDING_REGISTRATION`` was true of the
+        pending document and is false of this one. A registered contract that
+        still claimed to be unregistered would be a false statement in the
+        registry itself."""
+        document = json.loads(REGISTERED.read_text(encoding="utf-8"))
+        assert "_registration_status" not in document
+        assert "_registration_note" not in document
+        # The boundary note is not a registration marker -- every other market
+        # carries one and it describes geography, which did not change.
+        assert document["_boundary_note"]
 
-    def test_an_unregistered_market_is_never_launch_authorized(self):
-        assert LP.launch_status("st-louis-mo") == LP.UNLISTED
-        assert not LP.is_founder_authorized("st-louis-mo")
+    def test_the_registry_grew_by_exactly_one(self):
+        assert "st-louis-mo" in MA.registered_market_ids()
+        assert len(load_markets()) == 9
 
-    def test_no_authority_shard_directory_exists_for_st_louis(self):
-        """``sharded_market_ids`` fails closed on a shard directory the market
-        contract does not know about, so creating one would break every other
-        market's authority build."""
-        assert "st-louis-mo" not in MA.sharded_market_ids()
+    def test_the_authority_shard_exists_and_is_discoverable(self):
+        assert "st-louis-mo" in MA.sharded_market_ids()
+        assert len(MA.load_market_seed_rows("st-louis-mo")) == 82
+        assert len(MA.load_market_exclusions("st-louis-mo")) == 37
+
+    def test_the_generated_globals_are_regenerated_from_the_shards(self):
+        """The three legacy global artifacts are GENERATED. A shard that is not
+        reflected in them means a build reads one authority and a gate reads
+        another."""
+        assert MA.check_generated_artifacts() == []
+
+    def test_it_is_founder_authorized_for_launch(self):
+        assert LP.launch_status("st-louis-mo") == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+        assert LP.is_founder_authorized("st-louis-mo")
 
 
-class TestLiveParticipationUnchanged:
-    def test_the_founder_authorized_set_is_still_the_live_five(self):
-        assert tuple(LP.authorized_market_ids()) == LIVE_FIVE
+class TestParticipationIsTheSixMarketSet:
+    def test_the_founder_authorized_set_is_the_live_six(self):
+        assert tuple(LP.authorized_market_ids()) == LIVE_SIX
 
-    def test_indianapolis_is_still_source_ready_and_withheld(self):
+    def test_no_other_registered_market_was_swept_in(self):
+        """Registration is not participation. Three registered markets are not
+        in the launch set and each must stay out for its own recorded reason."""
         assert (LP.launch_status("indianapolis-in")
                 == LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
+            assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
 
-    def test_the_participation_record_still_hashes_to_what_the_manifest_pins(self):
-        manifest = json.loads(
-            (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        pinned = manifest["launch_participation"]["sha256"]
-        assert _sha(DEPLOY / "launch_participation.json") == pinned
+    def test_every_registered_market_carries_a_row(self):
+        """The gate ``global.launch_participation_explicit`` refuses a bundle
+        built while any registered market is unlisted, so an omission is loud
+        rather than a silent exclusion."""
+        listed = {row["market_id"] for row
+                  in json.loads((DEPLOY / "launch_participation.json")
+                                .read_text(encoding="utf-8"))["markets"]}
+        assert listed == set(MA.registered_market_ids())
+
+    def test_the_record_names_what_it_supersedes(self):
+        decision = json.loads((DEPLOY / "launch_participation.json")
+                              .read_text(encoding="utf-8"))["decision"]
+        assert decision["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+        superseded = decision["supersedes"]
+        assert superseded["founder_authorized"] == list(LIVE_FIVE)
+        assert superseded["sha256"] == (
+            "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab")
 
 
-class TestDeploymentArtifactsStillVerify:
-    def test_the_global_deployment_manifest_verifies(self):
-        manifest = json.loads(
-            (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        assert GD.verify_manifest(manifest) == []
+class TestTheDeployedArtifactIsNotDisturbed:
+    """A new bundle needs a NEW authorization. The deployed one is CONSUMED."""
 
-    def test_the_deployment_record_and_authorization_are_untouched(self):
+    def test_the_deployment_record_and_authorization_still_describe_012(self):
         records = sorted((DEPLOY / "deployment_records").glob("*.json"))
-        auths = sorted((DEPLOY / "deployment_authorizations").glob("*.json"))
         assert [p.name for p in records] == [
-            "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json"]
-        assert [p.name for p in auths] == [
-            "ptf-auth-047-a324b1bf5023.json"]
-        record = json.loads(records[0].read_text(encoding="utf-8"))
-        assert record["bundle_sha256"] == (
-            "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
-        assert record["total_profiles"] == 333
-        assert record["participating_markets"] == list(LIVE_FIVE)
+            "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json",
+            "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json",
+        ] or sorted(p.name for p in records) == sorted([
+            "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json",
+            "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json",
+        ])
+        live = json.loads(
+            (DEPLOY / "deployment_records"
+             / "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json")
+            .read_text(encoding="utf-8"))
+        assert live["bundle_sha256"] == (
+            "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
+        assert live["total_profiles"] == 333
+        assert live["participating_markets"] == list(LIVE_FIVE)
+
+    def test_the_consumed_authorizations_are_untouched(self):
+        for name, status in (("ptf-auth-047-a324b1bf5023.json", "DEPLOYED"),
+                             ("ptf-auth-012-70747f09fdfe.json", "DEPLOYED")):
+            auth = json.loads((DEPLOY / "deployment_authorizations" / name)
+                              .read_text(encoding="utf-8"))
+            assert auth["authorization_status"] == status
+            assert "st-louis-mo" not in auth["participating_markets"]
 
 
 class TestMeasurementAndAffiliateUnchanged:
@@ -119,43 +170,26 @@ class TestMeasurementAndAffiliateUnchanged:
                     if p.get("enrolled") or p.get("active")]
         assert enrolled == []
 
+    def test_st_louis_enrolls_no_affiliate_destination(self):
+        shard = json.loads(MA.affiliate_shard_path("st-louis-mo")
+                           .read_text(encoding="utf-8"))
+        assert shard["count"] == 0
+        assert shard["destinations"] == []
 
-class TestNoStLouisRouteCanEnterProduction:
-    def test_the_live_route_list_names_no_st_louis_route(self):
-        routes = (DEPLOY / "live_production_routes.txt").read_text(encoding="utf-8")
-        assert "st-louis" not in routes.lower()
 
-    def test_st_louis_release_contract_cannot_reach_production(self):
-        """PTF-ST-LOUIS-RELEASE-CONTRACT-009/010 authored the contract ahead of
-        registration, and deliberately NOT in the live directory: that directory
-        is the verified set, so an unregistered market's contract there would
-        break ``verify_contract`` for every market. What keeps a route out of
-        production is asserted here: the live set does not name St. Louis, the
-        prepared contract grants no deployment and says it is unregistered, the
-        market has no registered contract and no authority shard, and the live
-        manifest does not name it.
-        """
-        live = sorted(p.name for p in
-                      (DEPLOY / "release_contracts").glob("*.json"))
-        assert "st-louis-mo.json" not in live
+class TestEveryContractStillVerifies:
+    def test_all_seven_release_contracts_agree_with_their_own_authority(self):
+        results = RC.verify_all()
+        assert "st-louis-mo" in results
+        assert {k: v for k, v in results.items() if v} == {}
 
-        prepared = (REPO_ROOT / "launch_packages" / "pettripfinder"
-                    / "st_louis_publication_010"
-                    / "release_contract.st-louis-mo.prepared.json")
-        if prepared.exists():
-            contract = json.loads(prepared.read_text(encoding="utf-8"))
-            assert contract["deployment_authorization"]["grants_deployment"] is False
-            assert contract["status"] == "PREPARED_NOT_REGISTERED"
-
-        package = REPO_ROOT / "launch_packages" / "pettripfinder"
-        assert not (package / "markets" / "st-louis-mo.json").exists()
-        assert not (package / "markets" / "authority" / "st-louis-mo").exists()
-
+    def test_the_global_manifest_verifies(self):
         manifest = json.loads(
             (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        assert "st-louis-mo" not in [m["market_id"] for m
-                                     in manifest["participating_markets"]]
-        participation = json.loads(
-            (DEPLOY / "launch_participation.json").read_text(encoding="utf-8"))
-        assert "st-louis-mo" not in [m["market_id"] for m
-                                     in participation["markets"]]
+        assert GD.verify_manifest(manifest) == []
+
+    def test_the_manifest_pins_the_participation_file_as_it_stands(self):
+        manifest = json.loads(
+            (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
+        assert _sha(DEPLOY / "launch_participation.json") == (
+            manifest["launch_participation"]["sha256"])

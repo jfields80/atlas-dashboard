@@ -63,7 +63,11 @@ PITTSBURGH = "pittsburgh-pa"
 #: unchanged -- every market that CAN release has one -- and this is the list
 #: of markets that can.
 MILWAUKEE = "milwaukee-wi"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE)
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered and published St. Louis, so it
+#: has verified inventory and must have a contract on the same rule.
+ST_LOUIS = "st-louis-mo"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
+           ST_LOUIS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -128,6 +132,15 @@ EXPECTED_RECONCILIATION = {
     # from the committed final partition (47), and is UNKNOWN rather than
     # negative evidence.
     MILWAUKEE: (147, 73, 27, 100, 47),
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011. 357 confirmed identities from the
+    # generic discovery census; 82 published pet-friendly and 37
+    # verified-no-pets, founder-signed across two sittings (005 and 007) and
+    # cleaned of two duplicate signatures by 008B; resolved = 82 + 37 = 119,
+    # with no OUT_OF_CURRENT_CATEGORY ruling in this market. unresolved is 238
+    # and is UNKNOWN, never negative evidence: 153 identities were never
+    # reached by a lane that could answer, 66 hold insufficient evidence, 16
+    # served a page that stated nothing, and 1 is held on an unsettled identity.
+    ST_LOUIS: (357, 82, 37, 119, 238),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -278,7 +291,8 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27,
+                             ST_LOUIS: 37}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

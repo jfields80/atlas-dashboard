@@ -59,6 +59,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder.contracts import enums  # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as PS  # noqa: E402
+from scripts.pettripfinder.site_data import normalize_name  # noqa: E402
 
 SCHEMA_VERSION = enums.POLICY_SCHEMA_VERSION
 
@@ -310,14 +311,125 @@ def project_service_animal_statement(source: Mapping) -> Optional[Dict]:
     ))
 
 
+# --------------------------------------------------------------------------- #
+# The observation store: evidence references and withholding prose.
+#
+# The signed authority carries a withholding decision as a BARE REASON CODE and
+# its evidence items carry no reference. Neither is enough for the contract the
+# live markets satisfy: contracts.withholding requires a reason SENTENCE and at
+# least one evidence_ref, and site_data / the profile renderer read
+# ``withheld_fields`` as a MAP OF DECISIONS, not of strings. Both of the missing
+# halves already exist, verbatim, in the committed observation store -- reading
+# it re-derives nothing.
+# --------------------------------------------------------------------------- #
+
+def observation_index(store: Optional[Mapping]) -> Dict[str, Dict]:
+    return {r["identity_key"]: r for r in (store or {}).get("records") or ()}
+
+
+def evidence_reference(observation: Mapping, field: str, quote: str) -> str:
+    """The store's own evidence_ref for one (field, quote), or ``""``."""
+    for entry in (observation.get("publication_grade") or {}).get(
+            "evidence_entries") or ():
+        if entry.get("field") == field and entry.get("quote") == quote:
+            return str(entry.get("evidence_ref") or "")
+    return ""
+
+
+def withholding_reason(observation: Mapping) -> str:
+    """The reader's own sentence for why a field was not published.
+
+    Composed from the observation's flags, which is where the reader recorded
+    it. Nothing is written here: an observation with no flag yields no sentence,
+    and a withholding decision with no sentence is refused rather than published
+    with prose this layer made up.
+    """
+    details = [str(f.get("detail") or "").strip()
+               for f in observation.get("flags") or ()]
+    return "; ".join(d for d in details if d)
+
+
+def project_withheld(source: Mapping, observation: Optional[Mapping],
+                     evidence_refs: Sequence[str]) -> Tuple[Dict, List[str], List[str]]:
+    """``(withheld_fields, notes, problems)`` in the shape every reader expects.
+
+    Two rules, both the withholding contract's own:
+
+    * ``SOURCE_SILENT`` is DROPPED. ``withheld_fields`` means "we know something
+      and are choosing not to publish it"; silence is the ABSENCE of the field,
+      and an entry claiming a decision was made about a non-event would make the
+      map a mixture of editorial decisions and nothing. The contract's validator
+      rejects it by name.
+    * Every surviving decision becomes ``{reason_code, reason, evidence_refs}``.
+      A bare string is not a decision a reviewer can re-adjudicate, and the
+      profile renderer reads the entry as a mapping -- a string crashes it.
+    """
+    out: Dict = OrderedDict()
+    notes: List[str] = []
+    problems: List[str] = []
+    reason = withholding_reason((observation or {}).get("observation") or {})
+    for field in sorted(source or {}):
+        value = (source or {})[field]
+        code = value if isinstance(value, str) else str(
+            (value or {}).get("reason_code") or "")
+        if code == enums.SOURCE_SILENT:
+            notes.append(
+                "%s: SOURCE_SILENT dropped from withheld_fields -- silence is "
+                "the absence of a field, not a decision not to publish one"
+                % field)
+            continue
+        if isinstance(value, Mapping):
+            out[field] = OrderedDict(value)
+            continue
+        if not reason:
+            problems.append(
+                "%s is withheld as %s and no observation states why; a "
+                "withholding decision without its sentence is unreviewable"
+                % (field, code))
+            continue
+        if not evidence_refs:
+            problems.append(
+                "%s is withheld as %s and the record carries no evidence "
+                "reference to re-adjudicate it against" % (field, code))
+            continue
+        out[field] = OrderedDict((
+            ("reason_code", code),
+            ("reason", reason),
+            ("evidence_refs", list(evidence_refs)),
+        ))
+    return out, notes, problems
+
+
+def corrected_names(overlay: Optional[Mapping]) -> Dict[str, str]:
+    """``identity_key -> the name the property's own captured page states``.
+
+    The census records what DISCOVERY observed; where that is a bare chain word
+    the evidence-cited overlay under ``markets/name_corrections/`` supplies the
+    name the property states for itself. The overlay is normally applied when
+    the observation store is built, so for an already-signed authority it is
+    IDEMPOTENT -- every row it names already carries the corrected name. It is
+    re-applied here because an authority signed before a correction was
+    authorised would otherwise publish the bare word, and a bare chain word is
+    not an identity: two markets can hold one, and then no directory can list
+    both.
+    """
+    return {r["identity_key"]: r["corrected_canonical_name"]
+            for r in (overlay or {}).get("records") or ()}
+
+
 def build(authority: Mapping, *, market_name: str,
           normalize_weight: bool = False,
-          cap_qualifier_stated: Optional[bool] = None) -> Dict:
+          cap_qualifier_stated: Optional[bool] = None,
+          name_corrections: Optional[Mapping] = None,
+          observations: Optional[Mapping] = None) -> Dict:
     market_id = authority.get("market_id", "")
+    names = corrected_names(name_corrections)
+    observed = observation_index(observations)
     hotels: List[Dict] = []
     refusals: List[Dict] = []
 
     for row in authority.get("pet_friendly") or ():
+        observation = observed.get(row["normalized_name"]) or {}
         facts, notes = project_facts(
             row.get("facts") or {}, row.get("evidence") or (),
             normalize_weight=normalize_weight,
@@ -330,20 +442,39 @@ def build(authority: Mapping, *, market_name: str,
                             for i in issues]))))
             continue
         record = OrderedDict((
-            ("key", row["normalized_name"]),
-            # The join key for every layer. validate_record requires it and
+            # ``key`` is the DISPLAY join key: site_data.verified_public_hotels
+            # matches it against normalize_name(seed_row["name"]), and
+            # load_published_hotel_policy_facts looks the seed row up by it. So
+            # it must derive from the name the record actually publishes, not
+            # from the census identity. The two coincide on every live market's
+            # 333 records and differ only where a founder-authorised name
+            # correction replaced a bare chain word ("courtyard") with the
+            # building the page names -- and on exactly those records the join
+            # would otherwise FAIL CLOSED, because no seed row can be both the
+            # published name and the census word.
+            ("key", normalize_name(
+                names.get(row["normalized_name"], row["canonical_name"]))),
+            # The IDENTITY key, which is a different question: it is the census
+            # identity the founder signed against and the key affiliate rows and
+            # approval bindings resolve through. validate_record requires it and
             # every live market's records carry it; 010's first draft emitted
             # only "key", so all 82 records failed the record contract while
             # passing the facts contract.
             ("identity_key", row["normalized_name"]),
             ("schema_version", SCHEMA_VERSION),
-            ("name", row["canonical_name"]),
+            ("name", names.get(row["normalized_name"], row["canonical_name"])),
             ("facts", facts),
             ("evidence", [OrderedDict((
                 ("field", (item.get("field_refs") or [""])[0]),
                 ("quote", item.get("quote", "")),
                 ("source_url", row.get("source_url", "")),
-                ("evidence_ref", item.get("evidence_ref", "")),
+                # The store's own reference. The authority does not carry one,
+                # and a withholding decision with no reference cannot be
+                # re-adjudicated when a better capture arrives.
+                ("evidence_ref", item.get("evidence_ref")
+                 or evidence_reference(observation,
+                                       (item.get("field_refs") or [""])[0],
+                                       item.get("quote", ""))),
                 ("artifact_class", "PUBLICATION_GRADE_EVIDENCE"),
                 ("artifact_sha256", "sha256:%s" % row.get("snapshot_hash", "")),
                 ("artifact_kind", "rendered_html"),
@@ -351,12 +482,23 @@ def build(authority: Mapping, *, market_name: str,
                 ("capture_method", row.get("capture_method", "")),
                 ("source_grade", "PT1_FIRST_PARTY"),
             )) for item in (row.get("evidence") or ())]),
-            ("withheld_fields", row.get("withheld_fields") or {}),
+            ("withheld_fields", {}),   # replaced below, once refs are known
             ("non_inferences", list(row.get("non_inferences") or ())),
             ("founder_decision", row.get("founder_decision", "")),
             ("founder_reviewer_id", row.get("founder_reviewer_id", "")),
             ("founder_reviewed_at", row.get("founder_reviewed_at", "")),
         ))
+        refs = [e["evidence_ref"] for e in record["evidence"] if e.get("evidence_ref")]
+        withheld, withheld_notes, withheld_problems = project_withheld(
+            row.get("withheld_fields") or {}, observation, refs)
+        if withheld_problems:
+            refusals.append(OrderedDict((
+                ("identity_key", row["normalized_name"]),
+                ("issues", withheld_problems))))
+            continue
+        record["withheld_fields"] = withheld
+        notes.extend(withheld_notes)
+
         statement = project_service_animal_statement(row.get("facts") or {})
         if statement is not None:
             record["service_animal_statement"] = statement
@@ -394,11 +536,54 @@ def build(authority: Mapping, *, market_name: str,
                 "source_ledgers", [])),
             ("decided_by", (authority.get("built_from") or {}).get(
                 "decided_by", "")),
+            # The founder's decision date, carried so publication can be dated
+            # from the DECISION and never from the clock: a timestamp would make
+            # every rebuild a different file and break the sha256 the release
+            # contract pins.
+            ("decided_at", (authority.get("built_from") or {}).get(
+                "decided_at", "")),
         ))),
         ("count", len(hotels)),
         ("refusals", refusals),
         ("hotels", hotels),
     ))
+
+
+def published_document(package: Mapping, *, work_order: str,
+                       decision_ledgers: Sequence[str] = ()) -> Tuple[Dict, List[str]]:
+    """``(published package, changes)`` -- the flag flipped and nothing else.
+
+    Publication is a state of the PACKAGE, never a property of a record. So the
+    records are compared byte for byte across the flip and any movement is
+    reported rather than published: PTF-MILWAUKEE-PUBLICATION-042 asserted the
+    same thing about its market and this is that assertion with no market in it.
+
+    The publication block is dated from the FOUNDER'S DECISION, never from the
+    clock. A timestamp here would make every rebuild a different file and would
+    break the sha256 the release contract pins.
+    """
+    doc = OrderedDict(package)
+    before = json.dumps(doc.get("hotels") or [], sort_keys=True, ensure_ascii=False)
+    doc["published"] = True
+    doc["publication_note"] = (
+        "published=true admits this market's records to live inventory: "
+        "site_data.load_published_hotel_policy_facts returns them and the "
+        "assembler builds a profile for each. The records themselves are "
+        "unchanged from the day the founder approved them -- same facts, same "
+        "approvals, same evidence -- and the publishing work order asserts that "
+        "byte for byte. Publication is still not deployment: nothing is live "
+        "until a bundle is deployed.")
+    doc["publication"] = OrderedDict((
+        ("work_order", work_order),
+        ("published_for_decision_dated",
+         (package.get("derived_from") or {}).get("decided_at", "")),
+        ("decision_ledgers", list(decision_ledgers)),
+        ("deployed", False),
+        ("note", "build-ready in source; no deployment performed"),
+    ))
+    after = json.dumps(doc.get("hotels") or [], sort_keys=True, ensure_ascii=False)
+    changes = [] if before == after else ["a record changed while publishing"]
+    return doc, changes
 
 
 def main(argv=None) -> int:
@@ -416,14 +601,32 @@ def main(argv=None) -> int:
                         default=None,
                         help="apply founder decision 3 to caps whose source "
                              "states no further qualifier")
+    parser.add_argument("--name-corrections", default=None,
+                        help="the market's evidence-cited canonical-name "
+                             "overlay; idempotent where the observation store "
+                             "already applied it")
+    parser.add_argument("--observations", default=None,
+                        help="the market's committed observation store, read "
+                             "for evidence references and the reader's own "
+                             "withholding sentences; nothing is re-derived")
+    parser.add_argument("--publish", metavar="WORK_ORDER", default=None,
+                        help="flip published to true, naming the work order "
+                             "that performs the act. The records are asserted "
+                             "byte-identical across the flip.")
     args = parser.parse_args(argv)
 
     authority = json.loads(Path(args.authority).read_text(encoding="utf-8"))
+    overlay = (json.loads(Path(args.name_corrections).read_text(encoding="utf-8"))
+               if args.name_corrections else None)
+    store = (json.loads(Path(args.observations).read_text(encoding="utf-8"))
+             if args.observations else None)
     document = build(authority, market_name=args.market_name,
                      normalize_weight=args.normalize_weight,
                      cap_qualifier_stated=(
                          None if args.cap_qualifier_stated is None
-                         else args.cap_qualifier_stated == "true"))
+                         else args.cap_qualifier_stated == "true"),
+                     name_corrections=overlay,
+                     observations=store)
 
     if document["refusals"]:
         raise PolicyPackageError(
@@ -434,6 +637,14 @@ def main(argv=None) -> int:
         raise PolicyPackageError(
             "expected %d records and projected %d"
             % (args.expect_count, document["count"]))
+
+    if args.publish:
+        document, changes = published_document(
+            document, work_order=args.publish,
+            decision_ledgers=(authority.get("built_from") or {}).get(
+                "source_ledgers") or ())
+        if changes:
+            raise PolicyPackageError("; ".join(changes))
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

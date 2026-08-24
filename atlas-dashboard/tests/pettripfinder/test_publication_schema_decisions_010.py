@@ -400,10 +400,21 @@ class TestTheCommittedPackage:
         for record in package["hotels"]:
             assert PS.validate_facts(record["facts"]) == (), record["key"]
 
-    def test_it_is_at_1_3_and_unpublished(self):
+    def test_it_is_at_1_3_and_now_published(self):
+        # 010 wrote this package with published:false and stopped there.
+        # PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered the market and flipped
+        # the flag; the schema decision 010 made is unchanged and is what the
+        # published records still satisfy.
         package = _load("hotel_policy_facts_st-louis-mo.json")
         assert package["schema_version"] == "1.3"
-        assert package["published"] is False
+        assert package["published"] is True
+        assert package["publication"]["work_order"] == (
+            "PTF-ST-LOUIS-REGISTER-PUBLISH-011")
+        # Dated from the founder's decision, never from the clock: a timestamp
+        # would make every rebuild a different file and break the sha256 the
+        # release contract pins.
+        assert package["publication"]["published_for_decision_dated"] == "2026-08-23"
+        assert package["publication"]["deployed"] is False
 
     def test_48_records_record_their_founder_normalisation(self):
         package = _load("hotel_policy_facts_st-louis-mo.json")
@@ -442,23 +453,29 @@ class TestTheCommittedContract:
             PREPARED_CONTRACT
         ).read_text(encoding="utf-8"))
 
-    def test_it_is_for_this_market_and_stays_out_of_the_live_set(self):
+    def test_the_prepared_contract_records_why_it_waited(self):
         """The live directory IS the verified set.
 
         ``release_contracts.verify_all()`` verifies every contract it finds in
         ``deploy/netlify/release_contracts/`` and ``verify_contract`` raises on a
         market with no registered contract, so a prepared contract placed there
-        would break verification for EVERY market. Milwaukee hit this exact wall
-        (``publication_037.PREPARED_CONTRACT``); St. Louis follows the precedent.
+        would have broken verification for EVERY market. Milwaukee hit this exact
+        wall (``publication_037.PREPARED_CONTRACT``); 010 followed the precedent
+        and stopped. This file is that decision, kept as written.
         """
-        from scripts.pettripfinder import release_contracts as RC
-        assert "st-louis-mo" not in RC.available_market_ids()
         assert self._contract()["market_id"] == "st-louis-mo"
         assert self._contract()["status"] == "PREPARED_NOT_REGISTERED"
 
+    def test_the_live_contract_is_now_installed_and_verifies(self):
+        from scripts.pettripfinder import release_contracts as RC
+        assert "st-louis-mo" in RC.available_market_ids()
+        live = RC.load_contract("st-louis-mo")
+        assert live["status"] == "LIVE"
+        assert RC.verify_contract("st-louis-mo") == []
+
     def test_it_pins_the_package_by_hash_count_and_version(self):
-        contract = self._contract()
-        block = contract["policy_package"]
+        from scripts.pettripfinder import release_contracts as RC
+        block = RC.load_contract("st-louis-mo")["policy_package"]
         raw = pathlib.Path(block["path"]).read_bytes()
         assert hashlib.sha256(raw).hexdigest() == block["expected_sha256"]
         assert block["expected_record_count"] == 82
@@ -500,7 +517,14 @@ class TestTheCommittedContract:
         assert rec["resolved"] == 119
         assert rec["resolved"] + rec["unresolved"] == rec["confirmed_identities"] == 357
 
-    def test_the_market_is_still_unregistered(self):
-        assert self._contract()["status"] == "PREPARED_NOT_REGISTERED"
-        assert not pathlib.Path(PKG + "markets/st-louis-mo.json").exists()
-        assert not pathlib.Path(PKG + "markets/authority/st-louis-mo").exists()
+    def test_the_market_is_now_registered_with_an_authority_shard(self):
+        # 010 asserted the opposite, deliberately: registering a market
+        # invalidates the signed deployment authorization, so it was a founder
+        # step and not a side effect of a schema decision.
+        # PTF-ST-LOUIS-REGISTER-PUBLISH-011 took that step.
+        assert pathlib.Path(PKG + "markets/st-louis-mo.json").exists()
+        assert not pathlib.Path(PKG + "markets/pending/st-louis-mo.json").exists()
+        shard = pathlib.Path(PKG + "markets/authority/st-louis-mo")
+        assert shard.is_dir()
+        assert (shard / "seed_businesses.csv").is_file()
+        assert (shard / "hotel_exclusions.json").is_file()

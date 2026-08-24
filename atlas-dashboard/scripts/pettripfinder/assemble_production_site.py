@@ -153,6 +153,14 @@ def _partition_path(market_id: str) -> Optional[Path]:
         "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
         "dayton-oh": "dayton_final_partition_001.json",
         "cincinnati-oh": "cincinnati_final_partition_001.json",
+        # St. Louis names its partitions with the FULL market id
+        # (``st_louis_mo_final_partition_007``), which the prefix glob above
+        # cannot reach: it strips the trailing segment and looks for
+        # ``st-louis_...``. It is named here rather than by widening the glob
+        # because this market commits FIVE partitions, one per founder sitting,
+        # and the glob takes the first match in sorted order -- which would have
+        # silently pinned 001, the partition from before any founder signed.
+        "st-louis-mo": "st_louis_mo_final_partition_007.json",
     }
     name = table.get(market_id)
     path = PACKAGE_DIR / name if name else None

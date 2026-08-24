@@ -51,8 +51,12 @@ def _load(name):
 
 @pytest.fixture(scope="module")
 def contract():
-    return parse_market(_load("markets/pending/st-louis-mo.json"),
-                        source="pending/st-louis-mo.json")
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011 moved this document one directory up:
+    # markets/*.json IS the registry, and 001 deliberately kept it out because
+    # registering a market invalidates the signed deployment authorization.
+    # The GEOGRAPHY this file measures did not change with the move.
+    return parse_market(_load("markets/st-louis-mo.json"),
+                        source="st-louis-mo.json")
 
 
 @pytest.fixture(scope="module")
@@ -111,7 +115,7 @@ class TestMarketConfig:
         assert len(set(codes)) == len(codes), "a ZIP in two corridors is ambiguous"
 
     def test_the_boundary_decisions_are_written_down(self, contract):
-        document = _load("markets/pending/st-louis-mo.json")
+        document = _load("markets/st-louis-mo.json")
         note = document["_boundary_note"]
         for excluded in ("Waterloo", "Pevely", "Festus", "Wright City",
                          "Ste. Genevieve"):

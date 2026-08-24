@@ -2,10 +2,21 @@
  "schema": "ptf-launch-participation/1.0",
  "what_this_is": "The founder's launch participation record for the composed PetTripFinder production bundle. Read by scripts/pettripfinder/launch_participation.py at assembly time. Every registered market must carry a row; only FOUNDER_AUTHORIZED_FOR_LAUNCH admits a market into the composed bundle. This record never states a market's facts: source readiness is derived by the assembler from the market's own census, partition, policy authority and release contract, and a status that disagrees with the source fails the build. Withdrawing a market here changes no byte of that market's authority and does not affect its own per-market assembly.",
  "decision": {
-  "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+  "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
   "decided_by": "founder",
-  "decided_on": "2026-08-22",
-  "reason": "Founder deployment scope change: Indianapolis currently contributes only 8 hotel profiles -- technically valid source inventory, but not sufficient market coverage for founder launch standards. The first multi-market production launch includes Columbus, Cleveland-Akron-Canton, Dayton, Milwaukee and Pittsburgh only. Indianapolis source authority, data and release contract are unchanged; it is not failed."
+  "decided_on": "2026-08-24",
+  "reason": "Founder deployment scope: St. Louis joins the live set as the sixth market, adding 82 founder-signed hotel profiles. Every other market's status is unchanged -- Indianapolis remains withheld on coverage (PTF-046), Cincinnati and Detroit-Ann Arbor remain not source-ready. Registering St. Louis makes it the ninth registered market, and a registered market with no row here fails the assembler gate, so this record had to be reissued whether or not it joined.",
+  "supersedes": {
+   "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+   "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+   "founder_authorized": [
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "milwaukee-wi",
+    "pittsburgh-pa"
+   ]
+  }
  },
  "launch_statuses": {
   "FOUNDER_AUTHORIZED_FOR_LAUNCH": "source-ready and founder-authorized; the only status that admits a market",
@@ -48,6 +59,11 @@
   {
    "market_id": "pittsburgh-pa",
    "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "st-louis-mo",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "82 founder-signed profiles and 37 verified-no-pets exclusions over a 357-identity census; contract verifies. Registered and admitted by PTF-ST-LOUIS-REGISTER-PUBLISH-011."
   }
  ]
 }

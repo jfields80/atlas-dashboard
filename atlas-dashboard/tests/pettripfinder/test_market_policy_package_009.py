@@ -197,10 +197,33 @@ class TestTheStLouisGapWasReal:
         assert built["refusals"], "the gap 009 found is still there by default"
 
     def test_the_founder_rulings_are_what_close_it(self):
+        # PTF-ST-LOUIS-REGISTER-PUBLISH-011: the observation store is now a
+        # required input for a market that withholds anything. Four records
+        # withhold a fee as SCHEMA_CANNOT_REPRESENT, and the projector refuses
+        # to publish a withholding decision with no sentence and no evidence
+        # reference rather than emit a bare code no reviewer could re-adjudicate.
+        import json as _json
+        from pathlib import Path as _Path
+        store = _json.loads(_Path(
+            "launch_packages/pettripfinder/"
+            "st_louis_mo_observation_store_007.json").read_text(encoding="utf-8"))
         built = PP.build(self._authority(), market_name="St. Louis, Missouri",
-                         normalize_weight=True, cap_qualifier_stated=False)
+                         normalize_weight=True, cap_qualifier_stated=False,
+                         observations=store)
         assert built["count"] == 82
         assert built["refusals"] == []
+
+    def test_a_withholding_decision_with_no_observation_is_refused(self):
+        """The four records that withhold a fee cannot publish from the signed
+        authority alone: it carries the reason CODE and neither the sentence nor
+        the evidence reference the withholding contract requires."""
+        built = PP.build(self._authority(), market_name="St. Louis, Missouri",
+                         normalize_weight=True, cap_qualifier_stated=False)
+        assert built["count"] == 78
+        assert len(built["refusals"]) == 4
+        for refusal in built["refusals"]:
+            assert any("no observation states why" in issue
+                       for issue in refusal["issues"]), refusal
 
     def test_the_package_009_refused_to_write_now_exists_and_validates(self):
         # 009 wrote nothing because it could not do so honestly. 010 supplied

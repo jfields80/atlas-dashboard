@@ -239,11 +239,36 @@ class TestPublicationInventoryIsClean:
                 == auth["authority_total"] + auth["superseded_count"] + 1
                 == 122)
 
-    def test_the_market_is_still_unregistered(self):
-        from pathlib import Path
+    def test_008b_registered_nothing_and_that_record_is_unedited(self):
+        """The three flags describe 008B's OWN act, not today's world.
+
+        PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered and published the market;
+        it did not go back and rewrite the ledger that says a cleanup pass
+        registered nothing, because that would erase the fact it records. Where
+        the market stands NOW is read from the registry, which is the only
+        thing that can answer it -- exactly as the 005 and 007 signature
+        ledgers still say what they said on the day they were signed.
+        """
         auth = _load("st_louis_mo_proposed_authority_008b.json")
         assert auth["registered"] is False
         assert auth["published"] is False
         assert auth["deployed"] is False
-        assert not (Path(PKG) / "markets" / "authority" / "st-louis-mo").exists()
-        assert not (Path(PKG) / "markets" / "st-louis-mo.json").exists()
+
+    def test_the_registry_and_not_a_ledger_is_what_answers_it_now(self):
+        from pathlib import Path
+
+        from scripts.pettripfinder import market_authority as MA
+
+        assert (Path(PKG) / "markets" / "authority" / "st-louis-mo").is_dir()
+        assert (Path(PKG) / "markets" / "st-louis-mo.json").is_file()
+        assert "st-louis-mo" in MA.registered_market_ids()
+        # And the cleanup 008B performed still holds through registration:
+        # neither superseded identity has a row in either publication set.
+        auth = _load("st_louis_mo_proposed_authority_008b.json")
+        retired = {row["identity_key"] for row in auth["superseded_rows"]}
+        from scripts.pettripfinder.site_data import normalize_name
+        published = {normalize_name(r["name"])
+                     for r in MA.load_market_seed_rows("st-louis-mo")}
+        excluded = {r["normalized_name"]
+                    for r in MA.load_market_exclusions("st-louis-mo")}
+        assert not (published | excluded) & retired

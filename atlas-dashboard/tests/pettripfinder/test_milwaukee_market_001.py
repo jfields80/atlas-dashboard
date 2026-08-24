@@ -544,15 +544,27 @@ class TestPolicyAuthorityIsEmpty:
         existed."""
         assert MA.check_generated_artifacts() == []
         assert len(MA.assemble_routing_document()["routes"]) == 277
-        # Each global moves only by THIS market's own shard: the pre-Milwaukee
-        # totals were 75 exclusions and 296 seed rows, and every row added
-        # since belongs to this market.
+        # Each global moves only by its OWN market's shard. That used to be
+        # stated as two fixed remainders -- 75 exclusions and 296 seed rows,
+        # the pre-Milwaukee totals -- which held only while Milwaukee was the
+        # last market registered. PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered a
+        # market AFTER it, and the arithmetic said Milwaukee had changed
+        # somebody when it was St. Louis adding its own 37 and 82. The invariant
+        # is stated directly now, so it survives market N+2 as well: every
+        # global row belongs to exactly one market's shard, and Milwaukee's
+        # share is Milwaukee's shard.
         registry = MA.assemble_exclusions_document()["exclusions"]
         mine = [row for row in registry if row.get("market_id") == MARKET]
-        assert len(registry) - len(mine) == 75
+        assert mine == MA.load_market_exclusions(MARKET)
+        assert len(registry) - len(mine) == sum(
+            len(MA.load_market_exclusions(m)) for m in MA.sharded_market_ids()
+            if m != MARKET)
         seeds = MA.assemble_seed_rows()
         my_seeds = [row for row in seeds if row.get("market_id") == MARKET]
-        assert len(seeds) - len(my_seeds) == 296
+        assert my_seeds == MA.load_market_seed_rows(MARKET)
+        assert len(seeds) - len(my_seeds) == sum(
+            len(MA.load_market_seed_rows(m)) for m in MA.sharded_market_ids()
+            if m != MARKET)
 
 
 class TestCrossMarketIsolation:

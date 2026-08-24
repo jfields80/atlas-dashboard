@@ -45,8 +45,13 @@ SCRATCH = Path(chr(67) + ":/t/ptf046t")
 
 FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
         "milwaukee-wi", "pittsburgh-pa")
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 admitted a sixth. 046's mechanism is
+#: unchanged and is what admitted it: a registered market with no participation
+#: row fails the build, and only FOUNDER_AUTHORIZED_FOR_LAUNCH lets one in.
+LIVE = tuple(sorted(FIVE + ("st-louis-mo",)))
 PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-            "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26}
+            "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
+            "st-louis-mo": 82}
 WITHHELD = "indianapolis-in"
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
@@ -57,11 +62,15 @@ NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 #: same 333 profiles, same 416 sitemap routes, four HTML files different.
 DEPLOYED_047_BUNDLE_SHA256 = (
     "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
-EXPECTED_BUNDLE_SHA256 = (
+#: The bundle LIVE in production before St. Louis joined. Kept named: the
+#: six-market candidate must ADD to it and change nothing in it.
+DEPLOYED_012_BUNDLE_SHA256 = (
     "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
-EXPECTED_HTML_PAGES = 2147
-EXPECTED_FILES = 2165
-EXPECTED_SITEMAP_ROUTES = 416
+EXPECTED_BUNDLE_SHA256 = (
+    "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
+EXPECTED_HTML_PAGES = 2656
+EXPECTED_FILES = 2674
+EXPECTED_SITEMAP_ROUTES = 515
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -90,10 +99,15 @@ def test_the_record_is_committed_and_names_its_decision():
     doc = LP.load_participation()
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
-    assert decision["work_order"] == \
-        "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
     assert decision["decided_by"] == "founder"
     assert "Indianapolis" in decision["reason"]
+    # The current decision is 011's; 046's is preserved as what it
+    # supersedes, so the lineage of a launch set stays readable from the
+    # record itself.
+    assert decision["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+    assert decision["supersedes"]["work_order"] == \
+        "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
+    assert decision["supersedes"]["founder_authorized"] == list(FIVE)
 
 
 def test_every_registered_market_has_an_explicit_status():
@@ -104,8 +118,8 @@ def test_every_registered_market_has_an_explicit_status():
                       "source_disagreement": []}
 
 
-def test_only_the_five_are_founder_authorized():
-    assert LP.authorized_market_ids() == sorted(FIVE)
+def test_only_the_live_set_is_founder_authorized():
+    assert LP.authorized_market_ids() == sorted(LIVE)
     assert LP.launch_status(WITHHELD) == \
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
     for mid in NOT_READY:
@@ -113,8 +127,11 @@ def test_only_the_five_are_founder_authorized():
 
 
 def test_an_unlisted_market_reads_as_never_authorized():
-    assert LP.launch_status("st-louis-mo") == LP.UNLISTED
-    assert LP.is_founder_authorized("st-louis-mo") is False
+    """St. Louis WAS this example until it was registered and listed. The rule
+    is about the record, not about any market: an id with no row is not
+    authorized, and cannot become authorized by being absent."""
+    assert LP.launch_status("no-such-market-xx") == LP.UNLISTED
+    assert LP.is_founder_authorized("no-such-market-xx") is False
 
 
 def test_an_unlisted_registered_market_is_reported_not_ignored():
@@ -186,7 +203,7 @@ def test_indianapolis_is_withheld_not_failed():
 
 def test_indianapolis_is_not_selected():
     chosen, rows = select_markets()
-    assert [m.market_id for m in chosen] == list(FIVE)
+    assert [m.market_id for m in chosen] == list(LIVE)
     assert WITHHELD in [r["market_id"] for r in rows]
 
 
@@ -203,12 +220,12 @@ def test_a_founder_authorization_cannot_admit_a_market_that_is_not_source_ready(
 # The five-market candidate.
 # --------------------------------------------------------------------------- #
 
-def test_the_bundle_carries_exactly_the_five(production):
+def test_the_bundle_carries_exactly_the_live_set(production):
     manifest, _site = production
-    assert manifest["market_fragments_included"] == list(FIVE)
+    assert manifest["market_fragments_included"] == list(LIVE)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
-    assert sum(PROFILES.values()) == 333
+    assert sum(PROFILES.values()) == 415
 
 
 def test_the_bundle_reports_indianapolis_as_withheld(production):
@@ -226,7 +243,7 @@ def test_the_bundle_pins_the_participation_record(production):
     pin = manifest["launch_participation"]
     assert pin["source"] == "deploy/netlify/launch_participation.json"
     assert pin["sha256"] == LP.participation_sha256()
-    assert pin["founder_authorized"] == sorted(FIVE)
+    assert pin["founder_authorized"] == sorted(LIVE)
 
 
 def test_no_indianapolis_route_or_sitemap_entry(production):
@@ -278,6 +295,7 @@ def test_the_candidate_is_the_pinned_artifact(production):
     assert manifest["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_SHA256
     assert manifest["bundle_sha256"] != DEPLOYED_047_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] != DEPLOYED_012_BUNDLE_SHA256
     assert manifest["total_html_pages"] == EXPECTED_HTML_PAGES
     assert manifest["total_files"] == EXPECTED_FILES
     assert manifest["sitemap_route_count"] == EXPECTED_SITEMAP_ROUTES
@@ -293,8 +311,8 @@ def test_the_committed_manifest_verifies_and_pins_the_record():
     doc = GD.load_manifest()
     assert doc["schema"] == GD.MANIFEST_SCHEMA
     assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
-    assert [r["market_id"] for r in doc["participating_markets"]] == list(FIVE)
-    assert doc["total_published_profiles"] == 333
+    assert [r["market_id"] for r in doc["participating_markets"]] == list(LIVE)
+    assert doc["total_published_profiles"] == 415
     assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)

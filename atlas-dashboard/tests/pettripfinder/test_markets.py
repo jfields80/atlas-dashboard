@@ -520,10 +520,13 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # Columbus resolution by name is unchanged.
     # PTF-MILWAUKEE-MARKET-FACTORY-001: milwaukee-wi registered the same way --
     # census and corridors only, no policy authority, nothing published.
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011: st-louis-mo registered WITH its policy
+    # authority already signed -- 82 published, 37 verified-no-pets. Columbus
+    # resolution by name is unchanged, which is the whole point of this test.
     assert sorted(m.market_id for m in markets) == \
         ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
          "dayton-oh", "detroit-ann-arbor-mi", "indianapolis-in",
-         "milwaukee-wi", "pittsburgh-pa"]
+         "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

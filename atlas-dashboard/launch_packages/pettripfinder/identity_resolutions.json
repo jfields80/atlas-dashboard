@@ -63,6 +63,43 @@
    "reviewer_id": "jfields80",
    "reviewed_at": "2026-08-21T12:00:00-05:00",
    "resolution_hash": "sha256:08094bc6e39d798394a177bf1b5efa9b8c6907d27540d358554e7a271b7f4fea"
+  },
+  {
+   "resolution_id": "res-st-louis-chesterfield-dual-brand",
+   "resolution_type": "same_campus_distinct_entity",
+   "address_key": "1065|chesterfield|63017",
+   "identities": [
+    {
+     "canonical_name": "Fairfield by Marriott Inn & Suites St. Louis Chesterfield",
+     "category": "pet-friendly-hotels",
+     "slug": "fairfield-by-marriott-inn-suites-st-louis-chesterfield",
+     "official_url": "https://www.marriott.com/en-us/hotels/stlff-fairfield-inn-and-suites-st-louis-chesterfield/overview/",
+     "booking_destination": "https://www.marriott.com/en-us/hotels/stlff-fairfield-inn-and-suites-st-louis-chesterfield/overview/",
+     "property_code": "stlff"
+    },
+    {
+     "canonical_name": "SpringHill Suites by Marriott St. Louis Chesterfield",
+     "category": "pet-friendly-hotels",
+     "slug": "springhill-suites-by-marriott-st-louis-chesterfield",
+     "official_url": "https://www.marriott.com/en-us/hotels/stlsu-springhill-suites-st-louis-chesterfield/overview/",
+     "booking_destination": "https://www.marriott.com/en-us/hotels/stlsu-springhill-suites-st-louis-chesterfield/overview/",
+     "property_code": "stlsu"
+    }
+   ],
+   "evidence": "Marriott publishes these as two properties with two per-hotel property codes (stlff, stlsu) on two first-party pages. The two rows carry OPPOSITE pet findings -- Fairfield PUBLISHED_PET_FRIENDLY, SpringHill VERIFIED_NO_PETS -- which is only coherent if they are two hotels; merging them would have published one of the two findings about a building that never made it. The shared switchboard 636-519-7500 is ordinary at a dual-brand Marriott property and is not evidence of one hotel. One address, two hotels: neither is a duplicate of the other and neither may be merged or suppressed. This resolution asserts nothing about either property's policy.",
+   "distinct_reason": "a dual-brand hotel property: one site operated as two hotels under two Marriott brands, each with its own per-hotel property code, its own first-party page and its own pet policy. Marriott codes are per-hotel and no two hotels share one -- the discriminator PTF-COLUMBUS-IDENTITY-CLEANUP-001 relied on to keep three Columbus Embassy Suites apart.",
+   "market_id": "st-louis-mo",
+   "decision_source": {
+    "work_order": "PTF-ST-LOUIS-PUBLICATION-CLEANUP-008B",
+    "kind": "FOUNDER_IDENTITY_DECISION",
+    "scope": "identity only; authorises no publication",
+    "ledger": "launch_packages/pettripfinder/st_louis_mo_founder_withdrawals_008b.json",
+    "founder_ruling": "CONFIRMED AS TWO DISTINCT HOTELS. Do not merge or suppress either row.",
+    "transcribed_by": "PTF-ST-LOUIS-REGISTER-PUBLISH-011 -- the ruling was recorded in 008B before the market was registered, so it had no resolutions row to live in; this is that ruling in the contract the guard reads, not a new decision."
+   },
+   "reviewer_id": "jfields80",
+   "reviewed_at": "2026-08-23",
+   "resolution_hash": "sha256:571720f1b2216b2e65d7058c767b052e8004330e9d551728cde66140f8b5560f"
   }
  ],
  "market_note": "One file, every market: load_resolutions reads them all and each row names its own market_id. The header said columbus-oh while Columbus was the only market with a reviewed collision."

@@ -3,7 +3,7 @@
     python scripts/pettripfinder/market_census_cli.py \
       --market st-louis-mo \
       --candidates data/discovery/st_louis_market_001/candidates/st-louis-mo_candidates.json \
-      --contract launch_packages/pettripfinder/markets/pending/st-louis-mo.json \
+      --contract launch_packages/pettripfinder/markets/st-louis-mo.json \
       --observed-at 2026-08-23 \
       --work-order PTF-ST-LOUIS-MARKET-001
 
