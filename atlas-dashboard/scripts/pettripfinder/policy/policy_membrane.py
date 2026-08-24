@@ -438,7 +438,16 @@ def evaluate(observation: Mapping) -> MembraneVerdict:
     page = _tokens(check["name_on_page"])
     known = _tokens(ref["normalized_name"]) | _tokens(ref["canonical_name"])
     if not (known <= page or page <= known):
-        if not (_same_property_by_code_and_address(ref, check)
+        # A FOUNDER may adjudicate an identity the automatic escapes refuse,
+        # and compare_identities already routes exactly this shape to
+        # NEEDS_ADJUDICATION: "one telephone number but different names and
+        # streets -- adjudicate, never merge automatically". The override is
+        # per-row, carries who decided it and what they saw, and can only ever
+        # be placed there by a human; the machine has no path that writes one.
+        adjudicated = bool((observation.get("identity_adjudication") or {})
+                           .get("approved_by"))
+        if not (adjudicated
+                or _same_property_by_code_and_address(ref, check)
                 or _same_property_by_street_and_qualified_name(ref, check)):
             return MembraneVerdict(
                 REJECT_WRONG_PROPERTY, rule="M10",

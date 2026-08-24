@@ -160,7 +160,12 @@ class TestTheStreetAndNameOverride:
 
 class TestFlagCodesAmendment:
     def test_the_emission_version_moved(self):
-        assert PO.CONTRACT_VERSION == "1.1.0"
+        # 004's claim is that its amendment happened and is still honoured, not
+        # that the contract froze at 1.1.0. A later additive amendment moving
+        # the emission version past it must not break this work order's test --
+        # what 004 must keep proving is that 1.1.0 records still validate.
+        assert "1.1.0" in PO.ACCEPTED_CONTRACT_VERSIONS
+        assert PO.CONTRACT_VERSION >= "1.1.0"
 
     def test_records_written_before_the_amendment_still_validate(self):
         # An amendment that only ADDS to a closed vocabulary cannot invalidate a

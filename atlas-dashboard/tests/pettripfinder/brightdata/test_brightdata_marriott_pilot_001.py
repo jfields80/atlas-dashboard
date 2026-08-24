@@ -611,8 +611,13 @@ def test_existing_contract_vocabularies_are_untouched():
     # IMPORTING a package must never mutate a vocabulary, and it still holds:
     # the change is a declared amendment, and 1.0.0 records -- which four
     # markets' committed stores carry -- still validate.
-    assert PO.CONTRACT_VERSION == "1.1.0"
-    assert "1.0.0" in PO.ACCEPTED_CONTRACT_VERSIONS
+    # 1.2.0 since PTF-ST-LOUIS-FOUNDER-DECISIONS-006 admitted two OPTIONAL
+    # fields carrying a human's ruling on a record. This assertion's purpose is
+    # that IMPORTING a package must never mutate a vocabulary, and it still
+    # holds: each step was a declared amendment, and every earlier version's
+    # records still validate.
+    assert PO.CONTRACT_VERSION == "1.2.0"
+    assert PO.ACCEPTED_CONTRACT_VERSIONS == ("1.0.0", "1.1.0", "1.2.0")
     assert EV.PUBLICATION_GRADE_REQUIRED == (
         "evidence_ref", "field", "quote", "source_url", "source_grade",
         "artifact_class", "artifact_sha256", "artifact_kind", "captured_at")

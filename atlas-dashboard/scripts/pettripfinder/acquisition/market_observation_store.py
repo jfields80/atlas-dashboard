@@ -140,9 +140,48 @@ def _hotel_ref(result: Mapping, *, market_id: str,
     return ref
 
 
+def _apply_allowance_override(observation: Dict, override: Mapping) -> None:
+    """Write a founder's allowance ruling onto an observation, and cite it.
+
+    The reader withholds ``pets_allowed`` as SOURCE_SILENT when a page states
+    pet terms without ever writing an allowance, because reading one out of a
+    price is an inference. A founder may make that reading; this records that
+    they did, on the named row only.
+
+    The quote cited is the property's OWN text -- the fee or the count the
+    ruling rests on -- never the ruling's words. An evidence quote must remain
+    something a reader can find on the page.
+    """
+    extraction = observation.setdefault("extraction", {})
+    extraction["pets_allowed"] = bool(override.get("set_pets_allowed"))
+    species = list(override.get("species_supported_by_the_text") or ())
+    if species:
+        extraction["species_allowed"] = species
+    quotes = [q for q in (override.get("cited_quotes") or ())
+              if any(q == item.get("quote") for item in observation["evidence"])]
+    for quote in quotes:
+        for item in observation["evidence"]:
+            if item.get("quote") == quote and "pets_allowed" not in item["field_refs"]:
+                item["field_refs"] = list(item["field_refs"]) + ["pets_allowed"]
+                break
+    observation.setdefault("founder_overrides", []).append(OrderedDict((
+        ("kind", "ALLOWANCE"),
+        ("field", "pets_allowed"),
+        ("set_to", extraction["pets_allowed"]),
+        ("decided_by", override.get("decided_by", "")),
+        ("decided_at", override.get("decided_at", "")),
+        ("work_order", override.get("work_order", "")),
+        ("ruling", override.get("founder_ruling", "")),
+        ("cited_quotes", quotes),
+        ("was_withheld_as", "SOURCE_SILENT"),
+    )))
+
+
 def observation_for(result: Mapping, *, run_id: str, market_id: str,
                     census_row: Optional[Mapping] = None,
-                    corrected_name: str = ""
+                    corrected_name: str = "",
+                    allowance: Optional[Mapping] = None,
+                    identity_override: Optional[Mapping] = None
                     ) -> Tuple[Optional[Dict], Optional[Dict], str]:
     """``(observation, publication_grade, refusal_reason)`` for one result."""
     attempt_dir = Path(result.get("artifact_dir") or "")
@@ -214,6 +253,25 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
         page_text_path=text_path if text_path.is_file() else None,
         identity_confirmed=bool(result.get("identity_confirmed")))
 
+    if identity_override is not None:
+        observation["identity_adjudication"] = OrderedDict((
+            ("approved_by", identity_override.get("decided_by", "")),
+            ("approved_at", identity_override.get("decided_at", "")),
+            ("work_order", identity_override.get("work_order", "")),
+            ("census_canonical_name",
+             identity_override.get("census_canonical_name", "")),
+            ("page_name", identity_override.get("page_name", "")),
+            ("signals_agreeing", identity_override.get("signals_agreeing", 0)),
+            ("street", identity_override.get("street", {})),
+            ("telephone", identity_override.get("telephone", {})),
+            ("property_code", identity_override.get("property_code", {})),
+            ("contradicting_evidence",
+             identity_override.get("contradicting_evidence", "")),
+            ("founder_verdict", identity_override.get("founder_verdict", "")),
+            ("rule", identity_override.get("founder_ruling", "")),
+        ))
+    if allowance is not None:
+        _apply_allowance_override(observation, allowance)
     membrane = MEMBRANE.evaluate(observation)
     readiness = READINESS.derive([observation], blocked=False,
                                  all_surfaces_reached=True)
@@ -253,7 +311,8 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
 
 def build(pilot: Mapping, *, run_id: str,
           census: Optional[Mapping] = None,
-          name_corrections: Optional[Mapping] = None
+          name_corrections: Optional[Mapping] = None,
+          founder_overrides: Optional[Mapping] = None
           ) -> Tuple[List[Dict], List[Dict]]:
     """``(records, refusals)``. Every VALID capture is accounted for."""
     market_id = pilot["market_id"]
@@ -264,6 +323,18 @@ def build(pilot: Mapping, *, run_id: str,
     # observation must stay distinguishable.
     corrected = {r["identity_key"]: r["corrected_canonical_name"]
                  for r in (name_corrections or {}).get("records") or ()}
+    overrides = founder_overrides or {}
+    stamp = {"decided_by": overrides.get("decided_by", ""),
+             "decided_at": overrides.get("decided_at", ""),
+             "work_order": overrides.get("work_order", "")}
+    allowance_block = overrides.get("allowance_overrides") or {}
+    identity_block = overrides.get("identity_overrides") or {}
+    allowances = {r["identity_key"]: dict(r, **stamp,
+                  founder_ruling=allowance_block.get("founder_ruling", ""))
+                  for r in allowance_block.get("records") or ()}
+    identities = {r["identity_key"]: dict(r, **stamp,
+                  founder_ruling=identity_block.get("founder_ruling", ""))
+                  for r in identity_block.get("records") or ()}
     records: List[Dict] = []
     refusals: List[Dict] = []
     for result in pilot["results"]:
@@ -272,7 +343,9 @@ def build(pilot: Mapping, *, run_id: str,
         record, _grade, refusal = observation_for(
             result, run_id=run_id, market_id=market_id,
             census_row=rows.get(result["identity_key"]),
-            corrected_name=corrected.get(result["identity_key"], ""))
+            corrected_name=corrected.get(result["identity_key"], ""),
+            allowance=allowances.get(result["identity_key"]),
+            identity_override=identities.get(result["identity_key"]))
         if record is None:
             refusals.append(OrderedDict((
                 ("identity_key", result["identity_key"]),
@@ -298,6 +371,10 @@ def main(argv=None) -> int:
                         help="a ptf-canonical-name-correction report; replaces "
                              "a bare-chain census name with the one the "
                              "property's own captured page states")
+    parser.add_argument("--founder-overrides", default="",
+                        help="a ptf-founder-override report; carries a human's "
+                             "allowance and identity rulings, which no reader "
+                             "may make for itself")
     parser.add_argument("--out", required=True)
     parser.add_argument("--run-id", default="ptf-st-louis-direct-http-001")
     args = parser.parse_args(argv)
@@ -308,8 +385,12 @@ def main(argv=None) -> int:
     corrections = (json.loads(Path(args.name_corrections)
                               .read_text(encoding="utf-8"))
                    if args.name_corrections else None)
+    overrides = (json.loads(Path(args.founder_overrides)
+                            .read_text(encoding="utf-8"))
+                 if args.founder_overrides else None)
     records, refusals = build(pilot, run_id=args.run_id, census=census,
-                              name_corrections=corrections)
+                              name_corrections=corrections,
+                              founder_overrides=overrides)
 
     grades = Counter(r["publication_grade"]["verdict"] for r in records)
     readiness_states = Counter(r["readiness"].get("state", "") for r in records)

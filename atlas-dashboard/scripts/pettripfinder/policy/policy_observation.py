@@ -52,14 +52,21 @@ SCHEMA = "ptf-policy-observation/1.0"
 #: 1.1.0 -- PTF-ST-LOUIS-FOUNDER-REMEDIATION-004 admits the two structured
 #: pricing flags the reader has been emitting since PTF-READER-TO-TIERS-034
 #: (see FLAG_CODES). Additive: 1.1.0 accepts everything 1.0.0 accepted.
-CONTRACT_VERSION = "1.1.0"
+#: 1.2.0 -- PTF-ST-LOUIS-FOUNDER-DECISIONS-006 admits two OPTIONAL fields that
+#: carry a HUMAN's ruling on a record: ``founder_overrides`` (a founder read an
+#: allowance the reader withheld) and ``identity_adjudication`` (a founder bound
+#: a page to a property the name gate refused). Both are optional and additive,
+#: so 1.2.0 accepts everything 1.1.0 and 1.0.0 accepted. Neither may be written
+#: by a reader: they exist so that when a person overrules a gate, the record
+#: says who and on what evidence, instead of the override being invisible.
+CONTRACT_VERSION = "1.2.0"
 
 #: Versions a record may CARRY and still validate. An amendment that only adds
 #: to a closed vocabulary cannot invalidate a record written before it, and four
 #: markets' committed observation stores carry 1.0.0. Bumping the emission
 #: version without widening acceptance would have failed every one of them --
 #: which is how a "versioned" change quietly becomes a breaking one.
-ACCEPTED_CONTRACT_VERSIONS = ("1.0.0", "1.1.0")
+ACCEPTED_CONTRACT_VERSIONS = ("1.0.0", "1.1.0", "1.2.0")
 
 # --------------------------------------------------------------------------- #
 # Authority tiers.
@@ -189,7 +196,9 @@ REQUIRED_FIELDS = ("obs_id", "contract_version", "hotel_ref", "identity_check",
                    "retrieved_at", "capture_method", "evidence", "extraction",
                    "extraction_confidence", "flags")
 OPTIONAL_FIELDS = ("snapshot_hash", "raw_pointer", "source_freshness",
-                   "parser_warnings", "capture_artifacts")
+                   "parser_warnings", "capture_artifacts",
+                   # 1.2.0 -- a human's ruling on this record, never a reader's.
+                   "founder_overrides", "identity_adjudication")
 ALLOWED_FIELDS = frozenset(REQUIRED_FIELDS) | frozenset(OPTIONAL_FIELDS)
 
 HOTEL_REF_REQUIRED = ("market_id", "canonical_name", "normalized_name")
