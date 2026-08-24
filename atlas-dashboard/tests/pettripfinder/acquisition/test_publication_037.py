@@ -457,9 +457,24 @@ def test_the_authority_facts_and_the_review_artifacts_are_untouched():
     assert touched == set(), touched
     # Every record names the ledger of the sitting that approved it. There is
     # more than one sitting now, and a record naming NO ledger -- or one that
-    # does not exist -- is the failure this is watching for.
+    # does not exist -- is the failure this is watching for. So the check is
+    # that the named file EXISTS rather than that it is on a list: a list has
+    # to be edited every time the founder sits again, which turns a real
+    # guarantee into a chore and eventually into a weakened assertion.
     from scripts.pettripfinder.acquisition import founder_decisions_040 as D40
     known = {F.LEDGER.name, D40.LEDGER.name}
     for record in authority()["hotels"]:
-        assert record["approval"]["decision_source"]["ledger"] in known
+        named = record["approval"]["decision_source"]["ledger"]
+        assert named, record["identity_key"]
+        assert (F.LEDGER.parent / named).is_file(), named
+        lineage = {named}
+        node = record["approval"].get("supersedes")
+        while isinstance(node, dict):
+            earlier = (node.get("decision_source") or {}).get("ledger")
+            if earlier:
+                lineage.add(earlier)
+            node = node.get("supersedes")
+        # Whatever later sitting re-attested it, every published row still
+        # traces back to one of the two sittings that first approved it.
+        assert lineage & known, (record["identity_key"], lineage)
         assert record["approval"]["operator"] == D.FOUNDER

@@ -114,14 +114,34 @@ def test_exactly_27_refusals_remain_exclusions():
     assert len(MA.load_market_exclusions(MARKET)) == 27
 
 
+#: The two sittings that first approved this market's rows. A later sitting
+#: may RE-ATTEST a row -- PTF-...-REAUTHORIZE-012 re-attested four -- which
+#: moves the ledger the approval currently names and preserves the earlier one
+#: under ``supersedes``. What must never happen is a row tracing back to
+#: neither.
+FIRST_APPROVAL_LEDGERS = ("milwaukee_founder_decisions_036.json",
+                          "milwaukee_founder_decisions_040.json")
+
+
+def _ledger_lineage(approval):
+    names, node = [], approval
+    while isinstance(node, dict):
+        ledger = (node.get("decision_source") or {}).get("ledger")
+        if ledger:
+            names.append(ledger)
+        node = node.get("supersedes")
+    return names
+
+
 def test_every_published_record_carries_a_founder_approval(authority):
     for record in authority["hotels"]:
         approval = record["approval"]
         assert approval["operator"] == D40.FOUNDER
         assert approval["decision"] in P42.APPROVAL_MARKERS
-        assert approval["decision_source"]["ledger"] in (
-            "milwaukee_founder_decisions_036.json",
-            "milwaukee_founder_decisions_040.json")
+        lineage = _ledger_lineage(approval)
+        assert lineage, record["identity_key"]
+        assert set(lineage) & set(FIRST_APPROVAL_LEDGERS), \
+            (record["identity_key"], lineage)
 
 
 def test_the_040_records_bind_under_the_semantic_contract(authority):

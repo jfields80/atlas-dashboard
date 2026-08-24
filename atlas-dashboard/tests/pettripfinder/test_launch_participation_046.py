@@ -50,9 +50,15 @@ PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
 WITHHELD = "indianapolis-in"
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
-#: The five-market production candidate, reproduced twice in the work order.
-EXPECTED_BUNDLE_SHA256 = (
+#: The five-market production candidate, reproduced twice in the work order
+#: and DEPLOYED by PTF-047. Superseded by
+#: PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011, which corrected a false
+#: service-animal statement on four Milwaukee profiles: same five markets,
+#: same 333 profiles, same 416 sitemap routes, four HTML files different.
+DEPLOYED_047_BUNDLE_SHA256 = (
     "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
+EXPECTED_BUNDLE_SHA256 = (
+    "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
 EXPECTED_HTML_PAGES = 2147
 EXPECTED_FILES = 2165
 EXPECTED_SITEMAP_ROUTES = 416
@@ -271,6 +277,7 @@ def test_the_candidate_is_the_pinned_artifact(production):
     manifest, _site = production
     assert manifest["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_SHA256
+    assert manifest["bundle_sha256"] != DEPLOYED_047_BUNDLE_SHA256
     assert manifest["total_html_pages"] == EXPECTED_HTML_PAGES
     assert manifest["total_files"] == EXPECTED_FILES
     assert manifest["sitemap_route_count"] == EXPECTED_SITEMAP_ROUTES

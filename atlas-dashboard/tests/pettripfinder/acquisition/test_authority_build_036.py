@@ -56,6 +56,26 @@ def files_changed_by(commit: str):
                           text=True).stdout.split()
 
 
+def _ledger_lineage(approval):
+    """Every ledger in this approval's history, newest first.
+
+    An approval names the sitting that CURRENTLY binds it, and a
+    re-attestation moves that name forward while preserving the earlier
+    decision under ``supersedes``. Following the chain is what keeps "036's
+    slice" meaning the rows 036 approved rather than the rows nobody has
+    revisited since -- PTF-...-REAUTHORIZE-012 re-attested four of them, and
+    they are still rows 036 approved.
+    """
+    names = []
+    node = approval
+    while isinstance(node, dict):
+        ledger = (node.get("decision_source") or {}).get("ledger")
+        if ledger:
+            names.append(ledger)
+        node = node.get("supersedes")
+    return names
+
+
 def authority():
     """036's SLICE of the market authority.
 
@@ -67,8 +87,7 @@ def authority():
     """
     doc = json.loads(A.AUTHORITY.read_text(encoding="utf-8"))
     doc["hotels"] = [record for record in doc["hotels"]
-                     if record["approval"]["decision_source"]["ledger"]
-                     == F.LEDGER.name]
+                     if F.LEDGER.name in _ledger_lineage(record["approval"])]
     return doc
 
 
@@ -341,7 +360,14 @@ def test_every_authority_record_carries_a_founder_approval():
         approval = record["approval"]
         assert approval["operator"] == D.FOUNDER
         assert approval["decision"] == A.APPROVAL_DECISION
-        assert approval["decision_source"]["ledger"] == F.LEDGER.name
+        # 036's ledger is somewhere in this approval's history: it is the
+        # ledger the approval names, unless a later sitting re-attested the
+        # row, in which case it is the one preserved under supersedes. Both
+        # are 036 approving this record; only one of them is the current
+        # binding, and this module's claim is about the approval, not the
+        # binding.
+        assert F.LEDGER.name in _ledger_lineage(approval), \
+            (record["identity_key"], _ledger_lineage(approval))
         assert approval["reviewed_record_hash"].startswith("sha256:")
         assert approval["record_hash"].startswith("sha256:")
 
