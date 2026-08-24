@@ -33,23 +33,23 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
-LOUISVILLE = "louisville-ky"
 PITTSBURGH = "pittsburgh-pa"
 DETROIT = "detroit-ann-arbor-mi"
 INDIANAPOLIS = "indianapolis-in"
+MILWAUKEE = "milwaukee-wi"
 
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, LOUISVILLE, PITTSBURGH,
-           DETROIT, INDIANAPOLIS)
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
+           INDIANAPOLIS, MILWAUKEE)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
     CLEVELAND: "cleveland_final_partition_002.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
-    LOUISVILLE: "louisville_final_partition_001.json",
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",
     INDIANAPOLIS: "indianapolis_final_partition_001.json",
+    MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 
 #: What each market holds. Pinned so a change to an authority shows up here
@@ -70,14 +70,17 @@ EXPECTED = {
     # short-term rentals and guesthouses the directories list beside hotels.
     CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
                  "out_of_category": 6, "unresolved": 250},
-    LOUISVILLE: {"census": 130, "published": 0, "no_pets": 0,
-                 "out_of_category": 1, "unresolved": 129},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
+    # PTF-MILWAUKEE-MARKET-FACTORY-001. Census-only: no policy authority
+    # exists for this market, so published and no_pets are zero by
+    # construction and every identity carries a blocker.
+    MILWAUKEE: {"census": 147, "published": 0, "no_pets": 0,
+                "out_of_category": 0, "unresolved": 147},
 }
 
 

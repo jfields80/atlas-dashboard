@@ -1,0 +1,1107 @@
+{
+ "schema": "ptf-hilton-run/1.0",
+ "work_order": "PTF-HILTON-ACQUISITION-DECISION-023",
+ "market": "milwaukee-wi",
+ "run_id": "hilton-milwaukee-023",
+ "generated_at": "2026-08-20T19:32:27+00:00",
+ "subject_count": 11,
+ "subject_assertion_held": true,
+ "run_complete": true,
+ "processed": 11,
+ "route_used": {
+  "provider": "brightdata_browser",
+  "fallback_providers": [
+   "brightdata_web_unlocker"
+  ],
+  "reader": "hilton_competing",
+  "max_attempts_per_provider": 3,
+  "why": "3/3 fetched at 100% recall once the brand container was made to COMPETE with the generic walk instead of pre-empting it",
+  "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+ },
+ "acquired": 11,
+ "usable_policy_successes": 10,
+ "publication_grade": 10,
+ "unresolved": 1,
+ "unresolved_causes": {
+  "GENERIC_BRAND_ONLY": 1
+ },
+ "provider_mix": {
+  "brightdata_browser": 11
+ },
+ "fallback_uses": 0,
+ "template_audit": {
+  "records_audited": 11,
+  "locators_used": {
+   "generic_signal_walk": 10,
+   "hilton_pet_panel": 1
+  },
+  "multiple_templates": true,
+  "records_with_banded_fees": 8,
+  "materially_incomplete": 6,
+  "held_for_review": [
+   "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+   "Home2 Suites by Hilton Milwaukee Brookfield",
+   "Home2 Suites by Hilton Milwaukee West",
+   "Homewood Suites by Hilton Milwaukee Downtown",
+   "Spark by Hilton Milwaukee Airport",
+   "Tru by Hilton Milwaukee Brookfield"
+  ],
+  "issue_counts": {
+   "TIERED_FEE_UNDERSTATED": 5,
+   "BRAND_CONTAINER_PREEMPTED_THE_WALK": 1
+  },
+  "why_this_matters": "A record that understates a pet fee is worse than one that is missing: it looks complete and a guest would act on it. None of these is published. The generic reader's banded-fee gap is the same defect 021 fixed inside marriott_surface, and fixing it for every brand is its own work order.",
+  "findings": [
+   {
+    "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "tiers_stated": [
+     "$50(1-4 nights",
+     "$125(5+ nights"
+    ],
+    "amounts_stated": [
+     50.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [
+     "TIERED_FEE_UNDERSTATED"
+    ],
+    "verdict": "TIERED_FEE_UNDERSTATED",
+    "why": "the block states banded fees ($50(1-4 nights; $125(5+ nights) and the record asserts a single pet_fee; a longer stay costs more than the record says"
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "tiers_stated": [],
+    "amounts_stated": [
+     75.0
+    ],
+    "highest_amount_stated": 75.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [],
+    "verdict": "COMPLETE",
+    "why": "the record represents or withholds every term the block states"
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Brookfield",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "tiers_stated": [
+     "$75(1-4 nights",
+     "$125(5+ nights"
+    ],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [
+     "TIERED_FEE_UNDERSTATED"
+    ],
+    "verdict": "TIERED_FEE_UNDERSTATED",
+    "why": "the block states banded fees ($75(1-4 nights; $125(5+ nights) and the record asserts a single pet_fee; a longer stay costs more than the record says"
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 75lbs)",
+    "tiers_stated": [
+     "$75/stay 1-4 nights",
+     "$125/stay 5+ nights"
+    ],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": false,
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "issues": [],
+    "verdict": "COMPLETE",
+    "why": "the record represents or withholds every term the block states"
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee West",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "tiers_stated": [
+     "$75(1-4 nights",
+     "$125(5+ nights"
+    ],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [
+     "TIERED_FEE_UNDERSTATED"
+    ],
+    "verdict": "TIERED_FEE_UNDERSTATED",
+    "why": "the block states banded fees ($75(1-4 nights; $125(5+ nights) and the record asserts a single pet_fee; a longer stay costs more than the record says"
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75 for the first four nights, $125 for 5+",
+    "tiers_stated": [
+     "$75 for the first four nights"
+    ],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [
+     "TIERED_FEE_UNDERSTATED"
+    ],
+    "verdict": "TIERED_FEE_UNDERSTATED",
+    "why": "the block states banded fees ($75 for the first four nights) and the record asserts a single pet_fee; a longer stay costs more than the record says"
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 75 lbs Other pet information $50/stay for 1 night, $75/stay for 2-4 nights, $125/stay for 5+ nights 2 pets max dogs or cats only.",
+    "tiers_stated": [
+     "$50/stay for 1 night",
+     "$75/stay for 2-4 nights",
+     "$125/stay for 5+ nights"
+    ],
+    "amounts_stated": [
+     50.0,
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": false,
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "issues": [],
+    "verdict": "COMPLETE",
+    "why": "the record represents or withholds every term the block states"
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+    "tiers_stated": [],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [],
+    "verdict": "COMPLETE",
+    "why": "the record represents or withholds every term the block states"
+   },
+   {
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "sub_brand": "SPARK",
+    "policy_locator": "hilton_pet_panel",
+    "block_text": "Pets allowed Yes",
+    "tiers_stated": [],
+    "amounts_stated": [],
+    "highest_amount_stated": null,
+    "asserted_pet_fee": false,
+    "withheld_fields": [
+     "pet_fee",
+     "pets_allowed"
+    ],
+    "issues": [
+     "BRAND_CONTAINER_PREEMPTED_THE_WALK"
+    ],
+    "verdict": "BRAND_CONTAINER_PREEMPTED_THE_WALK",
+    "why": "the brand container matched and returned a bare flag, pre-empting the richer generic walk"
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+    "sub_brand": "TRU",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "tiers_stated": [
+     "$50(1-4 nights",
+     "$125(5+ nights"
+    ],
+    "amounts_stated": [
+     50.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": true,
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "issues": [
+     "TIERED_FEE_UNDERSTATED"
+    ],
+    "verdict": "TIERED_FEE_UNDERSTATED",
+    "why": "the block states banded fees ($50(1-4 nights; $125(5+ nights) and the record asserts a single pet_fee; a longer stay costs more than the record says"
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Downtown",
+    "sub_brand": "TRU",
+    "policy_locator": "generic_signal_walk",
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 50lbs)",
+    "tiers_stated": [
+     "$75/stay 1-4 nights",
+     "$125/stay 5+ nights"
+    ],
+    "amounts_stated": [
+     75.0,
+     125.0
+    ],
+    "highest_amount_stated": 125.0,
+    "asserted_pet_fee": false,
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "issues": [],
+    "verdict": "COMPLETE",
+    "why": "the record represents or withholds every term the block states"
+   }
+  ]
+ },
+ "usable_and_materially_complete": 5,
+ "cost": {
+  "delta": {
+   "brightdata_usd_minor_by_zone": {
+    "scraping_browser1": 0,
+    "mcp_unlocker": 0,
+    "cli_unlocker": 0
+   },
+   "brightdata_usd_minor_total": 0,
+   "brightdata_measurement_status": "UNSETTLED_AT_READ_TIME",
+   "firecrawl_credits_consumed": 0,
+   "firecrawl_measurement_status": "MEASURED",
+   "note": "Firecrawl credits settle immediately and are measured. The Bright Data zone meter lags (019A), so an unmoved meter is unsettled rather than zero spend. The two are never summed: the plan endpoint reports an allowance, not a unit price."
+  },
+  "readings": [
+   {
+    "label": "023-run:before",
+    "read_at": "2026-08-20T19:32:21+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 4971,
+     "mcp_unlocker": 5,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 884
+   },
+   {
+    "label": "023-run:after",
+    "read_at": "2026-08-20T19:32:27+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 4971,
+     "mcp_unlocker": 5,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 884
+   }
+  ]
+ },
+ "authority_written": false,
+ "published": false,
+ "rows": [
+  {
+   "identity_key": "home2 suites by hilton menomonee falls milwaukee",
+   "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+   "sub_brand": "HOME2_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkemfht-home2-suites-menomonee-falls-milwaukee/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 167,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 167,
+    "block_text": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkemfht",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\home2-suites-by-hilton-menomonee-falls-milwaukee\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 82.597,
+   "estimated_bytes": 6408368,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee airport",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+   "sub_brand": "HOME2_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkeaiht-home2-suites-milwaukee-airport/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 55,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_fee"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 55,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkeaiht",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\home2-suites-by-hilton-milwaukee-airport\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 49.351,
+   "estimated_bytes": 6952310,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee brookfield",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Brookfield",
+   "sub_brand": "HOME2_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkebrht-home2-suites-milwaukee-brookfield/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 167,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 167,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkebrht",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\home2-suites-by-hilton-milwaukee-brookfield\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 86.655,
+   "estimated_bytes": 6354385,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee downtown",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+   "sub_brand": "HOME2_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkesuht-home2-suites-milwaukee-downtown/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 155,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "block_chars": 155,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 75lbs)",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkesuht",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\home2-suites-by-hilton-milwaukee-downtown\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 69.38,
+   "estimated_bytes": 6418690,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee west",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee West",
+   "sub_brand": "HOME2_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkemwht-home2-suites-milwaukee-west/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 167,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 167,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkemwht",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\home2-suites-by-hilton-milwaukee-west\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 75.533,
+   "estimated_bytes": 4297031,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "homewood suites by hilton milwaukee downtown",
+   "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+   "sub_brand": "HOMEWOOD_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkedohw-homewood-suites-milwaukee-downtown/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 120,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_fee"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 120,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75 for the first four nights, $125 for 5+",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkedohw",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\homewood-suites-by-hilton-milwaukee-downtown\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 69.916,
+   "estimated_bytes": 5939830,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "homewood suites by hilton oak creek milwaukee",
+   "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+   "sub_brand": "HOMEWOOD_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkehohw-homewood-suites-oak-creek-milwaukee/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 197,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "pet_count_limit",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "pet_count_limit",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "block_chars": 197,
+    "block_text": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 75 lbs Other pet information $50/stay for 1 night, $75/stay for 2-4 nights, $125/stay for 5+ nights 2 pets max dogs or cats only.",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkehohw",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\homewood-suites-by-hilton-oak-creek-milwaukee\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 74.948,
+   "estimated_bytes": 8811509,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "homewood suites by hilton wauwatosa milwaukee",
+   "canonical_name": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+   "sub_brand": "HOMEWOOD_SUITES",
+   "source_url": "https://www.hilton.com/en/hotels/mkewuhw-homewood-suites-wauwatosa-milwaukee/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 120,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_fee",
+    "species_allowed"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_fee",
+     "species_allowed"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 120,
+    "block_text": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkewuhw",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\homewood-suites-by-hilton-wauwatosa-milwaukee\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 80.944,
+   "estimated_bytes": 7856803,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "spark by hilton milwaukee airport",
+   "canonical_name": "Spark by Hilton Milwaukee Airport",
+   "sub_brand": "SPARK",
+   "source_url": "https://www.hilton.com/en/hotels/mkearpe-spark-milwaukee-airport/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "hilton_pet_panel",
+   "brand_locator_used": true,
+   "policy_block_chars": 16,
+   "reader": "hilton_competing",
+   "reader_fields": [],
+   "reader_withheld": [
+    "pet_fee",
+    "pets_allowed"
+   ],
+   "publication_grade": false,
+   "usable_policy": "NO_USABLE_POLICY",
+   "usable_policy_detail": {
+    "verdict": "NO_USABLE_POLICY",
+    "reason": "failed: block_is_not_a_shell, not_a_bare_allowed_flag",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": false,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": false
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [],
+    "withheld_fields": [
+     "pet_fee",
+     "pets_allowed"
+    ],
+    "block_chars": 16,
+    "block_text": "Pets allowed Yes",
+    "policy_locator": "hilton_pet_panel",
+    "property_code_on_page": "mkearpe",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\spark-by-hilton-milwaukee-airport\\attempt-01\\rendered.html",
+    "brand_locator_used": true
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 109.967,
+   "estimated_bytes": 7012248,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "GENERIC_BRAND_ONLY",
+    "why": "a container was located but holds only a token (16 chars)"
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "tru by hilton milwaukee brookfield",
+   "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+   "sub_brand": "TRU",
+   "source_url": "https://www.hilton.com/en/hotels/mkeboru-tru-milwaukee-brookfield/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 167,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis"
+    ],
+    "block_chars": 167,
+    "block_text": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkeboru",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\tru-by-hilton-milwaukee-brookfield\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 88.626,
+   "estimated_bytes": 6465929,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  },
+  {
+   "identity_key": "tru by hilton milwaukee downtown",
+   "canonical_name": "Tru by Hilton Milwaukee Downtown",
+   "sub_brand": "TRU",
+   "source_url": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/",
+   "source_classification": "SOURCE_READY",
+   "attempts": 1,
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "provider_used": "brightdata_browser",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "acquisition_status": "ACQUIRED",
+   "artifact_written": true,
+   "identity_confirmed": true,
+   "policy_locator": "generic_signal_walk",
+   "brand_locator_used": false,
+   "policy_block_chars": 155,
+   "reader": "hilton_competing",
+   "reader_fields": [
+    "weight_limit"
+   ],
+   "reader_withheld": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "publication_grade": true,
+   "usable_policy": "USABLE_POLICY_SUCCESS",
+   "usable_policy_detail": {
+    "verdict": "USABLE_POLICY_SUCCESS",
+    "reason": "property-bound policy located and read",
+    "checks": {
+     "identity_bound_to_this_property": true,
+     "policy_block_present": true,
+     "block_is_not_a_shell": true,
+     "not_service_animal_only": true,
+     "states_terms_or_a_refusal": true,
+     "reader_represented_or_withheld": true,
+     "not_a_bare_allowed_flag": true
+    },
+    "states_a_refusal": false,
+    "substantive_fields": [
+     "weight_limit"
+    ],
+    "withheld_fields": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "block_chars": 155,
+    "block_text": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 50lbs)",
+    "policy_locator": "generic_signal_walk",
+    "property_code_on_page": "mkesoru",
+    "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\hilton-milwaukee-023\\hilton-milwaukee-023\\tru-by-hilton-milwaukee-downtown\\attempt-01\\rendered.html",
+    "brand_locator_used": false
+   },
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "elapsed_seconds": 72.397,
+   "estimated_bytes": 7541985,
+   "reported_credits": null,
+   "attribution": {
+    "cause": "",
+    "why": ""
+   },
+   "artifacts_on_disk": true
+  }
+ ]
+}

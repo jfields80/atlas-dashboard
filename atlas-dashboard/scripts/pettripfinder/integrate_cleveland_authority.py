@@ -42,6 +42,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.contracts import enums          # noqa: E402
 from scripts.pettripfinder import hotel_exclusions as EX                    # noqa: E402
 from scripts.pettripfinder.market_ownership import MARKET_ID_FIELD          # noqa: E402
 from scripts.pettripfinder.policy import policy_membrane as MB              # noqa: E402
@@ -438,7 +439,7 @@ def build(strict: bool = True):
             ("source_url", entry["citable_url"]), ("source_type", "EXACT_ENTITY_DOMAIN"),
             ("verification_state", "VERIFIED_PET_FRIENDLY"),
             ("verification_date", AS_OF), ("verified_at", AS_OF),
-            ("approval", OrderedDict([("approval_date", AS_OF), ("decision", "APPROVED"),
+            ("approval", OrderedDict([("approval_date", AS_OF), ("decision", enums.APPROVED_AFTER_CURRENT_REVIEW),
                                       ("operator", REVIEWER)])),
             ("withheld_fields", OrderedDict(sorted(spec.get("withheld", {}).items()))),
             ("worker_model_id", ""), ("worker_prompt_version", ""),

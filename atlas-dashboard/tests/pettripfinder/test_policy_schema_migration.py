@@ -68,19 +68,48 @@ def records(packages):
 
 
 # --------------------------------------------------------------------------- #
-# The corpus is 1.2 (sections 7, 17, 36).
+# The corpus is CANONICAL (sections 7, 17, 36).
+#
+# The two tests below asserted equality with POLICY_SCHEMA_VERSION, which read
+# as "the corpus is migrated" only while 1.2 happened to be the newest version.
+# When PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010 made an ADDITIVE amendment
+# to 1.3, that equality re-read every already-migrated live record as
+# unmigrated. What the migration actually claims is that nothing is left on a
+# PRE-CANONICAL schema -- 1.0 or 1.1, whose facts are display strings -- and
+# that is what is asserted here. The exact version these files speak is pinned
+# separately below, as a fact about them rather than about a constant.
 # --------------------------------------------------------------------------- #
 
-def test_every_package_declares_schema_1_2(packages):
+def test_every_package_declares_a_canonical_schema(packages):
     for market, document in packages.items():
-        assert document["schema_version"] == enums.POLICY_SCHEMA_VERSION, market
+        version = document["schema_version"]
+        assert enums.is_canonical_policy_schema(version), (
+            "%s declares %r" % (market, version))
+        assert version not in enums.LEGACY_POLICY_SCHEMA_VERSIONS, market
         assert document["market_id"] == market
 
 
-def test_every_record_declares_schema_1_2(records):
+def test_every_record_declares_a_canonical_schema(records):
     for market, record in records:
-        assert record.get("schema_version") == enums.POLICY_SCHEMA_VERSION, \
-            "%s / %s" % (market, record.get("key"))
+        version = record.get("schema_version")
+        assert enums.is_canonical_policy_schema(version), (
+            "%s / %s declares %r" % (market, record.get("key"), version))
+
+
+def test_the_migrated_corpus_is_still_exactly_1_2(packages, records):
+    """The version pin the two tests above used to carry, stated as a fact
+    about these committed files rather than about whichever version is newest.
+
+    Amending the schema does not migrate anyone: 010's amendment was additive,
+    so these markets stay on 1.2 and stay valid. If a later work order genuinely
+    migrates them, THIS is the test to update -- and it fails loudly rather than
+    passing because a constant moved underneath it.
+    """
+    for market, document in packages.items():
+        assert document["schema_version"] == "1.2", market
+    for market, record in records:
+        assert record.get("schema_version") == "1.2", (
+            "%s / %s" % (market, record.get("key")))
 
 
 def test_published_counts_are_unchanged(packages):

@@ -1,0 +1,202 @@
+{
+ "schema": "ptf-choice-route-proof/1.0",
+ "work_order": "PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006",
+ "market_id": "milwaukee-wi",
+ "brand": "CHOICE",
+ "note": "Both proofs run through router.route_property itself, against the applied route table. The forced failure replaces the registered Firecrawl provider's capture module inside this harness only and restores it in a finally block; no credential, adapter or route is altered.",
+ "applied_route": {
+  "provider": "firecrawl",
+  "fallback_providers": [
+   "brightdata_web_unlocker"
+  ],
+  "forbidden_providers": [
+   "brightdata_browser"
+  ],
+  "ladder": [
+   "firecrawl",
+   "brightdata_web_unlocker"
+  ],
+  "reader": "choice_static",
+  "max_attempts_per_provider": 3,
+  "resolved_by": "domain:www.choicehotels.com",
+  "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane",
+  "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+ },
+ "other_brand_primaries": {
+  "MARRIOTT": "brightdata_browser",
+  "HILTON": "brightdata_browser",
+  "IHG": "brightdata_browser",
+  "WYNDHAM": "brightdata_browser"
+ },
+ "firecrawl_registered": true,
+ "normal_control": {
+  "identity_key": "econo lodge milwaukee airport",
+  "state": "ACQUIRED_PUBLICATION_GRADE",
+  "route_primary": "firecrawl",
+  "route_ladder": [
+   "firecrawl",
+   "brightdata_web_unlocker"
+  ],
+  "route_reader": "choice_static",
+  "max_attempts_per_provider": 3,
+  "forbidden_providers": [
+   "brightdata_browser"
+  ],
+  "providers_tried": [
+   "firecrawl"
+  ],
+  "outcomes_by_provider": {
+   "firecrawl": [
+    "VALID"
+   ]
+  },
+  "acquired_by": "firecrawl",
+  "publication_grade": true,
+  "identity_confirmed": true,
+  "identity_detail": {
+   "signals": {
+    "name_on_page": "Econo Lodge Milwaukee Airport",
+    "address_on_page": "6541 S. 13th St.",
+    "postal_code": "53221",
+    "phone_on_page": "(414) 626-6325",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423",
+    "pets_allowed_structured": "",
+    "jsonld_present": true
+   },
+   "confirmed": true,
+   "matched": [
+    "name",
+    "canonical_path"
+   ],
+   "conflicting": [],
+   "reasons": [
+    "confirmed on name, canonical_path"
+   ],
+   "binding": "canonical_path_and_name"
+  },
+  "reader": "choice_static",
+  "extraction": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+  },
+  "failure": "",
+  "failure_class": "",
+  "escalation_stopped_because": "",
+  "cost": {
+   "attempts": 1,
+   "failed_attempts": 0,
+   "elapsed_seconds": 1.851,
+   "estimated_bytes": 0,
+   "reported_usd_minor": null,
+   "estimated_usd_minor": null,
+   "reported_credits": 1.0,
+   "seconds_by_provider": {
+    "firecrawl": 1.772
+   },
+   "fallback_invoked": false,
+   "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+   "cost_status": "UNAVAILABLE"
+  },
+  "brightdata_browser_calls": 0,
+  "elapsed_seconds": 1.9,
+  "fallback_invoked": false,
+  "pass": true
+ },
+ "forced_fallback": {
+  "identity_key": "comfort inn and suites nw milwaukee",
+  "state": "ACQUIRED_PUBLICATION_GRADE",
+  "route_primary": "firecrawl",
+  "route_ladder": [
+   "firecrawl",
+   "brightdata_web_unlocker"
+  ],
+  "route_reader": "choice_static",
+  "max_attempts_per_provider": 3,
+  "forbidden_providers": [
+   "brightdata_browser"
+  ],
+  "providers_tried": [
+   "firecrawl",
+   "brightdata_web_unlocker"
+  ],
+  "outcomes_by_provider": {
+   "firecrawl": [
+    "ACCESS_DENIED",
+    "ACCESS_DENIED",
+    "ACCESS_DENIED"
+   ],
+   "brightdata_web_unlocker": [
+    "VALID"
+   ]
+  },
+  "acquired_by": "brightdata_web_unlocker",
+  "publication_grade": true,
+  "identity_confirmed": true,
+  "identity_detail": {
+   "signals": {
+    "name_on_page": "Comfort Inn & Suites NW Milwaukee",
+    "address_on_page": "W177 N 9675 Riversbend Lane",
+    "postal_code": "53022",
+    "phone_on_page": "(262) 293-6004",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.choicehotels.com/wisconsin/germantown/comfort-inn-hotels/wi426",
+    "pets_allowed_structured": "True",
+    "jsonld_present": true
+   },
+   "confirmed": true,
+   "matched": [
+    "name",
+    "canonical_path"
+   ],
+   "conflicting": [],
+   "reasons": [
+    "confirmed on name, canonical_path"
+   ],
+   "binding": "canonical_path_and_name"
+  },
+  "reader": "choice_static",
+  "extraction": {
+   "pets_allowed": true,
+   "pet_fee": 7500,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay",
+   "pet_count_limit": 2,
+   "service_animal_exception": "Service animals are permitted, without charge."
+  },
+  "failure": "ACCESS_DENIED",
+  "failure_class": "TECHNICAL",
+  "escalation_stopped_because": "",
+  "cost": {
+   "attempts": 4,
+   "failed_attempts": 3,
+   "elapsed_seconds": 88.396,
+   "estimated_bytes": 0,
+   "reported_usd_minor": null,
+   "estimated_usd_minor": null,
+   "reported_credits": 0.0,
+   "seconds_by_provider": {
+    "firecrawl": 0.0,
+    "brightdata_web_unlocker": 88.296
+   },
+   "fallback_invoked": true,
+   "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+   "cost_status": "UNAVAILABLE"
+  },
+  "brightdata_browser_calls": 0,
+  "elapsed_seconds": 88.4,
+  "forced_primary_failure": "ACCESS_DENIED / ALL_ENGINES_FAILED, injected in the harness; no request made",
+  "forced_primary_calls": 3,
+  "fallback_invoked": true,
+  "pass": true
+ },
+ "firecrawl_credits": {
+  "before": 971,
+  "after": 970,
+  "measured": 1,
+  "note": "plan credits only. Bright Data's usage on the fallback leg is billed in dollars and is reported separately by the router; the two are never summed."
+ },
+ "authority_written": false,
+ "policies_published": false,
+ "status": "PASS"
+}

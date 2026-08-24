@@ -1,0 +1,1794 @@
+{
+ "schema": "ptf-firecrawl-benchmark/1.0",
+ "work_order": "PTF-FIRECRAWL-BENCHMARK-002",
+ "market_id": "milwaukee-wi",
+ "note": "Firecrawl re-fetching properties Bright Data already captured at publication grade, through the same readers and the same gates, on the same sample as the Spider benchmark. Nothing here writes authority, nothing is published, the route table is untouched and Firecrawl is not registered as a routable provider.",
+ "comparison_vocabulary_shared_with": "PTF-SPIDER-BENCHMARK-001",
+ "sample_size": 25,
+ "fetch": {
+  "acquired": 25,
+  "publication_grade": 25,
+  "not_acquired": 0,
+  "outcome_counts": {
+   "VALID": 25
+  },
+  "rate_limited": 0,
+  "attempted_without_rate_limit": 25
+ },
+ "agreement": {
+  "properties_compared": 25,
+  "field_verdicts": {
+   "MATCH": 80,
+   "EXTRA": 7,
+   "MISMATCH": 3,
+   "MISSING": 6
+  },
+  "properties_with_a_mismatch": 3,
+  "properties_with_a_STRUCTURED_disagreement": 0,
+  "structured_disagreement_detail": [],
+  "mismatch_note": "A structured disagreement means the two lanes read the same page and returned different FACTS; one is wrong. A text excerpt variant means both quoted correctly and quoted different sentences. Only the first kind disqualifies.",
+  "mismatch_detail": [
+   {
+    "identity_key": "americinn by wyndham brookfield",
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "Pet & Service Animal Policy",
+      "spider": "Service Animals - ADA-defined service animals welcome."
+     }
+    }
+   },
+   {
+    "identity_key": "avid hotels milwaukee west waukesha",
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "Pets allowed Service animals allowed Pet walking area onsite",
+      "spider": "Pets allowed Service animals allowed"
+     }
+    }
+   },
+   {
+    "identity_key": "avid hotels oak creek",
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "We charge 50.00 per pet, per night, except ADA Service Animals.",
+      "spider": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+     }
+    }
+   }
+  ]
+ },
+ "completeness": {
+  "fields_gained_over_baseline": 7,
+  "fields_lost_versus_baseline": 6,
+  "properties_where_firecrawl_extracted_more": 1,
+  "properties_where_baseline_extracted_more": 4,
+  "baseline_single_field_captures": 9,
+  "note": "Publication grade is a statement about EVIDENCE, not about coverage: a capture qualifies on hashes, contiguous quotes and confirmed identity while extracting one field."
+ },
+ "cost": {
+  "credits_before": 1001,
+  "credits_after": 991,
+  "credits_used": 10,
+  "basis": "Firecrawl bills in plan credits and reports no per-request cost. This is a measured credit delta, not a dollar figure: converting it depends on the account's plan, which this benchmark does not assume.",
+  "bright_data_usd_per_property_measured": 0.197
+ },
+ "time": {
+  "firecrawl_avg_seconds": 9.7,
+  "firecrawl_median_seconds": 11.6,
+  "bright_data_avg_seconds": 88.5
+ },
+ "total_elapsed_seconds": 194.2,
+ "authority_written": false,
+ "routes_changed": false,
+ "items": [
+  {
+   "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+   "canonical_name": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/trademark/milwaukee-wisconsin/ambassador-hotel-trademark-collection/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.4,
+   "bright_data_elapsed_seconds": 76.514,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 8,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 8,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "species_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 8
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50USD per stay. ",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "50USD per stay. ",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "1 pet max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "americinn by wyndham brookfield",
+   "canonical_name": "AmericInn by Wyndham Brookfield",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/americinn/brookfield-wisconsin/americinn-brookfield/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.3,
+   "bright_data_elapsed_seconds": 122.483,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 8,
+   "field_count_delta": 7,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "service_animal_exception": "Pet & Service Animal Policy"
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "EXTRA",
+     "fee_currency": "EXTRA",
+     "fee_scope": "EXTRA",
+     "pet_count_limit": "EXTRA",
+     "pet_fee": "EXTRA",
+     "pets_allowed": "EXTRA",
+     "service_animal_exception": "MISMATCH",
+     "weight_limit": "EXTRA"
+    },
+    "counts": {
+     "EXTRA": 7,
+     "MISMATCH": 1
+    },
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "Pet & Service Animal Policy",
+      "spider": "Service Animals - ADA-defined service animals welcome."
+     }
+    },
+    "structured_disagreements": {},
+    "text_excerpt_variants": {
+     "service_animal_exception": {
+      "bright_data": "Pet & Service Animal Policy",
+      "spider": "Service Animals - ADA-defined service animals welcome."
+     }
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 25lbs",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "americinn by wyndham glendale milwaukee",
+   "canonical_name": "AmericInn by Wyndham Glendale/Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/americinn/glendale-wisconsin/americinn-glendale-milwaukee/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.4,
+   "bright_data_elapsed_seconds": 77.584,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 8,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 8,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "fee_scope": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 8
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 50lbs",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "avid hotels milwaukee west waukesha",
+   "canonical_name": "avid hotels Milwaukee West - Waukesha",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.1,
+   "bright_data_elapsed_seconds": 47.568,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 4,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 4,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "cats_allowed": false,
+    "service_animal_exception": "Pets allowed Service animals allowed"
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "cats_allowed": false,
+    "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
+   },
+   "comparison": {
+    "per_field": {
+     "cats_allowed": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MISMATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 3,
+     "MISMATCH": 1
+    },
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "Pets allowed Service animals allowed Pet walking area onsite",
+      "spider": "Pets allowed Service animals allowed"
+     }
+    },
+    "structured_disagreements": {},
+    "text_excerpt_variants": {
+     "service_animal_exception": {
+      "bright_data": "Pets allowed Service animals allowed Pet walking area onsite",
+      "spider": "Pets allowed Service animals allowed"
+     }
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "No cats",
+     "field_refs": [
+      "cats_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed Service animals allowed",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "avid hotels oak creek",
+   "canonical_name": "avid hotels Oak Creek",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/avidhotels/hotels/us/en/oak-creek/mkeco/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.1,
+   "bright_data_elapsed_seconds": 66.598,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 3,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "field_count_delta": -1,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "We charge 50.00 per pet, per night, except ADA Service Animals."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MISMATCH",
+     "species_allowed": "MISSING"
+    },
+    "counts": {
+     "MATCH": 1,
+     "MISMATCH": 1,
+     "MISSING": 1
+    },
+    "mismatches": {
+     "service_animal_exception": {
+      "bright_data": "We charge 50.00 per pet, per night, except ADA Service Animals.",
+      "spider": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+     }
+    },
+    "structured_disagreements": {},
+    "text_excerpt_variants": {
+     "service_animal_exception": {
+      "bright_data": "We charge 50.00 per pet, per night, except ADA Service Animals.",
+      "spider": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD"
+     }
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed Service animals allowed Pet walking area onsite Pet fee per night: 50 USD",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "baymont by wyndham mequon milwaukee area",
+   "canonical_name": "Baymont by Wyndham Mequon Milwaukee Area",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/baymont/mequon-wisconsin/baymont-inn-and-suites-mequon-milwaukee-area/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 3.8,
+   "bright_data_elapsed_seconds": 78.145,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 2,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA Defined service animals are welcome at this hotel."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA Defined service animals are welcome at this hotel."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "no other pets",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA Defined service animals are welcome at this hotel.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "baymont by wyndham waukesha",
+   "canonical_name": "Baymont by Wyndham Waukesha",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/baymont/waukesha-wisconsin/baymont-inn-and-suites-waukesha/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.4,
+   "bright_data_elapsed_seconds": 81.014,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 9,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 9,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "fee_scope": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "species_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 9
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "50lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs and cats only",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "candlewood suites milwaukee airport oak creek",
+   "canonical_name": "Candlewood Suites Milwaukee Airport-Oak Creek",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/candlewood/hotels/us/en/oak-creek/mkegw/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 2.4,
+   "bright_data_elapsed_seconds": 72.885,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 2,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": -1,
+   "firecrawl_extraction": {
+    "pets_allowed": true
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "comparison": {
+    "per_field": {
+     "pet_count_limit": "MISSING",
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MISSING": 1,
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "candlewood suites milwaukee brown deer",
+   "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/candlewood/hotels/us/en/brown-deer/mkesd/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 16.3,
+   "bright_data_elapsed_seconds": 107.039,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 2,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "less than 80lbs",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+   "canonical_name": "Cobblestone Hotel & Suites - Waukesha/West Milwaukee",
+   "brand": "INDEP:staycobblestone.com",
+   "reader": "generic",
+   "url": "https://staycobblestone.com/wi/waukesha/",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 8.4,
+   "bright_data_elapsed_seconds": 36.37,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pet Friendly",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee new berlin",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee-New Berlin",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-berlin/mkenb/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 26.6,
+   "bright_data_elapsed_seconds": 109.555,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee nw park place",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee NW - Park Place",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkepp/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.6,
+   "bright_data_elapsed_seconds": 117.324,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee west allis",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - West Allis",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-allis/mkell/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.7,
+   "bright_data_elapsed_seconds": 43.595,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 2,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "species_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "dogs allowed",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express milwaukee downtown",
+   "canonical_name": "Holiday Inn Express Milwaukee Downtown",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeem/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.9,
+   "bright_data_elapsed_seconds": 86.916,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express milwaukee n brown deer mequon",
+   "canonical_name": "Holiday Inn Express Milwaukee N-Brown Deer/Mequon",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brown-deer/mkebd/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.4,
+   "bright_data_elapsed_seconds": 90.746,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "crowne plaza milwaukee airport",
+   "canonical_name": "Crowne Plaza Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/crowneplaza/hotels/us/en/milwaukee/mketh/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.6,
+   "bright_data_elapsed_seconds": 156.926,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 4,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": -3,
+   "firecrawl_extraction": {
+    "pets_allowed": true
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MISSING",
+     "fee_currency": "MISSING",
+     "pet_fee": "MISSING",
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MISSING": 3,
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "days inn and suites by wyndham milwaukee",
+   "canonical_name": "Days Inn & Suites by Wyndham Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/days-inn/milwaukee-wisconsin/days-inn-and-suites-milwaukee/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.0,
+   "bright_data_elapsed_seconds": 74.424,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 9,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 9,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "fee_scope": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "species_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 9
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "15USD per pet per night",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "40lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "days inn by wyndham west allis milwaukee",
+   "canonical_name": "Days Inn by Wyndham West Allis/Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/days-inn/west-allis-wisconsin/days-inn-west-allis-milwaukee/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 14.5,
+   "bright_data_elapsed_seconds": 101.532,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 2,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "no other pets",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "extended stay america milwaukee waukesha",
+   "canonical_name": "Extended Stay America - Milwaukee - Waukesha",
+   "brand": "ESA",
+   "reader": "generic",
+   "url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/waukesha",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.3,
+   "bright_data_elapsed_seconds": 62.642,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 4,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 4,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_currency": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 4
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$15 non-refundable fee",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service animals will be exempt from this charge.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "extended stay america milwaukee wauwatosa",
+   "canonical_name": "Extended Stay America - Milwaukee - Wauwatosa",
+   "brand": "ESA",
+   "reader": "generic",
+   "url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/wauwatosa",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.5,
+   "bright_data_elapsed_seconds": 60.065,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 4,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 4,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_currency": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 4
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$15 non-refundable fee",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service animals will be exempt from this charge.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham milwaukee airport",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Milwaukee Airport",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/oak-creek-wisconsin/hawthorn-extended-stay-milwaukee-airport/overview",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.5,
+   "bright_data_elapsed_seconds": 70.533,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 9,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 9,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "fee_scope": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "species_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 9
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "Dogs Allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "75lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn and suites milwaukee airport",
+   "canonical_name": "Holiday Inn & Suites Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkela/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.4,
+   "bright_data_elapsed_seconds": 87.486,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn brookfield milwaukee",
+   "canonical_name": "Holiday Inn Brookfield - Milwaukee",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinn/hotels/us/en/brookfield/mkebr/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 11.6,
+   "bright_data_elapsed_seconds": 212.336,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 8,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 7,
+   "field_count_delta": -1,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_day",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_deposit": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "species_allowed": "MISSING",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 7,
+     "MISSING": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "50 USD nonrefundable deposit",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "15 USD a day ",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "15 USD a day ",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "60lbs or less",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to 2 pets",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee airport",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeoc/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.7,
+   "bright_data_elapsed_seconds": 87.614,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee brookfield",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - Brookfield",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brookfield/mkebf/hoteldetail",
+   "firecrawl_attempts": 1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_elapsed_seconds": 12.5,
+   "bright_data_elapsed_seconds": 85.206,
+   "bright_data_provider": "brightdata_browser",
+   "bright_data_field_count": 1,
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "firecrawl_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 1,
+   "field_count_delta": 0,
+   "firecrawl_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {},
+    "structured_disagreements": {},
+    "text_excerpt_variants": {}
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ]
+}

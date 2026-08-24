@@ -36,22 +36,23 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
-LOUISVILLE = "louisville-ky"
 PITTSBURGH = "pittsburgh-pa"
 DETROIT = "detroit-ann-arbor-mi"
 INDIANAPOLIS = "indianapolis-in"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, LOUISVILLE, PITTSBURGH,
-           DETROIT, INDIANAPOLIS)
+MILWAUKEE = "milwaukee-wi"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
+           INDIANAPOLIS, MILWAUKEE)
 
 EXPECTED_STATES = {COLUMBUS: ["OH"], CLEVELAND: ["OH"], DAYTON: ["OH"],
-                   CINCINNATI: ["OH", "KY", "IN"], LOUISVILLE: ["KY", "IN"], PITTSBURGH: ["PA"],
-                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"]}
+                   CINCINNATI: ["OH", "KY", "IN"], PITTSBURGH: ["PA"],
+                   DETROIT: ["MI"], INDIANAPOLIS: ["IN"], MILWAUKEE: ["WI"]}
 EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixed",
-    DAYTON: "market_prefixed", CINCINNATI: "market_prefixed", LOUISVILLE: "market_prefixed",
+    DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
-    INDIANAPOLIS: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256, LOUISVILLE: 130,
-                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153}
+    INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
+                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153,
+                 MILWAUKEE: 147}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.

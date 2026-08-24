@@ -1,0 +1,404 @@
+{
+  "schema": "ptf-acquisition-router-summary/1.0",
+  "work_order": "PTF-ACQUISITION-ROUTER-001",
+  "run_id": "PTF-ROUTER-001",
+  "router_status": "PASS",
+  "us_geo_pin": "PASS",
+  "providers_implemented": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+  ],
+  "providers_registered": [
+    "brightdata_browser",
+    "brightdata_web_unlocker",
+    "direct_http"
+  ],
+  "provider_detail": {
+    "brightdata_browser": {
+      "product": "Bright Data Browser API",
+      "capabilities": [
+        "can_interact",
+        "geo_pinnable",
+        "reads_unrendered_dom",
+        "runs_javascript",
+        "takes_screenshots"
+      ],
+      "cost": {
+        "usd_minor_per_property": 16.0,
+        "basis": "zone delta / properties attempted",
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      },
+      "recovers": [
+        "BLANK_PAGE",
+        "IDENTITY_UNCERTAIN",
+        "NAVIGATION_FAILED",
+        "TIMEOUT",
+        "UNHYDRATED"
+      ],
+      "health": {
+        "available": true,
+        "detail": "Browser API credential present; exit geography pinned to 'us'"
+      },
+      "implemented": true
+    },
+    "brightdata_web_unlocker": {
+      "product": "Bright Data Web Unlocker",
+      "capabilities": [
+        "bypasses_bot_protection",
+        "geo_pinnable"
+      ],
+      "cost": {
+        "usd_minor_per_property": 5.0,
+        "basis": "zone delta / properties attempted on the Choice lane",
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      },
+      "recovers": [
+        "ACCESS_DENIED",
+        "GEO_MISMATCH",
+        "UNEXPECTED_PAGE"
+      ],
+      "health": {
+        "available": true,
+        "detail": "unlocker zones mcp_unlocker, cli_unlocker"
+      },
+      "implemented": true
+    },
+    "direct_http": {
+      "product": "PetTripFinder direct fetch",
+      "capabilities": [],
+      "cost": {
+        "usd_minor_per_property": null,
+        "basis": "not implemented",
+        "measured_by": "n/a"
+      },
+      "recovers": [],
+      "health": {
+        "available": false,
+        "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+      },
+      "implemented": false
+    }
+  },
+  "routes_implemented": 10,
+  "registry": {
+    "schema": "ptf-acquisition-routes/1.0",
+    "version": 1,
+    "brands": {
+      "CHOICE": {
+        "provider": "brightdata_web_unlocker",
+        "reader": "choice_static",
+        "forbidden": [
+          "brightdata_browser"
+        ],
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      },
+      "DRURY": {
+        "provider": "brightdata_browser",
+        "reader": "generic",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "ESA": {
+        "provider": "brightdata_browser",
+        "reader": "generic",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "HILTON": {
+        "provider": "brightdata_browser",
+        "reader": "hilton_competing",
+        "forbidden": [],
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      },
+      "IHG": {
+        "provider": "brightdata_browser",
+        "reader": "ihg",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "MARRIOTT": {
+        "provider": "brightdata_browser",
+        "reader": "marriott",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-MARRIOTT-PILOT-001, 002, 003"
+      },
+      "MOTEL6": {
+        "provider": "brightdata_browser",
+        "reader": "generic",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "RED_ROOF": {
+        "provider": "brightdata_browser",
+        "reader": "generic",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "SONESTA": {
+        "provider": "brightdata_browser",
+        "reader": "generic",
+        "forbidden": [],
+        "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002"
+      },
+      "WYNDHAM": {
+        "provider": "brightdata_browser",
+        "reader": "wyndham",
+        "forbidden": [],
+        "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003"
+      }
+    },
+    "domains": [
+      "www.choicehotels.com"
+    ],
+    "property_overrides": [],
+    "excluded_brands": [
+      "BEST_WESTERN",
+      "HYATT"
+    ]
+  },
+  "readers_implemented": [
+    "choice_static",
+    "generic",
+    "hilton_competing",
+    "ihg",
+    "marriott",
+    "wyndham"
+  ],
+  "total": 12,
+  "route_selection_accuracy": 12,
+  "wrong_provider_default": 0,
+  "fetch_success": 11,
+  "publication_grade_confirmed": 11,
+  "publication_grade_among_valid": 100.0,
+  "claude_fallback_required": 0,
+  "identity_review": 1,
+  "false_identity_acceptance": 0,
+  "false_verified_no_pets": 0,
+  "unsupported_inference": 0,
+  "choice_browser_default_calls": 0,
+  "total_attempts": 12,
+  "failed_attempts": 1,
+  "avg_attempts_per_property": 1.0,
+  "avg_seconds_per_property": 71.9,
+  "elapsed_seconds": 56.446,
+  "lanes": {
+    "MARRIOTT": {
+      "bucket": "MARRIOTT",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_browser",
+      "reader": "marriott",
+      "fetch_success": 2,
+      "publication_grade": 2,
+      "attempts": 2,
+      "browser_api_calls": 2,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 100.0,
+      "avg_seconds": 59.1,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 2
+      }
+    },
+    "HILTON": {
+      "bucket": "HILTON",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_browser",
+      "reader": "hilton_competing",
+      "fetch_success": 2,
+      "publication_grade": 2,
+      "attempts": 2,
+      "browser_api_calls": 2,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 100.0,
+      "avg_seconds": 96.1,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 2
+      }
+    },
+    "IHG": {
+      "bucket": "IHG",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_browser",
+      "reader": "ihg",
+      "fetch_success": 2,
+      "publication_grade": 2,
+      "attempts": 2,
+      "browser_api_calls": 2,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 71.4,
+      "avg_seconds": 90.7,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 2
+      }
+    },
+    "CHOICE": {
+      "bucket": "CHOICE",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_web_unlocker",
+      "reader": "choice_static",
+      "fetch_success": 2,
+      "publication_grade": 2,
+      "attempts": 2,
+      "browser_api_calls": 0,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 100.0,
+      "avg_seconds": 41.4,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 2
+      }
+    },
+    "WYNDHAM": {
+      "bucket": "WYNDHAM",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_browser",
+      "reader": "wyndham",
+      "fetch_success": 2,
+      "publication_grade": 2,
+      "attempts": 2,
+      "browser_api_calls": 2,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 100.0,
+      "avg_seconds": 83.3,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 2
+      }
+    },
+    "MIXED": {
+      "bucket": "MIXED",
+      "total": 2,
+      "route_correct": 2,
+      "provider": "brightdata_browser",
+      "reader": "generic",
+      "fetch_success": 1,
+      "publication_grade": 1,
+      "attempts": 2,
+      "browser_api_calls": 2,
+      "critical_precision_percent": 100.0,
+      "critical_recall_percent": 50.0,
+      "avg_seconds": 60.6,
+      "states": {
+        "ACQUIRED_PUBLICATION_GRADE": 1,
+        "IDENTITY_REVIEW": 1
+      }
+    }
+  },
+  "recall_floors": {
+    "WYNDHAM": 90.0,
+    "MARRIOTT": 95.0,
+    "HILTON": 90.0
+  },
+  "recall_floors_met": {
+    "WYNDHAM": true,
+    "MARRIOTT": true,
+    "HILTON": true
+  },
+  "brightdata_reported": {
+    "before": {
+      "label": "RUN_USAGE_BEFORE",
+      "captured_at": "2026-08-19T01:33:56.917449+00:00",
+      "zone": "scraping_browser1",
+      "available": true,
+      "cost_month_usd_minor": 2303,
+      "bandwidth_bytes": 2600000000,
+      "bandwidth_display": "2.6 GB",
+      "cost_display": "$23.03",
+      "balance_usd_minor": 1756,
+      "pending_charge_usd_minor": 0,
+      "notes": [],
+      "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents"
+    },
+    "after": {
+      "label": "RUN_USAGE_AFTER",
+      "captured_at": "2026-08-19T01:57:28.245791+00:00",
+      "zone": "scraping_browser1",
+      "available": true,
+      "cost_month_usd_minor": 2564,
+      "bandwidth_bytes": 2800000000,
+      "bandwidth_display": "2.8 GB",
+      "cost_display": "$25.64",
+      "balance_usd_minor": 1614,
+      "pending_charge_usd_minor": 0,
+      "notes": [],
+      "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents"
+    },
+    "cost_delta_usd_minor": 261,
+    "bandwidth_delta_bytes": 200000000,
+    "cost_status": "FINAL"
+  },
+  "total_cost_usd_minor": 261,
+  "cost_status": "FINAL",
+  "avg_cost_per_property_usd_minor": 21.75,
+  "avg_cost_per_acquired_property_usd_minor": 23.73,
+  "cost_per_accepted_record_usd_minor": 23.73,
+  "baseline_cost_usd_minor": 24.0,
+  "states": {
+    "ACQUIRED_PUBLICATION_GRADE": 11,
+    "IDENTITY_REVIEW": 1
+  },
+  "contract_gaps": [
+    {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+    },
+    {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+    },
+    {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+    }
+  ],
+  "known_future_providers": {
+    "firecrawl": "no credential configured; would need a benchmark against the same properties before it could be routed to",
+    "spider": "no credential configured; same requirement",
+    "apify": "no credential configured; same requirement",
+    "playwright_local": "no managed exit geography; would reintroduce the locale-redirect failure the US pin exists to prevent"
+  },
+  "policy_authority_changed": false,
+  "exclusions_changed": false,
+  "seeds_changed": false,
+  "approvals_changed": false,
+  "routing_authority_changed": false,
+  "partition_changed": false,
+  "promotion_performed": false,
+  "promotion_note": "the router produces evidence and proposals only. No state above is a decision about a hotel.",
+  "journal_reconciliation": {
+    "expected": 12,
+    "journalled": 12,
+    "missing": [],
+    "unexpected": [],
+    "duplicate_identities": [],
+    "passed": true
+  },
+  "gate": {
+    "checks": {
+      "route_selection_accuracy_12_of_12": true,
+      "wrong_provider_default_zero": true,
+      "false_identity_acceptance_zero": true,
+      "false_verified_no_pets_zero": true,
+      "unsupported_inference_zero": true,
+      "publication_grade_among_valid_100": true,
+      "choice_browser_default_calls_zero": true,
+      "journal_reconciliation": true,
+      "wyndham_recall_ge_90": true,
+      "marriott_recall_ge_95": true,
+      "hilton_recall_ge_90": true
+    },
+    "passed": true,
+    "failed": []
+  }
+}

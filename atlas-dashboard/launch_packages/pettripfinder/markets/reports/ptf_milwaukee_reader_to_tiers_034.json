@@ -1,0 +1,2009 @@
+{
+  "schema": "ptf-milwaukee-reader-to-tiers/1.0",
+  "work_order": "PTF-MILWAUKEE-READER-TO-TIERS-034",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T18:50:11+00:00",
+  "baseline_commit": "fe4b42fc9187cef613e0cb0404b0ed3365d9ae9f",
+  "classification_summary": {
+    "held_rows": 11,
+    "by_class": {
+      "stay_length_band": 5,
+      "cap_or_ceiling": 1,
+      "multiple_charge_roles": 1,
+      "contradictory_basis": 1,
+      "overlapping_bands": 2,
+      "gap_between_bands": 1,
+      "room_type_condition": 1,
+      "tax_qualifier": 1,
+      "frozen_by_adjudication": 3,
+      "brand_reader_not_extended": 2,
+      "other": 6
+    },
+    "representable_in_1_2": 0,
+    "not_representable": 11,
+    "frozen_by_adjudication": [
+      "residence inn by marriott milwaukee brookfield at poplar creek",
+      "sheraton milwaukee brookfield hotel",
+      "the trade autograph collection"
+    ]
+  },
+  "classification": [
+    {
+      "identity_key": "candlewood suites milwaukee brown deer",
+      "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+      "brand": "IHG",
+      "reader": "ihg",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/policy-block.txt",
+      "block_chars": 353,
+      "evidence": "Pets are welcome at Candlewood Suites Milwaukee Brown Deer. Pet policy description. Pets allowed with nonrefundable fee. Up to 75 dollars for 1 to 6 nights. Each pet must weigh less than 80lbs. Pet agreement must be signed at check in. Call hotel for details. Record of complete and up to date vaccinations required. Pet fee per night: 50 USD Pet policy",
+      "classes": [
+        "other",
+        "cap_or_ceiling"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "a stated ceiling is not a price, and a rung priced by one prices nothing"
+      ]
+    },
+    {
+      "identity_key": "comfort suites milwaukee airport",
+      "canonical_name": "Comfort Suites Milwaukee Airport",
+      "brand": "CHOICE",
+      "reader": "choice_static",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
+      "block_chars": 225,
+      "evidence": "Pets Allowed. Pet fee is 50 USD plus applicable taxes for up to 5 nights. For 6 or more nights, the fee is 125 USD plus applicable taxes. A maximum of 2 pets is allowed per room. Service animals are permitted, without charge.",
+      "classes": [
+        "stay_length_band",
+        "tax_qualifier"
+      ],
+      "bands_read": 2,
+      "band_problems": [
+        "TAX_QUALIFIER_NOT_REPRESENTABLE"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "a tier carries no tax_relationship, so a rung stated 'plus applicable taxes' would publish a number the guest does not pay"
+      ]
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+      "canonical_name": "Courtyard by Marriott Milwaukee Brookfield at Poplar Creek",
+      "brand": "MARRIOTT",
+      "reader": "marriott",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "block_chars": 206,
+      "evidence": "Pet Policy Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "classes": [
+        "brand_reader_not_extended",
+        "stay_length_band",
+        "overlapping_bands"
+      ],
+      "bands_read": 2,
+      "band_problems": [
+        "OVERLAPPING_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only",
+        "two rungs claim the same night and the source does not say which applies"
+      ]
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee downtown",
+      "canonical_name": "Courtyard by Marriott Milwaukee Downtown",
+      "brand": "MARRIOTT",
+      "reader": "marriott",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+      "block_chars": 178,
+      "evidence": "Pet Policy Pets Welcome Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+      "classes": [
+        "brand_reader_not_extended",
+        "other"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only"
+      ]
+    },
+    {
+      "identity_key": "crowne plaza milwaukee airport",
+      "canonical_name": "Crowne Plaza Milwaukee Airport",
+      "brand": "IHG",
+      "reader": "ihg",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/policy-block.txt",
+      "block_chars": 326,
+      "evidence": "Pets are welcome at Crowne Plaza Milwaukee Airport. Pet policy description. We love pets, and the pet fee is 75.00 USD per stay. A cleaning fee of 250.00 will be assessed for the discovery of an unauthorized pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+      "classes": [
+        "other",
+        "contradictory_basis"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the same money is stated on two bases and per_day is not per_night"
+      ]
+    },
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "canonical_name": "Hyatt Place Milwaukee Airport",
+      "brand": "HYATT",
+      "reader": "generic",
+      "block_path": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-place-milwaukee-airport/attempt-01/policy-block.txt",
+      "block_chars": 207,
+      "evidence": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds Maximum number of pets is 2.",
+      "classes": [
+        "stay_length_band",
+        "multiple_charge_roles"
+      ],
+      "bands_read": 2,
+      "band_problems": [
+        "AMBIGUOUS_ROLE"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the surface states charges with different roles and does not say which is the pet price"
+      ]
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+      "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+      "brand": "MARRIOTT",
+      "reader": "marriott",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "block_chars": 116,
+      "evidence": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+      "classes": [
+        "frozen_by_adjudication",
+        "stay_length_band",
+        "overlapping_bands"
+      ],
+      "bands_read": 2,
+      "band_problems": [
+        "OVERLAPPING_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the row's facts come from 022's Marriott adjudication, which the store applies last and this work order may not re-attest",
+        "two rungs claim the same night and the source does not say which applies"
+      ]
+    },
+    {
+      "identity_key": "sheraton milwaukee brookfield hotel",
+      "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
+      "brand": "MARRIOTT",
+      "reader": "marriott",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02/policy-block.txt",
+      "block_chars": 133,
+      "evidence": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+      "classes": [
+        "frozen_by_adjudication",
+        "other"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the row's facts come from 022's Marriott adjudication, which the store applies last and this work order may not re-attest"
+      ]
+    },
+    {
+      "identity_key": "staybridge suites milwaukee airport south",
+      "canonical_name": "Staybridge Suites Milwaukee Airport South",
+      "brand": "IHG",
+      "reader": "",
+      "block_path": "data/acquisition/milwaukee-ihg-009/milwaukee-ihg-009/staybridge-suites-milwaukee-airport-south/attempt-01/policy-block.txt",
+      "block_chars": 378,
+      "evidence": "Pets are welcome at Staybridge Suites Milwaukee Airport South. There is a pet deposit per stay of 50 USD . Our Pet Policy: Dogs are allowed with a 50 USD nonrefundable fee, per pet, for stays 1 to 6 nights, 150 USD for stays over 7 nights. Two pets max per room, and must weigh less than 80 lbs. Pet agreement required with signature at check in. Contact hotel for more details.",
+      "classes": [
+        "stay_length_band",
+        "gap_between_bands"
+      ],
+      "bands_read": 2,
+      "band_problems": [
+        "GAP_BETWEEN_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "a night falls between two rungs and the source prices it nowhere"
+      ]
+    },
+    {
+      "identity_key": "the trade autograph collection",
+      "canonical_name": "The Trade, Autograph Collection",
+      "brand": "MARRIOTT",
+      "reader": "marriott",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-trade-autograph-collection/attempt-02/policy-block.txt",
+      "block_chars": 182,
+      "evidence": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+      "classes": [
+        "frozen_by_adjudication",
+        "other"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "the row's facts come from 022's Marriott adjudication, which the store applies last and this work order may not re-attest"
+      ]
+    },
+    {
+      "identity_key": "wildwood lodge",
+      "canonical_name": "Wildwood Lodge",
+      "brand": "INDEP:thewildwoodlodge.com",
+      "reader": "generic",
+      "block_path": "data/acquisition/milwaukee-locator-032/milwaukee-locator-032/wildwood-lodge/attempt-01/policy-block.txt",
+      "block_chars": 435,
+      "evidence": "Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight. If you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room policy. Dogs are not allowed in the pool area or in any of our public spaces. Dogs that are disruptive to other hotel guests may be asked to leave.",
+      "classes": [
+        "other",
+        "room_type_condition"
+      ],
+      "bands_read": 0,
+      "band_problems": [
+        "FEWER_THAN_TWO_BANDS"
+      ],
+      "schedule_rungs": 0,
+      "schedule_problems": [
+        "FEWER_THAN_TWO_RUNGS"
+      ],
+      "representable_in_1_2": false,
+      "why_held": [
+        "1.2 has condition types for stay length and pet count, and none for which room was booked"
+      ]
+    }
+  ],
+  "held_differential": [
+    {
+      "identity_key": "candlewood suites milwaukee brown deer",
+      "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+      "brand": "IHG",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/policy-block.txt",
+      "evidence": "Pets are welcome at Candlewood Suites Milwaukee Brown Deer. Pet policy description. Pets allowed with nonrefundable fee. Up to 75 dollars for 1 to 6 nights. Each pet must weigh less than 80lbs. Pet agreement must be signed at check in. Call hotel for details. Record of complete and up to date vaccinations required. Pet fee per night: 50 USD Pet policy",
+      "old_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        }
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        }
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "a stated ceiling is not a price, and a rung priced by one prices nothing"
+    },
+    {
+      "identity_key": "comfort suites milwaukee airport",
+      "canonical_name": "Comfort Suites Milwaukee Airport",
+      "brand": "CHOICE",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
+      "evidence": "Pets Allowed. Pet fee is 50 USD plus applicable taxes for up to 5 nights. For 6 or more nights, the fee is 125 USD plus applicable taxes. A maximum of 2 pets is allowed per room. Service animals are permitted, without charge.",
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "service_animal_exception": "Service animals are permitted, without charge."
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "service_animal_exception": "Service animals are permitted, without charge."
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "a tier carries no tax_relationship, so a rung stated 'plus applicable taxes' would publish a number the guest does not pay"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+      "canonical_name": "Courtyard by Marriott Milwaukee Brookfield at Poplar Creek",
+      "brand": "MARRIOTT",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+      "old_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only; two rungs claim the same night and the source does not say which applies"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee downtown",
+      "canonical_name": "Courtyard by Marriott Milwaukee Downtown",
+      "brand": "MARRIOTT",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 2",
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only"
+    },
+    {
+      "identity_key": "crowne plaza milwaukee airport",
+      "canonical_name": "Crowne Plaza Milwaukee Airport",
+      "brand": "IHG",
+      "block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/policy-block.txt",
+      "evidence": "Pets are welcome at Crowne Plaza Milwaukee Airport. Pet policy description. We love pets, and the pet fee is 75.00 USD per stay. A cleaning fee of 250.00 will be assessed for the discovery of an unauthorized pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+      "old_facts": {
+        "pets_allowed": true,
+        "species_allowed": [
+          "cat",
+          "dog"
+        ]
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "species_allowed": [
+          "cat",
+          "dog"
+        ]
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "the same money is stated on two bases and per_day is not per_night"
+    },
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "canonical_name": "Hyatt Place Milwaukee Airport",
+      "brand": "HYATT",
+      "block_path": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-place-milwaukee-airport/attempt-01/policy-block.txt",
+      "evidence": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds Maximum number of pets is 2.",
+      "old_facts": {
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "old_withheld": {
+        "pets_allowed": "SOURCE_SILENT",
+        "cleaning_fee": "SOURCE_AMBIGUOUS",
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "new_withheld": {
+        "pets_allowed": "SOURCE_SILENT",
+        "cleaning_fee": "SOURCE_AMBIGUOUS",
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "the surface states charges with different roles and does not say which is the pet price"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+      "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+      "brand": "MARRIOTT",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "evidence": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+      "old_facts": {
+        "pets_allowed": true
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": true,
+      "review_state_changes": false,
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "sheraton milwaukee brookfield hotel",
+      "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
+      "brand": "MARRIOTT",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02/policy-block.txt",
+      "evidence": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": true,
+      "review_state_changes": false,
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "staybridge suites milwaukee airport south",
+      "canonical_name": "Staybridge Suites Milwaukee Airport South",
+      "brand": "IHG",
+      "block_path": "data/acquisition/milwaukee-ihg-009/milwaukee-ihg-009/staybridge-suites-milwaukee-airport-south/attempt-01/policy-block.txt",
+      "evidence": "Pets are welcome at Staybridge Suites Milwaukee Airport South. There is a pet deposit per stay of 50 USD . Our Pet Policy: Dogs are allowed with a 50 USD nonrefundable fee, per pet, for stays 1 to 6 nights, 150 USD for stays over 7 nights. Two pets max per room, and must weigh less than 80 lbs. Pet agreement required with signature at check in. Contact hotel for more details.",
+      "old_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "species_allowed": [
+          "dog"
+        ]
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "a night falls between two rungs and the source prices it nowhere"
+    },
+    {
+      "identity_key": "the trade autograph collection",
+      "canonical_name": "The Trade, Autograph Collection",
+      "brand": "MARRIOTT",
+      "block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-trade-autograph-collection/attempt-02/policy-block.txt",
+      "evidence": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+      "old_facts": {
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay"
+      },
+      "old_withheld": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "new_facts": {
+        "pet_fee": 12500,
+        "fee_currency": "USD",
+        "fee_basis": "per_stay"
+      },
+      "new_withheld": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": true,
+      "review_state_changes": false,
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "wildwood lodge",
+      "canonical_name": "Wildwood Lodge",
+      "brand": "INDEP:thewildwoodlodge.com",
+      "block_path": "data/acquisition/milwaukee-locator-032/milwaukee-locator-032/wildwood-lodge/attempt-01/policy-block.txt",
+      "evidence": "Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight. If you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room policy. Dogs are not allowed in the pool area or in any of our public spaces. Dogs that are disruptive to other hotel guests may be asked to leave.",
+      "old_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "old_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "new_facts": {
+        "pets_allowed": true,
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "new_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "fee_tiers": [],
+      "fee_pet_schedule": {},
+      "fee_cap": null,
+      "tier_structures_validate": [],
+      "frozen_by_adjudication": false,
+      "review_state_changes": false,
+      "reason": "1.2 has condition types for stay length and pet count, and none for which room was booked"
+    }
+  ],
+  "rows_that_change_review_state": [],
+  "rows_that_stay_held": [
+    {
+      "identity_key": "candlewood suites milwaukee brown deer",
+      "reason": "a stated ceiling is not a price, and a rung priced by one prices nothing"
+    },
+    {
+      "identity_key": "comfort suites milwaukee airport",
+      "reason": "a tier carries no tax_relationship, so a rung stated 'plus applicable taxes' would publish a number the guest does not pay"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+      "reason": "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only; two rungs claim the same night and the source does not say which applies"
+    },
+    {
+      "identity_key": "courtyard by marriott milwaukee downtown",
+      "reason": "the store reads this row with the Marriott surface reader, and this work order extended the generic reader only"
+    },
+    {
+      "identity_key": "crowne plaza milwaukee airport",
+      "reason": "the same money is stated on two bases and per_day is not per_night"
+    },
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "reason": "the surface states charges with different roles and does not say which is the pet price"
+    },
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "sheraton milwaukee brookfield hotel",
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "staybridge suites milwaukee airport south",
+      "reason": "a night falls between two rungs and the source prices it nowhere"
+    },
+    {
+      "identity_key": "the trade autograph collection",
+      "reason": "the row's facts come from 022's adjudication and a reader change cannot reach them"
+    },
+    {
+      "identity_key": "wildwood lodge",
+      "reason": "1.2 has condition types for stay length and pet count, and none for which room was booked"
+    }
+  ],
+  "corpus_wide_dry_run": {
+    "blocks_scanned": 125,
+    "blocks_changed": 20,
+    "blocks_unchanged": 105,
+    "newly_structured_fields": {
+      "fee_tiers": 20
+    },
+    "fields_removed": {},
+    "withholdings_lifted": {
+      "fee_basis": 18,
+      "pet_fee": 20
+    },
+    "affected": [
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "embassy-suites-by-hilton-milwaukee-brookfield",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/embassy-suites-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-glendale-milwaukee",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-glendale-milwaukee/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-milwaukee-airport",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-airport/attempt-02/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 5000,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-milwaukee-brookfield",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-brookfield/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-milwaukee-northwest",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-milwaukee-northwest/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-suites-milwaukee-downtown",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-downtown/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-suites-milwaukee-franklin",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-franklin/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 8500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 15500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hampton-inn-suites-milwaukee-west",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hampton-inn-suites-milwaukee-west/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 5000,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 1
+            },
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 2,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hilton-garden-inn-milwaukee-airport",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-airport/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hilton-garden-inn-milwaukee-brookfield-conference-center",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-brookfield-conference-center/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "hilton-garden-inn-milwaukee-downtown",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/hilton-garden-inn-milwaukee-downtown/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "home2-suites-by-hilton-menomonee-falls-milwaukee",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-menomonee-falls-milwaukee/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 5000,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "home2-suites-by-hilton-milwaukee-brookfield",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "home2-suites-by-hilton-milwaukee-downtown",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-milwaukee-downtown/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": true,
+              "condition_max": 4,
+              "basis": "per_stay"
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": true,
+              "basis": "per_stay"
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "home2-suites-by-hilton-milwaukee-west",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/home2-suites-by-hilton-milwaukee-west/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "homewood-suites-by-hilton-milwaukee-downtown",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/homewood-suites-by-hilton-milwaukee-downtown/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "homewood-suites-by-hilton-oak-creek-milwaukee",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/homewood-suites-by-hilton-oak-creek-milwaukee/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 5000,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": true,
+              "condition_max": 1,
+              "basis": "per_stay"
+            },
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 2,
+              "basis_stated": true,
+              "condition_max": 4,
+              "basis": "per_stay"
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": true,
+              "basis": "per_stay"
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "homewood-suites-by-hilton-wauwatosa-milwaukee",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/homewood-suites-by-hilton-wauwatosa-milwaukee/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "tru-by-hilton-milwaukee-brookfield",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/tru-by-hilton-milwaukee-brookfield/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 5000,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": false,
+              "condition_max": 4
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": false
+            }
+          ],
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      },
+      {
+        "run_id": "hilton-milwaukee-023",
+        "slug": "tru-by-hilton-milwaukee-downtown",
+        "path": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/tru-by-hilton-milwaukee-downtown/attempt-01/policy-block.txt",
+        "brand": "HILTON",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 1,
+              "basis_stated": true,
+              "condition_max": 4,
+              "basis": "per_stay"
+            },
+            {
+              "amount_cents": 12500,
+              "currency": "USD",
+              "role": "REPLACEMENT_PRICE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 5,
+              "basis_stated": true,
+              "basis": "per_stay"
+            }
+          ],
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "fee_tiers"
+        ],
+        "removed_fields": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ],
+        "withheld_added": []
+      }
+    ]
+  },
+  "review_states": {
+    "FOUNDER_REVIEW_READY": 73,
+    "HELD_INSUFFICIENT_EVIDENCE": 7,
+    "REFUSAL_FOUNDER_REVIEW": 26,
+    "HELD_SCHEMA_CANNOT_REPRESENT": 11
+  },
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 117,
+    "active_unresolved": 16,
+    "store_rows": 117,
+    "founder_review_ready": 73,
+    "refusal_founder_review": 26,
+    "held_schema_cannot_represent": 11,
+    "held_insufficient_evidence": 7,
+    "first_publication_candidates": 99,
+    "published": 0,
+    "sum_of_final_states": 147
+  },
+  "cost": {
+    "provider_calls": 0,
+    "firecrawl_calls": 0,
+    "browser_api_calls": 0,
+    "web_unlocker_calls": 0,
+    "brightdata_spend_usd": 0.0,
+    "why": "every block read here was persisted by an earlier run; this work order changed a reader and re-read what was on disk"
+  },
+  "schema_freeze": {
+    "policy_schema_version": "1.2",
+    "schema_files_modified": "",
+    "tier_roles": [
+      "REPLACEMENT_PRICE",
+      "ADDITIONAL_CHARGE",
+      "INCREMENTAL_UNIT_PRICE"
+    ],
+    "tier_condition_types": [
+      "stay_length_range",
+      "pet_count_range"
+    ]
+  },
+  "findings_not_acted_on": [
+    {
+      "finding": "the reader's recurring-charge detector has never fired",
+      "detail": "``_RECURRING_WORD_RE`` compiles two literal backspace characters where it means word boundaries -- a heredoc mangled them when the rule was written -- so the multi-component check has never seen a recurring charge. It is left exactly as committed.",
+      "why_not_acted_on": "repairing it reclassifies WoodSpring Menomonee Falls (\"a Daily Pet Fee 5 USD Per Pet along with Non-Refundable Pet Fee of 100 USD\") from SOURCE_AMBIGUOUS to SCHEMA_CANNOT_REPRESENT and moves it OUT of founder review. 034 was commissioned to turn safe holds into structures, not to demote a ready row for an unrelated reason.",
+      "evidence": "scripts/pettripfinder/brightdata/policy_reading.py"
+    },
+    {
+      "finding": "one Marriott row is readable and the Marriott reader does not read it",
+      "detail": "Courtyard Milwaukee Downtown states \"Daily cleaning fee of $5/day in addition to the one time non-refundable pet fee\" and \"Non-Refundable Pet Fee Per Stay: $50.00\". The generic reader has read that correctly since 033; the store reads Marriott rows with marriott_surface, which still holds it.",
+      "why_not_acted_on": "034's reader scope is policy_reading.py; extending a second reader implementation is a separate decision",
+      "evidence": "courtyard by marriott milwaukee downtown"
+    },
+    {
+      "finding": "three held rows cannot be reached by any reader change",
+      "detail": "The store applies 022's Marriott adjudication last and unconditionally, because one of those rows reads LESS from its block than the adjudication concluded.",
+      "why_not_acted_on": "re-attesting an adjudication is forbidden here",
+      "evidence": "residence inn by marriott milwaukee brookfield at poplar creek, sheraton milwaukee brookfield hotel, the trade autograph collection"
+    }
+  ],
+  "authority_written": false,
+  "published": 0
+}

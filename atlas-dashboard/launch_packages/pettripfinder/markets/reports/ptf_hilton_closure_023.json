@@ -1,0 +1,700 @@
+{
+ "schema": "ptf-hilton-closure/1.0",
+ "work_order": "PTF-HILTON-023-CLOSURE",
+ "closes": "PTF-HILTON-ACQUISITION-DECISION-023",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-21T00:13:32+00:00",
+ "inventory": {
+  "reports": [
+   {
+    "artifact": "ptf_hilton_decision_023_firecrawl.json",
+    "kind": "DECISION",
+    "why": "the Firecrawl phase rows, written before the control ran",
+    "present": true,
+    "schema": "ptf-hilton-decision-firecrawl/1.0",
+    "work_order": "PTF-HILTON-ACQUISITION-DECISION-023",
+    "rows": 7,
+    "has_control_rows": false
+   },
+   {
+    "artifact": "ptf_hilton_decision_023.json",
+    "kind": "DECISION",
+    "why": "the Firecrawl rows plus the Bright Data control rows and the verdict",
+    "present": true,
+    "schema": "ptf-hilton-decision/1.0",
+    "work_order": "PTF-HILTON-ACQUISITION-DECISION-023",
+    "rows": 7,
+    "has_control_rows": true
+   },
+   {
+    "artifact": "ptf_hilton_milwaukee_run_023.json",
+    "kind": "PRODUCTION",
+    "why": "the eleven-property production run and its template audit",
+    "present": true,
+    "schema": "ptf-hilton-run/1.0",
+    "work_order": "PTF-HILTON-ACQUISITION-DECISION-023",
+    "rows": 11,
+    "has_control_rows": false
+   },
+   {
+    "artifact": "milwaukee-wi_counts_023.json",
+    "kind": "REPORT_ONLY",
+    "why": "023's counters, superseded by 025",
+    "present": true,
+    "schema": "ptf-milwaukee-counts/1.1",
+    "work_order": "PTF-HILTON-ACQUISITION-DECISION-023",
+    "rows": 0,
+    "has_control_rows": false
+   },
+   {
+    "artifact": "ptf_generic_reader_rederivation_queue_024.json",
+    "kind": "READER_SEMANTIC_SUPERSESSION",
+    "why": "the records 024's corrected reader changed",
+    "present": true,
+    "schema": "ptf-generic-reader-rederivation-queue/1.0",
+    "work_order": "PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024",
+    "rows": 16,
+    "has_control_rows": false
+   },
+   {
+    "artifact": "ptf_milwaukee_store_integration_025.json",
+    "kind": "READER_SEMANTIC_SUPERSESSION",
+    "why": "the reconciled current-state store",
+    "present": true,
+    "schema": "ptf-milwaukee-store-integration/1.0",
+    "work_order": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
+    "rows": 0,
+    "has_control_rows": false
+   }
+  ],
+  "run_trees": [
+   {
+    "run": "hilton-decision-023",
+    "kind": "DECISION",
+    "present": true,
+    "policy_blocks": 0,
+    "journals": [],
+    "note": "Firecrawl wrote no artifact for any subject; the absence IS the measurement"
+   },
+   {
+    "run": "hilton-decision-023-control",
+    "kind": "CONTROL",
+    "present": true,
+    "policy_blocks": 7,
+    "journals": [
+     "control-journal.jsonl"
+    ],
+    "note": ""
+   },
+   {
+    "run": "hilton-milwaukee-023",
+    "kind": "PRODUCTION",
+    "present": true,
+    "policy_blocks": 11,
+    "journals": [
+     "journal.jsonl"
+    ],
+    "note": ""
+   }
+  ]
+ },
+ "evidence_completeness": {
+  "firecrawl_rows_on_disk": 7,
+  "control_rows_on_disk": 7,
+  "control_policy_blocks": 7,
+  "production_policy_blocks": 11,
+  "missing": [],
+  "provider_calls_required": 0,
+  "note": "Every input the decision needs is persisted. A provider request here would re-measure a number already on disk, and the Firecrawl phase's zero artifacts are themselves the result rather than a gap."
+ },
+ "provider_calls_made": 0,
+ "decision_cohort": {
+  "cohort_size": 7,
+  "sub_brands": [
+   "HOME2_SUITES",
+   "HOMEWOOD_SUITES",
+   "SPARK",
+   "TRU"
+  ],
+  "source_readiness": {
+   "SOURCE_READY": 7
+  },
+  "firecrawl_acquired": 0,
+  "firecrawl_usable": 0,
+  "failure_causes": {
+   "FIRECRAWL_ACCESS_FAILURE": 7
+  },
+  "firecrawl_credits": 0,
+  "rows": [
+   {
+    "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "sub_brand": "HOME2_SUITES",
+    "source_url": "https://www.hilton.com/en/hotels/mkemfht-home2-suites-menomonee-falls-milwaukee/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+    "sub_brand": "HOME2_SUITES",
+    "source_url": "https://www.hilton.com/en/hotels/mkeaiht-home2-suites-milwaukee-airport/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "source_url": "https://www.hilton.com/en/hotels/mkedohw-homewood-suites-milwaukee-downtown/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "source_url": "https://www.hilton.com/en/hotels/mkehohw-homewood-suites-oak-creek-milwaukee/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "sub_brand": "SPARK",
+    "source_url": "https://www.hilton.com/en/hotels/mkearpe-spark-milwaukee-airport/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+    "sub_brand": "TRU",
+    "source_url": "https://www.hilton.com/en/hotels/mkeboru-tru-milwaukee-brookfield/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Downtown",
+    "sub_brand": "TRU",
+    "source_url": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/",
+    "source_classification": "SOURCE_READY",
+    "firecrawl_attempts": 3,
+    "acquisition_status": "NOT_ACQUIRED",
+    "artifact_written": false,
+    "usable_policy": "NO_USABLE_POLICY",
+    "failure": "ACCESS_DENIED",
+    "failure_cause": "FIRECRAWL_ACCESS_FAILURE"
+   }
+  ]
+ },
+ "bright_data_control": {
+  "control_subjects": 7,
+  "browser_acquired": 7,
+  "provider_attributable_firecrawl_failures": 7,
+  "recovery_opportunities": 6,
+  "browser_recoveries": 6,
+  "recovery_rate_over_attributable_failures": 0.857,
+  "recovery_rate_over_opportunities": 1.0,
+  "excluded_from_denominator": [
+   "Spark by Hilton Milwaukee Airport"
+  ],
+  "why_excluded": "the page arrived and publishes an affirmative flag with no terms; no provider can recover a policy the property did not publish, so counting it as a recovery opportunity would understate the lane",
+  "what_the_browser_api_bought": "access. Firecrawl reached 0 of 7 of these pages and the Browser API reached 7 of 7 with identity confirmed on every one. It bought no extra READING quality: every recovered block was read by the generic walk, which is the hilton_competing reader working as designed",
+  "rows": [
+   {
+    "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 167,
+    "policy_block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 55,
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 120,
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75 for the first four nights, $125 for 5+",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 197,
+    "policy_block": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 75 lbs Other pet information $50/stay for 1 night, $75/stay for 2-4 nights, $125/stay for 5+ nights 2 pets max dogs or cats only.",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   },
+   {
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "hilton_pet_panel",
+    "policy_block_chars": 16,
+    "policy_block": "Pets allowed Yes",
+    "usable_policy": false,
+    "publication_grade": false,
+    "failure_cause": "GENERIC_BRAND_ONLY",
+    "was_a_recovery_opportunity": false,
+    "browser_recovered_it": false
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 167,
+    "policy_block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Downtown",
+    "firecrawl_result": "NOT_ACQUIRED (ACCESS_DENIED)",
+    "browser_acquisition": "ACQUIRED",
+    "identity_confirmed": true,
+    "policy_locator": "generic_signal_walk",
+    "policy_block_chars": 155,
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 50lbs)",
+    "usable_policy": true,
+    "publication_grade": true,
+    "failure_cause": "",
+    "was_a_recovery_opportunity": true,
+    "browser_recovered_it": true
+   }
+  ]
+ },
+ "final_decision": "RETAIN_BROWSER",
+ "decision_basis": "source first: all 7 subjects SOURCE_READY, so no failure is charged to a bad URL. Firecrawl then acquired 0 of 7, every one ACCESS_DENIED with no artifact written. The Browser API acquired 7 of 7 with identity confirmed and recovered every page that had a policy to recover. Publication grade alone decided nothing: the usable-policy bar was applied to each block, and the one page with no terms is excluded from the recovery denominator rather than counted against the lane.",
+ "route": {
+  "verdict": "RETAIN_BROWSER",
+  "route_before_023": {
+   "provider": "brightdata_browser",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "reader": "hilton_competing"
+  },
+  "evidence_based_route": {
+   "provider": "brightdata_browser",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  "current_route": {
+   "provider": "brightdata_browser",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "reader": "hilton_competing"
+  },
+  "status": "ROUTE_ALREADY_CORRECT",
+  "routes_json_change_required": false,
+  "why": "the committed route already leads with the lane the evidence selects, so churning routes.json would be a no-op edit to a file every other brand's routing also lives in"
+ },
+ "production": {
+  "acquired": 11,
+  "publication_grade": 10,
+  "non_publication_grade": 1,
+  "excluded": [
+   {
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+    "usable_policy": "NO_USABLE_POLICY",
+    "policy_locator": "hilton_pet_panel",
+    "policy_block": "Pets allowed Yes",
+    "reason": "the property publishes an affirmative flag and no terms, so the capture is not publication grade and the store, which takes publication grade only, has no row for it"
+   }
+  ],
+  "rows_in_current_store": 10,
+  "the_ten_match_the_store": true,
+  "hilton_rows_in_store_total": 25,
+  "hilton_rows_by_run": {
+   "milwaukee-router-001": 15,
+   "hilton-milwaukee-023": 10
+  },
+  "reran_production": false
+ },
+ "semantics": {
+  "records": 10,
+  "fee_assertion_changed": 6,
+  "held_schema_cannot_represent": 9,
+  "carrying_supersession": 6,
+  "historical_report_rewritten": false,
+  "note": "023's reports are historical and unedited. The current reading is 024's corrected reader as applied by 025, and both are stated so the newer one never stands in for what the run measured.",
+  "rows": [
+   {
+    "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_count_limit",
+      "pet_fee",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pet_count_limit",
+      "pets_allowed",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_fee"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "fee_currency",
+      "pet_fee",
+      "pets_allowed"
+     ],
+     "asserted_pet_fee": true,
+     "withheld": {
+      "fee_basis": "SOURCE_SILENT"
+     },
+     "review_status": "FOUNDER_REVIEW_READY"
+    },
+    "fee_assertion_changed": false,
+    "carries_supersession": false
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Brookfield",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_count_limit",
+      "pet_fee",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pet_count_limit",
+      "pets_allowed",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+    "observed_at_023": {
+     "fields": [
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false
+    },
+    "current_under_head": {
+     "fields": [
+      "pets_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": false,
+    "carries_supersession": false
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee West",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_count_limit",
+      "pet_fee",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pet_count_limit",
+      "pets_allowed",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_fee"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pets_allowed"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "observed_at_023": {
+     "fields": [
+      "pet_count_limit",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false
+    },
+    "current_under_head": {
+     "fields": [
+      "pet_count_limit",
+      "pets_allowed",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": false,
+    "carries_supersession": false
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_fee",
+      "species_allowed"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pets_allowed",
+      "species_allowed"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+    "observed_at_023": {
+     "fields": [
+      "fee_currency",
+      "pet_count_limit",
+      "pet_fee",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": true
+    },
+    "current_under_head": {
+     "fields": [
+      "pet_count_limit",
+      "pets_allowed",
+      "species_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": true,
+    "carries_supersession": true
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Downtown",
+    "observed_at_023": {
+     "fields": [
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false
+    },
+    "current_under_head": {
+     "fields": [
+      "pets_allowed",
+      "weight_limit"
+     ],
+     "asserted_pet_fee": false,
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    },
+    "fee_assertion_changed": false,
+    "carries_supersession": false
+   }
+  ]
+ },
+ "counters": {
+  "correction": "023's touched/never-touched calculation was incomplete: it counted milwaukee-router-001, marriott-milwaukee-020 and hilton-milwaukee-023 and omitted the production runs milwaukee-resume-007, milwaukee-wyndham-008 and milwaukee-ihg-009, which had already acquired sixteen routable identities at publication grade",
+  "authority": "PTF-MILWAUKEE-OBSERVATION-STORE-INTEGRATION-025",
+  "as_reported_by_023": {
+   "touched": 95,
+   "never_touched": 32
+  },
+  "current": {
+   "routable": 127,
+   "touched": 111,
+   "publication_grade": 101,
+   "observed": 101,
+   "unresolved": 10,
+   "never_touched": 16,
+   "published": 0
+  },
+  "never_touched_now": {
+   "MOTEL6": 4,
+   "independents": 11,
+   "RED_ROOF": 1
+  },
+  "historical_artifact_rewritten": false,
+  "why_not_rewritten": "this repository preserves run reports as what a work order measured on a date; the correction lives here and in 025 rather than being edited backwards into the artifact"
+ },
+ "cost": {
+  "firecrawl_credits": 0,
+  "firecrawl_note": "21 attempts across 7 subjects, all ACCESS_DENIED. Failed scrapes were not charged, which is an observation and not a billing guarantee",
+  "browser_api_requests": 18,
+  "browser_api_bytes": 74059088,
+  "web_unlocker_requests": 0,
+  "brightdata_measured_usd_minor": {
+   "control_phase": 26,
+   "control_status": "MEASURED",
+   "production_run": 0,
+   "production_status": "UNSETTLED_AT_READ_TIME"
+  },
+  "meter_lag_caveat": "the Bright Data month-to-date meter settles behind the traffic that moved it, so a per-invocation reading of 0 is an unsettled meter and not a free run. Figures labelled UNSETTLED_AT_READ_TIME are not spend measurements.",
+  "estimates_note": "no estimate is included in the measured figures; the lane's per-property rate is a prior measurement and is not added here",
+  "batching_caveat": "BOTH Bright Data figures above understate their run. The control and the production run were each executed in resumable batches after long invocations were interrupted, and every batch overwrote the report's cost block with ITS OWN per-invocation meter delta. So the stored numbers are the last batch's delta, not the run total, and the run totals were not persisted. They are reported here as what they are rather than presented as a run cost, and no figure is reconstructed from memory.",
+  "measured_figures_are_per_invocation_deltas": true,
+  "attributed_to_023_only": true
+ },
+ "store_rows": 101,
+ "authority_written": false,
+ "published": false,
+ "historical_reports_rewritten": false
+}

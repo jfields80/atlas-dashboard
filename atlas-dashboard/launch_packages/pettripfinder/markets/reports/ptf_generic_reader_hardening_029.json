@@ -1,0 +1,1188 @@
+{
+  "schema": "ptf-generic-reader-hardening/1.0",
+  "work_order": "PTF-GENERIC-READER-BEST-WESTERN-HARDENING-029",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T08:28:45+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T08:28:45+00:00",
+    "targets": [
+      "best western plus milwaukee airport hotel and conference center",
+      "best western waukesha grand"
+    ],
+    "target_artifacts": {
+      "best western plus milwaukee airport hotel and conference center": {
+        "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-plus-milwaukee-airport-hotel-conference-center/attempt-01",
+        "policy_block_present": true,
+        "locator_json_present": true,
+        "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+        "block_sha256": "bfe6d1890dcb1ceec14333cf93cee28bbef56cfc499c28c707a814205c36a3a0"
+      },
+      "best western waukesha grand": {
+        "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-waukesha-grand/attempt-01",
+        "policy_block_present": true,
+        "locator_json_present": true,
+        "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+        "block_sha256": "cd36d5a2d9b4c36a926749b914a45b6e9519eac08a133d0178f3fb961fc9d01a"
+      }
+    },
+    "store_rows": 114,
+    "published": 0,
+    "authority_written": false,
+    "authority_files": 0,
+    "assertions": {
+      "two_targets": true,
+      "store_before_this_run_was_114": true,
+      "every_target_has_a_persisted_block": true,
+      "every_target_replays_canonically": true,
+      "nothing_published": true,
+      "authority_absent": true
+    }
+  },
+  "targets": [
+    "best western plus milwaukee airport hotel and conference center",
+    "best western waukesha grand"
+  ],
+  "reproduction": [
+    {
+      "identity_key": "best western plus milwaukee airport hotel and conference center",
+      "canonical_name": "Best Western Plus Milwaukee Airport Hotel & Conference Center",
+      "policy_block": "PET POLICY We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel’s approval prior to arrival. The Pet Friendly rate is 35.00 USD per day. A refundable cleaning and damage deposit of 150.00 USD is required upon check-in. If damage occurs or excessive cleaning is needed, the deposit can become non-refundable and the hotel may charge additionally to cover the costs of repair or cleaning.",
+      "policy_block_chars": 518,
+      "block_sha256": "bfe6d1890dcb1ceec14333cf93cee28bbef56cfc499c28c707a814205c36a3a0",
+      "baseline_extraction": {
+        "pets_allowed": true
+      },
+      "baseline_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "stored_facts": {
+        "pets_allowed": true,
+        "pet_fee": 3500,
+        "fee_currency": "USD",
+        "fee_basis": "per_day",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "stored_withheld": {},
+      "stored_review_status": "FOUNDER_REVIEW_READY",
+      "reproduces_the_store": false
+    },
+    {
+      "identity_key": "best western waukesha grand",
+      "canonical_name": "Best Western Waukesha Grand",
+      "policy_block": "PET POLICY We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel’s approval prior to arrival. The Pet Friendly rate is 30.00 USD per day.",
+      "policy_block_chars": 268,
+      "block_sha256": "cd36d5a2d9b4c36a926749b914a45b6e9519eac08a133d0178f3fb961fc9d01a",
+      "baseline_extraction": {
+        "pets_allowed": true
+      },
+      "baseline_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "stored_facts": {
+        "pets_allowed": true,
+        "pet_fee": 3000,
+        "fee_currency": "USD",
+        "fee_basis": "per_day",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "stored_withheld": {},
+      "stored_review_status": "FOUNDER_REVIEW_READY",
+      "reproduces_the_store": false
+    }
+  ],
+  "root_cause": {
+    "best western plus milwaukee airport hotel and conference center": {
+      "count_patterns_matched": [],
+      "weight_patterns_matched": [],
+      "charge_patterns_matched": {
+        "_SCOPED_CHARGE_RE": "",
+        "_LOOSE_CHARGE_RE": "",
+        "_SCOPED_CHARGE_USD_RE": "35.00 USD per day. A ",
+        "_BASIS_FIRST_CHARGE_RE": "",
+        "_BARE_CHARGE_RE": ""
+      },
+      "charge_survived_the_pet_context_guard": false,
+      "causes": [
+        "COUNT_WORDING_UNSUPPORTED",
+        "WEIGHT_PHRASE_UNSUPPORTED",
+        "PET_FEE_VETOED_BY_RATE_MARKER_GUARD"
+      ],
+      "explanation": {
+        "COUNT_WORDING_UNSUPPORTED": "every 'up to' count form requires the number in figures AND the literal word 'pet'; every spelled-out form requires 'max' after the number or a per-room scope",
+        "WEIGHT_PHRASE_UNSUPPORTED": "every weight form requires the noun 'weight', a maximum word immediately before the figure, or a trailing 'or less'",
+        "PET_FEE_VETOED_BY_RATE_MARKER_GUARD": "the amount matched and the guard rejected it: the word 'rate' stands between the nearest pet word and the figure, and that marker exists to stop a nightly ROOM rate being published as a pet fee"
+      }
+    },
+    "best western waukesha grand": {
+      "count_patterns_matched": [],
+      "weight_patterns_matched": [],
+      "charge_patterns_matched": {
+        "_SCOPED_CHARGE_RE": "",
+        "_LOOSE_CHARGE_RE": "",
+        "_SCOPED_CHARGE_USD_RE": "30.00 USD per day",
+        "_BASIS_FIRST_CHARGE_RE": "",
+        "_BARE_CHARGE_RE": ""
+      },
+      "charge_survived_the_pet_context_guard": false,
+      "causes": [
+        "COUNT_WORDING_UNSUPPORTED",
+        "WEIGHT_PHRASE_UNSUPPORTED",
+        "PET_FEE_VETOED_BY_RATE_MARKER_GUARD"
+      ],
+      "explanation": {
+        "COUNT_WORDING_UNSUPPORTED": "every 'up to' count form requires the number in figures AND the literal word 'pet'; every spelled-out form requires 'max' after the number or a per-room scope",
+        "WEIGHT_PHRASE_UNSUPPORTED": "every weight form requires the noun 'weight', a maximum word immediately before the figure, or a trailing 'or less'",
+        "PET_FEE_VETOED_BY_RATE_MARKER_GUARD": "the amount matched and the guard rejected it: the word 'rate' stands between the nearest pet word and the figure, and that marker exists to stop a nightly ROOM rate being published as a pet fee"
+      }
+    }
+  },
+  "per_day_decision": {
+    "decision": "EXISTING_EQUIVALENCE",
+    "basis_recorded": "per_day",
+    "per_day_in_published_fee_bases": true,
+    "per_day_accepted_by_the_store_builder": true,
+    "reader_already_maps_day_and_daily": true,
+    "per_day_is_not_per_night": true,
+    "new_vocabulary_created": false,
+    "note": "the contract keeps per_day and per_night distinct and this layer does not normalise one into the other; a surface that says 'per day' is recorded as per_day"
+  },
+  "corpus_differential": {
+    "cases": 21,
+    "changed": 3,
+    "unchanged": 18,
+    "expectations_met": 21,
+    "expectations_failed": [],
+    "changed_cases": [
+      "T1-multi-component-daily-rate",
+      "T2-single-daily-rate",
+      "P10-combined-weight"
+    ],
+    "rows": [
+      {
+        "case_id": "T1-multi-component-daily-rate",
+        "kind": "TARGET",
+        "scenario": "count, weight, species and a daily rate, plus a deposit",
+        "policy_text": "PET POLICY We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel’s approval prior to arrival. The Pet Friendly rate is 35.00 USD per day. A refundable cleaning and damage deposit of 150.00 USD is required upon check-in. If damage occurs or excessive cleaning is needed, the deposit can become non-refundable and the hotel may charge additionally to cover the costs of repair or cleaning.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_day",
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {},
+        "differs": true,
+        "expectation_met": true,
+        "why": "the page states two dogs, eighty pounds and a daily rate; the reader represented the allowed flag alone"
+      },
+      {
+        "case_id": "T2-single-daily-rate",
+        "kind": "TARGET",
+        "scenario": "the same wording with one charge and no deposit",
+        "policy_text": "PET POLICY We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel’s approval prior to arrival. The Pet Friendly rate is 30.00 USD per day.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_day",
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {},
+        "differs": true,
+        "expectation_met": true,
+        "why": "one stated amount on one stated basis, and nothing competing"
+      },
+      {
+        "case_id": "C1-brand-refusal",
+        "kind": "CONTROL",
+        "scenario": "the same brand refusing pets outright",
+        "policy_text": "PET POLICY Pets are not accepted.",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "a refusal must stay a refusal however much the reader learns about the brand's other wording"
+      },
+      {
+        "case_id": "C2-simple-per-night",
+        "kind": "CONTROL",
+        "scenario": "a plain nightly fee",
+        "policy_text": "Pets Welcome. Pet fee $25 per night.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the commonest shape in the corpus"
+      },
+      {
+        "case_id": "C3-simple-per-stay",
+        "kind": "CONTROL",
+        "scenario": "a plain per-stay fee",
+        "policy_text": "Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 15000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 15000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the basis-first shape"
+      },
+      {
+        "case_id": "C4-capped-fee",
+        "kind": "CONTROL",
+        "scenario": "a nightly fee with a stated ceiling",
+        "policy_text": "Pets welcome. $20 per pet per night, not to exceed $100 per pet per stay.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "fee_cap": {
+            "amount_minor": 10000,
+            "currency": "USD",
+            "basis": "per_stay"
+          }
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "fee_cap": {
+            "amount_minor": 10000,
+            "currency": "USD",
+            "basis": "per_stay"
+          }
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "CEILING is not PRICE, and both are recorded"
+      },
+      {
+        "case_id": "C5-count-limit",
+        "kind": "CONTROL",
+        "scenario": "a stated pet count",
+        "policy_text": "Pets Welcome. Maximum of two pets per room.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "the count shape that already worked"
+      },
+      {
+        "case_id": "C6-weight-limit",
+        "kind": "CONTROL",
+        "scenario": "a stated maximum weight",
+        "policy_text": "Pets Welcome. Maximum Pet Weight: 50.0lbs",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "the weight shape that already worked"
+      },
+      {
+        "case_id": "C7-dogs-only",
+        "kind": "CONTROL",
+        "scenario": "one species named",
+        "policy_text": "Dogs Allowed. Dogs only, no other pets are allowed.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "a species restriction is not a refusal"
+      },
+      {
+        "case_id": "C8-dogs-and-cats",
+        "kind": "CONTROL",
+        "scenario": "two species named",
+        "policy_text": "We welcome dogs and cats. Pet fee $50 per stay.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the fee and the flag are read. ``species_allowed`` is NOT asserted here: this wording is not among the species forms the reader recognises, which it did not recognise before this work order either. Recorded as a measured gap rather than repaired, because widening species parsing is not what 029 was asked to do and it has its own corpus of ways to be wrong"
+      },
+      {
+        "case_id": "C9-no-fee-stated",
+        "kind": "CONTROL",
+        "scenario": "pets allowed and nothing about money",
+        "policy_text": "Pets are welcome at our hotel. Please notify us in advance.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "silence about a fee is absence, never zero"
+      },
+      {
+        "case_id": "P1-tiered-fee",
+        "kind": "PROTECTION",
+        "scenario": "a fee that changes with the number of nights",
+        "policy_text": "Pets welcome. $75 for the first night, $25 per night thereafter.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "one field cannot hold two prices"
+      },
+      {
+        "case_id": "P2-banded-fee",
+        "kind": "PROTECTION",
+        "scenario": "a fee stated in duration bands",
+        "policy_text": "Pets welcome. Pet fee: $50 (1-4 nights), $100 (5+ nights).",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "a band is a tier written as a table"
+      },
+      {
+        "case_id": "P3-multi-component-fee",
+        "kind": "PROTECTION",
+        "scenario": "a nightly fee plus a separate non-refundable charge",
+        "policy_text": "Pets welcome. A $125 non-refundable pet deposit and a $20 daily pet fee apply.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "two components cannot be one field"
+      },
+      {
+        "case_id": "P4-contradictory-basis",
+        "kind": "PROTECTION",
+        "scenario": "one amount stated on two bases",
+        "policy_text": "Pet Policy Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00",
+        "old_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 10000,
+          "pet_fee": 2000,
+          "fee_currency": "USD"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 10000,
+          "pet_fee": 2000,
+          "fee_currency": "USD"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "fee_basis": "SOURCE_CONTRADICTORY"
+        },
+        "new_withheld": {
+          "fee_basis": "SOURCE_CONTRADICTORY"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "per_day and per_night are distinct and this layer does not choose between them"
+      },
+      {
+        "case_id": "P5-amenity-only",
+        "kind": "PROTECTION",
+        "scenario": "an amenity chip and nothing else",
+        "policy_text": "Pet Friendly",
+        "old_extraction": {},
+        "new_extraction": {},
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pets_allowed": "ARTIFACT_INSUFFICIENT",
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pets_allowed": "ARTIFACT_INSUFFICIENT",
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "a chip is not a policy"
+      },
+      {
+        "case_id": "P6-service-animal-only",
+        "kind": "PROTECTION",
+        "scenario": "service animals named and no pet policy",
+        "policy_text": "Service Animals are Welcome",
+        "old_extraction": {
+          "service_animal_exception": "Service Animals are Welcome"
+        },
+        "new_extraction": {
+          "service_animal_exception": "Service Animals are Welcome"
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "why": "a service animal is not a pet and the ADA is not a policy"
+      },
+      {
+        "case_id": "P7-room-rate-with-refusal",
+        "kind": "PROTECTION",
+        "scenario": "a discounted ROOM rate beside a pet refusal",
+        "policy_text": "1 King Bed 4 Guests No Pets Allowed Discounted rate: $160 USD /night",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the hole the rate-marker guard exists to keep shut"
+      },
+      {
+        "case_id": "P8-room-rate-member",
+        "kind": "PROTECTION",
+        "scenario": "a member ROOM rate beside a pet refusal",
+        "policy_text": "No Pets Allowed Member Rate 160.00 per night",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the same hole in a second money shape"
+      },
+      {
+        "case_id": "P9-room-rate-strikethrough",
+        "kind": "PROTECTION",
+        "scenario": "two ROOM rates beside a pet refusal",
+        "policy_text": "No Pets Allowed Strikethrough Rate: $172 Discounted rate: $160 /night",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "changed_fields": [],
+        "old_withheld": {},
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "why": "the same hole with a competing amount"
+      },
+      {
+        "case_id": "P10-combined-weight",
+        "kind": "PROTECTION",
+        "scenario": "a weight stated for two animals together",
+        "policy_text": "Pets welcome. Up to two dogs, combined weight not to exceed 100 pounds.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          }
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "pet_count_limit"
+        ],
+        "removed_fields": [
+          "weight_limit"
+        ],
+        "changed_fields": [],
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "why": "an individual limit may not be inferred from a combined one"
+      }
+    ]
+  },
+  "corpus_wide_dry_run": {
+    "blocks_scanned": 122,
+    "observations_changed": 9,
+    "observations_unchanged": 113,
+    "newly_structured_fields": {
+      "pet_count_limit": 6,
+      "weight_limit": 4,
+      "fee_basis": 2,
+      "fee_currency": 2,
+      "pet_fee": 2
+    },
+    "fields_removed": {},
+    "newly_withheld_fields": {
+      "fee_basis": 1
+    },
+    "changes_by_brand": {
+      "IHG": 1,
+      "CHOICE": 3,
+      "ESA": 2,
+      "INDEP:www.saintkatearts.com": 1,
+      "BEST_WESTERN": 2
+    },
+    "affected": [
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "avid-hotels-milwaukee-west-waukesha",
+        "identity_key": "avid hotels milwaukee west waukesha",
+        "brand": "IHG",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/avid-hotels-milwaukee-west-waukesha/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "cats_allowed": false,
+          "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "cats_allowed": false,
+          "service_animal_exception": "Pets allowed Service animals allowed Pet walking area onsite"
+        },
+        "added_fields": [
+          "pet_count_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "comfort-suites-milwaukee-airport",
+        "identity_key": "comfort suites milwaukee airport",
+        "brand": "CHOICE",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "added_fields": [],
+        "removed_fields": [],
+        "withheld_added": [
+          "fee_basis"
+        ],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "extended-stay-america-milwaukee-waukesha",
+        "identity_key": "extended stay america milwaukee waukesha",
+        "brand": "ESA",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-waukesha/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 1500,
+          "fee_currency": "USD",
+          "service_animal_exception": "Service animals will be exempt from this charge."
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 1500,
+          "fee_currency": "USD",
+          "pet_count_limit": 2,
+          "service_animal_exception": "Service animals will be exempt from this charge."
+        },
+        "added_fields": [
+          "pet_count_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-router-001",
+        "slug": "extended-stay-america-milwaukee-wauwatosa",
+        "identity_key": "extended stay america milwaukee wauwatosa",
+        "brand": "ESA",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/extended-stay-america-milwaukee-wauwatosa/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 1500,
+          "fee_currency": "USD",
+          "service_animal_exception": "Service animals will be exempt from this charge."
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 1500,
+          "fee_currency": "USD",
+          "pet_count_limit": 2,
+          "service_animal_exception": "Service animals will be exempt from this charge."
+        },
+        "added_fields": [
+          "pet_count_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-resume-007",
+        "slug": "sleep-inn-suites-milwaukee-airport",
+        "identity_key": "sleep inn and suites milwaukee airport",
+        "brand": "CHOICE",
+        "path": "data/acquisition/milwaukee-resume-007/milwaukee-resume-007/sleep-inn-suites-milwaukee-airport/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "weight_limit": {
+            "value": 40.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "added_fields": [
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-wyndham-008",
+        "slug": "sleep-inn-suites-milwaukee-airport",
+        "identity_key": "sleep inn and suites milwaukee airport",
+        "brand": "CHOICE",
+        "path": "data/acquisition/milwaukee-resume-007/milwaukee-wyndham-008/sleep-inn-suites-milwaukee-airport/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "fee_scope": "per_pet",
+          "weight_limit": {
+            "value": 40.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "added_fields": [
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-identity-027",
+        "slug": "saint-kate-the-arts-hotel",
+        "identity_key": "saint kate the arts hotel",
+        "brand": "INDEP:www.saintkatearts.com",
+        "path": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/saint-kate-the-arts-hotel/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pet_fee": 10000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "new_extraction": {
+          "pet_fee": 10000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay",
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "pet_count_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      },
+      {
+        "run_id": "milwaukee-premium-028",
+        "slug": "best-western-plus-milwaukee-airport-hotel-conference-center",
+        "identity_key": "best western plus milwaukee airport hotel and conference center",
+        "brand": "BEST_WESTERN",
+        "path": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-plus-milwaukee-airport-hotel-conference-center/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_day",
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": [
+          "pet_fee"
+        ]
+      },
+      {
+        "run_id": "milwaukee-premium-028",
+        "slug": "best-western-waukesha-grand",
+        "identity_key": "best western waukesha grand",
+        "brand": "BEST_WESTERN",
+        "path": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-waukesha-grand/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3000,
+          "fee_currency": "USD",
+          "fee_basis": "per_day",
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "added_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": [
+          "pet_fee"
+        ]
+      }
+    ]
+  },
+  "store_tracking": {
+    "identities_with_an_improved_reading": 8,
+    "tracked_by_the_store": 4,
+    "not_tracked_by_the_store": 4,
+    "tracked": [
+      {
+        "identity_key": "best western plus milwaukee airport hotel and conference center",
+        "runs_with_a_changed_block": [
+          "milwaukee-premium-028"
+        ],
+        "store_source_run": "milwaukee-premium-028"
+      },
+      {
+        "identity_key": "best western waukesha grand",
+        "runs_with_a_changed_block": [
+          "milwaukee-premium-028"
+        ],
+        "store_source_run": "milwaukee-premium-028"
+      },
+      {
+        "identity_key": "saint kate the arts hotel",
+        "runs_with_a_changed_block": [
+          "milwaukee-identity-027"
+        ],
+        "store_source_run": "milwaukee-identity-027"
+      },
+      {
+        "identity_key": "sleep inn and suites milwaukee airport",
+        "runs_with_a_changed_block": [
+          "milwaukee-resume-007",
+          "milwaukee-wyndham-008"
+        ],
+        "store_source_run": "milwaukee-wyndham-008"
+      }
+    ],
+    "untracked": [
+      {
+        "identity_key": "avid hotels milwaukee west waukesha",
+        "runs_with_a_changed_block": [
+          "milwaukee-router-001"
+        ],
+        "store_source_run": "milwaukee-router-001"
+      },
+      {
+        "identity_key": "comfort suites milwaukee airport",
+        "runs_with_a_changed_block": [
+          "milwaukee-router-001"
+        ],
+        "store_source_run": "milwaukee-router-001"
+      },
+      {
+        "identity_key": "extended stay america milwaukee waukesha",
+        "runs_with_a_changed_block": [
+          "milwaukee-router-001"
+        ],
+        "store_source_run": "milwaukee-router-001"
+      },
+      {
+        "identity_key": "extended stay america milwaukee wauwatosa",
+        "runs_with_a_changed_block": [
+          "milwaukee-router-001"
+        ],
+        "store_source_run": "milwaukee-router-001"
+      }
+    ],
+    "why": "the store re-reads persisted evidence for runs it carries as extra entries and rebuilds router-001 from that run's own journal; only a named overlay moves a router-001 row",
+    "recommendation": "re-derive the router-001 rows from their persisted blocks in a store work order, where fifty-eight rows moving at once is the subject rather than a side effect"
+  },
+  "rederivation": [
+    {
+      "identity_key": "best western plus milwaukee airport hotel and conference center",
+      "canonical_name": "Best Western Plus Milwaukee Airport Hotel & Conference Center",
+      "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-milwaukee/best-western-plus-milwaukee-airport-hotel-conference-center/propertyCode.50056.html",
+      "source_run": "milwaukee-premium-028",
+      "policy_locator": "pet_policy_heading_parent",
+      "block_sha256": "bfe6d1890dcb1ceec14333cf93cee28bbef56cfc499c28c707a814205c36a3a0",
+      "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-plus-milwaukee-airport-hotel-conference-center/attempt-01",
+      "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+      "provider_calls": 0,
+      "historical_028_reading": {
+        "pets_allowed": true
+      },
+      "historical_028_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "rederived_extraction": {
+        "pets_allowed": true,
+        "pet_fee": 3500,
+        "fee_currency": "USD",
+        "fee_basis": "per_day",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "rederived_withheld": {},
+      "rederived_non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+        "pet_deposit: the surface states $150.00 for a purpose it does not name as a pet's ('00 USD per day. A refundable cleaning and damage deposit of 150.00 USD is required upon ch'); it is not recorded as a pet charge and is reported here rather than dropped",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "review_status_before": "FOUNDER_REVIEW_READY"
+    },
+    {
+      "identity_key": "best western waukesha grand",
+      "canonical_name": "Best Western Waukesha Grand",
+      "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-pewaukee/best-western-waukesha-grand/propertyCode.50116.html",
+      "source_run": "milwaukee-premium-028",
+      "policy_locator": "pet_policy_heading_parent",
+      "block_sha256": "cd36d5a2d9b4c36a926749b914a45b6e9519eac08a133d0178f3fb961fc9d01a",
+      "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/best-western-waukesha-grand/attempt-01",
+      "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+      "provider_calls": 0,
+      "historical_028_reading": {
+        "pets_allowed": true
+      },
+      "historical_028_withheld": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "rederived_extraction": {
+        "pets_allowed": true,
+        "pet_fee": 3000,
+        "fee_currency": "USD",
+        "fee_basis": "per_day",
+        "weight_limit": {
+          "value": 80.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "rederived_withheld": {},
+      "rederived_non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "review_status_before": "FOUNDER_REVIEW_READY"
+    }
+  ],
+  "provider_calls": 0,
+  "authority_written": false,
+  "published": 0
+}

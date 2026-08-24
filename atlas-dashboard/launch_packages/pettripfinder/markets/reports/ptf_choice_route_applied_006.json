@@ -1,0 +1,105 @@
+{
+ "schema": "ptf-route-change-applied/1.0",
+ "work_order": "PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006",
+ "status": "APPLIED",
+ "applies": "ptf_choice_route_change_005.json",
+ "authorized_by": "founder, in the PTF-CHOICE-FIRECRAWL-ROUTE-APPLICATION-006 work order",
+ "note": "The record of a routing change that actually happened, as distinct from the proposal that preceded it. The proposal stays marked PROPOSED_READY_TO_APPLY so the decision trail keeps both halves.",
+ "what_changed": {
+  "routes.json": {
+   "version": "1 -> 2",
+   "brands.CHOICE": {
+    "provider": "brightdata_web_unlocker -> firecrawl",
+    "fallback_providers": "[] -> [brightdata_web_unlocker]",
+    "max_attempts_per_provider": "3 (unchanged)",
+    "forbidden_providers": "[brightdata_browser] (unchanged, deliberate)",
+    "reader": "choice_static (unchanged)"
+   },
+   "domains['www.choicehotels.com']": "mirrored, so a Choice property whose brand is unknown takes the same lane",
+   "everything_else": "byte-for-byte unchanged. Verified by loading the pre-change file from git and comparing every route row: the only two that differ are the two above."
+  },
+  "providers.py": {
+   "firecrawl": "registered as an implemented provider, wrapping the existing measured adapter. The adapter itself was not rewritten.",
+   "KNOWN_FUTURE_PROVIDERS": "firecrawl removed. spider deliberately retained: it was benchmarked too, reached 7 of 25, and being measured is not the same as passing.",
+   "capabilities": "{runs_javascript, geo_pinnable} only. Not can_interact -- the routed lane runs a plain scrape; the deterministic interaction pass belongs to the benchmarks and is not claimed for production.",
+   "profile": "capture_kwargs pins firecrawl_capture.ROUTED_PROFILE, which is now the SINGLE definition shared with the benchmarks (firecrawl_hard_lanes_003.SCRAPE_PROFILE is the same object). Two copies could have let the routed lane drift away from the lane the decision was made about."
+  },
+  "envelope.py + router.py": {
+   "AcquisitionCost.reported_credits": "plan credits, for lanes billed in them",
+   "AcquisitionCost.seconds_by_provider": "wall-clock per lane, so a fallback's latency is visible instead of hidden in one total",
+   "AcquisitionCost.fallback_invoked": "recorded as a fact rather than inferred from the length of providers_tried, which also grows when a provider is merely unhealthy",
+   "currencies": "credits and usd_minor are separate fields and no total spans them. The Firecrawl plan endpoint reports an allowance, not a unit price, so there is no exchange rate anyone has measured."
+  }
+ },
+ "proofs": {
+  "normal_control": {
+   "property": "Econo Lodge Milwaukee Airport",
+   "result": "PASS",
+   "detail": "routed to firecrawl, one attempt, VALID, publication-grade, identity confirmed, choice_static reader, fallback never invoked, 0 Browser API calls. Extraction reproduced the known refusal exactly.",
+   "elapsed_seconds": 1.9,
+   "credits": 1,
+   "note_on_speed": "1.9s is faster than the profile's own 6s wait, so Firecrawl almost certainly served this from its cache. A credit was still consumed and a fresh 3.4 MB artifact was written, so the acquisition is real; the latency is not representative of a cold fetch."
+  },
+  "forced_fallback": {
+   "property": "Comfort Inn & Suites NW Milwaukee",
+   "chosen_because": "the Web Unlocker has a stable existing publication-grade benchmark for it, so a failure to reproduce would have been a real signal rather than an unknown",
+   "result": "PASS",
+   "sequence": "firecrawl selected first -> 3 x ACCESS_DENIED (forced) -> router classified it TECHNICAL -> brightdata_web_unlocker selected second -> VALID -> choice_static reader -> identity confirmed -> publication-grade confirmed",
+   "elapsed_seconds": 88.4,
+   "brightdata_browser_calls": 0,
+   "how_the_failure_was_forced": "the registered Firecrawl provider's capture MODULE was replaced, inside the proof harness only, with one that returns ACCESS_DENIED carrying the vendor's own ALL_ENGINES_FAILED text and makes no request. It is restored in a finally block and the restoration is asserted. No credential, adapter, route or global was altered.",
+   "significance": "this path had never fired end to end. Every earlier work order could only record that it was untested."
+  }
+ },
+ "failure_semantics_preserved": {
+  "falls_through": [
+   "ACCESS_DENIED (this is what SCRAPE_ALL_ENGINES_FAILED maps to)",
+   "NAVIGATION_FAILED",
+   "TIMEOUT",
+   "UNHYDRATED",
+   "BLANK_PAGE",
+   "CAPTURE_FAILED",
+   "UNEXPECTED_PAGE",
+   "GEO_MISMATCH",
+   "PROVIDER_UNAVAILABLE",
+   "IDENTITY_UNCERTAIN"
+  ],
+  "never_falls_through": [
+   "IDENTITY_MISMATCH",
+   "POLICY_NOT_FOUND",
+   "POLICY_SURFACE_INCOMPLETE",
+   "SOURCE_AMBIGUOUS",
+   "SOURCE_CONTRADICTORY",
+   "UNSUPPORTED_DURATION",
+   "UNSUPPORTED_SCHEMA_SHAPE"
+  ],
+  "rule": "a second provider may retry a CHANNEL failure and must never re-interpret a SOURCE answer. Asserted through the real router with stub lanes, in both directions, rather than read back from the rule.",
+  "PROVIDER_ERROR_note": "the work order named PROVIDER_ERROR; the router's vocabulary spells the same thing CAPTURE_FAILED, NAVIGATION_FAILED and PROVIDER_UNAVAILABLE, all of which escalate.",
+  "POLICY_SURFACE_INCOMPLETE_note": "The work order listed this among the failures that should fall through, and an earlier draft of this change moved it into ESCALATING. It was RESTORED to its pre-change classification before commit, on founder instruction, because it was the one change in the work order that was not Choice-specific: it splits the POLICY family and would alter every brand's ladder. It remains TERMINAL, exactly as it was. Nothing else in this work order depended on it -- no capture outcome maps to it, so the router cannot emit it, and neither live proof produced it."
+ },
+ "reader_backlog_unchanged": [
+  {
+   "item": "no weight_limit is extracted from the wording 'A size limit of 40 pounds'",
+   "observed_on": "Sleep Inn & Suites Milwaukee Airport",
+   "class": "PRE_EXISTING_PATTERN_GAP",
+   "touched_by_this_work_order": false,
+   "why_not": "it is a coverage miss rather than a wrong fact, it is identical on both provider lanes, and a weight-pattern change re-reads every brand's corpus. It needs its own measurement."
+  }
+ ],
+ "freezes": {
+  "POLICY_AUTHORITY_CHANGED": "NO",
+  "EXCLUSIONS_CHANGED": "NO",
+  "SEEDS_CHANGED": "NO",
+  "APPROVALS_CHANGED": "NO",
+  "PARTITION_CHANGED": "NO",
+  "POLICIES_PUBLISHED": "NO",
+  "DEPLOYED": "NO",
+  "credentials": "FIRECRAWL_API_KEY and BRIGHTDATA_BROWSER_AUTH were supplied through the environment for the live proofs and appear in no file, report, log or commit."
+ },
+ "known_behaviour_worth_naming": {
+  "item": "RoutingResult.failure is non-empty on a successfully-acquired fallback",
+  "detail": "the forced-fallback result carries state ACQUIRED_PUBLICATION_GRADE and failure ACCESS_DENIED at the same time. That is the router's existing design -- the failure is the only record of WHY the fallback ran -- but until this work order the path had never executed, so the combination had never appeared.",
+  "consequence": "state is the authoritative field. A consumer that reads success off an empty failure would now be wrong. Pinned by a test."
+ },
+ "scope_note": "Every change in this commit is confined to the Choice lane and to the provider registry that lane needs. No cross-brand routing semantics were altered."
+}

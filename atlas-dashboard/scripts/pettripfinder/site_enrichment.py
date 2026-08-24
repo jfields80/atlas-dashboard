@@ -246,6 +246,7 @@ def build_go_pages_for_listing(
     city: str, state: str, category_slug: str, corridor: str, verification_status: str,
     affiliate: Optional[AffiliateConfig] = None, include_booking: bool = False,
     market: str = DEFAULT_ANALYTICS_MARKET,
+    affiliate_destination=None, build_id: str = "", provider_inline_js: str = "",
 ) -> Dict[str, str]:
     """Returns ``{route: html}`` for every applicable action on one
     listing. DIRECTIONS uses a Google Maps search-by-address URL (no API
@@ -257,16 +258,28 @@ def build_go_pages_for_listing(
     is the listing's own official URL, honestly labeled -- no affiliate program
     is configured, so it never fabricates a price/availability claim). The
     approved hotel-profile renderer's primary CTA links to this route, so hotel
-    profiles pass ``include_booking=True``; parks/restaurants do not."""
+    profiles pass ``include_booking=True``; parks/restaurants do not.
+
+    PTF-MEASUREMENT-001. ``affiliate_destination`` is a RESOLVED
+    ``affiliate_destinations.AffiliateDestination`` (or ``None``, today's
+    case): when present, the booking action redirects to its URL and the
+    booking page carries its provider id. ``build_id`` and
+    ``provider_inline_js`` pass straight through to ``build_go_page`` and
+    default to today's output."""
     from scripts.pettripfinder.commercial_actions import ACTION_BOOKING
     pages: Dict[str, str] = {}
     actions: List[Tuple[str, str]] = []
     official = build_redirect_target(ACTION_OFFICIAL_WEBSITE, official_url=official_url, phone=phone)
+    booking_provider = ""
     if include_booking:
-        booking = build_redirect_target(ACTION_BOOKING, official_url=official_url, phone=phone,
-                                        config=affiliate)
+        booking = build_redirect_target(
+            ACTION_BOOKING, official_url=official_url, phone=phone, config=affiliate,
+            booking_destination=(affiliate_destination.destination_url
+                                 if affiliate_destination is not None else ""))
         if booking:
             actions.append((ACTION_BOOKING, booking))
+            if affiliate_destination is not None:
+                booking_provider = affiliate_destination.provider_id
     if official:
         actions.append((ACTION_OFFICIAL_WEBSITE, official))
     if address and city:
@@ -283,7 +296,9 @@ def build_go_pages_for_listing(
         route, page_html = build_go_page(
             listing_id=listing_id, listing_name=name, action=action, destination=destination,
             page_type="listing_profile", category=category_slug, corridor=corridor,
-            verification_status=verification_status, market=market)
+            verification_status=verification_status, market=market,
+            affiliate_provider=(booking_provider if action == ACTION_BOOKING else ""),
+            build_id=build_id, provider_inline_js=provider_inline_js)
         pages[route.rstrip("/") + "/index.html"] = page_html
     return pages
 

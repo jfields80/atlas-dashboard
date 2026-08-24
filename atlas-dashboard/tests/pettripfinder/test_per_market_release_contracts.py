@@ -58,8 +58,16 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-LOUISVILLE = "louisville-ky"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, LOUISVILLE)
+#: PTF-MILWAUKEE-PUBLICATION-042 published Milwaukee, so it now has verified
+#: inventory and therefore must have a contract. The invariant below is
+#: unchanged -- every market that CAN release has one -- and this is the list
+#: of markets that can.
+MILWAUKEE = "milwaukee-wi"
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered and published St. Louis, so it
+#: has verified inventory and must have a contract on the same rule.
+ST_LOUIS = "st-louis-mo"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
+           ST_LOUIS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -118,12 +126,21 @@ EXPECTED_RECONCILIATION = {
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
-    # PTF-LOUISVILLE-FOUNDING-AUTHORITY-APPLICATION-001A published fourteen
-    # founder-approved records and recorded four property-specific refusals.
-    # The long-standing Inn at Woodhaven NOT_LODGING census disposition is
-    # mechanically projected into the exclusion registry, so terminally
-    # resolved is 14 + 4 + 1 and the remaining 111 are still unresolved.
-    LOUISVILLE: (130, 14, 4, 19, 111),
+    # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
+    # pet-friendly and 27 verified-no-pets, both founder-approved across two
+    # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
+    # from the committed final partition (47), and is UNKNOWN rather than
+    # negative evidence.
+    MILWAUKEE: (147, 73, 27, 100, 47),
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011. 357 confirmed identities from the
+    # generic discovery census; 82 published pet-friendly and 37
+    # verified-no-pets, founder-signed across two sittings (005 and 007) and
+    # cleaned of two duplicate signatures by 008B; resolved = 82 + 37 = 119,
+    # with no OUT_OF_CURRENT_CATEGORY ruling in this market. unresolved is 238
+    # and is UNKNOWN, never negative evidence: 153 identities were never
+    # reached by a lane that could answer, 66 hold insufficient evidence, 16
+    # served a page that stated nothing, and 1 is held on an unsettled identity.
+    ST_LOUIS: (357, 82, 37, 119, 238),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -200,8 +217,6 @@ class TestContractRegistry:
         assert "cincinnati-oh" not in set(available_market_ids())
         assert "indianapolis-in" in configured
         assert "indianapolis-in" in set(available_market_ids())
-        assert LOUISVILLE in configured
-        assert LOUISVILLE in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -276,7 +291,8 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4, LOUISVILLE: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27,
+                             ST_LOUIS: 37}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
@@ -306,7 +322,7 @@ class TestContractAgreesWithItsOwnAuthority:
         problems = contract_disagreements(contract, derive_authority(COLUMBUS))
         assert any("identity_census" in p or "confirmed" in p for p in problems)
 
-    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, LOUISVILLE))
+    @pytest.mark.parametrize("market_id", (CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS))
     def test_census_backed_markets_cite_their_own_census(self, market_id):
         census = load_contract(market_id)["identity_census"]
         assert market_id in census["path"]

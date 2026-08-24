@@ -1,0 +1,440 @@
+{
+ "schema": "ptf-choice-reader-rederive/1.0",
+ "work_order": "PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+ "market_id": "milwaukee-wi",
+ "brand": "CHOICE",
+ "note": "Re-derived from artifacts persisted by PTF-FIRECRAWL-CHOICE-VALIDATION-004. No network request was made and no Firecrawl credit was spent: the source is byte for byte the source that produced the original reading, so the only variable is the reader.",
+ "network_requests": 0,
+ "firecrawl_credits_spent": 0,
+ "held_record": {
+  "slug": "country-inn-suites-by-radisson-milwaukee-airport-wi",
+  "state": "REDERIVED",
+  "attempt": "attempt-01",
+  "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\country-inn-suites-by-radisson-milwaukee-airport-wi\\attempt-01\\policy-block.txt",
+  "block_text": "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only.",
+  "extraction": {
+   "service_animal_exception": "Pets Allowed: No, only Service animals are permitted."
+  },
+  "contradictions": [
+   {
+    "amount_minor": null,
+    "field": "pets_allowed",
+    "bases_stated": [],
+    "withholding_reason": "SOURCE_CONTRADICTORY",
+    "quotes": [
+     "Pets Allowed: No",
+     "Max 40 Pounds",
+     "1 Pet Per Room"
+    ],
+    "contradicted_fields": [
+     "pet_count_limit",
+     "weight_limit"
+    ],
+    "note": "the surface denies pet acceptance and states pet terms that only apply if pets are accepted"
+   }
+  ],
+  "parser_notes": [
+   "the block refuses pets and states ordinary-pet terms (pet_count_limit, weight_limit) in the same breath; neither is taken"
+  ],
+  "patterns_fired": [
+   "count[2]",
+   "refused[3]",
+   "weight[3]"
+  ],
+  "state_class": "SOURCE_CONTRADICTORY",
+  "wider_page_evidence": {
+   "states_pet_terms": [
+    "Pet fee 25 USD per pet per day.",
+    "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only."
+   ],
+   "states_refusal": [
+    "Pets Allowed: No",
+    "This property does not allow pets / is not pet friendly.",
+    "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only."
+   ]
+  },
+  "source_verdict": "SOURCE_CONTRADICTORY. The property's own page states a pet fee, a pet limit and a pet weight cap, and also states that it does not allow pets. No reader can resolve that, and the corpus rule is to publish neither side. The record is not repaired into a clean answer."
+ },
+ "rederived": [
+  {
+   "slug": "clarion-pointe-milwaukee-airport",
+   "state": "NO_PERSISTED_BLOCK",
+   "extraction": {},
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "comfort-inn-suites-nw-milwaukee",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\comfort-inn-suites-nw-milwaukee\\attempt-01\\policy-block.txt",
+   "block_text": "Pets allowed 75.00 per stay. Max 2 pets per room. Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "bare_decimal_charge",
+    "count[1]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "comfort-inn-waukesha-milwaukee-west",
+   "state": "REDERIVED",
+   "attempt": "attempt-02",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\comfort-inn-waukesha-milwaukee-west\\attempt-02\\policy-block.txt",
+   "block_text": "General: Pets Are Allowed. $30.00 USD Per Night and Per Pet. A maximum of 25 pounds. A maximum of 2 per room. Pets cannot be left unattended in room at anytime.. Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "usd_charge",
+    "weight[3]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "comfort-suites-milwaukee-airport",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\comfort-suites-milwaukee-airport\\attempt-01\\policy-block.txt",
+   "block_text": "Pets Allowed. Pet fee is 50 USD plus applicable taxes for up to 5 nights. For 6 or more nights, the fee is 125 USD plus applicable taxes. A maximum of 2 pets is allowed per room. Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "count[1]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "country-inn-suites-by-radisson-brown-deer-milwaukee-north",
+   "state": "REDERIVED",
+   "attempt": "attempt-02",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\country-inn-suites-by-radisson-brown-deer-milwaukee-north\\attempt-02\\policy-block.txt",
+   "block_text": "Pets Allowed. Pet Charge 30.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 65 Pounds Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 65.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 65 Pounds Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "count[2]",
+    "usd_charge",
+    "weight[3]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "country-inn-suites-by-radisson-milwaukee-airport-wi",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\country-inn-suites-by-radisson-milwaukee-airport-wi\\attempt-01\\policy-block.txt",
+   "block_text": "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only.",
+   "extraction": {
+    "service_animal_exception": "Pets Allowed: No, only Service animals are permitted."
+   },
+   "contradictions": [
+    {
+     "amount_minor": null,
+     "field": "pets_allowed",
+     "bases_stated": [],
+     "withholding_reason": "SOURCE_CONTRADICTORY",
+     "quotes": [
+      "Pets Allowed: No",
+      "Max 40 Pounds",
+      "1 Pet Per Room"
+     ],
+     "contradicted_fields": [
+      "pet_count_limit",
+      "weight_limit"
+     ],
+     "note": "the surface denies pet acceptance and states pet terms that only apply if pets are accepted"
+    }
+   ],
+   "parser_notes": [
+    "the block refuses pets and states ordinary-pet terms (pet_count_limit, weight_limit) in the same breath; neither is taken"
+   ],
+   "patterns_fired": [
+    "count[2]",
+    "refused[3]",
+    "weight[3]"
+   ],
+   "state_class": "SOURCE_CONTRADICTORY",
+   "wider_page_evidence": {
+    "states_pet_terms": [
+     "Pet fee 25 USD per pet per day.",
+     "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only."
+    ],
+    "states_refusal": [
+     "Pets Allowed: No",
+     "This property does not allow pets / is not pet friendly.",
+     "Pets Allowed: No, only Service animals are permitted. Pet limit 1 Pet Per Room with Max 40 Pounds for stays 1-3 night only."
+    ]
+   },
+   "source_verdict": "SOURCE_CONTRADICTORY. The property's own page states a pet fee, a pet limit and a pet weight cap, and also states that it does not allow pets. No reader can resolve that, and the corpus rule is to publish neither side. The record is not repaired into a clean answer."
+  },
+  {
+   "slug": "country-inn-suites-by-radisson-milwaukee-west-brookfield-wi",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\country-inn-suites-by-radisson-milwaukee-west-brookfield-wi\\attempt-01\\policy-block.txt",
+   "block_text": "Pets Allowed. Non-refundable Pet Charge 100.00 USD Per Stay. Pet limit 2 Pet Per Room 50 lbs maximum. Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "count[2]",
+    "usd_charge",
+    "weight[4]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "econo-lodge-milwaukee-airport",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\econo-lodge-milwaukee-airport\\attempt-01\\policy-block.txt",
+   "block_text": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "refused[3]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "rodeway-inn-suites-milwaukee-airport",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\rodeway-inn-suites-milwaukee-airport\\attempt-01\\policy-block.txt",
+   "block_text": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "refused[3]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "royle-hotel-milwaukee-airport",
+   "state": "REDERIVED",
+   "attempt": "attempt-02",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\royle-hotel-milwaukee-airport\\attempt-02\\policy-block.txt",
+   "block_text": "Pets Allowed. Pet Charge 50.00 USD Per Pet, Per Stay. Pet limit 1 Pet Per Room. Max 100 Pounds Service animals are permitted, without charge.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 100 Pounds Service animals are permitted, without charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [
+    "count[2]",
+    "usd_charge",
+    "weight[3]",
+    "welcome[1]"
+   ],
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "sleep-inn-suites-milwaukee-airport",
+   "state": "NO_PERSISTED_BLOCK",
+   "extraction": {},
+   "state_class": "RESOLVED"
+  },
+  {
+   "slug": "suburban-studios-milwaukee-airport",
+   "state": "REDERIVED",
+   "attempt": "attempt-01",
+   "artifact": "data\\acquisition\\firecrawl-choice-validation-004\\choice-validation-004\\scrape\\suburban-studios-milwaukee-airport\\attempt-01\\policy-block.txt",
+   "block_text": "General: Only service animals are permitted, free of charge. Good to know Hotel alerts Guests must be at least 21 years old to check in. An incidental deposit or hold is due at check-in: 50.00 USD if paying with credit card. 100.00 USD if paying with debit card or cash; refundable if there are no damages. Guests residing within a 30-mile radius of the hotel will require to pay 100.00 USD cash deposit whether paying by card or cash. We appreciate your cooperation in helping us maintain a safe and comfortable environment for all guests. Service animals are permitted, without charge.",
+   "extraction": {
+    "service_animal_exception": "General: Only service animals are permitted, free of charge."
+   },
+   "contradictions": [],
+   "parser_notes": [],
+   "patterns_fired": [],
+   "state_class": "RESOLVED"
+  }
+ ],
+ "old_extractions": {
+  "cambria hotel milwaukee downtown": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+  },
+  "clarion pointe milwaukee airport": {},
+  "comfort inn and suites nw milwaukee": {
+   "pets_allowed": true,
+   "pet_fee": 7500,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay",
+   "pet_count_limit": 2,
+   "service_animal_exception": "Service animals are permitted, without charge."
+  },
+  "comfort inn waukesha milwaukee west": {
+   "pets_allowed": true,
+   "pet_fee": 3000,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "weight_limit": {
+    "value": 25.0,
+    "unit": "lb"
+   },
+   "service_animal_exception": "Service animals are permitted, without charge."
+  },
+  "comfort suites milwaukee airport": {
+   "pets_allowed": true,
+   "pet_count_limit": 2,
+   "service_animal_exception": "Service animals are permitted, without charge."
+  },
+  "comfort suites milwaukee west": {
+   "pets_allowed": true,
+   "pet_fee": 2500,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "fee_scope": "per_pet",
+   "weight_limit": {
+    "value": 40.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+  },
+  "country inn and suites by radisson brown deer milwaukee north": {
+   "pets_allowed": true,
+   "pet_fee": 3000,
+   "fee_currency": "USD",
+   "fee_basis": "per_night",
+   "fee_scope": "per_pet",
+   "weight_limit": {
+    "value": 65.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Max 65 Pounds Service animals are permitted, without charge."
+  },
+  "country inn and suites by radisson germantown wi": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+  },
+  "country inn and suites by radisson milwaukee airport wi": {
+   "pets_allowed": false,
+   "weight_limit": {
+    "value": 40.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 1,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Pets Allowed: No, only Service animals are permitted."
+  },
+  "country inn and suites by radisson milwaukee west brookfield wi": {
+   "pets_allowed": true,
+   "pet_fee": 10000,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay",
+   "fee_scope": "per_pet",
+   "weight_limit": {
+    "value": 50.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 2,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Service animals are permitted, without charge."
+  },
+  "econo lodge milwaukee airport": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+  },
+  "rodeway inn and suites milwaukee airport": {
+   "pets_allowed": false,
+   "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+  },
+  "royle hotel milwaukee airport": {
+   "pets_allowed": true,
+   "pet_fee": 5000,
+   "fee_currency": "USD",
+   "fee_basis": "per_stay",
+   "fee_scope": "per_pet",
+   "weight_limit": {
+    "value": 100.0,
+    "unit": "lb"
+   },
+   "pet_count_limit": 1,
+   "pet_count_scope": "per_room",
+   "service_animal_exception": "Max 100 Pounds Service animals are permitted, without charge."
+  },
+  "sleep inn and suites milwaukee airport": {},
+  "suburban studios milwaukee airport": {
+   "service_animal_exception": "General: Only service animals are permitted, free of charge."
+  }
+ }
+}

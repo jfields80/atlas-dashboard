@@ -1,0 +1,188 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-st-louis-mo-release/1.0",
+ "market_id": "st-louis-mo",
+ "product": "pettripfinder-st-louis-mo",
+ "release_name_prefix": "prod-st-louis",
+ "description": "Deterministic release-gate contract for the PetTripFinder Greater St. Louis market (bi-state MO/IL). Structure follows the live-market precedent; every value is re-derived from this market's own committed artifacts and none is copied.",
+ "status": "LIVE",
+ "status_note": "Live: this contract gates the assembly of a PUBLISHED market. It grants no deployment -- publication is a state of the source and deployment is a separate act recorded in deploy/netlify/deployment_authorizations/.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held or superseded identity leaks and every gate holds. It is not a deployment authorization, and PTF-ST-LOUIS-REGISTER-PUBLISH-011 deployed nothing."
+ },
+ "provenance": {
+  "authority_work_orders": [
+   "PTF-ST-LOUIS-FOUNDER-SIGNATURE-005",
+   "PTF-ST-LOUIS-FOUNDER-DECISIONS-006",
+   "PTF-ST-LOUIS-FOUNDER-FINALIZE-007",
+   "PTF-ST-LOUIS-PUBLICATION-CLEANUP-008B"
+  ],
+  "decision_ledgers": [
+   "st_louis_mo_founder_decisions_005.json",
+   "st_louis_mo_founder_decisions_007.json",
+   "st_louis_mo_founder_withdrawals_008b.json"
+  ],
+  "binding_contract": "semantic-approval/1.0",
+  "approval_vocabulary": "founder-approval-vocabulary/1.0",
+  "publication_schema_work_order": "PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010",
+  "signed_authority_total": 119,
+  "superseded_identities": [
+   "wingate at wyndham",
+   "doubletree"
+  ],
+  "superseded_note": "Two census identities turned out to be one building each. The founder SUPERSEDED the duplicate signatures rather than deleting them: both original attestations remain readable in the ledgers that recorded them, and the current authority is the union of signed rows minus the withdrawn ones.",
+  "held_identities": [
+   "days inn and suites pontoon beach"
+  ],
+  "held_note": "Held because only ONE strong identity signal agrees and the second contradicts it: the street matches exactly and the telephone does not. The founder rule requires two AGREEING signals and does not permit one agreement plus one contradiction."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/st-louis-mo.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 357,
+  "note": "The 357-identity census was built by PTF-ST-LOUIS-MARKET-001 on the generic discovery path from Google Places and OpenStreetMap over 18 bounded cells. It carries no policy annotation this contract relies on: every no-pets record here reached the exclusion set through an explicit founder decision, never off a census field."
+ },
+ "reconciliation": {
+  "confirmed_identities": 357,
+  "published_pet_friendly": 82,
+  "verified_no_pets": 37,
+  "resolved": 119,
+  "unresolved": 238,
+  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns. unresolved is UNKNOWN and never negative evidence: 153 identities were never reached by a lane that could answer, 66 hold insufficient evidence, 16 served a page that stated nothing, and 1 is held on an unsettled identity. A failed capture answers nothing."
+ },
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_st-louis-mo.json",
+  "expected_sha256": "7cd6e09f5d0d455121934aa614fce5cce28ecd41186a2201e604a8dc5888bc62",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 82,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. This market's package carries published: true and a publication block naming the work order that flipped it -- publication is a state of the package, not a property of any record, and the records are byte-identical to the ones the founder approved.",
+  "schema_version_note": "1.3, not 1.2. PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010 made two ADDITIVE amendments under founder decision: an optional service_animal_statement.quote, so a verified service-animal statement can carry the property's exact words; and an optional other_charges[].refundable_stated, so a charge can record that the source did not state refundability instead of forcing a writer to invent one. Every 1.2 record remains valid and no live market needs migrating: 1.2 and 1.3 are both CANONICAL schema versions, and the compatibility reader's legacy set (1.0, 1.1) was deliberately not widened -- that reader parses facts as display strings and would empty every canonical fee.",
+  "founder_normalisation_note": "48 records carry weight_limit.operator=lte and scope=per_pet under founder decision 1, which authorises that projection ONLY where a property-specific source states an unqualified blanket maximum, no combined-weight language appears, no conflicting per-room total exists and no contrary scope is stated. Each such record preserves its source text and records the normalisation. This is a PUBLICATION rule and does not license the extraction reader to invent operator or scope.",
+  "structured_pricing_note": "4 records price by stay length and carry fee_tiers rather than a single pet_fee: the ladder IS the price and no single amount is asserted for them. 6 carry a fee_cap with qualifier_stated=false, which means the source states the cap and states no further qualifier -- NOT that no qualifier exists. 5 carry a pet deposit in other_charges, distinct from any pet fee; 3 of those declare refundable_stated=false because the source never said whether the deposit returns.",
+  "service_animal_note": "41 records carry service_animal_statement on the RECORD ENVELOPE, never inside facts. policy_schema.validate_record has always rejected facts.service_animal_exception as MISPLACED_FIELD -- a legal access category must not sit in the commercial-terms namespace, because a weight limit beside it invites something to apply one to the other. That is the founder's own Decision 2 constraint, already enforced by the contract. charges_stated is read from the service-animal sentence itself and is only ever no_charge (31) or not_addressed (10); charge_stated is unreachable by projection.",
+  "record_contract_note": "All 82 records pass contracts.policy_schema.validate_record and the package passes validate_package, not merely validate_facts. 010's first draft validated fact blocks only and emitted no identity_key, so every record would have failed the record contract that all five live markets satisfy.",
+  "sha_note": "The sha256 of the package in its PUBLISHED state, which is deterministic: publication adds published: true, a note and a publication block dated from the founder's decision rather than from the clock, so the file a rebuild produces is the file this hash covers.",
+  "identity_key_note": "A record's ``key`` is the DISPLAY join key -- normalize_name of the name the record publishes -- and its ``identity_key`` is the census identity the founder signed against. They coincide on 78 of the 82 records and differ on the four whose census name was a bare chain word that an evidence-cited correction replaced. Publishing the bare word instead was not available: 'holiday inn express and suites' is ALREADY a live Cleveland identity, and one identity is one listing.",
+  "withheld_fields_note": "8 withholding decisions across 4 records, every one SCHEMA_CANNOT_REPRESENT: the surface states charge components the fee vocabulary cannot carry together, so no single pet fee is asserted. Each carries the reader's own sentence and the evidence references to re-adjudicate it against. 22 SOURCE_SILENT entries the signed authority carried were DROPPED rather than published: contracts.withholding rejects SOURCE_SILENT by name -- genuine silence is the ABSENCE of a field, and an entry claiming a decision was made about a non-event would tell a reader the hotel was overruled when it simply never spoke."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 82,
+  "public_hotel_profile_count": 82,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package must have NO public route and NO reference on any surface: hotel profiles, the hotels listing page, nearby-lodging cards, the policy-comparison table, the sitemap, canonicals, internal links and /go/ interstitials. This market's seed inventory is derived one row per approved record, so a held, refused or SUPERSEDED property has no inventory row to leak -- and the gate is derived, so it starts enforcing the moment that changes."
+ },
+ "routes": {
+  "market_slug": "st-louis-mo",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 82,
+  "published_corridor_route_count": 15,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/st-louis-mo/. Fifteen of its sixteen configured corridors reach their own configured minimum and claim a route; the rest claim none. The market and its corridors stay hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false), matching the posture the market contract carries and the one Pittsburgh launched with."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ },
+ "identity_confirmations": [
+  {
+   "kind": "DISTINCT_PROPERTIES_AT_ONE_ADDRESS",
+   "address": "1065 Chesterfield Pkwy E, Chesterfield MO 63017",
+   "identities": [
+    "fairfield by marriott inn and suites st louis chesterfield",
+    "springhill suites by marriott st louis chesterfield"
+   ],
+   "founder_ruling": "CONFIRMED AS TWO DISTINCT HOTELS",
+   "discriminator": "different Marriott property codes stlff and stlsu; a shared switchboard is ordinary at a dual-brand property",
+   "note": "The two rows carry OPPOSITE pet findings -- one pet-friendly, one verified-no-pets -- which is only coherent if they are two hotels. This confirmation exists so the same-address gate does not have to re-ask."
+  }
+ ]
+}

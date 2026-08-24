@@ -1,0 +1,780 @@
+{
+ "schema": "ptf-provider-utilization/1.0",
+ "work_order": "PTF-MILWAUKEE-RESUME-007",
+ "market_id": "milwaukee-wi",
+ "note": "Every property here was acquired through router.route_property against the applied route table. No provider was chosen by this module, no route was edited, and no gate was relaxed.",
+ "eligibility": {
+  "remaining_in_queue": 60,
+  "eligible_firecrawl_first": 4,
+  "blocked": 56,
+  "blocked_reason": "their configured primary is brightdata_browser. Leading with Firecrawl would require editing routes.json mid-run, which this run forbids; running them as configured would require the provider this run forbids. They were NOT attempted and are not counted as failures.",
+  "blocked_by_brand": {
+   "IHG": 5,
+   "HILTON": 11,
+   "MARRIOTT": 17,
+   "INDEP:www.knickerbockeronthelake.com": 1,
+   "WYNDHAM": 7,
+   "MOTEL6": 4,
+   "INDEP:www.potawatomi.com": 1,
+   "RED_ROOF": 1,
+   "INDEP:www.saintkatearts.com": 1,
+   "INDEP:www.theclarkehotel.com": 1,
+   "INDEP:www.theinglesidehotel.com": 1,
+   "INDEP:www.theironhorsehotel.com": 1,
+   "INDEP:www.marchotelmilwaukee.com": 1,
+   "INDEP:www.thepfisterhotel.com": 1,
+   "INDEP:plazahotelmilwaukee.com": 1,
+   "INDEP:thewildwoodlodge.com": 1,
+   "INDEP:www.woodspring.com": 1
+  }
+ },
+ "totals": {
+  "total_properties_processed": 4,
+  "firecrawl_only_successes": 4,
+  "firecrawl_success_rate_pct": 100.0,
+  "properties_escalated_to_bright_data": 0,
+  "bright_data_fallback_rate_pct": 0.0,
+  "bright_data_recoveries": 0,
+  "bright_data_recovery_rate_pct": null,
+  "acquired": 4,
+  "publication_grade": 4,
+  "unresolved_manual_review": 0
+ },
+ "fallback_reasons": {
+  "by_failure": {},
+  "by_failure_class": {},
+  "note": "classified by the router's own failure family, so 'why did this cost Bright Data money' is answerable without re-reading logs. Only TECHNICAL failures can appear here: source, policy and identity failures stop the ladder and never reach a second provider."
+ },
+ "attempts": {
+  "firecrawl_attempts": 4,
+  "bright_data_attempts": 0,
+  "bright_data_browser_calls": 0
+ },
+ "cost": {
+  "firecrawl_credits": 4,
+  "bright_data_spent_usd_minor_month_to_date": 1322,
+  "hard_cap_usd_minor": 1500,
+  "currencies_are_not_combined": "Firecrawl bills plan credits and Bright Data bills dollars; the plan endpoint reports an allowance, not a unit price, so no total spans them",
+  "bright_data_usd_per_attempted_property": 0.197
+ },
+ "projection": {
+  "basis": "Choice-lane escalation measured over 20 natural acquisitions under the applied three-attempt route (work orders 004, 005, 006 and 007), not over this run's four alone.",
+  "choice_escalations_observed": 0,
+  "choice_escalation_rate": 0.0,
+  "choice_escalation_rate_upper_bound_95pct": 0.15,
+  "why_a_bound_and_not_a_rate": "zero escalations in 20 attempts does not measure a 0% rate; it bounds one. The rule of three puts the 95% upper bound at about 3/n. Quoting zero would be an overclaim, and the difference matters at 50 markets.",
+  "the_number_that_actually_matters": "Choice is 15 of Milwaukee's 127 routable properties. The other 112 still lead with Bright Data, and this work order measured nothing about them. Firecrawl was 1/4 on Marriott and 0/3 on Hilton when it was tested there, so the non-Choice column below should be read as the current cost of a market, not as a gap waiting to be closed.",
+  "assumptions": {
+   "choice_per_market": 15,
+   "non_choice_per_market": 112,
+   "bright_data_usd_per_attempted_property": 0.197,
+   "comparable_market": "a market with Milwaukee's brand mix and queue size; markets differ and this is a planning figure, not a quote"
+  },
+  "per_market": {
+   "1_comparable_markets": {
+    "choice_properties": 15,
+    "choice_bright_data_escalations_expected": 0.0,
+    "choice_bright_data_escalations_upper_bound_95pct": 2.2,
+    "choice_firecrawl_credits_expected": 15,
+    "non_choice_properties_still_on_bright_data": 112,
+    "non_choice_bright_data_usd_expected": 22.06,
+    "total_bright_data_usd_expected": 22.06,
+    "total_bright_data_usd_upper_bound_95pct": 22.51
+   },
+   "5_comparable_markets": {
+    "choice_properties": 75,
+    "choice_bright_data_escalations_expected": 0.0,
+    "choice_bright_data_escalations_upper_bound_95pct": 11.2,
+    "choice_firecrawl_credits_expected": 75,
+    "non_choice_properties_still_on_bright_data": 560,
+    "non_choice_bright_data_usd_expected": 110.32,
+    "total_bright_data_usd_expected": 110.32,
+    "total_bright_data_usd_upper_bound_95pct": 112.54
+   },
+   "10_comparable_markets": {
+    "choice_properties": 150,
+    "choice_bright_data_escalations_expected": 0.0,
+    "choice_bright_data_escalations_upper_bound_95pct": 22.5,
+    "choice_firecrawl_credits_expected": 150,
+    "non_choice_properties_still_on_bright_data": 1120,
+    "non_choice_bright_data_usd_expected": 220.64,
+    "total_bright_data_usd_expected": 220.64,
+    "total_bright_data_usd_upper_bound_95pct": 225.07
+   },
+   "50_comparable_markets": {
+    "choice_properties": 750,
+    "choice_bright_data_escalations_expected": 0.0,
+    "choice_bright_data_escalations_upper_bound_95pct": 112.5,
+    "choice_firecrawl_credits_expected": 750,
+    "non_choice_properties_still_on_bright_data": 5600,
+    "non_choice_bright_data_usd_expected": 1103.2,
+    "total_bright_data_usd_expected": 1103.2,
+    "total_bright_data_usd_upper_bound_95pct": 1125.36
+   }
+  }
+ },
+ "per_property": [
+  {
+   "identity_key": "rodeway inn and suites milwaukee airport",
+   "brand": "CHOICE",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "firecrawl_attempts": 1,
+   "bright_data_attempts": 0,
+   "fallback_invoked": false,
+   "fallback_reason": "",
+   "publication_grade": true,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "royle hotel milwaukee airport",
+   "brand": "CHOICE",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "firecrawl_attempts": 1,
+   "bright_data_attempts": 0,
+   "fallback_invoked": false,
+   "fallback_reason": "",
+   "publication_grade": true,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "sleep inn and suites milwaukee airport",
+   "brand": "CHOICE",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "firecrawl_attempts": 1,
+   "bright_data_attempts": 0,
+   "fallback_invoked": false,
+   "fallback_reason": "",
+   "publication_grade": true,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "suburban studios milwaukee airport",
+   "brand": "CHOICE",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "firecrawl_attempts": 1,
+   "bright_data_attempts": 0,
+   "fallback_invoked": false,
+   "fallback_reason": "",
+   "publication_grade": true,
+   "credits": 1.0
+  }
+ ],
+ "not_attempted": [
+  {
+   "identity_key": "holiday inn express milwaukee west medical center",
+   "brand": "IHG",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "holiday inn milwaukee riverfront",
+   "brand": "IHG",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "holiday inn pewaukee milwaukee west",
+   "brand": "IHG",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "home2 suites by hilton menomonee falls milwaukee",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee airport",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee brookfield",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee downtown",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee west",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "homewood suites by hilton milwaukee downtown",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "homewood suites by hilton oak creek milwaukee",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "homewood suites by hilton wauwatosa milwaukee",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "hotel metro autograph collection",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "kimpton journeyman hotel",
+   "brand": "IHG",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "knickerbocker on the lake",
+   "brand": "INDEP:www.knickerbockeronthelake.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee bayshore area",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee sw new berlin",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "la quinta inn by wyndham milwaukee airport oak creek",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "milwaukee marriott downtown",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "milwaukee marriott west",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "motel 6 milwaukee wi glendale",
+   "brand": "MOTEL6",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "motel 6 oak creek wi",
+   "brand": "MOTEL6",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "motel 6 suites milwaukee brookfield wi",
+   "brand": "MOTEL6",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "potawatomi casino hotel",
+   "brand": "INDEP:www.potawatomi.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "ramada by wyndham milwaukee",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "red roof inn milwaukee airport oak creek",
+   "brand": "RED_ROOF",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "renaissance milwaukee west hotel",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee brookfield",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee downtown",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee north glendale",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee west",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "brand": "INDEP:www.saintkatearts.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "sheraton milwaukee brookfield hotel",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "spark by hilton milwaukee airport",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "springhill suites by marriott menomonee falls",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "springhill suites by marriott milwaukee downtown",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "springhill suites by marriott milwaukee west wauwatosa",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "staybridge suites milwaukee airport south",
+   "brand": "IHG",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+   "brand": "MOTEL6",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "super 8 by wyndham germantown milwaukee",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "super 8 by wyndham milwaukee airport",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the clarke hotel",
+   "brand": "INDEP:www.theclarkehotel.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "brand": "INDEP:www.theinglesidehotel.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the iron horse hotel",
+   "brand": "INDEP:www.theironhorsehotel.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the marc hotel",
+   "brand": "INDEP:www.marchotelmilwaukee.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "brand": "INDEP:www.thepfisterhotel.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the plaza hotel milwaukee",
+   "brand": "INDEP:plazahotelmilwaukee.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the trade autograph collection",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "the westin milwaukee",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "towneplace suites by marriott milwaukee brookfield",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "towneplace suites by marriott milwaukee oak creek",
+   "brand": "MARRIOTT",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "travelodge by wyndham milwaukee",
+   "brand": "WYNDHAM",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "tru by hilton milwaukee brookfield",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "tru by hilton milwaukee downtown",
+   "brand": "HILTON",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "wildwood lodge",
+   "brand": "INDEP:thewildwoodlodge.com",
+   "route_primary": "brightdata_browser"
+  },
+  {
+   "identity_key": "woodspring suites milwaukee menomonee falls",
+   "brand": "INDEP:www.woodspring.com",
+   "route_primary": "brightdata_browser"
+  }
+ ],
+ "stopped_because": "",
+ "routes_changed": false,
+ "authority_written": false,
+ "policies_published": false,
+ "total_elapsed_seconds": 6.3,
+ "items": [
+  {
+   "identity_key": "rodeway inn and suites milwaukee airport",
+   "canonical_name": "Rodeway Inn & Suites Milwaukee Airport",
+   "brand": "CHOICE",
+   "official_url": "https://www.choicehotels.com/wisconsin/milwaukee/rodeway-inn-hotels/wi121",
+   "route": {
+    "provider": "firecrawl",
+    "fallback_providers": [
+     "brightdata_web_unlocker"
+    ],
+    "forbidden_providers": [
+     "brightdata_browser"
+    ],
+    "ladder": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "resolved_by": "domain:www.choicehotels.com",
+    "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane",
+    "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+   },
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "publication_grade": true,
+   "identity_confirmed": true,
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "usage": {
+    "providers_tried": [
+     "firecrawl"
+    ],
+    "attempts_by_provider": {
+     "firecrawl": 1
+    },
+    "outcomes_by_provider": {
+     "firecrawl": [
+      "VALID"
+     ]
+    },
+    "seconds_by_provider": {
+     "firecrawl": 2.25
+    },
+    "acquired_by": "firecrawl",
+    "firecrawl_attempts": 1,
+    "brightdata_attempts": 0,
+    "brightdata_browser_calls": 0,
+    "fallback_invoked": false,
+    "escalated_to_brightdata": false,
+    "credits": 1.0,
+    "fallback_reason": ""
+   },
+   "cost": {
+    "attempts": 1,
+    "failed_attempts": 0,
+    "elapsed_seconds": 2.325,
+    "estimated_bytes": 0,
+    "reported_usd_minor": null,
+    "estimated_usd_minor": null,
+    "reported_credits": 1.0,
+    "seconds_by_provider": {
+     "firecrawl": 2.246
+    },
+    "fallback_invoked": false,
+    "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+    "cost_status": "UNAVAILABLE"
+   },
+   "spend_before_usd_minor": 1322
+  },
+  {
+   "identity_key": "royle hotel milwaukee airport",
+   "canonical_name": "Royle Hotel Milwaukee Airport",
+   "brand": "CHOICE",
+   "official_url": "https://www.choicehotels.com/wisconsin/milwaukee/choice-hotels/wi008",
+   "route": {
+    "provider": "firecrawl",
+    "fallback_providers": [
+     "brightdata_web_unlocker"
+    ],
+    "forbidden_providers": [
+     "brightdata_browser"
+    ],
+    "ladder": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "resolved_by": "domain:www.choicehotels.com",
+    "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane",
+    "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+   },
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "publication_grade": true,
+   "identity_confirmed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 100 Pounds Service animals are permitted, without charge."
+   },
+   "usage": {
+    "providers_tried": [
+     "firecrawl"
+    ],
+    "attempts_by_provider": {
+     "firecrawl": 1
+    },
+    "outcomes_by_provider": {
+     "firecrawl": [
+      "VALID"
+     ]
+    },
+    "seconds_by_provider": {
+     "firecrawl": 1.76
+    },
+    "acquired_by": "firecrawl",
+    "firecrawl_attempts": 1,
+    "brightdata_attempts": 0,
+    "brightdata_browser_calls": 0,
+    "fallback_invoked": false,
+    "escalated_to_brightdata": false,
+    "credits": 1.0,
+    "fallback_reason": ""
+   },
+   "cost": {
+    "attempts": 1,
+    "failed_attempts": 0,
+    "elapsed_seconds": 1.837,
+    "estimated_bytes": 0,
+    "reported_usd_minor": null,
+    "estimated_usd_minor": null,
+    "reported_credits": 1.0,
+    "seconds_by_provider": {
+     "firecrawl": 1.764
+    },
+    "fallback_invoked": false,
+    "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+    "cost_status": "UNAVAILABLE"
+   },
+   "spend_before_usd_minor": 1322
+  },
+  {
+   "identity_key": "sleep inn and suites milwaukee airport",
+   "canonical_name": "Sleep Inn & Suites Milwaukee Airport",
+   "brand": "CHOICE",
+   "official_url": "https://www.choicehotels.com/wisconsin/milwaukee/sleep-inn-hotels/wi186",
+   "route": {
+    "provider": "firecrawl",
+    "fallback_providers": [
+     "brightdata_web_unlocker"
+    ],
+    "forbidden_providers": [
+     "brightdata_browser"
+    ],
+    "ladder": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "resolved_by": "domain:www.choicehotels.com",
+    "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane",
+    "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+   },
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "publication_grade": true,
+   "identity_confirmed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "usage": {
+    "providers_tried": [
+     "firecrawl"
+    ],
+    "attempts_by_provider": {
+     "firecrawl": 1
+    },
+    "outcomes_by_provider": {
+     "firecrawl": [
+      "VALID"
+     ]
+    },
+    "seconds_by_provider": {
+     "firecrawl": 2.3
+    },
+    "acquired_by": "firecrawl",
+    "firecrawl_attempts": 1,
+    "brightdata_attempts": 0,
+    "brightdata_browser_calls": 0,
+    "fallback_invoked": false,
+    "escalated_to_brightdata": false,
+    "credits": 1.0,
+    "fallback_reason": ""
+   },
+   "cost": {
+    "attempts": 1,
+    "failed_attempts": 0,
+    "elapsed_seconds": 2.386,
+    "estimated_bytes": 0,
+    "reported_usd_minor": null,
+    "estimated_usd_minor": null,
+    "reported_credits": 1.0,
+    "seconds_by_provider": {
+     "firecrawl": 2.3
+    },
+    "fallback_invoked": false,
+    "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+    "cost_status": "UNAVAILABLE"
+   },
+   "spend_before_usd_minor": 1322
+  },
+  {
+   "identity_key": "suburban studios milwaukee airport",
+   "canonical_name": "Suburban Studios Milwaukee Airport",
+   "brand": "CHOICE",
+   "official_url": "https://www.choicehotels.com/wisconsin/milwaukee/suburban-hotels/wi451",
+   "route": {
+    "provider": "firecrawl",
+    "fallback_providers": [
+     "brightdata_web_unlocker"
+    ],
+    "forbidden_providers": [
+     "brightdata_browser"
+    ],
+    "ladder": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "resolved_by": "domain:www.choicehotels.com",
+    "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane",
+    "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+   },
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "failure": "",
+   "failure_class": "",
+   "escalation_stopped_because": "",
+   "publication_grade": true,
+   "identity_confirmed": true,
+   "extraction": {
+    "service_animal_exception": "General: Only service animals are permitted, free of charge."
+   },
+   "usage": {
+    "providers_tried": [
+     "firecrawl"
+    ],
+    "attempts_by_provider": {
+     "firecrawl": 1
+    },
+    "outcomes_by_provider": {
+     "firecrawl": [
+      "VALID"
+     ]
+    },
+    "seconds_by_provider": {
+     "firecrawl": 2.26
+    },
+    "acquired_by": "firecrawl",
+    "firecrawl_attempts": 1,
+    "brightdata_attempts": 0,
+    "brightdata_browser_calls": 0,
+    "fallback_invoked": false,
+    "escalated_to_brightdata": false,
+    "credits": 1.0,
+    "fallback_reason": ""
+   },
+   "cost": {
+    "attempts": 1,
+    "failed_attempts": 0,
+    "elapsed_seconds": 2.331,
+    "estimated_bytes": 0,
+    "reported_usd_minor": null,
+    "estimated_usd_minor": null,
+    "reported_credits": 1.0,
+    "seconds_by_provider": {
+     "firecrawl": 2.256
+    },
+    "fallback_invoked": false,
+    "currencies_are_not_combined": "usd_minor and plan credits are separate measurements of separate vendors; no total spans them",
+    "cost_status": "UNAVAILABLE"
+   },
+   "spend_before_usd_minor": 1322
+  }
+ ]
+}

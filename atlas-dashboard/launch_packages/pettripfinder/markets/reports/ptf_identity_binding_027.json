@@ -1,0 +1,1838 @@
+{
+  "schema": "ptf-identity-binding/1.0",
+  "work_order": "PTF-CODELESS-INDEPENDENT-IDENTITY-BINDING-027",
+  "market": "milwaukee-wi",
+  "run_id": "milwaukee-identity-027",
+  "generated_at": "2026-08-21T02:32:22+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T02:32:22+00:00",
+    "store_rows": 110,
+    "published": 0,
+    "authority_written": false,
+    "unresolved": 20,
+    "unresolved_by_reason": {
+      "IDENTITY_FAILURE": 10,
+      "ACCESS_FAILURE": 7,
+      "INSUFFICIENT_EVIDENCE": 2,
+      "POLICY_NOT_PRESENT": 1
+    },
+    "identity_failure_cohort": [
+      "brewhouse inn and suites",
+      "county clare irish inn and pub",
+      "knickerbocker on the lake",
+      "potawatomi casino hotel",
+      "saint kate the arts hotel",
+      "the clarke hotel",
+      "the ingleside hotel",
+      "the iron horse hotel",
+      "the marc hotel",
+      "the plaza hotel milwaukee"
+    ],
+    "assertions": {
+      "cohort_is_10": true,
+      "store_is_107": false,
+      "unresolved_is_20": true,
+      "nothing_published": true
+    }
+  },
+  "cohort_size": 10,
+  "evidence_classes": {
+    "NO_USABLE_CAPTURE_ARTIFACT": 2,
+    "PAGE_FETCHED_IDENTITY_REJECTED": 8
+  },
+  "dispositions": {
+    "REACQUISITION_REQUIRED": 6,
+    "IDENTITY_CONFIRMED_OFFLINE": 4
+  },
+  "identity_recovered": 4,
+  "identity_still_failed": 6,
+  "binding_methods": {
+    "EXACT_ADDRESS_AND_NAME": 4
+  },
+  "usable_policy_recovered": 2,
+  "publication_grade_recovered": 3,
+  "provider_calls": 10,
+  "offline_replays": 8,
+  "blast_radius": {
+    "captures_tested": 245,
+    "rule_only": {
+      "transitions": {
+        "FAIL->FAIL": 108,
+        "PASS->PASS": 137
+      },
+      "pass_to_pass": 137,
+      "fail_to_fail": 108,
+      "fail_to_pass": 0,
+      "pass_to_fail": 0
+    },
+    "as_production_ran": {
+      "transitions": {
+        "FAIL->FAIL": 108,
+        "PASS->PASS": 123,
+        "FAIL->PASS": 14
+      },
+      "pass_to_pass": 123,
+      "fail_to_fail": 108,
+      "fail_to_pass": 14,
+      "pass_to_fail": 0
+    },
+    "changed": [
+      {
+        "identity_key": "knickerbocker on the lake",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/knickerbocker-on-the-lake/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "potawatomi casino hotel",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/potawatomi-casino-hotel/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "saint kate the arts hotel",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/saint-kate-the-arts-hotel/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the ingleside hotel",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/the-ingleside-hotel/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the marc hotel",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/the-marc-hotel/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the pfister hotel",
+        "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/the-pfister-hotel/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "saint kate the arts hotel",
+        "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/saint-kate-the-arts-hotel--faq/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the ingleside hotel",
+        "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-ingleside-hotel--accommodations-dog-friendly/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the marc hotel",
+        "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-marc-hotel--amenities/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the pfister hotel",
+        "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-pfister-hotel--accommodations-pets/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the pfister hotel",
+        "artifact": "data/acquisition/milwaukee-final-026/milwaukee-final-026/the-pfister-hotel/attempt-01/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "saint kate the arts hotel",
+        "artifact": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/saint-kate-the-arts-hotel/attempt-01/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the ingleside hotel",
+        "artifact": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-ingleside-hotel/attempt-01/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      },
+      {
+        "identity_key": "the marc hotel",
+        "artifact": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-marc-hotel/attempt-01/rendered.html",
+        "old_as_production_ran": "FAIL",
+        "old_same_inputs": "PASS",
+        "new": "PASS",
+        "binding_method": "EXACT_ADDRESS_AND_NAME",
+        "matched": [
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": [],
+        "why": "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      }
+    ]
+  },
+  "authority_written": false,
+  "published": 0,
+  "rows": [
+    {
+      "identity_key": "brewhouse inn and suites",
+      "census_name": "Brewhouse Inn & Suites",
+      "census_address": "1215 N. 10th Street",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53205",
+      "census_phone": "4148103350",
+      "census_official_url": "https://www.brewhousesuites.com/",
+      "brand": "INDEP:www.brewhousesuites.com",
+      "source_run": "milwaukee-router-001",
+      "selected_source_url": "https://www.brewhousesuites.com/",
+      "discovered_policy_url": "",
+      "overlay_status": "",
+      "fetched_document_url": "https://brewhousesuites.com/",
+      "page_title": "Brewhouse Inn & Suites | Historic Downtown Milwaukee Hotel",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "NO_USABLE_CAPTURE_ARTIFACT",
+      "artifact": "",
+      "page_canonical_url": "",
+      "page_name": "",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "UNDETERMINED",
+      "binding_method": "",
+      "matched": [],
+      "conflicting": [],
+      "reasons": [],
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the gate refused this page before any artifact was written and no retained capture of the same URL exists",
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "county clare irish inn and pub",
+      "census_name": "County Clare Irish Inn & Pub",
+      "census_address": "1234 N Astor St",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53202",
+      "census_phone": "4142725273",
+      "census_official_url": "https://www.countyclare-inn.com/",
+      "brand": "INDEP:www.countyclare-inn.com",
+      "source_run": "milwaukee-router-001",
+      "selected_source_url": "https://www.countyclare-inn.com/",
+      "discovered_policy_url": "",
+      "overlay_status": "",
+      "fetched_document_url": "https://countyclare-inn.com/",
+      "page_title": "Irish Pub Near Lake Michigan | CCII&P|M",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "NO_USABLE_CAPTURE_ARTIFACT",
+      "artifact": "",
+      "page_canonical_url": "",
+      "page_name": "",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "UNDETERMINED",
+      "binding_method": "",
+      "matched": [],
+      "conflicting": [],
+      "reasons": [],
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the gate refused this page before any artifact was written and no retained capture of the same URL exists",
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "knickerbocker on the lake",
+      "census_name": "Knickerbocker on the Lake",
+      "census_address": "1028 E. Juneau Avenue",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53202",
+      "census_phone": "4142768500",
+      "census_official_url": "https://www.knickerbockeronthelake.com/",
+      "brand": "INDEP:www.knickerbockeronthelake.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.knickerbockeronthelake.com/faq",
+      "discovered_policy_url": "https://www.knickerbockeronthelake.com/faq",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/knickerbocker-on-the-lake--faq/rendered.html",
+      "page_canonical_url": "https://www.knickerbockeronthelake.com/faq",
+      "page_name": "Frequently asked questions | Knickerbocker on the Lake",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [
+        "4142768500",
+        "4142763668"
+      ],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "FAIL",
+      "binding_method": "",
+      "matched": [
+        "name"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "the page declares no telephone number of its own",
+        "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "old_gate_on_this_artifact": "FAIL",
+      "old_gate_reasons": [],
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the retained capture is a static fetch and publishes no signal that binds it; a rendered capture may carry structured identity the file does not",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "potawatomi casino hotel",
+      "census_name": "Potawatomi Casino Hotel",
+      "census_address": "1721 W. Canal Street",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53233",
+      "census_phone": "8007298866",
+      "census_official_url": "https://www.potawatomi.com/hotel",
+      "brand": "INDEP:www.potawatomi.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.potawatomi.com/hotel",
+      "discovered_policy_url": "",
+      "overlay_status": "NO_POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/potawatomi-casino-hotel/rendered.html",
+      "page_canonical_url": "https://www.potawatomi.com/hotel",
+      "page_name": "Potawatomi Hotel",
+      "page_street": "1721 W Canal St",
+      "page_postal_code": "53233",
+      "page_structured_phone": "800-729-7244",
+      "page_printed_phones": [
+        "8007297244",
+        "8442174100",
+        "4148478525"
+      ],
+      "page_structured_identity": true,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "PASS",
+      "binding_method": "EXACT_ADDRESS_AND_NAME",
+      "matched": [
+        "name",
+        "postal_code",
+        "street_identity"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "page telephone '800-729-7244' is not the census number '8007298866'; one property commonly publishes several",
+        "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+      ],
+      "old_gate_on_this_artifact": "PASS",
+      "old_gate_reasons": [
+        "confirmed on name, postal_code"
+      ],
+      "disposition": "IDENTITY_CONFIRMED_OFFLINE",
+      "disposition_why": "the retained capture of the page we fetched binds to this census row on EXACT_ADDRESS_AND_NAME",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "PASS",
+      "final_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "saint kate the arts hotel",
+      "census_name": "Saint Kate - The Arts Hotel",
+      "census_address": "139 E. Kilbourn Avenue",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53202",
+      "census_phone": "4142768686",
+      "census_official_url": "https://www.saintkatearts.com/",
+      "brand": "INDEP:www.saintkatearts.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.saintkatearts.com/faq",
+      "discovered_policy_url": "https://www.saintkatearts.com/faq",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/saint-kate-the-arts-hotel--faq/rendered.html",
+      "page_canonical_url": "https://www.saintkatearts.com/",
+      "page_name": "Saint Kate - The Arts Hotel",
+      "page_street": "139 E Kilbourn Ave",
+      "page_postal_code": "53202",
+      "page_structured_phone": "(414) 276-8686",
+      "page_printed_phones": [
+        "4142768686",
+        "6833347682"
+      ],
+      "page_structured_identity": true,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "PASS",
+      "binding_method": "EXACT_ADDRESS_AND_NAME",
+      "matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "old_gate_on_this_artifact": "PASS",
+      "old_gate_reasons": [
+        "confirmed on name, postal_code"
+      ],
+      "disposition": "IDENTITY_CONFIRMED_OFFLINE",
+      "disposition_why": "the retained capture of the page we fetched binds to this census row on EXACT_ADDRESS_AND_NAME",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "PASS",
+      "final_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "policy_result": "USABLE_POLICY_SUCCESS",
+      "publication_grade": true
+    },
+    {
+      "identity_key": "the clarke hotel",
+      "census_name": "The Clarke Hotel",
+      "census_address": "314 W. Main St.",
+      "census_city": "Waukesha",
+      "census_state": "WI",
+      "census_postal_code": "53186",
+      "census_phone": "2625493800",
+      "census_official_url": "https://www.theclarkehotel.com/",
+      "brand": "INDEP:www.theclarkehotel.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.theclarkehotel.com/",
+      "discovered_policy_url": "",
+      "overlay_status": "NO_POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/the-clarke-hotel/rendered.html",
+      "page_canonical_url": "https://theclarkehotel.com/",
+      "page_name": "Home - The Clarke Hotel",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [
+        "2625493800"
+      ],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "FAIL",
+      "binding_method": "",
+      "matched": [
+        "name"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "the page declares no telephone number of its own",
+        "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "old_gate_on_this_artifact": "FAIL",
+      "old_gate_reasons": [],
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the retained capture is a static fetch and publishes no signal that binds it; a rendered capture may carry structured identity the file does not",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "the ingleside hotel",
+      "census_name": "The Ingleside Hotel",
+      "census_address": "2810 Golf Road",
+      "census_city": "Pewaukee",
+      "census_state": "WI",
+      "census_postal_code": "53072",
+      "census_phone": "2625470201",
+      "census_official_url": "https://www.theinglesidehotel.com/",
+      "brand": "INDEP:www.theinglesidehotel.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "discovered_policy_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-ingleside-hotel--accommodations-dog-friendly/rendered.html",
+      "page_canonical_url": "https://www.theinglesidehotel.com",
+      "page_name": "The Ingleside Hotel",
+      "page_street": "2810 Golf Road",
+      "page_postal_code": "53072",
+      "page_structured_phone": "(262) 547-0201",
+      "page_printed_phones": [
+        "2625470201",
+        "8002476640"
+      ],
+      "page_structured_identity": true,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "PASS",
+      "binding_method": "EXACT_ADDRESS_AND_NAME",
+      "matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "old_gate_on_this_artifact": "PASS",
+      "old_gate_reasons": [
+        "confirmed on name, postal_code"
+      ],
+      "disposition": "IDENTITY_CONFIRMED_OFFLINE",
+      "disposition_why": "the retained capture of the page we fetched binds to this census row on EXACT_ADDRESS_AND_NAME",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "PASS",
+      "final_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "policy_result": "USABLE_POLICY_SUCCESS",
+      "publication_grade": true
+    },
+    {
+      "identity_key": "the iron horse hotel",
+      "census_name": "The Iron Horse Hotel",
+      "census_address": "500 W. Florida Street",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53204",
+      "census_phone": "4143744766",
+      "census_official_url": "https://www.theironhorsehotel.com/",
+      "brand": "INDEP:www.theironhorsehotel.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.theironhorsehotel.com/dogs/",
+      "discovered_policy_url": "https://www.theironhorsehotel.com/dogs/",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-iron-horse-hotel--dogs/rendered.html",
+      "page_canonical_url": "https://www.theironhorsehotel.com/dogs/",
+      "page_name": "Dogs | The Iron Horse Hotel",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [
+        "4143744766"
+      ],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "FAIL",
+      "binding_method": "",
+      "matched": [
+        "name"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "the page declares no telephone number of its own",
+        "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "old_gate_on_this_artifact": "FAIL",
+      "old_gate_reasons": [],
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the retained capture is a static fetch and publishes no signal that binds it; a rendered capture may carry structured identity the file does not",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    },
+    {
+      "identity_key": "the marc hotel",
+      "census_name": "The Marc Hotel",
+      "census_address": "640 N 6th Street",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53203",
+      "census_phone": "4143901800",
+      "census_official_url": "https://www.marchotelmilwaukee.com/",
+      "brand": "INDEP:www.marchotelmilwaukee.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "discovered_policy_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-marc-hotel--amenities/rendered.html",
+      "page_canonical_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "page_name": "The Marc Hotel",
+      "page_street": "640 N. 6th Street",
+      "page_postal_code": "53203",
+      "page_structured_phone": "+1-414-390-1800",
+      "page_printed_phones": [
+        "4143901800"
+      ],
+      "page_structured_identity": true,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "PASS",
+      "binding_method": "EXACT_ADDRESS_AND_NAME",
+      "matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "old_gate_on_this_artifact": "PASS",
+      "old_gate_reasons": [
+        "confirmed on name, postal_code"
+      ],
+      "disposition": "IDENTITY_CONFIRMED_OFFLINE",
+      "disposition_why": "the retained capture of the page we fetched binds to this census row on EXACT_ADDRESS_AND_NAME",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "PASS",
+      "final_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": true
+    },
+    {
+      "identity_key": "the plaza hotel milwaukee",
+      "census_name": "The Plaza Hotel Milwaukee",
+      "census_address": "1007 N. Cass Street",
+      "census_city": "Milwaukee",
+      "census_state": "WI",
+      "census_postal_code": "53202",
+      "census_phone": "4142762101",
+      "census_official_url": "https://plazahotelmilwaukee.com/contact/",
+      "brand": "INDEP:plazahotelmilwaukee.com",
+      "source_run": "milwaukee-final-026",
+      "selected_source_url": "https://plazahotelmilwaukee.com/amenities/",
+      "discovered_policy_url": "https://plazahotelmilwaukee.com/amenities/",
+      "overlay_status": "POLICY_URL_FOUND",
+      "fetched_document_url": "",
+      "page_title": "",
+      "old_failure": "IDENTITY_MISMATCH",
+      "old_failure_class": "IDENTITY",
+      "old_final_state": "IDENTITY_REVIEW",
+      "evidence_class": "PAGE_FETCHED_IDENTITY_REJECTED",
+      "artifact": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-plaza-hotel-milwaukee--amenities/rendered.html",
+      "page_canonical_url": "https://plazahotelmilwaukee.com/amenities/",
+      "page_name": "Milwaukee Hotel Amenities | Pet Friendly, Spa, Kitchenettes &amp; Parking",
+      "page_street": "",
+      "page_postal_code": "",
+      "page_structured_phone": "",
+      "page_printed_phones": [
+        "4144602672"
+      ],
+      "page_structured_identity": false,
+      "same_registrable_domain": true,
+      "old_gate_reason": "the code-less rule needed the page's canonical PATH to equal the requested path and the census street, ZIP and telephone were never passed to the gate",
+      "previous_verdict": "FAIL",
+      "previous_reason": "IDENTITY_MISMATCH",
+      "new_verdict": "FAIL",
+      "binding_method": "",
+      "matched": [
+        "name_partial"
+      ],
+      "conflicting": [],
+      "reasons": [
+        "the page declares no telephone number of its own",
+        "the names agree only on hotel, milwaukee, which this market's hotels share",
+        "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "old_gate_on_this_artifact": "FAIL",
+      "old_gate_reasons": [],
+      "disposition": "REACQUISITION_REQUIRED",
+      "disposition_why": "the retained capture is a static fetch and publishes no signal that binds it; a rendered capture may carry structured identity the file does not",
+      "policy_block_on_disk": false,
+      "policy_requires_capture": true,
+      "provider_call_made": true,
+      "final_identity_verdict": "FAIL",
+      "final_binding_method": "",
+      "policy_result": "NO_USABLE_POLICY",
+      "publication_grade": false
+    }
+  ],
+  "acquisition_rows": [
+    {
+      "identity_key": "brewhouse inn and suites",
+      "canonical_name": "Brewhouse Inn & Suites",
+      "brand": "INDEP:www.brewhousesuites.com",
+      "source_url": "https://www.brewhousesuites.com/",
+      "census_url": "https://www.brewhousesuites.com/",
+      "source_origin": "CENSUS_OFFICIAL_URL",
+      "overlay_status": "",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:12:36.551272+00:00",
+          "ended_at": "2026-08-21T02:13:30.854119+00:00",
+          "elapsed_seconds": 54.303,
+          "final_url": "https://brewhousesuites.com/",
+          "title": "Brewhouse Inn & Suites | Historic Downtown Milwaukee Hotel",
+          "body_chars": 3005,
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 13514202,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "no pet-policy signal phrase within 45000 ms; continued to disclosure and the health gate"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 54.458,
+      "estimated_bytes": 13514202,
+      "completed_at": "2026-08-21T02:13:30+00:00",
+      "identity_verdict": "FAIL"
+    },
+    {
+      "identity_key": "county clare irish inn and pub",
+      "canonical_name": "County Clare Irish Inn & Pub",
+      "brand": "INDEP:www.countyclare-inn.com",
+      "source_url": "https://www.countyclare-inn.com/",
+      "census_url": "https://www.countyclare-inn.com/",
+      "source_origin": "CENSUS_OFFICIAL_URL",
+      "overlay_status": "",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:13:30.927053+00:00",
+          "ended_at": "2026-08-21T02:14:30.498744+00:00",
+          "elapsed_seconds": 59.572,
+          "final_url": "https://countyclare-inn.com/",
+          "title": "Irish Pub Near Lake Michigan | CCII&P|M",
+          "body_chars": 2652,
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 2655665,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "no pet-policy signal phrase within 45000 ms; continued to disclosure and the health gate"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 59.631,
+      "estimated_bytes": 2655665,
+      "completed_at": "2026-08-21T02:14:30+00:00",
+      "identity_verdict": "FAIL"
+    },
+    {
+      "identity_key": "knickerbocker on the lake",
+      "canonical_name": "Knickerbocker on the Lake",
+      "brand": "INDEP:www.knickerbockeronthelake.com",
+      "source_url": "https://www.knickerbockeronthelake.com/faq",
+      "census_url": "https://www.knickerbockeronthelake.com/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:14:30.560491+00:00",
+          "ended_at": "2026-08-21T02:15:29.685748+00:00",
+          "elapsed_seconds": 59.125,
+          "final_url": "https://www.knickerbockeronthelake.com/faq",
+          "title": "Frequently asked questions | Knickerbocker on the Lake",
+          "body_chars": 1530,
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 2093667,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "no pet-policy signal phrase within 45000 ms; continued to disclosure and the health gate",
+            "expanded button: What is your cancellation policy?",
+            "expanded button: Do you allow pets?"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 59.19,
+      "estimated_bytes": 2093667,
+      "completed_at": "2026-08-21T02:15:29+00:00",
+      "identity_verdict": "FAIL"
+    },
+    {
+      "identity_key": "potawatomi casino hotel",
+      "canonical_name": "Potawatomi Casino Hotel",
+      "brand": "INDEP:www.potawatomi.com",
+      "source_url": "https://www.potawatomi.com/hotel",
+      "census_url": "https://www.potawatomi.com/hotel",
+      "source_origin": "CENSUS_OFFICIAL_URL",
+      "overlay_status": "NO_POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_web_unlocker",
+      "providers_tried": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempts": 4,
+      "final_state": "POLICY_NOT_FOUND",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_confirmed": true,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "NAVIGATION_FAILED",
+          "failure": "NAVIGATION_FAILED",
+          "started_at": "2026-08-21T02:15:29.752413+00:00",
+          "ended_at": "2026-08-21T02:15:40.376947+00:00",
+          "elapsed_seconds": 10.625,
+          "final_url": "",
+          "title": "",
+          "body_chars": 0,
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details review the following: https://docs.brightdata.com/proxy-networks/residential/network-access#residential-proxy-network-policy (proxy_error). Learn more: https://docs.brightdata.com/scraping-automation/scraping-browser/error-codes#proxy_error-messages\nCall log:\n  - navigating to \"https://www.potawatomi.com/hotel\", waiting until \"domcontentloaded\"\n",
+          "estimated_bytes": 0,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session"
+          ]
+        },
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 2,
+          "outcome": "NAVIGATION_FAILED",
+          "failure": "NAVIGATION_FAILED",
+          "started_at": "2026-08-21T02:15:44.452218+00:00",
+          "ended_at": "2026-08-21T02:15:48.614421+00:00",
+          "elapsed_seconds": 4.162,
+          "final_url": "",
+          "title": "",
+          "body_chars": 0,
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details review the following: https://docs.brightdata.com/proxy-networks/residential/network-access#residential-proxy-network-policy (proxy_error). Learn more: https://docs.brightdata.com/scraping-automation/scraping-browser/error-codes#proxy_error-messages\nCall log:\n  - navigating to \"https://www.potawatomi.com/hotel\", waiting until \"domcontentloaded\"\n",
+          "estimated_bytes": 0,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session"
+          ]
+        },
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 3,
+          "outcome": "NAVIGATION_FAILED",
+          "failure": "NAVIGATION_FAILED",
+          "started_at": "2026-08-21T02:15:52.684718+00:00",
+          "ended_at": "2026-08-21T02:15:55.354927+00:00",
+          "elapsed_seconds": 2.67,
+          "final_url": "",
+          "title": "",
+          "body_chars": 0,
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details review the following: https://docs.brightdata.com/proxy-networks/residential/network-access#residential-proxy-network-policy (proxy_error). Learn more: https://docs.brightdata.com/scraping-automation/scraping-browser/error-codes#proxy_error-messages\nCall log:\n  - navigating to \"https://www.potawatomi.com/hotel\", waiting until \"domcontentloaded\"\n",
+          "estimated_bytes": 0,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session"
+          ]
+        },
+        {
+          "provider": "brightdata_web_unlocker",
+          "provider_product": "Bright Data Web Unlocker",
+          "attempt": 1,
+          "outcome": "POLICY_NOT_FOUND",
+          "failure": "POLICY_NOT_FOUND",
+          "started_at": "2026-08-21T02:15:55.426531+00:00",
+          "ended_at": "2026-08-21T02:15:58.098761+00:00",
+          "elapsed_seconds": 2.672,
+          "final_url": "https://www.potawatomi.com/hotel",
+          "title": "Milwaukee Hotel with 500+ Spacious Rooms | Potawatomi Casino Hotel",
+          "body_chars": 7457,
+          "detail": "no bounded policy block in a page that rendered; 0 signal candidates considered",
+          "estimated_bytes": 0,
+          "interactions": [
+            "fetched via Bright Data Web Unlocker zone 'mcp_unlocker' (US)"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "POLICY_NOT_FOUND",
+      "failure_class": "POLICY",
+      "elapsed_seconds": 28.348,
+      "estimated_bytes": 0,
+      "completed_at": "2026-08-21T02:15:58+00:00",
+      "identity_verdict": "PASS"
+    },
+    {
+      "identity_key": "saint kate the arts hotel",
+      "canonical_name": "Saint Kate - The Arts Hotel",
+      "brand": "INDEP:www.saintkatearts.com",
+      "source_url": "https://www.saintkatearts.com/faq",
+      "census_url": "https://www.saintkatearts.com/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "ACQUIRED_PUBLICATION_GRADE",
+      "acquisition_status": "ACQUIRED",
+      "identity_verdict": "PASS",
+      "identity_confirmed": true,
+      "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "identity_matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "identity_signals": {
+        "name_on_page": "Saint Kate - The Arts Hotel",
+        "address_on_page": "139 E Kilbourn Ave",
+        "postal_code": "53202",
+        "phone_on_page": "(414) 276-8686",
+        "property_code_on_page": "",
+        "canonical_url": "https://www.saintkatearts.com/",
+        "pets_allowed_structured": "",
+        "jsonld_present": true,
+        "phones_on_page": []
+      },
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "VALID",
+          "failure": "",
+          "started_at": "2026-08-21T02:16:47.478804+00:00",
+          "ended_at": "2026-08-21T02:17:20.515888+00:00",
+          "elapsed_seconds": 33.037,
+          "final_url": "https://www.saintkatearts.com/faq",
+          "title": "FAQ's | Saint Kate - The Arts Hotel in Milwaukee",
+          "body_chars": 6992,
+          "detail": "",
+          "estimated_bytes": 2854804,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "a pet-policy signal phrase appeared in the rendered text",
+            "located the policy container via generic_signal_walk",
+            "captured full-page screenshot",
+            "scrolled the policy container into view",
+            "centred the policy container in the viewport",
+            "policy container settled at a stable position"
+          ]
+        }
+      ],
+      "policy_locator": "generic_signal_walk",
+      "policy_block": "Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – please contact the hotel before booking your stay to discuss your options. At Saint Kate, we offer dog treats, dog bowls, and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-party dog walking or potty service if needed. Some things to remember when traveling with your dog to our pet-friendly hotel – Saint Kate requires that dogs be on-leash at all times when traveling through public spaces. Please be courteous and clean up your dog's waste accordingly. Pets should not be left unattended in your room for long periods of time. When a pet is left unattended in your room, please hang the \"Pet Inside\" door hanger on your exterior door handle. Pets are not allowed in the Milwaukee Center Galleria and should always use the front entrance of the hotel. Please contact Guest Services for more information on bringing your furry companion to stay at Saint Kate.",
+      "policy_block_chars": 1103,
+      "reader": "generic",
+      "reader_fields": [
+        "fee_basis",
+        "fee_currency",
+        "pet_fee"
+      ],
+      "reader_withheld": [
+        "pets_allowed"
+      ],
+      "states_a_refusal": true,
+      "publication_grade": true,
+      "usable_policy": "USABLE_POLICY_SUCCESS",
+      "usable_policy_detail": {
+        "verdict": "USABLE_POLICY_SUCCESS",
+        "reason": "property-bound policy located and read",
+        "checks": {
+          "identity_bound_to_this_property": true,
+          "policy_block_present": true,
+          "block_is_not_a_shell": true,
+          "not_service_animal_only": true,
+          "states_terms_or_a_refusal": true,
+          "reader_represented_or_withheld": true,
+          "not_a_bare_allowed_flag": true
+        },
+        "states_a_refusal": true,
+        "substantive_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_fee"
+        ],
+        "withheld_fields": [
+          "pets_allowed"
+        ],
+        "block_chars": 1103,
+        "block_text": "Yes, Saint Kate is a pet-friendly hotel, with a maximum of two pets allowed. Well-behaved dogs are always welcome. Other pets may be allowed with prior approval – please contact the hotel before booking your stay to discuss your options. At Saint Kate, we offer dog treats, dog bowls, and beds based on availability. There is a pet cleaning fee of $100 per stay. Our friendly staff can assist with arranging a third-party dog walking or potty service if needed. Some things to remember when traveling with your dog to our pet-friendly hotel – Saint Kate requires that dogs be on-leash at all times when traveling through public spaces. Please be courteous and clean up your dog's waste accordingly. Pets should not be left unattended in your room for long periods of time. When a pet is left unattended in your room, please hang the \"Pet Inside\" door hanger on your exterior door handle. Pets are not allowed in the Milwaukee Center Galleria and should always use the front entrance of the hotel. Please contact Guest Services for more information on bringing your furry companion to stay at Saint Kate.",
+        "policy_locator": "generic_signal_walk",
+        "property_code_on_page": "",
+        "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-identity-027\\milwaukee-identity-027\\saint-kate-the-arts-hotel\\attempt-01\\rendered.html",
+        "brand_locator_used": false,
+        "reader_read_it_as_a_refusal": false
+      },
+      "canonical_artifacts": {
+        "present": true,
+        "attempt_dir": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/saint-kate-the-arts-hotel/attempt-01",
+        "policy_block": true,
+        "locator_json": true,
+        "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+        "block_sha256": "77266c986a88fedd91973ec1074ea5d33381a3a46a9df3163560a52651b988b9",
+        "canonical": true
+      },
+      "failure": "",
+      "failure_class": "",
+      "elapsed_seconds": 33.195,
+      "estimated_bytes": 2854804,
+      "completed_at": "2026-08-21T02:17:20+00:00"
+    },
+    {
+      "identity_key": "the clarke hotel",
+      "canonical_name": "The Clarke Hotel",
+      "brand": "INDEP:www.theclarkehotel.com",
+      "source_url": "https://www.theclarkehotel.com/",
+      "census_url": "https://www.theclarkehotel.com/",
+      "source_origin": "CENSUS_OFFICIAL_URL",
+      "overlay_status": "NO_POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_verdict": "FAIL",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:17:20.609243+00:00",
+          "ended_at": "2026-08-21T02:18:17.383000+00:00",
+          "elapsed_seconds": 56.774,
+          "final_url": "https://theclarkehotel.com/",
+          "title": "Home - The Clarke Hotel",
+          "body_chars": 2072,
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 3807117,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "no pet-policy signal phrase within 45000 ms; continued to disclosure and the health gate"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 56.848,
+      "estimated_bytes": 3807117,
+      "completed_at": "2026-08-21T02:18:17+00:00"
+    },
+    {
+      "identity_key": "the ingleside hotel",
+      "canonical_name": "The Ingleside Hotel",
+      "brand": "INDEP:www.theinglesidehotel.com",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "census_url": "https://www.theinglesidehotel.com/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "ACQUIRED_PUBLICATION_GRADE",
+      "acquisition_status": "ACQUIRED",
+      "identity_verdict": "PASS",
+      "identity_confirmed": true,
+      "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "identity_matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "identity_signals": {
+        "name_on_page": "The Ingleside Hotel",
+        "address_on_page": "2810 Golf Road",
+        "postal_code": "53072",
+        "phone_on_page": "(262) 547-0201",
+        "property_code_on_page": "",
+        "canonical_url": "https://www.theinglesidehotel.com",
+        "pets_allowed_structured": "",
+        "jsonld_present": true,
+        "phones_on_page": []
+      },
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "VALID",
+          "failure": "",
+          "started_at": "2026-08-21T02:18:17.459861+00:00",
+          "ended_at": "2026-08-21T02:18:47.400555+00:00",
+          "elapsed_seconds": 29.941,
+          "final_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+          "title": "Dog Friendly Hotel Waukesha - Near Milwaukee | Ingleside Hotel",
+          "body_chars": 4401,
+          "detail": "",
+          "estimated_bytes": 2427240,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "a pet-policy signal phrase appeared in the rendered text",
+            "located the policy container via generic_signal_walk",
+            "captured full-page screenshot",
+            "scrolled the policy container into view",
+            "centred the policy container in the viewport",
+            "policy container settled at a stable position"
+          ]
+        }
+      ],
+      "policy_locator": "generic_signal_walk",
+      "policy_block": "The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and based on availability. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of arrival. Fee includes one sWag Bag per dog. Guests are responsible for any damage or disruption pets may cause.",
+      "policy_block_chars": 408,
+      "reader": "generic",
+      "reader_fields": [
+        "fee_basis",
+        "fee_currency",
+        "pet_count_limit",
+        "pet_fee",
+        "species_allowed"
+      ],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": true,
+      "usable_policy": "USABLE_POLICY_SUCCESS",
+      "usable_policy_detail": {
+        "verdict": "USABLE_POLICY_SUCCESS",
+        "reason": "property-bound policy located and read",
+        "checks": {
+          "identity_bound_to_this_property": true,
+          "policy_block_present": true,
+          "block_is_not_a_shell": true,
+          "not_service_animal_only": true,
+          "states_terms_or_a_refusal": true,
+          "reader_represented_or_withheld": true,
+          "not_a_bare_allowed_flag": true
+        },
+        "states_a_refusal": false,
+        "substantive_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "species_allowed"
+        ],
+        "withheld_fields": [],
+        "block_chars": 408,
+        "block_text": "The Ingleside Hotel welcomes dogs only. No other pets are allowed on property. The number of pet rooms at the hotel are limited and based on availability. Pets must be registered during check-in at the front desk. A $40 pet fee per night, per dog (up to 2 dogs max) will be charged at the time of arrival. Fee includes one sWag Bag per dog. Guests are responsible for any damage or disruption pets may cause.",
+        "policy_locator": "generic_signal_walk",
+        "property_code_on_page": "",
+        "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-identity-027\\milwaukee-identity-027\\the-ingleside-hotel\\attempt-01\\rendered.html",
+        "brand_locator_used": false,
+        "reader_read_it_as_a_refusal": null
+      },
+      "canonical_artifacts": {
+        "present": true,
+        "attempt_dir": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-ingleside-hotel/attempt-01",
+        "policy_block": true,
+        "locator_json": true,
+        "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+        "block_sha256": "60b32327433825a601d5ae7d732e4c962ba8c165e2112a6d73ccbe77e90f7662",
+        "canonical": true
+      },
+      "failure": "",
+      "failure_class": "",
+      "elapsed_seconds": 30.01,
+      "estimated_bytes": 2427240,
+      "completed_at": "2026-08-21T02:18:47+00:00"
+    },
+    {
+      "identity_key": "the iron horse hotel",
+      "canonical_name": "The Iron Horse Hotel",
+      "brand": "INDEP:www.theironhorsehotel.com",
+      "source_url": "https://www.theironhorsehotel.com/dogs/",
+      "census_url": "https://www.theironhorsehotel.com/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_verdict": "FAIL",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:18:55.742111+00:00",
+          "ended_at": "2026-08-21T02:19:06.075336+00:00",
+          "elapsed_seconds": 10.333,
+          "final_url": "https://www.theironhorsehotel.com/dogs/",
+          "title": "Dogs | The Iron Horse Hotel",
+          "body_chars": 1532,
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 3550741,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "a pet-policy signal phrase appeared in the rendered text"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 10.492,
+      "estimated_bytes": 3550741,
+      "completed_at": "2026-08-21T02:19:06+00:00"
+    },
+    {
+      "identity_key": "the marc hotel",
+      "canonical_name": "The Marc Hotel",
+      "brand": "INDEP:www.marchotelmilwaukee.com",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "census_url": "https://www.marchotelmilwaukee.com/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "ACQUIRED_PUBLICATION_GRADE",
+      "acquisition_status": "ACQUIRED",
+      "identity_verdict": "PASS",
+      "identity_confirmed": true,
+      "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+      "identity_matched": [
+        "name",
+        "postal_code",
+        "street_identity",
+        "phone"
+      ],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+      ],
+      "identity_signals": {
+        "name_on_page": "The Marc Hotel",
+        "address_on_page": "640 N. 6th Street",
+        "postal_code": "53203",
+        "phone_on_page": "+1-414-390-1800",
+        "property_code_on_page": "",
+        "canonical_url": "https://www.marchotelmilwaukee.com/amenities/",
+        "pets_allowed_structured": "",
+        "jsonld_present": true,
+        "phones_on_page": []
+      },
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "VALID",
+          "failure": "",
+          "started_at": "2026-08-21T02:19:06.156200+00:00",
+          "ended_at": "2026-08-21T02:19:25.851081+00:00",
+          "elapsed_seconds": 19.695,
+          "final_url": "https://www.marchotelmilwaukee.com/amenities/",
+          "title": "Amenities & Services | The Marc Hotel",
+          "body_chars": 2010,
+          "detail": "",
+          "estimated_bytes": 1356671,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "a pet-policy signal phrase appeared in the rendered text",
+            "located the policy container via generic_signal_walk",
+            "captured full-page screenshot",
+            "scrolled the policy container into view",
+            "centred the policy container in the viewport",
+            "policy container settled at a stable position"
+          ]
+        }
+      ],
+      "policy_locator": "generic_signal_walk",
+      "policy_block": "Service Animals Welcome",
+      "policy_block_chars": 23,
+      "reader": "generic",
+      "reader_fields": [
+        "service_animal_exception"
+      ],
+      "reader_withheld": [
+        "pets_allowed"
+      ],
+      "states_a_refusal": false,
+      "publication_grade": true,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "failed: block_is_not_a_shell, not_service_animal_only",
+        "checks": {
+          "identity_bound_to_this_property": true,
+          "policy_block_present": true,
+          "block_is_not_a_shell": false,
+          "not_service_animal_only": false,
+          "states_terms_or_a_refusal": true,
+          "reader_represented_or_withheld": true,
+          "not_a_bare_allowed_flag": true
+        },
+        "states_a_refusal": false,
+        "substantive_fields": [
+          "service_animal_exception"
+        ],
+        "withheld_fields": [
+          "pets_allowed"
+        ],
+        "block_chars": 23,
+        "block_text": "Service Animals Welcome",
+        "policy_locator": "generic_signal_walk",
+        "property_code_on_page": "",
+        "rendered_html_path": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition\\milwaukee-identity-027\\milwaukee-identity-027\\the-marc-hotel\\attempt-01\\rendered.html",
+        "brand_locator_used": false,
+        "reader_read_it_as_a_refusal": false
+      },
+      "canonical_artifacts": {
+        "present": true,
+        "attempt_dir": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-marc-hotel/attempt-01",
+        "policy_block": true,
+        "locator_json": true,
+        "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+        "block_sha256": "1057d782779ed936d8f523bca044a07cdc405b7374d212439e83176952698920",
+        "canonical": true
+      },
+      "failure": "",
+      "failure_class": "",
+      "elapsed_seconds": 19.765,
+      "estimated_bytes": 1356671,
+      "completed_at": "2026-08-21T02:19:25+00:00"
+    },
+    {
+      "identity_key": "the plaza hotel milwaukee",
+      "canonical_name": "The Plaza Hotel Milwaukee",
+      "brand": "INDEP:plazahotelmilwaukee.com",
+      "source_url": "https://plazahotelmilwaukee.com/amenities/",
+      "census_url": "https://plazahotelmilwaukee.com/contact/",
+      "source_origin": "DISCOVERED_POLICY_URL",
+      "overlay_status": "POLICY_URL_FOUND",
+      "provider_primary": "brightdata_browser",
+      "provider_used": "brightdata_browser",
+      "providers_tried": [
+        "brightdata_browser"
+      ],
+      "attempts": 1,
+      "final_state": "IDENTITY_REVIEW",
+      "acquisition_status": "NOT_ACQUIRED",
+      "identity_verdict": "FAIL",
+      "identity_confirmed": false,
+      "identity_binding_method": "",
+      "identity_matched": [],
+      "identity_conflicting": [],
+      "identity_reasons": [
+        "the page declares no telephone number of its own; the names agree only on hotel, milwaukee, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+      ],
+      "identity_signals": {},
+      "attempt_records": [
+        {
+          "provider": "brightdata_browser",
+          "provider_product": "Bright Data Browser API",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "failure": "IDENTITY_MISMATCH",
+          "started_at": "2026-08-21T02:19:25.924905+00:00",
+          "ended_at": "2026-08-21T02:19:37.963260+00:00",
+          "elapsed_seconds": 12.038,
+          "final_url": "https://plazahotelmilwaukee.com/amenities/",
+          "title": "Milwaukee Hotel Amenities | Pet Friendly, Spa, Kitchenettes & Parking",
+          "body_chars": 1992,
+          "detail": "the page declares no telephone number of its own; the names agree only on hotel, milwaukee, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+          "estimated_bytes": 3749377,
+          "interactions": [
+            "opened a fresh US-pinned Bright Data session",
+            "navigated to the requested property URL",
+            "a pet-policy signal phrase appeared in the rendered text"
+          ]
+        }
+      ],
+      "policy_locator": "",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "reader": "generic",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "states_a_refusal": false,
+      "publication_grade": false,
+      "usable_policy": "NO_USABLE_POLICY",
+      "usable_policy_detail": {
+        "verdict": "NO_USABLE_POLICY",
+        "reason": "no document was acquired",
+        "checks": {
+          "identity_bound_to_this_property": false
+        }
+      },
+      "canonical_artifacts": {
+        "present": false
+      },
+      "failure": "IDENTITY_MISMATCH",
+      "failure_class": "IDENTITY",
+      "elapsed_seconds": 12.113,
+      "estimated_bytes": 3749377,
+      "completed_at": "2026-08-21T02:19:38+00:00"
+    }
+  ],
+  "cost": {
+    "before": {
+      "label": "before",
+      "read_at": "2026-08-21T02:01:40+00:00",
+      "brightdata_zone_cost_month_usd_minor": {
+        "scraping_browser1": 4197,
+        "mcp_unlocker": 6,
+        "cli_unlocker": 1
+      },
+      "firecrawl_credits_remaining": 884
+    },
+    "after": {
+      "label": "after",
+      "read_at": "2026-08-21T02:23:22+00:00",
+      "brightdata_zone_cost_month_usd_minor": {
+        "scraping_browser1": 5076,
+        "mcp_unlocker": 7,
+        "cli_unlocker": 1
+      },
+      "firecrawl_credits_remaining": 884
+    },
+    "delta": {
+      "brightdata_usd_minor_by_zone": {
+        "scraping_browser1": 879,
+        "mcp_unlocker": 1,
+        "cli_unlocker": 0
+      },
+      "brightdata_usd_minor_total": 880,
+      "brightdata_measurement_status": "MEASURED",
+      "firecrawl_credits_consumed": 0,
+      "note": "Bright Data bills dollars and Firecrawl plan credits; the two are never summed. The zone meter settles behind the traffic that moved it, so a zero over a short window is unsettled rather than free."
+    }
+  }
+}

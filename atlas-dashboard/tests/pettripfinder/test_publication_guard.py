@@ -400,7 +400,12 @@ class TestSameCampusDistinctEntities:
 
         assert RESOLUTIONS_PATH.exists()
         tracked = load_resolutions()
-        assert [r["resolution_id"] for r in tracked] == ["res-brewdog-gender-rd"]
+        # The file is global and other markets add to it (038 added Milwaukee's
+        # 515 N Jefferson St pair). What this test is actually about survives
+        # that: BrewDog's resolution is tracked, and it is the one that admits
+        # this hotel -- proven below by removing it and watching the same seed
+        # be refused.
+        assert "res-brewdog-gender-rd" in {r["resolution_id"] for r in tracked}
         assert publication_blocks(hotel, published=seed, exclusions=[],
                                   resolutions=tracked) == []
         # Without it, the very same seed is refused.

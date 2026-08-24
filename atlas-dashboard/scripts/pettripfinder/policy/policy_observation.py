@@ -47,7 +47,26 @@ from scripts.pettripfinder.discovery.membrane import normalize_field_name  # noq
 from scripts.pettripfinder.identity_evidence import POLICY_FIELD_NAMES     # noqa: E402
 
 SCHEMA = "ptf-policy-observation/1.0"
-CONTRACT_VERSION = "1.0.0"
+#: The version a NEW observation is emitted at.
+#:
+#: 1.1.0 -- PTF-ST-LOUIS-FOUNDER-REMEDIATION-004 admits the two structured
+#: pricing flags the reader has been emitting since PTF-READER-TO-TIERS-034
+#: (see FLAG_CODES). Additive: 1.1.0 accepts everything 1.0.0 accepted.
+#: 1.2.0 -- PTF-ST-LOUIS-FOUNDER-DECISIONS-006 admits two OPTIONAL fields that
+#: carry a HUMAN's ruling on a record: ``founder_overrides`` (a founder read an
+#: allowance the reader withheld) and ``identity_adjudication`` (a founder bound
+#: a page to a property the name gate refused). Both are optional and additive,
+#: so 1.2.0 accepts everything 1.1.0 and 1.0.0 accepted. Neither may be written
+#: by a reader: they exist so that when a person overrules a gate, the record
+#: says who and on what evidence, instead of the override being invisible.
+CONTRACT_VERSION = "1.2.0"
+
+#: Versions a record may CARRY and still validate. An amendment that only adds
+#: to a closed vocabulary cannot invalidate a record written before it, and four
+#: markets' committed observation stores carry 1.0.0. Bumping the emission
+#: version without widening acceptance would have failed every one of them --
+#: which is how a "versioned" change quietly becomes a breaking one.
+ACCEPTED_CONTRACT_VERSIONS = ("1.0.0", "1.1.0", "1.2.0")
 
 # --------------------------------------------------------------------------- #
 # Authority tiers.
@@ -115,12 +134,23 @@ EXTRACTION_CONFIDENCES = ("EXACT_QUOTE", "PARAPHRASE", "INFERRED")
 
 #: Closed flag vocabulary. A producer needing a new code is proposing a
 #: contract change, not picking a string.
+#:
+#: AMENDED AT 1.1.0 by PTF-ST-LOUIS-FOUNDER-REMEDIATION-004. The last two codes
+#: were being emitted by ``policy_reading`` from PTF-READER-TO-TIERS-034 onward
+#: and had never been registered here, so the membrane refused every observation
+#: carrying one as MALFORMED. That is the contract working exactly as its own
+#: docstring promises -- and it meant the four St. Louis properties with the
+#: market's most complex pricing (tiered by stay length, priced per animal)
+#: could never reach a founder. Registering them is the amendment that sentence
+#: asks for; it is deliberately NOT a widening of what a flag may do.
 FLAG_CODES = frozenset({
     "FLAG_SERVICE_ANIMAL_ONLY", "FLAG_MARKETING_ONLY", "FLAG_STALE_ARCHIVE",
     "FLAG_BRAND_GENERIC", "FLAG_CONTRADICTS_OFFICIAL", "FLAG_SPECIES_NARROWED",
     "FLAG_AMBIGUOUS_BASIS", "FLAG_AMBIGUOUS_SCOPE", "FLAG_MULTI_POLICY_BLOCKS",
     "FLAG_PDF_UNDATED", "FLAG_OCR_GRADE", "FLAG_UNSUPPORTED_SPECIES_WORDING",
     "W_ENCODING_REPAIRED", "W_FIELD_TRUNCATED", "W_AMBIGUOUS_ROW",
+    # 1.1.0 -- structured pricing the flat fee fields cannot represent.
+    "FLAG_STRUCTURED_TIERS", "FLAG_STRUCTURED_PET_SCHEDULE",
 })
 
 #: The candidate policy fields an observation may carry. Aligned with the
@@ -166,7 +196,9 @@ REQUIRED_FIELDS = ("obs_id", "contract_version", "hotel_ref", "identity_check",
                    "retrieved_at", "capture_method", "evidence", "extraction",
                    "extraction_confidence", "flags")
 OPTIONAL_FIELDS = ("snapshot_hash", "raw_pointer", "source_freshness",
-                   "parser_warnings", "capture_artifacts")
+                   "parser_warnings", "capture_artifacts",
+                   # 1.2.0 -- a human's ruling on this record, never a reader's.
+                   "founder_overrides", "identity_adjudication")
 ALLOWED_FIELDS = frozenset(REQUIRED_FIELDS) | frozenset(OPTIONAL_FIELDS)
 
 HOTEL_REF_REQUIRED = ("market_id", "canonical_name", "normalized_name")
@@ -256,10 +288,11 @@ def validate_observation(record: Mapping) -> Dict:
 
     _require_nonempty_str(record, "obs_id", where=where)
     _require_nonempty_str(record, "source_url", where=where)
-    if record.get("contract_version") != CONTRACT_VERSION:
+    if record.get("contract_version") not in ACCEPTED_CONTRACT_VERSIONS:
         raise PolicyObservationError(
             "%s: contract_version must be %r, got %r"
-            % (where, CONTRACT_VERSION, record.get("contract_version")))
+            % (where, list(ACCEPTED_CONTRACT_VERSIONS),
+               record.get("contract_version")))
     if record.get("source_type") not in SOURCE_TYPE_MAX_TIER:
         raise PolicyObservationError(
             "%s: source_type %r is not in the closed taxonomy %s"
@@ -418,7 +451,8 @@ def assert_not_identity_evidence(record: Mapping) -> None:
 
 
 __all__ = [
-    "SCHEMA", "CONTRACT_VERSION", "PolicyObservationError",
+    "SCHEMA", "CONTRACT_VERSION", "ACCEPTED_CONTRACT_VERSIONS",
+    "PolicyObservationError",
     "PT1_OFFICIAL_PROPERTY", "PT2_BRAND_GENERIC", "PT3_OPERATOR_ATTESTED",
     "PT4_NON_AUTHORITATIVE", "AUTHORITY_TIERS", "ESTABLISHING_TIERS",
     "SOURCE_TYPE_MAX_TIER", "SOURCE_TYPES", "CAPTURE_METHODS",

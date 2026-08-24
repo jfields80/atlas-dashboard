@@ -1,0 +1,70 @@
+{
+ "schema": "ptf-milwaukee-counts/1.0",
+ "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-20T17:44:10+00:00",
+ "definitions": {
+  "queue_total": "every row in the committed acquisition queue",
+  "brand_excluded": "rows whose brand is excluded on cost (HYATT, BEST_WESTERN)",
+  "routable_total": "queue_total minus brand_excluded; the denominator for every figure below",
+  "touched": "an acquisition attempt was made and journalled, whatever its outcome",
+  "publication_grade": "the attempt produced evidence satisfying PUBLICATION_GRADE_REQUIRED",
+  "observed": "a current-state observation row exists in milwaukee-wi_policy_proposals_001.json",
+  "unresolved": "touched but not publication grade",
+  "remaining": "routable and never touched",
+  "published": "live on the site"
+ },
+ "queue_total": 133,
+ "brand_excluded": 6,
+ "routable_total": 127,
+ "touched": 84,
+ "touched_by_run": {
+  "milwaukee-router-001": 67,
+  "marriott-milwaukee-020": 17,
+  "overlap": 0
+ },
+ "publication_grade": 75,
+ "publication_grade_by_run": {
+  "milwaukee-router-001": 58,
+  "marriott-milwaukee-020": 17
+ },
+ "observed_current_state": 58,
+ "observed_note": "the store projects the milwaukee-router-001 journal only, so the 17 properties acquired by marriott-milwaukee-020 have no row in it. That is the gap 022 reports and does not close: widening the store's input would add 17 rows, 14 of them unexamined by this work order",
+ "unresolved_acquisition": 9,
+ "unresolved_states": {
+  "IDENTITY_REVIEW": 2,
+  "PROVIDER_EXHAUSTED": 2,
+  "TECHNICAL_FALLBACK_REQUIRED": 4,
+  "POLICY_NOT_FOUND": 1
+ },
+ "remaining_production_queue": 43,
+ "remaining_by_brand": {
+  "HILTON": 11,
+  "WYNDHAM": 7,
+  "IHG": 5,
+  "MOTEL6": 4,
+  "CHOICE": 4,
+  "INDEP:www.knickerbockeronthelake.com": 1,
+  "INDEP:www.potawatomi.com": 1,
+  "RED_ROOF": 1,
+  "INDEP:www.saintkatearts.com": 1,
+  "INDEP:www.theclarkehotel.com": 1,
+  "INDEP:www.theinglesidehotel.com": 1,
+  "INDEP:www.theironhorsehotel.com": 1,
+  "INDEP:www.marchotelmilwaukee.com": 1,
+  "INDEP:www.thepfisterhotel.com": 1,
+  "INDEP:plazahotelmilwaukee.com": 1,
+  "INDEP:thewildwoodlodge.com": 1,
+  "INDEP:www.woodspring.com": 1
+ },
+ "published_policy_count": 0,
+ "founder_approved_count": 0,
+ "milwaukee_policy_authority_files": 0,
+ "reconciliation": {
+  "the_two_figures": "83 completed / 44 remaining versus 84 acquired / 43 remaining",
+  "derivable_today": "84 touched / 43 remaining, from 67 router rows plus 17 from marriott-milwaukee-020 with zero overlap against a routable total of 127",
+  "where_83_comes_from": "no committed artifact in this repository carries 83 or 44, so the pair cannot be sourced from data. The 020 run journals one row per property as it completes, so any count taken while it was in flight -- at 16 of 17 -- yields exactly 83 touched and 44 remaining. That is the only mechanically consistent explanation available, and it is offered as such rather than asserted.",
+  "the_larger_point": "the two figures differ by one, but the counters differ by far more: touched is 84, publication-grade is 75, observed is 58 and published is 0. Reporting any of those as 'completed' makes the market look further along than it is.",
+  "nothing_was_altered": true
+ }
+}

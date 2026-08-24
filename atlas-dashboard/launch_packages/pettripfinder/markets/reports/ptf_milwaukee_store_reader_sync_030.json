@@ -1,0 +1,343 @@
+{
+  "schema": "ptf-milwaukee-store-reader-sync/1.0",
+  "work_order": "PTF-MILWAUKEE-STORE-READER-SYNC-030",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T11:46:40+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T11:46:41+00:00",
+    "store_rows": 114,
+    "published": 0,
+    "authority_written": false,
+    "authority_files": 0,
+    "observations_selected": 114,
+    "selection_conflicts": 0,
+    "supersessions": [
+      "residence inn by marriott milwaukee brookfield at poplar creek",
+      "sheraton milwaukee brookfield hotel",
+      "the trade autograph collection"
+    ],
+    "reader_commit": "a80b2b4f761ee08b1866ce566d2601e584693f7b",
+    "blocks_on_disk": 114,
+    "assertions": {
+      "store_is_114": true,
+      "every_selection_has_a_block": true,
+      "no_selection_conflicts": true,
+      "nothing_published": true,
+      "authority_absent": true
+    }
+  },
+  "contract": {
+    "historical_run_truth": "what the acquisition run observed with the reader that existed at the time; lives in the journal, the run reports and the capture metadata, and is immutable",
+    "current_state_reading": "what the CURRENT reader derives from the exact persisted block the observation was based on; lives in the observation store and may change when the reader improves",
+    "lineage_rule": "a row whose current reading differs from its historical one carries both, so the store never claims its derived reading is what the run originally produced",
+    "not_re_located": "no page fetched, no source selection re-run, no boundary recomputed, no capture substituted, no facts merged"
+  },
+  "replay": {
+    "rows_compared": 114,
+    "rows_equal": 113,
+    "rows_stale": 1,
+    "rows_blocked": 0,
+    "selection_conflicts": 0,
+    "stale_identities": [
+      "residence inn by marriott milwaukee brookfield at poplar creek"
+    ],
+    "blocked": []
+  },
+  "stale_rows": [
+    {
+      "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+      "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+      "brand": "MARRIOTT",
+      "source_run": "marriott-milwaukee-020",
+      "superseded": true,
+      "evidence_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+      "evidence_block_sha256": "62e2bdf35cb7c55456d2c0a1ab3016f6488dcd00a8ac87f0a0ecce55e15a17c8",
+      "historical_reading": {
+        "extraction": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        }
+      },
+      "store_facts": {
+        "pets_allowed": true,
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room"
+      },
+      "store_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "current_facts": {
+        "pets_allowed": true
+      },
+      "current_withheld": {
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "store_review_status": "HELD_SCHEMA_CANNOT_REPRESENT"
+    }
+  ],
+  "safety_review": {
+    "changed_rows": 1,
+    "by_class": {
+      "FIELD_REMOVED": 1
+    },
+    "needing_review": [
+      {
+        "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+        "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+        "brand": "MARRIOTT",
+        "source_run": "marriott-milwaukee-020",
+        "added_fields": [],
+        "removed_fields": [
+          "pet_count_limit",
+          "pet_count_scope",
+          "weight_limit"
+        ],
+        "altered_fields": [],
+        "withheld_added": [],
+        "withheld_lifted": [],
+        "withheld_changed": [],
+        "classes": [
+          "FIELD_REMOVED"
+        ],
+        "needs_review": true
+      }
+    ],
+    "rows": [
+      {
+        "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+        "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+        "brand": "MARRIOTT",
+        "source_run": "marriott-milwaukee-020",
+        "added_fields": [],
+        "removed_fields": [
+          "pet_count_limit",
+          "pet_count_scope",
+          "weight_limit"
+        ],
+        "altered_fields": [],
+        "withheld_added": [],
+        "withheld_lifted": [],
+        "withheld_changed": [],
+        "classes": [
+          "FIELD_REMOVED"
+        ],
+        "needs_review": true
+      }
+    ]
+  },
+  "differential": {
+    "rows_before": 114,
+    "rows_after": 114,
+    "added": [],
+    "removed": [],
+    "changed_facts": [],
+    "unchanged": 114,
+    "duplicates": [],
+    "conflicts": [],
+    "review_status_before": {
+      "FOUNDER_REVIEW_READY": 53,
+      "HELD_INSUFFICIENT_EVIDENCE": 8,
+      "REFUSAL_FOUNDER_REVIEW": 26,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 27
+    },
+    "review_status_after": {
+      "FOUNDER_REVIEW_READY": 53,
+      "HELD_INSUFFICIENT_EVIDENCE": 8,
+      "REFUSAL_FOUNDER_REVIEW": 26,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 27
+    },
+    "projection": {
+      "observations_read": 114,
+      "readings_that_changed": [
+        "avid hotels milwaukee west waukesha",
+        "candlewood suites milwaukee airport oak creek",
+        "candlewood suites milwaukee brown deer",
+        "cobblestone hotel and suites waukesha west milwaukee",
+        "comfort suites milwaukee airport",
+        "comfort suites milwaukee west",
+        "courtyard by marriott milwaukee brookfield at poplar creek",
+        "courtyard by marriott milwaukee downtown",
+        "crowne plaza milwaukee airport",
+        "embassy suites by hilton milwaukee brookfield",
+        "extended stay america milwaukee waukesha",
+        "extended stay america milwaukee wauwatosa",
+        "hampton inn and suites milwaukee downtown",
+        "hampton inn and suites milwaukee franklin",
+        "hampton inn glendale milwaukee",
+        "hampton inn milwaukee airport",
+        "hampton inn milwaukee brookfield",
+        "hampton inn milwaukee northwest",
+        "hilton garden inn milwaukee airport",
+        "hilton garden inn milwaukee brookfield conference center",
+        "holiday inn brookfield milwaukee",
+        "holiday inn express and suites milwaukee west allis"
+      ],
+      "applied": [
+        "avid hotels milwaukee west waukesha",
+        "comfort suites milwaukee airport",
+        "comfort suites milwaukee west",
+        "courtyard by marriott milwaukee brookfield at poplar creek",
+        "courtyard by marriott milwaukee downtown",
+        "embassy suites by hilton milwaukee brookfield",
+        "extended stay america milwaukee waukesha",
+        "extended stay america milwaukee wauwatosa",
+        "hampton inn and suites milwaukee downtown",
+        "hampton inn and suites milwaukee franklin",
+        "hampton inn glendale milwaukee",
+        "hampton inn milwaukee airport",
+        "hampton inn milwaukee brookfield",
+        "hampton inn milwaukee northwest",
+        "hilton garden inn milwaukee airport",
+        "hilton garden inn milwaukee brookfield conference center"
+      ],
+      "earlier_attribution_kept": [
+        "candlewood suites milwaukee airport oak creek",
+        "candlewood suites milwaukee brown deer",
+        "cobblestone hotel and suites waukesha west milwaukee",
+        "crowne plaza milwaukee airport",
+        "holiday inn brookfield milwaukee",
+        "holiday inn express and suites milwaukee west allis"
+      ],
+      "superseded_and_left_alone": []
+    },
+    "selection_unchanged": true,
+    "identities_before": [
+      "aloft by marriott milwaukee downtown",
+      "ambassador hotel milwaukee trademark collection by wyndham",
+      "americinn by wyndham brookfield",
+      "americinn by wyndham glendale milwaukee",
+      "avid hotels milwaukee west waukesha",
+      "avid hotels oak creek",
+      "baymont by wyndham mequon milwaukee area",
+      "baymont by wyndham waukesha",
+      "best western germantown inn",
+      "best western plus milwaukee airport hotel and conference center",
+      "best western waukesha grand",
+      "cambria hotel milwaukee downtown",
+      "candlewood suites milwaukee airport oak creek",
+      "candlewood suites milwaukee brown deer",
+      "clarion pointe milwaukee airport",
+      "cobblestone hotel and suites waukesha west milwaukee",
+      "comfort inn and suites nw milwaukee",
+      "comfort inn waukesha milwaukee west",
+      "comfort suites milwaukee airport",
+      "comfort suites milwaukee west",
+      "country inn and suites by radisson germantown wi",
+      "courtyard by marriott milwaukee airport",
+      "courtyard by marriott milwaukee brookfield at poplar creek",
+      "courtyard by marriott milwaukee downtown",
+      "crowne plaza milwaukee airport",
+      "days inn and suites by wyndham milwaukee",
+      "days inn by wyndham west allis milwaukee",
+      "delta hotels milwaukee northwest",
+      "doubletree by hilton hotel milwaukee brookfield",
+      "doubletree by hilton hotel milwaukee downtown",
+      "embassy suites by hilton milwaukee brookfield",
+      "extended stay america milwaukee waukesha",
+      "extended stay america milwaukee wauwatosa",
+      "fairfield by marriott inn and suites milwaukee airport",
+      "fairfield by marriott inn and suites milwaukee brookfield",
+      "fairfield by marriott inn and suites milwaukee downtown",
+      "fairfield by marriott inn and suites milwaukee north",
+      "fairfield by marriott inn and suites milwaukee west",
+      "four points by sheraton milwaukee north shore",
+      "hampton inn and suites milwaukee downtown",
+      "hampton inn and suites milwaukee franklin",
+      "hampton inn and suites milwaukee west",
+      "hampton inn glendale milwaukee",
+      "hampton inn milwaukee airport",
+      "hampton inn milwaukee brookfield",
+      "hampton inn milwaukee northwest",
+      "hawthorn extended stay by wyndham milwaukee airport",
+      "hilton garden inn milwaukee airport",
+      "hilton garden inn milwaukee brookfield conference center",
+      "hilton garden inn milwaukee downtown",
+      "hilton garden inn milwaukee northwest conference center",
+      "hilton milwaukee",
+      "holiday inn and suites milwaukee airport",
+      "holiday inn brookfield milwaukee",
+      "holiday inn express and suites milwaukee airport",
+      "holiday inn express and suites milwaukee brookfield",
+      "holiday inn express and suites milwaukee new berlin",
+      "holiday inn express and suites milwaukee nw park place",
+      "holiday inn express and suites milwaukee west allis",
+      "holiday inn express milwaukee downtown",
+      "holiday inn express milwaukee n brown deer mequon",
+      "holiday inn express milwaukee west medical center",
+      "holiday inn milwaukee riverfront",
+      "holiday inn pewaukee milwaukee west",
+      "home2 suites by hilton menomonee falls milwaukee",
+      "home2 suites by hilton milwaukee airport",
+      "home2 suites by hilton milwaukee brookfield",
+      "home2 suites by hilton milwaukee downtown",
+      "home2 suites by hilton milwaukee west",
+      "homewood suites by hilton milwaukee downtown",
+      "homewood suites by hilton oak creek milwaukee",
+      "homewood suites by hilton wauwatosa milwaukee",
+      "hotel metro autograph collection",
+      "hyatt place milwaukee downtown",
+      "kimpton journeyman hotel",
+      "la quinta inn and suites by wyndham milwaukee bayshore area",
+      "la quinta inn and suites by wyndham milwaukee sw new berlin",
+      "la quinta inn by wyndham milwaukee airport oak creek",
+      "milwaukee marriott downtown",
+      "milwaukee marriott west",
+      "motel 6 milwaukee wi glendale",
+      "motel 6 oak creek wi",
+      "ramada by wyndham milwaukee",
+      "red roof inn milwaukee airport oak creek",
+      "renaissance milwaukee west hotel",
+      "residence inn by marriott milwaukee brookfield",
+      "residence inn by marriott milwaukee brookfield at poplar creek",
+      "residence inn by marriott milwaukee downtown",
+      "residence inn by marriott milwaukee north glendale",
+      "residence inn by marriott milwaukee west",
+      "rodeway inn and suites milwaukee airport",
+      "royle hotel milwaukee airport",
+      "saint kate the arts hotel",
+      "sheraton milwaukee brookfield hotel",
+      "sleep inn and suites milwaukee airport",
+      "springhill suites by marriott menomonee falls",
+      "springhill suites by marriott milwaukee downtown",
+      "springhill suites by marriott milwaukee west wauwatosa",
+      "staybridge suites milwaukee airport south",
+      "studio 6 extended stay milwaukee brookfield wi",
+      "suburban studios milwaukee airport",
+      "super 8 by wyndham germantown milwaukee",
+      "super 8 by wyndham milwaukee airport",
+      "the ingleside hotel",
+      "the marc hotel",
+      "the pfister hotel",
+      "the trade autograph collection",
+      "the westin milwaukee",
+      "towneplace suites by marriott milwaukee brookfield",
+      "towneplace suites by marriott milwaukee oak creek",
+      "travelodge by wyndham milwaukee",
+      "tru by hilton milwaukee brookfield",
+      "tru by hilton milwaukee downtown",
+      "woodspring suites milwaukee menomonee falls"
+    ]
+  },
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 114,
+    "active_unresolved": 19,
+    "non_active_dispositions": 14,
+    "published": 0,
+    "sum_of_final_states": 147,
+    "note": "a projection work order. It changes what a row SAYS, never whether a property was acquired, so no acquisition recovery is claimed and none occurred."
+  },
+  "provider_calls": 0,
+  "authority_written": false,
+  "published": 0
+}
