@@ -49,6 +49,14 @@ def manifest():
     return copy.deepcopy(GD.load_manifest())
 
 
+def _authorization_reference():
+    """The block a manifest carries when it mirrors the 047 authorization."""
+    return {"path": ("deploy/netlify/deployment_authorizations/%s.json"
+                     % AUTH_ID),
+            "authorization_id": AUTH_ID,
+            "bundle_sha256": BUNDLE}
+
+
 def _refuses(auth, manifest=None, needle=None):
     problems = DA.verify_authorization(auth, manifest)
     assert problems, "expected a refusal"
@@ -86,24 +94,65 @@ def test_the_committed_authorization_is_the_047_artifact(auth):
     assert "indianapolis-in" not in auth["participating_markets"]
 
 
-def test_the_committed_authorization_verifies(auth):
-    assert DA.verify_authorization(auth) == []
+# --------------------------------------------------------------------------- #
+# 047 is spent. The tree has moved on, and the gate says so.
+#
+# PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011 corrected a false service-animal
+# statement on four LIVE Milwaukee profiles. That changed Milwaukee's release
+# contract and the composed bundle, so the artifact in the tree is no longer
+# the artifact the founder authorized -- which the authorization document says
+# in its own words: "Any different artifact requires a new authorization."
+#
+# These three tests used to assert that the authorization still bound the
+# tree. That can only be true until the first content correction, so asserting
+# it forever would mean the repository could never fix a published mistake
+# without a red suite. What must hold forever is the RULE: 047 authorizes the
+# artifact it names and refuses anything else, and no manifest may claim
+# authorization it does not have.
+# --------------------------------------------------------------------------- #
+
+def test_the_authorization_still_binds_the_artifact_it_named(auth):
+    """047 verifies against the manifest 047 was written for, not today's."""
+    deployed = json.loads(
+        (REPO / "deploy" / "netlify" / "deployment_records"
+         / "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json").read_text(
+             encoding="utf-8"))
+    assert deployed["authorization_id"] == AUTH_ID
+    assert deployed["bundle_sha256"] == auth["bundle_sha256"] == BUNDLE
+    assert deployed["rollback_target"] == ROLLBACK
 
 
-def test_the_authorization_binds_the_live_record_hashes(auth):
+def test_the_authorization_refuses_the_corrected_artifact(auth):
+    """The corrected bundle is a DIFFERENT artifact and must not pass 047."""
+    problems = DA.verify_authorization(auth)
+    assert problems, "047 must refuse an artifact it does not name"
+    assert any("bundle_sha256" in p or "release_contracts[milwaukee-wi]" in p
+               for p in problems), problems
+
+
+def test_the_authorization_document_says_a_different_artifact_needs_a_new_one(auth):
+    assert "Any different artifact requires a new authorization." in \
+        auth["authorization_source"]
+
+
+def test_the_corrected_manifest_claims_no_authorization(manifest):
+    """A manifest may only claim authorization it can point at."""
+    assert manifest["bundle_sha256"] != BUNDLE
+    assert manifest["deployment_authorized"] is \
+        (manifest.get("deployment_authorization") is not None)
+    assert manifest["deployment_authorized"] is False
+    assert GD.verify_manifest() == []
+
+
+def test_the_authorization_binds_the_hashes_it_did_not_move(auth):
+    """Everything 011 did not touch still binds, so the refusal is specific."""
     assert auth["launch_participation_sha256"] == LP.participation_sha256()
     assert auth["headers_sha256"] == DA._sha256_file(REPO / auth["headers_source"])
     assert auth["redirects_sha256"] == DA._sha256_file(REPO / auth["redirects_source"])
     for row in auth["release_contracts"]:
+        if row["market_id"] == "milwaukee-wi":
+            continue
         assert row["sha256"] == DA._sha256_file(REPO / row["path"]), row
-
-
-def test_the_manifest_mirrors_the_authorization(manifest):
-    assert manifest["deployment_authorized"] is True
-    ref = manifest["deployment_authorization"]
-    assert ref["authorization_id"] == AUTH_ID
-    assert ref["bundle_sha256"] == BUNDLE == manifest["bundle_sha256"]
-    assert GD.verify_manifest() == []
 
 
 def test_the_live_target_check_accepts_the_authorized_site(auth):
@@ -317,15 +366,21 @@ def test_a_manifest_flipped_without_a_record_is_pre_authorized(manifest):
 
 
 def test_a_manifest_referencing_an_unknown_record_is_refused(manifest):
-    doc = dict(manifest, deployment_authorization={"authorization_id": "nope",
-                                                   "path": "x", "bundle_sha256": BUNDLE})
+    doc = dict(manifest, deployment_authorized=True,
+               deployment_authorization={"authorization_id": "nope",
+                                         "path": "x", "bundle_sha256": BUNDLE})
     assert any("pre-authorized" in p for p in GD.verify_manifest(doc))
 
 
-def test_a_manifest_whose_bundle_moved_under_its_authorization_is_refused(manifest):
-    doc = dict(manifest, bundle_sha256=WITHDRAWN)
+def test_a_manifest_whose_bundle_moved_under_its_authorization_is_refused():
+    """The committed manifest claims no authorization since PTF-011, so the
+    check is exercised against a manifest that DOES claim one: 047's, with the
+    bundle moved out from under it."""
+    doc = dict(GD.load_manifest(), bundle_sha256=WITHDRAWN,
+               deployment_authorized=True,
+               deployment_authorization=_authorization_reference())
     problems = GD.verify_manifest(doc)
-    assert any("bundle_sha256" in p for p in problems)
+    assert any("bundle_sha256" in p for p in problems), problems
 
 
 def test_authorize_manifest_refuses_an_unbound_authorization(auth):

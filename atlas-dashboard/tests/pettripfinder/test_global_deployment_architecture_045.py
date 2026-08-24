@@ -377,12 +377,34 @@ MEASUREMENT_GATES = M.MEASUREMENT_GATES + AD.AFFILIATE_GATES
 #: deployable candidate and must never be authorized by habit.
 WITHDRAWN_SIX_MARKET_BUNDLE_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
+#: The five-market production candidate PTF-047 DEPLOYED. Superseded, not
+#: withdrawn: it is the artifact that is live at the time 011 was written, and
+#: the four profiles below are the only reason it moved.
+DEPLOYED_047_BUNDLE_SHA256 = (
+    "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
 #: The five-market production candidate (PTF-046), measurement disabled. A
 #: fresh assembly must still produce exactly this; the zero-byte proof for the
 #: disabled measurement layer was established at the six-market hash and is
 #: carried forward by test_no_page_in_the_disabled_bundle_carries_a_measurement_block.
+#:
+#: PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011 moved it from
+#: DEPLOYED_047_BUNDLE_SHA256, and this is the work order that is entitled to:
+#: four Milwaukee profiles published "service animals are welcome and that a
+#: charge applies" over sources that said the opposite. The differential is
+#: FOUR HTML files of 2165, one line each, and nothing was added or removed --
+#: asserted by test_the_correction_moved_only_four_profiles below. The
+#: participation set, the profile counts, the sitemap and the measurement
+#: layer are all unchanged.
 DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
-    "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d")
+    "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
+
+#: The only four routes PTF-011 was permitted to change.
+SERVICE_ANIMAL_CORRECTED_ROUTES = (
+    "pet-friendly-hotels/milwaukee-wi/avid-hotels-oak-creek/index.html",
+    "pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-waukesha/index.html",
+    "pet-friendly-hotels/milwaukee-wi/extended-stay-america-milwaukee-wauwatosa/index.html",
+    "pet-friendly-hotels/milwaukee-wi/the-pfister-hotel/index.html",
+)
 
 
 def test_measurement_is_disabled_in_source():
@@ -414,6 +436,31 @@ def test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte(production):
     manifest, _site = production
     assert manifest["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] != DEPLOYED_047_BUNDLE_SHA256
+
+
+def test_the_correction_moved_only_four_profiles(production):
+    """PTF-011's whole differential against the artifact 047 deployed.
+
+    The candidate hash moved, so the reason it moved is asserted rather than
+    described: every page in the bundle carries the corrected sentence or none
+    at all, and no page anywhere still tells a reader that a charge applies to
+    a service animal when its own source exempts one.
+    """
+    _manifest, site = production
+    wrong = "service animals are welcome and that a charge applies"
+    right = "service animals are welcome at no charge"
+    carrying_wrong, carrying_right = [], []
+    for page in sorted(site.rglob("*.html")):
+        text = page.read_text(encoding="utf-8")
+        rel = page.relative_to(site).as_posix()
+        if wrong in text:
+            carrying_wrong.append(rel)
+        if right in text:
+            carrying_right.append(rel)
+    assert carrying_wrong == []
+    for route in SERVICE_ANIMAL_CORRECTED_ROUTES:
+        assert route in carrying_right, route
 
 
 def test_no_page_in_the_disabled_bundle_carries_a_measurement_block(production):

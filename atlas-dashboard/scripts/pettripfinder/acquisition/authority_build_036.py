@@ -72,6 +72,7 @@ from scripts.pettripfinder.acquisition import reader_to_tiers_034 as R34    # no
 from scripts.pettripfinder.contracts import enums                           # noqa: E402
 from scripts.pettripfinder.contracts import fee_computation                 # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as SCHEMA         # noqa: E402
+from scripts.pettripfinder.contracts import service_animal as SA            # noqa: E402
 from scripts.pettripfinder import hotel_exclusions as EX                    # noqa: E402
 from scripts.pettripfinder import market_authority as MA                    # noqa: E402
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key   # noqa: E402
@@ -259,19 +260,24 @@ def weight_operator(row: Mapping) -> str:
 
 
 def service_animal_statement(row: Mapping) -> Optional[Dict]:
-    """The legal access category, outside the commercial-terms namespace."""
+    """The legal access category, outside the commercial-terms namespace.
+
+    PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011. The interpretation used to
+    live here as a two-branch fallback whose second branch asked only whether
+    the WORD "fee" or "charge" appeared. Every exemption sentence contains one
+    -- an exemption has to name what it exempts you from -- so four live
+    Milwaukee profiles published "a charge applies" from sources that said
+    "exempt from this charge". The rule now lives in
+    ``contracts.service_animal``, where exemption and negation are tested
+    first and win, and a charge is only concluded when the source binds one to
+    the animal itself.
+    """
     facts = row["proposed_facts"] or {}
     statement = facts.get("service_animal_exception")
     if not statement:
         return None
-    lowered = str(statement).lower()
-    if re.search(r"without\s+charge|no\s+charge|free\s+of\s+charge", lowered):
-        charges = "no_charge"
-    elif re.search(r"\bfee\b|\bcharge\b", lowered):
-        charges = "charge_stated"
-    else:
-        charges = "not_addressed"
-    return {"stated": True, "charges_stated": charges,
+    return {"stated": True,
+            "charges_stated": SA.charges_stated(str(statement)),
             "quote": str(statement)}
 
 
