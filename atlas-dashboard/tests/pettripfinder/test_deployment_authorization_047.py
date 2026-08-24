@@ -148,15 +148,40 @@ def test_the_manifest_no_longer_points_at_this_authorization(manifest):
     assert GD.verify_manifest() == []
 
 
+#: What each later work order moved out from under this authorization. Named
+#: rather than skipped wholesale, so the refusal stays SPECIFIC: an
+#: authorization that stopped binding everything would prove nothing.
+MOVED_BY_LATER_WORK = {
+    # PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011/012 corrected four Milwaukee
+    # profiles and restamped that market's contract.
+    "milwaukee-wi",
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered a sixth market, which
+    # re-issued the launch participation record and installed a contract for a
+    # market that did not exist when 047 was signed.
+    "st-louis-mo",
+}
+
+
 def test_the_authorization_binds_the_hashes_it_did_not_move(auth):
-    """Everything 011 did not touch still binds, so the refusal is specific."""
-    assert auth["launch_participation_sha256"] == LP.participation_sha256()
+    """Everything later work did not touch still binds, so the refusal is
+    specific rather than a blanket "something changed"."""
     assert auth["headers_sha256"] == DA._sha256_file(REPO / auth["headers_source"])
     assert auth["redirects_sha256"] == DA._sha256_file(REPO / auth["redirects_source"])
     for row in auth["release_contracts"]:
-        if row["market_id"] == "milwaukee-wi":
+        if row["market_id"] in MOVED_BY_LATER_WORK:
             continue
         assert row["sha256"] == DA._sha256_file(REPO / row["path"]), row
+
+
+def test_the_participation_record_it_bound_is_the_one_it_named(auth):
+    """The participation record was RE-ISSUED, not edited: 047's authorization
+    still names the sha it signed, and the record that superseded it says so."""
+    import json as _json
+    assert auth["launch_participation_sha256"] != LP.participation_sha256()
+    current = _json.loads(
+        (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
+    assert current["decision"]["supersedes"]["sha256"] ==         auth["launch_participation_sha256"]
+    assert current["decision"]["supersedes"]["founder_authorized"] ==         auth["founder_authorized_markets"]
 
 
 def test_the_live_target_check_accepts_the_authorized_site(auth):

@@ -316,7 +316,8 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     # Indianapolis is source-ready but withheld from the first multi-market
     # launch by founder decision (PTF-046, deploy/netlify/launch_participation.json).
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi"])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
+         "st-louis-mo"])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -339,7 +340,8 @@ def test_indianapolis_is_source_ready_but_not_in_the_global_selection(markets):
         "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
     assert row["participates"] is False
     assert sorted(m.market_id for m in chosen) == sorted(
-        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi"])
+        [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
+         "st-louis-mo"])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
@@ -377,8 +379,13 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
                       "pittsburgh-pa": 26, INDIANAPOLIS: 8,
-                      "milwaukee-wi": 73}
-    assert sum(counts.values()) == 341
+                      "milwaukee-wi": 73,
+                      # PTF-ST-LOUIS-REGISTER-PUBLISH-011: 82 founder-signed
+                      # profiles. Every other count above is unchanged, which
+                      # is the half of this assertion that says a new market
+                      # did not disturb an old one.
+                      "st-louis-mo": 82}
+    assert sum(counts.values()) == 423   # 341 + St. Louis (82)
 
 
 # --------------------------------------------------------------------------- #

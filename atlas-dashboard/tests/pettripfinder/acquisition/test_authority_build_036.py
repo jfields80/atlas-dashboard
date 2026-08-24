@@ -391,7 +391,17 @@ def test_the_exclusion_registry_still_validates_for_every_market():
     milwaukee = [row for row in rows if row["market_id"] == A.MARKET]
     assert len(milwaukee_shard()) == 26
     assert len(milwaukee) >= 26
-    assert len(rows) - len(milwaukee) == 75
+    # The remainder used to be pinned at 75, which held only while Milwaukee
+    # was the last market registered. PTF-ST-LOUIS-REGISTER-PUBLISH-011
+    # registered one after it, and the fixed number said Milwaukee had
+    # touched somebody when St. Louis had added its own. Stated as the
+    # invariant instead, so it survives market N+2: every global row
+    # belongs to exactly one market's shard.
+    from scripts.pettripfinder import market_authority as MA
+
+    assert len(rows) - len(milwaukee) == sum(
+        len(MA.load_market_exclusions(m)) for m in MA.sharded_market_ids()
+        if m != A.MARKET)
 
 
 def test_every_milwaukee_exclusion_is_a_quoted_refusal_reviewed_by_a_human():

@@ -400,7 +400,15 @@ def test_the_exclusion_registry_still_assembles_for_every_market():
     # The whole file validates; Milwaukee's slice grows as founders decide,
     # and every other market's count is the claim that must not move.
     assert len(milwaukee) == len(P.approved_refusals())
-    assert len(rows) - len(milwaukee) == 75
+    # The remainder used to be pinned at 75, which held only while Milwaukee
+    # was the last market registered. PTF-ST-LOUIS-REGISTER-PUBLISH-011
+    # registered one after it, and the fixed number said Milwaukee had
+    # touched somebody when St. Louis had added its own. Stated as the
+    # invariant instead, so it survives market N+2: every global row
+    # belongs to exactly one market's shard.
+    assert len(rows) - len(milwaukee) == sum(
+        len(MA.load_market_exclusions(m)) for m in MA.sharded_market_ids()
+        if m != "milwaukee-wi")
     assert MA.check_generated_artifacts() == []
 
 
@@ -417,7 +425,13 @@ def test_the_other_markets_seed_inventory_is_untouched():
     # 042 published Milwaukee, so it owns inventory now. The claim this test is
     # about is that no OTHER market count moved because of it.
     assert by_market["milwaukee-wi"] == 73
-    assert sum(by_market.values()) == 296 + 73
+    assert by_market["st-louis-mo"] == 82
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered a seventh market with its own
+    # 82 rows. The sum is stated from the shards rather than as a frozen total,
+    # so a later market adding inventory cannot read as Milwaukee having moved
+    # one of the six counts named above.
+    assert sum(by_market.values()) == sum(
+        len(MA.load_market_seed_rows(m)) for m in MA.sharded_market_ids())
 
 
 def test_no_provider_was_called_and_nothing_was_deployed():

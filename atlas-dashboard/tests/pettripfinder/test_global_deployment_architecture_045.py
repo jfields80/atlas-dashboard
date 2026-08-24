@@ -41,11 +41,18 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: PTF-046: the founder withheld indianapolis-in (8 profiles, source-ready)
 #: from the first multi-market launch; see deploy/netlify/launch_participation.json
 #: and tests/pettripfinder/test_launch_participation_046.py.
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 admitted st-louis-mo as the sixth market
+#: with 82 founder-signed profiles. It ADDED 509 files under its own namespace
+#: and changed no existing profile, which is the property this file exists to
+#: keep true as markets are added.
 EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "milwaukee-wi", "pittsburgh-pa")
+                    "milwaukee-wi", "pittsburgh-pa", "st-louis-mo")
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-                     "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26}
-EXPECTED_TOTAL = 333
+                     "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
+                     "st-louis-mo": 82}
+EXPECTED_TOTAL = 415
+EXPECTED_HTML_PAGES = 2656
+EXPECTED_SITEMAP_ROUTES = 515
 
 
 @pytest.fixture(scope="module")
@@ -222,7 +229,7 @@ def test_the_sitemap_carries_canonical_routes_not_legacy_ones(production):
     manifest, site = production
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
     assert "/go/" not in sitemap
-    assert manifest["sitemap_route_count"] == 416   # 428 - Indianapolis (046)
+    assert manifest["sitemap_route_count"] == EXPECTED_SITEMAP_ROUTES
 
 
 # --------------------------------------------------------------------------- #
@@ -395,8 +402,15 @@ DEPLOYED_047_BUNDLE_SHA256 = (
 #: asserted by test_the_correction_moved_only_four_profiles below. The
 #: participation set, the profile counts, the sitemap and the measurement
 #: layer are all unchanged.
-DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 moved it again, and is likewise entitled
+#: to: a sixth market joined. Measured against the bundle above it ADDS 509
+#: files, every one under /pet-friendly-hotels/st-louis-mo/, REMOVES none, and
+#: changes only sitemap.xml among shipped files -- so the four corrected
+#: Milwaukee profiles, and every other live profile, are byte-identical.
+DEPLOYED_012_BUNDLE_SHA256 = (
     "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
+DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+    "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (
@@ -515,8 +529,8 @@ def test_participation_and_inventory_are_unchanged(production):
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == EXPECTED_PROFILES
     assert sum(EXPECTED_PROFILES.values()) == EXPECTED_TOTAL
-    assert manifest["total_html_pages"] == 2147     # 2195 - Indianapolis (046)
-    assert manifest["sitemap_route_count"] == 416   # 428 - Indianapolis (046)
+    assert manifest["total_html_pages"] == EXPECTED_HTML_PAGES
+    assert manifest["sitemap_route_count"] == EXPECTED_SITEMAP_ROUTES
     live = [line.strip() for line in LIVE_ROUTE_INVENTORY.read_text(encoding="utf-8")
             .splitlines() if line.strip() and not line.startswith("#")]
     assert len(live) == 132          # the 044 live inventory, comments excluded

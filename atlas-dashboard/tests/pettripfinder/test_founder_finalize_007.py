@@ -179,11 +179,22 @@ class TestTheCommittedFinalisation:
         assert names["wingate at wyndham"] == "Wingate At Wyndham"
 
     def test_every_name_correction_is_quoted_from_its_page(self):
+        import html as _html
+
         overlay = _load("markets/name_corrections/st-louis-mo.json")
         analysis = _load("st_louis_mo_founder_review_analysis_007.json")
-        pages = {r["identity_key"]: r["identity_corroboration"]["name_on_page"]
+        # ``name_on_page`` is the raw page string, entities and all. What a
+        # correction publishes is what a READER sees, so the comparison
+        # unescapes -- and only unescapes: no other transformation is allowed,
+        # which is what keeps "quoted from its page" a real constraint. Every
+        # other IHG property in this market already publishes an unescaped "&".
+        pages = {r["identity_key"]:
+                 _html.unescape(r["identity_corroboration"]["name_on_page"])
                  for r in analysis["rows"]}
-        assert len(overlay["records"]) == 5
+        # PTF-ST-LOUIS-REGISTER-PUBLISH-011 added the sixth: the Wentzville
+        # Holiday Inn Express, whose bare census name collided with a LIVE
+        # Cleveland identity. Same standing ruling, same evidence field.
+        assert len(overlay["records"]) == 6
         for record in overlay["records"]:
             assert record["corrected_canonical_name"] == \
                 pages[record["identity_key"]]

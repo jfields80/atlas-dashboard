@@ -104,13 +104,26 @@ def test_the_authorization_is_a_new_one_and_not_a_reused_047(auth):
         "a consumed authorization must never be deployable again"
 
 
-def test_the_authorization_still_binds_the_repository(auth):
-    assert DA.verify_authorization(auth) == []
-    assert auth["launch_participation_sha256"] == LP.participation_sha256()
+def test_the_authorization_binds_the_artifact_it_deployed_and_no_other(auth):
+    """It bound ONE exact artifact, and a later work order built a different one.
+
+    PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered a sixth market. That changes
+    the bundle, the participation record, the profile counts and one release
+    contract -- so this authorization must now REFUSE, and refuse specifically,
+    naming each binding that moved. A one-byte change anywhere is a different
+    artifact and needs a new authorization; that is the whole contract.
+    """
+    problems = DA.verify_authorization(auth)
+    assert problems, "an authorization that binds a superseded artifact must refuse"
+    assert any("bundle_sha256" in p for p in problems)
+    assert auth["bundle_sha256"] == BUNDLE
+    # Everything the deployment record says it deployed is still exactly what
+    # this document says, because the document was not edited -- only the world
+    # moved past it.
+    assert auth["total_profiles"] == 333
+    assert auth["participating_markets"] == list(FIVE)
     assert auth["headers_sha256"] == DA._sha256_file(REPO / auth["headers_source"])
     assert auth["redirects_sha256"] == DA._sha256_file(REPO / auth["redirects_source"])
-    for row in auth["release_contracts"]:
-        assert row["sha256"] == DA._sha256_file(REPO / row["path"]), row
 
 
 def test_the_authorization_quotes_the_founder_rather_than_summarising(auth):
@@ -138,22 +151,24 @@ def test_no_credential_in_the_authorization(auth):
 # The manifest mirrors it.
 # --------------------------------------------------------------------------- #
 
-def test_the_manifest_mirrors_the_012_authorization(manifest):
+def test_the_manifest_now_mirrors_a_later_authorization(manifest):
+    """The flag is a MIRROR of a record, never a decision. 012's record is
+    consumed, so the manifest names the one that may still be deployed."""
     assert manifest["deployment_authorized"] is True
     ref = manifest["deployment_authorization"]
-    assert ref["authorization_id"] == AUTH_ID
-    assert ref["bundle_sha256"] == BUNDLE == manifest["bundle_sha256"]
+    assert ref["authorization_id"] != AUTH_ID
+    assert ref["bundle_sha256"] == manifest["bundle_sha256"] != BUNDLE
     assert GD.verify_manifest() == []
 
 
-def test_the_manifest_did_not_admit_a_new_market(manifest):
-    assert [r["market_id"] for r in manifest["participating_markets"]] == FIVE
-    assert manifest["total_published_profiles"] == 333
-    assert manifest["sitemap_route_count"] == 416
-    assert manifest["launch_participation"]["founder_authorized"] == FIVE
-    excluded = {r["market_id"] for r in manifest["excluded_markets"]}
-    assert "indianapolis-in" in excluded
-    assert not any("st-louis" in m for m in excluded | set(FIVE))
+def test_the_deployment_record_still_describes_what_went_live(manifest):
+    """The manifest moved on; the record of what was deployed did not."""
+    record = json.loads((REPO / "deploy" / "netlify" / "deployment_records"
+                         / ("%s.json" % RECORD_ID)).read_text(encoding="utf-8"))
+    assert record["bundle_sha256"] == BUNDLE
+    assert record["total_profiles"] == 333
+    assert record["participating_markets"] == list(FIVE)
+    assert "st-louis-mo" not in record["participating_markets"]
 
 
 def test_measurement_and_affiliates_were_not_switched_on(manifest, auth):

@@ -4,7 +4,7 @@
  "context": "production",
  "base_url": "https://pettripfinder.com",
  "anchor_market": "columbus-oh",
- "source_commit": "9cda7d0aef66722d831289cec890f7742b7f673e",
+ "source_commit": "ccf4e54a0f6fd746eb88721c7c5b2d18dd993905",
  "binding_identity": "bundle_sha256",
  "bundle_sha256": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
  "sitemap_sha256": "775a5ae55766bdf5cfaf07fd5e9b124e856bee40790798e79b47c4c4dc82e3ce",
@@ -72,7 +72,7 @@
    "market_id": "st-louis-mo",
    "published_profiles": 82,
    "release_contract": "deploy/netlify/release_contracts/st-louis-mo.json",
-   "release_contract_sha256": "064d8e0b11885f1a4633fbd3ef427e66022b31ec74fb2aa0668e9a98e8e7b145",
+   "release_contract_sha256": "704801a45f58e06d0469341bc1c83917b0ed3377abaa40d05f35b1dc193bb031",
    "contract_disagreements": []
   }
  ],
@@ -138,6 +138,11 @@
  "gates_missing": [],
  "gates_failing": [],
  "all_required_gates_pass": true,
- "deployment_authorized": false,
- "deployment_authorization_note": "Assembly is not authorization. A later work order whose purpose is deployment authorizes THIS source_commit and THIS bundle_sha256, and nothing else."
+ "deployment_authorized": true,
+ "deployment_authorization": {
+  "path": "deploy/netlify/deployment_authorizations/ptf-auth-011-2077ad2895c9.json",
+  "authorization_id": "ptf-auth-011-2077ad2895c9",
+  "bundle_sha256": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741"
+ },
+ "deployment_authorization_note": "deployment_authorized mirrors the referenced authorization record; verify_manifest re-verifies that record against this manifest and the repository, and the record's own status says whether it may still be deployed or has been consumed."
 }

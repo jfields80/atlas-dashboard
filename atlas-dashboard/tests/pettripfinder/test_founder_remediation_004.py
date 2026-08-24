@@ -244,9 +244,14 @@ class TestTheRemediatedArtifacts:
         assert names["doubletree"] == "DoubleTree"
 
     def test_a_name_correction_may_only_use_what_the_page_states(self):
+        import html as _html
+
         overlay = _load("markets/name_corrections/st-louis-mo.json")
         analysis = _load("st_louis_mo_founder_review_analysis_004.json")
-        pages = {r["identity_key"]: r["identity_corroboration"]["name_on_page"]
+        # Unescaped, and only unescaped: an HTML entity is a transport
+        # artifact, not a different name (PTF-ST-LOUIS-REGISTER-PUBLISH-011).
+        pages = {r["identity_key"]:
+                 _html.unescape(r["identity_corroboration"]["name_on_page"])
                  for r in analysis["rows"]}
         for record in overlay["records"]:
             assert record["corrected_canonical_name"] == \
