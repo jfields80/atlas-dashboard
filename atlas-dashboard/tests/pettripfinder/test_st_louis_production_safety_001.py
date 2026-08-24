@@ -124,15 +124,10 @@ class TestParticipationIsTheSixMarketSet:
 class TestTheDeployedArtifactIsNotDisturbed:
     """A new bundle needs a NEW authorization. The deployed one is CONSUMED."""
 
-    def test_the_deployment_record_and_authorization_still_describe_012(self):
-        records = sorted((DEPLOY / "deployment_records").glob("*.json"))
-        assert [p.name for p in records] == [
-            "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json",
-            "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json",
-        ] or sorted(p.name for p in records) == sorted([
-            "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0.json",
-            "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json",
-        ])
+    def test_the_012_record_still_describes_what_it_deployed(self):
+        """PTF-ST-LOUIS-PRODUCTION-DEPLOY-012 superseded this deploy in
+        production. It did not edit the record of it: a deployment record says
+        what a deployment DID, and that never changes afterwards."""
         live = json.loads(
             (DEPLOY / "deployment_records"
              / "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5.json")
@@ -141,13 +136,16 @@ class TestTheDeployedArtifactIsNotDisturbed:
             "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
         assert live["total_profiles"] == 333
         assert live["participating_markets"] == list(LIVE_FIVE)
+        assert "st-louis-mo" not in live["participating_markets"]
 
-    def test_the_consumed_authorizations_are_untouched(self):
-        for name, status in (("ptf-auth-047-a324b1bf5023.json", "DEPLOYED"),
-                             ("ptf-auth-012-70747f09fdfe.json", "DEPLOYED")):
+    def test_the_earlier_authorizations_were_not_reused_for_st_louis(self):
+        """Each was consumed by its own deploy. St. Louis needed a new one, and
+        neither of these was reopened to supply it."""
+        for name in ("ptf-auth-047-a324b1bf5023.json",
+                     "ptf-auth-012-70747f09fdfe.json"):
             auth = json.loads((DEPLOY / "deployment_authorizations" / name)
                               .read_text(encoding="utf-8"))
-            assert auth["authorization_status"] == status
+            assert auth["authorization_status"] == "DEPLOYED"
             assert "st-louis-mo" not in auth["participating_markets"]
 
 

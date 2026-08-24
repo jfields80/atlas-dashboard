@@ -243,8 +243,17 @@ def test_the_047_record_is_untouched_history():
     assert prior["final_status"] == DA.DEPLOYED
 
 
-def test_the_two_deployments_form_a_chain():
+def test_this_deployment_links_back_to_the_one_it_replaced():
+    """The chain is open-ended by construction: each deploy names the one before
+    it, so a later deploy can be added without this test having to enumerate the
+    world. PTF-ST-LOUIS-PRODUCTION-DEPLOY-012 added a third link."""
     records = {r["deployment_record_id"]: r for r in DA.list_records()}
-    assert set(records) == {"ptf-deploy-047-6a8a2dada6e73cb0d819c9d0", RECORD_ID}
+    assert RECORD_ID in records
     assert records[RECORD_ID]["previous_deployment_id"] == \
         records["ptf-deploy-047-6a8a2dada6e73cb0d819c9d0"]["deployment_id"]
+    successors = [r for r in records.values()
+                  if r["previous_deployment_id"]
+                  == records[RECORD_ID]["deployment_id"]]
+    assert len(successors) == 1, "a deploy is replaced at most once"
+    assert successors[0]["deployment_record_id"] == \
+        "ptf-deploy-011-6a8cab48ead9d4293f477472"
