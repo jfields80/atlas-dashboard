@@ -394,6 +394,7 @@ def _url_recovery(ctx: FactoryContext, *, out: Path, cache: Optional[Path],
                   work_order: str) -> Tuple[int, str]:
     from scripts.pettripfinder.discovery import census_url_recovery as CUR
     argv: List[str] = ["--market", ctx.market_id, "--out", out.as_posix(),
+                       "--census", ctx.census_path.as_posix(),
                        "--work-order", work_order, "--allow-street-binding",
                        "--corroborate-url", "--include-unroutable"]
     if cache is not None and Path(cache).is_dir():
@@ -453,6 +454,7 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
     dry = ctx.artifact("acquisition_dry_run_%s" % label)
     plan = ctx.artifact("cohort_cost_plan_%s" % label)
     base = ["--market", ctx.market_id, "--prior", prior,
+            "--census", ctx.census_path.as_posix(),
             "--run-dir", run_dir.as_posix(), "--run-id", run_id,
             "--work-order", ctx.work_order, "--url-overlay", overlay_path]
     if ctx.retry_overrides:
@@ -616,19 +618,34 @@ def phase_census(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
         return PhaseResult(BLOCKED, "--contract is required to build a census: "
                            "the market geography (corridors, postal codes)")
     ledger_out = ctx.artifact("candidate_ledger")
-    code, message = _call(CENSUS_CLI.main, [
-        "--market", ctx.market_id, "--candidates", Path(ctx.candidates_path).as_posix(),
-        "--contract", Path(ctx.contract_path).as_posix(),
-        "--observed-at", ctx.as_of, "--work-order", ctx.work_order,
-        "--ledger-out", ledger_out.as_posix()])
+    argv = ["--market", ctx.market_id,
+            "--candidates", Path(ctx.candidates_path).as_posix(),
+            "--contract", Path(ctx.contract_path).as_posix(),
+            "--observed-at", ctx.as_of, "--work-order", ctx.work_order,
+            "--ledger-out", ledger_out.as_posix(),
+            "--out", ctx.census_path.as_posix()]
+    artifacts = OrderedDict((("census", ctx.census_path.as_posix()),
+                             ("candidate_ledger", ledger_out.as_posix())))
+    if ctx.prior_census is not None and Path(ctx.prior_census).is_file():
+        # A prior census of this market is an INPUT to the new one, never its
+        # ceiling: its rows go back in as candidates with every verdict dropped.
+        absorptions = ctx.artifact("prior_census_absorptions")
+        argv += ["--prior-census", Path(ctx.prior_census).as_posix(),
+                 "--absorptions-out", absorptions.as_posix()]
+        artifacts["prior_census_absorptions"] = absorptions.as_posix()
+    code, message = _call(CENSUS_CLI.main, argv)
     if code != 0:
         return PhaseResult(BLOCKED, "census build failed: %s" % message)
     census = _read(ctx.census_path.as_posix())
+    facts = OrderedDict((("census", census["count"]),))
+    recandidacy = census.get("prior_census_recandidacy")
+    if recandidacy:
+        facts["prior_census"] = OrderedDict(
+            (k, recandidacy.get(k)) for k in
+            ("prior_rows", "fresh_candidates", "absorbed_into_fresh_candidates",
+             "prior_rows_surviving_as_candidates", "merged_candidates"))
     return PhaseResult(COMPLETED, "census built: %d identities" % census["count"],
-                       artifacts=OrderedDict((("census", ctx.census_path.as_posix()),
-                                              ("candidate_ledger",
-                                               ledger_out.as_posix()))),
-                       facts=OrderedDict((("census", census["count"]),)))
+                       artifacts=artifacts, facts=facts)
 
 
 def phase_routing(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
@@ -818,6 +835,7 @@ def phase_closure(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
     closure = ctx.artifact("closure_ledger")
     code, message = _call(CLOSURE_CLI.main, [
         "--market", ctx.market_id, "--observations", store.as_posix(),
+        "--census", ctx.census_path.as_posix(),
         "--pilot", merged, "--as-of", ctx.as_of, "--work-order", ctx.work_order,
         "--url-overlay", overlay, "--partition-out", partition.as_posix(),
         "--closure-out", closure.as_posix()])
@@ -858,6 +876,7 @@ def phase_founder_review_packet(ctx: FactoryContext, ledger: Dict) -> PhaseResul
     packet = ctx.artifact("founder_review_packet")
     code, message = _call(REVIEW_CLI.main, [
         "--market", ctx.market_id, "--observations", store,
+        "--census", ctx.census_path.as_posix(),
         "--work-order", ctx.work_order, "--as-of", ctx.as_of,
         "--out", packet.as_posix()])
     if code != 0:
@@ -872,6 +891,7 @@ def phase_founder_review_packet(ctx: FactoryContext, ledger: Dict) -> PhaseResul
     duplicates = ctx.artifact("identity_duplicate_scan")
     code, message = _call(DUP.main, [
         "--market", ctx.market_id, "--candidates", packet.as_posix(),
+        "--census", ctx.census_path.as_posix(),
         "--work-order", ctx.work_order, "--out", duplicates.as_posix()])
     if code != 0:
         return PhaseResult(BLOCKED, "duplicate scan failed: %s" % message)
@@ -1066,6 +1086,12 @@ def main(argv=None) -> int:
     parser.add_argument("--retry-overrides", default="")
     parser.add_argument("--reviewer", default="market_factory_cli (machine review)")
     parser.add_argument("--suffix", default="001")
+    parser.add_argument("--census-dir", default="",
+                        help="where this build's census lives; default "
+                             "identity_census/. A REGISTERED market is "
+                             "re-censused into a sandbox directory so its live "
+                             "census -- pinned by its release contract -- is "
+                             "read as prior evidence and never overwritten")
     parser.add_argument("--through", default=FOUNDER_REVIEW, choices=PHASES)
     parser.add_argument("--phase", default="", help="run exactly one phase")
     parser.add_argument("--rerun", action="store_true",
@@ -1086,7 +1112,8 @@ def main(argv=None) -> int:
         authorised_cap_usd=args.authorised_cap_usd, credit_cap=args.credit_cap,
         spend_authorised=bool(args.authorise_spend),
         retry_overrides=Path(args.retry_overrides) if args.retry_overrides else None,
-        reviewer=args.reviewer, suffix=args.suffix)
+        reviewer=args.reviewer, suffix=args.suffix,
+        census_dir=Path(args.census_dir) if args.census_dir else CENSUS_DIR)
     if args.plan:
         print(json.dumps(plan(ctx), indent=1))
         return 0

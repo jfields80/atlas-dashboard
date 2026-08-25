@@ -217,10 +217,14 @@ def main(argv=None) -> int:
     parser.add_argument("--work-order", required=True)
     parser.add_argument("--as-of", required=True)
     parser.add_argument("--out", default="")
+    parser.add_argument("--census", default="",
+                        help="the census to read; default identity_census/"
+                             "<market>.json. A re-census of a registered market "
+                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
-    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
-                        .read_text(encoding="utf-8"))
+    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
+    census = json.loads(census_path.read_text(encoding="utf-8"))
     observations = json.loads(Path(args.observations).read_text(encoding="utf-8"))
     document = build(args.market, census, observations,
                      work_order=args.work_order, as_of=args.as_of)

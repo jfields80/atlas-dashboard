@@ -79,3 +79,47 @@ python scripts/pettripfinder/market_factory_cli.py \
 Without `--authorise-spend` the paid phases stop at their cost plan with status
 `AWAITING_AUTHORISATION`; re-run with the flag once the plan has been read.
 `--plan` prints the phases, their status and which may spend, and runs nothing.
+
+## Re-censusing a registered market
+
+**Authority:** PTF-PITTSBURGH-HARDENED-RECENSUS-001 (2026-08-25).
+
+A live market has a census at `identity_census/<id>.json` whose count its
+release contract pins, plus published authority in its shards. Re-running the
+factory over it must treat all of that as **prior evidence, never the ceiling**
+— and must not write a byte over any of it, because the founder has not decided
+anything yet. Two things make that possible without a market-specific script:
+
+* `--census-dir <dir>` — the factory builds and reads ITS census under that
+  directory (`<dir>/<id>.json`). Every downstream reader accepts the same path
+  through `--census` (`census_url_recovery`, `market_paid_acquisition`,
+  `market_closure_cli`, `market_founder_review_cli`, `census_duplicate_scan`;
+  `market_observation_store`, `founder_review_analysis` and
+  `market_coverage_cli` already did), and the factory passes it to each of them.
+  The convention is `identity_census/recensus/<id>.json`: beside the live
+  census, invisible to anything that resolves a census by market id.
+* `--prior-census <live census>` — the census phase folds the prior rows back
+  in as discovery candidates (`market_census_cli --prior-census`, over
+  `discovery/census_recandidacy`): observation carried, every verdict dropped,
+  a prior row absorbed into the fresh sighting of the same street, and each
+  absorption written to `<slug>_prior_census_absorptions_<suffix>.json`. The
+  same path is then read by the URL-recovery phases as sightings.
+
+```
+python scripts/pettripfinder/discovery_cli.py run --market <id> --providers overpass \
+  --categories hotel,motel --output-root data/discovery/<slug>_recensus_001 \
+  --max-google-requests 0 --max-overpass-requests 40          # $0
+python scripts/pettripfinder/market_factory_cli.py \
+  --market <id> --contract launch_packages/pettripfinder/markets/<id>.json \
+  --candidates data/discovery/<slug>_recensus_001/candidates/<id>_candidates.json \
+  --discovery-cache data/discovery/<slug>_recensus_001/cache \
+  --prior-census launch_packages/pettripfinder/identity_census/<id>.json \
+  --prior-artifact 'launch_packages/pettripfinder/markets/reports/<slug>*' \
+  --census-dir launch_packages/pettripfinder/identity_census/recensus \
+  --suffix recensus_001 --authorised-cap-usd 10 --work-order <WO> --as-of <date> \
+  --through founder_review
+```
+
+Promotion of the sandbox census and of any packet decision into the live
+authority is a separate, founder-signed work order; this lifecycle stops at the
+founder-review gate exactly as it does for a new market.
