@@ -137,3 +137,64 @@ class TestProvenance:
                             authorised_cap_usd=10)
         assert document["cohort_provenance"]["newly_routed_by_url_recovery"] == [
             "recovered"]
+
+
+# -- PTF-MARKET-FACTORY-COVERAGE-HARDENING-001 ------------------------------- #
+
+class TestMandatoryPlanFields:
+    def test_the_fingerprint_is_order_independent_and_key_sensitive(self):
+        assert CP.cohort_fingerprint(["b", "a"]) == CP.cohort_fingerprint(["a", "b"])
+        assert CP.cohort_fingerprint(["a"]) != CP.cohort_fingerprint(["a", "b"])
+
+    def test_the_plan_carries_the_cohort_fingerprint_the_gate_checks(self):
+        document = CP.build(plan(row("a"), row("b")), {"results": []},
+                            authorised_cap_usd=10)
+        assert document["cohort_keys_sha256"] == CP.cohort_fingerprint(["a", "b"])
+
+    def test_expected_credits_and_dollars_are_stated_separately(self):
+        document = CP.build(plan(row("a", provider="firecrawl", family="CHOICE"),
+                                 row("b")), {"results": []}, authorised_cap_usd=10)
+        assert document["expected_firecrawl_credits"] == 1.0
+        assert document["expected_brightdata_usd_minor"]["at_registry"] == 16.0
+
+    def test_cumulative_prior_spend_counts_each_run_once(self):
+        passes = [{"run_id": "r1", "spend": {"binding_usd_minor": 881}, "attempted": 58,
+                   "results": [], "deferred": []},
+                  {"run_id": "r1", "spend": {"binding_usd_minor": 881}, "attempted": 58,
+                   "results": [], "deferred": []},
+                  {"run_id": "r2", "spend": {"binding_usd_minor": 420}, "attempted": 29,
+                   "results": [], "deferred": []}]
+        document = CP.build(plan(row("a")), {"results": []},
+                            previous_passes=passes, authorised_cap_usd=20)
+        assert document["cumulative_prior_spend"]["usd_minor"] == 1301
+        assert document["authorisation_remaining_usd_minor"] == 699
+        assert len(document["cumulative_prior_spend"]["runs"]) == 2
+
+    def test_completion_is_predicted_in_queue_order_under_the_balance(self):
+        # Balance 494 -> recommended 444; at 16 cents a property that is 27
+        # dollar-billed properties, so the 28th is deferred and the credit
+        # lane is untouched by the dollar cap.
+        rows = [row("d%02d" % i) for i in range(30)] + [row("c", provider="firecrawl")]
+        p = plan(*rows)
+        p["queue"] = ["c"] + ["d%02d" % i for i in range(30)]
+        document = CP.build(p, {"results": []}, authorised_cap_usd=10)
+        completion = document["predicted_completion_under_balance"]
+        assert completion["available_usd_minor"] == 444
+        assert completion["attemptable"] == 1 + 27
+        assert completion["deferred"] == 3
+        assert completion["stops_on"] == "dollar balance"
+        assert completion["completes_cohort"] is False
+        assert completion["attemptable_keys"][0] == "c"
+
+    def test_a_balance_that_covers_the_cohort_completes_it(self):
+        document = CP.build(plan(row("a"), row("b")), {"results": []},
+                            authorised_cap_usd=4)
+        completion = document["predicted_completion_under_balance"]
+        assert completion["completes_cohort"] is True and completion["deferred"] == 0
+
+    def test_same_lane_suppressions_travel_with_the_plan(self):
+        p = plan(row("a"))
+        p["suppressed_same_lane"] = [{"identity_key": "z"}, {"identity_key": "y"}]
+        document = CP.build(p, {"results": []}, authorised_cap_usd=10)
+        assert document["same_lane_retries_suppressed"]["count"] == 2
+        assert document["same_lane_retries_suppressed"]["identity_keys"] == ["y", "z"]

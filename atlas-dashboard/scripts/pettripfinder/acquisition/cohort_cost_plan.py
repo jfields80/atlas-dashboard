@@ -40,6 +40,7 @@ Zero network. Zero spend. The plan is a document, not a decision.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from collections import Counter, OrderedDict
@@ -58,6 +59,97 @@ SCHEMA = "ptf-cohort-cost-plan/1.0"
 #: A lane that bills in plan credits draws nothing from a dollar cap. Saying so
 #: explicitly is what keeps a credit-billed cohort out of the dollar projection.
 CREDIT_BILLED = "PLAN_CREDITS"
+
+
+def cohort_fingerprint(keys: Sequence[str]) -> str:
+    """One hash over a cohort's identity keys, order-independent.
+
+    PTF-MARKET-FACTORY-COVERAGE-HARDENING-001 makes the cost plan a gate the
+    paid pass checks before spending. A gate that only checks a plan EXISTS
+    admits a plan for last week's cohort; the fingerprint is how the pass proves
+    the plan it was handed describes the queue it is about to run.
+    """
+    material = "\n".join(sorted(str(k) for k in keys))
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()
+
+
+def cumulative_prior_spend(previous_passes: Sequence[Mapping]) -> Dict:
+    """What every earlier paid pass on this market has already cost, by run.
+
+    Summed over DISTINCT run ids: a resumed pass reports a cumulative figure for
+    its own work order, so two reports of one run must count once. The reason
+    this is in the plan at all is that an authorisation is per market, not per
+    pass, and a third pass that does not know what the first two spent cannot
+    say whether it is still inside it.
+    """
+    by_run: "OrderedDict[str, Dict]" = OrderedDict()
+    for document in previous_passes:
+        run_id = str(document.get("run_id") or document.get("work_order") or "")
+        spend = document.get("spend") or {}
+        binding = spend.get("binding_usd_minor")
+        credits = spend.get("estimated_plan_credits")
+        by_run[run_id] = OrderedDict((
+            ("run_id", run_id),
+            ("work_order", document.get("work_order", "")),
+            ("usd_minor", float(binding or 0)),
+            ("plan_credits", float(credits or 0)),
+            ("attempted", int(document.get("attempted") or 0)),
+        ))
+    return OrderedDict((
+        ("runs", list(by_run.values())),
+        ("usd_minor", round(sum(r["usd_minor"] for r in by_run.values()), 2)),
+        ("plan_credits", round(sum(r["plan_credits"] for r in by_run.values()), 2)),
+    ))
+
+
+def predicted_completion(queue: Sequence[Mapping], *, available_usd_minor: float,
+                         unit_usd_minor_by_provider: Mapping[str, float],
+                         credit_cap: Optional[int] = None) -> Dict:
+    """How far down the queue the money reaches, property by property.
+
+    Walked in QUEUE order because that is the order the cap will cut. A total
+    that says "the cohort costs 349 cents and you have 444" is true and useless
+    when the first twenty properties are the expensive ones; the answer a
+    person needs is WHICH properties the balance covers and which it defers.
+    """
+    spent = 0.0
+    credits = 0.0
+    attemptable: List[str] = []
+    deferred: List[str] = []
+    stopped_on = ""
+    for row in queue:
+        provider = row.get("provider", "")
+        unit = float(unit_usd_minor_by_provider.get(provider, 0.0) or 0.0)
+        is_credit = unit == 0.0 and provider in unit_usd_minor_by_provider
+        if is_credit:
+            if credit_cap is not None and credits + 1 > credit_cap:
+                if not stopped_on:
+                    stopped_on = "plan-credit cap"
+                deferred.append(row["identity_key"])
+                continue
+            credits += 1
+            attemptable.append(row["identity_key"])
+            continue
+        if stopped_on or spent + unit > available_usd_minor:
+            if not stopped_on:
+                stopped_on = "dollar balance"
+            deferred.append(row["identity_key"])
+            continue
+        spent += unit
+        attemptable.append(row["identity_key"])
+    return OrderedDict((
+        ("available_usd_minor", round(available_usd_minor, 2)),
+        ("attemptable", len(attemptable)),
+        ("deferred", len(deferred)),
+        ("completes_cohort", not deferred),
+        ("stops_on", stopped_on),
+        ("projected_spend_usd_minor", round(spent, 2)),
+        ("projected_plan_credits", round(credits, 2)),
+        ("attemptable_keys", attemptable),
+        ("deferred_keys", deferred),
+        ("basis", "walked in queue order at each lane's higher of registry and "
+                  "measured unit price; a credit-billed lane draws no dollars"),
+    ))
 
 
 def unit_price_usd_minor(provider: str) -> Optional[float]:
@@ -163,17 +255,31 @@ def cohort_provenance(plan: Mapping, previous: Optional[Mapping]) -> Dict:
     ))
 
 
+def _credits_per_property(provider: str) -> float:
+    try:
+        cost = PROVIDERS.get(provider).cost_metadata()
+    except (PROVIDERS.ProviderError, KeyError):
+        return 0.0
+    return float(cost.credits_per_property or 0.0)
+
+
 def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
           journal_path: Optional[Path] = None,
           previous: Optional[Mapping] = None,
+          previous_passes: Sequence[Mapping] = (),
+          credit_cap: Optional[int] = None,
           fallback_provider: str = "brightdata_web_unlocker") -> Dict:
     cohort = list(plan.get("cohort") or ())
     by_provider = Counter(r["provider"] for r in cohort)
+    if previous is None and previous_passes:
+        previous = previous_passes[-1]
     measured = measured_unit_usd_minor(previous or prior)
 
     lanes: List[Dict] = []
     dollar_low = dollar_high = 0.0
     credit_properties = 0
+    expected_credits = 0.0
+    unit_by_provider: Dict[str, float] = {}
     for provider, count in sorted(by_provider.items()):
         registry = unit_price_usd_minor(provider)
         lane = OrderedDict((
@@ -186,6 +292,10 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         if registry is None:
             credit_properties += count
             lane["projected_usd_minor"] = 0
+            lane["projected_plan_credits"] = round(
+                count * _credits_per_property(provider), 2)
+            expected_credits += lane["projected_plan_credits"]
+            unit_by_provider[provider] = 0.0
             lane["note"] = ("this lane bills plan credits and draws nothing "
                             "from the dollar cap")
         else:
@@ -195,6 +305,7 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
             lane["projected_usd_minor_at_registry"] = round(count * registry, 2)
             dollar_low += low
             dollar_high += high
+            unit_by_provider[provider] = max(registry, measured or registry)
         lanes.append(lane)
 
     fallback_unit = unit_price_usd_minor(fallback_provider) or 0.0
@@ -229,6 +340,20 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
                "the cap binds first and the queue order decides what is "
                "reached" % ceiling)
 
+    cumulative = cumulative_prior_spend(list(previous_passes) or
+                                        ([previous] if previous else []))
+    # The queue in run order, when the plan carries one; the cohort's own order
+    # otherwise (older dry-run reports predate the field).
+    by_key = {r["identity_key"]: r for r in cohort}
+    queue_keys = [k for k in (plan.get("queue") or ()) if k in by_key]
+    queue = ([by_key[k] for k in queue_keys] if queue_keys else cohort)
+    available = float(min(recommended, balance) if balance is not None
+                      else recommended)
+    completion = predicted_completion(
+        queue, available_usd_minor=available,
+        unit_usd_minor_by_provider=unit_by_provider, credit_cap=credit_cap)
+    suppressed = list(plan.get("suppressed_same_lane") or ())
+
     return OrderedDict((
         ("schema", SCHEMA),
         ("what_this_is",
@@ -242,6 +367,9 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
             ("prior", prior.get("work_order", "")),
         ))),
         ("cohort_size", len(cohort)),
+        ("cohort_keys_sha256",
+         plan.get("cohort_keys_sha256")
+         or cohort_fingerprint([r["identity_key"] for r in cohort])),
         ("cohort_by_provider", OrderedDict(sorted(by_provider.items()))),
         ("cohort_by_family", OrderedDict(
             sorted(Counter(r["family"] for r in cohort).items()))),
@@ -249,6 +377,12 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         ("credit_billed_properties", credit_properties),
         ("measured_unit_usd_minor", measured),
         ("lanes", lanes),
+        ("expected_firecrawl_credits", round(expected_credits, 2)),
+        ("expected_brightdata_usd_minor", OrderedDict((
+            ("at_measured", round(dollar_low, 2)),
+            ("at_registry", round(dollar_high, 2)),
+            ("worst_case_with_fallback", ceiling),
+        ))),
         ("projection", OrderedDict((
             ("at_measured_rates_usd_minor", round(dollar_low, 2)),
             ("at_registry_rates_usd_minor", round(dollar_high, 2)),
@@ -260,10 +394,21 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         ))),
         ("vendor_balance_usd_minor", balance),
         ("authorised_cap_usd_minor", authorised_minor),
+        ("cumulative_prior_spend", cumulative),
+        ("authorisation_remaining_usd_minor",
+         round(authorised_minor - cumulative["usd_minor"], 2)),
         ("recommended_cap_usd_minor", recommended),
         ("recommended_cap_why", why),
+        ("predicted_completion_under_balance", completion),
         ("queue_order", plan.get("queue_order") or []),
         ("cohort_provenance", cohort_provenance(plan, previous)),
+        ("same_lane_retries_suppressed", OrderedDict((
+            ("count", len(suppressed)),
+            ("identity_keys", sorted(r.get("identity_key", "")
+                                     for r in suppressed)),
+            ("note", "excluded from this cohort by the retry policy; not "
+                     "settled, not bought"),
+        ))),
         ("double_buy_check", double_buy_check(
             cohort, prior, journal_path,
             plan.get("cohort_rule", {}).get("terminal_prior_outcomes") or ())),
@@ -277,10 +422,14 @@ def main(argv=None) -> int:
     parser.add_argument("--prior", required=True,
                         help="the merged prior acquisition view the plan used")
     parser.add_argument("--authorised-cap-usd", type=float, required=True)
-    parser.add_argument("--previous-pass", default="",
-                        help="the last real paid pass on this market; its spend "
-                             "and its deferred list are what make the "
-                             "projection measured rather than quoted")
+    parser.add_argument("--previous-pass", action="append", default=[],
+                        help="every earlier paid pass on this market, oldest "
+                             "first; repeatable. The last one's spend and "
+                             "deferred list make the projection measured rather "
+                             "than quoted, and all of them together are the "
+                             "cumulative spend against the authorisation")
+    parser.add_argument("--credit-cap", type=int, default=None,
+                        help="the plan-credit ceiling the pass will run under")
     parser.add_argument("--journal", default="",
                         help="the journal of the run directory the pass will "
                              "use, if it already exists")
@@ -289,10 +438,11 @@ def main(argv=None) -> int:
 
     plan = json.loads(Path(args.plan).read_text(encoding="utf-8"))
     prior = json.loads(Path(args.prior).read_text(encoding="utf-8"))
-    previous = (json.loads(Path(args.previous_pass).read_text(encoding="utf-8"))
-                if args.previous_pass else None)
-    document = build(plan, prior, previous=previous,
+    previous_passes = [json.loads(Path(p).read_text(encoding="utf-8"))
+                       for p in args.previous_pass]
+    document = build(plan, prior, previous_passes=previous_passes,
                      authorised_cap_usd=args.authorised_cap_usd,
+                     credit_cap=args.credit_cap,
                      journal_path=Path(args.journal) if args.journal else None)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -318,6 +468,18 @@ def main(argv=None) -> int:
     print("recommended cap       : %s cents -- %s"
           % (document["recommended_cap_usd_minor"],
              document["recommended_cap_why"]))
+    print("prior spend           : %s cents over %d run(s); authorisation "
+          "remaining %s cents"
+          % (document["cumulative_prior_spend"]["usd_minor"],
+             len(document["cumulative_prior_spend"]["runs"]),
+             document["authorisation_remaining_usd_minor"]))
+    completion = document["predicted_completion_under_balance"]
+    print("predicted completion  : %d attemptable, %d deferred (%s)"
+          % (completion["attemptable"], completion["deferred"],
+             "completes the cohort" if completion["completes_cohort"]
+             else "stops on the " + completion["stops_on"]))
+    print("same-lane suppressed  : %d"
+          % document["same_lane_retries_suppressed"]["count"])
     print("cohort provenance     : %s"
           % dict(document["cohort_provenance"]["counts"]))
     check = document["double_buy_check"]

@@ -73,10 +73,21 @@ def merge(passes: Sequence[Tuple[str, Mapping]]) -> Tuple[List[Dict], List[Dict]
     chosen: "OrderedDict[str, Dict]" = OrderedDict()
     superseded: List[Dict] = []
     for label, document in passes:
+        # A free-pilot report names its one lane at DOCUMENT level and not on
+        # its rows; the retry policy needs the lane on the row, or it cannot
+        # tell a same-lane retry from a different-lane one. Carried down only
+        # when the document names a single lane -- a merged view's
+        # comma-joined list names no lane any row was fetched on.
+        document_lane = str(document.get("provider") or "")
+        if "," in document_lane:
+            document_lane = ""
         for result in (document.get("results") or ()):
             key = result["identity_key"]
             row = dict(result)
             row["acquisition_pass"] = label
+            if document_lane and not row.get("provider"):
+                row["provider"] = document_lane
+                row.setdefault("providers_tried", [document_lane])
             previous = chosen.get(key)
             if previous is None:
                 chosen[key] = row

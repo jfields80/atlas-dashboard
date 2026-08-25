@@ -24,7 +24,7 @@ import subprocess
 import sys
 from collections import Counter, OrderedDict
 from pathlib import Path
-from typing import Dict, List, Mapping
+from typing import Dict, List, Mapping, Optional
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(_REPO_ROOT) not in sys.path:
@@ -62,9 +62,38 @@ def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else ""
 
 
+def coverage_section(coverage: Optional[Mapping]) -> "OrderedDict":
+    """The routing-quality benchmark, read from the coverage-completion artifact.
+
+    PTF-MARKET-FACTORY-COVERAGE-HARDENING-001. Unresolved coverage is reported
+    beside the acquisition figures as a first-class number, and FACTORY_COMPLETE
+    is taken from the artifact's READY_FOR_FOUNDER_REVIEW -- a market does not
+    get to call itself complete because one paid pass ended.
+    """
+    if coverage is None:
+        return OrderedDict((
+            ("evaluated", False),
+            ("factory_complete", False),
+            ("note", "no coverage-completion artifact was given; the market "
+                     "cannot claim FACTORY_COMPLETE without one"),
+        ))
+    return OrderedDict((
+        ("evaluated", True),
+        ("schema", coverage.get("schema", "")),
+        ("evaluation_stage", coverage.get("evaluation_stage", "")),
+        ("counts", coverage.get("counts") or {}),
+        ("booleans", coverage.get("booleans") or {}),
+        ("pct_of_census", coverage.get("benchmark") or {}),
+        ("identities_the_factory_can_still_move",
+         len(coverage.get("identities_the_factory_can_still_move") or ())),
+        ("factory_complete", bool(coverage.get("factory_complete"))),
+        ("factory_complete_basis", coverage.get("factory_complete_basis", "")),
+    ))
+
+
 def build(market_id: str, phases: Mapping, *, suffix: str = "001",
           acquisition_name: str = "direct_http_pilot",
-          url_overlay: str = "") -> Dict:
+          url_overlay: str = "", coverage: Optional[Mapping] = None) -> Dict:
     """The benchmark manifest for one PASS over a market.
 
     ``suffix`` and ``acquisition_name`` exist because a market gets benchmarked
@@ -238,6 +267,7 @@ def build(market_id: str, phases: Mapping, *, suffix: str = "001",
         ("architecture", phases["architecture"]),
         ("interventions", phases["interventions"]),
         ("scorecard", scorecard),
+        ("coverage", coverage_section(coverage)),
         ("production_safety", phases["production_safety"]),
         ("artifacts", OrderedDict((
             ("census", OrderedDict((("path", str((CENSUS_DIR / ("%s.json" % market_id)).relative_to(_REPO_ROOT)).replace("\\", "/")), ("sha256", _sha(CENSUS_DIR / ("%s.json" % market_id)))))),
@@ -266,12 +296,18 @@ def main(argv=None) -> int:
     parser.add_argument("--acquisition-name", default="direct_http_pilot",
                         help="the acquisition report's filename stem; a paid "
                              "pass reads the merged view, not one lane's pilot")
+    parser.add_argument("--coverage", default="",
+                        help="the ptf-market-coverage-completion artifact; "
+                             "without it the benchmark cannot report "
+                             "FACTORY_COMPLETE")
     args = parser.parse_args(argv)
 
     phases = json.loads(Path(args.phases).read_text(encoding="utf-8"))
+    coverage = (json.loads(Path(args.coverage).read_text(encoding="utf-8"))
+                if args.coverage else None)
     document = build(args.market, phases, suffix=args.suffix,
                      acquisition_name=args.acquisition_name,
-                     url_overlay=args.url_overlay)
+                     url_overlay=args.url_overlay, coverage=coverage)
     sha = CPB.write_json(Path(args.out), document)
     print(json.dumps(document["scorecard"], indent=1))
     print("written: %s (%s)" % (args.out, sha))

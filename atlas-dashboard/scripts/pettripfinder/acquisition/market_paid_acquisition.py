@@ -90,9 +90,12 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.acquisition import cohort_cost_plan as CP  # noqa: E402
 from scripts.pettripfinder.acquisition import journal as JOURNAL      # noqa: E402
 from scripts.pettripfinder.acquisition import market_routing as MR    # noqa: E402
 from scripts.pettripfinder.acquisition import providers as PROVIDERS  # noqa: E402
+from scripts.pettripfinder.acquisition import registry as REGISTRY    # noqa: E402
+from scripts.pettripfinder.acquisition import retry_policy as RP      # noqa: E402
 from scripts.pettripfinder.brightdata import browser_capture as BC    # noqa: E402
 from scripts.pettripfinder.brightdata import client as CLIENT         # noqa: E402
 from scripts.pettripfinder.brightdata import corpus as CORPUS         # noqa: E402
@@ -165,6 +168,12 @@ def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
             ("provider", entry["provider"]),
             ("reader", entry["reader"]),
             ("prior_outcome", outcome or "NEVER_ATTEMPTED"),
+            # The approved ladder travels with the row so the retry policy can
+            # ask "is there a lane the prior attempt never tried?" without
+            # re-resolving the registry. Additive: rows from before this field
+            # existed are read with .get().
+            ("ladder", list(entry.get("ladder") or ())),
+            ("fallback_providers", list(entry.get("fallback_providers") or ())),
         ))
         if outcome in terminal_set:
             row["settled_because"] = (
@@ -181,6 +190,67 @@ def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
 #: so all three can apply the same overlay; this alias keeps the name importable
 #: where it was first written.
 apply_url_overlay = MR.apply_url_overlay
+
+
+def plan_cohort(entries: Sequence[Mapping], prior: Mapping, *,
+                terminal: Sequence[str] = DEFAULT_TERMINAL,
+                overrides: Optional[Mapping[str, Mapping]] = None
+                ) -> Tuple[List[Dict], List[Dict], List[Dict]]:
+    """``(cohort, settled, suppressed)`` -- subtraction, then the retry policy.
+
+    PTF-MARKET-FACTORY-COVERAGE-HARDENING-001. ``derive_cohort`` answers "whose
+    question is already answered?" and keeps answering exactly that. The retry
+    policy answers a second question over what is left: "would paying for this
+    row AGAIN, on the lanes it already failed on, change anything?" Louisville
+    paid $1.20 to learn the answer is no. The three lists partition the routed
+    population, and a test asserts it.
+    """
+    cohort, settled = derive_cohort(entries, prior, terminal=terminal)
+    eligible, suppressed = RP.apply(cohort, prior, overrides=overrides,
+                                    terminal=terminal)
+    return (eligible, settled, suppressed)
+
+
+def cost_plan_gate(plan: Optional[Mapping], queue: Sequence[Mapping]) -> Dict:
+    """No paid pass begins without a cost plan that describes THIS cohort.
+
+    The plan is mandatory, and "mandatory" is checked rather than asked: the
+    plan must be a ``ptf-cohort-cost-plan`` document, its double-buy proof must
+    hold, and it must have been built over exactly the queue about to run. A
+    plan for yesterday's cohort is a plan for a different purchase.
+    """
+    fingerprint = CP.cohort_fingerprint([r["identity_key"] for r in queue])
+    checks: List[Dict] = []
+    if plan is None:
+        checks.append(OrderedDict((
+            ("check", "cost_plan_present"), ("ok", False),
+            ("detail", "no --cost-plan was given; a paid pass may not begin "
+                       "without one (run --dry-run, then cohort_cost_plan.py)"),
+        )))
+    else:
+        checks.append(OrderedDict((
+            ("check", "cost_plan_schema"),
+            ("ok", plan.get("schema") == CP.SCHEMA),
+            ("detail", "schema %r" % plan.get("schema")),
+        )))
+        proof = (plan.get("double_buy_check") or {}).get("no_property_is_bought_twice")
+        checks.append(OrderedDict((
+            ("check", "no_property_is_bought_twice"),
+            ("ok", proof is True),
+            ("detail", "the plan's double-buy proof is %r" % proof),
+        )))
+        planned = plan.get("cohort_keys_sha256", "")
+        checks.append(OrderedDict((
+            ("check", "cost_plan_describes_this_cohort"),
+            ("ok", bool(planned) and planned == fingerprint),
+            ("detail", "plan cohort %s, this queue %s"
+                       % (planned[:12] or "(none)", fingerprint[:12])),
+        )))
+    return OrderedDict((
+        ("ok", all(c["ok"] for c in checks)),
+        ("cohort_keys_sha256", fingerprint),
+        ("checks", checks),
+    ))
 
 
 def _fallback_unit(entry: Mapping) -> float:
@@ -600,8 +670,15 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
               run_dir: Path, run_id: str, meter: SpendMeter,
               cap_usd_minor: int, credit_cap: Optional[int],
               breaker: FamilyBreaker, journal: JOURNAL.Journal,
-              resume: bool, meter_every: int = 5) -> Dict:
-    """The paid section. Reached only once every gate has passed."""
+              resume: bool, meter_every: int = 5,
+              registry_doc: Optional[Mapping] = None) -> Dict:
+    """The paid section. Reached only once every gate has passed.
+
+    ``registry_doc`` is the routing registry WITH the retry policy's
+    per-property lane overrides layered in, so a row that is here because an
+    approved lane was never tried starts on that lane rather than re-walking
+    the ladder from the lane that already failed.
+    """
     from scripts.pettripfinder.acquisition import router as ROUTER
 
     by_key = {r["identity_key"]: r for r in rows}
@@ -674,7 +751,8 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
         began = time.monotonic()
         try:
             result = await ROUTER.route_property(
-                record, target, run_dir=run_dir, run_id=run_id)
+                record, target, run_dir=run_dir, run_id=run_id,
+                registry=registry_doc)
             meter.charge(result.attempts)
             item = _result_row(row=row, entry=entry, result=result,
                                run_dir=run_dir, slug=target.slug, began=began)
@@ -866,6 +944,14 @@ def main(argv=None) -> int:
                         help="a ptf-census-url-recovery report; its recovered "
                              "URLs are layered over the census for ROUTING "
                              "ONLY, and the census file is never edited")
+    parser.add_argument("--cost-plan", default="",
+                        help="the ptf-cohort-cost-plan built over this cohort; "
+                             "MANDATORY for a spending run, ignored by "
+                             "--dry-run and --report-only")
+    parser.add_argument("--retry-overrides", default="",
+                        help="a ptf-retry-overrides document naming, with an "
+                             "author and a reason, identities whose same-lane "
+                             "retry an operator explicitly authorises")
     parser.add_argument("--no-resume", action="store_true")
     parser.add_argument("--dry-run", action="store_true",
                         help="derive the cohort and run the gates; spend zero")
@@ -882,11 +968,19 @@ def main(argv=None) -> int:
     prior = json.loads(Path(args.prior).read_text(encoding="utf-8"))
     overlay = apply_url_overlay(census["hotels"], args.url_overlay)
     entries, routing_summary = MR.route_census(census["hotels"])
-    cohort, settled = derive_cohort(
-        entries, prior, terminal=[t for t in args.terminal.split(",") if t])
+    overrides = (RP.load_overrides(Path(args.retry_overrides))
+                 if args.retry_overrides else None)
+    cohort, settled, suppressed = plan_cohort(
+        entries, prior, terminal=[t for t in args.terminal.split(",") if t],
+        overrides=overrides)
     queue = order_queue(cohort, args.priority.split(","))
     if args.limit:
         queue = queue[:args.limit]
+    # Alternate-lane rows start on the lane the prior attempt never tried. The
+    # overlay is layered over the committed registry, whose brand-level
+    # forbidden lists still apply beneath it.
+    registry_doc = RP.lane_overrides_registry(
+        queue, work_order=args.work_order or run_id, base=REGISTRY.load())
 
     run_dir = Path(args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -926,6 +1020,7 @@ def main(argv=None) -> int:
         ))),
         ("cohort_size", len(cohort)),
         ("settled_size", len(settled)),
+        ("suppressed_size", len(suppressed)),
         ("cohort_by_provider", OrderedDict(
             sorted(Counter(r["provider"] for r in cohort).items()))),
         ("cohort_by_family", OrderedDict(
@@ -933,8 +1028,19 @@ def main(argv=None) -> int:
         ("settled_by_prior_outcome", OrderedDict(
             sorted(Counter(r["prior_outcome"] for r in settled).items()))),
         ("queue_order", args.priority.split(",")),
+        # The queue in the order it will run, so a cost plan can predict how
+        # far a balance reaches; and its fingerprint, so the plan can prove it
+        # describes THIS cohort and not an earlier one.
+        ("queue", [r["identity_key"] for r in queue]),
+        ("cohort_keys_sha256",
+         CP.cohort_fingerprint([r["identity_key"] for r in queue])),
+        ("retry_policy", RP.summary(cohort, suppressed)),
+        ("lane_overrides", OrderedDict(sorted(
+            (registry_doc or {}).get("properties", {}).items()))
+         if registry_doc else OrderedDict()),
         ("cohort", cohort),
         ("settled", settled),
+        ("suppressed_same_lane", suppressed),
     ))
 
     if args.report_only:
@@ -981,6 +1087,14 @@ def main(argv=None) -> int:
 
     pre = preflight(meter, run_id=run_id, cap_usd_minor=cap_usd_minor)
     document["preflight"] = pre
+    # The cost plan is a gate, not a courtesy. It is checked on a spending run
+    # only: a dry run is how the plan's input is produced in the first place.
+    plan_doc = (json.loads(Path(args.cost_plan).read_text(encoding="utf-8"))
+                if args.cost_plan else None)
+    gate = cost_plan_gate(plan_doc, queue) if not args.dry_run else OrderedDict(
+        (("ok", True), ("checks", []),
+         ("note", "not checked: --dry-run spends nothing")))
+    document["cost_plan_gate"] = gate
     if not pre["ok"]:
         document["outcome"] = "STOPPED_BEFORE_SPENDING"
         document["stop_reason"] = "; ".join(
@@ -992,13 +1106,21 @@ def main(argv=None) -> int:
         document["outcome"] = "DRY_RUN_ONLY"
         document["results"] = []
         document["attempted"] = 0
+    elif not gate["ok"]:
+        document["outcome"] = "STOPPED_BEFORE_SPENDING"
+        document["stop_reason"] = "cost plan gate: " + "; ".join(
+            "%s: %s" % (c["check"], c["detail"]) for c in gate["checks"]
+            if not c["ok"])
+        document["results"] = []
+        document["attempted"] = 0
     else:
         breaker = FamilyBreaker(window=args.breaker_window)
         result = asyncio.run(run(
             rows=census["hotels"], queue=queue, run_dir=run_dir, run_id=run_id,
             meter=meter, cap_usd_minor=cap_usd_minor,
             credit_cap=args.credit_cap, breaker=breaker, journal=journal,
-            resume=not args.no_resume, meter_every=args.meter_every))
+            resume=not args.no_resume, meter_every=args.meter_every,
+            registry_doc=registry_doc))
         document.update(result)
         document["family_breakers_tripped"] = list(breaker.tripped.values())
         document["family_attempt_history"] = OrderedDict(

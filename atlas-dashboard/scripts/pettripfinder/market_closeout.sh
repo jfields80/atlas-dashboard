@@ -9,6 +9,11 @@
 # acquisition view, closure reads the store, the founder package reads closure's
 # inputs, and the benchmark reads all of them. Running one against a stale
 # predecessor is the failure this file exists to make impossible.
+#
+# PTF-MARKET-FACTORY-COVERAGE-HARDENING-001: the whole lifecycle -- including
+# these steps, the coverage-completion artifact and the founder-review gate --
+# is now sequenced by scripts/pettripfinder/market_factory_cli.py. This script
+# is kept for closing out a market whose passes were launched by hand.
 set -euo pipefail
 
 MARKET="${1:?market id, e.g. st-louis-mo}"

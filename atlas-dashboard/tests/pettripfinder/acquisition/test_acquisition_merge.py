@@ -91,3 +91,34 @@ class TestCoverage:
     def test_one_pass_is_returned_unchanged(self):
         rows, superseded = AM.merge([("only", pass_doc(row("a", O.VALID)))])
         assert len(rows) == 1 and superseded == []
+
+
+# -- PTF-MARKET-FACTORY-COVERAGE-HARDENING-001 ------------------------------- #
+
+class TestDocumentLevelLaneIsCarriedOntoRows:
+    def test_a_pilots_single_lane_reaches_every_row_that_names_none(self):
+        from scripts.pettripfinder.acquisition import acquisition_merge as AM
+        rows, _superseded = AM.merge([
+            ("pilot.json", {"provider": "direct_http",
+                            "results": [{"identity_key": "a", "outcome": "ACCESS_DENIED"}]}),
+        ])
+        assert rows[0]["provider"] == "direct_http"
+        assert rows[0]["providers_tried"] == ["direct_http"]
+
+    def test_a_row_that_names_its_own_lane_is_left_alone(self):
+        from scripts.pettripfinder.acquisition import acquisition_merge as AM
+        rows, _superseded = AM.merge([
+            ("paid.json", {"provider": "direct_http",
+                           "results": [{"identity_key": "a", "outcome": "VALID",
+                                        "provider": "firecrawl",
+                                        "providers_tried": ["firecrawl"]}]}),
+        ])
+        assert rows[0]["provider"] == "firecrawl"
+
+    def test_a_merged_views_comma_joined_lanes_name_no_row(self):
+        from scripts.pettripfinder.acquisition import acquisition_merge as AM
+        rows, _superseded = AM.merge([
+            ("merged.json", {"provider": "firecrawl, brightdata_browser",
+                             "results": [{"identity_key": "a", "outcome": "VALID"}]}),
+        ])
+        assert "provider" not in rows[0]

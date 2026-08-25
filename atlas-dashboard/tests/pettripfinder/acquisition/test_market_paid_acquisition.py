@@ -440,3 +440,61 @@ class TestTarget:
             {"brand": "MARRIOTT", "source_url": "https://marriott.com/x"})
         assert record.facts == {} and record.quotes == ()
         assert record.pets_allowed is None
+
+
+# -- PTF-MARKET-FACTORY-COVERAGE-HARDENING-001 ------------------------------- #
+
+class TestCostPlanGate:
+    """No paid pass begins without a cost plan that describes THIS cohort."""
+
+    def _plan(self, keys, proof=True):
+        from scripts.pettripfinder.acquisition import cohort_cost_plan as CP
+        return {"schema": CP.SCHEMA,
+                "cohort_keys_sha256": CP.cohort_fingerprint(keys),
+                "double_buy_check": {"no_property_is_bought_twice": proof}}
+
+    def test_no_plan_no_pass(self):
+        gate = PA.cost_plan_gate(None, [routed("a")])
+        assert gate["ok"] is False
+        assert gate["checks"][0]["check"] == "cost_plan_present"
+
+    def test_a_plan_over_this_cohort_with_its_proof_opens_the_gate(self):
+        gate = PA.cost_plan_gate(self._plan(["a", "b"]), [routed("b"), routed("a")])
+        assert gate["ok"] is True
+
+    def test_a_plan_over_a_different_cohort_is_refused(self):
+        gate = PA.cost_plan_gate(self._plan(["a"]), [routed("a"), routed("b")])
+        assert gate["ok"] is False
+        failed = [c["check"] for c in gate["checks"] if not c["ok"]]
+        assert failed == ["cost_plan_describes_this_cohort"]
+
+    def test_a_plan_whose_double_buy_proof_failed_is_refused(self):
+        gate = PA.cost_plan_gate(self._plan(["a"], proof=False), [routed("a")])
+        assert gate["ok"] is False
+        failed = [c["check"] for c in gate["checks"] if not c["ok"]]
+        assert failed == ["no_property_is_bought_twice"]
+
+    def test_a_document_that_is_not_a_cost_plan_is_refused(self):
+        plan = self._plan(["a"])
+        plan["schema"] = "ptf-market-paid-acquisition/1.0"
+        gate = PA.cost_plan_gate(plan, [routed("a")])
+        assert gate["ok"] is False
+
+
+class TestAlreadySettledRowsAreNeverPurchasedTwice:
+    def test_settled_rows_are_outside_the_cohort_and_outside_the_plan(self):
+        from scripts.pettripfinder.acquisition import cohort_cost_plan as CP
+        entries = [routed("valid"), routed("silent"), routed("wrong"), routed("fresh")]
+        prior = {"results": [{"identity_key": "valid", "outcome": O.VALID},
+                             {"identity_key": "silent", "outcome": O.POLICY_NOT_FOUND},
+                             {"identity_key": "wrong", "outcome": O.IDENTITY_MISMATCH}]}
+        cohort, settled, suppressed = PA.plan_cohort(entries, prior)
+        assert [r["identity_key"] for r in cohort] == ["fresh"]
+        assert {r["identity_key"] for r in settled} == {"valid", "silent", "wrong"}
+        assert suppressed == []
+        plan = {"market_id": "m", "cohort": cohort,
+                "cohort_rule": {"terminal_prior_outcomes": list(PA.DEFAULT_TERMINAL)},
+                "preflight": {"checks": []}}
+        document = CP.build(plan, prior, authorised_cap_usd=10)
+        assert document["double_buy_check"]["no_property_is_bought_twice"] is True
+        assert document["double_buy_check"]["already_answered_by_a_prior_pass"] == []
