@@ -101,12 +101,23 @@ class TestTheAuthorizationIsConsumed:
         assert auth["authorization_status"] == DA.DEPLOYED
 
     def test_no_earlier_authorization_was_reopened_or_reused(self):
+        """Every authorization that has ever deployed is still consumed.
+
+        PTF-LOUISVILLE-PUBLICATION-008 added a fourth record for the
+        seven-market candidate, and it is PREPARED -- which is not a deployable
+        status either. So nothing on file may deploy today, and the three that
+        went live are each exactly as spent as they were.
+        """
         by_id = {a["authorization_id"]: a for a in DA.list_authorizations()}
-        assert set(by_id) == {AUTH_ID, "ptf-auth-012-70747f09fdfe",
-                              "ptf-auth-047-a324b1bf5023"}
+        consumed = {AUTH_ID, "ptf-auth-012-70747f09fdfe",
+                    "ptf-auth-047-a324b1bf5023"}
+        assert consumed <= set(by_id)
+        for authorization_id in consumed:
+            assert by_id[authorization_id]["authorization_status"] == DA.DEPLOYED
+        # Nothing on file is deployable, whatever its status.
         for a in by_id.values():
-            assert a["authorization_status"] == DA.DEPLOYED
             assert DA.deployability_problems(a)
+            assert a["authorization_status"] in (DA.DEPLOYED, DA.PREPARED)
 
     def test_no_credential_is_recorded(self, auth, record):
         for doc in (auth, record):
