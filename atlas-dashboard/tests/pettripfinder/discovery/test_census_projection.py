@@ -257,3 +257,54 @@ class TestDistinctiveTokens:
         pairs = [s for s in suspects if "ritz" in s["shared_distinctive_tokens"]]
         assert len(pairs) == 1
         assert set(pairs[0]["shared_distinctive_tokens"]) >= {"ritz", "carlton"}
+
+
+class TestExplicitCorridorMembership:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. Indianapolis leaves shared ZIP 46202
+    to no corridor and places its hotels there BY NAME (``explicit_hotel_ids``).
+    Membership was decided by ZIP alone, so every explicitly placed hotel was
+    rejected as out of market -- five real downtown hotels the prior census
+    held -- and the coordinate-less ones were rejected with a reason about
+    coordinates they do not have."""
+
+    def _market_with_explicit(self):
+        market = _market()
+        corridor = market.corridors[0]
+        explicit = corridor.__class__(**{**corridor.__dict__,
+                                          "explicit_hotel_ids": ("tru by hilton downtown",)})
+        return market.__class__(**{**market.__dict__, "corridors": (explicit,)})
+
+    def test_a_hotel_a_corridor_names_explicitly_is_admitted_from_an_unclaimed_zip(self):
+        rows = [candidate("a", "Tru by Hilton Downtown", zip5="46202",
+                          lat=None, lng=None)]
+        admitted, ledger = CP.project(
+            rows, self._market_with_explicit(), observed_at="x", work_order="T",
+            in_bounds={"a": False})
+        assert ledger[0]["disposition"] == CP.ADMITTED
+        assert admitted[0]["corridor"] == "test-mo__core"
+
+    def test_the_prior_census_alias_of_an_absorbed_row_counts_as_the_name(self):
+        row = candidate("a", "Tru Downtown Indianapolis", zip5="46202",
+                        lat=38.63, lng=-90.19)
+        row["prior_census_identity_keys"] = ["tru by hilton downtown"]
+        admitted, ledger = CP.project(
+            [row], self._market_with_explicit(), observed_at="x", work_order="T",
+            in_bounds={"a": True})
+        assert ledger[0]["disposition"] == CP.ADMITTED
+
+    def test_a_coordinate_less_row_in_an_unclaimed_zip_is_a_boundary_decision_not_geography(self):
+        """Without coordinates the bounding box says nothing; the old reason
+        claimed the coordinates fell outside it."""
+        rows = [candidate("a", "Some Inn", zip5="46202", lat=None, lng=None)]
+        _admitted, ledger = CP.project(
+            rows, _market(), observed_at="x", work_order="T",
+            in_bounds={"a": False})
+        assert ledger[0]["disposition"] == CP.OUT_OF_MARKET_BOUNDARY_DECISION
+        assert "no coordinates" in ledger[0]["why"]
+
+    def test_coordinates_outside_the_box_are_still_geography(self):
+        rows = [candidate("a", "Far Inn", zip5="66935", lat=39.8, lng=-97.6)]
+        _admitted, ledger = CP.project(
+            rows, _market(), observed_at="x", work_order="T",
+            in_bounds={"a": False})
+        assert ledger[0]["disposition"] == CP.OUT_OF_MARKET_GEOGRAPHY

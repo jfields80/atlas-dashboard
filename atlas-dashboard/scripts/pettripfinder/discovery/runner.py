@@ -42,6 +42,9 @@ class RunConfig:
     max_overpass_requests: int = C.DEFAULT_MAX_OVERPASS_REQUESTS
     cache_only: bool = False
     resume: bool = False
+    #: Which Overpass mirror this run asks. Explicit and recorded; never a
+    #: hidden fallback to a second server.
+    overpass_endpoint: str = C.OVERPASS_DEFAULT_ENDPOINT
 
 
 _LEDGER_FILENAME = "query_ledger.json"
@@ -107,7 +110,8 @@ def execute_run(
     market, queries = build_plan(config)
     cache = cache or DiscoveryCache(Path(config.output_root) / C.CACHE_SUBDIR)
     google_client = google_client or GooglePlacesClient()
-    overpass_client = overpass_client or OverpassClient()
+    overpass_client = overpass_client or OverpassClient(
+        endpoint=config.overpass_endpoint or C.OVERPASS_DEFAULT_ENDPOINT)
     foursquare_client = foursquare_client or FoursquareClient()
     if config.cache_only:
         google_client = _CacheOnlyClient(google_client)

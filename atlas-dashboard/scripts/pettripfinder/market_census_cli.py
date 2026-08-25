@@ -37,7 +37,8 @@ from scripts.pettripfinder.discovery import census_projection as CP
 from scripts.pettripfinder.discovery.market_config import load_market_config
 from scripts.pettripfinder.markets.contract import parse_market
 
-CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
 
 
@@ -148,6 +149,17 @@ def build(market_id: str, candidates_path: Path, contract_path: Path, *,
                 ("longitude", candidate.get("longitude")),
                 ("lodging_basis", row["lodging_why"]),
                 ("state_source", state_source),
+                # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: what the earlier
+                # build called this hotel, which name recandidacy replaced,
+                # and which other identity shares its street. Without these
+                # the trace census_recandidacy promised ended at the
+                # candidate file, which is gitignored.
+                ("prior_census_identity_keys",
+                 list(candidate.get("prior_census_identity_keys") or ())),
+                ("name_before_recandidacy",
+                 candidate.get("name_before_recandidacy", "")),
+                ("street_shared_with",
+                 list(candidate.get("street_shared_with") or ())),
             )),
         ))
 

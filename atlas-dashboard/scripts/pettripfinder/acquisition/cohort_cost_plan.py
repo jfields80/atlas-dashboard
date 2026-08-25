@@ -179,8 +179,20 @@ def measured_unit_usd_minor(prior: Mapping) -> Optional[float]:
 
 def double_buy_check(cohort: Sequence[Mapping], prior: Mapping,
                      journal_path: Optional[Path],
-                     terminal: Sequence[str]) -> Dict:
+                     terminal: Sequence[str], *,
+                     resumes: bool = True) -> Dict:
     """Nothing in the cohort was already ANSWERED, and nothing was already run.
+
+    ``resumes`` says whether the pass this plan is for will resume from the
+    run directory's journal (the default of ``market_paid_acquisition``) and
+    skip every key already completed there. PTF-INDIANAPOLIS-HARDENED-
+    RECENSUS-002 stopped a pass after four properties because the census had
+    changed under it; the next plan refused the whole cohort because those
+    four were 'already journalled', and a factory that cannot resume an
+    interrupted pass would have had to discard the journal to continue --
+    which is exactly the double buy the check exists to prevent. A key the
+    resume will skip is reported as RESUMED, not bought, and does not fail the
+    proof; with ``--no-resume`` it fails the proof as before.
 
     Answered is not the same as attempted, and conflating them fails the check on
     exactly the properties a second pass exists for. A page that served and was
@@ -210,10 +222,14 @@ def double_buy_check(cohort: Sequence[Mapping], prior: Mapping,
         ("already_answered_by_a_prior_pass", sorted(cohort_keys & answered)),
         ("already_journalled_in_this_run_dir",
          sorted(cohort_keys & journalled)),
+        ("pass_resumes_from_that_journal", bool(resumes)),
+        ("resumed_from_journal_not_bought_again",
+         sorted(cohort_keys & journalled) if resumes else []),
         ("retries_of_attempts_that_answered_nothing", OrderedDict(
             sorted((k, unsettled[k]) for k in cohort_keys & set(unsettled)))),
         ("no_property_is_bought_twice",
-         not (cohort_keys & answered) and not (cohort_keys & journalled)),
+         not (cohort_keys & answered)
+         and (bool(resumes) or not (cohort_keys & journalled))),
     ))
 
 
@@ -268,7 +284,8 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
           previous: Optional[Mapping] = None,
           previous_passes: Sequence[Mapping] = (),
           credit_cap: Optional[int] = None,
-          fallback_provider: str = "brightdata_web_unlocker") -> Dict:
+          fallback_provider: str = "brightdata_web_unlocker",
+          resumes: bool = True) -> Dict:
     cohort = list(plan.get("cohort") or ())
     by_provider = Counter(r["provider"] for r in cohort)
     if previous is None and previous_passes:
@@ -325,6 +342,9 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
 
     ceiling = round(dollar_high + fallback_exposure, 2)
     authorised_minor = int(round(authorised_cap_usd * 100))
+    cumulative = cumulative_prior_spend(list(previous_passes) or
+                                        ([previous] if previous else []))
+    remaining_minor = int(round(authorised_minor - cumulative["usd_minor"]))
     recommended = authorised_minor
     why = ("the authorised ceiling covers the projection with room for the "
            "fallback lane")
@@ -339,9 +359,20 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         why = ("the worst case (%s cents) exceeds the authorised ceiling, so "
                "the cap binds first and the queue order decides what is "
                "reached" % ceiling)
+    # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: the authorisation is for the
+    # WORK ORDER, not per pass. The plan already reported the cumulative
+    # spend and the authorisation remaining -- and then recommended the
+    # whole ceiling again: a second pass after a STOPPED_HARD_CAP first pass
+    # (992 of 1000 cents) was handed a 1000-cent cap and started buying. The
+    # recommended cap can never exceed what the authorisation has left.
+    if recommended > max(remaining_minor, 0):
+        recommended = max(remaining_minor, 0)
+        why = ("earlier passes of this work order have spent %s of the %d "
+               "cents authorised; the cap is what remains (%d cents)%s"
+               % (cumulative["usd_minor"], authorised_minor, recommended,
+                  "" if recommended > 0 else " -- the authorisation is "
+                  "exhausted and this pass may buy nothing"))
 
-    cumulative = cumulative_prior_spend(list(previous_passes) or
-                                        ([previous] if previous else []))
     # The queue in run order, when the plan carries one; the cohort's own order
     # otherwise (older dry-run reports predate the field).
     by_key = {r["identity_key"]: r for r in cohort}
@@ -397,6 +428,7 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         ("cumulative_prior_spend", cumulative),
         ("authorisation_remaining_usd_minor",
          round(authorised_minor - cumulative["usd_minor"], 2)),
+        ("authorisation_exhausted", recommended <= 0),
         ("recommended_cap_usd_minor", recommended),
         ("recommended_cap_why", why),
         ("predicted_completion_under_balance", completion),
@@ -411,7 +443,8 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         ))),
         ("double_buy_check", double_buy_check(
             cohort, prior, journal_path,
-            plan.get("cohort_rule", {}).get("terminal_prior_outcomes") or ())),
+            plan.get("cohort_rule", {}).get("terminal_prior_outcomes") or (),
+            resumes=resumes)),
     ))
 
 
@@ -433,6 +466,10 @@ def main(argv=None) -> int:
     parser.add_argument("--journal", default="",
                         help="the journal of the run directory the pass will "
                              "use, if it already exists")
+    parser.add_argument("--no-resume", action="store_true",
+                        help="the pass will NOT resume from the run directory's "
+                             "journal, so a journalled key in the cohort IS a "
+                             "double buy")
     parser.add_argument("--out", required=True)
     args = parser.parse_args(argv)
 
@@ -443,7 +480,8 @@ def main(argv=None) -> int:
     document = build(plan, prior, previous_passes=previous_passes,
                      authorised_cap_usd=args.authorised_cap_usd,
                      credit_cap=args.credit_cap,
-                     journal_path=Path(args.journal) if args.journal else None)
+                     journal_path=Path(args.journal) if args.journal else None,
+                     resumes=not args.no_resume)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(document, indent=1, ensure_ascii=False) + "\n",
@@ -484,6 +522,9 @@ def main(argv=None) -> int:
           % dict(document["cohort_provenance"]["counts"]))
     check = document["double_buy_check"]
     print("no property bought twice: %s" % check["no_property_is_bought_twice"])
+    if check.get("resumed_from_journal_not_bought_again"):
+        print("  resumed from journal (not bought again): %s"
+              % check["resumed_from_journal_not_bought_again"])
     print("  retries (answered nothing before): %d"
           % len(check["retries_of_attempts_that_answered_nothing"]))
     if not check["no_property_is_bought_twice"]:

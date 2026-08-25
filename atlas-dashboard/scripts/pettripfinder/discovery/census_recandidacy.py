@@ -39,7 +39,7 @@ Pure and deterministic: no network, no clock.
 
 from __future__ import annotations
 
-from typing import Dict, List, Mapping, Sequence, Tuple
+from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.discovery import constants as C
 
@@ -135,8 +135,42 @@ def street_identity(candidate: Mapping) -> str:
     return key if key.strip("|") else ""
 
 
+NAME_EQUAL = "NAMES_EQUAL"
+NAME_PRIOR_ABBREVIATES_FRESH = "PRIOR_NAME_IS_CONTAINED_IN_FRESH_NAME"
+NAME_FRESH_ABBREVIATES_PRIOR = "FRESH_NAME_IS_CONTAINED_IN_PRIOR_NAME"
+NAME_CONFLICT = "NAMES_SHARE_A_STREET_BUT_NEITHER_CONTAINS_THE_OTHER"
+
+
+def names_compatible(prior_name: str, fresh_name: str) -> Tuple[bool, str]:
+    """May a prior row be absorbed into a fresh row at the same street?
+
+    PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. Street identity alone absorbed 16
+    of 56 Indianapolis prior rows into fresh rows with UNRELATED names: two
+    dual-brand buildings collapsed to one hotel each (Fairfield Inn and
+    SpringHill Suites into the Courtyard at 601 W Washington; Hyatt House into
+    Hyatt Place at 130 S Pennsylvania), and a Wingate was absorbed into an
+    OpenStreetMap row whose stale name calls that building a Baymont. One
+    building, two brands, two pet policies -- and a rebrand is a finding for a
+    human, not a merge. So a street match absorbs only when one name contains
+    the other or they are equal, the same containment test
+    ``census_projection`` applies to coordinate absorption.
+    """
+    from scripts.pettripfinder.discovery.census_projection import (
+        absorption_direction, names_equal_for_absorption)
+
+    if names_equal_for_absorption(prior_name, fresh_name):
+        return (True, NAME_EQUAL)
+    direction = absorption_direction(prior_name, fresh_name)
+    if direction == 1:
+        return (True, NAME_PRIOR_ABBREVIATES_FRESH)
+    if direction == -1:
+        return (True, NAME_FRESH_ABBREVIATES_PRIOR)
+    return (False, NAME_CONFLICT)
+
+
 def absorb_prior_by_street(discovery: Sequence[Mapping],
-                           prior: Sequence[Mapping]
+                           prior: Sequence[Mapping],
+                           *, conflicts: Optional[List[Dict]] = None
                            ) -> Tuple[List[Dict], List[Dict]]:
     """``(surviving prior candidates, absorption records)``.
 
@@ -173,16 +207,71 @@ def absorb_prior_by_street(discovery: Sequence[Mapping],
         if host is None:
             survivors.append(dict(candidate))
             continue
-        absorptions.append({
+        compatible, relation = names_compatible(
+            str(candidate.get("name") or ""), str(host.get("name") or ""))
+        if not compatible:
+            # Same street, unrelated names: a dual-brand building, a rebrand,
+            # or a stale provider name. Both rows survive and both are marked,
+            # so the duplicate scan and the founder see them side by side.
+            kept = dict(candidate)
+            kept["street_shared_with"] = list(kept.get("street_shared_with") or ())
+            kept["street_shared_with"].append(str(host.get("candidate_id") or ""))
+            shared = list(host.get("street_shared_with") or ())
+            shared.append(str(candidate.get("candidate_id") or ""))
+            host["street_shared_with"] = shared
+            if conflicts is not None:
+                conflicts.append({
+                    "prior_candidate_id": candidate.get("candidate_id"),
+                    "prior_name": candidate.get("name"),
+                    "fresh_candidate_id": host.get("candidate_id"),
+                    "fresh_name": host.get("name"),
+                    "street_identity": key,
+                    "relation": relation,
+                    "resolution": "NOT_ABSORBED: both rows survive as separate "
+                                  "identities at one street for review -- a "
+                                  "dual-brand building, a rebrand, or a stale "
+                                  "provider name",
+                })
+            survivors.append(kept)
+            continue
+        record = {
             "absorbed_candidate_id": candidate.get("candidate_id"),
             "absorbed_name": candidate.get("name"),
             "into_candidate_id": host.get("candidate_id"),
             "into_name": host.get("name"),
             "street_identity": key,
-            "basis": "same street identity (number + street words + ZIP); the "
-                     "prior census carries no coordinates, so this is the only "
-                     "identity both records hold",
-        })
+            "name_relation": relation,
+            "basis": "same street identity (number + street words + ZIP) and a "
+                     "compatible name; the prior census carries no coordinates, "
+                     "so the street is the only identity both records hold",
+        }
+        if relation == NAME_FRESH_ABBREVIATES_PRIOR:
+            # The prior build knew this hotel by its fuller name ("Home2 Suites
+            # by Hilton Indianapolis Airport"); the provider knows it as a bare
+            # brand ("Home2 Suites"). A bare brand is a valid identity key that
+            # collides with its siblings -- the third market this has
+            # threatened -- so the surviving row takes the fuller name and
+            # records where it came from.
+            record["name_taken_from_prior"] = candidate.get("name")
+            record["fresh_name_replaced"] = host.get("name")
+            host["name_before_recandidacy"] = host.get("name")
+            host["name"] = candidate.get("name")
+            if candidate.get("normalized_name"):
+                host["normalized_name"] = candidate.get("normalized_name")
+        record["surviving_name"] = host.get("name")
+        # A prior row that states its city and state is evidence for a host
+        # that states neither: Embassy Suites Indianapolis North was absorbed
+        # into an OpenStreetMap row with a street and a ZIP but no city, and
+        # the host was then held for NO LOCALITY -- the hotel vanished.
+        filled = []
+        for field in ("city", "state", "postal_code"):
+            if not (host.get(field) or "").strip() and (candidate.get(field) or "").strip():
+                host[field] = candidate[field]
+                filled.append(field)
+        if filled:
+            record["locality_taken_from_prior"] = filled
+            host["locality_taken_from_prior"] = filled
+        absorptions.append(record)
         aliases = list(host.get("prior_census_identity_keys") or ())
         prior_key = str(candidate.get("normalized_name") or "")
         if prior_key and prior_key not in aliases:
@@ -211,6 +300,100 @@ def merge(discovery: Sequence[Mapping], prior: Sequence[Mapping]) -> List[Dict]:
     return out
 
 
+def build(*, census: Mapping, discovery: Sequence[Mapping], observed_at: str,
+          work_order: str = "") -> Tuple[List[Dict], Dict]:
+    """``(merged candidates, absorption document)`` -- the whole recandidacy.
+
+    Louisville (PTF-LOUISVILLE-MARKET-REBUILD-002) drove these three functions by
+    hand from a shell; Indianapolis (PTF-INDIANAPOLIS-HARDENED-RECENSUS-002) is
+    the second rebuild and the sequence is the same every time, so it is one
+    call here and one command below, and the next market needs neither a script
+    nor a transcript.
+    """
+    prior = from_census(census, observed_at=observed_at)
+    conflicts: List[Dict] = []
+    survivors, absorptions = absorb_prior_by_street(discovery, prior,
+                                                    conflicts=conflicts)
+    merged = merge(discovery, survivors)
+    document = {
+        "schema": "ptf-census-recandidacy/1.0",
+        "market_id": str(census.get("market_id") or ""),
+        "work_order": work_order,
+        "prior_census_work_order": str(census.get("work_order") or ""),
+        "prior_census_rows": len(prior),
+        "fresh_discovery_candidates": len(discovery),
+        "absorbed_into_fresh": len(absorptions),
+        "prior_rows_surviving_on_their_own_evidence": len(survivors),
+        "merged_candidates": len(merged),
+        "names_taken_from_prior": sum(1 for a in absorptions
+                                      if a.get("name_taken_from_prior")),
+        "street_conflicts_not_absorbed": len(conflicts),
+        "absorptions": absorptions,
+        "street_conflicts": conflicts,
+    }
+    return merged, document
+
+
+def main(argv=None) -> int:
+    import argparse
+    import json
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(
+        description="Project a committed census back into discovery candidates "
+                    "and merge them with fresh discovery, absorbing by street.")
+    parser.add_argument("--prior-census", required=True,
+                        help="a committed ptf-market-identity-census document; "
+                             "read as sightings, never as authority")
+    parser.add_argument("--discovery-candidates", action="append", default=[],
+                        help="a discovery candidates JSON list; repeatable")
+    parser.add_argument("--observed-at", required=True)
+    parser.add_argument("--work-order", default="")
+    parser.add_argument("--out", required=True, help="merged candidates JSON list")
+    parser.add_argument("--absorptions-out", default="",
+                        help="where to write the absorption document; default "
+                             "next to --out as <stem>_prior_absorptions.json")
+    args = parser.parse_args(argv)
+
+    census = json.loads(Path(args.prior_census).read_text(encoding="utf-8"))
+    discovery: List[Dict] = []
+    for path in args.discovery_candidates:
+        loaded = json.loads(Path(path).read_text(encoding="utf-8"))
+        if not isinstance(loaded, list):
+            raise SystemExit("ERROR: %s is not a candidates list" % path)
+        discovery.extend(loaded)
+    merged, document = build(census=census, discovery=discovery,
+                             observed_at=args.observed_at,
+                             work_order=args.work_order)
+    document["inputs"] = {
+        "prior_census": Path(args.prior_census).as_posix(),
+        "discovery_candidates": [Path(p).as_posix() for p in args.discovery_candidates],
+    }
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(merged, indent=1, ensure_ascii=False) + "\n",
+                   encoding="utf-8", newline="\n")
+    absorptions_out = (Path(args.absorptions_out) if args.absorptions_out
+                       else out.with_name(out.stem + "_prior_absorptions.json"))
+    absorptions_out.write_text(
+        json.dumps(document, indent=1, ensure_ascii=False) + "\n",
+        encoding="utf-8", newline="\n")
+    print("prior census rows        : %d" % document["prior_census_rows"])
+    print("fresh discovery          : %d" % document["fresh_discovery_candidates"])
+    print("absorbed into fresh      : %d" % document["absorbed_into_fresh"])
+    print("prior surviving alone    : %d"
+          % document["prior_rows_surviving_on_their_own_evidence"])
+    print("merged candidates        : %d" % document["merged_candidates"])
+    print("written                  : %s" % out.as_posix())
+    print("absorptions              : %s" % absorptions_out.as_posix())
+    return 0
+
+
 __all__ = ["PRIOR_CENSUS_PROVIDER", "CANDIDATE_ID_PREFIX", "candidate_id_for",
            "is_prior_census_candidate", "to_candidate", "from_census", "merge",
-           "street_identity", "absorb_prior_by_street"]
+           "street_identity", "absorb_prior_by_street", "names_compatible",
+           "build", "main"]
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

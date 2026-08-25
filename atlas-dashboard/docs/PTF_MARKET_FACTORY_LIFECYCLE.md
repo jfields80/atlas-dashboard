@@ -79,3 +79,64 @@ python scripts/pettripfinder/market_factory_cli.py \
 Without `--authorise-spend` the paid phases stop at their cost plan with status
 `AWAITING_AUTHORISATION`; re-run with the flag once the plan has been read.
 `--plan` prints the phases, their status and which may spend, and runs nothing.
+
+## Re-censusing a market that already has a census (PTF-INDIANAPOLIS-HARDENED-RECENSUS-002)
+
+Indianapolis was the first REGISTERED market rebuilt on the generic path, and a
+registered market has three bindings Louisville did not: `markets/<id>.json`, a
+release contract in `deploy/netlify/release_contracts/` that pins
+`identity_census/<id>.json` at an `expected_count`, and (for Indianapolis) a
+policy package `published: true` in source. The generic tools read and write the
+census by convention at `launch_packages/pettripfinder/identity_census/`, so a
+rebuild on the generic path would have overwritten the pinned file -- and a
+release contract that no longer matches its market makes `verify_all()` raise
+for every market. Four things make a re-census safe:
+
+1. **The census location is a run-level setting.** `census_location.py` resolves
+   every generic tool's `CENSUS_DIR`; set
+   `PTF_IDENTITY_CENSUS_DIR=launch_packages/pettripfinder/identity_census_proposed`
+   for the whole run and the committed census is never touched. Promoting the
+   proposed census over the committed one is a founder step, taken together with
+   the release contract and the registration row it invalidates.
+2. **Prior work is an INPUT.** `discovery/census_recandidacy` (now a command)
+   projects the committed census back into candidates and merges them with fresh
+   discovery, absorbing by street identity ONLY when the names are compatible --
+   a dual-brand building is two hotels, a rebrand is a finding -- and taking the
+   fuller prior name over a provider's bare brand, which is how identity keys
+   collide. The census row carries `prior_census_identity_keys`,
+   `name_before_recandidacy` and `street_shared_with`.
+3. **Every prior row is classified once.** `discovery/prior_build_reconciliation`
+   reports MATCHED_EXISTING / RENAMED_REBRANDED / DUPLICATE /
+   OUT_OF_CURRENT_GEOGRAPHY / UNRESOLVED_IDENTITY for every prior row, plus what
+   the prior build still offers (USEFUL_SOURCE_URL, USEFUL_POLICY_EVIDENCE,
+   PRIOR_AUTHORITY_MATCH). Prior authority is reported, never carried.
+4. **An interrupted paid pass resumes.** The cost plan now treats a key already
+   in the run directory's journal as RESUMED, not bought twice, unless the pass
+   runs with `--no-resume`; and a pass killed mid-run (journal, no report) is
+   reported from its journal and registered before the next plan is built.
+5. **The authorisation is for the work order.** The recommended cap can never
+   exceed what earlier passes left of it (`cumulative_prior_spend`); an
+   exhausted authorisation SKIPS the paid phase with its rows BUDGET_DEFERRED
+   instead of running a pass under a fresh ceiling. Before this, the plan for
+   pass 2 reported 8 cents remaining and recommended 1000.
+6. **A budget stop stands behind a continuation pass.** The coverage builder
+   reads EVERY pass report (`--pass-report`, oldest first): a STOPPED_* pass's
+   deferrals stay BUDGET_DEFERRED until a later pass attempts them, and the
+   factory re-runs declined-evidence recovery over every pass's run directory
+   before judging coverage.
+
+Also fixed on this work order, all generic: `census_projection` honours a
+corridor's `explicit_hotel_ids` (five explicitly placed downtown hotels had been
+rejected as out of market, with a reason about coordinates they did not have);
+`census_url_recovery` reads the routing-shard shape (`hotel_ref.identity_key` +
+`official_property_url`); `market_routing.classify_url_shape` calls a hotel
+search (`find-hotels`, `hotel-search`, `?city=`) a BRAND_INDEX whatever else the
+path carries; and `discovery_cli run --overpass-endpoint` (or
+`$ATLAS_OVERPASS_ENDPOINT`) names the Overpass mirror explicitly when the public
+default is down -- the client never falls back on its own.
+
+```
+python -m scripts.pettripfinder.discovery.census_recandidacy   --prior-census <committed census> --discovery-candidates <fresh candidates>   --observed-at <date> --work-order <wo> --out <merged candidates>
+PTF_IDENTITY_CENSUS_DIR=launch_packages/pettripfinder/identity_census_proposed python scripts/pettripfinder/market_factory_cli.py --market <id>   --contract launch_packages/pettripfinder/markets/<id>.json   --candidates <merged candidates> --discovery-cache <cache>   --prior-census <committed census> --prior-artifact "<prior reports glob>" ...
+python scripts/pettripfinder/discovery/prior_build_reconciliation.py   --prior-census <committed census> --new-census <proposed census>   --candidate-ledger <ledger> --absorptions <merged>_prior_absorptions.json   --policy-package launch_packages/pettripfinder/hotel_policy_facts_<id>.json --out <report>
+```

@@ -416,6 +416,17 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
             distance_meters=round(distance, 1)))
 
     # Pass 3 -- membership, then rows.
+    #
+    # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: a corridor may name a hotel
+    # EXPLICITLY (``explicit_hotel_ids``) precisely because its ZIP is shared
+    # or unclaimed -- Indianapolis leaves 46202 to no corridor and places its
+    # five hotels by name. Membership used to be decided by ZIP alone, so
+    # every explicitly placed hotel was rejected as out of market, and the
+    # coordinate-less ones were rejected with a reason about coordinates.
+    explicit_corridor: Dict[str, str] = {}
+    for contract_corridor in market.corridors:
+        for explicit_key in contract_corridor.explicit_hotel_ids:
+            explicit_corridor.setdefault(explicit_key, contract_corridor.corridor_id)
     admitted: List[Dict] = []
     for candidate, lodging_state, why in survivors:
         candidate_id = candidate.get("candidate_id", "")
@@ -423,8 +434,15 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
         zip5 = (candidate.get("postal_code") or "").strip()[:5]
         corridor = zips.get(zip5, "")
         has_address = bool((candidate.get("address_line") or "").strip())
+        if not corridor and explicit_corridor:
+            named_keys = [ptf_identity_key(candidate.get("name") or "")]
+            named_keys += [ptf_identity_key(alias) for alias
+                           in candidate.get("prior_census_identity_keys") or ()]
+            corridor = next((explicit_corridor[k] for k in named_keys
+                             if k in explicit_corridor), "")
         if not corridor:
-            if not inside:
+            has_coordinates = _coords(candidate)[0] is not None
+            if not inside and has_coordinates:
                 ledger.append(_ledger_entry(
                     candidate, OUT_OF_MARKET_GEOGRAPHY,
                     "the candidate own coordinates fall outside the market "
@@ -433,8 +451,13 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
             if zip5:
                 ledger.append(_ledger_entry(
                     candidate, OUT_OF_MARKET_BOUNDARY_DECISION,
-                    "postal code %r is inside the discovery bounding box and is "
-                    "claimed by no corridor in the market registry" % zip5))
+                    ("postal code %r is inside the discovery bounding box and is "
+                     "claimed by no corridor in the market registry" % zip5)
+                    if has_coordinates else
+                    ("postal code %r is claimed by no corridor in the market "
+                     "registry and no corridor names this hotel explicitly; the "
+                     "candidate carries no coordinates, so the bounding box "
+                     "cannot place it either" % zip5)))
                 continue
             # Inside the box with no postal code. The census contract requires
             # a city and a state on every row, and there is nothing here to

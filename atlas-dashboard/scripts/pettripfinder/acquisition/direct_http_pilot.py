@@ -35,8 +35,8 @@ from scripts.pettripfinder.brightdata import browser_capture as BC
 from scripts.pettripfinder.brightdata import declined_capture as DECLINED
 from scripts.pettripfinder.brightdata import outcomes as O
 
-CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 #: Brands measured, at one probe each, to REFUSE this lane outright. Skipping
 #: them is not an assumption: it is the 2026-08-23 probe recorded in
 #: direct_http_capture's docstring, and re-running it 100 times would produce

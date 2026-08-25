@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from scripts.pettripfinder import discovery_cli
 from scripts.pettripfinder.discovery import constants as C
 
@@ -153,3 +155,52 @@ def test_unknown_category_rejected():
     import pytest
     with pytest.raises(SystemExit):
         discovery_cli.main(["plan", "--market", "columbus-oh", "--categories", "not_a_category"])
+
+
+class TestOverpassEndpointIsExplicit:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: overpass-api.de went dark (HTTP 000
+    at the connect timeout, its lz4/z backends too) while two other public mirrors
+    answered in a second. The client deliberately never falls back, so the run
+    must let the operator NAME the mirror -- and record it."""
+
+    def test_the_run_config_carries_the_endpoint_the_operator_named(self, monkeypatch):
+        from scripts.pettripfinder.discovery import constants as C
+        from scripts.pettripfinder import discovery_cli
+        captured = {}
+
+        def fake_execute(config, **_kw):
+            captured["endpoint"] = config.overpass_endpoint
+            raise SystemExit(0)
+
+        monkeypatch.setattr(discovery_cli, "execute_run", fake_execute)
+        monkeypatch.delenv(C.OVERPASS_ENDPOINT_ENV, raising=False)
+        with pytest.raises(SystemExit):
+            discovery_cli.main(["run", "--market", "columbus-oh", "--providers", "overpass",
+                                "--max-overpass-requests", "1",
+                                "--output-root", "data/discovery/_test_endpoint",
+                                "--overpass-endpoint", "https://mirror.example/api/interpreter"])
+        assert captured["endpoint"] == "https://mirror.example/api/interpreter"
+
+    def test_the_environment_supplies_the_default_and_the_constant_is_the_last_resort(self, monkeypatch):
+        from scripts.pettripfinder.discovery import constants as C
+        from scripts.pettripfinder import discovery_cli
+        import argparse
+        monkeypatch.setenv(C.OVERPASS_ENDPOINT_ENV, "https://env.example/api/interpreter")
+        p = argparse.ArgumentParser()
+        discovery_cli._add_common_run_args(p)
+        assert p.parse_args(["--market", "x"]).overpass_endpoint == "https://env.example/api/interpreter"
+        monkeypatch.delenv(C.OVERPASS_ENDPOINT_ENV)
+        p = argparse.ArgumentParser()
+        discovery_cli._add_common_run_args(p)
+        assert p.parse_args(["--market", "x"]).overpass_endpoint == C.OVERPASS_DEFAULT_ENDPOINT
+
+    def test_the_runner_hands_the_named_endpoint_to_the_client(self):
+        from scripts.pettripfinder.discovery.runner import RunConfig
+        from scripts.pettripfinder.discovery import constants as C
+        cfg = RunConfig(market_id="columbus-oh", providers=("OPENSTREETMAP",),
+                        categories=("hotel",), output_root="x", observed_at="2026-08-25")
+        assert cfg.overpass_endpoint == C.OVERPASS_DEFAULT_ENDPOINT
+        cfg2 = RunConfig(market_id="columbus-oh", providers=("OPENSTREETMAP",),
+                         categories=("hotel",), output_root="x", observed_at="2026-08-25",
+                         overpass_endpoint="https://mirror.example/api/interpreter")
+        assert cfg2.overpass_endpoint == "https://mirror.example/api/interpreter"

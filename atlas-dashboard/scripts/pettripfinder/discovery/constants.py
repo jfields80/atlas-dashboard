@@ -231,6 +231,12 @@ GOOGLE_USER_AGENT = "AtlasDiscovery/1.0 (+https://pettripfinder.com; market-disc
 # usage well under the documented 10,000 req/day, 1 GB/day guideline
 # (https://dev.overpass-api.de/overpass-doc/en/preface/commons.html).
 OVERPASS_DEFAULT_ENDPOINT = "https://overpass-api.de/api/interpreter"
+#: PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: the default public endpoint (and its
+#: lz4/z backends) stopped answering at all -- HTTP 000 at the connect timeout --
+#: while other public mirrors answered in a second. The client never falls back
+#: on its own (overpass.py), so the operator names the mirror explicitly, per run,
+#: and every sanitized request records which endpoint answered.
+OVERPASS_ENDPOINT_ENV = "ATLAS_OVERPASS_ENDPOINT"
 OVERPASS_USER_AGENT = "AtlasDiscovery/1.0 (+https://pettripfinder.com; discovery-research; contact-repo-owner)"
 OVERPASS_QL_TIMEOUT_SECONDS = 25       # server-side [timeout:N] directive
 OVERPASS_CLIENT_TIMEOUT_SECONDS = 30   # client-side HTTP read timeout

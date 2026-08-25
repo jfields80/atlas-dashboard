@@ -121,6 +121,12 @@ def _add_common_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--cache-only", action="store_true")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--overpass-endpoint",
+                   default=os.environ.get(C.OVERPASS_ENDPOINT_ENV, "").strip()
+                   or C.OVERPASS_DEFAULT_ENDPOINT,
+                   help="the Overpass mirror to ask; defaults to $%s, then the "
+                        "public default. Named explicitly because the client "
+                        "never falls back on its own" % C.OVERPASS_ENDPOINT_ENV)
 
 
 def cmd_plan(args) -> int:
@@ -141,6 +147,7 @@ def _print_run_preamble(config) -> None:
     print("max pages per query             : %d" % config.max_pages_per_query)
     print("max Google requests (cap)       : %d" % config.max_google_requests)
     print("max Overpass requests (cap)     : %d" % config.max_overpass_requests)
+    print("Overpass endpoint               : %s" % config.overpass_endpoint)
     print("Anthropic calls                 : 0 (never used by discovery)")
 
 
@@ -155,6 +162,7 @@ def cmd_run(args) -> int:
         max_google_requests=args.max_google_requests,
         max_overpass_requests=args.max_overpass_requests,
         cache_only=args.cache_only, resume=args.resume,
+        overpass_endpoint=args.overpass_endpoint,
     )
 
     if args.dry_run:

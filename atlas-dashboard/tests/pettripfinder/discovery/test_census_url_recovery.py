@@ -371,3 +371,40 @@ class TestPriorBuild:
         assert [o.url for o in observations] == ["https://found/"]
         assert coverage["urls_for_prior_rows_whose_census_url_is_empty"] == 1
         assert coverage["keys_absent_from_the_prior_census"] == ["unknown-identity"]
+
+
+class TestTheRoutingShardShape:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. The identity routing shard keeps
+    the key in ``hotel_ref.identity_key`` and the URL in
+    ``official_property_url`` one level up. A walk that pairs a URL only with
+    a key on the same node read every market's canonical routing authority and
+    bound nothing from it."""
+
+    def test_a_url_binds_to_the_key_of_its_enclosing_hotel_ref(self, tmp_path):
+        shard = tmp_path / "identity_routing.json"
+        shard.write_text(json.dumps({"routes": [{
+            "routing_id": "route-x",
+            "hotel_ref": {"identity_key": "candlewood suites medical district",
+                          "market_id": "x"},
+            "official_property_url": "https://www.ihg.com/candlewood/indwp",
+            "status": "VERIFIED",
+        }]}), encoding="utf-8")
+        found = UR.urls_in_artifacts([shard])
+        assert found == {"candlewood suites medical district": [
+            {"url": "https://www.ihg.com/candlewood/indwp",
+             "source": shard.as_posix(), "field": "official_property_url"}]}
+
+    def test_a_nested_node_inherits_the_nearest_enclosing_key(self, tmp_path):
+        report = tmp_path / "report.json"
+        report.write_text(json.dumps({"rows": [
+            {"identity_key": "outer", "evidence": {"final_url": "https://inner/"}},
+            {"identity_key": "other", "url": "https://other/"}]}), encoding="utf-8")
+        found = UR.urls_in_artifacts([report])
+        assert found["outer"][0]["url"] == "https://inner/"
+        assert found["other"][0]["url"] == "https://other/"
+
+    def test_a_url_with_no_key_anywhere_above_it_is_not_invented(self, tmp_path):
+        report = tmp_path / "report.json"
+        report.write_text(json.dumps({"summary": {"url": "https://nobody/"}}),
+                          encoding="utf-8")
+        assert UR.urls_in_artifacts([report]) == {}

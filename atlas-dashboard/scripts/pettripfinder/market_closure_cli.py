@@ -51,8 +51,8 @@ from scripts.pettripfinder.contracts import closure as CL
 from scripts.pettripfinder.contracts import enums
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 ACTIVE = "ACTIVE_ELIGIBLE"
 NOT_ACTIVE_IDENTITY = "NOT_ACTIVE_IDENTITY_UNRESOLVED"
 NOT_ACTIVE_CATEGORY = "NOT_ACTIVE_NOT_LODGING"
@@ -264,7 +264,7 @@ def build(market_id: str, census: Mapping, *, observations: Mapping,
               "capture outcome and its observation, in that order of "
               "specificity." % work_order),
         source_authorities=[
-            "launch_packages/pettripfinder/identity_census/%s.json" % market_id,
+            CENSUS_LOCATION.relative_census_path(market_id),
             "scripts/pettripfinder/acquisition/market_routing.py over that census",
             observations.get("derived_from", ""),
         ])

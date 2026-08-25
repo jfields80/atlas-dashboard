@@ -148,7 +148,8 @@ def collect_identity_findings(market_ids: Sequence[str]) -> Dict[str, object]:
 
     for market_id in market_ids:
         entry: Dict[str, object] = OrderedDict()
-        census_doc = _load(PACKAGE_DIR / "identity_census" / ("%s.json" % market_id))
+        from scripts.pettripfinder import census_location as CENSUS_LOCATION
+        census_doc = _load(CENSUS_LOCATION.identity_census_path(market_id))
 
         if census_doc is None:
             entry["census"] = "ABSENT -- no committed census for this market"

@@ -97,12 +97,15 @@ class TestDoubleBuy:
         assert check["retries_of_attempts_that_answered_nothing"] == {
             "a": "ACCESS_DENIED"}
 
-    def test_a_property_already_in_the_journal_is_a_defect(self, tmp_path):
+    def test_a_property_already_in_the_journal_is_a_defect_when_the_pass_will_not_resume(self, tmp_path):
+        """With --no-resume the journal protects nothing, so a journalled key
+        in the cohort would be bought again. (A resuming pass skips it: see
+        TestAnInterruptedPassCanResume.)"""
         journal = tmp_path / "journal.jsonl"
         journal.write_text(json.dumps({"identity_key": "a", "outcome": "VALID"})
                            + "\n", encoding="utf-8")
         document = CP.build(plan(row("a")), {"results": []},
-                            authorised_cap_usd=10, journal_path=journal)
+                            authorised_cap_usd=10, journal_path=journal, resumes=False)
         check = document["double_buy_check"]
         assert check["already_journalled_in_this_run_dir"] == ["a"]
         assert check["no_property_is_bought_twice"] is False
@@ -198,3 +201,80 @@ class TestMandatoryPlanFields:
         document = CP.build(p, {"results": []}, authorised_cap_usd=10)
         assert document["same_lane_retries_suppressed"]["count"] == 2
         assert document["same_lane_retries_suppressed"]["identity_keys"] == ["y", "z"]
+
+
+class TestAnInterruptedPassCanResume:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: a pass stopped after four
+    properties; the next plan refused the cohort because those four were
+    'already journalled'. A resume SKIPS them -- that is what a journal is for
+    -- so they are reported as resumed, not bought, and the proof holds."""
+
+    def _journal(self, tmp_path):
+        journal = tmp_path / "journal.jsonl"
+        journal.write_text(json.dumps({"identity_key": "a", "outcome": "VALID"}) + "\n",
+                           encoding="utf-8")
+        return journal
+
+    def test_a_journalled_key_is_resumed_not_bought_again(self, tmp_path):
+        check = CP.double_buy_check([{"identity_key": "a"}, {"identity_key": "b"}],
+                                    {"results": []}, self._journal(tmp_path), ("VALID",),
+                                    resumes=True)
+        assert check["already_journalled_in_this_run_dir"] == ["a"]
+        assert check["resumed_from_journal_not_bought_again"] == ["a"]
+        assert check["pass_resumes_from_that_journal"] is True
+        assert check["no_property_is_bought_twice"] is True
+
+    def test_without_resume_the_journalled_key_is_still_a_defect(self, tmp_path):
+        check = CP.double_buy_check([{"identity_key": "a"}], {"results": []},
+                                    self._journal(tmp_path), ("VALID",), resumes=False)
+        assert check["resumed_from_journal_not_bought_again"] == []
+        assert check["no_property_is_bought_twice"] is False
+
+    def test_a_key_a_prior_pass_answered_still_fails_even_on_resume(self, tmp_path):
+        check = CP.double_buy_check([{"identity_key": "z"}],
+                                    {"results": [{"identity_key": "z", "outcome": "VALID"}]},
+                                    self._journal(tmp_path), ("VALID",), resumes=True)
+        assert check["already_answered_by_a_prior_pass"] == ["z"]
+        assert check["no_property_is_bought_twice"] is False
+
+
+class TestTheAuthorisationIsForTheWorkOrder:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: pass 1 stopped at 992 of 1000 cents;
+    the plan for pass 2 reported 8 cents remaining and recommended a 1000-cent
+    cap. The recommended cap can never exceed what the authorisation has left."""
+
+    def _previous(self, usd_minor, run_id="m-001-pass1"):
+        return {"run_id": run_id, "work_order": "WO", "attempted": 79,
+                "spend": {"binding_usd_minor": usd_minor, "measured_usd_minor": usd_minor,
+                          "estimated_plan_credits": 28.0}}
+
+    def test_the_cap_is_what_remains(self):
+        document = CP.build(plan(row("a"), row("b")), {"results": []},
+                            authorised_cap_usd=10,
+                            previous_passes=[self._previous(600)])
+        assert document["authorisation_remaining_usd_minor"] == 400
+        assert document["recommended_cap_usd_minor"] == 400
+        assert document["authorisation_exhausted"] is False
+        assert "what remains" in document["recommended_cap_why"]
+
+    def test_an_exhausted_authorisation_recommends_nothing_and_says_so(self):
+        document = CP.build(plan(row("a"), row("b")), {"results": []},
+                            authorised_cap_usd=10,
+                            previous_passes=[self._previous(992)])
+        assert document["authorisation_remaining_usd_minor"] == 8
+        assert document["recommended_cap_usd_minor"] == 8
+        document = CP.build(plan(row("a"), row("b")), {"results": []},
+                            authorised_cap_usd=10,
+                            previous_passes=[self._previous(1000)])
+        assert document["recommended_cap_usd_minor"] == 0
+        assert document["authorisation_exhausted"] is True
+        completion = document["predicted_completion_under_balance"]
+        assert completion["attemptable"] == 0
+        assert completion["deferred"] == 2
+
+    def test_a_first_pass_is_unchanged(self):
+        document = CP.build(plan(row("a")), {"results": []}, authorised_cap_usd=10)
+        # the fixture balance, not the authorisation, is what binds a first pass
+        assert document["recommended_cap_usd_minor"] > 0
+        assert document["authorisation_remaining_usd_minor"] == 1000
+        assert document["authorisation_exhausted"] is False

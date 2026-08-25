@@ -161,3 +161,27 @@ class TestRouting:
         _entries, summary = MR.route_census(rows)
         assert summary["automatically_routed"] == 1
         assert summary["count"] == 3
+
+
+class TestASearchIsNeverAPropertyPage:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: a brand slug in the path made a
+    hotel SEARCH read as a property page, and a search URL that routes fetches
+    a page about every hotel in a city and none in particular."""
+
+    @pytest.mark.parametrize("url", [
+        "https://www.ihg.com/holidayinnexpress/hotels/us/en/find-hotels/hotel-search?city=indianapolis",
+        "https://www.marriott.com/search/findHotels.mi?destinationAddress.city=Indianapolis",
+        "https://www.hilton.com/en/search/?query=indianapolis",
+        "https://www.choicehotels.com/indiana/indianapolis/hotel-directory",
+        "https://www.wyndhamhotels.com/hotels-near/indianapolis-indiana",
+    ])
+    def test_a_search_path_or_a_city_query_is_a_brand_index(self, url):
+        assert MR.classify_url_shape(url) == MR.BRAND_INDEX
+
+    @pytest.mark.parametrize("url", [
+        "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+        "https://www.druryhotels.com/locations/indianapolis-in/drury-inn-and-suites-indianapolis-northeast",
+        "https://www.marriott.com/en-us/hotels/indcs-courtyard-indianapolis-castleton/overview/",
+    ])
+    def test_a_property_page_under_a_place_path_still_routes(self, url):
+        assert MR.classify_url_shape(url) == MR.PROPERTY_PAGE
