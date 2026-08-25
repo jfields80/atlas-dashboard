@@ -104,9 +104,9 @@ class TestTheAuthorizationIsConsumed:
         """Every authorization that has ever deployed is still consumed.
 
         PTF-LOUISVILLE-PUBLICATION-008 added a fourth record for the
-        seven-market candidate, and it is PREPARED -- which is not a deployable
-        status either. So nothing on file may deploy today, and the three that
-        went live are each exactly as spent as they were.
+        seven-market candidate and PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009
+        authorized it. So exactly one record may deploy, it is that one, and the
+        three that went live are each exactly as spent as they were.
         """
         by_id = {a["authorization_id"]: a for a in DA.list_authorizations()}
         consumed = {AUTH_ID, "ptf-auth-012-70747f09fdfe",
@@ -114,10 +114,13 @@ class TestTheAuthorizationIsConsumed:
         assert consumed <= set(by_id)
         for authorization_id in consumed:
             assert by_id[authorization_id]["authorization_status"] == DA.DEPLOYED
-        # Nothing on file is deployable, whatever its status.
-        for a in by_id.values():
-            assert DA.deployability_problems(a)
-            assert a["authorization_status"] in (DA.DEPLOYED, DA.PREPARED)
+        # Exactly one record may deploy, and it is not one of the three that
+        # already did: PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009 authorized
+        # the seven-market candidate, which has never been deployed.
+        deployable = [a["authorization_id"] for a in by_id.values()
+                      if not DA.deployability_problems(a)]
+        assert deployable == ["ptf-auth-008-38c811dfc22c"]
+        assert not (set(deployable) & consumed)
 
     def test_no_credential_is_recorded(self, auth, record):
         for doc in (auth, record):
@@ -247,13 +250,14 @@ class TestLiveVerification:
 # --------------------------------------------------------------------------- #
 
 class TestTheRepositoryMatchesProduction:
-    def test_the_manifest_verifies_and_describes_the_prepared_candidate(self, manifest):
+    def test_the_manifest_verifies_and_describes_the_authorized_candidate(self, manifest):
         """The manifest describes the candidate the repository composes, which
-        is now the seven-market one. It still verifies, and it is NOT
-        authorized: PTF-LOUISVILLE-PUBLICATION-008 stops before deployment."""
+        is now the seven-market one, and mirrors the record that authorizes it.
+        It is a DIFFERENT bundle from the one that went live under 012."""
         assert GD.verify_manifest() == []
-        assert manifest["deployment_authorized"] is False
-        assert manifest["bundle_sha256"] != BUNDLE
+        assert manifest["deployment_authorized"] is True
+        assert manifest["deployment_authorization"]["bundle_sha256"] == \
+            manifest["bundle_sha256"] != BUNDLE
 
     def test_what_is_live_is_still_the_six_market_bundle(self):
         """The claim this class exists to make, kept exactly: production runs

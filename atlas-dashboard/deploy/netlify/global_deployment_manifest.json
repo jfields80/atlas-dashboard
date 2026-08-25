@@ -146,6 +146,11 @@
  "gates_missing": [],
  "gates_failing": [],
  "all_required_gates_pass": true,
- "deployment_authorized": false,
- "deployment_authorization_note": "Assembly is not authorization. A later work order whose purpose is deployment authorizes THIS source_commit and THIS bundle_sha256, and nothing else."
+ "deployment_authorized": true,
+ "deployment_authorization_note": "deployment_authorized mirrors the referenced authorization record; verify_manifest re-verifies that record against this manifest and the repository, and the record's own status says whether it may still be deployed or has been consumed.",
+ "deployment_authorization": {
+  "path": "deploy/netlify/deployment_authorizations/ptf-auth-008-38c811dfc22c.json",
+  "authorization_id": "ptf-auth-008-38c811dfc22c",
+  "bundle_sha256": "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df"
+ }
 }

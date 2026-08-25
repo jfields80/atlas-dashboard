@@ -188,7 +188,7 @@ class TestRegistrationIsAtomicWithParticipation:
         assert problems["unlisted"] == [MARKET]
 
 
-class TestTheCandidateIsPreparedAndNotDeployed:
+class TestTheCandidateIsAuthorizedAndNotDeployed:
     def test_the_manifest_carries_the_seven_market_candidate(self):
         manifest = GD.load_manifest()
         assert GD.verify_manifest() == []
@@ -198,13 +198,25 @@ class TestTheCandidateIsPreparedAndNotDeployed:
         assert manifest["total_published_profiles"] == 461
         assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
 
-    def test_the_authorization_is_prepared_and_cannot_deploy(self):
-        auth = next(a for a in DA.list_authorizations()
-                    if a["work_order"] == "PTF-LOUISVILLE-PUBLICATION-008")
-        assert auth["authorization_status"] == DA.PREPARED
-        assert DA.deployability_problems(auth), \
-            "a PREPARED authorization must not be deployable"
+    def test_the_authorization_is_the_only_one_that_may_deploy(self):
+        """PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009 moved this record
+        PREPARED -> AUTHORIZED after re-verifying all eleven bindings the
+        founder named. Exactly one record may deploy, and it is this one."""
+        auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
+        assert auth["authorization_status"] == DA.AUTHORIZED
         assert DA.verify_authorization(auth) == []
+        assert DA.deployability_problems(auth) == []
+        deployable = [a["authorization_id"] for a in DA.list_authorizations()
+                      if not DA.deployability_problems(a)]
+        assert deployable == ["ptf-auth-008-38c811dfc22c"]
+
+    def test_the_prepared_step_is_still_in_the_history(self):
+        """A status history that loses its first step cannot show that a human
+        moved it."""
+        auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
+        assert [e["status"] for e in auth["status_history"]] == [
+            DA.PREPARED, DA.AUTHORIZED]
+        assert auth["status_history"][-1]["authorized_by"] == "jfields80"
 
     def test_it_binds_the_bundle_the_named_commit_produces(self):
         manifest = GD.load_manifest()
@@ -217,8 +229,15 @@ class TestTheCandidateIsPreparedAndNotDeployed:
         assert auth["global_gate_count"] == 27
 
     def test_the_market_is_not_deployed_by_any_of_this(self):
+        """Authorization is not deployment. The flag mirrors a record that says
+        AUTHORIZED, and no deployment record exists for this bundle: what is
+        live is still the six-market bundle 011 deployed."""
         manifest = GD.load_manifest()
-        assert manifest["deployment_authorized"] is False
-        assert manifest.get("deployment_authorization") is None
-        live = {r["deployment_record_id"] for r in DA.list_records()}
-        assert not any("008" in record_id for record_id in live)
+        assert manifest["deployment_authorized"] is True
+        assert manifest["deployment_authorization"]["authorization_id"] == \
+            "ptf-auth-008-38c811dfc22c"
+        assert GD.verify_manifest() == []
+        records = DA.list_records()
+        assert not any(r["bundle_sha256"] == manifest["bundle_sha256"]
+                       for r in records)
+        assert not any("008" in r["deployment_record_id"] for r in records)
