@@ -1,0 +1,273 @@
+{
+  "schema": "ptf-market-benchmark/1.0",
+  "what_this_is": "The fresh-market benchmark for the first PetTripFinder market built on the post-Milwaukee generic path. Every figure is read from a committed artifact named in `artifacts`, so any of them can be re-derived and a later market can be compared to this one.",
+  "market_id": "louisville-ky",
+  "work_order": "PTF-LOUISVILLE-MARKET-REBUILD-002",
+  "as_of": "2026-08-24",
+  "elapsed": {
+    "total_hours": 1.17,
+    "basis": "machine execution time of the paid acquisition pass only (run_start to run_end); the offline phases around it are not separately clocked",
+    "phases": {
+      "phase_0_rebase_and_reconciliation": "merge of the hardened factory lineage, de-registration, production-safety repair",
+      "phase_1_geography": "15 -> 18 corridors, 25 -> 42 postal codes, 15 -> 18 discovery cells",
+      "phase_2_census": "OSM discovery 36 requests; 179 candidates reconciled to 166 admitted",
+      "phase_3_routing": "166 routed, 84 ROUTED (50.6%)",
+      "phase_4_preflight": "three lanes probed, all AUTHENTICATED",
+      "phase_5_acquisition": "1.17 hours, 58 of 71 attempted, stopped on the cap",
+      "phase_6_recovery": "7 declined captures re-read at zero cost",
+      "phase_7_closure": "166 identities, one disposition each",
+      "phase_8_founder_review": "43 candidates, no founder decision written"
+    }
+  },
+  "census": {
+    "discovery_candidates": 179,
+    "candidate_dispositions": {
+      "ABSORBED_INTO_ANOTHER_IDENTITY": 1,
+      "ADMITTED_TO_CENSUS": 166,
+      "IDENTITY_COLLISION_REQUIRES_REVIEW": 4,
+      "IDENTITY_NO_LOCALITY": 6,
+      "OUT_OF_MARKET_BOUNDARY_DECISION": 2
+    },
+    "census_identities": 166,
+    "identity_states": {
+      "IDENTITY_CONFIRMED": 166
+    },
+    "identity_confirmed_pct": 100.0,
+    "identity_key_collisions_held": 4
+  },
+  "active_eligibility": {
+    "active_eligible": 166,
+    "not_active": 0,
+    "eligibility_counts": {
+      "ACTIVE_ELIGIBLE": 166
+    }
+  },
+  "source_discovery": {
+    "official_url_present": 96,
+    "official_url_pct": 57.8,
+    "url_shapes": {
+      "BRAND_INDEX": 8,
+      "NO_URL": 70,
+      "PROPERTY_PAGE": 88
+    }
+  },
+  "routing": {
+    "automatically_routed": 84,
+    "automatically_routed_pct": 50.6,
+    "routing_states": {
+      "ROUTED": 84,
+      "ROUTE_BRAND_EXCLUDED": 4,
+      "ROUTE_NEEDS_OFFICIAL_URL": 70,
+      "ROUTE_NEEDS_PROPERTY_URL": 8
+    },
+    "brands": {
+      "BEST_WESTERN": 2,
+      "CHOICE": 11,
+      "DRURY": 1,
+      "HILTON": 23,
+      "HYATT": 2,
+      "IHG": 8,
+      "INDEPENDENT": 8,
+      "MARRIOTT": 26,
+      "MOTEL6": 1,
+      "NO_URL": 70,
+      "RED_ROOF": 1,
+      "WYNDHAM": 13
+    },
+    "providers": {
+      "brightdata_browser": 59,
+      "firecrawl": 25
+    },
+    "new_source_families": []
+  },
+  "acquisition": {
+    "lane": "",
+    "attempted": 58,
+    "acquired_valid": 43,
+    "acquired_pct": 74.1,
+    "outcome_counts": {
+      "ACCESS_DENIED": 1,
+      "IDENTITY_MISMATCH": 7,
+      "UNEXPECTED_PAGE": 6,
+      "UNHYDRATED": 1,
+      "VALID": 43
+    },
+    "outcomes_by_brand": {},
+    "skipped_lane_refused": 0,
+    "lane_refused_brands": {}
+  },
+  "zero_cost_recovery": {
+    "what_it_asked": "whether any persisted DECLINED document contains a policy block the walk that ran never read -- asked offline, before any repeated network acquisition",
+    "examined": 7,
+    "verdicts": {
+      "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 7
+    },
+    "network_calls": 0,
+    "usd_spent": 0.0
+  },
+  "reader": {
+    "observations_built": 43,
+    "publication_grade_counts": {
+      "PUBLICATION_GRADE_CONFIRMED": 43
+    },
+    "readiness_counts": {
+      "POLICY_CONFIRMED": 27,
+      "POLICY_NEGATIVE_CONFIRMED": 12,
+      "POLICY_NOT_FOUND": 3,
+      "POLICY_PARTIAL": 1
+    },
+    "pets_allowed_counts": {
+      "False": 12,
+      "None": 2,
+      "True": 29
+    },
+    "refusals": []
+  },
+  "closure": {
+    "active_denominator": 166,
+    "rows": 166,
+    "disposition_counts": {
+      "HELD_REVIEW": 43,
+      "ACCESS_UNRESOLVED": 45,
+      "INSUFFICIENT_EVIDENCE": 78
+    },
+    "reconciliation": {
+      "active_count": 166,
+      "duplicate": [],
+      "foreign": [],
+      "ledger_count": 166,
+      "missing": []
+    },
+    "partition_states": {
+      "AWAITING_OFFICIAL_URL": 70,
+      "AWAITING_PROPERTY_LEVEL_URL": 8,
+      "AWAITING_ROUTING_REVIEW": 4,
+      "AWAITING_POLICY_OBSERVATION": 26,
+      "AWAITING_ATTENDED_CAPTURE": 14,
+      "AWAITING_FOUNDER_DECISION": 43,
+      "ACCESS_BLOCKED": 1
+    }
+  },
+  "founder_review": {
+    "candidates": 43,
+    "candidate_pct_of_active": 25.9,
+    "recommendation_counts": {
+      "RECOMMEND_AUTHORITY_PET_FRIENDLY": 29,
+      "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS": 12,
+      "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE": 2
+    },
+    "review_status_counts": {
+      "MACHINE_REVIEWED_PENDING_OPERATOR": 43
+    }
+  },
+  "cost": {
+    "total_usd": 8.81,
+    "basis": "Bright Data per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker and cli_unlocker, measured against an anchor written before the first call; the cap binds on the LARGER of measured and estimated. Firecrawl plan credits are metered separately and cost no dollars. OpenStreetMap discovery and every offline phase cost nothing.",
+    "bright_data_usd": 8.81,
+    "firecrawl_plan_credits": 18.0,
+    "google_places_usd": 0.0,
+    "cap_usd": 10.0,
+    "run_cap_usd": 9.0
+  },
+  "architecture": {
+    "generic_modules_added": 1,
+    "generic_modules_added_names": [
+      "scripts/pettripfinder/discovery/census_recandidacy.py"
+    ],
+    "shared_modules_changed": 2,
+    "shared_modules_changed_names": [
+      "scripts/pettripfinder/assemble_production_site.py (one partition-table entry, the same mechanism St. Louis needed)",
+      "scripts/pettripfinder/discovery/config/louisville_ky.json (three cells; market data, not code)"
+    ],
+    "market_specific_scripts_added": 0,
+    "note": "Target met: ZERO Louisville-specific scripts. Every phase ran on the generic factory -- market_census_cli, market_routing, census_url_recovery, lane_preflight, market_paid_acquisition, zero_cost_recovery, market_observation_store, market_closure_cli, market_founder_review_cli, founder_review_analysis and market_benchmark_cli. The one module added is generic: it re-candidates ANY market whose census predates the engine, and it closes a real gap -- census_projection absorbs by coordinate and a pre-engine census has none."
+  },
+  "interventions": {
+    "count": 4,
+    "items": [
+      "Phase 0: merged the hardened St. Louis factory lineage; 11 conflicts resolved to the hardened side, one Louisville partition-table line re-applied.",
+      "Phase 0: reverted a prior weakening of other_charges[].refundable to OPTIONAL, in favour of schema 1.3 refundable_stated, which answers the same need without lowering the bar for every other writer.",
+      "Phase 0: de-registered the market, moved its release contract out of the verified set and set published:false -- three production-safety repairs the prior build had left loaded, one of which was breaking verify_all() for EVERY market.",
+      "Phase 1: three corridors and three discovery cells added for lodging clusters inside the existing coordinate box that no cell searched."
+    ]
+  },
+  "scorecard": {
+    "automatic_routing_pct": {
+      "target": ">= 90",
+      "actual": 50.6,
+      "basis": "84 of 166 census identities resolved a measured lane on a property-level first-party URL"
+    },
+    "observed_acquired_pct": {
+      "target": ">= 85",
+      "actual": 74.1,
+      "basis": "43 VALID of 58 attempted across one lane"
+    },
+    "publication_grade_pct_of_active": {
+      "target": ">= 80",
+      "actual": 25.9,
+      "basis": "43 publication-grade observations over 166 active-eligible identities"
+    },
+    "active_closure_pct": {
+      "target": "= 100 (required, not a target)",
+      "actual": 100.0,
+      "basis": "166 ledger rows over a 166-identity active denominator; reconciliation missing=0 foreign=0 duplicate=0"
+    },
+    "provider_spend_usd": {
+      "target": "<= 10.00",
+      "actual": 8.81,
+      "basis": "Bright Data per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker and cli_unlocker, measured against an anchor written before the first call; the cap binds on the LARGER of measured and estimated. Firecrawl plan credits are metered separately and cost no dollars. OpenStreetMap discovery and every offline phase cost nothing."
+    },
+    "elapsed_hours": {
+      "target": "4 - 8",
+      "actual": 1.17,
+      "basis": "machine execution time of the paid acquisition pass only (run_start to run_end); the offline phases around it are not separately clocked"
+    }
+  },
+  "production_safety": {
+    "registered": false,
+    "published": false,
+    "deployed": false,
+    "launch_participation_row": false,
+    "release_contract_in_verified_set": false,
+    "authority_shard_in_registry": false,
+    "measurement_changed": false,
+    "affiliates_activated": false,
+    "production_manifest_changed": false,
+    "deployment_authorization_created": false,
+    "note": "PTF-LOUISVILLE-MARKET-REBUILD-002 forbids all of the above. The prior build had already registered the market, put its release contract in the live verified set and set published:true; all three were undone, the artifacts preserved verbatim under louisville_prior_authority_001/. After the repair the global deployment manifest verifies, all 7 live release contracts verify, and the six-market production deploy 6a8cab48ead9d4293f477472 is untouched."
+  },
+  "artifacts": {
+    "census": {
+      "path": "launch_packages/pettripfinder/identity_census/louisville-ky.json",
+      "sha256": "d4b137f985b72daf8cdb12ccf777158d26504b13aa2d41fa39fd6551e80d47e3"
+    },
+    "candidate_ledger": {
+      "path": "launch_packages/pettripfinder/louisville_ky_candidate_ledger_001.json",
+      "sha256": "27e3c893f2592bc05acc4258033bb8ade1a54eee9c6e7845a174bdd3e2b90e68"
+    },
+    "acquisition": {
+      "path": "launch_packages/pettripfinder/louisville_ky_market_acquisition_002.json",
+      "sha256": "b0d443be757056e77f5a697bbf0aafa4741c860846780d2d19f2403b9ab249c8"
+    },
+    "observation_store": {
+      "path": "launch_packages/pettripfinder/louisville_ky_observation_store_002.json",
+      "sha256": "84c7f7f1eddab2a9792a5cdd7a31353031f60aa695c1d51e9b4ecbda809e186b"
+    },
+    "final_partition": {
+      "path": "launch_packages/pettripfinder/louisville_ky_final_partition_002.json",
+      "sha256": "9b064d923663d6c4a706c70eff92a9bdba6a67c852e4d48f6b9c217c2eabd2be"
+    },
+    "closure_ledger": {
+      "path": "launch_packages/pettripfinder/louisville_ky_closure_ledger_002.json",
+      "sha256": "da2e3e0a86c9857a52e83414030ad7950e0f39d52e4672e668289b8b70f3f1bc"
+    },
+    "founder_review_packet": {
+      "path": "launch_packages/pettripfinder/louisville_ky_founder_review_packet_002.json",
+      "sha256": "60ee6d5db968e18d77c915ad40efe0191ebd6dbf0f00c528bff0910c068c4c8a"
+    },
+    "zero_cost_recovery": {
+      "path": "launch_packages/pettripfinder/louisville_ky_zero_cost_recovery_002.json",
+      "sha256": "1804b1f0e4157b8be487b6fcfcb23905c96eaa603dabf315ec56d44afc7115d8"
+    }
+  }
+}

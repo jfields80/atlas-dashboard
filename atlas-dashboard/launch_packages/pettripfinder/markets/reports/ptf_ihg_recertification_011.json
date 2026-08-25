@@ -1,0 +1,194 @@
+{
+ "schema": "ptf-record-recertification/1.0",
+ "work_order": "PTF-IHG-RECERTIFICATION-011",
+ "market_id": "milwaukee-wi",
+ "brand": "IHG",
+ "note": "Re-derived from evidence already on disk. No provider was called: the evidence did not change, only the reading of it.",
+ "reader_commit": "0fcc056cb534ba1fc1e1b3d0efa38f0e1675887b",
+ "subjects": 3,
+ "records": [
+  {
+   "slug": "holiday-inn-express-milwaukee-west-medical-center",
+   "identity_key": "holiday inn express milwaukee west medical center",
+   "canonical_name": "Holiday Inn Express Milwaukee-West Medical Center",
+   "state": "REDERIVED",
+   "evidence_path": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-express-milwaukee-west-medical-center\\attempt-01\\policy-block.txt",
+   "evidence_block": "Pets are welcome at Holiday Inn Express Milwaukee-West Medical Center. Pet policy description. We welcome pets at a maximum weight of 40lbs up to 2 pets per rooms. There is a non refundable fee of 50.00 for a 1 to 2 night stay. For 3 to 5 nights the fee is 100.00, and 5 or more will be 150.00. To reserve a room please call 414.778.0333.",
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "fields_changed": [
+    "weight_limit"
+   ],
+   "fields_unchanged": [
+    "pet_count_limit",
+    "pets_allowed"
+   ],
+   "withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "evidence_quotes": [
+    "Pets are welcome",
+    "maximum weight of 40lbs",
+    "up to 2 pets"
+   ],
+   "evidence_contiguous": true,
+   "policy_identity_confirmed": true,
+   "publication_grade_at_capture": true,
+   "publication_eligible": true,
+   "reader_commit": "0fcc056cb534ba1fc1e1b3d0efa38f0e1675887b",
+   "network_requests": 0
+  },
+  {
+   "slug": "holiday-inn-milwaukee-riverfront",
+   "identity_key": "holiday inn milwaukee riverfront",
+   "canonical_name": "Holiday Inn Milwaukee Riverfront",
+   "state": "REDERIVED",
+   "evidence_path": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\holiday-inn-milwaukee-riverfront\\attempt-01\\policy-block.txt",
+   "evidence_block": "Pet policy description. Dogs are welcome to stay with a max weight of 50 lbs. There is a 75.00 dollar nonrefundable pet fee that will be charged per stay. Hotel has designated pet rooms and a max 2 pets per room. Pet fee per night: 75 USD Pet weight limit: 50 2 pets allowed",
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "fields_changed": [
+    "weight_limit"
+   ],
+   "fields_unchanged": [
+    "pet_count_limit",
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "evidence_quotes": [
+    "pets allowed",
+    "max weight of 50 lbs",
+    "max 2 pets",
+    "Dogs are welcome"
+   ],
+   "evidence_contiguous": true,
+   "policy_identity_confirmed": true,
+   "publication_grade_at_capture": true,
+   "publication_eligible": true,
+   "reader_commit": "0fcc056cb534ba1fc1e1b3d0efa38f0e1675887b",
+   "network_requests": 0
+  },
+  {
+   "slug": "staybridge-suites-milwaukee-airport-south",
+   "identity_key": "staybridge suites milwaukee airport south",
+   "canonical_name": "Staybridge Suites Milwaukee Airport South",
+   "state": "REDERIVED",
+   "evidence_path": "data\\acquisition\\ihg-firecrawl-decision-009\\ihg-decision-009\\staybridge-suites-milwaukee-airport-south\\attempt-01\\policy-block.txt",
+   "evidence_block": "Pets are welcome at Staybridge Suites Milwaukee Airport South. There is a pet deposit per stay of 50 USD . Our Pet Policy: Dogs are allowed with a 50 USD nonrefundable fee, per pet, for stays 1 to 6 nights, 150 USD for stays over 7 nights. Two pets max per room, and must weigh less than 80 lbs. Pet agreement required with signature at check in. Contact hotel for more details.",
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "fields_changed": [
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_unchanged": [
+    "pet_count_limit",
+    "pet_count_scope",
+    "pets_allowed",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "withheld": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "flags": [
+    "FLAG_TIERED_FEE"
+   ],
+   "evidence_quotes": [
+    "Pets are welcome",
+    "less than 80 lbs",
+    "Two pets max per room",
+    "Dogs are allowed"
+   ],
+   "evidence_contiguous": true,
+   "policy_identity_confirmed": true,
+   "publication_grade_at_capture": true,
+   "publication_eligible": true,
+   "reader_commit": "0fcc056cb534ba1fc1e1b3d0efa38f0e1675887b",
+   "network_requests": 0
+  }
+ ],
+ "differential_safety": {
+  "records_in_scope": [
+   "holiday-inn-express-milwaukee-west-medical-center",
+   "holiday-inn-milwaukee-riverfront",
+   "staybridge-suites-milwaukee-airport-south"
+  ],
+  "other_records_differing_corpus_wide": [],
+  "corpus_unique_texts_scanned": 76,
+  "clean": true
+ },
+ "authority_state": {
+  "policy_facts_shard_for_market": "hotel_policy_facts_milwaukee-wi.json",
+  "exists": false,
+  "markets_with_a_published_policy_shard": [
+   "hotel_policy_facts_cleveland-akron-canton-oh.json",
+   "hotel_policy_facts_dayton-oh.json",
+   "hotel_policy_facts_indianapolis-in.json",
+   "hotel_policy_facts_pittsburgh-pa.json"
+  ],
+  "milwaukee_authority_shard_contents": [
+   "hotel_exclusions.json",
+   "identity_routing.json",
+   "seed_businesses.csv"
+  ]
+ },
+ "network_requests": 0,
+ "provider_calls": 0
+}

@@ -1,0 +1,77 @@
+{
+ "schema": "ptf-milwaukee-identity-review/1.0",
+ "work_order": "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001",
+ "market_id": "milwaukee-wi",
+ "as_of": "2026-08-18",
+ "applied": false,
+ "note": "Six held identities, each adjudicated on first-party or convergent evidence. RECORDED AND NOT APPLIED: every one of these determinations would change a census identity, name or count, and §18 of this work order freezes the partition. They are a decision packet for a follow-up work order, not a mutation. None of the six entered the acquisition queue.",
+ "count": 6,
+ "determination_counts": {
+  "IN_CURRENT_CATEGORY": 3,
+  "RENAME_TO_CURRENT_IDENTITY": 1,
+  "RETIRE_BRAND_IDENTITY__SUCCESSOR_UNKNOWN": 1,
+  "SPLIT_INTO_TWO_IDENTITIES": 1
+ },
+ "items": [
+  {
+   "identity_key": "biller hotel",
+   "canonical_name": "Biller Hotel",
+   "held_as": "AWAITING_CENSUS_REVIEW",
+   "determination": "IN_CURRENT_CATEGORY",
+   "recommended_change": "lodging_state NEEDS_REVIEW -> LODGING_CONFIRMED",
+   "evidence": "The property's own site sells nightly transient stays and prices them as such: \"Daily rates start at $109/night. Weekly rates start at $279.\" It describes \"rooms for all needs, from one night to temporary housing\" -- transient lodging that also happens to offer extended stays, which is true of every extended-stay brand already in this census.",
+   "source": "https://billerhotel.com/",
+   "confidence": "high"
+  },
+  {
+   "identity_key": "kinn guesthouse downtown milwaukee",
+   "canonical_name": "Kinn Guesthouse Downtown Milwaukee",
+   "held_as": "AWAITING_CENSUS_REVIEW",
+   "determination": "IN_CURRENT_CATEGORY",
+   "recommended_change": "lodging_state NEEDS_REVIEW -> LODGING_CONFIRMED",
+   "evidence": "The trade name says guesthouse; the property does not. Its own site titles this location \"Kinn Guesthouse | Best Hotel Downtown Milwaukee\" and describes the brand as \"a one-of-a-kind hotel experience\". 31 rooms, self-check-in, boutique-hotel operation. This is the Milwaukee lesson applied to category rather than to rebrands: decide on evidence, not on the name string.",
+   "source": "https://www.kinnguesthouse.com/milwaukee/",
+   "confidence": "high"
+  },
+  {
+   "identity_key": "kinn guesthouse bay view",
+   "canonical_name": "Kinn Guesthouse Bay View",
+   "held_as": "AWAITING_CENSUS_REVIEW",
+   "determination": "IN_CURRENT_CATEGORY",
+   "recommended_change": "lodging_state NEEDS_REVIEW -> LODGING_CONFIRMED",
+   "evidence": "Same operator and same self-description; its own page is titled \"Bayview's Premier Luxury Hotel | Kinn Guesthouse\". 8 rooms with a communal kitchen.",
+   "source": "https://www.kinnguesthouse.com/bayview/",
+   "confidence": "high"
+  },
+  {
+   "identity_key": "sleep inn and mainstay suites milwaukee franklin",
+   "canonical_name": "Sleep Inn & MainStay Suites Milwaukee/Franklin",
+   "held_as": "AWAITING_IDENTITY_RESOLUTION",
+   "determination": "SPLIT_INTO_TWO_IDENTITIES",
+   "recommended_change": "replace the combined row with Sleep Inn Milwaukee/Franklin (wi391) and MainStay Suites Milwaukee/Franklin (wi392), both at 6868 S. Ballpark Drive, collision_state SHARED_ADDRESS",
+   "evidence": "Choice's own brand index carries two distinct property codes at this address. This census already resolves that exact shape three times -- Home2 Suites and Tru at 515 N Jefferson, Motel 6 and Studio 6 at 325 N Brookfield Road, and Courtyard and Residence Inn at 20300 W Bluemound Road -- so two brand property codes at one address is this corpus's own settled precedent for two identities.",
+   "source": "choicehotels.com brand index, codes wi391 and wi392",
+   "confidence": "high"
+  },
+  {
+   "identity_key": "mequon country inn sybaris",
+   "canonical_name": "Mequon Country Inn - Sybaris",
+   "held_as": "AWAITING_IDENTITY_RESOLUTION",
+   "determination": "RENAME_TO_CURRENT_IDENTITY",
+   "recommended_change": "canonical_name -> Sybaris Pool Suites Mequon, former_name -> Mequon Country Inn, official_url -> https://www.sybaris.com/mequon-wi/",
+   "evidence": "The state registry's compound listing name describes one site, not two businesses: Sybaris has operated the pool suites at 10240 N Cedarburg Road since 1992 and publishes its own property page for it. \"Mequon Country Inn\" is the legacy half of a registry name that was never updated. Resolved by address, not by name similarity.",
+   "source": "https://www.sybaris.com/mequon-wi/",
+   "confidence": "medium"
+  },
+  {
+   "identity_key": "best western plus milwaukee west",
+   "canonical_name": "Best Western Plus Milwaukee West",
+   "held_as": "AWAITING_IDENTITY_RESOLUTION",
+   "determination": "RETIRE_BRAND_IDENTITY__SUCCESSOR_UNKNOWN",
+   "recommended_change": "retire the Best Western identity as CLOSED_OR_CONVERTED; do NOT create a successor identity until one is observed",
+   "evidence": "Three independent signals now converge, which is what §11 of the factory order requires before any closure: the property is absent from Best Western's own current property sitemap (which lists exactly one Milwaukee property, the airport hotel); the building at 5501 W National Ave sold for $10.4 million in March 2026; and part of the three-story building had already been converted to the Woodsview Apartments. What still operates there as transient lodging, if anything, is not established -- so the brand identity retires and no successor is invented.",
+   "source": "BizTimes Milwaukee, March 2026; bestwestern.com property sitemap",
+   "confidence": "medium"
+  }
+ ]
+}

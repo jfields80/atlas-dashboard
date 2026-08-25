@@ -440,10 +440,10 @@ def migrate_record(record: Mapping, *, market_id: str, decisions: Mapping,
     # Already 1.2: idempotence path. Re-running must not rewrite anything, so
     # the record is returned as found rather than round-tripped through the
     # legacy reader, which would try to parse canonical objects as strings.
-    if str(record.get("schema_version") or "") == enums.POLICY_SCHEMA_VERSION:
+    if enums.is_canonical_policy_schema(record.get("schema_version")):
         out.record = copy.deepcopy(dict(record))
         out.computation_class = str(record.get("computation_class") or "")
-        out.old_schema = enums.POLICY_SCHEMA_VERSION
+        out.old_schema = str(record.get("schema_version") or "")
         return out
 
     read = compat_readers.read_record(record, market_id=market_id).record

@@ -82,6 +82,11 @@ STATE_MEANINGS: Dict[str, str] = {
     enums.AWAITING_IDENTITY_RESOLUTION:
         "Identity is provisional or unresolved, so policy work cannot safely "
         "bind to this record.",
+    enums.AWAITING_FOUNDER_DECISION:
+        "A publication-grade observation exists on this property's own "
+        "surface, its identity is confirmed and its evidence rederives. "
+        "Nothing further is owed by the machine; the outstanding step is a "
+        "founder decision, and no amount of re-capturing produces one.",
     enums.ACCESS_BLOCKED:
         "The surface refused to serve us. Records the FETCH OUTCOME only: a "
         "fabricated property code returns the same 403 as a real one, so a "

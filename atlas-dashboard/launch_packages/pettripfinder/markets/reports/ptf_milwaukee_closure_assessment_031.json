@@ -1,0 +1,1554 @@
+{
+  "schema": "ptf-milwaukee-closure-assessment/1.0",
+  "work_order": "PTF-MILWAUKEE-CLOSURE-ASSESSMENT-031",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T13:20:37+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T13:20:37+00:00",
+    "census_total": 147,
+    "active_eligible": 133,
+    "store_rows": 114,
+    "observed": 114,
+    "active_unresolved": 19,
+    "published": 0,
+    "authority_written": false,
+    "authority_files": 0,
+    "by_reason": {
+      "IDENTITY_FAILURE": 6,
+      "ACCESS_FAILURE": 7,
+      "POLICY_NOT_PRESENT": 2,
+      "INSUFFICIENT_EVIDENCE": 4
+    },
+    "review_status": {
+      "FOUNDER_REVIEW_READY": 53,
+      "HELD_INSUFFICIENT_EVIDENCE": 8,
+      "REFUSAL_FOUNDER_REVIEW": 26,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 27
+    },
+    "assertions": {
+      "census_is_147": true,
+      "active_eligible_is_133": true,
+      "store_is_114": true,
+      "unresolved_is_19": true,
+      "identity_failure_is_6": true,
+      "access_failure_is_7": true,
+      "policy_not_present_is_2": true,
+      "insufficient_evidence_is_4": true,
+      "nothing_published": true,
+      "authority_absent": true
+    }
+  },
+  "classification_counts": {
+    "OTHER": 3,
+    "FINAL_ACCESS_LIMITATION": 1,
+    "REACQUISITION_WITH_EXISTING_STACK": 5,
+    "FINAL_IDENTITY_LIMITATION": 2,
+    "TARGETED_REPAIR_WORTH_DOING": 7,
+    "FINAL_SOURCE_LIMITATION": 1
+  },
+  "every_property_classified_once": true,
+  "evidence_holds_for_every_judgement": true,
+  "properties": [
+    {
+      "identity_key": "brewhouse inn and suites",
+      "canonical_name": "Brewhouse Inn & Suites",
+      "brand": "INDEP:www.brewhousesuites.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-identity-027",
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.brewhousesuites.com/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 2,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 2
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": ""
+        },
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "OTHER",
+      "repair": "PERSIST_EVIDENCE_ON_A_NON_ACQUIRING_OUTCOME",
+      "why": "the page title is the property name, but a refused capture records no identity signals and persists no document, so the archive cannot say whether the census telephone is printed on it. The evidence needed to classify this was never written down",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "no_document_was_persisted": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "chalet motel of mequon",
+      "canonical_name": "Chalet Motel of Mequon",
+      "brand": "INDEP:chaletmotelmequon.com",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://chaletmotelmequon.com/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 6,
+      "outcomes": {
+        "NAVIGATION_FAILED": 6
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: net::ERR_CERT_INVALID at https://chaletmotelmequon.com/\nCall log:\n  - navigating to \"https://chaletmotelmequon.com/\", waiting until \"domcontentloaded\"\n"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 2,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: net::ERR_CERT_INVALID at https://chaletmotelmequon.com/\nCall log:\n  - navigating to \"https://chaletmotelmequon.com/\", waiting until \"domcontentloaded\"\n"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 3,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: net::ERR_CERT_INVALID at https://chaletmotelmequon.com/\nCall log:\n  - navigating to \"https://chaletmotelmequon.com/\", waiting until \"domcontentloaded\"\n"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Scraping https://chaletmotelmequon.com/...\nError: Navigation failed: net::ERR_CERT_INVALID"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Scraping https://chaletmotelmequon.com/...\nError: Navigation failed: net::ERR_CERT_INVALID"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Scraping https://chaletmotelmequon.com/...\nError: Navigation failed: net::ERR_CERT_INVALID"
+        }
+      ],
+      "final_state": "PROVIDER_EXHAUSTED",
+      "failure": "NAVIGATION_FAILED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "FINAL_ACCESS_LIMITATION",
+      "repair": "",
+      "why": "six attempts across both committed providers all failed with ERR_CERT_INVALID; the property's own TLS certificate is broken and reaching it would mean disabling certificate validation, which is a materially new technique",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "every_committed_lane_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "country inn and suites by radisson brown deer milwaukee north",
+      "canonical_name": "Country Inn & Suites by Radisson, Brown Deer - Milwaukee North",
+      "brand": "CHOICE",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.choicehotels.com/wisconsin/brown-deer/country-inn-suites-hotels/wi561",
+      "current_route": {
+        "provider": "firecrawl",
+        "ladder": [
+          "firecrawl",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "choice_static",
+        "resolved_by": "domain:www.choicehotels.com"
+      },
+      "providers_attempted": [
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 3,
+      "outcomes": {
+        "ACCESS_DENIED": 3
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brown-deer/country-inn-suites-hotels/wi561...\nError: captcha or protection page found"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brown-deer/country-inn-suites-hotels/wi561...\nError: captcha or protection page found"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brown-deer/country-inn-suites-hotels/wi561...\nError: captcha or protection page found"
+        }
+      ],
+      "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+      "failure": "ACCESS_DENIED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "REACQUISITION_WITH_EXISTING_STACK",
+      "repair": "",
+      "why": "attempted on the Web Unlocker alone; the committed route for choicehotels.com has led with Firecrawl since 005 and it has never been tried on this property",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "committed_lane_never_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "country inn and suites by radisson milwaukee airport wi",
+      "canonical_name": "Country Inn & Suites by Radisson, Milwaukee Airport, WI",
+      "brand": "CHOICE",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.choicehotels.com/wisconsin/milwaukee/country-inn-suites-hotels/wi486",
+      "current_route": {
+        "provider": "firecrawl",
+        "ladder": [
+          "firecrawl",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "choice_static",
+        "resolved_by": "domain:www.choicehotels.com"
+      },
+      "providers_attempted": [
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 3,
+      "outcomes": {
+        "ACCESS_DENIED": 3
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/country-inn-suites-hotels/wi486...\nError: captcha or protection page found"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/country-inn-suites-hotels/wi486...\nError: captcha or protection page found"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/country-inn-suites-hotels/wi486...\nError: captcha or protection page found"
+        }
+      ],
+      "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+      "failure": "ACCESS_DENIED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "REACQUISITION_WITH_EXISTING_STACK",
+      "repair": "",
+      "why": "the same lane was never tried here either",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "committed_lane_never_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "country inn and suites by radisson milwaukee west brookfield wi",
+      "canonical_name": "Country Inn & Suites by Radisson, Milwaukee West (Brookfield), WI",
+      "brand": "CHOICE",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.choicehotels.com/wisconsin/brookfield/country-inn-suites-hotels/wi489",
+      "current_route": {
+        "provider": "firecrawl",
+        "ladder": [
+          "firecrawl",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "choice_static",
+        "resolved_by": "domain:www.choicehotels.com"
+      },
+      "providers_attempted": [
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 3,
+      "outcomes": {
+        "ACCESS_DENIED": 3
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brookfield/country-inn-suites-hotels/wi489...\nError: Captcha resolve failed"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brookfield/country-inn-suites-hotels/wi489...\nError: captcha or protection page found"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/brookfield/country-inn-suites-hotels/wi489...\nError: captcha or protection page found"
+        }
+      ],
+      "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+      "failure": "ACCESS_DENIED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "REACQUISITION_WITH_EXISTING_STACK",
+      "repair": "",
+      "why": "the same lane was never tried here either",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "committed_lane_never_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "county clare irish inn and pub",
+      "canonical_name": "County Clare Irish Inn & Pub",
+      "brand": "INDEP:www.countyclare-inn.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-identity-027",
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.countyclare-inn.com/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 2,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 2
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": ""
+        },
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "FINAL_IDENTITY_LIMITATION",
+      "repair": "",
+      "why": "the census URL's own title is 'Irish Pub Near Lake Michigan | CCII&P|M' -- it names no lodging property at all, so there is no name for any physical signal to corroborate",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "no_document_was_persisted": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "drury plaza hotel milwaukee downtown",
+      "canonical_name": "Drury Plaza Hotel Milwaukee Downtown",
+      "brand": "DRURY",
+      "unresolved_reason": "POLICY_NOT_PRESENT",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.druryhotels.com/locations/milwaukee-wi/drury-plaza-hotel-milwaukee-downtown",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "brand:DRURY"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 1,
+      "outcomes": {
+        "POLICY_NOT_FOUND": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "POLICY_NOT_FOUND",
+          "detail": "no bounded policy container on a page that otherwise rendered; 0 signal candidates were considered"
+        }
+      ],
+      "final_state": "POLICY_NOT_FOUND",
+      "failure": "POLICY_NOT_FOUND",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "OTHER",
+      "repair": "PERSIST_EVIDENCE_ON_A_NON_ACQUIRING_OUTCOME",
+      "why": "the capture rendered the page for 134 seconds, found no policy container, and persisted NOTHING -- so 'this property publishes no pet policy' cannot be verified or refuted from the archive",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "no_document_was_persisted": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "dubbel dutch hotel",
+      "canonical_name": "Dubbel Dutch Hotel",
+      "brand": "INDEP:www.thedubbeldutch.com",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.thedubbeldutch.com/contact",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 6,
+      "outcomes": {
+        "UNHYDRATED": 6
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 2,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_browser",
+          "attempt": 3,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "UNHYDRATED",
+          "detail": "rejected by the page-health gate"
+        }
+      ],
+      "final_state": "PROVIDER_EXHAUSTED",
+      "failure": "UNHYDRATED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "SOURCE_DISCOVERY_FOR_A_THIN_CENSUS_URL",
+      "why": "both providers agree the census URL -- a /contact page -- is too thin to read, six times; no discovery has ever run for this property because it was touched before the overlay existed",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "every_committed_lane_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "econo lodge milwaukee airport",
+      "canonical_name": "Econo Lodge Milwaukee Airport",
+      "brand": "CHOICE",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-router-001",
+      "runs_touching": [
+        "milwaukee-router-001"
+      ],
+      "source_url": "https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423",
+      "current_route": {
+        "provider": "firecrawl",
+        "ladder": [
+          "firecrawl",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "choice_static",
+        "resolved_by": "domain:www.choicehotels.com"
+      },
+      "providers_attempted": [
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 3,
+      "outcomes": {
+        "ACCESS_DENIED": 3
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423...\nError: Captcha resolve failed"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 2,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423...\nError: Captcha resolve failed"
+        },
+        {
+          "run": "milwaukee-router-001",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 3,
+          "outcome": "ACCESS_DENIED",
+          "detail": "Scraping https://www.choicehotels.com/wisconsin/milwaukee/econo-lodge-hotels/wi423...\nError: captcha or protection page found"
+        }
+      ],
+      "final_state": "TECHNICAL_FALLBACK_REQUIRED",
+      "failure": "ACCESS_DENIED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "REACQUISITION_WITH_EXISTING_STACK",
+      "repair": "",
+      "why": "the same lane was never tried here either",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "committed_lane_never_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "canonical_name": "Hyatt Place Milwaukee Airport",
+      "brand": "HYATT",
+      "unresolved_reason": "INSUFFICIENT_EVIDENCE",
+      "last_run": "milwaukee-premium-028",
+      "runs_touching": [
+        "milwaukee-premium-028"
+      ],
+      "source_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 4,
+      "outcomes": {
+        "BLANK_PAGE": 3,
+        "VALID": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 2,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 3,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "VALID",
+          "detail": ""
+        }
+      ],
+      "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+      "failure": "BLANK_PAGE",
+      "policy_block": "Pets are Welcome",
+      "policy_block_chars": 16,
+      "policy_locator": "static_html_walk",
+      "reader_fields": [],
+      "reader_withheld": [
+        "pet_fee",
+        "pets_allowed"
+      ],
+      "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-place-milwaukee-airport/attempt-01",
+      "document_persisted": true,
+      "document_chars": 11280,
+      "pet_sentences_in_document": [
+        "ital Check-In Fitness Center Free Breakfast Free Internet Access Free Parking Meeting Facilities Self-Parking Pet Friendly Pool Restaurant On-Site Pets are Welcome We welcome you and your furry companion to our pet-friendly hotel, Hyatt Place Milwaukee Airport",
+        "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets",
+        "weight limit : 75 Pounds Maximum number of pets is 2",
+        "ital Check-In Fitness Center Free Breakfast Free Internet Access Free Parking Meeting Facilities Self-Parking Pet Friendly Pool Restaurant On-Site Pets are Welcome We welcome you and your furry companion to our pet-friendly hotel, Hyatt Place Milwaukee Airport",
+        "Pet Fees 1-6 nights :&nbsp; $100 &nbsp;/&nbsp; STAY 7-30 nights + additional cleaning fee :&nbsp; $200 &nbsp;/&nbsp; STAY Weight Limits Individual pet we",
+        "ight limit : &nbsp; 50 &nbsp; Pounds Combined pets weight limit :&nbsp; 75 &nbsp; Pounds Maximum number of pets is 2"
+      ],
+      "actionable_terms_in_document": [
+        "$100",
+        "$200",
+        "50 pounds",
+        "75 pounds",
+        "maximum number of pets"
+      ],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "LOCATOR_BLOCK_POORER_THAN_ITS_DOCUMENT",
+      "why": "the persisted page states a banded fee, an individual and a combined weight limit and a count; the located block is the heading 'Pets are Welcome'",
+      "recoverable_from_existing_evidence": true,
+      "checks_passed": {
+        "document_states_more_than_the_block": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "hyatt regency milwaukee",
+      "canonical_name": "Hyatt Regency Milwaukee",
+      "brand": "HYATT",
+      "unresolved_reason": "INSUFFICIENT_EVIDENCE",
+      "last_run": "milwaukee-premium-028",
+      "runs_touching": [
+        "milwaukee-premium-028"
+      ],
+      "source_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 4,
+      "outcomes": {
+        "BLANK_PAGE": 3,
+        "VALID": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 2,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_browser",
+          "attempt": 3,
+          "outcome": "BLANK_PAGE",
+          "detail": "rejected by the page-health gate"
+        },
+        {
+          "run": "milwaukee-premium-028",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "VALID",
+          "detail": ""
+        }
+      ],
+      "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+      "failure": "BLANK_PAGE",
+      "policy_block": "Pet Fees Price : $40 /",
+      "policy_block_chars": 22,
+      "policy_locator": "static_html_walk",
+      "reader_fields": [],
+      "reader_withheld": [
+        "pets_allowed"
+      ],
+      "attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-regency-milwaukee/attempt-01",
+      "document_persisted": true,
+      "document_chars": 18050,
+      "pet_sentences_in_document": [
+        "Rooms & Suites Rest well in our pet-friendly hotel rooms and spacious suites offering free Wi-Fi, contemporary décor, productive work areas and stunning views of downtown Milwaukee from",
+        "s Center Free Internet Access Laundry Meeting Facilities Valet Parking Self-Parking Restaurant On-Site We Are Pet Friendly Don’t let your pet miss out on the fun while you travel",
+        "Bring your furry friend with you to our pet-friendly hotel so they can enjoy all the exciting sights, sounds and scents of downtown Milwaukee",
+        "Pet Fees Price : $40 / NIGHT Weight Limits Individual pet weight limit : 150 Pounds Combined pets weight limit : 150 Pounds Maximum number of pets is 2",
+        "Rooms &amp; Suites Rest well in our pet-friendly hotel rooms and spacious suites offering free Wi-Fi, contemporary décor, productive work areas and stunning views of downtown Milwaukee from",
+        "s Center Free Internet Access Laundry Meeting Facilities Valet Parking Self-Parking Restaurant On-Site We Are Pet Friendly Don’t let your pet miss out on the fun while you travel"
+      ],
+      "actionable_terms_in_document": [
+        "$40",
+        "150 pounds",
+        "maximum number of pets"
+      ],
+      "actionable_terms_in_block": [
+        "$40"
+      ],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "LOCATOR_BLOCK_POORER_THAN_ITS_DOCUMENT",
+      "why": "the persisted page states the fee, both weight limits and the count; the located block is twenty-two characters that stop mid-phrase before the word NIGHT",
+      "recoverable_from_existing_evidence": true,
+      "checks_passed": {
+        "document_states_more_than_the_block": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "knickerbocker on the lake",
+      "canonical_name": "Knickerbocker on the Lake",
+      "brand": "INDEP:www.knickerbockeronthelake.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-final-026",
+        "milwaukee-identity-027"
+      ],
+      "source_url": "https://www.knickerbockeronthelake.com/faq",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 1,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "CODELESS_BINDING_ON_A_SINGLE_PROPERTY_SITE",
+      "why": "the page's name contains the census name and the census telephone is printed on it; 027 required a SELF-DECLARED number because a multi-property operator prints its siblings', which a single-property domain cannot do",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {},
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "motel 6 suites milwaukee brookfield wi",
+      "canonical_name": "Motel 6 Suites Milwaukee Brookfield, WI",
+      "brand": "MOTEL6",
+      "unresolved_reason": "ACCESS_FAILURE",
+      "last_run": "milwaukee-final-026",
+      "runs_touching": [
+        "milwaukee-final-026"
+      ],
+      "source_url": "https://www.motel6.com/property/motel-brookfield-wisconsin-us-368045/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "brand:MOTEL6"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 0,
+      "outcomes": {},
+      "attempts": [],
+      "final_state": "PROVIDER_EXHAUSTED",
+      "failure": "UNHYDRATED",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "REACQUISITION_WITH_EXISTING_STACK",
+      "repair": "",
+      "why": "six UNHYDRATED attempts on one day while three sibling Motel 6 pages on the same domain hydrated in the same run; a clean re-run is cheap and settles it either way",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "every_committed_lane_tried": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "potawatomi casino hotel",
+      "canonical_name": "Potawatomi Casino Hotel",
+      "brand": "INDEP:www.potawatomi.com",
+      "unresolved_reason": "POLICY_NOT_PRESENT",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-final-026",
+        "milwaukee-identity-027"
+      ],
+      "source_url": "https://www.potawatomi.com/hotel",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "attempt_count": 4,
+      "outcomes": {
+        "NAVIGATION_FAILED": 3,
+        "POLICY_NOT_FOUND": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details r"
+        },
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 2,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details r"
+        },
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 3,
+          "outcome": "NAVIGATION_FAILED",
+          "detail": "Error: Page.goto: Protocol error (Page.navigate): Access denied: www.potawatomi.com is classified as Gambling and blocked by Bright Data as it might breach Bright Data usage policy. For more details r"
+        },
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_web_unlocker",
+          "attempt": 1,
+          "outcome": "POLICY_NOT_FOUND",
+          "detail": "no bounded policy block in a page that rendered; 0 signal candidates considered"
+        }
+      ],
+      "final_state": "POLICY_NOT_FOUND",
+      "failure": "POLICY_NOT_FOUND",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "OTHER",
+      "repair": "PERSIST_EVIDENCE_ON_A_NON_ACQUIRING_OUTCOME",
+      "why": "reached through the Web Unlocker after the Browser API refused the domain as gambling, found no policy container and persisted nothing; the same unverifiable claim",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "no_document_was_persisted": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "spark by hilton milwaukee airport",
+      "canonical_name": "Spark by Hilton Milwaukee Airport",
+      "brand": "HILTON",
+      "unresolved_reason": "INSUFFICIENT_EVIDENCE",
+      "last_run": "hilton-milwaukee-023",
+      "runs_touching": [
+        "hilton-milwaukee-023"
+      ],
+      "source_url": "https://www.hilton.com/en/hotels/mkearpe-spark-milwaukee-airport/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "hilton_competing",
+        "resolved_by": "brand:HILTON"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 0,
+      "outcomes": {},
+      "attempts": [],
+      "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+      "failure": "",
+      "policy_block": "",
+      "policy_block_chars": 16,
+      "policy_locator": "hilton_pet_panel",
+      "reader_fields": [],
+      "reader_withheld": [
+        "pet_fee",
+        "pets_allowed"
+      ],
+      "attempt_dir": "data/acquisition/hilton-milwaukee-023/hilton-milwaukee-023/spark-by-hilton-milwaukee-airport/attempt-01",
+      "document_persisted": true,
+      "document_chars": 5775,
+      "pet_sentences_in_document": [
+        "Our amenities Free breakfast Non-smoking rooms Indoor pool Free parking Airport shuttle Fitness center Pet-friendly rooms Cribs All Amenities Hilton Honors member benefits Hilton Honors Discount rate Points toward free nights and more Choose Your Room Digi",
+        "tal Check-In Hilton Honors Experiences Digital Key Hotel policies Parking Pets Smoking Pets allowed Yes All Policies Gather your group Our online tools make group travel easy",
+        "Our amenities Free breakfast Non-smoking rooms Indoor pool Free parking Airport shuttle Fitness center Pet-friendly rooms Cribs All Amenities Hilton Honors member benefits Hilton Honors Discount rate Points toward free nights and more Choose Your Room Digi",
+        "tal Check-In Hilton Honors Experiences Digital Key Hotel policies Parking Pets Smoking Self-parking On-site , Complimentary Valet parking Not available EV charging Not available Secured Not available Covered Not available In/Out",
+        "privileges Not available Pets allowed Yes A fee will be assessed for smoking in a non-smoking room"
+      ],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "FINAL_SOURCE_LIMITATION",
+      "repair": "",
+      "why": "the whole persisted page carries 'Pets allowed Yes' and no terms; 023 and 024 established the words 'Max weight' exist only in a JavaScript translation dictionary",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {
+        "document_states_no_actionable_policy": true
+      },
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "the clarke hotel",
+      "canonical_name": "The Clarke Hotel",
+      "brand": "INDEP:www.theclarkehotel.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-final-026",
+        "milwaukee-identity-027"
+      ],
+      "source_url": "https://www.theclarkehotel.com/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 1,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "CODELESS_BINDING_ON_A_SINGLE_PROPERTY_SITE",
+      "why": "titled 'Home - The Clarke Hotel' and prints exactly one telephone number, the census one",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {},
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "the iron horse hotel",
+      "canonical_name": "The Iron Horse Hotel",
+      "brand": "INDEP:www.theironhorsehotel.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-final-026",
+        "milwaukee-identity-027"
+      ],
+      "source_url": "https://www.theironhorsehotel.com/dogs/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 1,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "CODELESS_BINDING_ON_A_SINGLE_PROPERTY_SITE",
+      "why": "titled 'Dogs | The Iron Horse Hotel' and prints exactly one telephone number, the census one",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {},
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "the plaza hotel milwaukee",
+      "canonical_name": "The Plaza Hotel Milwaukee",
+      "brand": "INDEP:plazahotelmilwaukee.com",
+      "unresolved_reason": "IDENTITY_FAILURE",
+      "last_run": "milwaukee-identity-027",
+      "runs_touching": [
+        "milwaukee-final-026",
+        "milwaukee-identity-027"
+      ],
+      "source_url": "https://plazahotelmilwaukee.com/amenities/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 1,
+      "outcomes": {
+        "IDENTITY_MISMATCH": 1
+      },
+      "attempts": [
+        {
+          "run": "milwaukee-identity-027",
+          "provider": "brightdata_browser",
+          "attempt": 1,
+          "outcome": "IDENTITY_MISMATCH",
+          "detail": "the page declares no telephone number of its own; the names agree only on hotel, milwaukee, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a "
+        }
+      ],
+      "final_state": "IDENTITY_REVIEW",
+      "failure": "IDENTITY_MISMATCH",
+      "policy_block": "",
+      "policy_block_chars": 0,
+      "policy_locator": "",
+      "reader_fields": [],
+      "reader_withheld": [],
+      "attempt_dir": "",
+      "document_persisted": false,
+      "document_chars": 0,
+      "pet_sentences_in_document": [],
+      "actionable_terms_in_document": [],
+      "actionable_terms_in_block": [],
+      "closure_class": "FINAL_IDENTITY_LIMITATION",
+      "repair": "",
+      "why": "the page publishes no structured identity, its title names no property, its name agrees with the census only on 'hotel' and 'milwaukee', and the telephone it prints is not the census number",
+      "recoverable_from_existing_evidence": false,
+      "checks_passed": {},
+      "evidence_holds": true
+    },
+    {
+      "identity_key": "wildwood lodge",
+      "canonical_name": "Wildwood Lodge",
+      "brand": "INDEP:thewildwoodlodge.com",
+      "unresolved_reason": "INSUFFICIENT_EVIDENCE",
+      "last_run": "milwaukee-final-026",
+      "runs_touching": [
+        "milwaukee-final-026"
+      ],
+      "source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+      "current_route": {
+        "provider": "brightdata_browser",
+        "ladder": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "reader": "generic",
+        "resolved_by": "default"
+      },
+      "providers_attempted": [
+        "brightdata_browser"
+      ],
+      "attempt_count": 0,
+      "outcomes": {},
+      "attempts": [],
+      "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+      "failure": "",
+      "policy_block": "FREQUENTLY ASKED QUESTIONS FAQS WHEN IS CHECK IN & CHECK OUT? WHAT IS THE CANCELLATION POLICY? DOES THE HOTEL PROVIDE FREE WIFI? DO I HAVE TO PAY FOR PARKING? WHAT IS THE SMOKING POLICY? I'M TRAVELING WITH VALUABLES, ARE THERE SAFETY DEPOSIT BOXES AT THE PROPERTY? HOW CAN I CONTACT THE FRONT DESK? AMENITIES DOES THE WILDWOOD SUPPLY CRIBS & ROLLAWAY BEDS? ARE ROOMS EQUIPPED WITH A FRIDGE AND A MICROWAVE? WHAT ARE THE HOURS OF THE SWIMMING POOL? DOES THE WILDWOOD LODGE HAVE A FITNESS CENTER? DO YOU ACCEPT PETS? DO YOU OFFER DRY CLEANING & LAUNDRY SERVICES? I FORGOT SOMETHING - WHAT AMENITIES DOES THE HOTEL OFFER? HOW OFTEN DOES HOUSEKEEPING CLEAN MY ROOM? WHAT ARE THE IN-ROOM ACCESSIBILITY FEATURES? DINING IS THERE COMPLIMENTARY BREAKFAST? ARE THERE ANY ON-SITE DINING OPTIONS? CLIVE LOCATION 11431 Forest Avenue Clive, IA 50325 515.222.9876 BOOK NOW PEWAUKEE LOCATION Mailing PO BOX 28 Pewaukee, WI 53072 Physical N14 W24121 Tower Place Pewaukee, WI 53072 262.506.2000 BOOK NOW © 2026 HOA Hotels LLC | Privacy Policy",
+      "policy_block_chars": 1025,
+      "policy_locator": "generic_signal_walk",
+      "reader_fields": [],
+      "reader_withheld": [
+        "pets_allowed"
+      ],
+      "attempt_dir": "data/acquisition/milwaukee-final-026/milwaukee-final-026/wildwood-lodge/attempt-01",
+      "document_persisted": true,
+      "document_chars": 11841,
+      "pet_sentences_in_document": [
+        "ROWAVE? WHAT ARE THE HOURS OF THE SWIMMING POOL? DOES THE WILDWOOD LODGE HAVE A FITNESS CENTER? DO YOU ACCEPT PETS? DO YOU OFFER DRY CLEANING & LAUNDRY SERVICES? I FORGOT SOMETHING - WHAT AMENITIES DOES THE HOTEL OFFER? HOW OFTEN DOES HOUSEKEEPING CLEAN MY ROOM? W",
+        "Do you accept pets? The Wildwood Lodge is a dog friendly hotel and we accept all dogs regardless of breed or weight",
+        "If you choose to travel with your dog at Wildwood, it is an additional $20 fee per dog, per night ($30/dog/night in Suites) and we have a maximum of two (2) dogs per room policy",
+        "Dogs are not allowed in the pool area or in any of our public spaces",
+        "Dogs that are disruptive to other hotel guests may be asked to leave",
+        "We invite you to take a look at a list of other dog-friendly establishments in Pewaukee that you can visit while you stay with us! Do you offer dry cleaning &amp; laundry services? Same-day dry cleanin"
+      ],
+      "actionable_terms_in_document": [
+        "$20",
+        "$30",
+        "not allowed",
+        "per night"
+      ],
+      "actionable_terms_in_block": [],
+      "closure_class": "TARGETED_REPAIR_WORTH_DOING",
+      "repair": "LOCATOR_BLOCK_POORER_THAN_ITS_DOCUMENT",
+      "why": "the FAQ ANSWERS are in the captured DOM -- dogs of any breed or weight, $20 per dog per night, two dogs per room -- and the locator returned the list of questions",
+      "recoverable_from_existing_evidence": true,
+      "checks_passed": {
+        "document_states_more_than_the_block": true
+      },
+      "evidence_holds": true
+    }
+  ],
+  "repair_plan": {
+    "repairs": [
+      {
+        "value": "HIGH",
+        "general_defect": "the located block can be strictly poorer than the document it came from -- a heading, a truncated phrase, or a list of collapsed FAQ questions -- and nothing notices",
+        "milwaukee_recovery": 3,
+        "recurs_in_future_markets": true,
+        "changes": [
+          "locator"
+        ],
+        "identity_unchanged": true,
+        "routing_unchanged": true,
+        "reader_unchanged": true,
+        "risk": "MEDIUM: the locator's size cap and container-scoring rules are what keep 'the whole page' out of a quote, and a richer-block rule pushes directly against them",
+        "testable_from_existing_evidence": true,
+        "why_it_ranks_here": "three of nineteen recover with NO provider call, the defect is brand-independent, and every market has accordions and headings",
+        "repair": "LOCATOR_BLOCK_POORER_THAN_ITS_DOCUMENT",
+        "properties": [
+          "hyatt place milwaukee airport",
+          "hyatt regency milwaukee",
+          "wildwood lodge"
+        ]
+      },
+      {
+        "value": "HIGH",
+        "general_defect": "a capture that reaches a page and then declines it -- POLICY_NOT_FOUND, IDENTITY_MISMATCH -- persists nothing, so its verdict can never be audited",
+        "milwaukee_recovery": 0,
+        "recurs_in_future_markets": true,
+        "changes": [
+          "capture persistence"
+        ],
+        "identity_unchanged": true,
+        "routing_unchanged": true,
+        "reader_unchanged": true,
+        "risk": "LOW: writes an artifact; changes no verdict and no gate",
+        "testable_from_existing_evidence": false,
+        "why_it_ranks_here": "recovers nothing by itself and makes three of the nineteen answerable at all. Two 'the source has no policy' claims and one identity question are currently unfalsifiable, which is a worse position than a known failure",
+        "repair": "PERSIST_EVIDENCE_ON_A_NON_ACQUIRING_OUTCOME",
+        "properties": [
+          "brewhouse inn and suites",
+          "drury plaza hotel milwaukee downtown",
+          "potawatomi casino hotel"
+        ]
+      },
+      {
+        "value": "MEDIUM",
+        "general_defect": "027 requires a SELF-DECLARED telephone because a multi-property operator prints its siblings' numbers; a single-property first-party site cannot do that, and is refused anyway",
+        "milwaukee_recovery": 3,
+        "recurs_in_future_markets": true,
+        "changes": [
+          "identity"
+        ],
+        "identity_unchanged": false,
+        "routing_unchanged": true,
+        "reader_unchanged": true,
+        "risk": "HIGH: this is the identity gate. A false bind publishes one hotel's policy under another's name and nothing downstream catches it. The single-property test must be mechanical and adversarially cornered before it ships",
+        "testable_from_existing_evidence": true,
+        "why_it_ranks_here": "real recovery and real reuse, held below the locator repair only because the failure mode is the one that cannot be reviewed away",
+        "repair": "CODELESS_BINDING_ON_A_SINGLE_PROPERTY_SITE",
+        "properties": [
+          "knickerbocker on the lake",
+          "the clarke hotel",
+          "the iron horse hotel"
+        ]
+      },
+      {
+        "value": "LOW",
+        "general_defect": "a census URL that is a contact or landing page is read as an access failure rather than as a source that needs discovery",
+        "milwaukee_recovery": 1,
+        "recurs_in_future_markets": true,
+        "changes": [
+          "source discovery"
+        ],
+        "identity_unchanged": true,
+        "routing_unchanged": true,
+        "reader_unchanged": true,
+        "risk": "LOW: discovery already exists and is already validated",
+        "testable_from_existing_evidence": false,
+        "why_it_ranks_here": "one property here, and the overlay already covers properties acquired after it existed; this is a backfill, not a defect",
+        "repair": "SOURCE_DISCOVERY_FOR_A_THIN_CENSUS_URL",
+        "properties": [
+          "dubbel dutch hotel"
+        ]
+      }
+    ],
+    "properties_by_repair": {
+      "PERSIST_EVIDENCE_ON_A_NON_ACQUIRING_OUTCOME": [
+        "brewhouse inn and suites",
+        "drury plaza hotel milwaukee downtown",
+        "potawatomi casino hotel"
+      ],
+      "SOURCE_DISCOVERY_FOR_A_THIN_CENSUS_URL": [
+        "dubbel dutch hotel"
+      ],
+      "LOCATOR_BLOCK_POORER_THAN_ITS_DOCUMENT": [
+        "hyatt place milwaukee airport",
+        "hyatt regency milwaukee",
+        "wildwood lodge"
+      ],
+      "CODELESS_BINDING_ON_A_SINGLE_PROPERTY_SITE": [
+        "knickerbocker on the lake",
+        "the clarke hotel",
+        "the iron horse hotel"
+      ]
+    }
+  },
+  "scenarios": {
+    "FREEZE_NOW": {
+      "observed": 114,
+      "of_active_eligible": 133,
+      "coverage_pct": 85.7,
+      "final_active_exceptions": 19,
+      "effort": "none",
+      "provider_spend_usd": 0.0
+    },
+    "ONE_MORE_REPAIR_WAVE": {
+      "scope": "the HIGH-value repairs only: the locator, and persisting evidence on a declining capture",
+      "likely_recovered": 3,
+      "likely_recovered_detail": [
+        "hyatt place milwaukee airport",
+        "hyatt regency milwaukee",
+        "wildwood lodge"
+      ],
+      "likely_observed": 117,
+      "likely_coverage_pct": 88.0,
+      "likely_active_unresolved": 16,
+      "effort": "one work order; the locator repair is testable against evidence already on disk before any capture runs",
+      "provider_spend_usd": 0.0,
+      "confidence": "the three recoveries are visible in persisted documents today; whether the repaired locator produces a publication-grade block is not guaranteed until it runs"
+    },
+    "MAXIMUM_RECOVERY": {
+      "scope": "every non-final exception: the HIGH repairs, the code-less identity repair, the discovery backfill, and a re-run of the five REACQUISITION properties",
+      "ceiling_observed": 129,
+      "ceiling_coverage_pct": 97.0,
+      "irreducible_finals": 4,
+      "irreducible_detail": [
+        "chalet motel of mequon",
+        "county clare irish inn and pub",
+        "spark by hilton milwaukee airport",
+        "the plaza hotel milwaukee"
+      ],
+      "effort": "three or four work orders, one of them touching the identity gate",
+      "provider_spend_usd_estimate": "roughly $2 to $5: five re-acquisitions plus re-runs of the repaired properties, at the $0.16 to $0.68 per property this market has measured",
+      "engineering_risk": "the identity repair is the only one that can be wrong invisibly; the rest fail loudly or not at all",
+      "confidence": "a CEILING, not a forecast. Four Choice properties rest on Firecrawl reaching a captcha wall that beat the Web Unlocker nine times, and 004 measured that lane at 13 of 15, not 15 of 15"
+    }
+  },
+  "publication_readiness": {
+    "verdict": "READY_FOR_PARTIAL_FIRST_PUBLICATION",
+    "candidate_set": {
+      "ready": 53,
+      "refusal": 26,
+      "total": 79
+    },
+    "held_back": 35,
+    "unresolved_remain_unpublished": 19,
+    "reasons": [
+      "an unresolved property has NO current-state row, so it cannot be published by accident: absence is the mechanism, not a filter someone has to remember to apply",
+      "the 53 READY rows each carry contiguous quotes, a confirmed identity and a publication-grade verdict; the 26 REFUSAL rows each carry the sentence that refuses, which is a finding a guest can use",
+      "the 35 held rows must stay unpublished and will: a schema-held row is one the vocabulary cannot carry without understating a price, and an insufficient-evidence row is an amenity chip or a service-animal sentence",
+      "an exception queue coexists with a published market by construction -- this market has never published a property it could not evidence, and 19 unevidenced identities simply do not appear"
+    ],
+    "conditions": [
+      "publication is a FOUNDER act. 53 READY rows are ready for review, not approved; nothing here creates authority or approvals",
+      "the three locator recoveries should land first if they are going to: republishing a market to add three properties costs more than waiting one work order"
+    ]
+  },
+  "benchmark_readiness": {
+    "verdict": "READY_FOR_FRESH_MARKET_BENCHMARK",
+    "reasons": [
+      "the architecture that would run a new market is settled: routing measured per brand, a canonical locator contract with replay, an identity gate with a code path and a code-less path, a reader with corpus-pinned protections, and a store that is now a projection of the current reader",
+      "of Milwaukee's 19 exceptions, 8 are property-specific source, identity or access limitations that no architecture change reaches, and 5 are re-runs of a lane that already exists",
+      "the two architectural defects this assessment found -- a locator that can return less than its document, and captures that persist nothing when they decline -- would BOTH be measured better by a fresh market than by more Milwaukee work, because Milwaukee's remaining sample is nineteen properties and a new market's is hundreds"
+    ],
+    "carry_into_the_benchmark": [
+      "persist evidence on a declining capture before the run, so the benchmark can be assessed from its own archive",
+      "expect the locator defect to appear and instrument for it rather than fixing it blind"
+    ]
+  },
+  "provider_calls": 0,
+  "incremental_spend_usd": 0.0,
+  "authority_written": false,
+  "published": 0
+}

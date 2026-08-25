@@ -1,0 +1,68 @@
+{
+ "as_of": "2026-08-24",
+ "elapsed": {
+  "total_hours": 0.84,
+  "basis": "machine execution time of the paid acquisition pass only (run_start to run_end); the offline phases around it are not separately clocked",
+  "phases": {
+   "phase_1_zero_cost_url_recovery": "70 NEEDS_OFFICIAL_URL rows examined against every URL-bearing artifact on disk; 15 official URLs recovered, all PROPERTY_PAGE",
+   "phase_2_needs_property_url": "8 rows examined; 2 displaced an unfetchable census URL with a bound, corroborated property page",
+   "phase_3_prior_001_reconciliation": "all 17 recoveries came from the preserved 001 census; the 001 reports and capture manifests added 0 URLs beyond it, and the OSM discovery cache added 0",
+   "phase_4_routing": "ROUTED 84 -> 101 (50.6% -> 60.8%) on an unchanged 166-identity census",
+   "phase_5_cohort": "34 = 13 newly routed + 13 deferred by the 002 cap + 8 retries of attempts that answered nothing; 67 settled identities excluded and named",
+   "phase_6_cost_plan": "projected 349-368 cents, fallback exposure 115 cents, vendor balance 494 cents against a 1000 cent authorisation; run cap set to 444",
+   "phase_7_acquisition": "0.84 hours, 29 of 34 attempted, stopped on the cap at 420 of 444 cents; 20 VALID",
+   "phase_8_closeout": "8 declined captures re-read at zero cost, three passes merged to 98 identities, 63 observations, 166 identities dispositioned once each, 63 candidates packaged"
+  }
+ },
+ "cost": {
+  "total_usd": 4.2,
+  "basis": "Bright Data per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker and cli_unlocker, measured against an anchor written before the first call of THIS work order; the cap binds on the LARGER of measured and estimated. Firecrawl plan credits are metered separately and cost no dollars. Every offline phase -- URL recovery, declined-evidence recovery, the merge, the store, closure, the founder packet, the machine review and this benchmark -- cost nothing.",
+  "bright_data_usd": 4.2,
+  "firecrawl_plan_credits": 11.0,
+  "google_places_usd": 0.0,
+  "cap_usd": 10.0,
+  "run_cap_usd": 4.44
+ },
+ "routing": {
+  "new_source_families": []
+ },
+ "architecture": {
+  "generic_modules_added": 1,
+  "generic_modules_added_names": [
+   "scripts/pettripfinder/acquisition/cohort_cost_plan.py"
+  ],
+  "shared_modules_changed": 5,
+  "shared_modules_changed_names": [
+   "scripts/pettripfinder/discovery/census_url_recovery.py (a third binding key, URL corroboration, prior-build evidence, and the rows whose URL no lane can fetch)",
+   "scripts/pettripfinder/acquisition/market_routing.py (apply_url_overlay moved here so closure and the benchmark route what the run routed)",
+   "scripts/pettripfinder/acquisition/market_observation_store.py (a VALID row restating prior evidence carries no capture and is counted, not crashed on)",
+   "scripts/pettripfinder/market_closure_cli.py (--url-overlay)",
+   "scripts/pettripfinder/market_benchmark_cli.py (--url-overlay)"
+  ],
+  "market_specific_scripts_added": 0,
+  "note": "Zero Louisville-specific scripts. Every phase ran on the generic factory. The one module added answers a question every market has to answer before it spends -- what will this cohort cost, and does it buy anything a previous pass already answered -- and the five changed modules are all changes the next market inherits."
+ },
+ "interventions": {
+  "count": 5,
+  "items": [
+   "Phase 1: census_url_recovery bound on the first key that matched, so a bulk-edited OpenStreetMap URL for a Sleep Inn in another city consumed six Choice identities that a weaker key would have routed correctly. A rejected URL now falls through to the next key.",
+   "Phase 1: two sightings can bind equally well and carry different URLs. The Seelbach binds on its telephone number to both a bare domain and its Hilton property page; the useful one is now preferred rather than whichever came first in the list.",
+   "Phase 2: seven identities share one unfetchable census URL. The overlay was allowed to displace a URL no lane can fetch -- and only that -- so a bound, corroborated property page can reach a row the census had already filled with something unusable.",
+   "Phase 4: closure and the benchmark routed the census WITHOUT the overlay the paid pass routed with, so both would have reported this market as less routed than the run actually reached. Both now take the overlay.",
+   "Phase 8: the observation store crashed on a VALID row that restates prior evidence and carries no capture. Those rows are now counted as restated rather than turned into observations they have no artifacts for."
+  ]
+ },
+ "production_safety": {
+  "registered": false,
+  "published": false,
+  "deployed": false,
+  "launch_participation_row": false,
+  "release_contract_in_verified_set": false,
+  "authority_shard_in_registry": false,
+  "measurement_changed": false,
+  "affiliates_activated": false,
+  "production_manifest_changed": false,
+  "deployment_authorization_created": false,
+  "note": "PTF-LOUISVILLE-COVERAGE-EXPANSION-003 forbids all of the above. No founder decision was written, no authority was created, and the census file itself was never edited -- every recovered URL is an overlay applied for routing only."
+ }
+}

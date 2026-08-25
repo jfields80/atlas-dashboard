@@ -1,0 +1,706 @@
+{
+ "schema": "ptf-spider-benchmark/1.0",
+ "work_order": "PTF-SPIDER-BENCHMARK-001",
+ "market_id": "milwaukee-wi",
+ "note": "Spider re-fetching properties Bright Data already captured at publication grade, through the same readers and the same gates. Only the fetch differs, so any difference is the fetch. Nothing here writes authority and nothing is published; the route table is untouched and Spider is not registered as a routable provider.",
+ "baseline": "the 58 publication-grade Milwaukee captures from PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001",
+ "sample_selection": "readers Spider was measured able to reach",
+ "sample_size": 25,
+ "fetch": {
+  "acquired": 7,
+  "publication_grade": 7,
+  "not_acquired": 18,
+  "outcome_counts": {
+   "POLICY_NOT_FOUND": 7,
+   "NAVIGATION_FAILED": 9,
+   "VALID": 7,
+   "BLANK_PAGE": 1,
+   "ACCESS_DENIED": 1
+  }
+ },
+ "why_not_acquired": {
+  "RENDERED_BUT_NO_POLICY_BLOCK": 1,
+  "JAVASCRIPT_SHELL": 6,
+  "PROVIDER_ERROR": 9,
+  "BLANK_PAGE": 1,
+  "BLOCKED_AT_EDGE": 1
+ },
+ "field_comparison": {
+  "properties_compared": 7,
+  "field_verdicts": {
+   "MISSING": 1,
+   "MATCH": 9
+  },
+  "properties_with_a_mismatch": 0,
+  "mismatch_detail": []
+ },
+ "cost": {
+  "spider_reported_usd": 0.009622,
+  "spider_usd_per_property": 0.000385,
+  "credits_before": 79754.941637,
+  "credits_after": 79739.26659,
+  "credits_used": 15.675,
+  "bright_data_usd_per_property_measured": 0.197,
+  "basis": "Spider reports its own per-request cost, so this is the vendor's figure and not an inference. The Bright Data figure is the measured Milwaukee run: $13.22 over 67 properties."
+ },
+ "time": {
+  "spider_avg_seconds": 84.6,
+  "spider_median_seconds": 70.8,
+  "bright_data_avg_seconds": 88.5
+ },
+ "total_elapsed_seconds": 293.8,
+ "authority_written": false,
+ "routes_changed": false,
+ "items": [
+  {
+   "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+   "canonical_name": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/trademark/milwaukee-wisconsin/ambassador-hotel-trademark-collection/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 50.5,
+   "spider_reported_usd": 0.000675,
+   "bright_data_elapsed_seconds": 76.514,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "RENDERED_BUT_NO_POLICY_BLOCK",
+    "detail": "6788 characters of text arrived but no bounded policy block was located in it",
+    "extractable_text_chars": 6788,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "americinn by wyndham brookfield",
+   "canonical_name": "AmericInn by Wyndham Brookfield",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/americinn/brookfield-wisconsin/americinn-brookfield/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 70.8,
+   "spider_reported_usd": 0.000589,
+   "bright_data_elapsed_seconds": 122.483,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 5630 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 5630,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "americinn by wyndham glendale milwaukee",
+   "canonical_name": "AmericInn by Wyndham Glendale/Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/americinn/glendale-wisconsin/americinn-glendale-milwaukee/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 58.6,
+   "spider_reported_usd": 0.000684,
+   "bright_data_elapsed_seconds": 77.584,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 5553 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 5553,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "avid hotels milwaukee west waukesha",
+   "canonical_name": "avid hotels Milwaukee West - Waukesha",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 129.3,
+   "spider_reported_usd": 0.000324,
+   "bright_data_elapsed_seconds": 47.568,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 526, no content (error sending request for url (https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail))",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "avid hotels oak creek",
+   "canonical_name": "avid hotels Oak Creek",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/avidhotels/hotels/us/en/oak-creek/mkeco/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 105.2,
+   "spider_reported_usd": 0.0,
+   "bright_data_elapsed_seconds": 66.598,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 504, no content (Error getting website url.)",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "baymont by wyndham mequon milwaukee area",
+   "canonical_name": "Baymont by Wyndham Mequon Milwaukee Area",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/baymont/mequon-wisconsin/baymont-inn-and-suites-mequon-milwaukee-area/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 67.3,
+   "spider_reported_usd": 0.000691,
+   "bright_data_elapsed_seconds": 78.145,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 4908 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 4908,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "baymont by wyndham waukesha",
+   "canonical_name": "Baymont by Wyndham Waukesha",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/baymont/waukesha-wisconsin/baymont-inn-and-suites-waukesha/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 68.1,
+   "spider_reported_usd": 0.000623,
+   "bright_data_elapsed_seconds": 81.014,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 4901 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 4901,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "candlewood suites milwaukee airport oak creek",
+   "canonical_name": "Candlewood Suites Milwaukee Airport-Oak Creek",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/candlewood/hotels/us/en/oak-creek/mkegw/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 52.9,
+   "spider_reported_usd": 0.0005011029833333333,
+   "bright_data_elapsed_seconds": 72.885,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": true
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "comparison": {
+    "per_field": {
+     "pet_count_limit": "MISSING",
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MISSING": 1,
+     "MATCH": 1
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "candlewood suites milwaukee brown deer",
+   "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/candlewood/hotels/us/en/brown-deer/mkesd/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 49.9,
+   "spider_reported_usd": 0.00042109214999999997,
+   "bright_data_elapsed_seconds": 107.039,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    }
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+   "canonical_name": "Cobblestone Hotel & Suites - Waukesha/West Milwaukee",
+   "brand": "INDEP:staycobblestone.com",
+   "reader": "generic",
+   "url": "https://staycobblestone.com/wi/waukesha/",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 76.1,
+   "spider_reported_usd": 0.00031760214999999994,
+   "bright_data_elapsed_seconds": 36.37,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": true
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "holiday inn and suites milwaukee airport",
+   "canonical_name": "Holiday Inn & Suites Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkela/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 41.6,
+   "spider_reported_usd": 0.00042066248333333346,
+   "bright_data_elapsed_seconds": 87.486,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "holiday inn brookfield milwaukee",
+   "canonical_name": "Holiday Inn Brookfield - Milwaukee",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinn/hotels/us/en/brookfield/mkebr/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "BLANK_PAGE",
+   "spider_elapsed_seconds": 129.8,
+   "spider_reported_usd": 0.000325,
+   "bright_data_elapsed_seconds": 212.336,
+   "bright_data_attempts": 2,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "rejected by the page-health gate",
+   "diagnosis": {
+    "label": "BLANK_PAGE",
+    "detail": "rejected by the page-health gate",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee airport",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeoc/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 106.3,
+   "spider_reported_usd": 0.0,
+   "bright_data_elapsed_seconds": 87.614,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 504, no content (Error getting website url.)",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee brookfield",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - Brookfield",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brookfield/mkebf/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 129.5,
+   "spider_reported_usd": 0.000325,
+   "bright_data_elapsed_seconds": 85.206,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 526, no content (error sending request for url (https://www.ihg.com/holidayinnexpress/hotels/us/en/brookfield/mkebf/hoteldetail))",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee new berlin",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee-New Berlin",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-berlin/mkenb/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 129.4,
+   "spider_reported_usd": 0.000325,
+   "bright_data_elapsed_seconds": 109.555,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 526, no content (error sending request for url (https://www.ihg.com/holidayinnexpress/hotels/us/en/new-berlin/mkenb/hoteldetail))",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "crowne plaza milwaukee airport",
+   "canonical_name": "Crowne Plaza Milwaukee Airport",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/crowneplaza/hotels/us/en/milwaukee/mketh/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 105.2,
+   "spider_reported_usd": 0.0,
+   "bright_data_elapsed_seconds": 156.926,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 504, no content (Error getting website url.)",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "days inn and suites by wyndham milwaukee",
+   "canonical_name": "Days Inn & Suites by Wyndham Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/days-inn/milwaukee-wisconsin/days-inn-and-suites-milwaukee/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 41.1,
+   "spider_reported_usd": 0.000604,
+   "bright_data_elapsed_seconds": 74.424,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 4918 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 4918,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "days inn by wyndham west allis milwaukee",
+   "canonical_name": "Days Inn by Wyndham West Allis/Milwaukee",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/days-inn/west-allis-wisconsin/days-inn-west-allis-milwaukee/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "POLICY_NOT_FOUND",
+   "spider_elapsed_seconds": 45.3,
+   "spider_reported_usd": 0.000579,
+   "bright_data_elapsed_seconds": 101.532,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "diagnosis": {
+    "label": "JAVASCRIPT_SHELL",
+    "detail": "HTTP 200 with only 3866 characters of extractable text and no policy signal phrase: the document arrived and its content did not. The Bright Data lane reaches this content by RUNNING the page and opening its disclosures, which a fetch cannot do.",
+    "extractable_text_chars": 3866,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "extended stay america milwaukee waukesha",
+   "canonical_name": "Extended Stay America - Milwaukee - Waukesha",
+   "brand": "ESA",
+   "reader": "generic",
+   "url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/waukesha",
+   "spider_attempts": 1,
+   "spider_outcome": "ACCESS_DENIED",
+   "spider_elapsed_seconds": 129.4,
+   "spider_reported_usd": 0.000326,
+   "bright_data_elapsed_seconds": 62.642,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 403",
+   "diagnosis": {
+    "label": "BLOCKED_AT_EDGE",
+    "detail": "the site or the provider's edge refused the request",
+    "extractable_text_chars": 67,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "generic"
+   }
+  },
+  {
+   "identity_key": "extended stay america milwaukee wauwatosa",
+   "canonical_name": "Extended Stay America - Milwaukee - Wauwatosa",
+   "brand": "ESA",
+   "reader": "generic",
+   "url": "https://www.extendedstayamerica.com/hotels/wi/milwaukee/wauwatosa",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 129.3,
+   "spider_reported_usd": 0.000324,
+   "bright_data_elapsed_seconds": 60.065,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 526, no content (error sending request for url (https://www.extendedstayamerica.com/hotels/wi/milwaukee/wauwatosa))",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "generic"
+   }
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham milwaukee airport",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Milwaukee Airport",
+   "brand": "WYNDHAM",
+   "reader": "wyndham",
+   "url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/oak-creek-wisconsin/hawthorn-extended-stay-milwaukee-airport/overview",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 105.2,
+   "spider_reported_usd": 0.0,
+   "bright_data_elapsed_seconds": 70.533,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 504, no content (Error getting website url.)",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "wyndham"
+   }
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee nw park place",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee NW - Park Place",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkepp/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 53.9,
+   "spider_reported_usd": 0.00042315331666666664,
+   "bright_data_elapsed_seconds": 117.324,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee west allis",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - West Allis",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-allis/mkell/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 53.7,
+   "spider_reported_usd": 0.00042907815000000005,
+   "bright_data_elapsed_seconds": 43.595,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "species_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {}
+   }
+  },
+  {
+   "identity_key": "holiday inn express milwaukee downtown",
+   "canonical_name": "Holiday Inn Express Milwaukee Downtown",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeem/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "NAVIGATION_FAILED",
+   "spider_elapsed_seconds": 129.5,
+   "spider_reported_usd": 0.000325,
+   "bright_data_elapsed_seconds": 86.916,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "NOT_ACQUIRED",
+   "spider_failure": "status 526, no content (error sending request for url (https://www.ihg.com/holidayinnexpress/hotels/us/en/milwaukee/mkeem/hoteldetail))",
+   "diagnosis": {
+    "label": "PROVIDER_ERROR",
+    "detail": "the provider did not return a page (timeout or upstream error)",
+    "extractable_text_chars": 0,
+    "bright_data_reached_it": true,
+    "bright_data_reader": "ihg"
+   }
+  },
+  {
+   "identity_key": "holiday inn express milwaukee n brown deer mequon",
+   "canonical_name": "Holiday Inn Express Milwaukee N-Brown Deer/Mequon",
+   "brand": "IHG",
+   "reader": "ihg",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brown-deer/mkebd/hoteldetail",
+   "spider_attempts": 1,
+   "spider_outcome": "VALID",
+   "spider_elapsed_seconds": 56.5,
+   "spider_reported_usd": 0.00039031215,
+   "bright_data_elapsed_seconds": 90.746,
+   "bright_data_attempts": 1,
+   "bright_data_provider": "brightdata_browser",
+   "spider_state": "ACQUIRED_PUBLICATION_GRADE",
+   "spider_publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "spider_extraction": {
+    "pets_allowed": false
+   },
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH"
+    },
+    "counts": {
+     "MATCH": 1
+    },
+    "mismatches": {}
+   }
+  }
+ ]
+}

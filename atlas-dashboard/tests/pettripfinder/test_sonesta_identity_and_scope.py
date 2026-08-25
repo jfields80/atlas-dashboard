@@ -76,12 +76,43 @@ class TestSourceIdentity:
         assert r["source_type"] == "OFFICIAL_PROPERTY"
 
     def test_no_legacy_es_suites_url_remains_in_any_tracked_artifact(self):
-        """The alias must not survive anywhere a citation could be read from."""
+        """The alias must not survive anywhere a citation could be read from.
+
+        Stated as the rule rather than as a substring ban on the whole corpus.
+        Until PTF-ST-LOUIS-REGISTER-PUBLISH-011 every ``sonesta-es-suites``
+        string in the inventory WAS a stale alias for a renamed Simply Suites,
+        so banning the substring outright and enforcing the rule were the same
+        test. St. Louis registered ``Sonesta ES Suites St. Louis - Chesterfield``,
+        a property that carries that brand TODAY and whose own page is the
+        es-suites URL -- so the substring ban would now delete a correct citation
+        to protect a different hotel. What must hold is what always meant
+        something: no Simply Suites property may cite an ES Suites page.
+        """
         for rel in ("launch_packages/pettripfinder/seed_businesses.csv",
                     "launch_packages/pettripfinder/hotel_policy_facts.json",
                     "launch_packages/pettripfinder/hotel_worker_approvals.json"):
             text = (_REPO / rel).read_text(encoding="utf-8-sig")
-            assert "sonesta-es-suites" not in text, rel
+            assert LEGACY_ES_URL not in text, rel
+            assert "sonesta-es-suites/oh/" not in text, rel
+
+    def test_a_simply_suites_property_never_cites_an_es_suites_page(self):
+        for row in read_production_rows():
+            if "simply suites" not in normalize_name(row.get("name", "")):
+                continue
+            for field in ("website_url", "source_url"):
+                assert "sonesta-es-suites" not in (row.get(field) or ""), row["name"]
+
+    def test_a_live_es_suites_property_keeps_its_own_brand_url(self):
+        """The converse, so narrowing the rule above cannot quietly become
+        permission to cite the wrong page in the other direction."""
+        row = next((r for r in read_production_rows()
+                    if normalize_name(r["name"])
+                    == "sonesta es suites st louis chesterfield"), None)
+        assert row is not None
+        assert row["source_url"] == (
+            "https://www.sonesta.com/sonesta-es-suites/mo/chesterfield/"
+            "sonesta-es-suites-st-louis-chesterfield")
+        assert row["source_url"] == row["website_url"]
 
     def test_the_separate_sonesta_property_is_untouched(self):
         """Sonesta Columbus Downtown is a different hotel on a different URL

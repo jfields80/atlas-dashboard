@@ -1,0 +1,1139 @@
+{
+ "schema": "ptf-generic-reader-corpus/1.0",
+ "work_order": "PTF-GENERIC-READER-BANDED-FEE-AND-HILTON-CONTAINER-HARDENING-024",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-20T20:36:26+00:00",
+ "baseline_commit": "cebeeacac15ed6fed5dae5db05cb8a0b18e82a2a",
+ "corpus_size": 24,
+ "corpus_by_group": {
+  "hilton": 11,
+  "marriott_control": 3,
+  "generic_control": 10
+ },
+ "differential": {
+  "cases": 24,
+  "rows": [
+   {
+    "case": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "TIERED_FEE_UNDERSTATED",
+    "block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Home2 Suites by Hilton Milwaukee Airport",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "COMPLETE",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD"
+    },
+    "new_withheld": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": true,
+    "changed": true
+   },
+   {
+    "case": "Home2 Suites by Hilton Milwaukee Brookfield",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "TIERED_FEE_UNDERSTATED",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Home2 Suites by Hilton Milwaukee Downtown",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "COMPLETE",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 75lbs)",
+    "stored_fields": [
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     }
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Home2 Suites by Hilton Milwaukee West",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "TIERED_FEE_UNDERSTATED",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Homewood Suites by Hilton Milwaukee Downtown",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "TIERED_FEE_UNDERSTATED",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75 for the first four nights, $125 for 5+",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "COMPLETE",
+    "block": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 75 lbs Other pet information $50/stay for 1 night, $75/stay for 2-4 nights, $125/stay for 5+ nights 2 pets max dogs or cats only.",
+    "stored_fields": [
+     "pet_count_limit",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "COMPLETE",
+    "block": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee",
+     "species_allowed"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Spark by Hilton Milwaukee Airport",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "BRAND_CONTAINER_PREEMPTED_THE_WALK",
+    "block": "Pets allowed Yes",
+    "stored_fields": [],
+    "stored_withheld": [
+     "pet_fee",
+     "pets_allowed"
+    ],
+    "new_extraction": {},
+    "new_withheld": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "Tru by Hilton Milwaukee Brookfield",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "TIERED_FEE_UNDERSTATED",
+    "block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Tru by Hilton Milwaukee Downtown",
+    "group": "hilton",
+    "brand": "HILTON",
+    "audit_verdict_at_023": "COMPLETE",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 50lbs)",
+    "stored_fields": [
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "fee_basis",
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     }
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": true,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+    "group": "marriott_control",
+    "brand": "MARRIOTT",
+    "audit_verdict_at_023": "",
+    "block": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+    "stored_fields": [
+     "weight_limit"
+    ],
+    "stored_withheld": [
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "marriott",
+    "tiered_now": null,
+    "fields_removed": [
+     "weight_limit"
+    ],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "Sheraton Milwaukee Brookfield Hotel",
+    "group": "marriott_control",
+    "brand": "MARRIOTT",
+    "audit_verdict_at_023": "",
+    "block": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+    "stored_fields": [
+     "fee_basis",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee"
+    ],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "marriott",
+    "tiered_now": null,
+    "fields_removed": [
+     "fee_basis",
+     "fee_currency",
+     "pet_fee"
+    ],
+    "fields_added": [
+     "pet_count_scope",
+     "pets_allowed"
+    ],
+    "pet_fee_before": true,
+    "pet_fee_after": false,
+    "changed": true
+   },
+   {
+    "case": "The Trade, Autograph Collection",
+    "group": "marriott_control",
+    "brand": "MARRIOTT",
+    "audit_verdict_at_023": "",
+    "block": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+    "stored_fields": [
+     "fee_basis",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "weight_limit"
+    ],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pet_fee": 12500,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay"
+    },
+    "new_withheld": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "reader": "marriott",
+    "tiered_now": null,
+    "fields_removed": [
+     "pet_count_limit",
+     "weight_limit"
+    ],
+    "fields_added": [],
+    "pet_fee_before": true,
+    "pet_fee_after": true,
+    "changed": true
+   },
+   {
+    "case": "simple_per_stay_fee",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets Welcome. Non-refundable pet fee of $100 per stay.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_fee": 10000,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay"
+    },
+    "new_withheld": {},
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "fee_basis",
+     "fee_currency",
+     "pet_fee",
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": true,
+    "changed": false
+   },
+   {
+    "case": "simple_per_night_fee",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets Welcome. A $35 fee per night applies, maximum 2 pets per room.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_fee": 3500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2
+    },
+    "new_withheld": {},
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "fee_basis",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": true,
+    "changed": false
+   },
+   {
+    "case": "capped_fee",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_cap": {
+      "amount_minor": 7500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "pet_count_limit": 2
+    },
+    "new_withheld": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "fee_basis",
+     "fee_cap",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": true,
+    "changed": false
+   },
+   {
+    "case": "refusal_terse",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets Not Allowed",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": false
+    },
+    "new_withheld": {},
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "refusal_sentence",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "No, pets are not allowed at this hotel.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": false
+    },
+    "new_withheld": {},
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "amenity_chip_only",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets allowed Yes",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {},
+    "new_withheld": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "weight_limit_only",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets Welcome. Dogs only up to 75 pounds. Limit one dog per room.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "pets_allowed",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "species_restriction",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pets Welcome. Dogs and cats only, 2 pets maximum per room.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [
+     "pet_count_limit",
+     "pet_count_scope",
+     "pets_allowed",
+     "species_allowed"
+    ],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "deposit_plus_recurring",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "Pet deposit starts at $125 + $20 daily pet fee.",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {},
+    "new_withheld": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   },
+   {
+    "case": "per_pet_and_per_stay",
+    "group": "generic_control",
+    "brand": "generic",
+    "audit_verdict_at_023": "",
+    "block": "$75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00",
+    "stored_fields": [],
+    "stored_withheld": [],
+    "new_extraction": {},
+    "new_withheld": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "reader": "generic",
+    "tiered_now": false,
+    "fields_removed": [],
+    "fields_added": [],
+    "pet_fee_before": false,
+    "pet_fee_after": false,
+    "changed": false
+   }
+  ]
+ },
+ "hilton_recheck": {
+  "records": 11,
+  "materially_complete": 5,
+  "held_for_schema_limitation": 9,
+  "held_thin_surface": 1,
+  "still_unresolved": 0,
+  "tiered_understatement_corrected": 5,
+  "false_preemption_corrected": 1,
+  "audit_issue_counts": {
+   "TIERED_FEE_UNDERSTATED": 5,
+   "BRAND_CONTAINER_PREEMPTED_THE_WALK": 0,
+   "THIN_SURFACE_NO_TERMS_PUBLISHED": 1
+  },
+  "rows": [
+   {
+    "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "TIERED_FEE_UNDERSTATED",
+    "rederivation_class": "TIERED_FEE_WITHHELD",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD"
+    },
+    "new_withheld": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "tiered": false,
+    "asserted_fee_before": true,
+    "asserts_fee_now": true,
+    "audit_verdict_now": "COMPLETE",
+    "rederivation_class": "",
+    "materially_complete": true
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Brookfield",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "TIERED_FEE_UNDERSTATED",
+    "rederivation_class": "TIERED_FEE_WITHHELD",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 75lbs)",
+    "stored_fields": [
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     }
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": false,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "COMPLETE",
+    "rederivation_class": "",
+    "materially_complete": true
+   },
+   {
+    "canonical_name": "Home2 Suites by Hilton Milwaukee West",
+    "sub_brand": "HOME2_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-4 nights),$125(5+ nights) 2 Pet Max, Dog/Cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "TIERED_FEE_UNDERSTATED",
+    "rederivation_class": "TIERED_FEE_WITHHELD",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75 for the first four nights, $125 for 5+",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee"
+    ],
+    "new_extraction": {
+     "pets_allowed": true
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "TIERED_FEE_UNDERSTATED",
+    "rederivation_class": "TIERED_FEE_WITHHELD",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Max weight 75 lbs Other pet information $50/stay for 1 night, $75/stay for 2-4 nights, $125/stay for 5+ nights 2 pets max dogs or cats only.",
+    "stored_fields": [
+     "pet_count_limit",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": false,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "COMPLETE",
+    "rederivation_class": "",
+    "materially_complete": true
+   },
+   {
+    "canonical_name": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+    "sub_brand": "HOMEWOOD_SUITES",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $125.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_fee",
+     "species_allowed"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": false,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "COMPLETE",
+    "rederivation_class": "MULTI_COMPONENT_FEE_WITHHELD",
+    "materially_complete": true
+   },
+   {
+    "canonical_name": "Spark by Hilton Milwaukee Airport",
+    "sub_brand": "SPARK",
+    "policy_locator": "hilton_pet_panel",
+    "block": "Pets allowed Yes",
+    "stored_fields": [],
+    "new_extraction": {},
+    "new_withheld": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "tiered": false,
+    "asserted_fee_before": false,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "THIN_SURFACE_NO_TERMS_PUBLISHED",
+    "rederivation_class": "",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+    "sub_brand": "TRU",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $50(1-4 nights),$125(5+ nights) 2 Pet Max, dog/cat only",
+    "stored_fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": true,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "TIERED_FEE_UNDERSTATED",
+    "rederivation_class": "TIERED_FEE_WITHHELD",
+    "materially_complete": false
+   },
+   {
+    "canonical_name": "Tru by Hilton Milwaukee Downtown",
+    "sub_brand": "TRU",
+    "policy_locator": "generic_signal_walk",
+    "block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75/stay 1-4 nights, $125/stay 5+ nights (2max under 50lbs)",
+    "stored_fields": [
+     "weight_limit"
+    ],
+    "new_extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     }
+    },
+    "new_withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "tiered": true,
+    "asserted_fee_before": false,
+    "asserts_fee_now": false,
+    "audit_verdict_now": "COMPLETE",
+    "rederivation_class": "",
+    "materially_complete": true
+   }
+  ]
+ },
+ "routes_changed": false,
+ "authority_written": false,
+ "observations_updated": false,
+ "published": false
+}

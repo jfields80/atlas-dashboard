@@ -48,6 +48,14 @@ _SILENCE_SENTINELS = frozenset({"", "unknown", "unstated", "n/a", "none",
                                 "not stated", "null"})
 
 #: Restriction fields carried as free prose. Verbatim-grounded, never parsed.
+#:
+#: ``service_animal_exception`` is deliberately NOT here. 010's first draft added
+#: it, which put a legal access category inside the commercial-terms namespace --
+#: the exact arrangement ``validate_record`` has always rejected as
+#: MISPLACED_FIELD, and the exact hazard the founder's own Decision 2 names
+#: ("never attach pet fee/weight/count language to service animals"). A
+#: service-animal statement belongs in ``service_animal_statement``, on the
+#: record envelope, where no weight limit sits beside it.
 _PROSE_FIELDS = ("breed_restrictions", "unattended_policy",
                  "reservation_requirement", "pet_room_restriction",
                  "general_restrictions", "age_restriction")
@@ -55,7 +63,7 @@ _PROSE_FIELDS = ("breed_restrictions", "unattended_policy",
 _BOOL_FIELDS = ("pets_allowed", "weight_limit_stated_none",
                 "breed_restrictions_stated_none")
 
-#: Every fact key 1.2 recognises. An unknown key is reported rather than
+#: Every fact key 1.3 recognises. An unknown key is reported rather than
 #: ignored: a typo'd field name is invisible data, which is how twelve
 #: ``fee_scope`` values reached no public surface at all.
 KNOWN_FACT_FIELDS: Tuple[str, ...] = (
@@ -340,11 +348,23 @@ def _check_other_charges(node: Any, out: List[Issue]) -> None:
         _check_enum(charge, "kind", enums.OTHER_CHARGE_KINDS, charge_path, out,
                     required=True)
         _check_enum(charge, "basis", enums.FEE_BASES, charge_path, out)
-        # Refundability is never inferred from `kind`. It is optional because
-        # a contingent charge can be explicitly stated while the source says
-        # nothing about whether it is refundable. Absence means unknown; a
-        # present value still has to be a boolean.
-        _check_bool(charge, "refundable", charge_path, out, required=False)
+        # Mandatory and never inferred from `kind`. Hilton renders "Deposit
+        # Yes. $75 Non-refundable Fee" -- a heading that says deposit over a
+        # body that says the opposite, and only the body is true.
+        # 1.3: a charge may say the SOURCE DID NOT STATE refundability, which
+        # is a different claim from "it is not refundable". Absent that
+        # declaration the field stays required, so nothing a 1.2 writer produced
+        # becomes invalid and no writer gains permission to simply omit it.
+        if charge.get("refundable_stated") is False:
+            _check_bool(charge, "refundable_stated", charge_path, out)
+            if "refundable" in charge:
+                _check_bool(charge, "refundable", charge_path, out)
+        else:
+            _check_bool(charge, "refundable_stated", charge_path, out)
+            _check_bool(charge, "refundable", charge_path, out, required=True)
+        # A contingent charge must carry the source's own stated trigger
+        # (Pittsburgh Pass 3/4 conditional cleaning charges); kept beneath
+        # the 1.3 refundability rule, which it does not relax.
         _check_bool(charge, "conditional", charge_path, out, required=False)
         if charge.get("conditional") is True:
             trigger = charge.get("trigger")
@@ -436,7 +456,12 @@ def _check_species(node: Any, facts: Mapping, out: List[Issue]) -> None:
 # --------------------------------------------------------------------------
 
 def validate_facts(facts: Mapping) -> Tuple[Issue, ...]:
-    """Structural validation of a 1.2 ``facts`` block."""
+    """Structural validation of a ``facts`` block at the current schema.
+
+    Additive by construction: every key 1.2 accepted, 1.3 still accepts, and the
+    two 1.3 additions are optional. A 1.2 record therefore validates unchanged
+    and no live market needs migrating to stay valid.
+    """
     out: List[Issue] = []
     if not isinstance(facts, Mapping):
         return (Issue("facts", "NOT_OBJECT", "facts must be an object"),)
@@ -444,7 +469,8 @@ def validate_facts(facts: Mapping) -> Tuple[Issue, ...]:
     for key, value in sorted(facts.items()):
         if key not in KNOWN_FACT_FIELDS:
             out.append(Issue("facts.%s" % key, "UNKNOWN_FIELD",
-                             "not a schema 1.2 fact field"))
+                             "not a schema %s fact field"
+                             % SCHEMA_VERSION))
         if value is None:
             out.append(Issue("facts.%s" % key, "NULL_FOR_SILENCE",
                              "silence is absence; remove the key"))
@@ -552,6 +578,22 @@ def validate_record(record: Mapping) -> Tuple[Issue, ...]:
             _check_enum(statement, "charges_stated",
                         enums.SERVICE_ANIMAL_CHARGE_STATES,
                         "service_animal_statement", out, required=True)
+            # 1.3, additive and optional: the property's own words.
+            #
+            # Founder Decision 2 (PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010)
+            # required that a VERIFIED service-animal statement not be dropped
+            # and that it be sourced from explicit quoted property evidence.
+            # ``stated`` and ``charges_stated`` alone cannot carry the sentence,
+            # so the quote had nowhere to live. It is prose: carried verbatim,
+            # never parsed, and never derived from pet-policy terms.
+            quote = statement.get("quote")
+            if "quote" in statement and not isinstance(quote, str):
+                out.append(Issue("service_animal_statement.quote", "NOT_STRING",
+                                 "quote is free prose"))
+            elif isinstance(quote, str) and not quote.strip():
+                out.append(Issue("service_animal_statement.quote",
+                                 "NULL_FOR_SILENCE",
+                                 "silence is absence; remove the key"))
 
     # A legal access category must not sit in the commercial-terms namespace:
     # a weight limit beside it invites something to apply one to the other.
@@ -571,10 +613,17 @@ def validate_package(package: Mapping) -> Tuple[Issue, ...]:
     if not isinstance(package, Mapping):
         return (Issue("package", "NOT_OBJECT", "package must be an object"),)
 
+    # Canonical family, not newest. An additive amendment must not invalidate a
+    # package that was written before it: the 1.2 -> 1.3 bump added two optional
+    # fields and removed nothing, so every 1.2 package is still exactly as valid
+    # as it was. Pinning the newest version here would have declared all five
+    # live markets malformed without one fact changing.
     version = package.get("schema_version")
-    if version != SCHEMA_VERSION:
+    if not enums.is_canonical_policy_schema(version):
         out.append(Issue("schema_version", "BAD_VERSION",
-                         "expected %r, got %r" % (SCHEMA_VERSION, version)))
+                         "expected one of %s, got %r"
+                         % (sorted(enums.CANONICAL_POLICY_SCHEMA_VERSIONS),
+                            version)))
     if not package.get("market_id"):
         out.append(Issue("market_id", "MISSING_REQUIRED",
                          "ownership is explicit, never inferred from a filename"))

@@ -45,6 +45,12 @@ class TestTaxonomy:
     def test_dbpr_is_registry(self):
         assert family_of("fl_dbpr_lodging") == FAMILY_REGISTRY
 
+    def test_louisville_destination_sources_are_mapped(self):
+        assert family_of("goto_louisville") == FAMILY_CVB
+        assert family_of("soin_tourism") == FAMILY_CVB
+        assert family_of("flylouisville") == FAMILY_DIRECTORY
+        assert family_of("louisville_downtown_partnership") == FAMILY_DIRECTORY
+
     def test_indianapolis_destination_sources_are_cvb(self):
         for source in ("visit_indy", "visit_hamilton_county",
                        "visit_hendricks_county", "festival_country_indiana",

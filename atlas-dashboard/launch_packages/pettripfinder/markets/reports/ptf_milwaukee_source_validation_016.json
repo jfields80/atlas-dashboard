@@ -1,0 +1,1459 @@
+{
+ "schema": "ptf-source-validation/1.0",
+ "work_order": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016",
+ "market_id": "milwaukee-wi",
+ "authority_written": false,
+ "published": false,
+ "note": "Observation only. The router, the registry, the source resolver and the reader are the production ones; the provider is replaced by one that serves the cached document, so no request is made and no credit is spent.",
+ "subjects": 9,
+ "source_wiring": {
+  "overlay_selections_used": 8,
+  "census_fallbacks_used": 1,
+  "wrong_source_incidents": 0,
+  "routes_resolved_from_census_url": 9
+ },
+ "cost": {
+  "fresh_requests": 0,
+  "cached_documents": 9,
+  "firecrawl_credits": 0,
+  "brightdata_usd_minor": 0
+ },
+ "evidence_integrity": {
+  "hash_rederived": 9,
+  "quotes_contiguous": 9,
+  "publication_grade_granted": 0,
+  "rejected_only_for_missing_captured_at": 9,
+  "why": "a cached document carries no attested capture time; the verdict is withheld for that and nothing else"
+ },
+ "independent_recovery": {
+  "UNRESOLVED": 1,
+  "FULL": 2,
+  "PARTIAL": 5
+ },
+ "results": [
+  {
+   "identity_key": "knickerbocker on the lake",
+   "property_name": "Knickerbocker on the Lake",
+   "brand": "INDEP:www.knickerbockeronthelake.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "knickerbocker on the lake",
+    "census_official_url": "https://www.knickerbockeronthelake.com/",
+    "selected_source_url": "https://www.knickerbockeronthelake.com/faq",
+    "route_url": "https://www.knickerbockeronthelake.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.knickerbockeronthelake.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/knickerbocker-on-the-lake--faq/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "service_animal_exception": "Only ADA service animals are allowed."
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "flags": [
+    "FLAG_AMBIGUOUS_SCOPE"
+   ],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 1 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "service_animal_exception": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::knickerbocker on the lake::service_animal_exception::0",
+      "field": "service_animal_exception",
+      "quote": "Only ADA service animals are allowed.",
+      "source_url": "https://www.knickerbockeronthelake.com/faq",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "13289300f9705d703d49bbab95c93c3de8a6fa3aeb948086e32e6550d70f24b7",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "UNRESOLVED"
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "property_name": "Saint Kate - The Arts Hotel",
+   "brand": "INDEP:www.saintkatearts.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "saint kate the arts hotel",
+    "census_official_url": "https://www.saintkatearts.com/",
+    "selected_source_url": "https://www.saintkatearts.com/faq",
+    "route_url": "https://www.saintkatearts.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.saintkatearts.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/saint-kate-the-arts-hotel--faq/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_fields": {},
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 4 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[3].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html",
+     "fee_basis": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::saint kate the arts hotel::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets allowed",
+      "source_url": "https://www.saintkatearts.com/faq",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f6c98fd16a7fb49ba59a118374c6f94a4938bd6e8380c9165e1a2d9dd0815126",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::saint kate the arts hotel::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "$100 per stay",
+      "source_url": "https://www.saintkatearts.com/faq",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f6c98fd16a7fb49ba59a118374c6f94a4938bd6e8380c9165e1a2d9dd0815126",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::saint kate the arts hotel::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "$100 per stay",
+      "source_url": "https://www.saintkatearts.com/faq",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f6c98fd16a7fb49ba59a118374c6f94a4938bd6e8380c9165e1a2d9dd0815126",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::saint kate the arts hotel::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "$100 per stay",
+      "source_url": "https://www.saintkatearts.com/faq",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f6c98fd16a7fb49ba59a118374c6f94a4938bd6e8380c9165e1a2d9dd0815126",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "FULL"
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "property_name": "The Ingleside Hotel",
+   "brand": "INDEP:www.theinglesidehotel.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "the ingleside hotel",
+    "census_official_url": "https://www.theinglesidehotel.com/",
+    "selected_source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+    "route_url": "https://www.theinglesidehotel.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.theinglesidehotel.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-ingleside-hotel--accommodations-dog-friendly/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 6 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[3].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[4].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[5].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html",
+     "fee_basis": "rendered.html",
+     "pet_count_limit": "rendered.html",
+     "species_allowed": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "welcomes dogs",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "$40 pet fee per night",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "$40 pet fee per night",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "$40 pet fee per night",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::pet_count_limit::3",
+      "field": "pet_count_limit",
+      "quote": "2 dogs max",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the ingleside hotel::species_allowed::4",
+      "field": "species_allowed",
+      "quote": "dogs only",
+      "source_url": "https://www.theinglesidehotel.com/accommodations/dog-friendly",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1a67e198e4b3b7a1eb1115ba4c2b28023380459ae30b9496dd9d0d1821283da8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "FULL"
+  },
+  {
+   "identity_key": "the iron horse hotel",
+   "property_name": "The Iron Horse Hotel",
+   "brand": "INDEP:www.theironhorsehotel.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "the iron horse hotel",
+    "census_official_url": "https://www.theironhorsehotel.com/",
+    "selected_source_url": "https://www.theironhorsehotel.com/dogs/",
+    "route_url": "https://www.theironhorsehotel.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.theironhorsehotel.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-iron-horse-hotel--dogs/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 3 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html",
+     "fee_basis": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the iron horse hotel::pet_fee::0",
+      "field": "pet_fee",
+      "quote": "$100 per night ",
+      "source_url": "https://www.theironhorsehotel.com/dogs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "ef10a02036fa01aaa34d8d91ac8ee038bb4ffbfe7397944e5d0bdd2a8a8f5de8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the iron horse hotel::fee_currency::0",
+      "field": "fee_currency",
+      "quote": "$100 per night ",
+      "source_url": "https://www.theironhorsehotel.com/dogs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "ef10a02036fa01aaa34d8d91ac8ee038bb4ffbfe7397944e5d0bdd2a8a8f5de8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the iron horse hotel::fee_basis::1",
+      "field": "fee_basis",
+      "quote": "$100 per night ",
+      "source_url": "https://www.theironhorsehotel.com/dogs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "ef10a02036fa01aaa34d8d91ac8ee038bb4ffbfe7397944e5d0bdd2a8a8f5de8",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  },
+  {
+   "identity_key": "the marc hotel",
+   "property_name": "The Marc Hotel",
+   "brand": "INDEP:www.marchotelmilwaukee.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "the marc hotel",
+    "census_official_url": "https://www.marchotelmilwaukee.com/",
+    "selected_source_url": "https://www.marchotelmilwaukee.com/amenities/",
+    "route_url": "https://www.marchotelmilwaukee.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.marchotelmilwaukee.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-marc-hotel--amenities/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 6 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[3].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[4].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[5].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html",
+     "pet_count_limit": "rendered.html",
+     "species_allowed": "rendered.html",
+     "service_animal_exception": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pet-Friendly",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "fee: $100",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "fee: $100",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::pet_count_limit::2",
+      "field": "pet_count_limit",
+      "quote": "maximum of 2 pets",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::species_allowed::3",
+      "field": "species_allowed",
+      "quote": "pets (dogs or cats)",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the marc hotel::service_animal_exception::4",
+      "field": "service_animal_exception",
+      "quote": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed",
+      "source_url": "https://www.marchotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "df126c4ee50cbf356dd5b388d892b6f331e4192230900a5384abf7124f43bf32",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "property_name": "The Pfister Hotel",
+   "brand": "INDEP:www.thepfisterhotel.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "the pfister hotel",
+    "census_official_url": "https://www.thepfisterhotel.com/",
+    "selected_source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+    "route_url": "https://www.thepfisterhotel.com/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://www.thepfisterhotel.com/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-pfister-hotel--accommodations-pets/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 6 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[3].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[4].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[5].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html",
+     "pet_count_limit": "rendered.html",
+     "species_allowed": "rendered.html",
+     "service_animal_exception": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets (dogs or cats) per room are allowed",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "fee of $150",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "fee of $150",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::pet_count_limit::2",
+      "field": "pet_count_limit",
+      "quote": "maximum of 2 pets",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::species_allowed::3",
+      "field": "species_allowed",
+      "quote": "pets (dogs or cats)",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the pfister hotel::service_animal_exception::4",
+      "field": "service_animal_exception",
+      "quote": "Service animals are allowed, with no pet fee required for service animals.",
+      "source_url": "https://www.thepfisterhotel.com/accommodations/pets/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "897c734d6c8b2f94aab5d4dd46ea8cd6e031ea508fc9ba44f0ed7149bddd9f70",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  },
+  {
+   "identity_key": "the plaza hotel milwaukee",
+   "property_name": "The Plaza Hotel Milwaukee",
+   "brand": "INDEP:plazahotelmilwaukee.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "the plaza hotel milwaukee",
+    "census_official_url": "https://plazahotelmilwaukee.com/contact/",
+    "selected_source_url": "https://plazahotelmilwaukee.com/amenities/",
+    "route_url": "https://plazahotelmilwaukee.com/contact/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://plazahotelmilwaukee.com/contact/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/the-plaza-hotel-milwaukee--amenities/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT",
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 2 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pet_fee": "rendered.html",
+     "fee_currency": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the plaza hotel milwaukee::pet_fee::0",
+      "field": "pet_fee",
+      "quote": "$50 pet fee",
+      "source_url": "https://plazahotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "978f5beb1555de1857b0e681bfdb26badaf0df93cdda57a0dc43474c05c64074",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::the plaza hotel milwaukee::fee_currency::0",
+      "field": "fee_currency",
+      "quote": "$50 pet fee",
+      "source_url": "https://plazahotelmilwaukee.com/amenities/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "978f5beb1555de1857b0e681bfdb26badaf0df93cdda57a0dc43474c05c64074",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  },
+  {
+   "identity_key": "wildwood lodge",
+   "property_name": "Wildwood Lodge",
+   "brand": "INDEP:thewildwoodlodge.com",
+   "class": "INDEPENDENT",
+   "source": {
+    "identity_key": "wildwood lodge",
+    "census_official_url": "https://thewildwoodlodge.com/pewaukee/",
+    "selected_source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+    "route_url": "https://thewildwoodlodge.com/pewaukee/",
+    "source": "DISCOVERED_POLICY_URL",
+    "overlay_status": "POLICY_URL_FOUND",
+    "overlay_present": true,
+    "overlay_changed_source": true,
+    "provenance": {
+     "measured_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-014",
+     "implemented_by": "PTF-INDEPENDENT-POLICY-URL-DISCOVERY-LAYER-015",
+     "commit": "00a58afa07df0bad09dc4cff530a5962c5fe021e",
+     "contract": "ptf-source-discovery/1.0"
+    }
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "default",
+    "resolved_from_url": "https://thewildwoodlodge.com/pewaukee/"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/independent-url-discovery-014/url-discovery-014/wildwood-lodge--pewaukee-faqs/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "flags": [
+    "FLAG_TIERED_FEE"
+   ],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 3 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "pet_count_limit": "rendered.html",
+     "pet_count_scope": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::wildwood lodge::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "dog friendly",
+      "source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "3979ce6239645f47c61317b818e0efe7618d1f3745a9a02a926be2d01191008b",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::wildwood lodge::pet_count_limit::1",
+      "field": "pet_count_limit",
+      "quote": "maximum of two (2) dogs per room",
+      "source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "3979ce6239645f47c61317b818e0efe7618d1f3745a9a02a926be2d01191008b",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::wildwood lodge::pet_count_scope::1",
+      "field": "pet_count_scope",
+      "quote": "maximum of two (2) dogs per room",
+      "source_url": "https://thewildwoodlodge.com/pewaukee/faqs/",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "3979ce6239645f47c61317b818e0efe7618d1f3745a9a02a926be2d01191008b",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  },
+  {
+   "identity_key": "red roof inn milwaukee airport oak creek",
+   "property_name": "Red Roof Inn Milwaukee - Airport/ Oak Creek",
+   "brand": "RED_ROOF",
+   "class": "RED_ROOF",
+   "source": {
+    "identity_key": "red roof inn milwaukee airport oak creek",
+    "census_official_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+    "selected_source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+    "route_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+    "source": "CENSUS_OFFICIAL_URL",
+    "overlay_status": "",
+    "overlay_present": false,
+    "overlay_changed_source": false,
+    "provenance": {}
+   },
+   "route": {
+    "provider": "brightdata_browser",
+    "reader": "generic",
+    "resolved_by": "brand:RED_ROOF",
+    "resolved_from_url": "https://www.redroof.com/property/wi/oak-creek/rri031"
+   },
+   "provider_routed": "brightdata_browser",
+   "provider_invoked": false,
+   "document_source": "CACHED",
+   "document": "data/acquisition/generic-reader-diagnostic-013/generic-diagnostic-013/red-roof-inn-milwaukee-airport-oak-creek/rendered.html",
+   "fresh_requests": 0,
+   "block_located": true,
+   "extraction": {
+    "pets_allowed": true,
+    "fee_cap": {
+     "amount_minor": 10500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "flags": [
+    "FLAG_TIERED_FEE"
+   ],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_REJECTED",
+    "reasons": [
+     "the evidence array fails 5 contract check(s)"
+    ],
+    "schema_issues": [
+     {
+      "path": "evidence[0].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[1].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[2].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[3].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     },
+     {
+      "path": "evidence[4].captured_at",
+      "code": "MISSING_REQUIRED",
+      "detail": "captured_at is mandatory for publication-grade evidence"
+     }
+    ],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "fee_cap": "rendered.html",
+     "weight_limit": "rendered.html",
+     "pet_count_limit": "rendered.html",
+     "species_allowed": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::red roof inn milwaukee airport oak creek::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets allowed",
+      "source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e165432ae9d054c6a921dc46acb8916993a833922765ea8d51faff05e0e59110",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::red roof inn milwaukee airport oak creek::fee_cap::1",
+      "field": "fee_cap",
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e165432ae9d054c6a921dc46acb8916993a833922765ea8d51faff05e0e59110",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::red roof inn milwaukee airport oak creek::weight_limit::2",
+      "field": "weight_limit",
+      "quote": "not to exceed 80 pounds",
+      "source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e165432ae9d054c6a921dc46acb8916993a833922765ea8d51faff05e0e59110",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::red roof inn milwaukee airport oak creek::pet_count_limit::3",
+      "field": "pet_count_limit",
+      "quote": "Up to 2 pets",
+      "source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e165432ae9d054c6a921dc46acb8916993a833922765ea8d51faff05e0e59110",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016::red roof inn milwaukee airport oak creek::species_allowed::4",
+      "field": "species_allowed",
+      "quote": "pet (cat or dog)",
+      "source_url": "https://www.redroof.com/property/wi/oak-creek/rri031",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e165432ae9d054c6a921dc46acb8916993a833922765ea8d51faff05e0e59110",
+      "artifact_kind": "rendered_html",
+      "captured_at": "",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "unresolved_reason": "",
+   "extraction_grade": "PARTIAL"
+  }
+ ]
+}

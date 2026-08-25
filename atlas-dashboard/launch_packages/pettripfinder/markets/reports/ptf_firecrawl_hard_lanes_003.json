@@ -1,0 +1,592 @@
+{
+ "schema": "ptf-firecrawl-hard-lanes/1.0",
+ "work_order": "PTF-FIRECRAWL-HARD-LANES-003",
+ "market_id": "milwaukee-wi",
+ "note": "Decision test on the three lanes that carry Milwaukee. Same readers, same gates, same comparison vocabulary as PTF-SPIDER-BENCHMARK-001 and PTF-FIRECRAWL-BENCHMARK-002. routes.json untouched, Firecrawl still unrouted, no authority written.",
+ "sample": [
+  {
+   "brand": "MARRIOTT",
+   "identity_key": "fairfield by marriott inn and suites milwaukee downtown",
+   "selection_reason": "detailed: fee amount, basis, currency, weight, count and scope (7 fields)"
+  },
+  {
+   "brand": "MARRIOTT",
+   "identity_key": "four points by sheraton milwaukee north shore",
+   "selection_reason": "detailed with species_allowed (7 fields)"
+  },
+  {
+   "brand": "MARRIOTT",
+   "identity_key": "courtyard by marriott milwaukee airport",
+   "selection_reason": "minimal: the baseline extracted pets_allowed and nothing else"
+  },
+  {
+   "brand": "MARRIOTT",
+   "identity_key": "aloft by marriott milwaukee downtown",
+   "selection_reason": "historically dynamic: JS-heavy overview surface"
+  },
+  {
+   "brand": "HILTON",
+   "identity_key": "embassy suites by hilton milwaukee brookfield",
+   "selection_reason": "table-style, richest Hilton baseline (6 fields incl. species and weight)"
+  },
+  {
+   "brand": "HILTON",
+   "identity_key": "hilton garden inn milwaukee airport",
+   "selection_reason": "detailed (6 fields)"
+  },
+  {
+   "brand": "HILTON",
+   "identity_key": "doubletree by hilton hotel milwaukee downtown",
+   "selection_reason": "minimal: the baseline extracted pets_allowed and nothing else"
+  },
+  {
+   "brand": "CHOICE",
+   "identity_key": "comfort suites milwaukee west",
+   "selection_reason": "richest structured Choice baseline (9 fields incl. fee scope and count scope)"
+  },
+  {
+   "brand": "CHOICE",
+   "identity_key": "country inn and suites by radisson germantown wi",
+   "selection_reason": "the Radisson sub-brand; three siblings ACCESS_DENIED under the Web Unlocker"
+  },
+  {
+   "brand": "CHOICE",
+   "identity_key": "cambria hotel milwaukee downtown",
+   "selection_reason": "a captured NO-PETS refusal: the case where a wrong answer is worst"
+  }
+ ],
+ "total": 10,
+ "by_brand": {
+  "MARRIOTT": {
+   "total": 4,
+   "acquired": 1,
+   "publication_grade": 1,
+   "complete": 0,
+   "match": 3,
+   "extra": 0,
+   "missing": 1,
+   "structured_mismatch": 0,
+   "text_excerpt_variant": 0,
+   "avg_seconds": 34.1,
+   "scrape_calls": 7,
+   "interact_calls": 0,
+   "surface_states": {
+    "HYDRATED": 1,
+    "ABSENT": 3
+   }
+  },
+  "HILTON": {
+   "total": 3,
+   "acquired": 0,
+   "publication_grade": 0,
+   "complete": 0,
+   "match": 0,
+   "extra": 0,
+   "missing": 0,
+   "structured_mismatch": 0,
+   "text_excerpt_variant": 0,
+   "avg_seconds": 52.3,
+   "scrape_calls": 6,
+   "interact_calls": 0,
+   "surface_states": {
+    "ABSENT": 3
+   }
+  },
+  "CHOICE": {
+   "total": 3,
+   "acquired": 3,
+   "publication_grade": 3,
+   "complete": 3,
+   "match": 13,
+   "extra": 0,
+   "missing": 0,
+   "structured_mismatch": 0,
+   "text_excerpt_variant": 0,
+   "avg_seconds": 20.8,
+   "scrape_calls": 3,
+   "interact_calls": 0,
+   "surface_states": {
+    "HYDRATED": 3
+   }
+  }
+ },
+ "overall": {
+  "acquired": 4,
+  "publication_grade": 4,
+  "complete": 3,
+  "structured_mismatch": 0,
+  "text_excerpt_variant": 0,
+  "false_pets_allowed": 0,
+  "false_no_pets": 0,
+  "false_fee": 0,
+  "false_weight": 0,
+  "false_species": 0,
+  "unclassified_fields_treated_as_structured": [],
+  "avg_seconds": 35.6,
+  "median_seconds": 35.4,
+  "p95_seconds": 51.6
+ },
+ "cost": {
+  "credits_before": 988,
+  "credits_after": 984,
+  "total_credits": 4,
+  "scrape_calls": 16,
+  "interact_calls": 0,
+  "avg_credits_per_property": 0.4,
+  "dollar_conversion": "not derivable: the plan endpoint reports credits and a monthly allowance, not a unit price, so no dollar figure is asserted",
+  "bright_data_usd_per_attempted_property": 0.197,
+  "bright_data_usd_per_publication_grade_record": 0.228
+ },
+ "bright_data_comparison": {
+  "avg_seconds": 88.4
+ },
+ "authority_written": false,
+ "routes_changed": false,
+ "items": [
+  {
+   "identity_key": "cambria hotel milwaukee downtown",
+   "canonical_name": "Cambria Hotel Milwaukee Downtown",
+   "reader": "choice_static",
+   "url": "https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297",
+   "bright_data_field_count": 2,
+   "bright_data_elapsed_seconds": 54.816,
+   "bright_data_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "scrape_calls": 1,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "77 characters of policy text",
+   "firecrawl_elapsed_seconds": 25.1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "firecrawl_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": true,
+   "identity_confirmed": true,
+   "brand": "CHOICE",
+   "selection_reason": "a captured NO-PETS refusal: the case where a wrong answer is worst"
+  },
+  {
+   "identity_key": "comfort suites milwaukee west",
+   "canonical_name": "Comfort Suites Milwaukee West",
+   "reader": "choice_static",
+   "url": "https://www.choicehotels.com/wisconsin/milwaukee/comfort-suites-hotels/wi147",
+   "bright_data_field_count": 9,
+   "bright_data_elapsed_seconds": 40.795,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "scrape_calls": 1,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "189 characters of policy text",
+   "firecrawl_elapsed_seconds": 17.0,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 9,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "MATCH",
+     "fee_currency": "MATCH",
+     "fee_scope": "MATCH",
+     "pet_count_limit": "MATCH",
+     "pet_count_scope": "MATCH",
+     "pet_fee": "MATCH",
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 9
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": true,
+   "identity_confirmed": true,
+   "brand": "CHOICE",
+   "selection_reason": "richest structured Choice baseline (9 fields incl. fee scope and count scope)"
+  },
+  {
+   "identity_key": "country inn and suites by radisson germantown wi",
+   "canonical_name": "Country Inn & Suites by Radisson, Germantown, WI",
+   "reader": "choice_static",
+   "url": "https://www.choicehotels.com/wisconsin/germantown/country-inn-suites-hotels/wi483",
+   "bright_data_field_count": 2,
+   "bright_data_elapsed_seconds": 153.088,
+   "bright_data_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "scrape_calls": 1,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "77 characters of policy text",
+   "firecrawl_elapsed_seconds": 20.3,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "firecrawl_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": true,
+   "identity_confirmed": true,
+   "brand": "CHOICE",
+   "selection_reason": "the Radisson sub-brand; three siblings ACCESS_DENIED under the Web Unlocker"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel milwaukee downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel Milwaukee Downtown",
+   "reader": "hilton_competing",
+   "url": "https://www.hilton.com/en/hotels/mkeccdt-doubletree-milwaukee-downtown/",
+   "bright_data_field_count": 1,
+   "bright_data_elapsed_seconds": 42.259,
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 51.6,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "HILTON",
+   "selection_reason": "minimal: the baseline extracted pets_allowed and nothing else"
+  },
+  {
+   "identity_key": "embassy suites by hilton milwaukee brookfield",
+   "canonical_name": "Embassy Suites by Hilton Milwaukee Brookfield",
+   "reader": "hilton_competing",
+   "url": "https://www.hilton.com/en/hotels/mkembes-embassy-suites-milwaukee-brookfield/",
+   "bright_data_field_count": 6,
+   "bright_data_elapsed_seconds": 174.004,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 50.3,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "HILTON",
+   "selection_reason": "table-style, richest Hilton baseline (6 fields incl. species and weight)"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee airport",
+   "canonical_name": "Hilton Garden Inn Milwaukee Airport",
+   "reader": "hilton_competing",
+   "url": "https://www.hilton.com/en/hotels/mkegigi-hilton-garden-inn-milwaukee-airport/",
+   "bright_data_field_count": 6,
+   "bright_data_elapsed_seconds": 75.252,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 54.9,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "HILTON",
+   "selection_reason": "detailed (6 fields)"
+  },
+  {
+   "identity_key": "aloft by marriott milwaukee downtown",
+   "canonical_name": "Aloft by Marriott Milwaukee Downtown",
+   "reader": "marriott",
+   "url": "https://www.marriott.com/en-us/hotels/mkeal-aloft-milwaukee-downtown/overview/",
+   "bright_data_field_count": 4,
+   "bright_data_elapsed_seconds": 33.015,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "scrape_calls": 1,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "317 characters of policy text",
+   "firecrawl_elapsed_seconds": 28.1,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 3,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "comparison": {
+    "per_field": {
+     "pet_count_limit": "MATCH",
+     "pet_count_scope": "MISSING",
+     "pets_allowed": "MATCH",
+     "weight_limit": "MATCH"
+    },
+    "counts": {
+     "MATCH": 3,
+     "MISSING": 1
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": false,
+   "identity_confirmed": true,
+   "brand": "MARRIOTT",
+   "selection_reason": "historically dynamic: JS-heavy overview surface"
+  },
+  {
+   "identity_key": "courtyard by marriott milwaukee airport",
+   "canonical_name": "Courtyard by Marriott Milwaukee Airport",
+   "reader": "marriott",
+   "url": "https://www.marriott.com/en-us/hotels/mkecy-courtyard-milwaukee-airport/overview/",
+   "bright_data_field_count": 1,
+   "bright_data_elapsed_seconds": 47.531,
+   "bright_data_extraction": {
+    "pets_allowed": false
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 36.7,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "MARRIOTT",
+   "selection_reason": "minimal: the baseline extracted pets_allowed and nothing else"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee downtown",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Downtown",
+   "reader": "marriott",
+   "url": "https://www.marriott.com/en-us/hotels/mkefd-fairfield-inn-and-suites-milwaukee-downtown/overview/",
+   "bright_data_field_count": 7,
+   "bright_data_elapsed_seconds": 181.971,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 34.0,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "MARRIOTT",
+   "selection_reason": "detailed: fee amount, basis, currency, weight, count and scope (7 fields)"
+  },
+  {
+   "identity_key": "four points by sheraton milwaukee north shore",
+   "canonical_name": "Four Points by Sheraton Milwaukee North Shore",
+   "reader": "marriott",
+   "url": "https://www.marriott.com/en-us/hotels/mkefp-four-points-milwaukee-north-shore/overview/",
+   "bright_data_field_count": 7,
+   "bright_data_elapsed_seconds": 80.811,
+   "bright_data_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "scrape_calls": 2,
+   "interact_calls": 0,
+   "interaction_skipped": "the scrape returned SCRAPE_ALL_ENGINES_FAILED; interaction cannot reach a page that never arrived",
+   "firecrawl_elapsed_seconds": 37.7,
+   "firecrawl_outcome": "ACCESS_DENIED",
+   "firecrawl_state": "NOT_ACQUIRED",
+   "firecrawl_failure": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "surface_state": "ABSENT",
+   "firecrawl_field_count": 0,
+   "complete": false,
+   "brand": "MARRIOTT",
+   "selection_reason": "detailed with species_allowed (7 fields)"
+  }
+ ],
+ "total_elapsed_seconds": 406.7,
+ "country_inn_coverage_addendum": {
+  "question": "Does Firecrawl extend Choice coverage, or only match it? Three Country Inn & Suites by Radisson properties returned ACCESS_DENIED under the Bright Data Web Unlocker in the Milwaukee run and have no baseline. They were tested for ACQUISITION only.",
+  "tested": 3,
+  "acquired": 0,
+  "result": "Firecrawl failed all three with SCRAPE_ALL_ENGINES_FAILED -- the same properties, the same wall. The Country Inn & Suites Germantown success in the main sample is NOT a coverage gain: Bright Data acquires that property too. Firecrawl MATCHES Choice coverage; it does not extend it.",
+  "items": [
+   {
+    "name": "Country Inn & Suites by Radisson, Brown Deer - Milwaukee North",
+    "ok": false,
+    "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+    "seconds": 15.6
+   },
+   {
+    "name": "Country Inn & Suites by Radisson, Milwaukee Airport, WI",
+    "ok": false,
+    "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+    "seconds": 29.5
+   },
+   {
+    "name": "Country Inn & Suites by Radisson, Milwaukee West (Brookfield), WI",
+    "ok": false,
+    "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+    "seconds": 15.7
+   }
+  ],
+  "conclusion_superseded_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004",
+  "conclusion_retracted": "The measurement below stands: on the day it ran, these three properties failed with SCRAPE_ALL_ENGINES_FAILED. The CONCLUSION drawn from it -- 'Firecrawl MATCHES Choice coverage; it does not extend it' -- is WRONG and is retracted. PTF-FIRECRAWL-CHOICE-VALIDATION-004 acquired all three at 9, 5 and 9 fields. SCRAPE_ALL_ENGINES_FAILED is INTERMITTENT on the Choice origin, and a single-attempt probe cannot tell an intermittent refusal from a capability wall."
+ }
+}

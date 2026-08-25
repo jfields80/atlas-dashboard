@@ -1,0 +1,150 @@
+{
+  "schema": "ptf-market-release-contract/1.0",
+  "contract_id": "pettripfinder-louisville-ky-release/1.0",
+  "market_id": "louisville-ky",
+  "product": "pettripfinder-louisville-ky",
+  "release_name_prefix": "prod-006-louisville",
+  "description": "Deterministic release-gate contract for the PetTripFinder Louisville market (PTF-LOUISVILLE-INTEGRATION-HARDENING-001). It describes only current reviewed authority and grants no deployment authorization.",
+  "deployment_authorization": {
+    "grants_deployment": false,
+    "asserts_market_complete": false,
+    "means": "A passing contract means this market's assembled package is structurally consistent and safe to publish as a static bundle. It is not a deployment authorization and it makes no claim that the market is complete -- 111 of its 130 confirmed identities remain unresolved."
+  },
+  "canonical": {
+    "base_url": "https://pettripfinder.com",
+    "canonical_host": "pettripfinder.com",
+    "robots_sitemap_host": "pettripfinder.com",
+    "sitemap_host": "pettripfinder.com"
+  },
+  "identity_census": {
+    "path": "launch_packages/pettripfinder/identity_census/louisville-ky.json",
+    "schema": "ptf-market-identity-census/1.1",
+    "expected_count": 130,
+    "note": "The committed Louisville census is the identity universe. The fourteen publication records and four property-specific refusals are founder-approved; one NOT_LODGING census disposition is mechanically represented as an out-of-current-category registry row."
+  },
+  "reconciliation": {
+    "confirmed_identities": 130,
+    "published_pet_friendly": 14,
+    "verified_no_pets": 4,
+    "out_of_current_category": 1,
+    "resolved": 19,
+    "unresolved": 111,
+    "note": "Counts are derived from the current final partition and exclusion registry; unresolved is not negative pet evidence."
+  },
+  "reconciliation_cross_checks": [
+    {
+      "path": "launch_packages/pettripfinder/louisville_final_partition_001.json",
+      "key_map": {
+        "confirmed_identities": "count"
+      },
+      "note": "The final partition carries the same committed Louisville identity universe."
+    }
+  ],
+  "policy_package": {
+    "path": "launch_packages/pettripfinder/hotel_policy_facts_louisville-ky.json",
+    "expected_sha256": "87a205dfe01cc509b26d502b5038437a0065e7d63136add75fd9adff2d135244",
+    "expected_schema_version": "1.2",
+    "expected_record_count": 14,
+    "identity_authority": true,
+    "note": "The Louisville policy package is the sole identity authority for its fourteen verified profiles; every record retains the final founder decision, record-hash, and evidence-hash binding.",
+    "schema_note": "Schema 1.2; source-silent facts remain absent."
+  },
+  "public_surface": {
+    "seed_hotel_rows": 14,
+    "public_hotel_profile_count": 14,
+    "excluded_public_profile_count": 0,
+    "held_hotel_exclusion": "All unresolved Louisville census identities, the four verified-no-pets exclusions, and the one out-of-current-category disposition have no seed row or public profile."
+  },
+  "routes": {
+    "market_slug": "louisville-ky",
+    "route_mode": "market_prefixed",
+    "hotel_route_count": 14,
+    "published_corridor_route_count": 1,
+    "note": "Routes are derived from the fourteen current verified profiles."
+  },
+  "minimum_release_gates": [
+    "authority.contract_is_for_this_market",
+    "authority.reconciliation_matches_market_authority",
+    "authority.package_exists",
+    "authority.package_sha256",
+    "authority.package_schema_version",
+    "authority.package_count",
+    "identity.verified_from_package",
+    "identity.held_derived",
+    "route.profile_count_matches_contract",
+    "route.all_committed_profiles_present",
+    "route.all_held_absent",
+    "route.no_excluded_reference_on_any_surface",
+    "publish.control_files_present",
+    "publish.headers_match_tracked_source",
+    "publish.redirects_match_tracked_source",
+    "publish.no_forbidden_files",
+    "publish.no_build_reports_in_site",
+    "headers.context_noindex_preview_only",
+    "content.zero_broken_links",
+    "content.quality_report_clean",
+    "content.build_report_hotel_count_matches_contract",
+    "tech.go_pages_noindex",
+    "tech.sitemap_public_canonical_only",
+    "tech.robots_sitemap_host_apex",
+    "tech.no_credentials",
+    "tech.no_windows_local_paths",
+    "tech.no_runtime_paths"
+  ],
+  "forbidden_output_tokens": [
+    "C:\\Atlas",
+    "C:/Atlas",
+    "NETLIFY_AUTH_TOKEN",
+    "NETLIFY_SITE_ID",
+    "nfp_",
+    "AppData",
+    "/Users/",
+    "\\Users\\"
+  ],
+  "publish": {
+    "publishable_root": "site/",
+    "control_files": [
+      "_headers",
+      "_redirects"
+    ],
+    "control_file_sources": {
+      "_headers": {
+        "preview": "deploy/netlify/headers.preview",
+        "production": "deploy/netlify/headers.production"
+      },
+      "_redirects": "deploy/netlify/redirects"
+    },
+    "forbidden_basenames": [
+      "_build_report.json",
+      "_broken_link_report.json",
+      "_quality_report.json",
+      "bundle_manifest.json",
+      ".env"
+    ],
+    "forbidden_extensions": [
+      ".py",
+      ".pyc",
+      ".pyo",
+      ".patch",
+      ".map",
+      ".json",
+      ".env"
+    ],
+    "forbidden_path_segments": [
+      ".git",
+      ".github",
+      ".claude",
+      ".netlify",
+      "__pycache__",
+      "data",
+      "docs",
+      "tests",
+      "scripts",
+      "services",
+      "launch_packages",
+      "engines",
+      "repositories"
+    ],
+    "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+  }
+}

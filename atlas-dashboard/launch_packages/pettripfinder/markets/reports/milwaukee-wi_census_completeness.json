@@ -1,0 +1,80 @@
+{
+ "schema": "ptf-milwaukee-census-completeness/1.0",
+ "work_order": "PTF-MILWAUKEE-MARKET-FACTORY-001",
+ "market_id": "milwaukee-wi",
+ "as_of": "2026-08-17",
+ "verdict": "CENSUS_COMPLETE",
+ "canonical_census": 147,
+ "corridor_counts": {
+  "milwaukee-wi__brookfield": 16,
+  "milwaukee-wi__downtown-milwaukee": 37,
+  "milwaukee-wi__menomonee-falls-germantown": 7,
+  "milwaukee-wi__milwaukee-airport-south": 21,
+  "milwaukee-wi__milwaukee-north-shore": 14,
+  "milwaukee-wi__milwaukee-northwest": 5,
+  "milwaukee-wi__oak-creek-franklin": 17,
+  "milwaukee-wi__waukesha-pewaukee": 16,
+  "milwaukee-wi__wauwatosa-west-allis": 14
+ },
+ "disposition_counts": {
+  "BOUNDARY_EXCLUDED": 42,
+  "CANONICAL_CENSUS": 147,
+  "CATEGORY_EXCLUDED": 7,
+  "CONFIRMED_DUPLICATE": 13,
+  "IDENTITY_UNRESOLVED": 5,
+  "SOURCE_LISTING_ALREADY_ACCOUNTED_FOR": 2
+ },
+ "routing_readiness_counts": {
+  "IDENTITY_REVIEW_NEEDED": 6,
+  "PROPERTY_LEVEL_ROUTE_CONFIRMED": 102,
+  "ROUTING_RECOVERY_NEEDED": 24,
+  "SPECIAL_ACCESS": 15
+ },
+ "capture_readiness_counts": {
+  "ATTENDED_REQUIRED": 21,
+  "EVIDENCE_READY": 27,
+  "FRESH_SESSION_REQUIRED": 54,
+  "POLICY_SURFACE_UNKNOWN": 30,
+  "SPECIAL_SURFACE_REQUIRED": 15
+ },
+ "closure_questions": [
+  {
+   "question": "Did VISIT Milwaukee contain hotels no brand locator surfaced?",
+   "answer": "Yes -- eleven identities: Brewhouse Inn & Suites, Dubbel Dutch Hotel, Knickerbocker on the Lake, The Plaza Hotel Milwaukee, The Pfister Hotel, Saint Kate - The Arts Hotel, The Iron Horse Hotel, The Ingleside Hotel, Potawatomi Casino Hotel and both Kinn Guesthouse properties. All eleven are in the census. Potawatomi is the sharpest case: the bureau files its own city's casino hotel under Attractions, not under Sleep, so reading only the lodging landing page would have missed it."
+  },
+  {
+   "question": "Did brand locators surface hotels the destination inventory missed?",
+   "answer": "Yes, and this was the larger gap: fifty-six census identities come from a brand property index and appear nowhere in VISIT Milwaukee's 1,552-listing inventory. The bureau is partner-based and carries no Days Inn, Super 8, La Quinta, Baymont, Motel 6, Studio 6, Red Roof, Hawthorn, Travelodge, Rodeway, Suburban, Econo Lodge, Clarion, Candlewood, Staybridge, WoodSpring or Extended Stay America property."
+  },
+  {
+   "question": "Are airport hotels undercounted?",
+   "answer": "No. Twenty-one identities sit in the Milwaukee Airport & South corridor, covering the South Howell Avenue strip, the South 13th and South 27th Street clusters, the Layton Avenue approach and Bay View, reconciled across the destination inventory, six brand indexes, the state registry and the lodging association."
+  },
+  {
+   "question": "Is Brookfield/Waukesha undercounted?",
+   "answer": "No. Sixteen identities in Brookfield and sixteen across Waukesha/Pewaukee/New Berlin. Visit Brookfield's own eleven-listing directory reconciles exactly against the brand indexes, which add five more Brookfield properties the bureau does not carry (AmericInn, Motel 6, Studio 6, Country Inn & Suites, and the Poplar Creek Residence Inn). Visit Waukesha Pewaukee's thirteen-property list added three the brand indexes do not carry (The Clarke Hotel, Cobblestone Hotel & Suites, Wildwood Lodge)."
+  },
+  {
+   "question": "Are Wauwatosa/West Allis undercounted?",
+   "answer": "No. Fourteen identities, including two that only the state registry and the lodging association carry (Sonesta Milwaukee West Wauwatosa, a 198-room hotel absent from Sonesta's own Wisconsin index, and Forty Winks Inn) and two West Allis Hilton properties the destination inventory omits."
+  },
+  {
+   "question": "Are the North and Northwest clusters undercounted?",
+   "answer": "No. Five identities in Northwest Milwaukee (the Park Place and Silver Spring corridor) and fourteen across the North Shore, Glendale, Brown Deer and Mequon, including two Mequon properties that only the state registry carries."
+  },
+  {
+   "question": "Were major independent downtown hotels missed?",
+   "answer": "No. The downtown corridor carries thirty-seven identities and includes the newest opening in the market: The Marc Hotel, which opened in January 2026 in the former west wing of the Hilton and appears in no brand index and in no destination inventory -- only the state lodging association carried it. Four census identities rest on that association alone (The Marc Hotel, Hideaway Inn, Golden Key Motel, Victoria Motel) and seven on the state registry alone."
+  },
+  {
+   "question": "Are recent conversions/rebrands creating duplicate identities?",
+   "answer": "Thirteen candidates turned out to be former identities of properties already in the census, each resolved by matching the street address against a live first-party brand page and recorded as a confirmed duplicate naming the current identity: Quality Suites to Spark by Hilton, Sonesta Select to AmericInn, Howard Johnson to Travelodge, Super 8 to Comfort Inn, Hyatt Place Milwaukee West to Comfort Suites, Courtyard Milwaukee North to Country Inn & Suites, Comfort Suites Park Place to Holiday Inn Express, Midway Hotel & Suites to Holiday Inn, and five name changes at unchanged addresses. Two further cases (the Franklin Ballpark Commons dual-brand and the Mequon compound listing) are held open rather than guessed."
+  }
+ ],
+ "remaining_blockers": [
+  "Choice Hotels' edge WAF refused every property-page request for the whole session. Twenty Choice identities are carried on the strength of the brand's own city index pages; five Milwaukee-area Choice property codes (wi366, wi391, wi392, wi451, wi226) could not be read from their own property pages and were reconciled through other first-party sources or held.",
+  "Three identities are held for a current-category decision (Biller Hotel, both Kinn Guesthouse properties) because the destination bureau and the state registry file them under different categories.",
+  "Two identities are held for identity resolution (Sleep Inn & MainStay Suites Milwaukee/Franklin, Mequon Country Inn - Sybaris) and one for identity recovery (Best Western Plus Milwaukee West)."
+ ],
+ "note": "CENSUS_COMPLETE is returned because every major traveler core and every named source family has been reconciled and every candidate carries a deterministic disposition. The blockers above are per-identity work items, not unexamined source families."
+}

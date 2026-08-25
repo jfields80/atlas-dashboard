@@ -60,6 +60,16 @@ _PARTITION_FILES = {
     "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
     "dayton-oh": "dayton_final_partition_001.json",
     "cincinnati-oh": "cincinnati_final_partition_001.json",
+    # louisville-ky was mapped to louisville_final_partition_001.json, a
+    # partition of a market that no longer exists: 130 identities from the
+    # retired 001 build, whose non-terminal states sum to 111. Louisville was
+    # rebuilt to 166 identities by PTF-LOUISVILLE-MARKET-REBUILD-002, and the
+    # stale mapping made its release contract disagree with itself -- 103
+    # declared against 111 derived -- for a reason that had nothing to do with
+    # either number. Removed rather than repointed: like Milwaukee and
+    # St. Louis, this market records no OUT_OF_CURRENT_CATEGORY identity, so
+    # the subtraction below is exact for it and needs no file to maintain
+    # (PTF-LOUISVILLE-PUBLICATION-008).
     # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001.
     "pittsburgh-pa": "pittsburgh_final_partition_001.json",
     "indianapolis-in": "indianapolis_final_partition_001.json",

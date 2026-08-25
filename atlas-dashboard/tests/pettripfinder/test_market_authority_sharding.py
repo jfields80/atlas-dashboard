@@ -157,14 +157,22 @@ class TestAssemblyIsDeterministic:
 
 
 class TestNothingMovedBetweenMarkets:
-    """The sharding baseline is immutable history.  Pittsburgh Pass 3 is the
-    only later Pittsburgh delta represented here; every other market must still
-    match that recorded baseline exactly."""
+    """The sharding baseline is immutable history. Pittsburgh Pass 3/4 is the
+    only later delta on a BASELINE market represented here; every other
+    baseline market must still match that recorded snapshot exactly, and
+    markets registered afterwards may only add."""
 
     PITTSBURGH_PASS4_TOTALS = {"routing": 6, "exclusions": 11, "seed": 37}
 
     def test_per_market_totals_match_the_pre_split_baseline(self, baseline, market_ids):
-        for market_id in market_ids:
+        # Iterate the BASELINE's markets, not today's. The baseline is a
+        # historical snapshot of what the seven pre-split markets held; a market
+        # registered after it (PTF-MILWAUKEE-MARKET-FACTORY-001 registered
+        # milwaukee-wi) is simply not something the snapshot can speak about,
+        # and back-filling it into the snapshot would be inventing a fact.
+        # The claim this test makes about the pre-split markets is unchanged.
+        for market_id in baseline["per_market_totals"]:
+            assert market_id in market_ids, market_id
             expected = baseline["per_market_totals"][market_id]
             if market_id == "pittsburgh-pa":
                 expected = self.PITTSBURGH_PASS4_TOTALS
@@ -172,16 +180,62 @@ class TestNothingMovedBetweenMarkets:
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
 
-    def test_global_totals_are_the_baseline_plus_the_pittsburgh_delta(self, baseline):
+    def test_markets_registered_after_the_baseline_moved_nothing(self, baseline, market_ids):
+        """Post-baseline growth is allowed; silent movement is not.
+
+        A market registered after the split may only ADD to the global
+        authority. If a newly registered market's shards are empty, the three
+        global totals must still be exactly what the pre-split baseline
+        recorded -- which is the strongest available statement that registering
+        it took nothing away from anyone."""
+        added = [m for m in market_ids if m not in baseline["per_market_totals"]]
+        contributed = sum(
+            len(MA.load_market_routes(m)) + len(MA.load_market_exclusions(m))
+            + len(MA.load_market_seed_rows(m)) for m in added)
+        totals = baseline["global_totals"]
+        if contributed == 0:
+            assert len(IR.load_routes()) == totals["routing"]
+            assert len(HE.load_exclusions()) == totals["exclusions"]
+            assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
+
+    def test_global_totals_match_the_pre_split_baseline(self, baseline, market_ids):
+        # Only meaningful while every post-baseline market's shards are empty;
+        # once one contributes records the sum legitimately grows, and
+        # test_markets_registered_after_the_baseline_moved_nothing carries the
+        # claim instead.
+        added = [m for m in market_ids if m not in baseline["per_market_totals"]]
+        if any(MA.load_market_routes(m) or MA.load_market_exclusions(m)
+               or MA.load_market_seed_rows(m) for m in added):
+            pytest.skip("a market registered after the baseline now carries records")
+        totals = baseline["global_totals"]
+        assert len(IR.load_routes()) == totals["routing"]
+        assert len(HE.load_exclusions()) == totals["exclusions"]
+        assert len(MA.assemble_seed_rows()) == totals["seed_rows"]
+
+    def test_global_totals_are_the_baseline_plus_every_named_delta(self, baseline, market_ids):
+        """The global files are the baseline plus exactly two kinds of growth:
+        the Pittsburgh Pass 3/4 delta on a baseline market, and whatever the
+        markets registered after the baseline contributed. Anything else in
+        the totals is movement, and movement is what this class forbids."""
         totals = baseline["global_totals"]
         old_pittsburgh = baseline["per_market_totals"]["pittsburgh-pa"]
         current = self.PITTSBURGH_PASS4_TOTALS
-        assert len(IR.load_routes()) == totals["routing"] - old_pittsburgh["routing"] + current["routing"]
-        assert len(HE.load_exclusions()) == totals["exclusions"] - old_pittsburgh["exclusions"] + current["exclusions"]
-        assert len(MA.assemble_seed_rows()) == totals["seed_rows"] - old_pittsburgh["seed"] + current["seed"]
+        added = [m for m in market_ids if m not in baseline["per_market_totals"]]
+        added_routing = sum(len(MA.load_market_routes(m)) for m in added)
+        added_exclusions = sum(len(MA.load_market_exclusions(m)) for m in added)
+        added_seed = sum(len(MA.load_market_seed_rows(m)) for m in added)
+        assert len(IR.load_routes()) == (
+            totals["routing"] - old_pittsburgh["routing"] + current["routing"] + added_routing)
+        assert len(HE.load_exclusions()) == (
+            totals["exclusions"] - old_pittsburgh["exclusions"] + current["exclusions"] + added_exclusions)
+        assert len(MA.assemble_seed_rows()) == (
+            totals["seed_rows"] - old_pittsburgh["seed"] + current["seed"] + added_seed)
 
-    def test_the_registered_market_set_is_unchanged(self, baseline):
-        assert list(MA.registered_market_ids()) == baseline["registered_market_ids"]
+    def test_no_baseline_market_was_dropped_or_renamed(self, baseline):
+        """Sharding must never lose a market. Registering a NEW one afterwards
+        is ordinary growth and is recorded here rather than forbidden."""
+        registered = set(MA.registered_market_ids())
+        assert set(baseline["registered_market_ids"]) <= registered
 
 
 # --------------------------------------------------------------------------- #

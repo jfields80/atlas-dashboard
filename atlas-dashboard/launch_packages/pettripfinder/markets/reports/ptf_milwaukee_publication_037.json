@@ -1,0 +1,106 @@
+{
+  "schema": "ptf-milwaukee-publication/1.0",
+  "work_order": "PTF-MILWAUKEE-PUBLICATION-037",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-22T01:51:17+00:00",
+  "preflight": {
+    "checked_at": "2026-08-22T01:51:17+00:00",
+    "branch": "grok/ptf-milwaukee-market-001",
+    "head": "e7c8363b9b0eee27c45ea90b96ba2cd78e7d2f44",
+    "working_tree_entries": [
+      "M atlas-dashboard/launch_packages/pettripfinder/hotel_policy_facts_milwaukee-wi.json",
+      " M atlas-dashboard/scripts/pettripfinder/acquisition/authority_build_036.py",
+      " M atlas-dashboard/tests/pettripfinder/test_milwaukee_market_001.py",
+      "?? atlas-dashboard/launch_packages/pettripfinder/markets/reports/ptf_milwaukee_publication_037.json",
+      "?? atlas-dashboard/launch_packages/pettripfinder/milwaukee_publication_037/",
+      "?? atlas-dashboard/scripts/pettripfinder/acquisition/publication_037.py",
+      "?? atlas-dashboard/tests/pettripfinder/acquisition/test_publication_037.py"
+    ],
+    "authority_records": 70,
+    "authority_published_flag": false,
+    "exclusion_records": 26,
+    "all_exclusions_verified_no_pets": true,
+    "held_identities": [
+      "hyatt regency milwaukee",
+      "saint kate the arts hotel"
+    ],
+    "held_in_authority": [],
+    "held_in_exclusions": [],
+    "live_rows_before": 0,
+    "seed_rows_before": 0,
+    "schema_version": "1.2"
+  },
+  "publication": {
+    "authority_path": "launch_packages/pettripfinder/hotel_policy_facts_milwaukee-wi.json",
+    "published": false,
+    "records": 70,
+    "seed_rows": 70,
+    "seed_rows_refused": [],
+    "verified_no_pets": 26,
+    "held": [
+      "hyatt regency milwaukee",
+      "saint kate the arts hotel"
+    ]
+  },
+  "release_contract": {
+    "live_path": "deploy/netlify/release_contracts/milwaukee-wi.json",
+    "live_path_exists": false,
+    "prepared_path": "launch_packages/pettripfinder/milwaukee_publication_037/release_contract.milwaukee-wi.prepared.json",
+    "verified_while_published": "release_contracts.verify_contract('milwaukee-wi') returned no disagreements while the package carried published: true",
+    "disagreements": [
+      "not in the live directory yet -- see the review request"
+    ]
+  },
+  "blocker": {
+    "kind": "UNREVIEWED_SHARED_ADDRESS",
+    "review_request": "launch_packages/pettripfinder/milwaukee_publication_037/identity-resolution-review-request.json",
+    "identities": [
+      "home2 suites by hilton milwaukee downtown",
+      "tru by hilton milwaukee downtown"
+    ],
+    "address_key": "515|jefferson|53202",
+    "effect_if_published_unreviewed": "the listing builder drops one of the two, and the hub, the downtown corridor and the policy-comparison table each link to a profile that was never written: 3 broken links",
+    "measured_effect_of_reviewing_it": "1,757 pages with Milwaukee excluded becomes 2,178 pages, 425 sitemap routes, 78 Milwaukee routes and 0 broken links",
+    "who_may_clear_it": "a human reviewer; identity_resolutions.json requires a reviewer_id and no agent may supply one"
+  },
+  "build": {},
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 117,
+    "active_unresolved": 16,
+    "founder_review_candidates": 98,
+    "proposed_approve": 70,
+    "proposed_approve_refusal": 23,
+    "proposed_individual_review": 5,
+    "founder_approved": 96,
+    "authority_rows": 70,
+    "held_schema_cannot_represent": 12,
+    "held_insufficient_evidence": 7,
+    "current_state_conflict": 0,
+    "held_semantic_review": 0,
+    "published": 0,
+    "deployed_live": 0,
+    "sum_of_final_states": 147,
+    "approved_pet_friendly": 70,
+    "approved_refusal": 26,
+    "held_by_founder": 2,
+    "decisions_refused_at_application": 0,
+    "authority_records_refused": 0,
+    "exclusion_rows_added": 0,
+    "published_pet_friendly": 0,
+    "verified_no_pets": 26,
+    "held": 2,
+    "seed_rows": 0
+  },
+  "cost": {
+    "provider_calls": 0,
+    "firecrawl_calls": 0,
+    "browser_api_calls": 0,
+    "web_unlocker_calls": 0,
+    "brightdata_spend_usd": 0.0,
+    "why": "publication reads committed authority only"
+  },
+  "deployed": 0,
+  "deployment_performed": false
+}

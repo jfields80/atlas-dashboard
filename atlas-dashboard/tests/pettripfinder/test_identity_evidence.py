@@ -186,7 +186,20 @@ class TestColumbusUnchanged:
         # "Columbus unchanged" means Columbus's slice is unchanged.
         assert len([e for e in load_exclusions()
                     if e.get("market_id") == "columbus-oh"]) == 16
-        assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd"]
+        # Same narrowing as the exclusions above, for the same reason: the
+        # resolutions file is global, and PTF-...-FULL-CLOSURE-038 added
+        # Milwaukee's 515 N Jefferson St pair to it. "Columbus unchanged" is a
+        # claim about Columbus, so it is asserted about Columbus: its one
+        # resolution is still there, still the only unscoped record in the
+        # file, and nothing another market added names a Columbus identity.
+        resolutions = load_resolutions()
+        assert [r["resolution_id"] for r in resolutions
+                if not r.get("market_id")] == ["res-brewdog-gender-rd"]
+        for record in resolutions:
+            if record.get("market_id"):
+                names = " ".join(i.get("canonical_name", "")
+                                 for i in record.get("identities") or ())
+                assert "Columbus" not in names
 
     def test_a_blocked_columbus_hold_can_be_identity_confirmed_without_a_policy(self):
         """SpringHill Gahanna: Marriott refuses us, so its policy is unknown and

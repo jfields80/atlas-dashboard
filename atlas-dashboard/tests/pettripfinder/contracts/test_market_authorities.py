@@ -36,9 +36,10 @@ CINCINNATI = "cincinnati-oh"
 PITTSBURGH = "pittsburgh-pa"
 DETROIT = "detroit-ann-arbor-mi"
 INDIANAPOLIS = "indianapolis-in"
+MILWAUKEE = "milwaukee-wi"
 
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
-           INDIANAPOLIS)
+           INDIANAPOLIS, MILWAUKEE)
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
@@ -48,6 +49,7 @@ PARTITION_FILES = {
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",
     INDIANAPOLIS: "indianapolis_final_partition_001.json",
+    MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 
 #: What each market holds. Pinned so a change to an authority shows up here
@@ -74,6 +76,11 @@ EXPECTED = {
               "out_of_category": 1, "unresolved": 142},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
+    # PTF-MILWAUKEE-MARKET-FACTORY-001. Census-only: no policy authority
+    # exists for this market, so published and no_pets are zero by
+    # construction and every identity carries a blocker.
+    MILWAUKEE: {"census": 147, "published": 0, "no_pets": 0,
+                "out_of_category": 0, "unresolved": 147},
 }
 
 

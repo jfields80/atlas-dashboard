@@ -1,0 +1,465 @@
+{
+ "schema": "ptf-brand-provider-decision/1.0",
+ "work_order": "PTF-MOTEL6-FIRECRAWL-DECISION-012",
+ "market_id": "milwaukee-wi",
+ "brand": "MOTEL6",
+ "note": "Firecrawl measured alone against the full remaining Milwaukee Motel 6 cohort, through router.route_property with an in-memory registry override. routes.json never written. The override and the defect audits are imported from the Wyndham and IHG decision modules, not copied.",
+ "what_makes_this_brand_different": {
+  "no_dedicated_reader": "Motel 6 uses the ``generic`` walk. This test measures a provider and a generic reader together, so a failure could belong to either and is reported rather than attributed.",
+  "incumbent_evidence_is_thin": "the committed route says 'generic walk; one property measured'. n=1 is not a strong incumbent, and is also not a reason to move.",
+  "pets_stay_free": "this brand markets itself on pets staying free, so a record with no fee is the expected shape of BOTH a correct answer and a total extraction failure. free_stay_audit separates them."
+ },
+ "method": {
+  "provider": "the registered firecrawl provider, unmodified",
+  "profile": "the shared ROUTED_PROFILE, unmodified",
+  "reader": "generic",
+  "max_attempts": 3,
+  "fallback_available": false,
+  "gates": "identity, policy surface, publication grade, failure taxonomy -- unchanged"
+ },
+ "thresholds_fixed_before_the_run": {
+  "cohort": 4,
+  "approve_min_publication_grade_rate": 0.75,
+  "approve_min_records": 3,
+  "limitation_min_publication_grade_rate": 0.4,
+  "approve_also_requires": "no systemic identity or policy-surface defect"
+ },
+ "totals": {
+  "properties_tested": 4,
+  "acquisition_success": 2,
+  "acquisition_success_rate": 0.5,
+  "identity_confirmed": 2,
+  "identity_confirmed_rate": 0.5,
+  "policy_surface_success": 2,
+  "policy_surface_rate": 0.5,
+  "publication_grade": 2,
+  "publication_grade_rate": 0.5,
+  "avg_firecrawl_attempts": 1.5,
+  "would_qualify_for_fallback": 1
+ },
+ "failures": {
+  "by_class": {
+   "POLICY": 1,
+   "TECHNICAL": 1
+  },
+  "by_failure": {
+   "POLICY_NOT_FOUND": 1,
+   "UNEXPECTED_PAGE": 1
+  },
+  "eligible_for_escalation": 1
+ },
+ "defect_audit": {
+  "per_property": [
+   {
+    "identity_key": "motel 6 milwaukee wi glendale",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [
+     {
+      "field": "pet_count_limit",
+      "issue": "an allowance with no stated pet count"
+     }
+    ],
+    "fields": [
+     "pets_allowed"
+    ],
+    "field_count": 1
+   },
+   {
+    "identity_key": "motel 6 oak creek wi",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [
+     {
+      "field": "pet_count_limit",
+      "issue": "an allowance with no stated pet count"
+     }
+    ],
+    "fields": [
+     "pets_allowed"
+    ],
+    "field_count": 1
+   },
+   {
+    "identity_key": "motel 6 suites milwaukee brookfield wi",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [],
+    "fields": [],
+    "field_count": 0
+   },
+   {
+    "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [
+     "https://www.studio6.com/property/motel-milwaukee-wi-wisconsin-us-357314/"
+    ],
+    "incomplete_fact_pairs": [],
+    "fields": [],
+    "field_count": 0
+   }
+  ],
+  "properties_with_brand_generic_text": 0,
+  "properties_landing_off_the_property_page": 1,
+  "properties_with_incomplete_fact_pairs": 2,
+  "properties_sharing_identical_policy_text": {
+   "motel 6 milwaukee wi glendale / motel 6 oak creek wi": 2
+  },
+  "distinct_extractions": 1,
+  "systemic_defects": [
+   "one or more captures landed off the property page",
+   "every property produced the same extraction"
+  ],
+  "verdict": "SYSTEMIC_DEFECT",
+  "note": "incomplete fact pairs are recorded but are NOT counted as failures: a source that states a fee and no basis has been read correctly, and flattening it to obtain a pass is the thing this audit exists to prevent."
+ },
+ "tiered_fee_audit": {
+  "properties_with_tiered_fee_language": 0,
+  "fee_correctly_withheld": [],
+  "fee_flattened_to_one_tier": [],
+  "verdict": "NO_TIERED_FEE_PUBLISHED",
+  "provider_independent": "this is a READER behaviour, not a provider one. The same text through the incumbent lane would produce the same record, so it does not bear on which provider carries IHG -- but it does bear on whether these records may be published.",
+  "consequence": "any property listed under fee_flattened_to_one_tier is HELD from publication pending a reader fix. It is not counted against the provider."
+ },
+ "duplicate_text_audit": {
+  "properties_sharing_identical_policy_text": {
+   "motel 6 milwaukee wi glendale / motel 6 oak creek wi": 2
+  },
+  "distinct_policy_texts": 1,
+  "distinct_extractions": 1,
+  "every_property_identical": true,
+  "verdict": "BOILERPLATE_SUSPECTED",
+  "why": "if every property in the cohort returns the same text AND the same extraction, the lane cannot be shown to be reading the individual page, and a route must not be promoted on it. Variation anywhere in the cohort proves it reads each page."
+ },
+ "free_stay_audit": {
+  "source_states_no_charge": [],
+  "no_fee_and_source_silent": [
+   {
+    "identity_key": "motel 6 milwaukee wi glendale",
+    "fee_in_record": null,
+    "source_says_free": false
+   },
+   {
+    "identity_key": "motel 6 oak creek wi",
+    "fee_in_record": null,
+    "source_says_free": false
+   },
+   {
+    "identity_key": "motel 6 suites milwaukee brookfield wi",
+    "fee_in_record": null,
+    "source_says_free": false
+   },
+   {
+    "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+    "fee_in_record": null,
+    "source_says_free": false
+   }
+  ],
+  "fee_stated": [],
+  "zero_fee_inferred_from_silence": [],
+  "verdict": "NO_INFERRED_ZERO_FEE",
+  "note": "a record carrying no fee because the source said nothing is ABSENCE and is correct; a record carrying 0 because the source said nothing would be an inference and is not. Only the second is a defect."
+ },
+ "service_animal_audit": {
+  "refusal_records_carrying_pet_terms": {},
+  "verdict": "CLEAN"
+ },
+ "amenity_chip_audit": {
+  "amenity_chips_read_as_policy": [
+   {
+    "identity_key": "motel 6 milwaukee wi glendale",
+    "block": "Pets Allowed Coin Laundry",
+    "block_chars": 25,
+    "fields": [
+     "pets_allowed"
+    ],
+    "issue": "the located block carries no policy feature and reads as an amenity label, not a statement"
+   },
+   {
+    "identity_key": "motel 6 oak creek wi",
+    "block": "Pets Allowed Coin Laundry",
+    "block_chars": 25,
+    "fields": [
+     "pets_allowed"
+    ],
+    "issue": "the located block carries no policy feature and reads as an amenity label, not a statement"
+   }
+  ],
+  "substantive_policy_blocks": 0,
+  "verdict": "AMENITY_CHIP_NOT_POLICY",
+  "why": "publication-grade describes the EVIDENCE -- hashes, contiguous quotes, confirmed identity -- and an amenity checkbox can satisfy all three while telling a guest nothing. A lane whose successes are amenity chips has not acquired policy."
+ },
+ "systemic_defects": [
+  "one or more captures landed off the property page",
+  "every property produced the same extraction",
+  "publication-grade was reached over an amenity label rather than a policy statement",
+  "every property returned identical text and extraction"
+ ],
+ "decision": "REJECT",
+ "decision_reasons": [
+  "publication-grade 2/4 is below the 3/4 bar fixed before the run",
+  "systemic defect: one or more captures landed off the property page",
+  "systemic defect: every property produced the same extraction",
+  "systemic defect: publication-grade was reached over an amenity label rather than a policy statement",
+  "systemic defect: every property returned identical text and extraction"
+ ],
+ "cost": {
+  "firecrawl_credits": 4,
+  "bright_data_usd": 0.0,
+  "bright_data_attempts": 0
+ },
+ "routes_changed": false,
+ "authority_written": false,
+ "policies_published": false,
+ "total_elapsed_seconds": 0.2,
+ "properties": [
+  {
+   "identity_key": "motel 6 milwaukee wi glendale",
+   "property_name": "Motel 6 Milwaukee, WI - Glendale",
+   "url_attempted": "https://www.motel6.com/property/motel-glendale-wisconsin-us-294362/",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 4655,
+     "final_url": "https://www.motel6.com/property/motel-glendale-wisconsin-us-294362/",
+     "title": "Motel 6 Milwaukee, WI | Glendale Budget-Friendly",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Motel 6 Milwaukee, WI - Glendale",
+      "address_on_page": "5485 North Port Washington Road",
+      "postal_code": "",
+      "phone_on_page": "",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.motel6.com/property/motel-glendale-wisconsin-us-294362/",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 25,
+    "locator": "static_html_walk",
+    "excerpt": "Pets Allowed Coin Laundry"
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 12.5,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "motel 6 oak creek wi",
+   "property_name": "Motel 6 Oak Creek, WI",
+   "url_attempted": "https://www.motel6.com/property/motel-oak-creek-wisconsin-us-293841/",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 4410,
+     "final_url": "https://www.motel6.com/property/motel-oak-creek-wisconsin-us-293841/",
+     "title": "Motel 6 Oak Creek, WI - Budget-Friendly Stay",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Motel 6 Oak Creek, WI",
+      "address_on_page": "1201 West College Avenue",
+      "postal_code": "",
+      "phone_on_page": "",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.motel6.com/property/motel-oak-creek-wisconsin-us-293841/",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 25,
+    "locator": "static_html_walk",
+    "excerpt": "Pets Allowed Coin Laundry"
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 9.4,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "motel 6 suites milwaukee brookfield wi",
+   "property_name": "Motel 6 Suites Milwaukee Brookfield, WI",
+   "url_attempted": "https://www.motel6.com/property/motel-brookfield-wisconsin-us-368045/",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "POLICY_NOT_FOUND",
+   "acquired": false,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "POLICY_NOT_FOUND",
+     "body_chars": 3152,
+     "final_url": "https://www.motel6.com/property/motel-brookfield-wisconsin-us-368045/",
+     "title": "Motel 6 Suites Milwaukee Brookfield, WI, Motel 6 Brookfield, Book @ $77",
+     "detail": "no bounded policy block in a page that rendered; 1 candidates considered"
+    }
+   ],
+   "identity_result": {
+    "confirmed": false,
+    "detail": {
+     "confirmed": false,
+     "reason": "no document was produced; the attempt ended POLICY_NOT_FOUND",
+     "outcome": "POLICY_NOT_FOUND",
+     "final_url": "https://www.motel6.com/property/motel-brookfield-wisconsin-us-368045/",
+     "title": "Motel 6 Suites Milwaukee Brookfield, WI, Motel 6 Brookfield, Book @ $77",
+     "detail": "no bounded policy block in a page that rendered; 1 candidates considered"
+    }
+   },
+   "policy_surface_result": {
+    "located": false,
+    "chars": 0,
+    "locator": "",
+    "excerpt": ""
+   },
+   "publication_grade_result": {
+    "confirmed": false,
+    "verdict": null
+   },
+   "extraction": {},
+   "failure_classification": "POLICY",
+   "failure": "POLICY_NOT_FOUND",
+   "exact_failure_reason": "no bounded policy block in a page that rendered; 1 candidates considered",
+   "escalation_stopped_because": "POLICY_NOT_FOUND is terminal: the surface answered and a different provider would receive the same answer",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 2.8,
+   "credits": 0.0
+  },
+  {
+   "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+   "property_name": "Studio 6 Extended Stay Milwaukee Brookfield WI",
+   "url_attempted": "https://www.motel6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+   "firecrawl_attempt_count": 3,
+   "acquisition_result": "TECHNICAL_FALLBACK_REQUIRED",
+   "acquired": false,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "UNEXPECTED_PAGE",
+     "body_chars": 5192,
+     "final_url": "https://www.studio6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+     "title": "Studio 6 Milwaukee, WI | Brookfield Extended Stay",
+     "detail": "rejected by the page-health gate"
+    },
+    {
+     "attempt": 2,
+     "outcome": "UNEXPECTED_PAGE",
+     "body_chars": 5192,
+     "final_url": "https://www.studio6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+     "title": "Studio 6 Milwaukee, WI | Brookfield Extended Stay",
+     "detail": "rejected by the page-health gate"
+    },
+    {
+     "attempt": 3,
+     "outcome": "UNEXPECTED_PAGE",
+     "body_chars": 5192,
+     "final_url": "https://www.studio6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+     "title": "Studio 6 Milwaukee, WI | Brookfield Extended Stay",
+     "detail": "rejected by the page-health gate"
+    }
+   ],
+   "identity_result": {
+    "confirmed": false,
+    "detail": {
+     "confirmed": false,
+     "reason": "no document was produced; the attempt ended UNEXPECTED_PAGE",
+     "outcome": "UNEXPECTED_PAGE",
+     "final_url": "https://www.studio6.com/property/motel-milwaukee-wi-wisconsin-us-357314/",
+     "title": "Studio 6 Milwaukee, WI | Brookfield Extended Stay",
+     "detail": "rejected by the page-health gate"
+    }
+   },
+   "policy_surface_result": {
+    "located": false,
+    "chars": 0,
+    "locator": "",
+    "excerpt": ""
+   },
+   "publication_grade_result": {
+    "confirmed": false,
+    "verdict": null
+   },
+   "extraction": {},
+   "failure_classification": "TECHNICAL",
+   "failure": "UNEXPECTED_PAGE",
+   "exact_failure_reason": "rejected by the page-health gate",
+   "escalation_stopped_because": "every permitted provider was tried",
+   "eligible_for_escalation": true,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.4,
+   "credits": 0.0
+  }
+ ]
+}

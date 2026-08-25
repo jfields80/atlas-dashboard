@@ -78,6 +78,11 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # PTF-DAYTON-MARKET-FACTORY-001: VisitDayton.com CVB source family.
     # Reserved for Dayton Convention & Visitors Bureau identity data.
     "visit_dayton": FAMILY_CVB,
+    # PTF-LOUISVILLE-MARKET-BUILD-001: destination sources actually transcribed.
+    "goto_louisville": FAMILY_CVB,
+    "soin_tourism": FAMILY_CVB,
+    "flylouisville": FAMILY_DIRECTORY,
+    "louisville_downtown_partnership": FAMILY_DIRECTORY,
     # PTF-INDIANAPOLIS-MARKET-REVALIDATION-001: official Indianapolis destination sources.
     "visit_indy": FAMILY_CVB,
     "visit_hamilton_county": FAMILY_CVB,

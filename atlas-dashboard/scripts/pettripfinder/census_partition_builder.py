@@ -146,6 +146,9 @@ BLOCKER_NEXT_ACTIONS: Dict[str, str] = {
     enums.AWAITING_IDENTITY_RESOLUTION:
         "Resolve the property's identity before binding any policy evidence "
         "to it.",
+    enums.AWAITING_FOUNDER_DECISION:
+        "Put this candidate in front of the founder: approve the policy, "
+        "approve the refusal, or hold it with a reason.",
     enums.ACCESS_BLOCKED:
         "Attempt an attended or authenticated capture, or a direct operator "
         "call: the surface refused automated access.",

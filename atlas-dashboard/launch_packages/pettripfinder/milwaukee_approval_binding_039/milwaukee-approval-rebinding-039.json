@@ -1,0 +1,2157 @@
+{
+ "schema": "ptf-approval-rebinding/1.0",
+ "work_order": "PTF-MILWAUKEE-FOUNDER-REVIEW-AND-APPROVAL-BINDING-039",
+ "market_id": "milwaukee-wi",
+ "binding_contract": "semantic-approval/1.0",
+ "supersedes_contract": "record_hash+evidence_hash (036)",
+ "migration_reason": "036's record_hash covered the whole store row, including rederivation.reader_commit, which the store's own projection re-derives on every run. A reader repair therefore withdrew sixteen founder decisions, fifteen of them without changing a single approved fact. The old hashes are preserved on every row below; this adds a second, semantic binding rather than redefining the first.",
+ "what_is_semantic": {
+  "record": [
+   "identity_key",
+   "canonical_name",
+   "market_id",
+   "brand",
+   "policy_schema_version",
+   "proposed_facts",
+   "withheld_fields",
+   "service_animal_statement",
+   "is_refusal",
+   "evidence",
+   "publication_grade",
+   "identity_check",
+   "review_status",
+   "frozen_semantics_violations"
+  ],
+  "provenance": [
+   "source_url",
+   "final_url",
+   "snapshot_hash",
+   "authority_tier",
+   "source_type"
+  ],
+  "rederivation": [
+   "evidence_block_sha256"
+  ]
+ },
+ "what_is_provenance_only": {
+  "record": [
+   "founder_approved",
+   "published",
+   "non_inferences",
+   "source_run",
+   "provenance",
+   "rederivation"
+  ],
+  "provenance": [
+   "retrieved_at",
+   "capture_method",
+   "provider",
+   "reader",
+   "raw_pointer",
+   "obs_id"
+  ],
+  "rederivation": [
+   "superseded_by",
+   "derivation",
+   "reader_commit",
+   "evidence_block_path",
+   "previous_facts",
+   "previous_withheld_fields"
+  ]
+ },
+ "source_ledger": "milwaukee_founder_decisions_036.json",
+ "decisions_total": 98,
+ "counts_by_classification": {
+  "A_FACTS_AND_EVIDENCE_IDENTICAL": 82,
+  "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED": 15,
+  "C_SUBSTANTIVE_FACT_CHANGE": 1
+ },
+ "affected_by_reprojection": 16,
+ "rebound_without_founder_action": 15,
+ "requires_founder_re_review": 1,
+ "requires_founder_re_review_rows": [
+  {
+   "identity_key": "saint kate the arts hotel",
+   "canonical_name": "Saint Kate - The Arts Hotel",
+   "founder_decision": "HOLD",
+   "difference": {
+    "evidence": {
+     "before": [
+      "{\"field_refs\":[\"fee_basis\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"fee_currency\",\"pet_fee\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"pet_count_limit\"],\"location\":\"policy-block.txt\",\"quote\":\"maximum of two pets\"}"
+     ],
+     "after": [
+      "{\"field_refs\":[\"fee_basis\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"fee_currency\",\"pet_fee\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"pet_count_limit\"],\"location\":\"policy-block.txt\",\"quote\":\"maximum of two pets\"}",
+      "{\"field_refs\":[\"pets_allowed\"],\"location\":\"policy-block.txt\",\"quote\":\"pets allowed\"}"
+     ]
+    },
+    "proposed_facts": {
+     "before": {
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "pet_count_limit": 2
+     },
+     "after": {
+      "pets_allowed": true,
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "pet_count_limit": 2
+     }
+    },
+    "withheld_fields": {
+     "before": {
+      "pets_allowed": "SOURCE_CONTRADICTORY"
+     },
+     "after": {}
+    }
+   }
+  }
+ ],
+ "decisions": [
+  {
+   "identity_key": "aloft by marriott milwaukee downtown",
+   "canonical_name": "Aloft by Marriott Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ce67ca1bb463954b418080278509d35e01264349ab6f613b1a797f72dc2b58b0",
+    "evidence_hash": "sha256:c4d96928c123b657d040263e24b63a1f1862670fb2085c584fb92256a79d7882",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:2c05cbda74804bbffc43105221564f6228426af91207b1d4f1825ea445901594"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:2c05cbda74804bbffc43105221564f6228426af91207b1d4f1825ea445901594",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+   "canonical_name": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:f5ffa307f2b3b564f21956c8f2c266a9de1b52dfac1d4f06a92bd9329c16b530",
+    "evidence_hash": "sha256:97e3911e2e418485b9543d1a4db2e98b449ef7f2db806c62b13ce40aada51b08",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:2a44e31b2a25bbaacf245142eb5ba27eddbaf286e40421e67643153bb1022272"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:2a44e31b2a25bbaacf245142eb5ba27eddbaf286e40421e67643153bb1022272",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "americinn by wyndham glendale milwaukee",
+   "canonical_name": "AmericInn by Wyndham Glendale/Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:f87cf1b49e70281dbeb6e7e1130beb2730aa08643f33e1cae0600fc25623f2a2",
+    "evidence_hash": "sha256:488eb5336246d9e1440852096cdc930d3c2ecda64e17c8afdd3c0444c9beaa31",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:8524ad70667f5c00dc297a8863f7b0b24b7f3159b96c17842212b88f47b4ac6b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:8524ad70667f5c00dc297a8863f7b0b24b7f3159b96c17842212b88f47b4ac6b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "avid hotels milwaukee west waukesha",
+   "canonical_name": "avid hotels Milwaukee West - Waukesha",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:87fb879d93928383edc8753043e44012227a13743b4b508a05e87aaed2c255f1",
+    "evidence_hash": "sha256:7dd749ca044e3297e8179a84f095d3c728c18b4d5fef435a8f04f77141f118ba",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:e3cea4d1e1e3e629ea8c57238e103f34d9001757155f64ea2afa572202aa149c"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:e3cea4d1e1e3e629ea8c57238e103f34d9001757155f64ea2afa572202aa149c",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "avid hotels oak creek",
+   "canonical_name": "avid hotels Oak Creek",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:1e9e0643a5d48df4b5756ecfcb3e44175ad3140c0a49448376755fd5f7ea5e59",
+    "evidence_hash": "sha256:8a5dbd9024ce89ddeca9c8e369182902a8f44478a67300595bdfc0b30805a2ea",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:de2b2c2139409a063d530c58a9b799c0f2d68a3fd3a067c0813803eca9b6584f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:de2b2c2139409a063d530c58a9b799c0f2d68a3fd3a067c0813803eca9b6584f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "baymont by wyndham mequon milwaukee area",
+   "canonical_name": "Baymont by Wyndham Mequon Milwaukee Area",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:db174a722063b8afb28680777f9133276e98cecbed8fb18841f89cbd78059dd5",
+    "evidence_hash": "sha256:564e71e2293a00bbf95c35b5edaa5b18f3327893d88cf0523933c45acbba91ad",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:4bd14cf172cf26e36eb8a245237d5ec3f23595f7773024b7ea4b39927d56a60d"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:4bd14cf172cf26e36eb8a245237d5ec3f23595f7773024b7ea4b39927d56a60d",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "baymont by wyndham waukesha",
+   "canonical_name": "Baymont by Wyndham Waukesha",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:8d7183d805e1ba84b267a76ac91e9bd14a41b2ba6f016caa2d960098a2602380",
+    "evidence_hash": "sha256:b303deb0b83cdb5130a922af91d544df6c14e061c4ae79013fa8330738137763",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1822a30ece3fc7635f6325884751ad33269584fd691fefb8306bdd92516338fd"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1822a30ece3fc7635f6325884751ad33269584fd691fefb8306bdd92516338fd",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "best western germantown inn",
+   "canonical_name": "Best Western Germantown Inn",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:04d62ee6b812c5e76b8ef5a2263b7585771ad1c7546482ef7c2bc88dff298e1d",
+    "evidence_hash": "sha256:b23ce0e11c635d2f0dacc620b98072dda92d968e8ca7abf85368ac23e4266923",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:22f555418b260c4064940155f8608f54ed8e54121e61488cac620d642c477445"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:22f555418b260c4064940155f8608f54ed8e54121e61488cac620d642c477445",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "best western plus milwaukee airport hotel and conference center",
+   "canonical_name": "Best Western Plus Milwaukee Airport Hotel & Conference Center",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:e8bb4fd1f84c6bd5d806d1e5792abadab41c58636a012e6932d7534f72fab11d",
+    "evidence_hash": "sha256:4530b9ad7c6ecc3e6530dbd7bfb9e4cd455434ae11f07c65f81dec83aa9ea4b2",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:a636b363f835d23770435121b2581adbe89b40c8ab31bc4396c9fc746c5a19f4"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:a636b363f835d23770435121b2581adbe89b40c8ab31bc4396c9fc746c5a19f4",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "best western waukesha grand",
+   "canonical_name": "Best Western Waukesha Grand",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:6dc83cd0dae8fa18aea4b4cc3a6d97b2d5434a09228807b2fcfe5ceda1b26152",
+    "evidence_hash": "sha256:6e6af9107deb9cd25845f61419ecd645d3d6ffc7cca9eef9d8fe0be7098fc483",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:fcd1ec17410ba9b0346ecf0283c970643cc0c4f56882d08051c2c8a20f6b7fa3"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:fcd1ec17410ba9b0346ecf0283c970643cc0c4f56882d08051c2c8a20f6b7fa3",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "cambria hotel milwaukee downtown",
+   "canonical_name": "Cambria Hotel Milwaukee Downtown",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:074048473fab8023da29213123ff932d7f01db83d250ac7740d6bf2fba08253d",
+    "evidence_hash": "sha256:9e0e294c5f27aa82e507eaa9fa124903c3238f57d1fd26c67fe6fb8ad61664bd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:42342ba6adc3a5af35e7a6a817adcc42a8056f522d3e86482ecb1c543efd295f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:42342ba6adc3a5af35e7a6a817adcc42a8056f522d3e86482ecb1c543efd295f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "candlewood suites milwaukee airport oak creek",
+   "canonical_name": "Candlewood Suites Milwaukee Airport-Oak Creek",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:062af4503bedbb9fd4a0f54e06863a23236d4c80ad563708e6899763e53a15f4",
+    "evidence_hash": "sha256:edafde7ee2cae6a8f188ea47dc3657fd72efb6a952c4c4c11cc016968b7504b2",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ab035351dcc0888eec26032458eb1596babd2eb54cac9d5299509d35719d07b4"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ab035351dcc0888eec26032458eb1596babd2eb54cac9d5299509d35719d07b4",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "clarion pointe milwaukee airport",
+   "canonical_name": "Clarion Pointe Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:1a38bb2860cc99a4cd0246a4f2b59c187b095470b9c13cf29f1769bddc96eefb",
+    "evidence_hash": "sha256:9e0e294c5f27aa82e507eaa9fa124903c3238f57d1fd26c67fe6fb8ad61664bd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:05d40d42dbdeba33eb5afae5b9f12587c50a36044580851710f76b7d76b40acd"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:05d40d42dbdeba33eb5afae5b9f12587c50a36044580851710f76b7d76b40acd",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+   "canonical_name": "Cobblestone Hotel & Suites - Waukesha/West Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ff9152d5ec8b932822f7dc4973a59e27e1edf296d40aa019ae5501587be6a383",
+    "evidence_hash": "sha256:9680f351bf1d1692a479abacb42be08ed8b3d3c1549beb179cdf69cbea086736",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:03f69cea592b5935daf5218ca019c6b4dfe9bb3fe94c6cc01a98d133ff4ad2e3"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:03f69cea592b5935daf5218ca019c6b4dfe9bb3fe94c6cc01a98d133ff4ad2e3",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "comfort inn and suites nw milwaukee",
+   "canonical_name": "Comfort Inn & Suites NW Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:7a821b5afc2570ef5c229733d33a04fb586a451774de7ed0f02be495dc2df651",
+    "evidence_hash": "sha256:b0ba9e1ee02ef58b234300a57c6494bfab30d44eb2742298f92021e1a68fc524",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:efafe204564b061f391f31d5e7e50563d0bb58558dafc5d7dedc5977545451ed"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:efafe204564b061f391f31d5e7e50563d0bb58558dafc5d7dedc5977545451ed",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "comfort inn waukesha milwaukee west",
+   "canonical_name": "Comfort Inn Waukesha - Milwaukee West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:6081019f8b584038558133d82183d598fae8a83caf5968326484fd2706cd679d",
+    "evidence_hash": "sha256:0cb4878db674f346567c3378427c95a8ffab7bcdc58a27a6d0900b82e778939e",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:8912162913fdfcee36e1de6a540e6fab120b1f83ca4cb20598878527f5237ddb"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:8912162913fdfcee36e1de6a540e6fab120b1f83ca4cb20598878527f5237ddb",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "comfort suites milwaukee west",
+   "canonical_name": "Comfort Suites Milwaukee West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:11fdd72fbf2334ba5b4de9007def7ca8e4f1065c84f76b13c19ab2a9a6c5c8c1",
+    "evidence_hash": "sha256:02a360cfd391c0200a321907847241206f1e32dac6e6b2d2f8230e3d7ef372db",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:9ea7308caa90626cddb31a8d973e4d938eb3b95564857f936581c8db432d92e1"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:9ea7308caa90626cddb31a8d973e4d938eb3b95564857f936581c8db432d92e1",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "country inn and suites by radisson germantown wi",
+   "canonical_name": "Country Inn & Suites by Radisson, Germantown, WI",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:e7d8b62d1a1caac701092d1d7efa31c60a48e8e6bdcc30838791cae38c0af57b",
+    "evidence_hash": "sha256:9e0e294c5f27aa82e507eaa9fa124903c3238f57d1fd26c67fe6fb8ad61664bd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:75fc2d5868aa6417c1edc40740809483a99b02a5113e93858092672ba4896db6"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:75fc2d5868aa6417c1edc40740809483a99b02a5113e93858092672ba4896db6",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "courtyard by marriott milwaukee airport",
+   "canonical_name": "Courtyard by Marriott Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:dd43f4fedc8a1aa18541104b51d07cc1186b45f7b563e718c11c2b4093ed2442",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:163fbc202f0006759cc4cb3d20c0ed6c0232adee8cd7ee00f80f8a3004a9b64a"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:163fbc202f0006759cc4cb3d20c0ed6c0232adee8cd7ee00f80f8a3004a9b64a",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham milwaukee",
+   "canonical_name": "Days Inn & Suites by Wyndham Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:c36fd7a055e7bb0f122f1689c884937ca9cce6bacdcdd1aee39caa4e43a315e2",
+    "evidence_hash": "sha256:1876321f7aefb8cb6a42c67e1e20af4734f85e588e5c4ebfd83c160c82b5fe8e",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:577d3a8cd48aca7294283cf7c230e1c9aa9850b73d272a7b4d0dcb69c344336f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:577d3a8cd48aca7294283cf7c230e1c9aa9850b73d272a7b4d0dcb69c344336f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "days inn by wyndham west allis milwaukee",
+   "canonical_name": "Days Inn by Wyndham West Allis/Milwaukee",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a64bf48ec2d25ed5fd7139f83986ed78ccc25c308336da6907283324a02cf702",
+    "evidence_hash": "sha256:5727c3a0f1b9de9012754123d3bdb7e50f70a70c78b53fa6d90d66ffd6c4ff14",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:d94c97c525818bf5b9ff1347a869b8a4a37a823d4116e34e05988fde6c43ffb2"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:d94c97c525818bf5b9ff1347a869b8a4a37a823d4116e34e05988fde6c43ffb2",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "delta hotels milwaukee northwest",
+   "canonical_name": "Delta Hotels Milwaukee Northwest",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:fcc97ec60419bfc2b0407aef64551f6760ef2e8cef704f5f351a26ee0b1248ae",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:993c2dddda12a1432482bf36bad88b19b3ba59cb38c79214c28aa0513c048753"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:993c2dddda12a1432482bf36bad88b19b3ba59cb38c79214c28aa0513c048753",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel milwaukee brookfield",
+   "canonical_name": "DoubleTree by Hilton Hotel Milwaukee - Brookfield",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:54fc0e6e001d0c6ebf7d43e7b0814cf92ebc3ffd095a3cb422b85923251a9e36",
+    "evidence_hash": "sha256:8caab93a570a51212d5c326e3d7db70f453bd92d3a41f076b81f05c3c36402af",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b9b4c505dda8aa5ebfcd2039cfd75445cdde676c16873142fbfc141cd3296d7f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b9b4c505dda8aa5ebfcd2039cfd75445cdde676c16873142fbfc141cd3296d7f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel milwaukee downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel Milwaukee Downtown",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:79758f1dfb6a48331bfffe0b6fc226cf86551245677b8f7bd695a3b2685ece6c",
+    "evidence_hash": "sha256:8caab93a570a51212d5c326e3d7db70f453bd92d3a41f076b81f05c3c36402af",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f8519e5473923bc1d87158028533162d56211fe87bd9d77fc100ab91e3bc16a5"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f8519e5473923bc1d87158028533162d56211fe87bd9d77fc100ab91e3bc16a5",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "embassy suites by hilton milwaukee brookfield",
+   "canonical_name": "Embassy Suites by Hilton Milwaukee Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:060ef9500cda6fe63e64327ffd45ac034d06f56cc0f2189f502b7dbed17c2d7f",
+    "evidence_hash": "sha256:3d4c1e2dbfb9dd1e4c0afea08f7f833603385d668603b743361e0b5e88f92485",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:d271983ceed07bfbe518d22ae3ca223e2bba837b4605a0e56dfa711c833d8dc4"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:d271983ceed07bfbe518d22ae3ca223e2bba837b4605a0e56dfa711c833d8dc4",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "extended stay america milwaukee waukesha",
+   "canonical_name": "Extended Stay America - Milwaukee - Waukesha",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:43c70e4c709d2ee25e9314337c9f0a805cb8c2d227aa0c822012065db262b9d1",
+    "evidence_hash": "sha256:896a504b3e3428dbfdca2517591d5e09a03b958e20d3cc03b3cccf16ce1e7abd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:0022e6cbe358ceab79d5622642b92d0d6467c1c3be8f869791b53428dd98f2c1"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:0022e6cbe358ceab79d5622642b92d0d6467c1c3be8f869791b53428dd98f2c1",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "extended stay america milwaukee wauwatosa",
+   "canonical_name": "Extended Stay America - Milwaukee - Wauwatosa",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:147d2580cb13a796716d5bb678d7e3ddd60c993c1562bcd58fb75c3ba89154cf",
+    "evidence_hash": "sha256:896a504b3e3428dbfdca2517591d5e09a03b958e20d3cc03b3cccf16ce1e7abd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b90bed1cf3da2fe4d60546eafb7d95fac5f183bccfb5caf2efdc451cde2602cf"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b90bed1cf3da2fe4d60546eafb7d95fac5f183bccfb5caf2efdc451cde2602cf",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee airport",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:2967e48f315719f26e5f43305ac4c3426428a01d1ef5fde3cbd1aa6f88426ebf",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:aa6e3c69a1038e75296f878912d0143b599e23a6534ad9287f27e0d7ea898fa0"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:aa6e3c69a1038e75296f878912d0143b599e23a6534ad9287f27e0d7ea898fa0",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee brookfield",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Brookfield",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:2bbb3b227599e28068684da7d2fdbfb45b457a5b6f0e39387626f7d734a124a6",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:14320fd3f895ee4b142549a6a87c2b070dd41deeaedb97af952d17286d7bb0ef"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:14320fd3f895ee4b142549a6a87c2b070dd41deeaedb97af952d17286d7bb0ef",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee downtown",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:719e4f2525143dfd36b19b04bba239bf72884ea7d890b3402d011a43a1ecf71e",
+    "evidence_hash": "sha256:87251ac8fab0bfbe8f1cba0466f2a6d7c2ad273e3f4fdba109a12d5e3f6a4515",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b8f42924df27914d917bb5f798e50d05f9db8a5b633a65c474e3ec5cd2f1d8b4"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b8f42924df27914d917bb5f798e50d05f9db8a5b633a65c474e3ec5cd2f1d8b4",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee north",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee North",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a24b0887f3ef951814c6b10df07cc686be14676d08def919b2da4ee9d192472a",
+    "evidence_hash": "sha256:9ec65f1a13f7cf57db393dd3713043be4600530f731047ba13bc72f8875f46fd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:451faf42328dcc3ba8ff642787e2703218087d6ff8c28bf74a03a05cf9bb4b8b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:451faf42328dcc3ba8ff642787e2703218087d6ff8c28bf74a03a05cf9bb4b8b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites milwaukee west",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Milwaukee West",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:4a0fd5fe15c9a758268e062cd83179eccf64d08a69010f15173c75b19dbb00f8",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1e97694a07bc7488e335621006275801a0736cce25c2704deea476e15d097ea3"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1e97694a07bc7488e335621006275801a0736cce25c2704deea476e15d097ea3",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "four points by sheraton milwaukee north shore",
+   "canonical_name": "Four Points by Sheraton Milwaukee North Shore",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:95a00a47f244d957aff46880e775d95f2de415bffeb6b839d5c3591b0d9f0d4d",
+    "evidence_hash": "sha256:54133f4aba36d00ce50378c83ae1add01a73250e9518322b9a52b36d78f03e64",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:237b9d950a6d329dfa55035c71bc207459d95c585581ad04dea4adc340806aaa"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:237b9d950a6d329dfa55035c71bc207459d95c585581ad04dea4adc340806aaa",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee downtown",
+   "canonical_name": "Hampton Inn & Suites Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:e9ad6cb10e7b1f9ba4d8bb00585c69ec2ffae38c620870b02bbe98c22be068a7",
+    "evidence_hash": "sha256:f8606b304b2027c95e1e4f1a359349aaecd19f9ee310974e3d52dbf523bad75f",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:922ca7b7bbde28253b9c3655a60f58cfc77fb98c436e5d2a3a2d899646cf53e0"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:922ca7b7bbde28253b9c3655a60f58cfc77fb98c436e5d2a3a2d899646cf53e0",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee franklin",
+   "canonical_name": "Hampton Inn & Suites Milwaukee/Franklin",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ab2c64812d746056327d3e3ef822a696a1a437268bf0cd97f9831d809c312a2d",
+    "evidence_hash": "sha256:9129e52be3799c72d852340353d6bf8d954615709c573b53dd22ab2805f410c4",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:da26ed6103ad52ddd58931a71ab4090d6c85da2eca35f9c95e275929e0f67195"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:da26ed6103ad52ddd58931a71ab4090d6c85da2eca35f9c95e275929e0f67195",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn and suites milwaukee west",
+   "canonical_name": "Hampton Inn & Suites Milwaukee West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:df61383310060c2d3c972a12620f807f32ef816bad8a1e6a3311782db8e71039",
+    "evidence_hash": "sha256:ba6a0b66f0d9fcc690b37fb7d9bb1e7d4c9124277eeefc183e0cd070f4bddb36",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:3224d3c43866f15a3f25b24a0607f1f2b62effa28c287218fd32a8281135423f"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:3224d3c43866f15a3f25b24a0607f1f2b62effa28c287218fd32a8281135423f",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn glendale milwaukee",
+   "canonical_name": "Hampton Inn Glendale Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:979a347731b82376a761391eeaf45b5f9edd8c8286fb1075e29af8f370e848f0",
+    "evidence_hash": "sha256:d7f14cd28dae677207beea4ec60eeda32fbf078fdca1467fc288659f68b02d79",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:c4aae4ff2ec7e1273436ee401d858288658cc1255f94d7234d826c6c0078522f"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:c4aae4ff2ec7e1273436ee401d858288658cc1255f94d7234d826c6c0078522f",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn milwaukee airport",
+   "canonical_name": "Hampton Inn Milwaukee-Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:560fe2d724a10ffe8f158d606a968066a049a3e664ccc0a498c918e672914d17",
+    "evidence_hash": "sha256:957f3851283aca507bd12e2837d3dad2fceb5aa5e7c8e894da11d23267c7ab74",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f9725e1eb7778c14c65f672c9e98984a04d55f2800fada177567e21e0e1e5dda"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f9725e1eb7778c14c65f672c9e98984a04d55f2800fada177567e21e0e1e5dda",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn milwaukee brookfield",
+   "canonical_name": "Hampton Inn Milwaukee/Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ad34d717a9787e12431c2411b8c6c3f78db3b305a6572992045c2393ba71b2cc",
+    "evidence_hash": "sha256:38f569a02163458c3f4a1b2ce2f7af281316b703d00ee1e52ccaa6df45b03fee",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:260f0f2918d7ff16dbe63b68242472fc624bb4f5fc1eecc1e80df49ca517a88c"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:260f0f2918d7ff16dbe63b68242472fc624bb4f5fc1eecc1e80df49ca517a88c",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hampton inn milwaukee northwest",
+   "canonical_name": "Hampton Inn Milwaukee-Northwest",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:c1e759ef6e77c364f2c3d7710090984722ae42eed6a324e07045cb3a9da6ae94",
+    "evidence_hash": "sha256:263e9ade0ff161d198799ccc0c70e6b74191fde1eae3052d8212f6af7f1669fa",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:30178425e454398e0e1aa47b4634755185727a45d6e61fe23fa8af53d48942bc"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:30178425e454398e0e1aa47b4634755185727a45d6e61fe23fa8af53d48942bc",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham milwaukee airport",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Milwaukee Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a0a3aaad3bed4b2321870cb34c5e396cec9449f990afaf365263e7eeaf0fbd7b",
+    "evidence_hash": "sha256:c1ee70d2f44d51d622417ff969c187dc056ffe82513b744fe118321f8c5d1ea0",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:0caeb0ec2743234f7ce1ec8d305e3a8ff120f7b35cd5bb225f63adc945ccbfac"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:0caeb0ec2743234f7ce1ec8d305e3a8ff120f7b35cd5bb225f63adc945ccbfac",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee airport",
+   "canonical_name": "Hilton Garden Inn Milwaukee Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:d68bc08942c43c2b6ae376deacc6e96d10281f60161bcd984f5a9156b93e492b",
+    "evidence_hash": "sha256:82a89e831c51998e5238967c33b11034aff97276f4b48a231af161d6949b7ba1",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ee57ef45c63bb0b8328b92edad9c805e7da9ef537528efc9ca5d5964ea2a10ed"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ee57ef45c63bb0b8328b92edad9c805e7da9ef537528efc9ca5d5964ea2a10ed",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee brookfield conference center",
+   "canonical_name": "Hilton Garden Inn Milwaukee Brookfield Conference Center",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:c4d1e17a5464ed46472dff755cf4c4350d022fa9c5eb68ea0ca9a091bc976399",
+    "evidence_hash": "sha256:d9223c525e41cc2d84afbbb21e0d0ee097b1d7d459f2488deaade6a4c7c7491f",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:4c575f56464e15fb53bc57a5e1250da5e63d2a241caedd3f9a7d2c251f39e38a"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:4c575f56464e15fb53bc57a5e1250da5e63d2a241caedd3f9a7d2c251f39e38a",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee downtown",
+   "canonical_name": "Hilton Garden Inn Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:847682b59e91ff6c95ae067b2fba2d38b50d63561d30ea36987fb75020f3b7e6",
+    "evidence_hash": "sha256:9c0d1ef58071901375cb4cbb7afe55df4b006f426917cbe7f628fe9ee4f72371",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:fd1db7b98db43bfc31b0700175c60e612a87425a936254bb387ad3ffb01bfe46"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:fd1db7b98db43bfc31b0700175c60e612a87425a936254bb387ad3ffb01bfe46",
+   "classification": "B_FACTS_IDENTICAL_EVIDENCE_PROVENANCE_CHANGED",
+   "provenance_that_moved": [
+    "rederivation.reader_commit"
+   ],
+   "why": "the approved meaning is byte-identical and only implementation provenance moved (rederivation.reader_commit), so the 036 binding would withdraw an approval over a field that records how the reading was produced rather than what it says"
+  },
+  {
+   "identity_key": "hilton garden inn milwaukee northwest conference center",
+   "canonical_name": "Hilton Garden Inn Milwaukee Northwest Conference Center",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:043d30394d9b75104d71f154ef2ebfa5aa85edb168418b14167ba8b4e107cb9a",
+    "evidence_hash": "sha256:bb159cb2619d20fc25cea89f5f9e4f779292137382e7b912fcefae32afbaac25",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:5de38dffa70edd2f29730f28666d2b8f0ea74a9245e315ee6cc9e689a8806017"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:5de38dffa70edd2f29730f28666d2b8f0ea74a9245e315ee6cc9e689a8806017",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hilton milwaukee",
+   "canonical_name": "Hilton Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:13757f5b3df9f1ee36c3b062b6bf93717afe49254a1906b86b5ef65f0c0da062",
+    "evidence_hash": "sha256:a12436c7411f740aa8b7a7044bad1059e9cc91f142bac6f43c5d5372dab89115",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:02d3735fbfb3ff07feaa9769fd0987af9769eff3c7ee4493f68f129d72ed53da"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:02d3735fbfb3ff07feaa9769fd0987af9769eff3c7ee4493f68f129d72ed53da",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn and suites milwaukee airport",
+   "canonical_name": "Holiday Inn & Suites Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:c1b089204cf9eac5795d3c9d661f10f28d1deae95f5ac3aafcbfbf524bc1610b",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ee868f53388130c3873292dfead283c1f4e4b8c42d59e8fd92e46a272a9a031b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ee868f53388130c3873292dfead283c1f4e4b8c42d59e8fd92e46a272a9a031b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn brookfield milwaukee",
+   "canonical_name": "Holiday Inn Brookfield - Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:81ef899968cd51087529fbbd9988b1763fec817c83bfc6bb8793e89b253b55c4",
+    "evidence_hash": "sha256:3844a2849c6790fe0ca260097e4d091d90559ad10b54f213829f43199d7c65aa",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f115d54e3c1c356e2c58eb5ca88157366aa3063dc2e94455f210f10faf67aff9"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f115d54e3c1c356e2c58eb5ca88157366aa3063dc2e94455f210f10faf67aff9",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee airport",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:66d48101239ef83ac9dc88a96c631a9a24176c0347463e5719046df31eaf66ed",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b2152074ca7cdc5f76b5735b83b4ff45e1df41109c888eeb6cf4f25216bcc04c"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b2152074ca7cdc5f76b5735b83b4ff45e1df41109c888eeb6cf4f25216bcc04c",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee brookfield",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - Brookfield",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:f20545f33e016d12dc7995ebcc371bb87576e17b47a56a92c208409a87fa8b28",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:bd10d3e39606cef1703c193ac5f832364ede71fcd878b119a1a2edce8287a57c"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:bd10d3e39606cef1703c193ac5f832364ede71fcd878b119a1a2edce8287a57c",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee new berlin",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee-New Berlin",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:cbfe8effdceaac9aeae11172446d555bddba21817077893f09195a9c0c6a356b",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:8eae58b313c8adc361857a6e3683ad22cbe7e5e65852932a5ca1596eaf79d7ec"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:8eae58b313c8adc361857a6e3683ad22cbe7e5e65852932a5ca1596eaf79d7ec",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee nw park place",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee NW - Park Place",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ad71023920b2bc44f180b137b11fb0b5ec70efa5aadd9fa160c855d64b2c586f",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:dfa7b9e7a61a6de6eaa683769d024b8ac2cec2fcfbdd13903d95fce44ced170b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:dfa7b9e7a61a6de6eaa683769d024b8ac2cec2fcfbdd13903d95fce44ced170b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express and suites milwaukee west allis",
+   "canonical_name": "Holiday Inn Express & Suites Milwaukee - West Allis",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a299c171ba0e4235cdad75f79d0963544183a9a72a835089e2ed6f2483314e57",
+    "evidence_hash": "sha256:0f9f091f4b90294d42994d364459abf0e15a6ad533e3957c1c69e238d49980d6",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:280f40ae9e03481110b519521c00b6d6223cae5730637377a427afaa33ea7d18"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:280f40ae9e03481110b519521c00b6d6223cae5730637377a427afaa33ea7d18",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express milwaukee downtown",
+   "canonical_name": "Holiday Inn Express Milwaukee Downtown",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:9a170e20fa3a04f87ec9c0a7dc099c3649fae4fd1c78e318e8c6bf41092a7b7a",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:d943133f39222b238fc1d2d58fea6bb914052325c870c88eef1f2dbbf548f9d2"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:d943133f39222b238fc1d2d58fea6bb914052325c870c88eef1f2dbbf548f9d2",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express milwaukee n brown deer mequon",
+   "canonical_name": "Holiday Inn Express Milwaukee N-Brown Deer/Mequon",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:01063a27a5a068607fda131b715eaba022ab402bf5a3931d0f34bbf8076d8bf7",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:05665444bfac70dc2c5315c2ad52205dee15e5ef75fb1e4d1a071a1707b71eb2"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:05665444bfac70dc2c5315c2ad52205dee15e5ef75fb1e4d1a071a1707b71eb2",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn express milwaukee west medical center",
+   "canonical_name": "Holiday Inn Express Milwaukee-West Medical Center",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:b86f15ca8384c49776616168c1cc59003160fcd3fb9fbdd568e43b0881ec8e0b",
+    "evidence_hash": "sha256:3b7ba5627a353a187cbc69819c4a42a5b6a348809b645a7d5a66fdc4b327bbd6",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:2acf78b294d7249e3b4702ab4cdd82a5654305e9cf9cbe9976d8e083e18b836b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:2acf78b294d7249e3b4702ab4cdd82a5654305e9cf9cbe9976d8e083e18b836b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn milwaukee riverfront",
+   "canonical_name": "Holiday Inn Milwaukee Riverfront",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:89eb9ed26328bf6822f00fce6cb6f76cd549ee3f9a2b956ef69fdd201f1a88f0",
+    "evidence_hash": "sha256:eb0e7869a863e0fc6b117e0c81810a019d62dcdd0e7509f7be7ea946a1783005",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:10bf50e2c844bb01cac6a56411a1b57ebf5740d2ff9f11adf1fa72e209d39e9b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:10bf50e2c844bb01cac6a56411a1b57ebf5740d2ff9f11adf1fa72e209d39e9b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "holiday inn pewaukee milwaukee west",
+   "canonical_name": "Holiday Inn Pewaukee-Milwaukee West",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:4e2ed174d27e31dbb0b41e7fbbf2f740a90c7e60603e84958b98bf9b69157716",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:cab1d1e8c333fbe0c6d4a91e92cd1138da14830ae5ca963eec4256a24b53c263"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:cab1d1e8c333fbe0c6d4a91e92cd1138da14830ae5ca963eec4256a24b53c263",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "home2 suites by hilton menomonee falls milwaukee",
+   "canonical_name": "Home2 Suites by Hilton Menomonee Falls Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a21352671d69420e303d1452dbe3e0d1f3838b1037e4353a355e6fab992c2896",
+    "evidence_hash": "sha256:01af979f725d3c4d79d243fbdcc018dd337c8f9bd925e842e3b48faf0bdc76c9",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:dfd4b15cd333f61d9fb18ca7b52fbddf770d6e7456ddda0c735cea36396079a4"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:dfd4b15cd333f61d9fb18ca7b52fbddf770d6e7456ddda0c735cea36396079a4",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee airport",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:0e89e66cd6ae38c21d5314d0ded4edd61cd6e1e9b35b2d04b2651031b3ed09f8",
+    "evidence_hash": "sha256:d24e9f4444f4cd5a152218e896f8e5359e645b4f33e062055adcf1819752446c",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ab2d9b2f9790d5a8b2d8e914158a54e67d45b578b36bbaf127e3f61851fa1722"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ab2d9b2f9790d5a8b2d8e914158a54e67d45b578b36bbaf127e3f61851fa1722",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee brookfield",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ca4091a9d66ee3f67f1a98c8a568b188069db9f1121f891eb2b00334b3e27940",
+    "evidence_hash": "sha256:0c7f8394c9391825c0cbe10756d62cbced18f3edd3d5ac1ae513bfb769e35cde",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:2399d677a649674b7a0cfd6b47a7b717d0d1fa1bead4fa0746aba643c8966148"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:2399d677a649674b7a0cfd6b47a7b717d0d1fa1bead4fa0746aba643c8966148",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee downtown",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:d387004628f90ab450242d8cad0cfc79fc0aa9dbe41c4cbcd65018972109422c",
+    "evidence_hash": "sha256:d67a14caf93bbbd6409fc555778dbb257b161ae3993e01fcba5e402c362204d0",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1b7c38edde963019771979275e0856d34f3ddbdc8976de0263effd50cefce96b"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1b7c38edde963019771979275e0856d34f3ddbdc8976de0263effd50cefce96b",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "home2 suites by hilton milwaukee west",
+   "canonical_name": "Home2 Suites by Hilton Milwaukee West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:b3c96491a222766f967328c7eb3c3d549dd8423a3332823bbc159c5508b2ce59",
+    "evidence_hash": "sha256:a1bcb50de4b8de6d61e107ec58ed7843cfdf1e783adcc7a3dbaa9100fa1ea00a",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:2579460bc2ee9a0c0524bf79760523637362ca1e3b4341c54e73524585be5869"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:2579460bc2ee9a0c0524bf79760523637362ca1e3b4341c54e73524585be5869",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "homewood suites by hilton milwaukee downtown",
+   "canonical_name": "Homewood Suites by Hilton Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:1f0272bd78bb8e9529a31d549b55cfe82fee1d8a9c4a76198cb3cc61b897df7a",
+    "evidence_hash": "sha256:e64588aff80e9e93b938283b30125cf433f7650fe83629085084e79009f65c07",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ff7a5c5794f4cd30a2401a148b623dde2c6bcbdf0c5388e8868543712b39b216"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ff7a5c5794f4cd30a2401a148b623dde2c6bcbdf0c5388e8868543712b39b216",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "homewood suites by hilton oak creek milwaukee",
+   "canonical_name": "Homewood Suites by Hilton Oak Creek Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:5cc8e13dead4bf8a27150f15f0951f31d1a4fd40504476958cacaf9010a6d8d8",
+    "evidence_hash": "sha256:50a59ae027601b0a8a2d201066b3dc687105f3ee8a51c34ef9100363e25bfd34",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:5242a2ea8212d0d80a57fe4a8f18cc03eb126a80914b4f9ff0ba478c37aa92b5"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:5242a2ea8212d0d80a57fe4a8f18cc03eb126a80914b4f9ff0ba478c37aa92b5",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "homewood suites by hilton wauwatosa milwaukee",
+   "canonical_name": "Homewood Suites by Hilton Wauwatosa Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:075323f239ec0460fd6bbbbdeee4747048bbff164fd41ec317f0cc591afac160",
+    "evidence_hash": "sha256:263e9ade0ff161d198799ccc0c70e6b74191fde1eae3052d8212f6af7f1669fa",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b3ce80ba0e2c78ae4d1943cb41066ab0ac6d87ed5d0dc50e80ead9910656f628"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b3ce80ba0e2c78ae4d1943cb41066ab0ac6d87ed5d0dc50e80ead9910656f628",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hotel metro autograph collection",
+   "canonical_name": "Hotel Metro, Autograph Collection",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:0679cdeedeafac8e9531cc0602615f125906be4bb88932adccf2abb40bb820ee",
+    "evidence_hash": "sha256:4b9b55c2c179db559b8607b1a2e7afcd9d860bcf61bb404026db61e65b8f3333",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:956a6a1633b744f9589a56640950eeb61b6a28eb44a33d4160be39f96a8285cc"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:956a6a1633b744f9589a56640950eeb61b6a28eb44a33d4160be39f96a8285cc",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hyatt place milwaukee downtown",
+   "canonical_name": "Hyatt Place Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:5f60053496f70b12fed9212dadd9c62da464099df29db3fa89445bd912352f62",
+    "evidence_hash": "sha256:9995c81190bb7e0e6eef2fe6d031220440eb6d550ea6f0ff9412ad1289e3d408",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:cfd0957f9ab0cb0164e5e5fa27e729a656abe73ac62eaa09a364edc07786725f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:cfd0957f9ab0cb0164e5e5fa27e729a656abe73ac62eaa09a364edc07786725f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "hyatt regency milwaukee",
+   "canonical_name": "Hyatt Regency Milwaukee",
+   "founder_decision": "HOLD",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:71a5e87336ce8c58b8717c7f2c20e3135524c1a7a3d353cf392f13b921bd779f",
+    "evidence_hash": "sha256:0e7a18710cf9d36d656099d8b48f2a2a828c4fca29e0f1e9ccfdfb09538a7fda",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:5b9f9bfc5bdcf881c0365af9f9418036bb91fadcba4ea46e0f6898db60614f82"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:5b9f9bfc5bdcf881c0365af9f9418036bb91fadcba4ea46e0f6898db60614f82",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "kimpton journeyman hotel",
+   "canonical_name": "Kimpton Journeyman Hotel",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:9eba11240bd76d4d126f08dc510fe65b1c089c331620c635b98ee5dccc2a1269",
+    "evidence_hash": "sha256:1a17763f6d0957070ed98ceb0d76981b6f99e238e9fc4800f45639a71b278120",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:028579bdd9fb6610b711a2626cbc9146c95a6c0e65226e357b9aba9d7aba373d"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:028579bdd9fb6610b711a2626cbc9146c95a6c0e65226e357b9aba9d7aba373d",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee bayshore area",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Milwaukee Bayshore Area",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:1b9ea9ba0a9a00fdd7dd5270afda965c94570646921887927f3c4e1f9b890042",
+    "evidence_hash": "sha256:f375971a978a7e8f9c762cdb62c4807bd096aea2120065a804a612e1fdec5f3d",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:6fc574ebaf7b704f6387dc7da9f7453ba58474ae041c83f482aecc96f8c5ba9d"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:6fc574ebaf7b704f6387dc7da9f7453ba58474ae041c83f482aecc96f8c5ba9d",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee sw new berlin",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Milwaukee SW New Berlin",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:a11d6187fec8ff25e40b27bb1531a0e0bdaab42f2108a878d09c66724605385c",
+    "evidence_hash": "sha256:f375971a978a7e8f9c762cdb62c4807bd096aea2120065a804a612e1fdec5f3d",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f80fd0c77254e66582eab4633215811c02bea74175cf1daa779c599b9bd1ef83"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f80fd0c77254e66582eab4633215811c02bea74175cf1daa779c599b9bd1ef83",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "la quinta inn by wyndham milwaukee airport oak creek",
+   "canonical_name": "La Quinta Inn by Wyndham Milwaukee Airport / Oak Creek",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:8a60ffd3d9ab48715168c5374979ea536ac82848f5ef6517e861e7494c403a36",
+    "evidence_hash": "sha256:f375971a978a7e8f9c762cdb62c4807bd096aea2120065a804a612e1fdec5f3d",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:be2cfa948ae5fcc4d14b0285c3981a54024200141cb654566dce6a9ff19c1d8c"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:be2cfa948ae5fcc4d14b0285c3981a54024200141cb654566dce6a9ff19c1d8c",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "milwaukee marriott downtown",
+   "canonical_name": "Milwaukee Marriott Downtown",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:7fe67a7e3ecf780da0b3c195a4d960e212210fb9eef0fcbf1d770a00abba328b",
+    "evidence_hash": "sha256:f2ee5e839462e7130189893c277fa5eb155f5b1191d4d46c9b42c76a877d6834",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:b804df4749cc3530ee9044807b17dd611a0a7c9ea4316c37f1a93a250078ee5a"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:b804df4749cc3530ee9044807b17dd611a0a7c9ea4316c37f1a93a250078ee5a",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "milwaukee marriott west",
+   "canonical_name": "Milwaukee Marriott West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:8c238525ca2c4a770ae3047fbc60571f9595e8f7820f1450683ec255384c566f",
+    "evidence_hash": "sha256:74015ec1a12d097063c41dbf2d04e591294edbe312c3b16c0a0e00f27f01929c",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:01c0be9543c5c4b0ae595ca28cffdfc3db76aeede78123e60a729260ebd05512"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:01c0be9543c5c4b0ae595ca28cffdfc3db76aeede78123e60a729260ebd05512",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "ramada by wyndham milwaukee",
+   "canonical_name": "Ramada by Wyndham Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:48843057522c435802c2b16e4ae7e86214e4b3492f98484335a686df7bdc61c4",
+    "evidence_hash": "sha256:e85a83b51a923f0c295fec651223125869954c45303e7267b8b7575f255f9c59",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1355412d7a5a89c7dcb8d1d3c5aa4d44896c2ac367d3523fad855543ca4cf82a"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1355412d7a5a89c7dcb8d1d3c5aa4d44896c2ac367d3523fad855543ca4cf82a",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "renaissance milwaukee west hotel",
+   "canonical_name": "Renaissance Milwaukee West Hotel",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:b0558774ed5c98e41e497e4ff437201f304c4dda32378170f8d98b63b28a34cc",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:dd7db80e8b4bad245e3e8583669567135cf1cc16fe0f47bce3e3ef44218becb6"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:dd7db80e8b4bad245e3e8583669567135cf1cc16fe0f47bce3e3ef44218becb6",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee brookfield",
+   "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:1d7ef46e07c73a5e7876bf8900653efd0b73cffcfe5a107828dab1e5f6474eb3",
+    "evidence_hash": "sha256:2d25e349eb7631d0464b0e6b953bcbe8854b4036cc337f9ce41be1c32c808beb",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:dbb3873ccfb00640cc0fde408bd51ef89bee801ae39b9bfc6c6fec1ec54badbf"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:dbb3873ccfb00640cc0fde408bd51ef89bee801ae39b9bfc6c6fec1ec54badbf",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee downtown",
+   "canonical_name": "Residence Inn by Marriott Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:0e12f64d73952d0a34c6fbe270c0d9679c85f23a15df0edc043136c2c95bccde",
+    "evidence_hash": "sha256:dfe4ac0c40ab77681e27b76677a2ea3e49592fa81661f0d4990c4acfd56472cc",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1b9539b1921ca19ee415f02ffa951575e6e8f0945ede6249d83d1ba1e6bb549f"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1b9539b1921ca19ee415f02ffa951575e6e8f0945ede6249d83d1ba1e6bb549f",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee north glendale",
+   "canonical_name": "Residence Inn by Marriott Milwaukee North/Glendale",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:db2f125bea2dd58005e5b121226dc527c07b86946214bdd91561ef69d3a7c6f3",
+    "evidence_hash": "sha256:e738a3a312e48f90f72740ee20e17d61386d81ae288c8305590305f23d962fda",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:3943d1c8960130e7f0fcefecbe8eb11df092befaeb77f941e1ab186c687bce1a"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:3943d1c8960130e7f0fcefecbe8eb11df092befaeb77f941e1ab186c687bce1a",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "residence inn by marriott milwaukee west",
+   "canonical_name": "Residence Inn by Marriott Milwaukee West",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:6690d752bf35db767defcabf370711ea84869abe3f5d475ab1108b747d700044",
+    "evidence_hash": "sha256:db0f622ce8348cd186eeb261fa393b0a21196e0d866653bb6b88f3f762e18a44",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:bace0674897e0a2f9ca758820e2c09e54b03e0e066ce4bcfe49d96bbee43e0db"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:bace0674897e0a2f9ca758820e2c09e54b03e0e066ce4bcfe49d96bbee43e0db",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "rodeway inn and suites milwaukee airport",
+   "canonical_name": "Rodeway Inn & Suites Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:e9e5076f497f90b222ad9ed49047b9bc649f2defec1437ca10b1154e8f82e5a1",
+    "evidence_hash": "sha256:9e0e294c5f27aa82e507eaa9fa124903c3238f57d1fd26c67fe6fb8ad61664bd",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:6314fc89dccad59995993bfb2dba57e772d5e8ed4e1704a83fa393ca57ed6ceb"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:6314fc89dccad59995993bfb2dba57e772d5e8ed4e1704a83fa393ca57ed6ceb",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "royle hotel milwaukee airport",
+   "canonical_name": "Royle Hotel Milwaukee Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:04aba76b859945a31da4191a98a2bb43465459989d3788e1acfa23b24b9e4c42",
+    "evidence_hash": "sha256:bff9dbd0483c841f78c510bdbe72f1d665f7fd35b019541a41c9ef020dd11def",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:1bad0b2c2431ad04539e21758912dfd67e0e3f1074a19befd85992919039c023"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:1bad0b2c2431ad04539e21758912dfd67e0e3f1074a19befd85992919039c023",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "canonical_name": "Saint Kate - The Arts Hotel",
+   "founder_decision": "HOLD",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:76b887b5518b263b18347086aade55d0a16ab2dc6c012746bde5e56aa4df7bd1",
+    "evidence_hash": "sha256:6178222db28863c33b18b173a82fb6b52bf5b58bfb4a3e42f62148d6e56020f1",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:6b68475c46671c804129423992d2c1fe9adecbe272fede8335d3048a46d00bb3"
+   },
+   "affected_by_reprojection": true,
+   "semantic_difference": {
+    "evidence": {
+     "before": [
+      "{\"field_refs\":[\"fee_basis\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"fee_currency\",\"pet_fee\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"pet_count_limit\"],\"location\":\"policy-block.txt\",\"quote\":\"maximum of two pets\"}"
+     ],
+     "after": [
+      "{\"field_refs\":[\"fee_basis\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"fee_currency\",\"pet_fee\"],\"location\":\"policy-block.txt\",\"quote\":\"$100 per stay\"}",
+      "{\"field_refs\":[\"pet_count_limit\"],\"location\":\"policy-block.txt\",\"quote\":\"maximum of two pets\"}",
+      "{\"field_refs\":[\"pets_allowed\"],\"location\":\"policy-block.txt\",\"quote\":\"pets allowed\"}"
+     ]
+    },
+    "proposed_facts": {
+     "before": {
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "pet_count_limit": 2
+     },
+     "after": {
+      "pets_allowed": true,
+      "pet_fee": 10000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "pet_count_limit": 2
+     }
+    },
+    "withheld_fields": {
+     "before": {
+      "pets_allowed": "SOURCE_CONTRADICTORY"
+     },
+     "after": {}
+    }
+   },
+   "semantic_hash_after_reprojection": "sha256:0a9b7efbef18c7f10b08845a80f958020916a6f36af683666dcd23b14b3ee601",
+   "classification": "C_SUBSTANTIVE_FACT_CHANGE",
+   "why": "the approved meaning itself moved (evidence, proposed_facts, withheld_fields); this is not a provenance artefact and it is NOT rebound"
+  },
+  {
+   "identity_key": "sleep inn and suites milwaukee airport",
+   "canonical_name": "Sleep Inn & Suites Milwaukee Airport",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:ddc6feaf3ddf153f6efa5f6ef63d42b08c8c06edbc39c72edbc9a67ea7007732",
+    "evidence_hash": "sha256:e76224deac12a98f60477a161ed1f2434a41106ce7378702f87a9e18dd380c93",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:831e5fc2dfd8b17fb592213a6167c737ec27884cccb0e1212daa72b4a5888ae5"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:831e5fc2dfd8b17fb592213a6167c737ec27884cccb0e1212daa72b4a5888ae5",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "springhill suites by marriott menomonee falls",
+   "canonical_name": "SpringHill Suites by Marriott Menomonee Falls",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:59fce6ce5633e5e3336b3b2f2c5c4d0be2ff021b6175182071d072ebfafea889",
+    "evidence_hash": "sha256:486a07cf36b59962b47900b232fe6dc63b225ff79b1e2f0e0450c2e8c7235791",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f5cbbf8d770e4f43c621b174ac5be5f1a1219e2e78c0bb80fc211f46a3dde854"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f5cbbf8d770e4f43c621b174ac5be5f1a1219e2e78c0bb80fc211f46a3dde854",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "springhill suites by marriott milwaukee downtown",
+   "canonical_name": "SpringHill Suites by Marriott Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:fe08e51b0b8e9ca2e58bcce503017fb852d0d9886315928d94811a7bed18e047",
+    "evidence_hash": "sha256:341c454444ed68907b101f639240c35da13ed02a95901d6813f654f12531a332",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ea248a98c5352fb3995a8ddd10062fc1a994b40e5a008083c916b381c61ee7d6"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ea248a98c5352fb3995a8ddd10062fc1a994b40e5a008083c916b381c61ee7d6",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "springhill suites by marriott milwaukee west wauwatosa",
+   "canonical_name": "SpringHill Suites by Marriott Milwaukee West/Wauwatosa",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:7a6a312fbdee18ef27b5e69002cfea1e697fa315f6728fa710206a780809402f",
+    "evidence_hash": "sha256:90a9e9fda3afdff4f2356a814a57380ced0b265eaf67372cc719e399f3504c46",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:e5259fbd776e2f675c314793dbc2b774bb3c45ee6e26215a12a2bfa59280e7ef"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:e5259fbd776e2f675c314793dbc2b774bb3c45ee6e26215a12a2bfa59280e7ef",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "super 8 by wyndham germantown milwaukee",
+   "canonical_name": "Super 8 by Wyndham Germantown/Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:b589d4ad343ab633da546a18a84fb89cccbffd054df1fab029d324e741bf8840",
+    "evidence_hash": "sha256:eb2085959a417cd7c168b3a277065feb2dfb3f9dfbb4cf4fd37f8d8f7b1844e5",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:f74c81e514e3c789e3245bb477e460dacc3986fa431c40f185314835a5e3b187"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:f74c81e514e3c789e3245bb477e460dacc3986fa431c40f185314835a5e3b187",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "super 8 by wyndham milwaukee airport",
+   "canonical_name": "Super 8 by Wyndham Milwaukee Airport",
+   "founder_decision": "APPROVE_REFUSAL",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:943fdbd42036586749eabf85dff001ae2228f7e1449234793ea87facf624689a",
+    "evidence_hash": "sha256:5727c3a0f1b9de9012754123d3bdb7e50f70a70c78b53fa6d90d66ffd6c4ff14",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:5d5c08fba15e2b243b7cdb492b4ca2420a7104c922c7daf0594d80c17aba0313"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:5d5c08fba15e2b243b7cdb492b4ca2420a7104c922c7daf0594d80c17aba0313",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "the ingleside hotel",
+   "canonical_name": "The Ingleside Hotel",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:304bd85790b46f1ade8c7fb0ba96b6a16b8b5430b4f3da3355defa683d78236a",
+    "evidence_hash": "sha256:be2853050af89b920d23d5a4815eb4b8b97e321e380ca2574835e579cd79dbe8",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:a2a67d38b3f6b369e2212a81ce63c684da8e8d00650f106091c6903eaf722098"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:a2a67d38b3f6b369e2212a81ce63c684da8e8d00650f106091c6903eaf722098",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "the pfister hotel",
+   "canonical_name": "The Pfister Hotel",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:4fb116f23dc449ed04b7fe4daa7b2cdd5a039511ebc7a4d4755de01b5027e7c3",
+    "evidence_hash": "sha256:3a6aac112125967869a70a4c09e8365512dbbae8ee8824a24fac39f01a3e0e6b",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:e5c5cf787100fbc3dbb582e5e9465ad72434fae496cea365b2dfa974f2591aba"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:e5c5cf787100fbc3dbb582e5e9465ad72434fae496cea365b2dfa974f2591aba",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "the westin milwaukee",
+   "canonical_name": "The Westin Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:b8e1767fb92f446b385bef38cba3104bdbe4828f8ce43ab95d7f89c78b076853",
+    "evidence_hash": "sha256:45b974b113a17fac6f6843d82c7a364532ed1844ec06c0a5632f9f5604a2e7ec",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:3785d9a8ac8c4faaa5f129a5eda4e5ee171f5cbc913ea5556649f6c539859ffa"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:3785d9a8ac8c4faaa5f129a5eda4e5ee171f5cbc913ea5556649f6c539859ffa",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "towneplace suites by marriott milwaukee brookfield",
+   "canonical_name": "TownePlace Suites by Marriott Milwaukee Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:d8baf828180560ce54d4f73a73749c33698ba28d9646a0fcbfcd3032393910f0",
+    "evidence_hash": "sha256:7d79016aab532f08b99f28862be422a6eb467ecbdef79459d72cb912510692fc",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:619a4d17c20a524412648b8c209a71e3ee1df8ec3dbd9fbcef37377db313e2c0"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:619a4d17c20a524412648b8c209a71e3ee1df8ec3dbd9fbcef37377db313e2c0",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "towneplace suites by marriott milwaukee oak creek",
+   "canonical_name": "TownePlace Suites by Marriott Milwaukee Oak Creek",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:cab43ffa1495da938cd7dfbc907451e391decd025528ffd84ecd8a9c587e757b",
+    "evidence_hash": "sha256:942a78da4847387488caf14ce61fe63c10b96e0dc0a197596c6db8f1ab726094",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:615cd5f38a26ee4cb8dbcde09208cef9fef42dae1f8b03d47e482a148871fd47"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:615cd5f38a26ee4cb8dbcde09208cef9fef42dae1f8b03d47e482a148871fd47",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "travelodge by wyndham milwaukee",
+   "canonical_name": "Travelodge by Wyndham Milwaukee",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:f06d0e7554b0338644188d62ce7384e2503b044b847980bf510d3d84823472b8",
+    "evidence_hash": "sha256:3b08aee1a85623411036cdd70ab2f900817254e67c056ac83a650d5511845393",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:a0cdc35040c79def522c4cad92ae4bd3843dbde1271c8a7b33ccf22d49bf1ab2"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:a0cdc35040c79def522c4cad92ae4bd3843dbde1271c8a7b33ccf22d49bf1ab2",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "tru by hilton milwaukee brookfield",
+   "canonical_name": "Tru by Hilton Milwaukee Brookfield",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:6ac001f93f72e94650ebec2039438af627be002144cfffea4a99f79f9feb8e00",
+    "evidence_hash": "sha256:2fe3f222347eb020e5f672c3a9c2ff25c3aba537a4b63962e158c08e28903aff",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:ffadff682d65f0d664973e6f530148ce6af88baa4cbe56068bb2670635b57668"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:ffadff682d65f0d664973e6f530148ce6af88baa4cbe56068bb2670635b57668",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  },
+  {
+   "identity_key": "tru by hilton milwaukee downtown",
+   "canonical_name": "Tru by Hilton Milwaukee Downtown",
+   "founder_decision": "APPROVE",
+   "old_binding": {
+    "contract": "record_hash+evidence_hash (036)",
+    "record_hash": "sha256:2f228e3d55cacd5f5246a9ab40535099b673955a315f3ee60310210c37fd047a",
+    "evidence_hash": "sha256:d67a14caf93bbbd6409fc555778dbb257b161ae3993e01fcba5e402c362204d0",
+    "still_binds_committed_store": true
+   },
+   "new_binding": {
+    "contract": "semantic-approval/1.0",
+    "semantic_hash": "sha256:4151846f5b1da357fb472632822c609070cff9ae0722be0ef7003650246931d7"
+   },
+   "affected_by_reprojection": false,
+   "semantic_difference": {},
+   "semantic_hash_after_reprojection": "sha256:4151846f5b1da357fb472632822c609070cff9ae0722be0ef7003650246931d7",
+   "classification": "A_FACTS_AND_EVIDENCE_IDENTICAL",
+   "why": "nothing moved at all: the old binding still holds through a re-projection, and the new one agrees"
+  }
+ ]
+}

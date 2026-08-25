@@ -1,0 +1,79 @@
+{
+ "schema": "ptf-founder-policy-question/1.0",
+ "what_this_is": "One policy question that decides three St. Louis rows, put to the founder undecided. Nothing here is an approval and no disposition has been assumed. The question is asked ONCE because the same reasoning settles every row in the class; answering it per row would invite three different answers to one question.",
+ "market_id": "st-louis-mo",
+ "work_order": "PTF-ST-LOUIS-FOUNDER-REMEDIATION-004",
+ "raised_by": "PTF-ST-LOUIS-FOUNDER-REVIEW-003 section D3, widened here",
+ "status": "AWAITING_FOUNDER_DECISION",
+ "question": "Does an official property page that states explicit pet terms -- 'maximum of 2 dogs per room', '15USD per pet per night', '$75 non refundable pet fee for stays of up to 7 nights' -- but never literally states that pets are allowed, count as sufficient evidence that pets are accepted?",
+ "why_the_machine_will_not_answer_it": "Reading an allowance out of a price is an inference, and every reader in this package is built to refuse inferences. pets_allowed is withheld as SOURCE_SILENT rather than defaulted, readiness lands on POLICY_PARTIAL, and readiness.PUBLISHABLE_STATES excludes POLICY_PARTIAL. That is the machine declining to decide, not failing to. A person may decide it; the decision is a publication policy, not a fact about any one hotel.",
+ "what_changes_if_the_answer_is_yes": "The three rows below publish from the quotes they already hold. No re-fetch, no new evidence, no provider spend. Each becomes an APPROVE_PET_FRIENDLY candidate carrying the terms it already states.",
+ "what_changes_if_the_answer_is_no": "The three rows stay HELD_REVIEW and remain unpublished until a source states an allowance in words. Nothing is lost and nothing is asserted.",
+ "the_risk_on_each_side": {
+  "answering_yes": "A page could state a pet fee for a service animal, or price a pet policy it no longer honours. Both are rare; neither is impossible. The published record would say pets are accepted on the strength of a price rather than a statement.",
+  "answering_no": "Three properties that are, on any ordinary reading, pet-friendly stay invisible to a guest searching for exactly that. The evidence is already bought and already on disk."
+ },
+ "scope": "This question is asked of the three rows below and of no others. A YES does not authorise the same inference anywhere else; it authorises these three, and any later row in the class returns here.",
+ "rows": [
+  {
+   "identity_key": "comfort inn collinsville near st louis",
+   "canonical_name": "Comfort Inn Collinsville near St. Louis",
+   "brand": "CHOICE",
+   "what_the_page_states": [
+    "maximum of 2 dogs per room",
+    "Dogs Only",
+    "Service animals are permitted, without charge."
+   ],
+   "what_the_page_never_states": "that pets are accepted",
+   "facts_already_read": {
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": ["dog"]
+   },
+   "withheld": {"pets_allowed": "SOURCE_SILENT"},
+   "note": "This row states a species restriction and a per-room count and no price at all, so it is the weakest of the three on a price-implies-allowance reading and the strongest on an ordinary one."
+  },
+  {
+   "identity_key": "super 8 by wyndham troy il st louis area",
+   "canonical_name": "Super 8 by Wyndham Troy IL/St. Louis Area",
+   "brand": "WYNDHAM",
+   "what_the_page_states": [
+    "15USD per pet per night",
+    "under 50 lbs",
+    "Maximum of two pets per room",
+    "ADA defined service animals are also welcome at this hotel."
+   ],
+   "what_the_page_never_states": "that pets are accepted",
+   "facts_already_read": {
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {"value": 50.0, "unit": "lb"},
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld": {"pets_allowed": "SOURCE_SILENT"}
+  },
+  {
+   "identity_key": "sonesta es suites st louis chesterfield",
+   "canonical_name": "Sonesta ES Suites St. Louis - Chesterfield",
+   "brand": "SONESTA",
+   "what_the_page_states": [
+    "$75 non refundable pet fee for stays of up to 7 nights",
+    "$150 fee for stays over 7 days",
+    "non refundable"
+   ],
+   "what_the_page_never_states": "that pets are accepted",
+   "facts_already_read": {
+    "fee_tiers": "two bands by stay length: $75 for 1-7 nights, $150 beyond"
+   },
+   "withheld": {"pets_allowed": "SOURCE_SILENT"},
+   "note": "NEW TO THIS CLASS. This row was previously held as a MALFORMED observation because the reader emitted an unregistered flag code; the 1.1.0 contract amendment admitted it, and the allowance question is what it turns out to be waiting on underneath. PTF-ST-LOUIS-FOUNDER-REVIEW-003 named two rows in this class; there are three."
+  }
+ ],
+ "founder_decision": "",
+ "founder_reviewer_id": "",
+ "founder_reviewed_at": "",
+ "decision_fields_are_reserved": "These three fields are the founder's signature and are deliberately empty. No operator may fill them on the founder's behalf."
+}

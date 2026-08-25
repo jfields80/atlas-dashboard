@@ -1,0 +1,90 @@
+{
+ "schema": "ptf-founder-override/1.0",
+ "what_this_is": "Founder rulings that a machine gate is not permitted to make for itself, recorded per row and cited to the evidence already on disk.",
+ "market_id": "louisville-ky",
+ "work_order": "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005 / PTF-LOUISVILLE-FOUNDER-FINAL-006",
+ "decided_by": "jfields80",
+ "decided_at": "2026-08-24",
+ "recorded_by": "claude-opus-5 (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005, agent) -- transcription only; both rulings and their scoping conditions are the founder's, given verbatim in the work order, and no row was admitted that failed one of them",
+ "scope_rule": "Each override names ONE identity_key. Nothing here generalises: a later row in the same shape returns to the founder rather than inheriting a ruling made about a different hotel.",
+ "allowance_overrides": {
+  "founder_ruling": "YES -- when a property-specific official page explicitly states concrete pet terms such as a pet fee, per-pet pricing, a maximum pet count, a pet weight limit or other direct pet restrictions, that is sufficient evidence that the property accepts the pet type described, even if the page never literally says \"pets allowed\".",
+  "founder_limits": "Do not treat vague pet icons, amenity labels, service-animal language or generic brand pages as allowance evidence.",
+  "admission_conditions": [
+   "identity is valid",
+   "the source is property-specific",
+   "the terms clearly describe actual pets",
+   "there is no contradictory no-pets statement",
+   "species is not widened beyond what the source supports"
+  ],
+  "records": [],
+  "why_no_records": "The ruling was given for the Super 8 Louisville Expo Center class. Applying it row by row would have recorded \"was withheld as SOURCE_SILENT\", which stopped being true in this same work order: the reader now reads a species acceptance the page states in its own words (\"Max 2 DOGS only ... 40 lbs each for 25.00 USD/pet/night\"), under exactly the founder's five conditions, and a page that states an allowance needs no override to be read. The ruling is recorded here because it is the authority for that reader rule, and because a row that states terms and no acceptance in any form still returns to the founder."
+ },
+ "identity_overrides": {
+  "founder_ruling": "A name difference may be overridden only when at least TWO strong independent property-specific identity signals agree. Strong signals: an exact street-address match, an exact telephone match, a matching property code, or another unambiguous property-specific identifier. A bare-chain name alone is never sufficient.",
+  "records": [
+   {
+    "identity_key": "candlewood suites louisville south fair and expo",
+    "census_canonical_name": "Candlewood Suites Louisville South Fair and Expo",
+    "page_name": "Candlewood Suites Louisville - Fair/Expo Center",
+    "signals_agreeing": 2,
+    "street": {
+     "census": "6540 Paramount Park Dr, Louisville 40213",
+     "page": "6540 Paramount Park Dr.",
+     "verdict": "EXACT MATCH"
+    },
+    "telephone": {
+     "census": "",
+     "page": "1-502-8904270",
+     "verdict": "the census row carries no telephone; silence, not disagreement, and it corroborates nothing either way"
+    },
+    "property_code": {
+     "code": "sdfpp",
+     "page": "the captured document's own <link rel=\"canonical\"> and og:url both name sdfpp, and it is the ONLY IHG property code anywhere in the document (1 distinct codes found)",
+     "census": "the census row carries the same code in the official_url it inherited from the prior build",
+     "independent_source": {
+      "where": "launch_packages/pettripfinder/louisville_prior_authority_001/prior_census_001.json",
+      "source": "goto_louisville",
+      "provenance": "data/market_research/louisville/candidate_ledger.json",
+      "official_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfpp/hoteldetail",
+      "why_it_is_independent": "the prior build recorded this URL from the Louisville destination directory before this capture existed, so the code on the page and the code on the census row do not come from one another"
+     },
+     "verdict": "EXACT MATCH"
+    },
+    "redirect_check": {
+     "requested": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfpp/hoteldetail",
+     "final": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfpp/hoteldetail",
+     "verdict": "the capture was not redirected, so the page served is the page the code names"
+    },
+    "contradicting_evidence": "none: no second IHG property code appears in the document, the street agrees exactly, and the only disagreement is the marketing form of the name",
+    "founder_verdict": "APPROVED -- one property, named two ways",
+    "note": "Given in the work order PTF-LOUISVILLE-FOUNDER-FINAL-006: the founder asked for one final offline check for a second strong property-specific signal, to approve on two agreeing signals and to keep the hold otherwise. The second signal is the IHG property code sdfpp, carried by the page itself and by an independently sourced census URL."
+   },
+   {
+    "identity_key": "the seelbach hilton hotel",
+    "census_canonical_name": "The Seelbach Hilton Hotel",
+    "page_name": "The Seelbach Hilton Louisville",
+    "signals_agreeing": 3,
+    "street": {
+     "census": "500 South 4th Street, Louisville 40202",
+     "page": "500 S 4TH Street",
+     "verdict": "EXACT MATCH"
+    },
+    "telephone": {
+     "census": "5025853200",
+     "page": "+1 502-585-3200",
+     "verdict": "EXACT MATCH"
+    },
+    "property_code": {
+     "census": "",
+     "page": "sdfshhf",
+     "verdict": "the page carries the Hilton property code and the source URL is that code's own page"
+    },
+    "contradicting_evidence": "none",
+    "founder_verdict": "APPROVED -- one property, named two ways",
+    "note": "Given verbatim in the work order: \"YES -- treat 'The Seelbach Hilton Louisville' and 'The Seelbach Hilton Hotel' as the same property.\" The canonical name is corrected through the name-correction overlay and the record is re-derived offline."
+   }
+  ],
+  "refused": []
+ }
+}

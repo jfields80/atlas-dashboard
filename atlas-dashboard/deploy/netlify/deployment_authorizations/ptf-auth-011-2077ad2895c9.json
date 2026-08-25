@@ -1,0 +1,145 @@
+{
+ "schema": "ptf-deployment-authorization/1.0",
+ "what_this_is": "Founder authorization to write ONE exact composed artifact to ONE production target. Every field under bindings is copied from the verified global deployment manifest and re-checked against the repository by verify_authorization; any disagreement refuses the deploy. Used once: DEPLOYED consumes it.",
+ "authorization_id": "ptf-auth-011-2077ad2895c9",
+ "authorized_by": "founder",
+ "authorization_source": "Work order PTF-ST-LOUIS-REGISTER-PUBLISH-011 (2026-08-24), STEP 8: 'This prompt explicitly authorizes a new deployment authorization ONLY IF: St. Louis publishes exactly 82 hotel profiles; existing five live market hotel pages remain semantically unchanged; St. Louis is the only newly participating market; release gates all pass; no measurement changes; no affiliate changes; no unexpected profile diffs; no route collisions; the new bundle is fully reproducible.' Every condition is measured and recorded in the note below. The same work order says 'Do not deploy yet' and 'STOP BEFORE PRODUCTION DEPLOYMENT', so this authorization is AUTHORIZED and UNCONSUMED: it permits one write of this exact artifact and performs none.",
+ "authorized_at": "2026-08-24T19:30:00+00:00",
+ "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+ "note": "Six-market production candidate. St. Louis joins as the sixth market with 82 founder-signed profiles; 333 -> 415. Each Step 8 condition, measured: (1) St. Louis publishes exactly 82 hotel routes under /pet-friendly-hotels/st-louis-mo/, with 82 distinct slugs, 82 distinct names and 82 distinct source URLs. (2) Against the LIVE bundle 70747f09fdfe (deploy 6a8c6de6fa99ff1f7bd5c7f5) this candidate ADDS 509 files, REMOVES none, and CHANGES three -- site/sitemap.xml plus two build-internal manifests that never ship. Zero existing hotel profiles differ, byte for byte. (3) St. Louis is the only market whose launch status moved; Indianapolis stays SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH (PTF-046), Cincinnati and Detroit-Ann Arbor stay NOT_SOURCE_READY. (4) All 27 required global gates PASS and all 7 per-market release contracts verify against their own authority. (5) measurement.json is unchanged and still disabled, provider_kind none. (6) 0 affiliate providers enrolled, 0 destinations active; St. Louis commits an explicitly empty affiliate shard. (7) 0 route collisions, 0 global shadowing, 0 canonical violations, 0 broken links. (8) The bundle reproduced identically from two different working trees; only the build-internal manifest differed, by the commit it records. Supersedes nothing: ptf-auth-012-70747f09fdfe is DEPLOYED and consumed, and is the deployment this one would replace.",
+ "source_commit": "ccf4e54a0f6fd746eb88721c7c5b2d18dd993905",
+ "manifest_source_commit": "ccf4e54a0f6fd746eb88721c7c5b2d18dd993905",
+ "binding_identity": "bundle_sha256",
+ "bundle_sha256": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
+ "production_context": "production",
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26,
+  "st-louis-mo": 82
+ },
+ "total_profiles": 415,
+ "total_html_pages": 2656,
+ "total_files": 2674,
+ "sitemap_route_count": 515,
+ "sitemap_sha256": "775a5ae55766bdf5cfaf07fd5e9b124e856bee40790798e79b47c4c4dc82e3ce",
+ "headers_source": "deploy/netlify/headers.production",
+ "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
+ "redirects_source": "deploy/netlify/redirects",
+ "redirects_sha256": "db33b892554509f8534667a1bf773cbce23b9b5371c17bf8da8d33a6ec331f8a",
+ "measurement_config_source": "deploy/netlify/measurement.json",
+ "measurement_config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604",
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "launch_participation_source": "deploy/netlify/launch_participation.json",
+ "launch_participation_sha256": "2ac7c804ba49eba80ad22f8ae7c8d77e02a3d39cb02ed475da763d7309282f30",
+ "founder_authorized_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "release_contracts": [
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "path": "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json",
+   "sha256": "9856a22ec4f8b4a87c1ede20cb387899a2a31d945c4503ea57940f02c7ae2d17"
+  },
+  {
+   "market_id": "columbus-oh",
+   "path": "deploy/netlify/release_contracts/columbus-oh.json",
+   "sha256": "b14f9f21a94ac09f7d658a94de17d770d58b54b398b1ade650f90481708091c2"
+  },
+  {
+   "market_id": "dayton-oh",
+   "path": "deploy/netlify/release_contracts/dayton-oh.json",
+   "sha256": "7462a2772c8fe09cf5365c2ec420a87e14c5f99727357ffd68618f154c25332b"
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "path": "deploy/netlify/release_contracts/milwaukee-wi.json",
+   "sha256": "320a9b05348f7dc55e02d899b77a9efe0760284eadfd77a9ef1b25c8907e5d73"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "path": "deploy/netlify/release_contracts/pittsburgh-pa.json",
+   "sha256": "074f99ee6c02618dbbfab88c88818a07428a54153b50b8833a260eae099d2eb9"
+  },
+  {
+   "market_id": "st-louis-mo",
+   "path": "deploy/netlify/release_contracts/st-louis-mo.json",
+   "sha256": "704801a45f58e06d0469341bc1c83917b0ed3377abaa40d05f35b1dc193bb031"
+  }
+ ],
+ "global_gate_count": 27,
+ "required_gates": [
+  "assembly.no_route_collisions",
+  "assembly.no_global_shadowing",
+  "assembly.anchor_supplies_global_shell",
+  "global.every_included_market_has_a_contract",
+  "global.every_included_market_contract_verifies",
+  "global.no_ineligible_market_included",
+  "global.market_profile_counts_match_contracts",
+  "global.live_routes_preserved",
+  "global.launch_participation_explicit",
+  "global.launch_participation_agrees_with_source",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.canonical_uniqueness",
+  "content.sitemap_is_the_site",
+  "content.sitemap_excludes_go",
+  "content.go_routes_unique",
+  "measurement.config_valid",
+  "measurement.snippet_once_per_content_page",
+  "measurement.no_external_script_when_disabled",
+  "affiliate.destinations_allowlisted",
+  "affiliate.identity_bound",
+  "affiliate.no_destination_without_enrolled_provider"
+ ],
+ "rollback_target": "6a8c6de6fa99ff1f7bd5c7f5",
+ "target_site": "pettripfinder-prod",
+ "target_domain": "https://pettripfinder.com",
+ "authorization_status": "DEPLOYED",
+ "status_history": [
+  {
+   "status": "PREPARED",
+   "at": "2026-08-24T19:30:00+00:00",
+   "note": "bound to the verified manifest"
+  },
+  {
+   "status": "AUTHORIZED",
+   "at": "2026-08-24T19:30:00+00:00",
+   "note": "founder authorization recorded from work order 011; every binding re-verified against the committed manifest and the repository before this move. Single-use and NOT consumed: 011 stops before the production write."
+  },
+  {
+   "status": "DEPLOYED",
+   "at": "2026-08-24T20:36:36Z",
+   "note": "deployed to production as 6a8cab48ead9d4293f477472; the authorization is consumed and may not be reused",
+   "deployment_id": "6a8cab48ead9d4293f477472",
+   "deployment_record_id": "ptf-deploy-011-6a8cab48ead9d4293f477472"
+  }
+ ]
+}

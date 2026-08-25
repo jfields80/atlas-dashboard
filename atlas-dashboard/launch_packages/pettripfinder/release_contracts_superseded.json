@@ -1,0 +1,23 @@
+{
+ "schema": "ptf-superseded-release-contracts/1.0",
+ "what_this_is": "Release contracts that must never gate a build again, by content hash. release_contracts.load_contract consults this, so a superseded document cannot be resurrected by copying it into the live directory. The originals are NOT edited: a historical artifact that quietly grows a new number is worse than a stale one.",
+ "contracts": [
+  {
+   "path": "launch_packages/pettripfinder/milwaukee_publication_037/release_contract.milwaukee-wi.prepared.json",
+   "contract_id": "pettripfinder-milwaukee-wi-release/1.0",
+   "market_id": "milwaukee-wi",
+   "sha256": "69ab403eb98f078a2410ada699fec8778f8cd360ed1d0c722973b8b311d75d71",
+   "superseded_by": "PTF-MILWAUKEE-FINAL-PREPUBLICATION-NORMALIZATION-041",
+   "why": "prepared against a 70-record pet-friendly authority. PTF-MILWAUKEE-FOUNDER-DECISION-040 admitted three more and one more refusal, so its expected_record_count, its expected_sha256 and its held-identity list all describe a market that no longer exists.",
+   "stale_assertions": {
+    "expected_record_count": 70,
+    "expected_sha256": "7a2d5dae819c63e936e07d79b982af4237c73c05b5e20673bea74f52a86e9374",
+    "held_identities": [
+     "hyatt regency milwaukee",
+     "saint kate the arts hotel"
+    ]
+   },
+   "replacement": "launch_packages/pettripfinder/milwaukee_normalization_041/release_contract.milwaukee-wi.prepared-041.json"
+  }
+ ]
+}

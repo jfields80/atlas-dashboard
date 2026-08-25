@@ -27,13 +27,15 @@ from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
 CENSUS_DIR = PACKAGE_DIR / "identity_census"
 
-MARKETS = ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh")
+MARKETS = ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
+           "cincinnati-oh", "louisville-ky")
 
 PARTITION_FILES = {
     "columbus-oh": "columbus_final_partition_001.json",
     "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
     "dayton-oh": "dayton_final_partition_001.json",
     "cincinnati-oh": "cincinnati_final_partition_001.json",
+    "louisville-ky": "louisville_final_partition_001.json",
 }
 
 POLICY_FILES = {

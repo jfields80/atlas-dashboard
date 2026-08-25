@@ -1,0 +1,485 @@
+{
+ "schema": "ptf-marriott-supersession/1.0",
+ "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+ "market": "milwaukee-wi",
+ "generated_at": "2026-08-20T17:41:43+00:00",
+ "live_confirmation": {
+  "subject": "The Trade, Autograph Collection",
+  "passed": true,
+  "policy_locator": "pet_policy_accordion_panel",
+  "block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b",
+  "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT"
+ },
+ "records_superseded": 3,
+ "update_kinds": {
+  "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek": "LOCATOR_AND_READER_SUPERSESSION",
+  "Sheraton Milwaukee Brookfield Hotel": "READER_ONLY_SUPERSESSION",
+  "The Trade, Autograph Collection": "LOCATOR_AND_READER_SUPERSESSION"
+ },
+ "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
+ "locator_contract": "ptf-policy-locator/1.0",
+ "provider_calls": 1,
+ "provider_calls_note": "one, for the live confirmation. Poplar Creek and Sheraton had sufficient persisted evidence and were not re-acquired",
+ "authority_written": false,
+ "published": false,
+ "founder_approved": false,
+ "records": [
+  {
+   "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+   "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "update_kind": "LOCATOR_AND_READER_SUPERSESSION",
+   "material_issue": "FEE_COMPONENT_MISSING",
+   "superseded": {
+    "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+    "run_id": "marriott-milwaukee-020",
+    "policy_locator": "static_html_walk",
+    "policy_block": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee",
+    "policy_block_sha256": "62e2bdf35cb7c55456d2c0a1ab3016f6488dcd00a8ac87f0a0ecce55e15a17c8",
+    "attempt_dir": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01",
+    "fields_asserted": [
+     "weight_limit"
+    ],
+    "fields_withheld": [
+     "pet_fee"
+    ],
+    "extraction_recomputed_with_current_reader": {
+     "pets_allowed": true
+    },
+    "withheld_recomputed_with_current_reader": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "provider": "brightdata_web_unlocker",
+    "identity_confirmed": true
+   },
+   "current": {
+    "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "run_id": "marriott-milwaukee-020",
+    "evidence_source": "RELOCATED_IN_PERSISTED_020_DOCUMENT",
+    "derivation": "re-located inside the ALREADY PERSISTED 020 document by the corrected structural locator, evaluated offline. This changes the evidence subject and is a re-location, not a re-parse: the stored block came from the Web Unlocker's static walk and is a strict sub-span of the container the brand locator binds. No provider was called, and the offline evaluation reads text_content where a live walk would read innerText, so whitespace may differ from a future live capture even though the container is the same",
+    "policy_locator": "pet_policy_heading_parent",
+    "policy_block": "Pet Policy Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee.0-5 nights $75 5+ $150 Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+    "policy_block_sha256": "53b35ecf67fd0251d5e989ec893e8972e144a13975b84baf16fa3944a4080e9f",
+    "attempt_dir": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01",
+    "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "evidence": [
+     {
+      "quote": "Pets Welcome",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Maximum Pet Weight: 50.0lbs",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Maximum Number of Pets in Room: 2",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     }
+    ],
+    "non_inferences": [
+     "fee_scope: not stated by the Marriott template; unknown is absence",
+     "weight_limit.operator: 'Maximum' is not recorded as lt or lte; defaulting a comparison is a guest-visible error in both directions",
+     "weight_limit.scope: not stated; per_pet is not assumed",
+     "pet_fee: the surface states more than one charge component and the schema carries one amount and one basis; the components are not summed and none is chosen",
+     "species: a generic 'Pets Welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    ],
+    "unrepresented_charge_components": [
+     {
+      "kind": "amount_not_represented",
+      "amount_minor": 15000,
+      "quote": "$150",
+      "note": "the block states this amount and no charge this reader produced carries it"
+     }
+    ]
+   },
+   "fields_added": [
+    "pet_count_limit",
+    "pet_count_scope",
+    "pets_allowed"
+   ],
+   "fields_removed": [],
+   "fields_withheld_now": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "block_changed": true,
+   "identity_unchanged": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT",
+   "lineage": [
+    {
+     "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+     "event": "observed",
+     "detail": "acquired on the registered Marriott route; the reading came from the block the locator of the day selected",
+     "policy_locator": "static_html_walk",
+     "policy_block_sha256": "62e2bdf35cb7c55456d2c0a1ab3016f6488dcd00a8ac87f0a0ecce55e15a17c8"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021",
+     "event": "locator_defect_proved",
+     "detail": "Marriott serves two templates and the locator list saw one; the accordion pages fell through to the generic walk",
+     "policy_locator": "",
+     "policy_block_sha256": ""
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "corrected_locator_confirmed_live",
+     "detail": "a fresh capture of The Trade, Autograph Collection bound the accordion container through the live walk",
+     "policy_locator": "pet_policy_accordion_panel",
+     "policy_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "superseded",
+     "detail": "current-state observation replaced under LOCATOR_AND_READER_SUPERSESSION",
+     "policy_locator": "pet_policy_heading_parent",
+     "policy_block_sha256": "53b35ecf67fd0251d5e989ec893e8972e144a13975b84baf16fa3944a4080e9f"
+    }
+   ]
+  },
+  {
+   "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
+   "identity_key": "sheraton milwaukee brookfield hotel",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "update_kind": "READER_ONLY_SUPERSESSION",
+   "material_issue": "FEE_COMPONENT_MISSING",
+   "superseded": {
+    "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+    "run_id": "marriott-milwaukee-020",
+    "policy_locator": "pet_policy_heading_parent",
+    "policy_block": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+    "policy_block_sha256": "ecc66a56daae4a8730bdb4e6d154e8e52f85f055fe5c945f2a8f93b5a107d000",
+    "attempt_dir": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02",
+    "fields_asserted": [
+     "fee_basis",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee"
+    ],
+    "fields_withheld": [],
+    "extraction_recomputed_with_current_reader": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "withheld_recomputed_with_current_reader": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "provider": "brightdata_browser",
+    "identity_confirmed": true
+   },
+   "current": {
+    "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "run_id": "marriott-milwaukee-020",
+    "evidence_source": "PERSISTED_020_BLOCK_UNCHANGED",
+    "derivation": "the persisted block, unchanged. This is a re-parse and not a re-location: the corrected locator would select the same container, and relocating merely because a new locator exists would move what the record is about for no reason",
+    "policy_locator": "pet_policy_heading_parent",
+    "policy_block": "Pet Policy Pets Welcome $75 per pet (dogs, fish, or birds) Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+    "policy_block_sha256": "ecc66a56daae4a8730bdb4e6d154e8e52f85f055fe5c945f2a8f93b5a107d000",
+    "attempt_dir": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02",
+    "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "extraction": {
+     "pets_allowed": true,
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "evidence": [
+     {
+      "quote": "Pets Welcome",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Maximum Number of Pets in Room: 2",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     }
+    ],
+    "non_inferences": [
+     "fee_scope: not stated by the Marriott template; unknown is absence",
+     "weight_limit.operator: 'Maximum' is not recorded as lt or lte; defaulting a comparison is a guest-visible error in both directions",
+     "weight_limit.scope: not stated; per_pet is not assumed",
+     "pet_fee: the surface states more than one charge component and the schema carries one amount and one basis; the components are not summed and none is chosen",
+     "species: a generic 'Pets Welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    ],
+    "unrepresented_charge_components": [
+     {
+      "kind": "amount_not_represented",
+      "amount_minor": 7500,
+      "quote": "$75",
+      "note": "the block states this amount and no charge this reader produced carries it"
+     }
+    ]
+   },
+   "fields_added": [
+    "pet_count_scope",
+    "pets_allowed"
+   ],
+   "fields_removed": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_withheld_now": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "block_changed": false,
+   "identity_unchanged": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT",
+   "lineage": [
+    {
+     "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+     "event": "observed",
+     "detail": "acquired on the registered Marriott route; the reading came from the block the locator of the day selected",
+     "policy_locator": "pet_policy_heading_parent",
+     "policy_block_sha256": "ecc66a56daae4a8730bdb4e6d154e8e52f85f055fe5c945f2a8f93b5a107d000"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021",
+     "event": "locator_defect_proved",
+     "detail": "Marriott serves two templates and the locator list saw one; the accordion pages fell through to the generic walk",
+     "policy_locator": "",
+     "policy_block_sha256": ""
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "corrected_locator_confirmed_live",
+     "detail": "a fresh capture of The Trade, Autograph Collection bound the accordion container through the live walk",
+     "policy_locator": "pet_policy_accordion_panel",
+     "policy_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "superseded",
+     "detail": "current-state observation replaced under READER_ONLY_SUPERSESSION",
+     "policy_locator": "pet_policy_heading_parent",
+     "policy_block_sha256": "ecc66a56daae4a8730bdb4e6d154e8e52f85f055fe5c945f2a8f93b5a107d000"
+    }
+   ]
+  },
+  {
+   "canonical_name": "The Trade, Autograph Collection",
+   "identity_key": "the trade autograph collection",
+   "market_id": "milwaukee-wi",
+   "brand": "MARRIOTT",
+   "update_kind": "LOCATOR_AND_READER_SUPERSESSION",
+   "material_issue": "FEE_UNDERSTATED",
+   "superseded": {
+    "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+    "run_id": "marriott-milwaukee-020",
+    "policy_locator": "generic_signal_walk",
+    "policy_block": "Yes, pets are welcome at The Trade, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. A non-refundable pet fee of $125.00 per stay applies.",
+    "policy_block_sha256": "45efbb5739a017bf98e7672968d9ec9b0605220b40e6df16f16e908fa8effcee",
+    "attempt_dir": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-trade-autograph-collection/attempt-02",
+    "fields_asserted": [
+     "fee_basis",
+     "fee_currency",
+     "pet_count_limit",
+     "pet_fee",
+     "weight_limit"
+    ],
+    "fields_withheld": [],
+    "extraction_recomputed_with_current_reader": {
+     "pet_fee": 12500,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay"
+    },
+    "withheld_recomputed_with_current_reader": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "provider": "brightdata_browser",
+    "identity_confirmed": true
+   },
+   "current": {
+    "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+    "run_id": "marriott-closure-022",
+    "evidence_source": "FRESH_022_LIVE_CAPTURE",
+    "derivation": "captured live under the 021 locator contract and selected in the page by the accordion locator; the block and its locator record are persisted and replay byte-identically",
+    "policy_locator": "pet_policy_accordion_panel",
+    "policy_block": "Pet Policy Pets Welcome. Pet deposit starts at $125 (may increase for suites) + $20 daily pet fee. Non-Refundable Pet Fee Per Stay: $125.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+    "policy_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b",
+    "attempt_dir": "data/acquisition/marriott-closure-022/marriott-closure-022/the-trade-autograph-collection/attempt-01",
+    "reader_commit": "deb68cef0c931720c73936b218c8f8c81ac36a47",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room"
+    },
+    "withheld": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "evidence": [
+     {
+      "quote": "Pets Welcome",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Maximum Pet Weight: 100.0lbs",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Maximum Number of Pets in Room: 2",
+      "location": "policy-block.txt",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     }
+    ],
+    "non_inferences": [
+     "fee_scope: not stated by the Marriott template; unknown is absence",
+     "weight_limit.operator: 'Maximum' is not recorded as lt or lte; defaulting a comparison is a guest-visible error in both directions",
+     "weight_limit.scope: not stated; per_pet is not assumed",
+     "pet_fee: the surface states more than one charge component and the schema carries one amount and one basis; the components are not summed and none is chosen",
+     "species: a generic 'Pets Welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+    ],
+    "unrepresented_charge_components": [
+     {
+      "kind": "amount_not_represented",
+      "amount_minor": 2000,
+      "quote": "$20",
+      "note": "the block states this amount and no charge this reader produced carries it"
+     },
+     {
+      "kind": "recurring_charge_not_represented",
+      "amount_minor": null,
+      "quote": "Pet deposit starts at $125 (may increase for suites) + $20 daily pet fee.",
+      "note": "the block states a recurring charge and every charge read from it is one-off; a per-stay figure alone understates what a stay costs"
+     },
+     {
+      "kind": "deposit_not_represented",
+      "amount_minor": null,
+      "quote": "Pet deposit starts at $125 (may increase for suites) + $20 daily pet fee.",
+      "note": "the block states a deposit and no charge read from it is labelled one; a deposit is not a fee"
+     }
+    ]
+   },
+   "fields_added": [
+    "pet_count_scope",
+    "pets_allowed"
+   ],
+   "fields_removed": [
+    "fee_basis",
+    "fee_currency",
+    "pet_fee"
+   ],
+   "fields_withheld_now": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "block_changed": true,
+   "identity_unchanged": true,
+   "published": false,
+   "founder_approved": false,
+   "review_status": "HELD_SCHEMA_CANNOT_REPRESENT",
+   "lineage": [
+    {
+     "work_order": "PTF-MARRIOTT-ACQUISITION-DECISION-020",
+     "event": "observed",
+     "detail": "acquired on the registered Marriott route; the reading came from the block the locator of the day selected",
+     "policy_locator": "generic_signal_walk",
+     "policy_block_sha256": "45efbb5739a017bf98e7672968d9ec9b0605220b40e6df16f16e908fa8effcee"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-ACCORDION-LOCATOR-HARDENING-021",
+     "event": "locator_defect_proved",
+     "detail": "Marriott serves two templates and the locator list saw one; the accordion pages fell through to the generic walk",
+     "policy_locator": "",
+     "policy_block_sha256": ""
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "corrected_locator_confirmed_live",
+     "detail": "a fresh capture of The Trade, Autograph Collection bound the accordion container through the live walk",
+     "policy_locator": "pet_policy_accordion_panel",
+     "policy_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b"
+    },
+    {
+     "work_order": "PTF-MARRIOTT-OBSERVATION-CLOSURE-022",
+     "event": "superseded",
+     "detail": "current-state observation replaced under LOCATOR_AND_READER_SUPERSESSION",
+     "policy_locator": "pet_policy_accordion_panel",
+     "policy_block_sha256": "2abad664d0abd0e0000551d5017c90c1a6a263d4ee50ab0e877ca7593f1f6e1b"
+    }
+   ]
+  }
+ ],
+ "differential": {
+  "expected_rows": [
+   "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+   "Sheraton Milwaukee Brookfield Hotel",
+   "The Trade, Autograph Collection"
+  ],
+  "rows_that_differ": [
+   "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+   "Sheraton Milwaukee Brookfield Hotel",
+   "The Trade, Autograph Collection"
+  ],
+  "unexpected_rows": [],
+  "clean": true,
+  "identity_unchanged": true,
+  "publication_unchanged": true,
+  "founder_approval_unchanged": true,
+  "marriott_rows_in_store": 11,
+  "superseded_rows_present_in_store": [],
+  "store_rows_before": 58,
+  "store_rows_after_regeneration": 58,
+  "store_regeneration_is_a_no_op": true,
+  "why": "the current-state store projects the milwaukee-router-001 journal only; all three of these properties were acquired by marriott-milwaukee-020, so the store holds no row for them and regenerating it is a no-op. Integrating the 020 run into the store would add seventeen rows, fourteen of them unexamined by this work order, and is a separate work order",
+  "fourth_marriott_record_changed": false
+ }
+}

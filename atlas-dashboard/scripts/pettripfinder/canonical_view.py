@@ -466,7 +466,7 @@ def build(facts_entry: Optional[Mapping], *, market_id: str = "") -> CanonicalVi
     # The version is read from the record rather than sniffed from its shape,
     # because a guess about which schema a record speaks is exactly the kind of
     # inference this phase exists to remove.
-    if str(entry.get("schema_version") or "") == enums.POLICY_SCHEMA_VERSION:
+    if enums.is_canonical_policy_schema(entry.get("schema_version")):
         canonical = entry.get("facts") or {}
         withheld = entry.get("withheld_fields") or {}
         for_classification = dict(canonical)
@@ -627,7 +627,7 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
     """
     entry = entry or {}
     facts = entry.get("facts") or {}
-    if str(entry.get("schema_version") or "") != enums.POLICY_SCHEMA_VERSION:
+    if not enums.is_canonical_policy_schema(entry.get("schema_version")):
         return dict(facts)
 
     out: Dict[str, Any] = {}
@@ -774,9 +774,12 @@ def display_facts(entry: Optional[Mapping]) -> Dict[str, Any]:
     for charge in facts.get("other_charges") or ():
         if not isinstance(charge, Mapping):
             continue
-        if charge.get("kind") == enums.CHARGE_CLEANING_FEE:
+        if charge.get("kind") in (enums.CHARGE_CLEANING_FEE,
+                                  enums.CHARGE_SANITATION_FEE):
             amount = _display_money(charge)
-            if amount:
+            if charge.get("conditional") is True and charge.get("trigger"):
+                out["cleaning_fee_condition"] = str(charge["trigger"])
+            elif amount:
                 out["cleaning_fee"] = amount
             if charge.get("conditional") is True and charge.get("trigger"):
                 out["cleaning_fee_condition"] = str(charge["trigger"])

@@ -1,0 +1,319 @@
+{
+  "schema": "ptf-louisville-pass1-founder-review-packet/1.0",
+  "work_order": "PTF-LOUISVILLE-ATTENDED-CAPTURE-PASS1-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-16",
+  "note": "D001-D006 recorded verbatim. Hotel Genevieve has no founder policy decision. Pass 1 authority is not applied. No production policy file. No publish, merge, or deploy.",
+  "founder_approvals_written": false,
+  "authority_applied": false,
+  "merged": false,
+  "deployed": false,
+  "decision_count": 6,
+  "rows": [
+    {
+      "decision_id": "LVL-P1-001",
+      "hotel": "21c Museum Hotel Louisville",
+      "identity_key": "21c museum hotel louisville",
+      "url": "https://www.21cmuseumhotels.com/louisville/",
+      "final_url": "https://21cmuseumhotels.com/louisville/faq/",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Pets are always welcome at 21c. The pet fee is $40 and a pet waiver form must be completed and signed at check-in."
+      ],
+      "artifact_sha256": "078fbfd16cd489e1fc3c2ab67f9f12b4feda21f3103001778b3db811b03cebd0",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true
+      },
+      "withheld_fields": {
+        "species": "SOURCE_AMBIGUOUS: page says pets, not dogs or cats",
+        "pet_fee.basis": "SOURCE_AMBIGUOUS: $40 stated without stay/night basis",
+        "pet_fee.scope": "SOURCE_AMBIGUOUS: $40 stated without per-pet/per-room scope"
+      },
+      "ambiguity_or_contradiction": "Waiver required at check-in. Fee amount $40 is stated but not structured.",
+      "recommended_founder_decision": "HOLD_PARTIAL_AFFIRMATIVE",
+      "outcome": "AFFIRMATIVE_PARTIAL",
+      "founder_decision_id": "D001",
+      "founder_decision": "HOLD_PARTIAL_AFFIRMATIVE",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    },
+    {
+      "decision_id": "LVL-P1-002",
+      "hotel": "Bellwether Hotel",
+      "identity_key": "bellwether hotel",
+      "url": "https://www.thebellwetherhotel.com/",
+      "final_url": "https://www.thebellwetherhotel.com/faqs",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "The Bellwether Hotel allows dogs only with the following restrictions: Dogs are only allowed in first floor rooms. We allow up to two dogs to stay as long as their combined weight is not over 50 pounds, or one dog not over 50 pounds. A $35 pet fee will be required at time of booking."
+      ],
+      "artifact_sha256": "f22f9436153498c752fa5ec655e97deab0551835568d5ad917a3ccbc5af8667d",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog"
+        ],
+        "pet_count_limit": 2,
+        "combined_weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "scope": "combined"
+        },
+        "pet_room_restriction": "Dogs are only allowed in first floor rooms.",
+        "unattended_policy": "Pets must not be left unattended in room, or anywhere else on hotel property unless crated.",
+        "reservation_requirement": "Please notify us at time of booking if a dog will be staying."
+      },
+      "withheld_fields": {
+        "pet_fee.basis": "SOURCE_AMBIGUOUS: $35 required at booking; payment timing is not fee basis",
+        "pet_fee.scope": "SOURCE_AMBIGUOUS: $35 pet fee does not say per pet or per stay"
+      },
+      "ambiguity_or_contradiction": "ESA not permitted. $200 cleaning if pet evidence in second-floor rooms is a conditional other charge, not a general restriction.",
+      "recommended_founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "founder_decision_id": "D002",
+      "founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    },
+    {
+      "decision_id": "LVL-P1-003",
+      "hotel": "Econo Lodge Downtown",
+      "identity_key": "econo lodge downtown",
+      "url": "http://www.econodowntown.com/",
+      "final_url": "http://www.econodowntown.com/louisville-ky-hotel-amenities.html",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "No Pets Allowed"
+      ],
+      "artifact_sha256": "5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Amenities list states No Pets Allowed.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE",
+      "founder_decision_id": "D003",
+      "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    },
+    {
+      "decision_id": "LVL-P1-004",
+      "hotel": "Galt House Hotel",
+      "identity_key": "galt house hotel",
+      "url": "https://www.galthouse.com/",
+      "final_url": "https://galthouse.com/hotel-faq/",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "The hotel allows up to two dogs (45 lbs or less) per room for a fee of $50 per dog. You must request to have your room cleaned and accompany your dog while the room is being cleaned."
+      ],
+      "artifact_sha256": "4998d9e65d934ff0898376dd07086a1652d68f42b7018507ca4197b0de5af355",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog"
+        ],
+        "pet_count_limit": 2,
+        "pet_count_scope": "per_room",
+        "weight_limit": {
+          "value": 45,
+          "unit": "lb",
+          "scope": "per_pet",
+          "operator": "lte"
+        },
+        "pet_fee": {
+          "amount_cents": 5000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "scope": "per_pet"
+        },
+        "unattended_policy": "You must request to have your room cleaned and accompany your dog while the room is being cleaned."
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Rooms page also states Cost for stay: $50 (DOGS ONLY). Fee treated as per stay per dog.",
+      "recommended_founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "outcome": "AFFIRMATIVE_STRUCTURED",
+      "founder_decision_id": "D004",
+      "founder_decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    },
+    {
+      "decision_id": "LVL-P1-005",
+      "hotel": "Hotel Genevieve",
+      "identity_key": "hotel genevieve",
+      "url": "https://www.bunkhousehotels.com/hotel-genevieve",
+      "final_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sdfkk-hotel-genevieve",
+      "identity_binding": "NOT_BOUND",
+      "exact_quotes": [],
+      "artifact_sha256": "",
+      "source_grade": "",
+      "proposed_schema_1_2_facts": {},
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "bunkhousehotels.com/hotel-genevieve now redirects to Hyatt JDV sdfkk. Automated HTTPS GET received 403 on Bunkhouse and Hyatt E6020 on the policies page. No publication-grade artifact retained. Third-party summaries were not used.",
+      "recommended_founder_decision": "HOLD_ACCESS_BLOCKED",
+      "outcome": "ACCESS_BLOCKED",
+      "founder_decision_id": null,
+      "founder_decision": "NO_FOUNDER_POLICY_DECISION",
+      "founder_decision_recorded": false,
+      "authority_applied": false,
+      "recommended_next_state": "AWAITING_ATTENDED_CAPTURE",
+      "lane": "HYATT_MANUAL"
+    },
+    {
+      "decision_id": "LVL-P1-006",
+      "hotel": "Hotel Louisville Downtown",
+      "identity_key": "hotel louisville downtown",
+      "url": "http://www.hotellouisville.org",
+      "final_url": "https://www.hotellouisville.org/rooms",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Is Hotel Louisville pet-friendly? No, only service animals are welcome at the property."
+      ],
+      "artifact_sha256": "6328503c741d0223c6ac8eed72fcd2da06215d210563e0813b10fcbeec8c3436",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "FAQ is on the public Hotel Louisville rooms page, not a mission-campus page. Service animals only. Not inferred from Wayside campus use. Hospital Hospitality House remains a separate non-census identity.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE",
+      "founder_decision_id": "D005",
+      "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    },
+    {
+      "decision_id": "LVL-P1-007",
+      "hotel": "The Brown Hotel",
+      "identity_key": "the brown hotel",
+      "url": "https://www.brownhotel.com/",
+      "final_url": "https://www.brownhotel.com/frequently-asked-questions",
+      "identity_binding": "BOUND",
+      "exact_quotes": [
+        "Pets not allowed (service animals are welcome, and are exempt from fees)."
+      ],
+      "artifact_sha256": "aed7d22e45f3583960e00eec849c3608fe404abd0201ae5332aef7426ff3bd1e",
+      "source_grade": "PT1_FIRST_PARTY",
+      "proposed_schema_1_2_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": {},
+      "ambiguity_or_contradiction": "Explicit Pets not allowed. Service-animal access is not pet-friendly.",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "NEGATIVE",
+      "founder_decision_id": "D006",
+      "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "founder_decision_recorded": true,
+      "authority_applied": false
+    }
+  ],
+  "applied_work_order": "PTF-LOUISVILLE-PASS1-FOUNDER-DECISIONS-001",
+  "founder_decisions_recorded": true,
+  "authority_applied_for": [],
+  "authority_not_applied_for": [
+    "D001",
+    "D002",
+    "D003",
+    "D004",
+    "D005",
+    "D006"
+  ],
+  "recorded_decision_count": 6,
+  "recorded_summary": {
+    "decisions_recorded": 6,
+    "approvals_positive": 2,
+    "verified_no_pets": 3,
+    "holds": 1,
+    "no_decision_blocked_rows": 1
+  },
+  "founder_decisions": [
+    {
+      "decision_id": "D001",
+      "packet_id": "LVL-P1-001",
+      "identity_key": "21c museum hotel louisville",
+      "hotel": "21c Museum Hotel Louisville",
+      "decision": "HOLD_PARTIAL_AFFIRMATIVE",
+      "class": "HOLD",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nHOLD_PARTIAL_AFFIRMATIVE\n\nPreserve the captured artifact, exact quotes, identity binding, and captured partial facts.\nDo NOT publish yet.\nKeep the property on the unresolved queue with the exact next action required to close the missing policy fields/evidence."
+    },
+    {
+      "decision_id": "D002",
+      "packet_id": "LVL-P1-002",
+      "identity_key": "bellwether hotel",
+      "hotel": "Bellwether Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nAPPROVE_AFFIRMATIVE_STRUCTURED\n\nApprove only the source-supported facts contained in the founder review packet.\n\nStanding rules apply:\n\nSOURCE SILENCE = ABSENCE.\n\nDo not infer:\n\n- species\n- fee basis\n- fee scope\n- refundability\n- pet count\n- weight\n- restrictions\n\nunless explicitly supported by the captured first-party artifact."
+    },
+    {
+      "decision_id": "D003",
+      "packet_id": "LVL-P1-003",
+      "identity_key": "econo lodge downtown",
+      "hotel": "Econo Lodge Downtown",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "class": "VERIFIED_NO_PETS",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nAPPROVE_VERIFIED_NO_PETS\n\nThe explicit first-party refusal wording is approved as VERIFIED_NO_PETS.\n\nService-animal access does not make the property pet-friendly.\n\nBind the exclusion to the captured property-specific artifact."
+    },
+    {
+      "decision_id": "D004",
+      "packet_id": "LVL-P1-004",
+      "identity_key": "galt house hotel",
+      "hotel": "Galt House Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nAPPROVE_AFFIRMATIVE_STRUCTURED\n\nApprove only the explicitly supported Schema 1.2 facts in the founder packet.\n\nSOURCE SILENCE = ABSENCE.\n\nNo unstated qualifier may be inferred or withheld merely because it is absent."
+    },
+    {
+      "decision_id": "D005",
+      "packet_id": "LVL-P1-006",
+      "identity_key": "hotel louisville downtown",
+      "hotel": "Hotel Louisville Downtown",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "class": "VERIFIED_NO_PETS",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nAPPROVE_VERIFIED_NO_PETS\n\nThe first-party public hotel-room policy is approved as applying to the public Hotel Louisville lodging operation.\n\nThe captured wording establishes that Hotel Louisville is not pet-friendly and only service animals are welcome.\n\nImportant:\n\n- this decision applies to the public transient hotel operation\n- do not generalize the policy to unrelated Wayside Christian Mission services\n- do not merge Hotel Louisville with the separate Hospital Hospitality House identity\n- service-animal access does not convert this to pet-friendly\n\nBind the exclusion to the captured hotel-page artifact."
+    },
+    {
+      "decision_id": "D006",
+      "packet_id": "LVL-P1-007",
+      "identity_key": "the brown hotel",
+      "hotel": "The Brown Hotel",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "class": "VERIFIED_NO_PETS",
+      "authority_applied": false,
+      "publish": false,
+      "verbatim": "DECISION:\n\nAPPROVE_VERIFIED_NO_PETS\n\nApprove the explicit first-party refusal wording as VERIFIED_NO_PETS.\n\nBind the exclusion to the property-specific artifact.\n\nService-animal access does not make the property pet-friendly."
+    }
+  ],
+  "no_founder_policy_decision": [
+    {
+      "identity_key": "hotel genevieve",
+      "hotel": "Hotel Genevieve",
+      "packet_id": "LVL-P1-005",
+      "founder_policy_decision": "NONE",
+      "decision_id": null,
+      "class": "NO_DECISION_BLOCKED",
+      "keep_unresolved": true,
+      "recommended_next_state": "AWAITING_ATTENDED_CAPTURE",
+      "lane": "HYATT_MANUAL",
+      "verbatim": "NO FOUNDER POLICY DECISION.\n\nThe property redirected into a Hyatt/JDV surface and the attended/automated attempt was blocked.\n\nNo third-party policy wording may be substituted.\n\nKeep unresolved.\n\nRecommended next state:\n\nAWAITING_ATTENDED_CAPTURE\n\nor the current canonical equivalent.\n\nPrepare it for the Hyatt/manual lane if appropriate."
+    }
+  ],
+  "publish": false
+}

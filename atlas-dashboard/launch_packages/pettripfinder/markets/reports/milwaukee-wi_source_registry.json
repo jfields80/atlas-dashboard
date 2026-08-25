@@ -1,0 +1,128 @@
+{
+ "schema": "ptf-milwaukee-source-registry/1.0",
+ "work_order": "PTF-MILWAUKEE-MARKET-FACTORY-001",
+ "market_id": "milwaukee-wi",
+ "as_of": "2026-08-17",
+ "count": 7,
+ "sources": [
+  {
+   "source_id": "visit_milwaukee",
+   "name": "VISIT Milwaukee listing inventory",
+   "organization": "VISIT Milwaukee (Greater Milwaukee Convention & Visitors Bureau)",
+   "source_type": "CVB",
+   "family": "CVB",
+   "url": "https://www.visitmilwaukee.org/places-to-stay/",
+   "geographic_coverage": "Milwaukee County and the surrounding visitor market, plus outlying Wisconsin destinations the bureau promotes",
+   "data_categories": [
+    "lodging"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Partner-based: it carries no Days Inn, Super 8, La Quinta, Motel 6, Red Roof, Extended Stay America or WoodSpring property, and it files Potawatomi Casino Hotel under Attractions rather than Sleep. Its listings also carry a small number of postal-code defects (Franklin 53152 for a 53132 address). Every one of its 1,552 listings was read and classified rather than trusting its Sleep landing page.",
+   "automated_access": "static_html"
+  },
+  {
+   "source_id": "visit_waukesha_pewaukee",
+   "name": "Visit Waukesha Pewaukee Where to Stay",
+   "organization": "Waukesha Pewaukee Convention and Visitors Bureau",
+   "source_type": "CVB",
+   "family": "CVB",
+   "url": "https://visitwaukesha.org/where-to-stay/",
+   "geographic_coverage": "Waukesha and Pewaukee",
+   "data_categories": [
+    "lodging"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Names and phone numbers only; the listing pages do not publish street addresses, which were taken from each property's own site.",
+   "automated_access": "static_html"
+  },
+  {
+   "source_id": "visit_brookfield",
+   "name": "Visit Brookfield hotels and accommodations directory",
+   "organization": "Visit Brookfield",
+   "source_type": "CVB",
+   "family": "CVB",
+   "url": "https://www.visitbrookfield.com/business-directory/categories/hotels-and-accommodations/",
+   "geographic_coverage": "Brookfield",
+   "data_categories": [
+    "lodging",
+    "official_url"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Eleven listings. One listing's name and its linked website disagree (AmericInn Brookfield linking a Sonesta URL), which is what surfaced that property's rebrand.",
+   "automated_access": "rendered_dom"
+  },
+  {
+   "source_id": "travel_wisconsin",
+   "name": "Travel Wisconsin statewide lodging registry",
+   "organization": "Wisconsin Department of Tourism",
+   "source_type": "STATE_TOURISM_REGISTRY",
+   "family": "REGISTRY",
+   "url": "https://www.travelwisconsin.com/stay/hotels-motels",
+   "geographic_coverage": "All of Wisconsin",
+   "data_categories": [
+    "lodging",
+    "address"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Carries stale entries alongside live ones -- ten of its Milwaukee-area listings are former identities of properties already in the census -- so an entry here was never accepted as current without a live first-party surface or an address match. It is nonetheless the only source that surfaced three real properties (Sonesta Milwaukee West Wauwatosa, Embassy Motel, American Motel). All 1,115 of its hotel-and-motel listings were read.",
+   "automated_access": "static_html"
+  },
+  {
+   "source_id": "wi_lodging_association",
+   "name": "Wisconsin Hotel & Lodging Association member directory",
+   "organization": "Wisconsin Hotel & Lodging Association",
+   "source_type": "TRADE_DIRECTORY",
+   "family": "DIRECTORY",
+   "url": "https://web.wisconsinlodging.org/Lodging",
+   "geographic_coverage": "All of Wisconsin",
+   "data_categories": [
+    "lodging",
+    "address",
+    "phone"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Membership-based, so absence proves nothing. It is the only source that surfaced several independent Milwaukee-area properties (Forty Winks Inn, Price Pointe Inn, Hideaway Inn, Golden Key Motel, Victoria Motel, Biller Hotel, The Marc Hotel).",
+   "automated_access": "static_html"
+  },
+  {
+   "source_id": "chain_locator",
+   "name": "Hotel brand property indexes",
+   "organization": "Hilton, Marriott, IHG, Hyatt, Choice, Wyndham, Best Western, Extended Stay America, Red Roof, Motel 6/Studio 6, Drury, WoodSpring, Sonesta, Cobblestone, Wildwood Lodge",
+   "source_type": "BRAND_LOCATOR",
+   "family": "CHAIN",
+   "url": "https://www.hilton.com/en/locations/usa/wisconsin/",
+   "geographic_coverage": "Milwaukee market municipalities, swept brand by brand",
+   "data_categories": [
+    "lodging",
+    "address",
+    "official_url",
+    "property_code"
+   ],
+   "access_date": "2026-08-17",
+   "status": "authority_for_identity",
+   "limitations": "Choice Hotels' property pages returned 403 from its edge WAF for the whole session, so its identities were read from its own city index pages instead and five of its Milwaukee-area property codes were reconciled through other sources. Wyndham's sitemap still carries nine Milwaukee-area slugs whose property pages no longer resolve; two of those were resolved to live properties by street address and the rest are recorded as unresolved, never as closed.",
+   "automated_access": "rendered_dom"
+  },
+  {
+   "source_id": "secondary_discovery",
+   "name": "Secondary discovery sweep",
+   "organization": "various first-party property sites",
+   "source_type": "SECONDARY",
+   "family": "DIRECTORY",
+   "url": "",
+   "geographic_coverage": "Milwaukee downtown independents",
+   "data_categories": [
+    "lodging"
+   ],
+   "access_date": "2026-08-17",
+   "status": "discovery_only",
+   "limitations": "Used only to surface candidates for category review; no census identity rests on it alone.",
+   "automated_access": "static_html"
+  }
+ ]
+}

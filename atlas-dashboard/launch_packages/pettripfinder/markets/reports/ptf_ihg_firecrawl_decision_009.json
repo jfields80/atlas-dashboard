@@ -1,0 +1,517 @@
+{
+ "schema": "ptf-brand-provider-decision/1.0",
+ "work_order": "PTF-IHG-FIRECRAWL-DECISION-009",
+ "market_id": "milwaukee-wi",
+ "brand": "IHG",
+ "note": "Firecrawl measured alone against the full 5-property Milwaukee IHG cohort, through router.route_property with an in-memory registry override. routes.json was never written. The override construction is imported from the Wyndham decision module, not copied, so this cannot be a gentler test than the two that preceded it.",
+ "prior_expectations": {
+  "incumbent_record": "4/5 fetched at 100% precision and 62% recall -- the weakest recall of any routed brand -- at $2.71 for five properties",
+  "known_hazards": [
+   "IHG carries no petsAllowed in JSON-LD; the value lives in inline JavaScript, so a rendered fetch only helps if the policy paints into the DOM",
+   "the hoteldetail page froze a CDP session on a full outerHTML read in PTF-CLEVELAND-PASS-4; the policy had to be reached through [class*='faq'] innerHTML"
+  ]
+ },
+ "method": {
+  "provider": "the registered firecrawl provider, unmodified",
+  "profile": "the shared ROUTED_PROFILE, unmodified",
+  "reader": "ihg",
+  "max_attempts": 3,
+  "fallback_available": false,
+  "gates": "identity, policy surface, publication grade, failure taxonomy -- unchanged"
+ },
+ "thresholds_fixed_before_the_run": {
+  "cohort": 5,
+  "approve_min_publication_grade_rate": 0.8,
+  "limitation_min_publication_grade_rate": 0.4,
+  "approve_also_requires": "no systemic identity or policy-surface defect"
+ },
+ "totals": {
+  "properties_tested": 5,
+  "acquisition_success": 5,
+  "acquisition_success_rate": 1.0,
+  "identity_confirmed": 5,
+  "identity_confirmed_rate": 1.0,
+  "policy_surface_success": 5,
+  "policy_surface_rate": 1.0,
+  "publication_grade": 5,
+  "publication_grade_rate": 1.0,
+  "avg_firecrawl_attempts": 1,
+  "would_qualify_for_fallback": 0
+ },
+ "failures": {
+  "by_class": {},
+  "by_failure": {},
+  "eligible_for_escalation": 0
+ },
+ "defect_audit": {
+  "per_property": [
+   {
+    "identity_key": "holiday inn express milwaukee west medical center",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [],
+    "fields": [
+     "pet_count_limit",
+     "pets_allowed"
+    ],
+    "field_count": 2
+   },
+   {
+    "identity_key": "holiday inn milwaukee riverfront",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [],
+    "fields": [
+     "pet_count_limit",
+     "pets_allowed",
+     "species_allowed"
+    ],
+    "field_count": 3
+   },
+   {
+    "identity_key": "holiday inn pewaukee milwaukee west",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [],
+    "fields": [
+     "pets_allowed"
+    ],
+    "field_count": 1
+   },
+   {
+    "identity_key": "kimpton journeyman hotel",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [
+     {
+      "field": "pet_count_limit",
+      "issue": "an allowance with no stated pet count"
+     }
+    ],
+    "fields": [
+     "pet_deposit",
+     "pets_allowed"
+    ],
+    "field_count": 2
+   },
+   {
+    "identity_key": "staybridge suites milwaukee airport south",
+    "brand_generic_text": false,
+    "landed_off_the_property_page": [],
+    "incomplete_fact_pairs": [
+     {
+      "field": "pet_fee",
+      "issue": "a fee amount with no basis"
+     },
+     {
+      "field": "weight_limit",
+      "issue": "a weight limit with no stated scope"
+     }
+    ],
+    "fields": [
+     "fee_currency",
+     "pet_count_limit",
+     "pet_count_scope",
+     "pet_fee",
+     "pets_allowed",
+     "species_allowed",
+     "weight_limit"
+    ],
+    "field_count": 7
+   }
+  ],
+  "properties_with_brand_generic_text": 0,
+  "properties_landing_off_the_property_page": 0,
+  "properties_with_incomplete_fact_pairs": 2,
+  "properties_sharing_identical_policy_text": {},
+  "distinct_extractions": 5,
+  "systemic_defects": [],
+  "verdict": "NO_SYSTEMIC_DEFECT",
+  "note": "incomplete fact pairs are recorded but are NOT counted as failures: a source that states a fee and no basis has been read correctly, and flattening it to obtain a pass is the thing this audit exists to prevent."
+ },
+ "tiered_fee_audit": {
+  "properties_with_tiered_fee_language": 2,
+  "fee_correctly_withheld": [
+   {
+    "identity_key": "holiday inn express milwaukee west medical center",
+    "tier_language": "for a 1 to 2 night",
+    "published_amount_minor": null,
+    "fee_basis_present": false
+   }
+  ],
+  "fee_flattened_to_one_tier": [
+   {
+    "identity_key": "staybridge suites milwaukee airport south",
+    "tier_language": "for stays 1",
+    "published_amount_minor": 5000,
+    "fee_basis_present": false,
+    "issue": "a tiered fee was reduced to a single amount; the source states more than one price"
+   }
+  ],
+  "verdict": "TIERED_FEE_FLATTENED",
+  "provider_independent": "this is a READER behaviour, not a provider one. The same text through the incumbent lane would produce the same record, so it does not bear on which provider carries IHG -- but it does bear on whether these records may be published.",
+  "consequence": "any property listed under fee_flattened_to_one_tier is HELD from publication pending a reader fix. It is not counted against the provider."
+ },
+ "decision": "APPROVE",
+ "decision_reasons": [
+  "publication-grade rate 100% clears the 80% bar with no systemic identity or policy-surface defect"
+ ],
+ "cost": {
+  "firecrawl_credits": 5,
+  "bright_data_usd": 0.0,
+  "bright_data_attempts": 0
+ },
+ "routes_changed": false,
+ "authority_written": false,
+ "policies_published": false,
+ "total_elapsed_seconds": 0.2,
+ "properties": [
+  {
+   "identity_key": "holiday inn express milwaukee west medical center",
+   "property_name": "Holiday Inn Express Milwaukee-West Medical Center",
+   "url_attempted": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wauwatosa/mkeex/hoteldetail",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 17274,
+     "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wauwatosa/mkeex/hoteldetail",
+     "title": "Wauwatosa Hotel near Milwaukee | Holiday Inn Express Milwaukee-West Medical Center",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Holiday Inn Express Milwaukee-West Medical Center",
+      "address_on_page": "11111 West North Avenue",
+      "postal_code": "53226",
+      "phone_on_page": "1-414-7780333",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wauwatosa/mkeex/hoteldetail",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 338,
+    "locator": "static_html_walk",
+    "excerpt": "Pets are welcome at Holiday Inn Express Milwaukee-West Medical Center. Pet policy description. We welcome pets at a maximum weight of 40lbs up to 2 pets per rooms. There is a non refundable fee of 50.00 for a 1 to 2 night stay. For 3 to 5 nights the fee is 100.00, and 5 or more will be 150.00. To re"
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 13.9,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "holiday inn milwaukee riverfront",
+   "property_name": "Holiday Inn Milwaukee Riverfront",
+   "url_attempted": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkehi/hoteldetail",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 18615,
+     "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkehi/hoteldetail",
+     "title": "Hotel in Milwaukee | Holiday Inn® Milwaukee Riverfront",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Holiday Inn Milwaukee Riverfront",
+      "address_on_page": "4700 N. Port Washington Road",
+      "postal_code": "53212",
+      "phone_on_page": "1-414-9626040",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/milwaukee/mkehi/hoteldetail",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 274,
+    "locator": "static_html_walk",
+    "excerpt": "Pet policy description. Dogs are welcome to stay with a max weight of 50 lbs. There is a 75.00 dollar nonrefundable pet fee that will be charged per stay. Hotel has designated pet rooms and a max 2 pets per room. Pet fee per night: 75 USD Pet weight limit: 50 2 pets allowed"
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 11.5,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "holiday inn pewaukee milwaukee west",
+   "property_name": "Holiday Inn Pewaukee-Milwaukee West",
+   "url_attempted": "https://www.ihg.com/holidayinn/hotels/us/en/pewaukee/pkehi/hoteldetail",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 17949,
+     "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/pewaukee/pkehi/hoteldetail",
+     "title": "Pewaukee Hotel with Pool | Welcome to Holiday Inn Pewaukee-Milwaukee West",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Holiday Inn Pewaukee-Milwaukee West",
+      "address_on_page": "N14 W24140 Tower Place",
+      "postal_code": "53072",
+      "phone_on_page": "1-262-5066300",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/pewaukee/pkehi/hoteldetail",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 64,
+    "locator": "static_html_walk",
+    "excerpt": "No, pets are not allowed at Holiday Inn Pewaukee-Milwaukee West."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": false
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 12.2,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "kimpton journeyman hotel",
+   "property_name": "Kimpton Journeyman Hotel",
+   "url_attempted": "https://www.ihg.com/kimptonhotels/hotels/us/en/journeyman-hotel-milwaukee-wi/mketj/hoteldetail",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 22812,
+     "final_url": "https://www.ihg.com/kimptonhotels/hotels/us/en/journeyman-hotel-milwaukee-wi/mketj/hoteldetail",
+     "title": "Kimpton Journeyman Hotel in Downtown Milwaukee | Kimpton Hotel",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Kimpton Journeyman",
+      "address_on_page": "310 E. Chicago Street",
+      "postal_code": "53202",
+      "phone_on_page": "1-414-2913970",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.ihg.com/kimptonhotels/hotels/us/en/journeyman-hotel-milwaukee-wi/mketj/hoteldetail",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 270,
+    "locator": "static_html_walk",
+    "excerpt": "Pets are welcome at Kimpton Journeyman. Pet policy description. We invite you to bring your pet no matter their size, weight, or breed, all at no extra charge. If your pet fits through the door, we will welcome them in. Pet fee per night: 0 USD Pet damage deposit: 0 USD"
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 0
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 13.4,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "staybridge suites milwaukee airport south",
+   "property_name": "Staybridge Suites Milwaukee Airport South",
+   "url_attempted": "https://www.ihg.com/staybridge/hotels/us/en/franklin/mkefr/hoteldetail",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 20650,
+     "final_url": "https://www.ihg.com/staybridge/hotels/us/en/franklin/mkefr/hoteldetail",
+     "title": "Franklin, WI, Hotels | Staybridge Suites Milwaukee Airport South",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Staybridge Suites Milwaukee Airport South",
+      "address_on_page": "9575 South 27th Street",
+      "postal_code": "53132",
+      "phone_on_page": "1-414-7613800",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/franklin/mkefr/hoteldetail",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 378,
+    "locator": "static_html_walk",
+    "excerpt": "Pets are welcome at Staybridge Suites Milwaukee Airport South. There is a pet deposit per stay of 50 USD . Our Pet Policy: Dogs are allowed with a 50 USD nonrefundable fee, per pet, for stays 1 to 6 nights, 150 USD for stays over 7 nights. Two pets max per room, and must weigh less than 80 lbs. Pet "
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.9,
+   "credits": 1.0
+  }
+ ]
+}
