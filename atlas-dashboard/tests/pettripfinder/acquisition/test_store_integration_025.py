@@ -95,6 +95,7 @@ OTHER_MARKET_RUNS = {
     "st_louis_direct_http_001",   # PTF-ST-LOUIS-MARKET-001, zero-cost lane
     "st_louis_paid_002",          # PTF-ST-LOUIS-PAID-ACQUISITION-002
     "louisville_rebuild_002",     # PTF-LOUISVILLE-MARKET-REBUILD-002, paid pass
+    "louisville_expansion_003",   # PTF-LOUISVILLE-COVERAGE-EXPANSION-003
 }
 
 

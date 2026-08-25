@@ -31,8 +31,10 @@ routing coverage and then acquires nothing.
 
 from __future__ import annotations
 
+import json
 import re
 from collections import Counter, OrderedDict
+from pathlib import Path
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -181,6 +183,62 @@ def urls_claimed_more_than_once(entries: Sequence[Mapping]) -> "OrderedDict":
     shared = {url: sorted(keys) for url, keys in claims.items() if len(keys) > 1}
     return OrderedDict(sorted(shared.items(),
                               key=lambda kv: (-len(kv[1]), kv[0])))
+
+
+def apply_url_overlay(rows: List[Dict], overlay_path: str) -> Dict:
+    """Layer recovered URLs over a census IN MEMORY, and report what moved.
+
+    The census file on disk is the record of what discovery OBSERVED and is not
+    edited here: a URL recovered by re-reading a cached payload is a proposal,
+    and writing it into the census would make a derivation indistinguishable
+    from an observation.
+
+    A row whose URL a lane can actually fetch is never touched -- an overlay must
+    not displace something discovery found and a provider could read. A row whose
+    URL is a brand index, a city search or a third-party page is different: that
+    URL cannot answer this hotel's question at all, and seven Louisville
+    identities carry one OpenStreetMap tag pointing at a hotel in another city.
+    Replacing an unfetchable URL with a bound, corroborated property page loses
+    nothing, and both URLs are named in the report so the swap is reviewable.
+    """
+    applied: List[Dict] = []
+    if not overlay_path:
+        return OrderedDict((("overlay", ""), ("applied", 0), ("rows", applied)))
+    document = json.loads(Path(overlay_path).read_text(encoding="utf-8"))
+    proposed = {r["identity_key"]: r for r in (document.get("recoveries") or ())}
+    displaced = 0
+    for row in rows:
+        candidate = proposed.get(row["identity_key"])
+        if candidate is None:
+            continue
+        current = normalize_source_url((row.get("official_url") or "").strip())
+        if current and classify_url_shape(current) in ROUTABLE_SHAPES:
+            continue
+        # The proposal's own shape, recomputed rather than trusted: an overlay
+        # is an input, and a report that says PROPERTY_PAGE next to a city
+        # search would otherwise route a lane at the city search.
+        offered = normalize_source_url(candidate.get("recovered_url", ""))
+        if classify_url_shape(offered) not in ROUTABLE_SHAPES:
+            continue
+        row["official_url"] = candidate["recovered_url"]
+        if current:
+            displaced += 1
+        applied.append(OrderedDict((
+            ("identity_key", row["identity_key"]),
+            ("url", candidate["recovered_url"]),
+            ("displaced_census_url", current),
+            ("binding", candidate.get("binding", "")),
+            ("evidence", candidate.get("evidence", {})),
+        )))
+    return OrderedDict((
+        ("overlay", Path(overlay_path).as_posix()),
+        ("contract", document.get("schema", "")),
+        ("offered", len(proposed)),
+        ("applied", len(applied)),
+        ("unroutable_census_urls_displaced", displaced),
+        ("note", "layered for routing only; the census file is unchanged"),
+        ("rows", applied),
+    ))
 
 
 def route_row(row: Mapping, registry_doc: Optional[Mapping] = None) -> "OrderedDict":

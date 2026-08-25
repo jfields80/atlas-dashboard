@@ -300,12 +300,18 @@ def main(argv=None) -> int:
     parser.add_argument("--pilot", required=True)
     parser.add_argument("--as-of", required=True)
     parser.add_argument("--work-order", required=True)
+    parser.add_argument("--url-overlay", default="",
+                        help="the ptf-census-url-recovery report the paid pass "
+                             "routed with; closure must route the same census "
+                             "the run did, or it reports a market as unrouted "
+                             "that the run reached")
     parser.add_argument("--partition-out", default="")
     parser.add_argument("--closure-out", default="")
     args = parser.parse_args(argv)
 
     census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
                         .read_text(encoding="utf-8"))
+    overlay = MR.apply_url_overlay(census["hotels"], args.url_overlay)
     observations = json.loads(Path(args.observations).read_text(encoding="utf-8"))
     pilot = json.loads(Path(args.pilot).read_text(encoding="utf-8"))
 
@@ -321,6 +327,7 @@ def main(argv=None) -> int:
     c_sha = CPB.write_json(closure_path, ledger)
 
     print("census identities   : %d" % census["count"])
+    print("url overlay applied : %d" % overlay["applied"])
     print("active eligible     : %d" % len(eligible))
     print("not active          : %d" % len(not_active))
     print("partition states    : %s" % dict(partition["final_state_counts"]))

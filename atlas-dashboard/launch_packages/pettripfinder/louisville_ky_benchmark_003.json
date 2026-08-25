@@ -1,0 +1,578 @@
+{
+  "schema": "ptf-market-benchmark/1.0",
+  "what_this_is": "The fresh-market benchmark for the first PetTripFinder market built on the post-Milwaukee generic path. Every figure is read from a committed artifact named in `artifacts`, so any of them can be re-derived and a later market can be compared to this one.",
+  "market_id": "louisville-ky",
+  "work_order": "PTF-ST-LOUIS-MARKET-001",
+  "as_of": "2026-08-24",
+  "elapsed": {
+    "total_hours": 0.84,
+    "basis": "machine execution time of the paid acquisition pass only (run_start to run_end); the offline phases around it are not separately clocked",
+    "phases": {
+      "phase_1_zero_cost_url_recovery": "70 NEEDS_OFFICIAL_URL rows examined against every URL-bearing artifact on disk; 15 official URLs recovered, all PROPERTY_PAGE",
+      "phase_2_needs_property_url": "8 rows examined; 2 displaced an unfetchable census URL with a bound, corroborated property page",
+      "phase_3_prior_001_reconciliation": "all 17 recoveries came from the preserved 001 census; the 001 reports and capture manifests added 0 URLs beyond it, and the OSM discovery cache added 0",
+      "phase_4_routing": "ROUTED 84 -> 101 (50.6% -> 60.8%) on an unchanged 166-identity census",
+      "phase_5_cohort": "34 = 13 newly routed + 13 deferred by the 002 cap + 8 retries of attempts that answered nothing; 67 settled identities excluded and named",
+      "phase_6_cost_plan": "projected 349-368 cents, fallback exposure 115 cents, vendor balance 494 cents against a 1000 cent authorisation; run cap set to 444",
+      "phase_7_acquisition": "0.84 hours, 29 of 34 attempted, stopped on the cap at 420 of 444 cents; 20 VALID",
+      "phase_8_closeout": "8 declined captures re-read at zero cost, three passes merged to 98 identities, 63 observations, 166 identities dispositioned once each, 63 candidates packaged"
+    }
+  },
+  "census": {
+    "discovery_candidates": 179,
+    "candidate_dispositions": {
+      "ABSORBED_INTO_ANOTHER_IDENTITY": 1,
+      "ADMITTED_TO_CENSUS": 166,
+      "IDENTITY_COLLISION_REQUIRES_REVIEW": 4,
+      "IDENTITY_NO_LOCALITY": 6,
+      "OUT_OF_MARKET_BOUNDARY_DECISION": 2
+    },
+    "census_identities": 166,
+    "identity_states": {
+      "IDENTITY_CONFIRMED": 166
+    },
+    "identity_confirmed_pct": 100.0,
+    "identity_key_collisions_held": 4
+  },
+  "active_eligibility": {
+    "active_eligible": 166,
+    "not_active": 0,
+    "eligibility_counts": {
+      "ACTIVE_ELIGIBLE": 166
+    }
+  },
+  "source_discovery": {
+    "official_url_present": 111,
+    "official_url_pct": 66.9,
+    "url_shapes": {
+      "BRAND_INDEX": 6,
+      "NO_URL": 55,
+      "PROPERTY_PAGE": 105
+    }
+  },
+  "routing": {
+    "url_overlay": {
+      "overlay": "launch_packages/pettripfinder/louisville_ky_url_recovery_003.json",
+      "contract": "ptf-census-url-recovery/1.0",
+      "offered": 17,
+      "applied": 17,
+      "unroutable_census_urls_displaced": 2,
+      "note": "layered for routing only; the census file is unchanged",
+      "rows": [
+        {
+          "identity_key": "21c museum hotel",
+          "url": "https://www.21cmuseumhotels.com/louisville/",
+          "displaced_census_url": "",
+          "binding": "PHONE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "21c museum hotel louisville",
+            "phone": "5022176300",
+            "postal_code": "40202",
+            "street_key": "700 w main st|40202",
+            "url": "https://www.21cmuseumhotels.com/louisville/"
+          }
+        },
+        {
+          "identity_key": "aloft louisville downtown",
+          "url": "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/overview/",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "aloft louisville downtown",
+            "phone": "5025831888",
+            "postal_code": "40202",
+            "street_key": "102 w main st|40202",
+            "url": "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/overview/"
+          }
+        },
+        {
+          "identity_key": "cambria hotel louisville downtown whiskey row",
+          "url": "https://www.choicehotels.com/kentucky/louisville/cambria-hotels/ky322",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "cambria hotel louisville downtown whiskey row",
+            "phone": "5025090042",
+            "postal_code": "40202",
+            "street_key": "120 s floyd st|40202",
+            "url": "https://www.choicehotels.com/kentucky/louisville/cambria-hotels/ky322"
+          }
+        },
+        {
+          "identity_key": "candlewood suites",
+          "url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfza/hoteldetail",
+          "displaced_census_url": "",
+          "binding": "PHONE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "candlewood suites louisville northeast",
+            "phone": "5029536153",
+            "postal_code": "40207",
+            "street_key": "1039 zorn ave|40207",
+            "url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfza/hoteldetail"
+          }
+        },
+        {
+          "identity_key": "comfort suites east",
+          "url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky418",
+          "displaced_census_url": "https://www.choicehotels.com/kentucky/shepherdsville/sleep-inn-hotels",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "comfort suites louisville east",
+            "phone": "",
+            "postal_code": "40299",
+            "street_key": "1850 resource way|40299",
+            "url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky418"
+          }
+        },
+        {
+          "identity_key": "drury inn and suites louisville",
+          "url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "drury inn and suites louisville",
+            "phone": "5023264170",
+            "postal_code": "40222",
+            "street_key": "9501 blairwood rd|40222",
+            "url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east"
+          }
+        },
+        {
+          "identity_key": "holiday inn express and suites downtown louisville",
+          "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfmk/hoteldetail",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "holiday inn express and suites louisville downtown",
+            "phone": "5025832552",
+            "postal_code": "40202",
+            "street_key": "800 w market st|40202",
+            "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfmk/hoteldetail"
+          }
+        },
+        {
+          "identity_key": "holiday inn louisville east hurstbourne",
+          "url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfea/hoteldetail",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "holiday inn louisville east hurstbourne",
+            "phone": "5024262600",
+            "postal_code": "40222",
+            "street_key": "1325 s hurstbourne pkwy|40222",
+            "url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfea/hoteldetail"
+          }
+        },
+        {
+          "identity_key": "hotel louisville downtown",
+          "url": "http://www.hotellouisville.org",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "hotel louisville downtown",
+            "phone": "5025822241",
+            "postal_code": "40202",
+            "street_key": "120 w broadway|40202",
+            "url": "http://www.hotellouisville.org"
+          }
+        },
+        {
+          "identity_key": "quality inn and suites university airport",
+          "url": "https://www.choicehotels.com/kentucky/louisville/quality-inn-hotels/ky109",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "quality inn and suites university airport",
+            "phone": "5026386100",
+            "postal_code": "40208",
+            "street_key": "311 e gaulbert ave|40208",
+            "url": "https://www.choicehotels.com/kentucky/louisville/quality-inn-hotels/ky109"
+          }
+        },
+        {
+          "identity_key": "quality suites",
+          "url": "https://www.choicehotels.com/indiana/jeffersonville/quality-inn-hotels/in198",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "quality suites jeffersonville louisville north",
+            "phone": "8122822100",
+            "postal_code": "47130",
+            "street_key": "360 eastern blvd|47130",
+            "url": "https://www.choicehotels.com/indiana/jeffersonville/quality-inn-hotels/in198"
+          }
+        },
+        {
+          "identity_key": "red roof inn",
+          "url": "https://www.redroof.com/property/ky/louisville/rri034",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "red roof inn louisville hurstbourne",
+            "phone": "",
+            "postal_code": "40222",
+            "street_key": "9330 blairwood rd|40222",
+            "url": "https://www.redroof.com/property/ky/louisville/rri034"
+          }
+        },
+        {
+          "identity_key": "sheraton louisville riverside hotel",
+          "url": "https://www.marriott.com/en-us/hotels/sdfsi-sheraton-louisville-riverside-hotel/overview/",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "sheraton louisville riverside hotel",
+            "phone": "8122846711",
+            "postal_code": "47130",
+            "street_key": "700 w riverside dr|47130",
+            "url": "https://www.marriott.com/en-us/hotels/sdfsi-sheraton-louisville-riverside-hotel/overview/"
+          }
+        },
+        {
+          "identity_key": "staybridge suites",
+          "url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "staybridge suites louisville east",
+            "phone": "5022449511",
+            "postal_code": "40299",
+            "street_key": "11711 gateworth way|40299",
+            "url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail"
+          }
+        },
+        {
+          "identity_key": "the bellwether hotel",
+          "url": "https://www.thebellwetherhotel.com/",
+          "displaced_census_url": "",
+          "binding": "STREET_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "bellwether hotel",
+            "phone": "5027351215",
+            "postal_code": "40204",
+            "street_key": "1300 bardstown rd|40204",
+            "url": "https://www.thebellwetherhotel.com/"
+          }
+        },
+        {
+          "identity_key": "the seelbach hilton hotel",
+          "url": "https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton-louisville/",
+          "displaced_census_url": "https://seelbachhilton.com",
+          "binding": "PHONE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "the seelbach hilton louisville",
+            "phone": "5025853200",
+            "postal_code": "40202",
+            "street_key": "500 s 4th st|40202",
+            "url": "https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton-louisville/"
+          }
+        },
+        {
+          "identity_key": "wingate by wyndham louisville east",
+          "url": "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview",
+          "displaced_census_url": "",
+          "binding": "NAME_AND_POSTAL_CODE",
+          "evidence": {
+            "provider": "PRIOR_BUILD",
+            "source": "prior_census_001.json",
+            "name": "wingate by wyndham louisville east",
+            "phone": "5027850850",
+            "postal_code": "40299",
+            "street_key": "12301 alliant ct|40299",
+            "url": "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview"
+          }
+        }
+      ]
+    },
+    "automatically_routed": 101,
+    "automatically_routed_pct": 60.8,
+    "routing_states": {
+      "ROUTED": 101,
+      "ROUTE_BRAND_EXCLUDED": 4,
+      "ROUTE_NEEDS_OFFICIAL_URL": 55,
+      "ROUTE_NEEDS_PROPERTY_URL": 6
+    },
+    "brands": {
+      "BEST_WESTERN": 2,
+      "CHOICE": 14,
+      "DRURY": 2,
+      "HILTON": 23,
+      "HYATT": 2,
+      "IHG": 12,
+      "INDEPENDENT": 11,
+      "MARRIOTT": 28,
+      "MOTEL6": 1,
+      "NO_URL": 55,
+      "RED_ROOF": 2,
+      "WYNDHAM": 14
+    },
+    "providers": {
+      "brightdata_browser": 67,
+      "firecrawl": 34
+    },
+    "new_source_families": []
+  },
+  "acquisition": {
+    "lane": "brightdata_browser, brightdata_web_unlocker, firecrawl",
+    "attempted": 98,
+    "acquired_valid": 82,
+    "acquired_pct": 83.7,
+    "outcome_counts": {
+      "ACCESS_DENIED": 2,
+      "IDENTITY_MISMATCH": 7,
+      "POLICY_NOT_FOUND": 1,
+      "UNEXPECTED_PAGE": 5,
+      "UNHYDRATED": 1,
+      "VALID": 82
+    },
+    "outcomes_by_brand": {
+      "": {
+        "VALID": 19
+      },
+      "CHOICE": {
+        "ACCESS_DENIED": 1,
+        "IDENTITY_MISMATCH": 1,
+        "UNHYDRATED": 1,
+        "VALID": 5
+      },
+      "DRURY": {
+        "POLICY_NOT_FOUND": 1
+      },
+      "HILTON": {
+        "UNEXPECTED_PAGE": 1,
+        "VALID": 22
+      },
+      "IHG": {
+        "UNEXPECTED_PAGE": 1,
+        "VALID": 8
+      },
+      "MARRIOTT": {
+        "ACCESS_DENIED": 1,
+        "IDENTITY_MISMATCH": 3,
+        "UNEXPECTED_PAGE": 3,
+        "VALID": 21
+      },
+      "MOTEL6": {
+        "VALID": 1
+      },
+      "WYNDHAM": {
+        "IDENTITY_MISMATCH": 3,
+        "VALID": 6
+      }
+    },
+    "skipped_lane_refused": 0,
+    "lane_refused_brands": {}
+  },
+  "zero_cost_recovery": {
+    "what_it_asked": "whether any persisted DECLINED document contains a policy block the walk that ran never read -- asked offline, before any repeated network acquisition",
+    "examined": 8,
+    "verdicts": {
+      "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 7,
+      "NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK": 1
+    },
+    "network_calls": 0,
+    "usd_spent": 0.0
+  },
+  "reader": {
+    "observations_built": 63,
+    "publication_grade_counts": {
+      "PUBLICATION_GRADE_CONFIRMED": 63
+    },
+    "readiness_counts": {
+      "POLICY_CONFIRMED": 41,
+      "POLICY_NEGATIVE_CONFIRMED": 17,
+      "POLICY_NOT_FOUND": 4,
+      "POLICY_PARTIAL": 1
+    },
+    "pets_allowed_counts": {
+      "False": 17,
+      "None": 2,
+      "True": 44
+    },
+    "refusals": []
+  },
+  "closure": {
+    "active_denominator": 166,
+    "rows": 166,
+    "disposition_counts": {
+      "HELD_REVIEW": 63,
+      "ACCESS_UNRESOLVED": 41,
+      "POLICY_NOT_FOUND": 1,
+      "INSUFFICIENT_EVIDENCE": 61
+    },
+    "reconciliation": {
+      "active_count": 166,
+      "duplicate": [],
+      "foreign": [],
+      "ledger_count": 166,
+      "missing": []
+    },
+    "partition_states": {
+      "AWAITING_OFFICIAL_URL": 55,
+      "AWAITING_PROPERTY_LEVEL_URL": 6,
+      "AWAITING_ROUTING_REVIEW": 4,
+      "AWAITING_POLICY_OBSERVATION": 23,
+      "AWAITING_ATTENDED_CAPTURE": 13,
+      "AWAITING_FOUNDER_DECISION": 63,
+      "ACCESS_BLOCKED": 2
+    }
+  },
+  "founder_review": {
+    "candidates": 63,
+    "candidate_pct_of_active": 38.0,
+    "recommendation_counts": {
+      "RECOMMEND_AUTHORITY_PET_FRIENDLY": 44,
+      "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS": 17,
+      "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE": 2
+    },
+    "review_status_counts": {
+      "MACHINE_REVIEWED_PENDING_OPERATOR": 63
+    }
+  },
+  "cost": {
+    "total_usd": 4.2,
+    "basis": "Bright Data per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker and cli_unlocker, measured against an anchor written before the first call of THIS work order; the cap binds on the LARGER of measured and estimated. Firecrawl plan credits are metered separately and cost no dollars. Every offline phase -- URL recovery, declined-evidence recovery, the merge, the store, closure, the founder packet, the machine review and this benchmark -- cost nothing.",
+    "bright_data_usd": 4.2,
+    "firecrawl_plan_credits": 11.0,
+    "google_places_usd": 0.0,
+    "cap_usd": 10.0,
+    "run_cap_usd": 4.44
+  },
+  "architecture": {
+    "generic_modules_added": 1,
+    "generic_modules_added_names": [
+      "scripts/pettripfinder/acquisition/cohort_cost_plan.py"
+    ],
+    "shared_modules_changed": 5,
+    "shared_modules_changed_names": [
+      "scripts/pettripfinder/discovery/census_url_recovery.py (a third binding key, URL corroboration, prior-build evidence, and the rows whose URL no lane can fetch)",
+      "scripts/pettripfinder/acquisition/market_routing.py (apply_url_overlay moved here so closure and the benchmark route what the run routed)",
+      "scripts/pettripfinder/acquisition/market_observation_store.py (a VALID row restating prior evidence carries no capture and is counted, not crashed on)",
+      "scripts/pettripfinder/market_closure_cli.py (--url-overlay)",
+      "scripts/pettripfinder/market_benchmark_cli.py (--url-overlay)"
+    ],
+    "market_specific_scripts_added": 0,
+    "note": "Zero Louisville-specific scripts. Every phase ran on the generic factory. The one module added answers a question every market has to answer before it spends -- what will this cohort cost, and does it buy anything a previous pass already answered -- and the five changed modules are all changes the next market inherits."
+  },
+  "interventions": {
+    "count": 5,
+    "items": [
+      "Phase 1: census_url_recovery bound on the first key that matched, so a bulk-edited OpenStreetMap URL for a Sleep Inn in another city consumed six Choice identities that a weaker key would have routed correctly. A rejected URL now falls through to the next key.",
+      "Phase 1: two sightings can bind equally well and carry different URLs. The Seelbach binds on its telephone number to both a bare domain and its Hilton property page; the useful one is now preferred rather than whichever came first in the list.",
+      "Phase 2: seven identities share one unfetchable census URL. The overlay was allowed to displace a URL no lane can fetch -- and only that -- so a bound, corroborated property page can reach a row the census had already filled with something unusable.",
+      "Phase 4: closure and the benchmark routed the census WITHOUT the overlay the paid pass routed with, so both would have reported this market as less routed than the run actually reached. Both now take the overlay.",
+      "Phase 8: the observation store crashed on a VALID row that restates prior evidence and carries no capture. Those rows are now counted as restated rather than turned into observations they have no artifacts for."
+    ]
+  },
+  "scorecard": {
+    "automatic_routing_pct": {
+      "target": ">= 90",
+      "actual": 60.8,
+      "basis": "101 of 166 census identities resolved a measured lane on a property-level first-party URL"
+    },
+    "observed_acquired_pct": {
+      "target": ">= 85",
+      "actual": 83.7,
+      "basis": "82 VALID of 98 attempted across brightdata_browser, brightdata_web_unlocker, firecrawl"
+    },
+    "publication_grade_pct_of_active": {
+      "target": ">= 80",
+      "actual": 38.0,
+      "basis": "63 publication-grade observations over 166 active-eligible identities"
+    },
+    "active_closure_pct": {
+      "target": "= 100 (required, not a target)",
+      "actual": 100.0,
+      "basis": "166 ledger rows over a 166-identity active denominator; reconciliation missing=0 foreign=0 duplicate=0"
+    },
+    "provider_spend_usd": {
+      "target": "<= 10.00",
+      "actual": 4.2,
+      "basis": "Bright Data per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker and cli_unlocker, measured against an anchor written before the first call of THIS work order; the cap binds on the LARGER of measured and estimated. Firecrawl plan credits are metered separately and cost no dollars. Every offline phase -- URL recovery, declined-evidence recovery, the merge, the store, closure, the founder packet, the machine review and this benchmark -- cost nothing."
+    },
+    "elapsed_hours": {
+      "target": "4 - 8",
+      "actual": 0.84,
+      "basis": "machine execution time of the paid acquisition pass only (run_start to run_end); the offline phases around it are not separately clocked"
+    }
+  },
+  "production_safety": {
+    "registered": false,
+    "published": false,
+    "deployed": false,
+    "launch_participation_row": false,
+    "release_contract_in_verified_set": false,
+    "authority_shard_in_registry": false,
+    "measurement_changed": false,
+    "affiliates_activated": false,
+    "production_manifest_changed": false,
+    "deployment_authorization_created": false,
+    "note": "PTF-LOUISVILLE-COVERAGE-EXPANSION-003 forbids all of the above. No founder decision was written, no authority was created, and the census file itself was never edited -- every recovered URL is an overlay applied for routing only."
+  },
+  "artifacts": {
+    "census": {
+      "path": "launch_packages/pettripfinder/identity_census/louisville-ky.json",
+      "sha256": "d4b137f985b72daf8cdb12ccf777158d26504b13aa2d41fa39fd6551e80d47e3"
+    },
+    "candidate_ledger": {
+      "path": "launch_packages/pettripfinder/louisville_ky_candidate_ledger_001.json",
+      "sha256": "27e3c893f2592bc05acc4258033bb8ade1a54eee9c6e7845a174bdd3e2b90e68"
+    },
+    "acquisition": {
+      "path": "launch_packages/pettripfinder/louisville_ky_acquisition_merged_closeout_003.json",
+      "sha256": "119d1abd531b1dfe1d2763ae2f58454d5b102c995ff1fc92d7f96f69a37757e5"
+    },
+    "observation_store": {
+      "path": "launch_packages/pettripfinder/louisville_ky_observation_store_003.json",
+      "sha256": "3e89dff9bce18ea056af6f1bd928a3251d8a3686d9d1c503ef59c678fcc068b8"
+    },
+    "final_partition": {
+      "path": "launch_packages/pettripfinder/louisville_ky_final_partition_003.json",
+      "sha256": "8e1febd879d47fa205e68fb0688b470a81687cfc079f3fe5c5c433ae90ac535f"
+    },
+    "closure_ledger": {
+      "path": "launch_packages/pettripfinder/louisville_ky_closure_ledger_003.json",
+      "sha256": "fae14225ee8995c601e09737d0d4173bbeacc59ac343e14166e3235541931b7d"
+    },
+    "founder_review_packet": {
+      "path": "launch_packages/pettripfinder/louisville_ky_founder_review_packet_003.json",
+      "sha256": "847dc4e1671de5d86de2d37befc0c23fbe6c7942489f44c9df0a647065295282"
+    },
+    "zero_cost_recovery": {
+      "path": "launch_packages/pettripfinder/louisville_ky_zero_cost_recovery_003.json",
+      "sha256": "58814c74d4d2bfe8a1133cb516dc9d24247c9f5fbc32514f02b5d3fadcbb09a9"
+    }
+  }
+}

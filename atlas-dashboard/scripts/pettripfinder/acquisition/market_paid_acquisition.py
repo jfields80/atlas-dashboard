@@ -176,39 +176,11 @@ def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
     return (cohort, settled)
 
 
-def apply_url_overlay(rows: List[Dict], overlay_path: str) -> Dict:
-    """Layer recovered URLs over a census IN MEMORY, and report what moved.
-
-    The census file on disk is the record of what discovery OBSERVED and is not
-    edited here: a URL recovered by re-reading a cached payload is a proposal,
-    and writing it into the census would make a derivation indistinguishable
-    from an observation. Only rows that currently have no URL are touched, so
-    an overlay can never displace something discovery actually found.
-    """
-    applied: List[Dict] = []
-    if not overlay_path:
-        return OrderedDict((("overlay", ""), ("applied", 0), ("rows", applied)))
-    document = json.loads(Path(overlay_path).read_text(encoding="utf-8"))
-    proposed = {r["identity_key"]: r for r in (document.get("recoveries") or ())}
-    for row in rows:
-        candidate = proposed.get(row["identity_key"])
-        if candidate is None or (row.get("official_url") or "").strip():
-            continue
-        row["official_url"] = candidate["recovered_url"]
-        applied.append(OrderedDict((
-            ("identity_key", row["identity_key"]),
-            ("url", candidate["recovered_url"]),
-            ("binding", candidate.get("binding", "")),
-            ("evidence", candidate.get("evidence", {})),
-        )))
-    return OrderedDict((
-        ("overlay", Path(overlay_path).as_posix()),
-        ("contract", document.get("schema", "")),
-        ("offered", len(proposed)),
-        ("applied", len(applied)),
-        ("note", "layered for routing only; the census file is unchanged"),
-        ("rows", applied),
-    ))
+#: Layering recovered URLs over a census is a ROUTING concern, and closure and
+#: the benchmark route the same census this run did. It lives in market_routing
+#: so all three can apply the same overlay; this alias keeps the name importable
+#: where it was first written.
+apply_url_overlay = MR.apply_url_overlay
 
 
 def _fallback_unit(entry: Mapping) -> float:

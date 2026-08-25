@@ -63,7 +63,8 @@ def _sha(path: Path) -> str:
 
 
 def build(market_id: str, phases: Mapping, *, suffix: str = "001",
-          acquisition_name: str = "direct_http_pilot") -> Dict:
+          acquisition_name: str = "direct_http_pilot",
+          url_overlay: str = "") -> Dict:
     """The benchmark manifest for one PASS over a market.
 
     ``suffix`` and ``acquisition_name`` exist because a market gets benchmarked
@@ -90,6 +91,7 @@ def build(market_id: str, phases: Mapping, *, suffix: str = "001",
     recovery = json.loads(recovery_path.read_text(encoding="utf-8"))
     store = json.loads(store_path.read_text(encoding="utf-8"))
 
+    overlay = MR.apply_url_overlay(census["hotels"], url_overlay)
     routing_entries, routing_summary = MR.route_census(census["hotels"])
     active = closure["active_denominator"]
 
@@ -184,6 +186,7 @@ def build(market_id: str, phases: Mapping, *, suffix: str = "001",
             ("url_shapes", routing_summary["url_shapes"]),
         ))),
         ("routing", OrderedDict((
+            ("url_overlay", overlay),
             ("automatically_routed", routing_summary["automatically_routed"]),
             ("automatically_routed_pct", routing_summary["automatically_routed_pct"]),
             ("routing_states", routing_summary["routing_states"]),
@@ -254,6 +257,10 @@ def main(argv=None) -> int:
     parser.add_argument("--market", required=True)
     parser.add_argument("--phases", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--url-overlay", default="",
+                        help="the ptf-census-url-recovery report the paid pass "
+                             "routed with, so the benchmark's routing figures "
+                             "are the ones the run actually used")
     parser.add_argument("--suffix", default="001",
                         help="which pass of this market to read artifacts for")
     parser.add_argument("--acquisition-name", default="direct_http_pilot",
@@ -263,7 +270,8 @@ def main(argv=None) -> int:
 
     phases = json.loads(Path(args.phases).read_text(encoding="utf-8"))
     document = build(args.market, phases, suffix=args.suffix,
-                     acquisition_name=args.acquisition_name)
+                     acquisition_name=args.acquisition_name,
+                     url_overlay=args.url_overlay)
     sha = CPB.write_json(Path(args.out), document)
     print(json.dumps(document["scorecard"], indent=1))
     print("written: %s (%s)" % (args.out, sha))

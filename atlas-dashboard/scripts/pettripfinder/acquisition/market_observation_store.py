@@ -313,8 +313,13 @@ def build(pilot: Mapping, *, run_id: str,
           census: Optional[Mapping] = None,
           name_corrections: Optional[Mapping] = None,
           founder_overrides: Optional[Mapping] = None
-          ) -> Tuple[List[Dict], List[Dict]]:
-    """``(records, refusals)``. Every VALID capture is accounted for."""
+          ) -> Tuple[List[Dict], List[Dict], List[Dict]]:
+    """``(records, refusals, restated)``. Every VALID result is accounted for.
+
+    ``restated`` holds VALID results that carry no capture of their own -- prior
+    evidence expressed as an acquisition row so a later pass can subtract it.
+    They are not observations and this store does not invent one for them.
+    """
     market_id = pilot["market_id"]
     rows = {h["identity_key"]: h for h in (census or {}).get("hotels") or ()}
     # A census name is what DISCOVERY observed. Where that is a bare chain word,
@@ -337,8 +342,24 @@ def build(pilot: Mapping, *, run_id: str,
                   for r in identity_block.get("records") or ()}
     records: List[Dict] = []
     refusals: List[Dict] = []
+    restated: List[Dict] = []
     for result in pilot["results"]:
         if result["outcome"] != "VALID":
+            continue
+        if not result.get("artifact_dir"):
+            # A pass may RESTATE what an earlier build already established, so a
+            # later run derives its cohort by subtraction instead of re-buying
+            # answers the market owns. Those rows carry an outcome and a reason
+            # and no capture, and an observation is derived from persisted
+            # artifacts -- there is nothing here to derive one from. Skipped and
+            # counted, never silently dropped: the store's own count is how a
+            # market notices evidence it thought it had.
+            restated.append(OrderedDict((
+                ("identity_key", result["identity_key"]),
+                ("outcome", result["outcome"]),
+                ("acquisition_pass", result.get("acquisition_pass", "")),
+                ("note", result.get("note", "")),
+            )))
             continue
         record, _grade, refusal = observation_for(
             result, run_id=run_id, market_id=market_id,
@@ -357,7 +378,8 @@ def build(pilot: Mapping, *, run_id: str,
         records.append(record)
     records.sort(key=lambda r: r["identity_key"])
     refusals.sort(key=lambda r: r["identity_key"])
-    return (records, refusals)
+    restated.sort(key=lambda r: r["identity_key"])
+    return (records, refusals, restated)
 
 
 def main(argv=None) -> int:
@@ -388,9 +410,10 @@ def main(argv=None) -> int:
     overrides = (json.loads(Path(args.founder_overrides)
                             .read_text(encoding="utf-8"))
                  if args.founder_overrides else None)
-    records, refusals = build(pilot, run_id=args.run_id, census=census,
-                              name_corrections=corrections,
-                              founder_overrides=overrides)
+    records, refusals, restated = build(pilot, run_id=args.run_id,
+                                        census=census,
+                                        name_corrections=corrections,
+                                        founder_overrides=overrides)
 
     grades = Counter(r["publication_grade"]["verdict"] for r in records)
     readiness_states = Counter(r["readiness"].get("state", "") for r in records)
@@ -418,6 +441,7 @@ def main(argv=None) -> int:
         ("readiness_counts", OrderedDict(sorted(readiness_states.items()))),
         ("membrane_counts", OrderedDict(sorted(membrane_states.items()))),
         ("pets_allowed_counts", OrderedDict(sorted(pets.items()))),
+        ("restated_prior_evidence_without_a_capture", restated),
         ("refusals", refusals),
         ("records", records),
     ))
@@ -427,6 +451,8 @@ def main(argv=None) -> int:
                    encoding="utf-8", newline="\n")
     print("observations   : %d" % len(records))
     print("refusals       : %d" % len(refusals))
+    print("restated       : %d (prior evidence, no capture of its own)"
+          % len(restated))
     print("grades         : %s" % dict(sorted(grades.items())))
     print("readiness      : %s" % dict(sorted(readiness_states.items())))
     print("pets_allowed   : %s" % dict(sorted(pets.items())))

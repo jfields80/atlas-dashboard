@@ -380,6 +380,38 @@ class TestUrlOverlay:
         assert rows[0]["official_url"] == ""
         assert report["applied"] == 0
 
+    # -- PTF-LOUISVILLE-COVERAGE-EXPANSION-003 ------------------------------- #
+
+    def test_an_unfetchable_census_url_is_displaced_by_a_property_page(self, tmp_path):
+        """Seven Louisville identities carry one OpenStreetMap tag pointing at a
+        Sleep Inn in another city. A URL no lane can fetch is not something the
+        overlay has to protect."""
+        overlay = tmp_path / "o.json"
+        overlay.write_text(json.dumps({"recoveries": [
+            {"identity_key": "a",
+             "recovered_url": "https://www.hilton.com/en/hotels/sdfshhf-seelbach/",
+             "url_shape": "PROPERTY_PAGE", "binding": "PHONE", "evidence": {}}]}),
+            encoding="utf-8")
+        rows = [{"identity_key": "a", "official_url": "https://seelbachhilton.com"}]
+        report = PA.apply_url_overlay(rows, str(overlay))
+        assert rows[0]["official_url"].endswith("sdfshhf-seelbach/")
+        assert report["applied"] == 1
+        assert report["unroutable_census_urls_displaced"] == 1
+        assert report["rows"][0]["displaced_census_url"] == "https://seelbachhilton.com"
+
+    def test_a_proposal_no_lane_can_fetch_is_never_applied(self, tmp_path):
+        overlay = tmp_path / "o.json"
+        overlay.write_text(json.dumps({"recoveries": [
+            {"identity_key": "a", "recovered_url":
+             "https://www.choicehotels.com/kentucky/shepherdsville/sleep-inn-hotels",
+             "url_shape": "PROPERTY_PAGE", "binding": "PHONE", "evidence": {}}]}),
+            encoding="utf-8")
+        rows = [{"identity_key": "a", "official_url": ""}]
+        report = PA.apply_url_overlay(rows, str(overlay))
+        # The overlay CLAIMS a property page; the shape is recomputed and the
+        # claim is a category listing, so nothing is applied.
+        assert rows[0]["official_url"] == "" and report["applied"] == 0
+
 
 class TestTarget:
     def test_an_independents_routing_label_is_never_used_as_an_identity_signal(self):

@@ -170,3 +170,204 @@ class TestCache:
     def test_an_unreadable_cache_file_does_not_stop_the_pass(self, tmp_path):
         (tmp_path / "page_1.json").write_text("{not json", encoding="utf-8")
         assert UR.read_cache(tmp_path) == []
+
+
+# --------------------------------------------------------------------------- #
+# PTF-LOUISVILLE-COVERAGE-EXPANSION-003 -- the third key, the URL's own text,
+# and the rows whose URL nothing can fetch.
+# --------------------------------------------------------------------------- #
+
+def prior_census(tmp_path, *hotels):
+    path = tmp_path / "prior_census.json"
+    path.write_text(json.dumps({"count": len(hotels), "hotels": list(hotels)}),
+                    encoding="utf-8")
+    return path
+
+
+class TestStreetKey:
+    def test_two_spellings_of_one_address_produce_one_key(self):
+        assert (UR.street_key("700 W Main St", "40202")
+                == UR.street_key("700 West Main Street", "40202"))
+
+    def test_the_postal_code_is_part_of_the_key(self):
+        assert UR.street_key("700 W Main St", "40202") != \
+            UR.street_key("700 W Main St", "40203")
+
+    @pytest.mark.parametrize("address, postal", [
+        ("700 W Main St", ""),          # a street with no postal code
+        ("", "40202"),                  # a postal code with no street
+        ("Airport Road", "40202"),      # a place, not an address
+    ])
+    def test_half_an_address_is_not_a_key(self, address, postal):
+        assert UR.street_key(address, postal) == ""
+
+
+class TestStreetBinding:
+    def test_street_and_postal_bind_when_the_caller_allows_it(self):
+        row = census_row(address="700 West Main Street", postal_code="40202")
+        seen = observation(street="700 W Main St", postal="40202")
+        found, binding = UR.bind(row, [seen], unambiguous_streets=frozenset(
+            {UR.street_key("700 W Main St", "40202")}))
+        assert binding == UR.BIND_STREET_POSTAL and found is seen
+
+    def test_the_third_key_is_off_unless_the_caller_asks_for_it(self):
+        row = census_row(address="700 West Main Street", postal_code="40202")
+        found, _ = UR.bind(row, [observation(street="700 W Main St",
+                                             postal="40202")])
+        assert found is None
+
+    def test_two_towers_at_one_address_bind_to_nothing(self):
+        # The Galt House is Rivue Tower and the Galt House at one street
+        # address. One URL bound to both identities means at least one of them
+        # publishes another building's policy.
+        rows = [census_row(identity_key="rivue tower", address="140 N Fourth St",
+                           postal_code="40202"),
+                census_row(identity_key="galt house", address="140 N Fourth St",
+                           postal_code="40202")]
+        keys = UR.unambiguous_street_keys(
+            rows, [observation(street="140 N Fourth St", postal="40202")])
+        assert keys == frozenset()
+
+    def test_several_sightings_of_one_building_do_not_disqualify_its_key(self):
+        rows = [census_row(address="102 W Main St", postal_code="40202")]
+        keys = UR.unambiguous_street_keys(rows, [
+            observation(street="102 W Main St", postal="40202",
+                        url="https://one/"),
+            observation(street="102 W Main St", postal="40202",
+                        url="https://two/")])
+        assert keys == frozenset({UR.street_key("102 W Main St", "40202")})
+
+
+class TestUrlCorroboration:
+    def test_a_url_that_names_the_property_is_accepted(self):
+        ok, why = UR.url_names_the_property(
+            "Aloft Louisville Downtown",
+            "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/")
+        assert ok and "aloft" in why
+
+    def test_a_url_for_another_hotel_on_the_same_brand_is_refused(self):
+        # OpenStreetMap carries this exact tag on a Louisville Comfort Inn.
+        ok, _ = UR.url_names_the_property(
+            "Comfort Inn And Suites Clarksville",
+            "https://www.choicehotels.com/kentucky/shepherdsville/sleep-inn-hotels")
+        assert ok is False
+
+    def test_a_bare_property_code_is_refused_because_it_cannot_be_read(self):
+        ok, _ = UR.url_names_the_property("TownePlace Suites Louisville North",
+                                          "https://www.marriott.com/sdfvn")
+        assert ok is False
+
+    def test_a_name_made_only_of_generic_words_corroborates_nothing(self):
+        ok, why = UR.url_names_the_property("The Hotel", "https://thehotel.com/")
+        assert ok is False and "distinctive" in why
+
+
+class TestFallThrough:
+    def test_a_rejected_url_does_not_consume_the_row(self):
+        """Louisville: a phone binds to a bulk-edited OSM tag for another
+        city's hotel, and the same building's street binds to its real page."""
+        row = census_row(canonical_name="Comfort Suites East",
+                         phone="5022666509", address="1877 S Hurstbourne Pkwy",
+                         postal_code="40220")
+        wrong = observation(phone="5022666509", url="https://elsewhere.com/x")
+        right = observation(street="1877 S Hurstbourne Pkwy", postal="40220",
+                            url="https://www.choicehotels.com/kentucky/"
+                                "louisville/comfort-suites-hotels/ky999")
+        rejected = []
+        found, binding = UR.bind(
+            row, [wrong, right],
+            unambiguous_streets=frozenset({UR.street_key(
+                "1877 S Hurstbourne Pkwy", "40220")}),
+            acceptable=lambda o: UR.url_names_the_property(
+                row["canonical_name"], o.url),
+            rejected=rejected)
+        assert binding == UR.BIND_STREET_POSTAL and found is right
+        assert [r["binding"] for r in rejected] == [UR.BIND_PHONE]
+
+    def test_every_refusal_is_reported_beside_the_row_it_was_refused_for(self):
+        rows = [census_row(canonical_name="Comfort Inn", phone="5029152029")]
+        _, unknown = UR.recover(rows, [observation(
+            phone="5029152029",
+            url="https://www.choicehotels.com/kentucky/shepherdsville/"
+                "sleep-inn-hotels")], corroborate=True)
+        assert unknown[0]["refused"][0]["binding"] == UR.BIND_PHONE
+        assert unknown[0]["refused_url"].endswith("sleep-inn-hotels")
+
+
+class TestUnroutableRows:
+    def test_a_row_whose_url_no_lane_can_fetch_is_reachable_by_a_proposal(self):
+        rows = [census_row(canonical_name="The Seelbach Hilton Hotel",
+                           phone="5025853200",
+                           official_url="https://seelbachhilton.com")]
+        seen = observation(
+            phone="5025853200",
+            url="https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton/")
+        recovered, _ = UR.recover(rows, [seen], corroborate=True,
+                                  include_unroutable=True)
+        assert recovered[0]["displaces_unroutable_census_url"] is True
+        assert recovered[0]["census_url_shape"] == "BRAND_INDEX"
+
+    def test_a_row_whose_url_a_lane_can_fetch_is_never_touched(self):
+        rows = [census_row(
+            phone="5025853200",
+            official_url="https://www.hilton.com/en/hotels/sdfshhf-seelbach/")]
+        recovered, unknown = UR.recover(
+            rows, [observation(phone="5025853200", url="https://other/page/x")],
+            include_unroutable=True)
+        assert recovered == [] and unknown == []
+
+    def test_proposing_the_url_the_census_already_holds_is_not_a_recovery(self):
+        url = ("https://www.choicehotels.com/kentucky/shepherdsville/"
+               "sleep-inn-hotels")
+        rows = [census_row(canonical_name="Sleep Inn Louisville",
+                           phone="5029152029", official_url=url)]
+        recovered, unknown = UR.recover(rows, [observation(phone="5029152029",
+                                                           url=url)],
+                                        corroborate=True,
+                                        include_unroutable=True)
+        assert recovered == []
+        assert "already holds" in unknown[0]["refused"][0]["why"]
+
+
+class TestPriorBuild:
+    def test_an_earlier_census_is_read_as_sightings(self, tmp_path):
+        path = prior_census(tmp_path, {
+            "identity_key": "21c museum hotel louisville",
+            "canonical_name": "21c Museum Hotel Louisville",
+            "phone": "502-217-6300", "postal_code": "40202",
+            "address": "700 W Main St",
+            "official_url": "https://www.21cmuseumhotels.com/louisville/"})
+        observations = UR.read_prior_census(path)
+        assert len(observations) == 1
+        assert observations[0].provider == UR.PRIOR_BUILD
+        assert observations[0].phone == "5022176300"
+        assert observations[0].street == UR.street_key("700 W Main St", "40202")
+
+    def test_an_earlier_row_with_no_url_carries_nothing_forward(self, tmp_path):
+        path = prior_census(tmp_path, {"identity_key": "k",
+                                       "canonical_name": "K", "phone": "",
+                                       "postal_code": "40202",
+                                       "address": "1 A St",
+                                       "official_url": ""})
+        assert UR.read_prior_census(path) == []
+
+    def test_artifact_urls_are_only_used_for_prior_rows_that_lack_one(self, tmp_path):
+        path = prior_census(tmp_path,
+                            {"identity_key": "has", "canonical_name": "Has",
+                             "phone": "", "postal_code": "40202",
+                             "address": "1 A St",
+                             "official_url": "https://census/"},
+                            {"identity_key": "lacks", "canonical_name": "Lacks",
+                             "phone": "", "postal_code": "40203",
+                             "address": "2 B St", "official_url": ""})
+        report = tmp_path / "report.json"
+        report.write_text(json.dumps({"rows": [
+            {"identity_key": "has", "policy_url": "https://deeper/"},
+            {"identity_key": "lacks", "final_url": "https://found/"},
+            {"identity_key": "unknown-identity", "url": "https://stray/"}]}),
+            encoding="utf-8")
+
+        observations, coverage = UR.read_prior_artifacts(path, [report])
+        assert [o.url for o in observations] == ["https://found/"]
+        assert coverage["urls_for_prior_rows_whose_census_url_is_empty"] == 1
+        assert coverage["keys_absent_from_the_prior_census"] == ["unknown-identity"]
