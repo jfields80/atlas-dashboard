@@ -17,7 +17,7 @@ from scripts.pettripfinder import founder_review_analysis as FR
 
 def candidate(**over):
     base = {
-        "identity_key": "k", "canonical_name": "The Inn", "brand": "CHOICE",
+        "identity_key": "k", "canonical_name": "The Inn At Soulard", "brand": "CHOICE",
         "corridor": "c", "source_url": "https://www.choicehotels.com/mo/x/y/mo123",
         "proposed_facts": {"pets_allowed": True},
         "withheld_fields": {}, "flags": [],
@@ -27,7 +27,7 @@ def candidate(**over):
                               "reasons": []},
         "recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
         "semantic_approval": {"semantic_hash": "sha256:x", "projection": {
-            "identity_check": {"name_on_page": "The Inn",
+            "identity_check": {"name_on_page": "The Inn At Soulard",
                                "address_on_page": "1 Road",
                                "phone_on_page": "3145551212"}}},
     }
@@ -36,7 +36,7 @@ def candidate(**over):
 
 
 def census_row(**over):
-    base = {"identity_key": "k", "canonical_name": "The Inn",
+    base = {"identity_key": "k", "canonical_name": "The Inn At Soulard",
             "address": "1 Road", "phone": "3145551212"}
     base.update(over)
     return base
@@ -83,6 +83,16 @@ class TestOurOwnGatesWin:
                                    "rule": "M10", "detail": "another hotel"})
         disposition, _reasons, action, _d = run(cand)
         assert disposition == FR.HOLD
+        assert "No re-fetch" in action
+
+    def test_a_membrane_refusal_on_a_bare_name_names_the_offline_remedy(self):
+        """The other half of the same rung: when the census name names no
+        building, the membrane is refusing by design and the remedy is a name
+        correction, not a person deciding whether two hotels are one."""
+        cand = candidate(canonical_name="Hampton",
+                         membrane={"verdict": "REJECT_WRONG_PROPERTY",
+                                   "rule": "M10", "detail": "another hotel"})
+        _d, _r, action, _detail = run(cand, census_row(canonical_name="Hampton"))
         assert "re-derive" in action
 
     def test_a_malformed_observation_names_the_contract_to_amend(self):
@@ -122,7 +132,7 @@ class TestIdentity:
         # pair held three rows whose identity was never in doubt.
         cand = candidate(semantic_approval={"semantic_hash": "", "projection": {
             "identity_check": {"name_on_page":
-                               "Extended Stay Hotel in Arnold, MO | The Inn"}}})
+                               "Extended Stay Hotel in Arnold, MO | The Inn At Soulard"}}})
         disposition, _r, _a, detail = run(cand)
         assert detail["identity"]["signals_agreeing"] == 1
         assert disposition == FR.APPROVE_PET_FRIENDLY

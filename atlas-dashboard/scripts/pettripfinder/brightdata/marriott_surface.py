@@ -535,11 +535,58 @@ def segments(text: str) -> Tuple[Tuple[int, int], ...]:
                  if text[a:b].strip())
 
 
+#: What a service-animal statement has to SAY. The phrase alone is not a
+#: statement: Louisville's Comfort Suites East lists the causes of an incidental
+#: charge as "excessive trash ... or additional cleaning required due to the
+#: actions of a guest, service animal", and matching on the phrase published that
+#: sentence under this hotel's service-animal heading -- a paragraph about damage
+#: charges, presented as the property's accessibility statement.
+#:
+#: So a span qualifies only if it says something about ACCESS: that service
+#: animals are permitted, welcome, accepted, exempt, free of charge, not counted
+#: as pets, or that they are the only animals admitted. This is the same
+#: distinction PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011 drew about money -- a
+#: charge word near the phrase says a charge was MENTIONED, never that one
+#: applies -- one level up: a phrase inside a sentence says the words appeared,
+#: never that the sentence is about service animals at all.
+_SERVICE_ANIMAL_ACCESS_RE = re.compile(
+    r"\b(?:permitted|permit|allowed|allow|welcome[ds]?|accepted|accept|"
+    r"admitted|admit|exempt(?:ed|ion)?|only|no charge|free of charge|"
+    r"without charge|at no charge|not\s+(?:considered\s+)?pets?|"
+    r"are\s+not\s+pets?|"
+    # The other half of the vocabulary, and the half a rule written from the
+    # affirmative cases alone would miss: a fee sentence that carves service
+    # animals OUT. "We charge 50.00 per pet, per night, except ADA Service
+    # Animals" is a statement about service animals -- it says the charge does
+    # not reach them -- and PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011 exists
+    # because exactly this sentence shape was once read the other way round.
+    r"except|excluding|excludes?|exclusive\s+of|other\s+than|waive[ds]?|"
+    r"(?:not|does\s+not)\s+appl(?:y|ies|icable))\b", re.IGNORECASE)
+
+
+def states_service_animal_access(quote: str) -> bool:
+    """Does this span STATE something about service-animal access?
+
+    Refusing a real statement costs one free-text line on a profile. Accepting a
+    sentence that merely contains the words publishes the wrong paragraph under
+    an accessibility heading, which is worse in kind and not only in degree.
+    """
+    return bool(quote) and bool(_SERVICE_ANIMAL_ACCESS_RE.search(quote))
+
+
 def _segment_containing(text: str, index: int) -> str:
     for start, end in segments(text):
         if start <= index < end:
             return collapse(text[start:end])
     return ""
+
+
+def _guarded_service_animal_quote(text: str, match) -> str:
+    """The segment holding the phrase, but only when it states access."""
+    if not match:
+        return ""
+    quote = _segment_containing(text, match.start())
+    return quote if states_service_animal_access(quote) else ""
 
 
 @dataclass(frozen=True)
@@ -834,8 +881,7 @@ def parse_policy_block(block_text: str, *, locator_id: str = "") -> PolicyReadin
                          if dogs_only else ""),
         cats_refused_quote=(text[cats_refused.start():cats_refused.end()]
                             if cats_refused else ""),
-        service_animal_quote=(_segment_containing(text, service.start())
-                              if service else ""),
+        service_animal_quote=_guarded_service_animal_quote(text, service),
         contradictions=tuple(contradictions), parser_notes=tuple(notes),
         unrepresented=unrepresented_charges(text, charges))
 

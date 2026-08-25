@@ -70,6 +70,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.acquisition import market_routing as MR  # noqa: E402
+from scripts.pettripfinder.brightdata import marriott_surface as MS  # noqa: E402
 from scripts.pettripfinder.policy.policy_membrane import (  # noqa: E402
     _has_distinguishing_token,
 )
@@ -93,12 +94,68 @@ _PET_TERM = re.compile(
 _SERVICE_OPENER = re.compile(r"(service|assistance)\s+animal", re.IGNORECASE)
 
 #: Names that identify a chain rather than a building.
+#:
+#: Kept only to say what it used to do. A hand-maintained list of chain words is
+#: a list of the chains someone had already been bitten by: this one held
+#: "hampton", "holiday inn" and "candlewood suites" and not "tru", "quality
+#: suites" or "towneplace suites", so Louisville proposed three candidates for
+#: approval under names that name no building. ``names_no_building`` replaces it
+#: with two rules that need no maintenance (PTF-LOUISVILLE-FOUNDER-REVIEW-004).
 _BARE_BRAND = re.compile(
     r"^(hampton|courtyard|days inn|doubletree|wingate at wyndham|comfort inn|"
     r"radisson|super 8|motel 6|holiday inn|quality inn|sleep inn|econo lodge|"
     r"red roof inn|la quinta|travelodge|baymont|microtel|candlewood suites|"
     r"residence inn|springhill suites|fairfield inn|hilton garden inn)$",
     re.IGNORECASE)
+
+#: Furniture a page title carries around the property's name. A <title> is
+#: written for a search engine, not for a directory: Louisville's Holiday Inn
+#: Downtown offered "Louisville Hotels | Holiday Inn Louisville Downtown", and
+#: proposing that as a canonical name replaces a name that names no building
+#: with one that is not a name at all.
+_TITLE_SEPARATORS = re.compile(r"\s*(?:\||»|·|::|—|–|\bIHG\b|\bHotels?\.com\b)\s*")
+_TITLE_FURNITURE = re.compile(
+    r"^(?:hotels?|motels?|official site|book (?:now|direct)|welcome to|"
+    r"[a-z .'-]+\s+hotels?)$", re.IGNORECASE)
+
+
+def page_property_name(raw: str) -> str:
+    """The part of a page's stated name that names the PROPERTY.
+
+    Splits on title furniture and keeps the longest remaining segment, which is
+    the property name in every shape this corpus has produced: the search phrase
+    a title leads with is always shorter than the hotel's own name. Returns ""
+    when nothing survives, and an empty replacement is reported as a blocking
+    finding rather than written over a name.
+    """
+    parts = [p.strip(" -–—|") for p in _TITLE_SEPARATORS.split(raw or "")]
+    parts = [p for p in parts if p and not _TITLE_FURNITURE.match(p)]
+    return max(parts, key=len) if parts else ""
+
+
+def names_no_building(name: str, census_names: Sequence[str]) -> bool:
+    """Is this canonical name a chain word rather than a hotel?
+
+    Two rules, and the second is what a fixed list can never be:
+
+    * the membrane's own test -- nothing left after chain, lodging and filler
+      words are removed. This is the test the identity gate already applies, so
+      a name that fails it will be refused downstream anyway.
+    * the market says so. If two or more OTHER census rows extend this name
+      ("TownePlace Suites" against "TownePlace Suites by Marriott Louisville
+      Airport" and two more), then the name is shared by at least three
+      buildings in this market and cannot be published as one of them. Two rows
+      are not enough: a full name can legitimately be a prefix of one sibling,
+      as "La Quinta Inn & Suites Louisville" is of "... Louisville East".
+    """
+    if not _has_distinguishing_token(name):
+        return True
+    mine = _norm(name)
+    if not mine:
+        return True
+    extended = sum(1 for other in census_names
+                   if _norm(other) != mine and _norm(other).startswith(mine + " "))
+    return extended >= 2
 
 
 def _now() -> str:
@@ -229,8 +286,210 @@ def service_animal_correction(text: str) -> str:
     return text[opener.start():].strip() if opener else (text or "")
 
 
-def examine(candidate: Mapping, census_row: Optional[Mapping]) -> Dict:
-    """Every check, run over one candidate. Returns findings and corrections."""
+# --------------------------------------------------------------------------- #
+# What the SOURCE says, against what the record published
+# --------------------------------------------------------------------------- #
+
+#: A weight a pet cannot have. Marriott's own page for Louisville's Residence Inn
+#: Airport states "Each pet may weigh up to 900.0 lbs", and the reader is right to
+#: quote it: the defect is in the source. Publishing it is still wrong -- a
+#: directory that prints a 900 lb pet limit is not reporting a policy -- so the
+#: value is held back and the quote is kept.
+_IMPLAUSIBLE_WEIGHT_LB = 250.0
+
+_MONEY_RE = re.compile(r"\$\s?\d[\d,]*(?:\.\d\d)?|\b\d[\d,]*(?:\.\d\d)?\s*USD\b")
+_PET_MONEY_RE = re.compile(
+    r"(?:pet|dog|cat)[^.]{0,60}?(?:\$\s?\d[\d,]*(?:\.\d\d)?|\b\d[\d,]*(?:\.\d\d)?\s*USD\b)"
+    r"|(?:\$\s?\d[\d,]*(?:\.\d\d)?|\b\d[\d,]*(?:\.\d\d)?\s*USD\b)[^.]{0,40}?(?:per\s+)?(?:pet|dog|cat)",
+    re.IGNORECASE)
+_BLOCK_WEIGHT_RE = re.compile(
+    r"(?:weight[^.\n]{0,30}?(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*(?:lb|lbs|pounds?)\b)",
+    re.IGNORECASE)
+_BLOCK_COUNT_RE = re.compile(
+    r"\b(?:up\s+to|maximum\s+of|max(?:imum)?|limit\s+of)?\s*"
+    r"(\d+|one|two|three|four)\s+(?:pets?|dogs?|cats?)\b", re.IGNORECASE)
+_BLOCK_DEPOSIT_RE = re.compile(
+    r"(?:pet[^.]{0,40}deposit|deposit[^.]{0,40}pet)[^.]{0,60}", re.IGNORECASE)
+_BLOCK_ALLOWANCE_RE = re.compile(
+    r"\b(?:are|is)\s+allowed\b|\bwe\s+(?:welcome|accept)\b|\bpets?\s+(?:are\s+)?welcome\b",
+    re.IGNORECASE)
+_PER_NIGHT_RE = re.compile(r"per\s+night|/\s*night|nightly", re.IGNORECASE)
+_PER_STAY_RE = re.compile(r"per\s+stay|/\s*stay|per\s+visit", re.IGNORECASE)
+
+
+def policy_block_text(record: Optional[Mapping]) -> str:
+    """The persisted policy block this record was read from, or ""."""
+    if not record:
+        return ""
+    artifacts = (record.get("observation") or {}).get("capture_artifacts") or {}
+    raw = artifacts.get("policy-block.txt") or ""
+    if not raw:
+        return ""
+    path = Path(str(raw).replace("\\", "/"))
+    if not path.is_absolute():
+        path = _REPO_ROOT / path
+    if not path.is_file():
+        return ""
+    return " ".join(path.read_text(encoding="utf-8", errors="replace").split())
+
+
+def examine_block(candidate: Mapping, record: Optional[Mapping]
+                  ) -> Tuple[List[Dict], List[Dict]]:
+    """``(findings, changes)`` from comparing the record to its own source.
+
+    Every other check in this module reads the record. A record cannot report
+    what it failed to read, so a fact its source states and its reader missed is
+    invisible to all of them -- and it is the failure a guest notices, because
+    the profile says "Not stated" where the hotel says "$75". Louisville has five
+    such rows, one of which drops a stated weight limit AND a stated pet count
+    AND a stated damage deposit from a single sentence.
+
+    Nothing here writes a value. A stated-but-unpublished fact becomes a change
+    whose ``to`` is the SOURCE'S OWN WORDS, to be applied by fixing the reader
+    and re-deriving offline -- never by typing the number into the record.
+    """
+    findings: List[Dict] = []
+    changes: List[Dict] = []
+    text = policy_block_text(record)
+    if not text:
+        return (findings, changes)
+    facts = candidate.get("proposed_facts") or {}
+    withheld = candidate.get("withheld_fields") or {}
+
+    def quote_at(match) -> str:
+        start = max(0, match.start() - 40)
+        return text[start:match.end() + 40].strip()
+
+    # -- facts the source states and the record does not carry ---------------
+    if not facts.get("weight_limit"):
+        found = _BLOCK_WEIGHT_RE.search(text)
+        if found:
+            changes.append(OrderedDict((
+                ("field", "weight_limit"),
+                ("from", None),
+                ("to", "as stated: %r" % quote_at(found)),
+                ("why", "the source states a weight limit and the record "
+                        "carries none, so the profile reads 'Not stated' where "
+                        "the hotel states a limit"),
+                ("evidence", "policy-block.txt"),
+                ("correction_site", "parser logic"))))
+    if facts.get("pet_count_limit") is None and facts.get("pets_allowed"):
+        found = _BLOCK_COUNT_RE.search(text)
+        if found:
+            changes.append(OrderedDict((
+                ("field", "pet_count_limit"),
+                ("from", None),
+                ("to", "as stated: %r" % quote_at(found)),
+                ("why", "the source states how many pets are allowed and the "
+                        "record carries no count"),
+                ("evidence", "policy-block.txt"),
+                ("correction_site", "parser logic"))))
+    if facts.get("pet_deposit") is None and facts.get("deposit") is None:
+        found = _BLOCK_DEPOSIT_RE.search(text)
+        if found and _MONEY_RE.search(found.group(0)):
+            changes.append(OrderedDict((
+                ("field", "pet_deposit"),
+                ("from", None),
+                ("to", "as stated: %r" % found.group(0)[:90]),
+                ("why", "the source states a pet deposit AMOUNT and the record "
+                        "carries none; a deposit and a fee are different "
+                        "charges and a guest pays both"),
+                ("evidence", "policy-block.txt"),
+                ("correction_site", "parser logic"))))
+        elif found:
+            # Hilton's amenity table answers "Deposit" with "Yes" and no
+            # number. Publishing a deposit with no amount is how "Deposit Yes.
+            # $75 Non-refundable Fee" once became a refundable $75 deposit, so
+            # the record is right to carry nothing -- but a guest is told a
+            # deposit exists and our profile is silent, and that gap is a
+            # contract question rather than a reader bug.
+            findings.append(_finding(
+                "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+                "the source says a deposit is required (%r) and states no "
+                "amount; the schema can hold an amount or nothing, so the "
+                "profile cannot say 'a deposit is required, amount not stated'"
+                % found.group(0)[:70], severity="INFO"))
+
+    # -- a withheld reason that the source contradicts -----------------------
+    if withheld.get("pet_fee") == "SOURCE_SILENT" and _PET_MONEY_RE.search(text):
+        priced = _PET_MONEY_RE.search(text)
+        findings.append(_finding(
+            "WITHHELD_REASON_CONTRADICTED_BY_BLOCK",
+            "pet_fee is withheld as SOURCE_SILENT, but the persisted block "
+            "prices a pet: %r. SOURCE_SILENT is a claim ABOUT THE SOURCE, and "
+            "this one is false -- the reader did not read it"
+            % priced.group(0)[:90], severity="WARN"))
+        changes.append(OrderedDict((
+            ("field", "pet_fee"),
+            ("from", None),
+            ("to", "as stated: %r" % quote_at(priced)),
+            ("why", "the profile would tell a guest the price is not stated "
+                    "while the hotel's own page states it"),
+            ("evidence", "policy-block.txt"),
+            ("correction_site", "parser logic"))))
+
+    # -- the source states an allowance the record withheld ------------------
+    if (withheld.get("pets_allowed") in ("SOURCE_SILENT", "SOURCE_CONTRADICTORY")
+            and _BLOCK_ALLOWANCE_RE.search(text)):
+        found = _BLOCK_ALLOWANCE_RE.search(text)
+        changes.append(OrderedDict((
+            ("field", "pets_allowed"),
+            ("from", None),
+            ("to", "as stated: %r" % quote_at(found)),
+            ("why", "pets_allowed is withheld for want of a stated allowance, "
+                    "but the source states one in words; this is not reading an "
+                    "allowance out of a price"),
+            ("evidence", "policy-block.txt"),
+            ("correction_site", "parser logic"))))
+
+    # -- one page, two bases -------------------------------------------------
+    if (facts.get("fee_basis") and _PER_NIGHT_RE.search(text)
+            and _PER_STAY_RE.search(text)
+            and facts.get("fee_cap") is None):
+        findings.append(_finding(
+            "FEE_BASIS_STATED_BOTH_WAYS",
+            "the block states the same charge both per night and per stay; the "
+            "record publishes %r. A five-night stay is five times different "
+            "depending which is right" % facts["fee_basis"], severity="WARN"))
+        changes.append(OrderedDict((
+            ("field", "fee_basis"),
+            ("from", facts["fee_basis"]),
+            ("to", None),
+            ("why", "the source states this charge on two different bases, so "
+                    "neither is what the source says; the amount stands and the "
+                    "basis is withheld as SOURCE_CONTRADICTORY and renders as "
+                    "'Not stated'"),
+            ("evidence", "policy-block.txt"),
+            ("correction_site", "evidence-cited overlay"))))
+
+    # -- a value the source states and no pet can have -----------------------
+    weight = facts.get("weight_limit") or {}
+    if (weight.get("unit") == "lb" and weight.get("value")
+            and float(weight["value"]) > _IMPLAUSIBLE_WEIGHT_LB):
+        changes.append(OrderedDict((
+            ("field", "weight_limit"),
+            ("from", weight),
+            ("to", None),
+            ("why", "the source states %s lb, which no pet weighs; the quote "
+                    "stays as evidence and the value is withheld rather than "
+                    "printed as this hotel's limit" % weight["value"]),
+            ("evidence", "policy-block.txt"),
+            ("correction_site", "parser logic"))))
+
+    return (findings, changes)
+
+
+def examine(candidate: Mapping, census_row: Optional[Mapping],
+            census_names: Optional[Sequence[str]] = None,
+            record: Optional[Mapping] = None) -> Dict:
+    """Every check, run over one candidate. Returns findings and corrections.
+
+    ``census_names`` lets the name rules ask the MARKET whether a name names a
+    building. ``record`` is the observation-store row, whose capture artifacts
+    are what make the block-evidence checks possible: without it the review can
+    only compare a record against itself, and a record that dropped a fact its
+    own source states looks perfect from the inside.
+    """
     findings: List[Dict] = []
     changes: List[Dict] = []
     facts = candidate.get("proposed_facts") or {}
@@ -277,8 +536,9 @@ def examine(candidate: Mapping, census_row: Optional[Mapping]) -> Dict:
             "number and telephone all fail to agree",
             severity="BLOCKING"))
 
-    if _BARE_BRAND.match((candidate.get("canonical_name") or "").strip()):
-        page_name = identity["name_on_page"]
+    if names_no_building((candidate.get("canonical_name") or "").strip(),
+                         census_names or ()):
+        page_name = page_property_name(identity["name_on_page"])
         if page_name:
             changes.append(OrderedDict((
                 ("field", "canonical_name"),
@@ -287,7 +547,8 @@ def examine(candidate: Mapping, census_row: Optional[Mapping]) -> Dict:
                 ("why", "the census name is a bare chain word and would publish "
                         "a directory entry that names no building; the "
                         "property's own page states the full name"),
-                ("evidence", "identity_check.name_on_page"))))
+                ("evidence", "identity_check.name_on_page"),
+                ("correction_site", "evidence-cited overlay"))))
         else:
             findings.append(_finding(
                 "BARE_BRAND_NAME_NO_REPLACEMENT",
@@ -367,11 +628,41 @@ def examine(candidate: Mapping, census_row: Optional[Mapping]) -> Dict:
                 "the record carries both a tiered schedule and a flat fee; one "
                 "of them is a misread", severity="BLOCKING"))
 
+    statement = facts.get("service_animal_exception") or ""
+    if statement and not MS.states_service_animal_access(statement):
+        changes.append(OrderedDict((
+            ("field", "service_animal_exception"),
+            ("from", statement),
+            ("to", None),
+            ("why", "the sentence contains the words 'service animal' and says "
+                    "nothing about service-animal access; published under an "
+                    "accessibility heading it misrepresents the property"),
+            ("evidence", "policy-block.txt"),
+            ("correction_site", "parser logic"))))
+
     for field, reason in sorted(withheld.items()):
         findings.append(_finding(
             "WITHHELD_%s" % field.upper(),
             "%s is withheld (%s) and must render as 'Not stated'"
             % (field, reason), severity="INFO"))
+
+    block_findings, block_changes = examine_block(candidate, record)
+    findings.extend(block_findings)
+    changes.extend(block_changes)
+
+    if any(c["field"] == "pets_allowed" for c in block_changes):
+        # The allowance check reads the RECORD, which is where the allowance is
+        # missing. The block is where it was stated, and a finding raised in
+        # ignorance of the block must not outrank what the block says: Days Inn
+        # Sellersburg writes "A maximum of 2 dogs up to 15 lbs each are allowed"
+        # and then "Sorry no other pets are allowed", and the second sentence
+        # restricts the species rather than withdrawing the first.
+        for finding in findings:
+            if finding["code"] == "ALLOWANCE_NOT_STATED":
+                finding["severity"] = "WARN"
+                finding["detail"] += (
+                    " -- but the persisted block states an allowance in words, "
+                    "so this is a reader gap and not an unstated allowance")
 
     return OrderedDict((("findings", findings), ("changes", changes),
                         ("identity", identity)))
@@ -425,7 +716,8 @@ def dispose(candidate: Mapping, review: Mapping) -> Tuple[str, List[str], str]:
                 "codes the reader emits, as a versioned contract change, then "
                 "re-derive; the pricing evidence itself is intact")
 
-    if "ALLOWANCE_NOT_STATED" in codes:
+    if ("ALLOWANCE_NOT_STATED" in codes
+            and not any(c["field"] == "pets_allowed" for c in changes)):
         return (HOLD,
                 ["the source prices or limits a pet but never states that pets "
                  "are accepted; pets_allowed is withheld as SOURCE_SILENT",
@@ -459,11 +751,18 @@ def dispose(candidate: Mapping, review: Mapping) -> Tuple[str, List[str], str]:
             "")
 
 
-def review_all(packet: Mapping, census: Mapping, *, reviewer: str) -> Dict:
+def review_all(packet: Mapping, census: Mapping, *, reviewer: str,
+               observations: Optional[Mapping] = None,
+               work_order: str = "") -> Dict:
     rows = {h["identity_key"]: h for h in census.get("hotels") or ()}
+    names = [h.get("canonical_name", "") for h in census.get("hotels") or ()]
+    records = {r["identity_key"]: r
+               for r in (observations or {}).get("records") or ()}
     reviewed: List[Dict] = []
     for candidate in packet.get("candidates") or ():
-        detail = examine(candidate, rows.get(candidate["identity_key"]))
+        detail = examine(candidate, rows.get(candidate["identity_key"]),
+                         census_names=names,
+                         record=records.get(candidate["identity_key"]))
         disposition, reasons, next_action = dispose(candidate, detail)
         reviewed.append(OrderedDict((
             ("identity_key", candidate["identity_key"]),
@@ -505,7 +804,10 @@ def review_all(packet: Mapping, census: Mapping, *, reviewer: str) -> Dict:
          "proposed disposition. Nothing here is an approval and nothing here "
          "creates authority."),
         ("market_id", packet.get("market_id", "")),
-        ("work_order", "PTF-ST-LOUIS-FOUNDER-REVIEW-003"),
+        # Was hard-coded to the work order that first ran this module, so every
+        # market since has stamped St. Louis's identifier on its own review.
+        ("work_order", work_order or "PTF-ST-LOUIS-FOUNDER-REVIEW-003"),
+        ("block_evidence_read", bool(records)),
         ("derived_from", packet.get("work_order", "")),
         ("reviewed_by", reviewer),
         ("reviewed_at", _now()),
@@ -529,6 +831,13 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--packet", required=True)
     parser.add_argument("--census", required=True)
+    parser.add_argument("--observations", default="",
+                        help="the observation store the packet was built from; "
+                             "its capture artifacts are what let the review "
+                             "compare a record against its own source instead "
+                             "of only against itself")
+    parser.add_argument("--work-order", default="",
+                        help="the work order this review is run under")
     parser.add_argument("--out", required=True)
     parser.add_argument("--reviewer", required=True,
                         help="who ran this review -- never a founder's "
@@ -537,7 +846,11 @@ def main(argv=None) -> int:
 
     packet = json.loads(Path(args.packet).read_text(encoding="utf-8"))
     census = json.loads(Path(args.census).read_text(encoding="utf-8"))
-    document = review_all(packet, census, reviewer=args.reviewer)
+    observations = (json.loads(Path(args.observations).read_text(encoding="utf-8"))
+                    if args.observations else None)
+    document = review_all(packet, census, reviewer=args.reviewer,
+                          observations=observations,
+                          work_order=args.work_order)
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

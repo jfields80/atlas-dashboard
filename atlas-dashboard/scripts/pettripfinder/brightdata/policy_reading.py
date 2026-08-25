@@ -850,10 +850,17 @@ def _service_animal_quote(text: str, match) -> str:
         return ""
     segment = MS._segment_containing(text, match.start())
     if segment and len(segment) <= _MAX_SERVICE_ANIMAL_CHARS:
-        return _drop_swallowed_pet_terms(text, segment, match)
-    start = max(0, match.start() - 100)
-    end = min(len(text), match.end() + 140)
-    return _drop_swallowed_pet_terms(text, text[start:end].strip(), match)
+        quote = _drop_swallowed_pet_terms(text, segment, match)
+    else:
+        start = max(0, match.start() - 100)
+        end = min(len(text), match.end() + 140)
+        quote = _drop_swallowed_pet_terms(text, text[start:end].strip(), match)
+    # The phrase is not the statement. A span that says nothing about access is
+    # a sentence that happens to contain the words, and publishing it under a
+    # service-animal heading misrepresents the property (PTF-LOUISVILLE-FOUNDER-
+    # REVIEW-004). This reader and the Marriott surface each found the phrase
+    # their own way; they now agree on what makes it a statement.
+    return quote if MS.states_service_animal_access(quote) else ""
 
 
 #: Terms that price or cap an ORDINARY pet. A service-animal exception exists to
