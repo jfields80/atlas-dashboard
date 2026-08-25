@@ -42,9 +42,46 @@ class RunConfig:
     max_overpass_requests: int = C.DEFAULT_MAX_OVERPASS_REQUESTS
     cache_only: bool = False
     resume: bool = False
+    # PTF-DISCOVERY-OVERPASS-RESILIENCE-001. An approved-endpoint registry
+    # other than the committed default, and a local OSM extract index that
+    # answers Overpass cells without a public server at all.
+    overpass_registry_path: str = ""
+    osm_extract_index: str = ""
 
 
 _LEDGER_FILENAME = "query_ledger.json"
+OVERPASS_RUN_STATS_FILENAME = "overpass_run_stats.json"
+
+
+def default_overpass_source(config: "RunConfig"):
+    """The OSM source a run uses when the caller injects none.
+
+    A local extract index, when configured, answers every cell for free and
+    touches no shared server. Otherwise the resilient client: the approved
+    registry, health-checked selection, a circuit per endpoint persisted in the
+    run's own health ledger, and gentle pacing. Never one hard-coded endpoint.
+    """
+    from scripts.pettripfinder.discovery import overpass_endpoints as OE
+    if config.osm_extract_index:
+        from scripts.pettripfinder.discovery.osm_extract import ExtractIndex, LocalOsmExtractSource
+        return LocalOsmExtractSource(ExtractIndex.load(Path(config.osm_extract_index)))
+    registry = (OE.EndpointRegistry.load(Path(config.overpass_registry_path))
+                if config.overpass_registry_path else OE.EndpointRegistry.load())
+    return OverpassClient.from_registry(
+        registry, ledger_path=Path(config.output_root) / OE.HEALTH_LEDGER_FILENAME)
+
+
+def _save_overpass_stats(output_root: str, source) -> Optional[str]:
+    """What the OSM source did this run -- requests, failures, switches,
+    waits -- beside the query ledger. Only sources that keep stats write one."""
+    stats_fn = getattr(source, "run_stats", None)
+    if stats_fn is None:
+        return None
+    import json
+    path = Path(output_root) / OVERPASS_RUN_STATS_FILENAME
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(stats_fn(), indent=1) + "\n", encoding="utf-8")
+    return path.as_posix()
 
 
 def _load_ledger(output_root: str) -> dict:
@@ -107,7 +144,7 @@ def execute_run(
     market, queries = build_plan(config)
     cache = cache or DiscoveryCache(Path(config.output_root) / C.CACHE_SUBDIR)
     google_client = google_client or GooglePlacesClient()
-    overpass_client = overpass_client or OverpassClient()
+    overpass_client = overpass_client or default_overpass_source(config)
     foursquare_client = foursquare_client or FoursquareClient()
     if config.cache_only:
         google_client = _CacheOnlyClient(google_client)
@@ -153,6 +190,8 @@ def execute_run(
 
     ledger.update({r.query_id: r.state for r in results})
     _save_ledger(config.output_root, ledger)
+    inner = getattr(overpass_client, "_inner", overpass_client)
+    _save_overpass_stats(config.output_root, inner)
 
     all_records = [r for res in results for r in res.records]
     normalized = normalize_records(tuple(all_records))

@@ -392,3 +392,65 @@ class TestLiveProductionUnchanged:
             assert not path.startswith("launch_packages/pettripfinder/markets/authority/"), path
             assert not path.startswith("deploy/netlify/"), path
             assert not path.startswith("launch_packages/pettripfinder/identity_census/"), path
+
+
+# -- PTF-DISCOVERY-OVERPASS-RESILIENCE-001 ----------------------------------- #
+
+class TestCensusGatesOnFreeDiscovery:
+    """A census is never built, and never called complete, while free discovery
+    has cells left that an approved endpoint could still answer -- or while
+    every approved endpoint is cooling down."""
+
+    def _ctx_with_candidates(self, ctx, tmp_path):
+        candidates = tmp_path / "cands.json"
+        candidates.write_text("[]", encoding="utf-8")
+        ctx.candidates_path = candidates
+        ctx.contract_path = tmp_path / "contract.json"
+        ctx.contract_path.write_text("{}", encoding="utf-8")
+        ctx.census_path.unlink()
+        return ctx
+
+    def test_no_discovery_cache_blocks_the_census_rather_than_assuming(self, ctx, tmp_path):
+        ctx = self._ctx_with_candidates(ctx, tmp_path)
+        ctx.discovery_cache = tmp_path / "nowhere" / "cache"
+        result = MF.phase_census(ctx, MF.load_ledger(ctx))
+        assert result.status == MF.BLOCKED
+        assert "cannot be evaluated" in result.note
+
+    def test_cells_remaining_with_an_endpoint_available_blocks_as_runnable(self, ctx, tmp_path, monkeypatch):
+        from scripts.pettripfinder.discovery import discovery_state as DS
+        ctx = self._ctx_with_candidates(ctx, tmp_path)
+        ctx.discovery_cache = tmp_path / "disc" / "cache"
+        ctx.discovery_cache.mkdir(parents=True)
+        monkeypatch.setattr(DS, "build", lambda *a, **k: {
+            "state": DS.RUNNABLE, "OVERPASS_CELLS_TOTAL": 30, "OVERPASS_CELLS_CACHED": 8,
+            "OVERPASS_CELLS_REMAINING": 22, "available_endpoint_ids": ["overpass.kumi.systems"],
+            "earliest_cooldown_expiry": "", "paid_discovery_fallback": {"state": "x"}})
+        result = MF.phase_census(ctx, MF.load_ledger(ctx))
+        assert result.status == MF.BLOCKED
+        assert "FREE_DISCOVERY_RUNNABLE" in result.note and "22 remaining" in result.note
+        assert result.facts["discovery_state"] == DS.RUNNABLE
+
+    def test_every_endpoint_down_blocks_as_waiting_with_the_cooldown(self, ctx, tmp_path, monkeypatch):
+        from scripts.pettripfinder.discovery import discovery_state as DS
+        ctx = self._ctx_with_candidates(ctx, tmp_path)
+        ctx.discovery_cache = tmp_path / "disc" / "cache"
+        ctx.discovery_cache.mkdir(parents=True)
+        monkeypatch.setattr(DS, "build", lambda *a, **k: {
+            "state": DS.WAITING, "OVERPASS_CELLS_TOTAL": 30, "OVERPASS_CELLS_CACHED": 8,
+            "OVERPASS_CELLS_REMAINING": 22, "available_endpoint_ids": [],
+            "earliest_cooldown_expiry": "2026-08-25T13:00:00+00:00",
+            "paid_discovery_fallback": {"state": "PAID_DISCOVERY_FALLBACK_AVAILABLE"}})
+        result = MF.phase_census(ctx, MF.load_ledger(ctx))
+        assert result.status == MF.BLOCKED
+        assert "WAITING_FOR_FREE_DISCOVERY" in result.note
+        assert "2026-08-25T13:00:00" in result.note
+        assert "NOT authorised" in result.note
+        assert (tmp_path / "pkg" / "testville_xx_discovery_state_001.json").is_file()
+
+    def test_the_lifecycle_still_gates_everything_behind_the_census(self, ctx, tmp_path):
+        ctx = self._ctx_with_candidates(ctx, tmp_path)
+        ctx.discovery_cache = tmp_path / "nowhere" / "cache"
+        ledger = MF.run_phases(ctx, through=MF.FOUNDER_REVIEW)
+        assert MF.status_of(ledger, MF.CENSUS) == MF.BLOCKED
+        assert all(MF.status_of(ledger, p) == MF.NOT_RUN for p in MF.PHASES[1:])
