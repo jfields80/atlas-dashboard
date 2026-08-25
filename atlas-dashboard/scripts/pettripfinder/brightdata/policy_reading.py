@@ -177,11 +177,18 @@ _BARE_CHARGE_RE = re.compile(
 #: one-time pet fee of $150 is non-refundable" states the amount as plainly as
 #: "Pet Fee: $150" does, and the only thing standing between them was the
 #: connector word. An optional token cannot change what already matched.
+#: The trailing label may carry more than one qualifier word. Hilton's Seelbach
+#: writes "There is a $100.00 non-refundable pet fee", where THREE words stand
+#: between the amount and the noun, and a label allowing only one read the whole
+#: sentence as no charge at all -- so the record said the price was not stated
+#: while the hotel's own page stated it (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+#: The qualifiers are bounded at two and may not cross a full stop, so the noun
+#: still has to belong to this amount's own phrase.
 _LABELLED_AMOUNT_RE = re.compile(
     r"(?:(?P<pre>fee|deposit|charge)\s*(?:of\s+)?:?\s*)?"
     r"(?:\$\s*(?P<dollars>[\d,]+(?:\.\d{1,2})?)|"
     r"(?P<usd>[\d,]+(?:\.\d{1,2})?)\s*USD\b)"
-    r"(?:\s*(?P<post>[a-z-]*\s*(?:fee|deposit|charge)))?",
+    r"(?:\s*(?P<post>(?:[a-z-]+\s+){0,2}(?:fee|deposit|charge)))?",
     re.IGNORECASE)
 
 #: A stated ceiling: "Max 75 USD per stay". Recorded as ``fee_cap``, never as
@@ -255,11 +262,31 @@ _COUNT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"(?P<count>\d+)\s+pets?\s+(?:are\s+)?(?:allowed\s+)?per\s+"
                r"(?P<scope>room|reservation|suite)\b", re.IGNORECASE),
     re.compile(r"limit\s+(?:of\s+)?(?P<count>\d+)\s+pets?\b", re.IGNORECASE),
+    # "limit of two dogs in room" -- the same shape with the number written as
+    # a word and the species named instead of the word "pet". Each variation is
+    # accepted by some other form in this tuple; this shape had neither.
+    re.compile(r"limit\s+(?:of\s+)?"
+               r"(?:(?P<count>\d+)|(?P<word>one|two|three|four|five))\s+"
+               r"(?:pets?|dogs?|cats?)\b", re.IGNORECASE),
+    # "One pet is allowed per room", "2 pets allowed".
+    #
+    # A ceiling stated as an ALLOWANCE rather than as a maximum. Marriott's
+    # Residence Inn East/Oxmoor writes the first and IHG's Candlewood the
+    # second, and neither read: every form above needs a "max", "up to" or
+    # "limit" word, and "is allowed" is none of them. Scope is recorded only
+    # where the surface writes it.
+    re.compile(r"\b(?:(?P<count>\d+)|(?P<word>one|two|three|four|five))\s+"
+               r"(?:pets?|dogs?|cats?)\s+(?:(?:is|are)\s+)?allowed"
+               r"(?:\s+per\s+(?P<scope>room|reservation|suite))?\b",
+               re.IGNORECASE),
     re.compile(r"(?:one|1)\s+(?:well-behaved\s+)?(?:family\s+)?pet\s+per\s+"
                r"(?P<scope>room)\b", re.IGNORECASE),
     # Hilton and Wyndham both put the number first: "2 pets max", "2pets Max",
     # "2 dogs max", "Two pets max per room".
-    re.compile(r"\b(?P<count>\d+)\s*(?:pets?|dogs?|cats?)\s+max(?:imum)?\b"
+    # ``\s*`` before "max", not ``\s+``: Hilton's compressed cell writes
+    # "2petsMax total 75lb" with no space anywhere, and a rule that required
+    # one read a stated two-pet limit as no limit.
+    re.compile(r"\b(?P<count>\d+)\s*(?:pets?|dogs?|cats?)\s*max(?:imum)?\b"
                r"(?:\s+per\s+(?P<scope>room|reservation|suite))?",
                re.IGNORECASE),
     re.compile(r"\b(?P<word>one|two|three|four|five)\s+pets?\s+max(?:imum)?\b"
@@ -364,6 +391,29 @@ _WEIGHT_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"\b(?:size|weight)\s+(?:limit|restriction)\b[^.]{0,48}?"
                r"(?:\b(?:is|are|shall\s+be|will\s+be|of)\b|:)\s*"
                r"(?P<value>[\d,]+(?:\.\d+)?)\s*"
+               r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
+    # "Weight limit 50 lbs, limit of two dogs in room."
+    #
+    # The same noun as the pattern above with NO connector at all. That one
+    # needs a copula or a colon between the noun and the figure, and IHG's
+    # Louisville East/Hurstbourne writes neither -- so a stated 50 lb limit read
+    # as no limit and the profile said "Not stated" where the hotel said 50.
+    # The gap here is whitespace only: with the noun, the number and the unit
+    # adjacent there is nothing for a stray figure to slip into
+    # (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+    re.compile(r"\b(?:size|weight)\s+(?:limit|restriction)\s+"
+               r"(?P<value>[\d,]+(?:\.\d+)?)\s*"
+               r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
+    # "Max total 75lb", "Maximum combined weight 100 lbs".
+    #
+    # LAST on purpose. This shape is a figure for several animals together, and
+    # matching it does not publish it: ``_weight_is_combined`` sees the joining
+    # word and the reading records that it ignored the weight. Before this, no
+    # pattern matched at all, so a surface that stated a combined ceiling and a
+    # reader that read nothing were indistinguishable -- and the record simply
+    # had no weight, with nothing saying why.
+    re.compile(r"max(?:imum)?\s+(?:of\s+)?(?:total|combined|aggregate)\s+"
+               r"(?:weight\s+)?(?P<value>[\d,]+(?:\.\d+)?)\s*"
                r"(?P<unit>lbs?|pounds?|kgs?)\b", re.IGNORECASE),
 )
 
@@ -827,6 +877,132 @@ class Reading:
                 "brand_generic": self.brand_generic}
 
 
+#: An amount standing in a pet sentence: the words and the money in one clause,
+#: with a pet word close enough that the money is about the animal. Used only to
+#: decide whether "no fee" means the SOURCE said nothing or the READER read
+#: nothing -- never to publish a value.
+_PET_PRICED_RE = re.compile(
+    r"(?:pets?|dogs?|cats?)[^.]{0,80}?"
+    r"(?P<money>\$\s?\d[\d,]*(?:\.\d{2})?|\b\d[\d,]*(?:\.\d{2})?\s*USD\b)"
+    r"|(?P<money2>\$\s?\d[\d,]*(?:\.\d{2})?|\b\d[\d,]*(?:\.\d{2})?\s*USD\b)"
+    r"[^.]{0,40}?(?:per\s+)?(?:pets?|dogs?|cats?)\b"
+    # A charge NOUN that names the pet, and the money in the sentence after it:
+    # "A nonrefundable pet fee applies. 75 USD for one to six nights, 150 USD
+    # for seven or more nights." The two clauses above both stop at a full stop,
+    # so this block priced its pets twice and the record still said the source
+    # was silent (PTF-LOUISVILLE-FOUNDER-FINAL-006). Crossing the stop is safe
+    # HERE and nowhere else: this expression never publishes a value, it only
+    # decides whether "no fee" is the source's silence or the reader's.
+    r"|(?:pets?|dogs?|cats?)\s+(?:fee|charge|deposit)s?\b[^.]{0,40}\.\s*"
+    r"(?P<money3>\$\s?\d[\d,]*(?:\.\d{2})?|\b\d[\d,]*(?:\.\d{2})?\s*USD\b)",
+    re.IGNORECASE)
+
+
+#: A ceiling above which a stated "pet weight" is not a fact about a pet. The
+#: heaviest dog on record is about 155 lb; 250 lb leaves room for a large breed,
+#: a rounding, and a kilogram figure mislabelled as pounds, and still refuses the
+#: 900 lb one brand's own page prints.
+_IMPLAUSIBLE_WEIGHT: Dict[str, float] = {"lb": 250.0, "kg": 115.0}
+
+
+def _weight_is_implausible(value: Optional[float], unit: str) -> bool:
+    ceiling = _IMPLAUSIBLE_WEIGHT.get((unit or "").lower())
+    return bool(ceiling and value is not None and float(value) > ceiling)
+
+
+#: How far from an amount a basis word may stand and still be its basis. One
+#: clause: "75 USD pet fee per stay" and "Pet fee per night: 75 USD" both fit,
+#: and a basis two sentences away belongs to another charge.
+_BASIS_NEAR_AMOUNT_CHARS = 40
+_BASIS_WORD_RE = re.compile(r"per\s+(?P<basis>night|day|stay|visit)\b"
+                            r"|\b(?P<word>nightly|daily)\b", re.IGNORECASE)
+
+
+def bases_stated_for(text: str, amount_minor: int) -> set:
+    """Every basis this block states for one amount.
+
+    IHG's Louisville Downtown page prices its pet fee twice -- "Subject to a 75
+    USD pet fee per stay" and "Pet fee per night: 75 USD" -- and the reader took
+    whichever pattern matched first. A five-night stay is $75 or $375 depending
+    on which sentence is right, and the source does not say. Reported so the
+    caller can withhold the basis instead of choosing one
+    (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+    """
+    whole = amount_minor // 100
+    written = [r"\$\s?%d(?:\.%02d)?\b" % (whole, amount_minor % 100),
+               r"\b%d(?:\.%02d)?\s*USD\b" % (whole, amount_minor % 100),
+               r"\b%d\s+dollars\b" % whole]
+    bases = set()
+    for pattern in written:
+        for match in re.finditer(pattern, text or "", re.IGNORECASE):
+            for word in _bases_beside(text, match.start(), match.end()):
+                bases.add(_BASIS_BY_WORD.get(word, ""))
+    return {b for b in bases if b}
+
+
+def _bases_beside(text: str, start: int, end: int) -> List[str]:
+    """Basis words in this amount's own clause, on either side of it.
+
+    The window stops at a full stop and at any OTHER amount. Without both stops
+    a nightly fee standing one clause away from its own per-stay ceiling --
+    "25 USD per pet per night. Max 75 USD per stay" -- reads as one charge
+    stated two ways, and a rule meant to catch a contradiction invents one.
+    """
+    left = text[max(0, start - _BASIS_NEAR_AMOUNT_CHARS):start]
+    right = text[end:end + _BASIS_NEAR_AMOUNT_CHARS]
+    left = left.rsplit(".", 1)[-1]
+    right = right.split(".", 1)[0]
+    other = _BAND_AMOUNT_RE.search(left)
+    if other:
+        left = left[other.end():]
+    other = _BAND_AMOUNT_RE.search(right)
+    if other:
+        right = right[:other.start()]
+    found: List[str] = []
+    for window in (left, right):
+        for match in _BASIS_WORD_RE.finditer(window):
+            found.append((match.group("basis") or match.group("word")).lower())
+    return found
+
+
+#: A weight limit stated as a bare number. IHG's Candlewood writes "Pet weight
+#: limit: 80" and names no unit, so no weight pattern matches and the record
+#: carries nothing. Eighty pounds and eighty kilograms are different hotels'
+#: policies, so the value stays unpublished -- but the SILENCE is the reader's,
+#: not the source's, and a record that does not say so invites the next reviewer
+#: to find the same thing again.
+_WEIGHT_NO_UNIT_RE = re.compile(
+    r"\b(?:pet\s+)?(?:size|weight)\s+(?:limit|restriction)\s*:?\s*"
+    r"(?P<value>[\d,]+(?:\.\d+)?)(?!\s*(?:lb|lbs|pound|pounds|kg|kgs))",
+    re.IGNORECASE)
+
+
+def weight_stated_but_unusable(reading) -> str:
+    """Why a stated weight is absent from the facts, or "".
+
+    Two shapes, both correct to refuse and both wrong to refuse silently: a
+    figure with no unit, and a figure the surface states for several animals
+    together (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+    """
+    for note in reading.parser_notes or ():
+        if note.startswith("ignored the weight"):
+            return note
+    match = _WEIGHT_NO_UNIT_RE.search(reading.block_text or "")
+    if match:
+        return ("the surface states %r and names no unit; pounds and kilograms "
+                "are different policies and neither is inferred"
+                % collapse(match.group(0))[:80])
+    return ""
+
+
+def _pet_priced_amount(block_text: str) -> str:
+    """The first amount this block states about a pet, or ""."""
+    match = _PET_PRICED_RE.search(block_text or "")
+    if not match:
+        return ""
+    return collapse(match.group(0))[:90]
+
+
 def _fee_is_conditional(block_text: str, charge) -> bool:
     """Whether a condition the schema cannot express governs this charge."""
     index = block_text.find(charge.quote)
@@ -1037,6 +1213,37 @@ def _refusal_names_a_place(text: str, match) -> bool:
         window = window[:stop.start()]
     return bool(_PLACE_QUALIFIED_REFUSAL_RE.match(window.strip())
                 or _PLACE_QUALIFIED_REFUSAL_RE.match(window.lstrip()))
+
+
+#: "A maximum of 2 dogs up to 15 lbs each are allowed for a non-refundable
+#: charge of 20.00 USD per pet per night."
+#:
+#: The species and its acceptance, separated by the terms that qualify it. The
+#: tight form above needs them adjacent, so Days Inn Sellersburg stated which
+#: animal it takes, how many, how heavy and at what price -- and the reader saw
+#: no acceptance at all, then read the following "Sorry no other pets are
+#: allowed" as a refusal and withheld every one of those facts as
+#: self-contradictory (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+#:
+#: The gap may not cross a full stop and may not contain a negation: "dogs are
+#: not allowed" and "no dogs allowed" must never arrive here as acceptances.
+_DOGS_ALLOWED_QUALIFIED_RE = re.compile(
+    r"\bdogs?\b(?P<gap>[^.]{0,48}?)\s+(?:are\s+|is\s+)?"
+    r"(?:allowed|welcome|permitted)\b", re.IGNORECASE)
+_NEGATION_IN_GAP_RE = re.compile(r"\b(?:no|not|never|except|without)\b",
+                                 re.IGNORECASE)
+
+
+def _dogs_allowed_qualified(text: str):
+    """A counted or qualified acceptance of dogs, or ``None``."""
+    for match in _DOGS_ALLOWED_QUALIFIED_RE.finditer(text or ""):
+        if _NEGATION_IN_GAP_RE.search(match.group("gap") or ""):
+            continue
+        before = text[max(0, match.start() - 12):match.start()]
+        if _NEGATION_IN_GAP_RE.search(before):
+            continue
+        return match
+    return None
 
 
 def _is_species_restriction(text: str, refused, dogs_only, both_species,
@@ -1421,6 +1628,13 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     explained_amounts = {c.amount_minor for c in charges}
     if fee_cap:
         explained_amounts.add(fee_cap["amount_minor"])
+    # A FEE and a DEPOSIT that happen to be the same number are two charges, and
+    # a guest pays both. Louisville's Holiday Inn East/Hurstbourne states "Pet
+    # fee per night: 40 USD Pet damage deposit: 40 USD" and the deposit
+    # disappeared, because this pass skipped any amount already explained and
+    # forty dollars had been explained once. What must not be read twice is one
+    # CHARGE, not one number (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+    explained_charges = {(c.amount_minor, c.kind) for c in charges}
     for match in _LABELLED_AMOUNT_RE.finditer(text):
         if not (match.group("pre") or match.group("post")):
             continue
@@ -1428,20 +1642,22 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         if not raw:
             continue
         amount = _amount_minor(raw)
-        if amount in explained_amounts:
+        label_word = (match.group("pre") or match.group("post") or "").lower()
+        kind = "deposit" if "deposit" in label_word else "fee"
+        if (amount, kind) in explained_charges:
             continue
         if not _pet_context(text, match.start(), match.end()):
             continue
         window = text[max(0, match.start() - 60):match.end() + 40]
         refundable = (False if _NONREFUNDABLE_RE.search(window)
                       else True if _REFUNDABLE_RE.search(window) else None)
-        label_word = (match.group("pre") or match.group("post") or "").lower()
         charges.append(Charge(
             amount_minor=amount, basis="", scope="", origin="labelled_amount",
             refundable=refundable, quote=text[match.start():match.end()],
             cleaning_labelled=amount in cleaning_amounts,
-            kind="deposit" if "deposit" in label_word else "fee"))
+            kind=kind))
         explained_amounts.add(amount)
+        explained_charges.add((amount, kind))
         fired.append("labelled_amount_no_basis")
 
     # --- charge components nothing above explained ------------------------- #
@@ -1601,9 +1817,15 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     # dogs are welcome" does not, and a reading that cannot tell them apart
     # cannot be asked the difference later.
     dogs_exclusive = MS._DOGS_ONLY_RE.search(text)
-    dogs_mentioned = re.search(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
-                               r"permitted)\b", text, re.IGNORECASE)
-    dogs_only = dogs_exclusive or dogs_mentioned
+    # "No dogs allowed" contains "dogs allowed", and this pattern read it as an
+    # affirmation -- so a page refusing dogs listed dog as a species it accepts.
+    # The negation guard is the same one the qualified form uses.
+    dogs_mentioned = next(
+        (m for m in re.finditer(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
+                                r"permitted)\b", text, re.IGNORECASE)
+         if not _NEGATION_IN_GAP_RE.search(text[max(0, m.start() - 12):m.start()])),
+        None)
+    dogs_only = dogs_exclusive or dogs_mentioned or _dogs_allowed_qualified(text)
     cats_refused = MS._CATS_REFUSED_RE.search(text)
     both_exclusive = _BOTH_SPECIES_RE.search(text)
     both_species = (both_exclusive or _BOTH_SPECIES_ACCEPTED_RE.search(text)
@@ -1665,6 +1887,24 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
         pets_allowed = True
         pets_allowed_quote = text[welcome.start():welcome.end()]
         fired.append(welcome_pattern)
+    elif dogs_only is not None and not _within(
+            _service_animal_span(text, service),
+            (dogs_only.start(), dogs_only.end())):
+        # A property that says "2 dogs ... are allowed" has stated an
+        # acceptance. It has not used the word "pets", and every acceptance
+        # pattern above requires that word, so Days Inn Sellersburg priced,
+        # counted and weighed its dogs while the record said the allowance was
+        # never stated. A species acceptance IS an acceptance -- of that
+        # species, which ``species_allowed`` already carries -- and reading one
+        # is not the same as reading an allowance out of a price
+        # (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+        #
+        # Guarded twice: the match may not sit inside the service-animal
+        # sentence, where "service animals are welcome" would otherwise make a
+        # no-pets hotel pet-friendly, and it may not be governed by a negation.
+        pets_allowed = True
+        pets_allowed_quote = text[dogs_only.start():dogs_only.end()]
+        fired.append("species_acceptance")
 
     # --- a refusal may not arrive carrying ordinary-pet terms ---------------- #
     #
@@ -2643,6 +2883,16 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                                     "per_night are distinct and this layer "
                                     "does not choose"
                                     % (charge.amount_minor / 100.0)})
+        elif len(bases_stated_for(reading.block_text, charge.amount_minor)) > 1:
+            stated = sorted(bases_stated_for(reading.block_text,
+                                             charge.amount_minor))
+            withheld["fee_basis"] = enums.SOURCE_CONTRADICTORY
+            flags.append({
+                "code": "FLAG_AMBIGUOUS_BASIS",
+                "detail": ("the surface states this $%.2f charge on more than "
+                           "one basis (%s); the amount stands and the basis is "
+                           "not chosen"
+                           % (charge.amount_minor / 100.0, ", ".join(stated)))})
         else:
             extraction["fee_basis"] = charge.basis
             cite(charge.quote, ["fee_basis"])
@@ -2695,6 +2945,22 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
                 "detail": ("the surface states a recurring pet charge that no "
                            "charge pattern could read; no amount is asserted "
                            "and the silence is not claimed")})
+        elif _pet_priced_amount(reading.block_text):
+            # SOURCE_SILENT is a claim ABOUT THE SOURCE, and this branch is
+            # where it was made without asking the source. Staybridge Louisville
+            # Expo writes "Our Pet Policy: 1 to 6 nights: 75 USD" -- a price for
+            # a bounded stay that no charge pattern binds and no ladder can
+            # carry, since a ladder needs two rungs -- and the record said the
+            # page stated no fee. It states one. The amount stays unpublished,
+            # because binding it would be an inference, and the REASON now says
+            # what is true (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+            withheld.setdefault("pet_fee", enums.SOURCE_AMBIGUOUS)
+            flags.append({
+                "code": "FLAG_PET_AMOUNT_NOT_BOUND",
+                "detail": ("the surface prices a pet (%r) and no charge pattern "
+                           "could bind the amount to a fee; nothing is asserted "
+                           "and the silence is not claimed"
+                           % _pet_priced_amount(reading.block_text))})
         else:
             withheld.setdefault("pet_fee", enums.SOURCE_SILENT)
 
@@ -2711,9 +2977,33 @@ def to_extraction(reading: Reading, *, location: str) -> MS.ExtractionResult:
         cite(reading.fee_cap_quote, ["fee_cap"])
 
     if reading.weight_value is not None and reading.weight_unit:
-        extraction["weight_limit"] = {"value": reading.weight_value,
-                                      "unit": reading.weight_unit}
-        cite(reading.weight_quote, ["weight_limit"])
+        if _weight_is_implausible(reading.weight_value, reading.weight_unit):
+            # The source really does say it. Marriott's page for Louisville's
+            # Residence Inn Airport states "Each pet may weigh up to 900.0 lbs",
+            # and the reader quoting it faithfully is not the defect -- printing
+            # it as this hotel's limit is. The quote stays in evidence and the
+            # value is withheld, so a reviewer sees what the page said and a
+            # guest is not told a nine-hundred-pound pet is welcome
+            # (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005).
+            withheld.setdefault("weight_limit", enums.SOURCE_AMBIGUOUS)
+            flags.append({
+                "code": "FLAG_WEIGHT_IMPLAUSIBLE",
+                "detail": ("the surface states a weight limit of %g %s, which "
+                           "is not a weight a pet has; the value is not "
+                           "published and the source's own words are kept "
+                           "here: %r"
+                           % (reading.weight_value, reading.weight_unit,
+                              collapse(reading.weight_quote)[:120]))})
+        else:
+            extraction["weight_limit"] = {"value": reading.weight_value,
+                                          "unit": reading.weight_unit}
+            cite(reading.weight_quote, ["weight_limit"])
+    else:
+        unusable = weight_stated_but_unusable(reading)
+        if unusable:
+            withheld.setdefault("weight_limit", enums.SOURCE_AMBIGUOUS)
+            flags.append({"code": "FLAG_WEIGHT_NOT_USABLE",
+                          "detail": unusable})
 
     if reading.pet_count_limit is not None:
         extraction["pet_count_limit"] = reading.pet_count_limit

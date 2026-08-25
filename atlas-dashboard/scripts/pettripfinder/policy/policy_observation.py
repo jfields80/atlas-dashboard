@@ -59,14 +59,18 @@ SCHEMA = "ptf-policy-observation/1.0"
 #: so 1.2.0 accepts everything 1.1.0 and 1.0.0 accepted. Neither may be written
 #: by a reader: they exist so that when a person overrules a gate, the record
 #: says who and on what evidence, instead of the override being invisible.
-CONTRACT_VERSION = "1.2.0"
+#: 1.3.0 -- PTF-LOUISVILLE-FOUNDER-REMEDIATION-005 admits seven flag codes the
+#: readers already emit (see FLAG_CODES). Additive in the only sense that
+#: matters: a vocabulary that grows accepts every record written against the
+#: smaller one, and no field, tier or rule changes.
+CONTRACT_VERSION = "1.3.0"
 
 #: Versions a record may CARRY and still validate. An amendment that only adds
 #: to a closed vocabulary cannot invalidate a record written before it, and four
 #: markets' committed observation stores carry 1.0.0. Bumping the emission
 #: version without widening acceptance would have failed every one of them --
 #: which is how a "versioned" change quietly becomes a breaking one.
-ACCEPTED_CONTRACT_VERSIONS = ("1.0.0", "1.1.0", "1.2.0")
+ACCEPTED_CONTRACT_VERSIONS = ("1.0.0", "1.1.0", "1.2.0", "1.3.0")
 
 # --------------------------------------------------------------------------- #
 # Authority tiers.
@@ -151,6 +155,24 @@ FLAG_CODES = frozenset({
     "W_ENCODING_REPAIRED", "W_FIELD_TRUNCATED", "W_AMBIGUOUS_ROW",
     # 1.1.0 -- structured pricing the flat fee fields cannot represent.
     "FLAG_STRUCTURED_TIERS", "FLAG_STRUCTURED_PET_SCHEDULE",
+    # 1.3.0 -- codes the reader has been emitting that this closed vocabulary
+    # did not carry, so the membrane refused the whole observation as MALFORMED.
+    # A flag exists to say the reader noticed something it could not publish; a
+    # vocabulary that rejects the notice throws away the observation as well,
+    # which is the opposite of what flagging is for. Louisville's Hilton Garden
+    # Inn Jeffersonville was held for exactly this: its pricing evidence was
+    # intact and the record was refused over the NAME of the note attached to it
+    # (PTF-LOUISVILLE-FOUNDER-REMEDIATION-005). Reconciled by listing every code
+    # the readers emit, not by adding the one that happened to be found.
+    "FLAG_TIER_STRUCTURE_REFUSED",      # a ladder read but not publishable
+    "FLAG_TIERED_FEE",                  # priced by stay length AND by pet
+    "FLAG_RECURRING_CHARGE_NOT_READ",   # a recurring charge no pattern read
+    "FLAG_RECURRING_CLEANING_CHARGE",   # a cleaning charge stated per night
+    "FLAG_AMENITY_LABEL_ONLY",          # an amenity label, not a policy
+    "FLAG_PET_AMOUNT_NOT_BOUND",        # money about a pet, bound to no charge
+    "FLAG_WEIGHT_IMPLAUSIBLE",          # a stated weight no pet has
+    "FLAG_WEIGHT_NOT_USABLE",           # a stated weight with no unit, or one
+                                        # stated for several animals together
 })
 
 #: The candidate policy fields an observation may carry. Aligned with the

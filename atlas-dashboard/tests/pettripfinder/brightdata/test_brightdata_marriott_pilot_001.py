@@ -616,8 +616,13 @@ def test_existing_contract_vocabularies_are_untouched():
     # that IMPORTING a package must never mutate a vocabulary, and it still
     # holds: each step was a declared amendment, and every earlier version's
     # records still validate.
-    assert PO.CONTRACT_VERSION == "1.2.0"
-    assert PO.ACCEPTED_CONTRACT_VERSIONS == ("1.0.0", "1.1.0", "1.2.0")
+    # 1.3.0 since PTF-LOUISVILLE-FOUNDER-REMEDIATION-005 registered the seven
+    # flag codes the readers emit that the closed vocabulary did not carry, so
+    # the membrane was refusing whole observations over the NAME of a note.
+    # Same purpose, same conclusion: a declared amendment, and every earlier
+    # version's records still validate.
+    assert PO.CONTRACT_VERSION == "1.3.0"
+    assert PO.ACCEPTED_CONTRACT_VERSIONS == ("1.0.0", "1.1.0", "1.2.0", "1.3.0")
     assert EV.PUBLICATION_GRADE_REQUIRED == (
         "evidence_ref", "field", "quote", "source_url", "source_grade",
         "artifact_class", "artifact_sha256", "artifact_kind", "captured_at")

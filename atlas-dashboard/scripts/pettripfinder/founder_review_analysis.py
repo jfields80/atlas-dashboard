@@ -344,6 +344,12 @@ def examine_block(candidate: Mapping, record: Optional[Mapping]
     such rows, one of which drops a stated weight limit AND a stated pet count
     AND a stated damage deposit from a single sentence.
 
+    A field the record explicitly WITHHELD is not missing: the reader read it and
+    said, with a reason, that it could not publish it. Asking for it again would
+    turn every honest refusal into a correction -- Louisville states a weight
+    limit with no unit, a weight stated for two animals together, and a weight no
+    pet has, and all three are right to be absent.
+
     Nothing here writes a value. A stated-but-unpublished fact becomes a change
     whose ``to`` is the SOURCE'S OWN WORDS, to be applied by fixing the reader
     and re-deriving offline -- never by typing the number into the record.
@@ -361,7 +367,7 @@ def examine_block(candidate: Mapping, record: Optional[Mapping]
         return text[start:match.end() + 40].strip()
 
     # -- facts the source states and the record does not carry ---------------
-    if not facts.get("weight_limit"):
+    if not facts.get("weight_limit") and "weight_limit" not in withheld:
         found = _BLOCK_WEIGHT_RE.search(text)
         if found:
             changes.append(OrderedDict((
@@ -373,7 +379,8 @@ def examine_block(candidate: Mapping, record: Optional[Mapping]
                         "the hotel states a limit"),
                 ("evidence", "policy-block.txt"),
                 ("correction_site", "parser logic"))))
-    if facts.get("pet_count_limit") is None and facts.get("pets_allowed"):
+    if (facts.get("pet_count_limit") is None and facts.get("pets_allowed")
+            and "pet_count_limit" not in withheld):
         found = _BLOCK_COUNT_RE.search(text)
         if found:
             changes.append(OrderedDict((
@@ -384,7 +391,8 @@ def examine_block(candidate: Mapping, record: Optional[Mapping]
                         "record carries no count"),
                 ("evidence", "policy-block.txt"),
                 ("correction_site", "parser logic"))))
-    if facts.get("pet_deposit") is None and facts.get("deposit") is None:
+    if (facts.get("pet_deposit") is None and facts.get("deposit") is None
+            and "pet_deposit" not in withheld):
         found = _BLOCK_DEPOSIT_RE.search(text)
         if found and _MONEY_RE.search(found.group(0)):
             changes.append(OrderedDict((

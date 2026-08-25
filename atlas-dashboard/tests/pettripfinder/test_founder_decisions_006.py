@@ -48,8 +48,13 @@ def observation(**over):
 
 class TestTheContractAmendment:
     def test_the_version_moved_and_older_records_still_validate(self):
-        assert PO.CONTRACT_VERSION == "1.2.0"
-        for older in ("1.0.0", "1.1.0"):
+        """1.2.0 was this work order's amendment; 1.3.0 came from
+        PTF-LOUISVILLE-FOUNDER-REMEDIATION-005. What this test is FOR is that
+        an amendment never invalidates a record written before it, and that
+        claim gets stronger with each version, not weaker -- so the assertion
+        follows the current version and keeps checking every older one."""
+        assert PO.CONTRACT_VERSION == "1.3.0"
+        for older in ("1.0.0", "1.1.0", "1.2.0"):
             assert older in PO.ACCEPTED_CONTRACT_VERSIONS
 
     def test_both_override_fields_are_optional_and_allowed(self):
