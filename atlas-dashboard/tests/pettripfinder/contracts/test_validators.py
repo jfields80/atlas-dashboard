@@ -186,10 +186,27 @@ class TestTiers:
 
 class TestOtherCharges:
 
-    def test_absent_refundability_is_unknown_not_inferred(self):
+    def test_absent_refundability_is_refused_unless_the_record_says_so(self):
+        """Silence about refundability is a real problem and the fix is not to
+        stop asking.
+
+        `cfb3b7f` made `refundable` OPTIONAL so Louisville's conditional
+        sanitation charges could pass. That let EVERY writer omit it and every
+        reader assume. Schema 1.3 answers the same need without lowering the
+        bar: a charge may declare `refundable_stated: false`, which says THE
+        SOURCE DID NOT STATE IT -- a different claim from "it is not
+        refundable" -- and `refundable` stays required for everyone who does
+        not (PTF-LOUISVILLE-MARKET-REBUILD-002).
+        """
+        issues = ps.validate_facts({"other_charges": [dict(
+            money(15000), kind="sanitation_fee", conditional=True,
+            trigger="if applicable")]})
+        assert "MISSING_REQUIRED" in codes(issues)
+
+    def test_a_source_that_never_stated_refundability_says_so_explicitly(self):
         assert ps.validate_facts({"other_charges": [dict(
             money(15000), kind="sanitation_fee", conditional=True,
-            trigger="if applicable")]}) == ()
+            trigger="if applicable", refundable_stated=False)]}) == ()
 
     def test_conditional_charge_requires_source_stated_trigger(self):
         issues = ps.validate_facts({"other_charges": [dict(
@@ -206,9 +223,9 @@ class TestOtherCharges:
             dict(money(7500), kind="non_refundable_fee", refundable=False)]}) == ()
 
     def test_conditional_sanitation_charge_renders_the_trigger_not_a_pet_fee(self):
-        record = {"schema_version": "1.2", "facts": {"pets_allowed": True, "other_charges": [dict(
+        record = {"schema_version": "1.3", "facts": {"pets_allowed": True, "other_charges": [dict(
             money(15000), kind="sanitation_fee", conditional=True,
-            trigger="if applicable")]}}
+            trigger="if applicable", refundable_stated=False)]}}
         shown = canonical_view.display_facts(record)
         rows = dict((label, value) for label, value, _ in
                     _verified_details(shown, record)[0])

@@ -1776,7 +1776,13 @@ def _verified_details(f: Dict[str, str],
         # Refundability is not asserted: the legacy shape is a bare amount, and
         # inferring it from a heading is how "Deposit Yes. $75 Non-refundable
         # Fee" becomes a refundable deposit.
-        *((("Cleaning fee", _prose_number("$%s" % f["cleaning_fee"]), ""),)
+        # display_facts already returns this money PRE-FORMATTED ("$125.00"),
+        # so prefixing another "$" here renders "$$125" on every profile in
+        # every market that states a cleaning fee -- two of which are live
+        # (Cleveland's Courtyard Airport North, Pittsburgh's Omni William Penn).
+        # PTF-LOUISVILLE-MARKET-REBUILD-002 reverted that; the conditional
+        # trigger row below is the part of the Louisville change that was real.
+        *((("Cleaning fee", _prose_number(str(f["cleaning_fee"])), ""),)
           if f.get("cleaning_fee") else ()),
         *((("Conditional cleaning or sanitation charge", f["cleaning_fee_condition"], ""),)
           if f.get("cleaning_fee_condition") else ()),
