@@ -84,12 +84,21 @@ class TestTheAuthorizationIsConsumed:
         assert final["deployment_record_id"] == RECORD_ID
 
     def test_it_still_binds_the_artifact_that_went_live(self, auth):
-        assert DA.verify_authorization(auth) == []
+        """Its own bindings are what it went live with, and they are frozen in
+        the file. It no longer re-verifies against the repository, and that is
+        the correct answer rather than a regression: PTF-LOUISVILLE-
+        PUBLICATION-008 prepared a SEVENTH market, so the working tree now
+        composes a different bundle. An authorization that still matched a
+        repository which had moved on would be an authorization that had stopped
+        binding anything."""
         assert auth["bundle_sha256"] == BUNDLE
         assert auth["total_profiles"] == 415
         assert auth["sitemap_route_count"] == 515
         assert auth["participating_markets"] == SIX
         assert auth["profile_counts"] == PROFILES
+        problems = DA.verify_authorization(auth)
+        assert any("bundle_sha256" in p for p in problems), problems
+        assert auth["authorization_status"] == DA.DEPLOYED
 
     def test_no_earlier_authorization_was_reopened_or_reused(self):
         by_id = {a["authorization_id"]: a for a in DA.list_authorizations()}
@@ -227,16 +236,26 @@ class TestLiveVerification:
 # --------------------------------------------------------------------------- #
 
 class TestTheRepositoryMatchesProduction:
-    def test_the_manifest_verifies_and_mirrors_the_consumed_authorization(self, manifest):
+    def test_the_manifest_verifies_and_describes_the_prepared_candidate(self, manifest):
+        """The manifest describes the candidate the repository composes, which
+        is now the seven-market one. It still verifies, and it is NOT
+        authorized: PTF-LOUISVILLE-PUBLICATION-008 stops before deployment."""
         assert GD.verify_manifest() == []
-        assert manifest["deployment_authorized"] is True
-        assert manifest["deployment_authorization"]["authorization_id"] == AUTH_ID
-        assert manifest["bundle_sha256"] == BUNDLE
+        assert manifest["deployment_authorized"] is False
+        assert manifest["bundle_sha256"] != BUNDLE
 
-    def test_the_founder_authorized_set_is_the_six_that_are_live(self):
-        assert LP.authorized_market_ids() == sorted(SIX)
+    def test_what_is_live_is_still_the_six_market_bundle(self):
+        """The claim this class exists to make, kept exactly: production runs
+        2077ad28, and the record that says so is unchanged."""
+        record = {r["deployment_record_id"]: r for r in DA.list_records()}[RECORD_ID]
+        assert record["bundle_sha256"] == BUNDLE
+        assert record["participating_markets"] == SIX
+        assert record["final_status"] == "DEPLOYED"
 
-    def test_no_seventh_market_was_admitted(self):
+    def test_the_founder_authorized_set_grew_by_exactly_louisville(self):
+        assert LP.authorized_market_ids() == sorted(SIX + ["louisville-ky"])
+
+    def test_no_market_beyond_louisville_was_admitted(self):
         assert (LP.launch_status("indianapolis-in")
                 == LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):

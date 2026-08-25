@@ -317,7 +317,9 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     # launch by founder decision (PTF-046, deploy/netlify/launch_participation.json).
     assert sorted(m.market_id for m in chosen) == sorted(
         [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
-         "st-louis-mo"])
+         "st-louis-mo",
+         # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
+         "louisville-ky"])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -341,7 +343,9 @@ def test_indianapolis_is_source_ready_but_not_in_the_global_selection(markets):
     assert row["participates"] is False
     assert sorted(m.market_id for m in chosen) == sorted(
         [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
-         "st-louis-mo"])
+         "st-louis-mo",
+         # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
+         "louisville-ky"])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
@@ -384,8 +388,12 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # profiles. Every other count above is unchanged, which
                       # is the half of this assertion that says a new market
                       # did not disturb an old one.
-                      "st-louis-mo": 82}
-    assert sum(counts.values()) == 423   # 341 + St. Louis (82)
+                      "st-louis-mo": 82,
+                      # PTF-LOUISVILLE-PUBLICATION-008: 46 founder-signed
+                      # profiles over a 166-identity census. Same half of the
+                      # assertion, same conclusion -- nothing above moved.
+                      "louisville-ky": 46}
+    assert sum(counts.values()) == 469   # 423 + Louisville (46)
 
 
 # --------------------------------------------------------------------------- #

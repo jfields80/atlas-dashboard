@@ -151,13 +151,23 @@ def test_no_credential_in_the_authorization(auth):
 # The manifest mirrors it.
 # --------------------------------------------------------------------------- #
 
-def test_the_manifest_now_mirrors_a_later_authorization(manifest):
-    """The flag is a MIRROR of a record, never a decision. 012's record is
-    consumed, so the manifest names the one that may still be deployed."""
-    assert manifest["deployment_authorized"] is True
-    ref = manifest["deployment_authorization"]
-    assert ref["authorization_id"] != AUTH_ID
-    assert ref["bundle_sha256"] == manifest["bundle_sha256"] != BUNDLE
+def test_the_manifest_flag_still_mirrors_a_record_and_never_a_decision(manifest):
+    """The flag is a MIRROR of a record, never a decision.
+
+    012's authorization is consumed, and so is every other one on file:
+    PTF-LOUISVILLE-PUBLICATION-008 composed a seven-market candidate and stopped
+    before deployment, so there is no authorization for this bundle yet and the
+    manifest says exactly that. The property under test is unchanged -- the flag
+    agrees with the reference, whichever way both point -- and it is a stronger
+    reading of it than "the flag is true".
+    """
+    ref = manifest.get("deployment_authorization")
+    assert manifest["deployment_authorized"] is (ref is not None)
+    if ref is not None:
+        assert ref["authorization_id"] != AUTH_ID
+        assert ref["bundle_sha256"] == manifest["bundle_sha256"] != BUNDLE
+    else:
+        assert manifest["bundle_sha256"] != BUNDLE
     assert GD.verify_manifest() == []
 
 

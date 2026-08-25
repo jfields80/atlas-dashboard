@@ -66,14 +66,22 @@ MILWAUKEE = "milwaukee-wi"
 #: PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered and published St. Louis, so it
 #: has verified inventory and must have a contract on the same rule.
 ST_LOUIS = "st-louis-mo"
+#: PTF-LOUISVILLE-PUBLICATION-008 added the eighth contract.
+LOUISVILLE = "louisville-ky"
+
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS)
+           ST_LOUIS, LOUISVILLE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
+    # 166 identities, 46 published, 17 verified-no-pets, 63 resolved and 103
+    # unresolved -- and unresolved is COUNTED as the remainder because this
+    # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee
+    # and St. Louis do (PTF-LOUISVILLE-PUBLICATION-008).
+    "louisville-ky": (166, 46, 17, 63, 103),
     # PTF-CENSUS-PARTITION-NORMALIZATION-001 gave Columbus the census it never
     # had: 112 identities reconstructed from committed authority alone. Its
     # confirmed and unresolved figures were `None` because nothing could
@@ -292,7 +300,11 @@ class TestContractAgreesWithItsOwnAuthority:
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
                              PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27,
-                             ST_LOUIS: 37}
+                             ST_LOUIS: 37,
+                             # PTF-LOUISVILLE-PUBLICATION-008. Every other
+                             # market's number is unchanged, which is the half
+                             # of this assertion that proves the scoping.
+                             LOUISVILLE: 17}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

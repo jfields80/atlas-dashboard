@@ -1,0 +1,182 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-louisville-ky-release/1.0",
+ "market_id": "louisville-ky",
+ "product": "pettripfinder-louisville-ky",
+ "release_name_prefix": "prod-louisville",
+ "description": "Deterministic release-gate contract for the PetTripFinder Greater Louisville market (bi-state KY/IN). Structure follows the live-market precedent; every value is re-derived from this market's own committed artifacts and none is copied -- in particular none from the retired 001 contract, which describes a 130-identity census this market no longer has.",
+ "status": "LIVE",
+ "status_note": "Live: this contract gates the assembly of a PUBLISHED market. It grants no deployment -- publication is a state of the source and deployment is a separate act recorded in deploy/netlify/deployment_authorizations/.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held or superseded identity leaks and every gate holds. It is not a deployment authorization, and PTF-LOUISVILLE-PUBLICATION-008 deployed nothing."
+ },
+ "provenance": {
+  "authority_work_orders": [
+   "PTF-LOUISVILLE-MARKET-REBUILD-002",
+   "PTF-LOUISVILLE-COVERAGE-EXPANSION-003",
+   "PTF-LOUISVILLE-FOUNDER-REVIEW-004",
+   "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005",
+   "PTF-LOUISVILLE-FOUNDER-FINAL-006"
+  ],
+  "decision_ledgers": [
+   "louisville_ky_founder_decisions_006.json"
+  ],
+  "binding_contract": "semantic-approval/1.0",
+  "approval_vocabulary": "founder-approval-vocabulary/1.0",
+  "publication_schema_work_order": "PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010, re-affirmed for this market by PTF-LOUISVILLE-PUBLICATION-008: 23 rows publish an unqualified blanket maximum as operator=lte scope=per_pet, and one fee cap publishes qualifier_stated=false, meaning THE SOURCE STATED NO FURTHER QUALIFIER and never that none exists.",
+  "signed_authority_total": 63,
+  "superseded_identities": [],
+  "superseded_note": "None. No Louisville signature was withdrawn or superseded.",
+  "held_identities": [],
+  "held_note": "None. The market held one identity at PTF-LOUISVILLE-FOUNDER-REVIEW-004 -- Candlewood Suites Louisville South Fair and Expo -- and the founder released it at 006 on two agreeing strong signals: an exact street address and the IHG property code sdfpp, carried by the captured document's own canonical link and by an independently sourced census URL.",
+  "name_corrections": "Ten census identities publish under the name their own page states, through launch_packages/pettripfinder/markets/name_corrections/louisville-ky.json. Eight of them were bare chain words; the routes follow the corrected names, so no profile publishes at a chain-named URL.",
+  "identity_confirmation": "The Hampton Inn and the Home2 Suites at 1150 Forest Bridge Road are two hotels, not one: the pages state Building B and Building A and carry different Hilton property codes (sdfhuhx, sdfehht), each captured from its own property-specific URL. Confirmed by the founder in PTF-LOUISVILLE-PUBLICATION-008 so no gate re-asks it."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/louisville-ky.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 166,
+  "note": "The 166-identity census was rebuilt by PTF-LOUISVILLE-MARKET-REBUILD-002 on the generic discovery path over 18 bounded cells across Kentucky and Southern Indiana. It is the denominator every number below reconciles against, and no publication step edits it."
+ },
+ "reconciliation": {
+  "confirmed_identities": 166,
+  "published_pet_friendly": 46,
+  "verified_no_pets": 17,
+  "resolved": 63,
+  "unresolved": 103,
+  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns. unresolved is UNKNOWN and never negative evidence: 41 identities were never reached by a lane that could answer, 61 hold insufficient evidence and 1 served a page that stated no policy. A failed capture answers nothing."
+ },
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_louisville-ky.json",
+  "expected_sha256": "b6401ecd2c3284fd970ebe272b35ef6b30aa688cb9c491f072bf8ea7fba054c5",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 46,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. This package carries published: true and a publication block naming the work order that flipped it, and its records are byte-identical to the ones the founder signed at PTF-LOUISVILLE-FOUNDER-FINAL-006.",
+  "replaces": "The 14-record package this path carried from the retired 001 build. That package described a market of 130 identities and was never published."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 46,
+  "public_hotel_profile_count": 46,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package must have NO public route and NO reference on any surface: hotel profiles, the hotels listing page, nearby-lodging cards, the policy-comparison table, the sitemap, canonicals, internal links and /go/ interstitials. This market's seed inventory is derived one row per approved record, so a held, refused or SUPERSEDED property has no inventory row to leak -- and the gate is derived, so it starts enforcing the moment that changes."
+ },
+ "routes": {
+  "market_slug": "louisville-ky",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 46,
+  "published_corridor_route_count": 4,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/louisville-ky/. Four of its eighteen configured corridors reach their own configured minimum and claim a route; the rest claim none. The market and its corridors stay hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false), the posture the market contract carries and the one Pittsburgh and St. Louis launched with. The routes themselves are live and directly reachable."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ },
+ "identity_confirmations": {
+  "dual_brand_same_address": [
+   {
+    "address": "1150 Forest Bridge Road, Louisville KY 40223",
+    "identities": [
+     "hampton inn louisville east hurstbourne",
+     "home2 suites by hilton louisville east hurstbourne"
+    ],
+    "verdict": "TWO DISTINCT HOTELS",
+    "evidence": [
+     "the pages state \"Building B\" and \"Building A\"",
+     "different Hilton property codes: sdfhuhx and sdfehht",
+     "each captured from its own property-specific URL"
+    ],
+    "confirmed_by": "founder, PTF-LOUISVILLE-PUBLICATION-008"
+   }
+  ]
+ }
+}

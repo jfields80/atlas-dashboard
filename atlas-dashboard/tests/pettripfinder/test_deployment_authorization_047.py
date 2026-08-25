@@ -144,7 +144,13 @@ def test_the_manifest_no_longer_points_at_this_authorization(manifest):
         (manifest.get("deployment_authorization") is not None)
     ref = manifest.get("deployment_authorization") or {}
     assert ref.get("authorization_id") != AUTH_ID
-    assert ref.get("bundle_sha256") == manifest["bundle_sha256"] != BUNDLE
+    # PTF-LOUISVILLE-PUBLICATION-008 composed a candidate and stopped before
+    # deployment, so the manifest points at NO authorization at all: the flag
+    # and the reference agree, which is the property this test is about. When an
+    # authorization is prepared for this bundle the reference returns, and it
+    # must name THIS bundle -- never 047's.
+    assert ref.get("bundle_sha256") in (None, manifest["bundle_sha256"])
+    assert ref.get("bundle_sha256") != BUNDLE
     assert GD.verify_manifest() == []
 
 

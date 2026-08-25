@@ -217,7 +217,17 @@ def exclusion_record(record: Mapping, census: Mapping, market_id: str,
     out = OrderedDict([
         ("exclusion_id", record["exclusion_id"]),
         ("canonical_name", record["canonical_name"]),
-        ("normalized_name", key),
+        # DERIVED from the canonical name this record carries, not copied from
+        # the authority's identity key. They are the same string for every row
+        # whose census name was never corrected, and they differ for a row that
+        # was: Louisville's "days inn" publishes as "Days Inn & Suites by
+        # Wyndham Louisville SW", and the exclusion contract requires the
+        # normalized name to derive from the canonical one -- which is also how
+        # the publication guard matches, since it normalises the name on the row
+        # it is about to publish. Copying the key made the contract's own rule
+        # fail on exactly the rows a name correction improved
+        # (PTF-LOUISVILLE-PUBLICATION-008).
+        ("normalized_name", normalize_name(record["canonical_name"])),
         ("address", record.get("address", "") or census.get("address", "")),
         ("city", record.get("city", "") or census.get("city", "")),
         ("state", record.get("state", "") or census.get("state", "")),
@@ -350,13 +360,21 @@ def verify(market_id: str, authority_path: Path) -> List[str]:
     identity_of = {h["key"]: k for k, h in package_records(market_id).items()}
     seeds = {identity_of.get(normalize_name(r["name"]), normalize_name(r["name"]))
              for r in MA.load_market_seed_rows(market_id)}
+    # The same correction, on the other side. An exclusion has no package row to
+    # join through, and its normalized_name DERIVES from the canonical name the
+    # record carries -- which the exclusion contract requires. So the authority's
+    # no-pets set is compared through the same derivation rather than through the
+    # census identity key, which is what a name correction changes
+    # (PTF-LOUISVILLE-PUBLICATION-008).
+    np_derived = {normalize_name(r["canonical_name"])
+                  for r in authority["verified_no_pets"]}
     excl = {r["normalized_name"] for r in MA.load_market_exclusions(market_id)}
     if seeds != pf:
         problems.append("seed shard disagrees with the authority's pet-friendly "
                         "set: %s" % sorted(seeds ^ pf)[:5])
-    if excl != np:
+    if excl != np_derived:
         problems.append("exclusion shard disagrees with the authority's "
-                        "verified-no-pets set: %s" % sorted(excl ^ np)[:5])
+                        "verified-no-pets set: %s" % sorted(excl ^ np_derived)[:5])
     leaked = sorted((seeds | excl) & superseded)
     if leaked:
         problems.append("a SUPERSEDED identity reached a publication set: %s" % leaked)

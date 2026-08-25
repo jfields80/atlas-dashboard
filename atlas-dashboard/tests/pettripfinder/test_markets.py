@@ -526,6 +526,10 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     assert sorted(m.market_id for m in markets) == \
         ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
          "dayton-oh", "detroit-ann-arbor-mi", "indianapolis-in",
+         # PTF-LOUISVILLE-PUBLICATION-008 registered Louisville: its contract
+         # left markets/pending/ in the same step that gave it a participation
+         # row. The list is a record of which markets exist, and it grows.
+         "louisville-ky",
          "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"

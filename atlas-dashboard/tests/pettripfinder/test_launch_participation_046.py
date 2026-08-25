@@ -48,10 +48,13 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: PTF-ST-LOUIS-REGISTER-PUBLISH-011 admitted a sixth. 046's mechanism is
 #: unchanged and is what admitted it: a registered market with no participation
 #: row fails the build, and only FOUNDER_AUTHORIZED_FOR_LAUNCH lets one in.
-LIVE = tuple(sorted(FIVE + ("st-louis-mo",)))
+#: PTF-LOUISVILLE-PUBLICATION-008 admitted a seventh by the same mechanism,
+#: and registration and the participation row were written in one step so the
+#: market never existed in the state 046 forbids.
+LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky")))
 PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
             "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
-            "st-louis-mo": 82}
+            "st-louis-mo": 82, "louisville-ky": 46}
 WITHHELD = "indianapolis-in"
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
@@ -66,11 +69,17 @@ DEPLOYED_047_BUNDLE_SHA256 = (
 #: six-market candidate must ADD to it and change nothing in it.
 DEPLOYED_012_BUNDLE_SHA256 = (
     "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
-EXPECTED_BUNDLE_SHA256 = (
+#: The six-market bundle DEPLOYED by PTF-ST-LOUIS-REGISTER-PUBLISH-011, live in
+#: production. The seven-market candidate must ADD to it and change nothing in
+#: it, which is why it is kept named rather than replaced.
+DEPLOYED_011_BUNDLE_SHA256 = (
     "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
-EXPECTED_HTML_PAGES = 2656
-EXPECTED_FILES = 2674
-EXPECTED_SITEMAP_ROUTES = 515
+#: The seven-market candidate composed by PTF-LOUISVILLE-PUBLICATION-008.
+EXPECTED_BUNDLE_SHA256 = (
+    "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df")
+EXPECTED_HTML_PAGES = 2927
+EXPECTED_FILES = 2945
+EXPECTED_SITEMAP_ROUTES = 567
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -225,7 +234,7 @@ def test_the_bundle_carries_exactly_the_live_set(production):
     assert manifest["market_fragments_included"] == list(LIVE)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
-    assert sum(PROFILES.values()) == 415
+    assert sum(PROFILES.values()) == 461
 
 
 def test_the_bundle_reports_indianapolis_as_withheld(production):
@@ -296,6 +305,7 @@ def test_the_candidate_is_the_pinned_artifact(production):
     assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_SHA256
     assert manifest["bundle_sha256"] != DEPLOYED_047_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != DEPLOYED_012_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] != DEPLOYED_011_BUNDLE_SHA256
     assert manifest["total_html_pages"] == EXPECTED_HTML_PAGES
     assert manifest["total_files"] == EXPECTED_FILES
     assert manifest["sitemap_route_count"] == EXPECTED_SITEMAP_ROUTES
@@ -312,7 +322,7 @@ def test_the_committed_manifest_verifies_and_pins_the_record():
     assert doc["schema"] == GD.MANIFEST_SCHEMA
     assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
     assert [r["market_id"] for r in doc["participating_markets"]] == list(LIVE)
-    assert doc["total_published_profiles"] == 415
+    assert doc["total_published_profiles"] == 461
     assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)

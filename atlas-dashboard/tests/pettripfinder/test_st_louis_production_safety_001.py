@@ -71,8 +71,12 @@ class TestStLouisIsNowRegistered:
         assert document["_boundary_note"]
 
     def test_the_registry_grew_by_exactly_one(self):
+        """One market, one registration. The registry stood at 9 when St. Louis
+        joined and at 10 since PTF-LOUISVILLE-PUBLICATION-008 -- each step is a
+        market that arrived with its own contract, shard and participation
+        row."""
         assert "st-louis-mo" in MA.registered_market_ids()
-        assert len(load_markets()) == 9
+        assert len(load_markets()) == 10
 
     def test_the_authority_shard_exists_and_is_discoverable(self):
         assert "st-louis-mo" in MA.sharded_market_ids()
@@ -91,8 +95,12 @@ class TestStLouisIsNowRegistered:
 
 
 class TestParticipationIsTheSixMarketSet:
-    def test_the_founder_authorized_set_is_the_live_six(self):
-        assert tuple(LP.authorized_market_ids()) == LIVE_SIX
+    def test_the_founder_authorized_set_still_holds_the_live_six(self):
+        """The six St. Louis joined are all still authorized, and the set has
+        grown by Louisville alone."""
+        authorized = tuple(LP.authorized_market_ids())
+        assert set(LIVE_SIX) <= set(authorized)
+        assert set(authorized) - set(LIVE_SIX) == {"louisville-ky"}
 
     def test_no_other_registered_market_was_swept_in(self):
         """Registration is not participation. Three registered markets are not

@@ -59,16 +59,15 @@ REBUILT_UNRESOLVED = 166
 
 
 def _market():
-    """The market contract, read from the PENDING path.
+    """The market contract, read from the REGISTRY.
 
-    ``markets/*.json`` is the registry and Louisville is deliberately not in it,
-    so ``load_markets()`` cannot answer for this market and must not be asked.
+    PTF-LOUISVILLE-PUBLICATION-008 registered this market: the contract left
+    ``markets/pending/`` in the same step that gave it a launch-participation
+    row, so ``load_markets()`` answers for it and the pending path is gone.
     """
-    from scripts.pettripfinder.markets.contract import parse_market
+    from scripts.pettripfinder.markets import load_markets, market_by_id
 
-    document = json.loads((PKG / "markets" / "pending" / "louisville-ky.json")
-                          .read_text(encoding="utf-8-sig"))
-    return parse_market(document, source="pending/louisville-ky.json")
+    return market_by_id(load_markets(), MARKET)
 
 
 def _census():
@@ -238,13 +237,17 @@ class TestIsolation:
                      "hotel_policy_facts_dayton-oh.json"):
             blob = (PKG / name).read_text(encoding="utf-8")
             assert "louisville-ky" not in blob
-        # The generated global exclusion registry must now hold NOTHING for
-        # this market: PTF-LOUISVILLE-MARKET-REBUILD-002 took the authority
-        # shard out of the registry, and the globals are generated from shards.
+        # The generated global exclusion registry holds exactly this market's
+        # seventeen: PTF-LOUISVILLE-PUBLICATION-008 registered the shard and the
+        # globals are GENERATED from shards, so the count is a projection of the
+        # shard and never a second copy to maintain. Every one is
+        # VERIFIED_NO_PETS -- a failed capture is not an exclusion.
         exclusions = json.loads((PKG / "hotel_exclusions.json").read_text(
             encoding="utf-8-sig"))
-        assert [e for e in exclusions.get("exclusions", ())
-                if e.get("market_id") == MARKET] == []
+        ours = [e for e in exclusions.get("exclusions", ())
+                if e.get("market_id") == MARKET]
+        assert len(ours) == 17
+        assert {e["exclusion_state"] for e in ours} == {enums.VERIFIED_NO_PETS}
         # The prior rulings themselves are preserved, not deleted.
         preserved = json.loads((PKG / "louisville_prior_authority_001"
                                 / "hotel_exclusions.json").read_text(
@@ -256,23 +259,26 @@ class TestIsolation:
                    for e in prior) == 1
         routing = json.loads((PKG / "identity_routing.json").read_text(
             encoding="utf-8-sig"))
+        # This market routes nothing, and the shard says so with an EMPTY
+        # document rather than by being absent: absence is a silence, an empty
+        # shard is a statement.
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes", ()))
         seed = (PKG / "seed_businesses.csv").read_text(encoding="utf-8")
-        # The generated global seed inventory holds NO Louisville row -- the
-        # shard it is generated from is no longer in the registry.
-        assert seed.count(",louisville-ky\n") == 0
+        # The generated global seed inventory holds exactly this market's 46 --
+        # one row per approved record, generated from the shard.
+        assert seed.count(",louisville-ky\n") == 46
         preserved_seed = (PKG / "louisville_prior_authority_001"
                           / "seed_businesses.csv").read_text(encoding="utf-8")
         assert preserved_seed.count(",louisville-ky\n") == CURRENT_PUBLISHED
-        # The release contract is OUT of the live verified set. That directory
-        # is the set release_contracts.verify_all() checks, and verify_contract
-        # RAISES on a market with no registered contract -- so a Louisville
-        # contract sitting there was breaking verification for every market,
-        # Columbus included. PTF-MILWAUKEE-PUBLICATION-037 set the precedent it
-        # now follows: prepared contracts live outside the verified set.
-        assert not (REPO / "deploy" / "netlify" / "release_contracts"
-                    / "louisville-ky.json").exists()
-        assert MARKET not in set(available_market_ids())
+        # The release contract is IN the live verified set now, and it verifies
+        # there. It was kept out while the market was unregistered because
+        # verify_contract RAISES on a market with no registered contract, which
+        # is the same rule read from the other side (PTF-LOUISVILLE-
+        # PUBLICATION-008 registered the market and authored the contract in one
+        # step; the retired 001 contract stays preserved and unused).
+        assert (REPO / "deploy" / "netlify" / "release_contracts"
+                / "louisville-ky.json").is_file()
+        assert MARKET in set(available_market_ids())
         contract_path = (PKG / "louisville_prior_authority_001"
                          / "release_contract.louisville-ky.prior.json")
         assert contract_path.is_file()
@@ -284,27 +290,23 @@ class TestIsolation:
 
 
 class TestAssignmentAndAssembler:
-    def test_recompute_needs_a_registered_market(self):
+    def test_recompute_answers_for_a_registered_market(self):
         """``normalize_census_geography`` resolves through the registry, and
-        Louisville is deliberately not in it. Failing closed is correct: the
-        alternative is a geography recompute that silently reads no market."""
-        from scripts.pettripfinder.markets.contract import MarketContractError
+        Louisville is in it now. It used to fail closed, which was correct then
+        and would be a defect today (PTF-LOUISVILLE-PUBLICATION-008)."""
+        result = recompute(MARKET)
+        assert result is not None
 
-        try:
-            recompute(MARKET)
-        except (MarketContractError, KeyError) as exc:
-            assert MARKET in str(exc)
-        else:
-            raise AssertionError("an unregistered market must not recompute")
-
-    def test_the_assembler_cannot_see_an_unregistered_market(self):
-        """The production-safety claim, stated positively: Louisville reaches
-        no composed bundle, and not because a count is low -- because the
-        registry does not contain it."""
+    def test_the_assembler_now_sees_a_registered_market(self):
+        """The production-safety claim, restated for the world registration
+        created: Louisville is chosen for the composed bundle, it has a release
+        contract, and it got there through the participation record rather than
+        around it."""
         chosen, rows = select_markets()
-        assert MARKET not in [m.market_id for m in chosen]
-        assert MARKET not in [r["market_id"] for r in rows]
-        assert MARKET not in available_market_ids()
+        assert MARKET in [m.market_id for m in chosen]
+        assert MARKET in available_market_ids()
+        row = next(r for r in rows if r["market_id"] == MARKET)
+        assert row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH"
 
 
 class TestDiscoveryAndQueue:
@@ -453,9 +455,17 @@ class TestPass1Capture:
                     assert quote in html, row["identity_key"]
 
     def test_capture_was_later_materialized_by_founding_application(self):
+        """The prior build's chain still reconciles against its OWN artifacts.
+
+        The committed package is no longer the prior build's: PTF-LOUISVILLE-
+        PUBLICATION-008 replaced the 14 records of the 130-identity market with
+        the 46 the founder signed over 166. The prior partition is preserved and
+        is what this reconciliation is about, which is why it still holds.
+        """
         facts = json.loads((PKG / "hotel_policy_facts_louisville-ky.json").read_text(
             encoding="utf-8-sig"))
-        assert len(facts["hotels"]) == CURRENT_PUBLISHED
+        assert len(facts["hotels"]) == 46
+        assert facts["published"] is True
         rec = partition.reconcile(census.identity_keys(_prior_census()),
                                   _prior_partition(), market_id=MARKET)
         assert (rec.published, rec.verified_no_pets, rec.unresolved) == (

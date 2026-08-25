@@ -127,12 +127,14 @@ class TestNothingHeldEnteredAuthority:
         for row in authority_rows(authority):
             assert row["normalized_name"] in keys, row["canonical_name"]
 
-    def test_the_market_is_not_registered_by_any_of_this(self, authority):
+    def test_the_authority_artifact_still_says_it_registered_nothing(self, authority):
+        """The proposed-authority document is a record of what 006 did, and 006
+        registered nothing. PTF-LOUISVILLE-PUBLICATION-008 registered the market
+        afterwards, from this same document -- which is why the document must
+        keep saying what was true when it was written."""
         assert authority["registered"] is False
         assert authority["published"] is False
         assert authority["deployed"] is False
-        assert not (PKG / "markets" / "authority" / "louisville-ky").exists()
-        assert (PKG / "markets" / "pending" / "louisville-ky.json").is_file()
 
 
 class TestTheCandlewoodIdentity:

@@ -45,14 +45,18 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: with 82 founder-signed profiles. It ADDED 509 files under its own namespace
 #: and changed no existing profile, which is the property this file exists to
 #: keep true as markets are added.
+#: PTF-LOUISVILLE-PUBLICATION-008 admitted louisville-ky as the seventh with 46
+#: founder-signed profiles, on the same terms: its own namespace, nothing else
+#: touched.
 EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "milwaukee-wi", "pittsburgh-pa", "st-louis-mo")
+                    "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
+                    "st-louis-mo")
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-                     "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
-                     "st-louis-mo": 82}
-EXPECTED_TOTAL = 415
-EXPECTED_HTML_PAGES = 2656
-EXPECTED_SITEMAP_ROUTES = 515
+                     "dayton-oh": 47, "louisville-ky": 46, "milwaukee-wi": 73,
+                     "pittsburgh-pa": 26, "st-louis-mo": 82}
+EXPECTED_TOTAL = 461
+EXPECTED_HTML_PAGES = 2927
+EXPECTED_SITEMAP_ROUTES = 567
 
 
 @pytest.fixture(scope="module")
@@ -409,8 +413,14 @@ DEPLOYED_047_BUNDLE_SHA256 = (
 #: Milwaukee profiles, and every other live profile, are byte-identical.
 DEPLOYED_012_BUNDLE_SHA256 = (
     "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967")
-DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+#: The bundle DEPLOYED by PTF-ST-LOUIS-REGISTER-PUBLISH-011 and live in
+#: production. The seven-market candidate must differ from it and must not
+#: change a byte inside it.
+DEPLOYED_011_BUNDLE_SHA256 = (
     "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
+#: The seven-market candidate composed by PTF-LOUISVILLE-PUBLICATION-008.
+DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+    "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (
