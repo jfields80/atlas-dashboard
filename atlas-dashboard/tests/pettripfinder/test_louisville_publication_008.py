@@ -188,7 +188,7 @@ class TestRegistrationIsAtomicWithParticipation:
         assert problems["unlisted"] == [MARKET]
 
 
-class TestTheCandidateIsAuthorizedAndNotDeployed:
+class TestTheCandidateIsLive:
     def test_the_manifest_carries_the_seven_market_candidate(self):
         manifest = GD.load_manifest()
         assert GD.verify_manifest() == []
@@ -198,25 +198,33 @@ class TestTheCandidateIsAuthorizedAndNotDeployed:
         assert manifest["total_published_profiles"] == 461
         assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
 
-    def test_the_authorization_is_the_only_one_that_may_deploy(self):
-        """PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009 moved this record
-        PREPARED -> AUTHORIZED after re-verifying all eleven bindings the
-        founder named. Exactly one record may deploy, and it is this one."""
+    def test_the_authorization_was_spent_and_may_never_deploy_again(self):
+        """009 moved this record PREPARED -> AUTHORIZED; 010 spent it.
+
+        An authorization is single-use, so the proof that it worked is that it
+        no longer works: nothing on file may deploy, and the next deployment
+        needs a new record and a new founder signature.
+        """
         auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
-        assert auth["authorization_status"] == DA.AUTHORIZED
+        assert auth["authorization_status"] == DA.DEPLOYED
         assert DA.verify_authorization(auth) == []
-        assert DA.deployability_problems(auth) == []
+        assert DA.deployability_problems(auth), \
+            "a consumed authorization must never be deployable again"
         deployable = [a["authorization_id"] for a in DA.list_authorizations()
                       if not DA.deployability_problems(a)]
-        assert deployable == ["ptf-auth-008-38c811dfc22c"]
+        assert deployable == []
 
-    def test_the_prepared_step_is_still_in_the_history(self):
-        """A status history that loses its first step cannot show that a human
-        moved it."""
+    def test_the_whole_path_is_still_in_the_history(self):
+        """A status history that loses its first steps cannot show that a human
+        moved it. Each step names who moved it and what it became."""
         auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
         assert [e["status"] for e in auth["status_history"]] == [
-            DA.PREPARED, DA.AUTHORIZED]
-        assert auth["status_history"][-1]["authorized_by"] == "jfields80"
+            DA.PREPARED, DA.AUTHORIZED, DA.DEPLOYED]
+        assert auth["status_history"][1]["authorized_by"] == "jfields80"
+        final = auth["status_history"][-1]
+        assert final["deployment_id"] == "6a8d91855b8993b899a3b68a"
+        assert final["deployment_record_id"] == \
+            "ptf-deploy-010-6a8d91855b8993b899a3b68a"
 
     def test_it_binds_the_bundle_the_named_commit_produces(self):
         manifest = GD.load_manifest()
@@ -228,16 +236,47 @@ class TestTheCandidateIsAuthorizedAndNotDeployed:
         assert auth["total_profiles"] == 461
         assert auth["global_gate_count"] == 27
 
-    def test_the_market_is_not_deployed_by_any_of_this(self):
-        """Authorization is not deployment. The flag mirrors a record that says
-        AUTHORIZED, and no deployment record exists for this bundle: what is
-        live is still the six-market bundle 011 deployed."""
+    def test_the_market_is_live_and_the_record_says_so(self):
+        """PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 deployed this bundle. What
+        makes it live is a deployment record, not the manifest flag -- the flag
+        only mirrors an authorization, and it read the same the day before the
+        deploy."""
         manifest = GD.load_manifest()
         assert manifest["deployment_authorized"] is True
         assert manifest["deployment_authorization"]["authorization_id"] == \
             "ptf-auth-008-38c811dfc22c"
         assert GD.verify_manifest() == []
-        records = DA.list_records()
-        assert not any(r["bundle_sha256"] == manifest["bundle_sha256"]
-                       for r in records)
-        assert not any("008" in r["deployment_record_id"] for r in records)
+        record = next(r for r in DA.list_records()
+                      if r["bundle_sha256"] == manifest["bundle_sha256"])
+        assert record["deployment_record_id"] == \
+            "ptf-deploy-010-6a8d91855b8993b899a3b68a"
+        assert record["authorization_id"] == "ptf-auth-008-38c811dfc22c"
+        assert record["final_status"] == DA.DEPLOYED
+        assert record["rollback_used"] is False
+        assert record["total_profiles"] == 461
+        assert record["profile_counts"]["louisville-ky"] == 46
+        assert DA.verify_record(record) == []
+
+    def test_the_live_verification_read_production_back(self):
+        """A deployment record is a claim about production, so it has to carry
+        what was actually read back from production -- including the 17
+        verified-no-pets exclusions, which are the mistake this market could
+        most easily have made."""
+        record = next(r for r in DA.list_records()
+                      if r["deployment_record_id"] ==
+                      "ptf-deploy-010-6a8d91855b8993b899a3b68a")
+        live = record["live_verification_results"]
+        assert live["every_sitemap_route"]["checked"] == 567
+        assert live["every_sitemap_route"]["bytes_match_deployed_bundle"] == 567
+        assert live["every_sitemap_route"]["failures"] == []
+        assert live["louisville_routes"]["hotel_profiles"] == 46
+        excl = live["louisville_exclusions_absent"]
+        assert excl["register_rows"] == 17
+        assert excl["absent_from_production"] == 17
+        assert excl["leaked_as_live_profiles"] == []
+        assert excl["name_mentions_on_any_live_louisville_page"] == 0
+        diff = live["public_differential_vs_previous_deploy"]
+        assert diff["routes_lost"] == []
+        assert diff["added_outside_louisville"] == []
+        assert diff["byte_identical_to_previous_deploy"] == 515
+        assert live["overall_pass"] is True

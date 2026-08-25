@@ -103,24 +103,25 @@ class TestTheAuthorizationIsConsumed:
     def test_no_earlier_authorization_was_reopened_or_reused(self):
         """Every authorization that has ever deployed is still consumed.
 
-        PTF-LOUISVILLE-PUBLICATION-008 added a fourth record for the
-        seven-market candidate and PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009
-        authorized it. So exactly one record may deploy, it is that one, and the
-        three that went live are each exactly as spent as they were.
+        PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 spent the fourth record on the
+        seven-market bundle, so there are now four consumed authorizations and
+        nothing at all may deploy. Spending one authorization must never
+        re-open an earlier one.
         """
         by_id = {a["authorization_id"]: a for a in DA.list_authorizations()}
         consumed = {AUTH_ID, "ptf-auth-012-70747f09fdfe",
-                    "ptf-auth-047-a324b1bf5023"}
+                    "ptf-auth-047-a324b1bf5023",
+                    "ptf-auth-008-38c811dfc22c"}
         assert consumed <= set(by_id)
         for authorization_id in consumed:
             assert by_id[authorization_id]["authorization_status"] == DA.DEPLOYED
-        # Exactly one record may deploy, and it is not one of the three that
-        # already did: PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-009 authorized
-        # the seven-market candidate, which has never been deployed.
+        # Nothing on file may deploy: every authorization is spent. The next
+        # deployment needs a new record and a new founder signature, which is
+        # what makes an authorization single-use rather than a standing
+        # permission.
         deployable = [a["authorization_id"] for a in by_id.values()
                       if not DA.deployability_problems(a)]
-        assert deployable == ["ptf-auth-008-38c811dfc22c"]
-        assert not (set(deployable) & consumed)
+        assert deployable == []
 
     def test_no_credential_is_recorded(self, auth, record):
         for doc in (auth, record):
@@ -250,22 +251,29 @@ class TestLiveVerification:
 # --------------------------------------------------------------------------- #
 
 class TestTheRepositoryMatchesProduction:
-    def test_the_manifest_verifies_and_describes_the_authorized_candidate(self, manifest):
-        """The manifest describes the candidate the repository composes, which
-        is now the seven-market one, and mirrors the record that authorizes it.
-        It is a DIFFERENT bundle from the one that went live under 012."""
+    def test_the_manifest_verifies_and_describes_what_went_live(self, manifest):
+        """The manifest describes the bundle the repository composes, which is
+        the seven-market one that PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 shipped.
+        It is a DIFFERENT bundle from the one 012 put live."""
         assert GD.verify_manifest() == []
         assert manifest["deployment_authorized"] is True
         assert manifest["deployment_authorization"]["bundle_sha256"] == \
             manifest["bundle_sha256"] != BUNDLE
 
-    def test_what_is_live_is_still_the_six_market_bundle(self):
-        """The claim this class exists to make, kept exactly: production runs
-        2077ad28, and the record that says so is unchanged."""
+    def test_this_record_is_untouched_by_the_deploy_that_replaced_it(self):
+        """011's record still says exactly what 011 did. A later deployment
+        supersedes a bundle in production; it does not edit the history of the
+        one before it, and 2077ad28 stays this record's answer forever."""
         record = {r["deployment_record_id"]: r for r in DA.list_records()}[RECORD_ID]
         assert record["bundle_sha256"] == BUNDLE
         assert record["participating_markets"] == SIX
         assert record["final_status"] == "DEPLOYED"
+        assert record["rollback_used"] is False
+        # And it is now the rollback target of the deploy that replaced it.
+        successor = {r["deployment_record_id"]: r for r in DA.list_records()}[
+            "ptf-deploy-010-6a8d91855b8993b899a3b68a"]
+        assert successor["rollback_target"] == DEPLOY_ID
+        assert successor["previous_deployment_id"] == DEPLOY_ID
 
     def test_the_founder_authorized_set_grew_by_exactly_louisville(self):
         assert LP.authorized_market_ids() == sorted(SIX + ["louisville-ky"])
@@ -277,13 +285,15 @@ class TestTheRepositoryMatchesProduction:
             assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
 
     def test_the_deploy_lineage_reads_back_in_order(self):
-        """Three production deploys, each consuming its own authorization and
-        naming the one before it as its rollback target."""
+        """Four production deploys, each consuming its own authorization and
+        naming the one before it as its rollback target. The chain is what
+        makes a rollback target a fact rather than a hope."""
         records = {r["deployment_record_id"]: r for r in DA.list_records()}
         chain = [
             ("ptf-deploy-047-6a8a2dada6e73cb0d819c9d0", "6a78dc1cdad05ac32bc58cec"),
             ("ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5", "6a8a2dada6e73cb0d819c9d0"),
             (RECORD_ID, PREVIOUS_DEPLOY),
+            ("ptf-deploy-010-6a8d91855b8993b899a3b68a", DEPLOY_ID),
         ]
         assert set(records) == {rid for rid, _ in chain}
         for record_id, rollback in chain:

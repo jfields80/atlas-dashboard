@@ -1,0 +1,177 @@
+{
+ "schema": "ptf-deployment-record/1.0",
+ "what_this_is": "What a production deployment actually did, written only after the outcome was known. Names the authorization it consumed; holds no credential.",
+ "deployment_record_id": "ptf-deploy-010-6a8d91855b8993b899a3b68a",
+ "authorization_id": "ptf-auth-008-38c811dfc22c",
+ "work_order": "PTF-LOUISVILLE-PUBLICATION-008",
+ "source_commit": "7d8e534abecafb49b8c3907c88e6642b723d9e6e",
+ "manifest_source_commit": "7d8e534abecafb49b8c3907c88e6642b723d9e6e",
+ "bundle_sha256": "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df",
+ "sitemap_sha256": "307bd35c34e3abb990bd55536f0ecdc586e233ab2ab4396d43b401061d4a4d83",
+ "deployment_id": "6a8d91855b8993b899a3b68a",
+ "previous_deployment_id": "6a8cab48ead9d4293f477472",
+ "rollback_target": "6a8cab48ead9d4293f477472",
+ "target_site": "pettripfinder-prod",
+ "production_url": "https://pettripfinder.com",
+ "deployed_at": "2026-08-25T12:58:53Z",
+ "deployer": {
+  "executed_by": "Claude Code (claude-opus-5) under work order PTF-LOUISVILLE-PRODUCTION-DEPLOY-010",
+  "netlify_account": "Jonathan Fields (founder account, netlify-cli 26.2.0)",
+  "authorized_by": "founder",
+  "started_at": "2026-08-25T12:58:12Z"
+ },
+ "deployed_directory": "C:/t/ptf010d/site (assemble_production_site --output C:/t/ptf010d at commit ce91dd1; the rebuild reproduced the authorized bundle 38c811dfc22c185b and sitemap 307bd35c34e3abb9 byte for byte, and verify_bundle_directory confirmed the uploaded directory IS the authorized bundle)",
+ "command": "netlify deploy --prod --no-build --dir C:/t/ptf010d/site --site \"$NETLIFY_SITE_ID\" --json --message \"PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 | authorization ptf-auth-008-38c811dfc22c | bundle 38c811dfc22c185b | 7 markets / 461 profiles | Louisville joins\"",
+ "exit_status": 0,
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "louisville-ky",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "louisville-ky": 46,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26,
+  "st-louis-mo": 82
+ },
+ "total_profiles": 461,
+ "sitemap_route_count": 567,
+ "global_gate_results": {
+  "required": 27,
+  "passed": 27,
+  "failed": []
+ },
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "live_verification_results": {
+  "louisville_routes": {
+   "checked": 52,
+   "hotel_profiles": 46,
+   "corridors": 4,
+   "policy_comparison": 1,
+   "market_hub": 1,
+   "http_200": 52,
+   "bytes_match_deployed_bundle": 52,
+   "failed_or_missing": [],
+   "note": "Every Louisville surface in the sitemap was fetched from production and compared byte for byte against the directory that was uploaded. All 46 published hotels in hotel_policy_facts_louisville-ky.json have a live profile and none is missing."
+  },
+  "louisville_go_interstitials": {
+   "checked": 46,
+   "http_200": 46,
+   "bytes_match_deployed_bundle": 46,
+   "all_noindex": true,
+   "note": "/go/louisville-ky/<slug>/booking/. Excluded from the sitemap by the content.sitemap_excludes_go gate, so verified separately. Affiliates remain inactive: these are interstitials, not affiliate destinations."
+  },
+  "every_sitemap_route": {
+   "checked": 567,
+   "http_200": 567,
+   "bytes_match_deployed_bundle": 567,
+   "failures": [],
+   "note": "The whole public surface, not a sample: all 461 hotel profiles, every corridor and hub, the policy-comparison tables and the global pages."
+  },
+  "founder_named_slugs": {
+   "note": "The four corrected Louisville names the work order named. Each resolves to a property-specific route because hotel_route() slugifies the NAME -- the corrected name is what makes the route specific.",
+   "routes": [
+    "/pet-friendly-hotels/louisville-ky/tru-by-hilton-louisville-east/",
+    "/pet-friendly-hotels/louisville-ky/hampton-inn-new-albany-louisville-west/",
+    "/pet-friendly-hotels/louisville-ky/holiday-inn-louisville-downtown/",
+    "/pet-friendly-hotels/louisville-ky/the-seelbach-hilton-louisville/"
+   ],
+   "all_http_200": true,
+   "all_bytes_match": true
+  },
+  "louisville_exclusions_absent": {
+   "register_rows": 17,
+   "all_verified_no_pets": 17,
+   "routes_probed": 17,
+   "absent_from_production": 17,
+   "leaked_as_live_profiles": [],
+   "name_mentions_on_any_live_louisville_page": 0,
+   "note": "Every hotel Louisville verified as refusing pets was probed at the route its name would have produced. All 17 return 404 and none of their names appears anywhere on a live Louisville page. This is the mistake this market could most easily make, so it is checked positively rather than assumed."
+  },
+  "market_hubs": {
+   "checked": 7,
+   "http_200": 7,
+   "bytes_match_deployed_bundle": 7,
+   "routes": [
+    "/pet-friendly-hotels/ (columbus anchor)",
+    "/pet-friendly-hotels/cleveland-akron-canton/",
+    "/pet-friendly-hotels/dayton-oh/",
+    "/pet-friendly-hotels/louisville-ky/",
+    "/pet-friendly-hotels/milwaukee-wi/",
+    "/pet-friendly-hotels/pittsburgh-pa/",
+    "/pet-friendly-hotels/st-louis-mo/"
+   ]
+  },
+  "anchor_and_global_surfaces": {
+   "routes": [
+    "/",
+    "/pet-friendly-hotels/",
+    "/about/",
+    "/contact/",
+    "/methodology/",
+    "/robots.txt",
+    "/llms.txt",
+    "/pet-friendly-hotels/drury-plaza-hotel-columbus-downtown/"
+   ],
+   "all_http_200": true,
+   "all_bytes_match": true,
+   "note": "Columbus is the unprefixed anchor: its hub IS the global category root, so an anchor regression would show up here first."
+  },
+  "route_collisions": {
+   "html_routes_in_bundle": 2927,
+   "case_insensitive_collisions": 0,
+   "note": "assembly.no_route_collisions is a build gate; this is the same question asked again of the artifact that shipped."
+  },
+  "sitemap": {
+   "status": 200,
+   "loc_count": 567,
+   "unique_locs": 567,
+   "sha256": "307bd35c34e3abb990bd55536f0ecdc586e233ab2ab4396d43b401061d4a4d83",
+   "matches_authorization": true,
+   "matches_deployed_bundle": true,
+   "louisville_routes": 52,
+   "go_entries": 0
+  },
+  "public_differential_vs_previous_deploy": {
+   "previous_deployment_id": "6a8cab48ead9d4293f477472",
+   "previous_sitemap_routes": 515,
+   "live_sitemap_routes": 567,
+   "routes_lost": [],
+   "routes_added": 52,
+   "added_outside_louisville": [],
+   "previously_live_routes_compared": 515,
+   "byte_identical_to_previous_deploy": 515,
+   "changed": [],
+   "note": "Netlify keeps every deploy at a permanent per-deploy URL, so the previous production bundle was fetched from 6a8cab48 and compared against what is live now. That compares what was actually SERVED rather than what a rebuild says was served. All 515 previously-live routes are byte-identical, none was lost, and all 52 additions are Louisville. The sitemap is the only pre-existing artifact that changed, which is what a global composition artifact is expected to do."
+  },
+  "live_profile_routes_by_market": {
+   "cleveland-akron-canton-oh": 99,
+   "columbus-oh": 88,
+   "dayton-oh": 47,
+   "louisville-ky": 46,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 26,
+   "st-louis-mo": 82,
+   "total": 461
+  },
+  "overall_pass": true
+ },
+ "final_status": "DEPLOYED",
+ "rollback_used": false,
+ "rollback_reason": null,
+ "restored_deployment_id": null
+}
