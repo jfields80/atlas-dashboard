@@ -411,9 +411,17 @@ def bind(row: Mapping, observations: Sequence[Observation],
                        key=lambda o: _usefulness(row, o), reverse=True)
         if not found:
             continue
-        if acceptable is None:
-            return (found[0], binding)
         for observation in found:
+            compatible, why = names_may_share_a_url(
+                row.get("canonical_name", ""), observation.name)
+            if not compatible:
+                if rejected is not None:
+                    rejected.append(OrderedDict((
+                        ("binding", binding), ("url", observation.url),
+                        ("why", why), ("evidence", observation.to_dict()))))
+                continue
+            if acceptable is None:
+                return (observation, binding)
             ok, why = acceptable(observation)
             if ok:
                 return (observation, binding)
@@ -422,6 +430,44 @@ def bind(row: Mapping, observations: Sequence[Observation],
                     ("binding", binding), ("url", observation.url),
                     ("why", why), ("evidence", observation.to_dict()))))
     return (None, "")
+
+
+def names_may_share_a_url(row_name: str, sighting_name: str) -> Tuple[bool, str]:
+    """May a sighting called ``sighting_name`` lend its URL to ``row_name``?
+
+    PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007. ``url_names_the_property``
+    reads the URL and asks whether a distinctive word of the identity appears in
+    it. That is necessary and it is not sufficient, because sibling sub-brands
+    share their distinctive word: "Comfort Inn" at 4520 Kenowa Avenue bound on
+    its own telephone to a prior "Comfort Suites Grandville" sighting, and
+    ``choicehotels.com/.../grandville/comfort-suites-hotels/mi169`` contains
+    "comfort", so the URL check passed and a Comfort Inn was routed to a Comfort
+    Suites property page. Two Choice brands share a switchboard in one building;
+    they do not share a pet policy.
+
+    So the sighting's own NAME is read too, under the same token-containment
+    rule the census uses everywhere else: one name must be a subset of the other,
+    or they must be equal. "Rodeway Inn" is a subset of "Rodeway Inn Grandville
+    Grand Rapids" and may take its URL; "Comfort Inn" is not a subset of
+    "Comfort Suites Grandville Grand Rapids SW" -- "inn" is not in it -- and may
+    not.
+
+    A sighting that states no name is not judged here: absence of a name is not
+    evidence of a conflict, and the URL check still has to pass.
+    """
+    if not (row_name or "").strip() or not (sighting_name or "").strip():
+        return (True, "")
+    # This module's own normalisation, so the rule reads the same way as
+    # every other comparison here does.
+    a, b = set(normalise(row_name).split()), set(normalise(sighting_name).split())
+    if not a or not b:
+        return (True, "")
+    if a == b or a < b or b < a:
+        return (True, "")
+    return (False,
+            "the sighting is named %r and this identity is %r; neither name "
+            "contains the other, so they are two properties and one may not "
+            "lend the other its URL" % (sighting_name, row_name))
 
 
 def _usefulness(row: Mapping, observation: Observation) -> Tuple[int, int]:

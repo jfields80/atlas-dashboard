@@ -2,13 +2,13 @@
   "schema": "ptf-market-routing/1.0",
   "what_this_is": "Routing with every zero-cost recovered URL layered over the census.",
   "market_id": "grand-rapids-holland-mi",
-  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-HARDENED-SHADOW-RECENSUS-006",
+  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007",
   "url_overlay": {
     "overlay": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_url_recovery_001.json",
     "contract": "ptf-census-url-recovery/1.0",
-    "offered": 7,
-    "applied": 7,
-    "unroutable_census_urls_displaced": 2,
+    "offered": 5,
+    "applied": 5,
+    "unroutable_census_urls_displaced": 0,
     "note": "layered for routing only; the census file is unchanged",
     "rows": [
       {
@@ -24,36 +24,6 @@
           "postal_code": "",
           "street_key": "",
           "url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/"
-        }
-      },
-      {
-        "identity_key": "budgetel inn and suites hotel",
-        "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-        "displaced_census_url": "",
-        "binding": "PHONE",
-        "evidence": {
-          "provider": "OPENSTREETMAP",
-          "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville/f357014a3e5c4ed3/page_1.json",
-          "name": "budgetel grand rapids",
-          "phone": "6164525141",
-          "postal_code": "49548",
-          "street_key": "35 28th st sw|49548",
-          "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi"
-        }
-      },
-      {
-        "identity_key": "comfort inn",
-        "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-        "displaced_census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-        "binding": "PHONE",
-        "evidence": {
-          "provider": "PRIOR_BUILD",
-          "source": "grand-rapids-holland-mi.json",
-          "name": "comfort suites grandville grand rapids sw",
-          "phone": "6166670733",
-          "postal_code": "49418",
-          "street_key": "4520 kenowa ave sw|49418",
-          "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169"
         }
       },
       {
@@ -104,7 +74,7 @@
       {
         "identity_key": "rodeway inn",
         "url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
-        "displaced_census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
+        "displaced_census_url": "",
         "binding": "PHONE",
         "evidence": {
           "provider": "PRIOR_BUILD",
@@ -122,45 +92,35 @@
     "contract": "ptf-market-routing/1.0",
     "count": 163,
     "url_shapes": {
-      "BRAND_INDEX": 5,
-      "NO_URL": 69,
-      "PROPERTY_PAGE": 89
+      "NO_URL": 76,
+      "PROPERTY_PAGE": 87
     },
     "routing_states": {
-      "ROUTED": 84,
+      "ROUTED": 82,
       "ROUTE_BRAND_EXCLUDED": 5,
-      "ROUTE_NEEDS_OFFICIAL_URL": 69,
-      "ROUTE_NEEDS_PROPERTY_URL": 5
+      "ROUTE_NEEDS_OFFICIAL_URL": 76
     },
     "brands": {
       "BEST_WESTERN": 3,
-      "CHOICE": 14,
+      "CHOICE": 8,
       "DRURY": 1,
       "HILTON": 21,
       "HYATT": 2,
       "IHG": 6,
-      "INDEPENDENT": 10,
+      "INDEPENDENT": 9,
       "MARRIOTT": 26,
       "MOTEL6": 1,
-      "NO_URL": 69,
+      "NO_URL": 76,
       "WYNDHAM": 10
     },
     "providers": {
-      "brightdata_browser": 59,
-      "firecrawl": 25
+      "brightdata_browser": 58,
+      "firecrawl": 24
     },
-    "automatically_routed": 84,
-    "automatically_routed_pct": 51.5
+    "automatically_routed": 82,
+    "automatically_routed_pct": 50.3
   },
   "urls_claimed_more_than_once": {
-    "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi": [
-      "budgetel grand rapids",
-      "budgetel inn and suites hotel"
-    ],
-    "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169": [
-      "comfort inn",
-      "comfort suites grandville grand rapids sw"
-    ],
     "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437": [
       "rodeway inn",
       "rodeway inn grandville grand rapids"
@@ -513,24 +473,12 @@
       "identity_key": "budgetel inn and suites hotel",
       "canonical_name": "Budgetel Inn & Suites Hotel",
       "corridor": "grand-rapids-holland-mi__wyoming-grandville",
-      "discovered_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-      "source_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-      "url_shape": "PROPERTY_PAGE",
-      "brand": "INDEP:www.budgetel.com",
-      "routing_state": "ROUTED",
-      "provider": "brightdata_browser",
-      "fallback_providers": [
-        "brightdata_web_unlocker"
-      ],
-      "ladder": [
-        "brightdata_browser",
-        "brightdata_web_unlocker"
-      ],
-      "reader": "generic",
-      "max_attempts_per_provider": 3,
-      "resolved_by": "default",
-      "measured_by": "PTF-BRIGHTDATA-CROSS-BRAND-PILOT-002",
-      "why": "the lane that reached 21 of 30 properties across six buckets in pilot-002"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "candlewood suites",
@@ -637,35 +585,23 @@
       "identity_key": "comfort inn",
       "canonical_name": "Comfort Inn",
       "corridor": "",
-      "discovered_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-      "source_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-      "url_shape": "PROPERTY_PAGE",
-      "brand": "CHOICE",
-      "routing_state": "ROUTED",
-      "provider": "firecrawl",
-      "fallback_providers": [
-        "brightdata_web_unlocker"
-      ],
-      "ladder": [
-        "firecrawl",
-        "brightdata_web_unlocker"
-      ],
-      "reader": "choice_static",
-      "max_attempts_per_provider": 3,
-      "resolved_by": "domain:www.choicehotels.com",
-      "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
-      "why": "the same measurement as the CHOICE brand row, pinned to the domain so a property whose brand is unknown takes the same lane"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "comfort inn airport",
       "canonical_name": "Comfort Inn Airport",
       "corridor": "",
-      "discovered_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "source_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "url_shape": "BRAND_INDEX",
-      "brand": "CHOICE",
-      "routing_state": "ROUTE_NEEDS_PROPERTY_URL",
-      "why": "the URL on record is a brand index, locator or search page; it is property-specific for nobody"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "comfort inn grand rapids airport",
@@ -682,23 +618,23 @@
       "identity_key": "comfort suites",
       "canonical_name": "Comfort Suites",
       "corridor": "",
-      "discovered_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "source_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "url_shape": "BRAND_INDEX",
-      "brand": "CHOICE",
-      "routing_state": "ROUTE_NEEDS_PROPERTY_URL",
-      "why": "the URL on record is a brand index, locator or search page; it is property-specific for nobody"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "comfort suites grand rapids north",
       "canonical_name": "Comfort Suites Grand Rapids North",
       "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
-      "discovered_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "source_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "url_shape": "BRAND_INDEX",
-      "brand": "CHOICE",
-      "routing_state": "ROUTE_NEEDS_PROPERTY_URL",
-      "why": "the URL on record is a brand index, locator or search page; it is property-specific for nobody"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "comfort suites grand rapids south",
@@ -1092,12 +1028,12 @@
       "identity_key": "econo lodge and suites",
       "canonical_name": "Econo Lodge & Suites",
       "corridor": "",
-      "discovered_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "source_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "url_shape": "BRAND_INDEX",
-      "brand": "CHOICE",
-      "routing_state": "ROUTE_NEEDS_PROPERTY_URL",
-      "why": "the URL on record is a brand index, locator or search page; it is property-specific for nobody"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "econo lodge grand rapids airport",
@@ -2360,12 +2296,12 @@
       "identity_key": "sleep inn and suites",
       "canonical_name": "Sleep Inn & Suites",
       "corridor": "",
-      "discovered_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "source_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-      "url_shape": "BRAND_INDEX",
-      "brand": "CHOICE",
-      "routing_state": "ROUTE_NEEDS_PROPERTY_URL",
-      "why": "the URL on record is a brand index, locator or search page; it is property-specific for nobody"
+      "discovered_url": "",
+      "source_url": "",
+      "url_shape": "NO_URL",
+      "brand": "NO_URL",
+      "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+      "why": "no official URL is known for this identity"
     },
     {
       "identity_key": "spark by hilton grand rapids",

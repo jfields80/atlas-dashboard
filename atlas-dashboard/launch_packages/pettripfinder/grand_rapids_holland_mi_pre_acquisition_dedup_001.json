@@ -1,14 +1,14 @@
 {
  "schema": "ptf-pre-acquisition-dedup/1.0",
  "identities_in": 163,
- "groups_found": 52,
+ "groups_found": 51,
  "groups_by_verdict": {
   "SAFE_MERGE": 38,
-  "DUPLICATE_REVIEW_REQUIRED": 1,
+  "DUPLICATE_REVIEW_REQUIRED": 0,
   "DISTINCT_PROPERTIES": 13
  },
  "merged_identities": 23,
- "withheld_from_acquisition": 5,
+ "withheld_from_acquisition": 0,
  "identities_out": 140,
  "merges": [
   {
@@ -173,13 +173,7 @@
    "why": "one telephone and names that agree by token containment: a bare name and its qualified form for one property"
   }
  ],
- "withheld": {
-  "comfort inn": "held by canonical_url 'choicehotels.com/michigan/walker/quality-inn-hotels': comfort suites grand rapids north may buy this page for the group",
-  "comfort inn airport": "held by canonical_url 'choicehotels.com/michigan/walker/quality-inn-hotels': comfort suites grand rapids north may buy this page for the group",
-  "comfort suites": "held by canonical_url 'choicehotels.com/michigan/walker/quality-inn-hotels': comfort suites grand rapids north may buy this page for the group",
-  "econo lodge and suites": "held by canonical_url 'choicehotels.com/michigan/walker/quality-inn-hotels': comfort suites grand rapids north may buy this page for the group",
-  "sleep inn and suites": "held by canonical_url 'choicehotels.com/michigan/walker/quality-inn-hotels': comfort suites grand rapids north may buy this page for the group"
- },
+ "withheld": {},
  "groups": [
   {
    "signal": "CANONICAL_URL",
@@ -191,22 +185,6 @@
    "size": 2,
    "verdict": "SAFE_MERGE",
    "why": "one canonical_url and names that agree by token containment: a bare name and its qualified form for one property"
-  },
-  {
-   "signal": "CANONICAL_URL",
-   "value": "choicehotels.com/michigan/walker/quality-inn-hotels",
-   "identity_keys": [
-    "comfort inn",
-    "comfort inn airport",
-    "comfort suites",
-    "comfort suites grand rapids north",
-    "econo lodge and suites",
-    "rodeway inn",
-    "sleep inn and suites"
-   ],
-   "size": 7,
-   "verdict": "DUPLICATE_REVIEW_REQUIRED",
-   "why": "two identities claim one canonical_url but their names do not agree; at most one of them owns that page, and buying both would pay twice for one answer"
   },
   {
    "signal": "CANONICAL_URL",

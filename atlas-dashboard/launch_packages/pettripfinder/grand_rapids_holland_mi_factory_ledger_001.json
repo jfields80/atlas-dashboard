@@ -2,7 +2,7 @@
   "schema": "ptf-market-factory-ledger/1.0",
   "what_this_is": "The durable record of which lifecycle phases have run for this market, with the artifacts each produced. A phase recorded here as COMPLETED or SKIPPED is not run again; a phase whose predecessor is not satisfied is not started.",
   "market_id": "grand-rapids-holland-mi",
-  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-HARDENED-SHADOW-RECENSUS-006",
+  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007",
   "suffix": "001",
   "lifecycle": [
     "census",
@@ -30,20 +30,20 @@
   "phases": {
     "census": {
       "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:22.870683+00:00",
+      "ran_at": "2026-08-26T18:30:59.310710+00:00",
       "note": "census built: 163 identities; free discovery exhausted over 20 Overpass cells",
       "artifacts": {
         "census": {
           "path": "launch_packages/pettripfinder/identity_census/recensus/grand-rapids-holland-mi.json",
-          "sha256": "e75e15f3bb5cf4a2bf864c99254d9d1632dce388e3f9cabc19a7143ffb4a0f44"
+          "sha256": "07198431435ac4a0f80166293183459d3a1e3e5976f1477625b6dd526ecda360"
         },
         "candidate_ledger": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_candidate_ledger_001.json",
-          "sha256": "42737633e9cbdff2a3b360623123b8da5bf55616182f492354c77f98e2147a08"
+          "sha256": "d3a1967919cadcf069ad2b07039b3e30413f4805faf7d922832200b6de006016"
         },
         "prior_census_absorptions": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_prior_census_absorptions_001.json",
-          "sha256": "f5e9744fcc259e950fa17662028d06ac1e9dd3a21f428fa5d9ed9467fcee92eb"
+          "sha256": "5f07b6762da12003ffd7da9e0b1ade668cdc182dcfbb41c50c337e4f6413c1d6"
         },
         "discovery_state": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_discovery_state_001.json",
@@ -65,12 +65,12 @@
     },
     "routing": {
       "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:22.989424+00:00",
+      "ran_at": "2026-08-26T18:30:59.434100+00:00",
       "note": "routing: ROUTED 77 of 163 (47.2%), overlay applied 0, shared URLs 0",
       "artifacts": {
         "routing": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_routing_001.json",
-          "sha256": "7e8be2dca955178624e6e5d0a411f4148598df598177ada77fdc00a6e5c2fee0"
+          "sha256": "c337494f2ed90a2bd46cf59766f7f1cee6e7a0b910f992f629b26486de75a8c7"
         }
       },
       "facts": {
@@ -83,12 +83,27 @@
     },
     "zero_cost_url_recovery": {
       "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:23.038634+00:00",
-      "note": "cache recovery: 5 recovered, 76 still unknown",
+      "ran_at": "2026-08-26T18:30:59.483977+00:00",
+      "note": "cache recovery: 4 recovered, 77 still unknown",
       "artifacts": {
         "url_recovery": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_url_recovery_cache_001.json",
-          "sha256": "f79d2bbf4b78dd3f7cf47114e9aec5dfe9deab4e4308f3b474f0aa89d6d05eff"
+          "sha256": "0edffc22f5b830dcd02f872289d11d06e03c67a90d8b2c2f4aad2df3b925814d"
+        }
+      },
+      "facts": {
+        "recovered": 4,
+        "still_unknown": 77
+      }
+    },
+    "prior_build_reconciliation": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T18:30:59.528403+00:00",
+      "note": "prior-build reconciliation: 5 recovered (families {'OPENSTREETMAP': 70, 'PRIOR_BUILD': 39}), 76 still unknown",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_url_recovery_001.json",
+          "sha256": "3910291b8ae645e76c07e4a8e44b8d57a1dd50390d30ca53f12e17427c6b47e4"
         }
       },
       "facts": {
@@ -96,84 +111,67 @@
         "still_unknown": 76
       }
     },
-    "prior_build_reconciliation": {
-      "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:23.078593+00:00",
-      "note": "prior-build reconciliation: 7 recovered (families {'OPENSTREETMAP': 70, 'PRIOR_BUILD': 39}), 74 still unknown",
-      "artifacts": {
-        "url_recovery": {
-          "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_url_recovery_001.json",
-          "sha256": "0cbd4dfd4266b0629282f8fab527b745fe18dbfad70dbe1c3d565163dbebae5e"
-        }
-      },
-      "facts": {
-        "recovered": 7,
-        "still_unknown": 74
-      }
-    },
     "reroute": {
       "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:23.162323+00:00",
-      "note": "routing_overlay: ROUTED 84 of 163 (51.5%), overlay applied 7, shared URLs 6",
+      "ran_at": "2026-08-26T18:30:59.613602+00:00",
+      "note": "routing_overlay: ROUTED 82 of 163 (50.3%), overlay applied 5, shared URLs 4",
       "artifacts": {
         "routing_overlay": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_routing_overlay_001.json",
-          "sha256": "df77fab6e6aa55212228c7e57a0659b7c555e1a3fb4874b9a76912d3b3f91b02"
+          "sha256": "6c8f0d7b2ca861bd13df4e0d28ed1d67ca223abb722719d402732fb8ef44bc30"
         }
       },
       "facts": {
-        "routed": 84,
+        "routed": 82,
         "census": 163,
-        "overlay_applied": 7,
+        "overlay_applied": 5,
         "overlay_rows": [
           "ac hotel grand rapids downtown",
-          "budgetel inn and suites hotel",
-          "comfort inn",
           "country inn and suites grand rapids east",
           "days inn and suites by wyndham grand rapids near downtown",
           "residence inn by marriott grand rapids downtown",
           "rodeway inn"
         ],
-        "shared_urls": 6
+        "shared_urls": 4
       }
     },
     "pre_acquisition_dedup": {
       "status": "COMPLETED",
-      "ran_at": "2026-08-26T17:20:23.186649+00:00",
-      "note": "pre-acquisition dedup: 52 groups (38 safe-merge, 1 review, 13 distinct); 23 merged, 5 withheld from acquisition, 135 payable",
+      "ran_at": "2026-08-26T18:30:59.638583+00:00",
+      "note": "pre-acquisition dedup: 51 groups (38 safe-merge, 0 review, 13 distinct); 23 merged, 0 withheld from acquisition, 140 payable",
       "artifacts": {
         "pre_acquisition_dedup": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_pre_acquisition_dedup_001.json",
-          "sha256": "16744157be42e88bf58695e21b2edd68ab3b4aacb048175be797b14fd91120ac"
+          "sha256": "83a8e27f7c5295d442b461acee6ca4ed111d99cabfbde50b70adf8704beb53e5"
         }
       },
       "facts": {
         "identities_in": 163,
         "groups_by_verdict": {
           "SAFE_MERGE": 38,
-          "DUPLICATE_REVIEW_REQUIRED": 1,
+          "DUPLICATE_REVIEW_REQUIRED": 0,
           "DISTINCT_PROPERTIES": 13
         },
         "merged_identities": 23,
-        "withheld_from_acquisition": 5
+        "withheld_from_acquisition": 0
       }
     },
     "acquisition": {
       "status": "AWAITING_AUTHORISATION",
-      "ran_at": "2026-08-26T17:20:40.802823+00:00",
+      "ran_at": "2026-08-26T18:31:17.494911+00:00",
       "note": "cost plan written; re-run with --authorise-spend to run the paid pass under the plan's recommended cap (0 cents)",
       "artifacts": {
         "dry_run": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_dry_run_pass1_001.json",
-          "sha256": "9bd74d9b5eb02a5143c5828657c842abbdaa8a5432446504ff5b2216ac8da6ce"
+          "sha256": "9af77cd06406483c25c70c0b31451e1db9838219151025a86dfd1f8e8077afff"
         },
         "prior": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_merged_pass1_001.json",
-          "sha256": "3fa108f8ed835c602ff7801119ac9b37896873ae26e693010a70d39eda454776"
+          "sha256": "d349f62d7aa1b8bf0e074f0c32576bfcb6d9998eca1aac1f03af6994afb3a0aa"
         },
         "cost_plan": {
           "path": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_cohort_cost_plan_pass1_001.json",
-          "sha256": "4d6deca53e4f765c2761ea3f2c9a8f3958cdf9b8dfa1998da01e840364463f88"
+          "sha256": "821db2eb8feae2d1defd5feed2cf0abff9ad20f315a2ce1aa3107be5e22822d3"
         }
       },
       "facts": {
@@ -210,7 +208,7 @@
     }
   },
   "last_invocation": {
-    "at": "2026-08-26T17:20:22.616223+00:00",
+    "at": "2026-08-26T18:30:59.055367+00:00",
     "through": "acquisition",
     "only": "",
     "spend_authorised": false

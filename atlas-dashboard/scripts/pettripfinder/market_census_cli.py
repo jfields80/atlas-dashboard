@@ -119,6 +119,17 @@ def recandidate(candidates_path: Path, prior_census_path: Path, *,
     return merged_path, document
 
 
+def _row_official_url(candidate, shared_brand_index) -> str:
+    """The candidate's official URL, unless it is a brand index that two or
+    more candidates claim -- see census_projection.shared_brand_index_urls.
+
+    Dropped rather than carried, because a census row that names a website
+    it does not have is a false statement the next reviewer has to unpick.
+    """
+    url = CP._official_url(candidate)
+    return "" if url in shared_brand_index else url
+
+
 def build(market_id: str, candidates_path: Path, contract_path: Path, *,
           observed_at: str, work_order: str, source_authorities):
     candidates = json.loads(candidates_path.read_text(encoding="utf-8"))
@@ -139,6 +150,7 @@ def build(market_id: str, candidates_path: Path, contract_path: Path, *,
             "ERROR: %s declares census_membership_basis %s but has no committed "
             "discovery market config to decide membership with"
             % (market_id, MEMBERSHIP_MARKET_GEOGRAPHY))
+    shared_brand_index = CP.shared_brand_index_urls(candidates)
     admitted, ledger = CP.project(
         candidates, contract, observed_at=observed_at, work_order=work_order,
         in_bounds=_in_bounds_map(candidates, market_id, geo), geography=geo)
@@ -210,7 +222,7 @@ def build(market_id: str, candidates_path: Path, contract_path: Path, *,
             source_id=candidate.get("candidate_id", ""),
             observed_at=observed_at,
             provenance="%s:%s" % (work_order, "+".join(CP._providers(candidate))),
-            official_url=CP._official_url(candidate),
+            official_url=_row_official_url(candidate, shared_brand_index),
             carried=OrderedDict((
                 ("normalized_name", row["identity_key"]),
                 ("discovery_cells", list(CP._cells(candidate))),

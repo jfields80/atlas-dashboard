@@ -2,9 +2,9 @@
  "schema": "ptf-market-paid-acquisition/1.0",
  "what_this_is": "One paid acquisition pass over a market's remaining routed cohort, under a hard spend cap enforced on the larger of the vendor's measured cost and this run's own estimate. It changes no route.",
  "market_id": "grand-rapids-holland-mi",
- "work_order": "PTF-GRAND-RAPIDS-HOLLAND-HARDENED-SHADOW-RECENSUS-006",
+ "work_order": "PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007",
  "run_id": "grand-rapids-holland-mi-001-pass1",
- "run_start": "2026-08-26T17:20:23.301229+00:00",
+ "run_start": "2026-08-26T18:30:59.745472+00:00",
  "dry_run": true,
  "prior_report": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_merged_pass1_001.json",
  "cost_policy": {
@@ -16,9 +16,9 @@
  "url_overlay": {
   "overlay": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_url_recovery_001.json",
   "contract": "ptf-census-url-recovery/1.0",
-  "offered": 7,
-  "applied": 7,
-  "unroutable_census_urls_displaced": 2,
+  "offered": 5,
+  "applied": 5,
+  "unroutable_census_urls_displaced": 0,
   "note": "layered for routing only; the census file is unchanged",
   "rows": [
    {
@@ -34,36 +34,6 @@
      "postal_code": "",
      "street_key": "",
      "url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/"
-    }
-   },
-   {
-    "identity_key": "budgetel inn and suites hotel",
-    "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-    "displaced_census_url": "",
-    "binding": "PHONE",
-    "evidence": {
-     "provider": "OPENSTREETMAP",
-     "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville/f357014a3e5c4ed3/page_1.json",
-     "name": "budgetel grand rapids",
-     "phone": "6164525141",
-     "postal_code": "49548",
-     "street_key": "35 28th st sw|49548",
-     "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi"
-    }
-   },
-   {
-    "identity_key": "comfort inn",
-    "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-    "displaced_census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-    "binding": "PHONE",
-    "evidence": {
-     "provider": "PRIOR_BUILD",
-     "source": "grand-rapids-holland-mi.json",
-     "name": "comfort suites grandville grand rapids sw",
-     "phone": "6166670733",
-     "postal_code": "49418",
-     "street_key": "4520 kenowa ave sw|49418",
-     "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169"
     }
    },
    {
@@ -114,7 +84,7 @@
    {
     "identity_key": "rodeway inn",
     "url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
-    "displaced_census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
+    "displaced_census_url": "",
     "binding": "PHONE",
     "evidence": {
      "provider": "PRIOR_BUILD",
@@ -132,35 +102,33 @@
   "contract": "ptf-market-routing/1.0",
   "count": 163,
   "url_shapes": {
-   "BRAND_INDEX": 5,
-   "NO_URL": 69,
-   "PROPERTY_PAGE": 89
+   "NO_URL": 76,
+   "PROPERTY_PAGE": 87
   },
   "routing_states": {
-   "ROUTED": 84,
+   "ROUTED": 82,
    "ROUTE_BRAND_EXCLUDED": 5,
-   "ROUTE_NEEDS_OFFICIAL_URL": 69,
-   "ROUTE_NEEDS_PROPERTY_URL": 5
+   "ROUTE_NEEDS_OFFICIAL_URL": 76
   },
   "brands": {
    "BEST_WESTERN": 3,
-   "CHOICE": 14,
+   "CHOICE": 8,
    "DRURY": 1,
    "HILTON": 21,
    "HYATT": 2,
    "IHG": 6,
-   "INDEPENDENT": 10,
+   "INDEPENDENT": 9,
    "MARRIOTT": 26,
    "MOTEL6": 1,
-   "NO_URL": 69,
+   "NO_URL": 76,
    "WYNDHAM": 10
   },
   "providers": {
-   "brightdata_browser": 59,
-   "firecrawl": 25
+   "brightdata_browser": 58,
+   "firecrawl": 24
   },
-  "automatically_routed": 84,
-  "automatically_routed_pct": 51.5
+  "automatically_routed": 82,
+  "automatically_routed_pct": 50.3
  },
  "cohort_rule": {
   "terminal_prior_outcomes": [
@@ -171,7 +139,7 @@
   "why": "a page that served and was read, was silent, or was about another hotel has already answered its question; a paid lane is for properties we could not REACH"
  },
  "cohort_size": 65,
- "settled_size": 19,
+ "settled_size": 17,
  "suppressed_size": 0,
  "cohort_by_provider": {
   "brightdata_browser": 46,
@@ -188,7 +156,7 @@
   "WYNDHAM": 9
  },
  "settled_by_prior_outcome": {
-  "NEVER_ATTEMPTED": 19
+  "NEVER_ATTEMPTED": 17
  },
  "queue_order": [
   "MARRIOTT",
@@ -259,7 +227,7 @@
   "motel 6 grand rapids northeast",
   "drury inn and suites grand rapids",
   "affordable suites",
-  "budgetel inn and suites hotel",
+  "budgetel grand rapids",
   "country inn and suites holland mi",
   "haworth hotel",
   "the ada hotel",
@@ -267,7 +235,7 @@
   "the finnley hotel",
   "woodspring suites holland grand rapids"
  ],
- "cohort_keys_sha256": "ddcfe5490fe0026d89862040e72d70d2df7785ab00748b932c62ccf7cdb0c67a",
+ "cohort_keys_sha256": "291ec676927217241667678149724bd6a41da5f06082a8499f0aa604cccf6a57",
  "retry_policy": {
   "schema": "ptf-retry-policy/1.0",
   "rule": "a prior access, navigation or unhydrated failure re-enters a paid cohort only on a different approved lane, a changed URL, a reader change that addresses the failure, or an explicit operator override; otherwise it is suppressed as RETRY_REQUIRES_ALTERNATE_LANE and never marked settled",
@@ -442,11 +410,11 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "budgetel inn and suites hotel",
-   "canonical_name": "Budgetel Inn & Suites Hotel",
+   "identity_key": "budgetel grand rapids",
+   "canonical_name": "Budgetel Grand Rapids",
    "brand": "INDEP:www.budgetel.com",
    "family": "INDEPENDENT",
-   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "corridor": "",
    "source_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
    "provider": "brightdata_browser",
    "reader": "generic",
@@ -1622,44 +1590,6 @@
    "settled_because": "another identity in this cohort ('the ada hotel') already buys this exact page (canonical_url 'adahotel.com'); one fetch answers both, so a second purchase would pay twice for one answer"
   },
   {
-   "identity_key": "budgetel grand rapids",
-   "canonical_name": "Budgetel Grand Rapids",
-   "brand": "INDEP:www.budgetel.com",
-   "family": "INDEPENDENT",
-   "corridor": "",
-   "source_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-   "provider": "brightdata_browser",
-   "reader": "generic",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "brightdata_browser",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "settled_because": "another identity in this cohort ('budgetel inn and suites hotel') already buys this exact page (canonical_url 'budgetel.com/hotel-details/bi-grand-rapids-mi'); one fetch answers both, so a second purchase would pay twice for one answer"
-  },
-  {
-   "identity_key": "comfort inn",
-   "canonical_name": "Comfort Inn",
-   "brand": "CHOICE",
-   "family": "CHOICE",
-   "corridor": "",
-   "source_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-   "provider": "firecrawl",
-   "reader": "choice_static",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "firecrawl",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "settled_because": "another identity in this cohort ('comfort suites grandville grand rapids sw') already buys this exact page (canonical_url 'choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169'); one fetch answers both, so a second purchase would pay twice for one answer"
-  },
-  {
    "identity_key": "country inn and suites",
    "canonical_name": "Country Inn & Suites",
    "brand": "CHOICE",
@@ -1971,7 +1901,7 @@
    {
     "check": "balance_covers_the_remaining_cap",
     "ok": true,
-    "detail": "balance 1780 cents against a 0 cent cap"
+    "detail": "balance 1552 cents against a 0 cent cap"
    },
    {
     "check": "at_least_one_provider_available",
@@ -2022,28 +1952,28 @@
  "cost_samples": [
   {
    "label": "grand-rapids-holland-mi-001-pass1:preflight",
-   "at": "2026-08-26T17:20:35.075622+00:00",
+   "at": "2026-08-26T18:31:11.442836+00:00",
    "zone_costs_usd_minor": {
-    "scraping_browser1": 7399,
-    "mcp_unlocker": 30,
-    "cli_unlocker": 10
+    "scraping_browser1": 7821,
+    "mcp_unlocker": 32,
+    "cli_unlocker": 11
    },
    "measured_usd_minor": 0
   },
   {
    "label": "grand-rapids-holland-mi-001-pass1:final",
-   "at": "2026-08-26T17:20:40.773376+00:00",
+   "at": "2026-08-26T18:31:17.464904+00:00",
    "zone_costs_usd_minor": {
-    "scraping_browser1": 7399,
-    "mcp_unlocker": 30,
-    "cli_unlocker": 10
+    "scraping_browser1": 7821,
+    "mcp_unlocker": 32,
+    "cli_unlocker": 11
    },
    "measured_usd_minor": 0
   }
  ],
  "journal_total": 0,
- "run_end": "2026-08-26T17:20:40.773506+00:00",
- "elapsed_seconds": 17.6,
+ "run_end": "2026-08-26T18:31:17.465030+00:00",
+ "elapsed_seconds": 17.8,
  "outcome_counts": {},
  "publication_grade": 0
 }

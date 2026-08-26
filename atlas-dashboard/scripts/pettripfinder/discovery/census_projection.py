@@ -283,6 +283,38 @@ def _official_url(candidate: Mapping) -> str:
     return ""
 
 
+def shared_brand_index_urls(candidates: Sequence[Mapping]) -> Dict[str, int]:
+    """Brand-index URLs that two or more distinct candidates claim as their own.
+
+    PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007. OpenStreetMap's
+    ``website`` tag is typed in by hand and is bulk-edited: ten Grand Rapids
+    candidates -- a Comfort Inn in Grandville, a Sleep Inn on 29th Street, an
+    Econo Lodge on Kraft Avenue and seven more, at seven different addresses
+    with seven different telephone numbers -- all carry
+    ``choicehotels.com/michigan/walker/quality-inn-hotels``, which is a brand
+    index for a Quality Inn none of them is.
+
+    Routing already refuses to send a paid lane to a brand index, so no money
+    was ever at risk. What the URL does do is make ten census rows claim an
+    official website they do not have, which is a false statement in the census
+    and the thing a later reviewer would have to unpick. One shared brand index
+    is the official URL of nobody, so it becomes nobody's.
+
+    A brand index claimed by ONE candidate is left alone: it is honest about
+    that row -- the row's own website really is the brand's page -- and routing
+    already says what it is worth.
+    """
+    # Local import: market_routing owns URL shape, and this module is imported
+    # by the acquisition side that also imports market_routing.
+    from scripts.pettripfinder.acquisition import market_routing as MR
+    counts: Dict[str, int] = {}
+    for candidate in candidates:
+        url = _official_url(candidate)
+        if url and MR.classify_url_shape(url) == MR.BRAND_INDEX:
+            counts[url] = counts.get(url, 0) + 1
+    return {url: n for url, n in counts.items() if n > 1}
+
+
 def _phone(candidate: Mapping) -> str:
     for record in candidate.get("source_records") or ():
         phone = "".join(ch for ch in (record.get("phone") or "") if ch.isdigit())

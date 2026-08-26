@@ -2,7 +2,7 @@
  "schema": "ptf-census-url-recovery/1.0",
  "what_this_is": "Official URLs proposed for census identities that have none, read back out of the discovery payloads this market already paid for. Zero network, zero spend. Nothing here edits the census.",
  "market_id": "grand-rapids-holland-mi",
- "work_order": "PTF-GRAND-RAPIDS-HOLLAND-HARDENED-SHADOW-RECENSUS-006",
+ "work_order": "PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007",
  "cache_dir": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/data/discovery/grand_rapids_holland_mi/cache",
  "prior_census": "launch_packages/pettripfinder/identity_census/grand-rapids-holland-mi.json",
  "evidence_families": {
@@ -16,21 +16,21 @@
  ],
  "url_corroboration_required": true,
  "unroutable_census_urls_included": true,
- "displacements_proposed": 2,
+ "displacements_proposed": 0,
  "cached_sightings_with_a_url": 109,
  "rows_without_a_usable_url_before": 81,
- "recovered": 7,
- "routable_recoveries": 7,
- "still_unknown": 74,
+ "recovered": 5,
+ "routable_recoveries": 5,
+ "still_unknown": 76,
  "binding_counts": {
-  "PHONE": 7
+  "PHONE": 5
  },
  "recovered_by_provider": {
-  "OPENSTREETMAP": 5,
-  "PRIOR_BUILD": 2
+  "OPENSTREETMAP": 4,
+  "PRIOR_BUILD": 1
  },
  "recovered_url_shapes": {
-  "PROPERTY_PAGE": 7
+  "PROPERTY_PAGE": 5
  },
  "binding_rule": "telephone digits equal, or name AND postal code both equal, or -- when street binding is allowed -- street AND postal code both equal on a key held by exactly one row and one sighting; an empty field never matches an empty field",
  "artifact_coverage": {},
@@ -57,55 +57,6 @@
    },
    "routable": true,
    "why": "a OPENSTREETMAP sighting carrying a URL binds to this identity on PHONE"
-  },
-  {
-   "identity_key": "budgetel inn and suites hotel",
-   "canonical_name": "Budgetel Inn & Suites Hotel",
-   "city": "Grand Rapids",
-   "postal_code": "49548",
-   "phone": "6164525141",
-   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
-   "recovered_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
-   "url_shape": "PROPERTY_PAGE",
-   "brand": "INDEP:www.budgetel.com",
-   "binding": "PHONE",
-   "evidence": {
-    "provider": "OPENSTREETMAP",
-    "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville/f357014a3e5c4ed3/page_1.json",
-    "name": "budgetel grand rapids",
-    "phone": "6164525141",
-    "postal_code": "49548",
-    "street_key": "35 28th st sw|49548",
-    "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi"
-   },
-   "routable": true,
-   "why": "a OPENSTREETMAP sighting carrying a URL binds to this identity on PHONE"
-  },
-  {
-   "identity_key": "comfort inn",
-   "canonical_name": "Comfort Inn",
-   "city": "Grandville",
-   "postal_code": "49418",
-   "phone": "6166670733",
-   "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
-   "recovered_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
-   "url_shape": "PROPERTY_PAGE",
-   "brand": "CHOICE",
-   "binding": "PHONE",
-   "evidence": {
-    "provider": "PRIOR_BUILD",
-    "source": "grand-rapids-holland-mi.json",
-    "name": "comfort suites grandville grand rapids sw",
-    "phone": "6166670733",
-    "postal_code": "49418",
-    "street_key": "4520 kenowa ave sw|49418",
-    "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169"
-   },
-   "routable": true,
-   "displaces_unroutable_census_url": true,
-   "why": "a PRIOR_BUILD sighting carrying a URL binds to this identity on PHONE"
   },
   {
    "identity_key": "country inn and suites grand rapids east",
@@ -183,8 +134,6 @@
    "postal_code": "49418",
    "phone": "6165323222",
    "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "recovered_url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
    "url_shape": "PROPERTY_PAGE",
    "brand": "CHOICE",
@@ -199,7 +148,6 @@
     "url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437"
    },
    "routable": true,
-   "displaces_unroutable_census_url": true,
    "why": "a PRIOR_BUILD sighting carrying a URL binds to this identity on PHONE"
   }
  ],
@@ -239,6 +187,32 @@
    "phone": "",
    "corridor": "grand-rapids-holland-mi__wyoming-grandville",
    "why": "no sighting on disk carries a URL and binds to this identity on telephone, on name and postal code, or on street and postal code together"
+  },
+  {
+   "identity_key": "budgetel inn and suites hotel",
+   "canonical_name": "Budgetel Inn & Suites Hotel",
+   "city": "Grand Rapids",
+   "postal_code": "49548",
+   "phone": "6164525141",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "why": "1 sighting(s) bound to this identity and every one was refused",
+   "refused": [
+    {
+     "binding": "PHONE",
+     "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
+     "why": "the sighting is named 'budgetel grand rapids' and this identity is 'Budgetel Inn & Suites Hotel'; neither name contains the other, so they are two properties and one may not lend the other its URL",
+     "evidence": {
+      "provider": "OPENSTREETMAP",
+      "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville/f357014a3e5c4ed3/page_1.json",
+      "name": "budgetel grand rapids",
+      "phone": "6164525141",
+      "postal_code": "49548",
+      "street_key": "35 28th st sw|49548",
+      "url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi"
+     }
+    }
+   ],
+   "refused_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi"
   },
   {
    "identity_key": "candlewood suites grand rapids airport",
@@ -286,20 +260,72 @@
    "why": "no sighting on disk carries a URL and binds to this identity on telephone, on name and postal code, or on street and postal code together"
   },
   {
+   "identity_key": "comfort inn",
+   "canonical_name": "Comfort Inn",
+   "city": "Grandville",
+   "postal_code": "49418",
+   "phone": "6166670733",
+   "corridor": "",
+   "why": "3 sighting(s) bound to this identity and every one was refused",
+   "refused": [
+    {
+     "binding": "PHONE",
+     "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+     "why": "the sighting is named 'comfort suites grandville grand rapids sw' and this identity is 'Comfort Inn'; neither name contains the other, so they are two properties and one may not lend the other its URL",
+     "evidence": {
+      "provider": "PRIOR_BUILD",
+      "source": "grand-rapids-holland-mi.json",
+      "name": "comfort suites grandville grand rapids sw",
+      "phone": "6166670733",
+      "postal_code": "49418",
+      "street_key": "4520 kenowa ave sw|49418",
+      "url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169"
+     }
+    },
+    {
+     "binding": "PHONE",
+     "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
+     "evidence": {
+      "provider": "OPENSTREETMAP",
+      "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__wyoming-grandville/6676bb96e2002605/page_1.json",
+      "name": "comfort inn",
+      "phone": "6166670733",
+      "postal_code": "49418",
+      "street_key": "4520 kenowa ave sw|49418",
+      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels"
+     }
+    },
+    {
+     "binding": "NAME_AND_POSTAL_CODE",
+     "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
+     "evidence": {
+      "provider": "OPENSTREETMAP",
+      "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__wyoming-grandville/6676bb96e2002605/page_1.json",
+      "name": "comfort inn",
+      "phone": "6166670733",
+      "postal_code": "49418",
+      "street_key": "4520 kenowa ave sw|49418",
+      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels"
+     }
+    }
+   ],
+   "refused_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169"
+  },
+  {
    "identity_key": "comfort inn airport",
    "canonical_name": "Comfort Inn Airport",
    "city": "Grand Rapids",
    "postal_code": "49512",
    "phone": "6162190991",
    "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "why": "3 sighting(s) bound to this identity and every one was refused",
    "refused": [
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
@@ -313,7 +339,7 @@
     {
      "binding": "NAME_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
@@ -327,7 +353,7 @@
     {
      "binding": "STREET_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
@@ -357,14 +383,12 @@
    "postal_code": "49548",
    "phone": "6163012255",
    "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "why": "3 sighting(s) bound to this identity and every one was refused",
    "refused": [
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__south-wyoming-cutlerville/89509abbfcbf55d3/page_1.json",
@@ -378,7 +402,7 @@
     {
      "binding": "NAME_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__south-wyoming-cutlerville/89509abbfcbf55d3/page_1.json",
@@ -392,7 +416,7 @@
     {
      "binding": "STREET_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__south-wyoming-cutlerville/89509abbfcbf55d3/page_1.json",
@@ -413,14 +437,12 @@
    "postal_code": "49321",
    "phone": "6163306062",
    "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "why": "3 sighting(s) bound to this identity and every one was refused",
    "refused": [
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__comstock-park-alpine/90bca7237806e20a/page_1.json",
@@ -434,7 +456,7 @@
     {
      "binding": "NAME_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__comstock-park-alpine/90bca7237806e20a/page_1.json",
@@ -448,7 +470,7 @@
     {
      "binding": "STREET_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__comstock-park-alpine/90bca7237806e20a/page_1.json",
@@ -540,14 +562,12 @@
    "postal_code": "49512",
    "phone": "6169401777",
    "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "why": "2 sighting(s) bound to this identity and every one was refused",
    "refused": [
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__grr-airport-kentwood/f213106330f37097/page_1.json",
@@ -561,7 +581,7 @@
     {
      "binding": "NAME_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__motel__grand-rapids-holland-mi__grr-airport-kentwood/f213106330f37097/page_1.json",
@@ -848,7 +868,7 @@
     {
      "binding": "STREET_AND_POSTAL_CODE",
      "url": "https://www.wyndhamhotels.com/americinn/holland-michigan/americinn-holland-mi/overview",
-     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
+     "why": "the sighting is named 'americinn by wyndham holland mi' and this identity is 'Quality Inn & Suites'; neither name contains the other, so they are two properties and one may not lend the other its URL",
      "evidence": {
       "provider": "PRIOR_BUILD",
       "source": "grand-rapids-holland-mi.json",
@@ -932,14 +952,12 @@
    "postal_code": "49512",
    "phone": "6169759000",
    "corridor": "",
-   "census_url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-   "census_url_shape": "BRAND_INDEX",
    "why": "2 sighting(s) bound to this identity and every one was refused",
    "refused": [
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
@@ -953,7 +971,7 @@
     {
      "binding": "NAME_AND_POSTAL_CODE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "it is the same BRAND_INDEX URL the census already holds, so accepting it would count this row as improved while leaving it exactly as unroutable",
+     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
@@ -979,7 +997,7 @@
     {
      "binding": "PHONE",
      "url": "https://www.choicehotels.com/michigan/walker/quality-inn-hotels",
-     "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel",
+     "why": "the sighting is named 'sleep inn suites' and this identity is 'Spark by Hilton Grand Rapids'; neither name contains the other, so they are two properties and one may not lend the other its URL",
      "evidence": {
       "provider": "OPENSTREETMAP",
       "source": "OPENSTREETMAP/grand-rapids-holland-mi/OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood/55ea3aedb5d9f438/page_1.json",
