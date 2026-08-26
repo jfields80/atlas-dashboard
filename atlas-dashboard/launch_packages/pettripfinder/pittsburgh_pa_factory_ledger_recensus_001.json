@@ -25,7 +25,16 @@
     "acquisition",
     "alternate_lane_handling"
   ],
-  "passes": [],
+  "passes": [
+    {
+      "label": "pass1",
+      "report": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_market_acquisition_pass1_recensus_001.json",
+      "run_dir": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/data/acquisition/pittsburgh_pa_factory_recensus_001/pass1",
+      "run_id": "pittsburgh-pa-recensus_001-pass1",
+      "outcome": "BATCH_COMPLETE",
+      "attempted": 92
+    }
+  ],
   "phases": {
     "census": {
       "status": "COMPLETED",
@@ -136,13 +145,13 @@
       }
     },
     "acquisition": {
-      "status": "AWAITING_AUTHORISATION",
-      "ran_at": "2026-08-26T13:00:03.353017+00:00",
-      "note": "cost plan written; re-run with --authorise-spend to run the paid pass under the plan's recommended cap (1000 cents)",
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:01.543090+00:00",
+      "note": "paid pass pass1: BATCH_COMPLETE, attempted 92",
       "artifacts": {
         "dry_run": {
           "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_dry_run_pass1_recensus_001.json",
-          "sha256": "8856b07b2445510a44aa5a4d5cb6d39f190f1cdb10bbbcbd45fad1b83dc3d88a"
+          "sha256": "79f7056673a66342e9d067d8644f8bfa04b91e53ea8d8cd4b87daf73f2c4b7dc"
         },
         "prior": {
           "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_merged_pass1_recensus_001.json",
@@ -150,46 +159,293 @@
         },
         "cost_plan": {
           "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_cohort_cost_plan_pass1_recensus_001.json",
-          "sha256": "9a3936ec0f73f3a931342443178f50cf2247c54eec018bb6e84a0b87bc380b7b"
+          "sha256": "bfa831a7702e22c4fa51d2a706fd8934174d81cafaf92252c1ffb57850af775f"
+        },
+        "report": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_market_acquisition_pass1_recensus_001.json",
+          "sha256": "c49687ecee83128d50e1ae9fb440881edbead01fc508c7dced0baf7c60eed2d9"
         }
       },
       "facts": {
         "cohort": 92,
         "suppressed_same_lane": 0,
-        "recommended_cap_usd_minor": 1000,
-        "predicted_attemptable": 72,
-        "no_property_is_bought_twice": true
+        "recommended_cap_usd_minor": 1750,
+        "predicted_attemptable": 92,
+        "no_property_is_bought_twice": true,
+        "outcome": "BATCH_COMPLETE",
+        "attempted": 92,
+        "deferred": 0,
+        "spend_usd_minor": 1658
       }
     },
     "declined_evidence_recovery": {
-      "status": "NOT_RUN"
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:13.829521+00:00",
+      "note": "declined evidence: 23 examined, {'DOCUMENT_NAMES_A_DIFFERENT_PROPERTY': 11, 'NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK': 12}",
+      "artifacts": {
+        "declined_recovery": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_zero_cost_recovery_recensus_001.json",
+          "sha256": "115a6d4eca29951a26f90bcff99f6cfd8af9145ad1fe4cb2b8b0ca9839843243"
+        }
+      },
+      "facts": {
+        "examined": 23,
+        "verdicts": {
+          "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 11,
+          "NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK": 12
+        }
+      }
     },
     "reroute_recovered": {
-      "status": "NOT_RUN"
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:14.284922+00:00",
+      "note": "post-acquisition recovery: 0 newly recovered; routing_recovered: ROUTED 92 of 115 (80.0%), overlay applied 6, shared URLs 0",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_url_recovery_post_acquisition_recensus_001.json",
+          "sha256": "77c083396979c752850b965d8ab9cbd65d53d70988c189b5831dc1896a43cb93"
+        },
+        "routing_recovered": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_routing_recovered_recensus_001.json",
+          "sha256": "dbb59fb3d6b5537710aa07975faa7cc36b517e141a0cd5e1c73d580cf81c6e3e"
+        }
+      },
+      "facts": {
+        "routed": 92,
+        "census": 115,
+        "overlay_applied": 6,
+        "overlay_rows": [
+          "courtyard by marriott pittsburgh airport",
+          "even hotels",
+          "hyatt regency pittsburgh international airport",
+          "kimpton hotel monaco pittsburgh",
+          "residence inn pittsburgh cranberry township",
+          "sonesta simply suites pittsburgh airport"
+        ],
+        "shared_urls": 0,
+        "newly_recovered_after_acquisition": []
+      }
     },
     "acquire_newly_routable": {
-      "status": "NOT_RUN"
+      "status": "SKIPPED",
+      "ran_at": "2026-08-26T17:44:30.893877+00:00",
+      "note": "nothing to acquire: cohort is empty (settled 67, suppressed same-lane 25)",
+      "artifacts": {
+        "dry_run": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_dry_run_pass2_recensus_001.json",
+          "sha256": "7f0577abc40aeb478f8850f5b75d95b821ab96939f28407c4d1275181eb36b62"
+        },
+        "prior": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_merged_pass2_recensus_001.json",
+          "sha256": "4afba7716becf65637e26083c58a1cc2032503f86c6f2d5ca2036660ee3b24ff"
+        }
+      },
+      "facts": {
+        "cohort": 0,
+        "suppressed_same_lane": 25
+      }
     },
     "alternate_lane_handling": {
-      "status": "NOT_RUN"
+      "status": "SKIPPED",
+      "ran_at": "2026-08-26T17:44:30.986316+00:00",
+      "note": "no routed identity is eligible for another attempt; 25 are terminal RETRY_REQUIRES_ALTERNATE_LANE",
+      "artifacts": {
+        "alternate_lane": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_alternate_lane_recensus_001.json",
+          "sha256": "bf3d423af42241572e8b5dca2708004d9033689257801fd7d1ba115c349811aa"
+        }
+      },
+      "facts": {
+        "alternate_lane_eligible": 0,
+        "requires_alternate_lane": 25,
+        "eligible_total": 0
+      }
     },
     "coverage_exhaustion": {
-      "status": "NOT_RUN"
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:31.092437+00:00",
+      "note": "coverage (coverage_exhaustion): census 115 routed 92 attempted 92 settled 67 candidates 0; READY_FOR_FOUNDER_REVIEW=False, movable=0",
+      "artifacts": {
+        "coverage": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_coverage_completion_recensus_001.json",
+          "sha256": "0566b3e3f39a73a6de3330998dfe16c7c16e46f268a3ea358fedf17f6a1e0cfd"
+        }
+      },
+      "facts": {
+        "counts": {
+          "CENSUS": 115,
+          "ROUTED": 92,
+          "UNROUTED": 23,
+          "ATTEMPTED": 92,
+          "VALID": 43,
+          "SETTLED": 67,
+          "UNSETTLED": 25,
+          "NEEDS_OFFICIAL_URL": 12,
+          "NEEDS_PROPERTY_URL": 0,
+          "BRAND_EXCLUDED": 5,
+          "BUDGET_DEFERRED": 0,
+          "ALTERNATE_LANE_REQUIRED": 15,
+          "FOUNDER_CANDIDATES": 0
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": false,
+          "READY_FOR_FOUNDER_REVIEW": false
+        },
+        "benchmark": {
+          "routed_pct_of_census": 80.0,
+          "attempted_pct_of_census": 80.0,
+          "settled_pct_of_census": 58.3,
+          "publication_grade_pct_of_census": 0.0,
+          "founder_candidate_pct_of_census": 0.0,
+          "unresolved_pct_of_census": 41.7,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
     },
     "closure": {
-      "status": "NOT_RUN"
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:44.370342+00:00",
+      "note": "closure 83/83 reconciled (missing 0 foreign 0 duplicate 0); coverage (closure): census 115 routed 92 attempted 92 settled 67 candidates 31; READY_FOR_FOUNDER_REVIEW=False, movable=0",
+      "artifacts": {
+        "merged": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_merged_closeout_recensus_001.json",
+          "sha256": "4afba7716becf65637e26083c58a1cc2032503f86c6f2d5ca2036660ee3b24ff"
+        },
+        "observation_store": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_observation_store_recensus_001.json",
+          "sha256": "d4f93f12d697fbab4f63dfa88f3edf033229fab8f78586fc05c066be90aa506e"
+        },
+        "final_partition": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_final_partition_recensus_001.json",
+          "sha256": "53501bca23993afe1501cc150835b040dfe4fe5b2009bdb6c8387a57eb38e215"
+        },
+        "closure_ledger": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_closure_ledger_recensus_001.json",
+          "sha256": "0dafb9e97c277e16ce13ea451ceed0de6e0c49beb8d5badb130f886a3e4a4750"
+        },
+        "coverage": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_coverage_completion_recensus_001.json",
+          "sha256": "e9830ec42e7b76e698f9aa81e0142f1d425ad9757c89b3f9a7a3f52aebd79f26"
+        }
+      },
+      "facts": {
+        "dispositions": {
+          "HELD_REVIEW": 31,
+          "ACCESS_UNRESOLVED": 27,
+          "POLICY_NOT_FOUND": 11,
+          "INSUFFICIENT_EVIDENCE": 14
+        },
+        "reconciliation": {
+          "active_count": 83,
+          "duplicate": [],
+          "foreign": [],
+          "ledger_count": 83,
+          "missing": []
+        },
+        "counts": {
+          "CENSUS": 115,
+          "ROUTED": 92,
+          "UNROUTED": 23,
+          "ATTEMPTED": 92,
+          "VALID": 43,
+          "SETTLED": 67,
+          "UNSETTLED": 25,
+          "NEEDS_OFFICIAL_URL": 12,
+          "NEEDS_PROPERTY_URL": 0,
+          "BRAND_EXCLUDED": 5,
+          "BUDGET_DEFERRED": 0,
+          "ALTERNATE_LANE_REQUIRED": 15,
+          "FOUNDER_CANDIDATES": 31
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": true,
+          "READY_FOR_FOUNDER_REVIEW": false
+        },
+        "benchmark": {
+          "routed_pct_of_census": 80.0,
+          "attempted_pct_of_census": 80.0,
+          "settled_pct_of_census": 58.3,
+          "publication_grade_pct_of_census": 27.0,
+          "founder_candidate_pct_of_census": 27.0,
+          "unresolved_pct_of_census": 41.7,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
     },
     "founder_review_packet": {
-      "status": "NOT_RUN"
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T17:44:44.582559+00:00",
+      "note": "packet: 41 candidates {'RECOMMEND_AUTHORITY_PET_FRIENDLY': 29, 'RECOMMEND_AUTHORITY_VERIFIED_NO_PETS': 11, 'RECOMMEND_HOLD_EVIDENCE_INCOMPLETE': 1}; coverage (founder_review_packet): census 115 routed 92 attempted 92 settled 67 candidates 41; READY_FOR_FOUNDER_REVIEW=True, movable=0",
+      "artifacts": {
+        "packet": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_founder_review_packet_recensus_001.json",
+          "sha256": "2ee067974ef45e3d1b80d562685cfb053c0e651225946e9fde8433622ba21a4a"
+        },
+        "analysis": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_founder_review_analysis_recensus_001.json",
+          "sha256": "ac20d40a64e446b086871a9064c9548d90274453b2d32ac1f0cbd7c5374b056c"
+        },
+        "duplicate_scan": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_identity_duplicate_scan_recensus_001.json",
+          "sha256": "9b9e4c00df1b1f13578fc8f09ea99aa4f2d705f63bf3fac6bb49ecaac1ae316e"
+        },
+        "coverage": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_coverage_completion_recensus_001.json",
+          "sha256": "3f03c7f7218d828e27b93bf6cec0130b6c5f014ab48c3c3fd6453a7746c6a80b"
+        }
+      },
+      "facts": {
+        "candidates": 41,
+        "counts": {
+          "CENSUS": 115,
+          "ROUTED": 92,
+          "UNROUTED": 23,
+          "ATTEMPTED": 92,
+          "VALID": 43,
+          "SETTLED": 67,
+          "UNSETTLED": 25,
+          "NEEDS_OFFICIAL_URL": 12,
+          "NEEDS_PROPERTY_URL": 0,
+          "BRAND_EXCLUDED": 5,
+          "BUDGET_DEFERRED": 0,
+          "ALTERNATE_LANE_REQUIRED": 15,
+          "FOUNDER_CANDIDATES": 41
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": true,
+          "READY_FOR_FOUNDER_REVIEW": true
+        },
+        "benchmark": {
+          "routed_pct_of_census": 80.0,
+          "attempted_pct_of_census": 80.0,
+          "settled_pct_of_census": 58.3,
+          "publication_grade_pct_of_census": 35.7,
+          "founder_candidate_pct_of_census": 35.7,
+          "unresolved_pct_of_census": 41.7,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
     },
     "founder_review": {
       "status": "NOT_RUN"
     }
   },
   "last_invocation": {
-    "at": "2026-08-26T12:59:40.487219+00:00",
-    "through": "founder_review",
+    "at": "2026-08-26T14:06:06.089680+00:00",
+    "through": "founder_review_packet",
     "only": "",
-    "spend_authorised": false
+    "spend_authorised": true
   }
 }
