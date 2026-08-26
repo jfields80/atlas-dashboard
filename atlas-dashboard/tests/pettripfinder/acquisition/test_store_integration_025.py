@@ -96,6 +96,10 @@ OTHER_MARKET_RUNS = {
     "st_louis_paid_002",          # PTF-ST-LOUIS-PAID-ACQUISITION-002
     "louisville_rebuild_002",     # PTF-LOUISVILLE-MARKET-REBUILD-002, paid pass
     "louisville_expansion_003",   # PTF-LOUISVILLE-COVERAGE-EXPANSION-003
+    # PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009: 65
+    # properties under a $9.66 cap, settled $7.25. Belongs to
+    # grand-rapids-holland-mi and must never reach Milwaukee's projection.
+    "grand_rapids_holland_mi_factory_001",
 }
 
 
