@@ -551,9 +551,12 @@ class EndpointSelector:
                 endpoint=sibling, now=now, because=because)
 
     def earliest_cooldown_expiry(self) -> str:
+        """The soonest a cooling-down endpoint becomes HALF_OPEN; empty when
+        none is cooling down (an expired cooldown is not a wait)."""
+        now = self.clock()
         expiries = [self.circuits[e.endpoint_id].cooldown_until
                     for e in self.registry.enabled_endpoints()
-                    if self.circuits[e.endpoint_id].cooldown_until]
+                    if self.circuits[e.endpoint_id].is_cooling_down(now)]
         return min(expiries) if expiries else ""
 
     # -- selection --------------------------------------------------------- #

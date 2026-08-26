@@ -126,5 +126,32 @@ of a regional `.osm.pbf` — and `LocalOsmExtractSource`, which answers the same
 queries locally in Overpass's own response shape, under the same cache key, with
 `endpoint_id = local_extract:<extract_id>`. `discovery_cli.py run --osm-extract-index
 <path>` uses it in place of any public server. `build_index_from_pbf` reduces a PBF
-with `pyosmium` when installed and refuses with instructions when not. Extract
-download/refresh is designed as a data registry and not yet built.
+with `pyosmium` when installed and refuses with instructions when not.
+
+**Operated (PTF-PITTSBURGH-HARDENED-RECENSUS-001).** The extract registry is
+`discovery/config/osm_extracts.json` (`ptf-osm-extracts/1.0`): one row per
+regional extract — its Geofabrik URL and checksum URL, the local `.pbf` path,
+the index path, the markets it covers, its licence. `osm_extract_cli.py`
+operates it:
+
+```
+osm_extract_cli.py plan        --market <id>        # offline readiness + the exact next steps
+osm_extract_cli.py build-index --market <id>        # reduce the .pbf to an index (pyosmium),
+                                                    #   bounded to the market's geographic_bounds
+osm_extract_cli.py inspect     --index <path>       # what an index holds
+osm_extract_cli.py dry-run     --market <id> --output-root <root>
+                                                    # which planned cells the index would answer,
+                                                    #   with how many elements; cached cells left alone
+discovery_cli.py run ... --max-overpass-requests 0 --resume --osm-extract-index <index>
+```
+
+Nothing in the code downloads an extract or installs the reducer: `plan`
+names both as operator steps when they are missing (`network_required`), and
+`build-index` keeps `tourism/amenity/shop/leisure` elements inside the market's
+bounds by default (never `highway`, which is on millions of ways per state and
+on no lodging alone), so a state extract reduces to a few hundred rows. A
+local-extract run serves the cells the public cache already holds, answers the
+rest from the index with zero requests, never touches the forward-progress
+gate, and records `local_extract:<extract_id>` in each answered cell's
+provenance. Public Overpass then becomes the verification source: a sample of
+locally answered cells can be re-asked of an approved endpoint and diffed.

@@ -123,3 +123,27 @@ python scripts/pettripfinder/market_factory_cli.py \
 Promotion of the sandbox census and of any packet decision into the live
 authority is a separate, founder-signed work order; this lifecycle stops at the
 founder-review gate exactly as it does for a new market.
+
+### When free discovery cannot finish
+
+The census phase reads the discovery state first and refuses a partial census.
+`FREE_DISCOVERY_RUNNABLE` is a run the factory owes. `WAITING_FOR_FREE_DISCOVERY`
+is one of two things, and the state says which (`waiting_reason`): every
+approved endpoint cooling down, or `FORWARD_PROGRESS_STALLED` — three resume
+cycles that completed no cell. Neither is answered by retrying in a loop: an
+outer supervisor cannot be paced by a breaker inside one process
+(`docs/PTF_DISCOVERY_OVERPASS_RESILIENCE.md`, "What the first real outage
+taught the breaker"). The answer is the local extract:
+
+```
+python scripts/pettripfinder/osm_extract_cli.py plan    --market <id>       # what is missing, offline
+python scripts/pettripfinder/osm_extract_cli.py dry-run --market <id> --output-root data/discovery/<slug>_recensus_001
+python scripts/pettripfinder/discovery_cli.py run --market <id> --providers overpass \
+  --categories hotel,motel --output-root data/discovery/<slug>_recensus_001 \
+  --max-google-requests 0 --max-overpass-requests 0 --resume \
+  --osm-extract-index data/osm_extracts/<extract>.<id>.index.json                   # $0, 0 requests
+```
+
+The cells the public servers already answered stay exactly as cached; the rest
+are answered from the index and carry `local_extract:<extract_id>` in their
+provenance. The discovery state then reads EXHAUSTED and the census phase runs.
