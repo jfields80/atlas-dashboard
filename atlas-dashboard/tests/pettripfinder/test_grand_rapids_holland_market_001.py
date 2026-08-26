@@ -92,8 +92,19 @@ def test_sources_and_discovery_cells_are_registered():
     assert all(source["completeness"] == "PARTIAL" for source in registry["sources"])
     assert all(family_of(source["source_id"]) == source["family"] for source in registry["sources"])
     market = market_by_id(load_markets(), MARKET)
-    assert {cell.cell_id for cell in load_market_config(MARKET).cells} == {
-        corridor.corridor_id for corridor in market.corridors
+    cell_ids = {cell.cell_id for cell in load_market_config(MARKET).cells}
+    corridor_ids = {corridor.corridor_id for corridor in market.corridors}
+    # Every corridor still has its seed cell. PTF-GRAND-RAPIDS-HOLLAND-
+    # GEOGRAPHY-HARDENING-002 added four cells that are NOT corridors: they
+    # cover included municipalities and census lodging clusters the corridor
+    # cells left outside every query radius. Cells seed discovery; corridors
+    # classify the census. The two sets are no longer required to coincide.
+    assert corridor_ids <= cell_ids
+    assert cell_ids - corridor_ids == {
+        MARKET + "__comstock-park-alpine",
+        MARKET + "__ada-cascade-east",
+        MARKET + "__northeast-grand-rapids-plainfield",
+        MARKET + "__south-wyoming-cutlerville",
     }
 
 

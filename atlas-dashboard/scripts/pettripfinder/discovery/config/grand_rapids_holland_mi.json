@@ -13,7 +13,24 @@
     {"cell_id":"grand-rapids-holland-mi__walker-northwest-grand-rapids","municipality":"Walker","label":"Walker / Northwest Grand Rapids","center_lat":43.00,"center_lng":-85.75,"radius_meters":6000},
     {"cell_id":"grand-rapids-holland-mi__wyoming-grandville","municipality":"Wyoming","label":"Wyoming / Grandville","center_lat":42.91,"center_lng":-85.71,"radius_meters":7000},
     {"cell_id":"grand-rapids-holland-mi__east-grand-rapids-ada","municipality":"Grand Rapids","label":"East Grand Rapids / Ada","center_lat":42.94,"center_lng":-85.59,"radius_meters":6000},
-    {"cell_id":"grand-rapids-holland-mi__holland-zeeland","municipality":"Holland","label":"Holland / Zeeland","center_lat":42.79,"center_lng":-86.11,"radius_meters":9000}
+    {"cell_id":"grand-rapids-holland-mi__holland-zeeland","municipality":"Holland","label":"Holland / Zeeland","center_lat":42.79,"center_lng":-86.11,"radius_meters":9000},
+    {"cell_id":"grand-rapids-holland-mi__comstock-park-alpine","municipality":"Comstock Park","label":"Comstock Park / Alpine Avenue north","center_lat":43.05,"center_lng":-85.67,"radius_meters":4000},
+    {"cell_id":"grand-rapids-holland-mi__ada-cascade-east","municipality":"Ada","label":"Ada / Cascade east","center_lat":42.96,"center_lng":-85.49,"radius_meters":4000},
+    {"cell_id":"grand-rapids-holland-mi__northeast-grand-rapids-plainfield","municipality":"Grand Rapids","label":"Northeast Grand Rapids / Plainfield / Knapp's Corner","center_lat":43.00,"center_lng":-85.61,"radius_meters":5000},
+    {"cell_id":"grand-rapids-holland-mi__south-wyoming-cutlerville","municipality":"Wyoming","label":"South Wyoming / Cutlerville / M-6 at US-131","center_lat":42.85,"center_lng":-85.67,"radius_meters":5000}
   ],
-  "scope_disclosure": "Cells match the committed corridor registry, but are only future-provider-query seed points. The independent candidate ledger is the census source of truth. The completeness sweep materially added an east-side cluster; it remains suppressed pending further independent discovery and is not corridor-derived."
+  "municipality_reference_points": {
+    "_disclosure": "One low-precision (~2 decimal places, roughly 1 km) approximate municipal reference point per included municipality, from general public geographic knowledge. Discovery-cell coverage of every included municipality is asserted against these points by tests/pettripfinder/discovery/test_market_config.py; they are never used for any precision-dependent purpose.",
+    "Grand Rapids": {"lat": 42.96, "lng": -85.67},
+    "Kentwood": {"lat": 42.87, "lng": -85.64},
+    "Walker": {"lat": 43.00, "lng": -85.77},
+    "Comstock Park": {"lat": 43.05, "lng": -85.67},
+    "Wyoming": {"lat": 42.91, "lng": -85.71},
+    "Grandville": {"lat": 42.91, "lng": -85.76},
+    "Ada": {"lat": 42.96, "lng": -85.49},
+    "Holland": {"lat": 42.79, "lng": -86.11},
+    "Zeeland": {"lat": 42.81, "lng": -86.02}
+  },
+  "_geography_hardening_note": "PTF-GRAND-RAPIDS-HOLLAND-GEOGRAPHY-HARDENING-002. The first six cells mirror the corridor registry and left two included municipalities outside every cell (Comstock Park and Ada, each about 2 km beyond the nearest cell edge) and two census lodging clusters on or beyond a cell edge (ZIP 49525, Plainfield Avenue / Knapp's Corner, four census identities; ZIP 49548, south Wyoming at M-6 / US-131, nine). Four tight cells were added for exactly those places; no cell was removed, no corridor was added, and the bounds are unchanged -- they already admitted every one of these points. Cells are Overpass seed points only; corridors still classify and never generate the census.",
+  "scope_disclosure": "The first six cells match the committed corridor registry; the four geography-hardening cells cover included municipalities and census lodging clusters the corridor cells missed. All cells are only future-provider-query seed points. The independent candidate ledger is the census source of truth. The completeness sweep materially added an east-side cluster; it remains suppressed pending further independent discovery and is not corridor-derived."
 }
