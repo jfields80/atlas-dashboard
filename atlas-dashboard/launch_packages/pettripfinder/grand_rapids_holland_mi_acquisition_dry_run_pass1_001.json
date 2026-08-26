@@ -4,7 +4,7 @@
  "market_id": "grand-rapids-holland-mi",
  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-HARDENED-SHADOW-RECENSUS-006",
  "run_id": "grand-rapids-holland-mi-001-pass1",
- "run_start": "2026-08-26T16:59:38.644224+00:00",
+ "run_start": "2026-08-26T17:20:23.301229+00:00",
  "dry_run": true,
  "prior_report": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_merged_pass1_001.json",
  "cost_policy": {
@@ -170,25 +170,25 @@
   ],
   "why": "a page that served and was read, was silent, or was about another hotel has already answered its question; a paid lane is for properties we could not REACH"
  },
- "cohort_size": 66,
- "settled_size": 18,
+ "cohort_size": 65,
+ "settled_size": 19,
  "suppressed_size": 0,
  "cohort_by_provider": {
-  "brightdata_browser": 47,
+  "brightdata_browser": 46,
   "firecrawl": 19
  },
  "cohort_by_family": {
-  "CHOICE": 5,
+  "CHOICE": 6,
   "DRURY": 1,
   "HILTON": 18,
-  "IHG": 6,
+  "IHG": 4,
   "INDEPENDENT": 8,
-  "MARRIOTT": 19,
+  "MARRIOTT": 18,
   "MOTEL6": 1,
-  "WYNDHAM": 8
+  "WYNDHAM": 9
  },
  "settled_by_prior_outcome": {
-  "NEVER_ATTEMPTED": 18
+  "NEVER_ATTEMPTED": 19
  },
  "queue_order": [
   "MARRIOTT",
@@ -207,10 +207,10 @@
   "baymont by wyndham holland",
   "baymont inn and suites grand rapids airport",
   "best western",
-  "candlewood suites",
   "comfort suites grandville grand rapids sw",
+  "country inn and suites grand rapids east",
+  "days inn and suites by wyndham grand rapids near downtown",
   "days inn by wyndham holland",
-  "holiday inn express",
   "holiday inn express and suites grand rapids north",
   "holiday inn express grand rapids sw",
   "holiday inn express holland",
@@ -220,16 +220,16 @@
   "super 8 by wyndham wyoming grand rapids area",
   "the center hotel grand rapids airport",
   "travelodge by wyndham grand rapids north",
+  "ac hotel grand rapids downtown",
   "courtyard by marriott grand rapids downtown",
-  "courtyard grand rapids airport",
   "courtyard holland downtown",
   "fairfield inn and suites grand rapids north",
   "fairfield inn and suites grand rapids wyoming",
   "fairfield inn and suites holland",
+  "residence inn by marriott grand rapids downtown",
   "residence inn by marriott grand rapids west",
   "residence inn by marriott holland",
   "residence inn grand rapids airport",
-  "residence inn holland",
   "sheraton grand rapids airport hotel",
   "springhill suites by marriott grand rapids north",
   "springhill suites grand rapids airport southeast",
@@ -237,13 +237,11 @@
   "springhill suites holland",
   "towneplace suites grand rapids airport",
   "towneplace suites grand rapids airport southeast",
-  "towneplace suites grand rapids wyoming",
   "towneplace suites holland",
   "canopy by hilton grand rapids downtown",
   "doubletree by hilton",
   "doubletree by hilton hotel grand rapids airport",
   "embassy suites by hilton grand rapids downtown",
-  "hampton inn and suites",
   "hampton inn and suites grand rapids airport 28th st",
   "hampton inn and suites grand rapids downtown",
   "hampton inn and suites grandville grand rapids south",
@@ -251,6 +249,7 @@
   "hampton inn grand rapids south",
   "hampton inn holland",
   "hilton garden inn grand rapids east",
+  "home2 suites by hilton grand rapids north",
   "home2 suites by hilton grand rapids northeast",
   "home2 suites by hilton holland",
   "homewood suites by hilton walker grand rapids north",
@@ -268,20 +267,40 @@
   "the finnley hotel",
   "woodspring suites holland grand rapids"
  ],
- "cohort_keys_sha256": "f0aa65e537cc6e34e57db83c52e2e929b8af919c30107078fda4e612ddd3ab97",
+ "cohort_keys_sha256": "ddcfe5490fe0026d89862040e72d70d2df7785ab00748b932c62ccf7cdb0c67a",
  "retry_policy": {
   "schema": "ptf-retry-policy/1.0",
   "rule": "a prior access, navigation or unhydrated failure re-enters a paid cohort only on a different approved lane, a changed URL, a reader change that addresses the failure, or an explicit operator override; otherwise it is suppressed as RETRY_REQUIRES_ALTERNATE_LANE and never marked settled",
-  "eligible": 66,
+  "eligible": 65,
   "suppressed": 0,
   "classification_counts": {
-   "FIRST_ATTEMPT": 66
+   "FIRST_ATTEMPT": 65
   },
   "suppressed_rows": [],
   "alternate_lane_rows": []
  },
  "lane_overrides": {},
  "cohort": [
+  {
+   "identity_key": "ac hotel grand rapids downtown",
+   "canonical_name": "AC Hotel Grand Rapids Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
   {
    "identity_key": "affordable suites",
    "canonical_name": "Affordable Suites",
@@ -443,26 +462,6 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "candlewood suites",
-   "canonical_name": "Candlewood Suites",
-   "brand": "IHG",
-   "family": "IHG",
-   "corridor": "",
-   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/grand-rapids/grres/hoteldetail",
-   "provider": "firecrawl",
-   "reader": "ihg",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "firecrawl",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property"
-  },
-  {
    "identity_key": "canopy by hilton grand rapids downtown",
    "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
    "brand": "HILTON",
@@ -489,6 +488,26 @@
    "family": "CHOICE",
    "corridor": "grand-rapids-holland-mi__wyoming-grandville",
    "source_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "country inn and suites grand rapids east",
+   "canonical_name": "Country Inn & Suites Grand Rapids East",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi607",
    "provider": "firecrawl",
    "reader": "choice_static",
    "prior_outcome": "NEVER_ATTEMPTED",
@@ -543,12 +562,12 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "courtyard grand rapids airport",
-   "canonical_name": "Courtyard Grand Rapids Airport",
+   "identity_key": "courtyard holland downtown",
+   "canonical_name": "Courtyard Holland Downtown",
    "brand": "MARRIOTT",
    "family": "MARRIOTT",
    "corridor": "",
-   "source_url": "https://www.marriott.com/grrcy",
+   "source_url": "https://www.marriott.com/grrch",
    "provider": "brightdata_browser",
    "reader": "marriott",
    "prior_outcome": "NEVER_ATTEMPTED",
@@ -563,17 +582,17 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "courtyard holland downtown",
-   "canonical_name": "Courtyard Holland Downtown",
-   "brand": "MARRIOTT",
-   "family": "MARRIOTT",
-   "corridor": "",
-   "source_url": "https://www.marriott.com/grrch",
-   "provider": "brightdata_browser",
-   "reader": "marriott",
+   "identity_key": "days inn and suites by wyndham grand rapids near downtown",
+   "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
    "prior_outcome": "NEVER_ATTEMPTED",
    "ladder": [
-    "brightdata_browser",
+    "firecrawl",
     "brightdata_web_unlocker"
    ],
    "fallback_providers": [
@@ -731,26 +750,6 @@
    "source_url": "https://www.marriott.com/grrfi",
    "provider": "brightdata_browser",
    "reader": "marriott",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "brightdata_browser",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property"
-  },
-  {
-   "identity_key": "hampton inn and suites",
-   "canonical_name": "Hampton Inn & Suites",
-   "brand": "HILTON",
-   "family": "HILTON",
-   "corridor": "",
-   "source_url": "https://hamptoninn3.hilton.com/en/hotels/michigan/hampton-inn-and-suites-grand-rapids-airport-28th-st-GRRHSHX/index.html",
-   "provider": "brightdata_browser",
-   "reader": "hilton_competing",
    "prior_outcome": "NEVER_ATTEMPTED",
    "ladder": [
     "brightdata_browser",
@@ -923,26 +922,6 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "holiday inn express",
-   "canonical_name": "Holiday Inn Express",
-   "brand": "IHG",
-   "family": "IHG",
-   "corridor": "",
-   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wyoming-mi/grrym/hoteldetail",
-   "provider": "firecrawl",
-   "reader": "ihg",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "firecrawl",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property"
-  },
-  {
    "identity_key": "holiday inn express and suites grand rapids north",
    "canonical_name": "Holiday Inn Express & Suites Grand Rapids-North",
    "brand": "IHG",
@@ -994,6 +973,26 @@
    "prior_outcome": "NEVER_ATTEMPTED",
    "ladder": [
     "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton grand rapids north",
+   "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
     "brightdata_web_unlocker"
    ],
    "fallback_providers": [
@@ -1103,6 +1102,26 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
+   "identity_key": "residence inn by marriott grand rapids downtown",
+   "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.marriott.com/grrrd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
    "identity_key": "residence inn by marriott grand rapids west",
    "canonical_name": "Residence Inn by Marriott Grand Rapids West",
    "brand": "MARRIOTT",
@@ -1149,26 +1168,6 @@
    "family": "MARRIOTT",
    "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
    "source_url": "https://www.marriott.com/grrri",
-   "provider": "brightdata_browser",
-   "reader": "marriott",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "brightdata_browser",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property"
-  },
-  {
-   "identity_key": "residence inn holland",
-   "canonical_name": "Residence Inn Holland",
-   "brand": "MARRIOTT",
-   "family": "MARRIOTT",
-   "corridor": "",
-   "source_url": "https://www.marriott.com/hotels/travel/grrho-residence-inn-holland",
    "provider": "brightdata_browser",
    "reader": "marriott",
    "prior_outcome": "NEVER_ATTEMPTED",
@@ -1483,26 +1482,6 @@
    "retry_why": "no prior pass has attempted this property"
   },
   {
-   "identity_key": "towneplace suites grand rapids wyoming",
-   "canonical_name": "TownePlace Suites Grand Rapids Wyoming",
-   "brand": "MARRIOTT",
-   "family": "MARRIOTT",
-   "corridor": "",
-   "source_url": "https://www.marriott.com/grrtw",
-   "provider": "brightdata_browser",
-   "reader": "marriott",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "brightdata_browser",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property"
-  },
-  {
    "identity_key": "towneplace suites holland",
    "canonical_name": "TownePlace Suites Holland",
    "brand": "MARRIOTT",
@@ -1795,6 +1774,25 @@
    "settled_because": "another identity in this cohort ('residence inn by marriott grand rapids west') already buys this exact page (property_code 'GRRRW'); one fetch answers both, so a second purchase would pay twice for one answer"
   },
   {
+   "identity_key": "residence inn holland",
+   "canonical_name": "Residence Inn Holland",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/hotels/travel/grrho-residence-inn-holland",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "another identity in this cohort ('residence inn by marriott holland') already buys this exact page (property_code 'GRRHO'); one fetch answers both, so a second purchase would pay twice for one answer"
+  },
+  {
    "identity_key": "rodeway inn",
    "canonical_name": "Rodeway Inn",
    "brand": "CHOICE",
@@ -1814,12 +1812,33 @@
    "settled_because": "another identity in this cohort ('rodeway inn grandville grand rapids') already buys this exact page (canonical_url 'choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437'); one fetch answers both, so a second purchase would pay twice for one answer"
   },
   {
-   "identity_key": "ac hotel grand rapids downtown",
-   "canonical_name": "AC Hotel Grand Rapids Downtown",
+   "identity_key": "candlewood suites",
+   "canonical_name": "Candlewood Suites",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/grand-rapids/grres/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property",
+   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'candlewood suites grand rapids airport' by street_and_postal_code '5401 28th st ct se|49546'"
+  },
+  {
+   "identity_key": "courtyard grand rapids airport",
+   "canonical_name": "Courtyard Grand Rapids Airport",
    "brand": "MARRIOTT",
    "family": "MARRIOTT",
-   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
-   "source_url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/grrcy",
    "provider": "brightdata_browser",
    "reader": "marriott",
    "prior_outcome": "NEVER_ATTEMPTED",
@@ -1832,28 +1851,7 @@
    ],
    "retry_classification": "FIRST_ATTEMPT",
    "retry_why": "no prior pass has attempted this property",
-   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'ac hotel' by telephone '6167763200'"
-  },
-  {
-   "identity_key": "country inn and suites grand rapids east",
-   "canonical_name": "Country Inn & Suites Grand Rapids East",
-   "brand": "CHOICE",
-   "family": "CHOICE",
-   "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
-   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi607",
-   "provider": "firecrawl",
-   "reader": "choice_static",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "firecrawl",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property",
-   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'country inn and suites' by street_and_postal_code '3251 deposit dr ne|49546'"
+   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'courtyard by marriott grand rapids airport' by street_and_postal_code '4741 28th st se|49512'"
   },
   {
    "identity_key": "courtyard grand rapids downtown",
@@ -1877,33 +1875,12 @@
    "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'courtyard by marriott grand rapids downtown' by street_and_postal_code '11 monroe ave nw|49503'"
   },
   {
-   "identity_key": "days inn and suites by wyndham grand rapids near downtown",
-   "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
-   "brand": "WYNDHAM",
-   "family": "WYNDHAM",
-   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
-   "source_url": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
-   "provider": "firecrawl",
-   "reader": "wyndham",
-   "prior_outcome": "NEVER_ATTEMPTED",
-   "ladder": [
-    "firecrawl",
-    "brightdata_web_unlocker"
-   ],
-   "fallback_providers": [
-    "brightdata_web_unlocker"
-   ],
-   "retry_classification": "FIRST_ATTEMPT",
-   "retry_why": "no prior pass has attempted this property",
-   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'days inn and suites' by telephone '6164269721'"
-  },
-  {
-   "identity_key": "home2 suites by hilton grand rapids north",
-   "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+   "identity_key": "hampton inn and suites",
+   "canonical_name": "Hampton Inn & Suites",
    "brand": "HILTON",
    "family": "HILTON",
-   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
-   "source_url": "https://www.hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north/",
+   "corridor": "",
+   "source_url": "https://hamptoninn3.hilton.com/en/hotels/michigan/hampton-inn-and-suites-grand-rapids-airport-28th-st-GRRHSHX/index.html",
    "provider": "brightdata_browser",
    "reader": "hilton_competing",
    "prior_outcome": "NEVER_ATTEMPTED",
@@ -1916,20 +1893,20 @@
    ],
    "retry_classification": "FIRST_ATTEMPT",
    "retry_why": "no prior pass has attempted this property",
-   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'home2 suites' by canonical_url 'hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north'"
+   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'hampton inn and suites grand rapids airport 28th st' by street_and_postal_code '5200 28th st se|49512'"
   },
   {
-   "identity_key": "residence inn by marriott grand rapids downtown",
-   "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
-   "brand": "MARRIOTT",
-   "family": "MARRIOTT",
-   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
-   "source_url": "https://www.marriott.com/grrrd",
-   "provider": "brightdata_browser",
-   "reader": "marriott",
+   "identity_key": "holiday inn express",
+   "canonical_name": "Holiday Inn Express",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wyoming-mi/grrym/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
    "prior_outcome": "NEVER_ATTEMPTED",
    "ladder": [
-    "brightdata_browser",
+    "firecrawl",
     "brightdata_web_unlocker"
    ],
    "fallback_providers": [
@@ -1937,7 +1914,7 @@
    ],
    "retry_classification": "FIRST_ATTEMPT",
    "retry_why": "no prior pass has attempted this property",
-   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'residence inn grand rapids downtown' by street_and_postal_code '40 louis st nw|49503'"
+   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'holiday inn express and suites grand rapids south wyoming' by street_and_postal_code '5870 clyde park ave sw|49509'"
   },
   {
    "identity_key": "springhill suites grand rapids north",
@@ -1959,6 +1936,27 @@
    "retry_classification": "FIRST_ATTEMPT",
    "retry_why": "no prior pass has attempted this property",
    "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'springhill suites by marriott grand rapids north' by street_and_postal_code '450 center dr nw|49544'"
+  },
+  {
+   "identity_key": "towneplace suites grand rapids wyoming",
+   "canonical_name": "TownePlace Suites Grand Rapids Wyoming",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/grrtw",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property",
+   "settled_because": "the pre-acquisition duplicate gate barred this identity from the paid cohort: merged into 'towneplace suites by marriott grand rapids wyoming' by street_and_postal_code '5880 clyde park ave sw|49509'"
   }
  ],
  "suppressed_same_lane": [],
@@ -1973,7 +1971,7 @@
    {
     "check": "balance_covers_the_remaining_cap",
     "ok": true,
-    "detail": "balance 1877 cents against a 0 cent cap"
+    "detail": "balance 1780 cents against a 0 cent cap"
    },
    {
     "check": "at_least_one_provider_available",
@@ -1999,7 +1997,7 @@
     "detail": "Firecrawl credential present; exit geography pinned to 'US'"
    }
   },
-  "already_spent_usd_minor": 390
+  "already_spent_usd_minor": 0
  },
  "cost_plan_gate": {
   "ok": true,
@@ -2010,13 +2008,13 @@
  "results": [],
  "attempted": 0,
  "spend": {
-  "measured_usd_minor": 390,
-  "estimated_usd_minor": 390.0,
-  "binding_usd_minor": 390,
+  "measured_usd_minor": 0,
+  "estimated_usd_minor": 0.0,
+  "binding_usd_minor": 0,
   "binding_source": "measured",
   "telemetry_live": true,
   "estimated_plan_credits": 0.0,
-  "seeded_usd_minor": 390.0,
+  "seeded_usd_minor": 0.0,
   "this_session_usd_minor": 0.0,
   "vendor_reads": 1,
   "lag_note": "the vendor's zone meter settles minutes after a session; until it does the estimate is the only number that exists, so the cap binds on the larger"
@@ -2024,28 +2022,28 @@
  "cost_samples": [
   {
    "label": "grand-rapids-holland-mi-001-pass1:preflight",
-   "at": "2026-08-26T16:59:44.288004+00:00",
+   "at": "2026-08-26T17:20:35.075622+00:00",
    "zone_costs_usd_minor": {
-    "scraping_browser1": 7198,
-    "mcp_unlocker": 29,
+    "scraping_browser1": 7399,
+    "mcp_unlocker": 30,
     "cli_unlocker": 10
    },
-   "measured_usd_minor": 390
+   "measured_usd_minor": 0
   },
   {
    "label": "grand-rapids-holland-mi-001-pass1:final",
-   "at": "2026-08-26T16:59:50.622881+00:00",
+   "at": "2026-08-26T17:20:40.773376+00:00",
    "zone_costs_usd_minor": {
-    "scraping_browser1": 7198,
-    "mcp_unlocker": 29,
+    "scraping_browser1": 7399,
+    "mcp_unlocker": 30,
     "cli_unlocker": 10
    },
-   "measured_usd_minor": 390
+   "measured_usd_minor": 0
   }
  ],
  "journal_total": 0,
- "run_end": "2026-08-26T16:59:50.623008+00:00",
- "elapsed_seconds": 12.1,
+ "run_end": "2026-08-26T17:20:40.773506+00:00",
+ "elapsed_seconds": 17.6,
  "outcome_counts": {},
  "publication_grade": 0
 }

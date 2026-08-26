@@ -101,6 +101,65 @@ class TestOnePageTwoIdentities:
 # 3-4. Premises signals with compatible names.
 # --------------------------------------------------------------------------- #
 
+class TestPropertyCodeExtractionIsNarrow:
+    """A loose property-code pattern is not a missed merge, it is a WRONG one.
+
+    An earlier pattern read the literal path segment "travel" out of
+    ``marriott.com/hotels/travel/sdffy-...`` as a property code and collapsed
+    four distinct Louisville Marriotts into one page -- which would have
+    suppressed three legitimate purchases.
+    """
+
+    def test_a_path_keyword_is_never_read_as_a_property_code(self):
+        urls = [
+            "https://www.marriott.com/hotels/travel/sdffy-fairfield-inn-louisville",
+            "https://www.marriott.com/hotels/travel/sdflm-louisville-marriott-downtown",
+            "https://www.marriott.com/hotels/travel/sdfgj-residence-inn-louisville",
+        ]
+        codes = [D.property_code({"official_url": u}) for u in urls]
+        assert codes == ["SDFFY", "SDFLM", "SDFGJ"]
+        assert len(set(codes)) == 3, "distinct hotels must not share a code"
+
+    def test_a_non_brand_host_yields_no_code(self):
+        """Only a brand may mint a code, on its own host."""
+        assert D.property_code(
+            {"official_url": "https://someindependent.com/hotels/rooms/"}) == ""
+        assert D.property_code(
+            {"official_url": "https://www.choicehotels.com/michigan/walker/"
+                             "quality-inn-hotels"}) == ""
+
+    def test_four_distinct_marriotts_are_not_collapsed(self):
+        rows = [row("fairfield inn louisville", "Fairfield Inn Louisville",
+                    url="https://www.marriott.com/hotels/travel/sdffy-fairfield-inn"),
+                row("louisville marriott downtown", "Louisville Marriott Downtown",
+                    url="https://www.marriott.com/hotels/travel/sdflm-marriott-dt"),
+                row("residence inn louisville downtown",
+                    "Residence Inn Louisville Downtown",
+                    url="https://www.marriott.com/hotels/travel/sdfgj-residence-inn"),
+                row("springhill suites louisville downtown",
+                    "SpringHill Suites Louisville Downtown",
+                    url="https://www.marriott.com/hotels/travel/sdfsd-springhill")]
+        analysis = D.analyse(rows)
+        assert analysis["merged_identities"] == 0
+        assert analysis["withheld_from_acquisition"] == 0
+        assert len(D.payable_keys(rows, analysis)) == 4
+
+
+class TestTheQualifiedNameKeepsTheIdentity:
+    """``census_projection`` absorbs a subset into its SUPERSET and never the
+    reverse. Ranking a merge by populated fields inverted that on real data:
+    9 of 21 Grand Rapids merges kept the bare OpenStreetMap name."""
+
+    def test_the_bare_name_is_absorbed_even_when_it_carries_more_fields(self):
+        rows = [row("ac hotel", "AC Hotel", url="https://x.com/ac",
+                    address="50 Monroe Ave NW", zipc="49503", phone="6167763200"),
+                row("ac hotel grand rapids downtown",
+                    "AC Hotel Grand Rapids Downtown", url="https://x.com/ac")]
+        merge, = D.analyse(rows)["merges"]
+        assert merge["absorbed"] == "ac hotel"
+        assert merge["into"] == "ac hotel grand rapids downtown"
+
+
 class TestPremisesSignalsWithCompatibleNames:
 
     def test_same_phone_and_compatible_name_merges(self):
@@ -243,7 +302,8 @@ class TestNothingIsPaidForTwice:
             [self._entry("ac hotel", "AC Hotel", "https://x.com/ac"),
              self._entry("ac hotel grand rapids downtown",
                          "AC Hotel Grand Rapids Downtown", "https://x.com/ac")],
-            {"results": []})
+            {"results": []},
+            suppress_duplicate_pages=True)
         assert len(cohort) == 1, "one page must not be bought twice"
         assert len(settled) == 1
         assert "pay twice for one answer" in settled[0]["settled_because"]
@@ -254,7 +314,8 @@ class TestNothingIsPaidForTwice:
                          "https://hilton.com/en/hotels/GRRDTDT-a/"),
              self._entry("b", "B Hotel Downtown",
                          "https://hilton.com/en/hotels/GRRDTDT-b/rooms/")],
-            {"results": []})
+            {"results": []},
+            suppress_duplicate_pages=True)
         assert len(cohort) == 1
         assert len(settled) == 1
 
@@ -263,7 +324,8 @@ class TestNothingIsPaidForTwice:
         cohort, settled = MPA.derive_cohort(
             [self._entry("a", "A", "https://x.com/a"),
              self._entry("b", "B", "https://x.com/b")],
-            {"results": []})
+            {"results": []},
+            suppress_duplicate_pages=True)
         assert len(cohort) == 2
         assert settled == []
 
@@ -272,12 +334,14 @@ class TestNothingIsPaidForTwice:
         entries = [self._entry("a", "A", "https://x.com/p"),
                    self._entry("b", "B Downtown", "https://x.com/p"),
                    self._entry("c", "C", "https://x.com/c")]
-        cohort, settled = MPA.derive_cohort(entries, {"results": []})
+        cohort, settled = MPA.derive_cohort(entries, {"results": []},
+            suppress_duplicate_pages=True)
         assert len(cohort) + len(settled) == len(entries)
 
     def test_a_row_with_no_url_is_never_suppressed_as_a_twin(self):
         """Absence of a URL is not a shared URL."""
         cohort, settled = MPA.derive_cohort(
             [self._entry("a", "A", ""), self._entry("b", "B", "")],
-            {"results": []})
+            {"results": []},
+            suppress_duplicate_pages=True)
         assert len(cohort) == 2

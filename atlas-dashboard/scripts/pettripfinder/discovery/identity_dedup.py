@@ -80,14 +80,23 @@ PREMISES_SIGNALS = ("STREET_AND_POSTAL_CODE", "TELEPHONE")
 #: brand's own primary key for a building, so two rows carrying different codes
 #: are two buildings on the brand's own authority -- which outranks every other
 #: signal here, including a shared address.
+#:
+#: SCOPED TO THE BRAND'S OWN HOST, and the code must be followed by the slug
+#: separator. A loose pattern here is not a missed merge, it is a WRONG one:
+#: an earlier version matched ``/hotels/([a-z0-9]{5,10})[-/]`` against
+#: ``marriott.com/hotels/travel/sdffy-fairfield-inn...``, read the literal path
+#: segment "travel" as a property code, and collapsed four distinct Louisville
+#: Marriotts into one page -- which would have suppressed three legitimate
+#: purchases. Louisville's own compatibility test caught it. Requiring the
+#: trailing ``-`` is what separates a code from a path keyword.
 _PROPERTY_CODE_PATTERNS = (
-    # hilton.com/en/hotels/GRRDTDT/... ; the code is the path segment after
-    # /hotels/ and is upper-case alphanumeric.
-    re.compile(r"/hotels/([a-z0-9]{5,10})[-/]", re.I),
-    # marriott.com/hotels/travel/GRRDT-.../ and /en-us/hotels/GRRDT-...
-    re.compile(r"/travel/([a-z0-9]{5,10})-", re.I),
-    # choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/MI123
-    re.compile(r"/hotels?/([a-z]{2}\d{3,4})(?:[/?#]|$)", re.I),
+    # hilton.com/en/hotels/GRRDTDT-canopy-grand-rapids/
+    (re.compile(r"(?:^|\.)hilton\.com$", re.I),
+     re.compile(r"/hotels/([a-z0-9]{5,9})-", re.I)),
+    # marriott.com/hotels/travel/SDFLM-louisville-marriott-downtown
+    # marriott.com/en-us/hotels/GRRAD-ac-hotel-grand-rapids/
+    (re.compile(r"(?:^|\.)marriott\.com$", re.I),
+     re.compile(r"/(?:travel|hotels)/([a-z0-9]{5,7})-", re.I)),
 )
 
 
@@ -110,9 +119,15 @@ def property_code(row: Mapping) -> str:
     Absent for an independent hotel, and absence is never evidence of anything:
     two rows with no code are simply not decided by this signal.
     """
-    url = (row.get("official_url") or "").strip()
-    for pattern in _PROPERTY_CODE_PATTERNS:
-        found = pattern.search(url)
+    url = canonical_url(row)
+    if not url:
+        return ""
+    host = url.split("/", 1)[0].split(":", 1)[0]
+    path = url[len(host):]
+    for host_pattern, code_pattern in _PROPERTY_CODE_PATTERNS:
+        if not host_pattern.search(host):
+            continue
+        found = code_pattern.search(path)
         if found:
             return found.group(1).upper()
     return ""
@@ -156,14 +171,24 @@ def _codes_disagree(rows: Sequence[Mapping]) -> bool:
 
 
 def _rank(row: Mapping) -> Tuple:
-    """Which row of a mergeable pair keeps the identity. Deterministic and
-    total: more evidence first, then the longer name, then the key."""
+    """Which row of a mergeable pair keeps the identity. Deterministic and total.
+
+    The QUALIFIED name wins first, and that ordering is load-bearing rather
+    than cosmetic. ``census_projection`` absorbs a strict token-subset into its
+    superset and never the reverse, because a bare brand name is the worse
+    identity: "ac hotel" names no building, "ac hotel grand rapids downtown"
+    names one. Ranking by populated fields first inverted that on real data --
+    whichever sighting happened to carry more columns won, and 9 of 21 Grand
+    Rapids merges kept the bare OpenStreetMap name over the qualified
+    prior-census one. Evidence still breaks ties between names of equal
+    qualification, which is the case ``names_equal_for_absorption`` covers.
+    """
     return (
+        len((row.get("canonical_name") or "").split()),
         1 if (row.get("official_url") or "").strip() else 0,
         1 if (row.get("address") or "").strip() else 0,
         1 if (row.get("postal_code") or "").strip() else 0,
         1 if (row.get("phone") or "").strip() else 0,
-        len((row.get("canonical_name") or "").split()),
         row.get("identity_key") or "",
     )
 

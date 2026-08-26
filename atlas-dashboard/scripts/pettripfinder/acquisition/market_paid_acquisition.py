@@ -142,7 +142,8 @@ def family_of(brand: str) -> str:
 # --------------------------------------------------------------------------- #
 
 def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
-                  terminal: Sequence[str] = DEFAULT_TERMINAL
+                  terminal: Sequence[str] = DEFAULT_TERMINAL,
+                  suppress_duplicate_pages: bool = False
                   ) -> Tuple[List[Dict], List[Dict]]:
     """``(cohort, settled)`` over the routed population.
 
@@ -183,8 +184,18 @@ def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
             settled.append(row)
         else:
             cohort.append(row)
-    cohort, twins = _suppress_duplicate_pages(cohort)
-    settled.extend(twins)
+    if suppress_duplicate_pages:
+        # OPT-IN, and deliberately so. St. Louis and Louisville are LIVE, and
+        # their committed coverage figures were derived by replaying this
+        # function over their committed artifacts. Both censuses really do hold
+        # duplicate pages -- three St. Louis identities share one Choice URL and
+        # four pairs share one Hilton property code -- so suppressing
+        # unconditionally would retroactively restate a published market's
+        # numbers (ALTERNATE_LANE_REQUIRED 52 -> 51) as a side effect of a fix
+        # aimed at the NEXT purchase. A market opts in by running the
+        # pre-acquisition dedup gate, which the factory now always does.
+        cohort, twins = _suppress_duplicate_pages(cohort)
+        settled.extend(twins)
     return (cohort, settled)
 
 
@@ -293,7 +304,8 @@ apply_url_overlay = MR.apply_url_overlay
 
 def plan_cohort(entries: Sequence[Mapping], prior: Mapping, *,
                 terminal: Sequence[str] = DEFAULT_TERMINAL,
-                overrides: Optional[Mapping[str, Mapping]] = None
+                overrides: Optional[Mapping[str, Mapping]] = None,
+                suppress_duplicate_pages: bool = False
                 ) -> Tuple[List[Dict], List[Dict], List[Dict]]:
     """``(cohort, settled, suppressed)`` -- subtraction, then the retry policy.
 
@@ -304,7 +316,9 @@ def plan_cohort(entries: Sequence[Mapping], prior: Mapping, *,
     paid $1.20 to learn the answer is no. The three lists partition the routed
     population, and a test asserts it.
     """
-    cohort, settled = derive_cohort(entries, prior, terminal=terminal)
+    cohort, settled = derive_cohort(
+        entries, prior, terminal=terminal,
+        suppress_duplicate_pages=suppress_duplicate_pages)
     eligible, suppressed = RP.apply(cohort, prior, overrides=overrides,
                                     terminal=terminal)
     return (eligible, settled, suppressed)
@@ -1078,7 +1092,8 @@ def main(argv=None) -> int:
                  if args.retry_overrides else None)
     cohort, settled, suppressed = plan_cohort(
         entries, prior, terminal=[t for t in args.terminal.split(",") if t],
-        overrides=overrides)
+        overrides=overrides,
+        suppress_duplicate_pages=bool(args.dedup_plan))
     cohort, deduped = _apply_dedup_plan(cohort, args.dedup_plan)
     settled.extend(deduped)
     queue = order_queue(cohort, args.priority.split(","))
