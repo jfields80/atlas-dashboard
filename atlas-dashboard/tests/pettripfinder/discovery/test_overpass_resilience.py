@@ -225,6 +225,34 @@ class TestFailover:
         assert c.selector.circuits["a.example"].state == OE.CLOSED
         assert not any(u == B_URL for u, _ in session.posts)
 
+    def test_a_lying_status_page_cannot_hold_the_run_hostage(self, tmp_path):
+        """Observed live (PTF-PITTSBURGH-HARDENED-RECENSUS-001): an endpoint
+        whose /api/status answered 200 while its interpreter 500ed every
+        query. With the committed threshold (3) above the per-query attempt
+        bound (2), the healthy probe before each select() used to reset the
+        streak, so 36 straight request failures opened nothing and the run
+        never reached the next endpoint."""
+        cache = DiscoveryCache(tmp_path)
+        session = Session(
+            probe={"a.example": lambda: FakeResp(200, {}),
+                   "b.example": lambda: FakeResp(200, {})},
+            post={"a.example": lambda: FakeResp(500, {}),
+                  "b.example": lambda: FakeResp(200, elements(len(session.posts)))})
+        c = client(session, reg=registry(threshold=3))
+        r1 = c.search(query(1), cache=cache, budget=RequestBudget(10), observed_at="2026-08-25")
+        r2 = c.search(query(2), cache=cache, budget=RequestBudget(10), observed_at="2026-08-25")
+        # The first query is still bounded to its attempts on a and FAILS --
+        # a query fails over only when a circuit opens -- but the streak now
+        # carries across queries instead of being probe-reset, so the second
+        # query's first failure opens a and completes on b. One sacrificed
+        # query, not a hostage run.
+        assert r1.state == C.QUERY_STATE_FAILED
+        assert r2.state == C.QUERY_STATE_COMPLETED
+        assert c.selector.circuits["a.example"].state == OE.OPEN
+        assert len([u for u, _ in session.posts if u == A_URL]) == 3
+        assert len([u for u, _ in session.posts if u == B_URL]) == 1
+        assert c.run_stats()["endpoint_switches"] == 1
+
     def test_the_budget_is_spent_once_per_query_not_per_attempt(self, tmp_path):
         cache = DiscoveryCache(tmp_path)
         session = Session(

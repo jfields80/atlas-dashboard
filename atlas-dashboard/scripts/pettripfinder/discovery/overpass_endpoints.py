@@ -319,12 +319,21 @@ class EndpointCircuit:
         return self.state == OPEN and until is not None and now < until
 
     def record(self, classification: str, *, endpoint: EndpointRecord,
-               now: datetime) -> None:
+               now: datetime, probe: bool = False) -> None:
         self.last_classification = classification
         self.last_checked_at = _iso(now)
         if classification == HEALTHY:
             self.successes += 1
-            self.consecutive_failures = 0
+            # A status page can answer 200 while the interpreter fails every
+            # query (observed live on overpass.kumi.systems during
+            # PTF-PITTSBURGH-HARDENED-RECENSUS-001: 36 straight request
+            # failures, zero circuit opens, zero failovers, because the probe
+            # before each select() reset this count). Only a real request
+            # success clears the failure streak; a healthy probe may still
+            # close a cooled-down circuit, whose surviving streak then re-opens
+            # it on the next failure (half-open).
+            if not probe:
+                self.consecutive_failures = 0
             if self.state == OPEN and not self.is_cooling_down(now):
                 self.state = CLOSED
                 self.cooldown_until = ""
@@ -495,7 +504,7 @@ class EndpointSelector:
                 continue
             outcome = self.probe(endpoint)
             classification = classify_probe(outcome)
-            circuit.record(classification, endpoint=endpoint, now=now)
+            circuit.record(classification, endpoint=endpoint, now=now, probe=True)
             self._record_probe(endpoint, outcome, classification, now)
             if classification == HEALTHY:
                 if self.current_id and self.current_id != endpoint.endpoint_id:

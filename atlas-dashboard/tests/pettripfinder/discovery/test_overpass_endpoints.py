@@ -169,6 +169,47 @@ class TestCircuitBreaker:
         assert circuit.state == OE.CLOSED and circuit.consecutive_failures == 1
         assert circuit.failures == 3 and circuit.successes == 1
 
+    def test_a_healthy_probe_does_not_clear_the_request_failure_streak(self):
+        # Observed live (PTF-PITTSBURGH-HARDENED-RECENSUS-001): a status page
+        # answering 200 while the interpreter 500s every query. The probe
+        # before each select() must not reset the streak, or the circuit can
+        # never open and the run never fails over.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=3)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.consecutive_failures == 2
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+
+    def test_a_healthy_probe_after_cooldown_half_opens(self):
+        # The probe may close a cooled-down circuit, but the surviving streak
+        # re-opens it on the very next failure rather than granting a fresh
+        # threshold's worth of failing queries.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=2, cooldown=300)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+        clock.advance(301)
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.state == OE.CLOSED
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+
+    def test_a_request_success_still_clears_the_streak(self):
+        clock = Clock()
+        endpoint = self._endpoint(threshold=3)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock())
+        assert circuit.consecutive_failures == 0
+
     def test_the_cooldown_expires_with_the_clock(self):
         clock = Clock()
         endpoint = self._endpoint(threshold=1, cooldown=300)
