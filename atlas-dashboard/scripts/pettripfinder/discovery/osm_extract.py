@@ -213,6 +213,31 @@ def build_index_from_pbf(pbf_path: Path, *, extract_id: str, out: Path,
                 return
             elements.append({"type": "way", "id": way.id, "center": center, "tags": tags})
 
+        def area(self, area):
+            # Multipolygon relations -- the big downtown hotels are mapped this
+            # way (PTF-PITTSBURGH-HARDENED-RECENSUS-001 found 22 of them that
+            # public Overpass returned and a node/way-only index did not).
+            # pyosmium assembles them here; closed ways already came through
+            # way() and are skipped.
+            if area.from_way():
+                return
+            tags = self._tags(area.tags)
+            if not (keep & set(tags)):
+                return
+            lats, lons = [], []
+            for ring in area.outer_rings():
+                for node in ring:
+                    if node.location.valid():
+                        lats.append(node.location.lat)
+                        lons.append(node.location.lon)
+            if not lats:
+                return
+            center = {"lat": sum(lats) / len(lats), "lon": sum(lons) / len(lons)}
+            if bbox is not None and not _in_bbox(center["lat"], center["lon"], bbox):
+                return
+            elements.append({"type": "relation", "id": area.orig_id(),
+                             "center": center, "tags": tags})
+
     Handler().apply_file(str(pbf_path), locations=True)   # pragma: no cover
     document = index_document(
         extract_id=extract_id,
