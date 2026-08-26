@@ -602,6 +602,53 @@ def recovery_ran_after_acquisition(ledger: Mapping) -> bool:
 # The phases
 # --------------------------------------------------------------------------- #
 
+def discovery_gate(ctx: FactoryContext) -> Tuple[Optional[Dict], str]:
+    """PTF-DISCOVERY-OVERPASS-RESILIENCE-001: is free discovery finished?
+
+    Returns ``(discovery_state_document, blocking_reason)``. A census is built
+    only from a plan whose every Overpass cell is cached. Cells remaining with
+    an approved endpoint available is a run the factory owes; cells remaining
+    with none available is WAITING_FOR_FREE_DISCOVERY -- and neither is a
+    partial census quietly called complete. No discovery cache at all means
+    the state cannot be evaluated, and that is said rather than assumed.
+    """
+    from scripts.pettripfinder.discovery import discovery_state as DS
+    from scripts.pettripfinder.discovery import overpass_endpoints as OE
+    cache_root = Path(ctx.discovery_cache) if ctx.discovery_cache else None
+    if cache_root is None or not cache_root.is_dir():
+        return (None, "no discovery cache at %s; the free-discovery state "
+                      "cannot be evaluated, so a census cannot be called complete"
+                % (cache_root.as_posix() if cache_root else "(unset)"))
+    try:
+        document = DS.build(
+            ctx.market_id, cache_root=cache_root,
+            health_ledger_path=cache_root.parent / OE.HEALTH_LEDGER_FILENAME,
+            as_of=ctx.as_of)
+    except KeyError as exc:
+        return (None, "no discovery geography for %s (%s); the market's "
+                      "discovery config is missing" % (ctx.market_id, exc))
+    out = ctx.artifact("discovery_state")
+    DS.write(document, out)
+    document["_artifact"] = out.as_posix()
+    if document["state"] == DS.EXHAUSTED:
+        return (document, "")
+    if document["state"] == DS.WAITING:
+        return (document, "%s: %d of %d Overpass cells cached, %d remaining, no "
+                          "approved endpoint available (earliest cooldown ends %s); "
+                          "paid fallback %s and NOT authorised"
+                % (DS.WAITING, document["OVERPASS_CELLS_CACHED"],
+                   document["OVERPASS_CELLS_TOTAL"],
+                   document["OVERPASS_CELLS_REMAINING"],
+                   document["earliest_cooldown_expiry"] or "unknown",
+                   document["paid_discovery_fallback"]["state"]))
+    return (document, "%s: %d of %d Overpass cells cached, %d remaining and an "
+                      "approved endpoint is available (%s); run discovery before "
+                      "building the census"
+            % (DS.RUNNABLE, document["OVERPASS_CELLS_CACHED"],
+               document["OVERPASS_CELLS_TOTAL"], document["OVERPASS_CELLS_REMAINING"],
+               ", ".join(document["available_endpoint_ids"])))
+
+
 def phase_census(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
     from scripts.pettripfinder import market_census_cli as CENSUS_CLI
     if ctx.census_path.is_file() and ctx.candidates_path is None:
@@ -614,6 +661,14 @@ def phase_census(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
         return PhaseResult(BLOCKED, "no census exists and no persisted discovery "
                            "candidates were given; run discovery_cli under its "
                            "own capped budget, then pass --candidates")
+    discovery, blocked = discovery_gate(ctx)
+    discovery_artifacts = (OrderedDict((("discovery_state", discovery["_artifact"]),))
+                           if discovery else OrderedDict())
+    if blocked:
+        return PhaseResult(BLOCKED, "free discovery is not exhausted: %s" % blocked,
+                           artifacts=discovery_artifacts,
+                           facts=OrderedDict((("discovery_state",
+                                               (discovery or {}).get("state", "")),)))
     if ctx.contract_path is None or not Path(ctx.contract_path).is_file():
         return PhaseResult(BLOCKED, "--contract is required to build a census: "
                            "the market geography (corridors, postal codes)")
@@ -644,7 +699,12 @@ def phase_census(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
             (k, recandidacy.get(k)) for k in
             ("prior_rows", "fresh_candidates", "absorbed_into_fresh_candidates",
              "prior_rows_surviving_as_candidates", "merged_candidates"))
-    return PhaseResult(COMPLETED, "census built: %d identities" % census["count"],
+    facts["discovery_state"] = discovery["state"]
+    facts["overpass_cells_total"] = discovery["OVERPASS_CELLS_TOTAL"]
+    artifacts.update(discovery_artifacts)
+    return PhaseResult(COMPLETED, "census built: %d identities; free discovery "
+                       "exhausted over %d Overpass cells"
+                       % (census["count"], discovery["OVERPASS_CELLS_TOTAL"]),
                        artifacts=artifacts, facts=facts)
 
 

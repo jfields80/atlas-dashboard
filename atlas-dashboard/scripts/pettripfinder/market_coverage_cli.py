@@ -129,6 +129,36 @@ def recovery_evidence(*, url_recovery: Optional[Mapping],
     ))
 
 
+def discovery_section(discovery_state: Optional[Mapping]) -> Dict:
+    """The OVERPASS_* fields of a ptf-discovery-state document, or an honest
+    'not evaluated'. Free discovery is never called exhausted here on the
+    strength of a census existing."""
+    if discovery_state is None:
+        return OrderedDict((
+            ("evaluated", False),
+            ("OVERPASS_FREE_DISCOVERY_EXHAUSTED", False),
+            ("note", "no ptf-discovery-state document was given; whether every "
+                     "Overpass cell was cached is not known from the census alone"),
+        ))
+    return OrderedDict((
+        ("evaluated", True),
+        ("state", discovery_state.get("state", "")),
+        ("OVERPASS_ENDPOINTS_AVAILABLE",
+         int(discovery_state.get("OVERPASS_ENDPOINTS_AVAILABLE") or 0)),
+        ("OVERPASS_CELLS_TOTAL", int(discovery_state.get("OVERPASS_CELLS_TOTAL") or 0)),
+        ("OVERPASS_CELLS_CACHED", int(discovery_state.get("OVERPASS_CELLS_CACHED") or 0)),
+        ("OVERPASS_CELLS_REMAINING",
+         int(discovery_state.get("OVERPASS_CELLS_REMAINING") or 0)),
+        ("OVERPASS_FREE_DISCOVERY_EXHAUSTED",
+         bool(discovery_state.get("OVERPASS_FREE_DISCOVERY_EXHAUSTED"))),
+        ("WAITING_FOR_FREE_DISCOVERY", bool(discovery_state.get("WAITING_FOR_FREE_DISCOVERY"))),
+        ("earliest_cooldown_expiry", discovery_state.get("earliest_cooldown_expiry", "")),
+        ("cached_cells_by_endpoint", discovery_state.get("cached_cells_by_endpoint") or {}),
+        ("paid_discovery_fallback",
+         (discovery_state.get("paid_discovery_fallback") or {}).get("state", "")),
+    ))
+
+
 def build(market_id: str, census: Mapping, *, prior: Mapping,
           overlay: Mapping, last_pass: Optional[Mapping] = None,
           closure: Optional[Mapping] = None, packet: Optional[Mapping] = None,
@@ -138,6 +168,7 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
           recovery_after_last_pass: bool = False,
           pass_run_dirs: Sequence[str] = (),
           overrides: Optional[Mapping[str, Mapping]] = None,
+          discovery_state: Optional[Mapping] = None,
           stage: str, work_order: str, as_of: str,
           registry_doc: Optional[Mapping] = None) -> Dict:
     """The coverage-completion document. ``census["hotels"]`` must already
@@ -377,6 +408,10 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
                        "store" if store is not None else ""),
             ("packet_present", packet is not None),
         ))),
+        # PTF-DISCOVERY-OVERPASS-RESILIENCE-001. The census this coverage is
+        # over was built from free discovery; this says whether that discovery
+        # was finished, and if not, why not. Absent when no state was given.
+        ("free_discovery", discovery_section(discovery_state)),
         ("ready_requires", [
             "ZERO_COST_RECOVERY_EXHAUSTED", "APPROVED_ROUTES_EXHAUSTED",
             "NEWLY_ROUTABLE_COHORT_EXHAUSTED", "CLOSURE_RECONCILED",
@@ -405,6 +440,7 @@ def build_from_paths(*, market_id: str, url_overlay: str = "",
                      url_recovery: str = "", declined_recovery: str = "",
                      recovery_after_last_pass: bool = False,
                      pass_run_dirs: Sequence[str] = (), retry_overrides: str = "",
+                     discovery_state: str = "",
                      stage: str, work_order: str, as_of: str,
                      census_path: Optional[Path] = None) -> Dict:
     census_file = census_path or (CENSUS_DIR / ("%s.json" % market_id))
@@ -420,6 +456,7 @@ def build_from_paths(*, market_id: str, url_overlay: str = "",
         pass_run_dirs=pass_run_dirs,
         overrides=RP.load_overrides(Path(retry_overrides)) if retry_overrides
         else None,
+        discovery_state=_load(discovery_state),
         stage=stage, work_order=work_order, as_of=as_of)
 
 
@@ -446,6 +483,10 @@ def main(argv=None) -> int:
     parser.add_argument("--pass-run-dir", action="append", default=[],
                         help="repeatable; every acquisition run directory")
     parser.add_argument("--retry-overrides", default="")
+    parser.add_argument("--discovery-state", default="",
+                        help="a ptf-discovery-state document (discovery_cli.py "
+                             "state --out); reports whether free discovery was "
+                             "exhausted before the census was built")
     parser.add_argument("--stage", required=True, choices=STAGES)
     parser.add_argument("--work-order", required=True)
     parser.add_argument("--as-of", required=True)
@@ -459,6 +500,7 @@ def main(argv=None) -> int:
         url_recovery=args.url_recovery, declined_recovery=args.declined_recovery,
         recovery_after_last_pass=args.recovery_after_last_pass,
         pass_run_dirs=args.pass_run_dir, retry_overrides=args.retry_overrides,
+        discovery_state=args.discovery_state,
         stage=args.stage, work_order=args.work_order, as_of=args.as_of)
     sha = CPB.write_json(Path(args.out), document)
     for name, value in document["counts"].items():

@@ -146,12 +146,20 @@ class TestEveryCensusReaderAcceptsAnExplicitCensus:
 class TestTheFactoryHonoursItsCensusDir:
 
     @pytest.fixture
-    def ctx(self, tmp_path, prior_census, fresh_candidates):
+    def ctx(self, tmp_path, prior_census, fresh_candidates, monkeypatch):
+        # PTF-DISCOVERY-OVERPASS-RESILIENCE-001 gates the census phase on
+        # exhausted free discovery; this class is about the sandbox paths.
+        from scripts.pettripfinder.discovery import discovery_state as DS
+        monkeypatch.setattr(DS, "build", lambda *a, **k: {
+            "state": DS.EXHAUSTED, "OVERPASS_CELLS_TOTAL": 30})
+        cache = tmp_path / "disc" / "cache"
+        cache.mkdir(parents=True)
         prior_path, _rows = prior_census
         package = tmp_path / "pkg"
         return MF.FactoryContext(
             market_id=MARKET, work_order="TEST-RECENSUS", as_of="2026-08-25",
             contract_path=CONTRACT, candidates_path=fresh_candidates,
+            discovery_cache=cache,
             prior_census=prior_path, package_dir=package,
             census_dir=package / "identity_census" / "recensus",
             markets_dir=tmp_path / "markets", run_root=tmp_path / "runs",

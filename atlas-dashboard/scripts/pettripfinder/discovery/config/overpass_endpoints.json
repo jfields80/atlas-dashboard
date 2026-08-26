@@ -1,0 +1,46 @@
+{
+  "schema": "ptf-overpass-endpoints/1.0",
+  "what_this_is": "The APPROVED public Overpass API endpoints the discovery factory may query, in preference order. PTF-DISCOVERY-OVERPASS-RESILIENCE-001: one public endpoint timing out at the TCP layer stalled a whole market for hours with nothing else wrong. Rotation here exists to survive an endpoint OUTAGE, never to evade a provider's rate limit: an endpoint that rate-limits or refuses us goes into cooldown, and the client keeps concurrency at 1 with spacing between queries on every endpoint.",
+  "provenance": "Public instances listed at https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances (read 2026-08-25). Fair-use guidance for the main instance: https://dev.overpass-api.de/overpass-doc/en/preface/commons.html",
+  "defaults": {
+    "health_check_path": "/api/status",
+    "timeout_seconds": 30,
+    "connect_timeout_seconds": 10,
+    "min_request_spacing_seconds": 2.0,
+    "cooldown_seconds": 900,
+    "failure_threshold": 3,
+    "concurrency": 1
+  },
+  "endpoints": [
+    {
+      "endpoint_id": "overpass-api.de",
+      "base_url": "https://overpass-api.de/api/interpreter",
+      "enabled": true,
+      "notes": "The main public instance; the endpoint every prior market was censused from. Fair use: under 10,000 queries and 1 GB per day, unique User-Agent."
+    },
+    {
+      "endpoint_id": "overpass.kumi.systems",
+      "base_url": "https://overpass.kumi.systems/api/interpreter",
+      "enabled": true,
+      "notes": "Kumi Systems public instance; global data; listed on the OSM wiki as a public mirror that accepts the same fair-use client behaviour."
+    },
+    {
+      "endpoint_id": "overpass.private.coffee",
+      "base_url": "https://overpass.private.coffee/api/interpreter",
+      "enabled": true,
+      "notes": "Private.coffee public instance; global data; listed on the OSM wiki. Third in order so the two longer-established instances are asked first."
+    },
+    {
+      "endpoint_id": "overpass.osm.ch",
+      "base_url": "https://overpass.osm.ch/api/interpreter",
+      "enabled": false,
+      "notes": "Swiss instance with SWITZERLAND-ONLY data. Disabled: it would return zero elements for every US cell and a zero-element response is indistinguishable from an empty cell."
+    },
+    {
+      "endpoint_id": "maps.mail.ru",
+      "base_url": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+      "enabled": false,
+      "notes": "VK Maps public instance; global data. Disabled until an operator verifies its terms of use for automated research clients; enabling it is a registry edit, not a code change."
+    }
+  ]
+}
