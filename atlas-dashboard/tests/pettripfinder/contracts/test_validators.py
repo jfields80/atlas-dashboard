@@ -384,6 +384,21 @@ class TestEvidence:
             "artifact_kind": "rendered_html", "captured_at": "2026-08-10"}, 0)
         assert "NOT_FIRST_PARTY" in codes(issues)
 
+    def test_capture_metadata_aliases_are_first_party_and_hash_stable(self):
+        entry = {
+            "artifact_class": "PUBLICATION_GRADE_EVIDENCE", "evidence_ref": "ev-1",
+            "field": "pet_fee", "quote": "Pets Welcome", "source_url": "https://example.test",
+            "source_grade": "OFFICIAL_PROPERTY", "artifact_sha256": "sha256:abc",
+            "artifact_kind": "official_page_rendered_text", "captured_at": "2026-08-17",
+            "capture_method": "official_page_retrieval",
+        }
+        before = dict(entry)
+        assert evidence.validate_entry(entry, 0) == ()
+        assert entry == before
+        parsed = evidence.parse([entry])[0]
+        assert parsed.source_grade == enums.GRADE_PT1_FIRST_PARTY
+        assert parsed.artifact_kind == enums.ARTIFACT_RENDERED_HTML
+
     def test_record_with_only_a_transcription_cannot_publish(self):
         blockers = evidence.publication_blockers({
             "facts": {"pet_fee": dict(money(5000))},

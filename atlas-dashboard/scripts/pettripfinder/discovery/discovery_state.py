@@ -41,6 +41,7 @@ from scripts.pettripfinder.discovery import constants as C
 from scripts.pettripfinder.discovery import overpass as OV
 from scripts.pettripfinder.discovery import overpass_endpoints as OE
 from scripts.pettripfinder.discovery import paid_discovery_fallback as PAID
+from scripts.pettripfinder.discovery import progress_gate as PG
 from scripts.pettripfinder.discovery.cache import DiscoveryCache
 from scripts.pettripfinder.discovery.market_config import MarketConfig, load_market_config
 from scripts.pettripfinder.discovery.query_plan import plan_queries
@@ -64,9 +65,13 @@ def build(market_id: str, *, cache_root: Path,
           clock: Optional[Callable[[], datetime]] = None,
           google_key_present: bool = False,
           paid_authorization: Optional[Mapping] = None,
-          as_of: str = "") -> Dict:
+          as_of: str = "",
+          progress_path: Optional[Path] = None,
+          stall_cycles: int = PG.DEFAULT_STALL_CYCLES) -> Dict:
     market = market or load_market_config(market_id)
     registry = registry or OE.EndpointRegistry.load()
+    if progress_path is None and health_ledger_path is not None:
+        progress_path = Path(health_ledger_path).parent / PG.FILENAME
     selector_kwargs = dict(registry=registry, ledger_path=health_ledger_path)
     if clock is not None:
         selector_kwargs["clock"] = clock
@@ -91,15 +96,29 @@ def build(market_id: str, *, cache_root: Path,
         cached.append(row)
 
     available = selector.available_endpoints()
+    domains = selector.available_failure_domains()
     states = selector.states()
+    progress = PG.summary(PG.load(progress_path), stall_cycles)
+    stalled = progress["status"] == PG.STALLED
     total, n_cached = len(queries), len(cached)
     n_remaining = total - n_cached
+    waiting_reason = ""
     if n_remaining == 0:
         state = EXHAUSTED
+    elif stalled:
+        # Endpoints may look available; the last N attempting cycles say
+        # otherwise. Retrying is not progress.
+        state = WAITING
+        waiting_reason = ("forward progress stalled: %d consecutive resume cycles "
+                          "completed no cell (gate closes at %d); a human overrides "
+                          "one run with --override-progress-gate"
+                          % (progress["consecutive_zero_progress_cycles"],
+                             progress["stall_cycles"]))
     elif available:
         state = RUNNABLE
     else:
         state = WAITING
+        waiting_reason = "every approved endpoint is disabled or cooling down"
 
     paid = PAID.availability(google_key_present=google_key_present,
                              remaining_cells=n_remaining)
@@ -127,13 +146,20 @@ def build(market_id: str, *, cache_root: Path,
         ("OVERPASS_ENDPOINTS_TOTAL", len(registry.endpoints)),
         ("OVERPASS_ENDPOINTS_ENABLED", len(registry.enabled_endpoints())),
         ("OVERPASS_ENDPOINTS_AVAILABLE", len(available)),
+        ("OVERPASS_FAILURE_DOMAINS_ENABLED", len(registry.enabled_failure_domains())),
+        ("OVERPASS_FAILURE_DOMAINS_AVAILABLE", len(domains)),
         ("OVERPASS_CELLS_TOTAL", total),
         ("OVERPASS_CELLS_CACHED", n_cached),
         ("OVERPASS_CELLS_REMAINING", n_remaining),
         ("OVERPASS_FREE_DISCOVERY_EXHAUSTED", n_remaining == 0),
         ("WAITING_FOR_FREE_DISCOVERY", state == WAITING),
+        ("FORWARD_PROGRESS_STALLED", stalled),
+        ("RESUME_CYCLES_WITHOUT_PROGRESS", progress["consecutive_zero_progress_cycles"]),
+        ("waiting_reason", waiting_reason),
+        ("forward_progress", progress),
         ("earliest_cooldown_expiry", selector.earliest_cooldown_expiry()),
         ("available_endpoint_ids", [e.endpoint_id for e in available]),
+        ("available_failure_domains", list(domains)),
         ("endpoint_health_states", states),
         ("cached_cells_by_endpoint", OrderedDict(sorted(by_endpoint.items()))),
         ("cached_cells", cached),
@@ -141,6 +167,7 @@ def build(market_id: str, *, cache_root: Path,
         ("paid_discovery_fallback", paid),
         ("paid_discovery_authorization", authorised),
         ("health_ledger", Path(health_ledger_path).as_posix() if health_ledger_path else ""),
+        ("progress_ledger", Path(progress_path).as_posix() if progress_path else ""),
         ("registry", registry.source),
     ))
 

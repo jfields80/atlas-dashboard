@@ -102,6 +102,30 @@ class TestRegistry:
         registry = OE.EndpointRegistry.single("https://mirror.example/api/interpreter")
         assert [e.endpoint_id for e in registry.endpoints] == ["mirror.example"]
 
+    def test_a_failure_domain_defaults_to_the_endpoint_itself(self):
+        doc = registry_doc("a.example", "b.example", "c.example")
+        doc["endpoints"][1]["failure_domain"] = "shared.backend"
+        doc["endpoints"][2]["failure_domain"] = "shared.backend"
+        registry = OE.EndpointRegistry.from_document(doc)
+        a, b, c = registry.endpoints
+        assert a.domain == "a.example" and b.domain == c.domain == "shared.backend"
+        assert registry.enabled_failure_domains() == ("a.example", "shared.backend")
+        assert registry.siblings(b) == (c,) and registry.siblings(a) == ()
+        assert a.to_dict()["failure_domain"] == "a.example"
+
+    def test_kumi_and_private_coffee_are_one_failure_domain_in_the_committed_registry(self):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q6: overpass.kumi.systems is a
+        # DNS CNAME to flanders.servers.private.coffee -- the host that serves
+        # overpass.private.coffee. Failing over between them asks the same
+        # box twice, and counting both as available overstates the registry.
+        registry = OE.EndpointRegistry.load()
+        kumi = registry.by_id("overpass.kumi.systems")
+        coffee = registry.by_id("overpass.private.coffee")
+        assert kumi.domain == coffee.domain == "flanders.servers.private.coffee"
+        assert "CNAME" in kumi.notes
+        assert registry.by_id("overpass-api.de").domain == "overpass-api.de"
+        assert len(registry.enabled_failure_domains()) == len(registry.enabled_endpoints()) - 1
+
 
 class TestHealthClassification:
     @pytest.mark.parametrize("outcome, expected", [
@@ -169,6 +193,47 @@ class TestCircuitBreaker:
         assert circuit.state == OE.CLOSED and circuit.consecutive_failures == 1
         assert circuit.failures == 3 and circuit.successes == 1
 
+    def test_a_healthy_probe_does_not_clear_the_request_failure_streak(self):
+        # Observed live (PTF-PITTSBURGH-HARDENED-RECENSUS-001): a status page
+        # answering 200 while the interpreter 500s every query. The probe
+        # before each select() must not reset the streak, or the circuit can
+        # never open and the run never fails over.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=3)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.consecutive_failures == 2
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+
+    def test_a_healthy_probe_after_cooldown_half_opens(self):
+        # The probe may close a cooled-down circuit, but the surviving streak
+        # re-opens it on the very next failure rather than granting a fresh
+        # threshold's worth of failing queries.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=2, cooldown=300)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+        clock.advance(301)
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.state == OE.CLOSED
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        assert circuit.state == OE.OPEN
+
+    def test_a_request_success_still_clears_the_streak(self):
+        clock = Clock()
+        endpoint = self._endpoint(threshold=3)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock())
+        circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock())
+        assert circuit.consecutive_failures == 0
+
     def test_the_cooldown_expires_with_the_clock(self):
         clock = Clock()
         endpoint = self._endpoint(threshold=1, cooldown=300)
@@ -181,6 +246,35 @@ class TestCircuitBreaker:
         assert not circuit.is_cooling_down(clock())
         circuit.record(OE.HEALTHY, endpoint=endpoint, now=clock())
         assert circuit.state == OE.CLOSED and circuit.cooldown_until == ""
+
+    def test_an_expired_cooldown_is_half_open_and_a_failed_trial_re_arms_it(self):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q1: an OPEN circuit past its
+        # cooldown used to stay OPEN with a stale expiry, so it was re-probed
+        # on every run (158 failures on one endpoint) and the waiting report
+        # quoted an expiry hours in the past.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=1, cooldown=300)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.record(OE.TIMEOUT, endpoint=endpoint, now=clock())
+        first_expiry = circuit.cooldown_until
+        clock.advance(301)
+        assert circuit.is_half_open(clock())
+        circuit.record(OE.TIMEOUT, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.state == OE.OPEN and circuit.is_cooling_down(clock())
+        assert circuit.cooldown_until > first_expiry
+        assert circuit.cooldown_until == (clock.now + timedelta(seconds=300)).isoformat()
+
+    def test_a_sibling_opened_circuit_re_arms_on_its_first_failed_trial(self):
+        # Opened for its backend, not for its own failures: the count is 0,
+        # and one failed trial after the cooldown must still re-open it.
+        clock = Clock()
+        endpoint = self._endpoint(threshold=3, cooldown=300)
+        circuit = OE.EndpointCircuit(endpoint_id="a.example")
+        circuit.open_as_sibling(endpoint=endpoint, now=clock(), because="sibling b opened")
+        assert circuit.state == OE.OPEN and circuit.consecutive_failures == 0
+        clock.advance(301)
+        circuit.record(OE.HTTP_SERVER_ERROR, endpoint=endpoint, now=clock(), probe=True)
+        assert circuit.is_cooling_down(clock())
 
     def test_it_round_trips_through_the_ledger_shape(self):
         circuit = OE.EndpointCircuit(endpoint_id="a.example", state=OE.OPEN,
@@ -237,6 +331,88 @@ class TestSelector:
         assert raised.value.earliest_cooldown_expiry == (
             clock.now + timedelta(seconds=600)).isoformat()
         assert selector.available_endpoints() == ()
+
+    def test_a_dead_registry_costs_one_threshold_of_probes_per_cooldown(self):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q4: with every endpoint down,
+        # each select() used to re-probe every endpoint whose stale cooldown
+        # had expired, so a supervised run accumulated hundreds of failures.
+        clock = Clock()
+        probe = FakeProbe(**{"a.example": [TIMEOUT], "b.example": [DOWN]})
+        selector = self._selector(probe, clock=clock, threshold=3, cooldown=900)
+        for _ in range(10):
+            with pytest.raises(OE.NoHealthyEndpoint):
+                selector.select()
+            clock.advance(30)
+        assert probe.calls.count("a.example") == 3 and probe.calls.count("b.example") == 3
+        assert selector.states()["a.example"]["availability"] == "COOLING_DOWN"
+        clock.advance(900)                      # past the cooldown: ONE trial each
+        assert selector.states()["a.example"]["availability"] == OE.HALF_OPEN
+        with pytest.raises(OE.NoHealthyEndpoint) as raised:
+            selector.select()
+        assert probe.calls.count("a.example") == 4 and probe.calls.count("b.example") == 4
+        # ...and the trial's failure re-armed the cooldown, with a fresh expiry.
+        assert raised.value.earliest_cooldown_expiry > clock.now.isoformat()
+        with pytest.raises(OE.NoHealthyEndpoint):
+            selector.select()
+        assert probe.calls.count("a.example") == 4
+
+    def test_the_ledger_carries_the_current_endpoint_and_switches_across_processes(self, tmp_path):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q2/Q3: a fresh process started
+        # with no current endpoint and zero switches, so a run that selected
+        # nothing blanked the ledger's current_endpoint_id and a run of one
+        # selection could never count a switch.
+        ledger = tmp_path / "health.json"
+        first = self._selector(FakeProbe(**{"a.example": [TIMEOUT], "b.example": [OK]}),
+                               ledger=ledger)
+        assert first.select().endpoint_id == "b.example"
+        second = self._selector(FakeProbe(**{"a.example": [OK], "b.example": [DOWN]}),
+                                ledger=ledger, threshold=1)
+        assert second.current_id == "b.example"
+        assert second.select().endpoint_id == "a.example"
+        assert second.switches == 1
+        third = self._selector(FakeProbe(**{"a.example": [TIMEOUT], "b.example": [DOWN]}),
+                               ledger=ledger, threshold=1)
+        assert third.current_id == "a.example" and third.switches == 1
+        with pytest.raises(OE.NoHealthyEndpoint):
+            third.select()
+        persisted = json.loads(ledger.read_text(encoding="utf-8"))
+        assert persisted["current_endpoint_id"] == "a.example"
+        assert persisted["endpoint_switches"] == 1
+
+    def test_a_failure_domain_opens_and_is_skipped_together(self):
+        # Q6: b and c share a backend. b's probe fails to the threshold: c
+        # opens with it, is never probed in that walk, and the pair count as
+        # one available endpoint before and none after.
+        doc = registry_doc("a.example", "b.example", "c.example", threshold=1, cooldown=900)
+        doc["endpoints"][1]["failure_domain"] = "shared.backend"
+        doc["endpoints"][2]["failure_domain"] = "shared.backend"
+        registry = OE.EndpointRegistry.from_document(doc)
+        clock = Clock()
+        probe = FakeProbe(**{"a.example": [TIMEOUT], "b.example": [DOWN], "c.example": [OK]})
+        selector = OE.EndpointSelector(registry=registry, probe=probe, clock=clock)
+        assert selector.available_failure_domains() == ("a.example", "shared.backend")
+        with pytest.raises(OE.NoHealthyEndpoint):
+            selector.select()
+        assert probe.calls == ["a.example", "b.example"]
+        states = selector.states()
+        assert states["b.example"]["availability"] == "COOLING_DOWN"
+        # c's own circuit is OPEN now, with the same cooldown, and says why.
+        assert states["c.example"]["availability"] == "COOLING_DOWN"
+        assert states["c.example"]["cooldown_until"] == states["b.example"]["cooldown_until"]
+        assert selector.circuits["c.example"].state == OE.OPEN
+        assert "shared.backend" in selector.circuits["c.example"].opened_because
+        assert selector.available_endpoints() == () and selector.available_failure_domains() == ()
+
+    def test_a_request_failure_that_opens_a_circuit_opens_its_siblings(self):
+        doc = registry_doc("b.example", "c.example", threshold=1)
+        for row in doc["endpoints"]:
+            row["failure_domain"] = "shared.backend"
+        registry = OE.EndpointRegistry.from_document(doc)
+        selector = OE.EndpointSelector(registry=registry, probe=FakeProbe(**{
+            "b.example": [OK], "c.example": [OK]}), clock=Clock())
+        b = selector.select()
+        assert selector.record_request_failure(b, OE.HTTP_SERVER_ERROR) is True
+        assert selector.circuits["c.example"].state == OE.OPEN
 
     def test_a_dead_endpoint_is_not_re_probed_for_every_cell(self):
         # Twenty selections (one per cell) after the primary failed once: the

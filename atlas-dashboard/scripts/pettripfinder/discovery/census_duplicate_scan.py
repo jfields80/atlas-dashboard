@@ -101,10 +101,14 @@ def main(argv=None) -> int:
                              "candidate are reported first")
     parser.add_argument("--work-order", default="")
     parser.add_argument("--out", required=True)
+    parser.add_argument("--census", default="",
+                        help="the census to read; default identity_census/"
+                             "<market>.json. A re-census of a registered market "
+                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
-    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
-                        .read_text(encoding="utf-8-sig"))
+    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
+    census = json.loads(census_path.read_text(encoding="utf-8-sig"))
     candidates = set()
     if args.candidates:
         packet = json.loads(Path(args.candidates).read_text(encoding="utf-8"))

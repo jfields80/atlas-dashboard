@@ -58,6 +58,21 @@ from scripts.pettripfinder.discovery.query_plan import RequestBudget
 INDEX_SCHEMA = "ptf-osm-extract-index/1.0"
 ENDPOINT_PREFIX = "local_extract:"
 
+#: PTF-PITTSBURGH-HARDENED-RECENSUS-001: the registry of regional extracts --
+#: which extract covers which market, where it is fetched from, where it lives
+#: locally and where its index goes. A data file; adding a region is a row.
+REGISTRY_SCHEMA = "ptf-osm-extracts/1.0"
+DEFAULT_EXTRACT_REGISTRY_PATH = Path(__file__).resolve().parent / "config" / "osm_extracts.json"
+
+#: What the index builder keeps by default. ``highway`` is deliberately absent:
+#: it is on millions of ways per state and no lodging carries it alone, so
+#: keeping it multiplies the index for nothing a lodging cell asks.
+DEFAULT_INDEX_TAG_KEYS = ("tourism", "amenity", "shop", "leisure")
+
+NOT_DOWNLOADED = "NOT_DOWNLOADED"
+DOWNLOADED = "DOWNLOADED"
+INDEXED = "INDEXED"
+
 #: Tags an index keeps. Lodging discovery asks for tourism=hotel/motel; the
 #: other keys are what the Overpass path already reads into provider_categories.
 DEFAULT_KEEP_TAG_KEYS = ("tourism", "amenity", "shop", "leisure", "highway")
@@ -151,12 +166,15 @@ def index_document(*, extract_id: str, source: Mapping, elements: Iterable[Mappi
 
 def build_index_from_pbf(pbf_path: Path, *, extract_id: str, out: Path,
                          keep_tag_keys: Sequence[str] = DEFAULT_KEEP_TAG_KEYS,
-                         source_url: str = "", extracted_at: str = "") -> str:
+                         source_url: str = "", extracted_at: str = "",
+                         bbox: Optional[Tuple[float, float, float, float]] = None) -> str:
     """Reduce a ``.osm.pbf`` to an index. Needs ``pyosmium``; refuses otherwise.
 
     Ways and relations are reduced to a centre point exactly as Overpass's
     ``out center`` does, so a locally answered cell and a remotely answered
-    cell parse identically.
+    cell parse identically. ``bbox`` (south, west, north, east) keeps only
+    elements inside it -- a market's geographic bounds turn a state extract
+    into a few hundred rows.
     """
     try:
         import osmium  # type: ignore
@@ -176,7 +194,8 @@ def build_index_from_pbf(pbf_path: Path, *, extract_id: str, out: Path,
 
         def node(self, node):
             tags = self._tags(node.tags)
-            if keep & set(tags):
+            if keep & set(tags) and (bbox is None or _in_bbox(
+                    node.location.lat, node.location.lon, bbox)):
                 elements.append({"type": "node", "id": node.id,
                                  "lat": node.location.lat, "lon": node.location.lon,
                                  "tags": tags})
@@ -189,10 +208,35 @@ def build_index_from_pbf(pbf_path: Path, *, extract_id: str, out: Path,
             lons = [n.lon for n in way.nodes if n.location.valid()]
             if not lats:
                 return
-            elements.append({"type": "way", "id": way.id,
-                             "center": {"lat": sum(lats) / len(lats),
-                                        "lon": sum(lons) / len(lons)},
-                             "tags": tags})
+            center = {"lat": sum(lats) / len(lats), "lon": sum(lons) / len(lons)}
+            if bbox is not None and not _in_bbox(center["lat"], center["lon"], bbox):
+                return
+            elements.append({"type": "way", "id": way.id, "center": center, "tags": tags})
+
+        def area(self, area):
+            # Multipolygon relations -- the big downtown hotels are mapped this
+            # way (PTF-PITTSBURGH-HARDENED-RECENSUS-001 found 22 of them that
+            # public Overpass returned and a node/way-only index did not).
+            # pyosmium assembles them here; closed ways already came through
+            # way() and are skipped.
+            if area.from_way():
+                return
+            tags = self._tags(area.tags)
+            if not (keep & set(tags)):
+                return
+            lats, lons = [], []
+            for ring in area.outer_rings():
+                for node in ring:
+                    if node.location.valid():
+                        lats.append(node.location.lat)
+                        lons.append(node.location.lon)
+            if not lats:
+                return
+            center = {"lat": sum(lats) / len(lats), "lon": sum(lons) / len(lons)}
+            if bbox is not None and not _in_bbox(center["lat"], center["lon"], bbox):
+                return
+            elements.append({"type": "relation", "id": area.orig_id(),
+                             "center": center, "tags": tags})
 
     Handler().apply_file(str(pbf_path), locations=True)   # pragma: no cover
     document = index_document(
@@ -200,7 +244,9 @@ def build_index_from_pbf(pbf_path: Path, *, extract_id: str, out: Path,
         source=OrderedDict((("pbf", Path(pbf_path).name), ("url", source_url),
                             ("extracted_at", extracted_at
                              or datetime.now(timezone.utc).date().isoformat()),
-                            ("attribution", C.OVERPASS_ATTRIBUTION))),
+                            ("attribution", C.OVERPASS_ATTRIBUTION),
+                            ("bbox", list(bbox) if bbox else None),
+                            ("kept_tag_keys", list(keep_tag_keys)))),
         elements=elements)
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -281,6 +327,172 @@ class LocalOsmExtractSource:
             pages_fetched=1, cache_hits=0, warnings=warnings)
 
 
-__all__ = ["INDEX_SCHEMA", "ENDPOINT_PREFIX", "DEFAULT_KEEP_TAG_KEYS",
+# --------------------------------------------------------------------------- #
+# The extract registry, a market's readiness, and what an index would answer
+# --------------------------------------------------------------------------- #
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+READINESS_SCHEMA = "ptf-osm-extract-readiness/1.0"
+ANSWERABILITY_SCHEMA = "ptf-osm-extract-answerability/1.0"
+
+
+class ExtractRecord:
+    """One regional extract: where it comes from, where it lives, whom it covers."""
+
+    def __init__(self, row: Mapping) -> None:
+        self.extract_id = str(row.get("extract_id") or "").strip()
+        self.region = str(row.get("region") or "").strip()
+        self.url = str(row.get("url") or "").strip()
+        self.md5_url = str(row.get("md5_url") or "").strip()
+        self.local_pbf = str(row.get("local_pbf") or "").strip()
+        self.index_path = str(row.get("index_path") or "").strip()
+        self.markets = tuple(str(m) for m in (row.get("markets") or ()))
+        self.license = str(row.get("license") or "").strip()
+        self.notes = str(row.get("notes") or "")
+        for name in ("extract_id", "url", "local_pbf", "index_path"):
+            if not getattr(self, name):
+                raise ExtractError("extract row %r lacks %s" % (self.extract_id or row, name))
+        if not self.url.startswith("https://"):
+            raise ExtractError("%s: url must be https" % self.extract_id)
+
+    def to_dict(self) -> Dict:
+        return OrderedDict((
+            ("extract_id", self.extract_id), ("region", self.region), ("url", self.url),
+            ("md5_url", self.md5_url), ("local_pbf", self.local_pbf),
+            ("index_path", self.index_path), ("markets", list(self.markets)),
+            ("license", self.license), ("notes", self.notes),
+        ))
+
+
+class ExtractRegistry:
+    def __init__(self, records: Sequence[ExtractRecord], *, source: str = "") -> None:
+        self.records = tuple(records)
+        self.source = source
+
+    @classmethod
+    def load(cls, path: Optional[Path] = None) -> "ExtractRegistry":
+        source = Path(path or DEFAULT_EXTRACT_REGISTRY_PATH)
+        if not source.is_file():
+            raise ExtractError("no extract registry at %s" % source)
+        return cls.from_document(json.loads(source.read_text(encoding="utf-8")),
+                                 source=source.as_posix())
+
+    @classmethod
+    def from_document(cls, document: Mapping, *, source: str = "") -> "ExtractRegistry":
+        if document.get("schema") != REGISTRY_SCHEMA:
+            raise ExtractError("extract registry schema is %r, not %s"
+                               % (document.get("schema"), REGISTRY_SCHEMA))
+        records = [ExtractRecord(row) for row in document.get("extracts") or ()]
+        seen: set = set()
+        for record in records:
+            if record.extract_id in seen:
+                raise ExtractError("duplicate extract_id %r" % record.extract_id)
+            seen.add(record.extract_id)
+        return cls(records, source=source)
+
+    def for_market(self, market_id: str) -> ExtractRecord:
+        for record in self.records:
+            if market_id in record.markets:
+                return record
+        raise KeyError("no extract in the registry covers market %r" % market_id)
+
+
+def pyosmium_available() -> bool:
+    try:
+        import osmium  # type: ignore  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def readiness(market_id: str, *, registry: Optional[ExtractRegistry] = None,
+              repo_root: Optional[Path] = None) -> Dict:
+    """Offline: how far the local-extract path is from answering ``market_id``,
+    and the exact next steps. Nothing here downloads, installs or queries."""
+    registry = registry or ExtractRegistry.load()
+    root = Path(repo_root or REPO_ROOT)
+    record = registry.for_market(market_id)
+    pbf = root / record.local_pbf
+    index = root / record.index_path
+    pbf_present, index_present = pbf.is_file(), index.is_file()
+    osmium_ok = pyosmium_available()
+    status = INDEXED if index_present else (DOWNLOADED if pbf_present else NOT_DOWNLOADED)
+    steps: List[str] = []
+    if not pbf_present:
+        steps.append("download %s (verify against %s) to %s -- a network step for an "
+                     "operator; the extract is %s"
+                     % (record.url, record.md5_url or "its published checksum",
+                        record.local_pbf, record.license or "ODbL"))
+    if not index_present and not osmium_ok:
+        steps.append("install the optional reducer dependency: pip install osmium")
+    if not index_present:
+        steps.append("python scripts/pettripfinder/osm_extract_cli.py build-index "
+                     "--market %s" % market_id)
+    steps.append("python scripts/pettripfinder/osm_extract_cli.py dry-run --market %s "
+                 "--output-root <discovery output root>" % market_id)
+    steps.append("python scripts/pettripfinder/discovery_cli.py run --market %s "
+                 "--providers overpass --categories hotel,motel --output-root <root> "
+                 "--max-google-requests 0 --max-overpass-requests 0 --resume "
+                 "--osm-extract-index %s" % (market_id, record.index_path))
+    element_count: Optional[int] = None
+    if index_present:
+        try:
+            element_count = int(json.loads(index.read_text(encoding="utf-8")).get("element_count") or 0)
+        except (ValueError, OSError):
+            element_count = None
+    return OrderedDict((
+        ("schema", READINESS_SCHEMA), ("market_id", market_id),
+        ("extract_id", record.extract_id), ("region", record.region), ("status", status),
+        ("url", record.url), ("license", record.license),
+        ("pbf_path", record.local_pbf), ("pbf_present", pbf_present),
+        ("pbf_bytes", pbf.stat().st_size if pbf_present else 0),
+        ("index_path", record.index_path), ("index_present", index_present),
+        ("index_element_count", element_count),
+        ("pyosmium_available", osmium_ok),
+        ("network_required", not pbf_present or (not index_present and not osmium_ok)),
+        ("next_steps", steps),
+    ))
+
+
+def answerability(index: ExtractIndex, *, market, queries: Sequence[DiscoverySourceQuery],
+                  cache: Optional[DiscoveryCache] = None, as_of: str = "") -> Dict:
+    """Offline: for each planned Overpass cell, whether it is already cached
+    and, if not, how many elements the index would answer it with. The
+    dry-run a human reads BEFORE a local-extract run."""
+    rows: List[Dict] = []
+    legacy = (C.OVERPASS_DEFAULT_ENDPOINT,)
+    for query in queries:
+        row = OrderedDict((("query_id", query.query_id), ("cell_id", query.cell_id),
+                           ("category", query.canonical_category)))
+        cached = None
+        if cache is not None:
+            cached, _kind = OV.lookup_cached(cache, query, as_of=as_of, legacy_endpoint_urls=legacy)
+        if cached is not None:
+            row["disposition"] = "CACHED"
+            row["elements"] = len((cached.payload or {}).get("elements") or [])
+        else:
+            bbox = OV.bbox_from_center_radius(query.center_lat, query.center_lng,
+                                              query.radius_meters)
+            row["disposition"] = "ANSWERABLE"
+            row["elements"] = len(index.query(query.query_text, bbox)["elements"])
+        rows.append(row)
+    answerable = [r for r in rows if r["disposition"] == "ANSWERABLE"]
+    return OrderedDict((
+        ("schema", ANSWERABILITY_SCHEMA), ("market_id", market.market_id),
+        ("extract_id", index.extract_id), ("index_element_count", len(index.elements)),
+        ("cells_total", len(rows)), ("cells_cached", len(rows) - len(answerable)),
+        ("cells_answerable", len(answerable)),
+        ("elements_from_index", sum(r["elements"] for r in answerable)),
+        ("empty_answerable_cells", sum(1 for r in answerable if r["elements"] == 0)),
+        ("cells", rows),
+    ))
+
+
+__all__ = ["INDEX_SCHEMA", "ENDPOINT_PREFIX", "DEFAULT_KEEP_TAG_KEYS", "DEFAULT_INDEX_TAG_KEYS",
+           "REGISTRY_SCHEMA", "DEFAULT_EXTRACT_REGISTRY_PATH", "REPO_ROOT",
+           "NOT_DOWNLOADED", "DOWNLOADED", "INDEXED",
            "ExtractError", "ExtractIndex", "index_document",
-           "build_index_from_pbf", "LocalOsmExtractSource"]
+           "build_index_from_pbf", "LocalOsmExtractSource",
+           "ExtractRecord", "ExtractRegistry", "pyosmium_available", "readiness",
+           "answerability"]
+

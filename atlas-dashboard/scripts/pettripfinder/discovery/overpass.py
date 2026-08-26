@@ -414,6 +414,10 @@ class OverpassClient:
                 return (False, {}, {"error": "all_endpoints_unhealthy",
                                     "earliest_cooldown_expiry": exc.earliest_cooldown_expiry},
                         C.PROVIDER_ERROR_UNAVAILABLE, None)
+            # The selector counts a switch when it selects a different
+            # endpoint from the last one it (or a previous run) selected;
+            # the run's figure mirrors that, never guesses ahead of it.
+            self.stats.endpoint_switches = selector.switches
             if endpoint.endpoint_id in endpoints_tried:
                 # The selector handed back an endpoint this query already
                 # exhausted its attempts on: nothing new to try.
@@ -441,7 +445,6 @@ class OverpassClient:
                     error, http_status=status_metadata.get("http_status"))
                 opened = selector.record_request_failure(endpoint, classification)
                 if opened:
-                    self.stats.endpoint_switches = selector.switches + 1
                     break                          # select() again -> next endpoint
                 if not pacer.may_retry(attempt):
                     break                          # bounded; move on

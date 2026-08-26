@@ -362,6 +362,15 @@ def _check_other_charges(node: Any, out: List[Issue]) -> None:
         else:
             _check_bool(charge, "refundable_stated", charge_path, out)
             _check_bool(charge, "refundable", charge_path, out, required=True)
+        # A contingent charge must carry the source's own stated trigger
+        # (Pittsburgh Pass 3/4 conditional cleaning charges); kept beneath
+        # the 1.3 refundability rule, which it does not relax.
+        _check_bool(charge, "conditional", charge_path, out, required=False)
+        if charge.get("conditional") is True:
+            trigger = charge.get("trigger")
+            if not isinstance(trigger, str) or not trigger.strip():
+                out.append(Issue(charge_path + ".trigger", "MISSING_REQUIRED",
+                                 "a conditional charge needs its source-stated trigger"))
 
 
 # --------------------------------------------------------------------------

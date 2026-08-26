@@ -959,12 +959,16 @@ def main(argv=None) -> int:
                         help="build the report from the journal alone and "
                              "spend nothing; how a killed run still produces "
                              "its artifact")
+    parser.add_argument("--census", default="",
+                        help="the census to read; default identity_census/"
+                             "<market>.json. A re-census of a registered market "
+                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
     run_id = args.run_id or ("%s-paid" % args.market)
     started = time.monotonic()
-    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
-                        .read_text(encoding="utf-8"))
+    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
+    census = json.loads(census_path.read_text(encoding="utf-8"))
     prior = json.loads(Path(args.prior).read_text(encoding="utf-8"))
     overlay = apply_url_overlay(census["hotels"], args.url_overlay)
     entries, routing_summary = MR.route_census(census["hotels"])

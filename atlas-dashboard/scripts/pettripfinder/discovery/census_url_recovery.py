@@ -580,6 +580,10 @@ def main(argv=None) -> int:
                              "the property, and report every refusal")
     parser.add_argument("--out", required=True)
     parser.add_argument("--work-order", default="")
+    parser.add_argument("--census", default="",
+                        help="the census to read; default identity_census/"
+                             "<market>.json. A re-census of a registered market "
+                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
     if args.allow_street_binding and not args.corroborate_url:
@@ -588,8 +592,8 @@ def main(argv=None) -> int:
                      "several sources can describe one address, so the URL "
                      "itself has to name the property before it may be used")
 
-    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
-                        .read_text(encoding="utf-8"))
+    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
+    census = json.loads(census_path.read_text(encoding="utf-8"))
     observations: List[Observation] = []
     if args.cache:
         observations.extend(read_cache(Path(args.cache)))
