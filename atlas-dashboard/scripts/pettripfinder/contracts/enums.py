@@ -85,11 +85,12 @@ TIER_BOUNDARY_UNITS: Tuple[str, ...] = (BOUNDARY_NIGHTS, BOUNDARY_PETS)
 CHARGE_REFUNDABLE_DEPOSIT = "refundable_deposit"
 CHARGE_NON_REFUNDABLE_FEE = "non_refundable_fee"
 CHARGE_CLEANING_FEE = "cleaning_fee"
+CHARGE_SANITATION_FEE = "sanitation_fee"
 CHARGE_INCIDENTAL_DEPOSIT = "incidental_deposit"
 
 OTHER_CHARGE_KINDS: Tuple[str, ...] = (
     CHARGE_REFUNDABLE_DEPOSIT, CHARGE_NON_REFUNDABLE_FEE,
-    CHARGE_CLEANING_FEE, CHARGE_INCIDENTAL_DEPOSIT,
+    CHARGE_CLEANING_FEE, CHARGE_SANITATION_FEE, CHARGE_INCIDENTAL_DEPOSIT,
 )
 
 TAX_PLUS = "plus_tax"
@@ -326,9 +327,16 @@ AWAITING_ATTENDED_CAPTURE = "AWAITING_ATTENDED_CAPTURE"
 AWAITING_CONTRADICTION_RESOLUTION = "AWAITING_CONTRADICTION_RESOLUTION"
 AWAITING_CENSUS_REVIEW = "AWAITING_CENSUS_REVIEW"
 AWAITING_IDENTITY_RESOLUTION = "AWAITING_IDENTITY_RESOLUTION"
+#: PTF-ST-LOUIS-MARKET-001. Publication-grade evidence EXISTS on this
+#: property's own surface and the only thing outstanding is a human. Every
+#: other blocker names work the MACHINE still owes, so a reviewed candidate
+#: had to borrow one that was false about it: Milwaukee filed 133 identities
+#: as AWAITING_POLICY_OBSERVATION, including the ones whose policy had been
+#: observed.
+AWAITING_FOUNDER_DECISION = "AWAITING_FOUNDER_DECISION"
 ACCESS_BLOCKED = "ACCESS_BLOCKED"
 
-#: Eleven blockers, normalised from the four markets' own vocabularies. The
+#: Twelve blockers, normalised from the four markets' own vocabularies. The
 #: corpus held ACCESS_BLOCKED, ADR_ACCESS_BLOCKED, SOURCE_BLOCKED and
 #: ANTI_BOT_CHALLENGE for one concept and five spellings of "no property URL";
 #: dozens of aliases for the same state is a vocabulary nobody can query.
@@ -337,7 +345,8 @@ BLOCKER_STATES: Tuple[str, ...] = (
     AWAITING_ROUTING_REVIEW, AWAITING_ROUTING_REPLACEMENT,
     AWAITING_POLICY_OBSERVATION, AWAITING_POLICY_ARTIFACT,
     AWAITING_ATTENDED_CAPTURE, AWAITING_CONTRADICTION_RESOLUTION,
-    AWAITING_CENSUS_REVIEW, AWAITING_IDENTITY_RESOLUTION, ACCESS_BLOCKED,
+    AWAITING_CENSUS_REVIEW, AWAITING_IDENTITY_RESOLUTION,
+    AWAITING_FOUNDER_DECISION, ACCESS_BLOCKED,
 )
 
 PARTITION_STATES: Tuple[str, ...] = TERMINAL_STATES + BLOCKER_STATES
@@ -552,10 +561,39 @@ LEGACY_CENSUS_SCHEMAS: FrozenSet[str] = frozenset({
 
 CENSUS_SCHEMA = "ptf-market-identity-census/1.1"
 PARTITION_SCHEMA = "ptf-market-final-partition/1.1"
-POLICY_SCHEMA_VERSION = "1.2"
+#: 1.3 -- PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010, additive only. Two
+#: optional additions, each authorised by an explicit founder decision:
+#:   * ``service_animal_exception`` -- a quoted service-animal statement is
+#:     guest-useful policy information and was being DROPPED for want of a
+#:     field. It is prose, verbatim-grounded, and never inferred from pet terms.
+#:   * ``other_charges[].refundable_stated`` -- lets a charge say the source did
+#:     not state refundability, instead of forcing a writer to invent one.
+#: Nothing was removed, nothing was loosened, and every 1.2 record stays valid.
+POLICY_SCHEMA_VERSION = "1.3"
 
 #: Policy schema versions a compatibility reader accepts.
+#:
+#: These are the PRE-CANONICAL schemas, whose facts are display strings: the
+#: reader parses ``"$50.00"`` into money. 1.2 is NOT one of them and must never
+#: be added -- a canonical record holds an object where the reader expects a
+#: string, so reading 1.2 here silently empties every fee. That is the whole
+#: reason the version is read from the record instead of sniffed from its shape.
 LEGACY_POLICY_SCHEMA_VERSIONS: FrozenSet[str] = frozenset({"1.0", "1.1"})
+
+#: Policy schema versions that speak the CANONICAL fact vocabulary.
+#:
+#: "Is this record canonical?" is a question about SHAPE, and answering it with
+#: ``== POLICY_SCHEMA_VERSION`` silently ties it to the calendar: the 1.2 -> 1.3
+#: amendment was purely additive, yet that comparison would have re-classified
+#: every already-migrated live record as legacy and run the display-string
+#: reader over it. Membership here is the question actually being asked, so an
+#: additive amendment costs one entry and changes nothing else.
+CANONICAL_POLICY_SCHEMA_VERSIONS: FrozenSet[str] = frozenset({"1.2", "1.3"})
+
+
+def is_canonical_policy_schema(version: object) -> bool:
+    """True when ``version`` speaks the canonical fact vocabulary."""
+    return str(version or "") in CANONICAL_POLICY_SCHEMA_VERSIONS
 
 
 def is_member(value: str, vocabulary: Tuple[str, ...]) -> bool:

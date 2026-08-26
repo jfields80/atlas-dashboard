@@ -1,0 +1,578 @@
+{
+ "schema": "ptf-parser-semantics-differential/1.0",
+ "work_order": "PTF-POLICY-PARSER-SEMANTIC-HARDENING-017",
+ "baseline_commit": "35dfac2",
+ "authority_written": false,
+ "published": false,
+ "note": "Old and new reader over one fixed corpus. Direction is recorded per case: ADDS, WITHHOLDS and REMOVES are three different events and only the first is more information. PTF-LOUISVILLE-FOUNDER-REMEDIATION-005: a species acceptance IS an acceptance. 'Dogs only' names the animal this property takes, and the reader withheld pets_allowed because the word 'pets' never appeared. The founder ruled that concrete pet terms on a property-specific page are sufficient evidence that the property accepts the pet type described; species_allowed already carries the limit, so nothing is widened.",
+ "totals": {
+  "cases": 21,
+  "changed": 6,
+  "unchanged": 15
+ },
+ "cases": [
+  {
+   "case_id": "species--all-dogs-welcome",
+   "text": "All dogs are welcome at the lodge. A $20 fee applies per night.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "species--dogs-are-welcome",
+   "text": "Dogs are welcome. Pet fee 25 USD per night.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "species--dogs-only",
+   "text": "Dogs only. Two pets max per room.",
+   "changed": true,
+   "old_extraction": {
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": true,
+   "reason": "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005: a species acceptance IS an acceptance. 'Dogs only' names the animal this property takes, and the reader withheld pets_allowed because the word 'pets' never appeared. The founder ruled that concrete pet terms on a property-specific page are sufficient evidence that the property accepts the pet type described; species_allowed already carries the limit, so nothing is widened.",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "species--dogs-and-cats-allowed",
+   "text": "Dogs and cats allowed. Pet fee 30 USD per night.",
+   "changed": true,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "the two-species pattern required the word 'only', so an explicit 'Dogs and cats allowed' recorded no species at all",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "species--cats-and-dogs-welcome",
+   "text": "Cats and dogs only. Maximum 2 pets per room.",
+   "changed": true,
+   "old_extraction": {
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": true,
+   "reason": "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005: a species acceptance IS an acceptance. 'Dogs only' names the animal this property takes, and the reader withheld pets_allowed because the word 'pets' never appeared. The founder ruled that concrete pet terms on a property-specific page are sufficient evidence that the property accepts the pet type described; species_allowed already carries the limit, so nothing is widened.",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "species--no-cats",
+   "text": "Pets are welcome. No cats. $50 per stay.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "cats_allowed": false
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "cats_allowed": false
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "species--dogs-yes-cats-no",
+   "text": "Dogs allowed, cats not allowed. $40 per night.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ],
+    "cats_allowed": false
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "species_allowed": [
+     "dog"
+    ],
+    "cats_allowed": false
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "species--pets-generic",
+   "text": "Pets are welcome. $50 per stay.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "species--pair-parenthetical",
+   "text": "A maximum of 2 pets (dogs or cats) per room are allowed.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "old_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "fee--label-colon-usd",
+   "text": "Pet fee per night: 75 USD",
+   "changed": true,
+   "old_extraction": {},
+   "new_extraction": {
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "every charge pattern read the amount first and looked rightwards; a label that carries the basis BEFORE the amount matched none of them",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "fee--slash-dog-per-night",
+   "text": "Pets welcome. $25/dog per night",
+   "changed": true,
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "old_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "a named species was not a scope word in the charge vocabulary, so '$25/dog per night' matched no charge pattern at all",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "fee--per-dog-per-night",
+   "text": "Pets welcome. $25 per dog per night",
+   "changed": true,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "the amount and basis were read by the loose pattern; the SCOPE was lost, so a two-dog stay silently became a one-charge stay",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "fee--fee-of-per-night",
+   "text": "Pets welcome. Pet fee of $25 per night.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "fee--per-pet-per-stay",
+   "text": "Pets welcome. $20 per pet per stay.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet"
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "fee--per-room-per-stay",
+   "text": "Pets welcome. $50 per room per stay.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   },
+   "old_withheld": {},
+   "new_withheld": {},
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "fee--capped",
+   "text": "Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay.",
+   "changed": false,
+   "old_extraction": {
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "new_extraction": {
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "fee--tiered-stay-length",
+   "text": "Pet Charge 50.00 USD Per Stay for stays 1-6 nights. For stays of 7 or more nights the fee is 150.00 USD per stay.",
+   "changed": true,
+   "old_extraction": {},
+   "new_extraction": {
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 6,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 15000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 7,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_STRUCTURED_TIERS"
+   ],
+   "species_exclusive": false,
+   "reason": "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005: a species acceptance IS an acceptance. 'Dogs only' names the animal this property takes, and the reader withheld pets_allowed because the word 'pets' never appeared. The founder ruled that concrete pet terms on a property-specific page are sufficient evidence that the property accepts the pet type described; species_allowed already carries the limit, so nothing is widened.",
+   "direction": "ADDS"
+  },
+  {
+   "case_id": "fee--first-free-second-charged",
+   "text": "One pet stays free. Second pet $15 per night.",
+   "changed": true,
+   "old_extraction": {
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "new_extraction": {},
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "new_flags": [
+    "FLAG_TIERED_FEE"
+   ],
+   "species_exclusive": false,
+   "reason": "a stated FREE is a price; counting only the numbers saw one price and published $15 as the fee for a pet this hotel takes for nothing",
+   "direction": "WITHHOLDS"
+  },
+  {
+   "case_id": "guard--room-rate",
+   "text": "This pet-friendly motel welcomes your furry friends. Best rate from $89 /night. Book now.",
+   "changed": false,
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {
+    "pets_allowed": true
+   },
+   "old_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "guard--incidentals-deposit",
+   "text": "Read Full Pet Policy Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests.",
+   "changed": false,
+   "old_extraction": {},
+   "new_extraction": {},
+   "old_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "",
+   "direction": "UNCHANGED"
+  },
+  {
+   "case_id": "guard--security-deposit",
+   "text": "Pet Policy: pets welcome. A $200 security deposit is required of all guests at check-in.",
+   "changed": true,
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 20000
+   },
+   "new_extraction": {
+    "pets_allowed": true
+   },
+   "old_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [],
+   "species_exclusive": false,
+   "reason": "a security deposit required of all guests is not a pet deposit; the purpose now competes with the pet wording and wins on proximity",
+   "direction": "REMOVES"
+  }
+ ]
+}

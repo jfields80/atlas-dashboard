@@ -1,0 +1,514 @@
+{
+  "schema": "ptf-market-benchmark/1.0",
+  "what_this_is": "The fresh-market benchmark for the first PetTripFinder market built on the post-Milwaukee generic path. Every figure is read from a committed artifact named in `artifacts`, so any of them can be re-derived and a later market can be compared to this one.",
+  "market_id": "st-louis-mo",
+  "work_order": "PTF-ST-LOUIS-MARKET-001",
+  "as_of": "2026-08-23",
+  "elapsed": {
+    "started_utc": "2026-08-23T00:34:39Z",
+    "basis": "wall clock from the first command of the work order to the benchmark manifest, single operator, single session. Provider work ran in the background and is inside this figure, not beside it.",
+    "total_hours": 2.01,
+    "phases": [
+      {
+        "phase": "capability inventory",
+        "hours": 0.35,
+        "note": "reading the existing generic path before writing anything: discovery engine, census/partition contracts, corridor assignment, acquisition registry, providers, publication grade, launch participation, deployment manifest"
+      },
+      {
+        "phase": "market bootstrap",
+        "hours": 0.4,
+        "note": "geography authorship (18 discovery cells, 16 corridors, 105 postal codes, the boundary exclusion list) plus the pending market contract"
+      },
+      {
+        "phase": "discovery",
+        "hours": 0.35,
+        "note": "36 Overpass requests then 72 Google Places requests, plus one cache-only merge pass"
+      },
+      {
+        "phase": "census projection",
+        "hours": 0.6,
+        "note": "the new generic projection module and the three defects found by inspecting its output"
+      },
+      {
+        "phase": "routing",
+        "hours": 0.2,
+        "note": "the new whole-census routing module; zero provider decisions reopened"
+      },
+      {
+        "phase": "acquisition",
+        "hours": 0.7,
+        "note": "building the reserved direct_http lane, the brand reachability probe, and three full 141-property passes"
+      },
+      {
+        "phase": "observation store, closure, review package",
+        "hours": 0.5,
+        "note": "offline; zero network"
+      },
+      {
+        "phase": "tests and report",
+        "hours": 0.5,
+        "note": ""
+      }
+    ],
+    "measured_at_utc": "2026-08-23T02:35:04Z"
+  },
+  "census": {
+    "discovery_candidates": 565,
+    "candidate_dispositions": {
+      "ABSORBED_INTO_ANOTHER_IDENTITY": 95,
+      "ADMITTED_TO_CENSUS": 357,
+      "IDENTITY_COLLISION_REQUIRES_REVIEW": 8,
+      "IDENTITY_NO_LOCALITY": 21,
+      "NOT_LODGING_CATEGORY": 24,
+      "OUT_OF_MARKET_BOUNDARY_DECISION": 1,
+      "OUT_OF_MARKET_GEOGRAPHY": 52,
+      "UNNAMED_CANDIDATE": 7
+    },
+    "census_identities": 357,
+    "identity_states": {
+      "IDENTITY_CONFIRMED": 357
+    },
+    "identity_confirmed_pct": 100.0,
+    "identity_key_collisions_held": 7
+  },
+  "active_eligibility": {
+    "active_eligible": 357,
+    "not_active": 0,
+    "eligibility_counts": {
+      "ACTIVE_ELIGIBLE": 357
+    }
+  },
+  "source_discovery": {
+    "official_url_present": 297,
+    "official_url_pct": 83.2,
+    "url_shapes": {
+      "BRAND_INDEX": 1,
+      "BRAND_REDIRECT": 7,
+      "NO_URL": 60,
+      "PROPERTY_PAGE": 289
+    }
+  },
+  "routing": {
+    "automatically_routed": 283,
+    "automatically_routed_pct": 79.3,
+    "routing_states": {
+      "ROUTED": 283,
+      "ROUTE_BRAND_EXCLUDED": 13,
+      "ROUTE_NEEDS_OFFICIAL_URL": 60,
+      "ROUTE_NEEDS_PROPERTY_URL": 1
+    },
+    "brands": {
+      "BEST_WESTERN": 10,
+      "CHOICE": 33,
+      "DRURY": 17,
+      "ESA": 6,
+      "HILTON": 43,
+      "HYATT": 3,
+      "IHG": 19,
+      "INDEPENDENT": 73,
+      "MARRIOTT": 40,
+      "MOTEL6": 6,
+      "NO_URL": 60,
+      "RED_ROOF": 4,
+      "SONESTA": 6,
+      "WYNDHAM": 37
+    },
+    "providers": {
+      "brightdata_browser": 194,
+      "firecrawl": 89
+    },
+    "new_source_families": []
+  },
+  "acquisition": {
+    "lane": "direct HTTPS GET (first-party, no vendor)",
+    "attempted": 138,
+    "acquired_valid": 19,
+    "acquired_pct": 13.8,
+    "outcome_counts": {
+      "ACCESS_DENIED": 9,
+      "IDENTITY_MISMATCH": 35,
+      "NAVIGATION_FAILED": 7,
+      "POLICY_NOT_FOUND": 14,
+      "UNEXPECTED_PAGE": 16,
+      "UNHYDRATED": 38,
+      "VALID": 19
+    },
+    "outcomes_by_brand": {
+      "DRURY": {
+        "IDENTITY_MISMATCH": 12,
+        "UNEXPECTED_PAGE": 4
+      },
+      "ESA": {
+        "IDENTITY_MISMATCH": 1,
+        "VALID": 5
+      },
+      "INDEPENDENT": {
+        "ACCESS_DENIED": 9,
+        "IDENTITY_MISMATCH": 18,
+        "NAVIGATION_FAILED": 7,
+        "POLICY_NOT_FOUND": 14,
+        "UNEXPECTED_PAGE": 6,
+        "UNHYDRATED": 12,
+        "VALID": 7
+      },
+      "SONESTA": {
+        "UNEXPECTED_PAGE": 1,
+        "VALID": 5
+      },
+      "WYNDHAM": {
+        "IDENTITY_MISMATCH": 4,
+        "UNEXPECTED_PAGE": 5,
+        "UNHYDRATED": 26,
+        "VALID": 2
+      }
+    },
+    "skipped_lane_refused": 145,
+    "lane_refused_brands": {
+      "MARRIOTT": "HTTP 403 at the edge on both probes",
+      "HILTON": "HTTP 403 at the edge on both probes",
+      "IHG": "HTTP 403 at the edge on both probes",
+      "RED_ROOF": "HTTP 403 at the edge on both probes",
+      "CHOICE": "no response inside 25s on both probes",
+      "MOTEL6": "no response inside 25s on both probes"
+    }
+  },
+  "zero_cost_recovery": {
+    "what_it_asked": "whether any persisted DECLINED document contains a policy block the walk that ran never read -- asked offline, before any repeated network acquisition",
+    "examined": 49,
+    "verdicts": {
+      "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 35,
+      "NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK": 14
+    },
+    "network_calls": 0,
+    "usd_spent": 0.0
+  },
+  "reader": {
+    "observations_built": 19,
+    "publication_grade_counts": {
+      "PUBLICATION_GRADE_CONFIRMED": 17,
+      "PUBLICATION_GRADE_REJECTED": 2
+    },
+    "readiness_counts": {
+      "POLICY_CONFIRMED": 11,
+      "POLICY_CONFIRMED_WITH_AMBIGUITY": 2,
+      "POLICY_NEGATIVE_CONFIRMED": 1,
+      "POLICY_NOT_FOUND": 5
+    },
+    "pets_allowed_counts": {
+      "False": 1,
+      "None": 3,
+      "True": 15
+    },
+    "refusals": []
+  },
+  "closure": {
+    "active_denominator": 357,
+    "rows": 357,
+    "disposition_counts": {
+      "HELD_REVIEW": 17,
+      "ACCESS_UNRESOLVED": 263,
+      "POLICY_NOT_FOUND": 14,
+      "INSUFFICIENT_EVIDENCE": 63
+    },
+    "reconciliation": {
+      "active_count": 357,
+      "duplicate": [],
+      "foreign": [],
+      "ledger_count": 357,
+      "missing": []
+    },
+    "partition_states": {
+      "AWAITING_OFFICIAL_URL": 60,
+      "AWAITING_PROPERTY_LEVEL_URL": 1,
+      "AWAITING_ROUTING_REVIEW": 13,
+      "AWAITING_POLICY_OBSERVATION": 159,
+      "AWAITING_POLICY_ARTIFACT": 2,
+      "AWAITING_ATTENDED_CAPTURE": 89,
+      "AWAITING_FOUNDER_DECISION": 17,
+      "ACCESS_BLOCKED": 16
+    }
+  },
+  "founder_review": {
+    "candidates": 17,
+    "candidate_pct_of_active": 4.8,
+    "recommendation_counts": {
+      "RECOMMEND_AUTHORITY_PET_FRIENDLY": 15,
+      "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS": 1,
+      "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE": 1
+    },
+    "review_status_counts": {
+      "MACHINE_REVIEWED_PENDING_OPERATOR": 17
+    }
+  },
+  "cost": {
+    "total_usd": 2.52,
+    "basis": "72 Google Places API (New) Text Search requests at the Enterprise SKU list price of $0.035 per request (the field mask includes addressComponents, websiteUri and nationalPhoneNumber). Estimated from the request count this run made and the published unit price; no invoice has been observed. Overpass is free and unmetered. Firecrawl and Bright Data made ZERO calls: neither credential is present in this environment, so no paid acquisition lane could run at all.",
+    "cap_usd": 10.0,
+    "provider_calls": {
+      "google_places_text_search": 72,
+      "overpass": 36,
+      "firecrawl": 0,
+      "brightdata_browser": 0,
+      "brightdata_web_unlocker": 0,
+      "direct_http": 199
+    },
+    "per_property_attempts": {
+      "attempted_properties": 138,
+      "total_fetches": 199,
+      "mean_fetches_per_property": 1.44,
+      "max_attempts_per_property": 2
+    },
+    "measured_direct_http_usd": 0.0,
+    "note": "The $10 market cap was never approached and never needed a STOP. The binding constraint in this environment was not money, it was credentials."
+  },
+  "architecture": {
+    "new_generic_modules": [
+      {
+        "path": "scripts/pettripfinder/discovery/census_projection.py",
+        "why": "Atlas could discover a market and could rebuild a census from committed authority, but had nothing between the two. Four prior markets turned a candidate list into a census by hand in four market-specific scripts totalling ~4,600 lines.",
+        "reusable": "every future market's census, and the only place category, membership and identity reconciliation are decided"
+      },
+      {
+        "path": "scripts/pettripfinder/market_census_cli.py",
+        "why": "a census builder that reads the market contract from a PATH, because a market being built is not yet registered and registering it touches the signed deployment authorization",
+        "reusable": "every future market, and the pre-registration workflow generally"
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/market_routing.py",
+        "why": "no module answered 'route this whole census' -- each market re-derived brand, URL shape and lane in its own script",
+        "reusable": "every market; the URL-shape vocabulary is what stops brand-index URLs being counted as routed"
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/direct_http_capture.py",
+        "why": "providers.DIRECT_HTTP was a reserved, declared-UNAVAILABLE slot with a written intent and no implementation",
+        "reusable": "the cheapest rung of every future ladder; reaches DRURY, ESA, SONESTA, WYNDHAM and independents at zero cost"
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/direct_http_pilot.py",
+        "why": "a route is added by a benchmark, never an opinion, so the new lane needed a measurement harness before it could ever become a route",
+        "reusable": "the shape every future lane measurement takes"
+      },
+      {
+        "path": "scripts/pettripfinder/acquisition/market_observation_store.py",
+        "why": "the current-state store was built by market-specific integration scripts; this derives it offline from persisted artifacts",
+        "reusable": "every market, and every zero-cost re-derivation pass"
+      },
+      {
+        "path": "scripts/pettripfinder/contracts/closure.py",
+        "why": "the closure vocabulary lived in acquisition/closure_038.py, a module whose second line is MARKET = 'milwaukee-wi'",
+        "reusable": "every market; a test pins it to Milwaukee's tuple so the extraction cannot have changed a word"
+      },
+      {
+        "path": "scripts/pettripfinder/market_closure_cli.py",
+        "why": "active eligibility, the final partition and the closure ledger were three market-specific derivations",
+        "reusable": "every market; one mapping from partition blocker to closure disposition, so the two artifacts cannot disagree"
+      },
+      {
+        "path": "scripts/pettripfinder/market_founder_review_cli.py",
+        "why": "founder_review_036.py and founder_review_039.py are Milwaukee-only",
+        "reusable": "every market; writes only MACHINE_REVIEWED_PENDING_OPERATOR and carries the semantic-approval/1.0 hash material"
+      },
+      {
+        "path": "scripts/pettripfinder/market_benchmark_cli.py",
+        "why": "no benchmark artifact existed at all",
+        "reusable": "comparing market N+1 to this run"
+      }
+    ],
+    "market_specific_scripts": [],
+    "modified_shared_files": [
+      {
+        "path": "scripts/pettripfinder/contracts/enums.py",
+        "change": "added the blocker state AWAITING_FOUNDER_DECISION",
+        "why": "every existing blocker names work the MACHINE still owes. A reviewed, publication-grade candidate owes nothing but a human, and had to borrow a state that was false about it -- Milwaukee filed 133 identities as AWAITING_POLICY_OBSERVATION including the ones whose policy had been observed.",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/contracts/partition.py",
+        "change": "the written meaning of that state",
+        "why": "the contract requires every state to have one, and a test enforces it",
+        "additive": true
+      },
+      {
+        "path": "scripts/pettripfinder/census_partition_builder.py",
+        "change": "the next action that state demands",
+        "why": "the builder refuses a blocker with no next action",
+        "additive": true
+      }
+    ],
+    "new_config_files": [
+      {
+        "path": "scripts/pettripfinder/discovery/config/st_louis_mo.json",
+        "why": "18 discovery cells, the bi-state bounding box and 70 municipalities. Resolved by CONVENTION -- zero code changes, no registry edit, no merge conflict with any other market branch."
+      },
+      {
+        "path": "launch_packages/pettripfinder/markets/pending/st-louis-mo.json",
+        "why": "a valid ptf-market/1.1 contract, deliberately outside the registry directory"
+      }
+    ],
+    "custom_fixes": [
+      {
+        "phase": "census projection",
+        "defect": "the non-lodging veto was unreachable: it read category_candidates, which is OUR query vocabulary and reads {hotel, motel} on every candidate of a lodging run",
+        "found_by": "inspecting the projection's own output -- 565 candidates, 0 classified NOT_LODGING",
+        "cost": "24 RV parks, campgrounds, bed-and-breakfasts, guest houses and vacation rentals would have entered the census"
+      },
+      {
+        "phase": "census projection",
+        "defect": "membership was tested before identity reconciliation, so an address-less row with coordinates was excluded as out-of-market instead of being absorbed into the addressed row it duplicated",
+        "found_by": "ABSORBED count of 0 against 40 known address-less candidates",
+        "cost": "duplicate identities and lost corroboration"
+      },
+      {
+        "phase": "census projection",
+        "defect": "an unqualified brand name is a VALID identity key, so deduplicating the census by key was about to reduce 25 distinct buildings at 25 distinct street addresses to 3",
+        "found_by": "reading the collision list -- 'Comfort Inn' at three addresses, 'Drury Inn & Suites' at four, 'Red Roof Inn' at four",
+        "cost": "real hotels deleted silently; this is the third market in which bare brand names have threatened an identity-key collapse"
+      },
+      {
+        "phase": "acquisition",
+        "defect": "a served Handlebars template read as POLICY_NOT_FOUND. Wyndham's property page literally contains 'Pet Policy {{pets}}'",
+        "found_by": "probing one Wyndham document by hand after 26 identical POLICY_NOT_FOUND outcomes",
+        "cost": "26 hotels would have closed as 'states nothing about pets', which is a claim about the WORLD derived from a fact about our lane"
+      },
+      {
+        "phase": "closure",
+        "defect": "AWAITING_POLICY_OBSERVATION covers both 'the page served and said nothing' and 'nobody has fetched it', and the first closure run merged them -- 198 identities reported as POLICY_NOT_FOUND of which 146 had never been fetched",
+        "found_by": "reading the first closure ledger against the pilot's attempted count",
+        "cost": "the single most misleading number the benchmark could have produced"
+      },
+      {
+        "phase": "observation store",
+        "defect": "identity_check.name_on_page was filled from the document <title>, and the membrane's M10 gate rejected five captures whose identity the capture gate had already confirmed on street, postal code and telephone",
+        "found_by": "readiness POLICY_NOT_FOUND on rows whose publication grade was CONFIRMED",
+        "cost": "5 of 17 publication-grade candidates would have been withheld for a reason that was ours"
+      }
+    ],
+    "counts": {
+      "new_generic_modules": 10,
+      "market_specific_scripts": 0,
+      "modified_shared_files": 3,
+      "new_config_files": 2,
+      "custom_fixes": 6
+    }
+  },
+  "interventions": [
+    {
+      "phase": "market bootstrap",
+      "who": "operator (Claude)",
+      "what": "authored the market geography: 18 discovery cells, the bi-state bounding box, 16 corridors, 105 postal codes and the written exclusion list (Waterloo IL, Pevely, House Springs, Festus, St. Clair MO, New Melle, Wright City, Ste. Genevieve)",
+      "automatable": "no -- a traveller market boundary is a judgement, and the work order requires it to be documented rather than derived"
+    },
+    {
+      "phase": "market bootstrap",
+      "who": "operator (Claude)",
+      "what": "decided NOT to register the market, after finding that registering it forces a launch_participation.json row whose sha256 the live deployment manifest pins and the founder's signed authorization copies",
+      "automatable": "partly -- the coupling should be a documented gate rather than something each market build has to rediscover"
+    },
+    {
+      "phase": "acquisition",
+      "who": "operator (Claude)",
+      "what": "hand-picked 22 URLs, two per brand, to measure which brands the free lane can reach before running it over 141 properties",
+      "automatable": "yes -- a bounded reachability probe belongs in the pilot harness"
+    },
+    {
+      "phase": "census / acquisition / closure",
+      "who": "operator (Claude)",
+      "what": "found and fixed six defects by reading intermediate output; none was caught by an existing gate",
+      "automatable": "partly -- three of the six are now covered by new tests in this work order"
+    },
+    {
+      "phase": "founder review",
+      "who": "founder",
+      "what": "NOT DONE. 17 candidates are packaged and every one is MACHINE_REVIEWED_PENDING_OPERATOR with empty decision fields.",
+      "automatable": "never"
+    }
+  ],
+  "scorecard": {
+    "automatic_routing_pct": {
+      "target": ">= 90",
+      "actual": 79.3,
+      "basis": "283 of 357 census identities resolved a measured lane on a property-level first-party URL"
+    },
+    "observed_acquired_pct": {
+      "target": ">= 85",
+      "actual": 13.8,
+      "basis": "19 VALID of 138 attempted on the only lane available in this environment"
+    },
+    "publication_grade_pct_of_active": {
+      "target": ">= 80",
+      "actual": 4.8,
+      "basis": "17 publication-grade observations over 357 active-eligible identities"
+    },
+    "active_closure_pct": {
+      "target": "= 100 (required, not a target)",
+      "actual": 100.0,
+      "basis": "357 ledger rows over a 357-identity active denominator; reconciliation missing=0 foreign=0 duplicate=0"
+    },
+    "provider_spend_usd": {
+      "target": "<= 10.00",
+      "actual": 2.52,
+      "basis": "72 Google Places API (New) Text Search requests at the Enterprise SKU list price of $0.035 per request (the field mask includes addressComponents, websiteUri and nationalPhoneNumber). Estimated from the request count this run made and the published unit price; no invoice has been observed. Overpass is free and unmetered. Firecrawl and Bright Data made ZERO calls: neither credential is present in this environment, so no paid acquisition lane could run at all."
+    },
+    "elapsed_hours": {
+      "target": "4 - 8",
+      "actual": 2.01,
+      "basis": "wall clock from the first command of the work order to the benchmark manifest, single operator, single session. Provider work ran in the background and is inside this figure, not beside it."
+    }
+  },
+  "production_safety": {
+    "live_markets_unchanged": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa"
+    ],
+    "launch_participation_sha256_unchanged": true,
+    "global_deployment_manifest_verifies": true,
+    "deployment_record_untouched": "ptf-deploy-047-6a8a2dada6e73cb0d819c9d0",
+    "deployment_authorization_untouched": "ptf-auth-047-a324b1bf5023",
+    "measurement_enabled": false,
+    "affiliate_providers_enrolled": 0,
+    "st_louis_registered": false,
+    "st_louis_launch_status": "UNLISTED (fail-closed; never authorized)",
+    "st_louis_published": false,
+    "st_louis_deployed": false,
+    "st_louis_release_contract": false,
+    "st_louis_authority_shard": false,
+    "proved_by": "tests/pettripfinder/test_st_louis_production_safety_001.py"
+  },
+  "artifacts": {
+    "census": {
+      "path": "launch_packages/pettripfinder/identity_census/st-louis-mo.json",
+      "sha256": "4532823d3b3f454b3dce18729e67a5f46f3608cdc909957935f21bb3737a768f"
+    },
+    "candidate_ledger": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_candidate_ledger_001.json",
+      "sha256": "38e6b66032fd848ef69c3dde475636f65e1b9e3779d5cd5891e64ab3ec1616ef"
+    },
+    "direct_http_pilot": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_direct_http_pilot_001.json",
+      "sha256": "d5835e3bee8903f43eec50e1fa4741176bf44ec1159ec3247de80a4aa72b41d9"
+    },
+    "observation_store": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_observation_store_001.json",
+      "sha256": "d7211cc8a9642ad94b25d1d790de33199e0c659ef608d9cc0093f37474964447"
+    },
+    "final_partition": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_final_partition_001.json",
+      "sha256": "e9d2d86609da95864e657ff67d33f0e52d3ad87a7a1c7f9eadf74f628e0c45f2"
+    },
+    "closure_ledger": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_closure_ledger_001.json",
+      "sha256": "4cc0839cbc3629555f2fba7d589cd967027b28ff3ba5be9a3e42836bbf283c8c"
+    },
+    "founder_review_packet": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_founder_review_packet_001.json",
+      "sha256": "36ded0f5ce1d87e5e6bf767772d6e4ae326efa1088d9b1a305688869d1f2298d"
+    },
+    "zero_cost_recovery": {
+      "path": "launch_packages/pettripfinder/st_louis_mo_zero_cost_recovery_001.json",
+      "sha256": "9c347b137b1a1c5c0020b6c8f369511c9351369ca31adde38205e73223c9e8be"
+    }
+  }
+}

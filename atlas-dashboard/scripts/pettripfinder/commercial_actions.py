@@ -66,7 +66,25 @@ EVENT_DIMENSIONS = (
     "market", "page_type", "route", "listing_id", "listing_state",
     "category", "corridor", "action_position", "verification_status",
     "affiliate_provider",
+    # PTF-MEASUREMENT-001: the owning market's release identity (the first
+    # twelve hex characters of its committed policy-package SHA-256 --
+    # ``measurement.build_id_for``). Market-local on purpose: adding another
+    # market to the bundle moves no byte of this one. The key is emitted only
+    # when a build supplies it, so the live /go/ pages generated before
+    # measurement was enabled are byte-identical to the ones generated after
+    # with measurement still disabled.
+    "build_id",
 )
+
+#: Dimensions an event MAY carry beyond the required set. ``filter_applied``
+#: has carried ``filter_value`` since AES-SITE-001 without declaring it; a
+#: consumer's schema should know the key exists.
+EVENT_OPTIONAL_DIMENSIONS = ("filter_value",)
+
+#: The ``rel`` an affiliate booking fallback link carries (search engines ask
+#: for ``sponsored`` on paid links). Every other outbound link keeps the
+#: ``noopener`` it has always had.
+REL_AFFILIATE_LINK = "nofollow sponsored noopener"
 
 _ACTION_TO_EVENT = {
     ACTION_OFFICIAL_WEBSITE: EVENT_OUTBOUND_OFFICIAL_CLICK,
@@ -113,14 +131,23 @@ def apply_affiliate_params(url: str, config: AffiliateConfig) -> str:
 
 
 def build_redirect_target(action: str, *, official_url: str, phone: str,
-                          config: Optional[AffiliateConfig] = None) -> str:
+                          config: Optional[AffiliateConfig] = None,
+                          booking_destination: str = "") -> str:
     """The REAL destination for one action, given an already-approved
-    listing. Never accepts caller-supplied arbitrary URLs."""
+    listing. Never accepts caller-supplied arbitrary URLs.
+
+    ``booking_destination`` (PTF-MEASUREMENT-001 Phase 1b) is an affiliate
+    destination ALREADY RESOLVED by ``affiliate_destinations.destination_for``
+    -- enrolled provider, allowlisted host, identity-bound -- and is used for
+    the booking action only. Empty, the default, keeps today's behaviour: the
+    official URL, with the legacy one-parameter ``AffiliateConfig`` applied
+    when one is configured (none is).
+    """
     config = config or AffiliateConfig()
     if action in (ACTION_OFFICIAL_WEBSITE, ACTION_BOOKING):
         target = official_url
         if action == ACTION_BOOKING:
-            target = apply_affiliate_params(official_url, config)
+            target = booking_destination or apply_affiliate_params(official_url, config)
         return target
     if action == ACTION_CALL:
         digits = re.sub(r"\D", "", phone or "")
@@ -206,17 +233,39 @@ DEFAULT_ANALYTICS_MARKET = "columbus-oh"
 def build_go_page(*, listing_id: str, listing_name: str, action: str,
                   destination: str, page_type: str, category: str,
                   corridor: str = "", verification_status: str = "",
-                  market: str = DEFAULT_ANALYTICS_MARKET) -> Tuple[str, str]:
+                  market: str = DEFAULT_ANALYTICS_MARKET,
+                  affiliate_provider: str = "", build_id: str = "",
+                  provider_inline_js: str = "") -> Tuple[str, str]:
     """Returns ``(route, html)`` for one static outbound redirect page.
     Refuses (raises ``ValueError``) a destination that fails the fail-closed
     safety check -- never emits an unsafe redirect. The page fires an
     analytics event, then redirects via BOTH ``<meta refresh>`` (works with
     JavaScript disabled -- Task 15/16 progressive-enhancement requirement)
     and an immediate JS redirect (faster in practice); a visible fallback
-    link is always present too."""
+    link is always present too.
+
+    PTF-MEASUREMENT-001. Three optional inputs, every one of which defaults
+    to today's output byte for byte:
+
+    * ``affiliate_provider`` -- the resolved provider id for an affiliate
+      booking destination; populates the dimension and switches the fallback
+      link's ``rel`` to ``REL_AFFILIATE_LINK``. Meaningful for ``booking``
+      only.
+    * ``build_id`` -- the owning market's release identity; emitted as a
+      dimension only when supplied, so disabled builds do not carry it.
+    * ``provider_inline_js`` -- the inline ``window.__ptfAnalyticsProvider``
+      adapter (``measurement.inline_beacon_provider_js``). It is placed BEFORE
+      ``ANALYTICS_JS`` so the provider exists by the time ``emit`` runs, and
+      it must not depend on any external script: ``location.replace`` follows
+      the emit on the very next statement.
+    """
     if not _validate_destination(destination):
         raise ValueError("refusing unsafe /go/ destination for %r/%s: %r"
                          % (listing_id, action, destination))
+    if affiliate_provider and not _SAFE_ID_RE.match(affiliate_provider):
+        raise ValueError("unsafe affiliate_provider id: %r" % affiliate_provider)
+    if build_id and not re.match(r"^[0-9a-f]{8,64}$", build_id):
+        raise ValueError("build_id must be a hex digest prefix: %r" % build_id)
     route = go_route(listing_id, action)
     event = _ACTION_TO_EVENT.get(action, "")
     safe_name = html.escape(listing_name)
@@ -226,8 +275,12 @@ def build_go_page(*, listing_id: str, listing_name: str, action: str,
         "listing_id": listing_id, "listing_state": verification_status,
         "category": category, "corridor": corridor,
         "action_position": "go_redirect", "verification_status": verification_status,
-        "affiliate_provider": "",
+        "affiliate_provider": affiliate_provider,
     }
+    if build_id:
+        dims["build_id"] = build_id
+    rel = REL_AFFILIATE_LINK if (affiliate_provider and action == ACTION_BOOKING) \
+        else "noopener"
     # AES-SITE-001 defect fix: json.dumps does NOT escape "</" -- if a
     # destination URL ever contained a literal "</script>" substring, an
     # HTML PARSER (not the JS parser) would close the <script> tag early,
@@ -248,9 +301,9 @@ def build_go_page(*, listing_id: str, listing_name: str, action: str,
         "<title>Continuing to %s &hellip; | PetTripFinder</title>"
         "<meta name=\"robots\" content=\"noindex, nofollow\">"
         "</head><body>"
-        "<p>Continuing to <a rel=\"noopener\" href=\"%s\">%s</a>&hellip;</p>"
-        "<script>%s\nptfAnalytics.emit(%s, %s);\nlocation.replace(%s);</script>"
+        "<p>Continuing to <a rel=\"%s\" href=\"%s\">%s</a>&hellip;</p>"
+        "<script>%s%s\nptfAnalytics.emit(%s, %s);\nlocation.replace(%s);</script>"
         "</body></html>"
-    ) % (safe_dest, safe_name, safe_dest, safe_name,
-         ANALYTICS_JS, event_js, dims_json, dest_js)
+    ) % (safe_dest, safe_name, rel, safe_dest, safe_name,
+         provider_inline_js, ANALYTICS_JS, event_js, dims_json, dest_js)
     return (route, body)

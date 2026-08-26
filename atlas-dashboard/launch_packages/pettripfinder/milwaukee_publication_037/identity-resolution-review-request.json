@@ -1,0 +1,84 @@
+{
+  "schema": "ptf-identity-resolution-review-request/1.0",
+  "work_order": "PTF-MILWAUKEE-PUBLICATION-037",
+  "market_id": "milwaukee-wi",
+  "status": "AWAITING_REVIEWER",
+  "what_this_is": "A prepared same-campus resolution, unsigned. Publishing Milwaukee needs exactly one reviewed decision that two Hilton brands sharing 515 N Jefferson St are distinct businesses. The repository treats an unreviewed shared address as unresolved by design -- identity_resolutions.json's own note says the guard 'treats a shared address as UNREVIEWED, never as an automatic duplicate and never as an automatic pass' -- and it requires a reviewer_id. No agent may supply one.",
+  "why_it_blocks_publication": "The base listing builder de-duplicates by street address unless a reviewed resolution names the pair. Without one it keeps Home2 Suites and drops Tru by Hilton Milwaukee Downtown, while the market hub, the downtown corridor page and the policy-comparison table all still link to the dropped profile. The build reports 1 warning and 3 broken internal links, and 'zero broken internal links' is a release gate. Milwaukee therefore stays published=false until this is reviewed.",
+  "measured_effect_of_reviewing_it": {
+    "method": "the resolution was injected in memory for one build; nothing was written",
+    "without_the_resolution": {
+      "milwaukee_in_bundle": false,
+      "total_html_pages": 1757,
+      "sitemap_routes": 346,
+      "milwaukee_profiles_built": 69,
+      "broken_links_in_the_milwaukee_fragment": 3
+    },
+    "with_the_resolution": {
+      "milwaukee_in_bundle": true,
+      "total_html_pages": 2178,
+      "sitemap_routes": 425,
+      "milwaukee_routes": 78,
+      "milwaukee_profiles_built": 70,
+      "broken_links": 0,
+      "collisions": 0,
+      "canonical_violations": 0
+    }
+  },
+  "evidence": {
+    "shared_address": "515 N Jefferson St, Milwaukee, WI 53202",
+    "address_key": "515|jefferson|53202",
+    "census_state": "Both identities are IDENTITY_CONFIRMED in the committed 147-property census and BOTH are already flagged collision_state SHARED_ADDRESS -- the market factory saw this and recorded it rather than resolving it.",
+    "distinguishing_facts": [
+      "two distinct Hilton property codes: MKESORU (Tru) and MKESUHT (Home2 Suites)",
+      "two distinct first-party property pages on hilton.com",
+      "two distinct pet policies, each read from its own page and approved separately by the founder in PTF-MILWAUKEE-FOUNDER-DECISION-036",
+      "a dual-brand tower is one building with two hotels; neither is a duplicate listing of the other"
+    ],
+    "shared_facts": [
+      "the same street address",
+      "the same telephone number (4142408331), which a dual-brand property commonly shares"
+    ],
+    "what_the_resolution_would_NOT_assert": "Nothing about either property's pet policy. A same-campus resolution is an identity decision only."
+  },
+  "proposed_resolution_record": {
+    "resolution_id": "res-milwaukee-jefferson-dual-brand",
+    "resolution_type": "same_campus_distinct_entity",
+    "address_key": "515|jefferson|53202",
+    "identities": [
+      {
+        "canonical_name": "Home2 Suites by Hilton Milwaukee Downtown",
+        "category": "pet-friendly-hotels",
+        "slug": "home2-suites-by-hilton-milwaukee-downtown",
+        "official_url": "https://www.hilton.com/en/hotels/mkesuht-home2-suites-milwaukee-downtown/",
+        "booking_destination": "https://www.hilton.com/en/hotels/mkesuht-home2-suites-milwaukee-downtown/"
+      },
+      {
+        "canonical_name": "Tru by Hilton Milwaukee Downtown",
+        "category": "pet-friendly-hotels",
+        "slug": "tru-by-hilton-milwaukee-downtown",
+        "official_url": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/",
+        "booking_destination": "https://www.hilton.com/en/hotels/mkesoru-tru-milwaukee-downtown/"
+      }
+    ],
+    "evidence": "Hilton publishes the two hotels as separate properties with separate property codes (MKESUHT and MKESORU) on separate first-party pages, and each states its own pet policy. They occupy one dual-brand building at 515 N Jefferson St. One address, two hotels -- neither is a duplicate of the other and neither may be merged or suppressed.",
+    "reviewer_id": "<UNSIGNED -- a human must supply this>",
+    "reviewed_at": "<UNSIGNED -- a human must supply this>",
+    "resolution_hash": "<computed by publication_guard when the record is written>"
+  },
+  "how_to_apply": [
+    "1. Review the evidence above and decide whether these are two distinct hotels.",
+    "2. If yes: append the proposed record to launch_packages/pettripfinder/identity_resolutions.json with your reviewer_id and reviewed_at, and let publication_guard compute resolution_hash.",
+    "3. Move launch_packages/pettripfinder/milwaukee_publication_037/release_contract.milwaukee-wi.prepared.json to deploy/netlify/release_contracts/milwaukee-wi.json -- it is already calibrated to the published state and verified clean against the derivation while the flag was on.",
+    "4. Set published: true on launch_packages/pettripfinder/hotel_policy_facts_milwaukee-wi.json (publication_037 --apply does all of this and asserts no record changes while doing it).",
+    "5. Rebuild and confirm 2,178 pages, 425 sitemap routes, 0 broken links.",
+    "If no: the decision is equally usable -- one of the two identities is then a duplicate, and that is a census question rather than a publication one."
+  ],
+  "what_is_already_done": {
+    "seed_inventory": "launch_packages/pettripfinder/markets/authority/milwaukee-wi/seed_businesses.csv -- 70 rows, derived one per approved authority record from the census and the authority, committed",
+    "release_contract": "prepared and verified: while published=true, release_contracts.verify_contract('milwaukee-wi') returned no disagreements",
+    "authority": "70 founder-approved records, unchanged, published=false",
+    "exclusions": "26 VERIFIED_NO_PETS rows in this market's shard, unchanged",
+    "held": ["hyatt regency milwaukee", "saint kate the arts hotel"]
+  }
+}

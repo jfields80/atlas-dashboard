@@ -1,0 +1,282 @@
+"""PTF-LOUISVILLE-PUBLICATION-008 -- what registering and publishing a market
+has to be able to say about itself.
+
+A market arrives in production through four artifacts that can disagree in
+silence: the policy package the site reads, the authority shard the seeds come
+from, the release contract that gates the build, and the participation row that
+admits it to the bundle. Each of the ways they can disagree is a different kind
+of wrong, and this file is one assertion per way.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+import pytest
+
+from scripts.pettripfinder import deployment_authorization as DA
+from scripts.pettripfinder import global_deployment as GD
+from scripts.pettripfinder import launch_participation as LP
+from scripts.pettripfinder import market_authority as MA
+from scripts.pettripfinder import release_contracts as RC
+from scripts.pettripfinder.census_partition_builder import slugify
+from scripts.pettripfinder.contracts import policy_schema as PS
+from scripts.pettripfinder.markets import load_markets, market_by_id
+
+REPO = Path(__file__).resolve().parents[2]
+PKG = REPO / "launch_packages" / "pettripfinder"
+MARKET = "louisville-ky"
+PACKAGE_PATH = PKG / "hotel_policy_facts_louisville-ky.json"
+PROFILES = 46
+EXCLUSIONS = 17
+
+
+@pytest.fixture(scope="module")
+def package():
+    return json.loads(PACKAGE_PATH.read_text(encoding="utf-8-sig"))
+
+
+@pytest.fixture(scope="module")
+def contract():
+    return RC.load_contract(MARKET)
+
+
+class TestThePackageIsTheOneTheFounderSigned:
+    def test_it_holds_the_signed_population_and_says_it_is_published(self, package):
+        assert package["count"] == PROFILES == len(package["hotels"])
+        assert package["schema_version"] == "1.3"
+        assert package["published"] is True
+
+    def test_every_record_validates_under_the_schema_it_claims(self, package):
+        for record in package["hotels"]:
+            assert PS.validate_facts(record["facts"]) == (), record["identity_key"]
+            assert PS.validate_record(record) == (), record["identity_key"]
+        assert PS.validate_package(package) == ()
+
+    def test_the_two_founder_normalisations_are_visible_in_the_facts(self, package):
+        """23 weights and one cap publish under a named founder decision, and
+        they publish the SOURCE's value with the founder's qualifier -- never a
+        value the source did not state."""
+        weights = [r for r in package["hotels"] if r["facts"].get("weight_limit")]
+        assert len(weights) == 23
+        for record in weights:
+            weight = record["facts"]["weight_limit"]
+            assert weight["operator"] == "lte"
+            assert weight["scope"] == "per_pet"
+            assert weight["value"] > 0
+        caps = [r for r in package["hotels"] if r["facts"].get("fee_cap")]
+        assert len(caps) == 1
+        assert caps[0]["facts"]["fee_cap"]["qualifier_stated"] is False
+
+
+class TestTheRoutesNameBuildings:
+    def test_every_profile_has_its_own_route(self, package):
+        slugs = [slugify(r["name"]) for r in package["hotels"]]
+        assert len(slugs) == PROFILES
+        assert len(set(slugs)) == PROFILES
+        assert all(slugs)
+
+    @pytest.mark.parametrize("name, slug", [
+        ("Tru By Hilton Louisville East", "tru-by-hilton-louisville-east"),
+        ("Hampton Inn New Albany Louisville West",
+         "hampton-inn-new-albany-louisville-west"),
+        ("Holiday Inn Louisville Downtown", "holiday-inn-louisville-downtown"),
+        ("The Seelbach Hilton Louisville", "the-seelbach-hilton-louisville"),
+    ])
+    def test_a_corrected_name_carries_into_the_route(self, package, name, slug):
+        """The route is slugify(NAME), so a corrected canonical name is what
+        decides the URL. None of the eight corrected rows publishes at the bare
+        chain word its census row still carries."""
+        assert any(r["name"] == name for r in package["hotels"]), name
+        assert slugify(name) == slug
+
+    def test_no_profile_publishes_under_a_bare_chain_word(self, package):
+        bare = {"tru", "hampton", "holiday-inn", "residence-inn",
+                "candlewood-suites", "towneplace-suites", "days-inn",
+                "quality-suites"}
+        assert not bare & {slugify(r["name"]) for r in package["hotels"]}
+
+
+class TestTheShardAndThePackageAgree:
+    def test_one_seed_row_per_published_record(self, package):
+        seeds = MA.load_market_seed_rows(MARKET)
+        assert len(seeds) == PROFILES
+        assert {r["name"] for r in seeds} == {r["name"] for r in package["hotels"]}
+
+    def test_one_exclusion_per_verified_no_pets_row(self):
+        exclusions = MA.load_market_exclusions(MARKET)
+        assert len(exclusions) == EXCLUSIONS
+        assert {e["exclusion_state"] for e in exclusions} == {"VERIFIED_NO_PETS"}
+
+    def test_an_exclusion_key_derives_from_the_name_it_carries(self):
+        """The exclusion contract's own rule, and the way the publication guard
+        matches: it normalises the name on the row it is about to publish. A key
+        copied from the census identity would miss a corrected name."""
+        from scripts.pettripfinder.site_data import normalize_name
+
+        for record in MA.load_market_exclusions(MARKET):
+            assert record["normalized_name"] == normalize_name(record["canonical_name"])
+
+    def test_no_published_identity_is_also_excluded(self, package):
+        excluded = {e["normalized_name"] for e in MA.load_market_exclusions(MARKET)}
+        from scripts.pettripfinder.site_data import normalize_name
+        published = {normalize_name(r["name"]) for r in package["hotels"]}
+        assert not (published & excluded)
+
+    def test_the_generated_globals_are_in_sync_with_the_shards(self):
+        assert MA.check_generated_artifacts() == []
+
+
+class TestTheContract:
+    def test_it_is_in_the_live_set_and_verifies(self, contract):
+        assert MARKET in RC.available_market_ids()
+        assert RC.verify_contract(MARKET) == []
+        assert contract["contract_id"] == "pettripfinder-louisville-ky-release/1.0"
+
+    def test_it_pins_the_package_it_is_about(self, contract):
+        spec = contract["policy_package"]
+        assert spec["expected_record_count"] == PROFILES
+        assert spec["expected_schema_version"] == "1.3"
+        assert spec["expected_sha256"] == \
+            hashlib.sha256(PACKAGE_PATH.read_bytes()).hexdigest()
+
+    def test_it_states_the_launch_posture_the_market_contract_carries(self, contract):
+        market = market_by_id(load_markets(), MARKET)
+        assert market.show_in_navigation is False
+        assert market.show_in_sitemap is False
+        assert contract["routes"]["route_mode"] == market.route_mode == "market_prefixed"
+        assert contract["routes"]["hotel_route_count"] == PROFILES
+
+    def test_it_records_the_dual_brand_confirmation_so_no_gate_reasks_it(self, contract):
+        group = contract["identity_confirmations"]["dual_brand_same_address"][0]
+        assert group["verdict"] == "TWO DISTINCT HOTELS"
+        assert set(group["identities"]) == {
+            "hampton inn louisville east hurstbourne",
+            "home2 suites by hilton louisville east hurstbourne"}
+        assert "founder" in group["confirmed_by"]
+
+    def test_no_other_market_stopped_verifying(self):
+        assert all(not problems for problems in RC.verify_all().values())
+
+
+class TestRegistrationIsAtomicWithParticipation:
+    def test_the_market_is_registered(self):
+        assert MARKET in MA.registered_market_ids()
+        assert MARKET in MA.sharded_market_ids()
+        assert not (PKG / "markets" / "pending" / "louisville-ky.json").exists()
+
+    def test_it_has_a_participation_row_and_the_check_is_clean(self):
+        assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+        registered = MA.registered_market_ids()
+        ready = {mid: True for mid in registered}
+        problems = LP.verify_participation(registered, ready)
+        assert problems["unlisted"] == []
+        assert problems["unregistered"] == []
+
+    def test_a_registered_market_with_no_row_would_be_refused(self):
+        """The state this ordering exists to prevent, asserted directly: the
+        contract left markets/pending/ and the row was written in one step, and
+        had it not been, the check fails closed on the silence."""
+        doc = LP.load_participation()
+        without = dict(doc, markets=[m for m in doc["markets"]
+                                     if m["market_id"] != MARKET])
+        registered = MA.registered_market_ids()
+        ready = {mid: True for mid in registered}
+        problems = LP.verify_participation(registered, ready, without)
+        assert problems["unlisted"] == [MARKET]
+
+
+class TestTheCandidateIsLive:
+    def test_the_manifest_carries_the_seven_market_candidate(self):
+        manifest = GD.load_manifest()
+        assert GD.verify_manifest() == []
+        assert [r["market_id"] for r in manifest["participating_markets"]] == [
+            "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
+            "louisville-ky", "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
+        assert manifest["total_published_profiles"] == 461
+        assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
+
+    def test_the_authorization_was_spent_and_may_never_deploy_again(self):
+        """009 moved this record PREPARED -> AUTHORIZED; 010 spent it.
+
+        An authorization is single-use, so the proof that it worked is that it
+        no longer works: nothing on file may deploy, and the next deployment
+        needs a new record and a new founder signature.
+        """
+        auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
+        assert auth["authorization_status"] == DA.DEPLOYED
+        assert DA.verify_authorization(auth) == []
+        assert DA.deployability_problems(auth), \
+            "a consumed authorization must never be deployable again"
+        deployable = [a["authorization_id"] for a in DA.list_authorizations()
+                      if not DA.deployability_problems(a)]
+        assert deployable == []
+
+    def test_the_whole_path_is_still_in_the_history(self):
+        """A status history that loses its first steps cannot show that a human
+        moved it. Each step names who moved it and what it became."""
+        auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
+        assert [e["status"] for e in auth["status_history"]] == [
+            DA.PREPARED, DA.AUTHORIZED, DA.DEPLOYED]
+        assert auth["status_history"][1]["authorized_by"] == "jfields80"
+        final = auth["status_history"][-1]
+        assert final["deployment_id"] == "6a8d91855b8993b899a3b68a"
+        assert final["deployment_record_id"] == \
+            "ptf-deploy-010-6a8d91855b8993b899a3b68a"
+
+    def test_it_binds_the_bundle_the_named_commit_produces(self):
+        manifest = GD.load_manifest()
+        auth = next(a for a in DA.list_authorizations()
+                    if a["work_order"] == "PTF-LOUISVILLE-PUBLICATION-008")
+        assert auth["bundle_sha256"] == manifest["bundle_sha256"]
+        assert auth["source_commit"] == manifest["source_commit"]
+        assert auth["launch_participation_sha256"] == LP.participation_sha256()
+        assert auth["total_profiles"] == 461
+        assert auth["global_gate_count"] == 27
+
+    def test_the_market_is_live_and_the_record_says_so(self):
+        """PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 deployed this bundle. What
+        makes it live is a deployment record, not the manifest flag -- the flag
+        only mirrors an authorization, and it read the same the day before the
+        deploy."""
+        manifest = GD.load_manifest()
+        assert manifest["deployment_authorized"] is True
+        assert manifest["deployment_authorization"]["authorization_id"] == \
+            "ptf-auth-008-38c811dfc22c"
+        assert GD.verify_manifest() == []
+        record = next(r for r in DA.list_records()
+                      if r["bundle_sha256"] == manifest["bundle_sha256"])
+        assert record["deployment_record_id"] == \
+            "ptf-deploy-010-6a8d91855b8993b899a3b68a"
+        assert record["authorization_id"] == "ptf-auth-008-38c811dfc22c"
+        assert record["final_status"] == DA.DEPLOYED
+        assert record["rollback_used"] is False
+        assert record["total_profiles"] == 461
+        assert record["profile_counts"]["louisville-ky"] == 46
+        assert DA.verify_record(record) == []
+
+    def test_the_live_verification_read_production_back(self):
+        """A deployment record is a claim about production, so it has to carry
+        what was actually read back from production -- including the 17
+        verified-no-pets exclusions, which are the mistake this market could
+        most easily have made."""
+        record = next(r for r in DA.list_records()
+                      if r["deployment_record_id"] ==
+                      "ptf-deploy-010-6a8d91855b8993b899a3b68a")
+        live = record["live_verification_results"]
+        assert live["every_sitemap_route"]["checked"] == 567
+        assert live["every_sitemap_route"]["bytes_match_deployed_bundle"] == 567
+        assert live["every_sitemap_route"]["failures"] == []
+        assert live["louisville_routes"]["hotel_profiles"] == 46
+        excl = live["louisville_exclusions_absent"]
+        assert excl["register_rows"] == 17
+        assert excl["absent_from_production"] == 17
+        assert excl["leaked_as_live_profiles"] == []
+        assert excl["name_mentions_on_any_live_louisville_page"] == 0
+        diff = live["public_differential_vs_previous_deploy"]
+        assert diff["routes_lost"] == []
+        assert diff["added_outside_louisville"] == []
+        assert diff["byte_identical_to_previous_deploy"] == 515
+        assert live["overall_pass"] is True

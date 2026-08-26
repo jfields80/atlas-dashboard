@@ -1,0 +1,76 @@
+{
+ "schema": "ptf-route-change-proposal/1.0",
+ "work_order": "PTF-FIRECRAWL-CHOICE-VALIDATION-004",
+ "status": "PROPOSED_NOT_APPLIED",
+ "supersedes": "ptf_firecrawl_route_proposal_003.json",
+ "note": "The exact route-table change the completed fifteen-property Choice sample justifies, written out so it can be reviewed before anything is edited. routes.json is untouched and Firecrawl remains unregistered. Applying this is a separate work order.",
+ "decision": "B -- FIRECRAWL_FIRST_WEB_UNLOCKER_FALLBACK (for CHOICE)",
+
+ "why_the_decision_moved_from_C_to_B": "PTF-FIRECRAWL-HARD-LANES-003 answered C (selected domains only) because it believed Firecrawl merely matched Choice coverage. Completing the sample showed that belief was wrong: the three Country Inn & Suites by Radisson properties the Web Unlocker returns ACCESS_DENIED on all acquired here, at 9, 5 and 9 fields. Firecrawl is not a cheaper way to get what we already have on this lane -- it reaches seven properties the production run does not hold, six of them with a policy a guest could act on. That is a coverage argument, and it is stronger than the speed argument that produced C.",
+
+ "what_the_measurement_supports": {
+  "coverage": "13/15 acquired against the incumbent's 7/15 publication-grade over the same fifteen queue rows. Seven of the thirteen are properties the production run does not hold: three ACCESS_DENIED Country Inn/Radisson, one ACCESS_DENIED Econo Lodge, and three the $15 market cap never reached.",
+  "accuracy": "Zero structured mismatches across the six properties where a Bright Data baseline exists to check against, 28 MATCH and 0 MISSING. All five false-fact counters are zero. Both captured no-pets refusals in the committed three reproduced exactly, and three further refusals were captured here.",
+  "completeness": "12 of 15 are a complete policy. Nine of the twelve new rows; the three shortfalls are two acquisition failures and one bare allowance with no terms attached.",
+  "speed": "31.8s average over the combined fifteen against the Web Unlocker's measured 130.0s on the same lane -- roughly 4x.",
+  "cost": "13 plan credits for the combined fifteen, 0.87 per property, against $0.197 per attempted property on Bright Data. Credits are not convertible to dollars from the plan endpoint, so no dollar comparison is asserted."
+ },
+
+ "what_the_measurement_does_NOT_support": [
+  "Firecrawl replacing the Web Unlocker on Choice (decision A). It failed 2 of 15 with SCRAPE_ALL_ENGINES_FAILED, and one of those two -- Clarion Pointe Milwaukee Airport -- is a property the Web Unlocker successfully acquired. Removing the incumbent would lose a record we already hold.",
+  "Firecrawl anywhere outside Choice. Marriott and Hilton were measured in PTF-FIRECRAWL-HARD-LANES-003 at 1/4 and 0/3, and nothing here revisits them.",
+  "Treating SCRAPE_ALL_ENGINES_FAILED as final on Choice. It proved intermittent on this origin: two properties that failed a single-call probe succeeded on their first call here, and a third succeeded on its second. The two failures in this run may well be recoverable, and the retry budget below is set on that basis rather than on the assumption that they are permanent.",
+  "Publishing any record from this run. This was a measurement; no authority was written and no approval exists.",
+  "Any claim about the four Choice rows the production run never attempted beyond what was acquired here. They have no incumbent answer, so their extractions are unverified by a second source."
+ ],
+
+ "proposed_change": {
+  "step_1_register_the_provider": {
+   "file": "scripts/pettripfinder/acquisition/providers.py",
+   "change": "register a `firecrawl` provider backed by scripts/pettripfinder/acquisition/firecrawl_capture.py, with capabilities {runs_javascript, geo_pinnable} and cost metadata measured in plan credits rather than usd_minor.",
+   "also_required": "move `firecrawl` out of KNOWN_FUTURE_PROVIDERS, and update tests/pettripfinder/acquisition/test_acquisition_router.py::test_two_providers_are_implemented_and_one_slot_is_reserved and ::test_future_providers_are_documented_and_not_implemented, which currently assert it is NOT implemented. Those assertions are correct today and must be changed deliberately, not deleted."
+  },
+  "step_2_route_choice": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "brands.CHOICE",
+   "before": {
+    "provider": "brightdata_web_unlocker",
+    "fallback_providers": [],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "forbidden_providers": ["brightdata_browser"]
+   },
+   "after": {
+    "provider": "firecrawl",
+    "fallback_providers": ["brightdata_web_unlocker"],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "forbidden_providers": ["brightdata_browser"],
+    "why": "13/15 against the incumbent's 7/15 on the same rows, 4x faster, zero structured mismatches where a baseline exists, and seven properties the incumbent does not hold. The Web Unlocker stays as fallback because it acquired Clarion Pointe, which Firecrawl did not, and nothing here retires it.",
+    "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004"
+   },
+   "why_max_attempts_is_3_and_not_2": "This run used 2 and that is where both failures landed. SCRAPE_ALL_ENGINES_FAILED is intermittent on this origin -- Brown Deer succeeded on its second call after failing a single-call probe -- so a third attempt is cheap insurance against a false capability verdict. Failed scrape calls were not charged in either run, though that is an observation and not a billing guarantee.",
+   "unchanged_and_deliberate": "forbidden_providers keeps brightdata_browser. That rule was bought with fourteen refusals in fifteen attempts and no result here touches it."
+  },
+  "step_3_domain_row": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "domains['www.choicehotels.com']",
+   "change": "mirror the CHOICE brand row, so a Choice property whose brand is unknown takes the same lane."
+  },
+  "step_4_leave_alone": {
+   "MARRIOTT": "unchanged: brightdata_browser + marriott reader. Measured at 1/4.",
+   "HILTON": "unchanged: brightdata_browser + hilton_competing reader. Measured at 0/3.",
+   "WYNDHAM": "unchanged. Benchmark-002 measured Firecrawl favourably on Wyndham but that was a different sample and Wyndham has never been the subject of a decision test. It deserves its own.",
+   "default": "unchanged"
+  }
+ },
+
+ "validation_required_before_applying": [
+  "Confirm the fallback actually fires: force a Firecrawl failure on a Choice property and verify the router falls through to brightdata_web_unlocker rather than reporting the property unreachable. This matters more under decision B than it did under C, because the fallback is now the only thing protecting Clarion Pointe.",
+  "Re-attempt the two SCRAPE_ALL_ENGINES_FAILED rows (Clarion Pointe, Sleep Inn & Suites Milwaukee Airport) under a 3-attempt budget to test the intermittency finding directly rather than inferring it.",
+  "Resolve the internal-consistency hold before any of these records is published: Country Inn & Suites by Radisson, Milwaukee Airport extracted pets_allowed=false alongside a 40 lb weight limit and a 1-pet count. A property that refuses pets cannot also cap them, and the likely cause is the choice_static reader treating service-animal wording as pet terms. That is a READER question, not a provider question, and it would have produced the same record through the Web Unlocker.",
+  "Confirm credit accounting under load. Two runs have now consumed exactly one credit per successful acquisition with failed scrape calls uncharged, but that is twenty calls of observation, not a billing guarantee."
+ ],
+
+ "risk_if_applied_as_written": "Low and bounded. Choice keeps its proven provider as a fallback, so the worst case is a wasted Firecrawl call before the current behaviour resumes. The failure mode that would matter -- a wrong policy fact -- did not occur once across fifteen properties and six baseline comparisons, and the five no-pets refusals in the sample, where a wrong answer is most damaging, were all captured as refusals."
+}

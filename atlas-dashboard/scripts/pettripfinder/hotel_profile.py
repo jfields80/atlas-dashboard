@@ -1630,6 +1630,11 @@ def _verified_details(f: Dict[str, str],
     sparse = not any(f.get(k) for k in _STATED_FIELDS)
     svc = "A separate legal access category — not treated as a pet-policy exception."
     if sparse:
+        conditional_charge = (
+            (("Conditional cleaning or sanitation charge",
+              f["cleaning_fee_condition"], ""),)
+            if f.get("cleaning_fee_condition") else ()
+        )
         # Any prose the property DID state, kept in its own row rather than
         # collapsed into "Breed / unattended rules: Not stated" beneath it.
         stated = tuple((_RESTRICTION_LABELS[k], f[k], "")
@@ -1637,7 +1642,7 @@ def _verified_details(f: Dict[str, str],
         rows = (
             ("Accepted species", "Pets welcome (species not specified)", ""),
             ("Fee, pet limit, weight limit", _NOT_STATED, "dim"),
-        ) + (stated or (("Breed / unattended rules", _NOT_STATED, "dim"),)) + (
+        ) + conditional_charge + (stated or (("Breed / unattended rules", _NOT_STATED, "dim"),)) + (
             *withheld_rows(record),
             *service_animal_rows(record),
             ("Service animals", svc, ""),
@@ -1771,8 +1776,16 @@ def _verified_details(f: Dict[str, str],
         # Refundability is not asserted: the legacy shape is a bare amount, and
         # inferring it from a heading is how "Deposit Yes. $75 Non-refundable
         # Fee" becomes a refundable deposit.
+        # display_facts already returns this money PRE-FORMATTED ("$125.00"),
+        # so prefixing another "$" here renders "$$125" on every profile in
+        # every market that states a cleaning fee -- two of which are live
+        # (Cleveland's Courtyard Airport North, Pittsburgh's Omni William Penn).
+        # PTF-LOUISVILLE-MARKET-REBUILD-002 reverted that; the conditional
+        # trigger row below is the part of the Louisville change that was real.
         *((("Cleaning fee", _prose_number(str(f["cleaning_fee"])), ""),)
           if f.get("cleaning_fee") else ()),
+        *((("Conditional cleaning or sanitation charge", f["cleaning_fee_condition"], ""),)
+          if f.get("cleaning_fee_condition") else ()),
         ("Breed restrictions",
          *((UNRESTRICTED_BREED_DISPLAY, "")
            if f.get("breed_restrictions_stated_none") == "true"

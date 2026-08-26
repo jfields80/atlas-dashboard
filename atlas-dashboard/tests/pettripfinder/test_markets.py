@@ -518,10 +518,23 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001: detroit-ann-arbor-mi
     # registered as a Phase 1 census-only market (no policy authority yet).
     # Columbus resolution by name is unchanged.
+    # PTF-MILWAUKEE-MARKET-FACTORY-001: milwaukee-wi registered the same way --
+    # census and corridors only, no policy authority, nothing published.
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011: st-louis-mo registered WITH its policy
+    # authority already signed -- 82 published, 37 verified-no-pets. Columbus
+    # resolution by name is unchanged, which is the whole point of this test.
     assert sorted(m.market_id for m in markets) == \
         ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
-         "dayton-oh", "detroit-ann-arbor-mi", "grand-rapids-holland-mi", "indianapolis-in",
-         "pittsburgh-pa"]
+         "dayton-oh", "detroit-ann-arbor-mi",
+         # PTF-GRAND-RAPIDS-HOLLAND-STAGE-001: grand-rapids-holland-mi is
+         # registered census/routing-only -- no policy authority, nothing
+         # published -- staged for hardened zero-cost discovery.
+         "grand-rapids-holland-mi", "indianapolis-in",
+         # PTF-LOUISVILLE-PUBLICATION-008 registered Louisville: its contract
+         # left markets/pending/ in the same step that gave it a participation
+         # row. The list is a record of which markets exist, and it grows.
+         "louisville-ky",
+         "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

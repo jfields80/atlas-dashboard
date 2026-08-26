@@ -1,0 +1,635 @@
+{
+ "schema": "ptf-locator-fresh-proof/1.0",
+ "work_order": "PTF-CANONICAL-POLICY-LOCATOR-FRESH-PROOF-019A",
+ "completes": "the Phase 9 fresh proof recorded BLOCKED_NO_PROVIDER_CREDENTIAL by PTF-CANONICAL-POLICY-LOCATOR-PARITY-019",
+ "run_id": "locator-fresh-proof-019a",
+ "started_at": "2026-08-20T12:54:37+00:00",
+ "market": "milwaukee-wi",
+ "pass_bar": 4,
+ "gates": {
+  "live_capture": "the routed lane returned a valid capture",
+  "block_persisted": "policy-block.txt is on disk",
+  "locator_persisted": "locator.json is on disk under the contract",
+  "replayed_canonically": "the replay status is REPLAYED, not BLOCK_ONLY",
+  "byte_identical": "the replayed block is byte-identical to the persisted one",
+  "block_hash_verified": "the block hashes to what its record says",
+  "document_hash_verified": "rendered.html hashes to what its record says",
+  "zero_provider_calls": "the replay reached no provider",
+  "tamper_refused": "a tampered copy returns HASH_MISMATCH"
+ },
+ "preflight": {
+  "checked_at": "2026-08-20T12:54:37+00:00",
+  "provider_health": {
+   "brightdata_browser": {
+    "product": "Bright Data Browser API",
+    "implemented": true,
+    "available": true,
+    "detail": "Browser API credential present; exit geography pinned to 'us'"
+   },
+   "brightdata_web_unlocker": {
+    "product": "Bright Data Web Unlocker",
+    "implemented": true,
+    "available": true,
+    "detail": "unlocker zones mcp_unlocker, cli_unlocker"
+   },
+   "direct_http": {
+    "product": "PetTripFinder direct fetch",
+    "implemented": false,
+    "available": false,
+    "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   },
+   "firecrawl": {
+    "product": "Firecrawl scrape API",
+    "implemented": true,
+    "available": true,
+    "detail": "Firecrawl credential present; exit geography pinned to 'US'"
+   }
+  },
+  "providers_this_proof_needs": [
+   "brightdata_browser",
+   "firecrawl"
+  ],
+  "needed_lanes_available": {
+   "brightdata_browser": true,
+   "firecrawl": true
+  },
+  "cohort": {
+   "cohort_size": 4,
+   "all_match_committed_queue": true,
+   "checks": [
+    {
+     "lane": "CHOICE",
+     "identity_key": "cambria hotel milwaukee downtown",
+     "matches_committed_queue": true,
+     "problems": []
+    },
+    {
+     "lane": "WYNDHAM",
+     "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+     "matches_committed_queue": true,
+     "problems": []
+    },
+    {
+     "lane": "IHG",
+     "identity_key": "avid hotels milwaukee west waukesha",
+     "matches_committed_queue": true,
+     "problems": []
+    },
+    {
+     "lane": "GENERIC_INDEPENDENT",
+     "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+     "matches_committed_queue": true,
+     "problems": []
+    }
+   ]
+  },
+  "routes": {
+   "all_routes_as_registered": true,
+   "checks": [
+    {
+     "lane": "CHOICE",
+     "expected_provider": "firecrawl",
+     "resolved_provider": "firecrawl",
+     "expected_reader": "choice_static",
+     "resolved_reader": "choice_static",
+     "ladder": [
+      "firecrawl",
+      "brightdata_web_unlocker"
+     ],
+     "forbidden_providers": [
+      "brightdata_browser"
+     ],
+     "as_registered": true
+    },
+    {
+     "lane": "WYNDHAM",
+     "expected_provider": "firecrawl",
+     "resolved_provider": "firecrawl",
+     "expected_reader": "wyndham",
+     "resolved_reader": "wyndham",
+     "ladder": [
+      "firecrawl",
+      "brightdata_web_unlocker"
+     ],
+     "forbidden_providers": [
+      "brightdata_browser"
+     ],
+     "as_registered": true
+    },
+    {
+     "lane": "IHG",
+     "expected_provider": "firecrawl",
+     "resolved_provider": "firecrawl",
+     "expected_reader": "ihg",
+     "resolved_reader": "ihg",
+     "ladder": [
+      "firecrawl",
+      "brightdata_web_unlocker"
+     ],
+     "forbidden_providers": [
+      "brightdata_browser"
+     ],
+     "as_registered": true
+    },
+    {
+     "lane": "GENERIC_INDEPENDENT",
+     "expected_provider": "brightdata_browser",
+     "resolved_provider": "brightdata_browser",
+     "expected_reader": "generic",
+     "resolved_reader": "generic",
+     "ladder": [
+      "brightdata_browser",
+      "brightdata_web_unlocker"
+     ],
+     "forbidden_providers": [],
+     "as_registered": true
+    }
+   ]
+  },
+  "runnable": true
+ },
+ "routes_changed": false,
+ "readers_changed": false,
+ "authority_written": false,
+ "observations_updated": false,
+ "published": false,
+ "finished_at": "2026-08-20T12:55:32+00:00",
+ "status": "PASS",
+ "properties_attempted": 4,
+ "properties_passed": 4,
+ "pass_bar_met": true,
+ "provider_usage": {
+  "providers_called": [
+   "brightdata_browser",
+   "firecrawl"
+  ],
+  "calls_by_lane": {
+   "CHOICE": {
+    "provider": "firecrawl",
+    "attempts": 1,
+    "fallback_invoked": false
+   },
+   "WYNDHAM": {
+    "provider": "firecrawl",
+    "attempts": 1,
+    "fallback_invoked": false
+   },
+   "IHG": {
+    "provider": "firecrawl",
+    "attempts": 1,
+    "fallback_invoked": false
+   },
+   "GENERIC_INDEPENDENT": {
+    "provider": "brightdata_browser",
+    "attempts": 1,
+    "fallback_invoked": false
+   }
+  },
+  "every_property_took_its_registered_lane": true,
+  "provider_calls_during_replay": 0
+ },
+ "incremental_cost": {
+  "acquisition": {
+   "brightdata_usd_minor_by_zone": {
+    "scraping_browser1": 0,
+    "mcp_unlocker": 0,
+    "cli_unlocker": 0
+   },
+   "brightdata_usd_minor_total": 0,
+   "brightdata_meter_moved": false,
+   "firecrawl_credits_consumed": 3,
+   "window_seconds": 39.0,
+   "note": "Bright Data bills dollars and Firecrawl bills plan credits. The Firecrawl plan endpoint reports an allowance and not a unit price, so the two are reported side by side and never summed. A None is an unreadable meter and must not be read as a zero, and a zero over a short window is an unsettled meter rather than a measured absence of spend."
+  },
+  "replay": {
+   "brightdata_usd_minor_by_zone": {
+    "scraping_browser1": 0,
+    "mcp_unlocker": 0,
+    "cli_unlocker": 0
+   },
+   "brightdata_usd_minor_total": 0,
+   "brightdata_meter_moved": false,
+   "firecrawl_credits_consumed": 0,
+   "window_seconds": 9.0,
+   "note": "Bright Data bills dollars and Firecrawl bills plan credits. The Firecrawl plan endpoint reports an allowance and not a unit price, so the two are reported side by side and never summed. A None is an unreadable meter and must not be read as a zero, and a zero over a short window is an unsettled meter rather than a measured absence of spend."
+  },
+  "brightdata_lane_estimate": {
+   "brightdata_browser_properties": 1,
+   "measured_usd_minor_per_property": 16.0,
+   "estimated_usd_minor": 16.0,
+   "bytes_moved": 9173733,
+   "basis": "zone delta / properties attempted",
+   "measured_by": "PTF-ACQUISITION-BRAND-REPAIR-003",
+   "is_an_estimate": true
+  },
+  "replay_consumed_no_firecrawl_credits": true,
+  "brightdata_meter_is_not_evidence_over_this_window": true,
+  "readings": [
+   {
+    "label": "019a:before",
+    "read_at": "2026-08-20T12:54:44+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3910,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 892
+   },
+   {
+    "label": "019a:after-capture",
+    "read_at": "2026-08-20T12:55:23+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3910,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 889
+   },
+   {
+    "label": "019a:after-replay",
+    "read_at": "2026-08-20T12:55:32+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3910,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 889
+   },
+   {
+    "label": "019a:settled-followup",
+    "read_at": "2026-08-20T12:58:17+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3927,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 889
+   },
+   {
+    "label": "019a:settled-followup",
+    "read_at": "2026-08-20T12:59:01+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3927,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 889
+   }
+  ],
+  "settled_followup": {
+   "read_at": "2026-08-20T12:59:01+00:00",
+   "seconds_after_run_started": 257.0,
+   "delta_since_before_reading": {
+    "brightdata_usd_minor_by_zone": {
+     "scraping_browser1": 17,
+     "mcp_unlocker": 0,
+     "cli_unlocker": 0
+    },
+    "brightdata_usd_minor_total": 17,
+    "brightdata_meter_moved": true,
+    "firecrawl_credits_consumed": 3,
+    "window_seconds": 257.0,
+    "note": "Bright Data bills dollars and Firecrawl bills plan credits. The Firecrawl plan endpoint reports an allowance and not a unit price, so the two are reported side by side and never summed. A None is an unreadable meter and must not be read as a zero, and a zero over a short window is an unsettled meter rather than a measured absence of spend."
+   },
+   "status": "MEASURED",
+   "note": "The whole-run delta measured from the same baseline the run used. Firecrawl credits settle immediately and are already final in the run's own figure; this exists for the Bright Data zone cost, which does not.",
+   "attribution_caveat": "The settling that makes this figure necessary also limits it. If an EARLIER Bright Data session had not yet settled when this run's baseline was read, its cost lands inside this delta and cannot be separated out from here. So this is an upper bound on the run and an exact figure only when no other session preceded it within the settling window. Attributing it precisely would need a baseline taken after the previous session settled, which is a scheduling property of the meter and not something a run can assert about itself.",
+   "reading": {
+    "label": "019a:settled-followup",
+    "read_at": "2026-08-20T12:59:01+00:00",
+    "brightdata_zone_cost_month_usd_minor": {
+     "scraping_browser1": 3927,
+     "mcp_unlocker": 4,
+     "cli_unlocker": 1
+    },
+    "firecrawl_credits_remaining": 889
+   }
+  }
+ },
+ "rows": [
+  {
+   "lane": "CHOICE",
+   "identity_key": "cambria hotel milwaukee downtown",
+   "canonical_name": "Cambria Hotel Milwaukee Downtown",
+   "requested_url": "https://www.choicehotels.com/wisconsin/milwaukee/cambria-hotels/wi297",
+   "slug": "cambria-hotel-milwaukee-downtown",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "attempts": 1,
+   "took_the_registered_lane": true,
+   "fallback_invoked": false,
+   "failure": "",
+   "escalation_stopped_because": "",
+   "captured": true,
+   "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cambria-hotel-milwaukee-downtown/attempt-01",
+   "estimated_bytes": 0,
+   "reported_credits": 1.0,
+   "elapsed_seconds": 2.51,
+   "replay": {
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cambria-hotel-milwaukee-downtown/attempt-01",
+    "block_persisted": true,
+    "locator_persisted": true,
+    "locator_contract": "ptf-policy-locator/1.0",
+    "walk": "static_text_walk",
+    "strategy": "static_html_walk",
+    "selector": "(static text)",
+    "matched_phrase": "signal phrase",
+    "visibility_filtered": false,
+    "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_bytes": 77,
+    "byte_identical_to_disk": true,
+    "block_sha256_on_disk": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "block_sha256_in_record": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "block_hash_verified": true,
+    "document_sha256_on_disk": "2935cebca713387fcfbeb599746644e517a80d09dfe806db317b58175ac6fc27",
+    "document_sha256_in_record": "2935cebca713387fcfbeb599746644e517a80d09dfe806db317b58175ac6fc27",
+    "document_hash_verified": true,
+    "provider_calls_during_replay": 0,
+    "provider_calls_detail": []
+   },
+   "tamper_control": {
+    "tampered_copy_status": "BLOCK_HASH_DOES_NOT_MATCH_ITS_RECORD",
+    "returned_hash_mismatch": true,
+    "mutation": "one character appended to the copied policy block",
+    "original_block_sha256_before": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "original_block_sha256_after": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "original_block_unchanged": true,
+    "copy_removed": true
+   },
+   "gates": {
+    "live_capture": true,
+    "block_persisted": true,
+    "locator_persisted": true,
+    "replayed_canonically": true,
+    "byte_identical": true,
+    "block_hash_verified": true,
+    "document_hash_verified": true,
+    "zero_provider_calls": true,
+    "tamper_refused": true
+   },
+   "failed_gates": [],
+   "passed": true
+  },
+  {
+   "lane": "WYNDHAM",
+   "identity_key": "ambassador hotel milwaukee trademark collection by wyndham",
+   "canonical_name": "Ambassador Hotel Milwaukee, Trademark Collection by Wyndham",
+   "requested_url": "https://www.wyndhamhotels.com/trademark/milwaukee-wisconsin/ambassador-hotel-trademark-collection/overview",
+   "slug": "ambassador-hotel-milwaukee-trademark-collection-by-wyndham",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "attempts": 1,
+   "took_the_registered_lane": true,
+   "fallback_invoked": false,
+   "failure": "",
+   "escalation_stopped_because": "",
+   "captured": true,
+   "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/ambassador-hotel-milwaukee-trademark-collection-by-wyndham/attempt-01",
+   "estimated_bytes": 0,
+   "reported_credits": 1.0,
+   "elapsed_seconds": 2.049,
+   "replay": {
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/ambassador-hotel-milwaukee-trademark-collection-by-wyndham/attempt-01",
+    "block_persisted": true,
+    "locator_persisted": true,
+    "locator_contract": "ptf-policy-locator/1.0",
+    "walk": "static_text_walk",
+    "strategy": "static_html_walk",
+    "selector": "(static text)",
+    "matched_phrase": "signal phrase",
+    "visibility_filtered": false,
+    "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_bytes": 216,
+    "byte_identical_to_disk": true,
+    "block_sha256_on_disk": "7eb05707fc6148830e147be6e93720e938adf75d29c663e1952d76fed95bc672",
+    "block_sha256_in_record": "7eb05707fc6148830e147be6e93720e938adf75d29c663e1952d76fed95bc672",
+    "block_hash_verified": true,
+    "document_sha256_on_disk": "70a3ae5ce9cccdf5259e94bc04dee43117b1e59180ff3923d6afa82bc1cd827a",
+    "document_sha256_in_record": "70a3ae5ce9cccdf5259e94bc04dee43117b1e59180ff3923d6afa82bc1cd827a",
+    "document_hash_verified": true,
+    "provider_calls_during_replay": 0,
+    "provider_calls_detail": []
+   },
+   "tamper_control": {
+    "tampered_copy_status": "BLOCK_HASH_DOES_NOT_MATCH_ITS_RECORD",
+    "returned_hash_mismatch": true,
+    "mutation": "one character appended to the copied policy block",
+    "original_block_sha256_before": "7eb05707fc6148830e147be6e93720e938adf75d29c663e1952d76fed95bc672",
+    "original_block_sha256_after": "7eb05707fc6148830e147be6e93720e938adf75d29c663e1952d76fed95bc672",
+    "original_block_unchanged": true,
+    "copy_removed": true
+   },
+   "gates": {
+    "live_capture": true,
+    "block_persisted": true,
+    "locator_persisted": true,
+    "replayed_canonically": true,
+    "byte_identical": true,
+    "block_hash_verified": true,
+    "document_hash_verified": true,
+    "zero_provider_calls": true,
+    "tamper_refused": true
+   },
+   "failed_gates": [],
+   "passed": true
+  },
+  {
+   "lane": "IHG",
+   "identity_key": "avid hotels milwaukee west waukesha",
+   "canonical_name": "avid hotels Milwaukee West - Waukesha",
+   "requested_url": "https://www.ihg.com/avidhotels/hotels/us/en/waukesha/mkeav/hoteldetail",
+   "slug": "avid-hotels-milwaukee-west-waukesha",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "firecrawl",
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "attempts": 1,
+   "took_the_registered_lane": true,
+   "fallback_invoked": false,
+   "failure": "",
+   "escalation_stopped_because": "",
+   "captured": true,
+   "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/avid-hotels-milwaukee-west-waukesha/attempt-01",
+   "estimated_bytes": 0,
+   "reported_credits": 1.0,
+   "elapsed_seconds": 1.911,
+   "replay": {
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/avid-hotels-milwaukee-west-waukesha/attempt-01",
+    "block_persisted": true,
+    "locator_persisted": true,
+    "locator_contract": "ptf-policy-locator/1.0",
+    "walk": "static_text_walk",
+    "strategy": "static_html_walk",
+    "selector": "(static text)",
+    "matched_phrase": "signal phrase",
+    "visibility_filtered": false,
+    "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_bytes": 289,
+    "byte_identical_to_disk": true,
+    "block_sha256_on_disk": "a6d39679b2bef5d8ecb96d881b71afef8fb5a49a226d5e067e785f221411b53c",
+    "block_sha256_in_record": "a6d39679b2bef5d8ecb96d881b71afef8fb5a49a226d5e067e785f221411b53c",
+    "block_hash_verified": true,
+    "document_sha256_on_disk": "5bd776802967b18eab417f2d773c85f4ef9634ab6b4b616d54464872293f2178",
+    "document_sha256_in_record": "5bd776802967b18eab417f2d773c85f4ef9634ab6b4b616d54464872293f2178",
+    "document_hash_verified": true,
+    "provider_calls_during_replay": 0,
+    "provider_calls_detail": []
+   },
+   "tamper_control": {
+    "tampered_copy_status": "BLOCK_HASH_DOES_NOT_MATCH_ITS_RECORD",
+    "returned_hash_mismatch": true,
+    "mutation": "one character appended to the copied policy block",
+    "original_block_sha256_before": "a6d39679b2bef5d8ecb96d881b71afef8fb5a49a226d5e067e785f221411b53c",
+    "original_block_sha256_after": "a6d39679b2bef5d8ecb96d881b71afef8fb5a49a226d5e067e785f221411b53c",
+    "original_block_unchanged": true,
+    "copy_removed": true
+   },
+   "gates": {
+    "live_capture": true,
+    "block_persisted": true,
+    "locator_persisted": true,
+    "replayed_canonically": true,
+    "byte_identical": true,
+    "block_hash_verified": true,
+    "document_hash_verified": true,
+    "zero_provider_calls": true,
+    "tamper_refused": true
+   },
+   "failed_gates": [],
+   "passed": true
+  },
+  {
+   "lane": "GENERIC_INDEPENDENT",
+   "identity_key": "cobblestone hotel and suites waukesha west milwaukee",
+   "canonical_name": "Cobblestone Hotel & Suites - Waukesha/West Milwaukee",
+   "requested_url": "https://staycobblestone.com/wi/waukesha/",
+   "slug": "cobblestone-hotel-suites-waukesha-west-milwaukee",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "provider_used": "brightdata_browser",
+   "providers_tried": [
+    "brightdata_browser"
+   ],
+   "attempts": 1,
+   "took_the_registered_lane": true,
+   "fallback_invoked": false,
+   "failure": "",
+   "escalation_stopped_because": "",
+   "captured": true,
+   "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01",
+   "estimated_bytes": 9173733,
+   "reported_credits": null,
+   "elapsed_seconds": 26.086,
+   "replay": {
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01",
+    "block_persisted": true,
+    "locator_persisted": true,
+    "locator_contract": "ptf-policy-locator/1.0",
+    "walk": "live_dom_walk",
+    "strategy": "generic_signal_walk",
+    "selector": "ul#amenities-list > li",
+    "matched_phrase": "dog friendly",
+    "visibility_filtered": true,
+    "replay_status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_bytes": 31,
+    "byte_identical_to_disk": true,
+    "block_sha256_on_disk": "6e341c79a9326dfe31b18958c777b140a969defd4c9c8dd3675b50f11d35568f",
+    "block_sha256_in_record": "6e341c79a9326dfe31b18958c777b140a969defd4c9c8dd3675b50f11d35568f",
+    "block_hash_verified": true,
+    "document_sha256_on_disk": "1d9eca6f309c5b75224e1a133d4e509c8c8ba14641d60fd11a270b2f6699ba34",
+    "document_sha256_in_record": "1d9eca6f309c5b75224e1a133d4e509c8c8ba14641d60fd11a270b2f6699ba34",
+    "document_hash_verified": true,
+    "provider_calls_during_replay": 0,
+    "provider_calls_detail": []
+   },
+   "tamper_control": {
+    "tampered_copy_status": "BLOCK_HASH_DOES_NOT_MATCH_ITS_RECORD",
+    "returned_hash_mismatch": true,
+    "mutation": "one character appended to the copied policy block",
+    "original_block_sha256_before": "6e341c79a9326dfe31b18958c777b140a969defd4c9c8dd3675b50f11d35568f",
+    "original_block_sha256_after": "6e341c79a9326dfe31b18958c777b140a969defd4c9c8dd3675b50f11d35568f",
+    "original_block_unchanged": true,
+    "copy_removed": true
+   },
+   "gates": {
+    "live_capture": true,
+    "block_persisted": true,
+    "locator_persisted": true,
+    "replayed_canonically": true,
+    "byte_identical": true,
+    "block_hash_verified": true,
+    "document_hash_verified": true,
+    "zero_provider_calls": true,
+    "tamper_refused": true
+   },
+   "failed_gates": [],
+   "passed": true
+  }
+ ],
+ "cold_replay": {
+  "checked_at": "2026-08-20T13:11:48+00:00",
+  "captures_replayed_cold": 4,
+  "all_agree": true,
+  "no_child_saw_a_provider_credential": true,
+  "rows": [
+   {
+    "lane": "CHOICE",
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cambria-hotel-milwaukee-downtown/attempt-01",
+    "ran": true,
+    "credentials_stripped_from_child": true,
+    "status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "byte_identical_to_disk": true,
+    "credentials_visible": [],
+    "agrees_with_the_in_process_replay": true
+   },
+   {
+    "lane": "WYNDHAM",
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/ambassador-hotel-milwaukee-trademark-collection-by-wyndham/attempt-01",
+    "ran": true,
+    "credentials_stripped_from_child": true,
+    "status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_sha256": "7eb05707fc6148830e147be6e93720e938adf75d29c663e1952d76fed95bc672",
+    "byte_identical_to_disk": true,
+    "credentials_visible": [],
+    "agrees_with_the_in_process_replay": true
+   },
+   {
+    "lane": "IHG",
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/avid-hotels-milwaukee-west-waukesha/attempt-01",
+    "ran": true,
+    "credentials_stripped_from_child": true,
+    "status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_sha256": "a6d39679b2bef5d8ecb96d881b71afef8fb5a49a226d5e067e785f221411b53c",
+    "byte_identical_to_disk": true,
+    "credentials_visible": [],
+    "agrees_with_the_in_process_replay": true
+   },
+   {
+    "lane": "GENERIC_INDEPENDENT",
+    "attempt_dir": "data/acquisition/locator-fresh-proof-019a/locator-fresh-proof-019a/cobblestone-hotel-suites-waukesha-west-milwaukee/attempt-01",
+    "ran": true,
+    "credentials_stripped_from_child": true,
+    "status": "REPLAYED_FROM_CANONICAL_ARTIFACT",
+    "canonical": true,
+    "block_sha256": "6e341c79a9326dfe31b18958c777b140a969defd4c9c8dd3675b50f11d35568f",
+    "byte_identical_to_disk": true,
+    "credentials_visible": [],
+    "agrees_with_the_in_process_replay": true
+   }
+  ]
+ }
+}

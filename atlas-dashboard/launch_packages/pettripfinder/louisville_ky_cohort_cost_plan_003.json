@@ -1,0 +1,143 @@
+{
+ "schema": "ptf-cohort-cost-plan/1.0",
+ "what_this_is": "What one cohort is expected to cost, in each currency its lanes bill in, and the proof that it buys nothing a previous pass already answered. Zero network, zero spend.",
+ "market_id": "louisville-ky",
+ "work_order": "PTF-LOUISVILLE-COVERAGE-EXPANSION-003",
+ "derived_from": {
+  "plan": "louisville-expansion-003",
+  "prior": "PTF-LOUISVILLE-COVERAGE-EXPANSION-003"
+ },
+ "cohort_size": 34,
+ "cohort_by_provider": {
+  "brightdata_browser": 23,
+  "firecrawl": 11
+ },
+ "cohort_by_family": {
+  "CHOICE": 6,
+  "DRURY": 1,
+  "HILTON": 10,
+  "IHG": 4,
+  "INDEPENDENT": 5,
+  "MARRIOTT": 6,
+  "MOTEL6": 1,
+  "WYNDHAM": 1
+ },
+ "dollar_billed_properties": 23,
+ "credit_billed_properties": 11,
+ "measured_unit_usd_minor": 15.19,
+ "lanes": [
+  {
+   "provider": "brightdata_browser",
+   "properties": 23,
+   "billing": "USD",
+   "registry_unit_usd_minor": 16.0,
+   "measured_unit_usd_minor": 15.19,
+   "projected_usd_minor_at_measured": 349.37,
+   "projected_usd_minor_at_registry": 368.0
+  },
+  {
+   "provider": "firecrawl",
+   "properties": 11,
+   "billing": "PLAN_CREDITS",
+   "registry_unit_usd_minor": null,
+   "measured_unit_usd_minor": null,
+   "projected_usd_minor": 0,
+   "note": "this lane bills plan credits and draws nothing from the dollar cap"
+  }
+ ],
+ "projection": {
+  "at_measured_rates_usd_minor": 349.37,
+  "at_registry_rates_usd_minor": 368.0,
+  "unlocker_fallback_exposure_usd_minor": 115.0,
+  "worst_case_usd_minor": 483.0,
+  "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+ },
+ "vendor_balance_usd_minor": 494,
+ "authorised_cap_usd_minor": 1000,
+ "recommended_cap_usd_minor": 444,
+ "recommended_cap_why": "the vendor balance (494 cents) is below the authorised ceiling (1000 cents); a cap above the balance is a cap the run cannot reach, so it is set to 90% of the balance and the remaining authorisation stays unspent",
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "cohort_provenance": {
+  "newly_routed_by_url_recovery": [
+   "21c museum hotel",
+   "aloft louisville downtown",
+   "cambria hotel louisville downtown whiskey row",
+   "candlewood suites",
+   "comfort suites east",
+   "drury inn and suites louisville",
+   "holiday inn express and suites downtown louisville",
+   "holiday inn louisville east hurstbourne",
+   "quality inn and suites university airport",
+   "quality suites",
+   "sheraton louisville riverside hotel",
+   "the seelbach hilton hotel",
+   "wingate by wyndham louisville east"
+  ],
+  "previously_deferred_by_the_cap": [
+   "home2 suites by hilton clarksville louisville north",
+   "home2 suites by hilton louisville airport expo center",
+   "home2 suites by hilton louisville downtown nulu",
+   "home2 suites by hilton louisville east hurstbourne",
+   "homewood suites by hilton louisville downtown",
+   "hotel bourre bonne",
+   "hotel genevieve",
+   "motel 6 louisville airport fair expo",
+   "radisson hotel louisville north",
+   "tempo by hilton louisville downtown nulu",
+   "the myriad hotel",
+   "tru",
+   "tru by hilton louisville airport"
+  ],
+  "retried_after_an_attempt_that_answered_nothing": [
+   "crowne plaza louisville airport expo center",
+   "embassy suites louisville downtown",
+   "fairfield inn and suites louisville new albany in",
+   "louisville marriott downtown",
+   "residence inn louisville downtown",
+   "sleep inn louisville expo",
+   "springhill suites louisville downtown",
+   "suburban studios louisville north"
+  ],
+  "routed_before_and_never_attempted": [],
+  "counts": {
+   "newly_routed_by_url_recovery": 13,
+   "previously_deferred_by_the_cap": 13,
+   "retried_after_an_attempt_that_answered_nothing": 8,
+   "routed_before_and_never_attempted": 0
+  }
+ },
+ "double_buy_check": {
+  "terminal_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "prior_results_examined": 77,
+  "prior_results_that_answered": 69,
+  "journal_examined": "data/acquisition/louisville_expansion_003/journal.jsonl",
+  "journalled_keys": 0,
+  "cohort_size": 34,
+  "already_answered_by_a_prior_pass": [],
+  "already_journalled_in_this_run_dir": [],
+  "retries_of_attempts_that_answered_nothing": {
+   "crowne plaza louisville airport expo center": "UNEXPECTED_PAGE",
+   "embassy suites louisville downtown": "ACCESS_DENIED",
+   "fairfield inn and suites louisville new albany in": "UNEXPECTED_PAGE",
+   "louisville marriott downtown": "UNEXPECTED_PAGE",
+   "residence inn louisville downtown": "UNEXPECTED_PAGE",
+   "sleep inn louisville expo": "UNHYDRATED",
+   "springhill suites louisville downtown": "UNEXPECTED_PAGE",
+   "suburban studios louisville north": "UNEXPECTED_PAGE"
+  },
+  "no_property_is_bought_twice": true
+ }
+}

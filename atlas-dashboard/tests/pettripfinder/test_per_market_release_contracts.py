@@ -58,13 +58,30 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
+#: PTF-MILWAUKEE-PUBLICATION-042 published Milwaukee, so it now has verified
+#: inventory and therefore must have a contract. The invariant below is
+#: unchanged -- every market that CAN release has one -- and this is the list
+#: of markets that can.
+MILWAUKEE = "milwaukee-wi"
+#: PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered and published St. Louis, so it
+#: has verified inventory and must have a contract on the same rule.
+ST_LOUIS = "st-louis-mo"
+#: PTF-LOUISVILLE-PUBLICATION-008 added the eighth contract.
+LOUISVILLE = "louisville-ky"
+
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
+           ST_LOUIS, LOUISVILLE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
+    # 166 identities, 46 published, 17 verified-no-pets, 63 resolved and 103
+    # unresolved -- and unresolved is COUNTED as the remainder because this
+    # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee
+    # and St. Louis do (PTF-LOUISVILLE-PUBLICATION-008).
+    "louisville-ky": (166, 46, 17, 63, 103),
     # PTF-CENSUS-PARTITION-NORMALIZATION-001 gave Columbus the census it never
     # had: 112 identities reconstructed from committed authority alone. Its
     # confirmed and unresolved figures were `None` because nothing could
@@ -117,6 +134,21 @@ EXPECTED_RECONCILIATION = {
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
     INDIANAPOLIS: (153, 8, 4, 12, 141),
+    # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
+    # pet-friendly and 27 verified-no-pets, both founder-approved across two
+    # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
+    # from the committed final partition (47), and is UNKNOWN rather than
+    # negative evidence.
+    MILWAUKEE: (147, 73, 27, 100, 47),
+    # PTF-ST-LOUIS-REGISTER-PUBLISH-011. 357 confirmed identities from the
+    # generic discovery census; 82 published pet-friendly and 37
+    # verified-no-pets, founder-signed across two sittings (005 and 007) and
+    # cleaned of two duplicate signatures by 008B; resolved = 82 + 37 = 119,
+    # with no OUT_OF_CURRENT_CATEGORY ruling in this market. unresolved is 238
+    # and is UNKNOWN, never negative evidence: 153 identities were never
+    # reached by a lane that could answer, 66 hold insufficient evidence, 16
+    # served a page that stated nothing, and 1 is held on an unsettled identity.
+    ST_LOUIS: (357, 82, 37, 119, 238),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint
@@ -267,7 +299,12 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27,
+                             ST_LOUIS: 37,
+                             # PTF-LOUISVILLE-PUBLICATION-008. Every other
+                             # market's number is unchanged, which is the half
+                             # of this assertion that proves the scoping.
+                             LOUISVILLE: 17}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

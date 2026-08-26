@@ -1,0 +1,601 @@
+{
+  "schema": "ptf-milwaukee-founder-review-run/1.0",
+  "work_order": "PTF-MILWAUKEE-FIRST-AUTHORITY-AND-FOUNDER-REVIEW-036",
+  "market": "milwaukee-wi",
+  "generated_at": "2026-08-21T21:20:10+00:00",
+  "preflight": {
+    "checked_at": "2026-08-21T21:20:10+00:00",
+    "branch": "grok/ptf-milwaukee-market-001",
+    "head": "69538f69bfeee6f4c2b96caea72fea2f4afaec9c",
+    "origin_head": "69538f69bfeee6f4c2b96caea72fea2f4afaec9c",
+    "working_tree_entries": [
+      "?? atlas-dashboard/launch_packages/pettripfinder/markets/reports/ptf_milwaukee_founder_review_036.json",
+      "?? atlas-dashboard/launch_packages/pettripfinder/milwaukee_founder_review_036/",
+      "?? atlas-dashboard/scripts/pettripfinder/acquisition/founder_review_036.py",
+      "?? atlas-dashboard/tests/pettripfinder/acquisition/test_founder_review_036.py"
+    ],
+    "policy_schema_version": "1.2",
+    "store_rows": 117,
+    "review_states": {
+      "FOUNDER_REVIEW_READY": 72,
+      "HELD_INSUFFICIENT_EVIDENCE": 7,
+      "REFUSAL_FOUNDER_REVIEW": 26,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 12
+    },
+    "founder_approved": 0,
+    "published": 0,
+    "authority_written": false,
+    "authority_files": [],
+    "provider_credentials_required": false
+  },
+  "cohort": {
+    "candidates": 98,
+    "ready": 72,
+    "refusal": 26,
+    "unique_identities": 98,
+    "duplicates": [],
+    "missing_canonical_block": [],
+    "missing_source_url": [],
+    "not_in_census": [],
+    "already_published": [],
+    "already_founder_approved": [],
+    "excluded_states": {
+      "HELD_INSUFFICIENT_EVIDENCE": 7,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 12
+    }
+  },
+  "package_files": {
+    "founder-review-manifest.json": "sha256:793815b02e59386c7132bff3345c19a6dd11f8ae03c4c1159e055de7955c4bcf",
+    "founder-review-summary.md": "sha256:0f380025a3b6d86bb47ec10bc46a6125ad938bec7c5b2b4ef19c7edaa74cd631",
+    "founder-review.csv": "sha256:089cd531adff67c73fce488883f1358f1ae89b97c92dab9e89d25f3067281aae",
+    "founder-review.json": "sha256:e8a84a5b0124aac943866d91f42398b714eec1529b9ff95788b17da23c9ad802"
+  },
+  "governance": {
+    "mechanism_found": "founder decision ledger + separate application",
+    "precedent": [
+      "scripts/pettripfinder/dayton_pass_b_founder_decisions.py",
+      "launch_packages/pettripfinder/dayton_passB_founder_decisions.json",
+      "scripts/pettripfinder/dayton_pass_c_decision_application.py",
+      "launch_packages/pettripfinder/hotel_exclusions.json"
+    ],
+    "decisions_are_per_row": true,
+    "decision_is_hash_bound": true,
+    "binds_to": [
+      "record_hash",
+      "evidence_hash"
+    ],
+    "approval_shape_in_authority": {
+      "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+      "operator": "<the founder>",
+      "approval_date": "<the date they decided>",
+      "decision_source": {
+        "ledger": "milwaukee_founder_decisions_036.json"
+      }
+    },
+    "refusal_disposition": {
+      "registry": "launch_packages/pettripfinder/hotel_exclusions.json",
+      "state": "VERIFIED_NO_PETS",
+      "requires": "reviewer_id and reviewed_at -- a human attestation"
+    },
+    "explicit_founder_input_required": true,
+    "agent_may_sign": false,
+    "why": "The Dayton recorder states the rule: the founder's name appears on a decision only where the founder gave it explicitly and in writing, and the module fails closed if asked to record a decision it was not given. An agent that signs on the founder's behalf produces an attestation with nobody behind it.",
+    "authority_permitted_in_this_work_order": false,
+    "ledger_present": false,
+    "decisions_recorded": 0
+  },
+  "verdict": {
+    "verdict": "FOUNDER_REVIEW_REQUIRED",
+    "review_artifact": "launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review.json",
+    "review_artifacts": [
+      "launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review.json",
+      "launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review.csv",
+      "launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review-manifest.json",
+      "launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review-summary.md"
+    ],
+    "candidate_count": 98,
+    "ready_count": 72,
+    "refusal_count": 26,
+    "proposed_approve": 70,
+    "proposed_approve_refusal": 23,
+    "rows_requiring_individual_attention": [
+      {
+        "identity_key": "hyatt regency milwaukee",
+        "canonical_name": "Hyatt Regency Milwaukee",
+        "review_state": "FOUNDER_REVIEW_READY",
+        "why": [
+          "a pet policy is published with no stated allowance (pets_allowed SOURCE_SILENT); whether a priced policy may be listed as pet-friendly is a founder's call, not a reader's"
+        ]
+      },
+      {
+        "identity_key": "saint kate the arts hotel",
+        "canonical_name": "Saint Kate - The Arts Hotel",
+        "review_state": "FOUNDER_REVIEW_READY",
+        "why": [
+          "a pet policy is published with no stated allowance (pets_allowed SOURCE_CONTRADICTORY); whether a priced policy may be listed as pet-friendly is a founder's call, not a reader's"
+        ]
+      },
+      {
+        "identity_key": "baymont by wyndham mequon milwaukee area",
+        "canonical_name": "Baymont by Wyndham Mequon Milwaukee Area",
+        "review_state": "REFUSAL_FOUNDER_REVIEW",
+        "why": [
+          "the refusal rests on 'no other pets', which is a contrast rather than a statement -- read in full: 'ADA Defined service animals are welcome at this hotel. Sorry no other pets are allowed.'"
+        ]
+      },
+      {
+        "identity_key": "days inn by wyndham west allis milwaukee",
+        "canonical_name": "Days Inn by Wyndham West Allis/Milwaukee",
+        "review_state": "REFUSAL_FOUNDER_REVIEW",
+        "why": [
+          "the refusal rests on 'no other pets', which is a contrast rather than a statement -- read in full: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'"
+        ]
+      },
+      {
+        "identity_key": "super 8 by wyndham milwaukee airport",
+        "canonical_name": "Super 8 by Wyndham Milwaukee Airport",
+        "review_state": "REFUSAL_FOUNDER_REVIEW",
+        "why": [
+          "the refusal rests on 'no other pets', which is a contrast rather than a statement -- read in full: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'"
+        ]
+      }
+    ],
+    "bulk_decision_allowed": true,
+    "bulk_decision_note": "The founder may approve the mechanically clean rows in one explicit decision -- Dayton recorded batches exactly that way -- provided the decision names the cohort and the ledger carries the hashes. Row-by-row is available and is not required.",
+    "next_action": "1. Read launch_packages/pettripfinder/milwaukee_founder_review_036/founder-review-summary.md (or the CSV, which spells every fee ladder out). 2. Record the decision in launch_packages/pettripfinder/milwaukee_founder_decisions_036.json with decided_by, decided_at and the record_hash/evidence_hash from the package. 3. Run a separate application work order to turn recorded decisions into approvals and to build authority from them.",
+    "authority_created": false,
+    "published": 0,
+    "deployed": 0
+  },
+  "complement": {
+    "held_rows": 19,
+    "by_state": {
+      "HELD_INSUFFICIENT_EVIDENCE": 7,
+      "HELD_SCHEMA_CANNOT_REPRESENT": 12
+    },
+    "active_unresolved": 16,
+    "active_unresolved_note": "identities the market has touched and not resolved. They hold no store row, carry no facts, and cannot reach authority: there is nothing to approve",
+    "rows": [
+      {
+        "identity_key": "americinn by wyndham brookfield",
+        "canonical_name": "AmericInn by Wyndham Brookfield",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "service_animal_exception": "Pet & Service Animal Policy"
+        },
+        "evidence_state": "canonical block on disk (27 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/americinn-by-wyndham-brookfield/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "motel 6 milwaukee wi glendale",
+        "canonical_name": "Motel 6 Milwaukee, WI - Glendale",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "pets_allowed": true
+        },
+        "evidence_state": "canonical block on disk (718 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/motel-6-milwaukee-wi-glendale/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "motel 6 oak creek wi",
+        "canonical_name": "Motel 6 Oak Creek, WI",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "pets_allowed": true
+        },
+        "evidence_state": "canonical block on disk (559 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/motel-6-oak-creek-wi/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "red roof inn milwaukee airport oak creek",
+        "canonical_name": "Red Roof Inn Milwaukee - Airport/ Oak Creek",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "service_animal_exception": "Service Animals are Welcome"
+        },
+        "evidence_state": "canonical block on disk (27 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/red-roof-inn-milwaukee-airport-oak-creek/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "studio 6 extended stay milwaukee brookfield wi",
+        "canonical_name": "Studio 6 Extended Stay Milwaukee Brookfield WI",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "pets_allowed": true
+        },
+        "evidence_state": "canonical block on disk (636 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/studio-6-extended-stay-milwaukee-brookfield-wi/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "suburban studios milwaukee airport",
+        "canonical_name": "Suburban Studios Milwaukee Airport",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "service_animal_exception": "General: Only service animals are permitted, free of charge."
+        },
+        "evidence_state": "canonical block on disk (587 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-resume-007/milwaukee-wyndham-008/suburban-studios-milwaukee-airport/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "the marc hotel",
+        "canonical_name": "The Marc Hotel",
+        "review_state": "HELD_INSUFFICIENT_EVIDENCE",
+        "withheld_fields": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "facts_held": {
+          "service_animal_exception": "Service Animals Welcome"
+        },
+        "evidence_state": "canonical block on disk (23 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-identity-027/milwaukee-identity-027/the-marc-hotel/attempt-01/policy-block.txt",
+        "next_action": "the surface carried no term worth publishing. A better container or a different source page is the only thing that moves it"
+      },
+      {
+        "identity_key": "candlewood suites milwaukee brown deer",
+        "canonical_name": "Candlewood Suites Milwaukee Brown Deer",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          }
+        },
+        "evidence_state": "canonical block on disk (353 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/candlewood-suites-milwaukee-brown-deer/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "comfort suites milwaukee airport",
+        "canonical_name": "Comfort Suites Milwaukee Airport",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "service_animal_exception": "Service animals are permitted, without charge."
+        },
+        "evidence_state": "canonical block on disk (225 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-airport/attempt-02/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "courtyard by marriott milwaukee brookfield at poplar creek",
+        "canonical_name": "Courtyard by Marriott Milwaukee Brookfield at Poplar Creek",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (206 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "courtyard by marriott milwaukee downtown",
+        "canonical_name": "Courtyard by Marriott Milwaukee Downtown",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (178 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "crowne plaza milwaukee airport",
+        "canonical_name": "Crowne Plaza Milwaukee Airport",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "cat",
+            "dog"
+          ]
+        },
+        "evidence_state": "canonical block on disk (326 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/crowne-plaza-milwaukee-airport/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "hyatt place milwaukee airport",
+        "canonical_name": "Hyatt Place Milwaukee Airport",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pets_allowed": "SOURCE_SILENT",
+          "cleaning_fee": "SOURCE_AMBIGUOUS",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "evidence_state": "canonical block on disk (207 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-place-milwaukee-airport/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "residence inn by marriott milwaukee brookfield at poplar creek",
+        "canonical_name": "Residence Inn by Marriott Milwaukee Brookfield at Poplar Creek",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (116 chars)",
+        "canonical_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/residence-inn-by-marriott-milwaukee-brookfield-at-poplar-creek/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "sheraton milwaukee brookfield hotel",
+        "canonical_name": "Sheraton Milwaukee Brookfield Hotel",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (133 chars)",
+        "canonical_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/sheraton-milwaukee-brookfield-hotel/attempt-02/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "staybridge suites milwaukee airport south",
+        "canonical_name": "Staybridge Suites Milwaukee Airport South",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 80.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "evidence_state": "canonical block on disk (378 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-ihg-009/milwaukee-ihg-009/staybridge-suites-milwaukee-airport-south/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "the trade autograph collection",
+        "canonical_name": "The Trade, Autograph Collection",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 100.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (182 chars)",
+        "canonical_block_path": "data/acquisition/marriott-milwaukee-020/marriott-milwaukee-020/the-trade-autograph-collection/attempt-02/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "wildwood lodge",
+        "canonical_name": "Wildwood Lodge",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "evidence_state": "canonical block on disk (435 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-locator-032/milwaukee-locator-032/wildwood-lodge/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      },
+      {
+        "identity_key": "woodspring suites milwaukee menomonee falls",
+        "canonical_name": "WoodSpring Suites Milwaukee - Menomonee Falls",
+        "review_state": "HELD_SCHEMA_CANNOT_REPRESENT",
+        "withheld_fields": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "facts_held": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "evidence_state": "canonical block on disk (262 chars)",
+        "canonical_block_path": "data/acquisition/milwaukee-final-026/milwaukee-final-026/woodspring-suites-milwaukee-menomonee-falls/attempt-01/policy-block.txt",
+        "next_action": "the source states a price schema 1.2 cannot hold. Either the shape gains a representation (a 1.3 conversation) or the row stays held; 034 and 035 name the exact shape per row"
+      }
+    ]
+  },
+  "pre_authority_requirements": [
+    {
+      "requirement": "convert the store's money shapes to schema 1.2",
+      "detail": "the store carries the READER's vocabulary -- pet_fee is a bare integer and fee_cap is {amount_minor, currency, basis} -- while authority records and the display projection expect 1.2 money objects. canonical_view._display_money renders an amount_minor cap as the EMPTY STRING, so a builder that copies facts verbatim drops the ceiling silently.",
+      "proved_by": "_display_money({'amount_minor': 7500}) -> ''",
+      "rows_affected": [
+        "la quinta inn and suites by wyndham milwaukee bayshore area",
+        "la quinta inn and suites by wyndham milwaukee sw new berlin",
+        "la quinta inn by wyndham milwaukee airport oak creek"
+      ],
+      "severity": "a dropped ceiling is a wrong fact, not a missing one"
+    },
+    {
+      "requirement": "carry fee_tiers through unflattened",
+      "detail": "the display projection keeps every band and its boundaries; a builder must not collapse a ladder into a single amount on the way in",
+      "proved_by": "display_facts keeps all bands: True",
+      "rows_affected": [
+        "embassy suites by hilton milwaukee brookfield",
+        "hampton inn and suites milwaukee downtown",
+        "hampton inn and suites milwaukee franklin",
+        "hampton inn and suites milwaukee west",
+        "hampton inn glendale milwaukee",
+        "hampton inn milwaukee airport",
+        "hampton inn milwaukee brookfield",
+        "hampton inn milwaukee northwest",
+        "hilton garden inn milwaukee airport",
+        "hilton garden inn milwaukee brookfield conference center",
+        "hilton garden inn milwaukee downtown",
+        "home2 suites by hilton menomonee falls milwaukee",
+        "home2 suites by hilton milwaukee brookfield",
+        "home2 suites by hilton milwaukee downtown",
+        "home2 suites by hilton milwaukee west",
+        "homewood suites by hilton milwaukee downtown",
+        "homewood suites by hilton oak creek milwaukee",
+        "homewood suites by hilton wauwatosa milwaukee",
+        "tru by hilton milwaukee brookfield",
+        "tru by hilton milwaukee downtown"
+      ],
+      "severity": "informational -- the path works today"
+    },
+    {
+      "requirement": "admit refusals through the exclusion registry",
+      "detail": "hotel_exclusions.json is where a VERIFIED_NO_PETS finding lives, and each row carries reviewer_id and reviewed_at -- a human attestation, not a status",
+      "rows_affected": [
+        "baymont by wyndham mequon milwaukee area",
+        "best western germantown inn",
+        "cambria hotel milwaukee downtown",
+        "clarion pointe milwaukee airport",
+        "country inn and suites by radisson germantown wi",
+        "courtyard by marriott milwaukee airport",
+        "days inn by wyndham west allis milwaukee",
+        "delta hotels milwaukee northwest",
+        "doubletree by hilton hotel milwaukee brookfield",
+        "doubletree by hilton hotel milwaukee downtown",
+        "fairfield by marriott inn and suites milwaukee airport",
+        "fairfield by marriott inn and suites milwaukee brookfield",
+        "fairfield by marriott inn and suites milwaukee west",
+        "holiday inn and suites milwaukee airport",
+        "holiday inn express and suites milwaukee airport",
+        "holiday inn express and suites milwaukee brookfield",
+        "holiday inn express and suites milwaukee new berlin",
+        "holiday inn express and suites milwaukee nw park place",
+        "holiday inn express milwaukee downtown",
+        "holiday inn express milwaukee n brown deer mequon",
+        "holiday inn pewaukee milwaukee west",
+        "milwaukee marriott downtown",
+        "renaissance milwaukee west hotel",
+        "rodeway inn and suites milwaukee airport",
+        "springhill suites by marriott milwaukee west wauwatosa",
+        "super 8 by wyndham milwaukee airport"
+      ],
+      "severity": "governance"
+    }
+  ],
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 117,
+    "active_unresolved": 16,
+    "founder_review_candidates": 98,
+    "proposed_approve": 70,
+    "proposed_approve_refusal": 23,
+    "proposed_individual_review": 5,
+    "founder_approved": 0,
+    "authority_rows": 0,
+    "held_schema_cannot_represent": 12,
+    "held_insufficient_evidence": 7,
+    "current_state_conflict": 0,
+    "held_semantic_review": 0,
+    "published": 0,
+    "deployed_live": 0,
+    "sum_of_final_states": 147
+  },
+  "cost": {
+    "provider_calls": 0,
+    "firecrawl_calls": 0,
+    "browser_api_calls": 0,
+    "web_unlocker_calls": 0,
+    "brightdata_spend_usd": 0.0,
+    "why": "the package is built from the committed store and the blocks already on disk"
+  },
+  "authority_written": false,
+  "published": 0,
+  "deployed": 0
+}

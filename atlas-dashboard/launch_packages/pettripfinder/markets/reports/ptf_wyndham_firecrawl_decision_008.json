@@ -1,0 +1,606 @@
+{
+ "schema": "ptf-brand-provider-decision/1.0",
+ "work_order": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+ "market_id": "milwaukee-wi",
+ "brand": "WYNDHAM",
+ "note": "Firecrawl measured alone against the remaining Milwaukee Wyndham properties, driven through router.route_property with an IN-MEMORY registry override. routes.json was never written and Wyndham keeps its committed route. The override carries no fallback and forbids both Bright Data lanes, so nothing here can be credited to the incumbent.",
+ "method": {
+  "provider": "the registered firecrawl provider, unmodified",
+  "profile": "the shared ROUTED_PROFILE, unmodified",
+  "reader": "wyndham -- the same reader the Browser API lane uses",
+  "max_attempts": 3,
+  "gates": "identity, policy surface, publication grade and the failure taxonomy, all unchanged",
+  "fallback_available": false
+ },
+ "thresholds_fixed_before_the_run": {
+  "approve_min_publication_grade_rate": 0.8,
+  "limitation_min_publication_grade_rate": 0.4,
+  "why": "the incumbent lane is recorded at 5/5 with 100% recall. A primary that lands materially below that is not a replacement for it, and fixing the bar in advance stops the bar moving to fit the result."
+ },
+ "totals": {
+  "properties_tested": 7,
+  "acquisition_success": 7,
+  "acquisition_success_rate": 1.0,
+  "identity_confirmed": 7,
+  "identity_confirmed_rate": 1.0,
+  "policy_surface_success": 7,
+  "policy_surface_rate": 1.0,
+  "publication_grade": 7,
+  "publication_grade_rate": 1.0,
+  "avg_firecrawl_attempts": 1,
+  "would_qualify_for_fallback": 0
+ },
+ "failures": {
+  "by_class": {},
+  "by_failure": {},
+  "eligible_for_escalation": 0,
+  "note": "escalation eligibility is the router's own rule, not a judgement made here: a failure that cannot escalate would not be rescued by adding a fallback, so it counts against the lane rather than against the ladder."
+ },
+ "decision": "APPROVE",
+ "boilerplate_check": {
+  "properties_sharing_identical_policy_text": {
+   "la quinta inn and suites by wyndham milwaukee bayshore area / la quinta inn and suites by wyndham milwaukee sw new berlin / la quinta inn by wyndham milwaukee airport oak creek": 3
+  },
+  "distinct_extractions": 5,
+  "properties": 7,
+  "pets_allowed_values_observed": [
+   "false",
+   "true"
+  ],
+  "verdict": "BRAND_STANDARD_NOT_BOILERPLATE",
+  "why": "the corpus answers differ across properties -- 5 distinct extractions over 7 properties, and pets_allowed takes more than one value -- so the reader is reading each page rather than returning a constant. The properties that DO share text share it because their own pages state the same brand-standard terms; the text was confirmed present in each property's own persisted document. The sharpest evidence is that two Super 8 properties disagree with each other: one refuses pets and one charges $20/night. Template boilerplate could not produce that."
+ },
+ "limitation_subset": {},
+ "cost": {
+  "firecrawl_credits": 7,
+  "bright_data_usd": 0.0,
+  "bright_data_attempts": 0,
+  "note": "no Bright Data lane was reachable in this test"
+ },
+ "routes_changed": false,
+ "authority_written": false,
+ "policies_published": false,
+ "total_elapsed_seconds": 0.2,
+ "properties": [
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee bayshore area",
+   "property_name": "La Quinta Inn & Suites by Wyndham Milwaukee Bayshore Area",
+   "url_attempted": "https://www.wyndhamhotels.com/laquinta/glendale-wisconsin/la-quinta-milwaukee-bayshore-area/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 34434,
+     "final_url": "https://www.wyndhamhotels.com/laquinta/glendale-wisconsin/la-quinta-milwaukee-bayshore-area/overview",
+     "title": "La Quinta Inn & Suites by Wyndham Milwaukee Bayshore Area | Glendale, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "La Quinta Inn & Suites by Wyndham Milwaukee Bayshore Area",
+      "address_on_page": "5423 N Port Washington Rd",
+      "postal_code": "53217",
+      "phone_on_page": "414-9626767",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/laquinta/glendale-wisconsin/la-quinta-milwaukee-bayshore-area/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 300,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 11.6,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham milwaukee sw new berlin",
+   "property_name": "La Quinta Inn & Suites by Wyndham Milwaukee SW New Berlin",
+   "url_attempted": "https://www.wyndhamhotels.com/laquinta/new-berlin-wisconsin/la-quinta-milwaukee-sw-new-berlin/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 42274,
+     "final_url": "https://www.wyndhamhotels.com/laquinta/new-berlin-wisconsin/la-quinta-milwaukee-sw-new-berlin/overview",
+     "title": "La Quinta Inn & Suites by Wyndham Milwaukee SW New Berlin | New Berlin, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "La Quinta Inn & Suites by Wyndham Milwaukee SW New Berlin",
+      "address_on_page": "15300 W Rock Ridge Road",
+      "postal_code": "53151",
+      "phone_on_page": "1-262-7170900",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/laquinta/new-berlin-wisconsin/la-quinta-milwaukee-sw-new-berlin/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 300,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.7,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "la quinta inn by wyndham milwaukee airport oak creek",
+   "property_name": "La Quinta Inn by Wyndham Milwaukee Airport / Oak Creek",
+   "url_attempted": "https://www.wyndhamhotels.com/laquinta/oak-creek-wisconsin/la-quinta-inn-milwaukee-airport-oak-creek/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 44972,
+     "final_url": "https://www.wyndhamhotels.com/laquinta/oak-creek-wisconsin/la-quinta-inn-milwaukee-airport-oak-creek/overview",
+     "title": "La Quinta Inn by Wyndham Milwaukee Airport / Oak Creek | Oak Creek, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "La Quinta Inn by Wyndham Milwaukee Airport / Oak Creek",
+      "address_on_page": "7141 S 13th Street",
+      "postal_code": "53154",
+      "phone_on_page": "1-414-7622266",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/laquinta/oak-creek-wisconsin/la-quinta-inn-milwaukee-airport-oak-creek/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 300,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.6,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "ramada by wyndham milwaukee",
+   "property_name": "Ramada by Wyndham Milwaukee",
+   "url_attempted": "https://www.wyndhamhotels.com/ramada/milwaukee-wisconsin/ramada-milwaukee/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 40021,
+     "final_url": "https://www.wyndhamhotels.com/ramada/milwaukee-wisconsin/ramada-milwaukee/overview",
+     "title": "Ramada by Wyndham Milwaukee | Milwaukee, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Ramada by Wyndham Milwaukee",
+      "address_on_page": "2301 W Wisconsin Avenue",
+      "postal_code": "53233",
+      "phone_on_page": "414-3420000",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/ramada/milwaukee-wisconsin/ramada-milwaukee/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 221,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. / Fees - 50USD per pet per stay. / Other Information - Limited pet friendly rooms. Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 11.0,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "super 8 by wyndham germantown milwaukee",
+   "property_name": "Super 8 by Wyndham Germantown/Milwaukee",
+   "url_attempted": "https://www.wyndhamhotels.com/super-8/germantown-wisconsin/super-8-germantown-milwaukee/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 40503,
+     "final_url": "https://www.wyndhamhotels.com/super-8/germantown-wisconsin/super-8-germantown-milwaukee/overview",
+     "title": "Super 8 by Wyndham Germantown/Milwaukee | Germantown, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Super 8 by Wyndham Germantown/Milwaukee",
+      "address_on_page": "N 96 W 17490 County Line Rd",
+      "postal_code": "53022",
+      "phone_on_page": "262-2550880",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/super-8/germantown-wisconsin/super-8-germantown-milwaukee/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 192,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - Dogs only. / Fees - 20USD per pet per night / Other information - Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.6,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "super 8 by wyndham milwaukee airport",
+   "property_name": "Super 8 by Wyndham Milwaukee Airport",
+   "url_attempted": "https://www.wyndhamhotels.com/super-8/milwaukee-wisconsin/super-8-milwaukee-airport/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 36060,
+     "final_url": "https://www.wyndhamhotels.com/super-8/milwaukee-wisconsin/super-8-milwaukee-airport/overview",
+     "title": "Super 8 by Wyndham Milwaukee Airport | Milwaukee, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Super 8 by Wyndham Milwaukee Airport",
+      "address_on_page": "5253 South Howell Avenue",
+      "postal_code": "53207",
+      "phone_on_page": "414-4818488",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/super-8/milwaukee-wisconsin/super-8-milwaukee-airport/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 87,
+    "locator": "static_html_walk",
+    "excerpt": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.6,
+   "credits": 1.0
+  },
+  {
+   "identity_key": "travelodge by wyndham milwaukee",
+   "property_name": "Travelodge by Wyndham Milwaukee",
+   "url_attempted": "https://www.wyndhamhotels.com/travelodge/milwaukee-wisconsin/travelodge-milwaukee/overview",
+   "firecrawl_attempt_count": 1,
+   "acquisition_result": "ACQUIRED_PUBLICATION_GRADE",
+   "acquired": true,
+   "http_access_result": [
+    {
+     "attempt": 1,
+     "outcome": "VALID",
+     "body_chars": 36174,
+     "final_url": "https://www.wyndhamhotels.com/travelodge/milwaukee-wisconsin/travelodge-milwaukee/overview",
+     "title": "Travelodge by Wyndham Milwaukee | Milwaukee, WI Hotels",
+     "detail": ""
+    }
+   ],
+   "identity_result": {
+    "confirmed": true,
+    "detail": {
+     "signals": {
+      "name_on_page": "Travelodge by Wyndham Milwaukee",
+      "address_on_page": "1716 W Layton Ave",
+      "postal_code": "53221-2824",
+      "phone_on_page": "414-2827000",
+      "property_code_on_page": "",
+      "canonical_url": "https://www.wyndhamhotels.com/travelodge/milwaukee-wisconsin/travelodge-milwaukee/overview",
+      "pets_allowed_structured": "",
+      "jsonld_present": true
+     },
+     "confirmed": true,
+     "matched": [
+      "name",
+      "canonical_path"
+     ],
+     "conflicting": [],
+     "reasons": [
+      "confirmed on name, canonical_path"
+     ],
+     "binding": "canonical_path_and_name"
+    }
+   },
+   "policy_surface_result": {
+    "located": true,
+    "chars": 281,
+    "locator": "static_html_walk",
+    "excerpt": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs only. 40lbs or less per dog. / Fees - 15USD 1 dog per night 25USD 2 dogs per night. Weekly 75USD 1 dog 95USD 2 dogs / Other Information - Contact hotel for additional details and availability."
+   },
+   "publication_grade_result": {
+    "confirmed": true,
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "failure_classification": "",
+   "failure": "",
+   "exact_failure_reason": "",
+   "escalation_stopped_because": "",
+   "eligible_for_escalation": false,
+   "providers_tried": [
+    "firecrawl"
+   ],
+   "seconds": 10.6,
+   "credits": 1.0
+  }
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "schema": "ptf-milwaukee-run-report/1.0",
+ "work_order": "PTF-MILWAUKEE-ACQUISITION-ROUTER-INTEGRATION-001",
+ "market_id": "milwaukee-wi",
+ "queue": {
+  "queue_total": 133,
+  "routable_total": 127,
+  "brand_excluded_total": 6,
+  "processed": 67,
+  "remaining": 60
+ },
+ "outcomes": {
+  "state_counts": {
+   "ACQUIRED_PUBLICATION_GRADE": 58,
+   "IDENTITY_REVIEW": 2,
+   "PROVIDER_EXHAUSTED": 2,
+   "TECHNICAL_FALLBACK_REQUIRED": 4,
+   "POLICY_NOT_FOUND": 1
+  },
+  "automatic_fetch_success": 58,
+  "publication_grade": 58,
+  "non_publication_grade": 0,
+  "policy_not_found": 1,
+  "identity_review": 2,
+  "source_ambiguous": 0,
+  "source_contradictory": 0,
+  "technical_fallback_required": 4,
+  "provider_exhausted": 2,
+  "budget_exhausted": 0
+ },
+ "attempts": {
+  "total_attempts": 91,
+  "avg_attempts_per_property": 1.358,
+  "properties_needing_more_than_one_attempt": 12
+ },
+ "cost": {
+  "anchor_zone_costs_usd_minor": {
+   "scraping_browser1": 2576,
+   "mcp_unlocker": 0,
+   "cli_unlocker": 0
+  },
+  "current_zone_costs_usd_minor": {
+   "scraping_browser1": 3893,
+   "mcp_unlocker": 4,
+   "cli_unlocker": 1
+  },
+  "spent_usd_minor": 1322,
+  "unreadable_zones": [],
+  "telemetry_available": true,
+  "balance_usd_minor": 1895,
+  "pending_charge_usd_minor": 0,
+  "measured_from": "per-zone month-to-date cost, summed across every billable zone; monotonic and top-up-immune",
+  "why_not_balance": "the account balance debits on a lag and rose mid-run on a top-up, under-reporting spend 3x against a hard cap",
+  "cost_per_attempted_property_usd_minor": 19.73,
+  "cost_per_fetch_success_usd_minor": 22.79,
+  "cost_per_publication_grade_record_usd_minor": 22.79,
+  "hard_cap_usd_minor": 1500,
+  "soft_checkpoints_usd_minor": [
+   500,
+   1000
+  ]
+ },
+ "time": {
+  "total_capture_seconds": 6096.2,
+  "avg_seconds_per_property": 91.0,
+  "median_seconds_per_property": 75.3,
+  "p95_seconds_per_property": 191.6,
+  "avg_seconds_per_success": 81.0
+ },
+ "router_utilization": {
+  "by_lane": {
+   "brightdata_browser": 54,
+   "brightdata_web_unlocker": 13
+  },
+  "by_reader": {
+   "marriott": 11,
+   "wyndham": 8,
+   "ihg": 14,
+   "generic": 8,
+   "choice_static": 11,
+   "hilton_competing": 15
+  },
+  "brightdata_browser": 54,
+  "brightdata_web_unlocker": 13,
+  "direct_local": 0
+ },
+ "versus_old_workflow": {
+  "old_workflow_equivalent_attended_rows": 133,
+  "actual_attended_rows_used": 0,
+  "attended_fallback_required": 6,
+  "automated_share_of_processed": 86.6,
+  "note": "Share is of properties PROCESSED, not of the market. The old pattern required one attended browser row per hotel; this run used zero."
+ },
+ "authority": {
+  "policy_authority_changed": false,
+  "exclusions_changed": false,
+  "seeds_changed": false,
+  "approvals_changed": false,
+  "founder_approvals_created": 0
+ }
+}

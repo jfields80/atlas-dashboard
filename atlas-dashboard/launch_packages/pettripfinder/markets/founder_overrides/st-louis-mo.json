@@ -1,0 +1,122 @@
+{
+ "schema": "ptf-founder-override/1.0",
+ "what_this_is": "Founder rulings that a machine gate is not permitted to make for itself, recorded per row and cited to the evidence already on disk. Two kinds live here: an ALLOWANCE ruling, where a page states pet terms without ever writing the words 'pets allowed', and an IDENTITY ruling, where a name differs but independent property-specific signals agree. Neither is an inference the readers may make; both are decisions a person made and this file is where they are written down.",
+ "market_id": "st-louis-mo",
+ "work_order": "PTF-ST-LOUIS-FOUNDER-DECISIONS-006",
+ "decided_by": "jfields80",
+ "decided_at": "2026-08-23",
+ "recorded_by": "claude-opus-5 (PTF-ST-LOUIS-FOUNDER-DECISIONS-006, agent) -- transcription only; both rulings and their scoping conditions are the founder's, given in the work order, and no row was admitted that failed one of them",
+ "scope_rule": "Each override names ONE identity_key. Nothing here generalises: a later row in the same shape returns to the founder rather than inheriting a ruling made about a different hotel.",
+
+ "allowance_overrides": {
+  "founder_ruling": "YES. When an official property-specific hotel page states explicit pet-specific terms -- a pet fee, per-pet pricing, a maximum number of dogs/pets, a pet weight restriction, or other direct pet terms -- that is sufficient evidence that the property accepts the pet type described, even if the page does not literally contain the phrase 'pets allowed'.",
+  "founder_limits": "NOT a global inference. It does not apply to vague amenity text such as 'pets', 'pet-friendly', icons, service-animal language, or generic brand pages.",
+  "admission_conditions": [
+   "the page is property-specific",
+   "identity binding is already valid",
+   "the pet terms explicitly describe actual pets",
+   "there is no contradictory no-pets statement",
+   "the allowance is limited to the species actually supported by the text"
+  ],
+  "records": [
+   {
+    "identity_key": "comfort inn collinsville near st louis",
+    "canonical_name": "Comfort Inn Collinsville near St. Louis",
+    "set_pets_allowed": true,
+    "species_supported_by_the_text": ["dog"],
+    "cited_quotes": ["maximum of 2 dogs per room", "Dogs Only"],
+    "conditions_checked": {
+     "page_is_property_specific": "PROPERTY_PAGE",
+     "identity_binding_valid": "membrane VALID",
+     "terms_describe_actual_pets": "a per-room maximum of 2 DOGS",
+     "no_contradictory_no_pets_statement": true,
+     "species_limit": "dogs only -- species_allowed already carries ['dog'] and is not widened"
+    },
+    "why_the_machine_would_not": "the page never writes an allowance, so the reader withheld pets_allowed as SOURCE_SILENT rather than reading one out of a count"
+   },
+   {
+    "identity_key": "super 8 by wyndham troy il st louis area",
+    "canonical_name": "Super 8 by Wyndham Troy IL/St. Louis Area",
+    "set_pets_allowed": true,
+    "species_supported_by_the_text": [],
+    "cited_quotes": ["15USD per pet per night", "under 50 lbs", "Maximum of two pets per room"],
+    "conditions_checked": {
+     "page_is_property_specific": "PROPERTY_PAGE",
+     "identity_binding_valid": "membrane VALID",
+     "terms_describe_actual_pets": "a per-pet nightly price, a 50 lb weight limit and a per-room maximum of two pets",
+     "no_contradictory_no_pets_statement": true,
+     "species_limit": "the text says 'pet' and names no species, so no species is asserted and species_allowed stays empty"
+    },
+    "why_the_machine_would_not": "the page never writes an allowance, so the reader withheld pets_allowed as SOURCE_SILENT rather than reading one out of a price"
+   },
+   {
+    "identity_key": "sonesta es suites st louis chesterfield",
+    "canonical_name": "Sonesta ES Suites St. Louis - Chesterfield",
+    "set_pets_allowed": true,
+    "species_supported_by_the_text": [],
+    "cited_quotes": ["$75 non refundable pet fee for stays of up to 7 nights", "$150 fee for stays over 7 days"],
+    "conditions_checked": {
+     "page_is_property_specific": "PROPERTY_PAGE",
+     "identity_binding_valid": "membrane VALID",
+     "terms_describe_actual_pets": "a non-refundable PET FEE priced in two bands by stay length",
+     "no_contradictory_no_pets_statement": true,
+     "species_limit": "the text says 'pet' and names no species, so no species is asserted and species_allowed stays empty"
+    },
+    "why_the_machine_would_not": "the page never writes an allowance, so the reader withheld pets_allowed as SOURCE_SILENT rather than reading one out of a tiered fee"
+   }
+  ]
+ },
+
+ "identity_overrides": {
+  "founder_ruling": "A name difference may be overridden only when at least TWO strong independent property-specific identity signals agree. Strong signals: an exact street-address / property-location match, an exact telephone match, a matching property code, or another unambiguous property-specific identifier. A bare-chain name alone is never sufficient. Where two strong independent signals agree and no property code or address evidence contradicts them, the identity is approved despite the name difference.",
+  "records": [
+   {
+    "identity_key": "comfort inn pacific st louis",
+    "census_canonical_name": "Comfort Inn Pacific - St. Louis",
+    "page_name": "Comfort Inn Near Six Flags St. Louis",
+    "signals_agreeing": 2,
+    "street": {"census": "1320 Thornton St, Pacific MO 63069", "page": "1320 Thornton St.", "verdict": "EXACT MATCH"},
+    "telephone": {"census": "6362574600", "page": "(636) 257-4600", "verdict": "EXACT MATCH"},
+    "property_code": {"census": "", "page": "", "verdict": "absent on both sides -- silence, not disagreement"},
+    "contradicting_evidence": "none",
+    "founder_verdict": "APPROVED -- one property, renamed",
+    "note": "Pacific MO is the town beside Six Flags St. Louis; the property markets itself by the landmark and the census recorded the municipality."
+   },
+   {
+    "identity_key": "travelodge st louis airport",
+    "census_canonical_name": "Travelodge St. Louis Airport",
+    "page_name": "Travelodge by Wyndham St. Louis",
+    "signals_agreeing": 2,
+    "street": {"census": "9645 Natural Bridge Road, Saint Louis MO 63134", "page": "9645 Natural Bridge Road", "verdict": "EXACT MATCH"},
+    "telephone": {"census": "3148909000", "page": "+1-314-890-9000", "verdict": "EXACT MATCH"},
+    "property_code": {"census": "", "page": "", "verdict": "absent on both sides -- silence, not disagreement"},
+    "contradicting_evidence": "none. The source URL says 'berkeley-missouri' and the census says Saint Louis; 9645 Natural Bridge Road is in Berkeley MO, which is the airport municipality inside the St. Louis mailing city. A mailing city and a municipality are not a contradiction.",
+    "founder_verdict": "APPROVED -- one property; the page drops the 'Airport' qualifier the census kept"
+   },
+   {
+    "identity_key": "wingate at wyndham",
+    "census_canonical_name": "Wingate At Wyndham",
+    "page_name": "Wingate by Wyndham St. Louis/Fenton Route 66",
+    "signals_agreeing": 2,
+    "street": {"census": "1100 South Highway Drive, Fenton MO 63026", "page": "1100 S Hwy Dr", "verdict": "SAME ADDRESS. The repository's street_identity folds 'Highway'->'hwy' and 'Drive'->'dr' but does not fold the directional 'South'->'S', so the two normalise to '1100 south hwy dr' and '1100 s hwy dr'. That is a gap in a spelling table, not evidence of a different place, and it is reported rather than patched here: street_identity is shared by every market and this work order is a decision, not a normaliser change."},
+    "telephone": {"census": "6366001818", "page": "636-600-1818", "verdict": "EXACT MATCH"},
+    "property_code": {"census": "", "page": "", "verdict": "absent on both sides -- silence, not disagreement"},
+    "contradicting_evidence": "none",
+    "founder_verdict": "APPROVED -- one property. The census name is a bare chain word and carries NO weight here; the approval rests on the telephone and the street, which is what the founder rule requires. compare_identities in this repository already treats an equal telephone as proof of one property: 'two hotels do not share a line'."
+   }
+  ],
+  "refused": [
+   {
+    "identity_key": "days inn and suites pontoon beach",
+    "census_canonical_name": "Days Inn & Suites Pontoon Beach",
+    "page_name": "Days Inn by Wyndham Pontoon Beach",
+    "signals_agreeing": 1,
+    "street": {"census": "5105 Highway 111, Pontoon Beach IL 62040", "page": "5105 Highway 111", "verdict": "EXACT MATCH"},
+    "telephone": {"census": "6182198631", "page": "1-618-797-2727", "verdict": "DIFFERENT -- two distinct local 618 lines, not a toll-free reservations number against a property line"},
+    "property_code": {"census": "", "page": "", "verdict": "absent on both sides"},
+    "founder_verdict": "NOT APPROVED under this rule -- only ONE strong signal agrees and the second actively disagrees. The founder rule requires TWO agreeing signals; it does not permit one agreement plus one contradiction.",
+    "what_would_settle_it": "a property code on either side, or evidence that the telephone line changed (a rebrand from 'Days Inn & Suites' to 'Days Inn' would explain both the name and the number). Neither is on disk, and neither needs a paid fetch to obtain."
+   }
+  ]
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "schema": "ptf-route-change-proposal/1.0",
+ "work_order": "PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+ "status": "PROPOSED_READY_TO_APPLY",
+ "supersedes": "ptf_firecrawl_choice_route_proposal_004.json",
+ "applied": false,
+ "note": "routes.json has NOT been edited and Firecrawl has NOT been registered. This file is the exact change to apply, held for founder authorization. Every condition the work order set for decision A is met and is evidenced below.",
+
+ "decision": "A -- APPLY_FIRECRAWL_FIRST_WEB_UNLOCKER_FALLBACK",
+
+ "decision_conditions": {
+  "reader_contradiction_resolved_safely": {
+   "met": true,
+   "evidence": "policy_reading.parse now refuses to emit pets_allowed=false together with ordinary-pet terms. The one Milwaukee record that did so is classified SOURCE_CONTRADICTORY and publishes neither side. A limit written inside the service-animal statement is dropped instead, because a service-animal limit is not a pet limit. Both rules are general wording rules; no property, brand or URL is special-cased. Twenty tests written from verbatim persisted wordings hold the behaviour, including the no-full-stop edge that a naive fix breaks."
+  },
+  "zero_structured_mismatches": {
+   "met": true,
+   "evidence": "0 across the 7 properties where a Bright Data publication-grade baseline exists. 30 MATCH, 0 MISSING, 0 EXTRA."
+  },
+  "zero_false_pet_or_no_pet_results": {
+   "met": true,
+   "evidence": "false_pets_allowed 0, false_no_pets 0, false_fee 0, false_weight 0, false_species 0. Six captured refusals in the sample, all preserved as refusals."
+  },
+  "firecrawl_materially_improves_coverage_or_speed": {
+   "met": true,
+   "evidence": "Coverage 15/15 against the Web Unlocker's 7/15 over the same fifteen queue rows -- it reaches four the incumbent got ACCESS_DENIED on and four the market budget never let it attempt. Speed 30.6s average against a measured 130.0s. Cost 15 plan credits against $0.197 per attempted property."
+  },
+  "web_unlocker_still_earns_its_place": {
+   "met": true,
+   "evidence": "It independently holds 7 of these fifteen at publication grade. Its fallback value was NOT exercised in this run -- Firecrawl acquired all fifteen, so the fallback was never invoked. That is 'not needed on this sample', which is a different claim from 'adds nothing', and it is why the incumbent stays in the lane rather than being retired."
+  }
+ },
+
+ "why_not_B": "Option B is 'Firecrawl first but the reader needs more work'. The reader defect this work order was opened for is fixed and tested. A separate, pre-existing gap was found and is recorded below -- policy_reading extracts no weight_limit from the wording 'A size limit of 40 pounds' -- but it is a COVERAGE miss rather than a wrong fact, it is brand-agnostic and provider-agnostic, and the Web Unlocker lane would produce exactly the same miss. It therefore says nothing about which provider should carry Choice, and filing it as a reason to withhold the route change would conflate an unrelated reader backlog item with the safety of this routing decision.",
+
+ "proposed_change": {
+  "step_1_register_the_provider": {
+   "file": "scripts/pettripfinder/acquisition/providers.py",
+   "change": "register a `firecrawl` provider backed by scripts/pettripfinder/acquisition/firecrawl_capture.py, with capabilities {runs_javascript, geo_pinnable} and cost metadata in plan credits rather than usd_minor.",
+   "also_required": "move `firecrawl` out of KNOWN_FUTURE_PROVIDERS, and deliberately update tests/pettripfinder/acquisition/test_acquisition_router.py::test_two_providers_are_implemented_and_one_slot_is_reserved and ::test_future_providers_are_documented_and_not_implemented. Both assertions are correct today and must be changed as a decision, never deleted."
+  },
+  "step_2_route_choice": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "brands.CHOICE",
+   "before": {
+    "provider": "brightdata_web_unlocker",
+    "fallback_providers": [],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "forbidden_providers": ["brightdata_browser"]
+   },
+   "after": {
+    "provider": "firecrawl",
+    "fallback_providers": ["brightdata_web_unlocker"],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "forbidden_providers": ["brightdata_browser"]
+   },
+   "max_firecrawl_attempts": 3,
+   "max_firecrawl_attempts_is_measured_not_chosen": "Three is the largest attempt count any Choice property actually needed. Sleep Inn & Suites Milwaukee Airport succeeded on its third call after failing its first two; Country Inn Brown Deer succeeded on its second; Clarion Pointe -- which failed twice under the two-attempt budget in 004 -- succeeded on its FIRST call in this run. Two attempts demonstrably under-reads this origin. Nothing needed a fourth.",
+   "forbidden_providers_unchanged_and_deliberate": "brightdata_browser stays forbidden on Choice. That rule was bought with fourteen refusals in fifteen attempts and nothing measured here touches it.",
+   "why": "Firecrawl reaches 15/15 of the Milwaukee Choice queue against the Web Unlocker's 7/15, at 30.6s against 130.0s, with zero structured mismatches over the seven properties where both lanes have an answer and zero false pet or no-pet facts anywhere in the sample. The Web Unlocker remains the fallback because it independently holds seven of these fifteen and this run never had cause to exercise it.",
+   "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004 and PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005"
+  },
+  "step_3_domain_row": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "domains['www.choicehotels.com']",
+   "change": "mirror the CHOICE brand row, so a Choice property whose brand is unknown takes the same lane."
+  },
+  "step_4_leave_alone": {
+   "MARRIOTT": "unchanged: brightdata_browser + marriott reader. Firecrawl measured 1/4.",
+   "HILTON": "unchanged: brightdata_browser + hilton_competing reader. Firecrawl measured 0/3.",
+   "WYNDHAM": "unchanged. Firecrawl looked good on Wyndham in benchmark-002 but Wyndham has never been the subject of a decision test and deserves its own.",
+   "default": "unchanged"
+  }
+ },
+
+ "expected_coverage": {
+  "milwaukee_choice_queue": 15,
+  "firecrawl_first": "15/15 acquired, 15/15 publication-grade, 13/15 a complete policy",
+  "not_a_complete_policy": [
+   "country inn and suites by radisson milwaukee airport wi -- SOURCE_CONTRADICTORY, held from publication",
+   "suburban studios milwaukee airport -- an allowance with no terms attached"
+  ],
+  "caveat": "These fifteen are one market and one brand. Coverage on Choice properties outside Milwaukee is not measured by this work order and should not be assumed from it."
+ },
+
+ "known_remaining_failures_and_defects": [
+  {
+   "item": "SCRAPE_ALL_ENGINES_FAILED still occurs on the Choice origin",
+   "detail": "It is intermittent, not terminal. Every property that hit it eventually acquired within three attempts. A three-attempt budget is what absorbs it, and the fallback absorbs whatever three attempts do not.",
+   "blocking": false
+  },
+  {
+   "item": "policy_reading extracts no weight_limit from 'A size limit of N pounds'",
+   "detail": "Observed on Sleep Inn & Suites Milwaukee Airport. No pattern in _WEIGHT_RES matches that wording and no drop note fired, so it predates the reader change made here. It is a coverage miss, not a wrong fact, and it is identical on both provider lanes.",
+   "blocking": false,
+   "action": "NOT FIXED HERE -- outside this work order's three items. A weight-pattern change re-reads every brand's corpus and needs its own measurement."
+  },
+  {
+   "item": "The Web Unlocker fallback path has never actually fired end to end",
+   "detail": "It was probed for in this run and was not needed. The router's fall-through from a failed primary to a fallback provider on Choice is therefore still unexercised in production.",
+   "blocking": false,
+   "action": "Exercise it deliberately when applying: force a Firecrawl failure on one Choice property and confirm the router falls through rather than reporting the property unreachable."
+  }
+ ],
+
+ "cost_and_latency_rationale": {
+  "firecrawl": "15 plan credits for fifteen properties, 30.6s average, 23.5s median. Failed scrape calls have not been charged across three runs and roughly forty calls, but that is an observation and not a billing guarantee.",
+  "web_unlocker": "$0.197 per attempted property and a measured 130.0s average on this lane, for 7/15 coverage.",
+  "dollar_comparison": "not asserted: the Firecrawl plan endpoint reports credits and a monthly allowance, not a unit price, so a dollar-for-dollar figure would be invented.",
+  "why_it_matters_beyond_price": "The 4x latency difference is what makes the remaining 60 unacquired Milwaukee properties affordable in time as well as money. That is the practical reason to change the lane, and it is secondary to the coverage argument."
+ },
+
+ "before_applying": [
+  "Founder authorization. This file is ready to apply and has not been applied.",
+  "Exercise the fallback once, deliberately, as described above.",
+  "Confirm credit accounting under a larger run; the per-acquisition credit observation is now about forty calls deep but is still an observation."
+ ]
+}

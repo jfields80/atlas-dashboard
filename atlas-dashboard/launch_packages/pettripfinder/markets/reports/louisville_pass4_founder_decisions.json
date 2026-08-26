@@ -1,0 +1,562 @@
+{
+  "schema": "ptf-louisville-pass4-founder-decisions/1.0",
+  "work_order": "PTF-LOUISVILLE-PASS4-FOUNDER-REVIEW-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-17",
+  "authority_applied": false,
+  "merged": false,
+  "deployed": false,
+  "recorded_decision_count": 11,
+  "recorded_summary": {
+    "approvals_positive": 10,
+    "verified_no_pets": 1,
+    "approve_with_change": 3,
+    "decisions_applied": 0
+  },
+  "decisions": [
+    {
+      "decision_id": "P4-001",
+      "packet_id": "LVL-P4-001",
+      "identity_key": "red roof inn louisville expo airport",
+      "hotel": "Red Roof Inn Louisville Expo Airport",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.redroof.com/property/ky/louisville/rri118",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/red-roof-inn-louisville-expo-airport__policy.txt",
+          "sha256": "67daa0704148871ce4a5f025b2a1449643fadab012ee46214930d98ea9f03b0d",
+          "bytes": 992
+        },
+        {
+          "relpath": "raw/red-roof-inn-louisville-expo-airport__policy.png",
+          "sha256": "76d04418e3db65aa980b01fc9a129c365b083afd7309bed7a009029d58c48317",
+          "bytes": 54837
+        },
+        {
+          "relpath": "raw/red-roof-inn-louisville-expo-airport__identity.png",
+          "sha256": "5b07f7d02b5857a6faa471104bf37acdda80226b0639639545447c3546b408e4",
+          "bytes": 16880
+        }
+      ],
+      "exact_quotes": [
+        "One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "cat",
+          "dog"
+        ],
+        "max_pets_per_room": 2,
+        "first_pet_fee": {
+          "amount_cents": 0
+        },
+        "second_pet_fee": {
+          "amount_cents": 1500,
+          "basis": "per_night",
+          "scope": "per_pet",
+          "cap_cents": 10500,
+          "cap_basis": "per_stay"
+        },
+        "weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        },
+        "service_animal_note": "separate_from_normal_pet_policy"
+      },
+      "withheld_fields": [
+        "property_wide_guest_deposit"
+      ],
+      "do_not": [
+        "apply the second-pet $105 cap to the first pet",
+        "generalize this schedule to another Red Roof property"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-002",
+      "packet_id": "LVL-P4-002",
+      "identity_key": "red roof inn louisville hurstbourne",
+      "hotel": "Red Roof Inn Louisville Hurstbourne",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.redroof.com/property/ky/louisville/rri034",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/red-roof-inn-louisville-hurstbourne__policy.txt",
+          "sha256": "4f78e93df136754dead6110a0bfa809105c840ea1551339181893fc95c001814",
+          "bytes": 806
+        },
+        {
+          "relpath": "raw/red-roof-inn-louisville-hurstbourne__policy.png",
+          "sha256": "f1a8e498c80b7bcd586002e9ffb70513d7393088515f07c94d171df5f0ce2c8a",
+          "bytes": 39928
+        },
+        {
+          "relpath": "raw/red-roof-inn-louisville-hurstbourne__identity.png",
+          "sha256": "376bc08e3e54cf6e43597ff5ef7c64e48d51b1278579d0bc7f02930ebbbcd7b8",
+          "bytes": 17560
+        }
+      ],
+      "exact_quotes": [
+        "One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "cat",
+          "dog"
+        ],
+        "max_pets_per_room": 2,
+        "first_pet_fee": {
+          "amount_cents": 0
+        },
+        "second_pet_fee": {
+          "amount_cents": 1500,
+          "basis": "per_night",
+          "scope": "per_pet",
+          "cap_cents": 10500,
+          "cap_basis": "per_stay"
+        },
+        "weight_limit": {
+          "value": 80,
+          "unit": "lb",
+          "operator": "lte",
+          "scope": "per_pet"
+        }
+      },
+      "withheld_fields": [
+        "property_wide_guest_deposit"
+      ],
+      "do_not": [
+        "model the $50 refundable all-guests deposit as a pet deposit",
+        "apply the second-pet $105 cap to the first pet"
+      ],
+      "notes": "On-page Louisville East - Hurstbourne identity is bound by rri034."
+    },
+    {
+      "decision_id": "P4-003",
+      "packet_id": "LVL-P4-003",
+      "identity_key": "studio 6 louisville airport expo center",
+      "hotel": "Studio 6 Louisville Airport Expo Center",
+      "decision": "APPROVE_PARTIAL_PUBLICATION",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.studio6.com/property/motel-louisville-kentucky-us-294003/",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/studio-6-louisville-airport-expo-center__amenities.txt",
+          "sha256": "5416cf56aff13c42cbc0105615b4a3064b91ee8ebf2c725e776c45fb65d6b725",
+          "bytes": 1014
+        },
+        {
+          "relpath": "raw/studio-6-louisville-airport-expo-center__amenities.png",
+          "sha256": "fbb66bce29cbc8b13f6f8637d57c9af32f557435d6366664e3f6773531dbfaf7",
+          "bytes": 53741
+        }
+      ],
+      "exact_quotes": [],
+      "approved_facts": {
+        "pets_allowed": true
+      },
+      "withheld_fields": [
+        "species",
+        "fee",
+        "weight_limit",
+        "pet_count",
+        "deposit",
+        "fee_basis",
+        "fee_scope"
+      ],
+      "do_not": [
+        "infer any source-silent fact",
+        "use generic Studio 6 wording"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-004",
+      "packet_id": "LVL-P4-004",
+      "identity_key": "baymont by wyndham louisville airport south",
+      "hotel": "Baymont by Wyndham Louisville Airport South",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-louisville-airport-south/overview",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/baymont-by-wyndham-louisville-airport-south__policy.txt",
+          "sha256": "fb061733d4eb7f66b8c01aaf88a8ddde6f81c55f3a34704e9016605c2c8f0b88",
+          "bytes": 549
+        }
+      ],
+      "exact_quotes": [
+        "Dogs only please.Two dogs up to 25 lbs are allowed for a non-refundable charge of $20 plus tax per pet per night with a $100 refundable deposit. ADA defined service animals are also welcome at this hotel."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog"
+        ],
+        "max_pets_per_room": 2,
+        "weight_limit_lbs": 25,
+        "weight_limit_scope": "individual",
+        "fee_cents_per_pet_per_night": 2000,
+        "fee_refundable": false,
+        "fee_scope": "plus tax",
+        "deposit_cents": 10000,
+        "deposit_refundable": true
+      },
+      "withheld_fields": [],
+      "do_not": [
+        "infer facts beyond the captured text"
+      ],
+      "notes": "Service animals remain separately stated from the normal dog policy."
+    },
+    {
+      "decision_id": "P4-005",
+      "packet_id": "LVL-P4-005",
+      "identity_key": "hawthorn suites by wyndham louisville east",
+      "hotel": "Hawthorn Suites by Wyndham Louisville East",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/louisville-kentucky/hawthorn-suites-by-wyndham-louisville-east/overview",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/hawthorn-suites-by-wyndham-louisville-east__policy.txt",
+          "sha256": "d98f03fef8bd0bc78668f25f91715680ca525ad0f278e02563c39e221b5b9e36",
+          "bytes": 670
+        }
+      ],
+      "exact_quotes": [
+        "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. 75lbs or less per pet. / Fees – 75USD per stay for 1–4 nights. 125USD per stay 5+ nights. 25USD per additional pet. / Other information - Contact hotel for additional details and availability."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog",
+          "cat"
+        ],
+        "max_pets_per_room": 2,
+        "weight_limit_lbs": 75,
+        "weight_limit_scope": "individual",
+        "fee_cents_per_stay_1_to_4_nights": 7500,
+        "fee_cents_per_stay_5_plus_nights": 12500,
+        "additional_pet_fee_cents": 2500
+      },
+      "withheld_fields": [
+        "fee_refundable"
+      ],
+      "do_not": [
+        "normalize or reinterpret the $25 additional-pet charge",
+        "alter the 1-4 / 5+ night tier boundaries"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-006",
+      "packet_id": "LVL-P4-006",
+      "identity_key": "travelodge by wyndham sellersburg louisville north",
+      "hotel": "Travelodge by Wyndham Sellersburg Louisville North",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.wyndhamhotels.com/travelodge/sellersburg-indiana/travelodge-sellersburg-louisville-north/overview",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/travelodge-by-wyndham-sellersburg-louisville-north__policy.txt",
+          "sha256": "6678fe3a727292e08a8c51949e3b398c7d1053669c537e343392bbb90634ce3f",
+          "bytes": 578
+        }
+      ],
+      "exact_quotes": [
+        "Dogs and birds are allowed for a non-refundable charge of 20.00 USD per night. 1 pet maximum. Sorry no cats allowed. Pet Sanitation Fee is 150 USD if applicable. ADA defined service animals are welcome at this hotel."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "dog",
+          "bird"
+        ],
+        "species_excluded": [
+          "cat"
+        ],
+        "max_pets_per_room": 1,
+        "pet_fee": {
+          "amount_cents": 2000,
+          "basis": "per_night",
+          "refundability": "non_refundable"
+        },
+        "other_charges": [
+          {
+            "kind": "sanitation_fee",
+            "amount_cents": 15000,
+            "currency": "USD",
+            "conditional": true,
+            "trigger": "if applicable"
+          }
+        ],
+        "service_animal_note": "separate_from_normal_pet_policy"
+      },
+      "withheld_fields": [
+        "weight_limit"
+      ],
+      "do_not": [
+        "put conditional sanitation fee in general_restrictions",
+        "merge conditional sanitation fee into base pet fee"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-007",
+      "packet_id": "LVL-P4-007",
+      "identity_key": "super 8 by wyndham louisville airport",
+      "hotel": "Super 8 by Wyndham Louisville Airport",
+      "decision": "APPROVE_WITH_CHANGE",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-airport/overview",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/super-8-by-wyndham-louisville-airport__policy.txt",
+          "sha256": "9691e0cf23a625fdd909e43e3bab34243566e887730bc3d8477233c45e1f596e",
+          "bytes": 536
+        }
+      ],
+      "exact_quotes": [
+        "Maximum of 2 pets with a max weight of 50 lbs per room at a nonrefundable charge of 25USD per pet per night. Pet Sanitation fee of 150.00 USD applies if applicable. ADA defined service animals are welcome at this hotel."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "max_pets_per_room": 2,
+        "weight_limit": {
+          "value": 50,
+          "unit": "lb",
+          "source_scope": "per room",
+          "scope_interpretation": "SOURCE_TEXT_ONLY"
+        },
+        "pet_fee": {
+          "amount_cents": 2500,
+          "basis": "per_night",
+          "scope": "per_pet",
+          "refundability": "non_refundable"
+        },
+        "other_charges": [
+          {
+            "kind": "sanitation_fee",
+            "amount_cents": 15000,
+            "currency": "USD",
+            "conditional": true,
+            "trigger": "if applicable"
+          }
+        ]
+      },
+      "withheld_fields": [
+        "species",
+        "weight_limit_scope_interpretation"
+      ],
+      "do_not": [
+        "invent species",
+        "convert the source phrase 'per room' to per-pet",
+        "merge conditional sanitation fee into base pet fee"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-008",
+      "packet_id": "LVL-P4-008",
+      "identity_key": "la quinta inn and suites by wyndham louisville northeast old henry",
+      "hotel": "La Quinta Inn and Suites by Wyndham Louisville Northeast Old Henry",
+      "decision": "APPROVE_PUBLISH_STRUCTURED",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-inn-and-suites-louisville-ne-old-henry-rd/overview",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/la-quinta-inn-and-suites-by-wyndham-louisville-northeast-old-henry__policy.txt",
+          "sha256": "da53531ce1e28db7d8b406ed420800ec76f65b25ccc4336100cb47e44aa64b25",
+          "bytes": 678
+        }
+      ],
+      "exact_quotes": [
+        "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": [
+          "cat",
+          "dog"
+        ],
+        "max_pets_per_room": 2,
+        "weight_limit_lbs": 75,
+        "weight_limit_scope": "individual",
+        "fee_cents_per_pet_per_night": 2500,
+        "fee_refundable": false,
+        "fee_cap_cents_per_stay": 7500
+      },
+      "withheld_fields": [],
+      "do_not": [
+        "use the prior Alliant Ave routing"
+      ],
+      "notes": "Apply only to corrected Old Henry Rd property identity and URL."
+    },
+    {
+      "decision_id": "P4-009",
+      "packet_id": "LVL-P4-009",
+      "identity_key": "holiday inn express and suites jeffersonville",
+      "hotel": "Holiday Inn Express and Suites Jeffersonville",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "class": "APPROVAL_NO_PETS",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/jeffersonville/indjv/hoteldetail",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/holiday-inn-express-and-suites-jeffersonville__faq.txt",
+          "sha256": "c9b7a5aa10a4b04a61f1e6d13affccc6a0bf085852312a10cb249358ddf19f29",
+          "bytes": 528
+        },
+        {
+          "relpath": "raw/holiday-inn-express-and-suites-jeffersonville__faq.jpg",
+          "sha256": "b06c5dabd9427395157192065fb41059868c9d3cac8dba4dfe1c7344c89abfa2",
+          "bytes": 81768
+        }
+      ],
+      "exact_quotes": [
+        "No, pets are not allowed at Holiday Inn Express & Suites Louisville N - Jeffersonville."
+      ],
+      "approved_facts": {
+        "pets_allowed": false
+      },
+      "withheld_fields": [],
+      "do_not": [
+        "treat separately stated service-animal access as pet-friendly authority"
+      ],
+      "notes": ""
+    },
+    {
+      "decision_id": "P4-010",
+      "packet_id": "LVL-P4-010",
+      "identity_key": "staybridge suites louisville east",
+      "hotel": "Staybridge Suites Louisville East",
+      "decision": "APPROVE_WITH_CHANGE",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/staybridge-suites-louisville-east__faq.txt",
+          "sha256": "e279285b35609cc25c56169b3088c6ad499ad65c0c541567773bdbebe73dae07",
+          "bytes": 832
+        },
+        {
+          "relpath": "raw/staybridge-suites-louisville-east__faq.jpg",
+          "sha256": "f99efddb06e4138b3ffb4eb7fa39b42c881978d84a2ace4ee8839660c3489935",
+          "bytes": 53995
+        }
+      ],
+      "exact_quotes": [
+        "Pets are welcome at Staybridge Suites Louisville-East. There is a pet deposit per stay of 75 USD . Our Pet Policy: Pets allowed with a non refundable fee of 75 plus tax for 1 to 6 nights and for 7 plus nights it is 150 plus tax. Pets must be registered upon check in."
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "fee_cents_per_stay_1_to_6_nights": 7500,
+        "fee_cents_per_stay_7_plus_nights": 15000,
+        "fee_scope": "plus tax"
+      },
+      "withheld_fields": [
+        "refundability",
+        "fee_vs_deposit_characterization"
+      ],
+      "do_not": [
+        "choose between deposit and non-refundable-fee wording",
+        "synthesize the contradictory monetary relationship"
+      ],
+      "notes": "Affected monetary relationship is SOURCE_CONTRADICTORY."
+    },
+    {
+      "decision_id": "P4-011",
+      "packet_id": "LVL-P4-011",
+      "identity_key": "candlewood suites louisville airport",
+      "hotel": "Candlewood Suites Louisville Airport",
+      "decision": "APPROVE_WITH_CHANGE",
+      "class": "APPROVAL_POSITIVE",
+      "authority_applied": false,
+      "publish": false,
+      "applied": false,
+      "official_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfgl/hoteldetail",
+      "identity_binding": "BOUND",
+      "artifacts": [
+        {
+          "relpath": "raw/candlewood-suites-louisville-airport__faq.txt",
+          "sha256": "fba445ed15b81a3034000c839d00b9631542cb7deb95ebdcc17680233804821c",
+          "bytes": 978
+        },
+        {
+          "relpath": "raw/candlewood-suites-louisville-airport__faq.jpg",
+          "sha256": "f9f90cb21f7a448085f1e68eb1bf3d14fe0f4b64b88cd5e664ad89c536bf3f8c",
+          "bytes": 76176
+        }
+      ],
+      "exact_quotes": [
+        "Pets are welcome with a nonrefundable fee The charge is 30 USD per pet per night For stays of 7 nights or more a flat fee of 150 USD per pet applies A pet agreement is required at check in"
+      ],
+      "approved_facts": {
+        "pets_allowed": true,
+        "species": "ALL_PETS_EXPLICIT",
+        "max_pets_per_room": 2,
+        "weight_limit_lbs": 80,
+        "fee_cents_per_pet_per_night": 3000,
+        "fee_refundable": false,
+        "flat_fee_cents_7_plus_nights_per_pet": 15000
+      },
+      "withheld_fields": [
+        "pet_damage_deposit_vs_fee_relationship"
+      ],
+      "do_not": [
+        "merge $30 nightly fee and separately observed $30 damage deposit",
+        "assume the two charges are duplicates"
+      ],
+      "notes": "Deposit/fee relationship remains SOURCE_AMBIGUOUS unless independently representable."
+    }
+  ],
+  "published": 0,
+  "verified_no_pets": 0,
+  "unresolved": 129,
+  "note": "Founder decisions recorded from Pass 4 instruction; no authority applied."
+}

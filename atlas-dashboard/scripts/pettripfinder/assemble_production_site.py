@@ -68,6 +68,7 @@ from scripts.pettripfinder.markets.contract import (                         # n
     ROUTE_MODE_LEGACY_UNPREFIXED,
 )
 from scripts.pettripfinder.market_ownership import owned_by                  # noqa: E402
+from scripts.pettripfinder import launch_participation as LP                 # noqa: E402
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, read_production_rows,
     verified_public_hotels,
@@ -105,7 +106,29 @@ BUILD_INTERNAL_PREFIXES = ("_build_report", "_broken_link_report",
                            "_quality_report", "bundle_manifest",
                            ".assemble_work")
 
-BUNDLE_SCHEMA = "ptf-global-bundle/1.0"
+BUNDLE_SCHEMA = "ptf-global-bundle/1.1"
+
+#: The deployment contexts this assembler understands. Anything else fails
+#: closed: PTF-...-DEPLOYMENT-AND-LIVE-VERIFICATION-044 stopped because the
+#: composed bundle carried no control files at all, and "whatever the
+#: environment happens to be" is how a preview `noindex` reaches production.
+VALID_CONTEXTS = ("production", "preview")
+
+#: Tracked control-file sources. Owned by deploy/netlify/, copied verbatim --
+#: never reconstructed from what a live response happened to show.
+DEPLOY_NETLIFY_DIR = _REPO_ROOT / "deploy" / "netlify"
+HEADERS_SOURCES = {
+    "production": DEPLOY_NETLIFY_DIR / "headers.production",
+    "preview": DEPLOY_NETLIFY_DIR / "headers.preview",
+}
+REDIRECTS_SOURCE = DEPLOY_NETLIFY_DIR / "redirects"
+
+#: The live production route inventory this bundle must not silently drop.
+#: Captured from the deployed sitemap; every entry must still resolve, because
+#: an indexed URL that becomes a 404 is the one migration failure a build can
+#: neither see nor undo.
+LIVE_ROUTE_INVENTORY = (_REPO_ROOT / "deploy" / "netlify"
+                        / "live_production_routes.txt")
 
 
 class AssemblyError(RuntimeError):
@@ -130,6 +153,18 @@ def _partition_path(market_id: str) -> Optional[Path]:
         "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
         "dayton-oh": "dayton_final_partition_001.json",
         "cincinnati-oh": "cincinnati_final_partition_001.json",
+        # PTF-LOUISVILLE-MARKET-REBUILD-002: same mechanism, same reason --
+        # "louisville-ky" strips to "louisville-ky" -> "louisville" only by
+        # luck of the suffix, and the market commits exactly one partition.
+        "louisville-ky": "louisville_final_partition_001.json",
+        # St. Louis names its partitions with the FULL market id
+        # (``st_louis_mo_final_partition_007``), which the prefix glob above
+        # cannot reach: it strips the trailing segment and looks for
+        # ``st-louis_...``. It is named here rather than by widening the glob
+        # because this market commits FIVE partitions, one per founder sitting,
+        # and the glob takes the first match in sorted order -- which would have
+        # silently pinned 001, the partition from before any founder signed.
+        "st-louis-mo": "st_louis_mo_final_partition_007.json",
     }
     name = table.get(market_id)
     path = PACKAGE_DIR / name if name else None
@@ -144,6 +179,18 @@ def published_hotels(market: MarketConfig) -> List[Dict]:
     return verified_public_hotels(hotels, load_published_hotel_policy_facts(market.market_id))
 
 
+def _launch_status_of(market_id: str) -> str:
+    """The founder's recorded launch status, or UNLISTED; never raises here.
+
+    A missing or malformed record reads as "nobody is authorized" -- the
+    participation gates report WHY, but selection itself must fail closed.
+    """
+    try:
+        return LP.launch_status(market_id)
+    except LP.LaunchParticipationError:
+        return LP.UNLISTED
+
+
 def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
     """Why this market is or is not assemblable, stated per condition.
 
@@ -151,6 +198,13 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
     the report says what is missing rather than only what was noticed first.
     Cincinnati must come out of this as "registered, below threshold, not
     assembled" -- an honest zero, not an error (Phase E section 25).
+
+    ``assemblable`` is a SOURCE fact: the four conditions below. Whether the
+    market joins the composed production bundle is additionally the founder's
+    call, recorded in ``deploy/netlify/launch_participation.json`` (PTF-046):
+    ``participates`` is ``assemblable`` AND ``founder_authorized_for_launch``.
+    The two are reported apart so a market the founder withheld is never
+    mistaken for one whose source is broken.
     """
     census = CENSUS_DIR / ("%s.json" % market.market_id)
     partition = _partition_path(market.market_id)
@@ -167,12 +221,18 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
         ("meets_minimum_published",
          published >= market.minimum_published_hotels),
     ])
+    assemblable = all(conditions.values())
+    status = _launch_status_of(market.market_id)
+    authorized = status == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
     return OrderedDict([
         ("market_id", market.market_id),
         ("published_count", published),
         ("minimum_published_hotels", market.minimum_published_hotels),
         ("conditions", conditions),
-        ("assemblable", all(conditions.values())),
+        ("assemblable", assemblable),
+        ("launch_status", status),
+        ("founder_authorized_for_launch", authorized),
+        ("participates", assemblable and authorized),
         ("show_in_navigation", market.show_in_navigation),
         ("inventory_error", inventory_error),
     ])
@@ -180,16 +240,18 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
 
 def select_markets(markets: Optional[Sequence[MarketConfig]] = None
                    ) -> Tuple[List[MarketConfig], List["OrderedDict[str, object]"]]:
-    """``(assemblable, eligibility_rows)`` in registration order.
+    """``(participating, eligibility_rows)`` in registration order.
 
-    ``show_in_navigation`` is deliberately NOT a condition: a market may be
-    assembled and still hidden from navigation, and conflating the two would
-    make a visibility decision silently change what the bundle contains.
+    A market participates when its source is assemblable AND the founder has
+    authorized it for launch. ``show_in_navigation`` is deliberately NOT a
+    condition: a market may be assembled and still hidden from navigation, and
+    conflating the two would make a visibility decision silently change what
+    the bundle contains.
     """
     markets = list(markets) if markets is not None else list(load_markets())
     rows = [market_eligibility(m) for m in markets]
     by_id = {m.market_id: m for m in markets}
-    chosen = [by_id[r["market_id"]] for r in rows if r["assemblable"]]
+    chosen = [by_id[r["market_id"]] for r in rows if r["participates"]]
     return chosen, rows
 
 
@@ -527,11 +589,142 @@ def file_hashes(root: Path) -> "OrderedDict[str, str]":
     return out
 
 
+def bundle_digest(hashes: Mapping[str, str]) -> str:
+    """The bundle identity: one digest over the sorted per-file digests.
+
+    Defined once so a deployer re-hashing a directory on disk (PTF-047's
+    ``verify_bundle_directory``) computes exactly what the assembler wrote.
+    """
+    return hashlib.sha256(
+        "\n".join("%s %s" % (k, v) for k, v in hashes.items()).encode("utf-8")
+    ).hexdigest()
+
+
 # --------------------------------------------------------------------------- #
 # Assembly.
 # --------------------------------------------------------------------------- #
 
-def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
+def _contract_disagreements(market_id: str) -> List[str]:
+    """What this market's own contract disagrees with, or []."""
+    from scripts.pettripfinder.release_contracts import verify_contract
+    try:
+        return list(verify_contract(market_id))
+    except Exception as exc:                                  # noqa: BLE001
+        return ["contract could not be verified: %s" % exc]
+
+
+def _run_global_publish_gates(gates, chosen, context, bundle, headers_bytes,
+                              redirects_bytes) -> None:
+    """The five publish gates, reused rather than reimplemented.
+
+    ``assemble_netlify_bundle._run_publish_gates`` is the one implementation of
+    "does this directory look like a publishable Netlify site". It needs a
+    contract only for its shared ``publish`` section -- forbidden basenames,
+    extensions and path segments -- which every market states identically, so
+    a participating market's contract is the right input and copying the rules
+    here would be a second answer to a settled question.
+    """
+    from scripts.pettripfinder.assemble_netlify_bundle import _run_publish_gates
+    from scripts.pettripfinder.release_contracts import load_contract
+    contract = load_contract(sorted(m.market_id for m in chosen)[0])
+    _run_publish_gates(gates, contract, context, bundle, headers_bytes,
+                       redirects_bytes)
+
+
+def _run_participation_gates(gates, chosen, eligibility) -> None:
+    """Only approved markets, and every one of them contract-clean.
+
+    ``select_markets`` asks whether a market can ASSEMBLE. It does not ask
+    whether the market has a reviewed release contract, so today Cincinnati and
+    Detroit are kept out of the bundle only because they publish nothing --
+    incidental protection that would evaporate the moment either gained
+    inventory. This makes the contract a condition of participation.
+    """
+    from scripts.pettripfinder.release_contracts import available_market_ids
+    contracted = set(available_market_ids())
+    included = sorted(m.market_id for m in chosen)
+
+    missing = [mid for mid in included if mid not in contracted]
+    _gate(gates, "global.every_included_market_has_a_contract",
+          not missing, "without a contract: %s" % missing)
+
+    disagreeing = {mid: _contract_disagreements(mid) for mid in included}
+    disagreeing = {mid: rows for mid, rows in disagreeing.items() if rows}
+    _gate(gates, "global.every_included_market_contract_verifies",
+          not disagreeing,
+          "; ".join("%s: %s" % (mid, rows[0])
+                    for mid, rows in list(disagreeing.items())[:3]))
+
+    ineligible = sorted(row["market_id"] for row in eligibility
+                        if not row["participates"])
+    leaked = sorted(set(included) & set(ineligible))
+    _gate(gates, "global.no_ineligible_market_included",
+          not leaked, "ineligible but present: %s" % leaked)
+
+    # PTF-046: participation is the founder's recorded decision, stated for
+    # EVERY registered market. An unlisted market is excluded (fail closed),
+    # and the silence is what this gate refuses; a status that claims a
+    # readiness the source does not have is refused too, so the record can
+    # neither admit a broken market nor describe a withheld one as broken.
+    try:
+        checks = LP.verify_participation(
+            [m.market_id for m in load_markets()],
+            {row["market_id"]: bool(row["assemblable"]) for row in eligibility})
+        explicit_problem = [("unlisted", checks["unlisted"]),
+                            ("unregistered", checks["unregistered"])]
+        explicit_problem = ["%s: %s" % (k, v) for k, v in explicit_problem if v]
+        source_problem = list(checks["source_disagreement"])
+    except LP.LaunchParticipationError as exc:
+        explicit_problem = [str(exc)]
+        source_problem = ["record unreadable: %s" % exc]
+    _gate(gates, "global.launch_participation_explicit",
+          not explicit_problem, "; ".join(explicit_problem))
+    _gate(gates, "global.launch_participation_agrees_with_source",
+          not source_problem, "; ".join(source_problem[:4]))
+
+    # What each market's own contract says it publishes must be what the
+    # composed bundle actually carries for it.
+    from scripts.pettripfinder.release_contracts import load_contract
+    mismatched = []
+    for market in chosen:
+        stated = (load_contract(market.market_id).get("public_surface") or {}
+                  ).get("public_hotel_profile_count")
+        actual = len(published_hotels(market))
+        if stated is not None and stated != actual:
+            mismatched.append("%s states %s, bundle carries %d"
+                              % (market.market_id, stated, actual))
+    _gate(gates, "global.market_profile_counts_match_contracts",
+          not mismatched, "; ".join(mismatched))
+
+
+def _run_migration_gate(gates, bundle) -> None:
+    """Every route the live site publishes must still exist here.
+
+    PTF-...-DEPLOYMENT-AND-LIVE-VERIFICATION-044 found production serving 132
+    Columbus routes under the unprefixed namespace. Columbus is the anchor, so
+    the multi-market bundle keeps every one of them -- but "keeps" is a claim
+    about a specific list, and the list is committed so a later change that
+    drops one fails here instead of in a search index.
+
+    A route that genuinely retires needs a redirect or a recorded decision, not
+    a silent 404.
+    """
+    if not LIVE_ROUTE_INVENTORY.is_file():
+        _gate(gates, "global.live_routes_preserved", False,
+              "no live route inventory committed at %s"
+              % LIVE_ROUTE_INVENTORY.name)
+        return
+    live = [line.strip() for line
+            in LIVE_ROUTE_INVENTORY.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.startswith("#")]
+    on_disk = {_route_of(bundle, p) for p in bundle.rglob("index.html")}
+    missing = sorted(route for route in live if route not in on_disk)
+    _gate(gates, "global.live_routes_preserved", not missing,
+          "live routes with no successor: %s" % missing[:6])
+
+
+def assemble(output: str, *, context: str = "production",
+             base_url: str = "https://pettripfinder.com",
              markets: Optional[Sequence[MarketConfig]] = None,
              keep_fragments: bool = False) -> Dict:
     """Build every assemblable market and compose ONE bundle at ``output``.
@@ -540,6 +733,11 @@ def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
     failed gate, leaving the destination untouched -- a partially merged
     multi-market bundle is worse than none, because it looks complete.
     """
+    if context not in VALID_CONTEXTS:
+        raise AssemblyError(
+            "context must be one of %s, got %r -- a deployable bundle states "
+            "which context it is FOR, and inferring it is how a preview "
+            "noindex reaches production" % (list(VALID_CONTEXTS), context))
     out_root = Path(output)
     work = out_root / ".assemble_work"
     bundle = work / "site"
@@ -647,6 +845,13 @@ def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
     (bundle / "llms.txt").write_text(build_global_llms(visible, base_url),
                                      encoding="utf-8", newline="\n")
 
+    # Control files, from the TRACKED sources, before the sitemap is built so
+    # the bundle on disk is the bundle that gets gated and hashed.
+    headers_bytes = HEADERS_SOURCES[context].read_bytes()
+    redirects_bytes = REDIRECTS_SOURCE.read_bytes()
+    (bundle / "_headers").write_bytes(headers_bytes)
+    (bundle / "_redirects").write_bytes(redirects_bytes)
+
     indexable = sorted(
         r for r in (_route_of(bundle, p) for p in bundle.rglob("index.html"))
         if not r.startswith("/go/"))
@@ -654,6 +859,25 @@ def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
                                         encoding="utf-8", newline="\n")
 
     # ---- gates over the composed bundle ---------------------------------
+    # The five publish gates are the SAME implementation the per-market
+    # assembler runs, called with a participating market's contract. Their
+    # publish section is a shared one -- PTF-...-VOCABULARY-043 proved every
+    # market states it identically -- so this is one rule applied to the
+    # composed artifact, not a second copy of it.
+    _run_global_publish_gates(gates, chosen, context, bundle,
+                              headers_bytes, redirects_bytes)
+    _run_participation_gates(gates, chosen, eligibility)
+    _run_migration_gate(gates, bundle)
+    # PTF-MEASUREMENT-001. The measurement contract and the affiliate
+    # authority are gated on the COMPOSED bundle, the artifact that ships.
+    # Both modules own their gates; the assembler only records them.
+    from scripts.pettripfinder.affiliate_destinations import run_affiliate_gates
+    from scripts.pettripfinder.measurement import (
+        config_sha256 as measurement_config_sha256, run_measurement_gates,
+    )
+    measurement = run_measurement_gates(gates, _gate, bundle)
+    run_affiliate_gates(gates, _gate, market_ids=[m.market_id for m in chosen])
+
     broken = broken_internal_links(bundle)
     _gate(gates, "content.zero_broken_links", not broken, "; ".join(broken[:6]))
 
@@ -678,11 +902,12 @@ def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
     manifest = OrderedDict([
         ("schema", BUNDLE_SCHEMA),
         ("generated_from_commit", _git_head()),
+        ("context", context),
         ("base_url", base_url),
         ("anchor_market", anchor.market_id),
         ("market_fragments_included", [m.market_id for m in chosen]),
         ("markets_registered_but_excluded",
-         [r for r in eligibility if not r["assemblable"]]),
+         [r for r in eligibility if not r["participates"]]),
         ("markets_publicly_navigable", [e["market_id"] for e in visible]),
         ("fragments", fragments),
         ("global_routes", list(GLOBAL_ROUTES)),
@@ -693,9 +918,42 @@ def assemble(output: str, *, base_url: str = "https://pettripfinder.com",
         ("collision_count", len(collisions)),
         ("global_shadowing_count", len(shadowing)),
         ("canonical_violations", len(canon)),
-        ("bundle_sha256", hashlib.sha256(
-            "\n".join("%s %s" % (k, v) for k, v in hashes.items()).encode("utf-8")
-        ).hexdigest()),
+        ("bundle_sha256", bundle_digest(hashes)),
+        ("control_files", OrderedDict([
+            ("headers_source",
+             HEADERS_SOURCES[context].relative_to(_REPO_ROOT).as_posix()),
+            ("headers_sha256", hashlib.sha256(headers_bytes).hexdigest()),
+            ("redirects_source",
+             REDIRECTS_SOURCE.relative_to(_REPO_ROOT).as_posix()),
+            ("redirects_sha256", hashlib.sha256(redirects_bytes).hexdigest()),
+        ])),
+        ("sitemap_sha256", hashlib.sha256(
+            (bundle / "sitemap.xml").read_bytes()).hexdigest()),
+        # PTF-MEASUREMENT-001: which measurement contract this bundle was
+        # built under. Pinned so a deployer can tell a measured bundle from an
+        # unmeasured one without diffing 2,000 pages.
+        ("measurement", OrderedDict([
+            ("config_source", "deploy/netlify/measurement.json"),
+            ("config_sha256", measurement_config_sha256()),
+            ("enabled", measurement.active),
+            ("provider_kind", measurement.provider.kind),
+        ])),
+        # PTF-046: the founder's participation record this bundle was composed
+        # under, pinned like a control file. A different record is a different
+        # participation set and therefore a different artifact.
+        ("launch_participation", OrderedDict([
+            ("source", LP.PARTICIPATION_PATH.relative_to(_REPO_ROOT).as_posix()),
+            ("sha256", LP.participation_sha256()),
+            ("founder_authorized", LP.authorized_market_ids()),
+        ])),
+        ("participating_markets", [
+            OrderedDict([
+                ("market_id", m.market_id),
+                ("published_profiles", len(published_hotels(m))),
+                ("release_contract",
+                 "deploy/netlify/release_contracts/%s.json" % m.market_id),
+                ("contract_disagreements", _contract_disagreements(m.market_id)),
+            ]) for m in chosen]),
         ("all_gates_pass", not failing),
         ("gates", dict(gates)),
         # Phase E assembles; it does not authorize a deploy.

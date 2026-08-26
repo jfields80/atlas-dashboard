@@ -1,0 +1,160 @@
+{
+ "schema": "ptf-deployment-record/1.0",
+ "what_this_is": "What a production deployment actually did, written only after the outcome was known. Names the authorization it consumed; holds no credential.",
+ "deployment_record_id": "ptf-deploy-011-6a8cab48ead9d4293f477472",
+ "authorization_id": "ptf-auth-011-2077ad2895c9",
+ "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+ "source_commit": "ccf4e54a0f6fd746eb88721c7c5b2d18dd993905",
+ "manifest_source_commit": "ccf4e54a0f6fd746eb88721c7c5b2d18dd993905",
+ "bundle_sha256": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
+ "sitemap_sha256": "775a5ae55766bdf5cfaf07fd5e9b124e856bee40790798e79b47c4c4dc82e3ce",
+ "deployment_id": "6a8cab48ead9d4293f477472",
+ "previous_deployment_id": "6a8c6de6fa99ff1f7bd5c7f5",
+ "rollback_target": "6a8c6de6fa99ff1f7bd5c7f5",
+ "target_site": "pettripfinder-prod",
+ "production_url": "https://pettripfinder.com",
+ "deployed_at": "2026-08-24T20:36:36Z",
+ "deployer": {
+  "executed_by": "Claude Code (claude-opus-5) under work order PTF-ST-LOUIS-PRODUCTION-DEPLOY-012",
+  "netlify_account": "Jonathan Fields (founder account, netlify-cli 26.2.0)",
+  "authorized_by": "founder",
+  "started_at": "2026-08-24T20:35:55Z"
+ },
+ "deployed_directory": "C:/t/ptf011d/site (assemble_production_site --output C:/t/ptf011d, generated_from_commit 2954f9c; the bundle sha256 reproduced the authorized 2077ad2895c9273d)",
+ "command": "netlify deploy --prod --no-build --dir C:/t/ptf011d/site --site \"$NETLIFY_SITE_ID\" --json --message \"PTF-ST-LOUIS-PRODUCTION-DEPLOY-012 ...\"",
+ "exit_status": 0,
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26,
+  "st-louis-mo": 82
+ },
+ "total_profiles": 415,
+ "sitemap_route_count": 515,
+ "global_gate_results": {
+  "required": 27,
+  "passed": 27,
+  "failed": []
+ },
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "live_verification_results": {
+  "st_louis_routes": {
+   "checked": 83,
+   "hotel_profiles": 82,
+   "market_hub": 1,
+   "http_200": 83,
+   "bytes_match_deployed_bundle": 83,
+   "failed_or_missing": [],
+   "note": "Every St. Louis hotel profile and the market hub were fetched from production and compared byte for byte against the deployed bundle."
+  },
+  "st_louis_go_interstitials": {
+   "checked": 82,
+   "http_200": 82,
+   "bytes_match_deployed_bundle": 82,
+   "all_noindex": true,
+   "note": "/go/st-louis-mo/<slug>/booking/. Excluded from the sitemap by the content.sitemap_excludes_go gate, so verified separately."
+  },
+  "every_sitemap_route": {
+   "checked": 515,
+   "http_200": 515,
+   "bytes_match_deployed_bundle": 515,
+   "failures": [],
+   "note": "The whole public surface, not a sample: all 415 hotel profiles, every corridor and hub, both policy-comparison tables and the five global pages."
+  },
+  "brand_spot_checks": {
+   "marriott": "/pet-friendly-hotels/st-louis-mo/courtyard-by-marriott-st-louis-airport-earth-city/",
+   "hilton": "/pet-friendly-hotels/st-louis-mo/angad-arts-hotel-st-louis-tapestry-collection-by-hilton/",
+   "wyndham": "/pet-friendly-hotels/st-louis-mo/baymont-by-wyndham-bridgeton-st-louis/",
+   "ihg": "/pet-friendly-hotels/st-louis-mo/candlewood-suites-st-louis-st-charles-by-ihg/",
+   "independent": "/pet-friendly-hotels/st-louis-mo/clayton-plaza-hotel/",
+   "market_hub": "/pet-friendly-hotels/st-louis-mo/",
+   "unaffected_columbus": "/pet-friendly-hotels/drury-plaza-hotel-columbus-downtown/",
+   "unaffected_milwaukee": "/pet-friendly-hotels/milwaukee-wi/comfort-suites-milwaukee-west/",
+   "all_http_200": true,
+   "all_bytes_match": true
+  },
+  "milwaukee_service_animal_correction": {
+   "checked": 4,
+   "http_200": 4,
+   "carry_the_corrected_sentence": 4,
+   "still_carry_the_false_sentence": 0,
+   "bytes_match_deployed_bundle": 4,
+   "sentence": "The property states that service animals are welcome at no charge.",
+   "note": "PTF-011/012's correction survives this deploy untouched: the four profiles are byte-identical to what deploy 6a8c6de6 served."
+  },
+  "absent_by_design": {
+   "held_days_inn_and_suites_pontoon_beach": 404,
+   "superseded_wingate_at_wyndham": 404,
+   "superseded_doubletree": 404,
+   "withheld_market_indianapolis_hub": 404
+  },
+  "sitemap": {
+   "status": 200,
+   "loc_count": 515,
+   "unique_locs": 515,
+   "sha256": "775a5ae55766bdf5cfaf07fd5e9b124e856bee40790798e79b47c4c4dc82e3ce",
+   "matches_manifest_pin": true,
+   "matches_deployed_bundle": true,
+   "st_louis_routes": 99,
+   "go_entries": 0,
+   "indianapolis_entries": 0
+  },
+  "global_surfaces": {
+   "routes": [
+    "/",
+    "/pet-friendly-hotels/",
+    "/about/",
+    "/contact/",
+    "/methodology/",
+    "/robots.txt",
+    "/llms.txt"
+   ],
+   "all_http_200": true,
+   "all_bytes_match": true
+  },
+  "live_profile_routes_by_market": {
+   "cleveland-akron-canton-oh": 99,
+   "columbus-oh": 88,
+   "dayton-oh": 47,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 26,
+   "st-louis-mo": 82,
+   "total": 415
+  },
+  "public_differential_vs_previous_deploy": {
+   "previous_deployment_id": "6a8c6de6fa99ff1f7bd5c7f5",
+   "files_total_previous": 2165,
+   "files_total_new": 2674,
+   "added": 509,
+   "removed": 0,
+   "changed": 1,
+   "changed_files": [
+    "sitemap.xml"
+   ],
+   "added_outside_st_louis_namespace": 0,
+   "note": "Every added file is under /pet-friendly-hotels/st-louis-mo/ or /go/st-louis-mo/. The only pre-existing file that changed is the sitemap, a global composition artifact. No existing hotel profile changed, byte for byte. Measured against a bundle rebuilt from cb550e7 that reproduced the deployed artifact 70747f09 exactly."
+  },
+  "overall_pass": true
+ },
+ "final_status": "DEPLOYED",
+ "rollback_used": false,
+ "rollback_reason": null,
+ "restored_deployment_id": null
+}

@@ -1,0 +1,70 @@
+{
+ "schema": "ptf-route-change-proposal/1.0",
+ "work_order": "PTF-FIRECRAWL-HARD-LANES-003",
+ "status": "PROPOSED_NOT_APPLIED",
+ "note": "The exact route-table change PTF-FIRECRAWL-HARD-LANES-003 would justify, written out so it can be reviewed before anything is edited. routes.json is untouched and Firecrawl remains unregistered. Applying this is a separate work order.",
+ "decision": "C -- ADOPT_FIRECRAWL_FOR_SPECIFIC_BRANDS (Choice only)",
+ "what_the_measurement_supports": {
+  "CHOICE": "3/3 acquired, 3/3 publication-grade, 3/3 complete, 0 structured mismatches, 0 false facts, 20.8s against the Bright Data Choice lane's measured 130.0s. The richest structured case matched on all 9 fields including fee amount, basis, scope, weight, count and count scope; both captured no-pets refusals were preserved exactly.",
+  "MARRIOTT": "1/4 acquired and that one was incomplete (4 fields down to 3). The other three returned SCRAPE_ALL_ENGINES_FAILED. Aloft also FAILED on an earlier identical run, so even the single success is not reliable.",
+  "HILTON": "0/3. Every property returned SCRAPE_ALL_ENGINES_FAILED."
+ },
+ "what_the_measurement_does_NOT_support": [
+  "Firecrawl as a default provider. It cannot reach Marriott or Hilton at all, and those two carry 54 of Milwaukee's 127 routable rows.",
+  "Firecrawl as a first lane with Bright Data fallback on Marriott or Hilton. A first lane that fails ~90% of the time on those brands spends a credit and 30-50 seconds to learn nothing, and delays every property behind it.",
+  "A claim that Firecrawl extends Choice coverage. It does not. The three Country Inn & Suites by Radisson properties the Web Unlocker cannot reach were tested separately and Firecrawl failed all three with the same SCRAPE_ALL_ENGINES_FAILED. Same coverage, not better coverage."
+ ],
+ "proposed_change": {
+  "step_1_register_the_provider": {
+   "file": "scripts/pettripfinder/acquisition/providers.py",
+   "change": "register a `firecrawl` provider backed by scripts/pettripfinder/acquisition/firecrawl_capture.py, with capabilities {runs_javascript, geo_pinnable} and cost metadata measured in plan credits rather than usd_minor.",
+   "also_required": "move `firecrawl` out of KNOWN_FUTURE_PROVIDERS, and update tests/pettripfinder/acquisition/test_acquisition_router.py::test_two_providers_are_implemented_and_one_slot_is_reserved and ::test_future_providers_are_documented_and_not_implemented, which currently assert it is NOT implemented. Those assertions are correct today and must be changed deliberately, not deleted."
+  },
+  "step_2_route_choice": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "brands.CHOICE",
+   "before": {
+    "provider": "brightdata_web_unlocker",
+    "fallback_providers": [],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 3,
+    "forbidden_providers": [
+     "brightdata_browser"
+    ]
+   },
+   "after": {
+    "provider": "firecrawl",
+    "fallback_providers": [
+     "brightdata_web_unlocker"
+    ],
+    "reader": "choice_static",
+    "max_attempts_per_provider": 2,
+    "forbidden_providers": [
+     "brightdata_browser"
+    ],
+    "why": "3/3 acquired at 20.8s against the Web Unlocker's measured 130.0s on the same lane, with zero structured mismatches and both no-pets refusals preserved. The Web Unlocker stays as fallback because it is proven at 11/15 on this lane and nothing here retires it.",
+    "measured_by": "PTF-FIRECRAWL-HARD-LANES-003"
+   },
+   "unchanged_and_deliberate": "forbidden_providers keeps brightdata_browser. That rule was bought with fourteen refusals in fifteen attempts and no result here touches it."
+  },
+  "step_3_domain_row": {
+   "file": "scripts/pettripfinder/acquisition/routes.json",
+   "path": "domains['www.choicehotels.com']",
+   "change": "mirror the CHOICE brand row, so a Choice property whose brand is unknown takes the same lane."
+  },
+  "step_4_leave_alone": {
+   "MARRIOTT": "unchanged: brightdata_browser + marriott reader",
+   "HILTON": "unchanged: brightdata_browser + hilton_competing reader",
+   "WYNDHAM": "unchanged in this proposal. Benchmark-002 measured Firecrawl favourably on Wyndham (it recovered a full policy where the incumbent returned a heading), but that was a different work order's sample and Wyndham is not in this decision test. It deserves its own before being moved.",
+   "default": "unchanged"
+  }
+ },
+ "validation_required_before_applying": [
+  "The Choice sample here is n=3. Run the remaining Choice properties in the Milwaukee queue (15 in total) through Firecrawl and require the same result: zero structured mismatches and no false pets_allowed or no_pets.",
+  "Confirm the fallback actually fires: force a Firecrawl failure on a Choice property and verify the router falls through to brightdata_web_unlocker rather than reporting the property unreachable.",
+  "Confirm credit accounting under load. This run consumed 4 credits for 4 successful acquisitions and was charged nothing for the 12 failed scrape calls, but that is an observation over one small run, not a billing guarantee."
+ ],
+ "risk_if_applied_as_written": "Low and bounded. Choice keeps its proven provider as a fallback, so the worst case is a wasted Firecrawl call before the current behaviour resumes. The failure mode that would matter -- a wrong policy fact -- did not occur once in this test, and the no-pets cases, where a wrong answer is most damaging, were reproduced exactly.",
+ "superseded_by": "ptf_firecrawl_choice_route_proposal_004.json",
+ "superseded_note": "Decision C here rested on the belief that Firecrawl only matched Choice coverage. Completing the fifteen-property sample disproved that: it reaches seven Choice properties the production run does not hold. The 004 proposal supersedes this one at decision B. Neither has been applied."
+}

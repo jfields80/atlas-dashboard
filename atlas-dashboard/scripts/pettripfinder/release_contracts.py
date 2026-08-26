@@ -96,6 +96,44 @@ def available_market_ids() -> Tuple[str, ...]:
     return tuple(sorted(p.stem for p in RELEASE_CONTRACTS_DIR.glob("*.json")))
 
 
+#: Contracts retired by a later work order, keyed by the sha256 of the exact
+#: document. A superseded contract is not edited and not deleted -- a
+#: historical artifact that quietly grows a new number is worse than a stale
+#: one -- so the guard is on CONTENT, and copying the old file into the live
+#: directory does not resurrect it.
+SUPERSEDED_REGISTRY = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                       / "release_contracts_superseded.json")
+
+
+def superseded_contracts() -> Dict[str, Dict]:
+    """``{sha256: supersession record}``. Empty when nothing is retired."""
+    if not SUPERSEDED_REGISTRY.is_file():
+        return {}
+    doc = json.loads(SUPERSEDED_REGISTRY.read_text(encoding="utf-8-sig"))
+    return {str(row.get("sha256")): row for row in doc.get("contracts") or ()}
+
+
+def assert_not_superseded(path: Path, raw: bytes) -> None:
+    """Refuse a contract a later work order retired.
+
+    PTF-...-PUBLICATION-037 prepared Milwaukee's contract against a
+    seventy-record authority; the founders have since approved seventy-three.
+    Its expected_sha256, its record count and its held-identity list all
+    describe a market that no longer exists, and a build gated on it would
+    pass while checking the wrong thing.
+    """
+    import hashlib
+    digest = hashlib.sha256(raw).hexdigest()
+    record = superseded_contracts().get(digest)
+    if record is None:
+        return
+    raise ReleaseContractError(
+        "release contract %s was SUPERSEDED by %s and must not gate a build: "
+        "%s. Its replacement is %s."
+        % (path.name, record.get("superseded_by", "a later work order"),
+           record.get("why", ""), record.get("replacement", "not stated")))
+
+
 def load_contract(market_id: str) -> Dict:
     """Load and self-check one market's contract (fail closed).
 
@@ -116,7 +154,9 @@ def load_contract(market_id: str) -> Dict:
             "committed contract: %s"
             % (market_id, path.relative_to(REPO_ROOT).as_posix(),
                list(available_market_ids())))
-    contract = json.loads(path.read_text(encoding="utf-8-sig"))
+    raw = path.read_bytes()
+    assert_not_superseded(path, raw)
+    contract = json.loads(raw.decode("utf-8-sig"))
     schema = str(contract.get("schema") or "")
     if schema != CONTRACT_SCHEMA:
         raise ReleaseContractError(

@@ -89,6 +89,12 @@ MANIFEST_PATH = LAUNCH_PACKAGE / "ptf_global_authority_manifest.json"
 ROUTING_SHARD_NAME = "identity_routing.json"
 EXCLUSIONS_SHARD_NAME = "hotel_exclusions.json"
 SEED_SHARD_NAME = "seed_businesses.csv"
+#: PTF-MEASUREMENT-001 Phase 1b. A fourth, additive shard kind: the market's
+#: affiliate booking destinations (``scripts/pettripfinder/affiliate_destinations``
+#: owns the contract). It has NO generated global artifact -- the cross-market
+#: view is derived in memory -- so the authority manifest above and the three
+#: legacy globals are untouched by its presence.
+AFFILIATE_SHARD_NAME = "affiliate_destinations.json"
 
 #: The seed CSV's frozen column order. A shard that disagrees is refused rather
 #: than silently reordered -- the global CSV's header is a public contract.
@@ -168,6 +174,10 @@ def exclusions_shard_path(market_id: str, authority_dir: Optional[Path] = None) 
 
 def seed_shard_path(market_id: str, authority_dir: Optional[Path] = None) -> Path:
     return market_shard_dir(market_id, authority_dir) / SEED_SHARD_NAME
+
+
+def affiliate_shard_path(market_id: str, authority_dir: Optional[Path] = None) -> Path:
+    return market_shard_dir(market_id, authority_dir) / AFFILIATE_SHARD_NAME
 
 
 def registered_market_ids() -> Tuple[str, ...]:
@@ -542,9 +552,11 @@ __all__ = [
     "SCHEMA", "AUTHORITY_DIR", "MANIFEST_PATH", "SEED_COLUMNS",
     "GLOBAL_ROUTING_PATH", "GLOBAL_EXCLUSIONS_PATH", "GLOBAL_SEED_PATH",
     "ROUTING_SHARD_NAME", "EXCLUSIONS_SHARD_NAME", "SEED_SHARD_NAME",
+    "AFFILIATE_SHARD_NAME",
     "MarketAuthorityError",
     "market_shard_dir", "routing_shard_path", "exclusions_shard_path",
-    "seed_shard_path", "registered_market_ids", "sharded_market_ids",
+    "seed_shard_path", "affiliate_shard_path", "registered_market_ids",
+    "sharded_market_ids",
     "render_json", "render_seed_csv",
     "build_routing_shard", "build_exclusions_shard",
     "load_market_routing_document", "load_market_routes",

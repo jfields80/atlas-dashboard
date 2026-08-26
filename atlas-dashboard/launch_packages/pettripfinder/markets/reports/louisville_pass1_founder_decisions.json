@@ -1,0 +1,143 @@
+{
+  "schema": "ptf-louisville-pass1-founder-decisions/1.0",
+  "work_order": "PTF-LOUISVILLE-PASS1-FOUNDER-DECISIONS-001",
+  "market_id": "louisville-ky",
+  "as_of": "2026-08-16",
+  "operator": "jfields80",
+  "note": "D001-D006 recorded. Hotel Genevieve has no founder policy decision. Pass 1 authority is not applied. No publish, merge, or deploy.",
+  "authority_applied": false,
+  "merged": false,
+  "deployed": false,
+  "recorded_decision_count": 6,
+  "recorded_summary": {
+    "decisions_recorded": 6,
+    "approvals_positive": 2,
+    "verified_no_pets": 3,
+    "holds": 1,
+    "no_decision_blocked_rows": 1
+  },
+  "decisions": [
+    {
+      "decision_id": "D001",
+      "packet_id": "LVL-P1-001",
+      "identity_key": "21c museum hotel louisville",
+      "hotel": "21c Museum Hotel Louisville",
+      "decision": "HOLD_PARTIAL_AFFIRMATIVE",
+      "publish": false,
+      "queue": true,
+      "preserved": {
+        "artifact_sha256": "078fbfd16cd489e1fc3c2ab67f9f12b4feda21f3103001778b3db811b03cebd0",
+        "artifact_relpath": "raw/21c-museum-hotel-louisville__faq-chrome.html",
+        "final_url": "https://21cmuseumhotels.com/louisville/faq/",
+        "identity_binding": "BOUND",
+        "identity_signals": [
+          "21c Museum Hotel Louisville",
+          "502.217.6300",
+          "Louisville FAQ"
+        ],
+        "exact_quotes": [
+          "Pets are always welcome at 21c. The pet fee is $40 and a pet waiver form must be completed and signed at check-in."
+        ],
+        "captured_partial_facts": {
+          "pets_allowed": true
+        },
+        "withheld_fields": {
+          "species": "SOURCE_AMBIGUOUS: page says pets, not dogs or cats",
+          "pet_fee.basis": "SOURCE_AMBIGUOUS: $40 stated without stay/night basis",
+          "pet_fee.scope": "SOURCE_AMBIGUOUS: $40 stated without per-pet/per-room scope"
+        },
+        "next_action": "Re-read the 21c Louisville FAQ and capture explicit pet-fee basis (per stay / per night) and fee scope (per pet / per room). Species remains withheld until the page names dogs or cats. Do not publish the partial record."
+      },
+      "applied": false
+    },
+    {
+      "decision_id": "D002",
+      "packet_id": "LVL-P1-002",
+      "identity_key": "bellwether hotel",
+      "hotel": "Bellwether Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "publish": false,
+      "approved_fact_keys": [
+        "pets_allowed",
+        "species",
+        "pet_count_limit",
+        "combined_weight_limit",
+        "pet_room_restriction",
+        "unattended_policy",
+        "reservation_requirement"
+      ],
+      "withheld": [
+        "pet_fee.basis",
+        "pet_fee.scope",
+        "refundability"
+      ],
+      "artifact_sha256": "f22f9436153498c752fa5ec655e97deab0551835568d5ad917a3ccbc5af8667d",
+      "applied": false
+    },
+    {
+      "decision_id": "D003",
+      "packet_id": "LVL-P1-003",
+      "identity_key": "econo lodge downtown",
+      "hotel": "Econo Lodge Downtown",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "publish": false,
+      "artifact_sha256": "5c854fa35d3420f346c9e1e73a6bb58d3faeb4ca6e92f2d6df9e9f147333a579",
+      "evidence_quote": "No Pets Allowed",
+      "applied": false
+    },
+    {
+      "decision_id": "D004",
+      "packet_id": "LVL-P1-004",
+      "identity_key": "galt house hotel",
+      "hotel": "Galt House Hotel",
+      "decision": "APPROVE_AFFIRMATIVE_STRUCTURED",
+      "publish": false,
+      "applied": false,
+      "approved_fact_keys": [
+        "pets_allowed",
+        "species",
+        "pet_count_limit",
+        "pet_count_scope",
+        "weight_limit",
+        "pet_fee",
+        "unattended_policy"
+      ],
+      "artifact_sha256": "4998d9e65d934ff0898376dd07086a1652d68f42b7018507ca4197b0de5af355"
+    },
+    {
+      "decision_id": "D005",
+      "packet_id": "LVL-P1-006",
+      "identity_key": "hotel louisville downtown",
+      "hotel": "Hotel Louisville Downtown",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "publish": false,
+      "applied": false,
+      "artifact_sha256": "6328503c741d0223c6ac8eed72fcd2da06215d210563e0813b10fcbeec8c3436",
+      "evidence_quote": "Is Hotel Louisville pet-friendly? No, only service animals are welcome at the property."
+    },
+    {
+      "decision_id": "D006",
+      "packet_id": "LVL-P1-007",
+      "identity_key": "the brown hotel",
+      "hotel": "The Brown Hotel",
+      "decision": "APPROVE_VERIFIED_NO_PETS",
+      "publish": false,
+      "applied": false,
+      "artifact_sha256": "aed7d22e45f3583960e00eec849c3608fe404abd0201ae5332aef7426ff3bd1e",
+      "evidence_quote": "Pets not allowed (service animals are welcome, and are exempt from fees)."
+    }
+  ],
+  "no_founder_policy_decision": [
+    {
+      "identity_key": "hotel genevieve",
+      "decision": "NONE",
+      "applied": false
+    }
+  ],
+  "published": 0,
+  "verified_no_pets": 0,
+  "unresolved": 129,
+  "site_assembled": false,
+  "release_contract_written": false,
+  "d004_galt_house": "RECORDED_NOT_APPLIED"
+}

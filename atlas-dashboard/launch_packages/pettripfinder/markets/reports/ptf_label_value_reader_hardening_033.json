@@ -1,0 +1,1038 @@
+{
+  "schema": "ptf-label-value-reader-hardening/1.0",
+  "work_order": "PTF-LABEL-VALUE-POLICY-READER-HARDENING-033",
+  "market": "milwaukee-wi",
+  "run_id": "milwaukee-label-value-033",
+  "generated_at": "2026-08-21T16:36:02+00:00",
+  "baseline_commit": "b21a04a034eec2be802a2892008c93489f54d188",
+  "preflight": {
+    "checked_at": "2026-08-21T16:36:02+00:00",
+    "targets": [
+      "hyatt place milwaukee airport",
+      "hyatt regency milwaukee"
+    ],
+    "target_evidence": {
+      "hyatt place milwaukee airport": {
+        "source_run": "milwaukee-premium-028",
+        "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-place-milwaukee-airport/attempt-01",
+        "document_sha256": "7ab480f2c09d21c2a0bb91ec9ce99a2e4b8a1f0164745fd7b005ae31ffe966c7",
+        "document_present": true,
+        "recovered_block_chars": 207,
+        "baseline_extraction": {
+          "cleaning_fee": 10000
+        },
+        "baseline_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        }
+      },
+      "hyatt regency milwaukee": {
+        "source_run": "milwaukee-premium-028",
+        "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-regency-milwaukee/attempt-01",
+        "document_sha256": "cb355a4f68835fe36dce113f6dcd823325c7ebb01731817d3908d37676aaee4d",
+        "document_present": true,
+        "recovered_block_chars": 152,
+        "baseline_extraction": {},
+        "baseline_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        }
+      }
+    },
+    "store_rows": 117,
+    "published": 0,
+    "authority_written": false,
+    "assertions": {
+      "two_targets": true,
+      "store_before_this_run_was_115": false,
+      "every_target_has_its_document": true,
+      "no_target_reads_a_pet_fact_yet": true,
+      "nothing_published": true,
+      "authority_absent": true
+    }
+  },
+  "targets": [
+    "hyatt place milwaukee airport",
+    "hyatt regency milwaukee"
+  ],
+  "corpus_differential": {
+    "cases": 29,
+    "cases_changed": 10,
+    "expectations_met": 29,
+    "expectations_failed": [],
+    "expectations_met_before": 19,
+    "negative_controls": [
+      "N1-room-price-card",
+      "N2-member-rate-card",
+      "N3-parking-label",
+      "N4-resort-fee-label",
+      "N5-smoking-fee-label",
+      "N6-generic-cleaning-deposit",
+      "N7-amenity-grid",
+      "N8-service-animal-only",
+      "N9-occupancy-not-a-pet-count"
+    ],
+    "negative_controls_that_changed_answer": [],
+    "regression_controls_that_changed": [],
+    "rows": [
+      {
+        "case_id": "T1-label-value-simple-fee",
+        "kind": "TARGET",
+        "scenario": "a label/value table with one price, two weights and a count",
+        "block": "Pet Fees Price : $40 / NIGHT Weight Limits Individual pet weight limit : 150 Pounds Combined pets weight limit : 150 Pounds Maximum number of pets is 2.",
+        "old_extraction": {},
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pet_fee": 4000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "weight_limit": {
+            "value": 150.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "T2-label-value-banded-fee",
+        "kind": "TARGET",
+        "scenario": "the same table with a fee banded by stay length",
+        "block": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds Maximum number of pets is 2.",
+        "old_extraction": {
+          "cleaning_fee": 10000
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_extraction": {
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "cleaning_fee": "SOURCE_AMBIGUOUS",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "P1-fee-label-colon-amount",
+        "kind": "POSITIVE",
+        "scenario": "a pet fee stated as a label and a value",
+        "block": "Pet Fee : $35 per night",
+        "old_extraction": {
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "P2-price-label",
+        "kind": "POSITIVE",
+        "scenario": "the charge noun is PRICE rather than fee or rate",
+        "block": "Pet Fees Price : $40 / NIGHT",
+        "old_extraction": {},
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pet_fee": 4000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "P3-weight-label-colon",
+        "kind": "POSITIVE",
+        "scenario": "a weight limit stated with a colon",
+        "block": "Pets welcome. Individual pet weight limit : 50 Pounds",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "P4-count-label-then-value",
+        "kind": "POSITIVE",
+        "scenario": "a count whose number follows the noun",
+        "block": "Pets welcome. Maximum number of pets is 2.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "P5-count-label-colon",
+        "kind": "POSITIVE",
+        "scenario": "the same count with a colon",
+        "block": "Pets welcome. Maximum number of pets : 3",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 3
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "P6-species-label",
+        "kind": "POSITIVE",
+        "scenario": "a species stated explicitly beside a fee",
+        "block": "Dogs Allowed. Dogs only. Pet Fee : $50 per stay",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay",
+          "species_allowed": [
+            "dog"
+          ]
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "P7-basis-stated-separately",
+        "kind": "POSITIVE",
+        "scenario": "the basis is its own labelled row",
+        "block": "Pets welcome. Pet fee : $25. Charged per night.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD"
+        },
+        "old_withheld": {
+          "fee_basis": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD"
+        },
+        "new_withheld": {
+          "fee_basis": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N1-room-price-card",
+        "kind": "NEGATIVE",
+        "scenario": "a room price in a label/value card beside a pet refusal",
+        "block": "1 King Bed 4 Guests No Pets Allowed Discounted price : $160 USD / night",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N2-member-rate-card",
+        "kind": "NEGATIVE",
+        "scenario": "a member rate card beside a pet refusal",
+        "block": "No Pets Allowed Member Price : 160.00 per night",
+        "old_extraction": {
+          "pets_allowed": false
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": false
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N3-parking-label",
+        "kind": "NEGATIVE",
+        "scenario": "a parking charge in the same table as a pet policy",
+        "block": "Pets welcome. Self-parking price : $35 per night. Valet parking : $50 per night.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N4-resort-fee-label",
+        "kind": "NEGATIVE",
+        "scenario": "a resort fee beside a pet statement",
+        "block": "Pets welcome. Resort fee : $29 per night.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2900,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "N5-smoking-fee-label",
+        "kind": "NEGATIVE",
+        "scenario": "a smoking penalty beside a pet flag",
+        "block": "Pets allowed Yes. Smoking fee : $250 per stay for smoking in a non-smoking room.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 25000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "N6-generic-cleaning-deposit",
+        "kind": "NEGATIVE",
+        "scenario": "a deposit every guest pays, in the pet block",
+        "block": "Service Animals are Welcome. Deposit Policy: A $50 refundable deposit for incidentals is required at check-in for all guests.",
+        "old_extraction": {
+          "service_animal_exception": "Service Animals are Welcome."
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "service_animal_exception": "Service Animals are Welcome."
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N7-amenity-grid",
+        "kind": "NEGATIVE",
+        "scenario": "an amenity grid with numbers in it",
+        "block": "Amenities Free WiFi Pet Friendly Outdoor Pool Fitness Center Rooms from $59. Rated 4.2 of 5 by 318 guests.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N8-service-animal-only",
+        "kind": "NEGATIVE",
+        "scenario": "service animals named and no pet policy",
+        "block": "Service Animals are Welcome",
+        "old_extraction": {
+          "service_animal_exception": "Service Animals are Welcome"
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "service_animal_exception": "Service Animals are Welcome"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "N9-occupancy-not-a-pet-count",
+        "kind": "NEGATIVE",
+        "scenario": "a room occupancy stated as a label and a value",
+        "block": "Pets welcome. Maximum number of guests is 4. Maximum occupancy : 4",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C1-tiered-fee",
+        "kind": "COMPLEXITY",
+        "scenario": "a fee that changes after the first night",
+        "block": "Pets welcome. $75 for the first night, $25 per night thereafter.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C2-banded-by-stay-length",
+        "kind": "COMPLEXITY",
+        "scenario": "a fee banded by stay length in a label/value table",
+        "block": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights : $200 / STAY",
+        "old_extraction": {},
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_extraction": {},
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C3-multi-pet-price-tiers",
+        "kind": "COMPLEXITY",
+        "scenario": "a price that depends on how many pets",
+        "block": "Pets welcome. Pet fee : $50 for one pet, $75 for two pets, per stay.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true
+        },
+        "new_withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C4-conflicting-basis",
+        "kind": "COMPLEXITY",
+        "scenario": "one amount stated on two bases",
+        "block": "Pet Policy Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00",
+        "old_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 10000,
+          "pet_fee": 2000,
+          "fee_currency": "USD"
+        },
+        "old_withheld": {
+          "fee_basis": "SOURCE_CONTRADICTORY"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 10000,
+          "pet_fee": 2000,
+          "fee_currency": "USD"
+        },
+        "new_withheld": {
+          "fee_basis": "SOURCE_CONTRADICTORY"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C5-individual-and-combined-weight",
+        "kind": "COMPLEXITY",
+        "scenario": "two weight limits, one per animal and one for all of them",
+        "block": "Pets welcome. Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "C6-combined-weight-only",
+        "kind": "COMPLEXITY",
+        "scenario": "only a combined weight is stated",
+        "block": "Pets welcome. Up to two dogs, combined weight not to exceed 100 pounds.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "C7-real-cleaning-fee",
+        "kind": "COMPLEXITY",
+        "scenario": "a cleaning charge the source really does name",
+        "block": "Pets welcome. Pet fee $50 per stay. Cleaning fee : $75 per stay.",
+        "old_extraction": {
+          "pets_allowed": true
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS",
+          "fee_basis": "SOURCE_AMBIGUOUS"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 7500,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "new_withheld": {},
+        "differs": true,
+        "expectation_met": true,
+        "expectation_met_before": false
+      },
+      {
+        "case_id": "R1-simple-prose-fee",
+        "kind": "REGRESSION",
+        "scenario": "the prose shape the reader was built for",
+        "block": "Pets Welcome. Pet fee $25 per night.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 2500,
+          "fee_currency": "USD",
+          "fee_basis": "per_night"
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "R2-prose-per-stay",
+        "kind": "REGRESSION",
+        "scenario": "the basis-first prose shape",
+        "block": "Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 15000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 15000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay"
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "R3-prose-count-and-weight",
+        "kind": "REGRESSION",
+        "scenario": "prose count and weight",
+        "block": "Pets Welcome. Maximum of two pets per room. Maximum Pet Weight: 50.0lbs",
+        "old_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "new_withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      },
+      {
+        "case_id": "R4-pet-named-rate",
+        "kind": "REGRESSION",
+        "scenario": "029's Best Western wording",
+        "block": "Pets welcome. The Pet Friendly rate is 35.00 USD per day.",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_day"
+        },
+        "old_withheld": {},
+        "new_extraction": {
+          "pets_allowed": true,
+          "pet_fee": 3500,
+          "fee_currency": "USD",
+          "fee_basis": "per_day"
+        },
+        "new_withheld": {},
+        "differs": false,
+        "expectation_met": true,
+        "expectation_met_before": true
+      }
+    ]
+  },
+  "corpus_wide_dry_run": {
+    "blocks_scanned": 125,
+    "blocks_changed": 4,
+    "blocks_unchanged": 121,
+    "newly_structured_fields": {
+      "cleaning_fee": 1,
+      "fee_basis": 2,
+      "fee_currency": 3,
+      "pet_fee": 3,
+      "pet_count_limit": 2,
+      "weight_limit": 2
+    },
+    "fields_removed": {
+      "cleaning_fee": 1
+    },
+    "newly_withheld_fields": {
+      "fee_basis": 1,
+      "cleaning_fee": 1
+    },
+    "changes_by_run": {
+      "milwaukee-router-001": 1,
+      "milwaukee-premium-028": 1,
+      "milwaukee-label-value-033": 2
+    },
+    "blocks_changed_that_the_store_reads_generically": 2,
+    "blocks_changed_read_by_another_reader": [
+      "",
+      "marriott"
+    ],
+    "affected": [
+      {
+        "production_reader": "marriott",
+        "run_id": "milwaukee-router-001",
+        "slug": "courtyard-by-marriott-milwaukee-downtown",
+        "path": "data/acquisition/milwaukee-router-001/milwaukee-router-001/courtyard-by-marriott-milwaukee-downtown/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "new_extraction": {
+          "pets_allowed": true,
+          "cleaning_fee": 500,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_stay",
+          "pet_count_limit": 2,
+          "pet_count_scope": "per_room"
+        },
+        "old_withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS",
+          "fee_basis": "SOURCE_AMBIGUOUS"
+        },
+        "new_withheld": {},
+        "added_fields": [
+          "cleaning_fee",
+          "fee_basis",
+          "fee_currency",
+          "pet_fee"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": [
+          "fee_basis",
+          "pet_fee"
+        ]
+      },
+      {
+        "production_reader": "",
+        "run_id": "milwaukee-premium-028",
+        "slug": "hyatt-regency-milwaukee",
+        "path": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-regency-milwaukee/attempt-01/policy-block.txt",
+        "old_extraction": {},
+        "new_extraction": {
+          "pet_fee": 4000,
+          "fee_currency": "USD"
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "fee_basis": "SOURCE_SILENT"
+        },
+        "added_fields": [
+          "fee_currency",
+          "pet_fee"
+        ],
+        "removed_fields": [],
+        "withheld_added": [
+          "fee_basis"
+        ],
+        "withheld_removed": []
+      },
+      {
+        "production_reader": "generic",
+        "run_id": "milwaukee-label-value-033",
+        "slug": "hyatt-place-milwaukee-airport",
+        "path": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-place-milwaukee-airport/attempt-01/policy-block.txt",
+        "old_extraction": {
+          "cleaning_fee": 10000
+        },
+        "new_extraction": {
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT",
+          "cleaning_fee": "SOURCE_AMBIGUOUS",
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "added_fields": [
+          "pet_count_limit",
+          "weight_limit"
+        ],
+        "removed_fields": [
+          "cleaning_fee"
+        ],
+        "withheld_added": [
+          "cleaning_fee"
+        ],
+        "withheld_removed": []
+      },
+      {
+        "production_reader": "generic",
+        "run_id": "milwaukee-label-value-033",
+        "slug": "hyatt-regency-milwaukee",
+        "path": "data/acquisition/milwaukee-label-value-033/milwaukee-label-value-033/hyatt-regency-milwaukee/attempt-01/policy-block.txt",
+        "old_extraction": {},
+        "new_extraction": {
+          "pet_fee": 4000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "weight_limit": {
+            "value": 150.0,
+            "unit": "lb"
+          },
+          "pet_count_limit": 2
+        },
+        "old_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "new_withheld": {
+          "pets_allowed": "SOURCE_SILENT"
+        },
+        "added_fields": [
+          "fee_basis",
+          "fee_currency",
+          "pet_count_limit",
+          "pet_fee",
+          "weight_limit"
+        ],
+        "removed_fields": [],
+        "withheld_added": [],
+        "withheld_removed": []
+      }
+    ]
+  },
+  "rederivation": [
+    {
+      "identity_key": "hyatt place milwaukee airport",
+      "canonical_name": "Hyatt Place Milwaukee Airport",
+      "brand": "HYATT",
+      "source_url": "https://www.hyatt.com/hyatt-place/en-US/mkeza-hyatt-place-milwaukee-airport",
+      "source_run": "milwaukee-premium-028",
+      "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-place-milwaukee-airport/attempt-01",
+      "document_sha256": "7ab480f2c09d21c2a0bb91ec9ce99a2e4b8a1f0164745fd7b005ae31ffe966c7",
+      "policy_locator": "richer_block_recovery",
+      "policy_block": "Pet Fees 1-6 nights : $100 / STAY 7-30 nights + additional cleaning fee : $200 / STAY Weight Limits Individual pet weight limit : 50 Pounds Combined pets weight limit : 75 Pounds Maximum number of pets is 2.",
+      "policy_block_chars": 207,
+      "provider_calls": 0,
+      "reading_before": {
+        "cleaning_fee": 10000
+      },
+      "withheld_before": {
+        "pets_allowed": "SOURCE_SILENT",
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "reading_after": {
+        "weight_limit": {
+          "value": 50.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "withheld_after": {
+        "pets_allowed": "SOURCE_SILENT",
+        "cleaning_fee": "SOURCE_AMBIGUOUS",
+        "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+        "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+      },
+      "non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "substantive_pet_fields": [
+        "pet_count_limit",
+        "weight_limit"
+      ],
+      "yields_an_observation": true,
+      "review_status_before": "HELD_SCHEMA_CANNOT_REPRESENT",
+      "in_store_before": true,
+      "journalled": true
+    },
+    {
+      "identity_key": "hyatt regency milwaukee",
+      "canonical_name": "Hyatt Regency Milwaukee",
+      "brand": "HYATT",
+      "source_url": "https://www.hyatt.com/hyatt-regency/en-US/mkerm-hyatt-regency-milwaukee",
+      "source_run": "milwaukee-premium-028",
+      "source_attempt_dir": "data/acquisition/milwaukee-premium-028/milwaukee-premium-028/hyatt-regency-milwaukee/attempt-01",
+      "document_sha256": "cb355a4f68835fe36dce113f6dcd823325c7ebb01731817d3908d37676aaee4d",
+      "policy_locator": "richer_block_recovery",
+      "policy_block": "Pet Fees Price : $40 / NIGHT Weight Limits Individual pet weight limit : 150 Pounds Combined pets weight limit : 150 Pounds Maximum number of pets is 2.",
+      "policy_block_chars": 152,
+      "provider_calls": 0,
+      "reading_before": {},
+      "withheld_before": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "reading_after": {
+        "pet_fee": 4000,
+        "fee_currency": "USD",
+        "fee_basis": "per_night",
+        "weight_limit": {
+          "value": 150.0,
+          "unit": "lb"
+        },
+        "pet_count_limit": 2
+      },
+      "withheld_after": {
+        "pets_allowed": "SOURCE_SILENT"
+      },
+      "non_inferences": [
+        "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+        "weight_limit.scope: not emitted unless the source states it",
+        "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+        "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+      ],
+      "substantive_pet_fields": [
+        "fee_basis",
+        "fee_currency",
+        "pet_count_limit",
+        "pet_fee",
+        "weight_limit"
+      ],
+      "yields_an_observation": true,
+      "review_status_before": "FOUNDER_REVIEW_READY",
+      "in_store_before": true,
+      "journalled": true
+    }
+  ],
+  "journalled": 2,
+  "counters": {
+    "census_total": 147,
+    "active_eligible": 133,
+    "observed": 117,
+    "active_unresolved": 16,
+    "published": 0,
+    "store_rows": 117,
+    "sum_of_final_states": 147
+  },
+  "cost": {
+    "provider_calls": 0,
+    "pages_fetched": 0,
+    "incremental_spend_usd": 0.0,
+    "why": "every block read here was persisted by an earlier run and every document hash is carried forward from it"
+  },
+  "provider_calls": 0,
+  "authority_written": false,
+  "published": 0
+}

@@ -121,6 +121,42 @@ def _add_common_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--cache-only", action="store_true")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--overpass-registry", default="",
+                   help="an approved-endpoint registry other than the committed "
+                        "default (discovery/config/overpass_endpoints.json)")
+    p.add_argument("--osm-extract-index", default="",
+                   help="a ptf-osm-extract-index document; Overpass cells are "
+                        "answered from it locally and no public server is asked")
+
+
+def cmd_state(args) -> int:
+    """The free-discovery state: exhausted, runnable, or waiting. Offline."""
+    from scripts.pettripfinder.discovery import discovery_state as DS
+    from scripts.pettripfinder.discovery import overpass_endpoints as OE
+    root = Path(args.output_root)
+    registry = (OE.EndpointRegistry.load(Path(args.overpass_registry))
+                if args.overpass_registry else None)
+    document = DS.build(
+        args.market, cache_root=root / C.CACHE_SUBDIR, registry=registry,
+        health_ledger_path=root / OE.HEALTH_LEDGER_FILENAME,
+        google_key_present=google_key_present())
+    if args.out:
+        DS.write(document, Path(args.out))
+    print("state                  : %s" % document["state"])
+    print("cells total/cached/rem : %d / %d / %d"
+          % (document["OVERPASS_CELLS_TOTAL"], document["OVERPASS_CELLS_CACHED"],
+             document["OVERPASS_CELLS_REMAINING"]))
+    print("endpoints available    : %d of %d enabled (%s)"
+          % (document["OVERPASS_ENDPOINTS_AVAILABLE"],
+             document["OVERPASS_ENDPOINTS_ENABLED"],
+             ", ".join(document["available_endpoint_ids"]) or "none"))
+    if document["earliest_cooldown_expiry"]:
+        print("earliest cooldown ends : %s" % document["earliest_cooldown_expiry"])
+    print("cached by endpoint     : %s" % dict(document["cached_cells_by_endpoint"]))
+    print("paid fallback          : %s" % document["paid_discovery_fallback"]["state"])
+    if args.out:
+        print("written                : %s" % args.out)
+    return 0
 
 
 def cmd_plan(args) -> int:
@@ -155,6 +191,8 @@ def cmd_run(args) -> int:
         max_google_requests=args.max_google_requests,
         max_overpass_requests=args.max_overpass_requests,
         cache_only=args.cache_only, resume=args.resume,
+        overpass_registry_path=args.overpass_registry,
+        osm_extract_index=args.osm_extract_index,
     )
 
     if args.dry_run:
@@ -218,6 +256,19 @@ def cmd_run(args) -> int:
     print("coverage html           : %s" % html_path)
     print("google requests made    : %d" % google_requests)
     print("overpass requests made  : %d" % overpass_requests)
+    stats_path = Path(config.output_root) / "overpass_run_stats.json"
+    if stats_path.is_file():
+        stats = json.loads(stats_path.read_text(encoding="utf-8"))
+        print("overpass endpoint       : %s (switches %s, timeouts %s, rate "
+              "limits %s, waited %ss)"
+              % (stats.get("current_endpoint_id") or "-",
+                 stats.get("endpoint_switches", 0), stats.get("timeouts", 0),
+                 stats.get("rate_limits", 0), stats.get("waited_seconds", 0)))
+        if stats.get("all_endpoints_unhealthy"):
+            print("WARNING: every approved Overpass endpoint was unhealthy; "
+                  "remaining cells were NOT attempted (earliest cooldown ends "
+                  "%s). Run `discovery_cli.py state` for the waiting report."
+                  % (stats.get("earliest_cooldown_expiry") or "unknown"))
     print("next : python scripts/pettripfinder/discovery_cli.py report "
           "--market %s --output-root %s" % (config.market_id, config.output_root))
     return 0
@@ -257,6 +308,14 @@ def main(argv=None) -> int:
     report_p.add_argument("--market", required=True)
     report_p.add_argument("--output-root", default=C.DEFAULT_DISCOVERY_ROOT)
     report_p.set_defaults(func=cmd_report)
+
+    state_p = sub.add_parser("state", help="Free-discovery state: exhausted, runnable "
+                                           "or waiting on endpoint health (offline).")
+    state_p.add_argument("--market", required=True)
+    state_p.add_argument("--output-root", default=C.DEFAULT_DISCOVERY_ROOT)
+    state_p.add_argument("--overpass-registry", default="")
+    state_p.add_argument("--out", default="")
+    state_p.set_defaults(func=cmd_state)
 
     args = p.parse_args(argv)
     return args.func(args)

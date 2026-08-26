@@ -1,0 +1,683 @@
+{
+ "schema": "ptf-reader-corpus-dry-run/1.0",
+ "work_order": "PTF-GENERIC-READER-HARDENING-AND-SOURCE-WIRING-016",
+ "data_root": "C:\\Atlas-Grok-Milwaukee\\atlas-dashboard\\data\\acquisition",
+ "authority_written": false,
+ "observations_updated": false,
+ "documents_scanned": 181,
+ "counts": {
+  "unchanged": 160,
+  "changed": 21,
+  "newly_structured": 40,
+  "newly_withheld": 6,
+  "values_removed": 3,
+  "values_altered": 0,
+  "blocks_newly_located": 5
+ },
+ "changed_by_run": {
+  "firecrawl-hard-lanes-003": 1,
+  "generic-reader-diagnostic-013": 5,
+  "independent-url-discovery-014": 12,
+  "milwaukee-router-001": 1,
+  "motel6-firecrawl-decision-012": 2
+ },
+ "re_derivation_queue": {
+  "note": "Documents whose reading changed. These are candidates for re-derivation by a work order authorised to write observations; this one writes nothing and re-derives nothing.",
+  "documents": [
+   "firecrawl-hard-lanes-003/hard-lanes-003/scrape/comfort-suites-milwaukee-west/attempt-01/rendered.html",
+   "generic-reader-diagnostic-013/generic-diagnostic-013/motel-6-milwaukee-wi-glendale/rendered.html",
+   "generic-reader-diagnostic-013/generic-diagnostic-013/motel-6-oak-creek-wi/rendered.html",
+   "generic-reader-diagnostic-013/generic-diagnostic-013/red-roof-inn-milwaukee-airport-oak-creek/rendered.html",
+   "generic-reader-diagnostic-013/generic-diagnostic-013/the-ingleside-hotel/rendered.html",
+   "generic-reader-diagnostic-013/generic-diagnostic-013/wildwood-lodge/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/knickerbocker-on-the-lake--faq/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/the-ingleside-hotel--accommodations-dog-friendly/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/the-iron-horse-hotel--faq/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/the-marc-hotel--amenities/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/the-marc-hotel--reservations-policy/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/the-pfister-hotel--accommodations-pets/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/wildwood-lodge--clive-faqs/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/wildwood-lodge--clive/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/wildwood-lodge--pewaukee-faqs/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--faqs/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--home/rendered.html",
+   "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--offers-pet-friendly-hotel/rendered.html",
+   "milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-west/attempt-01/rendered.html",
+   "motel6-firecrawl-decision-012/motel6-decision-012/motel-6-milwaukee-wi-glendale/attempt-01/rendered.html",
+   "motel6-firecrawl-decision-012/motel6-decision-012/motel-6-oak-creek-wi/attempt-01/rendered.html"
+  ],
+  "count": 21
+ },
+ "rows": [
+  {
+   "document": "firecrawl-hard-lanes-003/hard-lanes-003/scrape/comfort-suites-milwaukee-west/attempt-01/rendered.html",
+   "run": "firecrawl-hard-lanes-003",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "pet_deposit"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 10000,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "new_withheld": {},
+   "new_flags": []
+  },
+  {
+   "document": "generic-reader-diagnostic-013/generic-diagnostic-013/motel-6-milwaukee-wi-glendale/rendered.html",
+   "run": "generic-reader-diagnostic-013",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pets_allowed"
+   ],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {},
+   "new_withheld": {
+    "pets_allowed": "ARTIFACT_INSUFFICIENT",
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_AMENITY_LABEL_ONLY"
+   ]
+  },
+  {
+   "document": "generic-reader-diagnostic-013/generic-diagnostic-013/motel-6-oak-creek-wi/rendered.html",
+   "run": "generic-reader-diagnostic-013",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pets_allowed"
+   ],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {},
+   "new_withheld": {
+    "pets_allowed": "ARTIFACT_INSUFFICIENT",
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_AMENITY_LABEL_ONLY"
+   ]
+  },
+  {
+   "document": "generic-reader-diagnostic-013/generic-diagnostic-013/red-roof-inn-milwaukee-airport-oak-creek/rendered.html",
+   "run": "generic-reader-diagnostic-013",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_cap",
+    "species_allowed",
+    "weight_limit"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [
+    "pet_deposit"
+   ],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 5000,
+    "pet_count_limit": 2
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "fee_cap": {
+     "amount_minor": 10500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "new_withheld": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "new_flags": [
+    "FLAG_TIERED_FEE"
+   ]
+  },
+  {
+   "document": "generic-reader-diagnostic-013/generic-diagnostic-013/the-ingleside-hotel/rendered.html",
+   "run": "generic-reader-diagnostic-013",
+   "block_found_before": false,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "generic-reader-diagnostic-013/generic-diagnostic-013/wildwood-lodge/rendered.html",
+   "run": "generic-reader-diagnostic-013",
+   "block_found_before": false,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/knickerbocker-on-the-lake--faq/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pet_fee"
+   ],
+   "fields_removed": [
+    "fee_currency"
+   ],
+   "fields_altered": [],
+   "old_extraction": {
+    "pet_fee": 25000,
+    "fee_currency": "USD",
+    "service_animal_exception": "Only ADA service animals are allowed."
+   },
+   "new_extraction": {
+    "service_animal_exception": "Only ADA service animals are allowed."
+   },
+   "new_withheld": {
+    "pets_allowed": "SOURCE_SILENT",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "new_flags": [
+    "FLAG_AMBIGUOUS_SCOPE"
+   ]
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/the-ingleside-hotel--accommodations-dog-friendly/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_basis",
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 4000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_withheld": {},
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/the-iron-horse-hotel--faq/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pet_fee": 10000,
+    "fee_currency": "USD"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD"
+   },
+   "new_withheld": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/the-marc-hotel--amenities/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_fee",
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals Welcome Pet-Friendly Non-refundable fee: $100 per reservation Pet limit: A maximum of 2 pets (dogs or cats) per room are allowed"
+   },
+   "new_withheld": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/the-marc-hotel--reservations-policy/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_currency",
+    "pet_fee",
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals Allowed, no fee for service animals."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals Allowed, no fee for service animals."
+   },
+   "new_withheld": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/the-pfister-hotel--accommodations-pets/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_currency",
+    "pet_fee",
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service animals are allowed, with no pet fee required for service animals."
+   },
+   "new_withheld": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/wildwood-lodge--clive-faqs/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": false,
+   "block_found_after": true,
+   "fields_gained": [
+    "fee_currency",
+    "pet_count_limit",
+    "pet_count_scope",
+    "pet_fee",
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "new_withheld": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/wildwood-lodge--clive/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": false,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed",
+    "species_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": []
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/wildwood-lodge--pewaukee-faqs/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": false,
+   "block_found_after": true,
+   "fields_gained": [
+    "pet_count_limit",
+    "pet_count_scope",
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {},
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "new_withheld": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "new_flags": [
+    "FLAG_TIERED_FEE"
+   ]
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--faqs/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "service_animal_exception": "Assistance / service animals are welcome at no additional charge at all of our locations (guests must notify the front desk at time of check-in for staff awareness) and we offer pet-friendly hotel locations."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "service_animal_exception": "Assistance / service animals are welcome at no additional charge at all of our locations (guests must notify the front desk at time of check-in for staff awareness) and we offer pet-friendly hotel locations."
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_BRAND_GENERIC"
+   ]
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--home/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pet_fee"
+   ],
+   "fields_removed": [
+    "fee_currency"
+   ],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_AMBIGUOUS",
+    "fee_basis": "SOURCE_AMBIGUOUS"
+   },
+   "new_flags": [
+    "FLAG_MULTI_POLICY_BLOCKS"
+   ]
+  },
+  {
+   "document": "independent-url-discovery-014/url-discovery-014/woodspring-suites-milwaukee-menomonee-falls--offers-pet-friendly-hotel/rendered.html",
+   "run": "independent-url-discovery-014",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "pets_allowed"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "service_animal_exception": "While all of our extended stay hotels welcome eligible service animals at no additional charge, we also offer pet-friendly hotel rooms* at most of our locations ."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "service_animal_exception": "While all of our extended stay hotels welcome eligible service animals at no additional charge, we also offer pet-friendly hotel rooms* at most of our locations ."
+   },
+   "new_withheld": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_BRAND_GENERIC"
+   ]
+  },
+  {
+   "document": "milwaukee-router-001/milwaukee-router-001/comfort-suites-milwaukee-west/attempt-01/rendered.html",
+   "run": "milwaukee-router-001",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [
+    "pet_deposit"
+   ],
+   "fields_newly_withheld": [],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "new_extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 10000,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Max 40 Pounds Service animals are permitted, without charge."
+   },
+   "new_withheld": {},
+   "new_flags": []
+  },
+  {
+   "document": "motel6-firecrawl-decision-012/motel6-decision-012/motel-6-milwaukee-wi-glendale/attempt-01/rendered.html",
+   "run": "motel6-firecrawl-decision-012",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pets_allowed"
+   ],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {},
+   "new_withheld": {
+    "pets_allowed": "ARTIFACT_INSUFFICIENT",
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_AMENITY_LABEL_ONLY"
+   ]
+  },
+  {
+   "document": "motel6-firecrawl-decision-012/motel6-decision-012/motel-6-oak-creek-wi/attempt-01/rendered.html",
+   "run": "motel6-firecrawl-decision-012",
+   "block_found_before": true,
+   "block_found_after": true,
+   "fields_gained": [],
+   "fields_newly_withheld": [
+    "pets_allowed"
+   ],
+   "fields_removed": [],
+   "fields_altered": [],
+   "old_extraction": {
+    "pets_allowed": true
+   },
+   "new_extraction": {},
+   "new_withheld": {
+    "pets_allowed": "ARTIFACT_INSUFFICIENT",
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "new_flags": [
+    "FLAG_AMENITY_LABEL_ONLY"
+   ]
+  }
+ ]
+}

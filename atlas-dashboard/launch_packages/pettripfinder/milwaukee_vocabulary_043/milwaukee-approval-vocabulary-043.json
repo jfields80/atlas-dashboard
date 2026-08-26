@@ -1,0 +1,239 @@
+{
+ "schema": "ptf-approval-vocabulary-normalization/1.0",
+ "work_order": "PTF-MILWAUKEE-APPROVAL-VOCABULARY-NORMALIZATION-043",
+ "market_id": "milwaukee-wi",
+ "provider_calls": 0,
+ "cost_usd": 0.0,
+ "vocabulary": {
+  "vocabulary": "founder-approval-vocabulary/1.0",
+  "canonical": "APPROVED_AFTER_CURRENT_REVIEW",
+  "states": [
+   "APPROVED_AFTER_CURRENT_REVIEW",
+   "LEGACY_BASELINE_REVIEWED",
+   "MACHINE_REVIEWED_PENDING_OPERATOR",
+   "HELD_FOR_REVIEW",
+   "REJECTED",
+   "SUPERSEDED"
+  ],
+  "publishing_states": [
+   "APPROVED_AFTER_CURRENT_REVIEW",
+   "LEGACY_BASELINE_REVIEWED"
+  ],
+  "legacy_inputs": {
+   "APPROVED": "APPROVED_AFTER_CURRENT_REVIEW",
+   "APPROVED_FOR_PROMOTION": "APPROVED_AFTER_CURRENT_REVIEW",
+   "APPROVED_TIERED_FEE_OMITTED": "APPROVED_AFTER_CURRENT_REVIEW",
+   "APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT": "APPROVED_AFTER_CURRENT_REVIEW"
+  },
+  "legacy_caveats": {
+   "APPROVED_TIERED_FEE_OMITTED": "tiered_fee_omitted",
+   "APPROVE_WITH_DIAGNOSTIC_ACKNOWLEDGEMENT": "diagnostic_acknowledged"
+  },
+  "writable_by_new_code": [
+   "APPROVED_AFTER_CURRENT_REVIEW",
+   "HELD_FOR_REVIEW",
+   "LEGACY_BASELINE_REVIEWED",
+   "MACHINE_REVIEWED_PENDING_OPERATOR",
+   "REJECTED",
+   "SUPERSEDED"
+  ],
+  "approval_spellings_across_all_packages": {
+   "APPROVED_AFTER_CURRENT_REVIEW": 336,
+   "HELD_FOR_REVIEW": 5
+  },
+  "packages": [
+   {
+    "package": "hotel_policy_facts.json",
+    "market_id": "columbus-oh",
+    "records": 88,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 83,
+     "HELD_FOR_REVIEW": 5
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 83,
+     "HELD_FOR_REVIEW": 5
+    },
+    "legacy_spellings_present": []
+   },
+   {
+    "package": "hotel_policy_facts_cleveland-akron-canton-oh.json",
+    "market_id": "cleveland-akron-canton-oh",
+    "records": 99,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 99
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 99
+    },
+    "legacy_spellings_present": []
+   },
+   {
+    "package": "hotel_policy_facts_dayton-oh.json",
+    "market_id": "dayton-oh",
+    "records": 47,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 47
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 47
+    },
+    "legacy_spellings_present": []
+   },
+   {
+    "package": "hotel_policy_facts_indianapolis-in.json",
+    "market_id": "indianapolis-in",
+    "records": 8,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 8
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 8
+    },
+    "legacy_spellings_present": []
+   },
+   {
+    "package": "hotel_policy_facts_milwaukee-wi.json",
+    "market_id": "milwaukee-wi",
+    "records": 73,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 73
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 73
+    },
+    "legacy_spellings_present": []
+   },
+   {
+    "package": "hotel_policy_facts_pittsburgh-pa.json",
+    "market_id": "pittsburgh-pa",
+    "records": 26,
+    "by_stored_spelling": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 26
+    },
+    "by_resolved_state": {
+     "APPROVED_AFTER_CURRENT_REVIEW": 26
+    },
+    "legacy_spellings_present": []
+   }
+  ],
+  "decision_ledgers": [
+   {
+    "ledger": "dayton_passB_founder_decisions.json",
+    "decisions": 13,
+    "by_decision": {
+     "<absent>": 13
+    }
+   },
+   {
+    "ledger": "milwaukee_founder_decisions_036.json",
+    "decisions": 98,
+    "by_decision": {
+     "APPROVE": 70,
+     "HOLD": 2,
+     "APPROVE_REFUSAL": 26
+    }
+   },
+   {
+    "ledger": "milwaukee_founder_decisions_040.json",
+    "decisions": 6,
+    "by_decision": {
+     "APPROVE": 3,
+     "APPROVE_REFUSAL": 1,
+     "HOLD": 2
+    }
+   }
+  ]
+ },
+ "canonical_chosen": "APPROVED_AFTER_CURRENT_REVIEW",
+ "canonical_rationale": "Derived, not preferred. 333 of 336 committed approval records across six markets carry it; five markets' publication validators compare against it literally; and 'APPROVED' was already registered as a LEGACY INPUT resolving to it. Promoting the shorter string would invert an existing versioned map and make almost every committed record non-canonical.",
+ "normalized_records": [
+  {
+   "identity_key": "country inn and suites by radisson brown deer milwaukee north",
+   "name": "Country Inn & Suites by Radisson, Brown Deer - Milwaukee North",
+   "stored_decision": "APPROVED",
+   "canonical_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "approval_work_order": "PTF-MILWAUKEE-FOUNDER-DECISION-040",
+   "normalized_by": "PTF-MILWAUKEE-APPROVAL-VOCABULARY-NORMALIZATION-043"
+  },
+  {
+   "identity_key": "country inn and suites by radisson milwaukee west brookfield wi",
+   "name": "Country Inn & Suites by Radisson, Milwaukee West (Brookfield), WI",
+   "stored_decision": "APPROVED",
+   "canonical_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "approval_work_order": "PTF-MILWAUKEE-FOUNDER-DECISION-040",
+   "normalized_by": "PTF-MILWAUKEE-APPROVAL-VOCABULARY-NORMALIZATION-043"
+  },
+  {
+   "identity_key": "saint kate the arts hotel",
+   "name": "Saint Kate - The Arts Hotel",
+   "stored_decision": "APPROVED",
+   "canonical_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "approval_work_order": "PTF-MILWAUKEE-FOUNDER-DECISION-040",
+   "normalized_by": "PTF-MILWAUKEE-APPROVAL-VOCABULARY-NORMALIZATION-043"
+  }
+ ],
+ "still_to_normalize": [],
+ "hash_safety": {
+  "approval_is_in_the_semantic_contract": false,
+  "record_hash_excludes_approval": true,
+  "store_rows_carry_no_approval_block": true,
+  "migration_performed": false
+ },
+ "authority": {
+  "pet_friendly": 73,
+  "verified_no_pets": 27,
+  "published": true,
+  "deployed": false
+ },
+ "closure": {
+  "active_eligible": 133,
+  "census_total": 147,
+  "problems": []
+ },
+ "contract_verification": {
+  "cleveland-akron-canton-oh": [],
+  "columbus-oh": [],
+  "dayton-oh": [],
+  "indianapolis-in": [],
+  "milwaukee-wi": [],
+  "pittsburgh-pa": []
+ },
+ "new_synonym_emitters": [],
+ "build": {
+  "markets": [
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "indianapolis-in",
+   "milwaukee-wi",
+   "pittsburgh-pa"
+  ],
+  "milwaukee_included": true,
+  "total_html_pages": 2195,
+  "total_files": 2211,
+  "sitemap_route_count": 428,
+  "broken_links": 0,
+  "collision_count": 0,
+  "global_shadowing_count": 0,
+  "canonical_violations": 0,
+  "bundle_sha256_each": [
+   "90088e0bfeb8da587943c5102a10ec0448153f5f449a9147517a07e999af75ea",
+   "90088e0bfeb8da587943c5102a10ec0448153f5f449a9147517a07e999af75ea"
+  ],
+  "deterministic": true,
+  "gates": {
+   "assembly.no_route_collisions": true,
+   "assembly.no_global_shadowing": true,
+   "assembly.anchor_supplies_global_shell": true,
+   "content.zero_broken_links": true,
+   "content.canonical_uniqueness": true,
+   "content.sitemap_is_the_site": true,
+   "content.sitemap_excludes_go": true,
+   "content.go_routes_unique": true
+  },
+  "gates_failing": [],
+  "all_gates_pass": true,
+  "deployment_authorized": false
+ }
+}

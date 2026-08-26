@@ -1,0 +1,111 @@
+{
+  "account": {
+    "after": {
+      "available": true,
+      "balance_usd_minor": 995,
+      "bandwidth_bytes": 4700000000,
+      "bandwidth_display": "4.7 GB",
+      "captured_at": "2026-08-24T21:40:31.307305+00:00",
+      "cost_display": "$42.41",
+      "cost_month_usd_minor": 4241,
+      "label": "PTF-LOUISVILLE-MARKET-REBUILD-002 preflight (after)",
+      "notes": [],
+      "pending_charge_usd_minor": 0,
+      "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents",
+      "zone": "scraping_browser1"
+    },
+    "before": {
+      "available": true,
+      "balance_usd_minor": 995,
+      "bandwidth_bytes": 4700000000,
+      "bandwidth_display": "4.7 GB",
+      "captured_at": "2026-08-24T21:40:13.437868+00:00",
+      "cost_display": "$42.41",
+      "cost_month_usd_minor": 4241,
+      "label": "PTF-LOUISVILLE-MARKET-REBUILD-002 preflight (before)",
+      "notes": [],
+      "pending_charge_usd_minor": 0,
+      "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents",
+      "zone": "scraping_browser1"
+    },
+    "delta": {
+      "after": {
+        "available": true,
+        "balance_usd_minor": 995,
+        "bandwidth_bytes": 4700000000,
+        "bandwidth_display": "4.7 GB",
+        "captured_at": "2026-08-24T21:40:31.307305+00:00",
+        "cost_display": "$42.41",
+        "cost_month_usd_minor": 4241,
+        "label": "PTF-LOUISVILLE-MARKET-REBUILD-002 preflight (after)",
+        "notes": [],
+        "pending_charge_usd_minor": 0,
+        "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents",
+        "zone": "scraping_browser1"
+      },
+      "bandwidth_delta_bytes": 0,
+      "before": {
+        "available": true,
+        "balance_usd_minor": 995,
+        "bandwidth_bytes": 4700000000,
+        "bandwidth_display": "4.7 GB",
+        "captured_at": "2026-08-24T21:40:13.437868+00:00",
+        "cost_display": "$42.41",
+        "cost_month_usd_minor": 4241,
+        "label": "PTF-LOUISVILLE-MARKET-REBUILD-002 preflight (before)",
+        "notes": [],
+        "pending_charge_usd_minor": 0,
+        "unit_convention": "bandwidth parsed with decimal units (1 MB = 1e6 bytes); money in integer cents",
+        "zone": "scraping_browser1"
+      },
+      "cost_delta_usd_minor": 0,
+      "cost_status": "PENDING",
+      "note": "neither reported figure moved. Bright Data zone statistics lag; this is NOT evidence that the run was free. Read the ESTIMATED traffic figures instead."
+    }
+  },
+  "all_lanes_authenticated": true,
+  "authentication_rejections": [],
+  "contract": "ptf-lane-preflight/1.0",
+  "failed_lanes": [],
+  "label": "PTF-LOUISVILLE-MARKET-REBUILD-002 preflight",
+  "lanes": [
+    {
+      "detail": "credit endpoint answered",
+      "lane": "firecrawl",
+      "observed": {
+        "credits_remaining": 791,
+        "endpoint": "https://api.firecrawl.dev/v1/team/credit-usage"
+      },
+      "ok": true,
+      "presents_secret": "FIRECRAWL_API_KEY",
+      "seconds": 0.25,
+      "verdict": "AUTHENTICATED"
+    },
+    {
+      "detail": "session opened and reported its exit country",
+      "lane": "brightdata_browser",
+      "observed": {
+        "exit_country": "us",
+        "expected": "us"
+      },
+      "ok": true,
+      "presents_secret": "BRIGHTDATA_BROWSER_AUTH",
+      "seconds": 12.84,
+      "verdict": "AUTHENTICATED"
+    },
+    {
+      "detail": "zone mcp_unlocker returned a document",
+      "lane": "brightdata_web_unlocker",
+      "observed": {
+        "bytes": 217,
+        "exit_country": "us",
+        "zone": "mcp_unlocker"
+      },
+      "ok": true,
+      "presents_secret": "brightdata CLI stored token (independent of BRIGHTDATA_BROWSER_AUTH)",
+      "seconds": 2.58,
+      "verdict": "AUTHENTICATED"
+    }
+  ],
+  "probed_at": "2026-08-24T21:40:33.756932+00:00"
+}

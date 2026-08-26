@@ -284,3 +284,117 @@ publish; display or store any credential value; commit or push. Every command in
 | E3 | Publishing to production |
 | F | Rolling back production |
 | — | Enabling continuous (Git) deployment |
+
+---
+
+## 10. Measurement (PTF-MEASUREMENT-001) — future enablement only
+
+Authority: `docs/pettripfinder/MEASUREMENT_CONTRACT.md`. The committed
+`deploy/netlify/measurement.json` is **disabled** (`enabled: false`,
+`provider.kind: none`); in that state generation emits no provider script, no
+`page_view`, no `build_id`, and the composed bundle hash does not move. The
+global deployment manifest pins the config's SHA-256 (`measurement.config_sha256`)
+and six measurement/affiliate gates alongside the control files.
+
+Enabling measurement is its **own release** (contract §9): edit the config,
+allow the provider host in `headers.production` / `headers.preview`, rebuild,
+re-stamp the manifest, and authorize the **new** bundle hash under a deployment
+work order. It is never folded into a deployment that was authorized against a
+different hash. No provider is configured and no affiliate program is enrolled
+today; Search Console verification, Netlify Analytics and affiliate enrollment
+are external business tasks that change no byte here.
+
+---
+
+## 11. Launch participation (PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046)
+
+Source readiness and launch participation are two different questions.
+`assemble_production_site.market_eligibility` answers the first from the
+market's own authority (census, final partition, policy authority, minimum
+published) and reports it as `assemblable`. The second is the founder's, and
+it is recorded in **`deploy/netlify/launch_participation.json`**
+(`ptf-launch-participation/1.0`, read by
+`scripts/pettripfinder/launch_participation.py`):
+
+| `launch_status` | Meaning | Joins the composed bundle |
+|---|---|---|
+| `FOUNDER_AUTHORIZED_FOR_LAUNCH` | source-ready and founder-authorized | **yes** (the only admitting status) |
+| `SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` | passes every assembly condition; withheld by founder decision | no |
+| `NOT_SOURCE_READY` | fails an assembly condition; no authorization could admit it | no |
+| *(unlisted)* | reads as `UNLISTED`; never authorized | no, and the build fails |
+
+Rules, all enforced by gates the global deployment manifest requires:
+
+- Every registered market must carry a row
+  (`global.launch_participation_explicit`), so a market can be neither
+  silently excluded nor silently included.
+- A status may not claim a readiness the source does not have
+  (`global.launch_participation_agrees_with_source`).
+- The record is pinned by SHA-256 in the global deployment manifest
+  (`launch_participation.sha256`), and `verify_manifest` also checks that the
+  set the record authorizes is the set the manifest says participated. A
+  participation change is therefore a **different artifact** with a new bundle
+  hash, exactly like a control-file or measurement-config change.
+- Withdrawing a market here touches none of its authority: its release
+  contract still verifies, its data is unchanged, and
+  `assemble_netlify_bundle --market <id>` still builds it alone.
+
+First multi-market launch (founder decision, 2026-08-22): Columbus, Cleveland,
+Dayton, Milwaukee, Pittsburgh are `FOUNDER_AUTHORIZED_FOR_LAUNCH`; Indianapolis
+(8 profiles, contract verifying) is
+`SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` on coverage grounds;
+Cincinnati and Detroit are `NOT_SOURCE_READY`. Print the current record with
+`python -m scripts.pettripfinder.launch_participation`.
+
+---
+
+## 12. Deployment authorization and deployment records (PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047)
+
+The composed relationship, each layer consuming the one above and recomputing
+nothing of its own:
+
+```
+market release contracts            deploy/netlify/release_contracts/<market>.json
+    -> global deployment manifest   deploy/netlify/global_deployment_manifest.json
+    -> founder launch participation deploy/netlify/launch_participation.json
+    -> deployment authorization     deploy/netlify/deployment_authorizations/<id>.json
+    -> production deployment        netlify deploy --prod --no-build --dir <site>
+    -> deployment record            deploy/netlify/deployment_records/<id>.json
+```
+
+**Authorization** (`ptf-deployment-authorization/1.0`,
+`scripts/pettripfinder/deployment_authorization.py`). Built FROM the verified
+manifest with `build_authorization`; it copies every pinned input -- bundle hash,
+source commit, context, participating markets and profile counts, sitemap hash,
+`_headers` / `_redirects` hashes, measurement config hash and disabled state,
+affiliate counts, launch participation hash and founder-authorized set, every
+release contract path + hash, the gate catalogue -- plus `rollback_target`,
+`target_site` and `target_domain`. `verify_authorization` fails closed on any
+disagreement with the manifest OR with the files on disk (so a stale manifest
+and a stale authorization cannot agree with each other).
+
+State model: `PREPARED -> AUTHORIZED | SUPERSEDED`,
+`AUTHORIZED -> DEPLOYED | FAILED | SUPERSEDED`, `DEPLOYED -> ROLLED_BACK`.
+Only `AUTHORIZED` may deploy (`deployability_problems`), and not once a later
+authorization for the same target is `AUTHORIZED`/`DEPLOYED`. `DEPLOYED`
+consumes the authorization: a production authorization is used once.
+
+The manifest's `deployment_authorized` is a **mirror** of a record, never a
+decision: `authorize_manifest` flips it only when the record verifies and is
+`AUTHORIZED`, and `verify_manifest` re-verifies the referenced record on every
+run. `true` without a verifying record is refused as "pre-authorized".
+
+Immediately before the production write:
+
+```sh
+python -m scripts.pettripfinder.deployment_authorization --deployable <id>   # []
+# verify_target(auth, netlify api getSite body): name, ssl_url, published_deploy.id == rollback_target
+# verify_bundle_directory(auth, <site dir>): re-hashes the directory to the bound bundle sha256
+```
+
+**Record** (`ptf-deployment-record/1.0`). Written ONLY after the real outcome is
+known, via `build_deployment_record` + `write_record`, which refuses a record
+that disagrees with its authorization, claims `DEPLOYED` with a failed live
+check or a rollback, or contains a credential. After success the authorization
+moves to `DEPLOYED`; after rollback the record says `ROLLED_BACK`,
+`rollback_used: true`, the reason, and the restored deployment id.

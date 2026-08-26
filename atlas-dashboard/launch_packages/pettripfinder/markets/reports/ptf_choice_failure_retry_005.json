@@ -1,0 +1,155 @@
+{
+ "schema": "ptf-choice-failure-retry/1.0",
+ "work_order": "PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+ "market_id": "milwaukee-wi",
+ "brand": "CHOICE",
+ "note": "Retries the two Choice rows PTF-FIRECRAWL-CHOICE-VALIDATION-004 left unacquired, on a three-attempt Firecrawl budget, with the Web Unlocker probed once through its existing route only after all three fail. routes.json is read, never written.",
+ "question": "Is SCRAPE_ALL_ENGINES_FAILED intermittent for these two properties, as it proved to be for Country Inn Brown Deer, or is it settled?",
+ "firecrawl_attempts_budget": 3,
+ "unlocker_attempts_budget": 1,
+ "total": 2,
+ "firecrawl_acquired": 2,
+ "unlocker_unique_recoveries": 0,
+ "still_unacquired": 0,
+ "avg_firecrawl_seconds": 41.1,
+ "cost": {
+  "credits_before": 974,
+  "credits_after": 972,
+  "measured_credits": 2,
+  "scrape_calls": 4,
+  "interact_calls": 0,
+  "dollar_conversion": "not derivable: the plan endpoint reports credits and a monthly allowance, not a unit price, so no dollar figure is asserted"
+ },
+ "routes_changed": false,
+ "authority_written": false,
+ "total_elapsed_seconds": 98.5,
+ "items": [
+  {
+   "identity_key": "clarion pointe milwaukee airport",
+   "canonical_name": "Clarion Pointe Milwaukee Airport",
+   "reader": "choice_static",
+   "url": "https://www.choicehotels.com/wisconsin/milwaukee/clarion-hotels/wi519",
+   "bright_data_field_count": 2,
+   "bright_data_elapsed_seconds": 55.044,
+   "bright_data_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "scrape_calls": 1,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "77 characters of policy text",
+   "firecrawl_elapsed_seconds": 16.2,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 2,
+   "firecrawl_extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "comparison": {
+    "per_field": {
+     "pets_allowed": "MATCH",
+     "service_animal_exception": "MATCH"
+    },
+    "counts": {
+     "MATCH": 2
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": true,
+   "identity_confirmed": true,
+   "brand": "CHOICE",
+   "baseline_state": "ACQUIRED_PUBLICATION_GRADE",
+   "comparable": true,
+   "firecrawl_attempts_budget": 3,
+   "work_order_state": "ACQUIRED_PUBLICATION_GRADE",
+   "policy_completeness": {
+    "basis": "COMPARED_TO_BRIGHT_DATA",
+    "complete": true,
+    "why": "hydrated, no structured disagreement and nothing the incumbent found was lost"
+   }
+  },
+  {
+   "identity_key": "sleep inn and suites milwaukee airport",
+   "canonical_name": "Sleep Inn & Suites Milwaukee Airport",
+   "reader": "choice_static",
+   "url": "https://www.choicehotels.com/wisconsin/milwaukee/sleep-inn-hotels/wi186",
+   "bright_data_field_count": 0,
+   "bright_data_elapsed_seconds": null,
+   "bright_data_extraction": {},
+   "scrape_calls": 3,
+   "interact_calls": 0,
+   "mode_used": "scrape",
+   "surface_state": "HYDRATED",
+   "surface_detail": "186 characters of policy text",
+   "firecrawl_elapsed_seconds": 65.9,
+   "firecrawl_outcome": "VALID",
+   "firecrawl_state": "ACQUIRED_PUBLICATION_GRADE",
+   "publication_grade_verdict": "PUBLICATION_GRADE_CONFIRMED",
+   "firecrawl_field_count": 8,
+   "firecrawl_extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "comparison": {
+    "per_field": {
+     "fee_basis": "EXTRA",
+     "fee_currency": "EXTRA",
+     "fee_scope": "EXTRA",
+     "pet_count_limit": "EXTRA",
+     "pet_fee": "EXTRA",
+     "pets_allowed": "EXTRA",
+     "service_animal_exception": "EXTRA",
+     "species_allowed": "EXTRA"
+    },
+    "counts": {
+     "EXTRA": 8
+    },
+    "mismatches": {},
+    "structured_mismatches": {},
+    "text_excerpt_variants": {},
+    "unclassified_fields_treated_as_structured": []
+   },
+   "false_facts": {
+    "false_pets_allowed": false,
+    "false_no_pets": false,
+    "false_fee": false,
+    "false_weight": false,
+    "false_species": false
+   },
+   "complete": true,
+   "identity_confirmed": true,
+   "brand": "CHOICE",
+   "baseline_state": "NOT_ATTEMPTED",
+   "comparable": false,
+   "firecrawl_attempts_budget": 3,
+   "work_order_state": "ACQUIRED_PUBLICATION_GRADE",
+   "policy_completeness": {
+    "basis": "NO_BASELINE_INTRINSIC",
+    "complete": true,
+    "why": "allowance plus 5 substantive term(s): pet_fee, fee_basis, fee_scope, pet_count_limit, species_allowed"
+   }
+  }
+ ]
+}

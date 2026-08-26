@@ -1,0 +1,74 @@
+{
+ "schema": "ptf-launch-participation/1.0",
+ "what_this_is": "The founder's launch participation record for the composed PetTripFinder production bundle. Read by scripts/pettripfinder/launch_participation.py at assembly time. Every registered market must carry a row; only FOUNDER_AUTHORIZED_FOR_LAUNCH admits a market into the composed bundle. This record never states a market's facts: source readiness is derived by the assembler from the market's own census, partition, policy authority and release contract, and a status that disagrees with the source fails the build. Withdrawing a market here changes no byte of that market's authority and does not affect its own per-market assembly.",
+ "decision": {
+  "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+  "decided_by": "founder",
+  "decided_on": "2026-08-24",
+  "reason": "Founder deployment scope: St. Louis joins the live set as the sixth market, adding 82 founder-signed hotel profiles. Every other market's status is unchanged -- Indianapolis remains withheld on coverage (PTF-046), Cincinnati and Detroit-Ann Arbor remain not source-ready. Registering St. Louis makes it the ninth registered market, and a registered market with no row here fails the assembler gate, so this record had to be reissued whether or not it joined.",
+  "supersedes": {
+   "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+   "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+   "founder_authorized": [
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "milwaukee-wi",
+    "pittsburgh-pa"
+   ]
+  }
+ },
+ "launch_statuses": {
+  "FOUNDER_AUTHORIZED_FOR_LAUNCH": "source-ready and founder-authorized; the only status that admits a market",
+  "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH": "passes every assembly condition; withheld from this launch by founder decision; nothing about the market is wrong",
+  "NOT_SOURCE_READY": "does not pass every assembly condition; no founder authorization could admit it"
+ },
+ "markets": [
+  {
+   "market_id": "cincinnati-oh",
+   "launch_status": "NOT_SOURCE_READY",
+   "note": "publishes no hotel; no release contract"
+  },
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "columbus-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "anchor market; its routes are the global namespace and the 132 live production routes"
+  },
+  {
+   "market_id": "dayton-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "detroit-ann-arbor-mi",
+   "launch_status": "NOT_SOURCE_READY",
+   "note": "no final partition; publishes no hotel; no release contract"
+  },
+  {
+   "market_id": "indianapolis-in",
+   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "8 founder-approved profiles, contract verifies; withheld from the first multi-market launch on coverage, not correctness (founder decision, 2026-08-22)"
+  },
+  {
+   "market_id": "louisville-ky",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "46 founder-signed profiles and 17 verified-no-pets exclusions over a 166-identity census; contract verifies. Registered and admitted by PTF-LOUISVILLE-PUBLICATION-008, whose work order authorises publication and explicitly stops before deployment. Hidden from global navigation and the sitemap: show_in_navigation=false, show_in_sitemap=false."
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "market_id": "st-louis-mo",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "82 founder-signed profiles and 37 verified-no-pets exclusions over a 357-identity census; contract verifies. Registered and admitted by PTF-ST-LOUIS-REGISTER-PUBLISH-011."
+  }
+ ]
+}

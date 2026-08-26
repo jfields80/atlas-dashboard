@@ -230,7 +230,9 @@ def _exclusion_block(row: Mapping, record: Mapping, basis: str) -> Dict:
 
 
 def exclusion_blocks(candidates: Iterable, records: Sequence[Mapping] = None,
-                     path: Path = None, category: str = HOTEL_CATEGORY) -> List[Dict]:
+                     path: Path = None, category: str = HOTEL_CATEGORY,
+                     resolutions: Sequence[Mapping] = None,
+                     resolutions_path: Path = None) -> List[Dict]:
     """Blocks for every candidate barred by the exclusion authority.
 
     ``category`` scopes the check to the category this authority governs. The
@@ -238,18 +240,64 @@ def exclusion_blocks(candidates: Iterable, records: Sequence[Mapping] = None,
     a hotel today", so applying it to a restaurant row would be the authority
     speaking outside its own subject. A row with no category is checked (callers
     that hold only a name are promoting a hotel).
+
+    A match on ``street_identity`` -- and ONLY on street identity -- is waived
+    when a reviewed ``same_campus_distinct_entity`` resolution names BOTH this
+    candidate and the excluded record at that address. That is the case the
+    resolution authority exists for and could not previously reach: two hotels
+    share one dual-brand building and the founder has ruled them distinct, so
+    the second hotel's refusal is a fact about the OTHER hotel. Milwaukee's
+    dual-brand pair never exercised this because neither half was excluded.
+
+    A match on NAME or ALIAS is never waived: that is the property itself, and
+    no resolution about an address may publish a hotel that said no.
     """
     recs = records if records is not None else load_exclusions(path)
     if not recs:
         return []
+    resolved = None
     blocks = []
     for row in as_rows(candidates):
         if category and row["category"] and row["category"] != category:
             continue
         hit = match_exclusion(row, recs)
-        if hit:
-            blocks.append(_exclusion_block(row, hit[0], hit[1]))
+        if not hit:
+            continue
+        record, basis = hit
+        if basis == MATCH_ADDRESS:
+            if resolved is None:
+                resolved = (resolutions if resolutions is not None
+                            else load_resolutions(resolutions_path))
+            if _same_campus_distinguishes(row, record, resolved):
+                continue
+        blocks.append(_exclusion_block(row, record, basis))
     return blocks
+
+
+def _same_campus_distinguishes(row: Mapping, record: Mapping,
+                               resolutions: Sequence[Mapping]) -> bool:
+    """Is this candidate/exclusion pair a reviewed same-campus pair?
+
+    Every clause must hold: the resolution is a same-campus one, its address key
+    is the key the two actually share, and it names BOTH normalized identities.
+    Absent or partial means UNRESOLVED, which blocks.
+    """
+    identity = _identity(row)
+    key = address_key(identity["address"], identity["postal_code"])
+    if not key.strip("|"):
+        return False
+    excluded_name = normalize_name(record.get("canonical_name", "")
+                                   or record.get("normalized_name", ""))
+    for resolution in resolutions or ():
+        if resolution.get("resolution_type") != SAME_CAMPUS:
+            continue
+        if resolution.get("address_key") != key:
+            continue
+        covered = {normalize_name(i.get("canonical_name", ""))
+                   for i in resolution.get("identities") or ()}
+        if identity["normalized_name"] in covered and excluded_name in covered:
+            return True
+    return False
 
 
 # --------------------------------------------------------------------------- #
@@ -541,7 +589,9 @@ def publication_blocks(candidates: Iterable, published: Iterable = (), *,
     Used directly by preview/analysis surfaces, which are allowed to REPORT an
     exclusion; only the assert form refuses.
     """
-    blocks = exclusion_blocks(candidates, exclusions, exclusions_path, category)
+    blocks = exclusion_blocks(candidates, exclusions, exclusions_path, category,
+                              resolutions=resolutions,
+                              resolutions_path=resolutions_path)
     if check_collisions:
         blocks += collision_blocks(candidates, published, resolutions, resolutions_path,
                                    cross_category_only)

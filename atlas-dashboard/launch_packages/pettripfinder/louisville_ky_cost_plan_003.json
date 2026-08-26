@@ -1,0 +1,1618 @@
+{
+ "schema": "ptf-market-paid-acquisition/1.0",
+ "what_this_is": "One paid acquisition pass over a market's remaining routed cohort, under a hard spend cap enforced on the larger of the vendor's measured cost and this run's own estimate. It changes no route.",
+ "market_id": "louisville-ky",
+ "work_order": "PTF-LOUISVILLE-COVERAGE-EXPANSION-003",
+ "run_id": "louisville-expansion-003",
+ "run_start": "2026-08-25T00:30:18.157386+00:00",
+ "dry_run": true,
+ "prior_report": "launch_packages/pettripfinder/louisville_ky_acquisition_merged_003.json",
+ "cost_policy": {
+  "hard_cap_usd_minor": 1000,
+  "plan_credit_cap": null,
+  "measured_from": "per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker, cli_unlocker",
+  "enforced_on": "max(measured, estimated) -- the vendor's meter lags a session by minutes and a cap enforced on a lagging meter overshoots"
+ },
+ "url_overlay": {
+  "overlay": "launch_packages/pettripfinder/louisville_ky_url_recovery_003.json",
+  "contract": "ptf-census-url-recovery/1.0",
+  "offered": 17,
+  "applied": 17,
+  "unroutable_census_urls_displaced": 2,
+  "note": "layered for routing only; the census file is unchanged",
+  "rows": [
+   {
+    "identity_key": "21c museum hotel",
+    "url": "https://www.21cmuseumhotels.com/louisville/",
+    "displaced_census_url": "",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "21c museum hotel louisville",
+     "phone": "5022176300",
+     "postal_code": "40202",
+     "street_key": "700 w main st|40202",
+     "url": "https://www.21cmuseumhotels.com/louisville/"
+    }
+   },
+   {
+    "identity_key": "aloft louisville downtown",
+    "url": "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/overview/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "aloft louisville downtown",
+     "phone": "5025831888",
+     "postal_code": "40202",
+     "street_key": "102 w main st|40202",
+     "url": "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/overview/"
+    }
+   },
+   {
+    "identity_key": "cambria hotel louisville downtown whiskey row",
+    "url": "https://www.choicehotels.com/kentucky/louisville/cambria-hotels/ky322",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "cambria hotel louisville downtown whiskey row",
+     "phone": "5025090042",
+     "postal_code": "40202",
+     "street_key": "120 s floyd st|40202",
+     "url": "https://www.choicehotels.com/kentucky/louisville/cambria-hotels/ky322"
+    }
+   },
+   {
+    "identity_key": "candlewood suites",
+    "url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfza/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "candlewood suites louisville northeast",
+     "phone": "5029536153",
+     "postal_code": "40207",
+     "street_key": "1039 zorn ave|40207",
+     "url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfza/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "comfort suites east",
+    "url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky418",
+    "displaced_census_url": "https://www.choicehotels.com/kentucky/shepherdsville/sleep-inn-hotels",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "comfort suites louisville east",
+     "phone": "",
+     "postal_code": "40299",
+     "street_key": "1850 resource way|40299",
+     "url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky418"
+    }
+   },
+   {
+    "identity_key": "drury inn and suites louisville",
+    "url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "drury inn and suites louisville",
+     "phone": "5023264170",
+     "postal_code": "40222",
+     "street_key": "9501 blairwood rd|40222",
+     "url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east"
+    }
+   },
+   {
+    "identity_key": "holiday inn express and suites downtown louisville",
+    "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfmk/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "holiday inn express and suites louisville downtown",
+     "phone": "5025832552",
+     "postal_code": "40202",
+     "street_key": "800 w market st|40202",
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfmk/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "holiday inn louisville east hurstbourne",
+    "url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfea/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "holiday inn louisville east hurstbourne",
+     "phone": "5024262600",
+     "postal_code": "40222",
+     "street_key": "1325 s hurstbourne pkwy|40222",
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfea/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "hotel louisville downtown",
+    "url": "http://www.hotellouisville.org",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "hotel louisville downtown",
+     "phone": "5025822241",
+     "postal_code": "40202",
+     "street_key": "120 w broadway|40202",
+     "url": "http://www.hotellouisville.org"
+    }
+   },
+   {
+    "identity_key": "quality inn and suites university airport",
+    "url": "https://www.choicehotels.com/kentucky/louisville/quality-inn-hotels/ky109",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "quality inn and suites university airport",
+     "phone": "5026386100",
+     "postal_code": "40208",
+     "street_key": "311 e gaulbert ave|40208",
+     "url": "https://www.choicehotels.com/kentucky/louisville/quality-inn-hotels/ky109"
+    }
+   },
+   {
+    "identity_key": "quality suites",
+    "url": "https://www.choicehotels.com/indiana/jeffersonville/quality-inn-hotels/in198",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "quality suites jeffersonville louisville north",
+     "phone": "8122822100",
+     "postal_code": "47130",
+     "street_key": "360 eastern blvd|47130",
+     "url": "https://www.choicehotels.com/indiana/jeffersonville/quality-inn-hotels/in198"
+    }
+   },
+   {
+    "identity_key": "red roof inn",
+    "url": "https://www.redroof.com/property/ky/louisville/rri034",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "red roof inn louisville hurstbourne",
+     "phone": "",
+     "postal_code": "40222",
+     "street_key": "9330 blairwood rd|40222",
+     "url": "https://www.redroof.com/property/ky/louisville/rri034"
+    }
+   },
+   {
+    "identity_key": "sheraton louisville riverside hotel",
+    "url": "https://www.marriott.com/en-us/hotels/sdfsi-sheraton-louisville-riverside-hotel/overview/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "sheraton louisville riverside hotel",
+     "phone": "8122846711",
+     "postal_code": "47130",
+     "street_key": "700 w riverside dr|47130",
+     "url": "https://www.marriott.com/en-us/hotels/sdfsi-sheraton-louisville-riverside-hotel/overview/"
+    }
+   },
+   {
+    "identity_key": "staybridge suites",
+    "url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "staybridge suites louisville east",
+     "phone": "5022449511",
+     "postal_code": "40299",
+     "street_key": "11711 gateworth way|40299",
+     "url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "the bellwether hotel",
+    "url": "https://www.thebellwetherhotel.com/",
+    "displaced_census_url": "",
+    "binding": "STREET_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "bellwether hotel",
+     "phone": "5027351215",
+     "postal_code": "40204",
+     "street_key": "1300 bardstown rd|40204",
+     "url": "https://www.thebellwetherhotel.com/"
+    }
+   },
+   {
+    "identity_key": "the seelbach hilton hotel",
+    "url": "https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton-louisville/",
+    "displaced_census_url": "https://seelbachhilton.com",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "the seelbach hilton louisville",
+     "phone": "5025853200",
+     "postal_code": "40202",
+     "street_key": "500 s 4th st|40202",
+     "url": "https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton-louisville/"
+    }
+   },
+   {
+    "identity_key": "wingate by wyndham louisville east",
+    "url": "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "prior_census_001.json",
+     "name": "wingate by wyndham louisville east",
+     "phone": "5027850850",
+     "postal_code": "40299",
+     "street_key": "12301 alliant ct|40299",
+     "url": "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview"
+    }
+   }
+  ]
+ },
+ "routing_summary": {
+  "contract": "ptf-market-routing/1.0",
+  "count": 166,
+  "url_shapes": {
+   "BRAND_INDEX": 6,
+   "NO_URL": 55,
+   "PROPERTY_PAGE": 105
+  },
+  "routing_states": {
+   "ROUTED": 101,
+   "ROUTE_BRAND_EXCLUDED": 4,
+   "ROUTE_NEEDS_OFFICIAL_URL": 55,
+   "ROUTE_NEEDS_PROPERTY_URL": 6
+  },
+  "brands": {
+   "BEST_WESTERN": 2,
+   "CHOICE": 14,
+   "DRURY": 2,
+   "HILTON": 23,
+   "HYATT": 2,
+   "IHG": 12,
+   "INDEPENDENT": 11,
+   "MARRIOTT": 28,
+   "MOTEL6": 1,
+   "NO_URL": 55,
+   "RED_ROOF": 2,
+   "WYNDHAM": 14
+  },
+  "providers": {
+   "brightdata_browser": 67,
+   "firecrawl": 34
+  },
+  "automatically_routed": 101,
+  "automatically_routed_pct": 60.8
+ },
+ "cohort_rule": {
+  "terminal_prior_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "why": "a page that served and was read, was silent, or was about another hotel has already answered its question; a paid lane is for properties we could not REACH"
+ },
+ "cohort_size": 34,
+ "settled_size": 67,
+ "cohort_by_provider": {
+  "brightdata_browser": 23,
+  "firecrawl": 11
+ },
+ "cohort_by_family": {
+  "CHOICE": 6,
+  "DRURY": 1,
+  "HILTON": 10,
+  "IHG": 4,
+  "INDEPENDENT": 5,
+  "MARRIOTT": 6,
+  "MOTEL6": 1,
+  "WYNDHAM": 1
+ },
+ "settled_by_prior_outcome": {
+  "IDENTITY_MISMATCH": 7,
+  "VALID": 60
+ },
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "cohort": [
+  {
+   "identity_key": "21c museum hotel",
+   "canonical_name": "21c Museum Hotel",
+   "brand": "INDEP:www.21cmuseumhotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.21cmuseumhotels.com/louisville/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "aloft louisville downtown",
+   "canonical_name": "Aloft Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfld-aloft-louisville-downtown/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "cambria hotel louisville downtown whiskey row",
+   "canonical_name": "Cambria Hotel Louisville Downtown-Whiskey Row",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.choicehotels.com/kentucky/louisville/cambria-hotels/ky322",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "candlewood suites",
+   "canonical_name": "Candlewood Suites",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfza/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "comfort suites east",
+   "canonical_name": "Comfort Suites East",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky418",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "crowne plaza louisville airport expo center",
+   "canonical_name": "Crowne Plaza Louisville Airport Expo Center",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/louisville/sdfap/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "drury inn and suites louisville",
+   "canonical_name": "Drury Inn & Suites Louisville",
+   "brand": "DRURY",
+   "family": "DRURY",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "embassy suites louisville downtown",
+   "canonical_name": "Embassy Suites - Louisville Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://embassysuites3.hilton.com/en/hotels/kentucky/embassy-suites-louisville-downtown-SDFDNES/index.html",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "ACCESS_DENIED"
+  },
+  {
+   "identity_key": "fairfield inn and suites louisville new albany in",
+   "canonical_name": "Fairfield Inn & Suites Louisville New Albany IN",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__new-albany-in",
+   "source_url": "https://www.marriott.com/hotels/travel/sdffy-fairfield-inn-suites-louisville-new-albany-in",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "holiday inn express and suites downtown louisville",
+   "canonical_name": "Holiday Inn Express & Suites - Downtown Louisville",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfmk/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "holiday inn louisville east hurstbourne",
+   "canonical_name": "Holiday Inn Louisville East - Hurstbourne",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfea/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "home2 suites by hilton clarksville louisville north",
+   "canonical_name": "Home2 Suites by Hilton Clarksville Louisville North",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.hilton.com/en/hotels/ckvbhht-home2-suites-clarksville-louisville-north",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "home2 suites by hilton louisville airport expo center",
+   "canonical_name": "Home2 Suites by Hilton Louisville Airport Expo Center",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.hilton.com/en/hotels/sdfecht-home2-suites-louisville-airport-expo-center/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "home2 suites by hilton louisville downtown nulu",
+   "canonical_name": "Home2 Suites by Hilton Louisville Downtown NuLu",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__nulu-butchertown",
+   "source_url": "https://www.hilton.com/en/hotels/sdflmht-home2-suites-louisville-downtown-nulu",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "home2 suites by hilton louisville east hurstbourne",
+   "canonical_name": "Home2 Suites by Hilton Louisville East/Hurstbourne",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfehht-home2-suites-louisville-east-hurstbourne",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "homewood suites by hilton louisville downtown",
+   "canonical_name": "Homewood Suites by Hilton Louisville Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/loudthw-homewood-suites-louisville-downtown/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "hotel bourre bonne",
+   "canonical_name": "Hotel Bourré Bonne",
+   "brand": "INDEP:www.bourrebonne.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.bourrebonne.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "hotel genevieve",
+   "canonical_name": "Hotel Genevieve",
+   "brand": "INDEP:www.bunkhousehotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__nulu-butchertown",
+   "source_url": "https://www.bunkhousehotels.com/hotel-genevieve",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "louisville marriott downtown",
+   "canonical_name": "Louisville Marriott Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/hotels/travel/sdflm-louisville-marriott-downtown",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "motel 6 louisville airport fair expo",
+   "canonical_name": "Motel 6 Louisville Airport Fair Expo",
+   "brand": "MOTEL6",
+   "family": "MOTEL6",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.motel6.com/property/motel-louisville-kentucky-us-294109/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "quality inn and suites university airport",
+   "canonical_name": "Quality Inn & Suites University/Airport",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__old-louisville-university",
+   "source_url": "https://www.choicehotels.com/kentucky/louisville/quality-inn-hotels/ky109",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "quality suites",
+   "canonical_name": "Quality Suites",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.choicehotels.com/indiana/jeffersonville/quality-inn-hotels/in198",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "radisson hotel louisville north",
+   "canonical_name": "Radisson Hotel Louisville North",
+   "brand": "INDEP:www.radissonhotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.radissonhotels.com/en-us/hotels/radisson-clarksville",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "residence inn louisville downtown",
+   "canonical_name": "Residence Inn - Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/hotels/travel/sdfgj-residence-inn-louisville-downtown",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "sheraton louisville riverside hotel",
+   "canonical_name": "Sheraton Louisville Riverside Hotel",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfsi-sheraton-louisville-riverside-hotel/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "sleep inn louisville expo",
+   "canonical_name": "Sleep Inn Louisville Expo",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__churchill-downs-south-central",
+   "source_url": "https://www.choicehotels.com/kentucky/louisville/sleep-inn-hotels/ky434",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "UNHYDRATED"
+  },
+  {
+   "identity_key": "springhill suites louisville downtown",
+   "canonical_name": "SpringHill Suites Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/hotels/travel/sdfsd-springhill-suites-louisville-downtown",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "suburban studios louisville north",
+   "canonical_name": "Suburban Studios Louisville North",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.choicehotels.com/indiana/clarksville/suburban-hotels/in269",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "UNEXPECTED_PAGE"
+  },
+  {
+   "identity_key": "tempo by hilton louisville downtown nulu",
+   "canonical_name": "Tempo by Hilton Louisville Downtown NuLu",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__nulu-butchertown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfpopo-tempo-louisville-downtown-nulu/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "the myriad hotel",
+   "canonical_name": "The Myriad Hotel",
+   "brand": "INDEP:www.myriadhotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__highlands-germantown",
+   "source_url": "https://www.myriadhotel.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "the seelbach hilton hotel",
+   "canonical_name": "The Seelbach Hilton Hotel",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfshhf-the-seelbach-hilton-louisville/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "tru",
+   "canonical_name": "Tru",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdflvru-tru-louisville-east",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "tru by hilton louisville airport",
+   "canonical_name": "Tru by Hilton Louisville Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.hilton.com/en/hotels/sdflaru-tru-louisville-airport/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  },
+  {
+   "identity_key": "wingate by wyndham louisville east",
+   "canonical_name": "Wingate by Wyndham Louisville East",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "NEVER_ATTEMPTED"
+  }
+ ],
+ "settled": [
+  {
+   "identity_key": "ac hotel by marriott louisville downtown",
+   "canonical_name": "AC Hotel by Marriott Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__nulu-butchertown",
+   "source_url": "https://www.marriott.com/SDFAC",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "baymont by wyndham louisville airport south",
+   "canonical_name": "Baymont by Wyndham Louisville Airport South",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-louisville-airport-south/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "baymont inn and suites louisville east",
+   "canonical_name": "Baymont Inn and Suites- Louisville East",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-and-suites-louisville/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "candlewood suites louisville airport",
+   "canonical_name": "Candlewood Suites Louisville Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfgl/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "candlewood suites louisville south fair and expo",
+   "canonical_name": "Candlewood Suites Louisville South Fair and Expo",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfpp/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "comfort inn and suites clarksville",
+   "canonical_name": "Comfort Inn and Suites Clarksville",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.choicehotels.com/indiana/clarksville/comfort-inn-hotels/in599",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "comfort suites louisville airport",
+   "canonical_name": "Comfort Suites Louisville Airport",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.choicehotels.com/kentucky/louisville/comfort-suites-hotels/ky136",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott louisville airport",
+   "canonical_name": "Courtyard by Marriott Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfap-courtyard-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott louisville northeast",
+   "canonical_name": "Courtyard by Marriott Louisville Northeast",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfne-courtyard-louisville-northeast/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard louisville downtown",
+   "canonical_name": "Courtyard Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/sdfdt",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard louisville east",
+   "canonical_name": "Courtyard Louisville East",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.marriott.com/sdfch",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn",
+   "canonical_name": "Days Inn",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__southwest-dixie",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/louisville-kentucky/days-inn-suites-louisville-airport-sw/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham jeffersonville in",
+   "canonical_name": "Days Inn & Suites by Wyndham Jeffersonville IN",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/jeffersonville-indiana/days-inn-and-suites-jeffersonville-indiana/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham sellersburg",
+   "canonical_name": "Days Inn & Suites by Wyndham Sellersburg",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__southern-indiana-north",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/sellersburg-indiana/days-inn-and-suites-sellersburg/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "drury inn and suites louisville north",
+   "canonical_name": "Drury Inn and Suites Louisville North",
+   "brand": "DRURY",
+   "family": "DRURY",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-north",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "econo lodge downtown",
+   "canonical_name": "Econo Lodge Downtown",
+   "brand": "INDEP:www.econolodge.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "http://www.econolodge.com/hotel-louisville-kentucky-KY149?source=gglocaljn",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "embassy suites by hilton louisville",
+   "canonical_name": "Embassy Suites by Hilton Louisville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfemes-embassy-suites-louisville-east",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites",
+   "canonical_name": "Fairfield Inn & Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.marriott.com/sdfjf",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites by marriott louisville airport",
+   "canonical_name": "Fairfield Inn and Suites by Marriott Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdffa-fairfield-inn-and-suites-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites louisville downtown",
+   "canonical_name": "Fairfield Inn & Suites Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/sdffd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "four points by sheraton louisville airport",
+   "canonical_name": "Four Points by Sheraton Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdffp-four-points-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton",
+   "canonical_name": "Hampton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__new-albany-in",
+   "source_url": "https://www.hilton.com/en/hotels/sdfkdhx-hampton-new-albany-louisville-west",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn and suites louisville east",
+   "canonical_name": "Hampton Inn & Suites Louisville East",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfhshx-hampton-suites-louisville-east",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn louisville airport",
+   "canonical_name": "Hampton Inn Louisville Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.hilton.com/en/hotels/sdfaphx-hampton-louisville-airport/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn louisville downtown",
+   "canonical_name": "Hampton Inn Louisville Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfdthx-hampton-louisville-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn louisville east hurstbourne",
+   "canonical_name": "Hampton Inn Louisville East/Hurstbourne",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfhuhx-hampton-louisville-east-hurstbourne",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn louisville north clarksville",
+   "canonical_name": "Hampton Inn Louisville-North/Clarksville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__clarksville-in",
+   "source_url": "https://www.hilton.com/en/hotels/sdfcvhx-hampton-louisville-north-clarksville",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn louisville northeast",
+   "canonical_name": "Hampton Inn Louisville Northeast",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.hilton.com/en/hotels/sdfkyhx-hampton-louisville-northeast/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hawthorn suites by wyndham louisville east",
+   "canonical_name": "Hawthorn Suites by Wyndham Louisville East",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__clifton-crescent-hill",
+   "source_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/louisville-kentucky/hawthorn-suites-by-wyndham-louisville-east/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hilton garden inn jeffersonville",
+   "canonical_name": "Hilton Garden Inn Jeffersonville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.hilton.com/en/hotels/sdfjfgi-hilton-garden-inn-jeffersonville-louisville-north/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hilton garden inn louisville airport",
+   "canonical_name": "Hilton Garden Inn Louisville Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.hilton.com/en/hotels/sdfahgi-hilton-garden-inn-louisville-airport",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hilton garden inn louisville downtown",
+   "canonical_name": "Hilton Garden Inn - Louisville Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/sdfldgi-hilton-garden-inn-louisville-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hilton garden inn louisville east",
+   "canonical_name": "Hilton Garden Inn Louisville East",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.hilton.com/en/hotels/sdflegi-hilton-garden-inn-louisville-east",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hilton garden inn louisville mall of st matthews",
+   "canonical_name": "Hilton Garden Inn Louisville Mall of St. Matthews",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.hilton.com/en/hotels/sdfsmgi-hilton-garden-inn-louisville-mall-of-st-matthews",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn",
+   "canonical_name": "Holiday Inn",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfmh/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites jeffersonville",
+   "canonical_name": "Holiday Inn Express and Suites Jeffersonville",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/jeffersonville/indjv/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites louisville northeast",
+   "canonical_name": "Holiday Inn Express and Suites Louisville Northeast",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/louisville/sdfwr/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn louisville airport south",
+   "canonical_name": "Holiday Inn Louisville Airport South",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/louisville/sdfoo/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hotel distil",
+   "canonical_name": "Hotel Distil",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfak-hotel-distil-autograph-collection/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hotel louisville downtown",
+   "canonical_name": "Hotel Louisville Downtown",
+   "brand": "INDEP:www.hotellouisville.org",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "http://www.hotellouisville.org",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham louisville northeast old henry",
+   "canonical_name": "La Quinta Inn and Suites by Wyndham Louisville Northeast Old Henry",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-louisville-east/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "la quinta inn and suites louisville",
+   "canonical_name": "La Quinta Inn & Suites Louisville",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-louisville-east/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "la quinta inn and suites louisville east",
+   "canonical_name": "La Quinta Inn & Suites Louisville East",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-inn-and-suites-louisville-ne-old-henry-rd/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "louisville marriott east",
+   "canonical_name": "Louisville Marriott East",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfls-louisville-marriott-east/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "moxy louisville downtown",
+   "canonical_name": "Moxy Louisville Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfox-moxy-louisville-downtown/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "omni louisville hotel",
+   "canonical_name": "Omni Louisville Hotel",
+   "brand": "INDEP:www.omnihotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.omnihotels.com/hotels/louisville",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "ramada sellersburg louisville north",
+   "canonical_name": "Ramada Sellersburg/Louisville North",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__southern-indiana-north",
+   "source_url": "https://www.wyndhamhotels.com/ramada/sellersburg-indiana/ramada-sellersburg-louisville-north/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "red roof inn",
+   "canonical_name": "Red Roof Inn",
+   "brand": "RED_ROOF",
+   "family": "RED_ROOF",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.redroof.com/property/ky/louisville/rri034",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "red roof inn louisville expo airport",
+   "canonical_name": "Red Roof Inn Louisville Expo Airport",
+   "brand": "RED_ROOF",
+   "family": "RED_ROOF",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.redroof.com/property/ky/louisville/rri118",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn",
+   "canonical_name": "Residence Inn",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.marriott.com/sdfhf",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn by marriott louisville airport",
+   "canonical_name": "Residence Inn by Marriott Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfra-residence-inn-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn by marriott louisville northeast",
+   "canonical_name": "Residence Inn by Marriott Louisville Northeast",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfri-residence-inn-louisville-northeast/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn louisville east oxmoor",
+   "canonical_name": "Residence Inn Louisville East/Oxmoor",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__st-matthews",
+   "source_url": "https://www.marriott.com/sdfre",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites by marriott louisville airport",
+   "canonical_name": "SpringHill Suites by Marriott Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfla-springhill-suites-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites louisville hurstbourne north",
+   "canonical_name": "SpringHill Suites - Louisville Hurstbourne/North",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.marriott.com/sdfsh",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "staybridge suites",
+   "canonical_name": "Staybridge Suites",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "staybridge suites louisville expo center",
+   "canonical_name": "Staybridge Suites Louisville Expo Center",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfbg/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "studio 6 louisville airport expo center",
+   "canonical_name": "Studio 6 Louisville Airport Expo Center",
+   "brand": "INDEP:www.studio6.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.studio6.com/property/motel-louisville-kentucky-us-294003/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "super 8 by wyndham louisville airport",
+   "canonical_name": "Super 8 by Wyndham Louisville Airport",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-airport/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "super 8 by wyndham louisville expo center",
+   "canonical_name": "Super 8 by Wyndham Louisville/Expo Center",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-expo-center/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "the bellwether hotel",
+   "canonical_name": "The Bellwether Hotel",
+   "brand": "INDEP:www.thebellwetherhotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__highlands-germantown",
+   "source_url": "https://www.thebellwetherhotel.com/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "the brown hotel",
+   "canonical_name": "The Brown Hotel",
+   "brand": "INDEP:www.brownhotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.brownhotel.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "towneplace suites",
+   "canonical_name": "TownePlace Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__downtown",
+   "source_url": "https://www.marriott.com/sdftd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "towneplace suites by marriott louisville airport",
+   "canonical_name": "TownePlace Suites by Marriott Louisville Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdfts-towneplace-suites-louisville-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "towneplace suites by marriott louisville northeast",
+   "canonical_name": "TownePlace Suites by Marriott Louisville Northeast",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__middletown-east",
+   "source_url": "https://www.marriott.com/en-us/hotels/sdftn-towneplace-suites-louisville-northeast/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "towneplace suites louisville north",
+   "canonical_name": "TownePlace Suites Louisville North",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "source_url": "https://www.marriott.com/sdfvn",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "travelodge by wyndham sellersburg louisville north",
+   "canonical_name": "Travelodge by Wyndham Sellersburg Louisville North",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "louisville-ky__southern-indiana-north",
+   "source_url": "https://www.wyndhamhotels.com/travelodge/sellersburg-indiana/travelodge-sellersburg-louisville-north/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  }
+ ],
+ "preflight": {
+  "ok": false,
+  "checks": [
+   {
+    "check": "cost_telemetry_live",
+    "ok": true,
+    "detail": "per-zone month-to-date cost readable across scraping_browser1, mcp_unlocker, cli_unlocker"
+   },
+   {
+    "check": "balance_covers_the_remaining_cap",
+    "ok": false,
+    "detail": "balance 494 cents against a 1000 cent cap"
+   },
+   {
+    "check": "at_least_one_provider_available",
+    "ok": true,
+    "detail": "available: brightdata_browser, brightdata_web_unlocker, firecrawl"
+   }
+  ],
+  "providers": {
+   "brightdata_browser": {
+    "available": true,
+    "detail": "Browser API credential present; exit geography pinned to 'us'"
+   },
+   "brightdata_web_unlocker": {
+    "available": true,
+    "detail": "unlocker zones mcp_unlocker, cli_unlocker"
+   },
+   "direct_http": {
+    "available": false,
+    "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   },
+   "firecrawl": {
+    "available": true,
+    "detail": "Firecrawl credential present; exit geography pinned to 'US'"
+   }
+  },
+  "already_spent_usd_minor": 0
+ },
+ "outcome": "STOPPED_BEFORE_SPENDING",
+ "stop_reason": "balance_covers_the_remaining_cap: balance 494 cents against a 1000 cent cap",
+ "results": [],
+ "attempted": 0,
+ "spend": {
+  "measured_usd_minor": 0,
+  "estimated_usd_minor": 0.0,
+  "binding_usd_minor": 0,
+  "binding_source": "measured",
+  "telemetry_live": true,
+  "estimated_plan_credits": 0.0,
+  "seeded_usd_minor": 0.0,
+  "this_session_usd_minor": 0.0,
+  "vendor_reads": 1,
+  "lag_note": "the vendor's zone meter settles minutes after a session; until it does the estimate is the only number that exists, so the cap binds on the larger"
+ },
+ "cost_samples": [
+  {
+   "label": "louisville-expansion-003:preflight",
+   "at": "2026-08-25T00:30:30.420313+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 5159,
+    "mcp_unlocker": 16,
+    "cli_unlocker": 4
+   },
+   "measured_usd_minor": 0
+  },
+  {
+   "label": "louisville-expansion-003:final",
+   "at": "2026-08-25T00:30:37.032819+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 5159,
+    "mcp_unlocker": 16,
+    "cli_unlocker": 4
+   },
+   "measured_usd_minor": 0
+  }
+ ],
+ "journal_total": 0,
+ "run_end": "2026-08-25T00:30:37.032950+00:00",
+ "elapsed_seconds": 19.0,
+ "outcome_counts": {},
+ "publication_grade": 0
+}
