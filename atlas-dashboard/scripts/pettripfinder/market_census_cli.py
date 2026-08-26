@@ -35,24 +35,39 @@ from scripts.pettripfinder import census_partition_builder as CPB
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.discovery import census_projection as CP
 from scripts.pettripfinder.discovery.market_config import load_market_config
-from scripts.pettripfinder.markets.contract import parse_market
+from scripts.pettripfinder.markets.contract import (
+    MEMBERSHIP_MARKET_GEOGRAPHY, parse_market)
 
 CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
 
 
-def _in_bounds_map(candidates, market_id):
-    """candidate_id -> whether its own coordinates sit inside the discovery box."""
+def _market_geography(market_id):
+    """The committed discovery geography, or None if the market has none."""
     try:
-        geo = load_market_config(market_id)
+        return load_market_config(market_id)
     except KeyError:
+        return None
+
+
+def _in_bounds_map(candidates, market_id, geo=None):
+    """candidate_id -> whether its own coordinates sit inside the discovery box.
+
+    Three-valued. ``None`` means the candidate stated no coordinates, which is
+    a different fact from coordinates that were measured and fell outside, and
+    PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001 requires the two be told apart:
+    a census row carrying ``latitude: null`` has not been shown to be anywhere.
+    """
+    if geo is None:
+        geo = _market_geography(market_id)
+    if geo is None:
         return None
     out = {}
     for candidate in candidates:
         lat, lng = candidate.get("latitude"), candidate.get("longitude")
         out[candidate.get("candidate_id", "")] = (
-            bool(lat is not None and lng is not None
-                 and geo.bounds.contains(float(lat), float(lng))))
+            None if lat is None or lng is None
+            else bool(geo.bounds.contains(float(lat), float(lng))))
     return out
 
 
@@ -114,9 +129,19 @@ def build(market_id: str, candidates_path: Path, contract_path: Path, *,
         raise SystemExit("ERROR: contract is for %r, not %r"
                          % (contract.market_id, market_id))
 
+    geo = _market_geography(market_id)
+    if geo is None and contract.census_membership_basis == MEMBERSHIP_MARKET_GEOGRAPHY:
+        # Fail closed. This market's contract says its own geography decides
+        # membership, and that geography is not committed -- projecting anyway
+        # would silently answer the question with the corridor registry the
+        # contract just told us not to use.
+        raise SystemExit(
+            "ERROR: %s declares census_membership_basis %s but has no committed "
+            "discovery market config to decide membership with"
+            % (market_id, MEMBERSHIP_MARKET_GEOGRAPHY))
     admitted, ledger = CP.project(
         candidates, contract, observed_at=observed_at, work_order=work_order,
-        in_bounds=_in_bounds_map(candidates, market_id))
+        in_bounds=_in_bounds_map(candidates, market_id, geo), geography=geo)
     unique, collisions = CP.resolve_identity_key_collisions(admitted)
     corridors = CP.assign_corridors(unique, contract)
 

@@ -52,6 +52,31 @@ ROUTE_MODE_MARKET_PREFIXED = "market_prefixed"
 ROUTE_MODE_LEGACY_UNPREFIXED = "legacy_unprefixed"
 _ROUTE_MODES = (ROUTE_MODE_MARKET_PREFIXED, ROUTE_MODE_LEGACY_UNPREFIXED)
 
+# PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001. What decides whether a discovery
+# candidate belongs to THIS market. It is a separate question from which
+# corridor a candidate is displayed under, and conflating the two silently
+# emptied a market's census: a market whose corridors classify by
+# ``explicit_hotel_ids`` claims no postal code at all, so a ZIP-keyed ownership
+# test rejected every candidate it was asked about, including the market's own
+# committed census rows.
+#
+# Declared, never inferred. An empty ``included_postal_codes`` is not evidence
+# of anything -- a corridor may legitimately claim no ZIP and still own its
+# market's geography by another basis -- so the basis is a field a market
+# states, and the default is the behaviour every market had before this field
+# existed.
+
+#: The corridor registry IS the market boundary: a candidate belongs when a
+#: corridor claims its postal code. The pre-existing behaviour, and correct for
+#: a market whose corridors were reviewed as a postal-code partition.
+MEMBERSHIP_CORRIDOR_REGISTRY = "CORRIDOR_REGISTRY"
+#: The market's own geography -- bounds, then included municipalities, then
+#: stated locality -- decides membership, and corridors only classify what is
+#: already in. Correct for a market whose corridors are identity-based or
+#: city-based, where a postal-code test can only ever answer "no".
+MEMBERSHIP_MARKET_GEOGRAPHY = "MARKET_GEOGRAPHY"
+_MEMBERSHIP_BASES = (MEMBERSHIP_CORRIDOR_REGISTRY, MEMBERSHIP_MARKET_GEOGRAPHY)
+
 _SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _STATE_CODE_RE = re.compile(r"^[A-Z]{2}$")
 _COUNTRY_CODE_RE = re.compile(r"^[A-Z]{2}$")
@@ -197,6 +222,11 @@ class MarketConfig:
     show_in_sitemap: bool
     minimum_published_hotels: int
     route_mode: str
+    #: PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001. Which basis decides that a
+    #: discovery candidate belongs to this market. Defaults to the corridor
+    #: registry, so every market that predates the field keeps the behaviour it
+    #: was built and reviewed under.
+    census_membership_basis: str = MEMBERSHIP_CORRIDOR_REGISTRY
     corridors: Tuple[CorridorConfig, ...] = field(default_factory=tuple)
     #: Optional so a hand-constructed MarketConfig (tests, ad-hoc tooling)
     #: stays valid. ``homepage_config`` derives the identity when it is None,
@@ -511,6 +541,15 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
     route_mode = _require(data, "route_mode", str, src)
     if route_mode not in _ROUTE_MODES:
         raise MarketContractError("%s: route_mode must be one of %s" % (src, list(_ROUTE_MODES)))
+    # Optional, unlike route_mode: this field was added after eleven markets
+    # were committed, and defaulting it is what keeps their behaviour identical.
+    # A value that IS present must still be one we understand -- a typo here
+    # would silently re-decide every row in a census.
+    membership_basis = data.get("census_membership_basis", MEMBERSHIP_CORRIDOR_REGISTRY)
+    if not isinstance(membership_basis, str) or membership_basis not in _MEMBERSHIP_BASES:
+        raise MarketContractError(
+            "%s: census_membership_basis must be one of %s, got %r"
+            % (src, list(_MEMBERSHIP_BASES), membership_basis))
     minimum_published = _require(data, "minimum_published_hotels", int, src)
     if minimum_published < 1:
         raise MarketContractError("%s: minimum_published_hotels must be >= 1" % src)
@@ -570,6 +609,7 @@ def parse_market(data: Dict, source: str = "<inline>") -> MarketConfig:
         show_in_sitemap=_require(data, "show_in_sitemap", bool, src),
         minimum_published_hotels=minimum_published,
         route_mode=route_mode,
+        census_membership_basis=membership_basis,
         corridors=corridors,
         homepage=homepage,
     )

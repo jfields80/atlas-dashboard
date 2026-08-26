@@ -87,6 +87,7 @@ ROUTING = "routing"
 ZERO_COST_URL_RECOVERY = "zero_cost_url_recovery"
 PRIOR_BUILD_RECONCILIATION = "prior_build_reconciliation"
 REROUTE = "reroute"
+PRE_ACQUISITION_DEDUP = "pre_acquisition_dedup"
 ACQUISITION = "acquisition"
 DECLINED_EVIDENCE_RECOVERY = "declined_evidence_recovery"
 REROUTE_RECOVERED = "reroute_recovered"
@@ -99,7 +100,8 @@ FOUNDER_REVIEW = "founder_review"
 
 PHASES: Tuple[str, ...] = (
     CENSUS, ROUTING, ZERO_COST_URL_RECOVERY, PRIOR_BUILD_RECONCILIATION,
-    REROUTE, ACQUISITION, DECLINED_EVIDENCE_RECOVERY, REROUTE_RECOVERED,
+    REROUTE, PRE_ACQUISITION_DEDUP, ACQUISITION,
+    DECLINED_EVIDENCE_RECOVERY, REROUTE_RECOVERED,
     ACQUIRE_NEWLY_ROUTABLE, ALTERNATE_LANE_HANDLING, COVERAGE_EXHAUSTION,
     CLOSURE, FOUNDER_REVIEW_PACKET, FOUNDER_REVIEW,
 )
@@ -461,6 +463,13 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
         base += ["--retry-overrides", Path(ctx.retry_overrides).as_posix()]
     if ctx.credit_cap is not None:
         base += ["--credit-cap", str(ctx.credit_cap)]
+    # The pre-acquisition duplicate gate's decision, spent here. Passed only
+    # when the gate has run, so a market that predates it buys what it always
+    # bought.
+    dedup_plan = phase_artifact(ledger, PRE_ACQUISITION_DEDUP,
+                                "pre_acquisition_dedup")
+    if dedup_plan:
+        base += ["--dedup-plan", dedup_plan]
 
     code, message = _call(PA.main, base + ["--cap-usd", str(ctx.authorised_cap_usd),
                                             "--out", dry.as_posix(), "--dry-run"])
@@ -761,6 +770,43 @@ def phase_reroute(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
                                         "URL layered over the census.")
 
 
+def phase_pre_acquisition_dedup(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
+    """PTF-GENERIC-PRE-ACQUISITION-DEDUP-HARDENING-001 -- the spend gate.
+
+    The closure duplicate scan (phase 13) reports too late to protect money:
+    by then the duplicates have been bought. This runs the same signals AFTER
+    routing and zero-cost recovery -- so it sees the final URLs -- and BEFORE
+    the cost plan, and it produces three things a cost plan can act on: safe
+    merges, duplicate holds, and the set of identity keys that may be paid for.
+
+    It decides nothing about publication and removes nothing from the census.
+    The later closure scan is untouched and still runs.
+    """
+    from scripts.pettripfinder.discovery import identity_dedup as DEDUP
+    census = _read(ctx.census_path.as_posix())
+    rows = census.get("hotels") or []
+    analysis = DEDUP.analyse(rows)
+    out = ctx.artifact("pre_acquisition_dedup")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(analysis, indent=1) + "\n", encoding="utf-8")
+    counts = analysis["groups_by_verdict"]
+    return PhaseResult(
+        COMPLETED,
+        "pre-acquisition dedup: %d groups (%d safe-merge, %d review, %d "
+        "distinct); %d merged, %d withheld from acquisition, %d payable"
+        % (analysis["groups_found"], counts[DEDUP.MERGE], counts[DEDUP.REVIEW],
+           counts[DEDUP.DISTINCT], analysis["merged_identities"],
+           analysis["withheld_from_acquisition"],
+           len(DEDUP.payable_keys(rows, analysis))),
+        artifacts=OrderedDict((("pre_acquisition_dedup", out.as_posix()),)),
+        facts=OrderedDict((
+            ("identities_in", analysis["identities_in"]),
+            ("groups_by_verdict", counts),
+            ("merged_identities", analysis["merged_identities"]),
+            ("withheld_from_acquisition", analysis["withheld_from_acquisition"]),
+        )))
+
+
 def phase_acquisition(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
     overlay = phase_artifact(ledger, PRIOR_BUILD_RECONCILIATION, "url_recovery")
     return _paid_pass(ctx, ledger, label="pass1", overlay_path=overlay)
@@ -1024,6 +1070,7 @@ DEFAULT_RUNNERS: Dict[str, Callable[[FactoryContext, Dict], PhaseResult]] = Orde
     (ZERO_COST_URL_RECOVERY, phase_zero_cost_url_recovery),
     (PRIOR_BUILD_RECONCILIATION, phase_prior_build_reconciliation),
     (REROUTE, phase_reroute),
+    (PRE_ACQUISITION_DEDUP, phase_pre_acquisition_dedup),
     (ACQUISITION, phase_acquisition),
     (DECLINED_EVIDENCE_RECOVERY, phase_declined_evidence_recovery),
     (REROUTE_RECOVERED, phase_reroute_recovered),

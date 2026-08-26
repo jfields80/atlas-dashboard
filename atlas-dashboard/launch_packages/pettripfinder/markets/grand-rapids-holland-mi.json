@@ -19,6 +19,8 @@
   "show_in_sitemap": false,
   "minimum_published_hotels": 5,
   "route_mode": "market_prefixed",
+  "census_membership_basis": "MARKET_GEOGRAPHY",
+  "_census_membership_note": "PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001. This market's corridors classify by explicit_hotel_ids and claim no postal code, so a ZIP-keyed ownership test can only ever answer no -- it projected 120 committed identities plus 113 fresh candidates down to 4 rows. Membership is therefore decided by the market's own committed geography (bounds and included_municipalities in scripts/pettripfinder/discovery/config/grand_rapids_holland_mi.json) and the corridors classify what is already in, which is what _boundary_note has said since PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001: corridors never define the census.",
   "_boundary_note": "PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001. The market has two primary cores: Grand Rapids and Holland. Lansing/East Lansing, Traverse City/Northwest Michigan, and Kalamazoo/Battle Creek are outside scope. Grand Haven, Muskegon, Saugatuck/Douglas, and South Haven were evaluated and excluded as distinct destination markets. Corridors classify independently discovered lodging only; they never define the census.",
   "corridors": [
     {

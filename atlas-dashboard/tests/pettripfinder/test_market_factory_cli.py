@@ -97,10 +97,14 @@ class Stubs:
 
 
 class TestLifecycleOrder:
-    def test_the_lifecycle_is_the_fourteen_phases_in_the_work_orders_order(self):
+    def test_the_lifecycle_is_the_fifteen_phases_in_the_work_orders_order(self):
+        # PTF-GENERIC-PRE-ACQUISITION-DEDUP-HARDENING-001 inserted
+        # pre_acquisition_dedup between reroute and acquisition: the
+        # duplicate gate has to speak before the money, not after it.
         assert MF.PHASES == (
             "census", "routing", "zero_cost_url_recovery",
-            "prior_build_reconciliation", "reroute", "acquisition",
+            "prior_build_reconciliation", "reroute",
+            "pre_acquisition_dedup", "acquisition",
             "declined_evidence_recovery", "reroute_recovered",
             "acquire_newly_routable", "alternate_lane_handling",
             "coverage_exhaustion", "closure", "founder_review_packet",

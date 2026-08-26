@@ -1,0 +1,475 @@
+{
+ "schema": "ptf-discovery-state/1.0",
+ "what_this_is": "Whether a market's free (Overpass) discovery is exhausted, runnable or waiting on endpoint health -- derived offline from the plan, the cache and the approved-endpoint health ledger. Free discovery is never called exhausted while a healthy approved endpoint exists and uncached cells remain.",
+ "market_id": "grand-rapids-holland-mi",
+ "categories": [
+  "hotel",
+  "motel"
+ ],
+ "state": "OVERPASS_FREE_DISCOVERY_EXHAUSTED",
+ "OVERPASS_ENDPOINTS_TOTAL": 5,
+ "OVERPASS_ENDPOINTS_ENABLED": 3,
+ "OVERPASS_ENDPOINTS_AVAILABLE": 3,
+ "OVERPASS_FAILURE_DOMAINS_ENABLED": 2,
+ "OVERPASS_FAILURE_DOMAINS_AVAILABLE": 2,
+ "OVERPASS_CELLS_TOTAL": 20,
+ "OVERPASS_CELLS_CACHED": 20,
+ "OVERPASS_CELLS_REMAINING": 0,
+ "OVERPASS_FREE_DISCOVERY_EXHAUSTED": true,
+ "WAITING_FOR_FREE_DISCOVERY": false,
+ "FORWARD_PROGRESS_STALLED": false,
+ "RESUME_CYCLES_WITHOUT_PROGRESS": 0,
+ "waiting_reason": "",
+ "forward_progress": {
+  "status": "NO_CYCLES",
+  "stall_cycles": 3,
+  "attempting_cycles": 0,
+  "consecutive_zero_progress_cycles": 0,
+  "gated_runs": 0,
+  "last_progress_at": "",
+  "last_cycle_at": ""
+ },
+ "earliest_cooldown_expiry": "",
+ "available_endpoint_ids": [
+  "overpass-api.de",
+  "overpass.kumi.systems",
+  "overpass.private.coffee"
+ ],
+ "available_failure_domains": [
+  "overpass-api.de",
+  "flanders.servers.private.coffee"
+ ],
+ "endpoint_health_states": {
+  "overpass-api.de": {
+   "endpoint_id": "overpass-api.de",
+   "state": "OPEN",
+   "consecutive_failures": 1,
+   "cooldown_until": "2026-08-26T13:25:07.623853+00:00",
+   "last_classification": "HTTP_RATE_LIMITED",
+   "last_checked_at": "2026-08-26T13:10:07.623853+00:00",
+   "opened_at": "2026-08-26T13:10:07.623853+00:00",
+   "opened_because": "HTTP_RATE_LIMITED (1 consecutive failure; threshold 1)",
+   "successes": 21,
+   "failures": 9,
+   "enabled": true,
+   "availability": "HALF_OPEN"
+  },
+  "overpass.kumi.systems": {
+   "endpoint_id": "overpass.kumi.systems",
+   "state": "OPEN",
+   "consecutive_failures": 3,
+   "cooldown_until": "2026-08-26T13:23:28.446668+00:00",
+   "last_classification": "HTTP_SERVER_ERROR",
+   "last_checked_at": "2026-08-26T13:08:28.446668+00:00",
+   "opened_at": "2026-08-26T13:08:28.446668+00:00",
+   "opened_because": "HTTP_SERVER_ERROR (3 consecutive failures; threshold 3)",
+   "successes": 56,
+   "failures": 60,
+   "enabled": true,
+   "availability": "HALF_OPEN"
+  },
+  "overpass.private.coffee": {
+   "endpoint_id": "overpass.private.coffee",
+   "state": "CLOSED",
+   "consecutive_failures": 0,
+   "cooldown_until": "",
+   "last_classification": "HEALTHY",
+   "last_checked_at": "2026-08-26T13:11:07.951101+00:00",
+   "opened_at": "2026-08-26T12:05:40.975498+00:00",
+   "opened_because": "TIMEOUT (3 consecutive failures; threshold 3)",
+   "successes": 22,
+   "failures": 28,
+   "enabled": true,
+   "availability": "AVAILABLE"
+  },
+  "overpass.osm.ch": {
+   "endpoint_id": "overpass.osm.ch",
+   "state": "CLOSED",
+   "consecutive_failures": 0,
+   "cooldown_until": "",
+   "last_classification": "",
+   "last_checked_at": "",
+   "opened_at": "",
+   "opened_because": "",
+   "successes": 0,
+   "failures": 0,
+   "enabled": false,
+   "availability": "DISABLED"
+  },
+  "maps.mail.ru": {
+   "endpoint_id": "maps.mail.ru",
+   "state": "CLOSED",
+   "consecutive_failures": 0,
+   "cooldown_until": "",
+   "last_classification": "",
+   "last_checked_at": "",
+   "opened_at": "",
+   "opened_because": "",
+   "successes": 0,
+   "failures": 0,
+   "enabled": false,
+   "availability": "DISABLED"
+  }
+ },
+ "cached_cells_by_endpoint": {
+  "local_extract:geofabrik-michigan": 12,
+  "overpass-api.de": 7,
+  "overpass.kumi.systems": 1
+ },
+ "cached_cells": [
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__downtown-grand-rapids",
+   "cell_id": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T12:02:48.941212+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__downtown-grand-rapids",
+    "cell_id": "grand-rapids-holland-mi__downtown-grand-rapids",
+    "query_hash": "81bdd6ae4d7041db",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood",
+   "cell_id": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T12:02:51.505108+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__grr-airport-kentwood",
+    "cell_id": "grand-rapids-holland-mi__grr-airport-kentwood",
+    "query_hash": "55ea3aedb5d9f438",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "cell_id": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass.kumi.systems",
+    "endpoint_url": "https://overpass.kumi.systems/api/interpreter",
+    "requested_at": "2026-08-26T12:03:37.751046+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__walker-northwest-grand-rapids",
+    "cell_id": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+    "query_hash": "ce87b181c695259c",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__wyoming-grandville",
+   "cell_id": "grand-rapids-holland-mi__wyoming-grandville",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T12:53:09.719202+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__wyoming-grandville",
+    "cell_id": "grand-rapids-holland-mi__wyoming-grandville",
+    "query_hash": "6676bb96e2002605",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__east-grand-rapids-ada",
+   "cell_id": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:17.999520+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__east-grand-rapids-ada",
+    "cell_id": "grand-rapids-holland-mi__east-grand-rapids-ada",
+    "query_hash": "040ca057c081905f",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__holland-zeeland",
+   "cell_id": "grand-rapids-holland-mi__holland-zeeland",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T12:53:56.750051+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__holland-zeeland",
+    "cell_id": "grand-rapids-holland-mi__holland-zeeland",
+    "query_hash": "f93439da34188f5f",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__comstock-park-alpine",
+   "cell_id": "grand-rapids-holland-mi__comstock-park-alpine",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T12:53:58.547557+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__comstock-park-alpine",
+    "cell_id": "grand-rapids-holland-mi__comstock-park-alpine",
+    "query_hash": "90bca7237806e20a",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__ada-cascade-east",
+   "cell_id": "grand-rapids-holland-mi__ada-cascade-east",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T13:09:56.337234+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__ada-cascade-east",
+    "cell_id": "grand-rapids-holland-mi__ada-cascade-east",
+    "query_hash": "91f9fe4b7983a6d1",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+   "cell_id": "grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-26T13:09:59.323318+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+    "cell_id": "grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+    "query_hash": "bcd276c438153b95",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__south-wyoming-cutlerville",
+   "cell_id": "grand-rapids-holland-mi__south-wyoming-cutlerville",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.014740+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__grand-rapids-holland-mi__south-wyoming-cutlerville",
+    "cell_id": "grand-rapids-holland-mi__south-wyoming-cutlerville",
+    "query_hash": "89509abbfcbf55d3",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__downtown-grand-rapids",
+   "cell_id": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.024455+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__downtown-grand-rapids",
+    "cell_id": "grand-rapids-holland-mi__downtown-grand-rapids",
+    "query_hash": "46b08667d5c6571d",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__grr-airport-kentwood",
+   "cell_id": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.033968+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__grr-airport-kentwood",
+    "cell_id": "grand-rapids-holland-mi__grr-airport-kentwood",
+    "query_hash": "f213106330f37097",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "cell_id": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.044023+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__walker-northwest-grand-rapids",
+    "cell_id": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+    "query_hash": "2a820c6ce65e58f2",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville",
+   "cell_id": "grand-rapids-holland-mi__wyoming-grandville",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.054330+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__wyoming-grandville",
+    "cell_id": "grand-rapids-holland-mi__wyoming-grandville",
+    "query_hash": "f357014a3e5c4ed3",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__east-grand-rapids-ada",
+   "cell_id": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.064984+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__east-grand-rapids-ada",
+    "cell_id": "grand-rapids-holland-mi__east-grand-rapids-ada",
+    "query_hash": "d902443eae6e120e",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__holland-zeeland",
+   "cell_id": "grand-rapids-holland-mi__holland-zeeland",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.075904+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__holland-zeeland",
+    "cell_id": "grand-rapids-holland-mi__holland-zeeland",
+    "query_hash": "b9b13f67959c7e53",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__comstock-park-alpine",
+   "cell_id": "grand-rapids-holland-mi__comstock-park-alpine",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.086149+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__comstock-park-alpine",
+    "cell_id": "grand-rapids-holland-mi__comstock-park-alpine",
+    "query_hash": "1a68c2545f58224d",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__ada-cascade-east",
+   "cell_id": "grand-rapids-holland-mi__ada-cascade-east",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.099690+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__ada-cascade-east",
+    "cell_id": "grand-rapids-holland-mi__ada-cascade-east",
+    "query_hash": "ea70db1588b5518e",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+   "cell_id": "grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.109632+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+    "cell_id": "grand-rapids-holland-mi__northeast-grand-rapids-plainfield",
+    "query_hash": "ed90749a44f1bb4c",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__south-wyoming-cutlerville",
+   "cell_id": "grand-rapids-holland-mi__south-wyoming-cutlerville",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-michigan",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+    "requested_at": "2026-08-26T13:55:18.122391+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__grand-rapids-holland-mi__south-wyoming-cutlerville",
+    "cell_id": "grand-rapids-holland-mi__south-wyoming-cutlerville",
+    "query_hash": "cc064673c00df71f",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  }
+ ],
+ "remaining_cells": [],
+ "paid_discovery_fallback": {
+  "state": "PAID_DISCOVERY_FALLBACK_UNAVAILABLE",
+  "google_key_present": false,
+  "remaining_cells": 0,
+  "requires": "an explicit ptf-paid-discovery-authorization/1.0 document naming the market, an author, a reason, a Google request cap and a cost plan; never runs because public Overpass is unavailable"
+ },
+ "paid_discovery_authorization": {
+  "authorised": false,
+  "error": ""
+ },
+ "health_ledger": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/data/discovery/grand_rapids_holland_mi/overpass_endpoint_health.json",
+ "progress_ledger": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/data/discovery/grand_rapids_holland_mi/discovery_progress.json",
+ "registry": "C:/Atlas-Grok-GrandRapids/atlas-dashboard/scripts/pettripfinder/discovery/config/overpass_endpoints.json"
+}
