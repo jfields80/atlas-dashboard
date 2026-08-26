@@ -1,0 +1,2890 @@
+{
+ "schema": "ptf-founder-review-analysis/1.0",
+ "what_this_is": "Every founder-review candidate examined individually and given one proposed disposition. Nothing here is an approval and nothing here creates authority.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009",
+ "block_evidence_read": true,
+ "derived_from": "PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009",
+ "reviewed_by": "market_factory_cli (machine review)",
+ "reviewed_at": "2026-08-26T21:17:54.084873+00:00",
+ "approval_vocabulary": "founder-approval-vocabulary/1.0",
+ "candidates_in_packet": 51,
+ "reviewed": 51,
+ "each_reviewed_exactly_once": true,
+ "disposition_counts": {
+  "APPROVE_PET_FRIENDLY": 31,
+  "APPROVE_VERIFIED_NO_PETS": 14,
+  "APPROVE_WITH_CHANGE": 4,
+  "HOLD": 2
+ },
+ "changes_required": 4,
+ "disagreements_with_the_machine": [
+  "avid hotel zeeland",
+  "baymont",
+  "baymont by wyndham holland",
+  "doubletree by hilton",
+  "travelodge by wyndham grand rapids north",
+  "tru"
+ ],
+ "rows": [
+  {
+   "identity_key": "ac hotel grand rapids downtown",
+   "canonical_name": "AC Hotel Grand Rapids Downtown",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "AC Hotel Grand Rapids Downtown",
+    "address_on_page": "50 Monroe Avenue NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrar",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:a33fac53a88911adf747c2cd275f6390763aaefc69bf46160e8f2be0836ef3e8",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "americinn by wyndham grand rapids airport north",
+   "canonical_name": "AmericInn by Wyndham Grand Rapids Airport North",
+   "brand": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.wyndhamhotels.com/americinn/grand-rapids-michigan/americinn-grand-rapids-airport-north/overview",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "AmericInn by Wyndham Grand Rapids Airport North",
+    "address_on_page": "5500 28th St SE",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Service Animals - ADA defined service animals are welcome free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:4b1b64ae0c62da6b9f9c510f081206e25d4ad8197b541ab4e7ef1bd921e2f952",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "avid hotel zeeland",
+   "canonical_name": "avid hotel Zeeland",
+   "brand": "IHG",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/zeeland/grrav/hoteldetail",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "HOLD",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the membrane refuses this observation as being about another property (M10), after the entity and chain-suffix normalisations were already applied",
+    "independent signals agreeing with the census row: 2 of 3"
+   ],
+   "required_changes": [],
+   "next_action": "the page and the census name genuinely different things, which usually means the property was renamed. A person decides whether they are one building; the street agrees. No re-fetch is involved either way",
+   "identity_corroboration": {
+    "name_on_page": "avid hotels Zeeland - Holland",
+    "address_on_page": "8225 Westpark Way",
+    "name_agrees": false,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "MEMBRANE_REFUSED",
+     "severity": "BLOCKING",
+     "detail": "REJECT_WRONG_PROPERTY (M10): identity gate: the page identifies 'avid hotels Zeeland - Holland', which is neither a subset nor a superset of the referenced identity 'avid hotel Zeeland', and neither an exact property-code + street-address agreement nor a street-address + owner-qualified-name agreement establishes it another way"
+    },
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: street number, telephone"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "service_animal_exception": "Pets allowed Service animals allowed"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_NOT_FOUND",
+   "membrane_verdict": "REJECT_WRONG_PROPERTY",
+   "semantic_hash": "sha256:44ff3f90380235363c73df5656e76baa7f70304914ac79c3ef81a7bf422a762d",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "baymont",
+   "canonical_name": "Baymont",
+   "brand": "WYNDHAM",
+   "corridor": "",
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-near-downtown/overview",
+   "machine_recommendation": "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE",
+   "proposed_disposition": "APPROVE_WITH_CHANGE",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the facts are supported by the cited evidence",
+    "the record requires a correction to: canonical_name, pets_allowed"
+   ],
+   "required_changes": [
+    {
+     "field": "canonical_name",
+     "from": "Baymont",
+     "to": "Baymont by Wyndham Grand Rapids Near Downtown",
+     "why": "the census name is a bare chain word and would publish a directory entry that names no building; the property's own page states the full name",
+     "evidence": "identity_check.name_on_page",
+     "correction_site": "evidence-cited overlay"
+    },
+    {
+     "field": "pets_allowed",
+     "from": null,
+     "to": "as stated: '2 Pets with a maximum weight of 30 lbs are allowed for a non-refundable charge of 25.00 US'",
+     "why": "pets_allowed is withheld for want of a stated allowance, but the source states one in words; this is not reading an allowance out of a price",
+     "evidence": "policy-block.txt",
+     "correction_site": "parser logic"
+    }
+   ],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Baymont by Wyndham Grand Rapids Near Downtown",
+    "address_on_page": "255 28th St SW",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "ALLOWANCE_NOT_STATED",
+     "severity": "WARN",
+     "detail": "pets_allowed is withheld as SOURCE_SILENT: the source prices or limits a pet without ever stating that pets are accepted. Reading an allowance out of a price is an inference this codebase does not make. -- but the persisted block states an allowance in words, so this is a reader gap and not an unstated allowance"
+    },
+    {
+     "code": "WITHHELD_PETS_ALLOWED",
+     "severity": "INFO",
+     "detail": "pets_allowed is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_PARTIAL",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:dc58dff6a9e2e40155de8df246f0b695ff91dda31e2319e82aa6585121e59b8f",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "baymont by wyndham holland",
+   "canonical_name": "Baymont by Wyndham Holland",
+   "brand": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.wyndhamhotels.com/baymont/holland-michigan/baymont-inn-and-suites-holland/overview",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_WITH_CHANGE",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the facts are supported by the cited evidence",
+    "the record requires a correction to: weight_limit"
+   ],
+   "required_changes": [
+    {
+     "field": "weight_limit",
+     "from": null,
+     "to": "as stated: 'be crated and must not weigh more than 100 lbs each. Pet Sanitation Fee is 250.00 USD.'",
+     "why": "the source states a weight limit and the record carries none, so the profile reads 'Not stated' where the hotel states a limit",
+     "evidence": "policy-block.txt",
+     "correction_site": "parser logic"
+    }
+   ],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Baymont by Wyndham Holland",
+    "address_on_page": "680 East 24th Street",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "cats_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:2f704b09ef149de8bc25559e25ca2fedc85f1ee8f6eebc878d4d3d90c5ef5d4c",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "canopy by hilton grand rapids downtown",
+   "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrgrpy-canopy-grand-rapids-downtown/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Canopy by Hilton Grand Rapids Downtown",
+    "address_on_page": "131 Ionia Avenue SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrgrpy",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "FEE_BASIS_WITHHELD",
+     "severity": "INFO",
+     "detail": "the fee has no stated basis; it is correctly withheld as SOURCE_SILENT and renders as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:3bf750c9ffc432dc5aaeb53fa2e1cc5a466cfff3ef1e1c4b8eb6ba4dbff8ef89",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "comfort suites grandville grand rapids sw",
+   "canonical_name": "Comfort Suites Grandville - Grand Rapids SW",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Comfort Suites Grandville - Grand Rapids SW",
+    "address_on_page": "4520 Kenowa Ave SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:31726365bea0470cf9f20b3ee9828dc05599a1a1f99935da7cf2815840593a16",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "country inn and suites grand rapids east",
+   "canonical_name": "Country Inn & Suites Grand Rapids East",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi607",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Country Inn & Suites by Radisson, Grand Rapids East, MI",
+    "address_on_page": "3251 Deposit Drive NE",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:48ce3a8ee26a06d8632ea70bf8926935959185d5b5269e006cba10feff33ce32",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "courtyard by marriott grand rapids downtown",
+   "canonical_name": "Courtyard by Marriott Grand Rapids Downtown",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrdt-courtyard-grand-rapids-downtown/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Courtyard by Marriott Grand Rapids Downtown",
+    "address_on_page": "11 Monroe Avenue NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrdt",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:b3219082094e8328e2c683b6cc4c154db3db22ef6db463a9c48030640517d3da",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "courtyard holland downtown",
+   "canonical_name": "Courtyard Holland Downtown",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrch-courtyard-holland-downtown/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Courtyard by Marriott Holland Downtown",
+    "address_on_page": "121 East 8th Street",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrch",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:3e9557b83f17b2708dbadd073abc603e33c23fba5044f4c3e11dd7764950fbc7",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "days inn and suites by wyndham grand rapids near downtown",
+   "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+   "brand": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+    "address_on_page": "255A 28th St SW",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are welcomed at this hotel."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:015bdb8b43652a53e7668a85fc627286ec5dbaf5fa0507e33b563b37fdc7ff39",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "days inn by wyndham holland",
+   "canonical_name": "Days Inn by Wyndham Holland",
+   "brand": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/holland-michigan/days-inn-holland/overview",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Days Inn by Wyndham Holland",
+    "address_on_page": "717 Hastings Avenue",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are welcomed at this hotel."
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:0b050f6d27c197e0e0cc6f8e485b327ea206717906a03b5e499c6a4ab779bc5c",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "doubletree by hilton",
+   "canonical_name": "DoubleTree by Hilton",
+   "brand": "HILTON",
+   "corridor": "",
+   "source_url": "https://www.hilton.com/en/hotels/grrhldt-doubletree-holland/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_WITH_CHANGE",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the facts are supported by the cited evidence",
+    "the record requires a correction to: canonical_name"
+   ],
+   "required_changes": [
+    {
+     "field": "canonical_name",
+     "from": "DoubleTree by Hilton",
+     "to": "DoubleTree by Hilton Hotel Holland",
+     "why": "the census name is a bare chain word and would publish a directory entry that names no building; the property's own page states the full name",
+     "evidence": "identity_check.name_on_page",
+     "correction_site": "evidence-cited overlay"
+    }
+   ],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "DoubleTree by Hilton Hotel Holland",
+    "address_on_page": "650 East 24th Street",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrhldt",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:dadc815a0dd54ea31761fafd520019890b9b193833b283d603a1eba2bc92f101",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "embassy suites by hilton grand rapids downtown",
+   "canonical_name": "Embassy Suites by Hilton Grand Rapids Downtown",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrmaes-embassy-suites-grand-rapids-downtown/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Embassy Suites by Hilton Grand Rapids Downtown",
+    "address_on_page": "710 Monroe Avenue NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrmaes",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:27039b2e75c0ca3d95907e6a0ddba018c2d6e8ad0b8794652c24f97de5514d94",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "fairfield inn and suites grand rapids north",
+   "canonical_name": "Fairfield Inn & Suites Grand Rapids North",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrfn-fairfield-inn-and-suites-grand-rapids-north/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Grand Rapids North",
+    "address_on_page": "620 Center Drive NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrfn",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "- Service animals only"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:bce7fd9a2315cdd9a614e0757035425a940631cb7252a7bba94d914a5e7e266b",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "fairfield inn and suites holland",
+   "canonical_name": "Fairfield Inn & Suites Holland",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrfi-fairfield-inn-and-suites-holland/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Holland",
+    "address_on_page": "2854 West Shore Drive",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grrfi",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:0f47a0843529e61b39c77f42cb6ad351bbc9aa2e2d9eb4043c522914631cbf1a",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn and suites grand rapids airport 28th st",
+   "canonical_name": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.hilton.com/en/hotels/grrhshx-hampton-suites-grand-rapids-airport-28th-st/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
+    "address_on_page": "5200 28th Street SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrhshx",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 4,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:50ae2d9c0e5a05118f97c2fc04da6f04364e183f13bd8345e0f33d3b9e22e858",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn and suites grand rapids downtown",
+   "canonical_name": "Hampton Inn & Suites Grand Rapids Downtown",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrdthx-hampton-suites-grand-rapids-downtown/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn & Suites Grand Rapids Downtown",
+    "address_on_page": "433 Dudley Place NE",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grrdthx",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:4914003347c9ce5e5829e0e2594c820748ad2c30aca74ca417721fd66e4e8a31",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn and suites grandville grand rapids south",
+   "canonical_name": "Hampton Inn & Suites Grandville Grand Rapids South",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.hilton.com/en/hotels/grradhx-hampton-suites-grandville-grand-rapids-south/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn & Suites Grandville Grand Rapids South",
+    "address_on_page": "4755 Wilson Ave SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grradhx",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:cd7938ca54779db6830a58db2dbff2e977f4152ad4deef933e8267daef2d59b0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn grand rapids north",
+   "canonical_name": "Hampton Inn Grand Rapids-North",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grraphx-hampton-grand-rapids-north/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn Grand Rapids-North",
+    "address_on_page": "500 Center Dr. NW",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grraphx",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:afe9e55b2730ff9b1fc118a737e383e0b3fd02eb00174f8d64e10039fbcdfb25",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn grand rapids south",
+   "canonical_name": "Hampton Inn Grand Rapids-South",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.hilton.com/en/hotels/grrsohx-hampton-grand-rapids-south/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn Grand Rapids-South",
+    "address_on_page": "755  54th Street SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrsohx",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:bd793566b7ac62799cca570deb9ed7c09bf5fedd7e364a1c7f10f53f9545e847",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hampton inn holland",
+   "canonical_name": "Hampton Inn Holland",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.hilton.com/en/hotels/hldmihx-hampton-holland/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hampton Inn Holland",
+    "address_on_page": "12427 Felch Street",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "hldmihx",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:81702fd3422367253fb3eface7c95a5939d0c3ad1454175cf0c08e454ba1f31d",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "hilton garden inn grand rapids east",
+   "canonical_name": "Hilton Garden Inn Grand Rapids East",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "source_url": "https://www.hilton.com/en/hotels/grrebgi-hilton-garden-inn-grand-rapids-east/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Hilton Garden Inn Grand Rapids East",
+    "address_on_page": "2321 East Beltline Ave SE",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grrebgi",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:5be44a8b025eb8357d7673268763f2d0b94caff76cf7a0cc485a3b9c8d293e87",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "holiday inn express and suites grand rapids north",
+   "canonical_name": "Holiday Inn Express & Suites Grand Rapids-North",
+   "brand": "IHG",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/walker/grrds/hoteldetail",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Grand Rapids-North",
+    "address_on_page": "358 River Ridge Dr. NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:0607cac01f66f1aa867a31dcac982a0910609f50f262f858ae8fccf65126eda0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "holiday inn express grand rapids sw",
+   "canonical_name": "Holiday Inn Express Grand Rapids SW",
+   "brand": "IHG",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grandville/gdvmi/hoteldetail",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Holiday Inn Express Grand Rapids SW",
+    "address_on_page": "4651 36th Street",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "WITHHELD_WEIGHT_LIMIT",
+     "severity": "INFO",
+     "detail": "weight_limit is withheld (SOURCE_AMBIGUOUS) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {
+    "weight_limit": "SOURCE_AMBIGUOUS"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:b77d6dbf7848ece62ba8db687b791b209c083ff9de8127f7b6de789c6b1a6613",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "holiday inn express holland",
+   "canonical_name": "Holiday Inn Express Holland",
+   "brand": "IHG",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/holland/hldfe/hoteldetail",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Holiday Inn Express Holland",
+    "address_on_page": "12381 Felch Street",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:d8e8da89eb9fae7ec4f5ced6084c23e14700f6301bfbc81bd8684fc1550e20b5",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "home2 suites by hilton grand rapids north",
+   "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Home2 Suites by Hilton Grand Rapids North",
+    "address_on_page": "330 River Ridge Dr. NW",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grrnoht",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SOURCE_AMBIGUOUS) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SOURCE_AMBIGUOUS) and must render as 'Not stated'"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_AMBIGUOUS",
+    "fee_basis": "SOURCE_AMBIGUOUS"
+   },
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:21fd5642d2528207bf2a6aed7e3355c74d34a3ac613dd1959e31089cce2206f0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "home2 suites by hilton grand rapids northeast",
+   "canonical_name": "Home2 Suites by Hilton Grand Rapids Northeast",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__east-grand-rapids-ada",
+   "source_url": "https://www.hilton.com/en/hotels/grrilht-home2-suites-grand-rapids-northeast/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Home2 Suites by Hilton Grand Rapids Northeast",
+    "address_on_page": "3082 Peregrine Dr NE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrilht",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:b1c70cb4c3c775e7c04b31080c78ab430fc106e3036b5eacdad11cee67a71f63",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "home2 suites by hilton holland",
+   "canonical_name": "Home2 Suites by Hilton Holland",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.hilton.com/en/hotels/hlmhtht-home2-suites-holland/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Home2 Suites by Hilton Holland",
+    "address_on_page": "3140 West Shore Drive",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "hlmhtht",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:72d5297e9fcc12cdef13262ae8f484e3a52653d7c6dd09841a4c44c0b9192f21",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "homewood suites by hilton walker grand rapids north",
+   "canonical_name": "Homewood Suites by Hilton Walker Grand Rapids North",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrinhw-homewood-suites-walker-grand-rapids-north/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Homewood Suites by Hilton Walker Grand Rapids North",
+    "address_on_page": "3410 Walker Ave NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrinhw",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "FEE_BASIS_WITHHELD",
+     "severity": "INFO",
+     "detail": "the fee has no stated basis; it is correctly withheld as SOURCE_SILENT and renders as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:4ad88202bf7d7e485b9f75750c3ddaf34454250325314a085c867a7df6aab083",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "quality inn grand rapids near downtown",
+   "canonical_name": "Quality Inn Grand Rapids Near Downtown",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi281",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Quality Inn Grand Rapids Near Downtown",
+    "address_on_page": "65 28th Street SW",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:b9d9ec9f2d6e44cd57e0da64e0d773ba9ea7552c274cab4b6d59ec8a854f7f3d",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "residence inn by marriott grand rapids downtown",
+   "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrrd-residence-inn-grand-rapids-downtown/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Residence Inn by Marriott Grand Rapids Downtown",
+    "address_on_page": "40 Louis Street NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrrd",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:5cbd738b5122fc8cdf0ecc07565b17ba678129654dee4bba1d4eaa01352a2eb0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "residence inn by marriott grand rapids west",
+   "canonical_name": "Residence Inn by Marriott Grand Rapids West",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrrw-residence-inn-grand-rapids-west/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Residence Inn by Marriott Grand Rapids West",
+    "address_on_page": "3451 Rivertown Point Court, SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrrw",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:cef8b11df0f774a3dcdae7a8e7086bb4f1d3e2756871dd9cb95a5d2324193619",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "residence inn by marriott holland",
+   "canonical_name": "Residence Inn by Marriott Holland",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrho-residence-inn-holland/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Residence Inn by Marriott Holland",
+    "address_on_page": "631 South Pointe Ridge Rd",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrho",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:025c4dffe509fb0ef3e92b5ff5141ef902fe2f7763728abd9840b3f8c3f3c438",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "residence inn grand rapids airport",
+   "canonical_name": "Residence Inn Grand Rapids Airport",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrri-residence-inn-grand-rapids-airport/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Residence Inn by Marriott Grand Rapids Airport",
+    "address_on_page": "4443 28th Street SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrri",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:ae227756d265a8d675d5eff6c14e980a713a9530a771befb86661f591e156bde",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "rodeway inn and suites grand rapids southeast",
+   "canonical_name": "Rodeway Inn & Suites Grand Rapids Southeast",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.choicehotels.com/en-in/michigan/grand-rapids/rodeway-inn-hotels/mi534",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Rodeway Inn & Suites Grand Rapids Southeast",
+    "address_on_page": "4855 28th St SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:1834a915722397d994f567b4131a81ad9a540e9edad68f92792f8861da7c6451",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "rodeway inn grandville grand rapids",
+   "canonical_name": "Rodeway Inn Grandville - Grand Rapids",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "source_url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Rodeway Inn Grandville - Grand Rapids",
+    "address_on_page": "3425 Fairlanes Avenue SW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false,
+    "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:0c68cfc737847aef5df047029d51631199ad4abbe201c00d48e50d97684aaac0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "sheraton grand rapids airport hotel",
+   "canonical_name": "Sheraton Grand Rapids Airport Hotel",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.marriott.com/en-us/hotels/grris-sheraton-grand-rapids-airport-hotel/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Sheraton Grand Rapids Airport Hotel",
+    "address_on_page": "5700 28th Street Southeast",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grris",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 55.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:ee9b2d4b6e58802305e9822e3269558abb26a133223ec0c56f7a69085e293bd8",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "spark by hilton walker grand rapids north",
+   "canonical_name": "Spark by Hilton Walker Grand Rapids North",
+   "brand": "HILTON",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.hilton.com/en/hotels/grrwkpe-spark-walker-grand-rapids-north/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Spark by Hilton Walker Grand Rapids North",
+    "address_on_page": "2151 Holton Ct NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrwkpe",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "FEE_BASIS_WITHHELD",
+     "severity": "INFO",
+     "detail": "the fee has no stated basis; it is correctly withheld as SOURCE_SILENT and renders as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    }
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:9ccd5800ee2067301d62b0f65cdf5cb688b3279f79995d8f01a86d0f8d3bedec",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "springhill suites by marriott grand rapids north",
+   "canonical_name": "SpringHill Suites by Marriott Grand Rapids North",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrsh-springhill-suites-grand-rapids-north/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "SpringHill Suites by Marriott Grand Rapids North",
+    "address_on_page": "450 Center Drive",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrsh",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:e7b66d8c25c8e28ed613609ace95a5504fa0ef364ac0ad2e3b9f6b5a871e497a",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "springhill suites grand rapids airport southeast",
+   "canonical_name": "SpringHill Suites Grand Rapids Airport Southeast",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrse-springhill-suites-grand-rapids-airport-southeast/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "SpringHill Suites by Marriott Grand Rapids Airport Southeast",
+    "address_on_page": "5250 28th St. SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrse",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:b2e88a819ae80119ec421075dea2ad17b5b1226f3e7392f1b1a2ba98b2a50ed5",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "springhill suites grand rapids west",
+   "canonical_name": "SpringHill Suites Grand Rapids West",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrgs-springhill-suites-grand-rapids-west/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "SpringHill Suites by Marriott Grand Rapids West",
+    "address_on_page": "4274 Parkway Place",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrgs",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:7cd14a32074663eb81d120be107772ef0272ec34c480623f62873363ede57849",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "springhill suites holland",
+   "canonical_name": "SpringHill Suites Holland",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrsl-springhill-suites-holland/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_VERIFIED_NO_PETS",
+   "proposed_disposition": "APPROVE_VERIFIED_NO_PETS",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are not accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "SpringHill Suites by Marriott Holland",
+    "address_on_page": "3084 West Shore Drive",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrsl",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:0c41cdee86b31f30d59169640307303a7f88762c9249aab85d999dc97119685c",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "super 8 by wyndham wyoming grand rapids area",
+   "canonical_name": "Super 8 by Wyndham Wyoming/Grand Rapids Area",
+   "brand": "WYNDHAM",
+   "corridor": "",
+   "source_url": "https://www.wyndhamhotels.com/super-8/wyoming-michigan/super-8-grand-rapids-wyoming/overview",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Super 8 by Wyndham Grand Rapids/Wyoming",
+    "address_on_page": "727 44th Street SouthWest",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are also welcome at this hotel"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:1b4371ca25098a6d84f2cfde9e97ab5edd712fd9075e35ac6b20910e64cb217b",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "the center hotel grand rapids airport",
+   "canonical_name": "The Center Hotel Grand Rapids Airport",
+   "brand": "CHOICE",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/choice-hotels/mi670",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "The Center Hotel Grand Rapids Airport",
+    "address_on_page": "3333 28th St SE",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room",
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:d765aa0279c5c097635d6c994bfb69ba6299c37bd2d477fba5bd7f150b264251",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "towneplace suites grand rapids airport",
+   "canonical_name": "TownePlace Suites Grand Rapids Airport",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrts-towneplace-suites-grand-rapids-airport/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "TownePlace Suites by Marriott Grand Rapids Airport",
+    "address_on_page": "5430 28th Street Court SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrts",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:079ead272c1204603f8d4b29f4d7b4767efb1e0ee9c87c818b898a3a36086ea3",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "towneplace suites grand rapids airport southeast",
+   "canonical_name": "TownePlace Suites Grand Rapids Airport Southeast",
+   "brand": "MARRIOTT",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrte-towneplace-suites-grand-rapids-airport-southeast/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "TownePlace Suites by Marriott Grand Rapids Airport Southeast",
+    "address_on_page": "4850 Town Center Dr SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrte",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 85.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:3c45819c92d6d04ccde544392264ab8a974e79281b8c36b021b20dd9157631d0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "towneplace suites holland",
+   "canonical_name": "TownePlace Suites Holland",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/grrht-towneplace-suites-holland/overview/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "TownePlace Suites by Marriott Holland",
+    "address_on_page": "12132 James Street",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": true,
+    "property_code_on_page": "grrht",
+    "signals_agreeing": 2,
+    "signals_available": 2
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "2 independent signals on the page match the census row: name, street number"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:16532b184d731ed544b69747ad9920b7f84ba8bba5b263a02ab32637a69e38d0",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "travelodge by wyndham grand rapids north",
+   "canonical_name": "Travelodge by Wyndham Grand Rapids North",
+   "brand": "WYNDHAM",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "source_url": "https://www.wyndhamhotels.com/travelodge/grand-rapids-michigan/travelodge-grand-rapids-north/overview",
+   "machine_recommendation": "RECOMMEND_HOLD_EVIDENCE_INCOMPLETE",
+   "proposed_disposition": "HOLD",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the source prices or limits a pet but never states that pets are accepted; pets_allowed is withheld as SOURCE_SILENT",
+    "the machine will not read an allowance out of a price"
+   ],
+   "required_changes": [],
+   "next_action": "a single founder policy decision covering every row in this class: does a stated per-pet price constitute a stated allowance? If yes, these rows can be approved from their existing quotes with no re-fetch",
+   "identity_corroboration": {
+    "name_on_page": "Travelodge by Wyndham Grand Rapids North",
+    "address_on_page": "777 Three Mile Rd NW",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "ALLOWANCE_NOT_STATED",
+     "severity": "BLOCKING",
+     "detail": "pets_allowed is withheld as SOURCE_SILENT: the source prices or limits a pet without ever stating that pets are accepted. Reading an allowance out of a price is an inference this codebase does not make."
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PETS_ALLOWED",
+     "severity": "INFO",
+     "detail": "pets_allowed is withheld (SOURCE_SILENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are also welcome at this hotel."
+   },
+   "withheld_fields": {
+    "pets_allowed": "SOURCE_SILENT",
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "readiness_state": "POLICY_PARTIAL",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:f881e58cd286bfc42019ea29d80a8af8ba9d67fcc4dfb1bc6d246be49ae5f7ba",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "tru",
+   "canonical_name": "Tru",
+   "brand": "HILTON",
+   "corridor": "",
+   "source_url": "https://www.hilton.com/en/hotels/grrndru-tru-grand-rapids-airport/",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_WITH_CHANGE",
+   "agrees_with_machine": false,
+   "reasons": [
+    "the facts are supported by the cited evidence",
+    "the record requires a correction to: canonical_name"
+   ],
+   "required_changes": [
+    {
+     "field": "canonical_name",
+     "from": "Tru",
+     "to": "Tru by Hilton Grand Rapids Airport",
+     "why": "the census name is a bare chain word and would publish a directory entry that names no building; the property's own page states the full name",
+     "evidence": "identity_check.name_on_page",
+     "correction_site": "evidence-cited overlay"
+    }
+   ],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Tru by Hilton Grand Rapids Airport",
+    "address_on_page": "4570 28th Street SE",
+    "name_agrees": true,
+    "phone_matches": true,
+    "street_number_matches": true,
+    "property_code_on_page": "grrndru",
+    "signals_agreeing": 3,
+    "signals_available": 3
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_CORROBORATED",
+     "severity": "INFO",
+     "detail": "3 independent signals on the page match the census row: name, street number, telephone"
+    },
+    {
+     "code": "DEPOSIT_STATED_WITHOUT_AN_AMOUNT",
+     "severity": "INFO",
+     "detail": "the source says a deposit is required ('Pets allowed Yes Deposit Yes') and states no amount; the schema can hold an amount or nothing, so the profile cannot say 'a deposit is required, amount not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 10000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "withheld_fields": {},
+   "readiness_state": "POLICY_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:bed393634252e88f19f1732cbb871f6acafb0a396c33b37f9c6868e31e5e104b",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  },
+  {
+   "identity_key": "woodspring suites holland grand rapids",
+   "canonical_name": "WoodSpring Suites Holland - Grand Rapids",
+   "brand": "INDEP:www.woodspring.com",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/grand-rapids/woodspring-suites-grand-rapids-holland",
+   "machine_recommendation": "RECOMMEND_AUTHORITY_PET_FRIENDLY",
+   "proposed_disposition": "APPROVE_PET_FRIENDLY",
+   "agrees_with_machine": true,
+   "reasons": [
+    "the property's own page states pets are accepted",
+    "identity corroborated; publication-grade confirmed"
+   ],
+   "required_changes": [],
+   "next_action": "",
+   "identity_corroboration": {
+    "name_on_page": "Extended Stay Hotel in Holland, MI | WoodSpring Suites Holland - Grand Rapids",
+    "address_on_page": "",
+    "name_agrees": true,
+    "phone_matches": false,
+    "street_number_matches": false,
+    "property_code_on_page": "",
+    "signals_agreeing": 1,
+    "signals_available": 1
+   },
+   "findings": [
+    {
+     "code": "IDENTITY_SINGLY_CORROBORATED",
+     "severity": "WARN",
+     "detail": "one signal on the page matches the census row (name); 1 of 3 were available at all"
+    },
+    {
+     "code": "WITHHELD_FEE_BASIS",
+     "severity": "INFO",
+     "detail": "fee_basis is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    },
+    {
+     "code": "WITHHELD_PET_FEE",
+     "severity": "INFO",
+     "detail": "pet_fee is withheld (SCHEMA_CANNOT_REPRESENT) and must render as 'Not stated'"
+    }
+   ],
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "cats_allowed": false,
+    "service_animal_exception": "ARE PETS ALLOWED AT WOODSPRING SUITES HOLLAND - GRAND RAPIDS? Service Animals are welcome at no additional charge, must be registered upon arrival."
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "membrane_verdict": "VALID",
+   "semantic_hash": "sha256:4771641a3795e134358ad7a921ca4fecbac7b61c3278cebd70429df2ed73e9ec",
+   "reviewed_by": "market_factory_cli (machine review)",
+   "review_is_not_an_approval": "A proposed disposition is a review, not an attestation. Only a founder decision creates authority; founder_decision, founder_reviewer_id and founder_reviewed_at remain empty in the packet this was derived from."
+  }
+ ]
+}

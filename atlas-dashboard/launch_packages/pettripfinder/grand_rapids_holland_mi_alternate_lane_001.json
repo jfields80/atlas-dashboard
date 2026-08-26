@@ -1,0 +1,127 @@
+{
+  "schema": "ptf-retry-policy/1.0",
+  "what_this_is": "Every routed, unsettled identity classified by the retry policy: which may still run on an approved lane the prior attempt never tried, and which are terminal for the factory (RETRY_REQUIRES_ALTERNATE_LANE).",
+  "market_id": "grand-rapids-holland-mi",
+  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009",
+  "retry_policy": {
+    "schema": "ptf-retry-policy/1.0",
+    "rule": "a prior access, navigation or unhydrated failure re-enters a paid cohort only on a different approved lane, a changed URL, a reader change that addresses the failure, or an explicit operator override; otherwise it is suppressed as RETRY_REQUIRES_ALTERNATE_LANE and never marked settled",
+    "eligible": 17,
+    "suppressed": 3,
+    "classification_counts": {
+      "FIRST_ATTEMPT": 17,
+      "RETRY_REQUIRES_ALTERNATE_LANE": 3
+    },
+    "suppressed_rows": [
+      {
+        "identity_key": "best western",
+        "prior_outcome": "NAVIGATION_FAILED",
+        "lanes_tried": [
+          "firecrawl",
+          "brightdata_web_unlocker"
+        ],
+        "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+        "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+      },
+      {
+        "identity_key": "country inn and suites holland mi",
+        "prior_outcome": "UNEXPECTED_PAGE",
+        "lanes_tried": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+        "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+      },
+      {
+        "identity_key": "motel 6 grand rapids northeast",
+        "prior_outcome": "UNEXPECTED_PAGE",
+        "lanes_tried": [
+          "brightdata_browser",
+          "brightdata_web_unlocker"
+        ],
+        "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+        "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+      }
+    ],
+    "alternate_lane_rows": []
+  },
+  "alternate_lane_eligible": [],
+  "terminal_requires_alternate_lane": [
+    {
+      "identity_key": "best western",
+      "canonical_name": "Best Western",
+      "brand": "WYNDHAM",
+      "family": "WYNDHAM",
+      "corridor": "",
+      "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-sw-byron-center/overview",
+      "provider": "firecrawl",
+      "reader": "wyndham",
+      "prior_outcome": "NAVIGATION_FAILED",
+      "ladder": [
+        "firecrawl",
+        "brightdata_web_unlocker"
+      ],
+      "fallback_providers": [
+        "brightdata_web_unlocker"
+      ],
+      "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+      "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+      "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+      "lanes_tried": [
+        "firecrawl",
+        "brightdata_web_unlocker"
+      ]
+    },
+    {
+      "identity_key": "country inn and suites holland mi",
+      "canonical_name": "Country Inn & Suites, Holland, MI",
+      "brand": "INDEP:www.radissonhotels.com",
+      "family": "INDEPENDENT",
+      "corridor": "",
+      "source_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-holland-mi",
+      "provider": "brightdata_browser",
+      "reader": "generic",
+      "prior_outcome": "UNEXPECTED_PAGE",
+      "ladder": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "fallback_providers": [
+        "brightdata_web_unlocker"
+      ],
+      "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+      "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+      "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+      "lanes_tried": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ]
+    },
+    {
+      "identity_key": "motel 6 grand rapids northeast",
+      "canonical_name": "Motel 6 Grand Rapids Northeast",
+      "brand": "MOTEL6",
+      "family": "MOTEL6",
+      "corridor": "",
+      "source_url": "https://www.motel6.com/content/g6/en/home/motels.mi.grand-rapids.8890.html",
+      "provider": "brightdata_browser",
+      "reader": "generic",
+      "prior_outcome": "UNEXPECTED_PAGE",
+      "ladder": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ],
+      "fallback_providers": [
+        "brightdata_web_unlocker"
+      ],
+      "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+      "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+      "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+      "lanes_tried": [
+        "brightdata_browser",
+        "brightdata_web_unlocker"
+      ]
+    }
+  ]
+}
